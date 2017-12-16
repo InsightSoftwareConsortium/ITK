@@ -107,7 +107,7 @@ protected:
   }
 
   /** Override ThreadedGenerateData */
-  virtual void ThreadedGenerateData(
+  void ThreadedGenerateData(
     const OutputFrameSpatialRegionType& outputRegionForThread,
     int threadId) ITK_OVERRIDE
   {

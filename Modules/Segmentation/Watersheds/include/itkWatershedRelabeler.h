@@ -88,7 +88,7 @@ public:
   /** Standard itk::ProcessObject subclass method. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
   /** Set/Get the input image */
   void SetInputImage(ImageType *img)
@@ -127,7 +127,7 @@ public:
   }
 
   /** Standard non-threaded pipeline method */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   /** Set/Get the percentage of the maximum saliency level
    * to merge to. */
@@ -141,15 +141,15 @@ public:
 
 protected:
   Relabeler();
-  virtual ~Relabeler() ITK_OVERRIDE {}
+  ~Relabeler() ITK_OVERRIDE {}
   Relabeler(const Self &) {}
   void operator=(const Self &) {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   double m_FloodLevel;
-  virtual void GenerateOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void GenerateOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 };
 } // end namespace watershed
 } // end namespace itk

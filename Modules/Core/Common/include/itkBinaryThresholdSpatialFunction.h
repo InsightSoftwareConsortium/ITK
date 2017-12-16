@@ -85,7 +85,7 @@ public:
   itkGetModifiableObjectMacro(Function, FunctionType);
 
   /** Evaluate the function at a given position. */
-  virtual OutputType Evaluate(const InputType & point) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & point) const ITK_OVERRIDE;
 
 protected:
 

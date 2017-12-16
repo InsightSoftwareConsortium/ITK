@@ -111,9 +111,9 @@ public:
     return m_Threshold;
   }
 
-  virtual void CalculateSpeedImage() ITK_OVERRIDE;
+  void CalculateSpeedImage() ITK_OVERRIDE;
 
-  virtual void Initialize(const RadiusType & r) ITK_OVERRIDE
+  void Initialize(const RadiusType & r) ITK_OVERRIDE
   {
     Superclass::Initialize(r);
 
@@ -140,7 +140,7 @@ protected:
     this->SetThreshold(1.8);
   }
 
-  virtual ~VectorThresholdSegmentationLevelSetFunction() ITK_OVERRIDE {}
+  ~VectorThresholdSegmentationLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorThresholdSegmentationLevelSetFunction);
 

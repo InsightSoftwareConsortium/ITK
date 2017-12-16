@@ -191,7 +191,7 @@ public:
   }
 
   /** Prints some debugging information */
-  virtual void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
   {
     os << i << "AnnulusOperator { this=" << this
        << ", m_InnerRadius = " << m_InnerRadius

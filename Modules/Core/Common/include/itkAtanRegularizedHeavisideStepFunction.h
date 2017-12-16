@@ -68,15 +68,15 @@ public:
   typedef typename Superclass::RealType   RealType;
 
   /** Evaluate at the specified input position */
-  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
 
   /** Evaluate the derivative at the specified input position */
-  virtual OutputType EvaluateDerivative(const InputType & input) const ITK_OVERRIDE;
+  OutputType EvaluateDerivative(const InputType & input) const ITK_OVERRIDE;
 
 protected:
 
   AtanRegularizedHeavisideStepFunction();
-  virtual ~AtanRegularizedHeavisideStepFunction() ITK_OVERRIDE;
+  ~AtanRegularizedHeavisideStepFunction() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AtanRegularizedHeavisideStepFunction);

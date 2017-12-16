@@ -179,22 +179,22 @@ public:
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model. The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** VectorResampleImageFilter needs a different input requested region than
    * the output requested region. As such, VectorResampleImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Set the state of the filter before multi-threading.
    * Note that InterpolatorType::SetInputImage is not thread-safe and hence
    * has to be set up before ThreadedGenerateData. */
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Set the state of the filter after multi-threading. */
-  virtual void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
   /** Compute the Modified Time based on changed to the components. */
   ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;

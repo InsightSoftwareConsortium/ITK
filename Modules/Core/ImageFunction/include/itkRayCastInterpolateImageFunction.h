@@ -110,7 +110,7 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method.
    */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
+  OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
 
   /** Interpolate the image at a continuous index position
    *
@@ -123,7 +123,7 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method.
    */
-  virtual OutputType EvaluateAtContinuousIndex(
+  OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const ITK_OVERRIDE;
 
   /** Connect the Transform.
@@ -165,7 +165,7 @@ public:
 
 protected:
   RayCastInterpolateImageFunction();
-  virtual ~RayCastInterpolateImageFunction() ITK_OVERRIDE {}
+  ~RayCastInterpolateImageFunction() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

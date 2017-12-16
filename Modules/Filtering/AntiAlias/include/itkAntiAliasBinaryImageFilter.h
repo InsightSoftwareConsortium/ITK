@@ -163,11 +163,11 @@ public:
 protected:
   AntiAliasBinaryImageFilter();
   ~AntiAliasBinaryImageFilter() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Overridden from the parent class to indroduce a constraint on
    *  surface flow under certain conditions. */
-  virtual ValueType CalculateUpdateValue(const IndexType & idx,
+  ValueType CalculateUpdateValue(const IndexType & idx,
                                          const TimeStepType & dt,
                                          const ValueType & value,
                                          const ValueType & change) ITK_OVERRIDE;

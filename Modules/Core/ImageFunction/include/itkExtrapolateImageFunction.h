@@ -83,7 +83,7 @@ public:
    * Returns the extrapolated image intensity at a
    * specified point position.
    */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
+  OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
   {
     ContinuousIndexType index;
 
@@ -96,7 +96,7 @@ public:
    * Returns the extrapolated image intensity at a
    * specified point position.
    */
-  virtual OutputType EvaluateAtContinuousIndex(
+  OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const ITK_OVERRIDE = 0;
 
   /** Extrapolate the image at an index position.
@@ -104,7 +104,7 @@ public:
    * Returns the extrapolated image intensity at a
    * specified point position.
    */
-  virtual OutputType EvaluateAtIndex(
+  OutputType EvaluateAtIndex(
     const IndexType & index) const ITK_OVERRIDE = 0;
 
 protected:

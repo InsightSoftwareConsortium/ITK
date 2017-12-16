@@ -128,17 +128,17 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() ITK_OVERRIDE;
 
   /** Apply update. */
-  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
+  void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
   /** Override VeriyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() ITK_OVERRIDE {}
+  void VerifyInputInformation() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DemonsRegistrationFilter);

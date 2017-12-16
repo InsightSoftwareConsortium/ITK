@@ -90,7 +90,7 @@ public:
 
 protected:
   Log10ImageAdaptor() {}
-  virtual ~Log10ImageAdaptor() ITK_OVERRIDE {}
+  ~Log10ImageAdaptor() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Log10ImageAdaptor);

@@ -135,7 +135,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   BSplineDownsampleImageFilter();
-  virtual ~BSplineDownsampleImageFilter() ITK_OVERRIDE {}
+  ~BSplineDownsampleImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDownsampleImageFilter);

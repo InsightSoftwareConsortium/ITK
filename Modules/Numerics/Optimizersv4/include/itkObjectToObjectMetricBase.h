@@ -128,7 +128,7 @@ public:
   /** Calculate and return the value for the metric based on the current
    * transformation(s). The result is both returned, and stored in the
    * m_Value member variable. */
-  virtual MeasureType GetValue() const ITK_OVERRIDE = 0;
+  MeasureType GetValue() const ITK_OVERRIDE = 0;
 
   /**
    * This method returns the derivative based on the current
@@ -137,12 +137,12 @@ public:
 
   /** This method returns the derivative and value based on the current
    * transformation(s). */
-  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE = 0;
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE = 0;
 
   /** Methods for working with the metric's 'active' transform, e.g. the
    * transform being optimized in the case of registration. Some of these are
    * used in non-metric classes, e.g. optimizers. */
-  virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE = 0;
+  NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE = 0;
   virtual NumberOfParametersType GetNumberOfLocalParameters() const = 0;
 
   /** Set the active transform's parameters by value*/
@@ -187,7 +187,7 @@ public:
 
 protected:
   ObjectToObjectMetricBaseTemplate();
-  virtual ~ObjectToObjectMetricBaseTemplate() ITK_OVERRIDE;
+  ~ObjectToObjectMetricBaseTemplate() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

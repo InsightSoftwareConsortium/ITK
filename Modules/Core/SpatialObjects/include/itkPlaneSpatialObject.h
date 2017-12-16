@@ -60,16 +60,16 @@ public:
 
   /** Returns a degree of membership to the object.
    *  That's useful for fuzzy objects. */
-  virtual bool ValueAt(const PointType & point, double & value,
+  bool ValueAt(const PointType & point, double & value,
                        unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** return ture if the object provides a method to evaluate the value
    * at the specified point, else otherwise. */
-  virtual bool IsEvaluableAt(const PointType & point,
+  bool IsEvaluableAt(const PointType & point,
                              unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object */
-  virtual bool IsInside(const PointType & point,
+  bool IsInside(const PointType & point,
                         unsigned int depth, char *name) const ITK_OVERRIDE;
 
   /** Test whether a point is inside or outside the object
@@ -80,7 +80,7 @@ public:
   /** provide a method to get the boundaries of
   *  a specific object. Basically, this function need to be called
   *  every time one of the object component is changed. */
-  virtual bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
+  bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
   itkSetMacro(LowerPoint, PointType);
   itkSetMacro(UpperPoint, PointType);
@@ -97,7 +97,7 @@ protected:
   PointType m_UpperPoint;
 
   /** Print the object informations in a stream. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end namespace itk
 

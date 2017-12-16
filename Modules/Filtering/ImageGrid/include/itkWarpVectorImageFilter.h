@@ -189,7 +189,7 @@ public:
    * implementation for GenerateOutputInformation() which set
    * the output information according the OutputSpacing, OutputOrigin
    * and the displacement field's LargestPossibleRegion. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** It is difficult to compute in advance the input image region
    * required to compute the requested output region. Thus the safest
@@ -197,11 +197,11 @@ public:
    *
    * For the displacement field, the input requested region
    * set to be the same as that of the output requested region. */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

@@ -326,7 +326,7 @@ public:
 protected:
   SparseFieldLevelSetImageFilter();
   ~SparseFieldLevelSetImageFilter() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**This function allows a subclass to override the way in which updates to
    * output values are applied during each iteration.  The default simply
@@ -342,7 +342,7 @@ protected:
   /**This method packages the output(s) into a consistent format.  The default
    * implementation produces a volume with the final solution values in the
    * sparse field, and inside and outside values elsewhere as appropriate. */
-  virtual void PostProcessOutput() ITK_OVERRIDE;
+  void PostProcessOutput() ITK_OVERRIDE;
 
   /**This method pre-processes pixels inside and outside the sparse field
    * layers.  The default is to set them to positive and negative values,

@@ -131,7 +131,7 @@ public:
   AbsoluteFrequencyType GetFrequencyByIndex(unsigned int index) const;
 
   /** Method to graft another sample */
-  virtual void Graft(const DataObject *thatObject) ITK_OVERRIDE;
+  void Graft(const DataObject *thatObject) ITK_OVERRIDE;
 
   class ConstIterator
   {
@@ -281,7 +281,7 @@ private:
 
 protected:
   Subsample();
-  virtual ~Subsample() ITK_OVERRIDE {}
+  ~Subsample() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

@@ -90,7 +90,7 @@ public:
 
 protected:
   GaussianDerivativeSpatialFunction();
-  virtual ~GaussianDerivativeSpatialFunction() ITK_OVERRIDE;
+  ~GaussianDerivativeSpatialFunction() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

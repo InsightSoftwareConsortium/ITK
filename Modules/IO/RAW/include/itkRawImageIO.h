@@ -89,7 +89,7 @@ public:
    * while others can support 2D, 3D, or even n-D. This method returns
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
-  virtual bool SupportsDimension(unsigned long dim) ITK_OVERRIDE
+  bool SupportsDimension(unsigned long dim) ITK_OVERRIDE
   { return ( dim == m_FileDimensionality ); }
 
   /*-------- This part of the interface deals with reading data. ------ */
@@ -97,14 +97,14 @@ public:
   /** Determine the file type. Returns true if this ImageIOBase can read the
    * file specified. Always returns false because we don't want to use
    * this reader unless absolutely sure (i.e., manual ImageIO creation). */
-  virtual bool CanReadFile(const char *) ITK_OVERRIDE { return false; }
+  bool CanReadFile(const char *) ITK_OVERRIDE { return false; }
 
   /** Binary files have no image information to read. This must be set by the
    * user of the class. */
-  virtual void ReadImageInformation() ITK_OVERRIDE { return; }
+  void ReadImageInformation() ITK_OVERRIDE { return; }
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) ITK_OVERRIDE;
 
   /** Set/Get the Data mask. */
   itkGetConstReferenceMacro(ImageMask, unsigned short);
@@ -123,18 +123,18 @@ public:
   /** Returns true if this ImageIO can write the specified file.
    * False is only returned when the file name is not specified. Otherwise
    * true is always returned. */
-  virtual bool CanWriteFile(const char *) ITK_OVERRIDE;
+  bool CanWriteFile(const char *) ITK_OVERRIDE;
 
   /** Binary files have no image information to read.  */
-  virtual void WriteImageInformation(void) ITK_OVERRIDE { return; }
+  void WriteImageInformation(void) ITK_OVERRIDE { return; }
 
   /** Writes the data to disk from the memory buffer provided. */
-  virtual void Write(const void *buffer) ITK_OVERRIDE;
+  void Write(const void *buffer) ITK_OVERRIDE;
 
 protected:
   RawImageIO();
   ~RawImageIO() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   //void ComputeInternalFileName(unsigned long slice);
 
@@ -160,12 +160,12 @@ public:
   typedef SmartPointer< const Self >                   ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char * GetITKSourceVersion(void) const ITK_OVERRIDE
+  const char * GetITKSourceVersion(void) const ITK_OVERRIDE
   {
     return ITK_SOURCE_VERSION;
   }
 
-  virtual const char * GetDescription(void) const ITK_OVERRIDE
+  const char * GetDescription(void) const ITK_OVERRIDE
   {
     return "Raw ImageIO Factory, allows the loading of Raw images into insight";
   }
@@ -184,7 +184,7 @@ public:
 
 protected:
   RawImageIOFactory() {}
-  ~RawImageIOFactory() {}
+  ~RawImageIOFactory() ITK_OVERRIDE {}
   typedef RawImageIO< TPixel, VImageDimension > myProductType;
   const myProductType *m_MyProduct;
 

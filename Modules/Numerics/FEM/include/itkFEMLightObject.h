@@ -78,9 +78,9 @@ protected:
   /**
    * Virtual destructor
    */
-  virtual ~FEMLightObject() ITK_OVERRIDE {}
+  ~FEMLightObject() ITK_OVERRIDE {}
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Copy constructor must be available for the FEM objects...

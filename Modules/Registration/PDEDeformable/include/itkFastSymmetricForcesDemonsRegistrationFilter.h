@@ -109,7 +109,7 @@ public:
    * This value is calculated for the current iteration */
   virtual double GetMetric() const;
 
-  virtual const double & GetRMSChange() const ITK_OVERRIDE;
+  const double & GetRMSChange() const ITK_OVERRIDE;
 
   /** DemonsRegistrationFilterFunction type.
    *
@@ -143,11 +143,11 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() ITK_OVERRIDE;
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * FiniteDifferenceFilter::GenerateData(). */
-  virtual void AllocateUpdateBuffer() ITK_OVERRIDE;
+  void AllocateUpdateBuffer() ITK_OVERRIDE;
 
   /** FiniteDifferenceFunction type. */
   typedef typename
@@ -158,7 +158,7 @@ protected:
   FiniteDifferenceFunctionType::TimeStepType TimeStepType;
 
   /** Apply update. */
-  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
+  void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
   /** other typedefs */
   typedef MultiplyImageFilter<

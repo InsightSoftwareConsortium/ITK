@@ -53,14 +53,14 @@ public:
 
 protected:
   RegularStepGradientDescentOptimizer() {}
-  virtual ~RegularStepGradientDescentOptimizer() ITK_OVERRIDE {}
+  ~RegularStepGradientDescentOptimizer() ITK_OVERRIDE {}
 
   /** Advance one step along the corrected gradient taking into
    * account the steplength represented by factor.
    * This method is invoked by AdvanceOneStep. It is expected
    * to be overrided by optimization methods in non-vector spaces
    * \sa AdvanceOneStep */
-  virtual void StepAlongGradient(
+  void StepAlongGradient(
     double factor,
     const DerivativeType & transformedGradient) ITK_OVERRIDE;
 

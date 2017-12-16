@@ -173,14 +173,14 @@ public:
   /** DisplacementFieldTransform types for working with local-support transforms */
   typedef DisplacementFieldTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >  MovingDisplacementFieldTransformType;
 
-  virtual void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) ITK_OVERRIDE;
 
-  virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;
-  virtual NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE;
-  virtual void SetParameters( ParametersType & params ) ITK_OVERRIDE;
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
-  virtual bool HasLocalSupport() const ITK_OVERRIDE;
-  virtual void UpdateTransformParameters( const DerivativeType & derivative, TParametersValueType factor) ITK_OVERRIDE;
+  NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;
+  NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE;
+  void SetParameters( ParametersType & params ) ITK_OVERRIDE;
+  const ParametersType & GetParameters() const ITK_OVERRIDE;
+  bool HasLocalSupport() const ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & derivative, TParametersValueType factor) ITK_OVERRIDE;
 
   /** Connect the fixed transform. */
   itkSetObjectMacro(FixedTransform, FixedTransformType);
@@ -291,14 +291,14 @@ public:
   typedef typename Superclass::MetricCategoryType   MetricCategoryType;
 
   /** Get metric category */
-  virtual MetricCategoryType GetMetricCategory() const ITK_OVERRIDE
+  MetricCategoryType GetMetricCategory() const ITK_OVERRIDE
     {
     return Superclass::OBJECT_METRIC;
     }
 
 protected:
   ObjectToObjectMetric();
-  virtual ~ObjectToObjectMetric() ITK_OVERRIDE;
+  ~ObjectToObjectMetric() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

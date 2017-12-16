@@ -68,7 +68,7 @@ protected:
   PathToPathFilter();
   ~PathToPathFilter() ITK_OVERRIDE {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** What is the input requested region that is required to produce the output
    * requested region?  Up till and including now, the base assumption is that
@@ -77,7 +77,7 @@ protected:
    * its first step.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PathToPathFilter);

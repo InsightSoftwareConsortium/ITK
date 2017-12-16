@@ -77,8 +77,8 @@ public:
 
 protected:
   SampleToSubsampleFilter();
-  virtual ~SampleToSubsampleFilter() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SampleToSubsampleFilter() ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Make a DataObject of the correct type to used as the specified
    * output. This method
@@ -88,7 +88,7 @@ protected:
    */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SampleToSubsampleFilter);

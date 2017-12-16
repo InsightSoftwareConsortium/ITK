@@ -95,10 +95,10 @@ public:
 
 protected:
 
-  virtual void InitializePyramidSplineFilter(int SplineOrder) ITK_OVERRIDE;
+  void InitializePyramidSplineFilter(int SplineOrder) ITK_OVERRIDE;
 
   BSplineL2ResampleImageFilterBase();
-  virtual ~BSplineL2ResampleImageFilterBase() ITK_OVERRIDE {}
+  ~BSplineL2ResampleImageFilterBase() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

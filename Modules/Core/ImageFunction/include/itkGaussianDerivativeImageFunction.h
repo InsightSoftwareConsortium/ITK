@@ -89,13 +89,13 @@ public:
   typedef typename InputImageType::PointType PointType;
 
   /** Evaluate the function at the specifed point. */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
+  OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
 
   /** Evaluate the function at specified Index position. */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the function at specified ContinuousIndex position. */
-  virtual OutputType EvaluateAtContinuousIndex(
+  OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const ITK_OVERRIDE;
 
   /**
@@ -135,7 +135,7 @@ public:
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */
-  virtual void SetInputImage(const InputImageType *ptr) ITK_OVERRIDE;
+  void SetInputImage(const InputImageType *ptr) ITK_OVERRIDE;
 
 protected:
   GaussianDerivativeImageFunction();

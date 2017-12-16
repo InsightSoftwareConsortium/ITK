@@ -178,26 +178,26 @@ public:
   itkGetConstMacro(MaximumNumberOfRegions, RegionType);
 
   /** Initialize the level set function */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() ITK_OVERRIDE;
 
   /** Methods to manage streaming. */
-  virtual void UpdateOutputInformation() ITK_OVERRIDE;
+  void UpdateOutputInformation() ITK_OVERRIDE;
 
-  virtual void SetRequestedRegionToLargestPossibleRegion() ITK_OVERRIDE;
+  void SetRequestedRegionToLargestPossibleRegion() ITK_OVERRIDE;
 
-  virtual void CopyInformation(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) ITK_OVERRIDE;
 
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  void Graft(const DataObject *data) ITK_OVERRIDE;
 
-  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion() ITK_OVERRIDE;
+  bool RequestedRegionIsOutsideOfTheBufferedRegion() ITK_OVERRIDE;
 
-  virtual bool VerifyRequestedRegion() ITK_OVERRIDE;
+  bool VerifyRequestedRegion() ITK_OVERRIDE;
 
   /** Set the requested region from this data object to match the requested
    * region of the data object passed in as a parameter.  This method
    * implements the API from DataObject. The data object parameter must be
    * castable to a PointSet. */
-  virtual void SetRequestedRegion( const DataObject *data) ITK_OVERRIDE;
+  void SetRequestedRegion( const DataObject *data) ITK_OVERRIDE;
 
   /** Set/Get the Requested region */
   virtual void SetRequestedRegion(const RegionType & region);
@@ -211,7 +211,7 @@ public:
 
 protected:
   LevelSetBase();
-  virtual ~LevelSetBase() ITK_OVERRIDE {}
+  ~LevelSetBase() ITK_OVERRIDE {}
 
   // If the RegionType is ITK_UNSTRUCTURED_REGION, then the following
   // variables represent the maximum number of region that the data

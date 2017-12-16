@@ -33,12 +33,12 @@ public:
   typedef itk::SmartPointer< Self >      Pointer;
   itkNewMacro( Self );
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
   {
     this->Execute( (const itk::Object *)caller, event);
   }
 
-  virtual void Execute(const itk::Object *object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object *object, const itk::EventObject & event) ITK_OVERRIDE
   {
     m_NumberOfIterations++;
     if ( ! itk::IterationEvent().CheckEvent( &event ) )

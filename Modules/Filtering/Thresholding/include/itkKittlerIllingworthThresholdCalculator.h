@@ -69,7 +69,7 @@ public:
 
 protected:
   KittlerIllingworthThresholdCalculator() {}
-  virtual ~KittlerIllingworthThresholdCalculator() ITK_OVERRIDE {}
+  ~KittlerIllingworthThresholdCalculator() ITK_OVERRIDE {}
 
   void GenerateData(void) ITK_OVERRIDE;
 

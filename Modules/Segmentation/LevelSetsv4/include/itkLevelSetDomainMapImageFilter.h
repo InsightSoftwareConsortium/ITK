@@ -119,10 +119,10 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilt
 
     /** Identify image partitions where each partition has the same overlapping
      *  level set support */
-    virtual void GenerateData() ITK_OVERRIDE;
+    void GenerateData() ITK_OVERRIDE;
 
     /** Display */
-    virtual void PrintSelf ( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+    void PrintSelf ( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   private:
     DomainMapType m_DomainMap;

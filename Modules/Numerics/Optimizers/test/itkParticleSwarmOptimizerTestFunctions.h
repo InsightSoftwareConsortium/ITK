@@ -52,7 +52,7 @@ public:
   {
   }
 
-  virtual double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
     double val;
 
@@ -74,7 +74,7 @@ public:
                                 "no derivative available" );
   }
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     return 1;
   }
@@ -122,7 +122,7 @@ public:
     m_Intercept[1]    = -8;
   }
 
-  virtual double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
     return 0.5 * ( m_A(0, 0) * parameters[0] * parameters[0]
                    + m_A(0, 1) * parameters[0] * parameters[1]
@@ -138,7 +138,7 @@ public:
                                 "no derivative available" );
   }
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     return 2;
   }
@@ -171,7 +171,7 @@ public:
   {
   }
 
-  virtual double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
     return (1 - parameters[0]) * (1 - parameters[0])
            + 100 * (parameters[1] - parameters[0] * parameters[0])
@@ -185,7 +185,7 @@ public:
                                 "no derivative available" );
   }
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     return 2;
   }
@@ -207,12 +207,12 @@ public:
 
   itkSetMacro( PrintOptimizer, bool );
 
-  virtual void Execute(Object *caller, const EventObject & event) ITK_OVERRIDE
+  void Execute(Object *caller, const EventObject & event) ITK_OVERRIDE
   {
     Execute( (const Object *)caller, event);
   }
 
-  virtual void Execute(const Object * object, const EventObject & event) ITK_OVERRIDE
+  void Execute(const Object * object, const EventObject & event) ITK_OVERRIDE
   {
     const ParticleSwarmOptimizerBase *optimizer =
       static_cast<const ParticleSwarmOptimizerBase *>( object );

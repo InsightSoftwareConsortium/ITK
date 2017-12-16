@@ -39,7 +39,7 @@ class MetaEvent : public ::MetaEvent
 {
 public:
   MetaEvent();
-  virtual ~MetaEvent();
+  ~MetaEvent() ITK_OVERRIDE;
 };
 } // end namespace itk
 

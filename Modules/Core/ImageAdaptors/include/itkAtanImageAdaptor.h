@@ -95,7 +95,7 @@ public:
 
 protected:
   AtanImageAdaptor() {}
-  virtual ~AtanImageAdaptor() ITK_OVERRIDE {}
+  ~AtanImageAdaptor() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AtanImageAdaptor);

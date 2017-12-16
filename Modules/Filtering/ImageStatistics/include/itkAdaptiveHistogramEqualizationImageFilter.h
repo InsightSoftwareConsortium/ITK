@@ -136,7 +136,7 @@ public:
   itkBooleanMacro(UseLookupTable);
 #endif
 
-  virtual void ConfigureHistogram( typename Superclass::HistogramType &h) ITK_OVERRIDE
+  void ConfigureHistogram( typename Superclass::HistogramType &h) ITK_OVERRIDE
     {
       h.SetAlpha( this->m_Alpha );
       h.SetBeta( this->m_Beta );
@@ -165,7 +165,7 @@ protected:
     m_UseLookupTable = false;
   }
 
-  virtual ~AdaptiveHistogramEqualizationImageFilter() ITK_OVERRIDE {}
+  ~AdaptiveHistogramEqualizationImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**

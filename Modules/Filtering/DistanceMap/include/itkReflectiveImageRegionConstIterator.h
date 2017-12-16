@@ -94,7 +94,7 @@ public:
   ReflectiveImageRegionConstIterator();
 
   /** Default destructor.  */
-  ~ReflectiveImageRegionConstIterator() {}
+  ~ReflectiveImageRegionConstIterator() ITK_OVERRIDE {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */

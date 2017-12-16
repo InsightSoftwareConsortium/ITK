@@ -76,7 +76,7 @@ public:
   /** Method to get membership score (discriminant score) of an entity
    * or measurement. Evaluate() maps from a vector measurement type
    * to a real number. */
-  virtual double Evaluate(const MeasurementVectorType & x) const ITK_OVERRIDE = 0;
+  double Evaluate(const MeasurementVectorType & x) const ITK_OVERRIDE = 0;
 
   /** Set the length of the measurement vector. If this membership
    * function is templated over a vector type that can be resized,
@@ -131,7 +131,7 @@ protected:
       MeasurementVectorType() );
   }
 
-  virtual ~MembershipFunctionBase(void) ITK_OVERRIDE {}
+  ~MembershipFunctionBase(void) ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {

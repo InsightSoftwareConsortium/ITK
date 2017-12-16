@@ -97,7 +97,7 @@ public:
 
 protected:
   RecursiveSeparableImageFilter();
-  virtual ~RecursiveSeparableImageFilter() ITK_OVERRIDE {}
+  ~RecursiveSeparableImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GenerateData (apply) the filter. */
@@ -106,7 +106,7 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 
-  virtual const ImageRegionSplitterBase* GetImageRegionSplitter(void) const ITK_OVERRIDE;
+  const ImageRegionSplitterBase* GetImageRegionSplitter(void) const ITK_OVERRIDE;
 
   /** RecursiveSeparableImageFilter needs all of the input only in the
    *  "Direction" dimension. Therefore we enlarge the output's

@@ -58,7 +58,7 @@ public:
    *  number of parameters is obtained at run-time from the itkCostFunction.
    *  As a consequence each derived optimizer should construct its own
    *  CostFunctionAdaptor when overloading this method  */
-  virtual void SetCostFunction(MultipleValuedCostFunction *costFunction) ITK_OVERRIDE = 0;
+  void SetCostFunction(MultipleValuedCostFunction *costFunction) ITK_OVERRIDE = 0;
 
   /**  Define if the Cost function should provide a customized
        Gradient computation or the gradient can be computed internally
@@ -89,9 +89,9 @@ public:
 
 protected:
   MultipleValuedNonLinearVnlOptimizer();
-  virtual ~MultipleValuedNonLinearVnlOptimizer() ITK_OVERRIDE;
+  ~MultipleValuedNonLinearVnlOptimizer() ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef MultipleValuedVnlCostFunctionAdaptor CostFunctionAdaptorType;
 

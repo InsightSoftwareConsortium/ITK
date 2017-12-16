@@ -166,11 +166,11 @@ public:
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
-  virtual void Allocate(bool initializePixels = false) ITK_OVERRIDE;
+  void Allocate(bool initializePixels = false) ITK_OVERRIDE;
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() ITK_OVERRIDE;
 
   /** Fill the image buffer with a value.  Be sure to call Allocate()
    * first. */
@@ -267,21 +267,21 @@ public:
   const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
   { return NeighborhoodAccessorFunctorType(); }
 
-  virtual unsigned int GetNumberOfComponentsPerPixel() const ITK_OVERRIDE;
+  unsigned int GetNumberOfComponentsPerPixel() const ITK_OVERRIDE;
 
 protected:
   Image();
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  void Graft(const DataObject *data) ITK_OVERRIDE;
 
-  virtual ~Image() ITK_OVERRIDE {}
+  ~Image() ITK_OVERRIDE {}
 
   /** Compute helper matrices used to transform Index coordinates to
    * PhysicalPoint coordinates and back. This method is virtual and will be
    * overloaded in derived classes in order to provide backward compatibility
    * behavior in classes that did not used to take image orientation into
    * account.  */
-  virtual void ComputeIndexToPhysicalPointMatrices() ITK_OVERRIDE;
+  void ComputeIndexToPhysicalPointMatrices() ITK_OVERRIDE;
   using Superclass::Graft;
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Image);

@@ -96,7 +96,7 @@ public:
   const ParametersType & GetParameters(void) const ITK_OVERRIDE;
 
   const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
-  virtual void SetFixedParameters(const FixedParametersType & parameters) ITK_OVERRIDE;
+  void SetFixedParameters(const FixedParametersType & parameters) ITK_OVERRIDE;
 
   /** Set the rotational part of the transform. */
   void SetRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
@@ -109,7 +109,7 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /** The Euler angle representation of a rotation is not unique and
    * depends on the order of rotations. In general there are 12
@@ -120,7 +120,7 @@ public:
   virtual void SetComputeZYX (const bool flag);
   itkGetConstMacro(ComputeZYX, bool);
 
-  virtual void SetIdentity(void) ITK_OVERRIDE;
+  void SetIdentity(void) ITK_OVERRIDE;
 
 protected:
   Euler3DTransform(const MatrixType & matrix, const OutputPointType & offset);

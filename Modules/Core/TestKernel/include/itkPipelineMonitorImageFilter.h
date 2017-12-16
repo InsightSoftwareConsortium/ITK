@@ -167,11 +167,11 @@ namespace itk
    /** Standard pipeline methods are overloaded to call superclass's
     * implementation and record information.
     */
-   virtual void GenerateOutputInformation() ITK_OVERRIDE;
-   virtual void PropagateRequestedRegion(DataObject *output) ITK_OVERRIDE;
-   virtual void EnlargeOutputRequestedRegion( DataObject *output) ITK_OVERRIDE;
-   virtual void GenerateInputRequestedRegion(void) ITK_OVERRIDE;
-   virtual void GenerateData(void) ITK_OVERRIDE;
+   void GenerateOutputInformation() ITK_OVERRIDE;
+   void PropagateRequestedRegion(DataObject *output) ITK_OVERRIDE;
+   void EnlargeOutputRequestedRegion( DataObject *output) ITK_OVERRIDE;
+   void GenerateInputRequestedRegion(void) ITK_OVERRIDE;
+   void GenerateData(void) ITK_OVERRIDE;
 
  protected:
 

@@ -237,7 +237,7 @@ protected:
     m_MaximumNumberOfOverlappingPixels = 0;
     m_AccumulatedProgress = 0.0;
   }
-  virtual ~MaskedFFTNormalizedCorrelationImageFilter() ITK_OVERRIDE {}
+  ~MaskedFFTNormalizedCorrelationImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Overlap the VerifyInputInformation method */
@@ -251,7 +251,7 @@ protected:
    * implementation for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Since the output of this filter is a different
    * size than the input, it must provide an implementation of

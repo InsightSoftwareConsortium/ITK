@@ -132,7 +132,7 @@ public:
   InstanceIdentifier Size() const ITK_OVERRIDE;
 
   /** method to return measurement vector for a specified id */
-  virtual const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
 
   /** method to return frequency for a specified id */
   AbsoluteFrequencyType GetFrequency(InstanceIdentifier  id) const ITK_OVERRIDE;
@@ -297,7 +297,7 @@ public:
 
 protected:
   ImageToNeighborhoodSampleAdaptor();
-  virtual ~ImageToNeighborhoodSampleAdaptor() ITK_OVERRIDE {}
+  ~ImageToNeighborhoodSampleAdaptor() ITK_OVERRIDE {}
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:

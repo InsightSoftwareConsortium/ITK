@@ -125,7 +125,7 @@ public:
 protected:
   VoronoiSegmentationImageFilter();
   ~VoronoiSegmentationImageFilter() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   double m_Mean;
@@ -135,7 +135,7 @@ private:
   double m_MeanPercentError;
   double m_STDPercentError;
 
-  virtual bool TestHomogeneity(IndexList & Plist) ITK_OVERRIDE;
+  bool TestHomogeneity(IndexList & Plist) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationImageFilter);

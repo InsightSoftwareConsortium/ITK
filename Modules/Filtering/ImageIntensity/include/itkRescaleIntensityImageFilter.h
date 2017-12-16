@@ -200,7 +200,7 @@ public:
 
 protected:
   RescaleIntensityImageFilter();
-  virtual ~RescaleIntensityImageFilter() ITK_OVERRIDE {}
+  ~RescaleIntensityImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RescaleIntensityImageFilter);

@@ -113,7 +113,7 @@ public:
    * inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 protected:
   DerivativeImageFilter()
@@ -123,7 +123,7 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~DerivativeImageFilter() ITK_OVERRIDE {}
+  ~DerivativeImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Standard pipeline method. While this class does not implement a

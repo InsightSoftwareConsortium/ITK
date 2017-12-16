@@ -100,22 +100,22 @@ public:
    *  specified by the user. The parameters are organized as scale[i] =
    *  parameter[i]. That means that in 3D the scale parameters for the coordinates
    *  {x,y,z} are {parameter[0], parameter[1], parameter[2]} respectively */
-  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Get the parameters that uniquely define the transform This is typically
    * used by optimizers during the process of image registration.  The parameters
    * are organized as {scale X, scale Y, scale Z } = { parameter[0],
    * parameter[1], parameter[2] } respectively */
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Get the Jacobian matrix. */
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const ITK_OVERRIDE;
 
   /** Get the jacobian with respect to position, which simply is the
    *  matrix because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
 
   /** Set the factors of an Scale Transform
    * This method sets the factors of an ScaleTransform to a
@@ -127,7 +127,7 @@ public:
    * corresponds to Z. */
   void SetScale(const ScaleType & scale);
 
-  virtual void ComputeMatrix(void) ITK_OVERRIDE;
+  void ComputeMatrix(void) ITK_OVERRIDE;
 
   /** Compose with another ScaleTransform. */
   void Compose(const Self *other, bool pre = false);
@@ -170,7 +170,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /** Set the transformation to an Identity
    *
@@ -188,7 +188,7 @@ protected:
   ~ScaleTransform() ITK_OVERRIDE;
 
   /** Print contents of an ScaleTransform */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScaleTransform);

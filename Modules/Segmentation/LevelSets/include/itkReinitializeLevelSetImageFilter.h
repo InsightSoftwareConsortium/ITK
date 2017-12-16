@@ -148,9 +148,9 @@ protected:
 
   virtual void AllocateOutput();
 
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
 
   void SetOutputNarrowBand(NodeContainer *ptr)
   { m_OutputNarrowBand = ptr; }

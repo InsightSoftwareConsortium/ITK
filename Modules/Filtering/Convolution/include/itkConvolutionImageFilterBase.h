@@ -119,7 +119,7 @@ protected:
 
   /** Default superclass implementation ensures that input images
    * occupy same physical space. This is not needed for this filter. */
-  virtual void VerifyInputInformation() ITK_OVERRIDE {};
+  void VerifyInputInformation() ITK_OVERRIDE {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConvolutionImageFilterBase);

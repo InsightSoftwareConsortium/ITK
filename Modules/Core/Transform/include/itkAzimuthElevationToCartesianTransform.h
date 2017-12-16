@@ -163,7 +163,7 @@ public:
 
   /** Overrides the TransformCategoryType to  UnknownTransformCategory. Even though
   this class derives from AffineTransform, its not a linear transform */
-  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
   {
        return Self::UnknownTransformCategory;
   }
@@ -219,7 +219,7 @@ protected:
   AzimuthElevationToCartesianTransform();
 
   /** Destroy an AzimuthElevationToCartesianTransform object. */
-  virtual ~AzimuthElevationToCartesianTransform() ITK_OVERRIDE;
+  ~AzimuthElevationToCartesianTransform() ITK_OVERRIDE;
 
   /** Print contents of an AzimuthElevationTransform. */
   void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;

@@ -57,7 +57,7 @@ public:
   }
 
 
-  virtual MeasureType  GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  MeasureType  GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
 
     double x = parameters[0];
@@ -92,7 +92,7 @@ public:
   }
 
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
     {
     return SpaceDimension;
     }

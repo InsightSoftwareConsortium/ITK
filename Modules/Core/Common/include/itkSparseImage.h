@@ -131,7 +131,7 @@ public:
 
   /** This function initializes the m_NodeList and m_NodeStore variables, and
       calls the superclass Initialize method. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() ITK_OVERRIDE;
 
 protected:
   SparseImage();

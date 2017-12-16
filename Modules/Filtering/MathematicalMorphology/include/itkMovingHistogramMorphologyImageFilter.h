@@ -108,7 +108,7 @@ protected:
 
   /** Configure the histogram.
    *  Used by this class to pass the boundary value to the histogram object. */
-  virtual void ConfigureHistogram(THistogram & histogram) ITK_OVERRIDE;
+  void ConfigureHistogram(THistogram & histogram) ITK_OVERRIDE;
 
   PixelType m_Boundary;
 

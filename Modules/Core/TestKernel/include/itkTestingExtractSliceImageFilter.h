@@ -238,7 +238,7 @@ protected:
    * below.
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** This function calls the actual region copier to do the mapping from
    * output image space to input image space.  It uses a

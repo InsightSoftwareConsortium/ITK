@@ -100,7 +100,7 @@ public:
    * inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
  /** Enable/Disable using the image spacing information in
    *  calculations. Use this option if you  want derivatives in
@@ -129,7 +129,7 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~LaplacianImageFilter() ITK_OVERRIDE {}
+  ~LaplacianImageFilter() ITK_OVERRIDE {}
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all

@@ -73,16 +73,16 @@ public:
 
   /** Return the number of parameters.  For a univariate Student-t
    * distribution, the number of parameters is 1 (degrees of freedom) */
-  virtual SizeValueType GetNumberOfParameters() const ITK_OVERRIDE { return 1; }
+  SizeValueType GetNumberOfParameters() const ITK_OVERRIDE { return 1; }
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
-  virtual double EvaluatePDF(double x) const ITK_OVERRIDE;
+  double EvaluatePDF(double x) const ITK_OVERRIDE;
 
   /** Evaluate the probability density function (pdf). The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (degrees of freedom). */
-  virtual double EvaluatePDF(double x, const ParametersType &) const ITK_OVERRIDE;
+  double EvaluatePDF(double x, const ParametersType &) const ITK_OVERRIDE;
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are passed as separate parameters. */
@@ -90,12 +90,12 @@ public:
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
-  virtual double EvaluateCDF(double x) const ITK_OVERRIDE;
+  double EvaluateCDF(double x) const ITK_OVERRIDE;
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (degreesOfFreedom). */
-  virtual double EvaluateCDF(double x, const ParametersType &) const ITK_OVERRIDE;
+  double EvaluateCDF(double x, const ParametersType &) const ITK_OVERRIDE;
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are passed as separate parameters. */
@@ -104,13 +104,13 @@ public:
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0. The parameters
    * of the distribution are  assigned via SetParameters().  */
-  virtual double EvaluateInverseCDF(double p) const ITK_OVERRIDE;
+  double EvaluateInverseCDF(double p) const ITK_OVERRIDE;
 
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (degrees of freedom). */
-  virtual double EvaluateInverseCDF(double p, const ParametersType &) const ITK_OVERRIDE;
+  double EvaluateInverseCDF(double p, const ParametersType &) const ITK_OVERRIDE;
 
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
@@ -126,18 +126,18 @@ public:
   virtual SizeValueType GetDegreesOfFreedom() const;
 
   /** Does the Student-t distribution have a mean? */
-  virtual bool HasMean() const ITK_OVERRIDE { return true; }
+  bool HasMean() const ITK_OVERRIDE { return true; }
 
   /** Get the mean of the distribution. */
-  virtual double GetMean() const ITK_OVERRIDE;
+  double GetMean() const ITK_OVERRIDE;
 
   /** Does the Student-t distribution have a variance? Variance is
    * only defined for degrees of freedom greater than 2 */
-  virtual bool HasVariance() const ITK_OVERRIDE;
+  bool HasVariance() const ITK_OVERRIDE;
 
   /** Get the variance of the distribution. If the variance does not exist,
    * then quiet_NaN is returned. */
-  virtual double GetVariance() const ITK_OVERRIDE;
+  double GetVariance() const ITK_OVERRIDE;
 
   /** Static method to evaluate the probability density function (pdf)
    * of a Student-t with a specified number of degrees of freedom. The
@@ -199,9 +199,9 @@ public:
 
 protected:
   TDistribution();
-  virtual ~TDistribution(void) ITK_OVERRIDE {}
+  ~TDistribution(void) ITK_OVERRIDE {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TDistribution);

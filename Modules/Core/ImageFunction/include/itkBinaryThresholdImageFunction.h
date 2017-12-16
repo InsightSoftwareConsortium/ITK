@@ -83,7 +83,7 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
 
-  virtual bool Evaluate(const PointType & point) const ITK_OVERRIDE
+  bool Evaluate(const PointType & point) const ITK_OVERRIDE
   {
     IndexType index;
 
@@ -99,7 +99,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual bool EvaluateAtContinuousIndex(
+  bool EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const ITK_OVERRIDE
   {
     IndexType nindex;
@@ -116,7 +116,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual bool EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE
+  bool EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE
   {
     PixelType value = this->GetInputImage()->GetPixel(index);
 

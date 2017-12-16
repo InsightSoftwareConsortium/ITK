@@ -229,7 +229,7 @@ protected:
   }
 
   /** Virtual destructor */
-  virtual ~ConstShapedNeighborhoodIterator()  {}
+  ~ConstShapedNeighborhoodIterator() ITK_OVERRIDE {}
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
@@ -296,7 +296,7 @@ protected:
   }
 
   /** Standard itk print method */
-  virtual void PrintSelf(std::ostream &, Indent) const;
+  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
 
   /** Add/Remove a neighborhood offset (from the center of the neighborhood)
    *  to/from the active list.  Active list offsets are the only locations

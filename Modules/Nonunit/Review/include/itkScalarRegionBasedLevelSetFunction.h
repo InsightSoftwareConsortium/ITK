@@ -130,7 +130,7 @@ public:
 
 protected:
   ScalarRegionBasedLevelSetFunction():Superclass(){}
-  ~ScalarRegionBasedLevelSetFunction(){}
+  ~ScalarRegionBasedLevelSetFunction() ITK_OVERRIDE{}
 
   ScalarValueType ComputeOverlapParameters(const FeatureIndexType & featIndex,
                                            ScalarValueType & product) ITK_OVERRIDE;

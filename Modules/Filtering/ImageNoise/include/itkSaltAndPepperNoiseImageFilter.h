@@ -119,7 +119,7 @@ public:
 
 protected:
   SaltAndPepperNoiseImageFilter();
-  virtual ~SaltAndPepperNoiseImageFilter() ITK_OVERRIDE {}
+  ~SaltAndPepperNoiseImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

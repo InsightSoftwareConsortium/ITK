@@ -132,7 +132,7 @@ public:
 
 protected:
   ExponentialDisplacementFieldImageFilter();
-  virtual ~ExponentialDisplacementFieldImageFilter() ITK_OVERRIDE {}
+  ~ExponentialDisplacementFieldImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

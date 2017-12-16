@@ -92,29 +92,29 @@ public:
 
   /** Determine if the necessary files exist to read the specified 2dseq file.
    * Returns true if all required files exist. */
-  virtual bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
+  bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) ITK_OVERRIDE;
 
   /** Writing files has not been implemented for Bruker 2dseq.
    * This function will always return false. */
-  virtual bool CanWriteFile( const char *itkNotUsed(FileNameToWrite) ) ITK_OVERRIDE
+  bool CanWriteFile( const char *itkNotUsed(FileNameToWrite) ) ITK_OVERRIDE
     {
     return false;
     }
 
   /** Not implemented. */
-  virtual void WriteImageInformation() ITK_OVERRIDE
+  void WriteImageInformation() ITK_OVERRIDE
     {
     return;
     }
 
   /** Not implemented - does nothing */
-  virtual void Write( const void *itkNotUsed(buffer) ) ITK_OVERRIDE
+  void Write( const void *itkNotUsed(buffer) ) ITK_OVERRIDE
     {
     return;
     }
@@ -123,7 +123,7 @@ protected:
   Bruker2dseqImageIO();
   ~Bruker2dseqImageIO() ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Bruker2dseqImageIO);

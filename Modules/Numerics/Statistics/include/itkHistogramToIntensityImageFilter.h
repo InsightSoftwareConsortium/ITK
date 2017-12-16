@@ -98,7 +98,7 @@ public:
 
 protected:
   HistogramToIntensityImageFilter() {}
-  virtual ~HistogramToIntensityImageFilter() ITK_OVERRIDE {}
+  ~HistogramToIntensityImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToIntensityImageFilter);

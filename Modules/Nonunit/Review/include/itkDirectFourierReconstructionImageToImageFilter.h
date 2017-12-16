@@ -117,7 +117,7 @@ protected:
   /** Constructor */
   DirectFourierReconstructionImageToImageFilter();
   /** Destructor */
-  ~DirectFourierReconstructionImageToImageFilter() {}
+  ~DirectFourierReconstructionImageToImageFilter() ITK_OVERRIDE {}
 
   /** Output class information */
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

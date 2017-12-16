@@ -83,8 +83,8 @@ public:
 
 protected:
   SpatialObjectDuplicator();
-  virtual ~SpatialObjectDuplicator() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SpatialObjectDuplicator() ITK_OVERRIDE {}
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Recursive function to copy the objects */
   void CopyObject(const InternalSpatialObjectType *source,

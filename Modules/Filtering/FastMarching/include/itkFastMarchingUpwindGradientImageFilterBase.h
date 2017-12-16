@@ -97,9 +97,9 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void InitializeOutput( OutputImageType* oImage ) ITK_OVERRIDE;
+  void InitializeOutput( OutputImageType* oImage ) ITK_OVERRIDE;
 
-  virtual void UpdateNeighbors( OutputImageType* oImage,
+  void UpdateNeighbors( OutputImageType* oImage,
                                const NodeType& iNode ) ITK_OVERRIDE;
 
   virtual void ComputeGradient(OutputImageType* oImage,

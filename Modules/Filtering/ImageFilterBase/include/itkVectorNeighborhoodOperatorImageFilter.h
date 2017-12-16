@@ -120,7 +120,7 @@ public:
    * execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -136,7 +136,7 @@ protected:
     m_BoundsCondition(ITK_NULLPTR)
   {}
 
-  virtual ~VectorNeighborhoodOperatorImageFilter() ITK_OVERRIDE {}
+  ~VectorNeighborhoodOperatorImageFilter() ITK_OVERRIDE {}
 
   /** VectorNeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a

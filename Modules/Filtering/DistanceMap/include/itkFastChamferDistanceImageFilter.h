@@ -147,7 +147,7 @@ public:
 
 protected:
   FastChamferDistanceImageFilter();
-  virtual ~FastChamferDistanceImageFilter() ITK_OVERRIDE {}
+  ~FastChamferDistanceImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute a Signed Chamfer Distance Map up to the specified maximal

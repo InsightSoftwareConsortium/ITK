@@ -125,10 +125,10 @@ public:
    *  nodes to compute and store the flux vectors (first derivatives of the
    *  normal vectors. ComputeUpdateNormal then takes derivatives of the flux
    *  vectors. This way we avoid repeating the same flux computations. */
-  virtual void PrecomputeSparseUpdate(NeighborhoodType & it) const ITK_OVERRIDE;
+  void PrecomputeSparseUpdate(NeighborhoodType & it) const ITK_OVERRIDE;
 
   /** The actual update rule for the normal vectors. */
-  virtual NormalVectorType ComputeSparseUpdate(NeighborhoodType & neighborhood,
+  NormalVectorType ComputeSparseUpdate(NeighborhoodType & neighborhood,
                                                void *globalData,
                                                const FloatOffsetType & offset) const ITK_OVERRIDE;
 

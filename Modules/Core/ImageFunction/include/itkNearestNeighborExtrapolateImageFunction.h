@@ -77,7 +77,7 @@ public:
    * nearest neighbor within the image buffer.
    *
    */
-  virtual OutputType EvaluateAtContinuousIndex(
+  OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const ITK_OVERRIDE
   {
     IndexType nindex;
@@ -104,7 +104,7 @@ public:
    * nearest neighbor within the image buffer.
    *
    */
-  virtual OutputType EvaluateAtIndex(
+  OutputType EvaluateAtIndex(
     const IndexType & index) const ITK_OVERRIDE
   {
     IndexType nindex;

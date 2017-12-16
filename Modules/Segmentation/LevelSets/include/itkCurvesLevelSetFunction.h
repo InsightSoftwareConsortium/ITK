@@ -93,13 +93,13 @@ public:
                       Superclass::ImageDimension);
 
   /** Compute speed image from feature image. */
-  virtual void CalculateSpeedImage() ITK_OVERRIDE;
+  void CalculateSpeedImage() ITK_OVERRIDE;
 
   /** Compute the advection field from feature image. */
-  virtual void CalculateAdvectionImage() ITK_OVERRIDE;
+  void CalculateAdvectionImage() ITK_OVERRIDE;
 
   /** The curvature speed is same as the propagation speed. */
-  virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
+  ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
                                          const FloatOffsetType & offset, GlobalDataStruct *gd) const ITK_OVERRIDE
   { return this->PropagationSpeed(neighborhood, offset, gd); }
 
@@ -110,7 +110,7 @@ public:
   double GetDerivativeSigma()
   { return m_DerivativeSigma; }
 
-  virtual void Initialize(const RadiusType & r) ITK_OVERRIDE;
+  void Initialize(const RadiusType & r) ITK_OVERRIDE;
 
 protected:
   CurvesLevelSetFunction() :
@@ -124,7 +124,7 @@ protected:
     this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
   }
 
-  virtual ~CurvesLevelSetFunction() ITK_OVERRIDE {}
+  ~CurvesLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(CurvesLevelSetFunction);
 

@@ -105,7 +105,7 @@ public:
   unsigned int GetOrder() const { return m_Order; }
 
   /** Prints some debugging information */
-  virtual void PrintSelf(std::ostream & os, Indent i) const
+  void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
   {
     os << i << "DerivativeOperator { this=" << this
        << ", m_Order = " << m_Order << "}" << std::endl;
@@ -118,10 +118,10 @@ protected:
   typedef typename Superclass::CoefficientVector CoefficientVector;
 
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients();
+  CoefficientVector GenerateCoefficients() ITK_OVERRIDE;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & coeff)
+  void Fill(const CoefficientVector & coeff) ITK_OVERRIDE
   {   Superclass::FillCenteredDirectional(coeff);  }
 
 private:

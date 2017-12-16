@@ -54,17 +54,17 @@ public:
 
 public:
   /** Determine if a file can be read */
-  virtual int CanReadFile(const char *name) ITK_OVERRIDE;
+  int CanReadFile(const char *name) ITK_OVERRIDE;
 
 protected:
   PolygonGroupSpatialObjectXMLFileReader() {}
-  virtual ~PolygonGroupSpatialObjectXMLFileReader() ITK_OVERRIDE {}
+  ~PolygonGroupSpatialObjectXMLFileReader() ITK_OVERRIDE {}
 
-  virtual void StartElement(const char *name, const char **atts) ITK_OVERRIDE;
+  void StartElement(const char *name, const char **atts) ITK_OVERRIDE;
 
-  virtual void EndElement(const char *name) ITK_OVERRIDE;
+  void EndElement(const char *name) ITK_OVERRIDE;
 
-  virtual void CharacterDataHandler(const char *inData, int inLength) ITK_OVERRIDE;
+  void CharacterDataHandler(const char *inData, int inLength) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileReader);
@@ -99,14 +99,14 @@ public:
   typedef PGroupSpatialObjectType   PolygonGroupType;
   typedef PolygonSpatialObject< 3 > PolygonSpatialObjectType;
   /** Test whether a file is writable. */
-  virtual int CanWriteFile(const char *name) ITK_OVERRIDE;
+  int CanWriteFile(const char *name) ITK_OVERRIDE;
 
   /** Actually write out the file in question */
-  virtual int WriteFile() ITK_OVERRIDE;
+  int WriteFile() ITK_OVERRIDE;
 
 protected:
   PolygonGroupSpatialObjectXMLFileWriter() {}
-  virtual ~PolygonGroupSpatialObjectXMLFileWriter() ITK_OVERRIDE {}
+  ~PolygonGroupSpatialObjectXMLFileWriter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileWriter);

@@ -75,7 +75,7 @@ public:
    * If \c threadId is greater than the return value, the contents of
    * \c subIndexRange are undefined.
    */
-  virtual
+
   ThreadIdType PartitionDomain(const ThreadIdType threadId,
                            const ThreadIdType requestedTotal,
                            const DomainType& completeIndexRange,
@@ -83,7 +83,7 @@ public:
 
 protected:
   ThreadedIndexedContainerPartitioner();
-  virtual ~ThreadedIndexedContainerPartitioner() ITK_OVERRIDE;
+  ~ThreadedIndexedContainerPartitioner() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedIndexedContainerPartitioner);

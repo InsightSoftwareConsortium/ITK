@@ -101,7 +101,7 @@ public:
   typedef vnl_vector_fixed<TParametersValueType, NOutputDimensions> OutputVnlVectorType;
 
   /**  Method to transform a point. */
-  virtual OutputPointType TransformPoint(const InputPointType  &point ) const ITK_OVERRIDE
+  OutputPointType TransformPoint(const InputPointType  &point ) const ITK_OVERRIDE
   {
     if(!m_Initialized)
       {
@@ -188,7 +188,7 @@ public:
   }
 
   /**  Method to transform a CovariantVector. */
-  virtual OutputCovariantVectorType TransformCovariantVector(
+  OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &vector
   , const InputPointType & ) const ITK_OVERRIDE
   {
@@ -197,21 +197,21 @@ public:
   }
 
 /**  Method to transform a CovariantVector. */
-  virtual OutputCovariantVectorType TransformCovariantVector(
+  OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &vector) const ITK_OVERRIDE
   {
     return Superclass::TransformCovariantVector(vector);
   }
 
 /**  Method to transform a CovariantVector. */
-  virtual OutputVectorPixelType TransformCovariantVector(
+  OutputVectorPixelType TransformCovariantVector(
     const InputVectorPixelType &vector) const ITK_OVERRIDE
   {
     return Superclass::TransformCovariantVector(vector);
   }
 
   /**  Method to transform a CovariantVector. */
-  virtual OutputVectorPixelType TransformCovariantVector(
+  OutputVectorPixelType TransformCovariantVector(
     const InputVectorPixelType &vector, const InputPointType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
@@ -225,19 +225,19 @@ public:
     cleanup();
   }
 
-  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
+  void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
   }
 
-  virtual void ComputeJacobianWithRespectToParameters(
+  void ComputeJacobianWithRespectToParameters(
               const InputPointType &,
               JacobianType &) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
   }
 
-  virtual NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
+  NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     //this transform is defined by XFM file
     itkExceptionMacro( << "Not Defined" );
@@ -246,12 +246,12 @@ public:
 
   /** Set the Transformation Parameters
     * and update the internal transformation. */
-  virtual void  SetParameters(const ParametersType &) ITK_OVERRIDE
+  void  SetParameters(const ParametersType &) ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
   }
 
-  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE
+  const ParametersType & GetParameters(void) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Not Implemented" );
     return m_Parameters;
@@ -288,7 +288,7 @@ protected:
       itkExceptionMacro(<< "Sorry, only 3D to 3d minc xfm transform is currently implemented");
   }
 
-  virtual ~MINCTransformAdapter() ITK_OVERRIDE
+  ~MINCTransformAdapter() ITK_OVERRIDE
   {
     cleanup();
   }

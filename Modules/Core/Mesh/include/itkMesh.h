@@ -284,12 +284,12 @@ public:
 
   void PassStructure(Self *inputMesh);
 
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() ITK_OVERRIDE;
 
   /** Methods for managing Mesh filters that have internal mini-pipelines */
-  virtual void CopyInformation(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) ITK_OVERRIDE;
 
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  void Graft(const DataObject *data) ITK_OVERRIDE;
 
   /** Get the bounding box of the mesh. The methods return a pointer to
    * the user-supplied bounding box as a convenience. */

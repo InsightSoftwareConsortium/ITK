@@ -197,7 +197,7 @@ protected:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()
    * \sa PadImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MirrorPadImageFilter);

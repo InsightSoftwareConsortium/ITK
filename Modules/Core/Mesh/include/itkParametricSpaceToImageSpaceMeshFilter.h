@@ -74,10 +74,10 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate requested data. */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   /** Generate additional information in the output  */
-  virtual void GenerateOutputInformation(void) ITK_OVERRIDE;
+  void GenerateOutputInformation(void) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParametricSpaceToImageSpaceMeshFilter);

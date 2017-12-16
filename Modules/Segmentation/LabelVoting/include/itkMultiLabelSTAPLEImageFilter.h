@@ -278,7 +278,7 @@ protected:
     m_TerminationUpdateThreshold(1e-5)
   {
   }
-  virtual ~MultiLabelSTAPLEImageFilter() ITK_OVERRIDE {}
+  ~MultiLabelSTAPLEImageFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE;
 

@@ -103,7 +103,7 @@ public:
    * in order to inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -121,7 +121,7 @@ public:
 
 protected:
   BinaryMedianImageFilter();
-  virtual ~BinaryMedianImageFilter() ITK_OVERRIDE {}
+  ~BinaryMedianImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryMedianImageFilter can be implemented as a multithreaded filter.

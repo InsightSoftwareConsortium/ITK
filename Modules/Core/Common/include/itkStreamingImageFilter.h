@@ -95,13 +95,13 @@ public:
    * or ThreadedGenerateData() method.  Instead, all the work is done
    * in UpdateOutputData() since it must update a little, execute a little,
    * update some more, execute some more, etc. */
-  virtual void UpdateOutputData(DataObject *output) ITK_OVERRIDE;
+  void UpdateOutputData(DataObject *output) ITK_OVERRIDE;
 
   /** Override PropagateRequestedRegion from ProcessObject
    *  Since inside UpdateOutputData we iterate over streaming pieces
    *  we don't need to proapage up the pipeline
    */
-  virtual void PropagateRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void PropagateRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

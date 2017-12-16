@@ -122,13 +122,13 @@ public:
 
 protected:
   ScalarToRGBColormapImageFilter();
-  virtual ~ScalarToRGBColormapImageFilter() ITK_OVERRIDE {}
+  ~ScalarToRGBColormapImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Overloaded method so that if the output image is a VectorImage, then
    * the correct number of components are set. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE
+  void GenerateOutputInformation() ITK_OVERRIDE
   {
     Superclass::GenerateOutputInformation();
     OutputImageType* output = this->GetOutput();

@@ -59,17 +59,17 @@ public:
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
 
-  virtual PixelType ComputeUpdate( const NeighborhoodType &, void *,
+  PixelType ComputeUpdate( const NeighborhoodType &, void *,
                                    const FloatOffsetType & ) ITK_OVERRIDE
     { return 0; }
 
-  virtual TimeStepType ComputeGlobalTimeStep( void * ) const ITK_OVERRIDE
+  TimeStepType ComputeGlobalTimeStep( void * ) const ITK_OVERRIDE
     { return 0; }
 
-  virtual void *GetGlobalDataPointer() const ITK_OVERRIDE
+  void *GetGlobalDataPointer() const ITK_OVERRIDE
     { return ITK_NULLPTR; }
 
-  virtual void ReleaseGlobalDataPointer(void *) const ITK_OVERRIDE {}
+  void ReleaseGlobalDataPointer(void *) const ITK_OVERRIDE {}
 
 protected:
   DummyFunction() {}

@@ -54,12 +54,12 @@ protected:
 
   typedef const ReconstructionFilterType * ReconstructionFilterPointer;
 
-  virtual void Execute(itk::Object * caller, const itk::EventObject & event ) ITK_OVERRIDE
+  void Execute(itk::Object * caller, const itk::EventObject & event ) ITK_OVERRIDE
     {
     Execute( ( const itk::Object * )caller, event);
     }
 
-  virtual void Execute( const itk::Object * caller, const itk::EventObject & event ) ITK_OVERRIDE
+  void Execute( const itk::Object * caller, const itk::EventObject & event ) ITK_OVERRIDE
     {
     ReconstructionFilterPointer reconstructor = static_cast< ReconstructionFilterPointer >( caller );
 

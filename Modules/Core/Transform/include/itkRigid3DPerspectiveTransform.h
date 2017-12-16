@@ -134,7 +134,7 @@ public:
   /** Set the fixed parameters and update internal
    * transformation. This transform has no fixed paramaters
    */
-  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
+  void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
   {
   }
 
@@ -177,13 +177,13 @@ public:
   /** These vector transforms are not implemented for this transform */
   using Superclass::TransformVector;
 
-  virtual OutputVectorType TransformVector(const InputVectorType &) const ITK_OVERRIDE
+  OutputVectorType TransformVector(const InputVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro(
       << "TransformVector(const InputVectorType &) is not implemented for Rigid3DPerspectiveTransform");
   }
 
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
+  OutputVnlVectorType TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro(
       << "TransformVector(const InputVnlVectorType &) is not implemented for Rigid3DPerspectiveTransform");
@@ -191,7 +191,7 @@ public:
 
   using Superclass::TransformCovariantVector;
 
-  virtual OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
+  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro(
       <<
@@ -209,9 +209,9 @@ public:
 
   /** Compute the Jacobian Matrix of the transformation at one point,
    *  allowing for thread-safety. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
+  void ComputeJacobianWithRespectToPosition(const InputPointType &,
                                                     JacobianType &) const ITK_OVERRIDE
   {
     itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "

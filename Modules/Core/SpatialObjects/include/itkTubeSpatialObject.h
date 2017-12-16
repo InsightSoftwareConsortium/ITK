@@ -78,11 +78,11 @@ public:
   virtual void SetPoints(PointListType & newPoints);
 
   /** Return a point in the list given the index. */
-  virtual const SpatialObjectPointType * GetPoint(IdentifierType ind) const ITK_OVERRIDE
+  const SpatialObjectPointType * GetPoint(IdentifierType ind) const ITK_OVERRIDE
   { return &( m_Points[ind] ); }
 
   /** Return a point in the list given the index */
-  virtual SpatialObjectPointType * GetPoint(IdentifierType ind) ITK_OVERRIDE
+  SpatialObjectPointType * GetPoint(IdentifierType ind) ITK_OVERRIDE
   { return &( m_Points[ind] ); }
 
   /** Set a point in the list at the specified index */
@@ -94,7 +94,7 @@ public:
   { m_Points.erase(m_Points.begin() + ind); }
 
   /** Return the number of points in the list */
-  virtual SizeValueType GetNumberOfPoints(void) const ITK_OVERRIDE
+  SizeValueType GetNumberOfPoints(void) const ITK_OVERRIDE
   {
     return static_cast<SizeValueType>(m_Points.size());
   }
@@ -164,10 +164,10 @@ protected:
   bool m_Artery;
 
   TubeSpatialObject();
-  virtual ~TubeSpatialObject() ITK_OVERRIDE;
+  ~TubeSpatialObject() ITK_OVERRIDE;
 
   /** Method to print the object. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** TimeStamps */
   mutable ModifiedTimeType m_OldMTime;

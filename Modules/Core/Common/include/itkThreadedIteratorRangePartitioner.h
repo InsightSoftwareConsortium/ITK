@@ -137,7 +137,7 @@ public:
    * If \c threadId is greater than the return value, the contents of
    * \c subDomain are undefined.
    */
-  virtual
+
   ThreadIdType PartitionDomain(const ThreadIdType threadId,
                            const ThreadIdType requestedTotal,
                            const DomainType& completeDomain,
@@ -145,7 +145,7 @@ public:
 
 protected:
   ThreadedIteratorRangePartitioner();
-  virtual ~ThreadedIteratorRangePartitioner() ITK_OVERRIDE;
+  ~ThreadedIteratorRangePartitioner() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedIteratorRangePartitioner);

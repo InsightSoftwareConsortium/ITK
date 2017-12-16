@@ -126,19 +126,19 @@ protected:
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
-  virtual void AllocateUpdateBuffer() ITK_OVERRIDE;
+  void AllocateUpdateBuffer() ITK_OVERRIDE;
 
   /** Computer the update at each pixel and store in the update buffer */
-  virtual void ComputeIteration() ITK_OVERRIDE;
+  void ComputeIteration() ITK_OVERRIDE;
 
   /** Compute the time-step for the next iteration */
-  virtual void ComputeTimeStepForNextIteration() ITK_OVERRIDE;
+  void ComputeTimeStepForNextIteration() ITK_OVERRIDE;
 
   /** Update the levelset by 1 iteration from the computed updates */
-  virtual void UpdateLevelSets() ITK_OVERRIDE;
+  void UpdateLevelSets() ITK_OVERRIDE;
 
   /** Update the equations at the end of 1 iteration */
-  virtual void UpdateEquations() ITK_OVERRIDE;
+  void UpdateEquations() ITK_OVERRIDE;
 
   /** Reinitialize the level set functions to a signed distance function */
   void ReinitializeToSignedDistance();
@@ -242,19 +242,19 @@ protected:
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
-  virtual void AllocateUpdateBuffer() ITK_OVERRIDE;
+  void AllocateUpdateBuffer() ITK_OVERRIDE;
 
   /** Compute the update at each pixel and store in the update buffer */
-  virtual void ComputeIteration() ITK_OVERRIDE;
+  void ComputeIteration() ITK_OVERRIDE;
 
   /** Compute the time-step for the next iteration */
-  virtual void ComputeTimeStepForNextIteration() ITK_OVERRIDE;
+  void ComputeTimeStepForNextIteration() ITK_OVERRIDE;
 
   /** Update the levelset by 1 iteration from the computed updates */
-  virtual void UpdateLevelSets() ITK_OVERRIDE;
+  void UpdateLevelSets() ITK_OVERRIDE;
 
   /** Update the equations at the end of 1 iteration */
-  virtual void UpdateEquations() ITK_OVERRIDE;
+  void UpdateEquations() ITK_OVERRIDE;
 
   typedef ThreadedIteratorRangePartitioner< typename LevelSetType::LayerConstIterator > SplitLevelSetPartitionerType;
   friend class LevelSetEvolutionComputeIterationThreader< LevelSetType, SplitLevelSetPartitionerType, Self >;
@@ -337,10 +337,10 @@ protected:
   ~LevelSetEvolution() ITK_OVERRIDE;
 
   /** Update the levelset by 1 iteration from the computed updates */
-  virtual void UpdateLevelSets() ITK_OVERRIDE;
+  void UpdateLevelSets() ITK_OVERRIDE;
 
   /** Update the equations at the end of 1 iteration */
-  virtual void UpdateEquations() ITK_OVERRIDE;
+  void UpdateEquations() ITK_OVERRIDE;
 
 private:
   LevelSetEvolution( const Self& );
@@ -414,11 +414,11 @@ public:
 
 protected:
   LevelSetEvolution();
-  virtual ~LevelSetEvolution() ITK_OVERRIDE;
+  ~LevelSetEvolution() ITK_OVERRIDE;
 
-  virtual void UpdateLevelSets() ITK_OVERRIDE;
+  void UpdateLevelSets() ITK_OVERRIDE;
 
-  virtual void UpdateEquations() ITK_OVERRIDE;
+  void UpdateEquations() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);

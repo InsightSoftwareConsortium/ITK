@@ -105,7 +105,7 @@ public:
 
 protected:
   UpdateMalcolmSparseLevelSet();
-  virtual ~UpdateMalcolmSparseLevelSet() ITK_OVERRIDE;
+  ~UpdateMalcolmSparseLevelSet() ITK_OVERRIDE;
 
   // output
   LevelSetPointer   m_OutputLevelSet;

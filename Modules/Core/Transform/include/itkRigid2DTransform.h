@@ -128,7 +128,7 @@ public:
    *
    * \sa MatrixOffsetTransformBase::SetMatrix()
    */
-  virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
+  void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
 
   /**
    * Set the rotation Matrix of a Rigid2D Transform
@@ -197,7 +197,7 @@ public:
    *
    * \sa Transform::SetParameters()
    * \sa Transform::SetFixedParameters() */
-  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
@@ -207,11 +207,11 @@ public:
    *
    * \sa Transform::GetParameters()
    * \sa Transform::GetFixedParameters() */
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Compute the Jacobian Matrix of the transformation at one point,
    *  allowing for thread-safety. */
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters(const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
@@ -223,7 +223,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
@@ -232,7 +232,7 @@ public:
   void CloneTo(Pointer & clone) const;
 
   /** Reset the parameters to create and identity transform. */
-  virtual void SetIdentity() ITK_OVERRIDE;
+  void SetIdentity() ITK_OVERRIDE;
 
 protected:
   Rigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
@@ -244,18 +244,18 @@ protected:
   /**
     * Print contents of an Rigid2DTransform
     */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute the matrix from angle. This is used in Set methods
    * to update the underlying matrix whenever a transform parameter
    * is changed. */
-  virtual void ComputeMatrix() ITK_OVERRIDE;
+  void ComputeMatrix() ITK_OVERRIDE;
 
   /** Compute the angle from the matrix. This is used to compute
    * transform parameters from a given matrix. This is used in
    * MatrixOffsetTransformBase::Compose() and
    * MatrixOffsetTransformBase::GetInverse(). */
-  virtual void ComputeMatrixParameters() ITK_OVERRIDE;
+  void ComputeMatrixParameters() ITK_OVERRIDE;
 
   /** Update angle without recomputation of other internal variables. */
   void SetVarAngle(TParametersValueType angle)

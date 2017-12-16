@@ -201,17 +201,17 @@ protected:
   /** LabelMapContourOverlayImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) ITK_OVERRIDE;
 
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) ITK_OVERRIDE;
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) ITK_OVERRIDE;
 
-  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
+  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
-  virtual LabelMapType * GetLabelMap() ITK_OVERRIDE
+  LabelMapType * GetLabelMap() ITK_OVERRIDE
     {
     return m_TempImage;
     }

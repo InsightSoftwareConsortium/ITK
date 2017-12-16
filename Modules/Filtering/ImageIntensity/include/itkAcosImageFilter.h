@@ -111,7 +111,7 @@ public:
 
 protected:
   AcosImageFilter() {}
-  virtual ~AcosImageFilter() ITK_OVERRIDE {}
+  ~AcosImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AcosImageFilter);

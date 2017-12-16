@@ -136,7 +136,7 @@ public:
   TotalAbsoluteFrequencyType GetTotalFrequency() const;
 
   /** Method to graft another sample */
-  virtual void Graft(const DataObject *thatObject) ITK_OVERRIDE;
+  void Graft(const DataObject *thatObject) ITK_OVERRIDE;
 
 //  void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -287,8 +287,8 @@ private:
 
 protected:
   MembershipSample();
-  virtual ~MembershipSample() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MembershipSample() ITK_OVERRIDE {}
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MembershipSample);

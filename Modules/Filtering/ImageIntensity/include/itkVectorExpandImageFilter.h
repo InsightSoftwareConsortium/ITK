@@ -145,14 +145,14 @@ public:
    * UpdateOutputInformation() in order to inform the pipeline execution
    * model.  The original documentation of this method is below.  \sa
    * ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** VectorExpandImageFilter needs a smaller input requested region than the
    * output requested region.  As such, ShrinkImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.  \sa
    * ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -177,13 +177,13 @@ protected:
    * portion of the output image specified by the parameter
    * "outputRegionForThread" \sa ImageToImageFilter::ThreadedGenerateData(),
    * ImageToImageFilter::GenerateData() */
-  virtual
+
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId) ITK_OVERRIDE;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorExpandImageFilter);

@@ -68,7 +68,7 @@ protected:
   ~ImageShapeModelEstimatorBase() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
 private:
 

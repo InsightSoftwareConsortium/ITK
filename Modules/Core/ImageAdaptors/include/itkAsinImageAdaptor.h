@@ -92,7 +92,7 @@ public:
 
 protected:
   AsinImageAdaptor() {}
-  virtual ~AsinImageAdaptor() ITK_OVERRIDE {}
+  ~AsinImageAdaptor() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageAdaptor);

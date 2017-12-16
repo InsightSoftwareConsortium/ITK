@@ -63,7 +63,7 @@ public:
   virtual void SetGaussianSmoothingVarianceForTheUpdateField( ScalarType );
   itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheUpdateField, ScalarType );
 
-  virtual void AdaptTransformParameters() ITK_OVERRIDE;
+  void AdaptTransformParameters() ITK_OVERRIDE;
 
 protected:
   GaussianExponentialDiffeomorphicTransformParametersAdaptor();

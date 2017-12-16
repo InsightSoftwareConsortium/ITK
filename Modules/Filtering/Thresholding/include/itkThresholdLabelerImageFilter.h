@@ -195,12 +195,12 @@ public:
 
 protected:
   ThresholdLabelerImageFilter();
-  virtual ~ThresholdLabelerImageFilter() ITK_OVERRIDE {}
+  ~ThresholdLabelerImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdLabelerImageFilter);

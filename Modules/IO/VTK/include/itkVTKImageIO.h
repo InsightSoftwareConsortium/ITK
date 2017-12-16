@@ -65,48 +65,48 @@ public:
 // see super class for documentation
   //
   // overidden to return true only when supported
-  virtual bool CanStreamWrite(void) ITK_OVERRIDE;
+  bool CanStreamWrite(void) ITK_OVERRIDE;
 
   // see super class for documentation
   //
   // overidden to return true only when supported
-  virtual bool CanStreamRead(void) ITK_OVERRIDE;
+  bool CanStreamRead(void) ITK_OVERRIDE;
 
 
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *) ITK_OVERRIDE;
+  bool CanReadFile(const char *) ITK_OVERRIDE;
 
   /** Set the spacing and dimesion information for the current filename. */
-  virtual void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) ITK_OVERRIDE;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanWriteFile(const char *) ITK_OVERRIDE;
+  bool CanWriteFile(const char *) ITK_OVERRIDE;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  virtual void WriteImageInformation() ITK_OVERRIDE {}
+  void WriteImageInformation() ITK_OVERRIDE {}
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void Write(const void *buffer) ITK_OVERRIDE;
+  void Write(const void *buffer) ITK_OVERRIDE;
 
   /** returns the header size, if it is unknown it will return 0 */
-  virtual SizeType GetHeaderSize() const ITK_OVERRIDE { return this->m_HeaderSize; }
+  SizeType GetHeaderSize() const ITK_OVERRIDE { return this->m_HeaderSize; }
 
 protected:
   VTKImageIO();
   ~VTKImageIO() ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void InternalReadImageInformation(std::ifstream & file);
 
@@ -118,12 +118,12 @@ protected:
   void ReadHeaderSize(std::ifstream & file);
 
   /** Convenient method to read a buffer as ASCII text. */
-  virtual void ReadBufferAsASCII(std::istream & os, void *buffer,
+  void ReadBufferAsASCII(std::istream & os, void *buffer,
                          IOComponentType ctype,
                          SizeType numberOfBytesToBeRead) ITK_OVERRIDE;
 
   /** Convenient method to write a buffer as ASCII text. */
-  virtual void WriteBufferAsASCII(std::ostream & os, const void *buffer,
+  void WriteBufferAsASCII(std::ostream & os, const void *buffer,
                           IOComponentType ctype,
                           SizeType numberOfBytesToWrite) ITK_OVERRIDE;
 

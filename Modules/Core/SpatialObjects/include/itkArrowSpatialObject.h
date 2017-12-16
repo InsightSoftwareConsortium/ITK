@@ -124,13 +124,13 @@ public:
 protected:
 
   ArrowSpatialObject();
-  virtual ~ArrowSpatialObject() ITK_OVERRIDE;
+  ~ArrowSpatialObject() ITK_OVERRIDE;
 
   /** Update the transformation given the position and the direction */
   void UpdateTransform();
 
   /** Method to print the object.*/
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ArrowSpatialObject);

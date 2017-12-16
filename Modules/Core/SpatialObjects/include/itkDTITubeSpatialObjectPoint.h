@@ -56,7 +56,7 @@ public:
   DTITubeSpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~DTITubeSpatialObjectPoint() ITK_OVERRIDE;
+  ~DTITubeSpatialObjectPoint() ITK_OVERRIDE;
 
   /** Set/Get the tensor matrix */
   void SetTensorMatrix(const DiffusionTensor3D< double > & matrix)

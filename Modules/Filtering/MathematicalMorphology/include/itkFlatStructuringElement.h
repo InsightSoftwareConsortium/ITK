@@ -122,7 +122,7 @@ public:
   typedef typename itk::Image< PixelType, VDimension > ImageType;
 
   /** Default destructor. */
-  virtual ~FlatStructuringElement() ITK_OVERRIDE {}
+  ~FlatStructuringElement() ITK_OVERRIDE {}
 
   /** Default constructor. */
   FlatStructuringElement()

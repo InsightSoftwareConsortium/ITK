@@ -99,7 +99,7 @@ protected:
       NumericTraits< typename TOutputImage::PixelType >::NonpositiveMin() );
   }
 
-  virtual ~ValuedRegionalMaximaImageFilter() ITK_OVERRIDE {}
+  ~ValuedRegionalMaximaImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMaximaImageFilter);

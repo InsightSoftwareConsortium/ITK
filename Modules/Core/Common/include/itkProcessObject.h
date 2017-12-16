@@ -495,7 +495,7 @@ protected:
     ITK_DISALLOW_COPY_AND_ASSIGN(ProcessObjectDomainThreader);
    };
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   //
   // Input Methods

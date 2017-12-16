@@ -60,16 +60,16 @@ public:
   typedef typename LevelSetContainerType::HeavisideType    HeavisideType;
   typedef typename LevelSetContainerType::HeavisideType    HeavisidePointer;
 
-  virtual bool IsSatisfied() const ITK_OVERRIDE;
+  bool IsSatisfied() const ITK_OVERRIDE;
 
-  virtual std::string GetDescription() const ITK_OVERRIDE;
+  std::string GetDescription() const ITK_OVERRIDE;
 
 protected:
   /** Constructor */
   LevelSetEvolutionNumberOfIterationsStoppingCriterion();
 
   /** Destructor */
-  virtual ~LevelSetEvolutionNumberOfIterationsStoppingCriterion() ITK_OVERRIDE;
+  ~LevelSetEvolutionNumberOfIterationsStoppingCriterion() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionNumberOfIterationsStoppingCriterion);

@@ -110,7 +110,7 @@ protected:
     this->m_MarkerValue = NumericTraits< typename TOutputImage::PixelType >::NonpositiveMin();
   }
 
-  virtual ~ReconstructionByDilationImageFilter() ITK_OVERRIDE {}
+  ~ReconstructionByDilationImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReconstructionByDilationImageFilter);

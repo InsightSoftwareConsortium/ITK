@@ -102,7 +102,7 @@ public:
    * added to the field.
    * See base class for more details.
    */
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
   /**
    * Set the spline order defining the bias field estimate.  Default = 3.
@@ -175,12 +175,12 @@ public:
 
 protected:
   BSplineSmoothingOnUpdateDisplacementFieldTransform();
-  virtual ~BSplineSmoothingOnUpdateDisplacementFieldTransform() ITK_OVERRIDE;
+  ~BSplineSmoothingOnUpdateDisplacementFieldTransform() ITK_OVERRIDE;
 
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** Clone the current transform */
-  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
   /**
    * Smooth the displacement field using B-splines.

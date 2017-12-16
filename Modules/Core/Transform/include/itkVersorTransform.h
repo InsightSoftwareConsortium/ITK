@@ -114,14 +114,14 @@ public:
   itkGetConstReferenceMacro(Versor, VersorType);
 
   /** Set the parameters to the IdentityTransform */
-  virtual void SetIdentity(void) ITK_OVERRIDE;
+  void SetIdentity(void) ITK_OVERRIDE;
 
   /** Compute the Jacobian of the transformation
    *  This method computes the Jacobian matrix of the transformation.
    *  given point or vector, returning the transformed point or
    *  vector. The rank of the Jacobian will also indicate if the
    *  transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
 protected:
 

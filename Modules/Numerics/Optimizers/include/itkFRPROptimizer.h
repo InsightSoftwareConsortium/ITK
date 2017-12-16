@@ -74,7 +74,7 @@ public:
   itkGetConstMacro(UseUnitLengthGradient, bool);
 
   /** Start optimization. */
-  virtual void StartOptimization() ITK_OVERRIDE;
+  void StartOptimization() ITK_OVERRIDE;
 
   /** Set it to the Fletch-Reeves optimizer */
   void SetToFletchReeves();
@@ -84,9 +84,9 @@ public:
 
 protected:
   FRPROptimizer();
-  virtual ~FRPROptimizer() ITK_OVERRIDE;
+  ~FRPROptimizer() ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Get the value of the n-dimensional cost function at this scalar step
    * distance along the current line direction from the current line origin.

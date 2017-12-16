@@ -77,15 +77,15 @@ public:
 
 protected:
   JointHistogramMutualInformationGetValueAndDerivativeThreader();
-  virtual ~JointHistogramMutualInformationGetValueAndDerivativeThreader() ITK_OVERRIDE;
+  ~JointHistogramMutualInformationGetValueAndDerivativeThreader() ITK_OVERRIDE;
 
   typedef Image< SizeValueType, 2 > JointHistogramType;
 
-  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
+  void BeforeThreadedExecution() ITK_OVERRIDE;
 
-  virtual void AfterThreadedExecution() ITK_OVERRIDE;
+  void AfterThreadedExecution() ITK_OVERRIDE;
 
-  virtual bool ProcessPoint(
+  bool ProcessPoint(
         const VirtualIndexType &          virtualIndex,
         const VirtualPointType &          virtualPoint,
         const FixedImagePointType &       mappedFixedPoint,

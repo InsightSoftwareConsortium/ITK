@@ -129,7 +129,7 @@ public:
 
 protected:
   MatchCardinalityImageToImageMetric();
-  virtual ~MatchCardinalityImageToImageMetric() ITK_OVERRIDE {}
+  ~MatchCardinalityImageToImageMetric() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**

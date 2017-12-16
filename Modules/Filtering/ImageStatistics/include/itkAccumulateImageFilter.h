@@ -110,14 +110,14 @@ public:
 
 protected:
   AccumulateImageFilter();
-  virtual ~AccumulateImageFilter() ITK_OVERRIDE {}
+  ~AccumulateImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Apply changes to the output image information. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Apply changes to the input image requested region. */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This method implements the actual accumulation of the image.
    *

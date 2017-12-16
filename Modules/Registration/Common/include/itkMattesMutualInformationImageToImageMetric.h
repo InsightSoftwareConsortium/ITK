@@ -162,7 +162,7 @@ public:
    *  (2) uniformly select NumberOfSpatialSamples within
    *      the FixedImageRegion, and
    *  (3) allocate memory for pdf data structures. */
-  virtual void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) ITK_OVERRIDE;
 
   /**  Get the value. */
   MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
@@ -249,7 +249,7 @@ public:
 protected:
 
   MattesMutualInformationImageToImageMetric();
-  virtual ~MattesMutualInformationImageToImageMetric() ITK_OVERRIDE;
+  ~MattesMutualInformationImageToImageMetric() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
@@ -277,17 +277,17 @@ private:
                                      &  movingImageGradientValue,
                                      PDFValueType cubicBSplineDerivativeValue) const;
 
-  virtual void GetValueThreadPreProcess(ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
-  virtual void GetValueThreadPostProcess(ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
+  void GetValueThreadPreProcess(ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
+  void GetValueThreadPostProcess(ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
   //NOTE:  The signature in base class requires that movingImageValue is of type double
-  virtual bool GetValueThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
+  bool GetValueThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
                                                   const MovingImagePointType & mappedPoint,
                                                   double movingImageValue) const ITK_OVERRIDE;
 
-  virtual void GetValueAndDerivativeThreadPreProcess( ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
-  virtual void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
+  void GetValueAndDerivativeThreadPreProcess( ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
+  void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
   //NOTE:  The signature in base class requires that movingImageValue is of type double
-  virtual bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
+  bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
                                                                const MovingImagePointType & mappedPoint,
                                                                double movingImageValue, const ImageDerivativesType &
                                                                movingImageGradientValue) const ITK_OVERRIDE;

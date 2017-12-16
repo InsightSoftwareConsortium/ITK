@@ -133,10 +133,10 @@ public:
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() ITK_OVERRIDE;
 
   /**  */
-  virtual void Allocate(bool initialize = false) ITK_OVERRIDE;
+  void Allocate(bool initialize = false) ITK_OVERRIDE;
 
   virtual void Graft(const Self *imgData);
 
@@ -447,9 +447,9 @@ public:
 
 protected:
   LabelMap();
-  virtual ~LabelMap() ITK_OVERRIDE {}
+  ~LabelMap() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  void Graft(const DataObject *data) ITK_OVERRIDE;
   using Superclass::Graft;
 
 private:

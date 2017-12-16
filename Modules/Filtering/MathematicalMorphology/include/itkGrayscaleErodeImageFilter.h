@@ -125,7 +125,7 @@ public:
   itkGetConstMacro(Algorithm, int);
 
   /** GrayscaleErodeImageFilter need to set its internal filters as modified */
-  virtual void Modified() const ITK_OVERRIDE;
+  void Modified() const ITK_OVERRIDE;
 
   void SetNumberOfThreads(ThreadIdType nb) ITK_OVERRIDE;
 

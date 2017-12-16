@@ -133,14 +133,14 @@ protected:
   ~FastMarchingExtensionImageFilterBase() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void InitializeOutput(OutputImageType *) ITK_OVERRIDE;
+  void InitializeOutput(OutputImageType *) ITK_OVERRIDE;
 
-  virtual void UpdateValue( OutputImageType* oImage, const NodeType& iValue ) ITK_OVERRIDE;
+  void UpdateValue( OutputImageType* oImage, const NodeType& iValue ) ITK_OVERRIDE;
 
   /** Generate the output image meta information */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   AuxValueContainerPointer m_AuxiliaryAliveValues;
   AuxValueContainerPointer m_AuxiliaryTrialValues;

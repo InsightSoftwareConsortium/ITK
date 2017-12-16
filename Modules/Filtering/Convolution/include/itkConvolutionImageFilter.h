@@ -108,7 +108,7 @@ protected:
    * pipeline execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This filter uses a minipipeline to compute the output. */
   void GenerateData() ITK_OVERRIDE;

@@ -169,7 +169,7 @@ protected:
     Self::AddOptionalInputName("MaskImage",1);
   }
 
-  virtual ~ConnectedComponentImageFilter() ITK_OVERRIDE {}
+  ~ConnectedComponentImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**

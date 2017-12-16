@@ -63,7 +63,7 @@ public:
   {
   }
 
-  virtual double GetValue( const ParametersType & position ) const ITK_OVERRIDE
+  double GetValue( const ParametersType & position ) const ITK_OVERRIDE
   {
     double x = position[0];
     double y = position[1];
@@ -98,7 +98,7 @@ public:
   }
 
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
     {
     return SpaceDimension;
     }

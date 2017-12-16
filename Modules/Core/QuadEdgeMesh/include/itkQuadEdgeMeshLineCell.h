@@ -99,7 +99,7 @@ public:
 public:
   /** Object memory management methods. */
   QuadEdgeMeshLineCell();
-  virtual ~QuadEdgeMeshLineCell() ITK_OVERRIDE;
+  ~QuadEdgeMeshLineCell() ITK_OVERRIDE;
 
   /** Accessors for m_Identifier. */
   void SetIdent(CellIdentifier cid);
@@ -107,25 +107,25 @@ public:
   CellIdentifier GetIdent();
 
   /** TCellInterface abstract methods definition. */
-  virtual void Accept(CellIdentifier cellId, MultiVisitor *mv) ITK_OVERRIDE;
+  void Accept(CellIdentifier cellId, MultiVisitor *mv) ITK_OVERRIDE;
 
-  virtual CellGeometry GetType() const ITK_OVERRIDE;
+  CellGeometry GetType() const ITK_OVERRIDE;
 
   /** Topology related methods. */
   static int GetTopologyId();
 
-  virtual unsigned int GetDimension() const ITK_OVERRIDE;
+  unsigned int GetDimension() const ITK_OVERRIDE;
 
-  virtual unsigned int GetNumberOfPoints() const ITK_OVERRIDE;
+  unsigned int GetNumberOfPoints() const ITK_OVERRIDE;
 
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
+  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
 
-  virtual bool GetBoundaryFeature(int dimension,
+  bool GetBoundaryFeature(int dimension,
                                   CellFeatureIdentifier cellId,
                                   CellAutoPointer & cell) ITK_OVERRIDE;
 
   /** Useless methods. */
-  virtual void MakeCopy(CellAutoPointer & cell) const ITK_OVERRIDE
+  void MakeCopy(CellAutoPointer & cell) const ITK_OVERRIDE
   {
     cell.TakeOwnership(new Self);
     cell->SetPointId( 0, this->GetQEGeom()->GetOrigin() );
@@ -136,38 +136,38 @@ public:
    *  The Set methods will work, not the Get.
    *  Hopefully never used ...
    */
-  virtual void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
+  void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
 
-  virtual void SetPointIds(PointIdConstIterator first,
+  void SetPointIds(PointIdConstIterator first,
                            PointIdConstIterator last) ITK_OVERRIDE;
 
-  virtual void SetPointId(int localId, PointIdentifier pId) ITK_OVERRIDE;
+  void SetPointId(int localId, PointIdentifier pId) ITK_OVERRIDE;
 
-  virtual PointIdIterator PointIdsBegin() ITK_OVERRIDE
+  PointIdIterator PointIdsBegin() ITK_OVERRIDE
   {
     SynchronizePointsAPI();
     return &m_PointIds[0];
   }
 
-  virtual PointIdIterator PointIdsEnd() ITK_OVERRIDE
+  PointIdIterator PointIdsEnd() ITK_OVERRIDE
   {
     SynchronizePointsAPI();
     return ( &m_PointIds[1] + 1 );
   }
 
-  virtual PointIdConstIterator GetPointIds() const ITK_OVERRIDE
+  PointIdConstIterator GetPointIds() const ITK_OVERRIDE
   {
     SynchronizePointsAPI();
     return &m_PointIds[0];
   }
 
-  virtual PointIdConstIterator PointIdsBegin() const ITK_OVERRIDE
+  PointIdConstIterator PointIdsBegin() const ITK_OVERRIDE
   {
     SynchronizePointsAPI();
     return &m_PointIds[0];
   }
 
-  virtual PointIdConstIterator PointIdsEnd() const ITK_OVERRIDE
+  PointIdConstIterator PointIdsEnd() const ITK_OVERRIDE
   {
     SynchronizePointsAPI();
     return ( &m_PointIds[1] + 1 );

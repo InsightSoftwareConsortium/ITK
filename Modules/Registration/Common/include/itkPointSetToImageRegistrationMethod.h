@@ -158,16 +158,16 @@ public:
    * output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
-  virtual ModifiedTimeType GetMTime() const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime() const ITK_OVERRIDE;
 
 protected:
   PointSetToImageRegistrationMethod();
-  virtual ~PointSetToImageRegistrationMethod() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PointSetToImageRegistrationMethod() ITK_OVERRIDE {}
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void  GenerateData() ITK_OVERRIDE;
+  void  GenerateData() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToImageRegistrationMethod);

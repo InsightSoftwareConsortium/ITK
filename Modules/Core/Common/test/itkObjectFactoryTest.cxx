@@ -46,7 +46,7 @@ public:
   itkTypeMacro(TestImage, Image);
 
   // Methods from itkObject
-  virtual ~TestImage() ITK_OVERRIDE {}
+  ~TestImage() ITK_OVERRIDE {}
   TestImage()
     {
     }
@@ -73,7 +73,7 @@ public:
   itkTypeMacro(TestImage2, Image);
 
   // Methods from itkObject
-  virtual ~TestImage2() ITK_OVERRIDE {}
+  ~TestImage2() ITK_OVERRIDE {}
   TestImage2()
     {
     }
@@ -92,8 +92,8 @@ public:
   typedef itk::SmartPointer<const Self> ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const ITK_OVERRIDE { return ITK_SOURCE_VERSION; }
-  virtual const char* GetDescription() const ITK_OVERRIDE { return "A Test Factory"; }
+  const char* GetITKSourceVersion() const ITK_OVERRIDE { return ITK_SOURCE_VERSION; }
+  const char* GetDescription() const ITK_OVERRIDE { return "A Test Factory"; }
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);

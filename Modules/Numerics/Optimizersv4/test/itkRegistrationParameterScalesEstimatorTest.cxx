@@ -136,7 +136,7 @@ public:
   typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
 
   /** Estimate parameter scales with maximum squared norms of Jacobians. */
-  virtual void EstimateScales(ScalesType &parameterScales) ITK_OVERRIDE
+  void EstimateScales(ScalesType &parameterScales) ITK_OVERRIDE
     {
     this->CheckAndSetInputs();
     this->SetSamplingStrategy( Superclass::RandomSampling );
@@ -179,14 +179,14 @@ public:
       }
     }
 
-  virtual double EstimateStepScale(const ParametersType &step) ITK_OVERRIDE
+  double EstimateStepScale(const ParametersType &step) ITK_OVERRIDE
     {
     double norm = step.two_norm();
     return norm;
     }
 
   /** Estimate the scales of local steps. */
-  virtual void EstimateLocalStepScales(const ParametersType &step,
+  void EstimateLocalStepScales(const ParametersType &step,
     ScalesType &localStepScales) ITK_OVERRIDE
     {
     localStepScales.SetSize(step.size());

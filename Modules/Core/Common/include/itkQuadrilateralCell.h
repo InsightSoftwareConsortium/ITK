@@ -62,30 +62,30 @@ public:
   itkStaticConstMacro(NumberOfDerivatives, unsigned int, 8);
 
   /** Implement the standard CellInterface. */
-  virtual CellGeometry GetType(void) const ITK_OVERRIDE
+  CellGeometry GetType(void) const ITK_OVERRIDE
   { return Superclass::QUADRILATERAL_CELL; }
-  virtual void MakeCopy(CellAutoPointer &) const ITK_OVERRIDE;
+  void MakeCopy(CellAutoPointer &) const ITK_OVERRIDE;
 
-  virtual unsigned int GetDimension(void) const ITK_OVERRIDE;
+  unsigned int GetDimension(void) const ITK_OVERRIDE;
 
-  virtual unsigned int GetNumberOfPoints(void) const ITK_OVERRIDE;
+  unsigned int GetNumberOfPoints(void) const ITK_OVERRIDE;
 
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
+  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
 
-  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) ITK_OVERRIDE;
-  virtual void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
+  bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) ITK_OVERRIDE;
+  void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
 
-  virtual void SetPointIds(PointIdConstIterator first,
+  void SetPointIds(PointIdConstIterator first,
                            PointIdConstIterator last) ITK_OVERRIDE;
 
-  virtual void SetPointId(int localId, PointIdentifier) ITK_OVERRIDE;
-  virtual PointIdIterator      PointIdsBegin(void) ITK_OVERRIDE;
+  void SetPointId(int localId, PointIdentifier) ITK_OVERRIDE;
+  PointIdIterator      PointIdsBegin(void) ITK_OVERRIDE;
 
-  virtual PointIdConstIterator PointIdsBegin(void) const ITK_OVERRIDE;
+  PointIdConstIterator PointIdsBegin(void) const ITK_OVERRIDE;
 
-  virtual PointIdIterator      PointIdsEnd(void) ITK_OVERRIDE;
+  PointIdIterator      PointIdsEnd(void) ITK_OVERRIDE;
 
-  virtual PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
+  PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
 
   /** Quadrilateral-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices() const;
@@ -96,7 +96,7 @@ public:
   virtual bool GetEdge(CellFeatureIdentifier, EdgeAutoPointer &);
 
   /** Evaluate the position inside the cell */
-  virtual bool EvaluatePosition(CoordRepType * position,
+  bool EvaluatePosition(CoordRepType * position,
                                 PointsContainer * points,
                                 CoordRepType * closestPoint,
                                 CoordRepType[CellDimension],

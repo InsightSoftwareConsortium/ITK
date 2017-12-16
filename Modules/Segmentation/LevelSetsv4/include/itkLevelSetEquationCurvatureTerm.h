@@ -107,31 +107,31 @@ public:
   typedef Vector< LevelSetOutputRealType, itkGetStaticConstMacro(ImageDimension) > NeighborhoodScalesType;
 
   /** Update the term parameter values at end of iteration */
-  virtual void Update() ITK_OVERRIDE;
+  void Update() ITK_OVERRIDE;
 
   /** Initialize the parameters in the terms prior to an iteration */
-  virtual void InitializeParameters() ITK_OVERRIDE;
+  void InitializeParameters() ITK_OVERRIDE;
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
-  virtual void Initialize( const LevelSetInputIndexType& ) ITK_OVERRIDE;
+  void Initialize( const LevelSetInputIndexType& ) ITK_OVERRIDE;
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  virtual void UpdatePixel( const LevelSetInputIndexType& iP,
+  void UpdatePixel( const LevelSetInputIndexType& iP,
                             const LevelSetOutputRealType& oldValue,
                             const LevelSetOutputRealType& newValue ) ITK_OVERRIDE;
 
 protected:
   LevelSetEquationCurvatureTerm();
 
-  virtual ~LevelSetEquationCurvatureTerm() ITK_OVERRIDE;
+  ~LevelSetEquationCurvatureTerm() ITK_OVERRIDE;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) ITK_OVERRIDE;
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) ITK_OVERRIDE;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP, const LevelSetDataType& iData ) ITK_OVERRIDE;
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP, const LevelSetDataType& iData ) ITK_OVERRIDE;
 
   LevelSetOutputRealType  m_NeighborhoodScales[ImageDimension];
 

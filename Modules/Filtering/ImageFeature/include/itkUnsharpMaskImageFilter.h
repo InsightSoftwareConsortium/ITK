@@ -145,7 +145,7 @@ public:
 
 protected:
   UnsharpMaskImageFilter();
-  virtual ~UnsharpMaskImageFilter() ITK_OVERRIDE {}
+  ~UnsharpMaskImageFilter() ITK_OVERRIDE {}
 
   /**
   * UnsharpMaskImageFilter needs a larger input requested region than
@@ -154,10 +154,10 @@ protected:
   * provide an implementation for GenerateInputRequestedRegion() in
   * order to inform the pipeline execution model.
   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  virtual void VerifyPreconditions() ITK_OVERRIDE;
-  virtual void GenerateData() ITK_OVERRIDE;
+  void VerifyPreconditions() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

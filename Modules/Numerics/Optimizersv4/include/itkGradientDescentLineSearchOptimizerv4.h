@@ -110,15 +110,15 @@ public:
 protected:
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  virtual void AdvanceOneStep(void) ITK_OVERRIDE;
+  void AdvanceOneStep(void) ITK_OVERRIDE;
 
   /** Default constructor */
   GradientDescentLineSearchOptimizerv4Template();
 
   /** Destructor */
-  virtual ~GradientDescentLineSearchOptimizerv4Template() ITK_OVERRIDE;
+  ~GradientDescentLineSearchOptimizerv4Template() ITK_OVERRIDE;
 
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   TInternalComputationValueType GoldenSectionSearch( TInternalComputationValueType a, TInternalComputationValueType b, TInternalComputationValueType c );
 

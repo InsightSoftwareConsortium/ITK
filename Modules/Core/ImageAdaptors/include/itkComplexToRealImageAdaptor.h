@@ -92,7 +92,7 @@ public:
 
 protected:
   ComplexToRealImageAdaptor() {}
-  virtual ~ComplexToRealImageAdaptor() ITK_OVERRIDE {}
+  ~ComplexToRealImageAdaptor() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToRealImageAdaptor);

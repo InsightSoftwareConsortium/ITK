@@ -164,15 +164,15 @@ public:
   bool IsInside(const PointType &) const;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  virtual ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
 
   /** Duplicates this bounding box */
   Pointer DeepCopy() const;
 
 protected:
   BoundingBox();
-  virtual ~BoundingBox() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BoundingBox() ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename PointsContainer::ConstIterator ConstIterator;
 

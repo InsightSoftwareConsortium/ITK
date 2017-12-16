@@ -104,23 +104,23 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *) ITK_OVERRIDE;
+  bool CanReadFile(const char *) ITK_OVERRIDE;
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanWriteFile(const char *) ITK_OVERRIDE;
+  bool CanWriteFile(const char *) ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read() ITK_OVERRIDE;
+  void Read() ITK_OVERRIDE;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. The buffer is cast to a
    * pointer to the beginning of the image data. */
-  virtual void Write() ITK_OVERRIDE;
+  void Write() ITK_OVERRIDE;
 
 protected:
   HDF5TransformIOTemplate();
-  virtual ~HDF5TransformIOTemplate() ITK_OVERRIDE;
+  ~HDF5TransformIOTemplate() ITK_OVERRIDE;
 
 private:
   /** Read a parameter array from the file location name */

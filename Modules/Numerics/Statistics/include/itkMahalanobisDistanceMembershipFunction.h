@@ -117,11 +117,11 @@ public:
   /** Method to clone a membership function, i.e. create a new instance of
    * the same type of membership function and configure its ivars to
    * match. */
-  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
 protected:
   MahalanobisDistanceMembershipFunction();
-  virtual ~MahalanobisDistanceMembershipFunction() ITK_OVERRIDE {}
+  ~MahalanobisDistanceMembershipFunction() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

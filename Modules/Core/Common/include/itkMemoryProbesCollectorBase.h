@@ -37,7 +37,7 @@ namespace itk
 class ITKCommon_EXPORT MemoryProbesCollectorBase:public ResourceProbesCollectorBase< MemoryProbe >
 {
 public:
-  virtual ~MemoryProbesCollectorBase();
+  ~MemoryProbesCollectorBase() ITK_OVERRIDE;
 };
 } // end namespace itk
 

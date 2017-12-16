@@ -132,7 +132,7 @@ public:
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) ITK_OVERRIDE;
 
   /** Write gradient images to a files for debugging purposes. */
   void WriteGradientImagesToFiles() const;
@@ -144,7 +144,7 @@ public:
 
 protected:
   GradientDifferenceImageToImageMetric();
-  virtual ~GradientDifferenceImageToImageMetric() ITK_OVERRIDE {}
+  ~GradientDifferenceImageToImageMetric() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute the range of the moved image gradients. */

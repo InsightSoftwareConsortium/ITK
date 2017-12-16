@@ -75,7 +75,7 @@ protected:
   DiscreteMinimumCurvatureQuadEdgeMeshFilter() {}
   ~DiscreteMinimumCurvatureQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
-  virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP) ITK_OVERRIDE
+  OutputCurvatureType EstimateCurvature(const OutputPointType & iP) ITK_OVERRIDE
   {
     this->ComputeMeanAndGaussianCurvatures(iP);
     return this->m_Mean - std::sqrt( this->ComputeDelta() );

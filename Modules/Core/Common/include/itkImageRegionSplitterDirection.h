@@ -60,18 +60,18 @@ protected:
   ImageRegionSplitterDirection();
 
 
-  virtual unsigned int GetNumberOfSplitsInternal(unsigned int dim,
+  unsigned int GetNumberOfSplitsInternal(unsigned int dim,
                                                  const IndexValueType regionIndex[],
                                                  const SizeValueType regionSize[],
                                                  unsigned int requestedNumber) const ITK_OVERRIDE;
 
-  virtual unsigned int GetSplitInternal(unsigned int dim,
+  unsigned int GetSplitInternal(unsigned int dim,
                                         unsigned int i,
                                         unsigned int numberOfPieces,
                                         IndexValueType regionIndex[],
                                         SizeValueType regionSize[]) const ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterDirection);

@@ -128,7 +128,7 @@ public:
 
   /** Prepare the allocation of the output mesh during the first back
    * propagation of the pipeline. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   template< typename T >
   void ReadPoints(T *buffer);
@@ -160,7 +160,7 @@ protected:
   void TestFileExistanceAndReadability();
 
   /** Does the real work. */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   MeshIOBase::Pointer m_MeshIO;
   bool                m_UserSpecifiedMeshIO; // keep track whether the MeshIO is

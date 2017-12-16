@@ -108,7 +108,7 @@ protected:
     this->m_MarkerValue = NumericTraits< typename TOutputImage::PixelType >::max();
   }
 
-  virtual ~ReconstructionByErosionImageFilter() ITK_OVERRIDE {}
+  ~ReconstructionByErosionImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReconstructionByErosionImageFilter);

@@ -153,7 +153,7 @@ public:
 protected:
   MaskNeighborhoodOperatorImageFilter():m_DefaultValue(NumericTraits< OutputPixelType >::ZeroValue()),
     m_UseDefaultValue(true) {}
-  virtual ~MaskNeighborhoodOperatorImageFilter() ITK_OVERRIDE {}
+  ~MaskNeighborhoodOperatorImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** MaskNeighborhoodOperatorImageFilter needs to request enough of an

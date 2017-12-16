@@ -97,7 +97,7 @@ public:
 
 protected:
   VotingBinaryHoleFillingImageFilter();
-  virtual ~VotingBinaryHoleFillingImageFilter() ITK_OVERRIDE {}
+  ~VotingBinaryHoleFillingImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Make protected the methods SetBirthThreshold() and

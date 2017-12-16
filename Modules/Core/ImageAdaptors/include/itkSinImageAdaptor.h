@@ -90,7 +90,7 @@ public:
 
 protected:
   SinImageAdaptor() {}
-  virtual ~SinImageAdaptor() ITK_OVERRIDE {}
+  ~SinImageAdaptor() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SinImageAdaptor);

@@ -153,7 +153,7 @@ protected:
     m_ThresholdValue = NumericTraits< InputPixelType >::ZeroValue();
   }
 
-  virtual ~BinaryThresholdProjectionImageFilter() ITK_OVERRIDE {}
+  ~BinaryThresholdProjectionImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
@@ -178,7 +178,7 @@ protected:
        << std::endl;
   }
 
-  virtual AccumulatorType NewAccumulator(SizeValueType size) const ITK_OVERRIDE
+  AccumulatorType NewAccumulator(SizeValueType size) const ITK_OVERRIDE
   {
     AccumulatorType accumulator(size);
 

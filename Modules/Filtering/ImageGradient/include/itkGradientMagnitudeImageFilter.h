@@ -82,7 +82,7 @@ public:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
@@ -112,7 +112,7 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~GradientMagnitudeImageFilter() ITK_OVERRIDE {}
+  ~GradientMagnitudeImageFilter() ITK_OVERRIDE {}
 
   /** GradientMagnitudeImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a

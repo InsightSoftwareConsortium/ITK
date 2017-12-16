@@ -129,7 +129,7 @@ public:
 
 protected:
   LabelOverlayImageFilter();
-  virtual ~LabelOverlayImageFilter() ITK_OVERRIDE {}
+  ~LabelOverlayImageFilter() ITK_OVERRIDE {}
 
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData() ITK_OVERRIDE;

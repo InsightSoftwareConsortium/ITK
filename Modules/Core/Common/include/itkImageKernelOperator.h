@@ -83,7 +83,7 @@ public:
   const ImageType * GetImageKernel() const;
 
   /** Prints information about the object. */
-  virtual void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
   {
     os << i << "ImageKernelOperator { this=" << this
        << "} "  << std::endl;

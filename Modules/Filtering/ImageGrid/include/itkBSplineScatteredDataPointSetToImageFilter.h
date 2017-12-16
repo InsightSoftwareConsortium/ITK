@@ -280,7 +280,7 @@ public:
 
 protected:
   BSplineScatteredDataPointSetToImageFilter();
-  virtual ~BSplineScatteredDataPointSetToImageFilter() ITK_OVERRIDE;
+  ~BSplineScatteredDataPointSetToImageFilter() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

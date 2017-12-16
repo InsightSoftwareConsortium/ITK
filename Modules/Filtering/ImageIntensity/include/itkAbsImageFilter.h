@@ -103,7 +103,7 @@ public:
 
 protected:
   AbsImageFilter() {}
-  virtual ~AbsImageFilter() ITK_OVERRIDE {}
+  ~AbsImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AbsImageFilter);

@@ -70,7 +70,7 @@ public:
   virtual void AdvanceOneStep();
 
   /** Start optimization. */
-  virtual void StartOptimization(void) ITK_OVERRIDE;
+  void StartOptimization(void) ITK_OVERRIDE;
 
   /** Resume previously stopped optimization with current parameters
    * \sa StopOptimization. */
@@ -195,15 +195,15 @@ public:
   itkGetConstMacro(Tolerance, double);
 
   /** Get the reason for termination */
-  virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const ITK_OVERRIDE;
 
 protected:
 
   SPSAOptimizer();
-  virtual ~SPSAOptimizer() ITK_OVERRIDE {}
+  ~SPSAOptimizer() ITK_OVERRIDE {}
 
   /** PrintSelf method. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Variables updated during optimization */
   DerivativeType m_Gradient;

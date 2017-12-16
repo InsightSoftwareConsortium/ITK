@@ -90,7 +90,7 @@ public:
 
 protected:
   ComplexToPhaseImageAdaptor() {}
-  virtual ~ComplexToPhaseImageAdaptor() ITK_OVERRIDE {}
+  ~ComplexToPhaseImageAdaptor() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToPhaseImageAdaptor);

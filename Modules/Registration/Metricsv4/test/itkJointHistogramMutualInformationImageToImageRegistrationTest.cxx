@@ -66,12 +66,12 @@ public:
     this->m_OutputFileNameBase = filename;
     }
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
     const OptimizerType * optimizer =
       dynamic_cast< const OptimizerType * >( object );

@@ -64,7 +64,7 @@ public:
 protected:
   NoiseBaseImageFilter();
 
-  virtual ~NoiseBaseImageFilter() ITK_OVERRIDE = 0;
+  ~NoiseBaseImageFilter() ITK_OVERRIDE = 0;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

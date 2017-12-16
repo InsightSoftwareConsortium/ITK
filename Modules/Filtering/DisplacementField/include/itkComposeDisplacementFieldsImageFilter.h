@@ -126,7 +126,7 @@ protected:
   ComposeDisplacementFieldsImageFilter();
 
   /** Deconstructor */
-  virtual ~ComposeDisplacementFieldsImageFilter() ITK_OVERRIDE;
+  ~ComposeDisplacementFieldsImageFilter() ITK_OVERRIDE;
 
   /** Standard print self function **/
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;

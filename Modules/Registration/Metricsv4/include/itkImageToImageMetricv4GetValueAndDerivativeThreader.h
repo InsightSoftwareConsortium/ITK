@@ -98,7 +98,7 @@ protected:
 
   /** Walk through the given virtual image domain, and call \c ProcessVirtualPoint on every
    * point. */
-  virtual void ThreadedExecution( const DomainType & subdomain,
+  void ThreadedExecution( const DomainType & subdomain,
                                   const ThreadIdType threadId ) ITK_OVERRIDE;
 
   /** Get cached values for efficiency. Only valid once threading has started.
@@ -170,7 +170,7 @@ protected:
 
   /** Walk through the given virtual image domain, and call \c ProcessVirtualPoint on every
    * point. */
-  virtual void ThreadedExecution( const DomainType & subdomain,
+  void ThreadedExecution( const DomainType & subdomain,
                                   const ThreadIdType threadId ) ITK_OVERRIDE;
 
   /** Get cached values for efficiency. Only valid once threading has started.

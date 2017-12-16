@@ -68,7 +68,7 @@ public:
   MeasurementVectorSizeType;
 
   /**  Set the length of each measurement vector. */
-  virtual void SetMeasurementVectorSize(MeasurementVectorSizeType) ITK_OVERRIDE;
+  void SetMeasurementVectorSize(MeasurementVectorSizeType) ITK_OVERRIDE;
 
   /** Type of the DistanceMetric to use */
   typedef DistanceMetric< MeasurementVectorType > DistanceMetricType;
@@ -98,11 +98,11 @@ public:
 
 protected:
   DistanceToCentroidMembershipFunction();
-  virtual ~DistanceToCentroidMembershipFunction() ITK_OVERRIDE {}
+  ~DistanceToCentroidMembershipFunction() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Return a copy of the current membership function */
-  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DistanceToCentroidMembershipFunction);

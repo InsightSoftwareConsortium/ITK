@@ -77,7 +77,7 @@ public:
   itkStaticConstMacro(VectorDimension, unsigned int, PixelType::Dimension);
 
   /** Compute the average gradient magnitude squared. */
-  virtual void CalculateAverageGradientMagnitudeSquared(TImage *) ITK_OVERRIDE;
+  void CalculateAverageGradientMagnitudeSquared(TImage *) ITK_OVERRIDE;
 
 protected:
   VectorAnisotropicDiffusionFunction() {}

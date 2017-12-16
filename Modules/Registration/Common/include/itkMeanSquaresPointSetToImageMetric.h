@@ -88,7 +88,7 @@ public:
 
 protected:
   MeanSquaresPointSetToImageMetric();
-  virtual ~MeanSquaresPointSetToImageMetric() ITK_OVERRIDE {}
+  ~MeanSquaresPointSetToImageMetric() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresPointSetToImageMetric);

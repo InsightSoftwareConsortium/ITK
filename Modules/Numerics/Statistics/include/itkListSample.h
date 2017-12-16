@@ -118,7 +118,7 @@ public:
   TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
 
   /** Method to graft another sample */
-  virtual void Graft(const DataObject *thatObject) ITK_OVERRIDE;
+  void Graft(const DataObject *thatObject) ITK_OVERRIDE;
 
   /** \class ConstIterator
    * \brief Const Iterator
@@ -271,7 +271,7 @@ private:
 protected:
 
   ListSample();
-  virtual ~ListSample() ITK_OVERRIDE {}
+  ~ListSample() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

@@ -95,7 +95,7 @@ public:
   { return this->GetNumberOfShapeParameters() + this->GetNumberOfPoseParameters(); }
 
   /** Evaluate the signed distance from a shape at a given position. */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE = 0;
+  OutputType Evaluate(const PointType & point) const ITK_OVERRIDE = 0;
 
   /** Initialize must be called before the first call of SetParameters() or
    Evaluate() to allow the class to validate any inputs. */

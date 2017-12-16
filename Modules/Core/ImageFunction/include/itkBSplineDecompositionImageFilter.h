@@ -131,7 +131,7 @@ public:
 
 protected:
   BSplineDecompositionImageFilter();
-  virtual ~BSplineDecompositionImageFilter() ITK_OVERRIDE {}
+  ~BSplineDecompositionImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GenerateData() ITK_OVERRIDE;

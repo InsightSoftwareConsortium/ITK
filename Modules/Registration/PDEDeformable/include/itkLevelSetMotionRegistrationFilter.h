@@ -184,16 +184,16 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the state of filter and equation before each iteration. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() ITK_OVERRIDE;
 
   /** Apply update. */
-  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
+  void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  This version
    * calls the superclass' version but also Halts if the RMSChange is zero.
    */
-  virtual bool Halt() ITK_OVERRIDE;
+  bool Halt() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetMotionRegistrationFilter);

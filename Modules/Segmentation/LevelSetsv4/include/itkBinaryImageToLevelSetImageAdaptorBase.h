@@ -73,7 +73,7 @@ protected:
     }
 
   /** Destructor */
-  virtual ~BinaryImageToLevelSetImageAdaptorBase() ITK_OVERRIDE {}
+  ~BinaryImageToLevelSetImageAdaptorBase() ITK_OVERRIDE {}
 
   InputImagePointer       m_InputImage;
   LevelSetPointer         m_LevelSet;

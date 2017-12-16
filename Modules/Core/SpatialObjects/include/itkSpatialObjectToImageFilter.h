@@ -154,8 +154,8 @@ protected:
   SpatialObjectToImageFilter();
   ~SpatialObjectToImageFilter() ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
+  void GenerateData() ITK_OVERRIDE;
 
   SizeType m_Size;
   double m_Spacing[OutputImageDimension];
@@ -169,7 +169,7 @@ protected:
 
   bool m_UseObjectValue;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

@@ -87,7 +87,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate requested data. */
-  virtual void GenerateData(void) ITK_OVERRIDE;
+  void GenerateData(void) ITK_OVERRIDE;
 
   /** Transform applied to all the mesh points. */
   typename SpatialFunctionType::Pointer m_SpatialFunction;

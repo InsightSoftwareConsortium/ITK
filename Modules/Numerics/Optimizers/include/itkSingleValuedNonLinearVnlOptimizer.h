@@ -60,7 +60,7 @@ public:
    *  number of parameters is obtained at run-time from the itkCostFunction.
    *  As a consequence each derived optimizer should construct its own
    *  CostFunctionAdaptor when overloading this method  */
-  virtual void SetCostFunction(SingleValuedCostFunction *costFunction) ITK_OVERRIDE = 0;
+  void SetCostFunction(SingleValuedCostFunction *costFunction) ITK_OVERRIDE = 0;
 
   /** Methods to define whether the cost function will be maximized or
    * minimized. By default the VNL amoeba optimizer is only a minimizer.
@@ -90,7 +90,7 @@ public:
 
 protected:
   SingleValuedNonLinearVnlOptimizer();
-  virtual ~SingleValuedNonLinearVnlOptimizer() ITK_OVERRIDE;
+  ~SingleValuedNonLinearVnlOptimizer() ITK_OVERRIDE;
 
   typedef SingleValuedVnlCostFunctionAdaptor CostFunctionAdaptorType;
 
@@ -105,7 +105,7 @@ protected:
   CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor() const;
 
   /** Print out internal state */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   /** Callback function for the Command Observer */

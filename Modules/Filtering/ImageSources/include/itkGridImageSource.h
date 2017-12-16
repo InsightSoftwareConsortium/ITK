@@ -122,13 +122,13 @@ public:
 protected:
   GridImageSource();
   // ~GridImageSource(){} default implementation ok
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void
+  void
   ThreadedGenerateData(const ImageRegionType &
                        outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GridImageSource);

@@ -158,7 +158,7 @@ protected:
 
   FastMarchingImageFilterBase();
 
-  virtual ~FastMarchingImageFilterBase() ITK_OVERRIDE;
+  ~FastMarchingImageFilterBase() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
@@ -173,9 +173,9 @@ protected:
   bool                m_OverrideOutputInformation;
 
   /** Generate the output image meta information. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   LabelImagePointer               m_LabelImage;
   ConnectedComponentImagePointer  m_ConnectedComponentImage;
@@ -199,11 +199,11 @@ protected:
                                  const LabelType& iLabel ) ITK_OVERRIDE;
 
   /** Update values for the neighbors of a given node */
-  virtual void UpdateNeighbors( OutputImageType* oImage,
+  void UpdateNeighbors( OutputImageType* oImage,
                                 const NodeType& iNode ) ITK_OVERRIDE;
 
   /** Update value for a given node */
-  virtual void UpdateValue( OutputImageType* oImage,
+  void UpdateValue( OutputImageType* oImage,
                             const NodeType& iValue ) ITK_OVERRIDE;
 
   /** Make sure the given node does not violate any topological constraint*/

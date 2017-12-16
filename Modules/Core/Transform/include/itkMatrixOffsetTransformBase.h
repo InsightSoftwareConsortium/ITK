@@ -220,7 +220,7 @@ public:
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
   {
     return Self::Linear;
   }
@@ -351,10 +351,10 @@ public:
   const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE;
+  void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE;
 
   /** Get the Fixed Parameters. */
-  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /** Compose with another MatrixOffsetTransformBase
    *
@@ -413,17 +413,17 @@ public:
    * Get local Jacobian for the given point
    * \c j will sized properly as needed.
    */
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & x, JacobianType & j) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters(const InputPointType  & x, JacobianType & j) const ITK_OVERRIDE;
 
   /** Get the jacobian with respect to position. This simply returns
    * the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
 
   /** Get the jacobian with respect to position. This simply returns
    * the inverse of the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
-  virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
+  void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
 
   /** Create inverse of an affine transformation
    *
@@ -446,14 +446,14 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /** Indicates that this transform is linear. That is, given two
    * points P and Q, and scalar coefficients a and b, then
    *
    *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
    */
-  virtual bool IsLinear() const ITK_OVERRIDE
+  bool IsLinear() const ITK_OVERRIDE
   {
     return true;
   }
@@ -476,10 +476,10 @@ protected:
   MatrixOffsetTransformBase();
 
   /** Destroy an MatrixOffsetTransformBase object */
-  virtual ~MatrixOffsetTransformBase() ITK_OVERRIDE;
+  ~MatrixOffsetTransformBase() ITK_OVERRIDE;
 
   /** Print contents of an MatrixOffsetTransformBase */
-  virtual void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
   const InverseMatrixType & GetVarInverseMatrix() const
   {

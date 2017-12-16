@@ -134,7 +134,7 @@ public:
 
 protected:
   TernaryFunctorImageFilter();
-  virtual ~TernaryFunctorImageFilter() ITK_OVERRIDE {}
+  ~TernaryFunctorImageFilter() ITK_OVERRIDE {}
 
   /** Validate the presence of all three inputs. If one or more inputs
    * are missing, throw an exception. */

@@ -98,7 +98,7 @@ protected:
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This class can be multithreaded. */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,

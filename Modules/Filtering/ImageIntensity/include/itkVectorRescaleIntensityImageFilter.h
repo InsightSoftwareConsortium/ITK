@@ -154,7 +154,7 @@ public:
 
 protected:
   VectorRescaleIntensityImageFilter();
-  virtual ~VectorRescaleIntensityImageFilter() ITK_OVERRIDE {}
+  ~VectorRescaleIntensityImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorRescaleIntensityImageFilter);

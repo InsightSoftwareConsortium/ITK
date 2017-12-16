@@ -84,10 +84,10 @@ public:
                       InputImageType::ImageDimension);
 
   /** Evalulate the function at specified index */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the function at non-integer positions */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
+  OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
   {
     IndexType index;
 
@@ -95,7 +95,7 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
-  virtual OutputType EvaluateAtContinuousIndex(
+  OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & cindex) const ITK_OVERRIDE
   {
     IndexType index;

@@ -88,18 +88,18 @@ public:
 
 protected:
   HalfHermitianToRealInverseFFTImageFilter();
-  virtual ~HalfHermitianToRealInverseFFTImageFilter(){}
+  ~HalfHermitianToRealInverseFFTImageFilter() ITK_OVERRIDE {}
 
   /** The output may be a different size from the input if complex conjugate
    * symmetry is implicit. */
-  virtual void GenerateOutputInformation();
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** This class requires the entire input. */
-  virtual void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Sets the output requested region to the largest possible output
    * region. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) );
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HalfHermitianToRealInverseFFTImageFilter);

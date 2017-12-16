@@ -133,7 +133,7 @@ public:
 protected:
 
   LabelContourImageFilter();
-  virtual ~LabelContourImageFilter() ITK_OVERRIDE {}
+  ~LabelContourImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

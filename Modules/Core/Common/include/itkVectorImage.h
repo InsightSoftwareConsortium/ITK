@@ -198,11 +198,11 @@ public:
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
-  virtual void Allocate(bool UseDefaultConstructor = false) ITK_OVERRIDE;
+  void Allocate(bool UseDefaultConstructor = false) ITK_OVERRIDE;
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() ITK_OVERRIDE;
 
   /** Fill the image buffer with a value.  Be sure to call Allocate()
    * first. */
@@ -328,16 +328,16 @@ public:
   itkGetConstReferenceMacro(VectorLength, VectorLengthType);
 
   /** Get/Set the number of components each pixel has, ie the VectorLength */
-  virtual unsigned int GetNumberOfComponentsPerPixel() const ITK_OVERRIDE;
+  unsigned int GetNumberOfComponentsPerPixel() const ITK_OVERRIDE;
 
-  virtual void SetNumberOfComponentsPerPixel(unsigned int n) ITK_OVERRIDE;
+  void SetNumberOfComponentsPerPixel(unsigned int n) ITK_OVERRIDE;
 
 protected:
   VectorImage();
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual ~VectorImage() ITK_OVERRIDE {}
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  ~VectorImage() ITK_OVERRIDE {}
+  void Graft(const DataObject *data) ITK_OVERRIDE;
   using Superclass::Graft;
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorImage);

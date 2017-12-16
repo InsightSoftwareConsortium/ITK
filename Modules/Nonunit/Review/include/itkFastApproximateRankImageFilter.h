@@ -101,7 +101,7 @@ protected:
     this->SetRank(0.5);
   }
 
-  ~FastApproximateRankImageFilter() {}
+  ~FastApproximateRankImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {

@@ -133,7 +133,7 @@ public:
 
 protected:
   ScalarChanAndVeseLevelSetFunction():Superclass() {}
-  ~ScalarChanAndVeseLevelSetFunction(){}
+  ~ScalarChanAndVeseLevelSetFunction() ITK_OVERRIDE{}
 
   void ComputeParameters() ITK_OVERRIDE;
 

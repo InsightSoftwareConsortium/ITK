@@ -98,8 +98,8 @@ public:
 
 protected:
   MeanReciprocalSquareDifferencePointSetToImageMetric();
-  virtual ~MeanReciprocalSquareDifferencePointSetToImageMetric() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MeanReciprocalSquareDifferencePointSetToImageMetric() ITK_OVERRIDE {}
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   MeanReciprocalSquareDifferencePointSetToImageMetric(const Self &); //purposely

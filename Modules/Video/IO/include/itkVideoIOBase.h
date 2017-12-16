@@ -113,9 +113,9 @@ public:
 protected:
 
   VideoIOBase();
-  virtual ~VideoIOBase() ITK_OVERRIDE;
+  ~VideoIOBase() ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Member Variables */
   ReadType           m_ReadType;

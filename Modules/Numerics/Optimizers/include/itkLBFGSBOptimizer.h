@@ -96,10 +96,10 @@ public:
   typedef LBFGSBOptimizerHelper InternalOptimizerType;
 
   /** Start optimization with an initial value. */
-  virtual void StartOptimization(void) ITK_OVERRIDE;
+  void StartOptimization(void) ITK_OVERRIDE;
 
   /** Plug in a Cost Function into the optimizer  */
-  virtual void SetCostFunction(SingleValuedCostFunction *costFunction) ITK_OVERRIDE;
+  void SetCostFunction(SingleValuedCostFunction *costFunction) ITK_OVERRIDE;
 
   /** Set/Get the optimizer trace flag. If set to true, the optimizer
    * prints out information every iteration.
@@ -176,12 +176,12 @@ public:
   itkGetConstReferenceMacro(InfinityNormOfProjectedGradient, double);
 
   /** Get the reason for termination */
-  virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const ITK_OVERRIDE;
 
 protected:
   LBFGSBOptimizer();
-  virtual ~LBFGSBOptimizer() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LBFGSBOptimizer() ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 

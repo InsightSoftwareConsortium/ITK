@@ -138,9 +138,9 @@ protected:
   KdTreeGenerator();
 
   /** Destructor */
-  virtual ~KdTreeGenerator() ITK_OVERRIDE {}
+  ~KdTreeGenerator() ITK_OVERRIDE {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Returns the smart pointer to the internal Subsample object. */
   SubsamplePointer GetSubsample()

@@ -128,7 +128,7 @@ public:
    * then the first input is copied to the output.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 
   /** Override VeriyInputInformation() since this filter's inputs do
@@ -136,7 +136,7 @@ public:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() ITK_OVERRIDE {}
+  void VerifyInputInformation() ITK_OVERRIDE {}
 
 protected:
   PasteImageFilter();

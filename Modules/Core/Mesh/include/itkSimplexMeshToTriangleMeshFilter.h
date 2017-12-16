@@ -161,13 +161,13 @@ protected:
 protected:
 
   SimplexMeshToTriangleMeshFilter();
-  virtual ~SimplexMeshToTriangleMeshFilter() ITK_OVERRIDE;
+  ~SimplexMeshToTriangleMeshFilter() ITK_OVERRIDE;
   SimplexMeshToTriangleMeshFilter(const Self &) {}
   void operator=(const Self &) {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   void Initialize();
 

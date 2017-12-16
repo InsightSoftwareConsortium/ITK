@@ -205,7 +205,7 @@ protected:
   ~NarrowBandThresholdSegmentationLevelSetImageFilter() ITK_OVERRIDE {}
   NarrowBandThresholdSegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   NarrowBandThresholdSegmentationLevelSetImageFilter(const Self &); // purposely
                                                                     // not impl.

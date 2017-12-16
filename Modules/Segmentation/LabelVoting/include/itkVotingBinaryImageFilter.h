@@ -103,7 +103,7 @@ public:
    * in order to inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -122,7 +122,7 @@ public:
 
 protected:
   VotingBinaryImageFilter();
-  virtual ~VotingBinaryImageFilter() ITK_OVERRIDE {}
+  ~VotingBinaryImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** VotingBinaryImageFilter can be implemented as a multithreaded filter.

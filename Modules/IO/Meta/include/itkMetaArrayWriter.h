@@ -155,8 +155,8 @@ public:
 protected:
 
   MetaArrayWriter();
-  virtual ~MetaArrayWriter() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MetaArrayWriter() ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
 

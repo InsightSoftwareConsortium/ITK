@@ -77,15 +77,15 @@ public:
 
   /** A sphere is defined by a set of shape parameters. The first parameter
    * is the radius and the next SpaceDimension parameters represent the center. */
-  virtual void SetParameters(const ParametersType &) ITK_OVERRIDE;
+  void SetParameters(const ParametersType &) ITK_OVERRIDE;
 
-  virtual unsigned int GetNumberOfShapeParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfShapeParameters(void) const ITK_OVERRIDE
   { return 1; }
-  virtual unsigned int GetNumberOfPoseParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfPoseParameters(void) const ITK_OVERRIDE
   { return SpaceDimension; }
 
   /** Evaluate the signed distance from a shape at a given position. */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
+  OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
 
 protected:
   SphereSignedDistanceFunction();

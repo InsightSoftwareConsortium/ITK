@@ -130,7 +130,7 @@ public:
    * itkTransformReader/Writer I/O filters.
    *
    */
-  virtual void SetFixedParameters( const FixedParametersType & parameters ) ITK_OVERRIDE = 0;
+  void SetFixedParameters( const FixedParametersType & parameters ) ITK_OVERRIDE = 0;
 
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline
@@ -161,10 +161,10 @@ public:
   void SetIdentity();
 
   /** Get the Transformation Parameters. */
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Get the Transformation Fixed Parameters. */
-  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /** Parameters as SpaceDimension number of images. */
   typedef typename ParametersType::ValueType           ParametersValueType;
@@ -203,7 +203,7 @@ public:
    * a converion to member variables for use in TransformPoint.
    * Derived classes should override to provide specialized behavior.
    */
-  virtual void UpdateTransformParameters( const DerivativeType & update, TParametersValueType factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, TParametersValueType factor = 1.0 ) ITK_OVERRIDE;
 
   /** Typedefs for specifying the extent of the grid. */
   typedef ImageRegion<itkGetStaticConstMacro( SpaceDimension )> RegionType;
@@ -248,14 +248,14 @@ public:
   /** Method to transform a vector -
    *  not applicable for this type of transform. */
   using Superclass::TransformVector;
-  virtual OutputVectorType TransformVector( const InputVectorType & ) const ITK_OVERRIDE
+  OutputVectorType TransformVector( const InputVectorType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Method not applicable for deformable transform." );
   }
 
   /** Method to transform a vnl_vector -
    *  not applicable for this type of transform */
-  virtual OutputVnlVectorType TransformVector( const InputVnlVectorType & ) const ITK_OVERRIDE
+  OutputVnlVectorType TransformVector( const InputVnlVectorType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Method not applicable for deformable transform. " );
   }
@@ -263,7 +263,7 @@ public:
   /** Method to transform a CovariantVector -
    *  not applicable for this type of transform */
   using Superclass::TransformCovariantVector;
-  virtual OutputCovariantVectorType TransformCovariantVector(
+  OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "Method not applicable for deformable transform. " );
@@ -273,21 +273,21 @@ public:
   void ComputeJacobianFromBSplineWeightsWithRespectToPosition(
     const InputPointType &, WeightsType &, ParameterIndexArrayType & ) const;
 
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const ITK_OVERRIDE = 0;
+  void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const ITK_OVERRIDE = 0;
 
-  virtual void ComputeJacobianWithRespectToPosition( const InputPointType &, JacobianType & ) const ITK_OVERRIDE
+  void ComputeJacobianWithRespectToPosition( const InputPointType &, JacobianType & ) const ITK_OVERRIDE
   {
     itkExceptionMacro( << "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
   }
 
   /** Return the number of parameters that completely define the Transfom */
-  virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE = 0;
+  NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE = 0;
 
   /** Return the number of parameters per dimension */
   virtual NumberOfParametersType GetNumberOfParametersPerDimension() const = 0;
 
-  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
   {
     return Self::BSpline;
   }
@@ -300,7 +300,7 @@ public:
   typedef SizeType MeshSizeType;
 
   /** Return the number of local parameters */
-  virtual NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE
+  NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE
   {
     return this->GetNumberOfParameters();
   }
@@ -310,7 +310,7 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   BSplineBaseTransform();
-  virtual ~BSplineBaseTransform() ITK_OVERRIDE;
+  ~BSplineBaseTransform() ITK_OVERRIDE;
 
   /** Get/Set to allow subclasses to access and manipulate the weights function. */
   itkSetObjectMacro( WeightsFunction, WeightsFunctionType );

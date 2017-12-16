@@ -473,13 +473,13 @@ public:
 #endif
 
 protected:
-  virtual ~SegmentationLevelSetImageFilter() ITK_OVERRIDE {}
+  ~SegmentationLevelSetImageFilter() ITK_OVERRIDE {}
   SegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Overrides parent implementation */
-  virtual void InitializeIteration() ITK_OVERRIDE
+  void InitializeIteration() ITK_OVERRIDE
   {
     Superclass::InitializeIteration();
     // Estimate the progress of the filter

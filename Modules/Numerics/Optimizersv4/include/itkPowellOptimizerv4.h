@@ -102,13 +102,13 @@ public:
 
   /** Return Current Value */
   itkGetConstReferenceMacro(CurrentCost, MeasureType);
-  virtual const MeasureType & GetValue() const ITK_OVERRIDE { return this->GetCurrentCost(); }
+  const MeasureType & GetValue() const ITK_OVERRIDE { return this->GetCurrentCost(); }
 
   /** Get the current line search iteration */
   itkGetConstReferenceMacro(CurrentLineIteration, unsigned int);
 
   /** Start optimization. */
-  virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
+  void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
 
   /** When users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and
@@ -122,13 +122,13 @@ public:
   itkGetConstReferenceMacro(MetricWorstPossibleValue, double);
   itkSetMacro(MetricWorstPossibleValue, double);
 
-  virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const ITK_OVERRIDE;
 
 protected:
   PowellOptimizerv4();
   PowellOptimizerv4(const PowellOptimizerv4 &);
-  virtual ~PowellOptimizerv4() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PowellOptimizerv4() ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   itkSetMacro(CurrentCost, double);
 

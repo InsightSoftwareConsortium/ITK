@@ -60,12 +60,12 @@ public:
   TimeProbe();
 
   /** Destructor */
-  virtual ~TimeProbe() ITK_OVERRIDE;
+  ~TimeProbe() ITK_OVERRIDE;
 
   /** Get the current time.
    *  Warning: the returned value is not the elapsed time since the last Start() call.
    */
-  virtual TimeStampType GetInstantValue(void) const ITK_OVERRIDE;
+  TimeStampType GetInstantValue(void) const ITK_OVERRIDE;
 
   /** Get a handle to m_RealTimeClock. */
   itkGetConstObjectMacro( RealTimeClock, RealTimeClock );

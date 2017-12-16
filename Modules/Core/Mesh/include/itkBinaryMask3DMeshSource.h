@@ -155,7 +155,7 @@ protected:
   bool       m_RegionOfInterestProvidedByUser;
   RegionType m_RegionOfInterest;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing ITK_OVERRIDE
+  void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing ITK_OVERRIDE
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMask3DMeshSource);

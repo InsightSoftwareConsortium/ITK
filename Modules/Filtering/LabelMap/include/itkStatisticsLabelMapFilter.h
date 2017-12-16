@@ -134,9 +134,9 @@ protected:
   StatisticsLabelMapFilter();
   ~StatisticsLabelMapFilter() ITK_OVERRIDE {}
 
-  virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
+  void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
 
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

@@ -88,7 +88,7 @@ public:
 protected:
 
   EdgeDecimationQuadEdgeMeshFilter();
-  virtual ~EdgeDecimationQuadEdgeMeshFilter() ITK_OVERRIDE;
+  ~EdgeDecimationQuadEdgeMeshFilter() ITK_OVERRIDE;
 
   bool m_Relocate;
   bool m_CheckOrientation;
@@ -153,7 +153,7 @@ protected:
   /**
   * \brief
   */
-  virtual bool ProcessWithoutAnyTopologicalGuarantee() ITK_OVERRIDE;
+  bool ProcessWithoutAnyTopologicalGuarantee() ITK_OVERRIDE;
 
   /**
   * \brief
@@ -165,7 +165,7 @@ protected:
   * \brief
   * \return
   */
-  virtual bool ProcessWithTopologicalGuarantee() ITK_OVERRIDE;
+  bool ProcessWithTopologicalGuarantee() ITK_OVERRIDE;
 
   /**
   * \brief

@@ -108,10 +108,10 @@ public:
 
   /** This method sets the parameters for the transform
    * value specified by the user. */
-  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Get the Transformation Parameters. */
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Set offset of an Translation Transform.
    * This method sets the offset of an TranslationTransform to a
@@ -162,22 +162,22 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const ITK_OVERRIDE;
 
   /** Get the jacobian with respect to position, which simply is an identity
    *  jacobian because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jac) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianType & jac) const ITK_OVERRIDE;
 
   /** Set the parameters to the IdentityTransform */
   void SetIdentity();
 
   /** Return the number of parameters that completely define the Transfom  */
-  virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE
+  NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE
   {
     return NDimensions;
   }
@@ -187,7 +187,7 @@ public:
    *
    * \f[ T( a*P + b*Q ) = a * T(P) + b * T(Q) \f]
    */
-  virtual bool IsLinear() const ITK_OVERRIDE
+  bool IsLinear() const ITK_OVERRIDE
   {
     return true;
   }
@@ -195,7 +195,7 @@ public:
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
   {
     return Self::Linear;
   }
@@ -203,14 +203,14 @@ public:
   /** Set the fixed parameters and update internal transformation.
    * The Translation Transform does not require fixed parameters,
    * therefore the implementation of this method is a null operation. */
-  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
+  void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
   {
   }
 
   /** Get the Fixed Parameters. The TranslationTransform does not
    * require Fixed parameters, therefore this method returns an
    * parameters array of size zero. */
-  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE
+  const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE
   {
     this->m_FixedParameters.SetSize(0);
     return this->m_FixedParameters;
@@ -220,7 +220,7 @@ protected:
   TranslationTransform();
   ~TranslationTransform() ITK_OVERRIDE;
   /** Print contents of an TranslationTransform. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TranslationTransform);

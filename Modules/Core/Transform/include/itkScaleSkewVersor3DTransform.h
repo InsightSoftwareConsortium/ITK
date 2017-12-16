@@ -111,8 +111,8 @@ public:
    * Orthogonality testing is bypassed in this case.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
-  virtual void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance) ITK_OVERRIDE;
+  void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
+  void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance) ITK_OVERRIDE;
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.
@@ -122,9 +122,9 @@ public:
    *   6-8   Scale
    *   9-14  Skew
    **  */
-  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
-  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE;
+  const ParametersType & GetParameters(void) const ITK_OVERRIDE;
 
   void SetScale(const ScaleVectorType & scale);
 
@@ -140,7 +140,7 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
 protected:
   ScaleSkewVersor3DTransform();

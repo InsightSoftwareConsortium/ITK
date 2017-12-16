@@ -120,7 +120,7 @@ public:
   virtual const DirectionType GetRequiredDirection() const;
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters() ITK_OVERRIDE;
+  void AdaptTransformParameters() ITK_OVERRIDE;
 
 protected:
   DisplacementFieldTransformParametersAdaptor();

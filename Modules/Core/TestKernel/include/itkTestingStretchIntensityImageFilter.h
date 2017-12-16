@@ -93,7 +93,7 @@ public:
 
 protected:
   StretchIntensityImageFilter();
-  virtual ~StretchIntensityImageFilter() ITK_OVERRIDE {}
+  ~StretchIntensityImageFilter() ITK_OVERRIDE {}
 
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData(void) ITK_OVERRIDE;

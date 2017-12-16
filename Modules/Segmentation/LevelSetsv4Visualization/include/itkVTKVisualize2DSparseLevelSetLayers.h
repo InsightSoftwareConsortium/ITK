@@ -74,11 +74,11 @@ public:
 
 protected:
   VTKVisualize2DSparseLevelSetLayers();
-  virtual ~VTKVisualize2DSparseLevelSetLayers();
+  ~VTKVisualize2DSparseLevelSetLayers() ITK_OVERRIDE;
 
-  void AddLayers();
+  void AddLayers() ITK_OVERRIDE;
 
-  std::string GetLevelSetRepresentationName() const;
+  std::string GetLevelSetRepresentationName() const ITK_OVERRIDE;
 
 private:
   VTKVisualize2DSparseLevelSetLayers ( const Self& );
@@ -121,11 +121,11 @@ public:
 
 protected:
   VTKVisualize2DSparseLevelSetLayers();
-  virtual ~VTKVisualize2DSparseLevelSetLayers();
+  ~VTKVisualize2DSparseLevelSetLayers() ITK_OVERRIDE;
 
-  void AddLayers();
+  void AddLayers() ITK_OVERRIDE;
 
-  std::string GetLevelSetRepresentationName() const;
+  std::string GetLevelSetRepresentationName() const ITK_OVERRIDE;
 
 private:
   VTKVisualize2DSparseLevelSetLayers ( const Self& );
@@ -169,11 +169,11 @@ public:
 
 protected:
   VTKVisualize2DSparseLevelSetLayers();
-  virtual ~VTKVisualize2DSparseLevelSetLayers();
+  ~VTKVisualize2DSparseLevelSetLayers() ITK_OVERRIDE;
 
-  void AddLayers();
+  void AddLayers() ITK_OVERRIDE;
 
-  std::string GetLevelSetRepresentationName() const;
+  std::string GetLevelSetRepresentationName() const ITK_OVERRIDE;
 
 private:
   VTKVisualize2DSparseLevelSetLayers ( const Self& );

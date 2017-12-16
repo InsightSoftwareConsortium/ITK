@@ -140,7 +140,7 @@ public:
    * an implementation for GenerateInputRequestedRegion in order to inform
    * the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -154,7 +154,7 @@ public:
 protected:
 
   HessianRecursiveGaussianImageFilter();
-  virtual ~HessianRecursiveGaussianImageFilter() ITK_OVERRIDE {}
+  ~HessianRecursiveGaussianImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */

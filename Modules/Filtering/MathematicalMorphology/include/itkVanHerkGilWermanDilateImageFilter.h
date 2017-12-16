@@ -62,7 +62,7 @@ protected:
   {
     this->m_Boundary = NumericTraits< PixelType >::NonpositiveMin();
   }
-  virtual ~VanHerkGilWermanDilateImageFilter() ITK_OVERRIDE {}
+  ~VanHerkGilWermanDilateImageFilter() ITK_OVERRIDE {}
 
 private:
 

@@ -103,7 +103,7 @@ protected:
   /**
    * Compute the external force component
    */
-  virtual void ComputeExternalForce(SimplexMeshGeometry *data,const GradientImageType *gradientImage) ITK_OVERRIDE;
+  void ComputeExternalForce(SimplexMeshGeometry *data,const GradientImageType *gradientImage) ITK_OVERRIDE;
 
   /** Parameters definitions. */
 

@@ -144,22 +144,22 @@ public:
   void Initialize(void) ITK_OVERRIDE;
 
   /** Set fixed object (image, point set, etc.)*/
-  virtual void SetFixedObject( const ObjectType *itkNotUsed( object ) ) ITK_OVERRIDE
+  void SetFixedObject( const ObjectType *itkNotUsed( object ) ) ITK_OVERRIDE
     {
     itkExceptionMacro( "A single object should not be specified for the multi metric.");
     }
 
   /** Set moving object (image, point set, etc.)*/
-  virtual void SetMovingObject( const ObjectType *itkNotUsed( object ) ) ITK_OVERRIDE
+  void SetMovingObject( const ObjectType *itkNotUsed( object ) ) ITK_OVERRIDE
     {
     itkExceptionMacro( "A single object should not be specified for the multi metric.");
     }
 
   /** Set each of the component metrics to use this moving transform. */
-  virtual void SetMovingTransform( MovingTransformType * ) ITK_OVERRIDE;
+  void SetMovingTransform( MovingTransformType * ) ITK_OVERRIDE;
 
   /** Set each of the component metrics to use this fixed transform. */
-  virtual void SetFixedTransform( FixedTransformType * ) ITK_OVERRIDE;
+  void SetFixedTransform( FixedTransformType * ) ITK_OVERRIDE;
 
   /** Evaluate the metrics and return the value of only the *first* metric.
    * \sa GetValueArray
@@ -167,7 +167,7 @@ public:
    */
   MeasureType GetValue() const ITK_OVERRIDE;
 
-  virtual void GetDerivative( DerivativeType & ) const ITK_OVERRIDE;
+  void GetDerivative( DerivativeType & ) const ITK_OVERRIDE;
 
   /** Evaluate the metric value and derivative.
    * \note \param value will contain the value of only the *first* metric on return.
@@ -188,12 +188,12 @@ public:
   /** Get the metrics queue */
   const MetricQueueType & GetMetricQueue() const;
 
-  virtual bool SupportsArbitraryVirtualDomainSamples( void ) const ITK_OVERRIDE;
+  bool SupportsArbitraryVirtualDomainSamples( void ) const ITK_OVERRIDE;
 
   typedef typename Superclass::MetricCategoryType   MetricCategoryType;
 
   /** Get metric category */
-  virtual MetricCategoryType GetMetricCategory() const ITK_OVERRIDE
+  MetricCategoryType GetMetricCategory() const ITK_OVERRIDE
     {
     return Superclass::MULTI_METRIC;
     }
@@ -201,7 +201,7 @@ public:
 protected:
 
   ObjectToObjectMultiMetricv4();
-  virtual ~ObjectToObjectMultiMetricv4() ITK_OVERRIDE;
+  ~ObjectToObjectMultiMetricv4() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

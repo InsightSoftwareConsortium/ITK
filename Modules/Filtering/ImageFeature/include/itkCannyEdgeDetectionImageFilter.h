@@ -207,7 +207,7 @@ public:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -238,7 +238,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CannyEdgeDetectionImageFilter);
 
-  virtual ~CannyEdgeDetectionImageFilter() ITK_OVERRIDE {}
+  ~CannyEdgeDetectionImageFilter() ITK_OVERRIDE {}
 
   /** Thread-Data structure. */
   struct CannyThreadStruct

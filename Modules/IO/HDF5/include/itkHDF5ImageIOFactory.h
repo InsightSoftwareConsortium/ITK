@@ -41,9 +41,9 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char * GetITKSourceVersion(void) const ITK_OVERRIDE;
+  const char * GetITKSourceVersion(void) const ITK_OVERRIDE;
 
-  virtual const char * GetDescription(void) const ITK_OVERRIDE;
+  const char * GetDescription(void) const ITK_OVERRIDE;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -62,7 +62,7 @@ public:
 protected:
   HDF5ImageIOFactory();
   ~HDF5ImageIOFactory() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HDF5ImageIOFactory);

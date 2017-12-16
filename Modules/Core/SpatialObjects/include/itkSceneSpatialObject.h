@@ -84,7 +84,7 @@ public:
 
   /** Returns the latest modified time of all the objects contained
    *  in this SceneSpatialObject object. */
-  virtual ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
 
   /** Get/Set the ParentID */
   void SetParentId(int parentid) { m_ParentId = parentid; }
@@ -118,10 +118,10 @@ protected:
   SceneSpatialObject();
 
   /** destructor */
-  virtual ~SceneSpatialObject() ITK_OVERRIDE;
+  ~SceneSpatialObject() ITK_OVERRIDE;
 
   /** Print the object informations in a stream. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Parent ID : default = -1 */
   int m_ParentId;
