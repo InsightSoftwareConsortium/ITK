@@ -37,7 +37,7 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::BeforeThreade
   output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
 
   const TransformType * input = this->GetTransform();
-  if (input == ITK_NULLPTR)
+  if (input == nullptr)
   {
     itkExceptionMacro("Input transform not available!");
   }
