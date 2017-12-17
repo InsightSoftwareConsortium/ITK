@@ -196,7 +196,7 @@ public:
   }
 
   /** Get the output displacement field provided by the registration filter. */
-  itkGetConstObjectMacro(DisplacementField, DisplacementFieldType);
+  itkGetModifiableObjectMacro(DisplacementField, DisplacementFieldType);
 
   /** Get the number of valid inputs.  For
    *  VariationalRegistrationMultiResolutionFilter, this checks whether the
