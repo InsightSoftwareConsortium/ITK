@@ -124,7 +124,7 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
       -W
       ${TEMP}/${TESTNAME}.tif
   )
-endif(ITK_USE_FFTWF OR ITK_USE_FFTWD)
+endif()
 
 # Active Thirion forces and curvature regularization
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
@@ -145,7 +145,7 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
       -W
       ${TEMP}/${TESTNAME}.tif
   )
-endif(ITK_USE_FFTWF OR ITK_USE_FFTWD)
+endif()
 
 # Passive Thirion forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationPassiveDemons2D)
@@ -371,7 +371,7 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
       -O
       ${TEMP}/${TESTNAME}_displ.mhd
   )
-endif(ITK_USE_FFTWF OR ITK_USE_FFTWD)
+endif()
 
 # Active Thirion forces and curvature regularization
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
@@ -394,7 +394,7 @@ if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
       -O
       ${TEMP}/${TESTNAME}_displ.mhd
   )
-endif(ITK_USE_FFTWF OR ITK_USE_FFTWD)
+endif()
 
 # SSD forces and gaussian smoothing
 set(TESTNAME VariationalRegistrationSSD3DTest)

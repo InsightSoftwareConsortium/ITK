@@ -9,7 +9,7 @@ if(ITK_USE_FFTWF AND NOT ITK_USE_FFTWD)
     " recommended for use with Module_VariationalRegistration."
     " Tests with elastic or curvature regularisation will fail."
   )
-endif(ITK_USE_FFTWF)
+endif()
 
 set(VariationalRegistration_SRC VariationalRegistrationMain.cxx)
 
