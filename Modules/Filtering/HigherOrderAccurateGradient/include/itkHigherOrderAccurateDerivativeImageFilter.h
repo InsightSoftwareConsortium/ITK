@@ -120,9 +120,9 @@ protected:
     , m_UseImageSpacing(true)
   {}
 
-  ~HigherOrderAccurateDerivativeImageFilter() ITK_OVERRIDE {}
+  ~HigherOrderAccurateDerivativeImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** HigherOrderAccurateDerivativeImageFilter needs a larger input requested region than
    * the output requested region (larger in the direction of the
@@ -132,7 +132,7 @@ protected:
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
@@ -140,7 +140,7 @@ protected:
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default. */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
 private:
   HigherOrderAccurateDerivativeImageFilter(const Self &); // purposely not implemented
