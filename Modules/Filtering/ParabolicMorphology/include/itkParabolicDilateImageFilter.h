@@ -81,7 +81,7 @@ public:
 
 protected:
   ParabolicDilateImageFilter() {}
-  ~ParabolicDilateImageFilter() ITK_OVERRIDE {}
+  ~ParabolicDilateImageFilter() override {}
   //   void PrintSelf(std::ostream& os, Indent indent) const;
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicDilateImageFilter);

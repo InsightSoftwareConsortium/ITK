@@ -99,7 +99,7 @@ public:
 #endif
 protected:
   GreaterEqualValImageFilter() {}
-  ~GreaterEqualValImageFilter() ITK_OVERRIDE {}
+  ~GreaterEqualValImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GreaterEqualValImageFilter);

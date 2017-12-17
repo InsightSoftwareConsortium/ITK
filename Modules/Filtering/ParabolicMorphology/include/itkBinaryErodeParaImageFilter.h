@@ -127,16 +127,16 @@ public:
 
   /* add in the traits here */
   void
-  Modified() const ITK_OVERRIDE;
+  Modified() const override;
 
 protected:
   void
-  GenerateData(void) ITK_OVERRIDE;
+  GenerateData(void) override;
 
   BinaryErodeParaImageFilter();
-  ~BinaryErodeParaImageFilter() ITK_OVERRIDE {}
+  ~BinaryErodeParaImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   typedef typename itk::Image<InternalRealType, InputImageType::ImageDimension>            InternalRealImageType;
   typedef typename itk::Image<InternalIntType, InputImageType::ImageDimension>             InternalIntImageType;

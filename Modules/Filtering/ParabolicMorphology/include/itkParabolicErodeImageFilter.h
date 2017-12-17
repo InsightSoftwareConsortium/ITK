@@ -83,7 +83,7 @@ public:
       Here we prefer float in order to save memory.  */
 protected:
   ParabolicErodeImageFilter() {}
-  ~ParabolicErodeImageFilter() ITK_OVERRIDE {}
+  ~ParabolicErodeImageFilter() override {}
   //   void PrintSelf(std::ostream& os, Indent indent) const;
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicErodeImageFilter);
