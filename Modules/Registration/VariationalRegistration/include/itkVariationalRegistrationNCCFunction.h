@@ -113,14 +113,14 @@ public:
 
   /** Set the object's state before each iteration. */
   void
-  InitializeIteration() ITK_OVERRIDE;
+  InitializeIteration() override;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
   PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
                 void *                   globalData,
-                const FloatOffsetType &  offset = FloatOffsetType(0.0)) ITK_OVERRIDE;
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
   /** Select that the fixed image gradient is used for computing the forces. */
   virtual void
@@ -148,18 +148,18 @@ public:
    * Returns the constant time step scaled with the mean squared spacing.
    * \sa SetTimeStep() */
   typename Superclass::TimeStepType
-  ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const ITK_OVERRIDE
+  ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const override
   {
     return this->GetTimeStep() * m_Normalizer;
   }
 
 protected:
   VariationalRegistrationNCCFunction();
-  ~VariationalRegistrationNCCFunction() ITK_OVERRIDE {}
+  ~VariationalRegistrationNCCFunction() override {}
 
   /** Print information about the filter. */
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */
   typedef ConstNeighborhoodIterator<FixedImageType> FixedImageNeighborhoodIteratorType;

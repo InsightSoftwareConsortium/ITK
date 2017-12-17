@@ -87,21 +87,21 @@ public:
 
 protected:
   VariationalRegistrationDiffusionRegularizer();
-  ~VariationalRegistrationDiffusionRegularizer() ITK_OVERRIDE {}
+  ~VariationalRegistrationDiffusionRegularizer() override {}
 
   /** Print information about the filter. */
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Execute regularization. This method is multi-threaded but does not
    * use ThreadedGenerateData(). */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   /** Method for initialization. Buffer images are allocated and the matrices
    * calculated in this method. */
   void
-  Initialize() ITK_OVERRIDE;
+  Initialize() override;
 
   /** Calculation and LU decomposition of the tridiagonal matrices
    * using the Thomas algorithm (TDMA). */

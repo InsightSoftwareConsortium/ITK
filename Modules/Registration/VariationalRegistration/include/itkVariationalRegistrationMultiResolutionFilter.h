@@ -204,7 +204,7 @@ public:
    *  VariationalRegistrationMultiResolutionFilter can take a third input
    *  as an initial deformation field, this input is not a required input. */
   std::vector<SmartPointer<DataObject>>::size_type
-  GetNumberOfValidRequiredInputs() const ITK_OVERRIDE;
+  GetNumberOfValidRequiredInputs() const override;
 
   /** Set the internal registration filter. */
   itkSetObjectMacro(RegistrationFilter, RegistrationType);
@@ -262,22 +262,22 @@ public:
 
 protected:
   VariationalRegistrationMultiResolutionFilter();
-  ~VariationalRegistrationMultiResolutionFilter() ITK_OVERRIDE {}
+  ~VariationalRegistrationMultiResolutionFilter() override {}
 
   /** Print information about the filter. */
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate output data by performing the registration
    *  at each resolution level. */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   /** The current implementation of this class does not support
    *  streaming. As such it requires the largest possible region
    *  for the moving, fixed and input deformation field. */
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   /** By default, the output deformation field has the same
    *  spacing, origin and LargestPossibleRegion as the input/initial
@@ -286,13 +286,13 @@ protected:
    *  If the initial deformation field is not set, the output
    *  information is copied from the fixed image. */
   void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
   /** The current implementation of this class does not supprot
    *  streaming. As such it produces the output for the largest
    *  possible region. */
   void
-  EnlargeOutputRequestedRegion(DataObject * ptr) ITK_OVERRIDE;
+  EnlargeOutputRequestedRegion(DataObject * ptr) override;
 
   /** This method returns true to indicate that the registration should
    *  terminate at the current resolution level. */

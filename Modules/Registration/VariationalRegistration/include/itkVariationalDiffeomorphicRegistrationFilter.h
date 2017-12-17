@@ -132,11 +132,11 @@ public:
 
   /** Set initial deformation field. \warning This can't be used for diffeomorphic registration.*/
   void
-  SetInitialDisplacementField(DisplacementFieldType * ptr) ITK_OVERRIDE;
+  SetInitialDisplacementField(DisplacementFieldType * ptr) override;
 
   /** Get output deformation field. Returns the displacement field of the current transformation.*/
   DisplacementFieldType *
-  GetDisplacementField() ITK_OVERRIDE
+  GetDisplacementField() override
   {
     return m_DisplacementField;
   }
@@ -157,19 +157,19 @@ public:
 
 protected:
   VariationalDiffeomorphicRegistrationFilter();
-  ~VariationalDiffeomorphicRegistrationFilter() ITK_OVERRIDE {}
+  ~VariationalDiffeomorphicRegistrationFilter() override {}
 
   /** Print information about the filter. */
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method is called before iterating the solution. */
   void
-  Initialize() ITK_OVERRIDE;
+  Initialize() override;
 
   /** Apply update. */
   void
-  ApplyUpdate(const TimeStepType & dt) ITK_OVERRIDE;
+  ApplyUpdate(const TimeStepType & dt) override;
 
   /** Calculates the deformation field by calculating the exponential
    * of the velocity field. */
