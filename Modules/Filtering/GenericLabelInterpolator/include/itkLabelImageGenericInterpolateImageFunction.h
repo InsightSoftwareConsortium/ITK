@@ -37,26 +37,25 @@ namespace itk
  * * \ingroup GenericLabelInterpolator
  */
 
-template <typename TInputImage,template<class, typename> class TInterpolator, typename TCoordRep=double >
-class ITK_EXPORT LabelImageGenericInterpolateImageFunction :
-  public InterpolateImageFunction<TInputImage, TCoordRep>
+template <typename TInputImage, template <class, typename> class TInterpolator, typename TCoordRep = double>
+class ITK_EXPORT LabelImageGenericInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
   /** Standard class typedefs. */
-  typedef LabelImageGenericInterpolateImageFunction                Self;
-  typedef InterpolateImageFunction<TInputImage, TCoordRep>         Superclass;
-  typedef SmartPointer<Self>                                       Pointer;
-  typedef SmartPointer<const Self>                                 ConstPointer;
-  typedef typename TInputImage::PixelType                          InputPixelType;
+  typedef LabelImageGenericInterpolateImageFunction        Self;
+  typedef InterpolateImageFunction<TInputImage, TCoordRep> Superclass;
+  typedef SmartPointer<Self>                               Pointer;
+  typedef SmartPointer<const Self>                         ConstPointer;
+  typedef typename TInputImage::PixelType                  InputPixelType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro( LabelImageGenericInterpolateImageFunction, InterpolateImageFunction );
+  itkTypeMacro(LabelImageGenericInterpolateImageFunction, InterpolateImageFunction);
 
   /** Method for creation through the object factory. */
-  itkNewMacro( Self );
+  itkNewMacro(Self);
 
   /** ImageDimension constant */
-  itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
+  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   /** OutputType typedef support. */
   typedef typename Superclass::OutputType OutputType;
@@ -73,46 +72,48 @@ public:
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  typedef LabelSelectionImageAdaptor<TInputImage,double> LabelSelectionAdaptorType;
+  typedef LabelSelectionImageAdaptor<TInputImage, double> LabelSelectionAdaptorType;
 
   // The interpolator used for individual binary masks corresponding to each label
-  typedef TInterpolator<LabelSelectionAdaptorType,TCoordRep> InternalInterpolatorType;
+  typedef TInterpolator<LabelSelectionAdaptorType, TCoordRep> InternalInterpolatorType;
 
   /**
    * Evaluate at the given index
    */
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex ) const
-    {
-    return this->EvaluateAtContinuousIndex( cindex, NULL );
-    }
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const ITK_OVERRIDE
+  {
+    return this->EvaluateAtContinuousIndex(cindex, NULL);
+  }
 
-  virtual void SetInputImage( const TInputImage *image );
+  void
+  SetInputImage(const TInputImage * image) ITK_OVERRIDE;
 
 protected:
   LabelImageGenericInterpolateImageFunction();
-  ~LabelImageGenericInterpolateImageFunction(){};
+  ~LabelImageGenericInterpolateImageFunction() ITK_OVERRIDE {};
 
-  std::vector<typename InternalInterpolatorType::Pointer>   m_InternalInterpolators;
-  std::vector<typename LabelSelectionAdaptorType::Pointer>  m_LabelSelectionAdaptors;
-  typedef std::set<typename TInputImage::PixelType>         LabelSetType;
-  LabelSetType m_Labels;
+  std::vector<typename InternalInterpolatorType::Pointer>  m_InternalInterpolators;
+  std::vector<typename LabelSelectionAdaptorType::Pointer> m_LabelSelectionAdaptors;
+  typedef std::set<typename TInputImage::PixelType>        LabelSetType;
+  LabelSetType                                             m_Labels;
 
 private:
-  LabelImageGenericInterpolateImageFunction( const Self& ); //purposely not implemented
-  void operator=( const Self& ); //purposely not implemented
+  LabelImageGenericInterpolateImageFunction(const Self &); // purposely not implemented
+  void
+  operator=(const Self &); // purposely not implemented
 
   /**
    * Evaluate function value at the given index
    */
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType &, OutputType * ) const;
+  virtual OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType &, OutputType *) const;
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkLabelImageGenericInterpolateImageFunction.hxx"
+#  include "itkLabelImageGenericInterpolateImageFunction.hxx"
 #endif
 
 #endif

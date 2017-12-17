@@ -32,22 +32,18 @@ namespace itk
  * \ingroup ITKImageAdaptors
  * \ingroup GenericLabelInterpolator
  */
-template< class TImage, class TOutputPixelType >
-class ITK_EXPORT LabelSelectionImageAdaptor:public
-  ImageAdaptor< TImage,
-                Accessor::LabelSelectionPixelAccessor<
-                  typename TImage::PixelType,
-                  TOutputPixelType >   >
+template <class TImage, class TOutputPixelType>
+class ITK_EXPORT LabelSelectionImageAdaptor
+  : public ImageAdaptor<TImage, Accessor::LabelSelectionPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
   /** Standard class typedefs. */
   typedef LabelSelectionImageAdaptor Self;
-  typedef ImageAdaptor< TImage, Accessor::LabelSelectionPixelAccessor<
-                          typename TImage::PixelType,
-                          TOutputPixelType > >  Superclass;
+  typedef ImageAdaptor<TImage, Accessor::LabelSelectionPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
+    Superclass;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,17 +51,20 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LabelSelectionImageAdaptor, ImageAdaptor);
 
-  void SetAcceptedValue(typename TImage::PixelType value) {
+  void
+  SetAcceptedValue(typename TImage::PixelType value)
+  {
     this->GetPixelAccessor().SetAcceptedValue(value);
   }
 
 protected:
   LabelSelectionImageAdaptor() {}
-  virtual ~LabelSelectionImageAdaptor() {}
+  ~LabelSelectionImageAdaptor() ITK_OVERRIDE {}
 
 private:
-  LabelSelectionImageAdaptor(const Self &); //purposely not implemented
-  void operator=(const Self &);  //purposely not implemented
+  LabelSelectionImageAdaptor(const Self &); // purposely not implemented
+  void
+  operator=(const Self &); // purposely not implemented
 };
 } // end namespace itk
 
