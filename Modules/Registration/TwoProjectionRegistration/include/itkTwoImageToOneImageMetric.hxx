@@ -27,16 +27,16 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage>
 TwoImageToOneImageMetric<TFixedImage, TMovingImage>::TwoImageToOneImageMetric()
 {
-  m_FixedImage1 = 0;           // has to be provided by the user.
-  m_FixedImage2 = 0;           // has to be provided by the user.
-  m_MovingImage = 0;           // has to be provided by the user.
-  m_Transform = 0;             // has to be provided by the user.
-  m_Interpolator1 = 0;         // has to be provided by the user.
-  m_Interpolator2 = 0;         // has to be provided by the user.
-  m_GradientImage = 0;         // will receive the output of the filter;
+  m_FixedImage1 = nullptr;     // has to be provided by the user.
+  m_FixedImage2 = nullptr;     // has to be provided by the user.
+  m_MovingImage = nullptr;     // has to be provided by the user.
+  m_Transform = nullptr;       // has to be provided by the user.
+  m_Interpolator1 = nullptr;   // has to be provided by the user.
+  m_Interpolator2 = nullptr;   // has to be provided by the user.
+  m_GradientImage = nullptr;   // will receive the output of the filter;
   m_ComputeGradient = true;    // metric computes gradient by default
   m_NumberOfPixelsCounted = 0; // initialize to zero
-  m_GradientImage = NULL;      // computed at initialization
+  m_GradientImage = nullptr;   // computed at initialization
 }
 
 
