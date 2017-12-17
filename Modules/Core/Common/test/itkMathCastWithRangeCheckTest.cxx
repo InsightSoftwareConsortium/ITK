@@ -66,7 +66,7 @@ bool DoCastWithRangeCheckTestVerify( const T2 value, const T1 = 0 )
 
 
 template < typename T1, typename T2 >
-bool DoCastWithRangeCheckTestExulstive( const T1* = 0, const T2* = 0 )
+bool DoCastWithRangeCheckTestExulstive( const T1* = nullptr, const T2* = nullptr )
 {
   // test convert T2 to T1
   bool pass = true;
@@ -79,7 +79,7 @@ bool DoCastWithRangeCheckTestExulstive( const T1* = 0, const T2* = 0 )
 }
 
 template < typename T1, typename T2 >
-bool DoCastWithRangeCheckTest( const T1* = 0, const T2* = 0 )
+bool DoCastWithRangeCheckTest( const T1* = nullptr, const T2* = nullptr )
 {
   int minus_one = -1;
 
@@ -95,7 +95,7 @@ bool DoCastWithRangeCheckTest( const T1* = 0, const T2* = 0 )
 }
 
 template < typename T1 >
-bool DoCastWithRangeCheckTestForTypes( const T1* = 0 )
+bool DoCastWithRangeCheckTestForTypes( const T1* = nullptr )
 {
   // call method for all type to be converted to type T1
   bool pass = true;

@@ -31,7 +31,7 @@ template <typename ScalarType>
 void
 Decrement( ScalarType &value,
     typename itk::DisableIfC<std::numeric_limits<ScalarType>
-    ::is_signed, ScalarType>::Type* = 0 )
+    ::is_signed, ScalarType>::Type* = nullptr )
 {
   if( value > 1 )
     {
@@ -43,7 +43,7 @@ template <typename ScalarType>
 void
 Decrement( ScalarType &value,
     typename itk::EnableIfC<std::numeric_limits<ScalarType>
-    ::is_signed, ScalarType>::Type* = 0 )
+    ::is_signed, ScalarType>::Type* = nullptr )
 {
   if( value > -std::numeric_limits<ScalarType>::max() + 1 )
     {

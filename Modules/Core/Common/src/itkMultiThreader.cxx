@@ -247,7 +247,7 @@ void MultiThreader::SingleMethodExecute()
   // checked in the WaitForSingleMethodThread loops
   for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
     {
-    process_id[thread_loop] = 0;
+    process_id[thread_loop] = nullptr;
     }
 
   // Spawn a set of threads through the SingleMethodProxy. Exceptions

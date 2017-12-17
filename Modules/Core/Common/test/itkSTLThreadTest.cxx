@@ -22,7 +22,7 @@ namespace itkSTLThreadTestImpl
 {
 static int done = 0;
 static int numberOfIterations = 10;
-static itk::MutexLock::Pointer sharedMutex = 0;
+static itk::MutexLock::Pointer sharedMutex = nullptr;
 
 static ITK_THREAD_RETURN_TYPE Runner(void*);
 static int Thread(int);

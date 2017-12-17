@@ -58,7 +58,7 @@ ImageToVTKImageFilter<TInputImage>
   if( m_Importer )
     {
     m_Importer->Delete();
-    m_Importer = 0;
+    m_Importer = nullptr;
     }
 }
 
