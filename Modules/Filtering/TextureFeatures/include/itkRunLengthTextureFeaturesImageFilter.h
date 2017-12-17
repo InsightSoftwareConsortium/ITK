@@ -231,7 +231,7 @@ protected:
   typedef typename NeighborhoodIteratorType::NeighborIndexType        NeighborIndexType;
 
   RunLengthTextureFeaturesImageFilter();
-  virtual ~RunLengthTextureFeaturesImageFilter() {}
+  ~RunLengthTextureFeaturesImageFilter() ITK_OVERRIDE {}
 
   void
   NormalizeOffsetDirection(OffsetType & offset);
@@ -247,17 +247,17 @@ protected:
   ComputeFeatures(vnl_matrix<unsigned int> &         hist,
                   const unsigned int &               totalNumberOfRuns,
                   typename TOutputImage::PixelType & outputPixel);
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method causes the filter to generate its output. */
-  virtual void
+  void
   BeforeThreadedGenerateData() ITK_OVERRIDE;
-  virtual void
+  void
   AfterThreadedGenerateData() ITK_OVERRIDE;
-  virtual void
+  void
   ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
-  virtual void
+  void
   GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
