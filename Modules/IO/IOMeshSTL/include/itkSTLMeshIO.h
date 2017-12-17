@@ -57,7 +57,7 @@ public:
    * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this MeshIO can read the file specified.
    */
-  virtual bool
+  bool
   CanReadFile(const char * FileNameToRead) ITK_OVERRIDE;
 
   /** Read the content of the file into a Mesh. */
@@ -65,31 +65,31 @@ public:
   Read();
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void
+  void
   ReadMeshInformation() ITK_OVERRIDE;
 
   /** Stores the point data into the memory buffer provided. */
-  virtual void
+  void
   ReadPoints(void * buffer) ITK_OVERRIDE;
 
   /** Stores the cell data into the memory buffer provided. */
-  virtual void
+  void
   ReadCells(void * buffer) ITK_OVERRIDE;
 
   /** Indicates whether ReadPoints() should be called. */
-  virtual bool
+  bool
   GetUpdatePoints() const ITK_OVERRIDE;
 
   /** Indicates whether ReadCells() should be called. */
-  virtual bool
+  bool
   GetUpdateCells() const ITK_OVERRIDE;
 
   /** STL files do not carry information in points or cells.
    * Therefore the following two methods are implemented as null
    * operations. */
-  virtual void
+  void
   ReadPointData(void * itkNotUsed(buffer)) ITK_OVERRIDE {};
-  virtual void
+  void
   ReadCellData(void * itkNotUsed(buffer)) ITK_OVERRIDE {};
 
   /*-------- This part of the interfaces deals with writing data. ----- */
@@ -98,15 +98,15 @@ public:
    * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this MeshIO can write the file specified.
    */
-  virtual bool
+  bool
   CanWriteFile(const char * FileNameToWrite) ITK_OVERRIDE;
 
   /** Write header of the STL file */
-  virtual void
+  void
   WriteMeshInformation() ITK_OVERRIDE;
 
   /** Write the content of the Mesh into an STL file. */
-  virtual void
+  void
   Write() ITK_OVERRIDE;
 
   /** The STL format stores point coordinates repeatedly as part of every
@@ -115,7 +115,7 @@ public:
    * Consequently, this method only performs an internal copy of the Point
    * coordinates data, than then is used in the WriteCells() method.
    */
-  virtual void
+  void
   WritePoints(void * buffer) ITK_OVERRIDE;
 
   /** The WriteCells() method does most of the work. It writes
@@ -134,20 +134,20 @@ public:
    *        endfacet
    *
    */
-  virtual void
+  void
   WriteCells(void * buffer) ITK_OVERRIDE;
 
   /** STL files do not carry information in points or cells.
    * Therefore the following two methods are implemented as null
    * operations. */
-  virtual void
+  void
   WritePointData(void * itkNotUsed(buffer)) ITK_OVERRIDE {};
-  virtual void
+  void
   WriteCellData(void * itkNotUsed(buffer)) ITK_OVERRIDE {};
 
 protected:
   STLMeshIO();
-  virtual ~STLMeshIO() {}
+  ~STLMeshIO() ITK_OVERRIDE {}
 
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

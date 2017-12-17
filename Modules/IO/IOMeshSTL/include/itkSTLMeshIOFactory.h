@@ -40,10 +40,10 @@ public:
   typedef SmartPointer<const Self> ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char *
+  const char *
   GetITKSourceVersion(void) const ITK_OVERRIDE;
 
-  virtual const char *
+  const char *
   GetDescription(void) const ITK_OVERRIDE;
 
   /** Method for class instantiation. */
@@ -63,9 +63,9 @@ public:
 
 protected:
   STLMeshIOFactory();
-  ~STLMeshIOFactory();
+  ~STLMeshIOFactory() ITK_OVERRIDE;
 
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
