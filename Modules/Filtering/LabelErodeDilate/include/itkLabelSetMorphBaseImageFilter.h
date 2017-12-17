@@ -113,21 +113,21 @@ public:
 
 protected:
   LabelSetMorphBaseImageFilter();
-  ~LabelSetMorphBaseImageFilter() ITK_OVERRIDE {}
+  ~LabelSetMorphBaseImageFilter() override {}
 
   RegionIndexType SplitRequestedRegion(RegionIndexType i, RegionIndexType num,
-                                       OutputImageRegionType & splitRegion) ITK_OVERRIDE;
+                                       OutputImageRegionType & splitRegion) override;
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                                    ThreadIdType threadId) ITK_OVERRIDE;
+                                    ThreadIdType threadId) override;
 
-  void GenerateData(void) ITK_OVERRIDE;
+  void GenerateData(void) override;
 
   // Override since the filter produces the entire dataset.
-  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
   bool m_UseImageSpacing;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   RadiusType m_Radius;
   RadiusType m_Scale;
