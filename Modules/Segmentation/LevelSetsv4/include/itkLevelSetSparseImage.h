@@ -68,6 +68,7 @@ public:
 
   typedef LabelMap< LabelObjectType >         LabelMapType;
   typedef typename LabelMapType::Pointer      LabelMapPointer;
+  typedef typename LabelMapType::ConstPointer LabelMapConstPointer;
   typedef typename LabelMapType::RegionType   RegionType;
 
   typedef std::map< InputType, OutputType,

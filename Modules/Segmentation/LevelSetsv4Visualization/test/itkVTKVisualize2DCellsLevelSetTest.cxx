@@ -75,7 +75,7 @@ visualizeLevelSet( TInputImage * inputImage, const int numberOfIterations, const
   typename BinaryImageToLevelSetType::Pointer adaptor = BinaryImageToLevelSetType::New();
   adaptor->SetInputImage( binary );
   adaptor->Initialize();
-  typename LevelSetType::Pointer levelSet = adaptor->GetLevelSet();
+  typename LevelSetType::Pointer levelSet = adaptor->GetModifiableLevelSet();
   std::cout << "Finished converting to sparse format" << std::endl;
 
   // The Heaviside function

@@ -157,8 +157,9 @@ private:
   LevelSetTovtkImageData( const Self& );
   void operator = ( const Self& );
 
-  typedef typename LevelSetType::LabelMapType     LabelMapType;
-  typedef typename LevelSetType::LabelMapPointer  LabelMapPointer;
+  typedef typename LevelSetType::LabelMapType         LabelMapType;
+  typedef typename LevelSetType::LabelMapPointer      LabelMapPointer;
+  typedef typename LevelSetType::LabelMapConstPointer LabelMapConstPointer;
 
   typedef Image< int8_t, VDimension >   ImageType;
   typedef typename ImageType::Pointer   ImagePointer;

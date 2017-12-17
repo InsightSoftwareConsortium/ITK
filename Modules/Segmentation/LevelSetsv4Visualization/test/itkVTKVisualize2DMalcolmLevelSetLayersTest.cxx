@@ -79,7 +79,7 @@ int itkVTKVisualize2DMalcolmLevelSetLayersTest( int , char* [] )
   adaptor->SetInputImage( image );
   adaptor->Initialize();
 
-  LevelSetType::Pointer LevelSet = adaptor->GetLevelSet();
+  LevelSetType::Pointer LevelSet = adaptor->GetModifiableLevelSet();
 
   typedef itk::VTKVisualize2DSparseLevelSetLayers< ImageType, LevelSetType > VisualizationType;
   VisualizationType::Pointer viewer = VisualizationType::New();

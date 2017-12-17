@@ -80,7 +80,7 @@ int itkVTKVisualize2DShiLevelSetLayersTest( int , char* [] )
   adaptor->Initialize();
 
   typedef BinaryToLevelSetAdaptorType::LevelSetType           SparseLevelSetType;
-  SparseLevelSetType::Pointer LevelSet = adaptor->GetLevelSet();
+  SparseLevelSetType::Pointer LevelSet = adaptor->GetModifiableLevelSet();
 
   typedef itk::VTKVisualize2DSparseLevelSetLayers< ImageType, LevelSetType > VisualizationType;
   VisualizationType::Pointer viewer = VisualizationType::New();
