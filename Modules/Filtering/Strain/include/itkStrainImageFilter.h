@@ -99,14 +99,14 @@ public:
   /** Set the filter used to calculate the gradients internally. The default is
    * an itk::GradientImageFilter. */
   itkSetObjectMacro(GradientFilter, GradientFilterType);
-  itkGetObjectMacro(GradientFilter, GradientFilterType);
+  itkGetConstObjectMacro(GradientFilter, GradientFilterType);
 
   /** Set the filter used to calculate the gradients internally.  This filter
    * should take a Vector image as input and produce a CovariantVector gradient
    * image on each output corresponding to every Vector component.  If this
    * filter is non-NULL, it is used instead of the GradientFilter. */
   itkSetObjectMacro(VectorGradientFilter, VectorGradientFilterType);
-  itkGetObjectMacro(VectorGradientFilter, VectorGradientFilterType);
+  itkGetConstObjectMacro(VectorGradientFilter, VectorGradientFilterType);
 
   /**
    * Three different types of strains can be calculated, infinitesimal (default), aka
