@@ -32,9 +32,9 @@ ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType                  threadId)
 {
-  InputImageConstPointer   inputPtr = this->GetInput();
-  OutputImagePointer       outputPtr = this->GetOutput();
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+  InputImageConstPointer     inputPtr = this->GetInput();
+  OutputImagePointer         outputPtr = this->GetOutput();
+  const TDisplacementField * fieldPtr = this->GetDisplacementField();
 
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
@@ -58,7 +58,7 @@ ContinuousBorderWarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::
   if (fieldPtr->GetLargestPossibleRegion() == outputPtr->GetLargestPossibleRegion())
   {
     // iterator for the deformation field
-    ImageRegionIterator<DisplacementFieldType> fieldIt(fieldPtr, outputRegionForThread);
+    ImageRegionConstIterator<DisplacementFieldType> fieldIt(fieldPtr, outputRegionForThread);
 
     while (!outputIt.IsAtEnd())
     {
