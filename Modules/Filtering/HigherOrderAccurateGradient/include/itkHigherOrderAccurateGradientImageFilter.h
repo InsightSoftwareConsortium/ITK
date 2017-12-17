@@ -122,9 +122,9 @@ public:
 itkGetConstMacro(OrderOfAccuracy, unsigned int)
 
   protected : HigherOrderAccurateGradientImageFilter();
-  ~HigherOrderAccurateGradientImageFilter() override {}
+  ~HigherOrderAccurateGradientImageFilter() ITK_OVERRIDE {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const override;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GradientImageFilter needs a larger input requested region than
    * the output requested region.  As such, GradientImageFilter needs
@@ -133,7 +133,7 @@ itkGetConstMacro(OrderOfAccuracy, unsigned int)
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   void
-  GenerateInputRequestedRegion() override;
+  GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** GradientImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()

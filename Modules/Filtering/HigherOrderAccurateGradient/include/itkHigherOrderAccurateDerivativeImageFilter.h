@@ -120,9 +120,9 @@ protected:
     , m_UseImageSpacing(true)
   {}
 
-  ~HigherOrderAccurateDerivativeImageFilter() override {}
+  ~HigherOrderAccurateDerivativeImageFilter() ITK_OVERRIDE {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const override;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** HigherOrderAccurateDerivativeImageFilter needs a larger input requested region than
    * the output requested region (larger in the direction of the
