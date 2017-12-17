@@ -92,11 +92,11 @@ itkMorphologicalContourInterpolationTest(int argc, char * argv[])
   }
   if (argc >= 5)
   {
-    axis = strtol(argv[4], NULL, 10);
+    axis = strtol(argv[4], nullptr, 10);
   }
   if (argc >= 6)
   {
-    label = strtol(argv[5], NULL, 10);
+    label = strtol(argv[5], nullptr, 10);
   }
 
   typedef itk::ImageIOBase::IOComponentType ScalarPixelType;
