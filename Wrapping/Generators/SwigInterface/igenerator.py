@@ -87,7 +87,8 @@ class SwigInputGenerator(object):
         # used internally in itkTransformBase
         "itk::SmartPointer< itk::Transform.+ >",
         # used internally in itkMattesMutualInformationImageToImageMetric
-        "itk::SmartPointer< itk::Image.+ >"
+        "itk::SmartPointer< itk::Image.+ >",
+        "itk::ObjectFactoryBasePrivate"
     ]
 
     notWrappedRegExp = re.compile("|".join(["^" + s + "$" for s in notWrapped]))
