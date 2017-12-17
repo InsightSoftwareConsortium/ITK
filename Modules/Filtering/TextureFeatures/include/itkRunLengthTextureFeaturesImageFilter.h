@@ -231,7 +231,7 @@ protected:
   typedef typename NeighborhoodIteratorType::NeighborIndexType        NeighborIndexType;
 
   RunLengthTextureFeaturesImageFilter();
-  ~RunLengthTextureFeaturesImageFilter() ITK_OVERRIDE {}
+  ~RunLengthTextureFeaturesImageFilter() override {}
 
   void
   NormalizeOffsetDirection(OffsetType & offset);
@@ -248,17 +248,17 @@ protected:
                   const unsigned int &               totalNumberOfRuns,
                   typename TOutputImage::PixelType & outputPixel);
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method causes the filter to generate its output. */
   void
-  BeforeThreadedGenerateData() ITK_OVERRIDE;
+  BeforeThreadedGenerateData() override;
   void
-  AfterThreadedGenerateData() ITK_OVERRIDE;
+  AfterThreadedGenerateData() override;
   void
-  ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId) override;
   void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
 private:
   typename DigitizedImageType::Pointer m_DigitizedInputImage;
