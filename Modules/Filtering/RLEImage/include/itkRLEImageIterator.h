@@ -62,7 +62,7 @@ public:
    * provide a copy constructor. */
   ImageIterator() {}
   /** Default Destructor */
-  ~ImageIterator() {}
+  ~ImageIterator() ITK_OVERRIDE {}
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
   ImageIterator(const Self & it)
