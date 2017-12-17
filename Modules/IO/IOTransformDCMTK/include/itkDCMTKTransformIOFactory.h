@@ -43,10 +43,10 @@ public:
 
   /** Class methods used to interface with the registered factories. */
   virtual const char *
-  GetITKSourceVersion() const ITK_OVERRIDE;
+  GetITKSourceVersion() const override;
 
   virtual const char *
-  GetDescription() const ITK_OVERRIDE;
+  GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -67,7 +67,7 @@ protected:
   DCMTKTransformIOFactory();
   ~DCMTKTransformIOFactory();
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKTransformIOFactory);
