@@ -95,13 +95,13 @@ public:
 
 protected:
   TriangleCellSubdivisionQuadEdgeMeshFilter();
-  virtual ~TriangleCellSubdivisionQuadEdgeMeshFilter() {}
+  ~TriangleCellSubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
   virtual void
   AddNewCellPoints(InputCellType * cell) = 0;
-  virtual void
+  void
   GenerateOutputPoints() ITK_OVERRIDE;
-  virtual void
+  void
   GenerateOutputCells() ITK_OVERRIDE;
 
   void

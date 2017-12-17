@@ -64,7 +64,7 @@ public:
 
 protected:
   QuadEdgeMeshSubdivisionCriterion() {}
-  ~QuadEdgeMeshSubdivisionCriterion() {}
+  ~QuadEdgeMeshSubdivisionCriterion() ITK_OVERRIDE {}
 };
 
 } // namespace itk

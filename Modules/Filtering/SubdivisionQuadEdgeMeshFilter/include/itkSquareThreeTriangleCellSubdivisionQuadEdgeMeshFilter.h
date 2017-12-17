@@ -87,11 +87,11 @@ public:
 
 protected:
   SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter() {}
-  virtual ~SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter() {}
+  ~SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
-  virtual void
+  void
   AddNewCellPoints(InputCellType * cell) ITK_OVERRIDE;
-  virtual void
+  void
   GenerateOutputCells() ITK_OVERRIDE;
 
 private:

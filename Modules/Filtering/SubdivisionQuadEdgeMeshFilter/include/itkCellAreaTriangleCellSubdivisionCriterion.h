@@ -64,7 +64,7 @@ public:
   itkTypeMacro(CellAreaTriangleCellSubdivisionCriterion, QuadEdgeMeshTriangleCellSubdivisionCriterion);
   itkNewMacro(Self);
 
-  virtual void
+  void
   Compute(MeshType * mesh, SubdivisionCellContainer & cellIds) ITK_OVERRIDE;
 
   itkGetConstMacro(MaximumArea, CoordRepType);
@@ -72,7 +72,7 @@ public:
 
 protected:
   CellAreaTriangleCellSubdivisionCriterion() { m_MaximumArea = NumericTraits<CoordRepType>::max(); }
-  ~CellAreaTriangleCellSubdivisionCriterion() {}
+  ~CellAreaTriangleCellSubdivisionCriterion() ITK_OVERRIDE {}
 
 private:
   CoordRepType m_MaximumArea;

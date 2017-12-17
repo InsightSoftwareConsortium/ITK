@@ -77,9 +77,9 @@ public:
 protected:
   ConditionalSubdivisionQuadEdgeMeshFilter();
 
-  virtual ~ConditionalSubdivisionQuadEdgeMeshFilter() {}
+  ~ConditionalSubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
-  virtual void
+  void
   GenerateData() ITK_OVERRIDE;
 
   void

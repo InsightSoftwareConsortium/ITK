@@ -81,12 +81,12 @@ public:
 
 protected:
   LoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter() {}
-  virtual ~LoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter() {}
+  ~LoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
-  virtual void
+  void
   AddNewEdgePoints(InputQEType * edge) ITK_OVERRIDE;
 
-  virtual void
+  void
   CopyInputMeshToOutputMeshPoints() ITK_OVERRIDE;
 
   virtual void

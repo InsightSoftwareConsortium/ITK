@@ -90,14 +90,14 @@ public:
 
 protected:
   TriangleEdgeCellSubdivisionQuadEdgeMeshFilter();
-  virtual ~TriangleEdgeCellSubdivisionQuadEdgeMeshFilter() {}
+  ~TriangleEdgeCellSubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
-  virtual void
+  void
   AddNewCellPoints(InputCellType * itkNotUsed(cell)) ITK_OVERRIDE
   {}
   virtual void
   AddNewEdgePoints(InputQEType * edge) = 0;
-  virtual void
+  void
   GenerateOutputPoints() ITK_OVERRIDE;
 
   void

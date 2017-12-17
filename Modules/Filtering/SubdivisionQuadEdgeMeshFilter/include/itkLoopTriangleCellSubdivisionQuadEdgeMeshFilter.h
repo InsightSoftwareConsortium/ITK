@@ -109,12 +109,12 @@ public:
 
 protected:
   LoopTriangleCellSubdivisionQuadEdgeMeshFilter() {}
-  virtual ~LoopTriangleCellSubdivisionQuadEdgeMeshFilter() {}
+  ~LoopTriangleCellSubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
-  virtual void
+  void
   CopyInputMeshToOutputMeshPoints() ITK_OVERRIDE;
 
-  virtual void
+  void
   AddNewCellPoints(InputCellType * cell) ITK_OVERRIDE;
 
   InputPointType
