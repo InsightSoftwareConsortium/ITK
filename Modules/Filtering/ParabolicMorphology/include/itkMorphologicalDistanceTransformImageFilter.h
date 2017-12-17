@@ -90,7 +90,7 @@ public:
 
   /** a type to represent the "kernel radius" */
   typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
-  virtual void
+  void
   Modified() const ITK_OVERRIDE;
 
   /** this describes the input mask - default value 0 - we compute the
@@ -128,7 +128,7 @@ public:
 #endif
 protected:
   MorphologicalDistanceTransformImageFilter();
-  virtual ~MorphologicalDistanceTransformImageFilter() {}
+  ~MorphologicalDistanceTransformImageFilter() ITK_OVERRIDE {}
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

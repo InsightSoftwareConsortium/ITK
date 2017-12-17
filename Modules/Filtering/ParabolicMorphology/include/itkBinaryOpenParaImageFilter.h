@@ -141,7 +141,7 @@ protected:
   GenerateData(void) ITK_OVERRIDE;
 
   BinaryOpenParaImageFilter();
-  virtual ~BinaryOpenParaImageFilter() {}
+  ~BinaryOpenParaImageFilter() ITK_OVERRIDE {}
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

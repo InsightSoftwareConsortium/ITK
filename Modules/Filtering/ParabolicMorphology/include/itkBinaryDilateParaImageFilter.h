@@ -108,7 +108,7 @@ public:
   itkSetMacro(Radius, RadiusType);
   itkGetConstReferenceMacro(Radius, RadiusType);
 
-  virtual void
+  void
   Modified() const ITK_OVERRIDE;
 
   void
@@ -133,7 +133,7 @@ protected:
   GenerateData(void) ITK_OVERRIDE;
 
   BinaryDilateParaImageFilter();
-  virtual ~BinaryDilateParaImageFilter() {}
+  ~BinaryDilateParaImageFilter() ITK_OVERRIDE {}
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

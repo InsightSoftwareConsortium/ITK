@@ -126,7 +126,7 @@ public:
   /** Image related typedefs. */
 
   /* add in the traits here */
-  virtual void
+  void
   Modified() const ITK_OVERRIDE;
 
 protected:
@@ -134,7 +134,7 @@ protected:
   GenerateData(void) ITK_OVERRIDE;
 
   BinaryErodeParaImageFilter();
-  virtual ~BinaryErodeParaImageFilter() {}
+  ~BinaryErodeParaImageFilter() ITK_OVERRIDE {}
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
