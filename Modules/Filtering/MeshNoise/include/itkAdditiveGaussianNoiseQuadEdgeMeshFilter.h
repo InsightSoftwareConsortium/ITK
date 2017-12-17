@@ -72,12 +72,12 @@ public:
 protected:
 
   AdditiveGaussianNoiseQuadEdgeMeshFilter();
-  ~AdditiveGaussianNoiseQuadEdgeMeshFilter() ITK_OVERRIDE{}
+  ~AdditiveGaussianNoiseQuadEdgeMeshFilter() override{}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Requested Data */
-  void GenerateData(void) ITK_OVERRIDE;
+  void GenerateData(void) override;
 
   CoordRepType m_Mean;
   CoordRepType m_Sigma;
