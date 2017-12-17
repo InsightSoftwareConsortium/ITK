@@ -84,9 +84,9 @@ public:
                       TInputImage::ImageDimension);
 protected:
   LabelSetErodeImageFilter(){}
-  ~LabelSetErodeImageFilter() ITK_OVERRIDE {}
+  ~LabelSetErodeImageFilter() override {}
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
   // Override since the filter produces the entire dataset.
 private:
