@@ -129,12 +129,12 @@ public:
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
   void
-  SetNumberOfThreads(ThreadIdType nb) ITK_OVERRIDE;
+  SetNumberOfThreads(ThreadIdType nb) override;
 
   // See super class for doxygen documentation
   //
   bool
-  CanRunInPlace(void) const ITK_OVERRIDE;
+  CanRunInPlace(void) const override;
 
 #  ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -143,13 +143,13 @@ public:
 #  endif
 protected:
   SmoothingRecursiveYvvGaussianImageFilter();
-  ~SmoothingRecursiveYvvGaussianImageFilter() ITK_OVERRIDE {}
+  ~SmoothingRecursiveYvvGaussianImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */
   void
-  GenerateData(void) ITK_OVERRIDE;
+  GenerateData(void) override;
 
   /** SmoothingRecursiveYvvGaussianImageFilter needs all of the input to produce an
    * output. Therefore, SmoothingRecursiveYvvGaussianImageFilter needs to provide
@@ -157,11 +157,11 @@ protected:
    * the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
   void
-  GenerateInputRequestedRegion() throw (InvalidRequestedRegionError)ITK_OVERRIDE;
+  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError) override;
 
   // Override since the filter produces the entire dataset
   void
-  EnlargeOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SmoothingRecursiveYvvGaussianImageFilter);
