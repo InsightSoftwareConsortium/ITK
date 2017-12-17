@@ -189,7 +189,7 @@ public:
   SetInput(const InputImageType * inputImage);
 
   /** Get/Set interpolate function. */
-  itkGetObjectMacro(Interpolator, InterpolatorType);
+  itkGetConstObjectMacro(Interpolator, InterpolatorType);
   itkSetObjectMacro(Interpolator, InterpolatorType);
 
   /** Get/Set whether triangle or quadrilateral faces should be generated.
