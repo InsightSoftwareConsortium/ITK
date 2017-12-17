@@ -84,7 +84,7 @@ public:
   itkGetConstMacro(PostRescaling, ScalarType); /// Global rescaling constant used.
 
 protected:
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   ScalarType m_FeatureScale;
   ScalarType m_NoiseScale;

@@ -67,7 +67,7 @@ protected:
   typedef typename InputImageType::RegionType  InputRegionType;
   typedef typename OutputImageType::RegionType OutputRegionType;
 
-  void ThreadedGenerateData(const OutputRegionType & region, ThreadIdType) ITK_OVERRIDE
+  void ThreadedGenerateData(const OutputRegionType & region, ThreadIdType) override
   {
     if( region.GetSize()[0] == 0 )
       {
