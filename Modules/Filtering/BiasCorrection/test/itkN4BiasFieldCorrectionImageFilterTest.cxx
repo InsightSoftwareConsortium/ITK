@@ -179,14 +179,6 @@ int N4( int argc, char *argv[] )
   correcter->SetWienerFilterNoise( 0.01 );
   correcter->SetBiasFieldFullWidthAtHalfMaximum( 0.15 );
   correcter->SetConvergenceThreshold( 0.0000001 );
-  if( argc > 8 )
-    {
-    correcter->SetMaskLabel( atoi( argv[8] ) );
-    }
-  else
-    {
-    correcter->SetUseMaskLabel( false );
-    }
 
   // handle the number of iterations
   std::vector<unsigned int> numIters = ConvertVector<unsigned int>(
@@ -348,7 +340,6 @@ int itkN4BiasFieldCorrectionImageFilterTest( int argc, char *argv[] )
               << "outputLogControlPointLattice [shrinkFactor,default=1] "
               << "[numberOfIterations,default=100x50x50] "
               << " [maskImageWithLabelEqualTo1] [splineDistance,default=200]"
-              << " [maskLabel]"
               << std::endl;
     exit( EXIT_FAILURE );
     }
