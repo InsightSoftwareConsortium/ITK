@@ -124,7 +124,7 @@ public:
 
 protected:
   AbsoluteValueDifferenceImageFilter() {}
-  ~AbsoluteValueDifferenceImageFilter() ITK_OVERRIDE {}
+  ~AbsoluteValueDifferenceImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AbsoluteValueDifferenceImageFilter);

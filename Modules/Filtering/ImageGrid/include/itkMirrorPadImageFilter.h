@@ -95,7 +95,7 @@ public:
 
 protected:
   MirrorPadImageFilter() {}
-  ~MirrorPadImageFilter() ITK_OVERRIDE {}
+  ~MirrorPadImageFilter() override {}
 
   /** Convert from the output index to the input index taking
    * into consideration mirrored and normal regions. */
@@ -120,7 +120,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
   /** Given an n dimensional list of input region breakpoints in indices
    * and size (where the current region and maximum region for each dimension
@@ -197,7 +197,7 @@ protected:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()
    * \sa PadImageFilter::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MirrorPadImageFilter);

@@ -97,7 +97,7 @@ public:
   BinaryBallStructuringElement() {}
 
   /** Default destructor. */
-  ~BinaryBallStructuringElement() ITK_OVERRIDE {}
+  ~BinaryBallStructuringElement() override {}
 
   /** Copy constructor. */
   BinaryBallStructuringElement(const Self & other):

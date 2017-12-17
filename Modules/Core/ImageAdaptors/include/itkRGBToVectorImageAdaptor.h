@@ -67,7 +67,7 @@ public:
 
 protected:
   RGBToVectorImageAdaptor() {}
-  ~RGBToVectorImageAdaptor() ITK_OVERRIDE {}
+  ~RGBToVectorImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RGBToVectorImageAdaptor);

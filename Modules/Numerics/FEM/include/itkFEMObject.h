@@ -300,8 +300,8 @@ public:
 protected:
   /** Constructor for use by New() method. */
   FEMObject();
-  ~FEMObject() ITK_OVERRIDE;
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~FEMObject() override;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /**
     * Assign a global freedom numbers to each DOF in a system.

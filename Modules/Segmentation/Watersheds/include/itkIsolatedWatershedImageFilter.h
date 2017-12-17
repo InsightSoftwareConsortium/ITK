@@ -73,7 +73,7 @@ public:
 
   typedef WatershedImageFilter< RealImageType >                          WatershedType;
   typedef GradientMagnitudeImageFilter< InputImageType, RealImageType > GradientMagnitudeType;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Set seed point 1. This seed will be isolated from Seed2 (if
    *  possible). All pixels connected to this seed will be replaced
@@ -114,7 +114,7 @@ public:
 
 protected:
   IsolatedWatershedImageFilter();
-  ~IsolatedWatershedImageFilter() ITK_OVERRIDE {}
+  ~IsolatedWatershedImageFilter() override {}
   IndexType m_Seed1;
   IndexType m_Seed2;
 
@@ -131,13 +131,13 @@ protected:
   double m_UpperValueLimit;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
-  void VerifyInputInformation() ITK_OVERRIDE;
-  void GenerateData() ITK_OVERRIDE;
+  void VerifyInputInformation() override;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IsolatedWatershedImageFilter);

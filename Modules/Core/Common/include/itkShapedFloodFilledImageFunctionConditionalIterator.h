@@ -95,7 +95,7 @@ public:
                                                     FunctionType *fnPtr):Superclass(imagePtr, fnPtr) {}
 
   /** Get the pixel value */
-  const PixelType Get(void) const ITK_OVERRIDE
+  const PixelType Get(void) const override
   { return const_cast< ImageType * >( this->m_Image.GetPointer() )->GetPixel( this->m_IndexStack.front() ); }
 
   /** Set the pixel value */
@@ -103,7 +103,7 @@ public:
   { const_cast< ImageType * >( this->m_Image.GetPointer() )->GetPixel( this->m_IndexStack.front() ) = value; }
 
   /** Default Destructor. */
-  ~ShapedFloodFilledImageFunctionConditionalIterator() ITK_OVERRIDE {}
+  ~ShapedFloodFilledImageFunctionConditionalIterator() override {}
 };
 } // end namespace itk
 

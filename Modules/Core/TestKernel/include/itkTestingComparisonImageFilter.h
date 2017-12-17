@@ -102,9 +102,9 @@ public:
 
 protected:
   ComparisonImageFilter();
-  ~ComparisonImageFilter() ITK_OVERRIDE {}
+  ~ComparisonImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** ComparisonImageFilter can be implemented as a multithreaded
    * filter.  Therefore, this implementation provides a
@@ -116,13 +116,13 @@ protected:
    * "outputRegionForThread"
    */
   void ThreadedGenerateData(const OutputImageRegionType & threadRegion,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() override;
 
-  void VerifyInputInformation() ITK_OVERRIDE;
+  void VerifyInputInformation() override;
 
   OutputPixelType m_DifferenceThreshold;
 

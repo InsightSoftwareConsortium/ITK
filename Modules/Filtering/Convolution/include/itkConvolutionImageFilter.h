@@ -99,7 +99,7 @@ public:
 
 protected:
   ConvolutionImageFilter();
-  ~ConvolutionImageFilter() ITK_OVERRIDE {}
+  ~ConvolutionImageFilter() override {}
 
   /** ConvolutionImageFilter needs the entire image kernel, which in
    * general is going to be a different size then the output requested
@@ -108,10 +108,10 @@ protected:
    * pipeline execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** The kernel needs padding if any of the sizes of its dimensions is
    * even. This method checks for this condition. */

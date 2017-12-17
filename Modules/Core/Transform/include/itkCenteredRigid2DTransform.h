@@ -116,7 +116,7 @@ public:
    *
    * \sa Transform::SetParameters()
    * \sa Transform::SetFixedParameters() */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
@@ -126,20 +126,20 @@ public:
    *
    * \sa Transform::GetParameters()
    * \sa Transform::GetFixedParameters() */
-  const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const override;
 
   /** This method computes the Jacobian matrix of the transformation
    * at a given input point.
    */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
-  void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE;
+  void SetFixedParameters(const FixedParametersType &) override;
 
   /** Get the Fixed Parameters. An empty array is returned
    * as there are no fixed parameters. */
-  const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  const FixedParametersType & GetFixedParameters() const override;
 
   /**
    * This method creates and returns a new CenteredRigid2DTransform object
@@ -150,7 +150,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const override;
 
   /**
    * This method creates and returns a new CenteredRigid2DTransform object
@@ -159,11 +159,11 @@ public:
 
 protected:
   CenteredRigid2DTransform();
-  ~CenteredRigid2DTransform() ITK_OVERRIDE {}
+  ~CenteredRigid2DTransform() override {}
 
   CenteredRigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CenteredRigid2DTransform);

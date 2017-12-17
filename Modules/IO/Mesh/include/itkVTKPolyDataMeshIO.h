@@ -68,19 +68,19 @@ public:
   * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
   * \return Returns true if this MeshIO can read the file specified.
   */
-  bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
+  bool CanReadFile(const char *FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadMeshInformation() ITK_OVERRIDE;
+  void ReadMeshInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void ReadPoints(void *buffer) ITK_OVERRIDE;
+  void ReadPoints(void *buffer) override;
 
-  void ReadCells(void *buffer) ITK_OVERRIDE;
+  void ReadCells(void *buffer) override;
 
-  void ReadPointData(void *buffer) ITK_OVERRIDE;
+  void ReadPointData(void *buffer) override;
 
-  void ReadCellData(void *buffer) ITK_OVERRIDE;
+  void ReadCellData(void *buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
   /** Determine if the file can be written with this MeshIO implementation.
@@ -88,28 +88,28 @@ public:
    * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this MeshIO can write the file specified.
    */
-  bool CanWriteFile(const char *FileNameToWrite) ITK_OVERRIDE;
+  bool CanWriteFile(const char *FileNameToWrite) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteMeshInformation() ITK_OVERRIDE;
+  void WriteMeshInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void WritePoints(void *buffer) ITK_OVERRIDE;
+  void WritePoints(void *buffer) override;
 
-  void WriteCells(void *buffer) ITK_OVERRIDE;
+  void WriteCells(void *buffer) override;
 
-  void WritePointData(void *buffer) ITK_OVERRIDE;
+  void WritePointData(void *buffer) override;
 
-  void WriteCellData(void *buffer) ITK_OVERRIDE;
+  void WriteCellData(void *buffer) override;
 
-  void Write() ITK_OVERRIDE;
+  void Write() override;
 
 protected:
   VTKPolyDataMeshIO();
-  ~VTKPolyDataMeshIO() ITK_OVERRIDE;
+  ~VTKPolyDataMeshIO() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   template< typename T >
   void UpdateCellInformation(T *buffer)

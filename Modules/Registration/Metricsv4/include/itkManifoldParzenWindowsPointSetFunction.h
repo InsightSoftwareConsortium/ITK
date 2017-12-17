@@ -164,10 +164,10 @@ public:
   itkBooleanMacro( UseAnisotropicCovariances );
 
   /** Set the input point set */
-  void SetInputPointSet( const InputPointSetType * ) ITK_OVERRIDE;
+  void SetInputPointSet( const InputPointSetType * ) override;
 
   /** Evaluate function value at specified point */
-  TOutput Evaluate( const InputPointType & ) const ITK_OVERRIDE;
+  TOutput Evaluate( const InputPointType & ) const override;
 
   /** Get Gaussian corresponding to a specific point */
   GaussianConstPointer GetGaussian( PointIdentifier ) const;
@@ -177,8 +177,8 @@ public:
 
 protected:
   ManifoldParzenWindowsPointSetFunction();
-  ~ManifoldParzenWindowsPointSetFunction() ITK_OVERRIDE;
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  ~ManifoldParzenWindowsPointSetFunction() override;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   void GenerateData();
 

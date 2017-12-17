@@ -360,7 +360,7 @@ public:
   typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
 
   /** Set fixed image*/
-  void SetFixedObject( const ObjectType *object ) ITK_OVERRIDE
+  void SetFixedObject( const ObjectType *object ) override
     {
     FixedImageType *image = dynamic_cast<FixedImageType *>( const_cast<ObjectType *>( object ) );
     if( image != ITK_NULLPTR )
@@ -374,7 +374,7 @@ public:
     }
 
   /** Set moving image*/
-  void SetMovingObject( const ObjectType *object ) ITK_OVERRIDE
+  void SetMovingObject( const ObjectType *object ) override
     {
     MovingImageType *image = dynamic_cast<MovingImageType *>( const_cast<ObjectType *>( object ) );
     if( image != ITK_NULLPTR )
@@ -480,7 +480,7 @@ public:
   itkGetModifiableObjectMacro(MovingImageGradientImage, MovingImageGradientImageType);
 
   /** Get number of valid points from most recent update */
-  SizeValueType GetNumberOfValidPoints() const ITK_OVERRIDE
+  SizeValueType GetNumberOfValidPoints() const override
     {
     return this->m_NumberOfValidPoints;
     }
@@ -523,25 +523,25 @@ public:
    * before entering the registration loop, during which GetValue or
    * GetDerivative will be called repeatedly. It must be called again if
    * metric settings are changed before beginning a new registration. */
-  void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) override;
 
-  MeasureType GetValue() const ITK_OVERRIDE;
+  MeasureType GetValue() const override;
 
-  void GetDerivative( DerivativeType & ) const ITK_OVERRIDE;
+  void GetDerivative( DerivativeType & ) const override;
 
   /** Calculate and return both the value for the metric and its derivative.
    * This calls the SparseGetValueAndDerivativeThreader if \c UsedFixedSampledPointSet
    * is true, and DenseGetValueAndDerivativeThreader otherwise.  The threaders
    * in turn call \c ProcessPoint on each point in the
    * domain to be examined. */
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE;
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const override;
 
   /** Get the number of sampled fixed sampled points that are
    * deemed invalid during conversion to virtual domain in Initialize().
    * For informational purposes. */
   itkGetConstReferenceMacro(NumberOfSkippedFixedSampledPoints, SizeValueType);
 
-  bool SupportsArbitraryVirtualDomainSamples( void ) const ITK_OVERRIDE
+  bool SupportsArbitraryVirtualDomainSamples( void ) const override
   {
     return true;
   }
@@ -549,7 +549,7 @@ public:
   typedef typename Superclass::MetricCategoryType   MetricCategoryType;
 
   /** Get metric category */
-  MetricCategoryType GetMetricCategory() const ITK_OVERRIDE
+  MetricCategoryType GetMetricCategory() const override
     {
     return Superclass::IMAGE_METRIC;
     }
@@ -693,9 +693,9 @@ protected:
   bool                                    m_UseFixedSampledPointSet;
 
   ImageToImageMetricv4();
-  ~ImageToImageMetricv4() ITK_OVERRIDE;
+  ~ImageToImageMetricv4() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
   /** Map the fixed point set samples to the virtual domain */

@@ -125,12 +125,12 @@ public:
 
 protected:
   WienerDeconvolutionImageFilter();
-  ~WienerDeconvolutionImageFilter() ITK_OVERRIDE {}
+  ~WienerDeconvolutionImageFilter() override {}
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WienerDeconvolutionImageFilter);

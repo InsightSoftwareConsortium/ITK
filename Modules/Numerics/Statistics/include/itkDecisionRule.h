@@ -72,7 +72,7 @@ public:
 
 protected:
   DecisionRule();
-  ~DecisionRule() ITK_OVERRIDE;
+  ~DecisionRule() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DecisionRule);

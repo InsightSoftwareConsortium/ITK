@@ -139,7 +139,7 @@ public:
 
 protected:
   RegionBasedLevelSetFunctionData();
-  ~RegionBasedLevelSetFunctionData() ITK_OVERRIDE {}
+  ~RegionBasedLevelSetFunctionData() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionData);

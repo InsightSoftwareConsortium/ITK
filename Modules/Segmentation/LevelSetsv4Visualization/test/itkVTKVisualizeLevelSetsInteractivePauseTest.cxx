@@ -73,12 +73,12 @@ public:
 
   ProcessingPauseCommand(){}
 
-  void Execute( const itk::Object* caller, const itk::EventObject& event ) ITK_OVERRIDE
+  void Execute( const itk::Object* caller, const itk::EventObject& event ) override
     {
     this->Execute( const_cast< itk::Object* >( caller ), event );
     }
 
-  void Execute( itk::Object* itkNotUsed(caller), const itk::EventObject& event ) ITK_OVERRIDE
+  void Execute( itk::Object* itkNotUsed(caller), const itk::EventObject& event ) override
     {
     if( itk::IterationEvent().CheckEvent( &event ))
       {
@@ -124,7 +124,7 @@ public:
     return keypressPauseCommand;
     }
 
-  void Execute( vtkObject * vtkNotUsed(caller), unsigned long eventId, void * vtkNotUsed(callData) ) ITK_OVERRIDE
+  void Execute( vtkObject * vtkNotUsed(caller), unsigned long eventId, void * vtkNotUsed(callData) ) override
     {
     if( vtkCommand::TimerEvent == eventId )
       {
@@ -333,7 +333,7 @@ public:
     return new ExitOnTimer;
     }
 
-  void Execute( vtkObject * caller, unsigned long eventId, void * callData ) ITK_OVERRIDE
+  void Execute( vtkObject * caller, unsigned long eventId, void * callData ) override
     {
     if( vtkCommand::TimerEvent == eventId )
       {

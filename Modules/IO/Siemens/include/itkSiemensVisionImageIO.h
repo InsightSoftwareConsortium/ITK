@@ -69,7 +69,7 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified.
    */
-  bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
+  bool CanReadFile(const char *FileNameToRead) override;
 
   /* * Set the spacing and dimension information for the set filename. */
   // Implemented in superclass
@@ -111,10 +111,10 @@ public:
 
 protected:
   SiemensVisionImageIO();
-  ~SiemensVisionImageIO() ITK_OVERRIDE;
+  ~SiemensVisionImageIO() override;
   // Implemented in superclass
   //      void PrintSelf(std::ostream& os, Indent indent) const;
-  GEImageHeader * ReadHeader(const char *FileNameToRead) ITK_OVERRIDE;
+  GEImageHeader * ReadHeader(const char *FileNameToRead) override;
 
 private:
   typedef enum {

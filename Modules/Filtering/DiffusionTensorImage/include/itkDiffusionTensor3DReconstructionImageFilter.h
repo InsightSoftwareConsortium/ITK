@@ -278,17 +278,17 @@ public:
 
 protected:
   DiffusionTensor3DReconstructionImageFilter();
-  ~DiffusionTensor3DReconstructionImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~DiffusionTensor3DReconstructionImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void ComputeTensorBasis();
 
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   void ThreadedGenerateData(const
-                            OutputImageRegionType & outputRegionForThread, ThreadIdType) ITK_OVERRIDE;
+                            OutputImageRegionType & outputRegionForThread, ThreadIdType) override;
 
-  void VerifyPreconditions() ITK_OVERRIDE;
+  void VerifyPreconditions() override;
 
   /** enum to indicate if the gradient image is specified as a single multi-
    * component image or as several separate images */

@@ -77,7 +77,7 @@ public:
 
 protected:
   ProjectedLandweberDeconvolutionImageFilter();
-  ~ProjectedLandweberDeconvolutionImageFilter() ITK_OVERRIDE;
+  ~ProjectedLandweberDeconvolutionImageFilter() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ProjectedLandweberDeconvolutionImageFilter);

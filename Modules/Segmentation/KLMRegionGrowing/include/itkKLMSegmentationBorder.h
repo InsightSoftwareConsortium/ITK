@@ -179,10 +179,10 @@ protected:
   KLMSegmentationBorder();
 
   /** Destructor. */
-  ~KLMSegmentationBorder() ITK_OVERRIDE;
+  ~KLMSegmentationBorder() override;
 
   /** Print self identity */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(KLMSegmentationBorder);

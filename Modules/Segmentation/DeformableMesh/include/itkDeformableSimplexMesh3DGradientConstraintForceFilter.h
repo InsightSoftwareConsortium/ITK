@@ -148,15 +148,15 @@ public:
 
 protected:
   DeformableSimplexMesh3DGradientConstraintForceFilter();
-  ~DeformableSimplexMesh3DGradientConstraintForceFilter() ITK_OVERRIDE;
+  ~DeformableSimplexMesh3DGradientConstraintForceFilter() override;
   DeformableSimplexMesh3DGradientConstraintForceFilter(const Self &) {}
   void operator=(const Self &){}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Compute the external force component
    */
-  void ComputeExternalForce(SimplexMeshGeometry *data, const GradientImageType *gradientImage) ITK_OVERRIDE;
+  void ComputeExternalForce(SimplexMeshGeometry *data, const GradientImageType *gradientImage) override;
 
   /**
    * Range of search for Bresenham algorithm (normal line at each vertex)

@@ -149,15 +149,15 @@ public:
 
 protected:
   TimeVaryingVelocityFieldIntegrationImageFilter();
-  ~TimeVaryingVelocityFieldIntegrationImageFilter() ITK_OVERRIDE;
+  ~TimeVaryingVelocityFieldIntegrationImageFilter() override;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  void ThreadedGenerateData( const OutputRegionType &, ThreadIdType ) ITK_OVERRIDE;
+  void ThreadedGenerateData( const OutputRegionType &, ThreadIdType ) override;
 
   VectorType IntegrateVelocityAtPoint( const PointType &initialSpatialPoint, const TimeVaryingVelocityFieldType * inputField );
 

@@ -85,11 +85,11 @@ public:
   PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
                                   const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  ) ITK_OVERRIDE;
+                                  ) override;
 
 protected:
   MinMaxCurvatureFlowFunction();
-  ~MinMaxCurvatureFlowFunction() ITK_OVERRIDE {}
+  ~MinMaxCurvatureFlowFunction() override {}
 
   typedef Neighborhood< PixelType, itkGetStaticConstMacro(ImageDimension) > StencilOperatorType;
   StencilOperatorType m_StencilOperator;

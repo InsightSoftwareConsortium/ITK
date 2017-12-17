@@ -213,12 +213,12 @@ public:
    * SmartPointer to a DataObject. If a subclass of ImageSource has
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
-  ProcessObject::DataObjectPointer MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
-  ProcessObject::DataObjectPointer MakeOutput(const ProcessObject::DataObjectIdentifierType &) ITK_OVERRIDE;
+  ProcessObject::DataObjectPointer MakeOutput(ProcessObject::DataObjectPointerArraySizeType idx) override;
+  ProcessObject::DataObjectPointer MakeOutput(const ProcessObject::DataObjectIdentifierType &) override;
 
 protected:
   ImageSource();
-  ~ImageSource() ITK_OVERRIDE {}
+  ~ImageSource() override {}
 
   /** A version of GenerateData() specific for image processing
    * filters.  This implementation will split the processing across
@@ -235,7 +235,7 @@ protected:
    * instead.
    *
    * \sa ThreadedGenerateData() */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** If an imaging filter can be implemented as a multithreaded
    * algorithm, the filter will provide an implementation of

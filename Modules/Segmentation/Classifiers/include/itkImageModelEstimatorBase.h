@@ -130,10 +130,10 @@ public:
 
 protected:
   ImageModelEstimatorBase();
-  ~ImageModelEstimatorBase() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImageModelEstimatorBase() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
 

@@ -62,12 +62,12 @@ protected:
     this->m_OutputMesh = ITK_NULLPTR;
   }
 
-  ~DecimationQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~DecimationQuadEdgeMeshFilter() override {}
 
   CriterionPointer m_Criterion;
   SizeValueType    m_Iteration;
 
-  void GenerateData() ITK_OVERRIDE
+  void GenerateData() override
   {
     this->CopyInputMeshToOutputMesh();
 
@@ -102,7 +102,7 @@ protected:
 
   virtual bool IsCriterionSatisfied() = 0;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     this->Superclass::PrintSelf(os, indent);
     os << indent << "Criterion: " << m_Criterion << std::endl;

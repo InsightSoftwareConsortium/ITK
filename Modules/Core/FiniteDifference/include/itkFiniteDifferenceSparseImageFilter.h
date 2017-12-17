@@ -114,17 +114,17 @@ public:
 
 protected:
   FiniteDifferenceSparseImageFilter();
-  ~FiniteDifferenceSparseImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~FiniteDifferenceSparseImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method splits the active pixels of the sparse image into equal size
    *  lists for multi-threading. These lists remain constant throughout the
    *  operation of this filter. */
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** This class does not use AllocateUpdateBuffer to allocate memory for its
    *  narrow band. All memory is handled through the SparseImage class. */
-  void AllocateUpdateBuffer() ITK_OVERRIDE {}
+  void AllocateUpdateBuffer() override {}
 
   /** This function can be used to implements constraints on the range of data
    * values. Default is no constraint. */
@@ -146,7 +146,7 @@ protected:
 
   /** This function updates the m_Data variable in the output image nodes using
       the update values computed by CalculateChange. */
-  void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
+  void ApplyUpdate(const TimeStepType& dt) override;
 
   /** Multi-threaded implementation of ApplyUpdate. */
   static ITK_THREAD_RETURN_TYPE ApplyUpdateThreaderCallback(void *arg);
@@ -157,7 +157,7 @@ protected:
 
   /** This method computes changes to the output image using the
       ComputeSparseUpdate method in the Sparse Function object. */
-  TimeStepType CalculateChange() ITK_OVERRIDE;
+  TimeStepType CalculateChange() override;
 
   /** Multuthreaded implementation of CalculateChange */
   static ITK_THREAD_RETURN_TYPE CalculateChangeThreaderCallback(void *arg);

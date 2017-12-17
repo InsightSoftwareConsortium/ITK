@@ -119,7 +119,7 @@ public:
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  void Initialize( void ) ITK_OVERRIDE;
+  void Initialize( void ) override;
 
   /**
    * Set the alpha parameter used to tune the point-set metric from
@@ -204,23 +204,23 @@ public:
   itkGetConstMacro( KernelSigma, RealType );
 
   MeasureType GetLocalNeighborhoodValue( const PointType & point,
-    const PixelType & pixel = 0 ) const ITK_OVERRIDE;
+    const PixelType & pixel = 0 ) const override;
 
   void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType &,
-    LocalDerivativeType &, const PixelType & pixel = 0 ) const ITK_OVERRIDE;
+    LocalDerivativeType &, const PixelType & pixel = 0 ) const override;
 
   /** Clone method will clone the existing instance of this type,
    *  including its internal member variables. */
-  typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
 protected:
   JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4();
-  ~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() ITK_OVERRIDE;
+  ~JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4() override;
 
   void ComputeValueAndDerivative( const PointType & samplePoint, MeasureType & value,
     LocalDerivativeType &derivativeReturn, bool calcValue, bool calcDerivative ) const;
 
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4);

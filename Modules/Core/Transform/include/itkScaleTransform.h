@@ -100,22 +100,22 @@ public:
    *  specified by the user. The parameters are organized as scale[i] =
    *  parameter[i]. That means that in 3D the scale parameters for the coordinates
    *  {x,y,z} are {parameter[0], parameter[1], parameter[2]} respectively */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
 
   /** Get the parameters that uniquely define the transform This is typically
    * used by optimizers during the process of image registration.  The parameters
    * are organized as {scale X, scale Y, scale Z } = { parameter[0],
    * parameter[1], parameter[2] } respectively */
-  const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const override;
 
   /** Get the Jacobian matrix. */
-  void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const override;
 
   /** Get the jacobian with respect to position, which simply is the
    *  matrix because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const override;
 
   /** Set the factors of an Scale Transform
    * This method sets the factors of an ScaleTransform to a
@@ -127,7 +127,7 @@ public:
    * corresponds to Z. */
   void SetScale(const ScaleType & scale);
 
-  void ComputeMatrix(void) ITK_OVERRIDE;
+  void ComputeMatrix(void) override;
 
   /** Compose with another ScaleTransform. */
   void Compose(const Self *other, bool pre = false);
@@ -141,15 +141,15 @@ public:
    * This method applies the scale transform given by self to a
    * given point or vector, returning the transformed point or
    * vector. */
-  OutputPointType     TransformPoint(const InputPointType  & point) const ITK_OVERRIDE;
+  OutputPointType     TransformPoint(const InputPointType  & point) const override;
 
   using Superclass::TransformVector;
-  OutputVectorType    TransformVector(const InputVectorType & vector) const ITK_OVERRIDE;
+  OutputVectorType    TransformVector(const InputVectorType & vector) const override;
 
-  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const ITK_OVERRIDE;
+  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const override;
 
   using Superclass::TransformCovariantVector;
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const ITK_OVERRIDE;
+  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const override;
 
   /** Back transform by a scale transformation
    * This method finds the point or vector that maps to a given
@@ -170,12 +170,12 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const override;
 
   /** Set the transformation to an Identity
    *
    * This sets all the scales to 1.0 */
-  void SetIdentity() ITK_OVERRIDE;
+  void SetIdentity() override;
 
   /** Get access to scale values */
   itkGetConstReferenceMacro(Scale, ScaleType);
@@ -185,10 +185,10 @@ protected:
   ScaleTransform();
 
   /** Destroy an ScaleTransform object. */
-  ~ScaleTransform() ITK_OVERRIDE;
+  ~ScaleTransform() override;
 
   /** Print contents of an ScaleTransform */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScaleTransform);

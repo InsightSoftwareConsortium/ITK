@@ -85,7 +85,7 @@ public:
   itkGetConstMacro(NumberOfThresholds, SizeValueType);
 
   /** Calculates Otsu's thresholds and saves them. */
-  void Compute() ITK_OVERRIDE;
+  void Compute() override;
 
   /** Set/Get the use of valley emphasis. Default is false. */
   itkSetMacro(ValleyEmphasis, bool);
@@ -94,8 +94,8 @@ public:
 
 protected:
   OtsuMultipleThresholdsCalculator();
-  ~OtsuMultipleThresholdsCalculator() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~OtsuMultipleThresholdsCalculator() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Increment the thresholds of one position along the histogram. */
   bool IncrementThresholds(InstanceIdentifierVectorType & thresholdIds,

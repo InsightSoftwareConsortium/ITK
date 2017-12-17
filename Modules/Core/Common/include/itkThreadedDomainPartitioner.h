@@ -78,7 +78,7 @@ public:
 
 protected:
   ThreadedDomainPartitioner(){}
-  ~ThreadedDomainPartitioner() ITK_OVERRIDE {}
+  ~ThreadedDomainPartitioner() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedDomainPartitioner);

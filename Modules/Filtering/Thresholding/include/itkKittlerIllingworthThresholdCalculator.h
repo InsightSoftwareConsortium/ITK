@@ -69,9 +69,9 @@ public:
 
 protected:
   KittlerIllingworthThresholdCalculator() {}
-  ~KittlerIllingworthThresholdCalculator() ITK_OVERRIDE {}
+  ~KittlerIllingworthThresholdCalculator() override {}
 
-  void GenerateData(void) ITK_OVERRIDE;
+  void GenerateData(void) override;
 
   typedef typename HistogramType::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
   typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;

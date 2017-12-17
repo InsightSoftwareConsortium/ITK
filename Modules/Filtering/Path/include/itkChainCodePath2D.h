@@ -82,16 +82,16 @@ public:
   // Functions inherited from Path
 
   /** Evaluate the chaincode for the offset at the specified path-position. */
-  OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & input) const override;
 
   /** Like Evaluate(), but returns the index at the specified path-position. */
-  IndexType EvaluateToIndex(const InputType & input) const ITK_OVERRIDE;
+  IndexType EvaluateToIndex(const InputType & input) const override;
 
   /** Increment the input variable passed by reference and return the offset
    * stored at the previous path-position.  If the chaincode is unable to be
    * incremented, input is not changed and an offset of zero is returned, which
    * may be used to check for the end of the chain code. */
-  OffsetType IncrementInput(InputType & input) const ITK_OVERRIDE;
+  OffsetType IncrementInput(InputType & input) const override;
 
   // Functions specific to ChainCodePath and its descendents
 
@@ -99,7 +99,7 @@ public:
   itkNewMacro(Self);
 
   /** How many steps in the chaincode? */
-  ChainCodeSizeType NumberOfSteps() const ITK_OVERRIDE { return m_Chain2D.size(); }
+  ChainCodeSizeType NumberOfSteps() const override { return m_Chain2D.size(); }
 
   /** Insert a new step into the chaincode at a specified position */
   inline void InsertStep(InputType position, int encodedStep)
@@ -108,7 +108,7 @@ public:
     this->Modified();
   }
 
-  void InsertStep(InputType position, OffsetType step) ITK_OVERRIDE
+  void InsertStep(InputType position, OffsetType step) override
   {
     m_Chain2D.insert( m_Chain2D.begin() + position, EncodeOffset(step) );
     this->Modified();
@@ -121,14 +121,14 @@ public:
     this->Modified();
   }
 
-  void ChangeStep(InputType position, OffsetType step) ITK_OVERRIDE
+  void ChangeStep(InputType position, OffsetType step) override
   {
     m_Chain2D[position] = EncodeOffset(step);
     this->Modified();
   }
 
   /** Remove all steps from the chain code */
-  void Clear() ITK_OVERRIDE
+  void Clear() override
   {
     m_Chain2D.clear();
     this->Modified();
@@ -138,8 +138,8 @@ public:
 
 protected:
   ChainCodePath2D();
-  ~ChainCodePath2D() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ChainCodePath2D() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Encode and Decode between an offset and a Freeman code */
   inline int EncodeOffset(OffsetType step) const

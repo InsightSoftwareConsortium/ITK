@@ -147,7 +147,7 @@ public:
   unsigned int GetOrder() const { return m_Order; }
 
   /** Prints member variables */
-  void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent i) const override;
 
 protected:
 
@@ -166,10 +166,10 @@ protected:
   static double ModifiedBesselI(int, double);
 
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients() ITK_OVERRIDE;
+  CoefficientVector GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & coeff) ITK_OVERRIDE
+  void Fill(const CoefficientVector & coeff) override
   { this->FillCenteredDirectional(coeff); }
 
 private:
@@ -179,7 +179,7 @@ private:
   CoefficientVector GenerateGaussianCoefficients() const;
 
   /** For compatibility with itkWarningMacro */
-  const char * GetNameOfClass() const ITK_OVERRIDE
+  const char * GetNameOfClass() const override
   {
     return "itkGaussianDerivativeOperator";
   }

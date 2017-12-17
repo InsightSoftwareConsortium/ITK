@@ -97,13 +97,13 @@ public:
   /** Test whether a point is inside or outside the object. */
   bool IsInside(const PointType & point,
                         unsigned int depth = 0,
-                        char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+                        char *name = ITK_NULLPTR) const override;
 
 protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObject);
 
   PolygonGroupSpatialObject(void) {}
-  ~PolygonGroupSpatialObject(void) ITK_OVERRIDE {}
+  ~PolygonGroupSpatialObject(void) override {}
 };
 }
 #ifndef ITK_MANUAL_INSTANTIATION

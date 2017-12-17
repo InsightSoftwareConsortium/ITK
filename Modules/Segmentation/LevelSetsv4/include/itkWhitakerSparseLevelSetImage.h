@@ -83,7 +83,7 @@ public:
 
   /** Returns the value of the level set function at a given location iP */
   using Superclass::Evaluate;
-  OutputType Evaluate( const InputType& inputIndex ) const ITK_OVERRIDE;
+  OutputType Evaluate( const InputType& inputIndex ) const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -126,12 +126,12 @@ public:
 
 protected:
   WhitakerSparseLevelSetImage();
-  ~WhitakerSparseLevelSetImage() ITK_OVERRIDE;
+  ~WhitakerSparseLevelSetImage() override;
 
   /** Initialize the sparse field layers */
-  void InitializeLayers() ITK_OVERRIDE;
+  void InitializeLayers() override;
 
-  void InitializeInternalLabelList() ITK_OVERRIDE;
+  void InitializeInternalLabelList() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WhitakerSparseLevelSetImage);

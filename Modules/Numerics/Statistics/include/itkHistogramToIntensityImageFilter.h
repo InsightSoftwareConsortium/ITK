@@ -98,7 +98,7 @@ public:
 
 protected:
   HistogramToIntensityImageFilter() {}
-  ~HistogramToIntensityImageFilter() ITK_OVERRIDE {}
+  ~HistogramToIntensityImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToIntensityImageFilter);

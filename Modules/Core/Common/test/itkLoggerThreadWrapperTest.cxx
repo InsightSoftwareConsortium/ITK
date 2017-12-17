@@ -50,7 +50,7 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro( Self );
 
-  std::string BuildFormattedEntry(PriorityLevelType level, std::string const & content) ITK_OVERRIDE
+  std::string BuildFormattedEntry(PriorityLevelType level, std::string const & content) override
     {
     std::string HeaderLevelStart("");
     std::string HeaderLevelStop("");
@@ -92,7 +92,7 @@ protected:
   /** Constructor */
   SimpleLogger() {};
   /** Destructor */
-  ~SimpleLogger() ITK_OVERRIDE {};
+  ~SimpleLogger() override {};
 };  // class Logger
 
 class LogTester

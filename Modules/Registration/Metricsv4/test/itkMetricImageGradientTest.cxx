@@ -112,7 +112,7 @@ protected:
                              const MovingImageGradientType &  itkNotUsed(mappedMovingImageGradient),
                              MeasureType &                    itkNotUsed(metricValueReturn),
                              DerivativeType &                 itkNotUsed(localDerivativeReturn),
-                             const ThreadIdType               itkNotUsed(threadId) ) const ITK_OVERRIDE
+                             const ThreadIdType               itkNotUsed(threadId) ) const override
   {
     return false;
   }
@@ -174,7 +174,7 @@ protected:
     this->m_SparseGetValueAndDerivativeThreader = VanillaSparseGetValueAndDerivativeThreaderType::New();
   }
 
-  ~VanillaImageToImageMetricv4() ITK_OVERRIDE {}
+  ~VanillaImageToImageMetricv4() override {}
 
   // template <unsigned int VVirtualImageDimension, typename TMovingTransformType>
   // template <>

@@ -169,8 +169,8 @@ public:
 
 protected:
   ExpectationMaximizationMixtureModelEstimator();
-  ~ExpectationMaximizationMixtureModelEstimator() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ExpectationMaximizationMixtureModelEstimator() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   bool CalculateDensities();
 

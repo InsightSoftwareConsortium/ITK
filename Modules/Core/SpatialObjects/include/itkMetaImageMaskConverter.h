@@ -51,12 +51,12 @@ public:
   itkTypeMacro(MetaImageMaskConverter, MetaImageConverter);
 
 protected:
-  const char *GetMetaObjectSubType() ITK_OVERRIDE
+  const char *GetMetaObjectSubType() override
   {
     return "Mask";
   }
   MetaImageMaskConverter() {}
-  ~MetaImageMaskConverter() ITK_OVERRIDE {}
+  ~MetaImageMaskConverter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageMaskConverter);

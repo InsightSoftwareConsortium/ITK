@@ -75,7 +75,7 @@ public:
 
 protected:
   MultipleValuedCostFunction() {}
-  ~MultipleValuedCostFunction() ITK_OVERRIDE;
+  ~MultipleValuedCostFunction() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultipleValuedCostFunction);

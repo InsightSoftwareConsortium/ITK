@@ -79,7 +79,7 @@ public:
   typedef double OutputType;
 
   /**Evaluate at the specified input position */
-  OutputType Evaluate( const InputType & itkNotUsed( input ) ) const ITK_OVERRIDE
+  OutputType Evaluate( const InputType & itkNotUsed( input ) ) const override
     {
     MeasurementVectorType measurements;
     // set the weight factor of the measurment
@@ -89,7 +89,7 @@ public:
 
 protected:
   WeightedCovarianceTestFunction() {}
-  ~WeightedCovarianceTestFunction() ITK_OVERRIDE {}
+  ~WeightedCovarianceTestFunction() override {}
 }; // end of class
 
 

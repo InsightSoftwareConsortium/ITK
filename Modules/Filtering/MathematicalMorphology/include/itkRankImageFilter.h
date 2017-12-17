@@ -123,11 +123,11 @@ public:
 
 protected:
   RankImageFilter();
-  ~RankImageFilter() ITK_OVERRIDE {}
+  ~RankImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void ConfigureHistogram( HistogramType & histogram ) ITK_OVERRIDE;
+  void ConfigureHistogram( HistogramType & histogram ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RankImageFilter);

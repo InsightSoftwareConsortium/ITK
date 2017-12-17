@@ -71,21 +71,21 @@ public:
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
   /** Evaluate the function at specified Point position.*/
-  OutputType Evaluate(const PointType & itkNotUsed(point) ) const ITK_OVERRIDE
+  OutputType Evaluate(const PointType & itkNotUsed(point) ) const override
     {
     OutputType result(0);
     return result;
     }
 
   /** Evaluate the function at specified Index position. */
-  OutputType EvaluateAtIndex(const IndexType & itkNotUsed(index) ) const ITK_OVERRIDE
+  OutputType EvaluateAtIndex(const IndexType & itkNotUsed(index) ) const override
     {
     OutputType result(0);
     return result;
     }
 
   /** Evaluate the function at specified ContinuousIndex position. */
-  OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & itkNotUsed(index) ) const ITK_OVERRIDE
+  OutputType EvaluateAtContinuousIndex( const ContinuousIndexType & itkNotUsed(index) ) const override
     {
     OutputType result(0);
     return result;
@@ -93,7 +93,7 @@ public:
 
 protected:
   TestImageFunction(){};
-  ~TestImageFunction() ITK_OVERRIDE {};
+  ~TestImageFunction() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TestImageFunction);

@@ -85,26 +85,26 @@ public:
 
 protected:
 
-  void InitializePyramidSplineFilter(int SplineOrder) ITK_OVERRIDE;
+  void InitializePyramidSplineFilter(int SplineOrder) override;
 
   void Reduce1DImage(
     const std::vector< double > & In,
     OutputImageIterator & Iter,
     unsigned int traverseSize,
     ProgressReporter & progress
-    ) ITK_OVERRIDE;
+    ) override;
 
   void Expand1DImage(
     const std::vector< double > & In,
     OutputImageIterator & Iter,
     unsigned int traverseSize,
     ProgressReporter & progress
-    ) ITK_OVERRIDE;
+    ) override;
 
 protected:
   BSplineCenteredResampleImageFilterBase();
-  ~BSplineCenteredResampleImageFilterBase() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BSplineCenteredResampleImageFilterBase() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineCenteredResampleImageFilterBase);

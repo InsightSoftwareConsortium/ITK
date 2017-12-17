@@ -99,17 +99,17 @@ public:
 
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
-  void Update() ITK_OVERRIDE;
+  void Update() override;
 
   /** Write the entire video to a file, if possible. This is the same as
    * calling write or update without setting an output temporal region. */
-  void UpdateLargestPossibleRegion() ITK_OVERRIDE;
+  void UpdateLargestPossibleRegion() override;
 
 protected:
 
   VideoFileWriter();
-  ~VideoFileWriter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream &os, Indent indent) const ITK_OVERRIDE;
+  ~VideoFileWriter() override;
+  void PrintSelf(std::ostream &os, Indent indent) const override;
 
   /** Initialize output parameters. */
   bool InitializeOutputParameters();
@@ -120,7 +120,7 @@ protected:
   bool InitializeVideoIO();
 
   /** Override TemporalStreamingGenerateData to do the actual writing. */
-  void TemporalStreamingGenerateData() ITK_OVERRIDE;
+  void TemporalStreamingGenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileWriter);

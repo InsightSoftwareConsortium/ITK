@@ -254,12 +254,12 @@ public:
 public:
 
   // Multithreading framework: not tested yet.
-  bool RequestedRegionIsOutsideOfTheBufferedRegion() ITK_OVERRIDE
+  bool RequestedRegionIsOutsideOfTheBufferedRegion() override
   {
     return ( false );
   }
 
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** another way of deleting all the cells */
   virtual void Clear();
@@ -277,8 +277,8 @@ public:
    * and
    * http://public.kitware.com/pipermail/insight-users/2005-April/012613.html
    */
-  void CopyInformation(const DataObject *data) ITK_OVERRIDE { (void)data; }
-  void Graft(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) override { (void)data; }
+  void Graft(const DataObject *data) override;
 
   /** squeeze the point container to be able to write the file properly */
   void SqueezePointsIds();
@@ -500,7 +500,7 @@ public:
 protected:
   /** Constructor and Destructor. */
   QuadEdgeMesh();
-  ~QuadEdgeMesh() ITK_OVERRIDE;
+  ~QuadEdgeMesh() override;
 
   /** Release the memory of each one of the cells independently. */
   virtual void ClearCellsContainer();

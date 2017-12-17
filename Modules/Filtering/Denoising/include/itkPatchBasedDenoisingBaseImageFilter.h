@@ -247,13 +247,13 @@ public:
 
 protected:
   PatchBasedDenoisingBaseImageFilter();
-  ~PatchBasedDenoisingBaseImageFilter() ITK_OVERRIDE;
+  ~PatchBasedDenoisingBaseImageFilter() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   virtual void CopyInputToOutput() = 0;
 

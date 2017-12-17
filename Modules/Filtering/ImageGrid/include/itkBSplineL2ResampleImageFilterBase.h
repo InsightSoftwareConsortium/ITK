@@ -95,11 +95,11 @@ public:
 
 protected:
 
-  void InitializePyramidSplineFilter(int SplineOrder) ITK_OVERRIDE;
+  void InitializePyramidSplineFilter(int SplineOrder) override;
 
   BSplineL2ResampleImageFilterBase();
-  ~BSplineL2ResampleImageFilterBase() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BSplineL2ResampleImageFilterBase() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineL2ResampleImageFilterBase);

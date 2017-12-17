@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~RenyiEntropyThresholdImageFilter() ITK_OVERRIDE {};
+  ~RenyiEntropyThresholdImageFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RenyiEntropyThresholdImageFilter);

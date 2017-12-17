@@ -209,7 +209,7 @@ public:
   void SetTransformParameters(const ParametersType & parameters) const;
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const override
   {
     return m_Transform->GetNumberOfParameters();
   }
@@ -315,9 +315,9 @@ public:
 
 protected:
   ImageToImageMetric();
-  ~ImageToImageMetric() ITK_OVERRIDE;
+  ~ImageToImageMetric() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** \class FixedImageSamplePoint
    * A fixed image spatial sample consists of the fixed domain point

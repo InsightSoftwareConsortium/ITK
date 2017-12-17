@@ -124,7 +124,7 @@ public:
    * This value is calculated for the current iteration */
   virtual double GetMetric() const;
 
-  const double & GetRMSChange() const ITK_OVERRIDE;
+  const double & GetRMSChange() const override;
 
   virtual void SetUseGradientType(GradientType gtype);
 
@@ -153,18 +153,18 @@ public:
 
 protected:
   DiffeomorphicDemonsRegistrationFilter();
-  ~DiffeomorphicDemonsRegistrationFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~DiffeomorphicDemonsRegistrationFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration. */
-  void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * FiniteDifferenceFilter::GenerateData(). */
-  void AllocateUpdateBuffer() ITK_OVERRIDE;
+  void AllocateUpdateBuffer() override;
 
   /** Apply update. */
-  void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
+  void ApplyUpdate(const TimeStepType& dt) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DiffeomorphicDemonsRegistrationFilter);

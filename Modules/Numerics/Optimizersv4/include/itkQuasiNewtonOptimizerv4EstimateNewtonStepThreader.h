@@ -52,10 +52,10 @@ public:
 
 protected:
   void ThreadedExecution( const IndexRangeType & subrange,
-                                  const ThreadIdType threadId ) ITK_OVERRIDE;
+                                  const ThreadIdType threadId ) override;
 
   QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() {}
-  ~QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() ITK_OVERRIDE {}
+  ~QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate);

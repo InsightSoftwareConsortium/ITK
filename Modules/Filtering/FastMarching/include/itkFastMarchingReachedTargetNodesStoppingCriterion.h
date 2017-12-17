@@ -91,7 +91,7 @@ public:
   }
 
   /** \brief Set the current node */
-  void SetCurrentNode( const NodeType& iNode ) ITK_OVERRIDE
+  void SetCurrentNode( const NodeType& iNode ) override
   {
     if( !m_Initialized )
       {
@@ -133,13 +133,13 @@ public:
   }
 
   /** \brief returns if the stopping condition is satisfied or not. */
-  bool IsSatisfied() const ITK_OVERRIDE
+  bool IsSatisfied() const override
   {
     return m_Satisfied && ( this->m_CurrentValue >= m_StoppingValue );
   }
 
   /** \brief Get a short description of the stopping criterion. */
-  std::string GetDescription() const ITK_OVERRIDE
+  std::string GetDescription() const override
   {
     return "Target Nodes Reached with possible overshoot";
   }
@@ -159,7 +159,7 @@ protected:
   }
 
   /** Destructor */
-  ~FastMarchingReachedTargetNodesStoppingCriterion() ITK_OVERRIDE {}
+  ~FastMarchingReachedTargetNodesStoppingCriterion() override {}
 
   TargetConditionType     m_TargetCondition;
   std::vector< NodeType > m_TargetNodes;
@@ -170,7 +170,7 @@ protected:
   bool                    m_Satisfied;
   bool                    m_Initialized;
 
-  void Reset() ITK_OVERRIDE
+  void Reset() override
   {
     this->Initialize();
   }

@@ -175,8 +175,8 @@ protected:
 
 protected:
   SimplexMeshVolumeCalculator();
-  ~SimplexMeshVolumeCalculator() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SimplexMeshVolumeCalculator() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMeshVolumeCalculator);

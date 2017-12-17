@@ -86,7 +86,7 @@ protected:
     this->SetDifferenceFunction(p);
   }
 
-  ~GradientAnisotropicDiffusionImageFilter() ITK_OVERRIDE {}
+  ~GradientAnisotropicDiffusionImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientAnisotropicDiffusionImageFilter);

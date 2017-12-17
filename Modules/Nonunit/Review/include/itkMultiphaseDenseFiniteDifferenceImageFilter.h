@@ -190,21 +190,21 @@ protected:
     // this->m_UpdateCounter = 0;        // FIXME: Should this be a bool ?
   }
 
-  ~MultiphaseDenseFiniteDifferenceImageFilter() ITK_OVERRIDE {}
+  ~MultiphaseDenseFiniteDifferenceImageFilter() override {}
 
-  void PrintSelf(std::ostream &, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream &, Indent indent) const override;
 
   /** A simple method to copy the data from the input to the output.  ( Supports
    * "read-only" image adaptors in the case where the input image type converts
    * to a different output image type. )  */
-  void CopyInputToOutput() ITK_OVERRIDE;
+  void CopyInputToOutput() override;
 
-  void PostProcessOutput() ITK_OVERRIDE;
+  void PostProcessOutput() override;
 
   /** This method applies changes from the m_UpdateBuffer to the output using
    * the ThreadedApplyUpdate() method and a multithreading mechanism.  "dt" is
    * the time step to use for the update of each pixel. */
-  void ApplyUpdate(TimeStepType dt) ITK_OVERRIDE;
+  void ApplyUpdate(TimeStepType dt) override;
 
   unsigned int m_ReinitializeCounter;  // FIXME: Should this be a boolean ?
   // unsigned int m_UpdateCounter;        // FIXME: Should this be a boolean ?
@@ -214,12 +214,12 @@ private:
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */
-  void AllocateUpdateBuffer() ITK_OVERRIDE;
+  void AllocateUpdateBuffer() override;
 
   /** This method populates an update buffer with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading
    * mechanism. Returns value is a time step to be used for the update. */
-  TimeStepType CalculateChange() ITK_OVERRIDE;
+  TimeStepType CalculateChange() override;
 
   /** The buffer that holds the updates for an iteration of the algorithm. */
   std::vector< InputImagePointer > m_UpdateBuffers;

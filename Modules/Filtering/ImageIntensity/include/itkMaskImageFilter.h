@@ -219,7 +219,7 @@ public:
     return this->GetFunctor().GetMaskingValue();
   }
 
-  void BeforeThreadedGenerateData() ITK_OVERRIDE
+  void BeforeThreadedGenerateData() override
   {
     typedef typename TOutputImage::PixelType PixelType;
     this->CheckOutsideValue( static_cast<PixelType*>(ITK_NULLPTR) );
@@ -237,9 +237,9 @@ public:
 
 protected:
   MaskImageFilter() {}
-  ~MaskImageFilter() ITK_OVERRIDE {}
+  ~MaskImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "OutsideValue: "  << this->GetOutsideValue() << std::endl;

@@ -131,13 +131,13 @@ public:
 
   /** This function initializes the m_NodeList and m_NodeStore variables, and
       calls the superclass Initialize method. */
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
 protected:
   SparseImage();
-  ~SparseImage() ITK_OVERRIDE {}
+  ~SparseImage() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** The variables for storing the node variables. */

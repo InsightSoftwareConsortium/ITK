@@ -123,12 +123,12 @@ public:
     x[0] = m_TestSTD[0]; x[1] = m_TestSTD[1]; x[2] = m_TestSTD[2];
   }
 
-  void TakeAPrior(const BinaryObjectImage *aprior) ITK_OVERRIDE;
+  void TakeAPrior(const BinaryObjectImage *aprior) override;
 
   using Superclass::SetInput;
-  void SetInput(const InputImageType *input) ITK_OVERRIDE;
+  void SetInput(const InputImageType *input) override;
 
-  void SetInput(unsigned int, const InputImageType *image) ITK_OVERRIDE;
+  void SetInput(unsigned int, const InputImageType *image) override;
 
   /** ImageDimension enumeration   */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -149,8 +149,8 @@ public:
 
 protected:
   VoronoiSegmentationRGBImageFilter();
-  ~VoronoiSegmentationRGBImageFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VoronoiSegmentationRGBImageFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   double m_Mean[6];
@@ -164,7 +164,7 @@ private:
   unsigned int m_TestSTD[3];
   typename RGBHCVImage::Pointer m_WorkingImage;
 
-  bool TestHomogeneity(IndexList & Plist) ITK_OVERRIDE;
+  bool TestHomogeneity(IndexList & Plist) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationRGBImageFilter);

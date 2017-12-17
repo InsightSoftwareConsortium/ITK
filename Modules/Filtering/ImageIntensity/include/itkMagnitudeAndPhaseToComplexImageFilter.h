@@ -131,7 +131,7 @@ public:
 
 protected:
   MagnitudeAndPhaseToComplexImageFilter() {}
-  ~MagnitudeAndPhaseToComplexImageFilter() ITK_OVERRIDE {}
+  ~MagnitudeAndPhaseToComplexImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MagnitudeAndPhaseToComplexImageFilter);

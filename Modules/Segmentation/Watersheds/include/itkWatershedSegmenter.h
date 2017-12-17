@@ -172,7 +172,7 @@ public:
   { this->ProcessObject::SetNthOutput(2, b); }
 
   /** Standard non-threaded pipeline execution method. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** This method is necessary until the streaming mechanisms of the Itk
    * pipeline are full fleshed out.  It is only used for streaming
@@ -199,7 +199,7 @@ public:
   /** Standard itk::ProcessObject subclass method. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** Gets/Sets the initial label (IdentifierType integer value) used
    * by the labeling algorithm.  Only necessary for streaming applications. */
@@ -266,8 +266,8 @@ protected:
 
   Segmenter();
   Segmenter(const Self &) {}
-  ~Segmenter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~Segmenter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void operator=(const Self &) {}
 
@@ -278,11 +278,11 @@ protected:
   /** This method asks for an image region that is one pixel larger
    * at each boundary than the region being processed.  This single pixel
    * expansion represents an overlap with adjacent image chunks   */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
-  void GenerateOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void GenerateOutputRequestedRegion(DataObject *output) override;
 
-  void UpdateOutputInformation() ITK_OVERRIDE;
+  void UpdateOutputInformation() override;
 
   /**  Allocates boundary structure information and sets the
    * boundary data to null values.   */

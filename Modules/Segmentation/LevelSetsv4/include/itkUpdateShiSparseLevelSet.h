@@ -105,7 +105,7 @@ public:
 
 protected:
   UpdateShiSparseLevelSet();
-  ~UpdateShiSparseLevelSet() ITK_OVERRIDE;
+  ~UpdateShiSparseLevelSet() override;
 
   // output
   LevelSetPointer   m_OutputLevelSet;

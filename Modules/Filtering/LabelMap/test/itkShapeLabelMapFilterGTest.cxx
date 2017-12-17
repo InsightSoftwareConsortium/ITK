@@ -32,11 +32,11 @@ class ShapeLabelMapFixture
 {
 public:
   ShapeLabelMapFixture() {}
-  ~ShapeLabelMapFixture() ITK_OVERRIDE {}
+  ~ShapeLabelMapFixture() override {}
 
 protected:
-  void SetUp() ITK_OVERRIDE {}
-  void TearDown() ITK_OVERRIDE {}
+  void SetUp() override {}
+  void TearDown() override {}
 
   template<unsigned int D, typename TPixelType = unsigned short>
   struct FixtureUtilities

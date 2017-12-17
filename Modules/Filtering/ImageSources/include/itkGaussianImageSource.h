@@ -116,20 +116,20 @@ public:
    * values in the parameter array are the Sigma parameters in each
    * dimension, the next N values are the Mean parameters in each
    * dimension, and the last value is the Scale. */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
-  ParametersType GetParameters() const ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
+  ParametersType GetParameters() const override;
 
   /** Get the number of parameters for this image source. When this
    * source is templated over an N-dimensional output image type, the
    * number of parameters is 2*N+1. */
-  unsigned int GetNumberOfParameters() const ITK_OVERRIDE;
+  unsigned int GetNumberOfParameters() const override;
 
 protected:
   GaussianImageSource();
   // ~GaussianImageSource(); default implementation ok
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianImageSource);

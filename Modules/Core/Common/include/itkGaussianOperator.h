@@ -142,7 +142,7 @@ public:
   {   return m_MaximumKernelWidth; }
 
   /** Prints some debugging information. */
-  void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent i) const override
   {
     os << i << "GaussianOperator { this=" << this
        << ", m_Variance = " << m_Variance
@@ -169,10 +169,10 @@ public:
 
 protected:
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients() ITK_OVERRIDE;
+  CoefficientVector GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & coeff) ITK_OVERRIDE
+  void Fill(const CoefficientVector & coeff) override
   {    this->FillCenteredDirectional(coeff);  }
 
 private:

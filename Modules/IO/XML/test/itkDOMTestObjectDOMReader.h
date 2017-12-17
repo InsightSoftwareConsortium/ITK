@@ -47,7 +47,7 @@ protected:
    * This function is called automatically when update functions are performed.
    * It should fill the contents of the output object by pulling information from the intermediate DOM object.
    */
-  void GenerateData( const DOMNodeType* inputdom, const void* ) ITK_OVERRIDE;
+  void GenerateData( const DOMNodeType* inputdom, const void* ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DOMTestObjectDOMReader);

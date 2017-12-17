@@ -72,16 +72,16 @@ public:
   /** Set the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs. */
-  void SetPriorityLevel(PriorityLevelType level) ITK_OVERRIDE;
+  void SetPriorityLevel(PriorityLevelType level) override;
 
   /** Get the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
    * current outputs. */
-  PriorityLevelType GetPriorityLevel() const ITK_OVERRIDE;
+  PriorityLevelType GetPriorityLevel() const override;
 
-  void SetLevelForFlushing(PriorityLevelType level) ITK_OVERRIDE;
+  void SetLevelForFlushing(PriorityLevelType level) override;
 
-  PriorityLevelType GetLevelForFlushing() const ITK_OVERRIDE;
+  PriorityLevelType GetLevelForFlushing() const override;
 
 /** Set the delay in milliseconds between checks to see if there are any
  *  low priority messages to be processed.
@@ -94,11 +94,11 @@ public:
   virtual DelayType GetDelay() const;
 
   /** Registers another output stream with the multiple output. */
-  void AddLogOutput(OutputType *output) ITK_OVERRIDE;
+  void AddLogOutput(OutputType *output) override;
 
-  void Write(PriorityLevelType level, std::string const & content) ITK_OVERRIDE;
+  void Write(PriorityLevelType level, std::string const & content) override;
 
-  void Flush() ITK_OVERRIDE;
+  void Flush() override;
 
 protected:
 
@@ -106,10 +106,10 @@ protected:
   ThreadLogger();
 
   /** Destructor */
-  ~ThreadLogger() ITK_OVERRIDE;
+  ~ThreadLogger() override;
 
   /** Print contents of a ThreadLogger */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   static ITK_THREAD_RETURN_TYPE ThreadFunction(void *);
 

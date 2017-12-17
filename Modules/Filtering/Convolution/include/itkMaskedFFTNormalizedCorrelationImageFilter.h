@@ -237,29 +237,29 @@ protected:
     m_MaximumNumberOfOverlappingPixels = 0;
     m_AccumulatedProgress = 0.0;
   }
-  ~MaskedFFTNormalizedCorrelationImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~MaskedFFTNormalizedCorrelationImageFilter() override {}
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Overlap the VerifyInputInformation method */
-  void VerifyInputInformation() ITK_OVERRIDE;
+  void VerifyInputInformation() override;
 
   /** Standard pipeline method.*/
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** This filter needs a different input requested region than the output
    * requested region.  As such, it needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Since the output of this filter is a different
    * size than the input, it must provide an implementation of
    * GenerateOutputInformation.
    * \sa ProcessObject::GenerateOutputRequestedRegion() */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
-  void EnlargeOutputRequestedRegion( DataObject *output ) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion( DataObject *output ) override;
 
   typename TMaskImage::Pointer PreProcessMask( const InputImageType * inputImage, const MaskImageType * inputMask );
 

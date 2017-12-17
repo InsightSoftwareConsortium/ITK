@@ -69,14 +69,14 @@ protected:
 
   /** Constructor and Destructor */
   ImageFilterToVideoFilterWrapper();
-  ~ImageFilterToVideoFilterWrapper() ITK_OVERRIDE {}
+  ~ImageFilterToVideoFilterWrapper() override {}
 
   /** PrintSelf */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Since we just set up a mini image pipeline inside, we override
    * TemporalStreamingGenerateData*/
-  void TemporalStreamingGenerateData() ITK_OVERRIDE;
+  void TemporalStreamingGenerateData() override;
 
   /** Pointer to filter to use for internal filter */
   typename ImageFilterType::Pointer m_ImageFilter;

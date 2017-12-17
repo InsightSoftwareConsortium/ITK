@@ -115,7 +115,7 @@ public:
 
 protected:
   AddImageFilter() {}
-  ~AddImageFilter() ITK_OVERRIDE {}
+  ~AddImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AddImageFilter);

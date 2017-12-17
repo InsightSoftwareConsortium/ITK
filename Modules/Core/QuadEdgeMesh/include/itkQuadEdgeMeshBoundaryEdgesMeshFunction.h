@@ -58,7 +58,7 @@ public:
   itkTypeMacro(QuadEdgeMeshBoundaryEdgesMeshFunction, FunctionBase);
   itkNewMacro(Self);
 
-  OutputType Evaluate(const InputType & mesh) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & mesh) const override;
 
 protected:
   QuadEdgeMeshBoundaryEdgesMeshFunction() {}

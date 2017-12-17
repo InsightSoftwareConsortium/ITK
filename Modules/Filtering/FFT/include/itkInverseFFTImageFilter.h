@@ -74,14 +74,14 @@ public:
 
 protected:
   InverseFFTImageFilter() {}
-  ~InverseFFTImageFilter() ITK_OVERRIDE {}
+  ~InverseFFTImageFilter() override {}
 
   /** This class requires the entire input. */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Sets the output requested region to the largest possible output
    * region. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(InverseFFTImageFilter);

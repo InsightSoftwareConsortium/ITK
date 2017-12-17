@@ -95,11 +95,11 @@ public:
 
 protected:
   SpeckleNoiseImageFilter();
-  ~SpeckleNoiseImageFilter()  ITK_OVERRIDE {}
+  ~SpeckleNoiseImageFilter()  override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) ITK_OVERRIDE;
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpeckleNoiseImageFilter);

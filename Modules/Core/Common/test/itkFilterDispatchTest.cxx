@@ -69,7 +69,7 @@ public:
   typedef TOutputImage OutputImageType;
   enum { ImageDimension = InputImageType::ImageDimension };
 
-  void Update(void) ITK_OVERRIDE;
+  void Update(void) override;
 
   /**
    * Method for creation through the object factory.
@@ -80,7 +80,7 @@ protected:
   ExampleImageFilter() {}
   ExampleImageFilter(const Self&) {}
   void operator=(const Self&) {}
-  ~ExampleImageFilter() ITK_OVERRIDE {}
+  ~ExampleImageFilter() override {}
 
 private:
   /**

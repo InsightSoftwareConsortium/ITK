@@ -80,7 +80,7 @@ public:
 
 protected:
   VTKImageToImageFilter();
-  ~VTKImageToImageFilter() ITK_OVERRIDE;
+  ~VTKImageToImageFilter() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageToImageFilter);

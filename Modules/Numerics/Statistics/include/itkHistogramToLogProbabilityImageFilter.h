@@ -119,7 +119,7 @@ public:
 
 protected:
   HistogramToLogProbabilityImageFilter() {}
-  ~HistogramToLogProbabilityImageFilter() ITK_OVERRIDE {}
+  ~HistogramToLogProbabilityImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToLogProbabilityImageFilter);

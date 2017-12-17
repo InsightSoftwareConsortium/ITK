@@ -123,8 +123,8 @@ public:
 
 protected:
   WarpHarmonicEnergyCalculator();
-  ~WarpHarmonicEnergyCalculator() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~WarpHarmonicEnergyCalculator() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Get/Set the neighborhood radius used for gradient computation */
   itkGetConstReferenceMacro(NeighborhoodRadius, RadiusType);

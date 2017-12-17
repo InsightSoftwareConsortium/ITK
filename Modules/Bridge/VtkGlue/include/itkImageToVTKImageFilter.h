@@ -85,14 +85,14 @@ public:
   ExporterFilterType * GetExporter() const;
 
   /** This call delegates the update to the importer */
-  void Update() ITK_OVERRIDE;
+  void Update() override;
 
   /** This call delegates the update to the importer */
-  void UpdateLargestPossibleRegion() ITK_OVERRIDE;
+  void UpdateLargestPossibleRegion() override;
 
 protected:
   ImageToVTKImageFilter();
-  ~ImageToVTKImageFilter() ITK_OVERRIDE;
+  ~ImageToVTKImageFilter() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToVTKImageFilter);

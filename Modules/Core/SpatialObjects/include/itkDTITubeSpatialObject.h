@@ -70,10 +70,10 @@ public:
 protected:
 
   DTITubeSpatialObject();
-  ~DTITubeSpatialObject() ITK_OVERRIDE;
+  ~DTITubeSpatialObject() override;
 
   /** Method to print the object.*/
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DTITubeSpatialObject);

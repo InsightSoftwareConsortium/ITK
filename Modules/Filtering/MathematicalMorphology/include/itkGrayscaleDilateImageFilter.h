@@ -104,7 +104,7 @@ public:
 // KernelSuperclass;
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel) ITK_OVERRIDE;
+  void SetKernel(const KernelType & kernel) override;
 
   /** Set/Get the boundary value. */
   void SetBoundary(const PixelType value);
@@ -117,7 +117,7 @@ public:
   itkGetConstMacro(Algorithm, int);
 
   /** GrayscaleDilateImageFilter need to set its internal filters as modified */
-  void Modified() const ITK_OVERRIDE;
+  void Modified() const override;
 
   /** define values used to determine which algorithm to use */
   enum AlgorithmType {
@@ -127,14 +127,14 @@ public:
     VHGW = 3
     };
 
-  void SetNumberOfThreads(ThreadIdType nb) ITK_OVERRIDE;
+  void SetNumberOfThreads(ThreadIdType nb) override;
 
 protected:
   GrayscaleDilateImageFilter();
-  ~GrayscaleDilateImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GrayscaleDilateImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleDilateImageFilter);

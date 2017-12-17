@@ -141,33 +141,33 @@ public:
   /** Get the number of metrics */
   SizeValueType GetNumberOfMetrics() const;
 
-  void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) override;
 
   /** Set fixed object (image, point set, etc.)*/
-  void SetFixedObject( const ObjectType *itkNotUsed( object ) ) ITK_OVERRIDE
+  void SetFixedObject( const ObjectType *itkNotUsed( object ) ) override
     {
     itkExceptionMacro( "A single object should not be specified for the multi metric.");
     }
 
   /** Set moving object (image, point set, etc.)*/
-  void SetMovingObject( const ObjectType *itkNotUsed( object ) ) ITK_OVERRIDE
+  void SetMovingObject( const ObjectType *itkNotUsed( object ) ) override
     {
     itkExceptionMacro( "A single object should not be specified for the multi metric.");
     }
 
   /** Set each of the component metrics to use this moving transform. */
-  void SetMovingTransform( MovingTransformType * ) ITK_OVERRIDE;
+  void SetMovingTransform( MovingTransformType * ) override;
 
   /** Set each of the component metrics to use this fixed transform. */
-  void SetFixedTransform( FixedTransformType * ) ITK_OVERRIDE;
+  void SetFixedTransform( FixedTransformType * ) override;
 
   /** Evaluate the metrics and return the value of only the *first* metric.
    * \sa GetValueArray
    * \sa GetWeightedValue
    */
-  MeasureType GetValue() const ITK_OVERRIDE;
+  MeasureType GetValue() const override;
 
-  void GetDerivative( DerivativeType & ) const ITK_OVERRIDE;
+  void GetDerivative( DerivativeType & ) const override;
 
   /** Evaluate the metric value and derivative.
    * \note \param value will contain the value of only the *first* metric on return.
@@ -175,7 +175,7 @@ public:
    *
    * \sa GetValueArray
    * \sa GetWeightedValue */
-  void GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const ITK_OVERRIDE;
+  void GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override;
 
   /** Returns an itkArray of metric values, one for each component metric. It
    *  only has meaning after a call to GetValue(), GetDerivative() or GetValueAndDerivative(). */
@@ -188,12 +188,12 @@ public:
   /** Get the metrics queue */
   const MetricQueueType & GetMetricQueue() const;
 
-  bool SupportsArbitraryVirtualDomainSamples( void ) const ITK_OVERRIDE;
+  bool SupportsArbitraryVirtualDomainSamples( void ) const override;
 
   typedef typename Superclass::MetricCategoryType   MetricCategoryType;
 
   /** Get metric category */
-  MetricCategoryType GetMetricCategory() const ITK_OVERRIDE
+  MetricCategoryType GetMetricCategory() const override
     {
     return Superclass::MULTI_METRIC;
     }
@@ -201,8 +201,8 @@ public:
 protected:
 
   ObjectToObjectMultiMetricv4();
-  ~ObjectToObjectMultiMetricv4() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ObjectToObjectMultiMetricv4() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMultiMetricv4);

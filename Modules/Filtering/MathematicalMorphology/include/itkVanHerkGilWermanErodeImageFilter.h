@@ -63,7 +63,7 @@ protected:
   {
     this->m_Boundary = NumericTraits< PixelType >::max();
   }
-  ~VanHerkGilWermanErodeImageFilter() ITK_OVERRIDE {}
+  ~VanHerkGilWermanErodeImageFilter() override {}
 
 private:
 

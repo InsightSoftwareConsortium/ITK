@@ -130,10 +130,10 @@ public:
 
 protected:
   BinaryThinningImageFilter();
-  ~BinaryThinningImageFilter() ITK_OVERRIDE {}
+  ~BinaryThinningImageFilter() override {}
 
   /** Compute thinning Image. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Prepare data. */
   void PrepareData();

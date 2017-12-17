@@ -95,7 +95,7 @@ public:
 
 protected:
   TanImageFilter() {}
-  ~TanImageFilter() ITK_OVERRIDE {}
+  ~TanImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TanImageFilter);

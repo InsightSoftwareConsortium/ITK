@@ -99,8 +99,8 @@ public:
 
 protected:
   ScalarImageToHistogramGenerator();
-  ~ScalarImageToHistogramGenerator() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ScalarImageToHistogramGenerator() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

@@ -92,10 +92,10 @@ public:
 
 protected:
   ImageToImageMetricv4GetValueAndDerivativeThreaderBase();
-  ~ImageToImageMetricv4GetValueAndDerivativeThreaderBase() ITK_OVERRIDE;
+  ~ImageToImageMetricv4GetValueAndDerivativeThreaderBase() override;
 
   /** Resize and initialize per thread objects. */
-  void BeforeThreadedExecution() ITK_OVERRIDE;
+  void BeforeThreadedExecution() override;
 
   /** Collects the results from each thread and sums them.  Results are stored
    * in the enclosing class \c m_Value and \c m_DerivativeResult.  Behavior
@@ -103,7 +103,7 @@ protected:
    * m_NumberOfValidPoints, to average the value sum, and to average
    * derivative sums for global transforms only (i.e. transforms without local
    * support).  */
-  void AfterThreadedExecution() ITK_OVERRIDE;
+  void AfterThreadedExecution() override;
 
   /** Method called by the threaders to process the given virtual point.  This
    * in turn calls \c TransformAndEvaluateFixedPoint, \c

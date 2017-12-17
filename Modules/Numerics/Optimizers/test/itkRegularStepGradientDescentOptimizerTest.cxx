@@ -57,7 +57,7 @@ public:
   }
 
 
-  MeasureType  GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  MeasureType  GetValue( const ParametersType & parameters ) const override
   {
 
     double x = parameters[0];
@@ -75,7 +75,7 @@ public:
   }
 
   void GetDerivative( const ParametersType & parameters,
-                            DerivativeType  & derivative ) const ITK_OVERRIDE
+                            DerivativeType  & derivative ) const override
   {
 
     double x = parameters[0];
@@ -92,7 +92,7 @@ public:
   }
 
 
-  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const override
     {
     return SpaceDimension;
     }

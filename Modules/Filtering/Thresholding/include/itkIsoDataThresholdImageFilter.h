@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~IsoDataThresholdImageFilter() ITK_OVERRIDE {};
+  ~IsoDataThresholdImageFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IsoDataThresholdImageFilter);

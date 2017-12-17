@@ -66,8 +66,8 @@ public:
 
 protected:
   ShanbhagThresholdCalculator() {};
-  ~ShanbhagThresholdCalculator() ITK_OVERRIDE {};
-  void GenerateData(void) ITK_OVERRIDE;
+  ~ShanbhagThresholdCalculator() override {};
+  void GenerateData(void) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShanbhagThresholdCalculator);

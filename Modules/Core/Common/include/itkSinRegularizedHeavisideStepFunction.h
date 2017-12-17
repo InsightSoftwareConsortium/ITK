@@ -68,14 +68,14 @@ public:
   typedef typename Superclass::RealType   RealType;
 
   /** Evaluate at the specified input position */
-  OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & input) const override;
 
   /** Evaluate the derivative at the specified input position */
-  OutputType EvaluateDerivative(const InputType & input) const ITK_OVERRIDE;
+  OutputType EvaluateDerivative(const InputType & input) const override;
 
 protected:
   SinRegularizedHeavisideStepFunction();
-  ~SinRegularizedHeavisideStepFunction() ITK_OVERRIDE;
+  ~SinRegularizedHeavisideStepFunction() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SinRegularizedHeavisideStepFunction);

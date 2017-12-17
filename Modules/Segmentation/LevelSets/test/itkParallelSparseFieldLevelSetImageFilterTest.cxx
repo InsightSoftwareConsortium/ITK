@@ -130,7 +130,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  ~MorphFunction() ITK_OVERRIDE {}
+  ~MorphFunction() override {}
 
   MorphFunction()
   {
@@ -145,7 +145,7 @@ private:
     const NeighborhoodType& neighborhood,
     const FloatOffsetType &,
     GlobalDataStruct *
-    ) const ITK_OVERRIDE
+    ) const override
   {
     ::itk::Index<3> idx = neighborhood.GetIndex();
     return m_DistanceTransform->GetPixel(idx);
@@ -187,7 +187,7 @@ public:
   }
 
 protected:
-  ~MorphFilter() ITK_OVERRIDE {}
+  ~MorphFilter() override {}
   MorphFilter()
   {
     MorphFunction::Pointer p = MorphFunction::New();
@@ -202,7 +202,7 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MorphFilter);
   unsigned int m_Iterations;
 
-  bool Halt() ITK_OVERRIDE
+  bool Halt() override
   {
     if (this->GetElapsedIterations() == m_Iterations) return true;
     else return false;

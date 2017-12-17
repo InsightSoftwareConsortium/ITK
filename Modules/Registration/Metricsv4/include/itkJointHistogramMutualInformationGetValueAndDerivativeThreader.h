@@ -77,13 +77,13 @@ public:
 
 protected:
   JointHistogramMutualInformationGetValueAndDerivativeThreader();
-  ~JointHistogramMutualInformationGetValueAndDerivativeThreader() ITK_OVERRIDE;
+  ~JointHistogramMutualInformationGetValueAndDerivativeThreader() override;
 
   typedef Image< SizeValueType, 2 > JointHistogramType;
 
-  void BeforeThreadedExecution() ITK_OVERRIDE;
+  void BeforeThreadedExecution() override;
 
-  void AfterThreadedExecution() ITK_OVERRIDE;
+  void AfterThreadedExecution() override;
 
   bool ProcessPoint(
         const VirtualIndexType &          virtualIndex,
@@ -96,7 +96,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const ITK_OVERRIDE;
+        const ThreadIdType                threadId ) const override;
 
   inline InternalComputationValueType ComputeFixedImageMarginalPDFDerivative(
                                         const MarginalPDFPointType & margPDFpoint,

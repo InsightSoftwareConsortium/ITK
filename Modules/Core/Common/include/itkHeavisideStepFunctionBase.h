@@ -67,7 +67,7 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluate at the specified input position */
-  OutputType Evaluate(const InputType & input) const ITK_OVERRIDE = 0;
+  OutputType Evaluate(const InputType & input) const override = 0;
 
   /** Evaluate the derivative at the specified input position */
   virtual OutputType EvaluateDerivative(const InputType & input) const = 0;
@@ -82,7 +82,7 @@ public:
 
 protected:
   HeavisideStepFunctionBase() : Superclass() {}
-  ~HeavisideStepFunctionBase() ITK_OVERRIDE {}
+  ~HeavisideStepFunctionBase() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HeavisideStepFunctionBase);

@@ -220,7 +220,7 @@ public:
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  TransformCategoryType GetTransformCategory() const override
   {
     return Self::Linear;
   }
@@ -345,16 +345,16 @@ public:
    * The first (NOutputDimension x NInputDimension) parameters define the
    * matrix and the last NOutputDimension parameters the translation.
    * Offset is updated based on current center. */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
 
   /** Get the Transformation Parameters. */
-  const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const override;
 
   /** Set the fixed parameters and update internal transformation. */
-  void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE;
+  void SetFixedParameters(const FixedParametersType &) override;
 
   /** Get the Fixed Parameters. */
-  const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  const FixedParametersType & GetFixedParameters() const override;
 
   /** Compose with another MatrixOffsetTransformBase
    *
@@ -377,32 +377,32 @@ public:
    * an affine point, whereas the TransformVector method transforms
    * its argument as a vector. */
 
-  OutputPointType       TransformPoint(const InputPointType & point) const ITK_OVERRIDE;
+  OutputPointType       TransformPoint(const InputPointType & point) const override;
 
   using Superclass::TransformVector;
 
-  OutputVectorType      TransformVector(const InputVectorType & vector) const ITK_OVERRIDE;
+  OutputVectorType      TransformVector(const InputVectorType & vector) const override;
 
-  OutputVnlVectorType   TransformVector(const InputVnlVectorType & vector) const ITK_OVERRIDE;
+  OutputVnlVectorType   TransformVector(const InputVnlVectorType & vector) const override;
 
-  OutputVectorPixelType TransformVector(const InputVectorPixelType & vector) const ITK_OVERRIDE;
+  OutputVectorPixelType TransformVector(const InputVectorPixelType & vector) const override;
 
   using Superclass::TransformCovariantVector;
 
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const ITK_OVERRIDE;
+  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType & vector) const override;
 
-  OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType & vector) const ITK_OVERRIDE;
+  OutputVectorPixelType TransformCovariantVector(const InputVectorPixelType & vector) const override;
 
   using Superclass::TransformDiffusionTensor3D;
 
-  OutputDiffusionTensor3DType TransformDiffusionTensor3D(const InputDiffusionTensor3DType & tensor) const ITK_OVERRIDE;
+  OutputDiffusionTensor3DType TransformDiffusionTensor3D(const InputDiffusionTensor3DType & tensor) const override;
 
-  OutputVectorPixelType TransformDiffusionTensor3D(const InputVectorPixelType & tensor ) const ITK_OVERRIDE;
+  OutputVectorPixelType TransformDiffusionTensor3D(const InputVectorPixelType & tensor ) const override;
 
   using Superclass::TransformSymmetricSecondRankTensor;
-  OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & tensor ) const ITK_OVERRIDE;
+  OutputSymmetricSecondRankTensorType TransformSymmetricSecondRankTensor( const InputSymmetricSecondRankTensorType & tensor ) const override;
 
-  OutputVectorPixelType TransformSymmetricSecondRankTensor( const InputVectorPixelType & tensor ) const ITK_OVERRIDE;
+  OutputVectorPixelType TransformSymmetricSecondRankTensor( const InputVectorPixelType & tensor ) const override;
 
   /** Compute the Jacobian of the transformation
    *
@@ -413,17 +413,17 @@ public:
    * Get local Jacobian for the given point
    * \c j will sized properly as needed.
    */
-  void ComputeJacobianWithRespectToParameters(const InputPointType  & x, JacobianType & j) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters(const InputPointType  & x, JacobianType & j) const override;
 
   /** Get the jacobian with respect to position. This simply returns
    * the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
-  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const override;
 
   /** Get the jacobian with respect to position. This simply returns
    * the inverse of the current Matrix. jac will be resized as needed, but it's
    * more efficient if it's already properly sized. */
-  void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const ITK_OVERRIDE;
+  void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & jac) const override;
 
   /** Create inverse of an affine transformation
    *
@@ -446,14 +446,14 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const override;
 
   /** Indicates that this transform is linear. That is, given two
    * points P and Q, and scalar coefficients a and b, then
    *
    *           T( a*P + b*Q ) = a * T(P) + b * T(Q)
    */
-  bool IsLinear() const ITK_OVERRIDE
+  bool IsLinear() const override
   {
     return true;
   }
@@ -476,10 +476,10 @@ protected:
   MatrixOffsetTransformBase();
 
   /** Destroy an MatrixOffsetTransformBase object */
-  ~MatrixOffsetTransformBase() ITK_OVERRIDE;
+  ~MatrixOffsetTransformBase() override;
 
   /** Print contents of an MatrixOffsetTransformBase */
-  void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & s, Indent indent) const override;
 
   const InverseMatrixType & GetVarInverseMatrix() const
   {

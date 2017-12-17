@@ -100,11 +100,11 @@ public:
 
 protected:
   AttributeUniqueLabelMapFilter();
-  ~AttributeUniqueLabelMapFilter() ITK_OVERRIDE {};
+  ~AttributeUniqueLabelMapFilter() override {};
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   bool m_ReverseOrdering;
 

@@ -379,8 +379,8 @@ protected:
     m_FirstSampleDistance = 0;
   }
 
-  ~PhasedArray3DSpecialCoordinatesImage() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PhasedArray3DSpecialCoordinatesImage() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhasedArray3DSpecialCoordinatesImage);

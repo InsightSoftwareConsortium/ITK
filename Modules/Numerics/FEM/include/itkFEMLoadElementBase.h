@@ -59,7 +59,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
+  ::itk::LightObject::Pointer CreateAnother(void) const override;
 
   /**
    * Float type used in Element and derived classes
@@ -102,7 +102,7 @@ public:
   virtual void ApplyLoad(Element::ConstPointer , Element::VectorType & ) { /* HACK:  This should probably through an execption if it is not intended to be used. */ }
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
   void AddNextElementInternal(const Element *e);
   ElementPointersVectorType m_Element;  /** pointers to element objects on which the
                                    load acts */

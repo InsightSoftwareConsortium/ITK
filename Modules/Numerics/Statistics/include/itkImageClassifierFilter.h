@@ -147,13 +147,13 @@ public:
 
 protected:
   ImageClassifierFilter();
-  ~ImageClassifierFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImageClassifierFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageClassifierFilter);
 
   /** Starts the classification process */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
 

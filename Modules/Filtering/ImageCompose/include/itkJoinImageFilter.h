@@ -253,7 +253,7 @@ public:
 
 protected:
   JoinImageFilter() {}
-  ~JoinImageFilter() ITK_OVERRIDE {}
+  ~JoinImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(JoinImageFilter);

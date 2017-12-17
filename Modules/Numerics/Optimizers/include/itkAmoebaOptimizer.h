@@ -84,10 +84,10 @@ public:
   typedef   vnl_vector< double > InternalParametersType;
 
   /** Start optimization with an initial value. */
-  void StartOptimization(void) ITK_OVERRIDE;
+  void StartOptimization(void) override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetCostFunction(SingleValuedCostFunction *costFunction) ITK_OVERRIDE;
+  void SetCostFunction(SingleValuedCostFunction *costFunction) override;
 
   /** Set/Get the maximum number of iterations. The optimization algorithm will
    * terminate after the maximum number of iterations has been reached.
@@ -138,7 +138,7 @@ public:
   itkGetConstMacro(FunctionConvergenceTolerance, double);
 
   /** Report the reason for stopping. */
-  const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const override;
 
   /** Return Current Value */
   MeasureType GetValue() const;
@@ -148,8 +148,8 @@ public:
 
 protected:
   AmoebaOptimizer();
-  ~AmoebaOptimizer() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~AmoebaOptimizer() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 

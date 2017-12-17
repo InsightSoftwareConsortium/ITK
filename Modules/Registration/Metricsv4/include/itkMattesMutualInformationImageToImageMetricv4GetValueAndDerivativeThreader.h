@@ -88,9 +88,9 @@ protected:
     m_MattesAssociate(ITK_NULLPTR)
   {}
 
-  void BeforeThreadedExecution() ITK_OVERRIDE;
+  void BeforeThreadedExecution() override;
 
-  void AfterThreadedExecution() ITK_OVERRIDE;
+  void AfterThreadedExecution() override;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
@@ -106,7 +106,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const ITK_OVERRIDE;
+        const ThreadIdType                threadId ) const override;
 
   /** Compute PDF derivative contribution for each parameter of a displacement field. */
   virtual void ComputePDFDerivativesLocalSupportTransform(

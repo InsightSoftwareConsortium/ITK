@@ -103,9 +103,9 @@ public:
 
 protected:
   PolylineMask2DImageFilter();
-  ~PolylineMask2DImageFilter() ITK_OVERRIDE {}
+  ~PolylineMask2DImageFilter() override {}
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolylineMask2DImageFilter);

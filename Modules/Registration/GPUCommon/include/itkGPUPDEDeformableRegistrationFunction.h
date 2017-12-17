@@ -142,9 +142,9 @@ protected:
     m_GradientStep = 1.0;
   }
 
-  ~GPUPDEDeformableRegistrationFunction() ITK_OVERRIDE {}
+  ~GPUPDEDeformableRegistrationFunction() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "MovingImage: ";

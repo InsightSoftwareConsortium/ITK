@@ -66,7 +66,7 @@ public:
 
 protected:
   MeshIOFactory();
-  ~MeshIOFactory() ITK_OVERRIDE;
+  ~MeshIOFactory() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeshIOFactory);

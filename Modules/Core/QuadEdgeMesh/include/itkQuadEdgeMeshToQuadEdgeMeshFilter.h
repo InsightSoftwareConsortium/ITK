@@ -102,7 +102,7 @@ public:
 
 protected:
   QuadEdgeMeshToQuadEdgeMeshFilter();
-  ~QuadEdgeMeshToQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~QuadEdgeMeshToQuadEdgeMeshFilter() override {}
 
   virtual void CopyInputMeshToOutputMesh();
 

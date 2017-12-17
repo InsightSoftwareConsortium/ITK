@@ -134,7 +134,7 @@ protected:
     this->GetFunctor().SetForegroundValue(true);
     this->GetFunctor().SetBackgroundValue(false);
   }
-  ~NotImageFilter() ITK_OVERRIDE {}
+  ~NotImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NotImageFilter);

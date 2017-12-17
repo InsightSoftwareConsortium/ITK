@@ -94,14 +94,14 @@ public:
 
   /** Increase the reference count (mark as used by another object).
     * Delegates the counting to its LightObject superclass  */
-  void Register() const ITK_OVERRIDE
+  void Register() const override
   {
     this->LightObject::Register();
   }
 
   /** Decrease the reference count (release by another object).
     * Delegates the counting to its LightObject superclass  */
-  void UnRegister() const ITK_NOEXCEPT ITK_OVERRIDE
+  void UnRegister() const ITK_NOEXCEPT override
   {
     this->LightObject::UnRegister();
   }
@@ -118,7 +118,7 @@ private:
 
   // Destructor. Only invoked via LightObject::UnRegister(), when its reference
   // count drops to zero.
-  ~ReferenceCountedExceptionData() ITK_OVERRIDE {}
+  ~ReferenceCountedExceptionData() override {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ReferenceCountedExceptionData);
 };

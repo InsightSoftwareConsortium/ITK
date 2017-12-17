@@ -50,7 +50,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
+  ::itk::LightObject::Pointer CreateAnother(void) const override;
 
   /** Default constructor. */
   LoadPoint() :
@@ -74,11 +74,11 @@ public:
 
   /** Apply the load to the specified element.
   * Modified version from the one in itk::fem::LoadLandmark. */
-  void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) ITK_OVERRIDE;
+  void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) override;
 
 protected:
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Point of which the load acts in global the coordinate system. */
   vnl_vector<Float> m_Point;

@@ -88,17 +88,17 @@ public:
   const TPointSet * GetPointSet();
 
   /** returns the number of measurement vectors in this container */
-  InstanceIdentifier Size() const ITK_OVERRIDE;
+  InstanceIdentifier Size() const override;
 
   /** returns the measurement vector that is specified by the instance
    * identifier argument. */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const override;
 
   /** returns 1 as other subclasses of ListSampleBase does */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const override;
 
   /** returns the size of this container */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const override;
 
   /** \class ConstIterator
    * \ingroup ITKStatistics
@@ -253,8 +253,8 @@ private:
 protected:
   PointSetToListSampleAdaptor();
 
-  ~PointSetToListSampleAdaptor() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PointSetToListSampleAdaptor() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToListSampleAdaptor);

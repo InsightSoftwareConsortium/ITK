@@ -157,12 +157,12 @@ public:
 
 protected:
   CurvatureFlowImageFilter();
-  ~CurvatureFlowImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~CurvatureFlowImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
-  bool Halt() ITK_OVERRIDE
+  bool Halt() override
   {
     if ( this->GetElapsedIterations() == this->GetNumberOfIterations() )
       {
@@ -176,17 +176,17 @@ protected:
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   /** To support streaming, this filter produces a output which is
    * larger than the original requested region. The output is padding
    * by m_NumberOfIterations pixels on edge. */
-  void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *) override;
 
   /** Edge effects are taken care of by padding the output requested
    * region. As such, the input requested region needs to at
    * minimum the same size as the output requested region. */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureFlowImageFilter);

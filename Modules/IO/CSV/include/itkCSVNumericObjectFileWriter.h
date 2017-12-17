@@ -113,8 +113,8 @@ public:
 protected:
 
   CSVNumericObjectFileWriter();
-  ~CSVNumericObjectFileWriter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream &os, Indent indent) const ITK_OVERRIDE;
+  ~CSVNumericObjectFileWriter() override {}
+  void PrintSelf(std::ostream &os, Indent indent) const override;
 
 private:
   std::string               m_FileName;

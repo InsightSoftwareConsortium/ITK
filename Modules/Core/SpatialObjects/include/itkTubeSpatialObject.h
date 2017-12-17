@@ -78,11 +78,11 @@ public:
   virtual void SetPoints(PointListType & newPoints);
 
   /** Return a point in the list given the index. */
-  const SpatialObjectPointType * GetPoint(IdentifierType ind) const ITK_OVERRIDE
+  const SpatialObjectPointType * GetPoint(IdentifierType ind) const override
   { return &( m_Points[ind] ); }
 
   /** Return a point in the list given the index */
-  SpatialObjectPointType * GetPoint(IdentifierType ind) ITK_OVERRIDE
+  SpatialObjectPointType * GetPoint(IdentifierType ind) override
   { return &( m_Points[ind] ); }
 
   /** Set a point in the list at the specified index */
@@ -94,7 +94,7 @@ public:
   { m_Points.erase(m_Points.begin() + ind); }
 
   /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints(void) const ITK_OVERRIDE
+  SizeValueType GetNumberOfPoints(void) const override
   {
     return static_cast<SizeValueType>(m_Points.size());
   }
@@ -104,7 +104,7 @@ public:
   itkGetConstMacro(EndType, unsigned int);
 
   /** Remove the list of tube points */
-  void Clear(void) ITK_OVERRIDE;
+  void Clear(void) override;
 
   /** Calculate the normalized tangent */
   bool ComputeTangentAndNormals();
@@ -115,18 +115,18 @@ public:
   /** Returns true if the tube is evaluable at the requested point,
    *  false otherwise. */
   bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+                     unsigned int depth = 0, char *name = ITK_NULLPTR) const override;
 
   /** Returns the value of the tube at that point.
    *  Currently this function returns a binary value,
    *  but it might want to return a degree of membership
    *  in case of fuzzy tubes. */
   bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+               unsigned int depth = 0, char *name = ITK_NULLPTR) const override;
 
   /** Returns true if the point is inside the tube, false otherwise. */
   bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const ITK_OVERRIDE;
+                unsigned int depth, char *name) const override;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -134,7 +134,7 @@ public:
   virtual bool IsInside(const PointType & point) const;
 
   /** Compute the boundaries of the tube. */
-  bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
+  bool ComputeLocalBoundingBox() const override;
 
   /** Set/Get the parent point which corresponds to the
    *  position of the point in the parent's points list */
@@ -151,7 +151,7 @@ public:
   itkGetConstMacro(Artery, bool);
 
   /** Copy the information from another SpatialObject */
-  void CopyInformation(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) override;
 
 protected:
   PointListType m_Points;
@@ -164,10 +164,10 @@ protected:
   bool m_Artery;
 
   TubeSpatialObject();
-  ~TubeSpatialObject() ITK_OVERRIDE;
+  ~TubeSpatialObject() override;
 
   /** Method to print the object. */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** TimeStamps */
   mutable ModifiedTimeType m_OldMTime;

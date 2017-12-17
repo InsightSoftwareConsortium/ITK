@@ -64,7 +64,7 @@ public:
    * Array and the parameter image's buffer, in elements of TValue.
    * Memory must be managed by caller afterwards. */
   void MoveDataPointer(CommonContainerType* container,
-                               TValue * pointer ) ITK_OVERRIDE;
+                               TValue * pointer ) override;
 
   /** Set an image that holds the parameter data. \c container is a pointer
    * of type itkArray to the object to which this helper is assigned.
@@ -74,9 +74,9 @@ public:
    * Generally this will be called from
    * OptimizerParameters::SetParameterObject. */
   void SetParametersObject(CommonContainerType * container,
-                                   LightObject * ) ITK_OVERRIDE;
+                                   LightObject * ) override;
 
-  ~ImageVectorOptimizerParametersHelper() ITK_OVERRIDE {}
+  ~ImageVectorOptimizerParametersHelper() override {}
 
 private:
   /** The parameter image used by the class */

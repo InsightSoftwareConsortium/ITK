@@ -72,7 +72,7 @@ public:
   typedef TLevelSet                       LevelSetType;
   typedef typename LevelSetType::Pointer  LevelSetPointer;
 
-  void SetInputImage( const InputImageType* image ) ITK_OVERRIDE;
+  void SetInputImage( const InputImageType* image ) override;
   void SetLevelSet( LevelSetType * levelSet );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -82,13 +82,13 @@ public:
 
 protected:
   VTKVisualize2DSparseLevelSetLayersBase();
-  ~VTKVisualize2DSparseLevelSetLayersBase() ITK_OVERRIDE;
+  ~VTKVisualize2DSparseLevelSetLayersBase() override;
 
   LevelSetPointer                   m_LevelSet;
   vtkSmartPointer< vtkImageData >   m_VTKImage;
   vtkSmartPointer< vtkImageActor >  m_VTKImageActor;
 
-  void PrepareVTKPipeline() ITK_OVERRIDE;
+  void PrepareVTKPipeline() override;
 
   virtual std::string GetLevelSetRepresentationName() const = 0;
 

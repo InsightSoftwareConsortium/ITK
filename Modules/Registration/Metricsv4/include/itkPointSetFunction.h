@@ -103,12 +103,12 @@ public:
 
   /** Evaluate the function at specified Point position.
    * Subclasses must provide this method. */
-  TOutput Evaluate( const InputPointType& point ) const ITK_OVERRIDE = 0;
+  TOutput Evaluate( const InputPointType& point ) const override = 0;
 
 protected:
   PointSetFunction();
-  ~PointSetFunction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~PointSetFunction() override;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Const pointer to the input image. */
   InputPointSetConstPointer                             m_PointSet;

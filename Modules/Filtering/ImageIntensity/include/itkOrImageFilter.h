@@ -91,7 +91,7 @@ public:
 
 protected:
   OrImageFilter() {}
-  ~OrImageFilter() ITK_OVERRIDE {}
+  ~OrImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(OrImageFilter);

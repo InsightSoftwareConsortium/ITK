@@ -206,7 +206,7 @@ public:
   static void SynchronizeObjectFactoryBase(ObjectFactoryBasePrivate * objectFactoryBasePrivate);
 
 protected:
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Register object creation information with the factory. */
   void RegisterOverride(const char *classOverride,
@@ -227,7 +227,7 @@ protected:
   CreateAllObject(const char *itkclassname);
 
   ObjectFactoryBase();
-  ~ObjectFactoryBase() ITK_OVERRIDE;
+  ~ObjectFactoryBase() override;
 
 private:
   OverRideMap *m_OverrideMap;

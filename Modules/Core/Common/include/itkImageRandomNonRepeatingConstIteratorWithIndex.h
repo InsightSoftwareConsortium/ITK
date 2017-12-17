@@ -236,7 +236,7 @@ public:
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomNonRepeatingConstIteratorWithIndex();
-  ~ImageRandomNonRepeatingConstIteratorWithIndex() ITK_OVERRIDE
+  ~ImageRandomNonRepeatingConstIteratorWithIndex() override
   {
     delete m_Permutation;
   }

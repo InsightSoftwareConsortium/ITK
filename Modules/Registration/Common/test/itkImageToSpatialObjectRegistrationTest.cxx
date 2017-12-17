@@ -56,12 +56,12 @@ public:
 
 
   /** Execute method will print data at each iteration */
-  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
       Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object *, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object *, const itk::EventObject & event) override
     {
       if( typeid( event ) == typeid( itk::StartEvent ) )
         {
@@ -120,7 +120,7 @@ public:
   enum { SpaceDimension = 3 };
 
   /** Connect the MovingSpatialObject */
-  void SetMovingSpatialObject( const MovingSpatialObjectType * object) ITK_OVERRIDE
+  void SetMovingSpatialObject( const MovingSpatialObjectType * object) override
     {
       if(!this->m_FixedImage)
         {
@@ -154,13 +154,13 @@ public:
 
 
   /** Get the Derivatives of the Match Measure */
-  void GetDerivative(const ParametersType&, DerivativeType&) const ITK_OVERRIDE
+  void GetDerivative(const ParametersType&, DerivativeType&) const override
     {
       return;
     }
 
   /** Get the Value for SingleValue Optimizers */
-  MeasureType    GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  MeasureType    GetValue( const ParametersType & parameters ) const override
     {
       double value;
       this->m_Transform->SetParameters(parameters);
@@ -187,7 +187,7 @@ public:
 
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   void GetValueAndDerivative( const ParametersType & parameters,
-                              MeasureType & Value, DerivativeType  & Derivative ) const ITK_OVERRIDE
+                              MeasureType & Value, DerivativeType  & Derivative ) const override
     {
       Value = this->GetValue(parameters);
       this->GetDerivative(parameters,Derivative);

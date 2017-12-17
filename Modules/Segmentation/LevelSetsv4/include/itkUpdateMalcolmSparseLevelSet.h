@@ -105,7 +105,7 @@ public:
 
 protected:
   UpdateMalcolmSparseLevelSet();
-  ~UpdateMalcolmSparseLevelSet() ITK_OVERRIDE;
+  ~UpdateMalcolmSparseLevelSet() override;
 
   // output
   LevelSetPointer   m_OutputLevelSet;

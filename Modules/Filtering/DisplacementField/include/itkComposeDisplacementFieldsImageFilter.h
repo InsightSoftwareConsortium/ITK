@@ -126,16 +126,16 @@ protected:
   ComposeDisplacementFieldsImageFilter();
 
   /** Deconstructor */
-  ~ComposeDisplacementFieldsImageFilter() ITK_OVERRIDE;
+  ~ComposeDisplacementFieldsImageFilter() override;
 
   /** Standard print self function **/
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** preprocessing function */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   /** Multithreaded function which generates the output field. */
-  void ThreadedGenerateData( const RegionType &, ThreadIdType ) ITK_OVERRIDE;
+  void ThreadedGenerateData( const RegionType &, ThreadIdType ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComposeDisplacementFieldsImageFilter);

@@ -130,10 +130,10 @@ public:
 
 protected:
   ScalarRegionBasedLevelSetFunction():Superclass(){}
-  ~ScalarRegionBasedLevelSetFunction() ITK_OVERRIDE{}
+  ~ScalarRegionBasedLevelSetFunction() override{}
 
   ScalarValueType ComputeOverlapParameters(const FeatureIndexType & featIndex,
-                                           ScalarValueType & product) ITK_OVERRIDE;
+                                           ScalarValueType & product) override;
 
   // update the background and foreground constants for pixel updates
   // Called only when sparse filters are used to prevent iteration through the

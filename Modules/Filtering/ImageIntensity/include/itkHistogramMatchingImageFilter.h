@@ -134,7 +134,7 @@ public:
   itkBooleanMacro(ThresholdAtMeanIntensity);
 
   /** This filter requires all of the input to be in the buffer. */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Methods to get the histograms of the source, reference, and
    * output. Objects are only valid after Update() has been called
@@ -164,22 +164,22 @@ public:
 
 protected:
   HistogramMatchingImageFilter();
-  ~HistogramMatchingImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~HistogramMatchingImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() override;
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
   /** Override VeriyInputInformation() since this filter does not expect
    * the input images to occupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() ITK_OVERRIDE {}
+  void VerifyInputInformation() override {}
 
   /** Compute min, max and mean of an image. */
   void ComputeMinMaxMean(const InputImageType *image,

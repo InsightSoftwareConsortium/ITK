@@ -83,7 +83,7 @@ public:
 
 protected:
   SingleValuedCostFunctionv4Template() {}
-  ~SingleValuedCostFunctionv4Template() ITK_OVERRIDE {}
+  ~SingleValuedCostFunctionv4Template() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedCostFunctionv4Template);

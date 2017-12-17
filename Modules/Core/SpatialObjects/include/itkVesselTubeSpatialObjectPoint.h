@@ -50,7 +50,7 @@ public:
   VesselTubeSpatialObjectPoint();
 
   /** Default destructor. */
-  ~VesselTubeSpatialObjectPoint() ITK_OVERRIDE;
+  ~VesselTubeSpatialObjectPoint() override;
 
   /** Get Medialness */
   float GetMedialness() const;
@@ -121,7 +121,7 @@ protected:
   bool m_Mark;
 
   /** Print the object */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end of namespace itk
 

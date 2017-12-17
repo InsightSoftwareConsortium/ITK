@@ -58,11 +58,11 @@ public:
   typedef typename Superclass::ScalarType   ScalarType;
   typedef typename Superclass::RealType     RealType;
 
-  RGBPixelType operator()(const TScalar &) const ITK_OVERRIDE;
+  RGBPixelType operator()(const TScalar &) const override;
 
 protected:
   CopperColormapFunction() {}
-  ~CopperColormapFunction() ITK_OVERRIDE {}
+  ~CopperColormapFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CopperColormapFunction);

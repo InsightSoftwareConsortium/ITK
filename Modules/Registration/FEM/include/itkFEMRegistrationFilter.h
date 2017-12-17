@@ -516,9 +516,9 @@ public:
 
 protected:
   FEMRegistrationFilter();
-  ~FEMRegistrationFilter() ITK_OVERRIDE;
+  ~FEMRegistrationFilter() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This function generates a regular mesh of ElementsPerSide^D size. */
   void CreateMesh(unsigned int ElementsPerSide, SolverType *solver);

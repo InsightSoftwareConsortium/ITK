@@ -54,10 +54,10 @@ public:
 
 protected:
   void ThreadedExecution( const IndexRangeType & subrange,
-                                  const ThreadIdType threadId ) ITK_OVERRIDE;
+                                  const ThreadIdType threadId ) override;
 
   GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate() {}
-  ~GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate() ITK_OVERRIDE {}
+  ~GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate);

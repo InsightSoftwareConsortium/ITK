@@ -83,7 +83,7 @@ public:
    *  replaced by the ComputeSparseUpdate function. */
   PixelType ComputeUpdate(const NeighborhoodType &,
                                   void *,
-                                  const FloatOffsetType &) ITK_OVERRIDE
+                                  const FloatOffsetType &) override
   {
     return static_cast< PixelType >( ITK_NULLPTR );
   }
@@ -109,8 +109,8 @@ public:
 
 protected:
   FiniteDifferenceSparseImageFunction() {}
-  ~FiniteDifferenceSparseImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~FiniteDifferenceSparseImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceSparseImageFunction);

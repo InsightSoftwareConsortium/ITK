@@ -62,13 +62,13 @@ public:
 
   typedef typename LevelSetType::Pointer  LevelSetPointer;
 
-  vtkImageData* GetOutput() const ITK_OVERRIDE;
+  vtkImageData* GetOutput() const override;
 
 protected:
   LevelSetTovtkImageData();
-  ~LevelSetTovtkImageData() ITK_OVERRIDE;
+  ~LevelSetTovtkImageData() override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   LevelSetTovtkImageData( const Self& );
@@ -101,13 +101,13 @@ public:
 
   typedef typename LevelSetType::Pointer  LevelSetPointer;
 
-  vtkImageData* GetOutput() const ITK_OVERRIDE;
+  vtkImageData* GetOutput() const override;
 
 protected:
   LevelSetTovtkImageData();
-  ~LevelSetTovtkImageData() ITK_OVERRIDE;
+  ~LevelSetTovtkImageData() override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   LevelSetTovtkImageData( const Self& );
@@ -145,13 +145,13 @@ public:
 
   typedef typename LevelSetType::Pointer  LevelSetPointer;
 
-  vtkImageData* GetOutput() const ITK_OVERRIDE;
+  vtkImageData* GetOutput() const override;
 
 protected:
   LevelSetTovtkImageData();
-  ~LevelSetTovtkImageData() ITK_OVERRIDE;
+  ~LevelSetTovtkImageData() override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   LevelSetTovtkImageData( const Self& );
@@ -196,13 +196,13 @@ public:
 
   typedef typename LevelSetType::Pointer  LevelSetPointer;
 
-  vtkImageData* GetOutput() const ITK_OVERRIDE;
+  vtkImageData* GetOutput() const override;
 
 protected:
   LevelSetTovtkImageData();
-  ~LevelSetTovtkImageData() ITK_OVERRIDE;
+  ~LevelSetTovtkImageData() override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   LevelSetTovtkImageData( const Self& );

@@ -218,7 +218,7 @@ protected:
 
   /** Default constructor */
   ObjectToObjectOptimizerBaseTemplate();
-  ~ObjectToObjectOptimizerBaseTemplate() ITK_OVERRIDE;
+  ~ObjectToObjectOptimizerBaseTemplate() override;
 
   MetricTypePointer             m_Metric;
   ThreadIdType                  m_NumberOfThreads;
@@ -252,7 +252,7 @@ protected:
    */
   bool                          m_DoEstimateScales;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectOptimizerBaseTemplate);

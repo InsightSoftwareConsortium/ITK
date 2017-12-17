@@ -83,7 +83,7 @@ public:
   const ImageType * GetImageKernel() const;
 
   /** Prints information about the object. */
-  void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent i) const override
   {
     os << i << "ImageKernelOperator { this=" << this
        << "} "  << std::endl;
@@ -92,10 +92,10 @@ public:
 
 protected:
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients() ITK_OVERRIDE;
+  CoefficientVector GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & coeff) ITK_OVERRIDE;
+  void Fill(const CoefficientVector & coeff) override;
 
 private:
   typename ImageType::ConstPointer m_ImageKernel;

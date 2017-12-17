@@ -77,7 +77,7 @@ public:
   typedef double OutputType;
 
   /**Evaluate at the specified input position */
-  OutputType Evaluate( const InputType& input ) const ITK_OVERRIDE
+  OutputType Evaluate( const InputType& input ) const override
     {
       if ( input[0] < 3.0 )
         {
@@ -91,7 +91,7 @@ public:
 
 protected:
   ExampleWeightFunction() {}
-  ~ExampleWeightFunction() ITK_OVERRIDE {}
+  ~ExampleWeightFunction() override {}
 }; // end of class
 
 int main()

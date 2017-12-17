@@ -133,23 +133,23 @@ public:
 
 protected:
   ScalarChanAndVeseLevelSetFunction():Superclass() {}
-  ~ScalarChanAndVeseLevelSetFunction() ITK_OVERRIDE{}
+  ~ScalarChanAndVeseLevelSetFunction() override{}
 
-  void ComputeParameters() ITK_OVERRIDE;
+  void ComputeParameters() override;
 
-  void UpdateSharedDataParameters() ITK_OVERRIDE;
+  void UpdateSharedDataParameters() override;
 
   ScalarValueType ComputeInternalTerm(const FeaturePixelType & iValue,
-                                      const FeatureIndexType & iIdx) ITK_OVERRIDE;
+                                      const FeatureIndexType & iIdx) override;
 
   ScalarValueType ComputeExternalTerm(const FeaturePixelType & iValue,
-                                      const FeatureIndexType & iIdx) ITK_OVERRIDE;
+                                      const FeatureIndexType & iIdx) override;
 
   void UpdateSharedDataInsideParameters(const unsigned int & iId,
-                                        const FeaturePixelType & iVal, const ScalarValueType & iChange) ITK_OVERRIDE;
+                                        const FeaturePixelType & iVal, const ScalarValueType & iChange) override;
 
   void UpdateSharedDataOutsideParameters(const unsigned int & iId,
-                                         const FeaturePixelType & iVal, const ScalarValueType & iChange) ITK_OVERRIDE;
+                                         const FeaturePixelType & iVal, const ScalarValueType & iChange) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunction);

@@ -101,10 +101,10 @@ public:
   itkGetConstReferenceMacro(CurrentLearningRateRelaxation, MeasureType);
 
   /** Start and run the optimization. */
-  void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
+  void StartOptimization( bool doOnlyInitialization = false ) override;
 
   /** Estimate the learning rate based on the current gradient. */
-  void EstimateLearningRate() ITK_OVERRIDE;
+  void EstimateLearningRate() override;
 
   /** Get current gradient step value. */
   double GetCurrentStepLength() const;
@@ -113,20 +113,20 @@ protected:
 
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  void AdvanceOneStep(void) ITK_OVERRIDE;
+  void AdvanceOneStep(void) override;
 
   /** Modify the input gradient over a given index range. */
-  void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
-  void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
+  void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) override;
+  void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) override;
 
 
   /** Default constructor. */
   RegularStepGradientDescentOptimizerv4();
 
   /** Destructor. */
-  ~RegularStepGradientDescentOptimizerv4() ITK_OVERRIDE;
+  ~RegularStepGradientDescentOptimizerv4() override;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 
 private:

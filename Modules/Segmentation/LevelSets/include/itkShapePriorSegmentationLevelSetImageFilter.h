@@ -168,18 +168,18 @@ public:
   itkGetConstReferenceMacro(CurrentParameters, ParametersType);
 
 protected:
-  ~ShapePriorSegmentationLevelSetImageFilter() ITK_OVERRIDE {}
+  ~ShapePriorSegmentationLevelSetImageFilter() override {}
   ShapePriorSegmentationLevelSetImageFilter();
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Overrides parent implementation. MAP estimates of the shape and pose parameters
    is computed in this method. */
-  void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   /** Overridden from ProcessObject to set certain values before starting the
    * finite difference solver and then create an appropriate output */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Extract node of active region into a NodeContainer */
   void ExtractActiveRegion(NodeContainerType *ptr);

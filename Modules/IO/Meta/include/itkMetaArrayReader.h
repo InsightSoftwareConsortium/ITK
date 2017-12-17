@@ -243,8 +243,8 @@ public:
 protected:
 
   MetaArrayReader();
-  ~MetaArrayReader() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MetaArrayReader() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

@@ -116,13 +116,13 @@ public:
 
 protected:
   CorrelationImageToImageMetricv4();
-  ~CorrelationImageToImageMetricv4() ITK_OVERRIDE;
+  ~CorrelationImageToImageMetricv4() override;
 
   /** Perform any initialization required before each evaluation of
    * \c GetValueAndDerivative. This is distinct from Initialize, which
    * is called only once before a number of iterations, e.g. before
    * a registration loop. */
-  void InitializeForIteration() const ITK_OVERRIDE;
+  void InitializeForIteration() const override;
 
   friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Self >;
   friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, Self >;
@@ -153,7 +153,7 @@ protected:
   mutable MeasureType m_AverageFix;
   mutable MeasureType m_AverageMov;
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CorrelationImageToImageMetricv4);

@@ -79,8 +79,8 @@ protected:
     this->m_MeasureBound = itk::NumericTraits< MeasureType >::ZeroValue();
   }
 
-  ~QuadEdgeMeshDecimationCriterion() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  ~QuadEdgeMeshDecimationCriterion() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "TopologicalChange: "
@@ -196,14 +196,14 @@ public:
 
   bool is_satisfied( MeshType *iMesh,
                      const ElementType & itkNotUsed(iElement),
-                     const MeasureType & itkNotUsed(iValue) ) const ITK_OVERRIDE
+                     const MeasureType & itkNotUsed(iValue) ) const override
   {
     return ( iMesh->GetNumberOfFaces() <= this->m_NumberOfElements );
   }
 
 protected:
   NumberOfFacesCriterion() {}
-  ~NumberOfFacesCriterion() ITK_OVERRIDE {}
+  ~NumberOfFacesCriterion() override {}
 
 private:
   NumberOfFacesCriterion(const Self &);
@@ -247,14 +247,14 @@ public:
 
   bool is_satisfied(MeshType *itkNotUsed(iMesh),
                     const ElementType & itkNotUsed(iElement),
-                    const MeasureType & iValue) const ITK_OVERRIDE
+                    const MeasureType & iValue) const override
   {
     return ( iValue <= this->m_MeasureBound );
   }
 
 protected:
   MaxMeasureBoundCriterion():Superclass() {}
-  ~MaxMeasureBoundCriterion() ITK_OVERRIDE {}
+  ~MaxMeasureBoundCriterion() override {}
 
 private:
   MaxMeasureBoundCriterion(const Self &);

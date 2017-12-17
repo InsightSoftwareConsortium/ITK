@@ -69,7 +69,7 @@ protected:
    * to 1 */
   void ThreadedGenerateData(
     const OutputFrameSpatialRegionType& outputRegionForThread,
-    int threadId) ITK_OVERRIDE
+    int threadId) override
   {
 
     // Print out your threadId

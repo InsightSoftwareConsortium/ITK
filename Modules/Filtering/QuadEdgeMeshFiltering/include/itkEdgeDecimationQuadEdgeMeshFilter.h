@@ -88,7 +88,7 @@ public:
 protected:
 
   EdgeDecimationQuadEdgeMeshFilter();
-  ~EdgeDecimationQuadEdgeMeshFilter() ITK_OVERRIDE;
+  ~EdgeDecimationQuadEdgeMeshFilter() override;
 
   bool m_Relocate;
   bool m_CheckOrientation;
@@ -109,7 +109,7 @@ protected:
   /**
   * \brief Fill the priority queue
   */
-  void FillPriorityQueue() ITK_OVERRIDE;
+  void FillPriorityQueue() override;
 
   /**
   * \brief Push one edge in the priority queue
@@ -127,7 +127,7 @@ protected:
   /**
   * \brief Extract the edge to be processed
   */
-  void Extract() ITK_OVERRIDE;
+  void Extract() override;
 
   /**
   * \brief Delete a given edge in the priority queue
@@ -153,7 +153,7 @@ protected:
   /**
   * \brief
   */
-  bool ProcessWithoutAnyTopologicalGuarantee() ITK_OVERRIDE;
+  bool ProcessWithoutAnyTopologicalGuarantee() override;
 
   /**
   * \brief
@@ -165,7 +165,7 @@ protected:
   * \brief
   * \return
   */
-  bool ProcessWithTopologicalGuarantee() ITK_OVERRIDE;
+  bool ProcessWithTopologicalGuarantee() override;
 
   /**
   * \brief
@@ -296,7 +296,7 @@ protected:
    * \brief
    * \return
    */
-  bool IsCriterionSatisfied() ITK_OVERRIDE;
+  bool IsCriterionSatisfied() override;
 
 private:
   EdgeDecimationQuadEdgeMeshFilter(const Self &);

@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~MaximumEntropyThresholdImageFilter() ITK_OVERRIDE {};
+  ~MaximumEntropyThresholdImageFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaximumEntropyThresholdImageFilter);

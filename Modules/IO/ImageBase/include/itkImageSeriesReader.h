@@ -136,14 +136,14 @@ public:
 
   /** Prepare the allocation of the output image during the first back
    * propagation of the pipeline. */
-  void GenerateOutputInformation(void) ITK_OVERRIDE;
+  void GenerateOutputInformation(void) override;
 
   /** Give the reader a chance to indicate that it will produce more
    * output than it was requested to produce. ImageSeriesReader cannot
    * currently read a portion of an image (since the ImageIO objects
    * cannot read a portion of an image), so the ImageSeriesReader must
    * enlarge the RequestedRegion to the size of the image on disk. */
-  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
   /** Get access to the Array of MetaDataDictionaries which are
 * updated in the GenerateData methods */
@@ -162,11 +162,11 @@ protected:
     m_UseStreaming(true),
     m_MetaDataDictionaryArrayUpdate(true)
       {}
-  ~ImageSeriesReader() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImageSeriesReader() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Does the real work. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** The image format, 0 will use the factory mechnism. */
   ImageIOBase::Pointer m_ImageIO;

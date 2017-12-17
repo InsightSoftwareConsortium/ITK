@@ -122,10 +122,10 @@ public:
 
 protected:
   GradientVectorFlowImageFilter();
-  ~GradientVectorFlowImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GradientVectorFlowImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Precompute m_BImage and m_CImage[i] and allocate memory for all the various internal images */
   void InitInterImage();

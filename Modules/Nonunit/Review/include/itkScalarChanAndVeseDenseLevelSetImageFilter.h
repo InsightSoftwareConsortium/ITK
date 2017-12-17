@@ -136,13 +136,13 @@ protected:
     this->m_SharedData = SharedDataType::New();
   }
 
-  ~ScalarChanAndVeseDenseLevelSetImageFilter() ITK_OVERRIDE{}
+  ~ScalarChanAndVeseDenseLevelSetImageFilter() override{}
 
   SharedDataPointer m_SharedData;
 
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
-  void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseDenseLevelSetImageFilter);

@@ -318,8 +318,8 @@ public:
 
 protected:
   MRFImageFilter();
-  ~MRFImageFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MRFImageFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Allocate memory for labelled images. */
   void Allocate();
@@ -348,13 +348,13 @@ protected:
                                        LabelledImageNeighborhoodIterator & labelledIter,
                                        LabelStatusImageNeighborhoodIterator & labelStatusIter);
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
-  void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *) override;
 
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MRFImageFilter);

@@ -128,16 +128,16 @@ public:
   /** Get the required direction. */
   itkGetConstReferenceMacro( RequiredTransformDomainDirection, DirectionType );
 
-  void SetRequiredFixedParameters( const FixedParametersType ) ITK_OVERRIDE;
+  void SetRequiredFixedParameters( const FixedParametersType ) override;
 
   /** Initialize the transform using the specified fixed parameters */
-  void AdaptTransformParameters() ITK_OVERRIDE;
+  void AdaptTransformParameters() override;
 
 protected:
   BSplineTransformParametersAdaptor();
-  ~BSplineTransformParametersAdaptor() ITK_OVERRIDE;
+  ~BSplineTransformParametersAdaptor() override;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransformParametersAdaptor);

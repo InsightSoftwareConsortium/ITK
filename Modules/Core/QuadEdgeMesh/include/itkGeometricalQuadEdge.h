@@ -111,7 +111,7 @@ public:
 public:
   /** Memory creation methods. */
   GeometricalQuadEdge();
-  ~GeometricalQuadEdge() ITK_OVERRIDE {}
+  ~GeometricalQuadEdge() override {}
 
   /** Set methods. */
   inline void SetOrigin(const OriginRefType v)

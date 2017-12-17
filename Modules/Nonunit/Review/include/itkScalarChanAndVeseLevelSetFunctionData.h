@@ -112,7 +112,7 @@ protected:
     m_WeightedSumOfPixelValuesOutsideLevelSet = 0.;
   }
 
-  ~ScalarChanAndVeseLevelSetFunctionData() ITK_OVERRIDE {}
+  ~ScalarChanAndVeseLevelSetFunctionData() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunctionData);

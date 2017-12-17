@@ -146,16 +146,16 @@ public:
 
 protected:
   BinaryMask3DMeshSource();
-  ~BinaryMask3DMeshSource() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BinaryMask3DMeshSource() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 
   bool       m_RegionOfInterestProvidedByUser;
   RegionType m_RegionOfInterest;
 
-  void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing ITK_OVERRIDE
+  void GenerateOutputInformation() override {}  // do nothing override
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMask3DMeshSource);

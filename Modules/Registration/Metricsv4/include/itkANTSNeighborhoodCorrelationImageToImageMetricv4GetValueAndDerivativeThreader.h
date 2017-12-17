@@ -182,7 +182,7 @@ protected:
    * m_NumberOfValidPointsPerThread. */
   bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
                                     const VirtualPointType & virtualPoint,
-                                    const ThreadIdType threadId ) ITK_OVERRIDE {
+                                    const ThreadIdType threadId ) override {
     return ProcessVirtualPoint_impl(IdentityHelper<TDomainPartitioner>(), virtualIndex, virtualPoint, threadId );
   }
 
@@ -218,13 +218,13 @@ protected:
          const MovingImageGradientType &   itkNotUsed(mappedMovingImageGradient),
          MeasureType &                     itkNotUsed(metricValueReturn),
          DerivativeType &                  itkNotUsed(localDerivativeReturn),
-         const ThreadIdType                itkNotUsed(threadId) ) const ITK_OVERRIDE
+         const ThreadIdType                itkNotUsed(threadId) ) const override
      {
         itkExceptionMacro("ProcessPoint should never be reached in ANTS CC metric threader class.");
      }
 
   void ThreadedExecution( const DomainType& domain,
-                                    const ThreadIdType threadId ) ITK_OVERRIDE
+                                    const ThreadIdType threadId ) override
     {
     ThreadedExecution_impl(IdentityHelper<TDomainPartitioner>(), domain, threadId );
     }

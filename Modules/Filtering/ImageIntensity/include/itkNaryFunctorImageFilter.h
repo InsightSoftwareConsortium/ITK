@@ -105,7 +105,7 @@ public:
 
 protected:
   NaryFunctorImageFilter();
-  ~NaryFunctorImageFilter() ITK_OVERRIDE {}
+  ~NaryFunctorImageFilter() override {}
 
   /** NaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -118,7 +118,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NaryFunctorImageFilter);

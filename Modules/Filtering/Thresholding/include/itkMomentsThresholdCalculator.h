@@ -66,8 +66,8 @@ public:
 
 protected:
   MomentsThresholdCalculator() {};
-  ~MomentsThresholdCalculator() ITK_OVERRIDE {};
-  void GenerateData(void) ITK_OVERRIDE;
+  ~MomentsThresholdCalculator() override {};
+  void GenerateData(void) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MomentsThresholdCalculator);

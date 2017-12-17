@@ -72,19 +72,19 @@ public:
   /**
    * Compute the B matrix.
    */
-  void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const ITK_OVERRIDE;
+  void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const override;
 
   /**
    * Compute the D matrix.
    */
-  void GetMaterialMatrix(MatrixType & D) const ITK_OVERRIDE;
+  void GetMaterialMatrix(MatrixType & D) const override;
 
   /**
    * Element stiffness matrix is reimplemented here, because we want to
    * be able to use this class to implement 1D stress problem in any
    * number of dimensions i.e. Bar1D, Bar2D, Bar3D.
    */
-  void GetStiffnessMatrix(MatrixType & Ke) const ITK_OVERRIDE;
+  void GetStiffnessMatrix(MatrixType & Ke) const override;
 
   /**
    * 1D stress elements have 2 DOFs per node. In reality there is
@@ -93,7 +93,7 @@ public:
    * So the number of DOFs per node is equal to the number of
    * spatial dimensions.
    */
-  unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const override
   {
     return 2;
   }
@@ -101,19 +101,19 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  Material::ConstPointer GetMaterial(void) const ITK_OVERRIDE
+  Material::ConstPointer GetMaterial(void) const override
   {
     return m_mat;
   }
 
-  void SetMaterial(Material::ConstPointer mat_) ITK_OVERRIDE
+  void SetMaterial(Material::ConstPointer mat_) override
   {
     m_mat = dynamic_cast<const MaterialLinearElasticity *>(mat_.GetPointer());
   }
 
 protected:
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /**
    * Pointer to material properties of the element

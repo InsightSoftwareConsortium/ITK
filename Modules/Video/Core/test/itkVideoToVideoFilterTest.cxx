@@ -109,7 +109,7 @@ protected:
   /** Override ThreadedGenerateData */
   void ThreadedGenerateData(
     const OutputFrameSpatialRegionType& outputRegionForThread,
-    int threadId) ITK_OVERRIDE
+    int threadId) override
   {
     const InputVideoStreamType* input = this->GetInput();
     OutputVideoStreamType*      output = this->GetOutput();

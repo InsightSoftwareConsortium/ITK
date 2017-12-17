@@ -94,11 +94,11 @@ public:
   void PushBack(const MeasurementVectorType & mv);
 
   /** Get the number of measurement vectors in the sample */
-  InstanceIdentifier Size() const ITK_OVERRIDE;
+  InstanceIdentifier Size() const override;
 
   /** Get the measurement associated with the specified
    * InstanceIdentifier */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const override;
 
   /** Set a component a measurement to a particular value. */
   void SetMeasurement(InstanceIdentifier id,
@@ -111,14 +111,14 @@ public:
 
   /** Get the frequency of a measurement. Returns 1 if the measurement
    * exist. */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const override;
 
   /** Get the total frequency of the sample.  This is equivalent to
    * the size of the sample. */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const override;
 
   /** Method to graft another sample */
-  void Graft(const DataObject *thatObject) ITK_OVERRIDE;
+  void Graft(const DataObject *thatObject) override;
 
   /** \class ConstIterator
    * \brief Const Iterator
@@ -271,8 +271,8 @@ private:
 protected:
 
   ListSample();
-  ~ListSample() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ListSample() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ListSample);

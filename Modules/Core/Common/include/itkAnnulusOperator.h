@@ -191,7 +191,7 @@ public:
   }
 
   /** Prints some debugging information */
-  void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent i) const override
   {
     os << i << "AnnulusOperator { this=" << this
        << ", m_InnerRadius = " << m_InnerRadius
@@ -213,10 +213,10 @@ protected:
   typedef typename Superclass::PixelType         PixelType;
 
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients() ITK_OVERRIDE;
+  CoefficientVector GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & c) ITK_OVERRIDE;
+  void Fill(const CoefficientVector & c) override;
 
 private:
 

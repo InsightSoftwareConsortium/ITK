@@ -102,7 +102,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~YenThresholdImageFilter() ITK_OVERRIDE {};
+  ~YenThresholdImageFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(YenThresholdImageFilter);

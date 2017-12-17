@@ -171,7 +171,7 @@ public:
   InstanceIdentifier GetInstanceIdentifier(const IndexType & index) const;
 
   /** Returns the number of instances (bins or cells) in this container */
-  InstanceIdentifier Size() const ITK_OVERRIDE;
+  InstanceIdentifier Size() const override;
 
   /** Get the size (N-dimensional) of the histogram  */
   const SizeType & GetSize() const;
@@ -224,7 +224,7 @@ public:
   const MeasurementVectorType & GetHistogramMaxFromIndex(const IndexType & index) const;
 
   /** Get the frequency of an instance identifier */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const override;
 
   /** Get the frequency of an index */
   AbsoluteFrequencyType GetFrequency(const IndexType & index) const;
@@ -271,7 +271,7 @@ public:
   /** Get the measurement of an instance identifier. This is the
    * centroid of the bin.
    */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const override;
 
   /** Get the measurement of an index. This is the centroid of the bin. */
   const MeasurementVectorType & GetMeasurementVector(const IndexType & index) const;
@@ -282,7 +282,7 @@ public:
                                  unsigned int dimension) const;
 
   /** Get the total frequency in the histogram */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const override;
 
   /** Get the frequency of a dimension's nth element. */
   AbsoluteFrequencyType GetFrequency(InstanceIdentifier n,
@@ -309,10 +309,10 @@ public:
   double Mean(unsigned int dimension) const;
 
   /** Method to graft another histogram's output */
-  void Graft(const DataObject *) ITK_OVERRIDE;
+  void Graft(const DataObject *) override;
 
 protected:
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 public:
 
@@ -463,7 +463,7 @@ private:
 
 protected:
   Histogram();
-  ~Histogram() ITK_OVERRIDE {}
+  ~Histogram() override {}
 
   // The number of bins for each dimension
   SizeType m_Size;
@@ -478,7 +478,7 @@ private:
 
   // This method is provided here just to avoid a "hidden" warning
   // related to the virtual method available in DataObject.
-  void Initialize() ITK_OVERRIDE {}
+  void Initialize() override {}
 
   // lower bound of each bin
   std::vector< std::vector< MeasurementType > > m_Min;

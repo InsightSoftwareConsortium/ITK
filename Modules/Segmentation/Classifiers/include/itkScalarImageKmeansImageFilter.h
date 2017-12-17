@@ -152,19 +152,19 @@ public:
 
 protected:
   ScalarImageKmeansImageFilter();
-  ~ScalarImageKmeansImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ScalarImageKmeansImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method runs the statistical methods that identify the means of the
    * classes and the use the distances to those means in order to label the
    * image pixels.
    * \sa ImageToImageFilter::GenerateData()
    */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /* See superclass for doxygen. This methods additionally checks that
    * the number of means is not 0. */
-  void VerifyPreconditions() ITK_OVERRIDE;
+  void VerifyPreconditions() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageKmeansImageFilter);

@@ -95,7 +95,7 @@ public:
 
 protected:
   EdgePotentialImageFilter() {}
-  ~EdgePotentialImageFilter() ITK_OVERRIDE {}
+  ~EdgePotentialImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(EdgePotentialImageFilter);

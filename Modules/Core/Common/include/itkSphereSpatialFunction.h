@@ -55,7 +55,7 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluates the function at a given position */
-  OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & position) const override;
 
   /** Get and set the center of the sphere. */
   itkGetConstMacro(Center, InputType);
@@ -67,8 +67,8 @@ public:
 
 protected:
   SphereSpatialFunction();
-  ~SphereSpatialFunction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SphereSpatialFunction() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SphereSpatialFunction);

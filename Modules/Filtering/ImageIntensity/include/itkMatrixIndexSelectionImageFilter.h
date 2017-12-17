@@ -121,7 +121,7 @@ public:
 
 protected:
   MatrixIndexSelectionImageFilter() {}
-  ~MatrixIndexSelectionImageFilter() ITK_OVERRIDE {}
+  ~MatrixIndexSelectionImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MatrixIndexSelectionImageFilter);

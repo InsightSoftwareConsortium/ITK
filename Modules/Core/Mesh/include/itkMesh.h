@@ -284,12 +284,12 @@ public:
 
   void PassStructure(Self *inputMesh);
 
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** Methods for managing Mesh filters that have internal mini-pipelines */
-  void CopyInformation(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) override;
 
-  void Graft(const DataObject *data) ITK_OVERRIDE;
+  void Graft(const DataObject *data) override;
 
   /** Get the bounding box of the mesh. The methods return a pointer to
    * the user-supplied bounding box as a convenience. */
@@ -437,8 +437,8 @@ public:
 protected:
   /** Constructor for use by New() method. */
   Mesh();
-  ~Mesh() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~Mesh() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Release the memory allocated for the cells pointers. This is done
       based on information provided by the user through the method

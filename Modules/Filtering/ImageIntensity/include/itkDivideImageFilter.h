@@ -96,9 +96,9 @@ public:
 
 protected:
   DivideImageFilter() {}
-  ~DivideImageFilter() ITK_OVERRIDE {}
+  ~DivideImageFilter() override {}
 
-  void GenerateData() ITK_OVERRIDE
+  void GenerateData() override
     {
     const typename Superclass::DecoratedInput2ImagePixelType *input
        = dynamic_cast< const typename Superclass::DecoratedInput2ImagePixelType * >(

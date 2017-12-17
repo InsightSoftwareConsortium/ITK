@@ -64,9 +64,9 @@ public:
 protected:
   NoiseBaseImageFilter();
 
-  ~NoiseBaseImageFilter() ITK_OVERRIDE = 0;
+  ~NoiseBaseImageFilter() override = 0;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   inline static uint32_t Hash(uint32_t a, uint32_t b)
   {

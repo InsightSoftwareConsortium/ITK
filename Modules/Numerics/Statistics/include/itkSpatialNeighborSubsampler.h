@@ -100,7 +100,7 @@ public:
    * specific.  And could mean spatial similarity or feature similarity
    * etc.  */
   void Search(const InstanceIdentifier& query,
-                      SubsamplePointer& results) ITK_OVERRIDE;
+                      SubsamplePointer& results) override;
 
 protected:
   /**
@@ -108,12 +108,12 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
   SpatialNeighborSubsampler();
-  ~SpatialNeighborSubsampler() ITK_OVERRIDE {};
+  ~SpatialNeighborSubsampler() override {};
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   RadiusType m_Radius;
   bool       m_RadiusInitialized;

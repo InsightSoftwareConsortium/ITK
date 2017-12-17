@@ -89,9 +89,9 @@ public:
    * Note that the Offset of the superclass is no longer in the
    * parameters array since it is fully dependent on the rotation
    * center and the translation parameters. */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters(void) const ITK_OVERRIDE;
+  const ParametersType & GetParameters(void) const override;
 
   /** Compute the Jacobian of the transformation
    *
@@ -99,20 +99,20 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the transform
    * is invertible at this point. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
   /** Get an inverse of this transform. */
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const override;
 
 protected:
   /** Construct an CenteredAffineTransform object */
   CenteredAffineTransform();
 
   /** Destroy an CenteredAffineTransform object */
-  ~CenteredAffineTransform() ITK_OVERRIDE;
+  ~CenteredAffineTransform() override;
 
 private:
   CenteredAffineTransform(const Self & other);

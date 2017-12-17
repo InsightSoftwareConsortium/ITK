@@ -64,7 +64,7 @@ public:
 
 protected:
   QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction() : m_OldPointID(0) {}
-  ~QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction() ITK_OVERRIDE {}
+  ~QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction);

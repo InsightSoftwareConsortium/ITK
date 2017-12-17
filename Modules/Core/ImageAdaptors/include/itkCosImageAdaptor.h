@@ -89,7 +89,7 @@ public:
 
 protected:
   CosImageAdaptor() {}
-  ~CosImageAdaptor() ITK_OVERRIDE {}
+  ~CosImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CosImageAdaptor);

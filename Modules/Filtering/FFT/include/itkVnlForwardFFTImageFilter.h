@@ -75,7 +75,7 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  SizeValueType GetSizeGreatestPrimeFactor() const ITK_OVERRIDE;
+  SizeValueType GetSizeGreatestPrimeFactor() const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -86,9 +86,9 @@ public:
 
 protected:
   VnlForwardFFTImageFilter() {}
-  ~VnlForwardFFTImageFilter() ITK_OVERRIDE {}
+  ~VnlForwardFFTImageFilter() override {}
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VnlForwardFFTImageFilter);

@@ -181,18 +181,18 @@ protected:
   BilateralImageFilter();
 
   /** Destructor. */
-  ~BilateralImageFilter() ITK_OVERRIDE {}
+  ~BilateralImageFilter() override {}
 
   /** PrintSelf. */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Do some setup before the ThreadedGenerateData */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   /** Standard pipeline method. This filter is implemented as a multi-threaded
    * filter. */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
   /** BilateralImageFilter needs a larger input requested region than
    * the output requested region (larger by the size of the domain
@@ -200,7 +200,7 @@ protected:
    * an implementation for GenerateInputRequestedRegion() in order to
    * inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BilateralImageFilter);

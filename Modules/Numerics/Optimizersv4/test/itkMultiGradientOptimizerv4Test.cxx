@@ -65,15 +65,15 @@ public:
     m_Parameters(ITK_NULLPTR)
   {}
 
-  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE {}
+  void Initialize(void) throw ( itk::ExceptionObject ) override {}
 
-  void GetDerivative( DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetDerivative( DerivativeType & derivative ) const override
     {
     derivative.Fill( itk::NumericTraits< ParametersValueType >::ZeroValue() );
     }
 
   void GetValueAndDerivative( MeasureType & value,
-                              DerivativeType & derivative ) const ITK_OVERRIDE
+                              DerivativeType & derivative ) const override
   {
     if( derivative.Size() != 2 )
       derivative.SetSize(2);
@@ -99,7 +99,7 @@ public:
     std::cout << "derivative: " << derivative << std::endl;
   }
 
-  MeasureType  GetValue() const ITK_OVERRIDE
+  MeasureType  GetValue() const override
   {
     double x = (*m_Parameters)[0];
     double y = (*m_Parameters)[1];
@@ -108,34 +108,34 @@ public:
     return metric;
   }
 
-  void UpdateTransformParameters( const DerivativeType & update, ParametersValueType ) ITK_OVERRIDE
+  void UpdateTransformParameters( const DerivativeType & update, ParametersValueType ) override
   {
     (*m_Parameters) += update;
   }
 
-  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const override
   {
     return SpaceDimension;
   }
 
-  bool HasLocalSupport() const ITK_OVERRIDE
+  bool HasLocalSupport() const override
     {
     return false;
     }
 
-  unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
+  unsigned int GetNumberOfLocalParameters() const override
   {
     return SpaceDimension;
   }
 
   /* These Set/Get methods are only needed for this test derivation that
    * isn't using a transform */
-  void SetParameters( ParametersType & parameters ) ITK_OVERRIDE
+  void SetParameters( ParametersType & parameters ) override
   {
     m_Parameters = &parameters;
   }
 
-  const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const override
   {
     return (*m_Parameters);
   }
@@ -170,15 +170,15 @@ public:
     m_Parameters(ITK_NULLPTR)
   {}
 
-  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE {}
+  void Initialize(void) throw ( itk::ExceptionObject ) override {}
 
-  void GetDerivative( DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetDerivative( DerivativeType & derivative ) const override
     {
     derivative.Fill( itk::NumericTraits< ParametersValueType >::ZeroValue() );
     }
 
   void GetValueAndDerivative( MeasureType & value,
-                              DerivativeType & derivative ) const ITK_OVERRIDE
+                              DerivativeType & derivative ) const override
   {
     if( derivative.Size() != 2 )
       derivative.SetSize(2);
@@ -204,7 +204,7 @@ public:
     std::cout << "derivative: " << derivative << std::endl;
   }
 
-  MeasureType  GetValue() const ITK_OVERRIDE
+  MeasureType  GetValue() const override
   {
     double x = (*m_Parameters)[0];
     double y = (*m_Parameters)[1];
@@ -213,34 +213,34 @@ public:
     return metric;
   }
 
-  bool HasLocalSupport() const ITK_OVERRIDE
+  bool HasLocalSupport() const override
     {
     return false;
     }
 
-  void UpdateTransformParameters( const DerivativeType & update, ParametersValueType ) ITK_OVERRIDE
+  void UpdateTransformParameters( const DerivativeType & update, ParametersValueType ) override
   {
     (*m_Parameters) += update;
   }
 
-  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const override
   {
     return SpaceDimension;
   }
 
-  unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
+  unsigned int GetNumberOfLocalParameters() const override
   {
     return SpaceDimension;
   }
 
   /* These Set/Get methods are only needed for this test derivation that
    * isn't using a transform */
-  void SetParameters( ParametersType & parameters ) ITK_OVERRIDE
+  void SetParameters( ParametersType & parameters ) override
   {
     m_Parameters = &parameters;
   }
 
-  const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const override
   {
     return (*m_Parameters);
   }

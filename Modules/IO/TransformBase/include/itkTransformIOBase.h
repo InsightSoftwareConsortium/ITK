@@ -126,8 +126,8 @@ public:
 
 protected:
   TransformIOBaseTemplate();
-  ~TransformIOBaseTemplate() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~TransformIOBaseTemplate() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void OpenStream(std::ofstream & outputStream, bool binary);
 

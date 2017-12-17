@@ -166,10 +166,10 @@ protected:
   LoggerBase();
 
   /** Destructor */
-  ~LoggerBase() ITK_OVERRIDE;
+  ~LoggerBase() override;
 
   /** Print contents of a LoggerBase */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 protected:
 

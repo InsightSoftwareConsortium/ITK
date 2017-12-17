@@ -105,7 +105,7 @@ public:
    * added to the field.
    * See base class for more details.
    */
-  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) override;
 
   /** Smooth the displacement field in-place.
    * Uses m_GaussSmoothSigma to change the variance for the GaussianOperator.
@@ -115,8 +115,8 @@ public:
 
 protected:
   GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform();
-  ~GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform() ITK_OVERRIDE;
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  ~GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform() override;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Track when the temporary displacement field used during smoothing
    * was last modified/initialized. We only want to change it if the

@@ -124,16 +124,16 @@ public:
 
 protected:
   SliceImageFilter();
-  ~SliceImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SliceImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
  /** SliceImageFilter produces an image which is a different
    * resolution and with a different pixel spacing than its input
    * image.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** SliceImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -146,9 +146,9 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
-  void VerifyInputInformation() ITK_OVERRIDE;
+  void VerifyInputInformation() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SliceImageFilter);

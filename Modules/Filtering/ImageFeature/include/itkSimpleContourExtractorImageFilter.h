@@ -126,8 +126,8 @@ public:
 
 protected:
   SimpleContourExtractorImageFilter();
-  ~SimpleContourExtractorImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SimpleContourExtractorImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** SimpleContourExtractorImageFilter can be implemented as a
    *  multithreaded filter. Therefore, this implementation provides a
@@ -143,7 +143,7 @@ protected:
    *
    */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SimpleContourExtractorImageFilter);

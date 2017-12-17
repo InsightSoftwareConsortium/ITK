@@ -107,20 +107,20 @@ public:
 
   /** returns SizeType object whose each element is the number of
    * elements in each dimension */
-  InstanceIdentifier Size() const ITK_OVERRIDE;
+  InstanceIdentifier Size() const override;
 
   /** Clear the subsample */
   void Clear();
 
   /** returns the measurement of the instance which is identified
    * by the 'id' */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const override;
 
   /** returns the frequency of the instance which is identified by the 'id' */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const override;
 
   /** returns the total frequency for the 'd' dimension */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const override;
 
   void Swap(unsigned int index1, unsigned int index2);
 
@@ -131,7 +131,7 @@ public:
   AbsoluteFrequencyType GetFrequencyByIndex(unsigned int index) const;
 
   /** Method to graft another sample */
-  void Graft(const DataObject *thatObject) ITK_OVERRIDE;
+  void Graft(const DataObject *thatObject) override;
 
   class ConstIterator
   {
@@ -281,8 +281,8 @@ private:
 
 protected:
   Subsample();
-  ~Subsample() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~Subsample() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Subsample);

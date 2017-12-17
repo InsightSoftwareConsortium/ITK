@@ -53,26 +53,26 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) ITK_OVERRIDE;
+  bool CanReadFile(const char *) override;
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanWriteFile(const char *) ITK_OVERRIDE;
+  bool CanWriteFile(const char *) override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read() ITK_OVERRIDE;
+  void Read() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. The buffer is cast to a
    * pointer to the beginning of the image data. */
-  void Write() ITK_OVERRIDE;
+  void Write() override;
 
   /* Helper function for Read method, used for CompositeTransform reading. */
   void ReadComponentFile( std::string Value );
 
 protected:
   TxtTransformIOTemplate();
-  ~TxtTransformIOTemplate() ITK_OVERRIDE;
+  ~TxtTransformIOTemplate() override;
 
 private:
   /** trim spaces and newlines from start and end of a string */

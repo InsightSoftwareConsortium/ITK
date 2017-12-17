@@ -93,10 +93,10 @@ public:
   PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
                                   const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  ) ITK_OVERRIDE;
+                                  ) override;
 
   /** This method is called prior to each iteration of the solver. */
-  void InitializeIteration() ITK_OVERRIDE
+  void InitializeIteration() override
   {
     m_K = static_cast< PixelType >( this->GetAverageGradientMagnitudeSquared()
                                     * this->GetConductanceParameter() * this->GetConductanceParameter() * -2.0f );
@@ -104,7 +104,7 @@ public:
 
 protected:
   GradientNDAnisotropicDiffusionFunction();
-  ~GradientNDAnisotropicDiffusionFunction() ITK_OVERRIDE {}
+  ~GradientNDAnisotropicDiffusionFunction() override {}
 
   /** Inner product function. */
   NeighborhoodInnerProduct< ImageType > m_InnerProduct;

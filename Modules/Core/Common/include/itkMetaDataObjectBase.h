@@ -76,7 +76,7 @@ public:
 
 protected:
   MetaDataObjectBase();
-  ~MetaDataObjectBase() ITK_OVERRIDE;
+  ~MetaDataObjectBase() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaDataObjectBase);

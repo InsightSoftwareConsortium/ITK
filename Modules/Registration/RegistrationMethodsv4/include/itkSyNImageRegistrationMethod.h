@@ -195,11 +195,11 @@ public:
 
 protected:
   SyNImageRegistrationMethod();
-  ~SyNImageRegistrationMethod() ITK_OVERRIDE;
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  ~SyNImageRegistrationMethod() override;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
   /** Perform the registration. */
-  void  GenerateData() ITK_OVERRIDE;
+  void  GenerateData() override;
 
   /** Handle optimization internally */
   virtual void StartOptimization();
@@ -208,7 +208,7 @@ protected:
    * Initialize by setting the interconnects between the components. Need to override
    * in the SyN class since we need to "adapt" the \c m_InverseTransform
    */
-  void InitializeRegistrationAtEachLevel( const SizeValueType ) ITK_OVERRIDE;
+  void InitializeRegistrationAtEachLevel( const SizeValueType ) override;
 
   virtual DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const PointSetsContainerType,
     const TransformBaseType *, const MovingImagesContainerType, const PointSetsContainerType,

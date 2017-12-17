@@ -149,10 +149,10 @@ public:
   /** Get Value and Derivatives for MultipleValuedOptimizers */
   void GetValueAndDerivative(const ParametersType & parameters,
                                      MeasureType & Value,
-                                     DerivativeType  & Derivative) const ITK_OVERRIDE = 0;
+                                     DerivativeType  & Derivative) const override = 0;
 
   /** Return the number of parameters required by the Transform */
-  unsigned int GetNumberOfParameters( void ) const ITK_OVERRIDE;
+  unsigned int GetNumberOfParameters( void ) const override;
 
   /** Initialize the metric */
   virtual void Initialize(void);
@@ -167,10 +167,10 @@ public:
 protected:
 
   ImageToSpatialObjectMetric();
-  ~ImageToSpatialObjectMetric() ITK_OVERRIDE {}
+  ~ImageToSpatialObjectMetric() override {}
   ImageToSpatialObjectMetric(const Self &) {}
   void operator=(const Self &) {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   MeasureType              m_MatchMeasure;
   DerivativeType           m_MatchMeasureDerivatives;

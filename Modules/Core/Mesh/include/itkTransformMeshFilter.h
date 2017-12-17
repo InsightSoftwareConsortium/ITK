@@ -72,11 +72,11 @@ public:
 
 protected:
   TransformMeshFilter();
-  ~TransformMeshFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~TransformMeshFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Requested Data */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Transform to apply to all the mesh points. */
   typename TransformType::Pointer m_Transform;

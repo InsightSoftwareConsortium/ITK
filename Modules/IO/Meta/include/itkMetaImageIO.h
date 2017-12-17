@@ -56,7 +56,7 @@ public:
    * while others can support 2D, 3D, or even n-D. This method returns
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
-  bool SupportsDimension(unsigned long) ITK_OVERRIDE
+  bool SupportsDimension(unsigned long) override
   {
     return true;
   }
@@ -65,13 +65,13 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) ITK_OVERRIDE;
+  bool CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) override;
 
   MetaImage * GetMetaImagePointer();
 
@@ -79,14 +79,14 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  bool CanWriteFile(const char *) ITK_OVERRIDE;
+  bool CanWriteFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteImageInformation() ITK_OVERRIDE;
+  void WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void Write(const void *buffer) ITK_OVERRIDE;
+  void Write(const void *buffer) override;
 
   /** Set the filename for the Data file. Setting this will make the
       Writer to use the non-Local mode and save header and data in
@@ -105,23 +105,23 @@ public:
    * streamable region, which will be smaller than the LargestPossibleRegion and
    * greater or equal to the RequestedRegion */
   ImageIORegion
-  GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const ITK_OVERRIDE;
+  GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const override;
 
   unsigned int
   GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
                                     const ImageIORegion & pasteRegion,
-                                    const ImageIORegion & largestPossibleRegion) ITK_OVERRIDE;
+                                    const ImageIORegion & largestPossibleRegion) override;
 
   ImageIORegion
   GetSplitRegionForWriting(unsigned int ithPiece,
                            unsigned int numberOfActualSplits,
                            const ImageIORegion & pasteRegion,
-                           const ImageIORegion & largestPossibleRegion) ITK_OVERRIDE;
+                           const ImageIORegion & largestPossibleRegion) override;
 
   /** Determine if the ImageIO can stream reading from this
    *  file. Only time cannot stream read/write is if compression is used.
    *  CanRead must be called prior to this function. */
-  bool CanStreamRead() ITK_OVERRIDE
+  bool CanStreamRead() override
   {
     if ( m_MetaImage.CompressedData() )
       {
@@ -135,7 +135,7 @@ public:
    *  Assumes file passes a CanRead call and its pixels are of the same
    *  type as the template of the writer. Can verify by first calling
    *  CanRead and then CanStreamRead prior to calling CanStreamWrite. */
-  bool CanStreamWrite() ITK_OVERRIDE
+  bool CanStreamWrite() override
   {
     if ( this->GetUseCompression() )
       {
@@ -165,8 +165,8 @@ public:
 
 protected:
   MetaImageIO();
-  ~MetaImageIO() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MetaImageIO() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

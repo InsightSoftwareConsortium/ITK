@@ -93,7 +93,7 @@ public:
 
 protected:
   VTKPolyDataWriter();
-  ~VTKPolyDataWriter() ITK_OVERRIDE;
+  ~VTKPolyDataWriter() override;
 
   virtual void GenerateData();
 
@@ -101,7 +101,7 @@ protected:
 
   InputMeshPointer m_Input;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataWriter);

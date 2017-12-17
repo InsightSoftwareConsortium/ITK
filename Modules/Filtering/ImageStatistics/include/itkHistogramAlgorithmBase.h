@@ -77,8 +77,8 @@ public:
 
 protected:
   HistogramAlgorithmBase();
-  ~HistogramAlgorithmBase() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~HistogramAlgorithmBase() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual void Compute() = 0;
 

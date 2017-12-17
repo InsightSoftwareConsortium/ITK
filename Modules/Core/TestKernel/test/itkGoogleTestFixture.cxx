@@ -28,11 +28,11 @@ class GoogleTestFixture
 {
 public:
   GoogleTestFixture() : m_C(1) {}
-  ~GoogleTestFixture() ITK_OVERRIDE {}
+  ~GoogleTestFixture() override {}
 
 protected:
-  void SetUp() ITK_OVERRIDE {}
-  void TearDown() ITK_OVERRIDE {}
+  void SetUp() override {}
+  void TearDown() override {}
 
   int m_C;
 };

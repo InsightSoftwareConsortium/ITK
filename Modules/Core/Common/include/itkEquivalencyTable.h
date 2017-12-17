@@ -136,10 +136,10 @@ public:
 
 protected:
   EquivalencyTable()  {}
-  ~EquivalencyTable() ITK_OVERRIDE {}
+  ~EquivalencyTable() override {}
   ITK_DISALLOW_COPY_AND_ASSIGN(EquivalencyTable);
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   HashTableType m_HashMap;
 };

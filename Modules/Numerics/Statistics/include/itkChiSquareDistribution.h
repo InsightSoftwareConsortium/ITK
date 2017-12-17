@@ -73,16 +73,16 @@ public:
 
   /** Return the number of parameters.  For a Chi-Square
    * distribution, the number of parameters is 1 (degrees of freedom) */
-  SizeValueType GetNumberOfParameters() const ITK_OVERRIDE { return 1; }
+  SizeValueType GetNumberOfParameters() const override { return 1; }
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
-  double EvaluatePDF(double x) const ITK_OVERRIDE;
+  double EvaluatePDF(double x) const override;
 
   /** Evaluate the probability density function (pdf). The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (degrees of freedom). */
-  double EvaluatePDF(double x, const ParametersType &) const ITK_OVERRIDE;
+  double EvaluatePDF(double x, const ParametersType &) const override;
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are passed as separate parameters. */
@@ -90,12 +90,12 @@ public:
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
-  double EvaluateCDF(double x) const ITK_OVERRIDE;
+  double EvaluateCDF(double x) const override;
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (degreesOfFreedom). */
-  double EvaluateCDF(double x, const ParametersType &) const ITK_OVERRIDE;
+  double EvaluateCDF(double x, const ParametersType &) const override;
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are passed as separate parameters. */
@@ -104,13 +104,13 @@ public:
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0. The parameters
    * of the distribution are  assigned via SetParameters().  */
-  double EvaluateInverseCDF(double p) const ITK_OVERRIDE;
+  double EvaluateInverseCDF(double p) const override;
 
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (degrees of freedom). */
-  double EvaluateInverseCDF(double p, const ParametersType &) const ITK_OVERRIDE;
+  double EvaluateInverseCDF(double p, const ParametersType &) const override;
 
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
@@ -126,16 +126,16 @@ public:
   virtual SizeValueType GetDegreesOfFreedom() const;
 
   /** Does the Chi-Square distribution have a mean? */
-  bool HasMean() const ITK_OVERRIDE { return true; }
+  bool HasMean() const override { return true; }
 
   /** Get the mean of the distribution. */
-  double GetMean() const ITK_OVERRIDE;
+  double GetMean() const override;
 
   /** Does the Chi-Square distribution have a variance? */
-  bool HasVariance() const ITK_OVERRIDE { return true; }
+  bool HasVariance() const override { return true; }
 
   /** Get the variance of the distribution. */
-  double GetVariance() const ITK_OVERRIDE;
+  double GetVariance() const override;
 
   /** Static method to evaluate the probability density function (pdf)
    * of a Chi-Square with a specified number of degrees of freedom. The
@@ -197,9 +197,9 @@ public:
 
 protected:
   ChiSquareDistribution();
-  ~ChiSquareDistribution() ITK_OVERRIDE {}
+  ~ChiSquareDistribution() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ChiSquareDistribution);

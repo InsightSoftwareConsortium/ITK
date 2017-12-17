@@ -48,11 +48,11 @@ public:
 
   virtual vtkImageData* GetOutput() const = 0;
 
-  void Update() ITK_OVERRIDE;
+  void Update() override;
 
 protected:
   LevelSetTovtkImageDataBase();
-  ~LevelSetTovtkImageDataBase() ITK_OVERRIDE;
+  ~LevelSetTovtkImageDataBase() override;
 
   LevelSetPointer m_LevelSet;
 

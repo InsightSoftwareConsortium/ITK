@@ -75,8 +75,8 @@ public:
 
 protected:
   QuadEdgeMeshTopologyChecker();
-  ~QuadEdgeMeshTopologyChecker() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~QuadEdgeMeshTopologyChecker() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshTopologyChecker);

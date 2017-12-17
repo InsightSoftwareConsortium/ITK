@@ -36,13 +36,13 @@ public:
   itkTypeMacro(OptimizerParameterScalesEstimatorTest, OptimizerParameterScalesEstimator);
 
   /** Estimate parameter scales */
-  void EstimateScales(ScalesType &scales) ITK_OVERRIDE
+  void EstimateScales(ScalesType &scales) override
     {
     scales.SetSize(2);
     scales.Fill(1.0);
     }
 
-  double EstimateStepScale(const ParametersType &step) ITK_OVERRIDE
+  double EstimateStepScale(const ParametersType &step) override
     {
     double norm = step.two_norm();
     return norm;
@@ -50,20 +50,20 @@ public:
 
   /** Estimate the scales of local steps. */
   void EstimateLocalStepScales(const ParametersType &step,
-    ScalesType &localStepScales) ITK_OVERRIDE
+    ScalesType &localStepScales) override
     {
     localStepScales.SetSize(step.size());
     }
 
   /** Estimate the trusted scale for steps. */
-  double EstimateMaximumStepSize() ITK_OVERRIDE
+  double EstimateMaximumStepSize() override
     {
     return 1.0;
     }
 
 protected:
   OptimizerParameterScalesEstimatorTest(){};
-  ~OptimizerParameterScalesEstimatorTest() ITK_OVERRIDE {};
+  ~OptimizerParameterScalesEstimatorTest() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(OptimizerParameterScalesEstimatorTest);

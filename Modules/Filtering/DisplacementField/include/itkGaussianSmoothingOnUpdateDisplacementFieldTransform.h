@@ -92,7 +92,7 @@ public:
    * added to the field.
    * See base class for more details.
    */
-  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) override;
 
   /** Smooth the displacement field in-place.
    * Uses m_GaussSmoothSigma to change the variance for the GaussianOperator.
@@ -102,11 +102,11 @@ public:
 
 protected:
   GaussianSmoothingOnUpdateDisplacementFieldTransform();
-  ~GaussianSmoothingOnUpdateDisplacementFieldTransform() ITK_OVERRIDE;
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  ~GaussianSmoothingOnUpdateDisplacementFieldTransform() override;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Clone the current transform */
-  typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
   /** Used in GaussianSmoothDisplacementField as variance for the
    * GaussianOperator */

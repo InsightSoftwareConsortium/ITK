@@ -88,17 +88,17 @@ public:
 
 protected:
   RealToHalfHermitianForwardFFTImageFilter();
-  ~RealToHalfHermitianForwardFFTImageFilter() ITK_OVERRIDE {}
+  ~RealToHalfHermitianForwardFFTImageFilter() override {}
 
   /** The output is a different size from the input because of
    * Hermitian symmetry. */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** This class requires the entire input. */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** This class produces the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
   itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool);
 

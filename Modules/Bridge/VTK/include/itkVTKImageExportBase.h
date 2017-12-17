@@ -117,8 +117,8 @@ private:
 
 protected:
   VTKImageExportBase();
-  ~VTKImageExportBase() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VTKImageExportBase() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   typedef DataObject::Pointer DataObjectPointer;
 

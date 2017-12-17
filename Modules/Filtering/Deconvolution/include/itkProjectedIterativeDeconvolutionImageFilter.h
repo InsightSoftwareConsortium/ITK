@@ -72,14 +72,14 @@ public:
 
 protected:
   ProjectedIterativeDeconvolutionImageFilter();
-  ~ProjectedIterativeDeconvolutionImageFilter() ITK_OVERRIDE;
+  ~ProjectedIterativeDeconvolutionImageFilter() override;
 
   void Initialize(ProgressAccumulator * progress,
                           float progressWeight,
-                          float iterationProgressWeight) ITK_OVERRIDE;
+                          float iterationProgressWeight) override;
 
   void Iteration(ProgressAccumulator * progress,
-                         float iterationProgressWeight) ITK_OVERRIDE;
+                         float iterationProgressWeight) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ProjectedIterativeDeconvolutionImageFilter);

@@ -55,7 +55,7 @@ public:
 
 protected:
   QuadEdgeMeshEulerOperatorJoinFacetFunction(){}
-  ~QuadEdgeMeshEulerOperatorJoinFacetFunction() ITK_OVERRIDE {}
+  ~QuadEdgeMeshEulerOperatorJoinFacetFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorJoinFacetFunction);

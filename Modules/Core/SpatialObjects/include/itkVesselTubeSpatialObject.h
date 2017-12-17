@@ -70,10 +70,10 @@ public:
 protected:
 
   VesselTubeSpatialObject();
-  ~VesselTubeSpatialObject() ITK_OVERRIDE;
+  ~VesselTubeSpatialObject() override;
 
   /** Method to print the object.*/
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VesselTubeSpatialObject);

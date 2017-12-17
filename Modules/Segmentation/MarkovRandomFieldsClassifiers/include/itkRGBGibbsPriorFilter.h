@@ -113,7 +113,7 @@ public:
   void SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
   /** Set the Number of classes. */
-  void SetNumberOfClasses( const unsigned int numberOfClasses ) ITK_OVERRIDE
+  void SetNumberOfClasses( const unsigned int numberOfClasses ) override
     {
     itkDebugMacro("setting NumberOfClasses to " << numberOfClasses );
     if ( this->m_NumberOfClasses != numberOfClasses )
@@ -124,14 +124,14 @@ public:
     }
 
   /** Get the Number of classes. */
-  unsigned int GetNumberOfClasses() const ITK_OVERRIDE
+  unsigned int GetNumberOfClasses() const override
     {
     return this->m_NumberOfClasses;
     }
 
   /** Set/Get the number of iteration of the Iterated Conditional Mode
    * (ICM) algorithm. A default value is set at 50 iterations. */
-  void SetMaximumNumberOfIterations( const unsigned int numberOfIterations ) ITK_OVERRIDE
+  void SetMaximumNumberOfIterations( const unsigned int numberOfIterations ) override
     {
     itkDebugMacro("setting MaximumNumberOfIterations to " << numberOfIterations);
     if ( this->m_MaximumNumberOfIterations != numberOfIterations )
@@ -143,7 +143,7 @@ public:
 
   /** Get the number of iterations of the Iterated Conditional Mode
    * (ICM) algorithm. */
-  unsigned int GetMaximumNumberOfIterations() const ITK_OVERRIDE
+  unsigned int GetMaximumNumberOfIterations() const override
     {
     return this->m_MaximumNumberOfIterations;
     }
@@ -183,14 +183,14 @@ public:
 
 protected:
   RGBGibbsPriorFilter();
-  ~RGBGibbsPriorFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~RGBGibbsPriorFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void Allocate(); /** allocate memory space for the filter. */
 
-  void MinimizeFunctional() ITK_OVERRIDE;
+  void MinimizeFunctional() override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   virtual void ApplyGibbsLabeller();
 

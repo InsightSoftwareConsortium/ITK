@@ -80,27 +80,27 @@ public:
     m_Stapler = StapleFilterType::New();
     this->SetForeground(1);
   }
-  ~Stapler() ITK_OVERRIDE {}
+  ~Stapler() override {}
 
-  double GetConfidenceWeight( ) const ITK_OVERRIDE
+  double GetConfidenceWeight( ) const override
   { return m_Stapler->GetConfidenceWeight(); }
-  void SetConfidenceWeight( double w ) ITK_OVERRIDE
+  void SetConfidenceWeight( double w ) override
   { m_Stapler->SetConfidenceWeight( w); }
 
-  double GetSensitivity( unsigned int i ) ITK_OVERRIDE
+  double GetSensitivity( unsigned int i ) override
   { return m_Stapler->GetSensitivity(i); }
-  double GetSpecificity( unsigned int i ) ITK_OVERRIDE
+  double GetSpecificity( unsigned int i ) override
   { return m_Stapler->GetSpecificity(i); }
 
-  unsigned short GetForeground() const ITK_OVERRIDE
+  unsigned short GetForeground() const override
   { return m_Stapler->GetForegroundValue(); }
-  void SetForeground( unsigned short l ) ITK_OVERRIDE
+  void SetForeground( unsigned short l ) override
   { m_Stapler->SetForegroundValue( l ); }
 
-  unsigned int GetElapsedIterations() ITK_OVERRIDE
+  unsigned int GetElapsedIterations() override
   { return m_Stapler->GetElapsedIterations(); }
 
-  int Execute() ITK_OVERRIDE;
+  int Execute() override;
 
 private:
   typename StapleFilterType::Pointer m_Stapler;

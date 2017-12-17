@@ -111,7 +111,7 @@ public:
       }
   }
 
-  ~CompressedCUBFileAdaptor() ITK_OVERRIDE
+  ~CompressedCUBFileAdaptor() override
   {
     if ( m_GzFile )
       {
@@ -120,7 +120,7 @@ public:
       }
   }
 
-  unsigned char ReadByte() ITK_OVERRIDE
+  unsigned char ReadByte() override
   {
     int byte = gzgetc(m_GzFile);
 
@@ -135,7 +135,7 @@ public:
     return static_cast< unsigned char >( byte );
   }
 
-  void ReadData(void *data, SizeType bytes) ITK_OVERRIDE
+  void ReadData(void *data, SizeType bytes) override
   {
     if ( m_GzFile == ITK_NULLPTR )
       {
@@ -159,7 +159,7 @@ public:
       }
   }
 
-  void WriteData(const void *data, SizeType bytes) ITK_OVERRIDE
+  void WriteData(const void *data, SizeType bytes) override
   {
     if ( m_GzFile == ITK_NULLPTR )
       {
@@ -201,7 +201,7 @@ public:
       }
   }
 
-  ~DirectCUBFileAdaptor() ITK_OVERRIDE
+  ~DirectCUBFileAdaptor() override
   {
     if ( m_File )
       {
@@ -209,7 +209,7 @@ public:
       }
   }
 
-  unsigned char ReadByte() ITK_OVERRIDE
+  unsigned char ReadByte() override
   {
     int byte = fgetc(m_File);
 
@@ -224,7 +224,7 @@ public:
     return static_cast< unsigned char >( byte );
   }
 
-  void ReadData(void *data, SizeType bytes) ITK_OVERRIDE
+  void ReadData(void *data, SizeType bytes) override
   {
     if ( m_File == ITK_NULLPTR )
       {
@@ -248,7 +248,7 @@ public:
       }
   }
 
-  void WriteData(const void *data, SizeType bytes) ITK_OVERRIDE
+  void WriteData(const void *data, SizeType bytes) override
   {
     if ( m_File == ITK_NULLPTR )
       {

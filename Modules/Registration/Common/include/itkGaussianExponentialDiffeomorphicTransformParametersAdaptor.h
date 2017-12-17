@@ -63,13 +63,13 @@ public:
   virtual void SetGaussianSmoothingVarianceForTheUpdateField( ScalarType );
   itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheUpdateField, ScalarType );
 
-  void AdaptTransformParameters() ITK_OVERRIDE;
+  void AdaptTransformParameters() override;
 
 protected:
   GaussianExponentialDiffeomorphicTransformParametersAdaptor();
-  ~GaussianExponentialDiffeomorphicTransformParametersAdaptor() ITK_OVERRIDE;
+  ~GaussianExponentialDiffeomorphicTransformParametersAdaptor() override;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianExponentialDiffeomorphicTransformParametersAdaptor);

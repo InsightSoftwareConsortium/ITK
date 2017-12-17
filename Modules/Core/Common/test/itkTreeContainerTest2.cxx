@@ -133,12 +133,12 @@ public:
   typedef itk::SmartPointer<const Self>  ConstPointer;
   itkNewMacro(Self);
 
-  void Execute( itk::Object*, const itk::EventObject& event ) ITK_OVERRIDE
+  void Execute( itk::Object*, const itk::EventObject& event ) override
   {
     std::cout << event.GetEventName() << std::endl;
   }
 
-  void Execute( const itk::Object *, const itk::EventObject &event ) ITK_OVERRIDE
+  void Execute( const itk::Object *, const itk::EventObject &event ) override
   {
     std::cout << event.GetEventName();
 

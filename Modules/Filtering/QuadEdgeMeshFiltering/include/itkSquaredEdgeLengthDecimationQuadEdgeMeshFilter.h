@@ -71,7 +71,7 @@ public:
 
 protected:
   SquaredEdgeLengthDecimationQuadEdgeMeshFilter();
-  ~SquaredEdgeLengthDecimationQuadEdgeMeshFilter() ITK_OVERRIDE;
+  ~SquaredEdgeLengthDecimationQuadEdgeMeshFilter() override;
 
   // keep the start of this documentation text on very first comment line,
   // it prevents a Doxygen bug
@@ -80,7 +80,7 @@ protected:
    * \param[in] iEdge
    * \return measure value, here the squared edge length
    */
-  MeasureType MeasureEdge(OutputQEType *iEdge) ITK_OVERRIDE
+  MeasureType MeasureEdge(OutputQEType *iEdge) override
     {
     OutputPointIdentifier id_org = iEdge->GetOrigin();
     OutputPointIdentifier id_dest = iEdge->GetDestination();
@@ -98,7 +98,7 @@ protected:
    * \param[in] iEdge
    * \return the optimal point location
    */
-  OutputPointType Relocate(OutputQEType *iEdge) ITK_OVERRIDE;
+  OutputPointType Relocate(OutputQEType *iEdge) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SquaredEdgeLengthDecimationQuadEdgeMeshFilter);

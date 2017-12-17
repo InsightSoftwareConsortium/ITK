@@ -104,7 +104,7 @@ public:
   /** This method creates the appropriate member variable operators for the
    * level-set calculations.  The argument to this function is a the radius
    * necessary for performing the level-set calculations. */
-  void Initialize(const RadiusType & r) ITK_OVERRIDE;
+  void Initialize(const RadiusType & r) override;
 
   /** This method must be defined in a subclass to implement a working function
    * object.  This method is called before the solver begins its work to
@@ -154,13 +154,13 @@ protected:
 
   /** Returns the propagation speed from the precalculated speed image.*/
   ScalarValueType PropagationSpeed(const NeighborhoodType &,
-                                           const FloatOffsetType &, GlobalDataStruct *gd) const ITK_OVERRIDE;
+                                           const FloatOffsetType &, GlobalDataStruct *gd) const override;
 
   /** Advection field.  Returns a vector from the computed advectionfield.*/
   VectorType AdvectionField(const NeighborhoodType &,
-                                    const FloatOffsetType &, GlobalDataStruct *gd) const ITK_OVERRIDE;
+                                    const FloatOffsetType &, GlobalDataStruct *gd) const override;
 
-  ~SegmentationLevelSetFunction() ITK_OVERRIDE {}
+  ~SegmentationLevelSetFunction() override {}
   SegmentationLevelSetFunction()
   {
     m_SpeedImage = ImageType::New();

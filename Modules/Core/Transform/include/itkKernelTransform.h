@@ -141,23 +141,23 @@ public:
   void ComputeWMatrix();
 
   /** Compute the position of point in the new space */
-  OutputPointType TransformPoint(const InputPointType & thisPoint) const ITK_OVERRIDE;
+  OutputPointType TransformPoint(const InputPointType & thisPoint) const override;
 
   /** These vector transforms are not implemented for this transform */
   using Superclass::TransformVector;
-  OutputVectorType TransformVector(const InputVectorType &) const ITK_OVERRIDE
+  OutputVectorType TransformVector(const InputVectorType &) const override
   {
     itkExceptionMacro( << "TransformVector(const InputVectorType &) is not implemented for KernelTransform");
   }
 
-  OutputVnlVectorType TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
+  OutputVnlVectorType TransformVector(const InputVnlVectorType &) const override
   {
     itkExceptionMacro( << "TransformVector(const InputVnlVectorType &) is not implemented for KernelTransform");
   }
 
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
-  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
+  OutputCovariantVectorType TransformCovariantVector(const InputCovariantVectorType &) const override
   {
     itkExceptionMacro( << "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for KernelTransform");
   }
@@ -166,10 +166,10 @@ public:
   typedef vnl_matrix_fixed<TParametersValueType, NDimensions, NDimensions> IMatrixType;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
   void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType &) const ITK_OVERRIDE
+                                                    JacobianType &) const override
   {
     itkExceptionMacro( "ComputeJacobianWithRespectToPosition not yet implemented "
                        "for " << this->GetNameOfClass() );
@@ -179,28 +179,28 @@ public:
    * The parameters represent the source landmarks. Each landmark point is
    * represented by NDimensions doubles. All the landmarks are concatenated to
    * form one flat Array<double>. */
-  void SetParameters(const ParametersType &) ITK_OVERRIDE;
+  void SetParameters(const ParametersType &) override;
 
   /** Set Transform Fixed Parameters:
    *     To support the transform file writer this function was
    *     added to set the target landmarks similar to the
    *     SetParameters function setting the source landmarks
    */
-  void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE;
+  void SetFixedParameters(const FixedParametersType &) override;
 
   /** Update the Parameters array from the landmarks corrdinates. */
   virtual void UpdateParameters() const;
 
   /** Get the Transformation Parameters - Gets the Source Landmarks */
-  const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const override;
 
   /** Get Transform Fixed Parameters - Gets the Target Landmarks */
-  const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  const FixedParametersType & GetFixedParameters() const override;
 
   /** This transform is not linear, because the transformation of a linear
    * combination of points is not equal to the linear combination of the
    * transformations of individual points */
-  TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  TransformCategoryType GetTransformCategory() const override
   {
     return Self::Spline;
   }
@@ -220,8 +220,8 @@ public:
 
 protected:
   KernelTransform();
-  ~KernelTransform() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~KernelTransform() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 public:
   /** 'G' matrix typedef. */

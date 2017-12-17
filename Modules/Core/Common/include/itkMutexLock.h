@@ -127,10 +127,10 @@ public:
 
 protected:
   MutexLock() {}
-  ~MutexLock() ITK_OVERRIDE {}
+  ~MutexLock() override {}
 
   SimpleMutexLock m_SimpleMutexLock;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MutexLock);

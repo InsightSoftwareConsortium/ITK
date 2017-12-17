@@ -84,7 +84,7 @@ public:
   itkGetMacro(IFrameSafe, bool);
 
   /** Set up the output information */
-  void UpdateOutputInformation() ITK_OVERRIDE;
+  void UpdateOutputInformation() override;
 
   /** Set the internal VideoIOBase pointer. This will generally be called by
    * the object that creates the RingBuffer (e.g. itk::VideoFileReader) */
@@ -106,13 +106,13 @@ public:
 protected:
 
   VideoFileReader();
-  ~VideoFileReader() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VideoFileReader() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override TemporalStreamingGenerateData to generate output a single frame.
    * We don't override ThreadedGenerateData because we read whole frames one at
    * a time. As such, we have to handle the allocation of the frames here. */
-  void TemporalStreamingGenerateData() ITK_OVERRIDE;
+  void TemporalStreamingGenerateData() override;
 
   /** Convert buffer for output */
   void DoConvertBuffer(void* inputData, FrameOffsetType frameNumber);

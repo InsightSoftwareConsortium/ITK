@@ -96,7 +96,7 @@ public:
 
 protected:
   SquareImageFilter() {}
-  ~SquareImageFilter() ITK_OVERRIDE {}
+  ~SquareImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SquareImageFilter);

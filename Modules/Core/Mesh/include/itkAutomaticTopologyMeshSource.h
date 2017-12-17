@@ -382,9 +382,9 @@ public:
 
 protected:
   AutomaticTopologyMeshSource();
-  ~AutomaticTopologyMeshSource() ITK_OVERRIDE;
+  ~AutomaticTopologyMeshSource() override;
 
-  void GenerateData() ITK_OVERRIDE {}  // GenerateData is a no-op, since the entries ITK_OVERRIDE
+  void GenerateData() override {}  // GenerateData is a no-op, since the entries override
                           // are controlled manually
 
 private:

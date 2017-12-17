@@ -210,23 +210,23 @@ public:
 
   /**  Method to transform a point. Out-of-bounds points will
    * be returned with zero displacemnt. */
-  OutputPointType TransformPoint( const InputPointType& thisPoint ) const ITK_OVERRIDE;
+  OutputPointType TransformPoint( const InputPointType& thisPoint ) const override;
 
   /**  Method to transform a vector. */
   using Superclass::TransformVector;
-  OutputVectorType TransformVector(const InputVectorType &) const ITK_OVERRIDE
+  OutputVectorType TransformVector(const InputVectorType &) const override
   {
     itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
                        "TransformVector(Vector,Point)" );
   }
 
-  OutputVectorPixelType TransformVector(const InputVectorPixelType &) const ITK_OVERRIDE
+  OutputVectorPixelType TransformVector(const InputVectorPixelType &) const override
   {
     itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
                        "TransformVector(Vector,Point)" );
   }
 
-  OutputVnlVectorType TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
+  OutputVnlVectorType TransformVector(const InputVnlVectorType &) const override
   {
     itkExceptionMacro( "TransformVector(Vector) unimplemented, use "
                        "TransformVector(Vector,Point)" );
@@ -251,14 +251,14 @@ public:
   /** Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
   OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType &) const ITK_OVERRIDE
+    const InputCovariantVectorType &) const override
   {
     itkExceptionMacro( "TransformCovariantVector(CovariantVector) "
                        "unimplemented, use TransformCovariantVector(CovariantVector,Point)" );
   }
 
   OutputVectorPixelType TransformCovariantVector(
-    const InputVectorPixelType &) const ITK_OVERRIDE
+    const InputVectorPixelType &) const override
   {
     itkExceptionMacro( "TransformCovariantVector(CovariantVector) "
                        "unimplemented, use TransformCovariantVector(CovariantVector,Point)" );
@@ -266,7 +266,7 @@ public:
 
   /** Set the transformation parameters. This sets the displacement
    * field image directly. */
-  void SetParameters(const ParametersType & params) ITK_OVERRIDE
+  void SetParameters(const ParametersType & params) override
   {
     if( &(this->m_Parameters) != &params )
       {
@@ -291,7 +291,7 @@ public:
    * creates a new one with zero displacement (identity transform). If
    * an inverse displacement field exists, a new one is also created.
    */
-  void SetFixedParameters( const FixedParametersType & ) ITK_OVERRIDE;
+  void SetFixedParameters( const FixedParametersType & ) override;
 
   /**
    * Compute the jacobian with respect to the parameters at a point.
@@ -315,7 +315,7 @@ public:
    * TODO: format the above for doxygen formula.
    */
   void ComputeJacobianWithRespectToParameters(const InputPointType &,
-                                                      JacobianType & j) const ITK_OVERRIDE
+                                                      JacobianType & j) const override
   {
     j = this->m_IdentityJacobian;
   }
@@ -336,13 +336,13 @@ public:
    * Compute the jacobian with respect to the position, by point.
    * \c j will be resized as needed.
    */
-  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const override;
 
   /**
    * Compute the jacobian with respect to the position, by point.
    * \c j will be resized as needed.
    */
-  void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const ITK_OVERRIDE;
+  void ComputeInverseJacobianWithRespectToPosition(const InputPointType  & x, JacobianType & j ) const override;
 
   /**
    * Compute the jacobian with respect to the position, by index.
@@ -379,7 +379,7 @@ public:
   virtual void GetInverseJacobianOfForwardFieldWithRespectToPosition(const IndexType & index, JacobianType & jacobian,
                                                                      bool useSVD = false ) const;
 
-  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) override;
 
   /** Return an inverse of this transform.
    * Note that the inverse displacement field must be set by the user. */
@@ -387,17 +387,17 @@ public:
 
   /** Return an inverse of this transform.
    * Note that the inverse displacement field must be set by the user. */
-  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const override;
 
   virtual void SetIdentity();
 
   /** This transform is not linear. */
-  TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  TransformCategoryType GetTransformCategory() const override
   {
     return Self::DisplacementField;
   }
 
-  NumberOfParametersType GetNumberOfLocalParameters(void) const ITK_OVERRIDE
+  NumberOfParametersType GetNumberOfLocalParameters(void) const override
   {
     return Dimension;
   }
@@ -425,8 +425,8 @@ public:
 protected:
 
   DisplacementFieldTransform();
-  ~DisplacementFieldTransform() ITK_OVERRIDE;
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  ~DisplacementFieldTransform() override;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** The displacement field and its inverse (if it exists). */
   typename DisplacementFieldType::Pointer      m_DisplacementField;

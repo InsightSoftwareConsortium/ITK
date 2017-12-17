@@ -64,28 +64,28 @@ public:
   TreeContainer(TreeContainer< TValue > & tree);
 
   /** Set the root as an element */
-  bool SetRoot(const TValue element) ITK_OVERRIDE;
+  bool SetRoot(const TValue element) override;
 
   /** The the root as an iterator position */
   bool SetRoot(IteratorType & pos);
 
   /** Set the root as a tree node */
-  bool SetRoot(TreeNode< TValue > *node) ITK_OVERRIDE;
+  bool SetRoot(TreeNode< TValue > *node) override;
 
   /** Return true if the element is in the tree */
-  bool Contains(const TValue element) ITK_OVERRIDE;
+  bool Contains(const TValue element) override;
 
   /** Return the number of elements in the tree */
-  int Count() const ITK_OVERRIDE;
+  int Count() const override;
 
   /** Return true if the element is a leaf */
-  bool IsLeaf(const TValue element) ITK_OVERRIDE;
+  bool IsLeaf(const TValue element) override;
 
   /** Return true if the element is a root */
-  bool IsRoot(const TValue element) ITK_OVERRIDE;
+  bool IsRoot(const TValue element) override;
 
   /** Clear the tree */
-  bool Clear() ITK_OVERRIDE;
+  bool Clear() override;
 
   /** operator equal */
   bool operator==(TreeContainer< TValue > & tree);
@@ -94,7 +94,7 @@ public:
   bool Swap(IteratorType & v, IteratorType & w);
 
   /** Get the root */
-  const TreeNodeType * GetRoot() const ITK_OVERRIDE { return m_Root.GetPointer(); }
+  const TreeNodeType * GetRoot() const override { return m_Root.GetPointer(); }
 
   /** Add a child to a given parent using values */
   bool Add(const TValue child, const TValue parent);
@@ -105,13 +105,13 @@ public:
 protected:
 
   TreeContainer();
-  ~TreeContainer() ITK_OVERRIDE;
+  ~TreeContainer() override;
 
   typename TreeNodeType::Pointer m_Root;
 
   int m_DefaultChildrenCount;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // namespace itk
 

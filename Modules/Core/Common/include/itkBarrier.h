@@ -66,7 +66,7 @@ public:
 
 private:
   Barrier();
-  ~Barrier() ITK_OVERRIDE;
+  ~Barrier() override;
 
   unsigned int               m_NumberArrived;
   unsigned int               m_NumberExpected;

@@ -174,7 +174,7 @@ public:
    * MultiResolutionPDEDeformableRegistration can take a third input
    * as an initial deformation field, this input is not a required input.
    */
-  std::vector< SmartPointer< DataObject > >::size_type GetNumberOfValidRequiredInputs() const ITK_OVERRIDE;
+  std::vector< SmartPointer< DataObject > >::size_type GetNumberOfValidRequiredInputs() const override;
 
   /** Get/Set the internal registrator. */
   itkSetObjectMacro(RegistrationFilter, RegistrationType);
@@ -215,16 +215,16 @@ protected:
   MultiResolutionPDEDeformableRegistration();
   // ~MultiResolutionPDEDeformableRegistration() {} default implementation ok
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate output data by performing the registration
    * at each resolution level. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** The current implementation of this class does not support
    * streaming. As such it requires the largest possible region
    * for the moving, fixed and input deformation field. */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** By default, the output deformation field has the same
    * spacing, origin and LargestPossibleRegion as the input/initial
@@ -232,12 +232,12 @@ protected:
    *
    * If the initial deformation field is not set, the output
    * information is copied from the fixed image. */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** The current implementation of this class does not supprot
    * streaming. As such it produces the output for the largest
    * possible region. */
-  void EnlargeOutputRequestedRegion(DataObject *ptr) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *ptr) override;
 
   /** This method returns true to indicate that the registration should
    * terminate at the current resolution level. */
@@ -248,7 +248,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  void VerifyInputInformation() ITK_OVERRIDE {}
+  void VerifyInputInformation() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionPDEDeformableRegistration);

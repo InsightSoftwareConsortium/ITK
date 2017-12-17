@@ -45,7 +45,7 @@ class ITK_TEMPLATE_EXPORT LBFGSOptimizerBaseHelperv4: public TInternalVnlOptimiz
   LBFGSOptimizerBasev4<TInternalVnlOptimizerType> * m_ItkObj;
 
   /** Handle new iteration event */
-  bool report_iter() ITK_OVERRIDE;
+  bool report_iter() override;
 };
 
 

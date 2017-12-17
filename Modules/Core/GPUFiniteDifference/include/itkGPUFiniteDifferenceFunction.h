@@ -88,7 +88,7 @@ public:
   virtual PixelType  ComputeUpdate( const NeighborhoodType & itkNotUsed(neighborhood),
                                     void *itkNotUsed(globalData),
                                     const FloatOffsetType & itkNotUsed(offset = FloatOffsetType(0.0)) )
-    ITK_OVERRIDE
+    override
   {
     PixelType pix = itk::NumericTraits<PixelType>::ZeroValue();
     return pix;
@@ -112,7 +112,7 @@ protected:
   GPUFiniteDifferenceFunction() {
     m_GPUKernelManager = GPUKernelManager::New();
   }
-  ~GPUFiniteDifferenceFunction() ITK_OVERRIDE {}
+  ~GPUFiniteDifferenceFunction() override {}
 
   /** GPU kernel manager for GPUFiniteDifferenceFunction class */
   typename GPUKernelManager::Pointer m_GPUKernelManager;

@@ -92,9 +92,9 @@ public:
 
 protected:
   TransformFileWriterTemplate();
-  ~TransformFileWriterTemplate() ITK_OVERRIDE;
+  ~TransformFileWriterTemplate() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   void PushBackTransformList(const Object *transObj);

@@ -273,13 +273,13 @@ public:
    * just copies the meta information using TemporalProcessObject's Graft then
    * sets the internal RingBuffer pointer to point to the same buffer used by
    * the other VideoStream. */
-  void Graft(const DataObject* data) ITK_OVERRIDE;
+  void Graft(const DataObject* data) override;
 
 protected:
   VideoStream() {}
-  ~VideoStream() ITK_OVERRIDE {}
+  ~VideoStream() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::Print(os, indent);
   }

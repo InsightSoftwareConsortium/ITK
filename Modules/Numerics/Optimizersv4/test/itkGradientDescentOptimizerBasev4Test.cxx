@@ -41,46 +41,46 @@ public:
   itkNewMacro(Self);
 
   // Pure virtual functions that all Metrics must provide
-  unsigned int GetNumberOfParameters() const ITK_OVERRIDE { return 5; }
+  unsigned int GetNumberOfParameters() const override { return 5; }
 
-  MeasureType GetValue() const ITK_OVERRIDE
+  MeasureType GetValue() const override
     {
     return itk::NumericTraits< MeasureType >::OneValue();
     }
 
-  void GetDerivative( DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetDerivative( DerivativeType & derivative ) const override
     {
     derivative.Fill( itk::NumericTraits< ParametersValueType >::ZeroValue() );
     }
 
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const override
     {
     value = itk::NumericTraits< MeasureType >::OneValue();
     derivative.Fill( itk::NumericTraits< ParametersValueType >::ZeroValue() );
     }
 
-  unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
+  unsigned int GetNumberOfLocalParameters() const override
   { return 3; }
 
-  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE {}
+  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) override {}
 
-  const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const override
   { return m_Parameters; }
 
-  void SetParameters( ParametersType & ) ITK_OVERRIDE {}
+  void SetParameters( ParametersType & ) override {}
 
-  bool HasLocalSupport() const ITK_OVERRIDE
+  bool HasLocalSupport() const override
     {
     return false;
     }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE {}
+  void Initialize(void) throw ( itk::ExceptionObject ) override {}
 
-  void PrintSelf(std::ostream& os, itk::Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream& os, itk::Indent indent) const override
   { Superclass::PrintSelf( os, indent ); }
 
 protected:
-  ~GradientDescentOptimizerBasev4TestMetric() ITK_OVERRIDE {}
+  ~GradientDescentOptimizerBasev4TestMetric() override {}
 
 private:
   GradientDescentOptimizerBasev4TestMetric() {}
@@ -109,24 +109,24 @@ public:
                 GradientDescentOptimizerBasev4);
 
   /* Provide an override for the pure virtual StartOptimization */
-  void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE
+  void StartOptimization( bool doOnlyInitialization = false ) override
     {
     Superclass::StartOptimization( doOnlyInitialization );
     std::cout << "StartOptimization called. doOnlyInitialization: " << doOnlyInitialization << std::endl;
     }
 
-  void ResumeOptimization() ITK_OVERRIDE
+  void ResumeOptimization() override
     {
     std::cout << "ResumeOptimization called." << std::endl;
     }
 
-  void ModifyGradientByScalesOverSubRange (const IndexRangeType& index ) ITK_OVERRIDE
+  void ModifyGradientByScalesOverSubRange (const IndexRangeType& index ) override
     {
     std::cout << "ModifyGradientByScalesOverSubRange called with index:"
               << index << std::endl;
     }
 
-  void ModifyGradientByLearningRateOverSubRange (const IndexRangeType& index ) ITK_OVERRIDE
+  void ModifyGradientByLearningRateOverSubRange (const IndexRangeType& index ) override
     {
     std::cout << "ModifyGradientByLearningRateOverSubRange called with index:"
               << index << std::endl;
@@ -135,7 +135,7 @@ public:
 protected:
 
   GradientDescentOptimizerBasev4TestOptimizer(){}
-  ~GradientDescentOptimizerBasev4TestOptimizer() ITK_OVERRIDE {}
+  ~GradientDescentOptimizerBasev4TestOptimizer() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestOptimizer);

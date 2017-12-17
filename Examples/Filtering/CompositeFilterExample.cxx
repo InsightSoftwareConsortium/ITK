@@ -122,10 +122,10 @@ protected:
   typedef RescaleIntensityImageFilter< ImageType, ImageType >  RescalerType;
 //  Software Guide : EndCodeSnippet
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  virtual void GenerateData() override;
 
   /** Display */
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CompositeExampleImageFilter);

@@ -262,13 +262,13 @@ public:
 protected:
 
   MRCHeaderObject();
-  ~MRCHeaderObject() ITK_OVERRIDE;
+  ~MRCHeaderObject() override;
 
   /** Methods to fix the order of a set header */
   void swapHeader(bool bigEndian);
 
   /** Prints loads of information from the header */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MRCHeaderObject);

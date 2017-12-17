@@ -86,9 +86,9 @@ public:
 
 protected:
   PathAndImageToPathFilter();
-  ~PathAndImageToPathFilter() ITK_OVERRIDE {}
+  ~PathAndImageToPathFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** What is the input requested region that is required to produce the output
    * requested region?  Up till and including now, the base assumption is that
@@ -97,7 +97,7 @@ protected:
    * its first step.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PathAndImageToPathFilter);

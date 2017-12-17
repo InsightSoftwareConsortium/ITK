@@ -51,9 +51,9 @@ public:
 
   itkNewMacro( Self );
 
-  void Execute( const Object* caller, const EventObject& event ) ITK_OVERRIDE;
+  void Execute( const Object* caller, const EventObject& event ) override;
 
-  void Execute( Object* caller, const EventObject& event ) ITK_OVERRIDE;
+  void Execute( Object* caller, const EventObject& event ) override;
 
   /** Set/Get the filter to call Update() on. */
   itkSetObjectMacro( FilterToUpdate, FilterToUpdateType );
@@ -66,7 +66,7 @@ public:
 
 protected:
   LevelSetIterationUpdateCommand();
-  ~LevelSetIterationUpdateCommand() ITK_OVERRIDE;
+  ~LevelSetIterationUpdateCommand() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetIterationUpdateCommand);
