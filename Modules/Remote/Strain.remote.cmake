@@ -11,6 +11,6 @@ For more information, see:
   http://hdl.handle.net/10380/3573
   http://insight-journal.org/browse/publication/984
 "
-  GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKStrain.git
-  GIT_TAG f309a9efe43f472f14de4bf376b22e99ed377b79
+  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKStrain.git
+  GIT_TAG 337f5c26efaf851a06e24beb6d8dbdd3f21f9853
   )
