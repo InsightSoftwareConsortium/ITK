@@ -84,7 +84,7 @@ public:
 
 protected:
   MGHImageIO();
-  ~MGHImageIO() override;
+  ~MGHImageIO() ITK_OVERRIDE;
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   void ReadVolumeHeader();
