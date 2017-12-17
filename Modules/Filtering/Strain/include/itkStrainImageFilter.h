@@ -129,15 +129,15 @@ protected:
   StrainImageFilter();
 
   void
-  BeforeThreadedGenerateData() ITK_OVERRIDE;
+  BeforeThreadedGenerateData() override;
 
   void
-  ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId) ITK_OVERRIDE;
+  ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId) override;
 
   typedef itk::SplitComponentsImageFilter<InputImageType, OperatorImageType> InputComponentsImageFilterType;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(StrainImageFilter);
