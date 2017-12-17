@@ -26,8 +26,21 @@ foreach(p
     cmake_policy(SET ${p} NEW)
   endif()
 endforeach()
-
 project(ITK NONE)
+
+set(ITK_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
+set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
+
+if (APPLE)
+  include(itkApple)
+endif ()
+
+include(itkCompilerChecks)
+include(itkVersion)
+set(ITK_VERSION
+    "${ITK_MAJOR_VERSION}.${ITK_MINOR_VERSION}.${ITK_BUILD_VERSION}")
+include(itkSupportMacros)
+
 # Configure CMake variables that will be used in the module macros
 # ITK_USE_FILE is used when a remote module includes an example directory
 # that can be configured as an independent project.
@@ -94,8 +107,6 @@ endif()
 include(CTest)
 mark_as_advanced(CLEAR BUILD_TESTING)
 
-set(ITK_CMAKE_DIR ${ITK_SOURCE_DIR}/CMake)
-set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 include(ITKDownloadSetup)
 include(PreventInSourceBuilds)
 include(PreventInBuildInstalls)
@@ -108,10 +119,6 @@ include(itkCheckSourceTree)
 set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
 
 #-----------------------------------------------------------------------------
-# ITK version number.
-set(ITK_VERSION_MAJOR "5")
-set(ITK_VERSION_MINOR "0")
-set(ITK_VERSION_PATCH "0")
 configure_file(CMake/ITKConfigVersion.cmake.in ITKConfigVersion.cmake @ONLY)
 
 if(NOT ITK_INSTALL_RUNTIME_DIR)
