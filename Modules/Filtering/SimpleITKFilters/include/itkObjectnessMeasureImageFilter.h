@@ -96,17 +96,17 @@ public:
 protected:
   ObjectnessMeasureImageFilter();
 
-  ~ObjectnessMeasureImageFilter() ITK_OVERRIDE;
+  ~ObjectnessMeasureImageFilter() override;
 
 
   void
-  EnlargeOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ObjectnessMeasureImageFilter);
