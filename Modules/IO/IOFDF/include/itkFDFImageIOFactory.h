@@ -38,9 +38,9 @@ public:
 
   /** Class methods used to interface with the registered factories. */
   const char *
-  GetITKSourceVersion(void) const ITK_OVERRIDE;
+  GetITKSourceVersion(void) const override;
   const char *
-  GetDescription(void) const ITK_OVERRIDE;
+  GetDescription(void) const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -58,7 +58,7 @@ public:
 
 protected:
   FDFImageIOFactory();
-  ~FDFImageIOFactory() ITK_OVERRIDE;
+  ~FDFImageIOFactory() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FDFImageIOFactory);
