@@ -110,7 +110,7 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
   }
 
   DcmDataset *         dataset = fileFormat.getDataset();
-  DcmSequenceOfItems * registrationSequence = ITK_NULLPTR;
+  DcmSequenceOfItems * registrationSequence = nullptr;
   result = dataset->findAndGetSequence(DCM_RegistrationSequence, registrationSequence);
   if (result.good())
   {
@@ -144,7 +144,7 @@ DCMTKTransformIO<TInternalComputationValueType>::Read()
       {
         itkExceptionMacro("Empty RegistrationSequenceItem in transform file.");
       }
-      DcmSequenceOfItems * matrixRegistrationSequence = ITK_NULLPTR;
+      DcmSequenceOfItems * matrixRegistrationSequence = nullptr;
       result =
         currentRegistrationSequenceItem->findAndGetSequence(DCM_MatrixRegistrationSequence, matrixRegistrationSequence);
       if (result.good())
