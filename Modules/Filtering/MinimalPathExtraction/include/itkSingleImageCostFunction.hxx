@@ -29,9 +29,9 @@ namespace itk
 template <class TImage>
 SingleImageCostFunction<TImage>::SingleImageCostFunction()
 {
-  m_Image = 0;                 // Provided by user
-  m_Interpolator = 0;          // Configured in Initialize()
-  m_GradientImageFunction = 0; // Configured in Initialize()
+  m_Image = nullptr;                 // Provided by user
+  m_Interpolator = nullptr;          // Configured in Initialize()
+  m_GradientImageFunction = nullptr; // Configured in Initialize()
 }
 
 

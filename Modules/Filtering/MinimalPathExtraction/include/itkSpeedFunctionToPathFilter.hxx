@@ -32,7 +32,7 @@ namespace itk
 template <class TInputImage, class TOutputPath>
 SpeedFunctionToPathFilter<TInputImage, TOutputPath>::SpeedFunctionToPathFilter()
 {
-  m_CurrentArrivalFunction = NULL;
+  m_CurrentArrivalFunction = nullptr;
 }
 
 
