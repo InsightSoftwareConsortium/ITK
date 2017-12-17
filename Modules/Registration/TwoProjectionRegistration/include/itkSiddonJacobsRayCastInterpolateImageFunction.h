@@ -151,7 +151,7 @@ public:
   /** Connect the Transform. */
   itkSetObjectMacro(Transform, TransformType);
   /** Get a pointer to the Transform.  */
-  itkGetObjectMacro(Transform, TransformType);
+  itkGetConstObjectMacro(Transform, TransformType);
 
   /** Set and get the focal point to isocenter distance in mm */
   itkSetMacro(FocalPointToIsocenterDistance, double);
