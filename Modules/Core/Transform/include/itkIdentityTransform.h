@@ -139,7 +139,7 @@ public:
 
   /** Set the transformation to an Identity
    *
-   * This is a ITK_NULLPTR operation in the case of this particular transform.
+   * This is a nullptr operation in the case of this particular transform.
      The method is provided only to comply with the interface of other transforms. */
   void SetIdentity(void)
   {
@@ -197,7 +197,7 @@ public:
   /* Always returns true if not null, as an identity is it's own inverse */
   bool GetInverse( Self *inverseTransform ) const
   {
-    return (inverseTransform != ITK_NULLPTR);
+    return (inverseTransform != nullptr);
   }
 
   /** Return an inverse of the identity transform - another identity transform.

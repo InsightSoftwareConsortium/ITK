@@ -62,7 +62,7 @@ public:
   typedef Superclass::MeasureType           MeasureType;
 
   MultiGradientOptimizerv4TestMetric() :
-    m_Parameters(ITK_NULLPTR)
+    m_Parameters(nullptr)
   {}
 
   void Initialize(void) throw ( itk::ExceptionObject ) override {}
@@ -167,7 +167,7 @@ public:
   typedef Superclass::MeasureType           MeasureType;
 
   MultiGradientOptimizerv4TestMetric2() :
-    m_Parameters(ITK_NULLPTR)
+    m_Parameters(nullptr)
   {}
 
   void Initialize(void) throw ( itk::ExceptionObject ) override {}

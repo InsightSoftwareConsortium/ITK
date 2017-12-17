@@ -99,7 +99,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
 {
   const ImageType *input = this->GetInput();
 
-  if ( input == ITK_NULLPTR )
+  if ( input == nullptr )
     {
     itkExceptionMacro("Input image has not been set yet");
     }
@@ -128,7 +128,7 @@ ImageToListSampleFilter< TImage, TMaskImage >
     static_cast< ListSampleType * >( this->ProcessObject::GetOutput(0) );
 
   const ImageType *    input = this->GetInput();
-  const MaskImageType *maskImage = ITK_NULLPTR;
+  const MaskImageType *maskImage = nullptr;
 
   // Verify whether the image and the mask have the same LargestPossibleRegion.
   // Otherwise, throw an exception.

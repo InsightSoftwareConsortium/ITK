@@ -679,7 +679,7 @@ public:
   template< typename TSourceLabelObject >
   void CopyAllFrom(const TSourceLabelObject *src)
   {
-    itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+    itkAssertOrThrowMacro ( ( src != nullptr ), "Null Pointer" );
     this->template CopyLinesFrom<TSourceLabelObject>( src );
     this->template CopyAttributesFrom<TSourceLabelObject>( src );
   }

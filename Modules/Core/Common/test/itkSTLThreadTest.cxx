@@ -106,7 +106,7 @@ int itkSTLThreadTest(int argc, char* argv[])
   std::cout << "threader->GetGlobalMaximumNumberOfThreads(): "
             << threader->GetGlobalMaximumNumberOfThreads() << std::endl;
 
-  itk::ThreadIdType threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, ITK_NULLPTR);
+  itk::ThreadIdType threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, nullptr);
   std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): "
             << threadId << std::endl;
   threader->TerminateThread(threadId);

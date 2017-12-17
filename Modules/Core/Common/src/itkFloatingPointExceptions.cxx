@@ -506,7 +506,7 @@ FloatingPointExceptions
   act.sa_sigaction = fhdl;
   sigemptyset(&act.sa_mask);
   act.sa_flags = SA_SIGINFO;
-  sigaction(SIGFPE,&act,ITK_NULLPTR);
+  sigaction(SIGFPE,&act,nullptr);
   FloatingPointExceptions::m_Enabled = true;
 }
 void

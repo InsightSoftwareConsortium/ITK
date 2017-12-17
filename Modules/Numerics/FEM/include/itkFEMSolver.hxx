@@ -45,7 +45,7 @@ Solver<VDimension>
 
   this->m_NGFN = 0;
   this->m_NMFC = 0;
-  this->m_FEMObject = ITK_NULLPTR;
+  this->m_FEMObject = nullptr;
   this->m_Origin.Fill( 0.0 );
   this->m_Spacing.Fill( 1.0 );
 
@@ -96,7 +96,7 @@ Solver<VDimension>
   {
   if( this->GetNumberOfInputs() < 1 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   return itkDynamicCastInDebugMode<FEMObjectType *>(this->ProcessObject::GetInput(0) );
@@ -148,7 +148,7 @@ Solver<VDimension>
   {
   if( this->GetNumberOfOutputs() < 1 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   return itkDynamicCastInDebugMode<FEMObjectType *>(this->ProcessObject::GetOutput(0));
@@ -162,7 +162,7 @@ Solver<VDimension>
   FEMObjectType* out = dynamic_cast<FEMObjectType *>
     (this->ProcessObject::GetOutput(idx) );
 
-  if( out == ITK_NULLPTR )
+  if( out == nullptr )
     {
     itkWarningMacro( << "dynamic_cast to output type failed" );
     }
@@ -940,7 +940,7 @@ Solver<VDimension>
   m_InterpolationGrid->Allocate();
 
    // Initialize all pointers in interpolation grid image to 0
-  m_InterpolationGrid->FillBuffer(ITK_NULLPTR);
+  m_InterpolationGrid->FillBuffer(nullptr);
 
   FillInterpolationGrid();
 }
@@ -974,7 +974,7 @@ Solver<VDimension>
   else
     {
     // Return 0, if outside the grid.
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 

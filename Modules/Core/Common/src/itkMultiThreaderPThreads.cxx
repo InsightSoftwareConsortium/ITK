@@ -55,7 +55,7 @@ void MultiThreader::MultipleMethodExecute()
     }
   for( ThreadIdType thread_loop = 0; thread_loop < m_NumberOfThreads; ++thread_loop )
     {
-    if( m_MultipleMethod[thread_loop] == (ThreadFunctionType)ITK_NULLPTR )
+    if( m_MultipleMethod[thread_loop] == (ThreadFunctionType)nullptr )
       {
       itkExceptionMacro(<< "No multiple method set for: " << thread_loop);
       return;
@@ -103,7 +103,7 @@ void MultiThreader::MultipleMethodExecute()
   // waits for each of the other processes to exit
   for( ThreadIdType thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
     {
-    pthread_join(process_id[thread_loop], ITK_NULLPTR);
+    pthread_join(process_id[thread_loop], nullptr);
     }
 
 }
@@ -171,10 +171,10 @@ void MultiThreader::TerminateThread(ThreadIdType ThreadID)
   m_SpawnedThreadActiveFlag[ThreadID] = 0;
   m_SpawnedThreadActiveFlagLock[ThreadID]->Unlock();
 
-  pthread_join(m_SpawnedThreadProcessID[ThreadID], ITK_NULLPTR);
+  pthread_join(m_SpawnedThreadProcessID[ThreadID], nullptr);
 
-  m_SpawnedThreadActiveFlagLock[ThreadID] = ITK_NULLPTR;
-  m_SpawnedThreadActiveFlagLock[ThreadID] = ITK_NULLPTR;
+  m_SpawnedThreadActiveFlagLock[ThreadID] = nullptr;
+  m_SpawnedThreadActiveFlagLock[ThreadID] = nullptr;
 }
 
 void
@@ -182,7 +182,7 @@ MultiThreader
 ::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
 {
   // Using POSIX threads
-  if ( pthread_join(threadHandle, ITK_NULLPTR) )
+  if ( pthread_join(threadHandle, nullptr) )
     {
     itkExceptionMacro(<< "Unable to join thread.");
     }

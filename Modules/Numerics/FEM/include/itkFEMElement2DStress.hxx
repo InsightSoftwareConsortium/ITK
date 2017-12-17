@@ -27,7 +27,7 @@ namespace fem
 {
 template <typename TBaseClass>
 Element2DStress<TBaseClass>
-::Element2DStress() : Superclass(), m_mat(ITK_NULLPTR)
+::Element2DStress() : Superclass(), m_mat(nullptr)
 {
 }
 

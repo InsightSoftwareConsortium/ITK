@@ -104,7 +104,7 @@ LevelSetQuadEdgeMesh< TMesh >::Initialize()
 {
   Superclass::Initialize();
 
-  this->m_Mesh = ITK_NULLPTR;
+  this->m_Mesh = nullptr;
 }
 
 template< typename TMesh >

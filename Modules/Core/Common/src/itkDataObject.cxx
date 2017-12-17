@@ -34,17 +34,17 @@ bool DataObject:: m_GlobalReleaseDataFlag = false;
 
 DataObjectError
 ::DataObjectError():
-  ExceptionObject(), m_DataObject(ITK_NULLPTR)
+  ExceptionObject(), m_DataObject(nullptr)
 {}
 
 DataObjectError
 ::DataObjectError(const char *file, unsigned int lineNumber):
-  ExceptionObject(file, lineNumber), m_DataObject(ITK_NULLPTR)
+  ExceptionObject(file, lineNumber), m_DataObject(nullptr)
 {}
 
 DataObjectError
 ::DataObjectError(const std::string & file, unsigned int lineNumber):
-  ExceptionObject(file, lineNumber), m_DataObject(ITK_NULLPTR)
+  ExceptionObject(file, lineNumber), m_DataObject(nullptr)
 {}
 
 DataObjectError
@@ -133,7 +133,7 @@ InvalidRequestedRegionError
 //----------------------------------------------------------------------------
 DataObject::DataObject():m_UpdateMTime()
 {
-  m_Source = ITK_NULLPTR;
+  m_Source = nullptr;
   m_SourceOutputName = "";
   m_ReleaseDataFlag = false;
 
@@ -208,7 +208,7 @@ DataObject
   // disconnect ourselves from the current process object
   if ( m_Source )
     {
-    m_Source->SetOutput(m_SourceOutputName, ITK_NULLPTR);
+    m_Source->SetOutput(m_SourceOutputName, nullptr);
     }
 
   // set our release data flag to off by default (purposely done after
@@ -231,7 +231,7 @@ DataObject
     itkDebugMacro("disconnecting source  " << arg
                                            << ", source output name " << name);
 
-    m_Source = ITK_NULLPTR;
+    m_Source = nullptr;
     m_SourceOutputName = "";
     this->Modified();
     return true;

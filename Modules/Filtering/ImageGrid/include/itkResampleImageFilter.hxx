@@ -36,7 +36,7 @@ template< typename TInputImage,
           typename TTransformPrecisionType >
 ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType >
 ::ResampleImageFilter() :
-  m_Extrapolator( ITK_NULLPTR ),
+  m_Extrapolator( nullptr ),
   m_OutputSpacing( 1.0 ),
   m_OutputOrigin( 0.0 ),
   m_UseReferenceImage( false )
@@ -161,11 +161,11 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
 ::AfterThreadedGenerateData()
 {
   // Disconnect input image from the interpolator
-  m_Interpolator->SetInputImage(ITK_NULLPTR);
+  m_Interpolator->SetInputImage(nullptr);
   if( !m_Extrapolator.IsNull() )
     {
     // Disconnect input image from the extrapolator
-    m_Extrapolator->SetInputImage(ITK_NULLPTR);
+    m_Extrapolator->SetInputImage(nullptr);
     }
 }
 

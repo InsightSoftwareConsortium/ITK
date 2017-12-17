@@ -309,7 +309,7 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::GetNext
   if ( this->IsOriginInternal() )
     {
     itkQEDebugMacro("Internal point.");
-    return ( ITK_NULLPTR );
+    return ( nullptr );
     }
 
   // Update reference
@@ -336,7 +336,7 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >::GetNext
 
   // No border edge found
   itkQEDebugMacro("Unfound border edge.");
-  return ( ITK_NULLPTR );
+  return ( nullptr );
 }
 
 /**
@@ -670,7 +670,7 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 {
   const Self *p1 = this->GetSym();
 
-  if ( p1 == ITK_NULLPTR )
+  if ( p1 == nullptr )
     {
     return false; // FIXME: Is this the right answer ?
     }
@@ -687,7 +687,7 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 {
   const DualType *p1 = this->GetRot();
 
-  if ( p1 == ITK_NULLPTR )
+  if ( p1 == nullptr )
     {
     return false;  // FIXME: Is this the right answer ?
     }
@@ -704,7 +704,7 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 {
   const DualType *p1 = this->GetInvRot();
 
-  if ( p1 == ITK_NULLPTR )
+  if ( p1 == nullptr )
     {
     return false;  // FIXME: Is this the right answer ?
     }

@@ -173,7 +173,7 @@ public:
     MakePointIds();
     if ( m_PointIds.size() == 0 )
       {
-      return ( static_cast< PointIdIterator >( ITK_NULLPTR ) );
+      return ( static_cast< PointIdIterator >( nullptr ) );
       }
     else
       {
@@ -186,7 +186,7 @@ public:
     // NOTE ALEX: should update the array on the fly to make it faster
     if ( m_PointIds.size() == 0 )
       {
-      return ( static_cast< PointIdIterator >( ITK_NULLPTR ) );
+      return ( static_cast< PointIdIterator >( nullptr ) );
       }
     else
       {
@@ -200,7 +200,7 @@ public:
     MakePointIds();
     if ( m_PointIds.size() == 0 )
       {
-      return ( static_cast< PointIdIterator >( ITK_NULLPTR ) );
+      return ( static_cast< PointIdIterator >( nullptr ) );
       }
     else
       {
@@ -213,7 +213,7 @@ public:
     // NOTE ALEX: should update the array on the fly to make it faster
     if ( m_PointIds.size() == 0 )
       {
-      return ( static_cast< PointIdIterator >( ITK_NULLPTR ) );
+      return ( static_cast< PointIdIterator >( nullptr ) );
       }
     else
       {

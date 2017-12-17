@@ -212,8 +212,8 @@ int itkNormalizedCorrelationImageMetricTest(int, char* [] )
 //-------------------------------------------------------
 // exercise misc member functions
 //-------------------------------------------------------
-  std::cout << "Check case when Target is ITK_NULLPTR" << std::endl;
-  metric->SetFixedImage( ITK_NULLPTR );
+  std::cout << "Check case when Target is nullptr" << std::endl;
+  metric->SetFixedImage( nullptr );
   try
     {
     std::cout << "Value = " << metric->GetValue( parameters );

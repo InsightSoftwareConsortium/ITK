@@ -59,7 +59,7 @@ protected:
   DecimationQuadEdgeMeshFilter()
   {
     this->m_Iteration = 0;
-    this->m_OutputMesh = ITK_NULLPTR;
+    this->m_OutputMesh = nullptr;
   }
 
   ~DecimationQuadEdgeMeshFilter() override {}

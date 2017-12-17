@@ -45,8 +45,8 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   m_TimeStep = 1.0;
   m_DenominatorThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
-  this->SetMovingImage(ITK_NULLPTR);
-  this->SetFixedImage(ITK_NULLPTR);
+  this->SetMovingImage(nullptr);
+  this->SetFixedImage(nullptr);
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
   typename DefaultInterpolatorType::Pointer interp =

@@ -270,7 +270,7 @@ int PerformExpImageRegistration( int argc, char *argv[] )
 #else
   optimizer->SetNumberOfIterations( 1 );
 #endif
-  optimizer->SetScalesEstimator( ITK_NULLPTR );
+  optimizer->SetScalesEstimator( nullptr );
   optimizer->SetDoEstimateLearningRateOnce( false ); //true by default
   optimizer->SetDoEstimateLearningRateAtEachIteration( true );
 

@@ -70,7 +70,7 @@ public:
   }
 
   ConstSparseFieldLayerIterator()
-  { m_Pointer = ITK_NULLPTR; }
+  { m_Pointer = nullptr; }
 
   ConstSparseFieldLayerIterator(TNodeType *p)
   { m_Pointer = p; }

@@ -39,9 +39,9 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 ImageSeriesWriter< TInputImage, TOutputImage >
 ::ImageSeriesWriter():
-  m_ImageIO(ITK_NULLPTR), m_UserSpecifiedImageIO(false),
+  m_ImageIO(nullptr), m_UserSpecifiedImageIO(false),
   m_SeriesFormat("%d"),
-  m_StartIndex(1), m_IncrementIndex(1), m_MetaDataDictionaryArray(ITK_NULLPTR)
+  m_StartIndex(1), m_IncrementIndex(1), m_MetaDataDictionaryArray(nullptr)
 {
   m_UseCompression = false;
 }
@@ -92,7 +92,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
   itkDebugMacro(<< "Writing an image file");
 
   // Make sure input is available
-  if ( inputImage == ITK_NULLPTR )
+  if ( inputImage == nullptr )
     {
     itkExceptionMacro(<< "No input to writer!");
     }
@@ -140,7 +140,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 
   if ( !inputImage )
     {
-    itkExceptionMacro(<< "Input image is ITK_NULLPTR");
+    itkExceptionMacro(<< "Input image is nullptr");
     }
 
   m_FileNames.clear();
@@ -193,7 +193,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 
   if ( !inputImage )
     {
-    itkExceptionMacro(<< "Input image is ITK_NULLPTR");
+    itkExceptionMacro(<< "Input image is nullptr");
     }
 
   // We need two regions. One for the input, one for the output.

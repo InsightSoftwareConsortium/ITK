@@ -220,7 +220,7 @@ protected:
 
   virtual DisplacementFieldPointer ScaleUpdateField( const DisplacementFieldType * );
   virtual DisplacementFieldPointer GaussianSmoothDisplacementField( const DisplacementFieldType *, const RealType );
-  virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = ITK_NULLPTR );
+  virtual DisplacementFieldPointer InvertDisplacementField( const DisplacementFieldType *, const DisplacementFieldType * = nullptr );
 
   RealType                                                        m_LearningRate;
 

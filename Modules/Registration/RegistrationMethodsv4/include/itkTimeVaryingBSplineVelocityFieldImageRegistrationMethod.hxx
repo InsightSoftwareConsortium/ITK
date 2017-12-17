@@ -95,7 +95,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   sampledVelocityFieldDirection.SetIdentity();
 
   VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
-  typename FixedImageMaskType::ConstPointer fixedImageMask = ITK_NULLPTR;
+  typename FixedImageMaskType::ConstPointer fixedImageMask = nullptr;
 
   if( virtualDomainImage.IsNull() )
     {
@@ -262,7 +262,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
     TimeVaryingVelocityFieldControlPointLatticePointer updateControlPointLattice = bspliner->GetPhiLattice();
 
-    TimeVaryingVelocityFieldPointer velocityField = ITK_NULLPTR;
+    TimeVaryingVelocityFieldPointer velocityField = nullptr;
     if( this->GetDebug() )
       {
       velocityField = bspliner->GetOutput();
@@ -400,7 +400,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     InitialTransformType* fixedInitialTransform = const_cast<InitialTransformType*>( this->GetFixedInitialTransform() );
 
     typename CompositeTransformType::Pointer fixedComposite = CompositeTransformType::New();
-    if( fixedInitialTransform != ITK_NULLPTR )
+    if( fixedInitialTransform != nullptr )
       {
       fixedComposite->AddTransform( fixedInitialTransform );
       }
@@ -731,7 +731,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       }
     }
 
-  typename WeightedMaskImageType::Pointer  fixedWeightedImageMask = ITK_NULLPTR;
+  typename WeightedMaskImageType::Pointer  fixedWeightedImageMask = nullptr;
   if( fixedImageMasks[0] )
     {
     typedef ResampleImageFilter<MaskImageType, WeightedMaskImageType, RealType> FixedMaskResamplerType;

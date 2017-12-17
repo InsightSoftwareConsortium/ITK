@@ -48,11 +48,11 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   ProcessObject::SetNumberOfRequiredInputs( 2 );
 
   // optional named inputs
-  Self::SetInput( "InitialTransform", ITK_NULLPTR );
-  Self::SetInput( "FixedInitialTransform", ITK_NULLPTR );
-  Self::SetInput( "MovingInitialTransform", ITK_NULLPTR );
+  Self::SetInput( "InitialTransform", nullptr );
+  Self::SetInput( "FixedInitialTransform", nullptr );
+  Self::SetInput( "MovingInitialTransform", nullptr );
 
-  this->m_VirtualDomainImage = ITK_NULLPTR;
+  this->m_VirtualDomainImage = nullptr;
 
   Self::ReleaseDataBeforeUpdateFlagOff();
 
@@ -318,7 +318,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       this->m_NumberOfMetrics = 1;
       }
 
-    // The number of image pairs also includes ITK_NULLPTR image pairs for the point set
+    // The number of image pairs also includes nullptr image pairs for the point set
     // metrics
     if( this->m_NumberOfFixedObjects != this->m_NumberOfMovingObjects )
       {
@@ -371,7 +371,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     // of the composite transform since we can avoid some matrix multiplications.
 
     // Skip adding an IdentityTransform to the m_CompositeTransform
-    if( movingInitialTransform != ITK_NULLPTR &&
+    if( movingInitialTransform != nullptr &&
       std::string( movingInitialTransform->GetNameOfClass() ) != std::string( "IdentityTransform" ) )
       {
       this->m_CompositeTransform->AddTransform( movingInitialTransform );
@@ -430,8 +430,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
     for( SizeValueType n = 0; n < this->m_NumberOfMetrics; n++ )
       {
-      this->m_FixedImageMasks[n] = ITK_NULLPTR;
-      this->m_MovingImageMasks[n] = ITK_NULLPTR;
+      this->m_FixedImageMasks[n] = nullptr;
+      this->m_MovingImageMasks[n] = nullptr;
 
       if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC ||
           ( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC &&
@@ -461,7 +461,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   //   1. subsample the reference domain (typically the fixed image) and/or
   //   2. smooth the fixed and moving images.
 
-  typename VirtualImageType::Pointer currentLevelVirtualDomainImage = ITK_NULLPTR;
+  typename VirtualImageType::Pointer currentLevelVirtualDomainImage = nullptr;
   if( this->m_VirtualDomainImage.IsNotNull() )
     {
     typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
@@ -593,10 +593,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   for( SizeValueType n = 0; n < this->m_NumberOfMetrics; n++ )
     {
-    this->m_FixedSmoothImages[n] = ITK_NULLPTR;
-    this->m_MovingSmoothImages[n] = ITK_NULLPTR;
-    this->m_FixedPointSets[n] = ITK_NULLPTR;
-    this->m_MovingPointSets[n] = ITK_NULLPTR;
+    this->m_FixedSmoothImages[n] = nullptr;
+    this->m_MovingSmoothImages[n] = nullptr;
+    this->m_FixedPointSets[n] = nullptr;
+    this->m_MovingPointSets[n] = nullptr;
 
     if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC ||
         ( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC &&
@@ -855,7 +855,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     this->m_TransformParametersAdaptorsPerLevel.clear();
     for( SizeValueType level = 0; level < this->m_NumberOfLevels; level++ )
       {
-      this->m_TransformParametersAdaptorsPerLevel.push_back( ITK_NULLPTR );
+      this->m_TransformParametersAdaptorsPerLevel.push_back( nullptr );
       }
 
     for( SizeValueType level = 0; level < this->m_NumberOfLevels; ++level )
@@ -886,8 +886,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   typedef typename ImageMetricType::VirtualImageType    VirtualDomainImageType;
   typedef typename VirtualDomainImageType::RegionType   VirtualDomainRegionType;
 
-  const VirtualDomainImageType * virtualImage = ITK_NULLPTR;
-  const FixedImageMaskType * fixedMaskImage = ITK_NULLPTR;
+  const VirtualDomainImageType * virtualImage = nullptr;
+  const FixedImageMaskType * fixedMaskImage = nullptr;
 
   SizeValueType numberOfLocalMetrics = 1;
 
@@ -1087,7 +1087,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 ::GetCurrentLevelVirtualDomainImage()
 {
   // Get virtual domain image
-  VirtualImageBaseConstPointer currentLevelVirtualDomainImage = ITK_NULLPTR;
+  VirtualImageBaseConstPointer currentLevelVirtualDomainImage = nullptr;
   if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
     {
     currentLevelVirtualDomainImage = dynamic_cast<ImageMetricType *>( this->m_Metric.GetPointer() )->GetVirtualImage();
@@ -1191,7 +1191,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 {
   DecoratedOutputTransformType * temp = this->GetOutput();
   // required outputs of process object should always exits
-  itkAssertInDebugAndIgnoreInReleaseMacro( temp != ITK_NULLPTR );
+  itkAssertInDebugAndIgnoreInReleaseMacro( temp != nullptr );
   return temp->GetModifiable();
 }
 
@@ -1202,7 +1202,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 {
   const  DecoratedOutputTransformType * temp = this->GetOutput();
   // required outputs of process object should always exits
-  itkAssertInDebugAndIgnoreInReleaseMacro( temp != ITK_NULLPTR );
+  itkAssertInDebugAndIgnoreInReleaseMacro( temp != nullptr );
   return temp->Get();
 }
 
@@ -1223,7 +1223,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       }
     default:
       itkExceptionMacro( "MakeOutput request for an output number larger than the expected number of outputs." );
-      return ITK_NULLPTR;
+      return nullptr;
     }
 }
 

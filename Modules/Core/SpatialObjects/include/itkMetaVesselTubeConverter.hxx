@@ -44,7 +44,7 @@ MetaVesselTubeConverter< NDimensions >
 {
   const VesselTubeMetaObjectType *vesselTubeMO =
     dynamic_cast<const VesselTubeMetaObjectType *>(mo);
-  if(vesselTubeMO == ITK_NULLPTR)
+  if(vesselTubeMO == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaVesselTube" );
     }

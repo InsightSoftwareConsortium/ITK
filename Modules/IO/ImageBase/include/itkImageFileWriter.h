@@ -144,7 +144,7 @@ public:
    * LargestPossibleRegion. */
   virtual void Write();
 
-  /** Specify the region to write. If left ITK_NULLPTR, then the whole image
+  /** Specify the region to write. If left nullptr, then the whole image
    * is written. */
   void SetIORegion(const ImageIORegion & region);
 

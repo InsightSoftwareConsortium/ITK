@@ -134,8 +134,8 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_NumberOfLayers(2),
   m_IsoSurfaceValue(m_ValueZero),
   m_InterpolateSurfaceLocation(true),
-  m_InputImage(ITK_NULLPTR),
-  m_OutputImage(ITK_NULLPTR),
+  m_InputImage(nullptr),
+  m_OutputImage(nullptr),
   m_BoundsCheckingActive(false)
 {
   m_LayerNodeStore = LayerNodeStorageType::New();

@@ -430,7 +430,7 @@ void SegmentTreeGenerator< TScalar >
   typename SegmentTableType::segment_t * from_seg = segments->Lookup(FROM);
   typename SegmentTableType::segment_t * to_seg   = segments->Lookup(TO);
 
-  if ( from_seg == ITK_NULLPTR || to_seg == ITK_NULLPTR )
+  if ( from_seg == nullptr || to_seg == nullptr )
     {
     itkGenericExceptionMacro (
       <<

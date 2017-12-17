@@ -299,7 +299,7 @@ RegularSphereMeshSource< TOutputMesh >
     // set output
     outputMesh->Graft(result);
 
-    result->SetCells(ITK_NULLPTR);
+    result->SetCells(nullptr);
     }
 }
 

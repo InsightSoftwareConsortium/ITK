@@ -64,9 +64,9 @@ void VXLVideoIO::PrintSelf(std::ostream & os, Indent indent) const
 void VXLVideoIO::FinishReadingOrWriting()
 {
   delete this->m_Writer;
-  this->m_Writer = ITK_NULLPTR;
+  this->m_Writer = nullptr;
   delete this->m_Reader;
-  this->m_Reader = ITK_NULLPTR;
+  this->m_Reader = nullptr;
 
   this->ResetMembers();
 }
@@ -732,8 +732,8 @@ void VXLVideoIO::ResetMembers()
   this->m_VIDLFrame = 0;
   this->m_VIDLFrame = 0;
   this->m_Encoder = vidl_ffmpeg_ostream_params::DEFAULT;
-  this->m_Reader = ITK_NULLPTR;
-  this->m_Writer = ITK_NULLPTR;
+  this->m_Reader = nullptr;
+  this->m_Writer = nullptr;
   this->m_WriterOpen = false;
   this->m_ReaderOpen = false;
   this->m_FramesPerSecond = 0;

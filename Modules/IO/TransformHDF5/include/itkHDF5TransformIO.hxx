@@ -73,11 +73,11 @@ HDF5TransformIOTemplate<TParametersValueType>
   // all and this is just by convention.
   const char *extensions[] =
   {
-    ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5",ITK_NULLPTR,
+    ".hdf",".h4",".hdf4",".h5",".hdf5",".he4",".he5",".hd5",nullptr,
   };
   std::string ext
     (itksys::SystemTools::GetFilenameLastExtension(fileName));
-  for(unsigned i = 0; extensions[i] != ITK_NULLPTR; i++)
+  for(unsigned i = 0; extensions[i] != nullptr; i++)
     {
     if(ext == extensions[i])
       {
@@ -176,7 +176,7 @@ HDF5TransformIOTemplate<TParametersValueType>
                       << "in HDF5 File");
     }
   hsize_t dim;
-  Space.getSimpleExtentDims(&dim,ITK_NULLPTR);
+  Space.getSimpleExtentDims(&dim,nullptr);
   ParametersType ParameterArray;
   ParameterArray.SetSize(dim);
   H5::FloatType ParamType = paramSet.getFloatType();
@@ -227,7 +227,7 @@ HDF5TransformIOTemplate<TParametersValueType>
                       << "in HDF5 File");
     }
   hsize_t dim;
-  Space.getSimpleExtentDims(&dim,ITK_NULLPTR);
+  Space.getSimpleExtentDims(&dim,nullptr);
   FixedParametersType FixedParameterArray;
 
   FixedParameterArray.SetSize(dim);

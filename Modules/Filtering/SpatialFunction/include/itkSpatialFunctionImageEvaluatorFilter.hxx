@@ -30,7 +30,7 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
   itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::SpatialFunctionImageEvaluatorFilter() called");
 
   // Set the internal function to null
-  this->m_PixelFunction = ITK_NULLPTR;
+  this->m_PixelFunction = nullptr;
 }
 
 template< typename TSpatialFunction, typename TInputImage, typename TOutputImage >

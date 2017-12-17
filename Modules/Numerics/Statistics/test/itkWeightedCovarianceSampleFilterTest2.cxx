@@ -156,9 +156,9 @@ int itkWeightedCovarianceSampleFilterTest2(int, char* [] )
     std::cout << "Expected exception caught: " << excp << std::endl;
     }
 
-  if ( filter->GetInput() != ITK_NULLPTR )
+  if ( filter->GetInput() != nullptr )
     {
-    std::cerr << "GetInput() should return ITK_NULLPTR if the input \
+    std::cerr << "GetInput() should return nullptr if the input \
                      has not been set" << std::endl;
     return EXIT_FAILURE;
     }

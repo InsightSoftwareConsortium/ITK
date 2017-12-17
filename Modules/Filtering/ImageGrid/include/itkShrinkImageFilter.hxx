@@ -205,7 +205,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
     const_cast< InputImageType * >( this->GetInput() );
   const OutputImageType * outputPtr = this->GetOutput();
 
-  itkAssertInDebugAndIgnoreInReleaseMacro( inputPtr != ITK_NULLPTR );
+  itkAssertInDebugAndIgnoreInReleaseMacro( inputPtr != nullptr );
   itkAssertInDebugAndIgnoreInReleaseMacro( outputPtr );
 
   // Compute the input requested region (size and start index)
@@ -286,7 +286,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
   OutputImageType * outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro( inputPtr );
-  itkAssertInDebugAndIgnoreInReleaseMacro( outputPtr != ITK_NULLPTR );
+  itkAssertInDebugAndIgnoreInReleaseMacro( outputPtr != nullptr );
 
   // Compute the output spacing, the output image size, and the
   // output image start index

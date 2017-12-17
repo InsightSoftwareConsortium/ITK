@@ -100,9 +100,9 @@ int itkCovarianceSampleFilterTest(int, char* [] )
 
   covarianceFilter->ResetPipeline();
 
-  if ( covarianceFilter->GetInput() != ITK_NULLPTR )
+  if ( covarianceFilter->GetInput() != nullptr )
     {
-    std::cerr << "GetInput() should return ITK_NULLPTR if the input \
+    std::cerr << "GetInput() should return nullptr if the input \
                      has not been set" << std::endl;
     return EXIT_FAILURE;
     }

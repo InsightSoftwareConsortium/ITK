@@ -28,14 +28,14 @@ LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInt
 ::LandweberDeconvolutionImageFilter()
 {
   m_Alpha = 0.1;
-  m_TransformedInput = ITK_NULLPTR;
+  m_TransformedInput = nullptr;
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::~LandweberDeconvolutionImageFilter()
 {
-  m_TransformedInput = ITK_NULLPTR;
+  m_TransformedInput = nullptr;
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
@@ -99,8 +99,8 @@ LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInt
 {
   this->Superclass::Finish( progress, progressWeight );
 
-  m_LandweberFilter = ITK_NULLPTR;
-  m_IFFTFilter = ITK_NULLPTR;
+  m_LandweberFilter = nullptr;
+  m_IFFTFilter = nullptr;
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >

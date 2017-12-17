@@ -30,7 +30,7 @@ template< typename TInputImage, typename TOutputImage >
 LabelMapToLabelImageFilter< TInputImage, TOutputImage >
 ::LabelMapToLabelImageFilter()
 {
-  m_OutputImage = ITK_NULLPTR;
+  m_OutputImage = nullptr;
 }
 
 

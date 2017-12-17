@@ -93,8 +93,8 @@ public:
   /** Needed for Pipelining */
   void Initialize(void) override
   {
-    this->m_OriginalPath = ITK_NULLPTR;
-    this->m_OrthogonalCorrectionTable = ITK_NULLPTR;
+    this->m_OriginalPath = nullptr;
+    this->m_OrthogonalCorrectionTable = nullptr;
   }
 
   /** These are determined by the original path */

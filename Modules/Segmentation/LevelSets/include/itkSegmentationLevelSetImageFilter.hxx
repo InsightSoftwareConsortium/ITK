@@ -36,7 +36,7 @@ SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 
   this->SetNumberOfRequiredInputs(2);
   this->SetNumberOfLayers(TInputImage::ImageDimension);
-  m_SegmentationFunction = ITK_NULLPTR;
+  m_SegmentationFunction = nullptr;
   m_AutoGenerateSpeedAdvection = true;
   this->SetIsoSurfaceValue(NumericTraits< ValueType >::ZeroValue());
 
@@ -70,7 +70,7 @@ void
 SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::GenerateData()
 {
-  if ( m_SegmentationFunction == ITK_NULLPTR )
+  if ( m_SegmentationFunction == nullptr )
     {
     itkExceptionMacro("No finite difference function was specified.");
     }

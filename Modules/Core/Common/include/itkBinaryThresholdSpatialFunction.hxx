@@ -28,7 +28,7 @@ BinaryThresholdSpatialFunction< TFunction >
 {
   m_LowerThreshold = NumericTraits< FunctionOutputType >::NonpositiveMin();
   m_UpperThreshold = NumericTraits< FunctionOutputType >::max();
-  m_Function = ITK_NULLPTR;
+  m_Function = nullptr;
 }
 
 template< typename TFunction >

@@ -27,7 +27,7 @@ namespace fem
 {
 template <typename TBaseClass>
 Element2DMembrane<TBaseClass>
-::Element2DMembrane() : Superclass(), m_mat(ITK_NULLPTR)
+::Element2DMembrane() : Superclass(), m_mat(nullptr)
 {
 }
 

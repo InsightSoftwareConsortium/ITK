@@ -166,7 +166,7 @@ PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
       break;
     default:
       itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
-      return ITK_NULLPTR;
+      return nullptr;
     }
 }
 

@@ -22,8 +22,8 @@
 // Minimal test to verify Google Test works
 TEST(GoogleTest,t1) {
   void *ptr = NULL;
-  ASSERT_TRUE((ptr == ITK_NULLPTR));
-  EXPECT_TRUE((ptr == ITK_NULLPTR));
+  ASSERT_TRUE((ptr == nullptr));
+  EXPECT_TRUE((ptr == nullptr));
 }
 
 // cover ITK Google testing utilities

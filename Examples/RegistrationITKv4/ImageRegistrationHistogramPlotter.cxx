@@ -412,7 +412,7 @@ public:
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
     OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
-    if( ! itk::IterationEvent().CheckEvent( &event ) || optimizer == ITK_NULLPTR )
+    if( ! itk::IterationEvent().CheckEvent( &event ) || optimizer == nullptr )
       {
       return;
       }

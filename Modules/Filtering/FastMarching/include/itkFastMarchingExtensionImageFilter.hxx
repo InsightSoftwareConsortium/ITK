@@ -27,8 +27,8 @@ template< typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension,
 FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedImage >
 ::FastMarchingExtensionImageFilter()
 {
-  m_AuxAliveValues = ITK_NULLPTR;
-  m_AuxTrialValues = ITK_NULLPTR;
+  m_AuxAliveValues = nullptr;
+  m_AuxTrialValues = nullptr;
 
   this->ProcessObject::SetNumberOfRequiredOutputs(1 + AuxDimension);
 
@@ -66,7 +66,7 @@ FastMarchingExtensionImageFilter< TLevelSet, TAuxValue, VAuxDimension, TSpeedIma
 {
   if ( idx >= AuxDimension || this->GetNumberOfIndexedOutputs() < idx + 2 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   return this->m_AuxImages[idx];

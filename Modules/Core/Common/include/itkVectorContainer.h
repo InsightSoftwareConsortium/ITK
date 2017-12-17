@@ -315,7 +315,7 @@ private:
 
   /**
    * Check if the given index is in range of the vector.  If it is not, return
-   * false.  Otherwise, set the element through the pointer (if it isn't ITK_NULLPTR),
+   * false.  Otherwise, set the element through the pointer (if it isn't nullptr),
    * and return true.
    */
   bool GetElementIfIndexExists(ElementIdentifier, Element *) const;

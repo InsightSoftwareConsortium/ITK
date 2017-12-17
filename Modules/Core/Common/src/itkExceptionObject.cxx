@@ -133,8 +133,8 @@ ExceptionObject::ExceptionObject(
   unsigned int lineNumber,
   const char *desc,
   const char *loc):
-  m_ExceptionData( ReferenceCountedExceptionData::ConstNew(file == ITK_NULLPTR ? "":file, lineNumber, desc == ITK_NULLPTR ? "":desc, loc ==
-                                                               ITK_NULLPTR ? "":loc) )
+  m_ExceptionData( ReferenceCountedExceptionData::ConstNew(file == nullptr ? "":file, lineNumber, desc == nullptr ? "":desc, loc ==
+                                                               nullptr ? "":loc) )
 {}
 
 ExceptionObject::ExceptionObject(
@@ -210,7 +210,7 @@ ExceptionObject::operator==(const ExceptionObject & orig)
     }
   else
     {
-    return ( thisData != ITK_NULLPTR ) && ( origData != ITK_NULLPTR )
+    return ( thisData != nullptr ) && ( origData != nullptr )
            && thisData->m_Location == origData->m_Location
            && thisData->m_Description == origData->m_Description
            && thisData->m_File == origData->m_File

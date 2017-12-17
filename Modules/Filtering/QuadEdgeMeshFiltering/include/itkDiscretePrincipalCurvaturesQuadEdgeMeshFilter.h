@@ -87,7 +87,7 @@ protected:
     m_Mean = 0.;
     m_Gaussian = 0.;
 
-    if ( qe != ITK_NULLPTR )
+    if ( qe != nullptr )
       {
       OutputVectorType Laplace;
       Laplace.Fill(0.);

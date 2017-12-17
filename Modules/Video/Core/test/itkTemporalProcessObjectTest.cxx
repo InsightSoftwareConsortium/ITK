@@ -198,7 +198,7 @@ public:
     // if nothing buffered, just fail
     if (m_BufferedTemporalRegion.GetFrameDuration() == 0)
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
 
     // make sure we have the desired frame buffered
@@ -206,7 +206,7 @@ public:
     SizeValueType bufEnd = bufStart + m_BufferedTemporalRegion.GetFrameDuration() - 1;
     if (frameNumber < bufStart || frameNumber > bufEnd)
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
 
     // If we can, fetch the desired frame

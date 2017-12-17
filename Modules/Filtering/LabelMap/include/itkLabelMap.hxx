@@ -81,7 +81,7 @@ void
 LabelMap< TLabelObject >
 ::Graft(const Self *imgData)
 {
-  if(imgData == ITK_NULLPTR)
+  if(imgData == nullptr)
     {
     return; // nothing to do
     }
@@ -103,7 +103,7 @@ void
 LabelMap< TLabelObject >
 ::Graft(const DataObject *data)
 {
-  if(data == ITK_NULLPTR)
+  if(data == nullptr)
     {
     return; // nothing to do
     }
@@ -111,7 +111,7 @@ LabelMap< TLabelObject >
   // Attempt to cast data to an Image
   const Self *imgData = dynamic_cast< const Self * >( data );
 
-  if ( imgData == ITK_NULLPTR )
+  if ( imgData == nullptr )
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::LabelMap::Graft() cannot cast "
@@ -419,7 +419,7 @@ LabelMap< TLabelObject >
       }
     }
   itkExceptionMacro(<< "No label object at index " << idx << ".");
-//   return ITK_NULLPTR;
+//   return nullptr;
 }
 
 
@@ -428,7 +428,7 @@ void
 LabelMap< TLabelObject >
 ::AddLabelObject(LabelObjectType *labelObject)
 {
-  itkAssertOrThrowMacro( ( labelObject != ITK_NULLPTR ), "Input LabelObject can't be Null" );
+  itkAssertOrThrowMacro( ( labelObject != nullptr ), "Input LabelObject can't be Null" );
 
   m_LabelObjectContainer[labelObject->GetLabel()] = labelObject;
   this->Modified();
@@ -440,7 +440,7 @@ void
 LabelMap< TLabelObject >
 ::PushLabelObject(LabelObjectType *labelObject)
 {
-  itkAssertOrThrowMacro( ( labelObject != ITK_NULLPTR ), "Input LabelObject can't be Null" );
+  itkAssertOrThrowMacro( ( labelObject != nullptr ), "Input LabelObject can't be Null" );
 
   if ( m_LabelObjectContainer.empty() )
     {
@@ -506,7 +506,7 @@ void
 LabelMap< TLabelObject >
 ::RemoveLabelObject(LabelObjectType *labelObject)
 {
-  itkAssertOrThrowMacro( ( labelObject != ITK_NULLPTR ), "Input LabelObject can't be Null" );
+  itkAssertOrThrowMacro( ( labelObject != nullptr ), "Input LabelObject can't be Null" );
   // modified is called in RemoveLabel()
   this->RemoveLabel( labelObject->GetLabel() );
 }

@@ -26,9 +26,9 @@ namespace itk
 template< typename TImage, typename TImageMask, typename TBiasField >
 MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 ::MRIBiasEnergyFunction() :
-  m_BiasField( ITK_NULLPTR ),
-  m_Image( ITK_NULLPTR ),
-  m_Mask( ITK_NULLPTR )
+  m_BiasField( nullptr ),
+  m_Image( nullptr ),
+  m_Mask( nullptr )
 {
   for ( unsigned int i = 0; i < SpaceDimension; i++ )
     {
@@ -51,7 +51,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 ::~MRIBiasEnergyFunction()
 {
   delete m_InternalEnergyFunction;
-  m_InternalEnergyFunction = ITK_NULLPTR;
+  m_InternalEnergyFunction = nullptr;
 }
 
 template< typename TImage, typename TImageMask, typename TBiasField >
@@ -59,7 +59,7 @@ unsigned int
 MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 ::GetNumberOfParameters(void) const
 {
-  if ( m_BiasField == ITK_NULLPTR )
+  if ( m_BiasField == nullptr )
     {
     return 0;
     }
@@ -81,7 +81,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
     itkExceptionMacro(<< "EnergyFunction is null");
     }
 
-  if ( m_BiasField == ITK_NULLPTR )
+  if ( m_BiasField == nullptr )
     {
     itkExceptionMacro(<< "BiasField is null");
     }
@@ -205,10 +205,10 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::MRIBiasFieldCorrectionFilter() :
-  m_EnergyFunction( ITK_NULLPTR ),
+  m_EnergyFunction( nullptr ),
   m_NormalVariateGenerator( NormalVariateGeneratorType::New() ),
-  m_InputMask( ITK_NULLPTR ),
-  m_OutputMask( ITK_NULLPTR ),
+  m_InputMask( nullptr ),
+  m_OutputMask( nullptr ),
   m_InternalInput( InternalImageType::New() ),
   m_BiasFieldMultiplicative( true ),
   m_UsingSlabIdentification( false ),
@@ -225,7 +225,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
   m_OptimizerGrowthFactor( 1.05 ),
   m_OptimizerShrinkFactor( std::pow(m_OptimizerGrowthFactor, -0.25) )
 {
-  m_NormalVariateGenerator->Initialize( time(ITK_NULLPTR) );
+  m_NormalVariateGenerator->Initialize( time(nullptr) );
 
   if ( ImageDimension == 3 )
     {

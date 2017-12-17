@@ -270,7 +270,7 @@ public:
   template< typename TSourceLabelObject >
   void CopyAllFrom(const TSourceLabelObject *src)
   {
-    itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+    itkAssertOrThrowMacro ( ( src != nullptr ), "Null Pointer" );
     this->template CopyLinesFrom<TSourceLabelObject>( src );
     this->template CopyAttributesFrom<TSourceLabelObject>( src );
   }
@@ -531,7 +531,7 @@ protected:
     m_Kurtosis = 0;
     m_Skewness = 0;
     m_WeightedElongation = 0;
-    m_Histogram = ITK_NULLPTR;
+    m_Histogram = nullptr;
     m_WeightedFlatness = 0;
   }
 

@@ -214,7 +214,7 @@ public:
    * so it's safe to return a null value. */
   void * GetGlobalDataPointer() const override
   {
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Does nothing.  No global data is used in this class of equations.   */

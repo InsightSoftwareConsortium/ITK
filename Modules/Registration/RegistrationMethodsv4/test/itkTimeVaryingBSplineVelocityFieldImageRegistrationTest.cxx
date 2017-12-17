@@ -138,7 +138,7 @@ int PerformTimeVaryingBSplineVelocityFieldImageRegistration( int argc, char *arg
   // Set the number of iterations
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerType;
   GradientDescentOptimizerType * optimizer = dynamic_cast<GradientDescentOptimizerType *>( affineSimple->GetModifiableOptimizer() );
-  TEST_EXPECT_TRUE( optimizer != ITK_NULLPTR );
+  TEST_EXPECT_TRUE( optimizer != nullptr );
   optimizer->SetNumberOfIterations( numberOfAffineIterations );
   std::cout << "number of affine iterations: " << numberOfAffineIterations << std::endl;
 

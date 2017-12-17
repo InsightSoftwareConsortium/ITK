@@ -32,7 +32,7 @@ namespace itk
 // Construct a new SimpleMutexLock
 SimpleFastMutexLock::SimpleFastMutexLock()
 {
-  //this->MutexLock = CreateMutex( ITK_NULLPTR, FALSE, ITK_NULLPTR );
+  //this->MutexLock = CreateMutex( nullptr, FALSE, nullptr );
   InitializeCriticalSection(&m_FastMutexLock);
 }
 

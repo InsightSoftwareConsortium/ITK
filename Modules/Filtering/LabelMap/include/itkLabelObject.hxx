@@ -285,7 +285,7 @@ void
 LabelObject< TLabel, VImageDimension >
 ::CopyLinesFrom(const TSourceLabelObject *src)
 {
-  itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+  itkAssertOrThrowMacro ( ( src != nullptr ), "Null Pointer" );
   // clear original lines and copy lines
   m_LineContainer.clear();
   for( size_t i = 0; i < src->GetNumberOfLines(); ++i )
@@ -302,7 +302,7 @@ void
 LabelObject< TLabel, VImageDimension >
 ::CopyAttributesFrom(const TSourceLabelObject *src)
 {
-  itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+  itkAssertOrThrowMacro ( ( src != nullptr ), "Null Pointer" );
   m_Label = src->GetLabel();
 }
 
@@ -313,7 +313,7 @@ void
 LabelObject< TLabel, VImageDimension >
 ::CopyAllFrom(const TSourceLabelObject *src)
 {
-  itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+  itkAssertOrThrowMacro ( ( src != nullptr ), "Null Pointer" );
   // Basically all derived class just need to copy the following two
   // lines to copy all data members
   this->template CopyLinesFrom<TSourceLabelObject>( src );

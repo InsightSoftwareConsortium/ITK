@@ -208,7 +208,7 @@ TetrahedronCell< TCellInterface >
       for ( i = 0; i < 4; i++ )
         {
         this->GetFace (i, triangle);
-        triangle->EvaluatePosition(x, points, closest, pc, &dist2, ITK_NULLPTR);
+        triangle->EvaluatePosition(x, points, closest, pc, &dist2, nullptr);
 
         if ( dist2 < *minDist2 )
           {

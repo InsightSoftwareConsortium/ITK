@@ -43,19 +43,19 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   m_NumberOfPixelsCounted(0),
 
-  m_FixedImage(ITK_NULLPTR), // has to be provided by the user.
-  m_MovingImage(ITK_NULLPTR), // has to be provided by the user.
+  m_FixedImage(nullptr), // has to be provided by the user.
+  m_MovingImage(nullptr), // has to be provided by the user.
 
-  m_Transform(ITK_NULLPTR), // has to be provided by the user.
-  m_ThreaderTransform(ITK_NULLPTR), // constructed at initialization.
+  m_Transform(nullptr), // has to be provided by the user.
+  m_ThreaderTransform(nullptr), // constructed at initialization.
 
-  m_Interpolator(ITK_NULLPTR), // has to be provided by the user.
+  m_Interpolator(nullptr), // has to be provided by the user.
 
   m_ComputeGradient(true), // metric computes gradient by default
-  m_GradientImage(ITK_NULLPTR),   // computed at initialization
+  m_GradientImage(nullptr),   // computed at initialization
 
-  m_FixedImageMask(ITK_NULLPTR),
-  m_MovingImageMask(ITK_NULLPTR),
+  m_FixedImageMask(nullptr),
+  m_MovingImageMask(nullptr),
 
   m_NumberOfThreads(1),
 
@@ -67,7 +67,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   m_TransformIsBSpline(false),
   m_NumBSplineWeights(0),
 
-  m_BSplineTransform(ITK_NULLPTR),
+  m_BSplineTransform(nullptr),
   m_BSplineTransformWeightsArray(),
   m_BSplineTransformIndicesArray(),
   m_BSplinePreTransformPointsArray(0),
@@ -77,15 +77,15 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   m_UseCachingOfBSplineWeights(true),
   m_BSplineTransformWeights(),
   m_BSplineTransformIndices(),
-  m_ThreaderBSplineTransformWeights(ITK_NULLPTR),
-  m_ThreaderBSplineTransformIndices(ITK_NULLPTR),
+  m_ThreaderBSplineTransformWeights(nullptr),
+  m_ThreaderBSplineTransformIndices(nullptr),
 
   m_InterpolatorIsBSpline(false),
-  m_BSplineInterpolator(ITK_NULLPTR),
-  m_DerivativeCalculator(ITK_NULLPTR),
+  m_BSplineInterpolator(nullptr),
+  m_DerivativeCalculator(nullptr),
 
   m_Threader(MultiThreaderType::New()),
-  m_ThreaderNumberOfMovingImageSamples(ITK_NULLPTR),
+  m_ThreaderNumberOfMovingImageSamples(nullptr),
   m_WithinThreadPreProcess(false),
   m_WithinThreadPostProcess(false)
 {
@@ -108,16 +108,16 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 ::~ImageToImageMetric()
 {
   delete[] m_ThreaderNumberOfMovingImageSamples;
-  m_ThreaderNumberOfMovingImageSamples = ITK_NULLPTR;
+  m_ThreaderNumberOfMovingImageSamples = nullptr;
 
   delete[] m_ThreaderTransform;
-  m_ThreaderTransform = ITK_NULLPTR;
+  m_ThreaderTransform = nullptr;
 
   delete[] this->m_ThreaderBSplineTransformWeights;
-  this->m_ThreaderBSplineTransformWeights = ITK_NULLPTR;
+  this->m_ThreaderBSplineTransformWeights = nullptr;
 
   delete[] this->m_ThreaderBSplineTransformIndices;
-  this->m_ThreaderBSplineTransformIndices = ITK_NULLPTR;
+  this->m_ThreaderBSplineTransformIndices = nullptr;
 }
 
 /**
@@ -432,7 +432,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
     m_DerivativeCalculator->SetInputImage(this->m_MovingImage);
 
-    m_BSplineInterpolator = ITK_NULLPTR;
+    m_BSplineInterpolator = nullptr;
     itkDebugMacro("Interpolator is not BSpline");
     }
   else
@@ -441,7 +441,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
     m_BSplineInterpolator->SetNumberOfThreads(m_NumberOfThreads);
     m_BSplineInterpolator->UseImageDirectionOn();
 
-    m_DerivativeCalculator = ITK_NULLPTR;
+    m_DerivativeCalculator = nullptr;
     itkDebugMacro("Interpolator is BSpline");
     }
 
@@ -462,7 +462,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   if ( !testPtr2 )
     {
     m_TransformIsBSpline = false;
-    m_BSplineTransform = ITK_NULLPTR;
+    m_BSplineTransform = nullptr;
     itkDebugMacro("Transform is not BSplineDeformable");
     }
   else
@@ -483,10 +483,10 @@ ImageToImageMetric< TFixedImage, TMovingImage >
     this->m_BSplineTransformIndices.SetSize(1);
 
     delete[] this->m_ThreaderBSplineTransformWeights;
-    this->m_ThreaderBSplineTransformWeights = ITK_NULLPTR;
+    this->m_ThreaderBSplineTransformWeights = nullptr;
 
     delete[] this->m_ThreaderBSplineTransformIndices;
-    this->m_ThreaderBSplineTransformIndices = ITK_NULLPTR;
+    this->m_ThreaderBSplineTransformIndices = nullptr;
 
     if ( this->m_UseCachingOfBSplineWeights )
       {

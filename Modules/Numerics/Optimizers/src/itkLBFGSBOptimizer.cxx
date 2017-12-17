@@ -62,7 +62,7 @@ LBFGSBOptimizer
   m_MaximumNumberOfCorrections(5),
   m_CurrentIteration(0),
   m_InfinityNormOfProjectedGradient(0.0),
-  m_VnlOptimizer(ITK_NULLPTR)
+  m_VnlOptimizer(nullptr)
 {
   m_LowerBound       = InternalBoundValueType(0);
   m_UpperBound       = InternalBoundValueType(0);

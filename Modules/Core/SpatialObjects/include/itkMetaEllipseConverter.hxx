@@ -43,7 +43,7 @@ MetaEllipseConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
   const EllipseMetaObjectType *ellipseMO = dynamic_cast<const EllipseMetaObjectType *>(mo);
-  if(ellipseMO == ITK_NULLPTR)
+  if(ellipseMO == nullptr)
     {
     itkExceptionMacro(<< "Can't downcast MetaObject to EllipseMetaObject");
     }

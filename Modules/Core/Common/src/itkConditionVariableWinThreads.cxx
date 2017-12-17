@@ -23,15 +23,15 @@ ConditionVariable::ConditionVariable()
 {
   m_ConditionVariable.m_NumberOfWaiters = 0;
   m_ConditionVariable.m_WasBroadcast = 0;
-  m_ConditionVariable.m_Semaphore = CreateSemaphore(ITK_NULLPTR,         // no security
+  m_ConditionVariable.m_Semaphore = CreateSemaphore(nullptr,         // no security
                                                     0,            // initial value
                                                     0x7fffffff,   // max count
-                                                    ITK_NULLPTR);        // unnamed
+                                                    nullptr);        // unnamed
   InitializeCriticalSection(&m_ConditionVariable.m_NumberOfWaitersLock);
-  m_ConditionVariable.m_WaitersAreDone = CreateEvent(ITK_NULLPTR,            // no security
+  m_ConditionVariable.m_WaitersAreDone = CreateEvent(nullptr,            // no security
                                                      FALSE,           // auto-reset
                                                      FALSE,           // non-signaled initially
-                                                     ITK_NULLPTR);           // unnamed
+                                                     nullptr);           // unnamed
 }
 
 ConditionVariable::~ConditionVariable()

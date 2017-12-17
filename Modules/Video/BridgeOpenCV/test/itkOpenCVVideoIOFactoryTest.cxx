@@ -71,7 +71,7 @@ int test_OpenCVVideoIOFactory ( char* input, char* output, SizeValueType cameraN
 
   // Use openCV to see if we can even try to open the camera
   CvCapture* cameraCapture = cvCaptureFromCAM( cameraNumber );
-  if (cameraCapture != ITK_NULLPTR)
+  if (cameraCapture != nullptr)
     {
     std::cout << "Trying to create IO for reading from camera " << cameraNumber << "..." << std::endl;
 

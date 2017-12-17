@@ -179,11 +179,11 @@ CLANG_PRAGMA_POP    \
     }
 
 #define TEST_SET_GET_NULL_VALUE( command ) \
-  if( ITK_NULLPTR != command )   \
+  if( nullptr != command )   \
     {   \
     std::cerr << "Error in " << #command << std::endl; \
     std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;   \
-    std::cerr << "Expected " << "ITK_NULLPTR" << std::endl;   \
+    std::cerr << "Expected " << "nullptr" << std::endl;   \
     std::cerr << "but got  " << command << std::endl; \
     return EXIT_FAILURE; \
     }

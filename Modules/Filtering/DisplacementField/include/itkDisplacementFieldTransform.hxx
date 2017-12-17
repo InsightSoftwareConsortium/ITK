@@ -138,7 +138,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
     }
   else
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 
@@ -371,7 +371,7 @@ void DisplacementFieldTransform<TParametersValueType, NDimensions>
 
     if( !this->m_InverseDisplacementField.IsNull() )
       {
-      this->m_InverseDisplacementField = ITK_NULLPTR;
+      this->m_InverseDisplacementField = nullptr;
       }
     this->Modified();
 
@@ -528,8 +528,8 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
     }
   if ( nullState )
     {
-    this->SetDisplacementField( ITK_NULLPTR );
-    this->SetInverseDisplacementField( ITK_NULLPTR );
+    this->SetDisplacementField( nullptr );
+    this->SetInverseDisplacementField( nullptr );
     return;
     }
 

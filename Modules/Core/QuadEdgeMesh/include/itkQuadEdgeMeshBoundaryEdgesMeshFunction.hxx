@@ -67,7 +67,7 @@ const
       {
       itkWarningMacro("Entry edge has not face adjacency.");
       delete ResultList;
-      return ( (OutputType)ITK_NULLPTR );
+      return ( (OutputType)nullptr );
       }
 
     // Store this edge as representative of it's Lnext() ring i.e.

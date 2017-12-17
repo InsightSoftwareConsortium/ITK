@@ -57,7 +57,7 @@ inline void
 DOMTestObjectDOMReader::GenerateData( const DOMNodeType* inputdom, const void* )
 {
   OutputType* output = this->GetOutput();
-  if ( output == ITK_NULLPTR )
+  if ( output == nullptr )
     {
     OutputType::Pointer object = OutputType::New();
     output = (OutputType*)object;
@@ -74,7 +74,7 @@ DOMTestObjectDOMReader::GenerateData( const DOMNodeType* inputdom, const void* )
 
   // read child foo
   const DOMNodeType* foo = inputdom->GetChild( "foo" );
-  if ( foo == ITK_NULLPTR )
+  if ( foo == nullptr )
     {
     itkExceptionMacro( "child foo not found" );
     }

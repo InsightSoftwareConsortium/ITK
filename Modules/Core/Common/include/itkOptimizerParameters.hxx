@@ -28,7 +28,7 @@ template<typename TParametersValueType>
 OptimizerParameters<TParametersValueType>
 ::OptimizerParameters()
   : Array<TParametersValueType>(),
-    m_Helper(ITK_NULLPTR)
+    m_Helper(nullptr)
 {
   this->Initialize();
 }
@@ -38,7 +38,7 @@ template<typename TParametersValueType>
 OptimizerParameters<TParametersValueType>
 ::OptimizerParameters(const OptimizerParameters& rhs)
   : Array<TParametersValueType>(rhs),
-    m_Helper(ITK_NULLPTR)
+    m_Helper(nullptr)
 {
   //Note: don't copy the OptimizerParametersHelper.
   //The Array copy constructor will allocate new memory
@@ -53,7 +53,7 @@ template<typename TParametersValueType>
 OptimizerParameters<TParametersValueType>
 ::OptimizerParameters(SizeValueType dimension)
   : Array<TParametersValueType>(dimension),
-    m_Helper(ITK_NULLPTR)
+    m_Helper(nullptr)
 {
   this->Initialize();
 }
@@ -63,7 +63,7 @@ template<typename TParametersValueType>
 OptimizerParameters<TParametersValueType>
 ::OptimizerParameters(const ArrayType& array)
   : Array<TParametersValueType>(array),
-    m_Helper(ITK_NULLPTR)
+    m_Helper(nullptr)
 {
   this->Initialize();
 }
@@ -136,7 +136,7 @@ void
 OptimizerParameters<TParametersValueType>
 ::MoveDataPointer( TParametersValueType * pointer )
 {
-  if( m_Helper == ITK_NULLPTR )
+  if( m_Helper == nullptr )
     {
     itkGenericExceptionMacro("OptimizerParameters::MoveDataPointer: "
       "m_Helper must be set.");
@@ -149,7 +149,7 @@ void
 OptimizerParameters<TParametersValueType>
 ::SetParametersObject( LightObject * object )
 {
-  if( m_Helper == ITK_NULLPTR )
+  if( m_Helper == nullptr )
     {
     itkGenericExceptionMacro("OptimizerParameters::SetParameterObject: "
       "m_Helper must be set.");

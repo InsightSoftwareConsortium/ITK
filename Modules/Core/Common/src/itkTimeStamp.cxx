@@ -62,7 +62,7 @@ public:
   ~GlobalTimeStampInitializer()
     {
     delete m_GlobalTimeStamp;
-    m_GlobalTimeStamp = ITK_NULLPTR;
+    m_GlobalTimeStamp = nullptr;
     }
 
   /** Create the GlobalTimeStamp if needed and return it. */
@@ -119,7 +119,7 @@ TimeStamp::GlobalTimeStampType *
 TimeStamp
 ::GetGlobalTimeStamp()
 {
-  if( m_GlobalTimeStamp == ITK_NULLPTR )
+  if( m_GlobalTimeStamp == nullptr )
     {
     m_GlobalTimeStamp = GlobalTimeStampInitializer::GetGlobalTimeStamp();
     }

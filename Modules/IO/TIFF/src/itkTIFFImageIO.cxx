@@ -38,7 +38,7 @@ bool TIFFImageIO::CanReadFile(const char *file)
     }
 
   // Now check if this is a valid TIFF image
-  TIFFErrorHandler save = TIFFSetErrorHandler(ITK_NULLPTR);
+  TIFFErrorHandler save = TIFFSetErrorHandler(nullptr);
   int              res = m_InternalImage->Open(file);
   if ( res )
     {
@@ -220,9 +220,9 @@ TIFFImageIO::TIFFImageIO() :
   m_ComponentType = UCHAR;
   m_PixelType = SCALAR;
 
-  m_ColorRed    = ITK_NULLPTR;
-  m_ColorGreen  = ITK_NULLPTR;
-  m_ColorBlue   = ITK_NULLPTR;
+  m_ColorRed    = nullptr;
+  m_ColorGreen  = nullptr;
+  m_ColorBlue   = nullptr;
 
   m_InternalImage = new TIFFReaderInternal;
 
@@ -268,13 +268,13 @@ void TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
 
 void TIFFImageIO::InitializeColors()
 {
-  m_ColorRed    = ITK_NULLPTR;
-  m_ColorGreen  = ITK_NULLPTR;
-  m_ColorBlue   = ITK_NULLPTR;
+  m_ColorRed    = nullptr;
+  m_ColorGreen  = nullptr;
+  m_ColorBlue   = nullptr;
   m_TotalColors = -1;
   m_ImageFormat = TIFFImageIO::NOFORMAT;
 
-  if ( m_InternalImage == ITK_NULLPTR )
+  if ( m_InternalImage == nullptr )
     {
     return;
     }
@@ -441,7 +441,7 @@ void TIFFImageIO::ReadImageInformation()
     if ( TIFFIsCODECConfigured(this->m_InternalImage->m_Compression) != 1 )
       {
       const TIFFCodec* c = TIFFFindCODEC(this->m_InternalImage->m_Compression);
-      const char * codecName = ( c != ITK_NULLPTR ) ? static_cast<const char *>(c->name) : "unknown";
+      const char * codecName = ( c != nullptr ) ? static_cast<const char *>(c->name) : "unknown";
 
       itkExceptionMacro( "TIFF CODEC \"" << codecName << "\" is not supported." );
       }
@@ -892,7 +892,7 @@ bool TIFFImageIO::CanFindTIFFTag(unsigned int t)
 
   const itkTIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
-  if ( fld == ITK_NULLPTR )
+  if ( fld == nullptr )
     {
     return false;
     }
@@ -907,18 +907,18 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
     itkExceptionMacro(<< "Need to call CanReadFile before");
     }
   ttag_t           tag = t;
-  void *           raw_data = ITK_NULLPTR;
+  void *           raw_data = nullptr;
 
   const itkTIFFField *fld = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
-  if ( fld == ITK_NULLPTR )
+  if ( fld == nullptr )
     {
-    itkExceptionMacro(<< "fld is ITK_NULLPTR");
+    itkExceptionMacro(<< "fld is nullptr");
     }
 
   if ( !itkTIFFFieldPassCount( fld ) )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   int ret = 0;
@@ -976,7 +976,7 @@ void TIFFImageIO::ReadTIFFTags()
 
   MetaDataDictionary & dict = this->GetMetaDataDictionary();
 
-  void *raw_data = ITK_NULLPTR;
+  void *raw_data = nullptr;
   bool  mem_alloc = false;
 
   const int tagCount = TIFFGetTagListCount( m_InternalImage->m_Image );
@@ -996,13 +996,13 @@ void TIFFImageIO::ReadTIFFTags()
       _TIFFfree(raw_data);
       mem_alloc = false;
       }
-    raw_data = ITK_NULLPTR;
+    raw_data = nullptr;
 
     uint32 tag = TIFFGetTagListEntry(m_InternalImage->m_Image, i);
 
     const itkTIFFField *field  = TIFFFieldWithTag(m_InternalImage->m_Image, tag);
 
-    if ( field == ITK_NULLPTR )
+    if ( field == nullptr )
       {
       continue;
       }
@@ -1075,7 +1075,7 @@ void TIFFImageIO::ReadTIFFTags()
         }
       }
 
-    if (raw_data == ITK_NULLPTR)
+    if (raw_data == nullptr)
       {
       continue;
       }
@@ -1170,7 +1170,7 @@ void TIFFImageIO::ReadCurrentPage(void *buffer, size_t pixelOffset)
 
   if ( !m_InternalImage->CanRead() )
     {
-    uint32 *tempImage = ITK_NULLPTR;
+    uint32 *tempImage = nullptr;
 
     if ( this->GetNumberOfComponents() == 4 &&
          m_ComponentType == UCHAR )

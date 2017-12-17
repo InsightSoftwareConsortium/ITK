@@ -188,7 +188,7 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
   FunctionType * fptr =
     dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer() );
-  if(fptr != ITK_NULLPTR)
+  if(fptr != nullptr)
     {
     fptr->Print( std::cout );
     }
@@ -273,7 +273,7 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   bool passed = true;
   try
     {
-    registrator->SetInput( ITK_NULLPTR );
+    registrator->SetInput( nullptr );
     registrator->SetNumberOfIterations( 2 );
     registrator->Update();
     }
@@ -293,12 +293,12 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   //--------------------------------------------------------------
   std::cout << "Test exception handling." << std::endl;
 
-  std::cout << "Test ITK_NULLPTR moving image. " << std::endl;
+  std::cout << "Test nullptr moving image. " << std::endl;
   passed = false;
   try
     {
     registrator->SetInput( caster->GetOutput() );
-    registrator->SetMovingImage( ITK_NULLPTR );
+    registrator->SetMovingImage( nullptr );
     registrator->Update();
     }
   catch( itk::ExceptionObject & err )
@@ -316,17 +316,17 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   registrator->SetMovingImage( moving );
   registrator->ResetPipeline();
 
-  std::cout << "Test ITK_NULLPTR moving image interpolator. " << std::endl;
+  std::cout << "Test nullptr moving image interpolator. " << std::endl;
   passed = false;
   try
     {
     fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer() );
-    if(fptr == ITK_NULLPTR)
+    if(fptr == nullptr)
       {
       std::cerr << "dynamic_cast failed" << std::endl;
       return EXIT_FAILURE;
       }
-    fptr->SetMovingImageInterpolator( ITK_NULLPTR );
+    fptr->SetMovingImageInterpolator( nullptr );
     registrator->SetInput( initField );
     registrator->Update();
     }

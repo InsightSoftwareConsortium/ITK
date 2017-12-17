@@ -71,7 +71,7 @@ public:
   /** Return a list of children (the list should be deleted by the user */
 #if !defined( ITK_WRAPPING_PARSER )
   ChildrenListType * GetChildren(unsigned int depth = 0,
-                                         char *name = ITK_NULLPTR) const override;
+                                         char *name = nullptr) const override;
 
 #endif
 

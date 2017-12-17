@@ -38,7 +38,7 @@ public:
   typedef typename Superclass::NodeType     NodeType;
 
   /** Constructor */
-  PreOrderTreeIterator(const TTreeType *tree, const TreeNodeType *start = ITK_NULLPTR);
+  PreOrderTreeIterator(const TTreeType *tree, const TreeNodeType *start = nullptr);
 
   /** Get the type of the iterator */
   NodeType GetType() const override;
@@ -83,7 +83,7 @@ template< typename TTreeType >
 bool
 PreOrderTreeIterator< TTreeType >::HasNext() const
 {
-  if ( const_cast< TreeNodeType * >( FindNextNode() ) != ITK_NULLPTR )
+  if ( const_cast< TreeNodeType * >( FindNextNode() ) != nullptr )
     {
     return true;
     }
@@ -104,9 +104,9 @@ template< typename TTreeType >
 const typename PreOrderTreeIterator< TTreeType >::TreeNodeType *
 PreOrderTreeIterator< TTreeType >::FindNextNode() const
 {
-  if ( this->m_Position == ITK_NULLPTR )
+  if ( this->m_Position == nullptr )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   if ( this->m_Position->HasChildren() )
     {
@@ -115,7 +115,7 @@ PreOrderTreeIterator< TTreeType >::FindNextNode() const
 
   if ( !this->m_Position->HasParent() )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   TreeNodeType *child = this->m_Position;
@@ -124,7 +124,7 @@ PreOrderTreeIterator< TTreeType >::FindNextNode() const
   // Are we a subtree? Then we are done.
   if ( parent && parent->ChildPosition(this->m_Root) >= 0 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   int childPosition = parent->ChildPosition(child);
@@ -134,7 +134,7 @@ PreOrderTreeIterator< TTreeType >::FindNextNode() const
     {
     TreeNodeType *help = dynamic_cast< TreeNodeType * >( parent->GetChild(childPosition + 1) );
 
-    if ( help != ITK_NULLPTR )
+    if ( help != nullptr )
       {
       return help;
       }
@@ -149,7 +149,7 @@ PreOrderTreeIterator< TTreeType >::FindNextNode() const
     // Subtree
     if ( parent->ChildPosition(this->m_Root) >= 0 )
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
 
     childPosition = parent->ChildPosition(child);
@@ -159,13 +159,13 @@ PreOrderTreeIterator< TTreeType >::FindNextNode() const
       {
       TreeNodeType *help = dynamic_cast< TreeNodeType * >( parent->GetChild(childPosition + 1) );
 
-      if ( help != ITK_NULLPTR )
+      if ( help != nullptr )
         {
         return help;
         }
       }
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 /** Clone function */

@@ -43,7 +43,7 @@ IPLCommonImageIO::IPLCommonImageIO()
     ByteSwapper< int >::SystemIsBigEndian() ?
     ImageIOBase::BigEndian :
     ImageIOBase::LittleEndian;
-  m_ImageHeader = ITK_NULLPTR;
+  m_ImageHeader = nullptr;
   m_FilenameList = new IPLFileNameList;
   this->SetComponentType(ImageIOBase::SHORT);
 }
@@ -104,7 +104,7 @@ GEImageHeader * IPLCommonImageIO::ReadHeader(const char *)
   //
   // must be redefined in a child class
   //
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 bool IPLCommonImageIO::CanReadFile(const char *)
@@ -178,7 +178,7 @@ void IPLCommonImageIO::ReadImageInformation()
   imageMask[IOCommon::ITK_MAXPATHLEN] = '\0';
 
   char *lastslash = strrchr(imagePath, '/');
-  if ( lastslash == ITK_NULLPTR )
+  if ( lastslash == nullptr )
     {
     strcpy(imagePath, ".");
     }
@@ -202,7 +202,7 @@ void IPLCommonImageIO::ReadImageInformation()
     char        fullPath[IOCommon::ITK_MAXPATHLEN + 1];
     sprintf(fullPath, "%s/%s", imagePath, curFname);
 
-    if ( curFname == ITK_NULLPTR )
+    if ( curFname == nullptr )
       {
       break;
       }
@@ -511,7 +511,7 @@ int IPLCommonImageIO
   strncpy (timeString, asciiTime, len);
   timeString[len-1] = '\0';
   char *newline;
-  if((newline = strrchr(timeString,'\n')) != ITK_NULLPTR ||
+  if((newline = strrchr(timeString,'\n')) != nullptr ||
      (newline = strrchr(timeString,'\r')))
     {
     *newline = '\0';

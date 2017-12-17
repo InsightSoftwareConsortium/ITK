@@ -27,13 +27,13 @@ namespace fem
 
 template <typename TMoving, typename TFixed>
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad() :
-  m_MovingImage(ITK_NULLPTR ),
-  m_FixedImage( ITK_NULLPTR ),
+  m_MovingImage(nullptr ),
+  m_FixedImage( nullptr ),
   m_NumberOfIntegrationPoints( 0 ),
   m_SolutionIndex( 1 ),
   m_SolutionIndex2( 0 ),
   m_Gamma( NumericTraits< Float >::ZeroValue() ),
-  m_Solution( ITK_NULLPTR ),
+  m_Solution( nullptr ),
   m_GradSigma( 0.0f ),
   m_Sign( 1.0f ),
   m_WhichMetric( 0.0f )
@@ -141,7 +141,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
   typename Element::MatrixType solmat;
   typename Element::Float w;
 
-  if( (el == ITK_NULLPTR) || (el->Size() < 1) )
+  if( (el == nullptr) || (el->Size() < 1) )
     {
     return 10.0;
     }
@@ -271,7 +271,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
     m_DisplacementField->GetLargestPossibleRegion() );
   nD.SetLocation(oindex);
 
-  void* globalData = ITK_NULLPTR;
+  void* globalData = nullptr;
   OutVec = m_DifferenceFunction->ComputeUpdate(nD, globalData);
   for( unsigned int k = 0; k < ImageDimension; k++ )
     {

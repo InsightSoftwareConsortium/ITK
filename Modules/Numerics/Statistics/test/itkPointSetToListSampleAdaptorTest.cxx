@@ -118,10 +118,10 @@ int itkPointSetToListSampleAdaptorTest( int, char * [] )
   //exercise returned pointset
   const PointSetToListSampleAdaptorType::PointSetType * pointSetReturned = listSample->GetPointSet( );
 
-  //check for ITK_NULLPTR
-  if( pointSetReturned == ITK_NULLPTR )
+  //check for nullptr
+  if( pointSetReturned == nullptr )
     {
-    std::cerr << "GetPointSet() returned a ITK_NULLPTR pointer"<< std::endl;
+    std::cerr << "GetPointSet() returned a nullptr pointer"<< std::endl;
     return EXIT_FAILURE;
     }
 

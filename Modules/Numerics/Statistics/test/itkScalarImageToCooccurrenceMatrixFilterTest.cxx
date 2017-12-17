@@ -105,7 +105,7 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
       {
       filter->Update();
       passed = false;
-      std::cerr << "Failed to throw expected exception due to ITK_NULLPTR input: " << std::endl;
+      std::cerr << "Failed to throw expected exception due to nullptr input: " << std::endl;
       return EXIT_FAILURE;
       }
     catch ( itk::ExceptionObject & excp )
@@ -115,29 +115,29 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
 
     filter->ResetPipeline();
 
-    if ( filter->GetInput() != ITK_NULLPTR )
+    if ( filter->GetInput() != nullptr )
       {
-      std::cerr << "GetInput() should return ITK_NULLPTR since the input is\
+      std::cerr << "GetInput() should return nullptr since the input is\
                     not set yet " << std::endl;
       passed = false;
       }
 
-    if ( filter->GetMaskImage() != ITK_NULLPTR )
+    if ( filter->GetMaskImage() != nullptr )
       {
-      std::cerr << "GetMaskImage() should return ITK_NULLPTR since the mask image is\
+      std::cerr << "GetMaskImage() should return nullptr since the mask image is\
                     not set yet " << std::endl;
       passed = false;
       }
 
 
-    //Invoke update with a ITK_NULLPTR input. An exception should be
+    //Invoke update with a nullptr input. An exception should be
     //thrown.
-    filter->SetInput( ITK_NULLPTR );
+    filter->SetInput( nullptr );
     try
       {
       filter->Update();
       passed = false;
-      std::cerr << "Failed to throw expected exception due to ITK_NULLPTR input: " << std::endl;
+      std::cerr << "Failed to throw expected exception due to nullptr input: " << std::endl;
       return EXIT_FAILURE;
       }
     catch ( itk::ExceptionObject & excp )
@@ -147,7 +147,7 @@ int itkScalarImageToCooccurrenceMatrixFilterTest(int, char* [] )
 
     filter->ResetPipeline();
 
-    if ( filter->GetInput() != ITK_NULLPTR )
+    if ( filter->GetInput() != nullptr )
       {
       passed = false;
       }

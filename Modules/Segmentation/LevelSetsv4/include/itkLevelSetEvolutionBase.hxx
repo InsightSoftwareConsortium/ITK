@@ -76,12 +76,12 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 {
   if( this->m_LevelSetContainer.IsNull() )
     {
-    itkGenericExceptionMacro( << "this->m_LevelSetContainer is ITK_NULLPTR" );
+    itkGenericExceptionMacro( << "this->m_LevelSetContainer is nullptr" );
     }
 
   if( this->m_EquationContainer.IsNull() )
     {
-    itkGenericExceptionMacro( << "m_EquationContainer is ITK_NULLPTR" );
+    itkGenericExceptionMacro( << "m_EquationContainer is nullptr" );
     }
 
   typename EquationContainerType::Iterator eqIt = this->m_EquationContainer->Begin();
@@ -92,7 +92,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
     }
   if( !eqIt->GetEquation() )
     {
-    itkGenericExceptionMacro( << "m_EquationContainer->GetEquation( 0 ) is ITK_NULLPTR" );
+    itkGenericExceptionMacro( << "m_EquationContainer->GetEquation( 0 ) is nullptr" );
     }
 
   if( this->m_LevelSetContainer != this->m_EquationContainer->GetLevelSetContainer() )
@@ -108,7 +108,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 
   if( inputImage.IsNull() )
     {
-    itkGenericExceptionMacro( << "input Image is ITK_NULLPTR" );
+    itkGenericExceptionMacro( << "input Image is nullptr" );
     }
 
   // Get the LevelSetContainer from the EquationContainer
@@ -134,7 +134,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
 
   if( this->m_StoppingCriterion.IsNull() )
     {
-    itkGenericExceptionMacro( << "m_StoppingCriterion is ITK_NULLPTR" );
+    itkGenericExceptionMacro( << "m_StoppingCriterion is nullptr" );
     }
 
   this->m_NumberOfIterations = 0;

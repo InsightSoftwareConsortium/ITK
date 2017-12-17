@@ -45,15 +45,15 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   m_FixedImageBinSize(0.0),
   m_MovingImageBinSize(0.0),
 
-  m_CubicBSplineKernel(ITK_NULLPTR),
-  m_CubicBSplineDerivativeKernel(ITK_NULLPTR),
+  m_CubicBSplineKernel(nullptr),
+  m_CubicBSplineDerivativeKernel(nullptr),
 
   m_PRatioArray(0,0),
 
   // Initialize memory
   m_MovingImageMarginalPDF(0),
 
-  m_MMIMetricPerThreadVariables(ITK_NULLPTR),
+  m_MMIMetricPerThreadVariables(nullptr),
 
   m_UseExplicitPDFDerivatives(true),
   m_ImplicitDerivativesSecondPass(false)
@@ -340,7 +340,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
     for( ThreadIdType threadId = 0; threadId < this->m_NumberOfThreads; ++threadId )
       {
       // Not needed if this->m_UseExplicitPDFDerivatives=false
-      this->m_MMIMetricPerThreadVariables[threadId].JointPDFDerivatives = ITK_NULLPTR;
+      this->m_MMIMetricPerThreadVariables[threadId].JointPDFDerivatives = nullptr;
       }
 
     /** Allocate memory for helper array that will contain the pRatios
@@ -1018,7 +1018,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 
   const int pdfFixedIndex = this->m_FixedImageSamples[sampleNumber].valueIndex;
 
-  JointPDFDerivativesValueType *derivPtr=ITK_NULLPTR;
+  JointPDFDerivativesValueType *derivPtr=nullptr;
 
   if( this->m_UseExplicitPDFDerivatives )
     {
@@ -1082,11 +1082,11 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
     }
   else
     {
-    const WeightsValueType *weights = ITK_NULLPTR;
-    const IndexValueType *  indices = ITK_NULLPTR;
+    const WeightsValueType *weights = nullptr;
+    const IndexValueType *  indices = nullptr;
 
-    BSplineTransformWeightsType *   weightsHelper = ITK_NULLPTR;
-    BSplineTransformIndexArrayType *indicesHelper = ITK_NULLPTR;
+    BSplineTransformWeightsType *   weightsHelper = nullptr;
+    BSplineTransformIndexArrayType *indicesHelper = nullptr;
 
     if( this->m_UseCachingOfBSplineWeights )
       {

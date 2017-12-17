@@ -87,7 +87,7 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
       }
     else
       {
-      itkGenericExceptionMacro( <<"Note: m_LabelMap is ITK_NULLPTR"  );
+      itkGenericExceptionMacro( <<"Note: m_LabelMap is nullptr"  );
       }
     }
   return rval;

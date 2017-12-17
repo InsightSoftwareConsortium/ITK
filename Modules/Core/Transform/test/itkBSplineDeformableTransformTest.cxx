@@ -198,8 +198,8 @@ int itkBSplineDeformableTransformTest1()
   std::cout << "Output Point: " << outputPoint << std::endl;
   std::cout << std::endl;
 
-  // set bulk transform to ITK_NULLPTR
-  transform->SetBulkTransform( ITK_NULLPTR );
+  // set bulk transform to nullptr
+  transform->SetBulkTransform( nullptr );
 
   // use the other version of TransformPoint
   typedef TransformType::WeightsType             WeightsType;
@@ -402,7 +402,7 @@ int itkBSplineDeformableTransformTest1()
   /**
    * Parameters should remain even when the transform has been destroyed
    */
-  transform = ITK_NULLPTR;
+  transform = nullptr;
 
   if( outParametersCopy != parameters )
     {

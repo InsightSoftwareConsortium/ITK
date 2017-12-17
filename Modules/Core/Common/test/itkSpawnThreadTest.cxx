@@ -54,7 +54,7 @@ void* ThreadFunction(void *ptr)
   std::cerr << "Thread #" << localthreadId << " is done." << std::endl;
   localMutex->Unlock();
 
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 #if !defined(ITK_USE_PTHREADS)

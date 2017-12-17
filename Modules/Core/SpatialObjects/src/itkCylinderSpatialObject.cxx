@@ -68,7 +68,7 @@ bool CylinderSpatialObject
 {
   itkDebugMacro("Checking the point [" << point << "] is inside the Cylinder");
 
-  if ( name == ITK_NULLPTR )
+  if ( name == nullptr )
     {
     if ( IsInside(point) )
       {

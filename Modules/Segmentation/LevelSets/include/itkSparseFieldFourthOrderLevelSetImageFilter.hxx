@@ -41,7 +41,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::SparseFieldFourthOrderLevelSetImageFilter()
 {
   m_RefitIteration = 0;
-  m_LevelSetFunction = ITK_NULLPTR;
+  m_LevelSetFunction = nullptr;
   m_ConvergenceFlag = false;
 
   this->SetIsoSurfaceValue(0);
@@ -122,7 +122,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
         position -= stride[k];
         }
       }
-    if ( it.GetPixel (position) == ITK_NULLPTR )
+    if ( it.GetPixel (position) == nullptr )
       {
       flag = true;
       }
@@ -186,7 +186,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
       }
     else
       {
-      if ( node != ITK_NULLPTR )
+      if ( node != nullptr )
         {
         node->m_CurvatureFlag = false;
         }
@@ -211,7 +211,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
   while ( layerIt != this->m_Layers[0]->End() )
     {
     node = im->GetPixel(layerIt->m_Value);
-    if ( ( node == ITK_NULLPTR )
+    if ( ( node == nullptr )
          || ( node->m_CurvatureFlag == false ) )
       {
       //level set touching edge of normal band

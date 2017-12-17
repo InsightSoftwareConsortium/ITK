@@ -41,7 +41,7 @@
 
 namespace itk
 {
-FEMFactoryBase * FEMFactoryBase::m_Factory = ITK_NULLPTR;
+FEMFactoryBase * FEMFactoryBase::m_Factory = nullptr;
 SimpleFastMutexLock FEMFactoryBase::m_CreationLock;
 
 FEMFactoryBase::FEMFactoryBase()

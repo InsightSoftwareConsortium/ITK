@@ -139,9 +139,9 @@ protected:
   TConstMemberFunctionPointer m_ConstMemberFunction;
 
   MemberCommand() :
-    m_This( ITK_NULLPTR ),
-    m_MemberFunction( ITK_NULLPTR ),
-    m_ConstMemberFunction( ITK_NULLPTR )
+    m_This( nullptr ),
+    m_MemberFunction( nullptr ),
+    m_ConstMemberFunction( nullptr )
   {}
 
   ~MemberCommand() override {}
@@ -208,8 +208,8 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
 
   ReceptorMemberCommand() :
-    m_This( ITK_NULLPTR ),
-    m_MemberFunction( ITK_NULLPTR )
+    m_This( nullptr ),
+    m_MemberFunction( nullptr )
   {}
 
   ~ReceptorMemberCommand() override {}
@@ -274,8 +274,8 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
 
   SimpleMemberCommand() :
-    m_This( ITK_NULLPTR ),
-    m_MemberFunction( ITK_NULLPTR )
+    m_This( nullptr ),
+    m_MemberFunction( nullptr )
   {}
 
   ~SimpleMemberCommand() override {}
@@ -340,8 +340,8 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
 
   SimpleConstMemberCommand() :
-    m_This( ITK_NULLPTR ),
-    m_MemberFunction( ITK_NULLPTR )
+    m_This( nullptr ),
+    m_MemberFunction( nullptr )
   {}
 
   ~SimpleConstMemberCommand() override {}

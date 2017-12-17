@@ -217,8 +217,8 @@ public:
     const ParticleSwarmOptimizerBase *optimizer =
       static_cast<const ParticleSwarmOptimizerBase *>( object );
 
-    if( dynamic_cast<const IterationEvent *>( &event ) != ITK_NULLPTR ||
-          dynamic_cast<const StartEvent *>( &event ) != ITK_NULLPTR )
+    if( dynamic_cast<const IterationEvent *>( &event ) != nullptr ||
+          dynamic_cast<const StartEvent *>( &event ) != nullptr )
       {
       std::cout << m_IterationNumber++ << ":  ";
       std::cout << "x: " << optimizer->GetCurrentPosition() << "  ";

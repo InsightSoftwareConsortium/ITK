@@ -51,7 +51,7 @@ QuadricDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
     p_id = it->Index();
 
     qe = output->FindEdge(p_id);
-    if ( qe != ITK_NULLPTR )
+    if ( qe != nullptr )
       {
       qe_it = qe;
       do

@@ -52,7 +52,7 @@ LevelSetIterationUpdateCommand< TIteratingFilter, TFilterToUpdate >
   IteratingFilterType * filter = dynamic_cast< IteratingFilterType * >( caller );
 
   // Was filter->AddObserver() called correctly?
-  itkAssertInDebugAndIgnoreInReleaseMacro( filter != ITK_NULLPTR );
+  itkAssertInDebugAndIgnoreInReleaseMacro( filter != nullptr );
 
   // If we have the right event.
   if( IterationEvent().CheckEvent( &event ) && filter->GetNumberOfIterations() % this->m_UpdatePeriod == 0 )

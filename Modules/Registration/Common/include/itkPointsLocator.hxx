@@ -43,7 +43,7 @@ PointsLocator<TPointsContainer>
 {
   if( !this->m_Points )
     {
-    itkExceptionMacro( "The points have not been set (m_Points == ITK_NULLPTR)" );
+    itkExceptionMacro( "The points have not been set (m_Points == nullptr)" );
     }
   if( this->m_Points->Size() == 0 )
     {

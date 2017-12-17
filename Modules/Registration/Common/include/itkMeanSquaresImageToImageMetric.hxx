@@ -35,7 +35,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 {
   this->SetComputeGradient(true);
 
-  m_PerThread = ITK_NULLPTR;
+  m_PerThread = nullptr;
   this->m_WithinThreadPreProcess = false;
   this->m_WithinThreadPostProcess = false;
 
@@ -50,7 +50,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>
 ::~MeanSquaresImageToImageMetric()
 {
   delete[] m_PerThread;
-  m_PerThread = ITK_NULLPTR;
+  m_PerThread = nullptr;
 }
 
 /**

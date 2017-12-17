@@ -82,8 +82,8 @@ KdTree<TSample>
   this->m_EmptyTerminalNode = new KdTreeTerminalNode<TSample>();
 
   this->m_DistanceMetric = DistanceMetricType::New();
-  this->m_Sample = ITK_NULLPTR;
-  this->m_Root = ITK_NULLPTR;
+  this->m_Sample = nullptr;
+  this->m_Root = nullptr;
   this->m_BucketSize = 16;
   this->m_MeasurementVectorSize = 0;
 }
@@ -92,7 +92,7 @@ template<typename TSample>
 KdTree<TSample>
 ::~KdTree()
 {
-  if( this->m_Root != ITK_NULLPTR )
+  if( this->m_Root != nullptr )
     {
     this->DeleteNode( this->m_Root );
     }
@@ -107,7 +107,7 @@ KdTree<TSample>
   Superclass::PrintSelf( os, indent );
 
   os << indent << "Input Sample: ";
-  if( this->m_Sample != ITK_NULLPTR )
+  if( this->m_Sample != nullptr )
     {
     os << this->m_Sample << std::endl;
     }
@@ -117,7 +117,7 @@ KdTree<TSample>
     }
   os << indent << "Bucket Size: " << this->m_BucketSize << std::endl;
   os << indent << "Root Node: ";
-  if( this->m_Root != ITK_NULLPTR )
+  if( this->m_Root != nullptr )
     {
     os << this->m_Root << std::endl;
     }
@@ -147,12 +147,12 @@ KdTree<TSample>
     }
 
   // non-terminal node
-  if( node->Left() != ITK_NULLPTR )
+  if( node->Left() != nullptr )
     {
     this->DeleteNode( node->Left() );
     }
 
-  if( node->Right() != ITK_NULLPTR )
+  if( node->Right() != nullptr )
     {
     this->DeleteNode( node->Right() );
     }

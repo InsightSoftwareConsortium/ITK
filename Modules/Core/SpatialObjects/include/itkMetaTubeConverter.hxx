@@ -44,7 +44,7 @@ MetaTubeConverter< NDimensions >
 {
   const TubeMetaObjectType *tubeMO =
     dynamic_cast<const TubeMetaObjectType *>(mo);
-  if(tubeMO == ITK_NULLPTR)
+  if(tubeMO == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaTube" );
     }

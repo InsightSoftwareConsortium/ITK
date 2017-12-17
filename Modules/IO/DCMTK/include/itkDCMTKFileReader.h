@@ -63,7 +63,7 @@ class ITK_FORWARD_EXPORT DCMTKSequence;
 class ITKIODCMTK_EXPORT DCMTKItem
 {
 public:
-  DCMTKItem() : m_DcmItem(ITK_NULLPTR)
+  DCMTKItem() : m_DcmItem(nullptr)
     {
     }
   void SetDcmItem(DcmItem *item);
@@ -79,7 +79,7 @@ private:
 class ITKIODCMTK_EXPORT DCMTKSequence
 {
 public:
-  DCMTKSequence() : m_DcmSequenceOfItems(ITK_NULLPTR) {}
+  DCMTKSequence() : m_DcmSequenceOfItems(nullptr) {}
   void SetDcmSequenceOfItems(DcmSequenceOfItems *seq);
   int card() const;
   int GetSequence(unsigned long index,
@@ -188,7 +188,7 @@ public:
         }
       DcmDecimalString *dsItem =
         dynamic_cast<DcmDecimalString *>(resultStack.top());
-      if(dsItem == ITK_NULLPTR)
+      if(dsItem == nullptr)
         {
         DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Element at tag "
                        << std::hex << group << " "
@@ -238,8 +238,8 @@ class ITKIODCMTK_EXPORT DCMTKFileReader
 public:
   typedef DCMTKFileReader Self;
 
-  DCMTKFileReader() : m_DFile(ITK_NULLPTR),
-                      m_Dataset(ITK_NULLPTR),
+  DCMTKFileReader() : m_DFile(nullptr),
+                      m_Dataset(nullptr),
                       m_Xfer(EXS_Unknown),
                       m_FrameCount(0),
                       m_FileNumber(-1L)
@@ -280,7 +280,7 @@ public:
                        << element << std::dec);
         }
       DcmDecimalString *dsItem = dynamic_cast<DcmDecimalString *>(el);
-      if(dsItem == ITK_NULLPTR)
+      if(dsItem == nullptr)
         {
         DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                        << group << " " << std::hex

@@ -242,7 +242,7 @@ public:
       }
     else
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
   }
 
@@ -346,7 +346,7 @@ public:
   {
     m_FunctionCount = n;
 
-    m_DifferenceFunctions.resize(m_FunctionCount, ITK_NULLPTR);
+    m_DifferenceFunctions.resize(m_FunctionCount, nullptr);
 
     RadiusType radius;
     radius.Fill(1);
@@ -358,7 +358,7 @@ public:
       }
 
     // Initialize the images
-    m_LevelSet.resize(m_FunctionCount, ITK_NULLPTR);
+    m_LevelSet.resize(m_FunctionCount, nullptr);
 
     // Initialize the lookup table
     this->m_Lookup.resize(m_FunctionCount);
@@ -380,7 +380,7 @@ public:
 protected:
   MultiphaseFiniteDifferenceImageFilter()
   {
-    this->m_KdTree = ITK_NULLPTR;
+    this->m_KdTree = nullptr;
     this->m_ElapsedIterations = 0;
     this->m_MaximumRMSError = itk::Math::eps;
     this->m_RMSChange = NumericTraits< double >::max();

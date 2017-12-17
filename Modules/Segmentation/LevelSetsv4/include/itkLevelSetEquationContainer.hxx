@@ -52,7 +52,7 @@ LevelSetEquationContainer< TTermContainer >
       {
       if( ! iEquation->GetLevelSetContainer() )
         {
-        itkGenericExceptionMacro( << "m_LevelSetContainer and iEquation->GetLevelSetContainer() are ITK_NULLPTR" );
+        itkGenericExceptionMacro( << "m_LevelSetContainer and iEquation->GetLevelSetContainer() are nullptr" );
         }
       }
     this->m_Container[iId] = iEquation;

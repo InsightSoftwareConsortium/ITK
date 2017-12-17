@@ -41,16 +41,16 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   // Test GetInput() before setting the input
-  if( filter->GetInput() != ITK_NULLPTR )
+  if( filter->GetInput() != nullptr )
     {
-    std::cerr << "GetInput() should have returned ITK_NULLPTR" << std::endl;
+    std::cerr << "GetInput() should have returned nullptr" << std::endl;
     return EXIT_FAILURE;
     }
 
   // Test GetOutput() before creating the output
-  if( filter->GetOutput() == ITK_NULLPTR )
+  if( filter->GetOutput() == nullptr )
     {
-    std::cerr << "GetOutput() should have returned NON-ITK_NULLPTR" << std::endl;
+    std::cerr << "GetOutput() should have returned NON-nullptr" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -72,9 +72,9 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
   const InputRadiusObjectType * recoveredRadiusObject =
     filter->GetRadiusInput();
 
-  if( recoveredRadiusObject == ITK_NULLPTR )
+  if( recoveredRadiusObject == nullptr )
     {
-    std::cerr << "GetRadiusInput() returned ITK_NULLPTR object." << std::endl;
+    std::cerr << "GetRadiusInput() returned nullptr object." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -88,9 +88,9 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
 
   recoveredRadiusObject = filter->GetRadiusInput();
 
-  if( recoveredRadiusObject == ITK_NULLPTR )
+  if( recoveredRadiusObject == nullptr )
     {
-    std::cerr << "GetRadiusInput() returned ITK_NULLPTR object." << std::endl;
+    std::cerr << "GetRadiusInput() returned nullptr object." << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -146,7 +146,7 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
   //
   // Testing exception cases in the GenerateData() method.
   //
-  filter->SetRadiusInput( ITK_NULLPTR );
+  filter->SetRadiusInput( nullptr );
 
   std::cout << "GetRadiusInput() =  " <<  filter->GetRadiusInput() << std::endl;
 
@@ -154,7 +154,7 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
     {
     filter->Update();
     std::cerr << "Failure to throw expected exception ";
-    std::cerr << " due to ITK_NULLPTR SetRadiusInput()";
+    std::cerr << " due to nullptr SetRadiusInput()";
     return EXIT_FAILURE;
     }
   catch( itk::ExceptionObject & )

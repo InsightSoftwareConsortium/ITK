@@ -144,7 +144,7 @@ public:
 
 protected:
   ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader() :
-    m_ANTSAssociate(ITK_NULLPTR)
+    m_ANTSAssociate(nullptr)
   {}
 
   /**

@@ -68,7 +68,7 @@ FastMarchingImageFilterBase() :
   m_OutputSpacing.Fill(1.0);
   m_OutputDirection.SetIdentity();
 
-  m_InputCache = ITK_NULLPTR;
+  m_InputCache = nullptr;
 }
 
 template< typename TInput, typename TOutput >

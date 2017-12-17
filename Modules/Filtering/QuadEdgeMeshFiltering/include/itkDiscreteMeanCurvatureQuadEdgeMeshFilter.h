@@ -95,7 +95,7 @@ protected:
     OutputVectorType    normal;
     normal.Fill(0.);
 
-    if ( qe != ITK_NULLPTR )
+    if ( qe != nullptr )
       {
       if ( qe != qe->GetOnext() )
         {

@@ -60,7 +60,7 @@ public:
       return;
       }
     RegistrationPointer registration = static_cast<RegistrationPointer>( object );
-    if(registration == ITK_NULLPTR)
+    if(registration == nullptr)
       {
       return;
       }

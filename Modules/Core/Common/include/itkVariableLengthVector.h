@@ -265,7 +265,7 @@ public:
         {
         itkAssertInDebugAndIgnoreInReleaseMacro(newBuffer);
         const std::size_t nb = std::min(newSize, oldSize);
-        itkAssertInDebugAndIgnoreInReleaseMacro(nb == 0 || (nb > 0  && oldBuffer != ITK_NULLPTR));
+        itkAssertInDebugAndIgnoreInReleaseMacro(nb == 0 || (nb > 0  && oldBuffer != nullptr));
         std::copy(oldBuffer, oldBuffer+nb, newBuffer);
         }
     };
@@ -390,7 +390,7 @@ public:
     if (m_NumElements != 0)
       {
       m_Data = this->AllocateElements(m_NumElements);
-      itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
+      itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
       for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
         {
         this->m_Data[i] = static_cast< ValueType >( v[i] );
@@ -398,7 +398,7 @@ public:
       }
     else
       {
-      m_Data = ITK_NULLPTR;
+      m_Data = nullptr;
       }
     }
 

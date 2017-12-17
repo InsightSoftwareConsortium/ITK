@@ -62,7 +62,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
 {
   if( this->m_InputLevelSet.IsNull() )
     {
-    itkGenericExceptionMacro( <<"m_InputLevelSet is ITK_NULLPTR" );
+    itkGenericExceptionMacro( <<"m_InputLevelSet is nullptr" );
     }
   if( this->m_Update.empty() )
     {

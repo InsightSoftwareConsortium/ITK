@@ -143,12 +143,12 @@ SampleToHistogramFilter< TSample, THistogram >
   const InputHistogramSizeObjectType *histogramSizeObject =
     this->GetHistogramSizeInput();
 
-  if ( histogramSizeObject == ITK_NULLPTR )
+  if ( histogramSizeObject == nullptr )
     {
     itkSpecializedExceptionMacro(MissingHistogramSizeInput);
     }
 
-  if ( marginalScaleObject == ITK_NULLPTR )
+  if ( marginalScaleObject == nullptr )
     {
     itkSpecializedExceptionMacro(MissingHistogramMarginalScaleInput);
     }
@@ -274,12 +274,12 @@ SampleToHistogramFilter< TSample, THistogram >
     }
   else
     {
-    if ( binMaximumObject == ITK_NULLPTR )
+    if ( binMaximumObject == nullptr )
       {
       itkSpecializedExceptionMacro(MissingHistogramBinMaximumInput);
       }
 
-    if ( binMinimumObject == ITK_NULLPTR )
+    if ( binMinimumObject == nullptr )
       {
       itkSpecializedExceptionMacro(MissingHistogramBinMinimumInput);
       }

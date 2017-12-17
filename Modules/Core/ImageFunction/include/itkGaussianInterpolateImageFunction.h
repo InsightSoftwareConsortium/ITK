@@ -140,7 +140,7 @@ public:
   OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & cindex ) const override
     {
-    return this->EvaluateAtContinuousIndex( cindex, ITK_NULLPTR );
+    return this->EvaluateAtContinuousIndex( cindex, nullptr );
     }
 
 protected:

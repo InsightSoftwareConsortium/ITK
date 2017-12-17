@@ -62,7 +62,7 @@ public:
   {
     itkWarningMacro(<< "PointBasedSpatialObject::GetPoint() is not implemented"
                     << " in the base class" << std::endl);
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   virtual SpatialObjectPointType *
@@ -70,7 +70,7 @@ public:
   {
     itkWarningMacro(<< "PointBasedSpatialObject::GetPoint() is not implemented"
                     << " in the base class" << std::endl);
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Return the number of points in the list */

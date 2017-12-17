@@ -62,7 +62,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
 
     if ( !input || !output )
       {
-      itkExceptionMacro (<< "Either input and/or output is ITK_NULLPTR.");
+      itkExceptionMacro (<< "Either input and/or output is nullptr.");
       }
 
     ImageRegionConstIterator< InputImageType > in( input, input->GetBufferedRegion() );
@@ -184,7 +184,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
 {
   this->Superclass::SetFunctionCount(n);
 
-  this->m_UpdateBuffers.resize(n, ITK_NULLPTR);
+  this->m_UpdateBuffers.resize(n, nullptr);
 
   for ( IdCellType i = 0; i < this->m_FunctionCount; i++ )
     {

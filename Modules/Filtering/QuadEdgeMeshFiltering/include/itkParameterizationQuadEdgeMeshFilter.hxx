@@ -27,8 +27,8 @@ template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
 ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 ::ParameterizationQuadEdgeMeshFilter()
 {
-  this->m_CoefficientsMethod = ITK_NULLPTR;
-  this->m_BorderTransform = ITK_NULLPTR;
+  this->m_CoefficientsMethod = nullptr;
+  this->m_BorderTransform = nullptr;
 }
 
 // ---------------------------------------------------------------------

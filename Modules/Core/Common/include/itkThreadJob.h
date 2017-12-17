@@ -68,9 +68,9 @@ public:
 #endif
 
   ThreadJob() :
-    m_ThreadFunction(ITK_NULLPTR),
-    m_Semaphore(ITK_NULLPTR),
-    m_UserData(ITK_NULLPTR)
+    m_ThreadFunction(nullptr),
+    m_Semaphore(nullptr),
+    m_UserData(nullptr)
   {
   }
 

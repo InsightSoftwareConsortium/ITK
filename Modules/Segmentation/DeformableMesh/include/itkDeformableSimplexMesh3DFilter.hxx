@@ -67,7 +67,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput( 0, output.GetPointer() );
 
-  this->m_Data = ITK_NULLPTR;
+  this->m_Data = nullptr;
 }
 
 template< typename TInputMesh, typename TOutputMesh >
@@ -151,7 +151,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
     IdentifierType       idx = pointItr.Index();
     data = this->m_Data->GetElement(idx);
     delete data->neighborSet;
-    data->neighborSet = ITK_NULLPTR;
+    data->neighborSet = nullptr;
     pointItr++;
     }
 

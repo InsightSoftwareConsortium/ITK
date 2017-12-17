@@ -85,7 +85,7 @@ SimpleFilterWatcher
 #endif
   m_TestAbort(false),
   m_Comment("Not watching an object"),
-  m_Process(ITK_NULLPTR),
+  m_Process(nullptr),
   m_StartTag(0),
   m_EndTag(0),
   m_ProgressTag(0),

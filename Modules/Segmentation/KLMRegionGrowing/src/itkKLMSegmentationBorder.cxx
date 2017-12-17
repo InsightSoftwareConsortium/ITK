@@ -23,8 +23,8 @@ KLMSegmentationBorder
 ::KLMSegmentationBorder(void)
 {
   m_Lambda = 0.0;
-  m_Region1 = ITK_NULLPTR;
-  m_Region2 = ITK_NULLPTR;
+  m_Region1 = nullptr;
+  m_Region2 = nullptr;
 }
 
 KLMSegmentationBorder

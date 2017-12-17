@@ -239,7 +239,7 @@ int testMetaUtils(int argc, char * argv[])
     std::cout << "ElementSize not defined" << std::endl;
 
   int nNames=0;
-  char **names=ITK_NULLPTR;
+  char **names=nullptr;
   ++fieldIter;
   if((*fieldIter)->defined)
     {

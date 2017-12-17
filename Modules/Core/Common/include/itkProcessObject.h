@@ -185,7 +185,7 @@ public:
 
   /** \brief Get the size of the input container.
    *
-   * If the Primary input is ITK_NULLPTR it is not counted. This is
+   * If the Primary input is nullptr it is not counted. This is
    * not the number of inputs that have valid DataObject's
    * assigned. Use GetNumberOfValidRequiredInputs() to determine how
    * many inputs are non-null.
@@ -503,7 +503,7 @@ protected:
 
   /** \brief Return an input.
    *
-   * ITK_NULLPTR is returned if the name or indexed input is undefined.
+   * nullptr is returned if the name or indexed input is undefined.
    */
   DataObject * GetInput(const DataObjectIdentifierType & key);
   const DataObject * GetInput(const DataObjectIdentifierType & key) const;
@@ -511,9 +511,9 @@ protected:
   /** Method used internally for getting an indexed input.
    */
   DataObject * GetInput(DataObjectPointerArraySizeType idx)
-  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : ITK_NULLPTR; }
+  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : nullptr; }
   const DataObject * GetInput(DataObjectPointerArraySizeType idx) const
-  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : ITK_NULLPTR; }
+  { return idx < m_IndexedInputs.size() ? m_IndexedInputs[idx]->second.GetPointer() : nullptr; }
 
   /** \brief Protected method for setting indexed and named inputs.
    *
@@ -524,7 +524,7 @@ protected:
   virtual void SetInput(const DataObjectIdentifierType & key, DataObject *input);
   virtual void SetNthInput(DataObjectPointerArraySizeType num, DataObject *input);
 
-  /** Sets first ITK_NULLPTR indexed input, appends to the end otherwise */
+  /** Sets first nullptr indexed input, appends to the end otherwise */
   virtual void AddInput(DataObject *input);
 
   /** \brief Push/Pop an indexed input of this process object.
@@ -544,7 +544,7 @@ protected:
    *
    *  If the input is the last indexed input the number of indexed
    *  inputs will be reduced by one. Otherwise, if the input is
-   *  required or indexed it will be set to ITK_NULLPTR.
+   *  required or indexed it will be set to nullptr.
    */
   virtual void RemoveInput(const DataObjectIdentifierType & key);
   virtual void RemoveInput(DataObjectPointerArraySizeType);
@@ -566,7 +566,7 @@ protected:
   /** \brief Define the number of indexed inputs defined.
    *
    * The new indexed inputs' values are set to
-   * ITK_NULLPTR. If the size is reduced then the input definition is
+   * nullptr. If the size is reduced then the input definition is
    * removed entirely from the named input entries and index inputs.
    */
   void SetNumberOfIndexedInputs(DataObjectPointerArraySizeType num);

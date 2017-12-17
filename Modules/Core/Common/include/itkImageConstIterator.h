@@ -136,8 +136,8 @@ public:
     m_PixelAccessor(),
     m_PixelAccessorFunctor()
   {
-    m_Image = ITK_NULLPTR;
-    m_Buffer = ITK_NULLPTR;
+    m_Image = nullptr;
+    m_Buffer = nullptr;
     m_Offset = 0;
     m_BeginOffset = 0;
     m_EndOffset = 0;

@@ -91,7 +91,7 @@ OrthogonallyCorrected2DParametricPath
 OrthogonallyCorrected2DParametricPath
 ::OrthogonallyCorrected2DParametricPath()
 {
-  m_OriginalPath = ITK_NULLPTR;
+  m_OriginalPath = nullptr;
   m_OrthogonalCorrectionTable = OrthogonalCorrectionTableType::New();
 }
 

@@ -47,7 +47,7 @@ class NullImageToImageFilterDriver
 {
 public:
   NullImageToImageFilterDriver():
-    m_Filter( ITK_NULLPTR )
+    m_Filter( nullptr )
     {};
 
   typedef typename TInputImage::SizeType  ImageSizeType;

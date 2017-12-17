@@ -28,8 +28,8 @@ template< typename TSample >
 MixtureModelComponentBase< TSample >
 ::MixtureModelComponentBase()
 {
-  m_Sample = ITK_NULLPTR;
-  m_MembershipFunction = ITK_NULLPTR;
+  m_Sample = nullptr;
+  m_MembershipFunction = nullptr;
   m_MinimalParametersChange = 1.0e-06;
   m_ParametersModified = true;
 }
@@ -47,7 +47,7 @@ MixtureModelComponentBase< TSample >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Sample: ";
-  if ( m_Sample != ITK_NULLPTR )
+  if ( m_Sample != nullptr )
     {
     os << m_Sample << std::endl;
     }
@@ -57,7 +57,7 @@ MixtureModelComponentBase< TSample >
     }
 
   os << indent << "Membership Function: ";
-  if ( m_MembershipFunction != ITK_NULLPTR )
+  if ( m_MembershipFunction != nullptr )
     {
     os << m_MembershipFunction << std::endl;
     }
