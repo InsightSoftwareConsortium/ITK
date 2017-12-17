@@ -29,10 +29,10 @@ namespace itk
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
 VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::VariationalRegistrationFunction()
 {
-  m_MovingImage = NULL;
-  m_FixedImage = NULL;
-  m_DisplacementField = NULL;
-  m_MaskImage = NULL;
+  m_MovingImage = nullptr;
+  m_FixedImage = nullptr;
+  m_DisplacementField = nullptr;
+  m_MaskImage = nullptr;
 
   m_TimeStep = 1.0;
 

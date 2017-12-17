@@ -47,7 +47,7 @@ VariationalSymmetricDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, T
   const FixedImageType *  fixim = this->GetFixedImage();
   const MovingImageType * movim = this->GetMovingImage();
 
-  if (fixim == 0 || movim == 0)
+  if (fixim == nullptr || movim == nullptr)
   {
     itkExceptionMacro(<< "A fixed and a moving image are required");
   }

@@ -51,14 +51,14 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::VariationalRegist
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    this->m_MatrixCos[i] = NULL;
-    this->m_MatrixSin[i] = NULL;
-    this->m_ComplexBuffer[i] = NULL;
-    this->m_PlanForward[i] = NULL;
-    this->m_PlanBackward[i] = NULL;
+    this->m_MatrixCos[i] = nullptr;
+    this->m_MatrixSin[i] = nullptr;
+    this->m_ComplexBuffer[i] = nullptr;
+    this->m_PlanForward[i] = nullptr;
+    this->m_PlanBackward[i] = nullptr;
   }
-  this->m_InputBuffer = NULL;
-  this->m_OutputBuffer = NULL;
+  this->m_InputBuffer = nullptr;
+  this->m_OutputBuffer = nullptr;
 }
 
 /**
@@ -148,22 +148,22 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::FreeData()
 {
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    if (this->m_MatrixCos[i] != NULL)
+    if (this->m_MatrixCos[i] != nullptr)
       delete[] this->m_MatrixCos[i];
-    if (this->m_MatrixSin[i] != NULL)
+    if (this->m_MatrixSin[i] != nullptr)
       delete[] this->m_MatrixSin[i];
 
-    if (this->m_PlanForward[i] != NULL)
+    if (this->m_PlanForward[i] != nullptr)
       FFTWProxyType::DestroyPlan(this->m_PlanForward[i]);
-    if (this->m_PlanBackward[i] != NULL)
+    if (this->m_PlanBackward[i] != nullptr)
       FFTWProxyType::DestroyPlan(this->m_PlanBackward[i]);
 
-    if (this->m_ComplexBuffer[i] != NULL)
+    if (this->m_ComplexBuffer[i] != nullptr)
       delete[] this->m_ComplexBuffer[i];
   }
-  if (this->m_InputBuffer != NULL)
+  if (this->m_InputBuffer != nullptr)
     delete[] this->m_InputBuffer;
-  if (this->m_OutputBuffer != NULL)
+  if (this->m_OutputBuffer != nullptr)
     delete[] this->m_OutputBuffer;
 }
 

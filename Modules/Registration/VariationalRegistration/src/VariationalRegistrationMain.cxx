@@ -216,14 +216,14 @@ main(int argc, char * argv[])
   int intVal = 0;
 
   // Filenames
-  char * fixedImageFilename = NULL;
-  char * movingImageFilename = NULL;
-  char * maskImageFilename = NULL;
-  char * outputDisplacementFilename = NULL;
-  char * outputVelocityFilename = NULL;
-  char * warpedImageFilename = NULL;
-  char * initialFieldFilename = NULL;
-  char * logFilename = NULL;
+  char * fixedImageFilename = nullptr;
+  char * movingImageFilename = nullptr;
+  char * maskImageFilename = nullptr;
+  char * outputDisplacementFilename = nullptr;
+  char * outputVelocityFilename = nullptr;
+  char * warpedImageFilename = nullptr;
+  char * initialFieldFilename = nullptr;
+  char * logFilename = nullptr;
 
   // Registration parameters
   int    numberOfIterations = 400;
@@ -492,11 +492,11 @@ main(int argc, char * argv[])
   // check valid arguments.
   //
   //////////////////////////////////////////////
-  if (fixedImageFilename == NULL || movingImageFilename == NULL)
+  if (fixedImageFilename == nullptr || movingImageFilename == nullptr)
   {
     ExceptionMacro(<< "No input fixed and/or moving image given!");
   }
-  if (outputDisplacementFilename == NULL && warpedImageFilename == NULL)
+  if (outputDisplacementFilename == nullptr && warpedImageFilename == nullptr)
   {
     ExceptionMacro(<< "No output (deformation field or warped image) given!");
   }
@@ -555,7 +555,7 @@ main(int argc, char * argv[])
     ExceptionMacro(<< "Fixed or moving image data is null");
   }
 
-  if (maskImageFilename != NULL)
+  if (maskImageFilename != nullptr)
   {
     std::cout << "Loading mask image ... " << std::endl;
     MaskReaderType::Pointer maskReader;
@@ -571,7 +571,7 @@ main(int argc, char * argv[])
       ExceptionMacro(<< "Mask image data is null");
     }
   }
-  if (initialFieldFilename != NULL)
+  if (initialFieldFilename != nullptr)
   {
     std::cout << "Loading initial field..." << std::endl;
     DisplacementFieldReaderType::Pointer DisplacementFieldReader;
@@ -887,7 +887,7 @@ main(int argc, char * argv[])
   std::cout << "==========================================" << std::endl;
   std::cout << "WRITING output data..." << std::endl;
 
-  if (outputDisplacementFilename != NULL && outputDisplacementField.IsNotNull())
+  if (outputDisplacementFilename != nullptr && outputDisplacementField.IsNotNull())
   {
     if (DIMENSION == 2 && bWrite3DDisplacementField)
     {
@@ -960,7 +960,7 @@ main(int argc, char * argv[])
       DisplacementFieldWriter->SetFileName(outputDisplacementFilename);
       DisplacementFieldWriter->Update();
 
-      if (outputVelocityFilename != NULL && outputVelocityField.IsNotNull())
+      if (outputVelocityFilename != nullptr && outputVelocityField.IsNotNull())
       {
         std::cout << "Saving velocity field..." << std::endl;
         DisplacementFieldWriterType::Pointer velocityFieldWriter;
@@ -973,7 +973,7 @@ main(int argc, char * argv[])
     }
   }
 
-  if (warpedImageFilename != NULL)
+  if (warpedImageFilename != nullptr)
   {
 
     typedef FunctionType::MovingImageWarperType MovingImageWarperType;

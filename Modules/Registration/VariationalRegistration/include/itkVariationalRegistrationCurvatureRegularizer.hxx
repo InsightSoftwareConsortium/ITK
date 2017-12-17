@@ -48,13 +48,13 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::VariationalRegi
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    this->m_DiagonalMatrix[i] = NULL;
+    this->m_DiagonalMatrix[i] = nullptr;
   }
 
-  this->m_PlanForward = NULL;
-  this->m_PlanBackward = NULL;
-  this->m_VectorFieldComponentBuffer = NULL;
-  this->m_DCTVectorFieldComponentBuffer = NULL;
+  this->m_PlanForward = nullptr;
+  this->m_PlanBackward = nullptr;
+  this->m_VectorFieldComponentBuffer = nullptr;
+  this->m_DCTVectorFieldComponentBuffer = nullptr;
 }
 
 /**
@@ -66,14 +66,14 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::~VariationalReg
   //
   // Free old data, if already allocated
   //
-  if (this->m_VectorFieldComponentBuffer != NULL)
+  if (this->m_VectorFieldComponentBuffer != nullptr)
     delete[] this->m_VectorFieldComponentBuffer;
-  if (this->m_DCTVectorFieldComponentBuffer != NULL)
+  if (this->m_DCTVectorFieldComponentBuffer != nullptr)
     delete[] this->m_DCTVectorFieldComponentBuffer;
 
-  if (this->m_PlanForward != NULL)
+  if (this->m_PlanForward != nullptr)
     FFTWProxyType::DestroyPlan(this->m_PlanForward);
-  if (this->m_PlanBackward != NULL)
+  if (this->m_PlanBackward != nullptr)
     FFTWProxyType::DestroyPlan(this->m_PlanBackward);
 
   //
@@ -81,7 +81,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::~VariationalReg
   //
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    if (this->m_DiagonalMatrix[i] != NULL)
+    if (this->m_DiagonalMatrix[i] != nullptr)
       delete[] this->m_DiagonalMatrix[i];
   }
 }
@@ -162,14 +162,14 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurva
   //
   // Free old data, if already allocated
   //
-  if (this->m_VectorFieldComponentBuffer != NULL)
+  if (this->m_VectorFieldComponentBuffer != nullptr)
     delete[] this->m_VectorFieldComponentBuffer;
-  if (this->m_DCTVectorFieldComponentBuffer != NULL)
+  if (this->m_DCTVectorFieldComponentBuffer != nullptr)
     delete[] this->m_DCTVectorFieldComponentBuffer;
 
-  if (this->m_PlanForward != NULL)
+  if (this->m_PlanForward != nullptr)
     FFTWProxyType::DestroyPlan(this->m_PlanForward);
-  if (this->m_PlanBackward != NULL)
+  if (this->m_PlanBackward != nullptr)
     FFTWProxyType::DestroyPlan(this->m_PlanBackward);
 
   // Allocate input and output buffers for DCT
@@ -208,7 +208,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurva
                                       this->m_DCTVectorFieldComponentBuffer,
                                       fftForwardKind,
                                       FFTW_MEASURE | FFTW_DESTROY_INPUT);
-  if (this->m_PlanForward == NULL)
+  if (this->m_PlanForward == nullptr)
   {
     return false;
   }
@@ -219,7 +219,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurva
                                        this->m_VectorFieldComponentBuffer,
                                        fftBackwardKind,
                                        FFTW_MEASURE | FFTW_DESTROY_INPUT);
-  if (this->m_PlanBackward == NULL)
+  if (this->m_PlanBackward == nullptr)
   {
     return false;
   }
@@ -241,7 +241,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurva
   //
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    if (this->m_DiagonalMatrix[i] != NULL)
+    if (this->m_DiagonalMatrix[i] != nullptr)
       delete[] this->m_DiagonalMatrix[i];
   }
 
