@@ -149,7 +149,7 @@ public:
   }
 
   /** Handle optimizer iteration events. */
-  virtual void
+  void
   Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE;
 
   /** access the arrival image for debugging purposes */
@@ -157,8 +157,8 @@ public:
 
 protected:
   SpeedFunctionToPathFilter();
-  ~SpeedFunctionToPathFilter();
-  virtual void
+  ~SpeedFunctionToPathFilter() ITK_OVERRIDE;
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Implemention of algorithm. */
@@ -166,15 +166,15 @@ protected:
   GenerateData(void) ITK_OVERRIDE;
 
   /** Get the number of paths which the user has instructed to extracted. */
-  virtual unsigned int
+  unsigned int
   GetNumberOfPathsToExtract() const ITK_OVERRIDE;
 
   /** Compute the arrival function from which to extract the path. */
-  virtual InputImageType *
+  InputImageType *
   ComputeArrivalFunction() ITK_OVERRIDE;
 
   /** Override handling of optimizer iteration events to accomodate way points. */
-  virtual const PointsContainerType &
+  const PointsContainerType &
   GetNextEndPoint() ITK_OVERRIDE;
 
   std::vector<typename PathInformationType::Pointer> m_Information;

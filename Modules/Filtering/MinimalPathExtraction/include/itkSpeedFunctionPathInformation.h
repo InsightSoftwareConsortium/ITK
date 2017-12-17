@@ -141,8 +141,8 @@ public:
 
 protected:
   SpeedFunctionPathInformation();
-  virtual ~SpeedFunctionPathInformation();
-  virtual void
+  ~SpeedFunctionPathInformation() ITK_OVERRIDE;
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   std::vector<PointsContainerType> m_Information;
