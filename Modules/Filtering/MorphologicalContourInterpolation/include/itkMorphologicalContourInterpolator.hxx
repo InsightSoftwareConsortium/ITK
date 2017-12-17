@@ -89,7 +89,7 @@ protected:
 
 private:
   void
-  ThreadedExecution(const DomainType & subDomain, const ThreadIdType threadId) ITK_OVERRIDE
+  ThreadedExecution(const DomainType & subDomain, const ThreadIdType threadId) override
   {
     // Look only at the range of cells by the set of indices in the subDomain.
     for (itk::IndexValueType ii = subDomain[0]; ii <= subDomain[1] && ii < IndexValueType(m_WorkArray.size()); ++ii)
