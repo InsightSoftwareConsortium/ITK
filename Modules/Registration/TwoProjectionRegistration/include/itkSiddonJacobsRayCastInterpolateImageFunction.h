@@ -129,7 +129,7 @@ public:
    * calling the method.
    */
   OutputType
-  Evaluate(const PointType & point) const ITK_OVERRIDE;
+  Evaluate(const PointType & point) const override;
 
   /** Interpolate the image at a continuous index position
    *
@@ -137,13 +137,13 @@ public:
    * specified index position. No bounds checking is done.
    * The point is assume to lie within the image buffer.
    *
-   * Subclasses must ITK_OVERRIDE this method.
+   * Subclasses must override this method.
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method.
    */
   OutputType
-  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const ITK_OVERRIDE;
+  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
 
   virtual void
   Initialize(void);
@@ -169,17 +169,17 @@ public:
    * \warning For efficiency, no validity checking of
    * the input image pointer is done. */
   inline bool
-  IsInsideBuffer(const PointType &) const ITK_OVERRIDE
+  IsInsideBuffer(const PointType &) const override
   {
     return true;
   }
   bool
-  IsInsideBuffer(const ContinuousIndexType &) const ITK_OVERRIDE
+  IsInsideBuffer(const ContinuousIndexType &) const override
   {
     return true;
   }
   bool
-  IsInsideBuffer(const IndexType &) const ITK_OVERRIDE
+  IsInsideBuffer(const IndexType &) const override
   {
     return true;
   }
@@ -187,10 +187,10 @@ public:
 protected:
   SiddonJacobsRayCastInterpolateImageFunction();
 
-  ~SiddonJacobsRayCastInterpolateImageFunction() ITK_OVERRIDE {};
+  ~SiddonJacobsRayCastInterpolateImageFunction() override {};
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /// Transformation used to calculate the new focal point position
   TransformPointer m_Transform; // Displacement of the volume

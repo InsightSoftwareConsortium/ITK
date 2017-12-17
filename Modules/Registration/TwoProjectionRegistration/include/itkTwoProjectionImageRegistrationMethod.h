@@ -205,23 +205,23 @@ public:
    * output. */
   using Superclass::MakeOutput;
   DataObjectPointer
-  MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */
   unsigned long
-  GetMTime() const ITK_OVERRIDE;
+  GetMTime() const override;
 
 protected:
   TwoProjectionImageRegistrationMethod();
-  ~TwoProjectionImageRegistrationMethod() ITK_OVERRIDE {};
+  ~TwoProjectionImageRegistrationMethod() override {};
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   /** Provides derived classes with the ability to set this private var */
   itkSetMacro(LastTransformParameters, ParametersType);
