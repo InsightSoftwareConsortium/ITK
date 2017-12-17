@@ -139,14 +139,14 @@ public:
 
 protected:
   VariationalSymmetricDiffeomorphicRegistrationFilter();
-  ~VariationalSymmetricDiffeomorphicRegistrationFilter() {}
+  ~VariationalSymmetricDiffeomorphicRegistrationFilter() ITK_OVERRIDE {}
 
   /** Print information about the filter. */
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method is called before iterating the solution. */
-  virtual void
+  void
   Initialize() ITK_OVERRIDE;
 
   /** Initialize the backward update after forward update was completed */
@@ -155,12 +155,12 @@ protected:
 
   /** Apply update function that additionally computes the inverse displacement
    *  field for the next iteration. */
-  virtual void
+  void
   ApplyUpdate(const TimeStepType & dt) ITK_OVERRIDE;
 
   /** Calculate the update for each iteration by first performing the forward
    * and then the backward update step. */
-  virtual TimeStepType
+  TimeStepType
   CalculateChange() ITK_OVERRIDE;
 
   /** Calculates the inverse deformation field by calculating the exponential
@@ -176,7 +176,7 @@ protected:
   typedef typename UpdateBufferType::RegionType ThreadRegionType;
 
   /** Threaded version of ApplyUpdate that adds forward and backward fields  */
-  virtual void
+  void
   ThreadedApplyUpdate(const TimeStepType &     dt,
                       const ThreadRegionType & regionToProcess,
                       unsigned int             threadId) ITK_OVERRIDE;

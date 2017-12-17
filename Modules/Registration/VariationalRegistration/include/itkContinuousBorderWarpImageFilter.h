@@ -103,12 +103,12 @@ public:
 
 protected:
   ContinuousBorderWarpImageFilter() {};
-  ~ContinuousBorderWarpImageFilter() {};
+  ~ContinuousBorderWarpImageFilter() ITK_OVERRIDE {};
 
   /** WarpImageFilter is implemented as a multi-threaded filter.
    * As such, it needs to provide and implementation for
    * ThreadedGenerateData(). */
-  virtual void
+  void
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:

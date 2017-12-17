@@ -112,12 +112,12 @@ public:
   typedef typename GradientCalculatorType::Pointer       GradientCalculatorPointer;
 
   /** Set the object's state before each iteration. */
-  virtual void
+  void
   InitializeIteration() ITK_OVERRIDE;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
-  virtual PixelType
+  PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
                 void *                   globalData,
                 const FloatOffsetType &  offset = FloatOffsetType(0.0)) ITK_OVERRIDE;
@@ -147,7 +147,7 @@ public:
   /** Computes the time step for an update.
    * Returns the constant time step scaled with the mean squared spacing.
    * \sa SetTimeStep() */
-  virtual typename Superclass::TimeStepType
+  typename Superclass::TimeStepType
   ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const ITK_OVERRIDE
   {
     return this->GetTimeStep() * m_Normalizer;
@@ -155,10 +155,10 @@ public:
 
 protected:
   VariationalRegistrationNCCFunction();
-  ~VariationalRegistrationNCCFunction() {}
+  ~VariationalRegistrationNCCFunction() ITK_OVERRIDE {}
 
   /** Print information about the filter. */
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** FixedImage image neighborhood iterator type. */

@@ -114,26 +114,26 @@ public:
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
-  virtual PixelType
+  PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
                 void *                   globalData,
                 const FloatOffsetType &  offset = FloatOffsetType(0.0)) ITK_OVERRIDE;
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  virtual void *
+  void *
   GetGlobalDataPointer() const ITK_OVERRIDE;
 
   /** Release memory for global data structure. */
-  virtual void
+  void
   ReleaseGlobalDataPointer(void * GlobalData) const ITK_OVERRIDE;
 
 protected:
   VariationalRegistrationFastNCCFunction();
-  ~VariationalRegistrationFastNCCFunction() {}
+  ~VariationalRegistrationFastNCCFunction() ITK_OVERRIDE {}
 
   /** Print information about the filter. */
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename Superclass::GlobalDataStruct GlobalDataStruct;

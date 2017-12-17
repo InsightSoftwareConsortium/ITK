@@ -61,22 +61,22 @@ public:
   itkNewMacro(Self);
 
   /** Print iterations, levels or metric values on IterationEvent or InitializeEvent */
-  virtual void
+  void
   Execute(itk::Object * caller, const itk::EventObject & event) ITK_OVERRIDE
   {
     Execute((const itk::Object *)caller, event);
   }
 
   /** Print iterations, levels or metric values on IterationEvent or InitializeEvent */
-  virtual void
+  void
   Execute(const itk::Object * caller, const itk::EventObject & event) ITK_OVERRIDE;
 
 protected:
   VariationalRegistrationLogger();
-  ~VariationalRegistrationLogger();
+  ~VariationalRegistrationLogger() ITK_OVERRIDE;
 
   /** Print information about the filter. */
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

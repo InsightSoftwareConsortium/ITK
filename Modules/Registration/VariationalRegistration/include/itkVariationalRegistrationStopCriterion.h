@@ -233,18 +233,18 @@ public:
     this->SetMultiResolutionPolicy(MULTI_RESOLUTION_POLICY_GRADUATED);
   }
 
-  virtual void
+  void
   Execute(itk::Object * caller, const itk::EventObject & event) ITK_OVERRIDE;
 
-  virtual void
+  void
   Execute(const itk::Object * caller, const itk::EventObject & event) ITK_OVERRIDE;
 
 protected:
   VariationalRegistrationStopCriterion();
-  ~VariationalRegistrationStopCriterion();
+  ~VariationalRegistrationStopCriterion() ITK_OVERRIDE;
 
   /** Print information about the filter. */
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Set the flags according to the multi-resolution policy for

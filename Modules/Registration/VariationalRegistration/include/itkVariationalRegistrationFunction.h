@@ -195,13 +195,13 @@ public:
   }
 
   /** Set the object's state before each iteration. */
-  virtual void
+  void
   InitializeIteration() ITK_OVERRIDE;
 
   /** Computes the time step for an update.
    * Returns the constant time step.
    * \sa SetTimeStep() */
-  virtual TimeStepType
+  TimeStepType
   ComputeGlobalTimeStep(void * itkNotUsed(GlobalData)) const ITK_OVERRIDE
   {
     return m_TimeStep;
@@ -209,11 +209,11 @@ public:
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  virtual void *
+  void *
   GetGlobalDataPointer() const ITK_OVERRIDE;
 
   /** Release memory for global data structure. */
-  virtual void
+  void
   ReleaseGlobalDataPointer(void * GlobalData) const ITK_OVERRIDE;
 
   //
@@ -236,10 +236,10 @@ public:
 
 protected:
   VariationalRegistrationFunction();
-  ~VariationalRegistrationFunction() {}
+  ~VariationalRegistrationFunction() ITK_OVERRIDE {}
 
   /** Print information about the filter. */
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Warp the moving image into the domain of the fixed image using the
