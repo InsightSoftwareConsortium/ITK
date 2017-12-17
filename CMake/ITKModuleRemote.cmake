@@ -126,6 +126,7 @@ function(itk_fetch_module _name _description)
   option(Module_${_name} "${_description}" OFF)
   mark_as_advanced(Module_${_name})
 
+
   # Fetch_$_remote_module} is deprecated. To maintain backward compatibility:
   if(Fetch_${_name})
     message(WARNING "Fetch_${_name} is deprecated, please use Module_${_name} to download and enable the remote module.")
@@ -136,6 +137,7 @@ function(itk_fetch_module _name _description)
     itk_download_attempt_check(Module_${_name})
     include(CMakeParseArguments)
     cmake_parse_arguments(_fetch_options "" "GIT_REPOSITORY;GIT_TAG" "" ${ARGN})
+    find_package(Git)
     if(NOT GIT_EXECUTABLE)
       message(FATAL_ERROR "error: could not find git for clone of ${_name}")
     endif()

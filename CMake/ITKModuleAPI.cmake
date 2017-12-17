@@ -1,5 +1,3 @@
-
-
 #-----------------------------------------------------------------------------
 # Private helper macros.
 
@@ -19,6 +17,13 @@ macro(_itk_module_use_recurse mod)
   endif()
 endmacro()
 
+# _itk_module_config_recurse(<namespace> <module>)
+#
+# Internal macro to recursively load module information into the supplied
+# namespace, this is called from itk_module_config. It should be noted that
+# _${ns}_${mod}_USED must be cleared if this macro is to work correctly on
+# subsequent invocations. The macro will load the module files using the
+# itk_module_load, making all of its variables available in the local scope.
 macro(_itk_module_config_recurse ns mod)
   if(NOT _${ns}_${mod}_USED)
     set(_${ns}_${mod}_USED 1)
