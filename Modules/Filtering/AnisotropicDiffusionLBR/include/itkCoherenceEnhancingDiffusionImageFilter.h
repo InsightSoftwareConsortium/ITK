@@ -79,7 +79,7 @@ public:
   static const unsigned int Dimension = Superclass::Dimension;
 
   typedef typename Superclass::EigenValuesArrayType EigenValuesArrayType;
-  virtual EigenValuesArrayType EigenValuesTransform(const EigenValuesArrayType &) const;
+  EigenValuesArrayType EigenValuesTransform(const EigenValuesArrayType &) const ITK_OVERRIDE;
 
   typedef typename Superclass::ScalarType ScalarType;
   /** Exponent m involved in the function g defining eigenvalues. */

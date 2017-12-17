@@ -87,7 +87,7 @@ public:
 
 protected:
   LinearAnisotropicDiffusionLBRImageFilter();
-  virtual ~LinearAnisotropicDiffusionLBRImageFilter(){}
+  ~LinearAnisotropicDiffusionLBRImageFilter() ITK_OVERRIDE{}
 
   typename ImageType::ConstPointer GetInputImage();
   typename TensorImageType::ConstPointer GetInputTensor();
@@ -107,7 +107,7 @@ protected:
 
 
   // *************** Computation *****************
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
   virtual void GenerateStencils(); /// Automatically called by GenerateData
   virtual void ImageUpdateLoop(); /// Automatically called by GenerateData
 

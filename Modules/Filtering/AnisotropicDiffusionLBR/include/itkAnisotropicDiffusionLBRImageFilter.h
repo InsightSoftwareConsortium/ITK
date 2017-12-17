@@ -112,7 +112,7 @@ protected:
   int        m_MaxTimeStepsBetweenTensorUpdates;
 
   AnisotropicDiffusionLBRImageFilter();
-  virtual ~AnisotropicDiffusionLBRImageFilter(){}
+  ~AnisotropicDiffusionLBRImageFilter() ITK_OVERRIDE{}
 
   typename TensorImageType::Pointer m_TensorImage;
 
@@ -121,7 +121,7 @@ protected:
   ScalarType m_DiffusionTime;
   bool       m_Adimensionize;
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   EffectiveTimesAndIterationsType m_LinearFilterEffectiveTimesAndIterations;
 

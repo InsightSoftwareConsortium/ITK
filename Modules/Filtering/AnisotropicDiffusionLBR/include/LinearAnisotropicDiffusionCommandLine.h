@@ -58,11 +58,11 @@ int Execute(int argc, char * argv[]);
 struct ReportProgressToCOutType : public itk::Command
 {
     itkNewMacro(ReportProgressToCOutType);
-    void Execute(itk::Object *caller, const itk::EventObject & event){
+    void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE{
         Execute( (const itk::Object *)caller, event);
     }
 
-    void Execute(const itk::Object * object, const itk::EventObject &){
+    void Execute(const itk::Object * object, const itk::EventObject &) ITK_OVERRIDE{
         std::cout << object->GetNameOfClass() << " has completed: "
         << int(100*dynamic_cast<const itk::ProcessObject*>(object)->GetProgress())
         << "%" << std::endl;
