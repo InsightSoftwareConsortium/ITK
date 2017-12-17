@@ -92,15 +92,15 @@ public:
 
 protected:
   RegionOfInterestImageFilter() {}
-  ~RegionOfInterestImageFilter() ITK_OVERRIDE {}
+  ~RegionOfInterestImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   void
-  EnlargeOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   /** RegionOfInterestImageFilter can produce an image which is a different
    * size than its input image.  As such, RegionOfInterestImageFilter
@@ -111,7 +111,7 @@ protected:
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
   void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
   /** RegionOfInterestImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -123,7 +123,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   RegionOfInterestImageFilter(const Self &); // purposely not implemented
@@ -186,15 +186,15 @@ public:
 
 protected:
   RegionOfInterestImageFilter() {}
-  ~RegionOfInterestImageFilter() ITK_OVERRIDE {}
+  ~RegionOfInterestImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   void
-  EnlargeOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   /** RegionOfInterestImageFilter can produce an image which is a different
    * size than its input image.  As such, RegionOfInterestImageFilter
@@ -205,7 +205,7 @@ protected:
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
   void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
   /** RegionOfInterestImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -217,7 +217,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   RegionOfInterestImageFilter(const Self &); // purposely not implemented
@@ -291,15 +291,15 @@ public:
 
 protected:
   RegionOfInterestImageFilter() {}
-  ~RegionOfInterestImageFilter() ITK_OVERRIDE {}
+  ~RegionOfInterestImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   void
-  EnlargeOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   /** RegionOfInterestImageFilter can produce an image which is a different
    * size than its input image.  As such, RegionOfInterestImageFilter
@@ -310,7 +310,7 @@ protected:
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
   void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
   /** RegionOfInterestImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -322,7 +322,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   RegionOfInterestImageFilter(const Self &); // purposely not implemented
@@ -379,15 +379,15 @@ public:
 
 protected:
   RegionOfInterestImageFilter() {}
-  ~RegionOfInterestImageFilter() ITK_OVERRIDE {}
+  ~RegionOfInterestImageFilter() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   void
-  EnlargeOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
   /** RegionOfInterestImageFilter can produce an image which is a different
    * size than its input image.  As such, RegionOfInterestImageFilter
@@ -398,7 +398,7 @@ protected:
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
   void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
   /** RegionOfInterestImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -410,7 +410,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   RegionOfInterestImageFilter(const Self &); // purposely not implemented

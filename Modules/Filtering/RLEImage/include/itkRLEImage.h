@@ -129,12 +129,12 @@ public:
    * already be set, e.g. by calling SetRegions().
    * Pixel values are initialized using default constructor. */
   void
-  Allocate(bool initialize = false) ITK_OVERRIDE;
+  Allocate(bool initialize = false) override;
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
   void
-  Initialize() ITK_OVERRIDE
+  Initialize() override
   {
     // Call the superclass which should initialize the BufferedRegion ivar.
     Superclass::Initialize();
@@ -148,14 +148,14 @@ public:
   FillBuffer(const TPixel & value);
 
   void
-  SetLargestPossibleRegion(const RegionType & region) ITK_OVERRIDE
+  SetLargestPossibleRegion(const RegionType & region) override
   {
     Superclass::SetLargestPossibleRegion(region);
     m_Buffer->SetLargestPossibleRegion(truncateRegion(region));
   }
 
   void
-  SetBufferedRegion(const RegionType & region) ITK_OVERRIDE
+  SetBufferedRegion(const RegionType & region) override
   {
     Superclass::SetBufferedRegion(region);
     m_Buffer->SetBufferedRegion(truncateRegion(region));
@@ -164,7 +164,7 @@ public:
   using ImageBase<VImageDimension>::SetRequestedRegion;
 
   void
-  SetRequestedRegion(const RegionType & region) ITK_OVERRIDE
+  SetRequestedRegion(const RegionType & region) override
   {
     Superclass::SetRequestedRegion(region);
     m_Buffer->SetRequestedRegion(truncateRegion(region));
@@ -207,7 +207,7 @@ public:
   }
 
   unsigned int
-  GetNumberOfComponentsPerPixel() const ITK_OVERRIDE
+  GetNumberOfComponentsPerPixel() const override
   {
     // use the GetLength() method which works with variable length arrays,
     // to make it work with as much pixel types as possible
@@ -284,16 +284,16 @@ protected:
   }
 
   void
-  PrintSelf(std::ostream & os, itk::Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, itk::Indent indent) const override;
 
-  ~RLEImage() ITK_OVERRIDE {}
+  ~RLEImage() override {}
   /** Compute helper matrices used to transform Index coordinates to
    * PhysicalPoint coordinates and back. This method is virtual and will be
    * overloaded in derived classes in order to provide backward compatibility
    * behavior in classes that did not used to take image orientation into
    * account.  */
   void
-  ComputeIndexToPhysicalPointMatrices() ITK_OVERRIDE
+  ComputeIndexToPhysicalPointMatrices() override
   {
     this->Superclass::ComputeIndexToPhysicalPointMatrices();
   }
