@@ -560,7 +560,7 @@ protected:
    * - unknown
    * \sa AnalyzeObjectEntry
    */
-  virtual ~AnalyzeObjectEntry( void );
+  ~AnalyzeObjectEntry( void ) ITK_OVERRIDE;
 
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 

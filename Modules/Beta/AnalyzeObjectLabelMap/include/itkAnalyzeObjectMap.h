@@ -192,7 +192,7 @@ protected:
   /**
    * \brief the destructor for AnalyzeObjectMap
    */
-  virtual ~AnalyzeObjectMap( void );
+  ~AnalyzeObjectMap( void ) ITK_OVERRIDE;
 
   /**
    * \brief the copy constructor,
