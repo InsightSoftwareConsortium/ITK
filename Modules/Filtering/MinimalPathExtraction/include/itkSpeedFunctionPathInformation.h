@@ -141,9 +141,9 @@ public:
 
 protected:
   SpeedFunctionPathInformation();
-  ~SpeedFunctionPathInformation() ITK_OVERRIDE;
+  ~SpeedFunctionPathInformation() override;
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   std::vector<PointsContainerType> m_Information;
   SizeValueType                    m_Front;

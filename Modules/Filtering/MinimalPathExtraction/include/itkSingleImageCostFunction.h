@@ -113,7 +113,7 @@ public:
 
   /** Return the number of parameters required by the Transform */
   unsigned int
-  GetNumberOfParameters(void) const ITK_OVERRIDE
+  GetNumberOfParameters(void) const override
   {
     return ImageDimension;
   }
@@ -121,12 +121,12 @@ public:
   /** This method returns the value of the cost function corresponding
    * to the specified parameters. */
   MeasureType
-  GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
+  GetValue(const ParametersType & parameters) const override;
 
   /** This method returns the derivative of the cost function corresponding
    * to the specified parameters. */
   void
-  GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const ITK_OVERRIDE;
+  GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const override;
 
   // Set these depending on whether you will be minimizing or maximizing.
   // They control the value returned when the point isn't inside the buffer.
@@ -144,9 +144,9 @@ public:
 
 protected:
   SingleImageCostFunction();
-  ~SingleImageCostFunction() ITK_OVERRIDE {}
+  ~SingleImageCostFunction() override {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SingleImageCostFunction);

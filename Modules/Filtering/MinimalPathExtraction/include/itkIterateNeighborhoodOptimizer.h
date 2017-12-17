@@ -84,7 +84,7 @@ public:
 
   /** Start optimization. */
   void
-  StartOptimization(void) ITK_OVERRIDE;
+  StartOptimization(void) override;
 
   /** Resume previously stopped optimization with current parameters
    * \sa StopOptimization. */
@@ -119,9 +119,9 @@ public:
 
 protected:
   IterateNeighborhoodOptimizer();
-  ~IterateNeighborhoodOptimizer() ITK_OVERRIDE {};
+  ~IterateNeighborhoodOptimizer() override {};
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IterateNeighborhoodOptimizer);

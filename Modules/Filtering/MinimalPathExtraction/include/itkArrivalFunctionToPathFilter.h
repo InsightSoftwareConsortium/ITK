@@ -59,14 +59,14 @@ public:
 
   /** Execute */
   void
-  Execute(itk::Object * caller, const itk::EventObject & event) ITK_OVERRIDE
+  Execute(itk::Object * caller, const itk::EventObject & event) override
   {
     Execute((const itk::Object *)caller, event);
   }
 
   /** Execute */
   void
-  Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  Execute(const itk::Object * object, const itk::EventObject & event) override
   {
     if (!itk::IterationEvent().CheckEvent(&event))
     {
@@ -81,7 +81,7 @@ public:
 
 protected:
   ArrivalFunctionToPathCommand() {}
-  ~ArrivalFunctionToPathCommand() ITK_OVERRIDE {}
+  ~ArrivalFunctionToPathCommand() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ArrivalFunctionToPathCommand);
@@ -215,17 +215,17 @@ public:
 
 protected:
   ArrivalFunctionToPathFilter();
-  ~ArrivalFunctionToPathFilter() ITK_OVERRIDE;
+  ~ArrivalFunctionToPathFilter() override;
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override since the filter needs all the data for the algorithm */
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   /** Implemention of algorithm */
   void
-  GenerateData(void) ITK_OVERRIDE;
+  GenerateData(void) override;
 
   /** Get the arrival function from which to extract the path. */
   virtual unsigned int
