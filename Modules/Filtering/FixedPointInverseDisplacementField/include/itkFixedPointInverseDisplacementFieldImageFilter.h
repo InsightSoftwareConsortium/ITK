@@ -138,18 +138,18 @@ public:
 
 protected:
   FixedPointInverseDisplacementFieldImageFilter();
-  ~FixedPointInverseDisplacementFieldImageFilter() ITK_OVERRIDE {}
+  ~FixedPointInverseDisplacementFieldImageFilter() override {}
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
   void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() override;
 
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
   unsigned int m_NumberOfIterations;
 
