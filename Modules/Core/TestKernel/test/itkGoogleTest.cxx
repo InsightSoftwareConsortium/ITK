@@ -21,7 +21,7 @@
 
 // Minimal test to verify Google Test works
 TEST(GoogleTest,t1) {
-  void *ptr = NULL;
+  void *ptr = nullptr;
   ASSERT_TRUE((ptr == nullptr));
   EXPECT_TRUE((ptr == nullptr));
 }

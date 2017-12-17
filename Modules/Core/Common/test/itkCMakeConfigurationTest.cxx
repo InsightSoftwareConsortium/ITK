@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
       "ITKConfig.cmake",
       "ITKConfigVersion.cmake",
       "ITKTargets.cmake",
-      NULL
+      nullptr
     };
 
   for(const char** f = files; *f; ++f)

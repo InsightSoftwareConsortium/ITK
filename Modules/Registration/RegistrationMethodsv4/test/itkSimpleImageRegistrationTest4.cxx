@@ -62,7 +62,7 @@ public:
       { return; }
 
     // stash the stream state
-    std::ios  state(NULL);
+    std::ios  state(nullptr);
     state.copyfmt(std::cout);
     std::cout << std::fixed << std::setfill(' ') << std::setprecision( 5 );
     std::cout << std::setw(3) << optimizer->GetCurrentIteration();

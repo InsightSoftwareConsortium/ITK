@@ -136,7 +136,7 @@ public:
   /** Curvature speed.  Can be used to spatially modify the effects of
       curvature . The default implementation returns one. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
-                                         const FloatOffsetType &, GlobalDataStruct * = 0
+                                         const FloatOffsetType &, GlobalDataStruct * = nullptr
                                          ) const
   { return NumericTraits< ScalarValueType >::OneValue(); }
 
