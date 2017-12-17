@@ -113,12 +113,12 @@ public:
 
 protected:
   LabelSetMorphBaseImageFilter();
-  virtual ~LabelSetMorphBaseImageFilter() {}
+  ~LabelSetMorphBaseImageFilter() ITK_OVERRIDE {}
 
   RegionIndexType SplitRequestedRegion(RegionIndexType i, RegionIndexType num,
                                        OutputImageRegionType & splitRegion) ITK_OVERRIDE;
 
-  virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                                     ThreadIdType threadId) ITK_OVERRIDE;
 
   void GenerateData(void) ITK_OVERRIDE;

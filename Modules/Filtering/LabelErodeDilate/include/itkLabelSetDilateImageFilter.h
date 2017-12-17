@@ -79,7 +79,7 @@ public:
                       TInputImage::ImageDimension);
 protected:
   LabelSetDilateImageFilter(){}
-  virtual ~LabelSetDilateImageFilter() {}
+  ~LabelSetDilateImageFilter() ITK_OVERRIDE {}
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
