@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   void
-  GenerateInputRequestedRegion() ITK_OVERRIDE;
+  GenerateInputRequestedRegion() override;
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -84,7 +84,7 @@ protected:
   HessianImageFilter(void);
 
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HessianImageFilter);
