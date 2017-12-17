@@ -53,7 +53,7 @@ public:
 
 protected:
   RegularStepGradientDescentOptimizer() {}
-  ~RegularStepGradientDescentOptimizer() ITK_OVERRIDE {}
+  ~RegularStepGradientDescentOptimizer() override {}
 
   /** Advance one step along the corrected gradient taking into
    * account the steplength represented by factor.
@@ -62,7 +62,7 @@ protected:
    * \sa AdvanceOneStep */
   void StepAlongGradient(
     double factor,
-    const DerivativeType & transformedGradient) ITK_OVERRIDE;
+    const DerivativeType & transformedGradient) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentOptimizer);

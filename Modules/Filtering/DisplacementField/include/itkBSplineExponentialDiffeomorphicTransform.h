@@ -108,7 +108,7 @@ public:
    * base class implementation as we might want to smooth the update field before
    * adding it to the velocity field
    */
-  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) override;
 
   /**
    * Smooth the constant velocity field in-place.
@@ -159,9 +159,9 @@ public:
 
 protected:
   BSplineExponentialDiffeomorphicTransform();
-  ~BSplineExponentialDiffeomorphicTransform() ITK_OVERRIDE;
+  ~BSplineExponentialDiffeomorphicTransform() override;
 
-  void PrintSelf( std::ostream &, Indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream &, Indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineExponentialDiffeomorphicTransform);

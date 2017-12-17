@@ -88,7 +88,7 @@ public:
   void SortSeeds();
 
   /** Produce the output information. */
-  void GenerateOutputInformation() ITK_OVERRIDE {}
+  void GenerateOutputInformation() override {}
 
   /** Update the Voronoi Diagram after adding seed(s). */
   void UpdateDiagram();
@@ -106,11 +106,11 @@ public:
 
 protected:
   VoronoiDiagram2DGenerator();
-  ~VoronoiDiagram2DGenerator() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VoronoiDiagram2DGenerator() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Voronoi Diagram based on the current list of seeds. */
-  void GenerateData(void) ITK_OVERRIDE;
+  void GenerateData(void) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiDiagram2DGenerator);

@@ -71,7 +71,7 @@ public:
   { SetMaximize(true); }
 
   /** Start optimization. */
-  void    StartOptimization(void) ITK_OVERRIDE;
+  void    StartOptimization(void) override;
 
   /** Resume previously stopped optimization with current parameters.
    * \sa StopOptimization */
@@ -99,12 +99,12 @@ public:
   itkGetConstReferenceMacro(Gradient, DerivativeType);
 
   /** Get the reason for termination */
-  const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const override;
 
 protected:
   RegularStepGradientDescentBaseOptimizer();
-  ~RegularStepGradientDescentBaseOptimizer() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~RegularStepGradientDescentBaseOptimizer() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Advance one step following the gradient direction
    * This method verifies if a change in direction is required

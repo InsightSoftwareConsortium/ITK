@@ -62,7 +62,7 @@ public:
   itkTypeMacro(GaborKernelFunction, KernelFunctionBase);
 
   /** Evaluate the function. */
-  TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE
+  TRealValueType Evaluate(const TRealValueType & u) const override
   {
     TRealValueType parameter = itk::Math::sqr(u / this->m_Sigma);
     TRealValueType envelope = std::exp(static_cast< TRealValueType >(-0.5) * parameter);
@@ -105,8 +105,8 @@ protected:
     this->m_Frequency = static_cast<TRealValueType>(0.4);
     this->m_PhaseOffset = NumericTraits< TRealValueType >::ZeroValue();
     }
-  ~GaborKernelFunction() ITK_OVERRIDE {};
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  ~GaborKernelFunction() override {};
+  void PrintSelf(std::ostream & os, Indent indent) const override
     {
     Superclass::PrintSelf(os, indent);
 

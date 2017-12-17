@@ -72,9 +72,9 @@ public:
 protected:
   GPUBoxImageFilter() {
   }
-  ~GPUBoxImageFilter() ITK_OVERRIDE {}
+  ~GPUBoxImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     GPUSuperclass::PrintSelf(os, indent);
   }

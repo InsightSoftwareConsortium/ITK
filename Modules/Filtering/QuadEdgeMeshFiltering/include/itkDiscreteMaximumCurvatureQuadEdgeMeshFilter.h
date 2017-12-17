@@ -73,9 +73,9 @@ public:
 
 protected:
   DiscreteMaximumCurvatureQuadEdgeMeshFilter() {}
-  ~DiscreteMaximumCurvatureQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~DiscreteMaximumCurvatureQuadEdgeMeshFilter() override {}
 
-  OutputCurvatureType EstimateCurvature(const OutputPointType & iP) ITK_OVERRIDE
+  OutputCurvatureType EstimateCurvature(const OutputPointType & iP) override
   {
     this->ComputeMeanAndGaussianCurvatures(iP);
     return this->m_Mean + std::sqrt( this->ComputeDelta() );

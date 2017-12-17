@@ -122,13 +122,13 @@ public:
 
 protected:
   ScalarToRGBColormapImageFilter();
-  ~ScalarToRGBColormapImageFilter() ITK_OVERRIDE {}
+  ~ScalarToRGBColormapImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Overloaded method so that if the output image is a VectorImage, then
    * the correct number of components are set. */
-  void GenerateOutputInformation() ITK_OVERRIDE
+  void GenerateOutputInformation() override
   {
     Superclass::GenerateOutputInformation();
     OutputImageType* output = this->GetOutput();
@@ -156,10 +156,10 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
   /** Process to execute before entering the multithreaded section. */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarToRGBColormapImageFilter);

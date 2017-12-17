@@ -63,13 +63,13 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) ITK_OVERRIDE;
+  bool CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) override;
 
   /** Reads 3D data from multiple files assuming one slice per file. */
   virtual void ReadVolume(void *buffer);
@@ -78,20 +78,20 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  bool CanWriteFile(const char *) ITK_OVERRIDE;
+  bool CanWriteFile(const char *) override;
 
   /** Writes the spacing and dimensions of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  void WriteImageInformation() ITK_OVERRIDE;
+  void WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  void Write(const void *buffer) ITK_OVERRIDE;
+  void Write(const void *buffer) override;
 
 protected:
   PNGImageIO();
-  ~PNGImageIO() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PNGImageIO() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void WriteSlice(const std::string & fileName, const void *buffer);
 

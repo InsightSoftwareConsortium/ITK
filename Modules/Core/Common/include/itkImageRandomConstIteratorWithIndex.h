@@ -137,7 +137,7 @@ public:
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomConstIteratorWithIndex();
-  ~ImageRandomConstIteratorWithIndex() ITK_OVERRIDE {}
+  ~ImageRandomConstIteratorWithIndex() override {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */

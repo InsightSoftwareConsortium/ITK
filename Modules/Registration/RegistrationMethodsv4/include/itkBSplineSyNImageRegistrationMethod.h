@@ -127,17 +127,17 @@ public:
 
 protected:
   BSplineSyNImageRegistrationMethod();
-  ~BSplineSyNImageRegistrationMethod() ITK_OVERRIDE;
+  ~BSplineSyNImageRegistrationMethod() override;
 
   /** Handle optimization internally */
-  void StartOptimization() ITK_OVERRIDE;
+  void StartOptimization() override;
 
-  void InitializeRegistrationAtEachLevel( const SizeValueType ) ITK_OVERRIDE;
+  void InitializeRegistrationAtEachLevel( const SizeValueType ) override;
 
   DisplacementFieldPointer ComputeUpdateField( const FixedImagesContainerType, const PointSetsContainerType,
     const TransformBaseType *, const MovingImagesContainerType, const PointSetsContainerType,
     const TransformBaseType *, const FixedImageMasksContainerType, const MovingImageMasksContainerType,
-    MeasureType & ) ITK_OVERRIDE;
+    MeasureType & ) override;
   virtual DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *,
     const ArrayType &, const WeightedMaskImageType *, const BSplinePointSetType * );
 

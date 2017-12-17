@@ -78,9 +78,9 @@ public:
 
 protected:
   ConvertLabelMapFilter() {}
-  ~ConvertLabelMapFilter() ITK_OVERRIDE {}
+  ~ConvertLabelMapFilter() override {}
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConvertLabelMapFilter);

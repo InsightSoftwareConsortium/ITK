@@ -64,36 +64,36 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  bool CanReadFile(const char *) ITK_OVERRIDE;
+  bool CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  bool CanWriteFile(const char *) ITK_OVERRIDE;
+  bool CanWriteFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteImageInformation() ITK_OVERRIDE;
+  void WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void Write(const void *buffer) ITK_OVERRIDE;
+  void Write(const void *buffer) override;
 
   /** Method for supporting streaming.  Given a requested region, determine what
    * could be the region that we can read from the file. This is called the
    * streamable region, which will be smaller than the LargestPossibleRegion and
    * greater or equal to the RequestedRegion */
   ImageIORegion
-  GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const ITK_OVERRIDE;
+  GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const override;
 
   /** Method required by the base class StreamingImageIOBase */
-  SizeType GetHeaderSize(void) const ITK_OVERRIDE;
+  SizeType GetHeaderSize(void) const override;
 
   /** Define the tile size to use when writing out an image. */
   void SetTileSize(int x, int y);
@@ -103,13 +103,13 @@ public:
    * These methods are re-overridden to not support streaming for
    * now...
    */
-  bool CanStreamWrite( void ) ITK_OVERRIDE;
+  bool CanStreamWrite( void ) override;
 
 protected:
   JPEG2000ImageIO();
-  ~JPEG2000ImageIO() ITK_OVERRIDE;
+  ~JPEG2000ImageIO() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIO);

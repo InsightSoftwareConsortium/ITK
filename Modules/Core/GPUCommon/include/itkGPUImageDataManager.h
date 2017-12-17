@@ -75,7 +75,7 @@ public:
 
 protected:
   GPUImageDataManager() {}
-  virtual ~GPUImageDataManager() ITK_OVERRIDE {}
+  virtual ~GPUImageDataManager() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageDataManager);

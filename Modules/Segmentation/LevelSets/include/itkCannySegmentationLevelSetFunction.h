@@ -74,17 +74,17 @@ public:
 
   /** Compute the Speed Image. The Speed Image is the distance to the
       canny edges. */
-  void CalculateSpeedImage() ITK_OVERRIDE;
+  void CalculateSpeedImage() override;
 
   /** Compute the advection image. The Advection Image is the gradeint
       image attenuated with the distance to the canny edges. */
-  void CalculateAdvectionImage() ITK_OVERRIDE;
+  void CalculateAdvectionImage() override;
 
   /** Compute the distance image. This is the distance to the canny
    * edges. */
   virtual void CalculateDistanceImage();
 
-  void Initialize(const RadiusType & r) ITK_OVERRIDE
+  void Initialize(const RadiusType & r) override
   {
     Superclass::Initialize(r);
 
@@ -106,7 +106,7 @@ protected:
     m_Distance = DanielssonDistanceMapImageFilter< ImageType, ImageType >::New();
   }
 
-  ~CannySegmentationLevelSetFunction() ITK_OVERRIDE {}
+  ~CannySegmentationLevelSetFunction() override {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(CannySegmentationLevelSetFunction);
 

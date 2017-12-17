@@ -126,10 +126,10 @@ public:
 
 protected:
   OneWayEquivalencyTable()  {}
-  ~OneWayEquivalencyTable() ITK_OVERRIDE {}
+  ~OneWayEquivalencyTable() override {}
   ITK_DISALLOW_COPY_AND_ASSIGN(OneWayEquivalencyTable);
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   HashTableType m_HashMap;
 };

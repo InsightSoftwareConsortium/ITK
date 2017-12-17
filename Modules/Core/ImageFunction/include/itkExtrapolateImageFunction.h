@@ -83,7 +83,7 @@ public:
    * Returns the extrapolated image intensity at a
    * specified point position.
    */
-  OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
+  OutputType Evaluate(const PointType & point) const override
   {
     ContinuousIndexType index;
 
@@ -97,7 +97,7 @@ public:
    * specified point position.
    */
   OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const ITK_OVERRIDE = 0;
+    const ContinuousIndexType & index) const override = 0;
 
   /** Extrapolate the image at an index position.
    *
@@ -105,12 +105,12 @@ public:
    * specified point position.
    */
   OutputType EvaluateAtIndex(
-    const IndexType & index) const ITK_OVERRIDE = 0;
+    const IndexType & index) const override = 0;
 
 protected:
   ExtrapolateImageFunction(){}
-  ~ExtrapolateImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  ~ExtrapolateImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
 
 private:

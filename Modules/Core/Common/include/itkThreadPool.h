@@ -120,7 +120,7 @@ protected:
   void DeleteThreads();
 
   ThreadPool();
-  ~ThreadPool() ITK_OVERRIDE;
+  ~ThreadPool() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadPool);

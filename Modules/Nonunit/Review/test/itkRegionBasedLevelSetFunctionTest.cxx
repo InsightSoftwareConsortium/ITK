@@ -46,30 +46,30 @@ public:
   typedef typename Superclass::FeatureIndexType    FeatureIndexType;
 
   ScalarValueType ComputeInternalTerm(const FeaturePixelType& ,
-    const FeatureIndexType& ) ITK_OVERRIDE
+    const FeatureIndexType& ) override
     {
     return ScalarValueType( 0 );
     }
 
   ScalarValueType ComputeExternalTerm(const FeaturePixelType& ,
-    const FeatureIndexType & ) ITK_OVERRIDE
+    const FeatureIndexType & ) override
     {
     return ScalarValueType( 0 );
     }
 
   ScalarValueType ComputeOverlapParameters( const FeatureIndexType&,
-    ScalarValueType & ) ITK_OVERRIDE
+    ScalarValueType & ) override
     {
     return ScalarValueType( 0 );
     }
 
-  void ComputeParameters() ITK_OVERRIDE {}
+  void ComputeParameters() override {}
 
-  void UpdateSharedDataParameters() ITK_OVERRIDE {}
+  void UpdateSharedDataParameters() override {}
 
 protected:
   RegionBasedLevelSetFunctionTestHelper() {}
-  ~RegionBasedLevelSetFunctionTestHelper() ITK_OVERRIDE {}
+  ~RegionBasedLevelSetFunctionTestHelper() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionTestHelper);

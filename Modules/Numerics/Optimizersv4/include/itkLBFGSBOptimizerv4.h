@@ -109,10 +109,10 @@ public:
   }
 
   /** Start optimization with an initial value. */
-  void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
+  void StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetMetric(MetricType *metric) ITK_OVERRIDE;
+  void SetMetric(MetricType *metric) override;
 
   /** Set the lower bound value for each variable. */
   void SetLowerBound(const BoundValueType & value);
@@ -150,7 +150,7 @@ public:
   itkGetConstMacro(MaximumNumberOfCorrections, unsigned int);
 
   /** This optimizer does not support scaling of the derivatives. */
-  void SetScales(const ScalesType &) ITK_OVERRIDE;
+  void SetScales(const ScalesType &) override;
 
   /** Get the current infinity norm of the project gradient of the cost
    * function. */
@@ -158,8 +158,8 @@ public:
 
 protected:
   LBFGSBOptimizerv4();
-  ~LBFGSBOptimizerv4() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LBFGSBOptimizerv4() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 

@@ -231,10 +231,10 @@ protected:
     m_ConfidenceWeight = 1.0;
   }
 
-  ~STAPLEImageFilter() ITK_OVERRIDE {}
-  void GenerateData() ITK_OVERRIDE;
+  ~STAPLEImageFilter() override {}
+  void GenerateData() override;
 
-  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream &, Indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(STAPLEImageFilter);

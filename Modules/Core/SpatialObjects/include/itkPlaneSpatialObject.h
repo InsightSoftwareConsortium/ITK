@@ -61,16 +61,16 @@ public:
   /** Returns a degree of membership to the object.
    *  That's useful for fuzzy objects. */
   bool ValueAt(const PointType & point, double & value,
-                       unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+                       unsigned int depth = 0, char *name = ITK_NULLPTR) const override;
 
   /** return ture if the object provides a method to evaluate the value
    * at the specified point, else otherwise. */
   bool IsEvaluableAt(const PointType & point,
-                             unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+                             unsigned int depth = 0, char *name = ITK_NULLPTR) const override;
 
   /** Test whether a point is inside or outside the object */
   bool IsInside(const PointType & point,
-                        unsigned int depth, char *name) const ITK_OVERRIDE;
+                        unsigned int depth, char *name) const override;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -80,7 +80,7 @@ public:
   /** provide a method to get the boundaries of
   *  a specific object. Basically, this function need to be called
   *  every time one of the object component is changed. */
-  bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
+  bool ComputeLocalBoundingBox() const override;
 
   itkSetMacro(LowerPoint, PointType);
   itkSetMacro(UpperPoint, PointType);
@@ -91,13 +91,13 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(PlaneSpatialObject);
 
   PlaneSpatialObject();
-  ~PlaneSpatialObject() ITK_OVERRIDE;
+  ~PlaneSpatialObject() override;
 
   PointType m_LowerPoint;
   PointType m_UpperPoint;
 
   /** Print the object informations in a stream. */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

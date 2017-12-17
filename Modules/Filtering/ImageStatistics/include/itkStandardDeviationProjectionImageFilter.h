@@ -145,7 +145,7 @@ public:
 
 protected:
   StandardDeviationProjectionImageFilter() {}
-  ~StandardDeviationProjectionImageFilter() ITK_OVERRIDE {}
+  ~StandardDeviationProjectionImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(StandardDeviationProjectionImageFilter);

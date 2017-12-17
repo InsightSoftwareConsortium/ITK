@@ -140,7 +140,7 @@ public:
   }
 
   /** Standard non-threaded itk pipeline method */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Get/Set a boolean flag indicating whether or not to pre-merge the
     segments marked  as equivalent in the EquivalencyTable.  This is only
@@ -190,14 +190,14 @@ public:
   /** Standard itk::ProcessObject subclass method. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 protected:
   SegmentTreeGenerator();
-  ~SegmentTreeGenerator() ITK_OVERRIDE {}
+  ~SegmentTreeGenerator() override {}
   SegmentTreeGenerator(const Self &) {}
   void operator=(const Self &) {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generates an initial list of all potentential merges in
    * the segment table.   */
@@ -210,9 +210,9 @@ protected:
   void MergeEquivalencies();
 
   /** Methods required by the itk pipeline */
-  void GenerateOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void GenerateOutputRequestedRegion(DataObject *output) override;
 
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 private:
   bool   m_Merge;

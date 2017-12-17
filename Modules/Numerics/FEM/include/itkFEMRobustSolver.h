@@ -168,14 +168,14 @@ protected:
    * for the matrix and vector storage.
    */
   RobustSolver();
-  ~RobustSolver() ITK_OVERRIDE;
+  ~RobustSolver() override;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Run the solver and produce a warped FEM object. */
-  void RunSolver(void) ITK_OVERRIDE;
+  void RunSolver(void) override;
 
   /** Initialize matrix, vector, solution, interpolation grid, and landmark. */
   void Initialization();

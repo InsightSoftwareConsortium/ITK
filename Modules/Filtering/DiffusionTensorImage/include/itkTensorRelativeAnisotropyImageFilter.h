@@ -98,7 +98,7 @@ public:
   itkNewMacro(Self);
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   { this->Superclass::PrintSelf(os, indent); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -110,7 +110,7 @@ public:
 
 protected:
   TensorRelativeAnisotropyImageFilter() {}
-  ~TensorRelativeAnisotropyImageFilter() ITK_OVERRIDE {}
+  ~TensorRelativeAnisotropyImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TensorRelativeAnisotropyImageFilter);

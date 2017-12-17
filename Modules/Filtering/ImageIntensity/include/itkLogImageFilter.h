@@ -95,7 +95,7 @@ public:
 
 protected:
   LogImageFilter() {}
-  ~LogImageFilter() ITK_OVERRIDE {}
+  ~LogImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LogImageFilter);

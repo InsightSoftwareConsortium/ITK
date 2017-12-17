@@ -102,7 +102,7 @@ public:
 
 protected:
   SubtractImageFilter() {}
-  ~SubtractImageFilter() ITK_OVERRIDE {}
+  ~SubtractImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SubtractImageFilter);

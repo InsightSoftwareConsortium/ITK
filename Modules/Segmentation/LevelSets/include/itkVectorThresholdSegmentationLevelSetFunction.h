@@ -111,9 +111,9 @@ public:
     return m_Threshold;
   }
 
-  void CalculateSpeedImage() ITK_OVERRIDE;
+  void CalculateSpeedImage() override;
 
-  void Initialize(const RadiusType & r) ITK_OVERRIDE
+  void Initialize(const RadiusType & r) override
   {
     Superclass::Initialize(r);
 
@@ -140,11 +140,11 @@ protected:
     this->SetThreshold(1.8);
   }
 
-  ~VectorThresholdSegmentationLevelSetFunction() ITK_OVERRIDE {}
+  ~VectorThresholdSegmentationLevelSetFunction() override {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorThresholdSegmentationLevelSetFunction);
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "MahalanobisFunction: " << m_Mahalanobis << std::endl;

@@ -239,7 +239,7 @@ public:
 
 protected:
   SigmoidImageFilter() {}
-  ~SigmoidImageFilter() ITK_OVERRIDE {}
+  ~SigmoidImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SigmoidImageFilter);

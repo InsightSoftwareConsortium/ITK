@@ -101,10 +101,10 @@ public:
 
 protected:
   FFTPadImageFilter();
-  ~FFTPadImageFilter() ITK_OVERRIDE {};
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~FFTPadImageFilter() override {};
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
 
 private:

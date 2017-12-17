@@ -91,7 +91,7 @@ public:
 
 protected:
   RGBToLuminanceImageAdaptor() {}
-  ~RGBToLuminanceImageAdaptor() ITK_OVERRIDE {}
+  ~RGBToLuminanceImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RGBToLuminanceImageAdaptor);

@@ -56,7 +56,7 @@ public:
   DTITubeSpatialObjectPoint();
 
   /** Default destructor. */
-  ~DTITubeSpatialObjectPoint() ITK_OVERRIDE;
+  ~DTITubeSpatialObjectPoint() override;
 
   /** Set/Get the tensor matrix */
   void SetTensorMatrix(const DiffusionTensor3D< double > & matrix)
@@ -107,7 +107,7 @@ protected:
   FieldListType m_Fields;
 
   /** Print the object */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Translate the enum to char */
   std::string TranslateEnumToChar(FieldEnumType name) const;

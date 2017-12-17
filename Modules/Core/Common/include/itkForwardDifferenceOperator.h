@@ -71,10 +71,10 @@ protected:
   typedef typename Superclass::CoefficientVector CoefficientVector;
 
   /** Calculates operator coefficients. */
-  CoefficientVector GenerateCoefficients() ITK_OVERRIDE;
+  CoefficientVector GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer. */
-  void Fill(const CoefficientVector & coeff) ITK_OVERRIDE
+  void Fill(const CoefficientVector & coeff) override
   {
     this->FillCenteredDirectional(coeff);
   }

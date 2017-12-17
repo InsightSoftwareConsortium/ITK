@@ -126,7 +126,7 @@ public:
 
 protected:
   TransformBaseTemplate(){}
-  ~TransformBaseTemplate() ITK_OVERRIDE {}
+  ~TransformBaseTemplate() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TransformBaseTemplate);

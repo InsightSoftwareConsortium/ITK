@@ -74,7 +74,7 @@ public:
 
 protected:
   VolumeSplineKernelTransform() {}
-  ~VolumeSplineKernelTransform() ITK_OVERRIDE {}
+  ~VolumeSplineKernelTransform() override {}
 
   /** These (rather redundant) typedefs are needed because on typedefs are not inherited. */
   typedef typename Superclass::GMatrixType GMatrixType;
@@ -88,13 +88,13 @@ protected:
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix. */
   void ComputeG(const InputVectorType & landmarkVector,
-                        GMatrixType & gmatrix) const ITK_OVERRIDE;
+                        GMatrixType & gmatrix) const override;
 
   /** Compute the contribution of the landmarks weighted by the kernel
    *  funcion to the global deformation of the space  */
   void ComputeDeformationContribution(
     const InputPointType & inputPoint,
-    OutputPointType & result) const ITK_OVERRIDE;
+    OutputPointType & result) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VolumeSplineKernelTransform);

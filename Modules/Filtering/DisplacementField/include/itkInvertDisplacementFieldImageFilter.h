@@ -139,16 +139,16 @@ protected:
   InvertDisplacementFieldImageFilter();
 
   /** Deconstructor */
-  ~InvertDisplacementFieldImageFilter() ITK_OVERRIDE;
+  ~InvertDisplacementFieldImageFilter() override;
 
   /** Standard print self function **/
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** preprocessing function */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Multithreaded function which generates the output field. */
-  void ThreadedGenerateData( const RegionType &, ThreadIdType ) ITK_OVERRIDE;
+  void ThreadedGenerateData( const RegionType &, ThreadIdType ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(InvertDisplacementFieldImageFilter);

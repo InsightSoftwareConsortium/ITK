@@ -39,14 +39,14 @@ public:
   itkNewMacro(Self);
 
   /** Evaluate membership score */
-  double Evaluate(const TMeasurementVector & ) const ITK_OVERRIDE
+  double Evaluate(const TMeasurementVector & ) const override
     {
     double score;
     score = 1;
     return score;
     }
 
-  double Evaluate(const TMeasurementVector &, const TMeasurementVector & ) const ITK_OVERRIDE
+  double Evaluate(const TMeasurementVector &, const TMeasurementVector & ) const override
     {
     double score;
     score = 1;

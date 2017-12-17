@@ -89,9 +89,9 @@ public:
 
 protected:
   TransformParametersAdaptorBase() {}
-  ~TransformParametersAdaptorBase() ITK_OVERRIDE {}
+  ~TransformParametersAdaptorBase() override {}
 
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE
+  void PrintSelf( std::ostream & os, Indent indent ) const override
   {
     Superclass::PrintSelf( os, indent );
     os << "Fixed parameters" << this->m_RequiredFixedParameters << std::endl;

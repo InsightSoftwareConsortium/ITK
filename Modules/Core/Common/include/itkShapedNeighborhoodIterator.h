@@ -186,7 +186,7 @@ public:
     Iterator() {}
     Iterator(Self *s):ConstIterator(s) {}
 
-    ~Iterator() ITK_OVERRIDE {}
+    ~Iterator() override {}
     Iterator & operator=(const Iterator & o)
     {
       ConstIterator::operator=(o);
@@ -207,7 +207,7 @@ public:
   }
 
   /** Virtual destructor */
-  ~ShapedNeighborhoodIterator() ITK_OVERRIDE {}
+  ~ShapedNeighborhoodIterator() override {}
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
@@ -240,7 +240,7 @@ public:
   }
 
   /** Standard itk print method */
-  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream &, Indent) const override;
 
   /** Returns a const iterator for the neighborhood which points to the first
    * pixel in the neighborhood. */
@@ -252,7 +252,7 @@ public:
   const ConstIterator & End() const
   { return this->m_ConstEndIterator; }
 
-  void ClearActiveList() ITK_OVERRIDE
+  void ClearActiveList() override
   {
     Superclass::ClearActiveList();
     m_EndIterator.GoToEnd();
@@ -266,14 +266,14 @@ protected:
 
   typedef typename Superclass::NeighborIndexType NeighborIndexType;
 
-  void ActivateIndex(NeighborIndexType n) ITK_OVERRIDE
+  void ActivateIndex(NeighborIndexType n) override
   {
     Superclass::ActivateIndex(n);
     m_EndIterator.GoToEnd();
     m_BeginIterator.GoToBegin();
   }
 
-  void DeactivateIndex(NeighborIndexType n) ITK_OVERRIDE
+  void DeactivateIndex(NeighborIndexType n) override
   {
     Superclass::DeactivateIndex(n);
     m_EndIterator.GoToEnd();

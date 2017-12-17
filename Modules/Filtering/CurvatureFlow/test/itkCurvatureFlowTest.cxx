@@ -60,20 +60,20 @@ public:
   typedef typename Superclass::TimeStepType     TimeStepType;
 
   PixelType ComputeUpdate( const NeighborhoodType &, void *,
-                                   const FloatOffsetType & ) ITK_OVERRIDE
+                                   const FloatOffsetType & ) override
     { return 0; }
 
-  TimeStepType ComputeGlobalTimeStep( void * ) const ITK_OVERRIDE
+  TimeStepType ComputeGlobalTimeStep( void * ) const override
     { return 0; }
 
-  void *GetGlobalDataPointer() const ITK_OVERRIDE
+  void *GetGlobalDataPointer() const override
     { return ITK_NULLPTR; }
 
-  void ReleaseGlobalDataPointer(void *) const ITK_OVERRIDE {}
+  void ReleaseGlobalDataPointer(void *) const override {}
 
 protected:
   DummyFunction() {}
-  ~DummyFunction() ITK_OVERRIDE {}
+  ~DummyFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DummyFunction);

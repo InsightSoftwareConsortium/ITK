@@ -41,18 +41,18 @@ public:
 
   itkNewMacro( Self );
 
-  void AllocateUpdateBuffer() ITK_OVERRIDE {}
+  void AllocateUpdateBuffer() override {}
 
   typedef typename Superclass::TimeStepType   TimeStepType;
 
-  void ApplyUpdate(TimeStepType itkNotUsed(dt) ) ITK_OVERRIDE {}
+  void ApplyUpdate(TimeStepType itkNotUsed(dt) ) override {}
 
-  TimeStepType CalculateChange() ITK_OVERRIDE
+  TimeStepType CalculateChange() override
     {
     return TimeStepType( 1.0 );
     }
 
-  void CopyInputToOutput() ITK_OVERRIDE {}
+  void CopyInputToOutput() override {}
 
 };
 

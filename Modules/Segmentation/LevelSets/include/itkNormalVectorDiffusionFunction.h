@@ -125,17 +125,17 @@ public:
    *  nodes to compute and store the flux vectors (first derivatives of the
    *  normal vectors. ComputeUpdateNormal then takes derivatives of the flux
    *  vectors. This way we avoid repeating the same flux computations. */
-  void PrecomputeSparseUpdate(NeighborhoodType & it) const ITK_OVERRIDE;
+  void PrecomputeSparseUpdate(NeighborhoodType & it) const override;
 
   /** The actual update rule for the normal vectors. */
   NormalVectorType ComputeSparseUpdate(NeighborhoodType & neighborhood,
                                                void *globalData,
-                                               const FloatOffsetType & offset) const ITK_OVERRIDE;
+                                               const FloatOffsetType & offset) const override;
 
 protected:
   NormalVectorDiffusionFunction();
-  ~NormalVectorDiffusionFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NormalVectorDiffusionFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The method called in anisotropic diffusion to inhibit diffusion across
       areas with large curvature. */

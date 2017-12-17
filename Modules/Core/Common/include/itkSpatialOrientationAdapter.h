@@ -95,10 +95,10 @@ public:
   SpatialOrientationAdapter() {}
 
   /** convert from direction cosines. */
-  OrientationType FromDirectionCosines(const DirectionType & Dir) ITK_OVERRIDE;
+  OrientationType FromDirectionCosines(const DirectionType & Dir) override;
 
   /** convert to direction cosines. */
-  DirectionType ToDirectionCosines(const OrientationType & Or) ITK_OVERRIDE;
+  DirectionType ToDirectionCosines(const OrientationType & Or) override;
 };
 } // namespace itk
 

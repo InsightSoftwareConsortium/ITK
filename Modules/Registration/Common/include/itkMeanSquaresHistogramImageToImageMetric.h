@@ -77,10 +77,10 @@ protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   MeanSquaresHistogramImageToImageMetric(){}
-  ~MeanSquaresHistogramImageToImageMetric() ITK_OVERRIDE {}
+  ~MeanSquaresHistogramImageToImageMetric() override {}
 
   /** Evaluates the sum of squared differences from the histogram. */
-  MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
+  MeasureType EvaluateMeasure(HistogramType & histogram) const override;
 
 private:
   MeanSquaresHistogramImageToImageMetric(Self const &); // Purposely not

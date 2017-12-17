@@ -71,7 +71,7 @@ public:
 
 protected:
   RegularizedHeavisideStepFunction();
-  ~RegularizedHeavisideStepFunction() ITK_OVERRIDE;
+  ~RegularizedHeavisideStepFunction() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegularizedHeavisideStepFunction);

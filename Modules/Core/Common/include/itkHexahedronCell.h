@@ -71,29 +71,29 @@ public:
   itkStaticConstMacro(CellDimension, unsigned int, 3);
 
   /** Implement the standard CellInterface. */
-  CellGeometry GetType(void) const ITK_OVERRIDE
+  CellGeometry GetType(void) const override
   { return Superclass::HEXAHEDRON_CELL; }
-  void MakeCopy(CellAutoPointer &) const ITK_OVERRIDE;
+  void MakeCopy(CellAutoPointer &) const override;
 
-  unsigned int GetDimension(void) const ITK_OVERRIDE;
+  unsigned int GetDimension(void) const override;
 
-  unsigned int GetNumberOfPoints(void) const ITK_OVERRIDE;
+  unsigned int GetNumberOfPoints(void) const override;
 
-  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
+  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
 
-  bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) ITK_OVERRIDE;
-  void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
+  bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
+  void SetPointIds(PointIdConstIterator first) override;
 
-  void SetPointIds(PointIdConstIterator first, PointIdConstIterator last) ITK_OVERRIDE;
+  void SetPointIds(PointIdConstIterator first, PointIdConstIterator last) override;
 
-  void SetPointId(int localId, PointIdentifier) ITK_OVERRIDE;
-  PointIdIterator      PointIdsBegin(void) ITK_OVERRIDE;
+  void SetPointId(int localId, PointIdentifier) override;
+  PointIdIterator      PointIdsBegin(void) override;
 
-  PointIdConstIterator PointIdsBegin(void) const ITK_OVERRIDE;
+  PointIdConstIterator PointIdsBegin(void) const override;
 
-  PointIdIterator      PointIdsEnd(void) ITK_OVERRIDE;
+  PointIdIterator      PointIdsEnd(void) override;
 
-  PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
+  PointIdConstIterator PointIdsEnd(void) const override;
 
   /** Hexahedron-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices() const;
@@ -112,7 +112,7 @@ public:
                                 CoordRepType *,
                                 CoordRepType[],
                                 double *,
-                                InterpolationWeightType *) ITK_OVERRIDE;
+                                InterpolationWeightType *) override;
 
   /** Visitor interface */
   itkCellVisitMacro(Superclass::HEXAHEDRON_CELL);
@@ -135,7 +135,7 @@ public:
       }
   }
 
-  ~HexahedronCell() ITK_OVERRIDE {}
+  ~HexahedronCell() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HexahedronCell);

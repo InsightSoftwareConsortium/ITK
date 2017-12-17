@@ -51,17 +51,17 @@ public:
   typedef TTargetVector OutputType;
 
   /** Evaluate at the specified input position */
-  OutputType Evaluate(const InputVectorType& input) const ITK_OVERRIDE = 0;
+  OutputType Evaluate(const InputVectorType& input) const override = 0;
 
   virtual void SetSize(unsigned int) = 0;
 
 protected:
 
   InputFunctionBase() {};
-  ~InputFunctionBase() ITK_OVERRIDE {};
+  ~InputFunctionBase() override {};
 
   /** Method to print the object. */
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE
+  void PrintSelf( std::ostream& os, Indent indent ) const override
     {
     os << indent << "InputFunctionBase(" << this << ")" << std::endl;
     Superclass::PrintSelf( os, indent );

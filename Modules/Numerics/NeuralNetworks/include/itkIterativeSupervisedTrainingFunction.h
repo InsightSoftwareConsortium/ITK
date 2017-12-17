@@ -51,17 +51,17 @@ public:
 
   void SetNumOfIterations(SizeValueType i);
 
-  void Train(NetworkType* net, TSample* samples, TTargetVector* targets) ITK_OVERRIDE;
+  void Train(NetworkType* net, TSample* samples, TTargetVector* targets) override;
 
   itkSetMacro(Threshold, ScalarType);
 
 protected:
 
   IterativeSupervisedTrainingFunction();
-  ~IterativeSupervisedTrainingFunction() ITK_OVERRIDE{};
+  ~IterativeSupervisedTrainingFunction() override{};
 
   /** Method to print the object. */
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   ScalarType m_Threshold;
   bool       m_Stop; //stop condition

@@ -94,9 +94,9 @@ public:
 
 protected:
   ParticleSwarmOptimizer();
-  ~ParticleSwarmOptimizer() ITK_OVERRIDE;
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
-  void UpdateSwarm() ITK_OVERRIDE;
+  ~ParticleSwarmOptimizer() override;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void UpdateSwarm() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizer);

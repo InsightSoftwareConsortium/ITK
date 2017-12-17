@@ -99,10 +99,10 @@ public:
 
   void SetLearningFunction(LearningFunctionInterfaceType* f);
 
-  NetworkOutputType GenerateOutput(TMeasurementVector samplevector) ITK_OVERRIDE;
+  NetworkOutputType GenerateOutput(TMeasurementVector samplevector) override;
 
-  void BackwardPropagate(NetworkOutputType errors) ITK_OVERRIDE;
-  void UpdateWeights(ValueType) ITK_OVERRIDE;
+  void BackwardPropagate(NetworkOutputType errors) override;
+  void UpdateWeights(ValueType) override;
 
   void SetLearningRule(LearningFunctionInterfaceType*);
 
@@ -112,7 +112,7 @@ public:
 
 protected:
   MultilayerNeuralNetworkBase();
-  ~MultilayerNeuralNetworkBase() ITK_OVERRIDE;
+  ~MultilayerNeuralNetworkBase() override;
 
   LayerVectorType                                   m_Layers;
   WeightVectorType                                  m_Weights;
@@ -126,7 +126,7 @@ protected:
   int                             m_NumOfWeightSets;
 #endif
   /** Method to print the object. */
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 };
 
 } // end namespace Statistics

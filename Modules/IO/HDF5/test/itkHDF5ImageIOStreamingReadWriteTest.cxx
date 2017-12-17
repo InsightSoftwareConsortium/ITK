@@ -61,10 +61,10 @@ class DemoImageSource:public GenerateImageSource< TOutputImage >
     {
       m_Value = NumericTraits< typename TOutputImage::PixelType >::ZeroValue();
     }
-    ~DemoImageSource() ITK_OVERRIDE {}
+    ~DemoImageSource() override {}
 
     /** Does the real work. */
-    void GenerateData() ITK_OVERRIDE
+    void GenerateData() override
       {
       TOutputImage* out = this->GetOutput();
       out->SetBufferedRegion(out->GetRequestedRegion());

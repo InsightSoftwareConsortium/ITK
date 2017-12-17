@@ -101,9 +101,9 @@ protected:
     this->SetRank(0.5);
   }
 
-  ~FastApproximateRankImageFilter() ITK_OVERRIDE {}
+  ~FastApproximateRankImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "Rank: " << m_Rank << std::endl;

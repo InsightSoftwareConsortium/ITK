@@ -156,17 +156,17 @@ public:
 
 protected:
   SignedMaurerDistanceMapImageFilter();
-  ~SignedMaurerDistanceMapImageFilter() ITK_OVERRIDE;
+  ~SignedMaurerDistanceMapImageFilter() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   unsigned int SplitRequestedRegion(unsigned int i, unsigned int num,
-    OutputImageRegionType & splitRegion) ITK_OVERRIDE;
+    OutputImageRegionType & splitRegion) override;
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SignedMaurerDistanceMapImageFilter);

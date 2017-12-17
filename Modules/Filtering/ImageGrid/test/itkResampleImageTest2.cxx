@@ -50,7 +50,7 @@ public:
   itkTypeMacro(NonlinearAffineTransform, AffineTransform);
 
   /** Override this. See test below. */
-    bool IsLinear() const ITK_OVERRIDE { return false; }
+    bool IsLinear() const override { return false; }
 };
 }
 

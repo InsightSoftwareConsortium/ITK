@@ -40,9 +40,9 @@ namespace itk
     typedef SmartPointer< const Self > ConstPointer;
 
     /** Class methods used to interface with the registered factories. */
-    const char * GetITKSourceVersion() const ITK_OVERRIDE;
+    const char * GetITKSourceVersion() const override;
 
-    const char * GetDescription() const ITK_OVERRIDE;
+    const char * GetDescription() const override;
 
     /** Method for class instantiation. */
     itkFactorylessNewMacro(Self);
@@ -60,8 +60,8 @@ namespace itk
 
   protected:
     MINCTransformIOFactory();
-    ~MINCTransformIOFactory() ITK_OVERRIDE;
-    void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+    ~MINCTransformIOFactory() override;
+    void PrintSelf(std::ostream & os, Indent indent) const override;
 
   private:
     ITK_DISALLOW_COPY_AND_ASSIGN(MINCTransformIOFactory);

@@ -178,16 +178,16 @@ public:
 
 protected:
   MultiScaleHessianBasedMeasureImageFilter();
-  ~MultiScaleHessianBasedMeasureImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MultiScaleHessianBasedMeasureImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Data */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *) override;
 
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 private:
   void UpdateMaximumResponse(double sigma);

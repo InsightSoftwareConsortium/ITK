@@ -73,13 +73,13 @@ public:
   /**
    * Calculates the local metric value for a single point.
    */
-  MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const ITK_OVERRIDE;
+  MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const override;
 
   /**
    * Calculates the local value and derivative for a single point.
    */
   void GetLocalNeighborhoodValueAndDerivative( const PointType &,
-    MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const ITK_OVERRIDE;
+    MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const override;
 
   /**
    * Each point is associated with a Gaussian characterized by m_PointSetSigma
@@ -103,18 +103,18 @@ public:
    */
   itkGetConstMacro( EvaluationKNeighborhood, unsigned int );
 
-  void Initialize( void ) ITK_OVERRIDE;
+  void Initialize( void ) override;
 
   /** Clone method will clone the existing instance of this type,
    *  including its internal member variables. */
-  typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
 protected:
   ExpectationBasedPointSetToPointSetMetricv4();
-  ~ExpectationBasedPointSetToPointSetMetricv4() ITK_OVERRIDE;
+  ~ExpectationBasedPointSetToPointSetMetricv4() override;
 
   /** PrintSelf function */
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpectationBasedPointSetToPointSetMetricv4);

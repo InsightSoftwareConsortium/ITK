@@ -69,7 +69,7 @@ public:
 
 protected:
   CellInterfaceVisitor() {}
-  ~CellInterfaceVisitor() ITK_OVERRIDE {}
+  ~CellInterfaceVisitor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CellInterfaceVisitor);
@@ -124,19 +124,19 @@ public:
 
   /** Call the static method GetTopologyId for the CellTopology type that
    * we are templated over. */
-  int GetCellTopologyId() ITK_OVERRIDE { return CellTopology::GetTopologyId(); }
+  int GetCellTopologyId() override { return CellTopology::GetTopologyId(); }
 
   /** Call the method Visit from the UserVisitor template parameter that
    * this class inherits from.  I am my own gradpa... */
   void VisitFromCell(CellIdentifier cellId, CellInterface< TPixelType,
-                                                           TCellTraits > *c) ITK_OVERRIDE
+                                                           TCellTraits > *c) override
   {
     this->UserVisitor::Visit(cellId, (CellTopology *)c);
   }
 
 protected:
   CellInterfaceVisitorImplementation() {}
-  ~CellInterfaceVisitorImplementation() ITK_OVERRIDE {}
+  ~CellInterfaceVisitorImplementation() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CellInterfaceVisitorImplementation);

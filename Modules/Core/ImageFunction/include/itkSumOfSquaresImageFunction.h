@@ -84,10 +84,10 @@ public:
   RealType;
 
   /** Evalulate the function at specified index */
-  RealType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  RealType EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evaluate the function at non-integer positions */
-  RealType Evaluate(const PointType & point) const ITK_OVERRIDE
+  RealType Evaluate(const PointType & point) const override
   {
     IndexType index;
 
@@ -96,7 +96,7 @@ public:
   }
 
   RealType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const ITK_OVERRIDE
+    const ContinuousIndexType & cindex) const override
   {
     IndexType index;
 
@@ -124,8 +124,8 @@ public:
 
 protected:
   SumOfSquaresImageFunction();
-  ~SumOfSquaresImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SumOfSquaresImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SumOfSquaresImageFunction);

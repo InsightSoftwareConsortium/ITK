@@ -455,7 +455,7 @@ public:
 
 protected:
   ProcessObject();
-  ~ProcessObject() ITK_OVERRIDE;
+  ~ProcessObject() override;
 
   /** \class ProcessObjectDomainThreader
    *  \brief Multi-threaded processing on a domain by processing sub-domains per
@@ -495,7 +495,7 @@ protected:
     ITK_DISALLOW_COPY_AND_ASSIGN(ProcessObjectDomainThreader);
    };
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   //
   // Input Methods

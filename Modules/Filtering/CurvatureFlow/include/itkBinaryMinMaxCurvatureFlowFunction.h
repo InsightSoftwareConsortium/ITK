@@ -77,11 +77,11 @@ public:
   PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
                                   const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  ) ITK_OVERRIDE;
+                                  ) override;
 
 protected:
   BinaryMinMaxCurvatureFlowFunction();
-  ~BinaryMinMaxCurvatureFlowFunction() ITK_OVERRIDE {}
+  ~BinaryMinMaxCurvatureFlowFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMinMaxCurvatureFlowFunction);

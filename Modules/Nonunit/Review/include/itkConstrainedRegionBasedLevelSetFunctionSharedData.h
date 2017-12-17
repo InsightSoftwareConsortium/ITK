@@ -124,7 +124,7 @@ public:
   typedef typename Superclass::LevelSetDataPointerVector         LevelSetDataPointerVector;
   typedef typename Superclass::LevelSetDataPointerVectorIterator LevelSetDataPointerVectorIterator;
 
-  void PopulateListImage() ITK_OVERRIDE
+  void PopulateListImage() override
   {
     ListSpacingType spacing = this->m_NearestNeighborListImage->GetSpacing();
 
@@ -178,7 +178,7 @@ public:
 
 protected:
   ConstrainedRegionBasedLevelSetFunctionSharedData():Superclass(){}
-  ~ConstrainedRegionBasedLevelSetFunctionSharedData() ITK_OVERRIDE{}
+  ~ConstrainedRegionBasedLevelSetFunctionSharedData() override{}
 
 private:
   ConstrainedRegionBasedLevelSetFunctionSharedData(const Self &); //purposely

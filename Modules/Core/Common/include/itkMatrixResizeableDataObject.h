@@ -56,7 +56,7 @@ protected:
   MatrixResizeableDataObject();
 
   /** Default Destructor. */
-  ~MatrixResizeableDataObject() ITK_OVERRIDE;
+  ~MatrixResizeableDataObject() override;
 };
 } // end namespace itk
 

@@ -122,7 +122,7 @@ public:
   itkGetConstReferenceMacro(CurrentLineIteration, unsigned int);
 
   /** Start optimization. */
-  void StartOptimization() ITK_OVERRIDE;
+  void StartOptimization() override;
 
   /** When users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and
@@ -136,13 +136,13 @@ public:
   itkGetConstReferenceMacro(MetricWorstPossibleValue, double);
   itkSetMacro(MetricWorstPossibleValue, double);
 
-  const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const override;
 
 protected:
   PowellOptimizer();
   PowellOptimizer(const PowellOptimizer &);
-  ~PowellOptimizer() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PowellOptimizer() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   itkSetMacro(CurrentCost, double);
 

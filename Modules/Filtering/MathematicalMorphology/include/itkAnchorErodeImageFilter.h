@@ -50,7 +50,7 @@ public:
   {
     this->m_Boundary = NumericTraits< PixelType >::max();
   }
-  ~AnchorErodeImageFilter() ITK_OVERRIDE {}
+  ~AnchorErodeImageFilter() override {}
 
 private:
 

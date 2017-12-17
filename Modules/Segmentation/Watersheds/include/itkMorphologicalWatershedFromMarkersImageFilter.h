@@ -159,21 +159,21 @@ public:
 
 protected:
   MorphologicalWatershedFromMarkersImageFilter();
-  ~MorphologicalWatershedFromMarkersImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MorphologicalWatershedFromMarkersImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** MorphologicalWatershedFromMarkersImageFilter needs to request the
    * entire input images.
    */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** This filter will enlarge the output requested region to produce
    * all of the output.
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
 
   /** The filter is single threaded. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalWatershedFromMarkersImageFilter);

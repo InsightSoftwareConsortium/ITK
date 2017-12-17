@@ -78,7 +78,7 @@ public:
    *
    */
   OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const ITK_OVERRIDE
+    const ContinuousIndexType & index) const override
   {
     IndexType nindex;
 
@@ -105,7 +105,7 @@ public:
    *
    */
   OutputType EvaluateAtIndex(
-    const IndexType & index) const ITK_OVERRIDE
+    const IndexType & index) const override
   {
     IndexType nindex;
 
@@ -129,8 +129,8 @@ public:
 
 protected:
   NearestNeighborExtrapolateImageFunction(){}
-  ~NearestNeighborExtrapolateImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  ~NearestNeighborExtrapolateImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
 
 private:

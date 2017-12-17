@@ -83,7 +83,7 @@ public:
   itkGetConstMacro( SplineOrder, unsigned int );
 
   /** Evaluate the function. */
-  TRealValueType Evaluate( const TRealValueType & ) const ITK_OVERRIDE;
+  TRealValueType Evaluate( const TRealValueType & ) const override;
 
   /** Evaluate the first derivative. */
   TRealValueType EvaluateDerivative( const TRealValueType & ) const;
@@ -106,8 +106,8 @@ public:
 
 protected:
   CoxDeBoorBSplineKernelFunction();
-  ~CoxDeBoorBSplineKernelFunction() ITK_OVERRIDE;
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  ~CoxDeBoorBSplineKernelFunction() override;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CoxDeBoorBSplineKernelFunction);

@@ -131,9 +131,9 @@ public:
   itkGetConstMacro(NormalizeAcrossScale, bool);
   itkBooleanMacro( NormalizeAcrossScale );
 
-  void SetNumberOfThreads(ThreadIdType nb) ITK_OVERRIDE;
+  void SetNumberOfThreads(ThreadIdType nb) override;
 
-  bool CanRunInPlace( void ) const ITK_OVERRIDE;
+  bool CanRunInPlace( void ) const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -145,10 +145,10 @@ public:
 
 protected:
   SmoothingRecursiveGaussianImageFilter();
-  ~SmoothingRecursiveGaussianImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SmoothingRecursiveGaussianImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData(void) ITK_OVERRIDE;
+  void GenerateData(void) override;
 
   /** SmoothingRecursiveGaussianImageFilter needs all of the input to produce an
    * output. Therefore, SmoothingRecursiveGaussianImageFilter needs to provide
@@ -156,10 +156,10 @@ protected:
    * the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SmoothingRecursiveGaussianImageFilter);

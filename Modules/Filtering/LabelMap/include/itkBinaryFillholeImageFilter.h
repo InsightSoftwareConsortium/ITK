@@ -104,20 +104,20 @@ public:
 
 protected:
   BinaryFillholeImageFilter();
-  ~BinaryFillholeImageFilter() ITK_OVERRIDE {};
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~BinaryFillholeImageFilter() override {};
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** BinaryFillholeImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** BinaryFillholeImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryFillholeImageFilter);

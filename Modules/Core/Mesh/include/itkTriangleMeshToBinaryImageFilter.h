@@ -202,10 +202,10 @@ public:
 
 protected:
   TriangleMeshToBinaryImageFilter();
-  ~TriangleMeshToBinaryImageFilter() ITK_OVERRIDE;
+  ~TriangleMeshToBinaryImageFilter() override;
 
-  void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateOutputInformation() override {}  // do nothing
+  void GenerateData() override;
 
   virtual void RasterizeTriangles();
 
@@ -230,7 +230,7 @@ protected:
 
   StencilIndexVector m_StencilIndex;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TriangleMeshToBinaryImageFilter);

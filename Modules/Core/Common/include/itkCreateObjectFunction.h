@@ -43,7 +43,7 @@ public:
 
 protected:
   CreateObjectFunctionBase();
-  ~CreateObjectFunctionBase() ITK_OVERRIDE;
+  ~CreateObjectFunctionBase() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CreateObjectFunctionBase);
@@ -66,11 +66,11 @@ public:
 
   /** Methods from itk:LightObject. */
   itkFactorylessNewMacro(Self);
-  LightObject::Pointer CreateObject() ITK_OVERRIDE { return T::New().GetPointer(); }
+  LightObject::Pointer CreateObject() override { return T::New().GetPointer(); }
 
 protected:
   CreateObjectFunction() {}
-  ~CreateObjectFunction() ITK_OVERRIDE {}
+  ~CreateObjectFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CreateObjectFunction);

@@ -83,7 +83,7 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
 
-  bool Evaluate(const PointType & point) const ITK_OVERRIDE
+  bool Evaluate(const PointType & point) const override
   {
     IndexType index;
 
@@ -100,7 +100,7 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
   bool EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const ITK_OVERRIDE
+    const ContinuousIndexType & index) const override
   {
     IndexType nindex;
 
@@ -116,7 +116,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  bool EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE
+  bool EvaluateAtIndex(const IndexType & index) const override
   {
     PixelType value = this->GetInputImage()->GetPixel(index);
 
@@ -140,8 +140,8 @@ public:
 
 protected:
   BinaryThresholdImageFunction();
-  ~BinaryThresholdImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BinaryThresholdImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdImageFunction);

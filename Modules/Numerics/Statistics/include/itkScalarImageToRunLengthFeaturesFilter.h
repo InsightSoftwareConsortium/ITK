@@ -195,20 +195,20 @@ public:
 
 protected:
   ScalarImageToRunLengthFeaturesFilter();
-  ~ScalarImageToRunLengthFeaturesFilter() ITK_OVERRIDE {}
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  ~ScalarImageToRunLengthFeaturesFilter() override {}
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
   void FastCompute();
 
   void FullCompute();
 
   /** This method causes the filter to generate its output. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Make a DataObject to be used for output output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) override;
 
 private:
   typename RunLengthMatrixFilterType::Pointer m_RunLengthMatrixGenerator;

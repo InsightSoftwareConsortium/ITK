@@ -34,7 +34,7 @@ class ITKIOImageBase_EXPORT ImageSeriesWriterException:public ExceptionObject
 {
 public:
   /** Has to have empty throw(). */
-  ~ImageSeriesWriterException() ITK_NOEXCEPT ITK_OVERRIDE;
+  ~ImageSeriesWriterException() ITK_NOEXCEPT override;
 
   /** Run-time information. */
   itkTypeMacro(ImageSeriesWriterException, ExceptionObject);
@@ -133,7 +133,7 @@ public:
 
   /** Aliased to the Write() method to be consistent with the rest of the
    * pipeline. */
-  void Update() ITK_OVERRIDE
+  void Update() override
   {
     this->Write();
   }
@@ -199,11 +199,11 @@ public:
 
 protected:
   ImageSeriesWriter();
-  ~ImageSeriesWriter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImageSeriesWriter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Does the real work. */
-  void GenerateData(void) ITK_OVERRIDE;
+  void GenerateData(void) override;
 
   /** Transition method used for DEPRECATING old functionality.
    *  This method should be removed after release ITK 1.8 */

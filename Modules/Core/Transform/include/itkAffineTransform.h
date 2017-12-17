@@ -236,7 +236,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const override;
 
   /** Compute distance between two affine transformations
    *
@@ -270,10 +270,10 @@ protected:
   AffineTransform();
 
   /** Destroy an AffineTransform object   */
-  ~AffineTransform() ITK_OVERRIDE;
+  ~AffineTransform() override;
 
   /** Print contents of an AffineTransform */
-  void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & s, Indent indent) const override;
 
 private:
 

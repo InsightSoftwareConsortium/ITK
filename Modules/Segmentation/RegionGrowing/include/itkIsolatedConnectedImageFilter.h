@@ -102,7 +102,7 @@ public:
   typedef typename NumericTraits<
     InputImagePixelType >::RealType InputRealType;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Add seed point 1. This seed will be isolated from Seed2 (if possible).
    *  All pixels connected to this seed will be replaced with ReplaceValue. */
@@ -193,7 +193,7 @@ public:
 
 protected:
   IsolatedConnectedImageFilter();
-  ~IsolatedConnectedImageFilter() ITK_OVERRIDE {}
+  ~IsolatedConnectedImageFilter() override {}
   SeedsContainerType m_Seeds1;
   SeedsContainerType m_Seeds2;
 
@@ -209,12 +209,12 @@ protected:
   bool m_ThresholdingFailed;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   // Override since the filter produces the entire dataset
-  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IsolatedConnectedImageFilter);

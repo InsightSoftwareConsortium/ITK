@@ -61,7 +61,7 @@ public:
     m_HasLocalSupport = false;
   }
 
-  MeasureType  GetValue() const ITK_OVERRIDE
+  MeasureType  GetValue() const override
   {
     double x = this->m_Parameters[0];
     double y = this->m_Parameters[1];
@@ -75,7 +75,7 @@ public:
     return val;
   }
 
-  void GetDerivative( DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetDerivative( DerivativeType & derivative ) const override
   {
     double x = this->m_Parameters[0];
     double y = this->m_Parameters[1];
@@ -90,38 +90,38 @@ public:
   }
 
   void GetValueAndDerivative( MeasureType & value,
-                             DerivativeType & derivative ) const ITK_OVERRIDE
+                             DerivativeType & derivative ) const override
   {
     value = GetValue();
     GetDerivative( derivative );
   }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE
+  void Initialize(void) throw ( itk::ExceptionObject ) override
   {
     m_Parameters.SetSize( SpaceDimension );
   }
 
-  unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
+  unsigned int GetNumberOfLocalParameters() const override
   {
     return SpaceDimension;
   }
 
-  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const override
   {
     return SpaceDimension;
   }
 
-  void SetParameters( ParametersType & parameters ) ITK_OVERRIDE
+  void SetParameters( ParametersType & parameters ) override
   {
     m_Parameters = parameters;
   }
 
-  const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const override
   {
     return m_Parameters;
   }
 
-  bool HasLocalSupport() const ITK_OVERRIDE
+  bool HasLocalSupport() const override
   {
     return m_HasLocalSupport;
   }
@@ -131,7 +131,7 @@ public:
     m_HasLocalSupport = hls;
   }
 
-  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE
+  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) override
   {
   }
 
@@ -150,7 +150,7 @@ public:
 
   itkNewMacro ( IndexObserver );
 
-  void  Execute ( const itk::Object *caller, const itk::EventObject &) ITK_OVERRIDE
+  void  Execute ( const itk::Object *caller, const itk::EventObject &) override
   {
     typedef itk::ExhaustiveOptimizerv4<double> OptimizerType;
     const OptimizerType *optimizer = dynamic_cast < const OptimizerType * > ( caller );
@@ -171,7 +171,7 @@ public:
     }
   }
 
-  void  Execute (itk::Object *caller, const itk::EventObject &event) ITK_OVERRIDE
+  void  Execute (itk::Object *caller, const itk::EventObject &event) override
   {
     Execute ( static_cast < const itk::Object * > ( caller ), event );
   }

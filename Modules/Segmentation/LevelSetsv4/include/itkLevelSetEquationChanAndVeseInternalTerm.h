@@ -90,13 +90,13 @@ public:
   itkGetMacro( Mean, InputPixelRealType );
 
   /** Update the term parameter values at end of iteration */
-  void Update() ITK_OVERRIDE;
+  void Update() override;
 
   /** Initialize parameters in the terms prior to an iteration */
-  void InitializeParameters() ITK_OVERRIDE;
+  void InitializeParameters() override;
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
-  void Initialize( const LevelSetInputIndexType& inputIndex ) ITK_OVERRIDE;
+  void Initialize( const LevelSetInputIndexType& inputIndex ) override;
 
   /** Compute the product of Heaviside functions in the multi-levelset cases */
   virtual void ComputeProduct( const LevelSetInputIndexType& inputPixel,
@@ -111,21 +111,21 @@ public:
   /** Supply updates at pixels to keep the term parameters always updated */
   void UpdatePixel( const LevelSetInputIndexType& inputPixel,
                            const LevelSetOutputRealType & oldValue,
-                           const LevelSetOutputRealType & newValue ) ITK_OVERRIDE;
+                           const LevelSetOutputRealType & newValue ) override;
 
 protected:
   LevelSetEquationChanAndVeseInternalTerm();
 
-  ~LevelSetEquationChanAndVeseInternalTerm() ITK_OVERRIDE;
+  ~LevelSetEquationChanAndVeseInternalTerm() override;
 
   /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& inputPixel ) ITK_OVERRIDE;
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& inputPixel ) override;
 
   /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */
   LevelSetOutputRealType Value( const LevelSetInputIndexType& inputPixel,
-                                        const LevelSetDataType& data ) ITK_OVERRIDE;
+                                        const LevelSetDataType& data ) override;
 
   /** Accumulate contribution to term parameters from a given pixel */
   void Accumulate( const InputPixelType& inputPixel,

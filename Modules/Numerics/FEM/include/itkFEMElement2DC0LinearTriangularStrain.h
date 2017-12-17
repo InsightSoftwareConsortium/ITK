@@ -74,7 +74,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
+  ::itk::LightObject::Pointer CreateAnother(void) const override;
 
   /**
    * Default constructor only clears the internal storage
@@ -88,7 +88,7 @@ public:
   Element2DC0LinearTriangularStrain(NodeIDType n1_, NodeIDType n2_, NodeIDType n3_, Material::ConstPointer p_);
 
 protected:
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 };  // class Element2DC0LinearTriangularStrain
 

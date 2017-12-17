@@ -83,7 +83,7 @@ public:
   typedef typename VertexListType::Pointer         VertexListPointer;
 
   /** Return the location of the parametric path at the specified location. */
-  OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & input) const override;
 
   ///** Evaluate the first derivative of the ND output with respect to the 1D
   //  * input.  This is an exact, algebraic function. */
@@ -102,7 +102,7 @@ public:
   /** Where does the path end?  This value is necessary for IncrementInput() to
    * know how to go to the end of a path.  Since each line segment covers one
    * unit of input, this is the number of verticies - 1. */
-  InputType EndOfInput() const ITK_OVERRIDE
+  InputType EndOfInput() const override
   {
     return m_VertexList->Size() - 1;
   }
@@ -111,7 +111,7 @@ public:
   itkNewMacro(Self);
 
   /** Needed for Pipelining */
-  void Initialize(void) ITK_OVERRIDE
+  void Initialize(void) override
   {
     m_VertexList->Initialize();
   }
@@ -123,17 +123,17 @@ public:
    *  the next pixel along the path to visit by using the instantaneous
    *  partial derivatives to calculate the timestep needed to move along the
    *  path by one pixel */
-  OffsetType IncrementInput(InputType & input) const ITK_OVERRIDE;
+  OffsetType IncrementInput(InputType & input) const override;
 
   /** This function overrides the superclass EvaluateDerivative and instead
    *  calculates the instantaneous derivative of input by taking the index
    *  of the previous and next integral timepoints and subtracting them */
-  VectorType EvaluateDerivative(const InputType & input) const ITK_OVERRIDE;
+  VectorType EvaluateDerivative(const InputType & input) const override;
 
 protected:
   PolyLineParametricPath();
-  ~PolyLineParametricPath() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PolyLineParametricPath() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolyLineParametricPath);

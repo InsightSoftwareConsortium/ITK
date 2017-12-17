@@ -91,7 +91,7 @@ public:
 
 protected:
   AcosImageAdaptor() {}
-  ~AcosImageAdaptor() ITK_OVERRIDE {}
+  ~AcosImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AcosImageAdaptor);

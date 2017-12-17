@@ -88,28 +88,28 @@ public:
   /** Set parameters.
    * This method sets the parameters for the transform
    * value specified by the user. */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
    * There are 4 parameters. The first one represents the
    * rotation, the second one the scale and the last
    * two represent the offset. */
-  const ParametersType & GetParameters(void) const ITK_OVERRIDE;
+  const ParametersType & GetParameters(void) const override;
 
   /** Compute the Jacobian Matrix of the transformation at one point,
    *  allowing for thread-safety. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
 protected:
   /** Construct an ScaleLogarithmicTransform object. */
   ScaleLogarithmicTransform();
 
   /** Destroy an ScaleLogarithmicTransform object. */
-  ~ScaleLogarithmicTransform() ITK_OVERRIDE;
+  ~ScaleLogarithmicTransform() override;
 
   /** Print contents of an ScaleLogarithmicTransform */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScaleLogarithmicTransform);

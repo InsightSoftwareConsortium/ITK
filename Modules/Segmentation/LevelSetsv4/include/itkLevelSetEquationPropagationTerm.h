@@ -102,23 +102,23 @@ public:
   itkGetModifiableObjectMacro(PropagationImage, PropagationImageType );
 
   /** \todo to be documented. */
-  void Update() ITK_OVERRIDE;
+  void Update() override;
 
   /** Initialize the parameters in the terms prior to an iteration */
-  void InitializeParameters() ITK_OVERRIDE;
+  void InitializeParameters() override;
 
   /** \todo to be documented. */
-  void Initialize( const LevelSetInputIndexType& ) ITK_OVERRIDE;
+  void Initialize( const LevelSetInputIndexType& ) override;
 
   /** Supply updates at pixels to keep the term parameters always updated */
   void UpdatePixel( const LevelSetInputIndexType& iP,
                             const LevelSetOutputRealType& oldValue,
-                            const LevelSetOutputRealType& newValue ) ITK_OVERRIDE;
+                            const LevelSetOutputRealType& newValue ) override;
 
 protected:
   LevelSetEquationPropagationTerm();
 
-  ~LevelSetEquationPropagationTerm() ITK_OVERRIDE;
+  ~LevelSetEquationPropagationTerm() override;
 
   PropagationImagePointer m_PropagationImage;
 
@@ -128,9 +128,9 @@ protected:
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) ITK_OVERRIDE;
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) override;
   LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
-                                        const LevelSetDataType& iData ) ITK_OVERRIDE;
+                                        const LevelSetDataType& iData ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationPropagationTerm);

@@ -104,14 +104,14 @@ public:
    * Evaluate at the given index
    */
   OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex ) const ITK_OVERRIDE
+    const ContinuousIndexType & cindex ) const override
     {
     return this->EvaluateAtContinuousIndex( cindex, ITK_NULLPTR );
     }
 
 protected:
   LabelImageGaussianInterpolateImageFunction();
-  ~LabelImageGaussianInterpolateImageFunction() ITK_OVERRIDE {};
+  ~LabelImageGaussianInterpolateImageFunction() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageGaussianInterpolateImageFunction);
@@ -120,7 +120,7 @@ private:
    * Evaluate function value at the given index
    */
   OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType &, OutputType * ) const ITK_OVERRIDE;
+    const ContinuousIndexType &, OutputType * ) const override;
 };
 
 } // end namespace itk

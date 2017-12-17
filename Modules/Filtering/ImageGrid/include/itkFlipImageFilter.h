@@ -102,7 +102,7 @@ public:
    * image meta information. The original documentation of this method is
    * below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** FlipImageFilter needs different input requested region than the output
    * requested region.  As such, FlipImageFilter needs to provide an
@@ -111,12 +111,12 @@ public:
    * The required input requested region is obtained by permuting the index and
    * size of the output requested region.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 protected:
   FlipImageFilter();
-  ~FlipImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~FlipImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FlipImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -129,7 +129,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FlipImageFilter);

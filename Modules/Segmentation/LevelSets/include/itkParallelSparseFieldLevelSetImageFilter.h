@@ -340,8 +340,8 @@ public:
 
 protected:
   ParallelSparseFieldLevelSetImageFilter();
-  ~ParallelSparseFieldLevelSetImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ParallelSparseFieldLevelSetImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Connectivity information for examining neighbor pixels.   */
   ParallelSparseFieldCityBlockNeighborList< NeighborhoodIterator< OutputImageType > >
@@ -417,20 +417,20 @@ protected:
 
   /** Reimplement the GenerateData() function from FiniteDifferenceImageFilter
    *  for more effective multithreading */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Copies the input to the output image.  Processing occurs on the output
    * image, so the data type of the output image determines the precision of
    * the calculations (i.e. double or float).  This method overrides the
    * parent class method to do some additional processing. */
-  void CopyInputToOutput() ITK_OVERRIDE;
+  void CopyInputToOutput() override;
 
   /** Reserves memory in the update buffer */
-  void AllocateUpdateBuffer() ITK_OVERRIDE {}
+  void AllocateUpdateBuffer() override {}
 
   /** Constructs the sparse field layers and initializes their values. Also
    *  creates data structures that are NOT local to a thread. */
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** Constructs the active layer and initialize the first layers inside and
    *  outside of the active layer.  The active layer defines the position of the
@@ -538,14 +538,14 @@ protected:
                                                         ThreadIdType itkNotUsed(ThreadId) );
 
   /** This method is not implemented or necessary for this solver */
-  void ApplyUpdate(const TimeStepType&) ITK_OVERRIDE {}
+  void ApplyUpdate(const TimeStepType&) override {}
 
   /** Does the actual work of updating the output from the UpdateContainer over
    *  an output region supplied by the multithreading mechanism.  */
   virtual void ThreadedApplyUpdate(const TimeStepType& dt, ThreadIdType ThreadId);
 
   /** This method is not implemented or necessary for this solver */
-  TimeStepType CalculateChange() ITK_OVERRIDE
+  TimeStepType CalculateChange() override
   {
     return NumericTraits< TimeStepType >::ZeroValue();
   }

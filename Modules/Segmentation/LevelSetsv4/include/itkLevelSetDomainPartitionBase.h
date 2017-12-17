@@ -54,7 +54,7 @@ protected:
   LevelSetDomainPartitionBase();
 
   /** \brief Destructor */
-  ~LevelSetDomainPartitionBase() ITK_OVERRIDE;
+  ~LevelSetDomainPartitionBase() override;
 
   virtual void AllocateListDomain() = 0;
 

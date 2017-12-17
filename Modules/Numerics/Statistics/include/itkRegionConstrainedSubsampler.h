@@ -104,7 +104,7 @@ public:
    * specific.  And could mean spatial similarity or feature similarity
    * etc.  */
   void Search(const InstanceIdentifier& query,
-                      SubsamplePointer& results) ITK_OVERRIDE = 0;
+                      SubsamplePointer& results) override = 0;
 
 protected:
   /**
@@ -112,12 +112,12 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
   RegionConstrainedSubsampler();
-  ~RegionConstrainedSubsampler() ITK_OVERRIDE {};
+  ~RegionConstrainedSubsampler() override {};
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   RegionType m_RegionConstraint;
   bool       m_RegionConstraintInitialized;

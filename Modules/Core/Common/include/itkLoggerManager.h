@@ -96,10 +96,10 @@ protected:
   LoggerManager() {}
 
   /** Destructor */
-  ~LoggerManager() ITK_OVERRIDE {}
+  ~LoggerManager() override {}
 
   /** Print contents of a LoggerManager */
-  void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & s, Indent indent) const override;
 
 private:
 

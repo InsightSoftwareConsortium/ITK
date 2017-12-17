@@ -115,8 +115,8 @@ public:
 
 protected:
   LightProcessObject();
-  ~LightProcessObject() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LightProcessObject() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method causes the filter to generate its output. */
   virtual void GenerateData() {}

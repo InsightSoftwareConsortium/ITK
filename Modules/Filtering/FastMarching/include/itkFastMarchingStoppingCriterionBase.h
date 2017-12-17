@@ -77,7 +77,7 @@ public:
   }
 
   /** Destructor */
-  ~FastMarchingStoppingCriterionBase() ITK_OVERRIDE {}
+  ~FastMarchingStoppingCriterionBase() override {}
 
   OutputDomainPointer m_Domain;
 

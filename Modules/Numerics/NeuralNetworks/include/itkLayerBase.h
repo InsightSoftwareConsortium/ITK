@@ -139,10 +139,10 @@ public:
 
 protected:
   LayerBase();
-  ~LayerBase() ITK_OVERRIDE;
+  ~LayerBase() override;
 
   /** Method to print the object. */
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   LayerTypeCode m_LayerTypeCode; //input, hidden, output
   unsigned int  m_LayerId;

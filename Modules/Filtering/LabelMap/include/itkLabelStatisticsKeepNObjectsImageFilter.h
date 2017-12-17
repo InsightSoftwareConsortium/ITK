@@ -164,20 +164,20 @@ public:
 
 protected:
   LabelStatisticsKeepNObjectsImageFilter();
-  ~LabelStatisticsKeepNObjectsImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LabelStatisticsKeepNObjectsImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** LabelStatisticsKeepNObjectsImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** LabelStatisticsKeepNObjectsImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelStatisticsKeepNObjectsImageFilter);

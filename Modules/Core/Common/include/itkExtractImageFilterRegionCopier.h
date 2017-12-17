@@ -151,7 +151,7 @@ public:
 
   /** Duplicate the superclass method to avoid warnings. */
   void operator()(ImageRegion< T1 > & destRegion,
-                          const ImageRegion< T2 > & srcRegion) const ITK_OVERRIDE
+                          const ImageRegion< T2 > & srcRegion) const override
   {
     ImageRegionCopier< T1, T2 >::operator()(destRegion, srcRegion);
   }

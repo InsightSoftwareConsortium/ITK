@@ -291,7 +291,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionItpackSparseMatrixSbagn()
-  ITK_NOEXCEPT ITK_OVERRIDE;
+  ITK_NOEXCEPT override;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionItpackSparseMatrixSbagn, FEMException);
@@ -321,7 +321,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~FEMExceptionItpackSparseMatrixSbsij()
-  ITK_NOEXCEPT ITK_OVERRIDE;
+  ITK_NOEXCEPT override;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionItpackSparseMatrixSbsij, FEMException);

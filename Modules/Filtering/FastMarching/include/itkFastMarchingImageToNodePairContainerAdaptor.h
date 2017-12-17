@@ -124,7 +124,7 @@ protected:
   FastMarchingImageToNodePairContainerAdaptor();
 
   /** \brief Destructor */
-  ~FastMarchingImageToNodePairContainerAdaptor() ITK_OVERRIDE {}
+  ~FastMarchingImageToNodePairContainerAdaptor() override {}
 
   ImageConstPointer m_AliveImage;
   ImageConstPointer m_TrialImage;

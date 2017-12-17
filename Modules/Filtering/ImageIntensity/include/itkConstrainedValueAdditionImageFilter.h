@@ -134,7 +134,7 @@ public:
 
 protected:
   ConstrainedValueAdditionImageFilter() {}
-  ~ConstrainedValueAdditionImageFilter() ITK_OVERRIDE {}
+  ~ConstrainedValueAdditionImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConstrainedValueAdditionImageFilter);

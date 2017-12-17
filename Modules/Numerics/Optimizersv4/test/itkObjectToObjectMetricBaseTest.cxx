@@ -45,49 +45,49 @@ public:
   itkNewMacro(Self);
 
   // Pure virtual functions that all Metrics must provide
-  unsigned int GetNumberOfParameters() const ITK_OVERRIDE { return 5; }
+  unsigned int GetNumberOfParameters() const override { return 5; }
 
-  MeasureType GetValue() const ITK_OVERRIDE
+  MeasureType GetValue() const override
   {
     this->m_Value = 1.0;
     return this->m_Value;
   }
 
-  void GetDerivative( DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetDerivative( DerivativeType & derivative ) const override
   {
     derivative.Fill(0.0);
   }
 
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const override
   {
     value = 1.0; derivative.Fill(0.0);
   }
 
-  unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
+  unsigned int GetNumberOfLocalParameters() const override
   { return 0; }
 
-  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE {}
+  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) override {}
 
-  const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const override
   { return m_Parameters; }
 
-  bool HasLocalSupport() const ITK_OVERRIDE
+  bool HasLocalSupport() const override
     { return false; }
 
-  void SetParameters( ParametersType & ) ITK_OVERRIDE
+  void SetParameters( ParametersType & ) override
   {
   }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE {}
+  void Initialize(void) throw ( itk::ExceptionObject ) override {}
 
-  void PrintSelf(std::ostream& os, itk::Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream& os, itk::Indent indent) const override
   { Superclass::PrintSelf( os, indent ); }
 
   ParametersType  m_Parameters;
 
 private:
   ObjectToObjectMetricTestMetric() {}
-  ~ObjectToObjectMetricTestMetric() ITK_OVERRIDE {}
+  ~ObjectToObjectMetricTestMetric() override {}
 };
 
 int itkObjectToObjectMetricBaseTest(int ,char * [])

@@ -183,13 +183,13 @@ public:
   itkBooleanMacro(ReturnBestParametersAndValue);
 
   /** Start and run the optimization. */
-  void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
+  void StartOptimization( bool doOnlyInitialization = false ) override;
 
   /** Stop the optimization. */
-  void StopOptimization(void) ITK_OVERRIDE;
+  void StopOptimization(void) override;
 
   /** Resume the optimization. */
-  void ResumeOptimization() ITK_OVERRIDE;
+  void ResumeOptimization() override;
 
   /** Estimate the learning rate based on the current gradient. */
   virtual void EstimateLearningRate();
@@ -201,18 +201,18 @@ protected:
   virtual void AdvanceOneStep();
 
   /** Modify the gradient by scales and weights over a given index range. */
-  void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
+  void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) override;
 
   /** Modify the gradient by learning rate over a given index range. */
-  void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
+  void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) override;
 
   /** Default constructor */
   GradientDescentOptimizerv4Template();
 
   /** Destructor */
-  ~GradientDescentOptimizerv4Template() ITK_OVERRIDE;
+  ~GradientDescentOptimizerv4Template() override;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 
   TInternalComputationValueType m_LearningRate;

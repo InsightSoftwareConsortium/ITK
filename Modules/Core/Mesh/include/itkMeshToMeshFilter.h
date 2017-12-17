@@ -76,7 +76,7 @@ public:
 
 protected:
   MeshToMeshFilter();
-  ~MeshToMeshFilter() ITK_OVERRIDE {}
+  ~MeshToMeshFilter() override {}
 
   void CopyInputMeshToOutputMeshPoints();
 

@@ -239,7 +239,7 @@ public:
 
   /** This overrides SparseFieldLevelSetImageFilter's SetNumberOfLayers to make
       sure we have enough layers to do what we need. */
-  void SetNumberOfLayers(const unsigned int n) ITK_OVERRIDE
+  void SetNumberOfLayers(const unsigned int n) override
   {
     unsigned int nm = std::max (this->GetMinimumNumberOfLayers (), n);
 
@@ -252,7 +252,7 @@ public:
 
   /** This method first calls the Superclass InitializeIteration method. Then
       it determines whether ProcessNormals should be called. */
-  void InitializeIteration() ITK_OVERRIDE
+  void InitializeIteration() override
   {
     Superclass::InitializeIteration();
     ValueType rmschange = this->GetRMSChange();
@@ -285,8 +285,8 @@ public:
 
 protected:
   SparseFieldFourthOrderLevelSetImageFilter();
-  ~SparseFieldFourthOrderLevelSetImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SparseFieldFourthOrderLevelSetImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method computes curvature from normal vectors stored in a sparse
       image neighborhood. */

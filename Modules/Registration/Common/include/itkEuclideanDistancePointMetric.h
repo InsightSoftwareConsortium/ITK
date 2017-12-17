@@ -85,14 +85,14 @@ public:
   typedef typename DistanceMapType::ConstPointer DistanceMapPointer;
 
   /** Get the number of values, i.e. the number of points in the moving set. */
-  unsigned int GetNumberOfValues() const ITK_OVERRIDE;
+  unsigned int GetNumberOfValues() const override;
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType & Derivative) const ITK_OVERRIDE;
+                     DerivativeType & Derivative) const override;
 
   /**  Get the match measure, i.e. the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType GetValue(const TransformParametersType & parameters) const override;
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative(const TransformParametersType & parameters,
@@ -112,9 +112,9 @@ public:
 
 protected:
   EuclideanDistancePointMetric();
-  ~EuclideanDistancePointMetric() ITK_OVERRIDE {}
+  ~EuclideanDistancePointMetric() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(EuclideanDistancePointMetric);

@@ -122,9 +122,9 @@ protected:
     m_ForegroundValue = NumericTraits<PixelType>::max();
     m_BackgroundValue = NumericTraits<PixelType>::NonpositiveMin();
     }
-  ~BinaryNotImageFilter() ITK_OVERRIDE {}
+  ~BinaryNotImageFilter() override {}
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream& os, Indent indent) const override
     {
     Superclass::PrintSelf(os,indent);
 
@@ -140,7 +140,7 @@ protected:
                     << std::endl;
     }
 
-  void GenerateData() ITK_OVERRIDE
+  void GenerateData() override
     {
     this->GetFunctor().m_ForegroundValue = m_ForegroundValue;
     this->GetFunctor().m_BackgroundValue = m_BackgroundValue;

@@ -535,7 +535,7 @@ protected:
     m_WeightedFlatness = 0;
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
 

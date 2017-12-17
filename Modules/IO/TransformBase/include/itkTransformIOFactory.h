@@ -59,7 +59,7 @@ public:
 
 protected:
   TransformIOFactoryTemplate();
-  ~TransformIOFactoryTemplate() ITK_OVERRIDE;
+  ~TransformIOFactoryTemplate() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TransformIOFactoryTemplate);

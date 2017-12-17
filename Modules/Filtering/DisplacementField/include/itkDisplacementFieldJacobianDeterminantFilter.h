@@ -171,7 +171,7 @@ public:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Set the derivative weights according to the spacing of the input image
       (1/spacing). Use this option if you want to calculate the Jacobian
@@ -201,12 +201,12 @@ public:
 
 protected:
   DisplacementFieldJacobianDeterminantFilter();
-  ~DisplacementFieldJacobianDeterminantFilter() ITK_OVERRIDE {}
+  ~DisplacementFieldJacobianDeterminantFilter() override {}
 
   /** Do any necessary casting/copying of the input data.  Input pixel types
      whose value types are not real number types must be cast to real number
      types. */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   /** DisplacementFieldJacobianDeterminantFilter can be implemented as a
    * multithreaded filter (we're only using vnl_det(), which is trivially
@@ -221,9 +221,9 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   typedef typename InputImageType::Superclass ImageBaseType;
 

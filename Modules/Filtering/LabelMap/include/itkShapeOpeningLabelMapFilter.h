@@ -115,9 +115,9 @@ public:
 
 protected:
   ShapeOpeningLabelMapFilter();
-  ~ShapeOpeningLabelMapFilter() ITK_OVERRIDE {}
+  ~ShapeOpeningLabelMapFilter() override {}
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   template< typename TAttributeAccessor >
   void TemplatedGenerateData(const TAttributeAccessor & accessor)
@@ -160,7 +160,7 @@ protected:
       }
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   double m_Lambda;
 

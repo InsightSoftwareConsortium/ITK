@@ -49,10 +49,10 @@ public:
   /** Constructor with end level specification */
   LevelOrderTreeIterator(TreeType *tree, int startLevel, int endLevel, const TreeNodeType *start = ITK_NULLPTR);
 
-  ~LevelOrderTreeIterator() ITK_OVERRIDE {}
+  ~LevelOrderTreeIterator() override {}
 
   /** Get the type of the iterator */
-  NodeType GetType() const ITK_OVERRIDE;
+  NodeType GetType() const override;
 
   /** Get the start level */
   int GetStartLevel() const;
@@ -64,7 +64,7 @@ public:
   int GetLevel() const;
 
   /** Clone function */
-  TreeIteratorBase< TTreeType > * Clone() ITK_OVERRIDE;
+  TreeIteratorBase< TTreeType > * Clone() override;
 
   /** operator = */
   const Self & operator=(const Self & iterator)
@@ -82,10 +82,10 @@ public:
 protected:
 
   /** Return the next node */
-  const ValueType & Next() ITK_OVERRIDE;
+  const ValueType & Next() override;
 
   /** Return true if the next node exists */
-  bool HasNext() const ITK_OVERRIDE;
+  bool HasNext() const override;
 
 private:
 

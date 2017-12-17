@@ -143,23 +143,23 @@ public:
    * entire dataset.  It is also used to determine boundary
    * conditions.
    * \sa ImageRegion, SetBufferedRegion(), SetRequestedRegion() */
-  void SetLargestPossibleRegion(const RegionType & region) ITK_OVERRIDE;
+  void SetLargestPossibleRegion(const RegionType & region) override;
 
   /** Set the region object that defines the size and starting index
    * of the region of the image currently load in memory.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion() */
-  void SetBufferedRegion(const RegionType & region) ITK_OVERRIDE;
+  void SetBufferedRegion(const RegionType & region) override;
 
   /** Set the region object that defines the size and starting index
    * for the region of the image requested.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion() */
-  void SetRequestedRegion(const RegionType & region) ITK_OVERRIDE;
+  void SetRequestedRegion(const RegionType & region) override;
 
   /** Set the requested region from this data object to match the requested
    * region of the data object passed in as a parameter.  This method
    * implements the API from DataObject. The data object parameter must be
    * castable to an ImageBase. */
-  void SetRequestedRegion(const DataObject *data) ITK_OVERRIDE;
+  void SetRequestedRegion(const DataObject *data) override;
 
   /** Get the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the
@@ -167,7 +167,7 @@ public:
    * This method overloads the one in ImageBase in order to delegate
    * to the adapted image.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetBufferedRegion() */
-  const RegionType & GetRequestedRegion() const ITK_OVERRIDE;
+  const RegionType & GetRequestedRegion() const override;
 
   /** Get the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
@@ -177,21 +177,21 @@ public:
    * This method overloads the one in ImageBase in order to delegate
    * to the adapted image.
    * \sa ImageRegion, GetBufferedRegion(), GetRequestedRegion() */
-  const RegionType & GetLargestPossibleRegion() const ITK_OVERRIDE;
+  const RegionType & GetLargestPossibleRegion() const override;
 
   /** Get the region object that defines the size and starting index
    * of the region of the image currently loaded in memory.
    * This method overloads the one in ImageBase in order to delegate
    * to the adapted image.
    * \sa ImageRegion, SetLargestPossibleRegion(), SetRequestedRegion() */
-  const RegionType & GetBufferedRegion() const ITK_OVERRIDE;
+  const RegionType & GetBufferedRegion() const override;
 
   /** Allocate the image memory. Dimension and Size must be set a priori. */
-  void Allocate(bool initialize = false) ITK_OVERRIDE;
+  void Allocate(bool initialize = false) override;
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** Set a pixel. */
   void SetPixel(const IndexType & index, const PixelType & value)
@@ -250,45 +250,45 @@ public:
   const InternalPixelType * GetBufferPointer() const;
 
   /** Set the spacing (size of a pixel) of the image. */
-  void SetSpacing(const SpacingType & values) ITK_OVERRIDE;
+  void SetSpacing(const SpacingType & values) override;
 
-  void SetSpacing(const double *values /*[ImageDimension]*/) ITK_OVERRIDE;
+  void SetSpacing(const double *values /*[ImageDimension]*/) override;
 
-  void SetSpacing(const float *values /*[ImageDimension]*/) ITK_OVERRIDE;
+  void SetSpacing(const float *values /*[ImageDimension]*/) override;
 
   /** Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
    * \sa SetSpacing() */
-  const SpacingType & GetSpacing() const ITK_OVERRIDE;
+  const SpacingType & GetSpacing() const override;
 
   /** Get the origin of the image. The origin is the geometric
    * coordinates of the image origin.
    * \sa SetOrigin() */
-  const PointType & GetOrigin() const ITK_OVERRIDE;
+  const PointType & GetOrigin() const override;
 
   /** Set the origin of the image. */
-  void SetOrigin(const PointType values) ITK_OVERRIDE;
+  void SetOrigin(const PointType values) override;
 
-  void SetOrigin(const double *values /*[ImageDimension]*/) ITK_OVERRIDE;
+  void SetOrigin(const double *values /*[ImageDimension]*/) override;
 
-  void SetOrigin(const float *values /*[ImageDimension]*/) ITK_OVERRIDE;
+  void SetOrigin(const float *values /*[ImageDimension]*/) override;
 
   /** Set the direction of the image. */
-  void SetDirection(const DirectionType & direction) ITK_OVERRIDE;
+  void SetDirection(const DirectionType & direction) override;
 
   /** Get the direction cosines of the image. The direction cosines
    * are vectors that point from one pixel to the next.
    * For ImageBase and Image, the default direction is identity. */
-  const DirectionType & GetDirection() const ITK_OVERRIDE;
+  const DirectionType & GetDirection() const override;
 
   /** Set Internal Image */
   virtual void SetImage(TImage *);
 
   /** Delegate Modified to the Internal Image */
-  void Modified() const ITK_OVERRIDE;
+  void Modified() const override;
 
   /** Delegate GetMTime to the Internal Image */
-  ModifiedTimeType GetMTime() const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime() const override;
 
   /** Return the Data Accesor object */
   AccessorType & GetPixelAccessor(void)
@@ -303,21 +303,21 @@ public:
   { m_PixelAccessor = accessor; }
 
   /** Return the Data Accesor object */
-  void Update() ITK_OVERRIDE;
+  void Update() override;
 
-  void CopyInformation(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) override;
 
   /** Methods to update the pipeline. Called internally by the
    * pipeline mechanism. */
-  void UpdateOutputInformation() ITK_OVERRIDE;
+  void UpdateOutputInformation() override;
 
-  void SetRequestedRegionToLargestPossibleRegion() ITK_OVERRIDE;
+  void SetRequestedRegionToLargestPossibleRegion() override;
 
-  void PropagateRequestedRegion() ITK_OVERRIDE;
+  void PropagateRequestedRegion() override;
 
-  void UpdateOutputData() ITK_OVERRIDE;
+  void UpdateOutputData() override;
 
-  bool VerifyRequestedRegion() ITK_OVERRIDE;
+  bool VerifyRequestedRegion() override;
 
   /** \brief Get the continuous index from a physical point
    *
@@ -393,9 +393,9 @@ public:
 protected:
 
   ImageAdaptor();
-  ~ImageAdaptor() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
-  void Graft(const DataObject *data) ITK_OVERRIDE;
+  ~ImageAdaptor() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void Graft(const DataObject *data) override;
   using Superclass::Graft;
 
 private:

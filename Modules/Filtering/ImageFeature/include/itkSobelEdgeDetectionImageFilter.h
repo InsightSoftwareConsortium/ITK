@@ -102,7 +102,7 @@ public:
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()
    */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -121,7 +121,7 @@ public:
 
 protected:
   SobelEdgeDetectionImageFilter() {}
-  ~SobelEdgeDetectionImageFilter() ITK_OVERRIDE {}
+  ~SobelEdgeDetectionImageFilter() override {}
 
   /**
    * Standard pipeline method. While this class does not implement a
@@ -130,9 +130,9 @@ protected:
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default.
    */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
   }

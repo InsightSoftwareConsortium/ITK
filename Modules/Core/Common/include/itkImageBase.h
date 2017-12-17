@@ -165,7 +165,7 @@ public:
   typedef Matrix< SpacePrecisionType, VImageDimension, VImageDimension > DirectionType;
 
   /** Restore object to initialized state. */
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** Image dimension. The dimension of an image is fixed at construction. */
   static unsigned int GetImageDimension()
@@ -281,7 +281,7 @@ public:
    * the object to be modified. This method is called internally by
    * the pipeline and therefore bypasses the modified time
    * calculation. */
-  void SetRequestedRegion( const DataObject *data ) ITK_OVERRIDE;
+  void SetRequestedRegion( const DataObject *data ) override;
 
   /** Get the region object that defines the size and starting index
    * for the region of the image requested (i.e., the region of the
@@ -568,7 +568,7 @@ public:
    * ImageBase has more meta-data than its DataObject.  Thus, it must
    * provide its own version of CopyInformation() in order to copy the
    * LargestPossibleRegion from the input parameter. */
-  void CopyInformation(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) override;
 
   /** Graft the data and information from one image to another. This
    * is a convenience method to setup a second image with all the meta
@@ -589,7 +589,7 @@ public:
    * ProcessObject::UpdateOutputInformation() which determines modified
    * times, LargestPossibleRegions, and any extra meta data like spacing,
    * origin, etc. */
-  void UpdateOutputInformation() ITK_OVERRIDE;
+  void UpdateOutputInformation() override;
 
   /** UpdateOutputData() is part of the pipeline infrastructure to
    * communicate between ProcessObjects and DataObjects. The method of
@@ -598,12 +598,12 @@ public:
    * input's requested region to zero, to indicate that it does not
    * need to be updated or executed.
    */
-  void UpdateOutputData() ITK_OVERRIDE;
+  void UpdateOutputData() override;
 
   /** Set the RequestedRegion to the LargestPossibleRegion.  This
    * forces a filter to produce all of the output in one execution
    * (i.e. not streaming) on the next call to Update(). */
-  void SetRequestedRegionToLargestPossibleRegion() ITK_OVERRIDE;
+  void SetRequestedRegionToLargestPossibleRegion() override;
 
   /** Determine whether the RequestedRegion is outside of the
    * BufferedRegion. This method returns true if the RequestedRegion
@@ -614,7 +614,7 @@ public:
    * inside the BufferedRegion from the previous execution (and the
    * current filter is up to date), then a given filter does not need
    * to re-execute */
-  bool RequestedRegionIsOutsideOfTheBufferedRegion() ITK_OVERRIDE;
+  bool RequestedRegionIsOutsideOfTheBufferedRegion() override;
 
   /** Verify that the RequestedRegion is within the
    * LargestPossibleRegion.  If the RequestedRegion is not within the
@@ -624,7 +624,7 @@ public:
    * used by PropagateRequestedRegion().  PropagateRequestedRegion()
    * throws a InvalidRequestedRegionError exception is the requested
    * region is not within the LargestPossibleRegion. */
-  bool VerifyRequestedRegion() ITK_OVERRIDE;
+  bool VerifyRequestedRegion() override;
 
   /** INTERNAL This method is used internally by filters to copy meta-data from
    * the output to the input. Users should not have a need to use this method.
@@ -649,8 +649,8 @@ public:
 
 protected:
   ImageBase();
-  ~ImageBase() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImageBase() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Calculate the offsets needed to move from one pixel to the next
    * along a row, column, slice, volume, etc. These offsets are based
@@ -727,7 +727,7 @@ protected:
     return index;
     }
 
-  void Graft(const DataObject *data) ITK_OVERRIDE;
+  void Graft(const DataObject *data) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageBase);

@@ -116,12 +116,12 @@ protected:
 
 protected:
   BinaryMinMaxCurvatureFlowImageFilter();
-  ~BinaryMinMaxCurvatureFlowImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BinaryMinMaxCurvatureFlowImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMinMaxCurvatureFlowImageFilter);

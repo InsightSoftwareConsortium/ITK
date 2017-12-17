@@ -128,8 +128,8 @@ public:
 
 protected:
   ImagePCADecompositionCalculator();
-  ~ImagePCADecompositionCalculator() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImagePCADecompositionCalculator() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void CalculateBasisMatrix();
 

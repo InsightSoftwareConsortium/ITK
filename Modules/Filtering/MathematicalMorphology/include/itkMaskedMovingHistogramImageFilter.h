@@ -118,11 +118,11 @@ public:
   /** Get the modified mask image */
   MaskImageType * GetOutputMask();
 
-  void AllocateOutputs() ITK_OVERRIDE;
+  void AllocateOutputs() override;
 
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   itkSetMacro(FillValue, OutputPixelType);
   itkGetConstMacro(FillValue, OutputPixelType);
@@ -143,14 +143,14 @@ public:
 
 protected:
   MaskedMovingHistogramImageFilter();
-  ~MaskedMovingHistogramImageFilter() ITK_OVERRIDE {}
+  ~MaskedMovingHistogramImageFilter() override {}
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId) ITK_OVERRIDE;
+                             ThreadIdType threadId) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void pushHistogram(HistogramType & histogram,
                      const OffsetListType *addedList,

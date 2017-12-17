@@ -89,7 +89,7 @@ protected:
     m_Mesh = (MeshType *)ITK_NULLPTR;
   }
 
-  ~QuadEdgeMeshFunctionBase() ITK_OVERRIDE {}
+  ~QuadEdgeMeshFunctionBase() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshFunctionBase);

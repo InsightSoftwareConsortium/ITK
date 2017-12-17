@@ -53,17 +53,17 @@ public:
   typedef Array<ScalarType> ArrayType;
 
   /** Evaluate at the specified input position */
-  OutputType Evaluate(const InputType& input) const ITK_OVERRIDE = 0;
+  OutputType Evaluate(const InputType& input) const override = 0;
 
   /** Evaluate the derivative at the specified input position */
   virtual OutputType EvaluateDerivative(const InputType& input) const = 0;
 
 protected:
   TransferFunctionBase() {};
-  ~TransferFunctionBase() ITK_OVERRIDE {};
+  ~TransferFunctionBase() override {};
 
   /** Method to print the object. */
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE
+  void PrintSelf( std::ostream& os, Indent indent ) const override
     {
     os << indent << "TransferFunctionBase(" << this << ")" << std::endl;
     Superclass::PrintSelf( os, indent );

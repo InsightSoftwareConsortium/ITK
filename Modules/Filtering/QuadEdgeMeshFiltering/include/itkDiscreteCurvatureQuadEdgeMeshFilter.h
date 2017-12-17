@@ -70,7 +70,7 @@ public:
 
 protected:
   DiscreteCurvatureQuadEdgeMeshFilter() : m_OutputMesh(ITK_NULLPTR) {}
-  ~DiscreteCurvatureQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~DiscreteCurvatureQuadEdgeMeshFilter() override {}
 
   virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP) = 0;
 
@@ -93,7 +93,7 @@ protected:
     return static_cast< OutputCurvatureType >( TriangleType::ComputeMixedArea( p[0], p[1], p[2] ) );
   }
 
-  void GenerateData() ITK_OVERRIDE
+  void GenerateData() override
   {
     this->CopyInputMeshToOutputMesh();
 

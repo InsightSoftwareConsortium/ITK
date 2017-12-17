@@ -59,23 +59,23 @@ public:
   void AddLogOutput(OutputType *output);
 
   /** Broadcast a flush operation to all the output streams */
-  void Flush() ITK_OVERRIDE;
+  void Flush() override;
 
   /** Write to multiple outputs */
-  void Write(double timestamp) ITK_OVERRIDE;
+  void Write(double timestamp) override;
 
   /** Write to multiple outputs */
-  void Write(const std::string & content) ITK_OVERRIDE;
+  void Write(const std::string & content) override;
 
   /** Write to a buffer */
-  void Write(const std::string & content, double timestamp) ITK_OVERRIDE;
+  void Write(const std::string & content, double timestamp) override;
 
 protected:
   /** Constructor */
   MultipleLogOutput();
 
   /** Destructor */
-  ~MultipleLogOutput() ITK_OVERRIDE;
+  ~MultipleLogOutput() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultipleLogOutput);

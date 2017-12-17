@@ -57,12 +57,12 @@ public:
   /**
    * Execute method will print data at each iteration
    */
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  virtual void Execute(itk::Object *caller, const itk::EventObject & event) override
   {
     Execute( (const itk::Object *)caller, event);
   }
 
-  virtual void Execute(const itk::Object *, const itk::EventObject & event) ITK_OVERRIDE
+  virtual void Execute(const itk::Object *, const itk::EventObject & event) override
   {
     if( typeid( event ) == typeid( itk::StartEvent ) )
       {

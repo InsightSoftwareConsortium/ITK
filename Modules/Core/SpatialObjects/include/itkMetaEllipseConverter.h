@@ -58,17 +58,17 @@ public:
   typedef MetaEllipse                                     EllipseMetaObjectType;
 
   /** Convert the MetaObject to Spatial Object */
-  SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) ITK_OVERRIDE;
+  SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;
 
   /** Convert the SpatialObject to MetaObject */
-  MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) ITK_OVERRIDE;
+  MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) override;
 
 protected:
   /** Create the specific MetaObject for this class */
-  MetaObjectType *CreateMetaObject() ITK_OVERRIDE;
+  MetaObjectType *CreateMetaObject() override;
 
   MetaEllipseConverter();
-  ~MetaEllipseConverter() ITK_OVERRIDE {}
+  ~MetaEllipseConverter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaEllipseConverter);

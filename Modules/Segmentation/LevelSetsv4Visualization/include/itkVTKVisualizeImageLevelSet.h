@@ -86,7 +86,7 @@ public:
 
 protected:
   VTKVisualizeImageLevelSet();
-  ~VTKVisualizeImageLevelSet() ITK_OVERRIDE;
+  ~VTKVisualizeImageLevelSet() override;
 
   /** Setup the VTK pipeline for a Render() call. */
   virtual void PrepareVTKPipeline() = 0;

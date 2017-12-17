@@ -128,7 +128,7 @@ public:
 
   /** Prepare the allocation of the output mesh during the first back
    * propagation of the pipeline. */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   template< typename T >
   void ReadPoints(T *buffer);
@@ -142,8 +142,8 @@ public:
 
 protected:
   MeshFileReader();
-  ~MeshFileReader() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MeshFileReader() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Convert a block of pixels from one type to another. */
   template< typename T >
@@ -160,7 +160,7 @@ protected:
   void TestFileExistanceAndReadability();
 
   /** Does the real work. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   MeshIOBase::Pointer m_MeshIO;
   bool                m_UserSpecifiedMeshIO; // keep track whether the MeshIO is

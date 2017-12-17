@@ -108,7 +108,7 @@ public:
 
 protected:
   MedianProjectionImageFilter() {}
-  ~MedianProjectionImageFilter() ITK_OVERRIDE {}
+  ~MedianProjectionImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MedianProjectionImageFilter);

@@ -74,10 +74,10 @@ public:
 
 protected:
   NeighborhoodSampler();
-  ~NeighborhoodSampler() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NeighborhoodSampler() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodSampler);

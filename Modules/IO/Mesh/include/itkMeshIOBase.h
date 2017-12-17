@@ -513,9 +513,9 @@ public:
 
 protected:
   MeshIOBase();
-  ~MeshIOBase() ITK_OVERRIDE {}
+  ~MeshIOBase() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Insert an extension to the list of supported extensions for reading. */
   void AddSupportedReadExtension(const char *extension);

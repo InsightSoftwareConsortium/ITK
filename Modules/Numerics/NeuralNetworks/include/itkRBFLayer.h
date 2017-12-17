@@ -69,28 +69,28 @@ public:
   //Member Functions
   itkGetConstReferenceMacro(RBF_Dim, unsigned int);
   void SetRBF_Dim(unsigned int size);
-  void SetNumberOfNodes(unsigned int numNodes) ITK_OVERRIDE;
-  ValueType GetInputValue(unsigned int i) const ITK_OVERRIDE;
+  void SetNumberOfNodes(unsigned int numNodes) override;
+  ValueType GetInputValue(unsigned int i) const override;
   void SetInputValue(unsigned int i, ValueType value);
 
-  ValueType GetOutputValue(unsigned int) const ITK_OVERRIDE;
+  ValueType GetOutputValue(unsigned int) const override;
   virtual void SetOutputValue(unsigned int, ValueType);
 
-  ValueType * GetOutputVector() ITK_OVERRIDE;
+  ValueType * GetOutputVector() override;
   void SetOutputVector(TMeasurementVector value);
 
-  void ForwardPropagate() ITK_OVERRIDE;
-  void ForwardPropagate(TMeasurementVector input) ITK_OVERRIDE;
+  void ForwardPropagate() override;
+  void ForwardPropagate(TMeasurementVector input) override;
 
-  void BackwardPropagate() ITK_OVERRIDE;
-  void BackwardPropagate(TTargetVector itkNotUsed(errors)) ITK_OVERRIDE {};
+  void BackwardPropagate() override;
+  void BackwardPropagate(TTargetVector itkNotUsed(errors)) override {};
 
-  void SetOutputErrorValues(TTargetVector) ITK_OVERRIDE;
-  ValueType GetOutputErrorValue(unsigned int node_id) const ITK_OVERRIDE;
+  void SetOutputErrorValues(TTargetVector) override;
+  ValueType GetOutputErrorValue(unsigned int node_id) const override;
 
-  ValueType GetInputErrorValue(unsigned int node_id) const ITK_OVERRIDE;
-  ValueType * GetInputErrorVector() ITK_OVERRIDE;
-  void SetInputErrorValue(ValueType, unsigned int node_id) ITK_OVERRIDE;
+  ValueType GetInputErrorValue(unsigned int node_id) const override;
+  ValueType * GetInputErrorVector() override;
+  void SetInputErrorValue(ValueType, unsigned int node_id) override;
 
   //TMeasurementVector GetCenter(int i);
   InternalVectorType GetCenter(unsigned int i) const;
@@ -99,8 +99,8 @@ public:
   ValueType GetRadii(unsigned int i) const;
   void SetRadii(ValueType c,unsigned int i);
 
-  ValueType Activation(ValueType) ITK_OVERRIDE;
-  ValueType DActivation(ValueType) ITK_OVERRIDE;
+  ValueType Activation(ValueType) override;
+  ValueType DActivation(ValueType) override;
 
   /** Set/Get the bias */
   itkSetMacro( Bias, ValueType );
@@ -118,10 +118,10 @@ public:
 protected:
 
   RBFLayer();
-  ~RBFLayer() ITK_OVERRIDE;
+  ~RBFLayer() override;
 
   /** Method to print the object. */
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
 

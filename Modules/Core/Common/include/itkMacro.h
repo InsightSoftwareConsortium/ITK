@@ -284,7 +284,7 @@ namespace itk
     }
 
 #define itkCreateAnotherMacro(x)                               \
-  virtual ::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE \
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const override \
     {                                                          \
     ::itk::LightObject::Pointer smartPtr;                      \
     smartPtr = x::New().GetPointer();                          \
@@ -320,7 +320,7 @@ namespace itk
     rawPtr->UnRegister();                                      \
     return smartPtr;                                           \
     }                                                          \
-  virtual ::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE \
+  virtual ::itk::LightObject::Pointer CreateAnother(void) const override \
     {                                                          \
     ::itk::LightObject::Pointer smartPtr;                      \
     smartPtr = x::New().GetPointer();                          \
@@ -341,7 +341,7 @@ namespace itk
 /** Macro used to add standard methods to all classes, mainly type
  * information. */
 #define itkTypeMacro(thisClass, superclass)  \
-  virtual const char *GetNameOfClass() const ITK_OVERRIDE \
+  virtual const char *GetNameOfClass() const override \
     {                                        \
     return #thisClass;                      \
     }

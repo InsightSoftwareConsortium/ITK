@@ -97,19 +97,19 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
   GaussianRandomSpatialNeighborSubsampler();
-  ~GaussianRandomSpatialNeighborSubsampler() ITK_OVERRIDE {};
+  ~GaussianRandomSpatialNeighborSubsampler() override {};
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 /** method to randomly generate an integer in the closed range
    * [0, upperBound]
    * usign a gaussian selection method. */
   RandomIntType GetIntegerVariate(RandomIntType lowerBound,
                                           RandomIntType upperBound,
-                                          RandomIntType mean) ITK_OVERRIDE;
+                                          RandomIntType mean) override;
 
   RealType m_Variance;
 

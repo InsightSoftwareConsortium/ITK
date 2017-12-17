@@ -106,17 +106,17 @@ public:
 
 protected:
   ProjectionImageFilter();
-  ~ProjectionImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ProjectionImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Apply changes to the output image information. */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** Apply changes to the input image requested region. */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   void ThreadedGenerateData(
-    const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+    const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
   virtual AccumulatorType NewAccumulator( SizeValueType ) const;
 

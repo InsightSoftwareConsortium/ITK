@@ -56,10 +56,10 @@ public:
   vnl_levenberg_marquardt * GetOptimizer() const;
 
   /** Start optimization with an initial value. */
-  void StartOptimization(void) ITK_OVERRIDE;
+  void StartOptimization(void) override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetCostFunction(MultipleValuedCostFunction *costFunction) ITK_OVERRIDE;
+  void SetCostFunction(MultipleValuedCostFunction *costFunction) override;
 
   void SetNumberOfIterations(unsigned int iterations);
 
@@ -72,11 +72,11 @@ public:
   /** Get the current value */
   MeasureType GetValue() const;
 
-  const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const override;
 
 protected:
   LevenbergMarquardtOptimizer();
-  ~LevenbergMarquardtOptimizer() ITK_OVERRIDE;
+  ~LevenbergMarquardtOptimizer() override;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 

@@ -148,9 +148,9 @@ public:
 protected:
 
   CSVArray2DDataObject();
-  ~CSVArray2DDataObject() ITK_OVERRIDE {}
+  ~CSVArray2DDataObject() override {}
   /** Print method */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   MatrixType             m_Matrix;

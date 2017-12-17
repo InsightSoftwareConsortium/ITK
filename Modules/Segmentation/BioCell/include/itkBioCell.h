@@ -47,7 +47,7 @@ public:
   friend class CellularAggregateBase; // need to give access to the constructor.
 
 public:
-  ~Cell() ITK_OVERRIDE;
+  ~Cell() override;
   virtual void ClearForce();
 
   virtual void AddForce(const VectorType & force);
@@ -56,7 +56,7 @@ public:
 
   virtual void Mitosis();
 
-  void Apoptosis(void) ITK_OVERRIDE;
+  void Apoptosis(void) override;
 
   virtual void ReceptorsReading();
 
@@ -71,7 +71,7 @@ public:
     return "Primitive Cell";
   }
 
-  bool CheckPointApoptosis() ITK_OVERRIDE
+  bool CheckPointApoptosis() override
     { return CellBase::CheckPointApoptosis(); }
 
   static Cell * CreateEgg();

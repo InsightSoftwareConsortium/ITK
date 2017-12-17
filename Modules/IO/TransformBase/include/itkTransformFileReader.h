@@ -83,10 +83,10 @@ public:
   itkGetConstObjectMacro( TransformIO, TransformIOType );
 
 protected:
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   TransformFileReaderTemplate();
-  ~TransformFileReaderTemplate() ITK_OVERRIDE;
+  ~TransformFileReaderTemplate() override;
 
   TransformListType                 m_TransformList;
   typename TransformIOType::Pointer m_TransformIO;

@@ -87,7 +87,7 @@ public:
    * If this filter runs "Repetitions" iterations, then it needs an input
    * that is 2*Repetitions larger than the output. In other words, this
    * filter needs a border of "Repetitions" pixels. */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -103,11 +103,11 @@ public:
 
 protected:
   BinomialBlurImageFilter();
-  ~BinomialBlurImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BinomialBlurImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method for evaluating the implicit function over the image. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinomialBlurImageFilter);

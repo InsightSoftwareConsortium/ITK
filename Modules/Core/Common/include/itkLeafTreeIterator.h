@@ -42,21 +42,21 @@ public:
   LeafTreeIterator(TreeType *tree);
 
   /** Destructor */
-  ~LeafTreeIterator() ITK_OVERRIDE;
+  ~LeafTreeIterator() override;
 
   /** Return the type of iterator */
-  NodeType GetType() const ITK_OVERRIDE;
+  NodeType GetType() const override;
 
   /** Clone function */
-  TreeIteratorBase< TTreeType > * Clone() ITK_OVERRIDE;
+  TreeIteratorBase< TTreeType > * Clone() override;
 
 protected:
 
   /** Return the next value */
-  const ValueType & Next() ITK_OVERRIDE;
+  const ValueType & Next() override;
 
   /** Return true if the next value exists */
-  bool HasNext() const ITK_OVERRIDE;
+  bool HasNext() const override;
 
 private:
 

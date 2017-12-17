@@ -86,15 +86,15 @@ public:
 
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */
-  void PopulateListDomain() ITK_OVERRIDE;
+  void PopulateListDomain() override;
 
 protected:
   LevelSetDomainPartitionImage();
-  ~LevelSetDomainPartitionImage() ITK_OVERRIDE;
+  ~LevelSetDomainPartitionImage() override;
 
   /** Allocate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */
-  void AllocateListDomain() ITK_OVERRIDE;
+  void AllocateListDomain() override;
 
   ImageConstPointer               m_Image;
   ListImagePointer                m_ListDomain;

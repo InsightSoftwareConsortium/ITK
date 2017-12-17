@@ -158,8 +158,8 @@ protected:
     m_ForegroundValue = NumericTraits< OutputImagePixelType >::OneValue();
   }
 
-  ~ZeroCrossingBasedEdgeDetectionImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ZeroCrossingBasedEdgeDetectionImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
@@ -167,7 +167,7 @@ protected:
    * a LaplacianImageFilter and a ZeroCrossingImageFilter.  Since these
    * filters are multithreaded, this filter is multithreaded by default.
    */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ZeroCrossingBasedEdgeDetectionImageFilter);

@@ -104,7 +104,7 @@ public:
 
 protected:
   MinimumProjectionImageFilter() {}
-  ~MinimumProjectionImageFilter() ITK_OVERRIDE {}
+  ~MinimumProjectionImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MinimumProjectionImageFilter);

@@ -106,12 +106,12 @@ public:
   const TImage * GetImage() const;
 
   /** returns the number of measurement vectors in this container */
-  InstanceIdentifier Size() const ITK_OVERRIDE;
+  InstanceIdentifier Size() const override;
 
   /** method to return measurement vector for a specified id */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const override;
 
-  MeasurementVectorSizeType GetMeasurementVectorSize() const ITK_OVERRIDE
+  MeasurementVectorSizeType GetMeasurementVectorSize() const override
   {
     // some filter are expected that this method returns something even if the
     // input is not set. This won't be the right value for a variable length vector
@@ -127,10 +127,10 @@ public:
   }
 
   /** method to return frequency for a specified id */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const override;
 
   /** method to return the total frequency */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const override;
 
   /** \class ConstIterator
    *  \brief Const Iterator
@@ -291,8 +291,8 @@ public:
 
 protected:
   ImageToListSampleAdaptor();
-  ~ImageToListSampleAdaptor() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImageToListSampleAdaptor() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToListSampleAdaptor);

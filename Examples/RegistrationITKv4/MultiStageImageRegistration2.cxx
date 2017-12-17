@@ -83,12 +83,12 @@ public:
 
   // The Execute function simply calls another version of the \code{Execute()}
   // method accepting a \code{const} input object
-  void Execute( itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute( itk::Object * object, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *) object , event );
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
     if( !(itk::MultiResolutionIterationEvent().CheckEvent( &event ) ) )
       {
@@ -139,12 +139,12 @@ public:
   typedef   itk::GradientDescentOptimizerv4Template<double>  OptimizerType;
   typedef   const OptimizerType *                            OptimizerPointer;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
     OptimizerPointer optimizer =  static_cast< OptimizerPointer >( object );
     if( optimizer == ITK_NULLPTR)

@@ -34,7 +34,7 @@ public:
 
   itkNewMacro(Self);
 
-  double GetVariate() ITK_OVERRIDE
+  double GetVariate() override
     {
     double theAnswerToTheQuestionOfLifeTheUniverseAndEverything = 42.0;
     return theAnswerToTheQuestionOfLifeTheUniverseAndEverything;

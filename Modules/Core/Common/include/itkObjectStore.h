@@ -126,8 +126,8 @@ public:
 
 protected:
   ObjectStore();
-  ~ObjectStore() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ObjectStore() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Returns a new size to grow. */
   SizeValueType GetGrowthSize();

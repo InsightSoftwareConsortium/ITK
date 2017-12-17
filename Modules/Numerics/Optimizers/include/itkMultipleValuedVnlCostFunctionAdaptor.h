@@ -74,11 +74,11 @@ public:
 
   /**  Delegate computation of the value to the CostFunction. */
   void f(const InternalParametersType & inparameters,
-                 InternalMeasureType    & measures) ITK_OVERRIDE;
+                 InternalMeasureType    & measures) override;
 
   /**  Delegate computation of the gradient to the costFunction.  */
   void gradf(const InternalParametersType   & inparameters,
-                     InternalDerivativeType   & gradient) ITK_OVERRIDE;
+                     InternalDerivativeType   & gradient) override;
 
   /**  Delegate computation of value and gradient to the costFunction.     */
   virtual void compute(const InternalParametersType   & x,

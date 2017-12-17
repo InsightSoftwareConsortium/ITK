@@ -135,21 +135,21 @@ public:
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime(void) const override;
 
 protected:
   LandmarkDisplacementFieldSource();
-  ~LandmarkDisplacementFieldSource() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LandmarkDisplacementFieldSource() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * GenerateData() computes the internal KernelBase spline and resamples
    * the displacement field.
    */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Subsample the input displacement field and generate the
    *  landmarks for the kernel base spline

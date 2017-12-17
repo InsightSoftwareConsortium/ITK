@@ -153,15 +153,15 @@ public:
 protected:
   MaskNeighborhoodOperatorImageFilter():m_DefaultValue(NumericTraits< OutputPixelType >::ZeroValue()),
     m_UseDefaultValue(true) {}
-  ~MaskNeighborhoodOperatorImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MaskNeighborhoodOperatorImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** MaskNeighborhoodOperatorImageFilter needs to request enough of an
    * input image to account for template size.  The input requested
    * region is expanded by the radius of the template.  If the request
    * extends past the LargestPossibleRegion for the input, the request
    * is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** MaskNeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a
@@ -175,7 +175,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaskNeighborhoodOperatorImageFilter);

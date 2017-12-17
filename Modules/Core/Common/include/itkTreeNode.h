@@ -120,7 +120,7 @@ public:
 protected:
 
   TreeNode();
-  ~TreeNode() ITK_OVERRIDE;
+  ~TreeNode() override;
   TValue m_Data;
 
   Self *m_Parent;

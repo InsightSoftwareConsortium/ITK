@@ -100,11 +100,11 @@ public:
 
 protected:
   AttributeKeepNObjectsLabelMapFilter();
-  ~AttributeKeepNObjectsLabelMapFilter() ITK_OVERRIDE {};
+  ~AttributeKeepNObjectsLabelMapFilter() override {};
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   class ReverseComparator
     {

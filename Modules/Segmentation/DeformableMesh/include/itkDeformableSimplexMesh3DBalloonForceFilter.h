@@ -91,19 +91,19 @@ public:
 
 protected:
   DeformableSimplexMesh3DBalloonForceFilter();
-  ~DeformableSimplexMesh3DBalloonForceFilter() ITK_OVERRIDE;
+  ~DeformableSimplexMesh3DBalloonForceFilter() override;
   DeformableSimplexMesh3DBalloonForceFilter(const Self &)
   {}
 
   void operator=(const Self &)
   {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Compute the external force component
    */
-  void ComputeExternalForce(SimplexMeshGeometry *data,const GradientImageType *gradientImage) ITK_OVERRIDE;
+  void ComputeExternalForce(SimplexMeshGeometry *data,const GradientImageType *gradientImage) override;
 
   /** Parameters definitions. */
 

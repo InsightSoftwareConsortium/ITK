@@ -33,7 +33,7 @@
     return TopologyId;                                                                               \
     }                                                                                                \
   virtual void Accept(CellIdentifier cellid, typename CellInterface< PixelType,                      \
-                      CellTraits >::MultiVisitor * mv) ITK_OVERRIDE                                  \
+                      CellTraits >::MultiVisitor * mv) override                                  \
     {                                                                                                \
     typename CellInterfaceVisitor< PixelType, CellTraits >::Pointer v =                              \
       mv->GetVisitor(TopologyId);                                                                    \
@@ -221,7 +221,7 @@ public:
         }
     }
 
-    ~MultiVisitor() ITK_OVERRIDE {}
+    ~MultiVisitor() override {}
 
 protected:
     VisitorPointer m_Visitors[LAST_ITK_CELL];      // fixed array set to the

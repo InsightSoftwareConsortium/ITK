@@ -93,7 +93,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExhaustiveOptimizer, SingleValuedNonLinearOptimizer);
 
-  void    StartOptimization(void) ITK_OVERRIDE;
+  void    StartOptimization(void) override;
 
   void StartWalking();
 
@@ -114,12 +114,12 @@ public:
   itkGetConstReferenceMacro(MaximumNumberOfIterations, SizeValueType);
 
   /** Get the reason for termination */
-  const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const override;
 
 protected:
   ExhaustiveOptimizer();
-  ~ExhaustiveOptimizer() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ExhaustiveOptimizer() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Advance to the next grid position. */
   void AdvanceOneStep();

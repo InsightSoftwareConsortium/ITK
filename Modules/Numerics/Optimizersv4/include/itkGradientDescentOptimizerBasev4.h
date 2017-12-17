@@ -94,7 +94,7 @@ public:
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
 
   /** Set the number of iterations. */
-  void SetNumberOfIterations( const SizeValueType numberOfIterations ) ITK_OVERRIDE
+  void SetNumberOfIterations( const SizeValueType numberOfIterations ) override
     {
     itkDebugMacro("setting NumberOfIterations to " << numberOfIterations );
     if ( this->m_NumberOfIterations != numberOfIterations)
@@ -105,19 +105,19 @@ public:
     }
 
   /** Get the number of iterations. */
-  SizeValueType GetNumberOfIterations() const ITK_OVERRIDE
+  SizeValueType GetNumberOfIterations() const override
     {
     return this->m_NumberOfIterations;
     }
 
   /** Get the current iteration number. */
-  SizeValueType GetCurrentIteration() const ITK_OVERRIDE
+  SizeValueType GetCurrentIteration() const override
     {
     return this->m_CurrentIteration;
     }
 
   /** Start and run the optimization */
-  void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
+  void StartOptimization( bool doOnlyInitialization = false ) override;
 
   /** Resume optimization.
    * This runs the optimization loop, and allows continuation
@@ -129,7 +129,7 @@ public:
   virtual void StopOptimization();
 
   /** Get the reason for termination */
-  const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;
+  const StopConditionReturnStringType GetStopConditionDescription() const override;
 
   /** Modify the gradient in place, to advance the optimization.
    * This call performs a threaded modification for transforms with
@@ -169,7 +169,7 @@ protected:
 
   /** Default constructor */
   GradientDescentOptimizerBasev4Template();
-  ~GradientDescentOptimizerBasev4Template() ITK_OVERRIDE;
+  ~GradientDescentOptimizerBasev4Template() override;
 
   /** Flag to control use of the ScalesEstimator (if set) for
    * automatic learning step estimation at *each* iteration.
@@ -214,7 +214,7 @@ protected:
 
   /** Current gradient */
   DerivativeType     m_Gradient;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

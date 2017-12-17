@@ -129,7 +129,7 @@ public:
   MinPriorityQueueElementWrapper(ElementType element,
                                  ElementPriorityType priority);
 
-  ~MinPriorityQueueElementWrapper() ITK_OVERRIDE;
+  ~MinPriorityQueueElementWrapper() override;
 
   bool operator>(const MinPriorityQueueElementWrapper & other) const;
 
@@ -137,17 +137,17 @@ public:
 
   bool operator==(const MinPriorityQueueElementWrapper & other) const;
 
-  ElementIdentifierType GetLocation(const MinPriorityQueueElementWrapper & element) const ITK_OVERRIDE;
+  ElementIdentifierType GetLocation(const MinPriorityQueueElementWrapper & element) const override;
 
   void SetLocation(MinPriorityQueueElementWrapper & element,
-                   const ElementIdentifierType & identifier) ITK_OVERRIDE;
+                   const ElementIdentifierType & identifier) override;
 
   // still virtual to be able to overload it in the Max flavor
   bool is_less(const MinPriorityQueueElementWrapper & element1,
-                       const MinPriorityQueueElementWrapper & element2) const ITK_OVERRIDE;
+                       const MinPriorityQueueElementWrapper & element2) const override;
 
   bool is_greater(const MinPriorityQueueElementWrapper & element1,
-                          const MinPriorityQueueElementWrapper & element2) const ITK_OVERRIDE;
+                          const MinPriorityQueueElementWrapper & element2) const override;
 
 };
 // ------------------------------------------------------------------------
@@ -180,19 +180,19 @@ public:
   MaxPriorityQueueElementWrapper(ElementType element,
                                  ElementPriorityType priority);
 
-  ~MaxPriorityQueueElementWrapper() ITK_OVERRIDE {}
+  ~MaxPriorityQueueElementWrapper() override {}
 
   virtual bool is_less(const MaxPriorityQueueElementWrapper & element1,
                const MaxPriorityQueueElementWrapper & element2) const;
 
   bool is_less(const Superclass & element1,
-               const Superclass & element2) const ITK_OVERRIDE;
+               const Superclass & element2) const override;
 
   virtual bool is_greater(const MaxPriorityQueueElementWrapper & element1,
                   const MaxPriorityQueueElementWrapper & element2) const;
 
   bool is_greater(const Superclass & element1,
-                  const Superclass & element2) const ITK_OVERRIDE;
+                  const Superclass & element2) const override;
 
 };
 // ------------------------------------------------------------------------
@@ -224,7 +224,7 @@ public:
 
 public:
   PriorityQueueContainer();
-  ~PriorityQueueContainer() ITK_OVERRIDE;
+  ~PriorityQueueContainer() override;
 
   template< typename TInputIterator >
   PriorityQueueContainer(TInputIterator first, TInputIterator last):

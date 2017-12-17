@@ -143,7 +143,7 @@ public:
    * set. While PDEDeformableRegistration can take a third input as an
    * initial displacement field, this input is not a required input.
    */
-  std::vector< SmartPointer< DataObject > >::size_type GetNumberOfValidRequiredInputs() const ITK_OVERRIDE;
+  std::vector< SmartPointer< DataObject > >::size_type GetNumberOfValidRequiredInputs() const override;
 
   /** Set/Get whether the displacement field is smoothed
    * (regularized). Smoothing the displacement yields a solution
@@ -200,12 +200,12 @@ public:
 
 protected:
   PDEDeformableRegistrationFilter();
-  ~PDEDeformableRegistrationFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PDEDeformableRegistrationFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
-  bool Halt() ITK_OVERRIDE
+  bool Halt() override
   {
     if ( m_StopRegistrationFlag )
       {
@@ -217,11 +217,11 @@ protected:
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */
-  void CopyInputToOutput() ITK_OVERRIDE;
+  void CopyInputToOutput() override;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   /** Utility to smooth the displacement field (represented in the Output)
    * using a Gaussian operator. The amount of smoothing can be specified
@@ -235,16 +235,16 @@ protected:
 
   /** This method is called after the solution has been generated. In this case,
    * the filter release the memory of the internal buffers. */
-  void PostProcessOutput() ITK_OVERRIDE;
+  void PostProcessOutput() override;
 
   /** This method is called before iterating the solution. */
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** By default the output displacement field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial displacement field.  If
    * the initial displacement field is not set, the output information is
    * copied from the fixed image. */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** It is difficult to compute in advance the input moving image region
    * required to compute the requested output region. Thus the safest
@@ -252,7 +252,7 @@ protected:
    *
    * For the fixed image and displacement field, the input requested region
    * set to be the same as that of the output requested region. */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PDEDeformableRegistrationFilter);

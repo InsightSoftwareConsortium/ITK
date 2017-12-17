@@ -122,12 +122,12 @@ public:
 
   /** Gets the total energy value of an image or a slice using the
    * given parameters. */
-  MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType GetValue(const ParametersType & parameters) const override;
 
   /** Dummy implementation to confirm to the SingleValuedCostFunction
    * interfaces. It is pure virtual in the superclass. */
   void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                      DerivativeType & itkNotUsed(derivative) ) const ITK_OVERRIDE
+                      DerivativeType & itkNotUsed(derivative) ) const override
   {}
 
   /** Set Mean and Sigma for the normal distributions
@@ -137,14 +137,14 @@ public:
   void InitializeDistributions(Array< double > classMeans,
                                Array< double > classSigmas);
 
-  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE;
+  unsigned int GetNumberOfParameters(void) const override;
 
 protected:
   /** Constructor. */
   MRIBiasEnergyFunction();
 
   /** Destructor. */
-  ~MRIBiasEnergyFunction() ITK_OVERRIDE;
+  ~MRIBiasEnergyFunction() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasEnergyFunction);
@@ -477,8 +477,8 @@ public:
 
 protected:
   MRIBiasFieldCorrectionFilter();
-  ~MRIBiasFieldCorrectionFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MRIBiasFieldCorrectionFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Checks if the mask image's dimensionality and size matches with
    * those of the input image. */
@@ -533,7 +533,7 @@ protected:
   void AdjustSlabRegions(SlabRegionVectorType & slabs,
                          OutputImageRegionType requestedRegion);
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasFieldCorrectionFilter);

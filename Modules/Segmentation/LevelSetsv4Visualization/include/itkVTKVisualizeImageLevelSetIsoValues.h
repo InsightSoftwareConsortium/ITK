@@ -94,10 +94,10 @@ public:
 
 protected:
   VTKVisualizeImageLevelSetIsoValues();
-  ~VTKVisualizeImageLevelSetIsoValues() ITK_OVERRIDE;
+  ~VTKVisualizeImageLevelSetIsoValues() override;
 
   /** Render the visualization. */
-  void PrepareVTKPipeline() ITK_OVERRIDE;
+  void PrepareVTKPipeline() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualizeImageLevelSetIsoValues);
@@ -147,7 +147,7 @@ public:
 
   typedef TLevelSet LevelSetType;
 
-  void SetInputImage( const InputImageType * iImage ) ITK_OVERRIDE;
+  void SetInputImage( const InputImageType * iImage ) override;
   void SetLevelSet( LevelSetType * levelSet );
 
   /** Set/Get the number of level set contours to visualize. */
@@ -166,10 +166,10 @@ public:
 
 protected:
   VTKVisualizeImageLevelSetIsoValues();
-  ~VTKVisualizeImageLevelSetIsoValues() ITK_OVERRIDE;
+  ~VTKVisualizeImageLevelSetIsoValues() override;
 
   /** Render the visualization. */
-  void PrepareVTKPipeline() ITK_OVERRIDE;
+  void PrepareVTKPipeline() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualizeImageLevelSetIsoValues);

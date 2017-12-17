@@ -90,7 +90,7 @@ public:
 
 protected:
   MeanImageFilter();
-  ~MeanImageFilter() ITK_OVERRIDE {}
+  ~MeanImageFilter() override {}
 
   /** MeanImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -103,7 +103,7 @@ protected:
    * \sa BoxImageFilter::ThreadedGenerateData(),
    *     BoxImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanImageFilter);

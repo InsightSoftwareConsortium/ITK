@@ -50,19 +50,19 @@ public:
   itkNewMacro(Self);
 
   /** Evaluate at the specified input position */
-  ScalarType Evaluate(const TMeasurementVector& input) const ITK_OVERRIDE;
+  ScalarType Evaluate(const TMeasurementVector& input) const override;
 
-  void SetSize(unsigned int n) ITK_OVERRIDE;
+  void SetSize(unsigned int n) override;
 
 protected:
 
   SumInputFunction();
-  ~SumInputFunction() ITK_OVERRIDE;
+  ~SumInputFunction() override;
 
   unsigned int m_Size;
 
   /** Method to print the object. */
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 };
 
 } // end namespace Statistics

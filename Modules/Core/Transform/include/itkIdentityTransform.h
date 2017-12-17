@@ -111,20 +111,20 @@ public:
   typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
 
   /**  Method to transform a point. */
-  OutputPointType TransformPoint(const InputPointType  & point) const ITK_OVERRIDE
+  OutputPointType TransformPoint(const InputPointType  & point) const override
   {
     return point;
   }
 
   /**  Method to transform a vector. */
   using Superclass::TransformVector;
-  OutputVectorType TransformVector(const InputVectorType & vector) const ITK_OVERRIDE
+  OutputVectorType TransformVector(const InputVectorType & vector) const override
   {
     return vector;
   }
 
   /**  Method to transform a vnl_vector. */
-  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const ITK_OVERRIDE
+  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const override
   {
     return vector;
   }
@@ -132,7 +132,7 @@ public:
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
   OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType & vector) const ITK_OVERRIDE
+    const InputCovariantVectorType & vector) const override
   {
     return vector;
   }
@@ -174,7 +174,7 @@ public:
    * \f]
    */
   void ComputeJacobianWithRespectToParameters( const InputPointType &,
-                                                       JacobianType & jacobian) const ITK_OVERRIDE
+                                                       JacobianType & jacobian) const override
   {
     jacobian = this->m_IdentityJacobian;
   }
@@ -184,7 +184,7 @@ public:
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
   void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType & jac) const ITK_OVERRIDE
+                                                    JacobianType & jac) const override
   {
     jac.SetSize( NDimensions, NDimensions );
     jac.Fill(0.0);
@@ -202,7 +202,7 @@ public:
 
   /** Return an inverse of the identity transform - another identity transform.
     */
-  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE
+  InverseTransformBasePointer GetInverseTransform() const override
   {
     return this->New().GetPointer();
   }
@@ -212,30 +212,30 @@ public:
    *
    * \f[ T( a*P + b*Q ) = a * T(P) + b * T(Q) \f]
    */
-  TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  TransformCategoryType GetTransformCategory() const override
   {
     return Self::Linear;
   }
 
   /** Get the Fixed Parameters. */
-  const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE
+  const FixedParametersType & GetFixedParameters() const override
   {
     return this->m_FixedParameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
+  void SetFixedParameters(const FixedParametersType &) override
   {
   }
 
   /** Get the Parameters. */
-  const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const override
   {
     return this->m_Parameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  void SetParameters(const ParametersType &) ITK_OVERRIDE
+  void SetParameters(const ParametersType &) override
   {
   }
 
@@ -248,7 +248,7 @@ protected:
     this->m_IdentityJacobian.Fill(0.0);
   }
 
-  ~IdentityTransform() ITK_OVERRIDE {}
+  ~IdentityTransform() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IdentityTransform);

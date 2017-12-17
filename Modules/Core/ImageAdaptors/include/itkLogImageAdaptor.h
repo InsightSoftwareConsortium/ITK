@@ -92,7 +92,7 @@ public:
 
 protected:
   LogImageAdaptor() {}
-  ~LogImageAdaptor() ITK_OVERRIDE {}
+  ~LogImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LogImageAdaptor);

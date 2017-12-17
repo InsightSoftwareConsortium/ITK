@@ -180,10 +180,10 @@ public:
   itkGetConstReferenceMacro(InputMaximum, InputPixelType);
 
   /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -200,7 +200,7 @@ public:
 
 protected:
   RescaleIntensityImageFilter();
-  ~RescaleIntensityImageFilter() ITK_OVERRIDE {}
+  ~RescaleIntensityImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RescaleIntensityImageFilter);

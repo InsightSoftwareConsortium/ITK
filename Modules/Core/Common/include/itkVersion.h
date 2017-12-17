@@ -86,7 +86,7 @@ public:
 
 protected:
   Version();
-  ~Version() ITK_OVERRIDE;
+  ~Version() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Version);

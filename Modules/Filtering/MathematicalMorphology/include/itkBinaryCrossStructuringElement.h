@@ -97,7 +97,7 @@ public:
   }
 
   /** Default destructor. */
-  ~BinaryCrossStructuringElement() ITK_OVERRIDE {}
+  ~BinaryCrossStructuringElement() override {}
 
   /** Copy constructor. */
   BinaryCrossStructuringElement(const Self & other):

@@ -65,7 +65,7 @@ public:
 
 protected:
   AddImageAdaptor() {}
-  ~AddImageAdaptor() ITK_OVERRIDE {}
+  ~AddImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AddImageAdaptor);

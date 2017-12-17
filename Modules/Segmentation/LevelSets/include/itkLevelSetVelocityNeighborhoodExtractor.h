@@ -125,12 +125,12 @@ public:
 
 protected:
   LevelSetVelocityNeighborhoodExtractor();
-  ~LevelSetVelocityNeighborhoodExtractor() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LevelSetVelocityNeighborhoodExtractor() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
-  double CalculateDistance(Index & index) ITK_OVERRIDE;
+  double CalculateDistance(Index & index) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetVelocityNeighborhoodExtractor);

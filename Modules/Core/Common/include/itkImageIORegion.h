@@ -83,7 +83,7 @@ public:
   unsigned int GetRegionDimension() const;
 
   /** Return the region type. Images are described with structured regions. */
-  RegionType GetRegionType() const ITK_OVERRIDE;
+  RegionType GetRegionType() const override;
 
   /** Constructor. ImageIORegion is a lightweight object that is not reference
    * counted, so the constructor is public. */
@@ -95,7 +95,7 @@ public:
 
   /** Destructor. ImageIORegion is a lightweight object that is not reference
    * counted, so the destructor is public. */
-  ~ImageIORegion() ITK_OVERRIDE;
+  ~ImageIORegion() override;
 
   /** Copy constructor. ImageIORegion is a lightweight object that is not
    * reference counted, so the copy constructor is public. */
@@ -152,7 +152,7 @@ protected:
    * including superclasses. Typically not called by the user (use Print()
    * instead) but used in the hierarchical print process to combine the
    * output of several classes.  */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   unsigned int m_ImageDimension;

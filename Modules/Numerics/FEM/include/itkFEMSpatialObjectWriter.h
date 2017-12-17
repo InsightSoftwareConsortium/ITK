@@ -52,7 +52,7 @@ protected:
   std::string m_FileName;
 
   FEMSpatialObjectWriter();
-  ~FEMSpatialObjectWriter() ITK_OVERRIDE {}
+  ~FEMSpatialObjectWriter() override {}
 
 };
 

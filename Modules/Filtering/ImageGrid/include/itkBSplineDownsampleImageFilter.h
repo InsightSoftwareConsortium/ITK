@@ -116,10 +116,10 @@ public:
 
   /** Creates an image half the size of the input image with spacing twice the
     * input image. */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** This filter requires all of the input image */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -130,12 +130,12 @@ public:
 
 protected:
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
   BSplineDownsampleImageFilter();
-  ~BSplineDownsampleImageFilter() ITK_OVERRIDE {}
+  ~BSplineDownsampleImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDownsampleImageFilter);

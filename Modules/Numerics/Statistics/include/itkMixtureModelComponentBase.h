@@ -130,8 +130,8 @@ public:
 
 protected:
   MixtureModelComponentBase();
-  ~MixtureModelComponentBase() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MixtureModelComponentBase() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** stores the pointer to the membership function.
    * subclasses use this function to store their membership function

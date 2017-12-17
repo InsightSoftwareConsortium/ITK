@@ -295,7 +295,7 @@ public:
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  void SetInputImage(const ImageType *image) ITK_OVERRIDE;
+  void SetInputImage(const ImageType *image) override;
 
   /** Evaluate the function at a ContinuousIndex position
    *
@@ -304,12 +304,12 @@ public:
    * type of the TBoundaryCondition specified.
    */
   OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const ITK_OVERRIDE;
+    const ContinuousIndexType & index) const override;
 
 protected:
   WindowedSincInterpolateImageFunction();
-  ~WindowedSincInterpolateImageFunction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~WindowedSincInterpolateImageFunction() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WindowedSincInterpolateImageFunction);

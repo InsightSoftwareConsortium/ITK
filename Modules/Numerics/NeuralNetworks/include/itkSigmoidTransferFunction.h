@@ -61,18 +61,18 @@ public:
   itkGetMacro(OutputMaximum,ScalarType);
 
   /** Evaluate at the specified input position */
-  ScalarType Evaluate(const ScalarType& input) const ITK_OVERRIDE;
+  ScalarType Evaluate(const ScalarType& input) const override;
 
   /** Evaluate the derivative at the specified input position */
-  ScalarType EvaluateDerivative(const ScalarType& input) const ITK_OVERRIDE;
+  ScalarType EvaluateDerivative(const ScalarType& input) const override;
 
 protected:
 
   SigmoidTransferFunction();
-  ~SigmoidTransferFunction() ITK_OVERRIDE;
+  ~SigmoidTransferFunction() override;
 
   /** Method to print the object. */
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
 

@@ -91,7 +91,7 @@ public:
    * \author Hans J. Johnson
    * \return A pointer to a const char array containing the unique type name.
    */
-  const char * GetMetaDataObjectTypeName() const ITK_OVERRIDE;
+  const char * GetMetaDataObjectTypeName() const override;
 
   /**
    * The definition of this function is necessary to fulfill
@@ -99,7 +99,7 @@ public:
    * \author Hans J. Johnson
    * \return A constant reference to a std::type_info object
    */
-  const std::type_info & GetMetaDataObjectTypeInfo() const ITK_OVERRIDE;
+  const std::type_info & GetMetaDataObjectTypeInfo() const override;
 
   /**
    * Function to return the stored value of type MetaDataObjectType.
@@ -119,11 +119,11 @@ public:
    * Defines the default behavior for printing out this element
    * \param os An output stream
    */
-  void Print(std::ostream & os) const ITK_OVERRIDE;
+  void Print(std::ostream & os) const override;
 
 protected:
   MetaDataObject();
-  ~MetaDataObject() ITK_OVERRIDE;
+  ~MetaDataObject() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaDataObject);

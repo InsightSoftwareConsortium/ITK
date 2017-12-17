@@ -115,9 +115,9 @@ public:
 
 protected:
   InitializationBiasedParticleSwarmOptimizer();
-  ~InitializationBiasedParticleSwarmOptimizer() ITK_OVERRIDE {};
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
-  void UpdateSwarm() ITK_OVERRIDE;
+  ~InitializationBiasedParticleSwarmOptimizer() override {};
+  void PrintSelf(std::ostream& os, Indent indent) const override;
+  void UpdateSwarm() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(InitializationBiasedParticleSwarmOptimizer);

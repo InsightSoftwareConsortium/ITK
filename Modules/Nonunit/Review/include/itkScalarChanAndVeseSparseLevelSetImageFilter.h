@@ -139,17 +139,17 @@ protected:
     this->m_SharedData = SharedDataType::New();
   }
 
-  ~ScalarChanAndVeseSparseLevelSetImageFilter() ITK_OVERRIDE {}
+  ~ScalarChanAndVeseSparseLevelSetImageFilter() override {}
 
   SharedDataPointer m_SharedData;
 
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
-  void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   void UpdatePixel(unsigned int functionIndex,
                            unsigned int idx, NeighborhoodIterator< InputImageType > & iterator,
-                           ValueType & newValue, bool & status) ITK_OVERRIDE;
+                           ValueType & newValue, bool & status) override;
 };
 } //end namespace itk
 

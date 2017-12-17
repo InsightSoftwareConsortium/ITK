@@ -64,11 +64,11 @@ public:
   itkTypeMacro(ScalarAnisotropicDiffusionFunction,
                AnisotropicDiffusionFunction);
 
-  void CalculateAverageGradientMagnitudeSquared(TImage *) ITK_OVERRIDE;
+  void CalculateAverageGradientMagnitudeSquared(TImage *) override;
 
 protected:
   ScalarAnisotropicDiffusionFunction() {}
-  ~ScalarAnisotropicDiffusionFunction() ITK_OVERRIDE {}
+  ~ScalarAnisotropicDiffusionFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarAnisotropicDiffusionFunction);

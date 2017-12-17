@@ -83,7 +83,7 @@ public:
 
 protected:
   ConditionVariable();
-  ~ConditionVariable() ITK_OVERRIDE;
+  ~ConditionVariable() override;
 
 private:
   ConditionVariable(const Self & other);

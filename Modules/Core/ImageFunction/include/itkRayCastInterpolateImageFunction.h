@@ -110,7 +110,7 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method.
    */
-  OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
+  OutputType Evaluate(const PointType & point) const override;
 
   /** Interpolate the image at a continuous index position
    *
@@ -124,7 +124,7 @@ public:
    * calling the method.
    */
   OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const ITK_OVERRIDE;
+    const ContinuousIndexType & index) const override;
 
   /** Connect the Transform.
     * This Transformation is used to calculate the new focal point position.
@@ -148,26 +148,26 @@ public:
   /** Check if a point is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image pointer is done. */
-  bool IsInsideBuffer(const PointType &) const ITK_OVERRIDE
+  bool IsInsideBuffer(const PointType &) const override
   {
     return true;
   }
 
-  bool IsInsideBuffer(const ContinuousIndexType &) const ITK_OVERRIDE
+  bool IsInsideBuffer(const ContinuousIndexType &) const override
   {
     return true;
   }
 
-  bool IsInsideBuffer(const IndexType &) const ITK_OVERRIDE
+  bool IsInsideBuffer(const IndexType &) const override
   {
     return true;
   }
 
 protected:
   RayCastInterpolateImageFunction();
-  ~RayCastInterpolateImageFunction() ITK_OVERRIDE {}
+  ~RayCastInterpolateImageFunction() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   TransformPointer    m_Transform;
   InputPointType      m_FocalPoint;

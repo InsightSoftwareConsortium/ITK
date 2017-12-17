@@ -180,9 +180,9 @@ public:
   itkGetConstReferenceMacro(Shift, RealType);
 
   /** Process to execute before entering the multithreaded section. */
-  void BeforeThreadedGenerateData(void) ITK_OVERRIDE;
+  void BeforeThreadedGenerateData(void) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -193,7 +193,7 @@ public:
 
 protected:
   IntensityWindowingImageFilter();
-  ~IntensityWindowingImageFilter() ITK_OVERRIDE {}
+  ~IntensityWindowingImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IntensityWindowingImageFilter);

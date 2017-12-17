@@ -94,15 +94,15 @@ public:
    * calling the method. */
   OutputType EvaluateAtContinuousIndex(const
                                                 ContinuousIndexType &
-                                                index) const ITK_OVERRIDE
+                                                index) const override
   {
     return this->EvaluateOptimized(Dispatch< ImageDimension >(), index);
   }
 
 protected:
   LinearInterpolateImageFunction();
-  ~LinearInterpolateImageFunction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LinearInterpolateImageFunction() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LinearInterpolateImageFunction);

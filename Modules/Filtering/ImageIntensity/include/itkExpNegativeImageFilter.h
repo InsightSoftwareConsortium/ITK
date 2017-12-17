@@ -135,7 +135,7 @@ public:
 
 protected:
   ExpNegativeImageFilter() {}
-  ~ExpNegativeImageFilter() ITK_OVERRIDE {}
+  ~ExpNegativeImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpNegativeImageFilter);

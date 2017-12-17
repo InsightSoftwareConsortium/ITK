@@ -242,7 +242,7 @@ public:
                             bool start = true,
                             QEType *seed  = (QEType *)0):
     Superclass(mesh, start, seed) {}
-  ~QuadEdgeMeshFrontIterator() ITK_OVERRIDE {}
+  ~QuadEdgeMeshFrontIterator() override {}
   QEType * Value() { return ( this->m_CurrentEdge ); }
 };
 
@@ -276,7 +276,7 @@ public:
   }
 
   /** \todo do we need here a    : Superclass( mesh, start, seed ) { } */
-  ~QuadEdgeMeshConstFrontIterator() ITK_OVERRIDE {}
+  ~QuadEdgeMeshConstFrontIterator() override {}
   Self & operator=(const NoConstType & r)
   {
     this->m_Mesh  = r.GetMesh();

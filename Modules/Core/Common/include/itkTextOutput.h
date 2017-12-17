@@ -37,12 +37,12 @@ public:
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(TextOutput);
 
-  void DisplayText(const char *s) ITK_OVERRIDE
+  void DisplayText(const char *s) override
   { std::cout << s << std::endl; }
 
 protected:
   TextOutput();
-  ~TextOutput() ITK_OVERRIDE;
+  ~TextOutput() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TextOutput);

@@ -89,9 +89,9 @@ protected:
   InputImageType * GetNonConstImageInput();
   InputPathType * GetNonConstPathInput();
   ImageAndPathToImageFilter();
-  ~ImageAndPathToImageFilter() ITK_OVERRIDE {}
+  ~ImageAndPathToImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageAndPathToImageFilter);

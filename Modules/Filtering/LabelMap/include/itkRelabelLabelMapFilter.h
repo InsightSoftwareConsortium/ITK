@@ -88,7 +88,7 @@ protected:
     {
     this->SetReverseOrdering( true );
     }
-  ~RelabelLabelMapFilter() ITK_OVERRIDE {}
+  ~RelabelLabelMapFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RelabelLabelMapFilter);

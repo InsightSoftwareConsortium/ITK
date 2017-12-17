@@ -92,7 +92,7 @@ public:
 
 protected:
   XorImageFilter() {}
-  ~XorImageFilter() ITK_OVERRIDE {}
+  ~XorImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(XorImageFilter);

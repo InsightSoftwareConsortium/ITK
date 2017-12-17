@@ -70,14 +70,14 @@ public:
 
 protected:
   CorrelationImageToImageMetricv4GetValueAndDerivativeThreader();
-  ~CorrelationImageToImageMetricv4GetValueAndDerivativeThreader() ITK_OVERRIDE;
+  ~CorrelationImageToImageMetricv4GetValueAndDerivativeThreader() override;
 
   /** Overload: Resize and initialize per thread objects:
    *    number of valid points
    *    moving transform jacobian
    *    cross-correlation specific variables
    *  */
-  void BeforeThreadedExecution() ITK_OVERRIDE;
+  void BeforeThreadedExecution() override;
 
   /** Overload:
    * Collects the results from each thread and sums them.  Results are stored
@@ -86,7 +86,7 @@ protected:
    * m_NumberOfValidPoints, to average the value sum, and to average
    * derivative sums for global transforms only (i.e. transforms without local
    * support).  */
-  void AfterThreadedExecution() ITK_OVERRIDE;
+  void AfterThreadedExecution() override;
 
   /** Overload to avoid execution of adding entries to m_MeasurePerThread
    * StorePointDerivativeResult() after this function calls ProcessPoint().
@@ -95,7 +95,7 @@ protected:
    * TransformAndEvaluateMovingPoint, and \c ProcessPoint. */
   bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
                                     const VirtualPointType & virtualPoint,
-                                    const ThreadIdType threadId ) ITK_OVERRIDE;
+                                    const ThreadIdType threadId ) override;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
@@ -110,7 +110,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const ITK_OVERRIDE;
+        const ThreadIdType                threadId ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CorrelationImageToImageMetricv4GetValueAndDerivativeThreader);

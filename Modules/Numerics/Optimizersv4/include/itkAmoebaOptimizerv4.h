@@ -81,10 +81,10 @@ public:
   typedef   vnl_vector< double > InternalParametersType;
 
   /** Start optimization with an initial value. */
-  void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
+  void StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Plug in a Cost Function into the optimizer  */
-  void SetMetric(MetricType *metric) ITK_OVERRIDE;
+  void SetMetric(MetricType *metric) override;
 
   /** Set/Get the mode which determines how the amoeba algorithm
    * defines the initial simplex.  Default is
@@ -129,15 +129,15 @@ public:
   itkGetConstMacro(FunctionConvergenceTolerance, double);
 
   /** Report the reason for stopping. */
-  const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const override;
 
   /** Method for getting access to the internal optimizer. */
   vnl_amoeba * GetOptimizer() const;
 
 protected:
   AmoebaOptimizerv4();
-  ~AmoebaOptimizerv4() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~AmoebaOptimizerv4() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 

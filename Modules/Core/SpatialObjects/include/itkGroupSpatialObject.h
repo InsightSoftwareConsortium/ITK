@@ -56,16 +56,16 @@ public:
   itkTypeMacro(GroupSpatialObject, SpatialObject);
 
   /**  */
-  bool ComputeLocalBoundingBox() const ITK_OVERRIDE { return false; }
+  bool ComputeLocalBoundingBox() const override { return false; }
 
 protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(GroupSpatialObject);
 
   GroupSpatialObject();
-  ~GroupSpatialObject() ITK_OVERRIDE;
+  ~GroupSpatialObject() override;
 
   /** Method to print the object.*/
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

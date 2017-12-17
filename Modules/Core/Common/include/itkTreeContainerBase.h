@@ -76,7 +76,7 @@ public:
 protected:
 
   TreeContainerBase() : m_SubTree(false) {}
-  ~TreeContainerBase() ITK_OVERRIDE {}
+  ~TreeContainerBase() override {}
   bool m_SubTree;
 };
 } // namespace itk

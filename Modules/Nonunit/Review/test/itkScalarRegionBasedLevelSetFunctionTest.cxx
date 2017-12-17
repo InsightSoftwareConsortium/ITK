@@ -46,36 +46,36 @@ public:
   typedef typename Superclass::FeatureIndexType    FeatureIndexType;
 
   ScalarValueType ComputeInternalTerm(const FeaturePixelType &,
-    const FeatureIndexType & ) ITK_OVERRIDE
+    const FeatureIndexType & ) override
     {
     return ScalarValueType( 0 );
     }
 
   ScalarValueType ComputeExternalTerm(const FeaturePixelType &,
-    const FeatureIndexType & ) ITK_OVERRIDE
+    const FeatureIndexType & ) override
     {
     return ScalarValueType( 0 );
     }
 
   ScalarValueType ComputeOverlapParameters( const FeatureIndexType& ,
-    ScalarValueType& ) ITK_OVERRIDE
+    ScalarValueType& ) override
     {
     return ScalarValueType( 0 );
     }
 
-  void ComputeParameters() ITK_OVERRIDE {}
+  void ComputeParameters() override {}
 
-  void UpdateSharedDataParameters() ITK_OVERRIDE {}
+  void UpdateSharedDataParameters() override {}
 
   void UpdateSharedDataInsideParameters( const unsigned int& ,
-    const FeaturePixelType&, const ScalarValueType& ) ITK_OVERRIDE {}
+    const FeaturePixelType&, const ScalarValueType& ) override {}
 
   void UpdateSharedDataOutsideParameters( const unsigned int& ,
-    const FeaturePixelType&, const ScalarValueType& ) ITK_OVERRIDE {}
+    const FeaturePixelType&, const ScalarValueType& ) override {}
 
 protected:
   ScalarRegionBasedLevelSetFunctionTestHelper() {}
-  ~ScalarRegionBasedLevelSetFunctionTestHelper() ITK_OVERRIDE {}
+  ~ScalarRegionBasedLevelSetFunctionTestHelper() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarRegionBasedLevelSetFunctionTestHelper);

@@ -136,7 +136,7 @@ public:
   itkBooleanMacro(UseLookupTable);
 #endif
 
-  void ConfigureHistogram( typename Superclass::HistogramType &h) ITK_OVERRIDE
+  void ConfigureHistogram( typename Superclass::HistogramType &h) override
     {
       h.SetAlpha( this->m_Alpha );
       h.SetBeta( this->m_Beta );
@@ -165,13 +165,13 @@ protected:
     m_UseLookupTable = false;
   }
 
-  ~AdaptiveHistogramEqualizationImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~AdaptiveHistogramEqualizationImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Standard pipeline method
    */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AdaptiveHistogramEqualizationImageFilter);

@@ -55,12 +55,12 @@ public:
   itkSetMacro( Threshold, OutputPixelType );
   itkGetMacro( Threshold, OutputPixelType );
 
-  bool IsSatisfied() const ITK_OVERRIDE
+  bool IsSatisfied() const override
   {
     return ( this->m_CurrentValue >= this->m_Threshold );
   }
 
-  std::string GetDescription() const ITK_OVERRIDE
+  std::string GetDescription() const override
   {
     return "Current Value >= Threshold";
   }
@@ -70,13 +70,13 @@ protected:
     m_Threshold( NumericTraits< OutputPixelType >::ZeroValue() )
   {}
 
-  ~FastMarchingThresholdStoppingCriterion() ITK_OVERRIDE {}
+  ~FastMarchingThresholdStoppingCriterion() override {}
 
   OutputPixelType m_Threshold;
 
-  void SetCurrentNode( const NodeType& ) ITK_OVERRIDE {}
+  void SetCurrentNode( const NodeType& ) override {}
 
-  void Reset() ITK_OVERRIDE {}
+  void Reset() override {}
 
 private:
   FastMarchingThresholdStoppingCriterion( const Self& );

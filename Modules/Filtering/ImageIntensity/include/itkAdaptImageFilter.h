@@ -166,7 +166,7 @@ public:
 
 protected:
   AdaptImageFilter() {}
-  ~AdaptImageFilter() ITK_OVERRIDE {}
+  ~AdaptImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AdaptImageFilter);

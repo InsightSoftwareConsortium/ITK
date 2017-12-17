@@ -105,17 +105,17 @@ public:
   }
   itkGetConstReferenceMacro( PlanRigor, int );
 
-  SizeValueType GetSizeGreatestPrimeFactor() const ITK_OVERRIDE;
+  SizeValueType GetSizeGreatestPrimeFactor() const override;
 
 protected:
   FFTWForwardFFTImageFilter();
   ~FFTWForwardFFTImageFilter() {}
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  virtual void GenerateData() override;
 
-  virtual void UpdateOutputData(DataObject *output) ITK_OVERRIDE;
+  virtual void UpdateOutputData(DataObject *output) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTWForwardFFTImageFilter);

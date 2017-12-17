@@ -67,16 +67,16 @@ protected:
 
   /** Constructor and Destructor */
   FrameAverageVideoFilter();
-  ~FrameAverageVideoFilter() ITK_OVERRIDE {}
+  ~FrameAverageVideoFilter() override {}
 
   /** PrintSelf */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FrameAverageVideoFilter is implemented as a temporal streaming and
    * spatially multithreaded filter, so we override ThreadedGenerateData */
   void ThreadedGenerateData(
                 const OutputFrameSpatialRegionType& outputRegionForThread,
-                int threadId) ITK_OVERRIDE;
+                int threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FrameAverageVideoFilter);

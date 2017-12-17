@@ -84,18 +84,18 @@ public:
   void SetDataArray(MeasureType *dataArray);
 
   /** Start the optimizer. */
-  void StartOptimization() ITK_OVERRIDE;
+  void StartOptimization() override;
 
   /** Print an array. */
   void PrintArray(MeasureType *array);
 
   /** Report the reason for stopping. */
-  const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const override;
 
 protected:
   CumulativeGaussianOptimizer();
-  ~CumulativeGaussianOptimizer() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~CumulativeGaussianOptimizer() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

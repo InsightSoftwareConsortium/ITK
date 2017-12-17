@@ -140,13 +140,13 @@ public:
 
 protected:
   VotingBinaryIterativeHoleFillingImageFilter();
-  ~VotingBinaryIterativeHoleFillingImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VotingBinaryIterativeHoleFillingImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryIterativeHoleFillingImageFilter);

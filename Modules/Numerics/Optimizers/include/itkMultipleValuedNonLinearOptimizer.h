@@ -70,8 +70,8 @@ public:
 
 protected:
   MultipleValuedNonLinearOptimizer();
-  ~MultipleValuedNonLinearOptimizer() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MultipleValuedNonLinearOptimizer() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   CostFunctionPointer m_CostFunction;
 

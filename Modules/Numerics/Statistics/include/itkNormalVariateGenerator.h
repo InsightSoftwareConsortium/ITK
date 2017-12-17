@@ -116,12 +116,12 @@ public:
   void Initialize(int randomSeed);
 
   /** get a variate using FastNorm function */
-  double GetVariate() ITK_OVERRIDE;
+  double GetVariate() override;
 
 protected:
   NormalVariateGenerator();
-  ~NormalVariateGenerator() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NormalVariateGenerator() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** get a variate */
   double FastNorm();

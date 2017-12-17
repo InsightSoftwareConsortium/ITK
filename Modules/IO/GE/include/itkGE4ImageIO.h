@@ -77,7 +77,7 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified.
    */
-  bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
+  bool CanReadFile(const char *FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
   // Implemented in superclass
@@ -119,10 +119,10 @@ public:
 
 protected:
   GE4ImageIO();
-  ~GE4ImageIO() ITK_OVERRIDE;
+  ~GE4ImageIO() override;
   // Implemented in Superclass
   // void PrintSelf(std::ostream& os, Indent indent) const;
-  GEImageHeader * ReadHeader(const char *FileNameToRead) ITK_OVERRIDE;
+  GEImageHeader * ReadHeader(const char *FileNameToRead) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GE4ImageIO);

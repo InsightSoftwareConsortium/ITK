@@ -101,10 +101,10 @@ public:
    * of the right part of the versor. This can be seen
    * as the components of the vector parallel to the rotation
    * axis and multiplied by std::sin( angle / 2 ). */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
 
   /** Get the Transformation Parameters. */
-  const ParametersType & GetParameters(void) const ITK_OVERRIDE;
+  const ParametersType & GetParameters(void) const override;
 
   /** Set the rotational part of the transform */
   void SetRotation(const VersorType & versor);
@@ -114,14 +114,14 @@ public:
   itkGetConstReferenceMacro(Versor, VersorType);
 
   /** Set the parameters to the IdentityTransform */
-  void SetIdentity(void) ITK_OVERRIDE;
+  void SetIdentity(void) override;
 
   /** Compute the Jacobian of the transformation
    *  This method computes the Jacobian matrix of the transformation.
    *  given point or vector, returning the transformed point or
    *  vector. The rank of the Jacobian will also indicate if the
    *  transform is invertible at this point. */
-  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
 protected:
 
@@ -131,7 +131,7 @@ protected:
   VersorTransform();
 
   /** Destroy an VersorTransform object */
-  ~VersorTransform() ITK_OVERRIDE {}
+  ~VersorTransform() override {}
 
   void SetVarVersor(const VersorType & newVersor)
   {
@@ -139,13 +139,13 @@ protected:
   }
 
   /** Print contents of a VersorTransform */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute Matrix
    *  Compute the components of the rotation matrix in the superclass */
-  void ComputeMatrix(void) ITK_OVERRIDE;
+  void ComputeMatrix(void) override;
 
-  void ComputeMatrixParameters(void) ITK_OVERRIDE;
+  void ComputeMatrixParameters(void) override;
 
 private:
   /** Copy a VersorTransform object */

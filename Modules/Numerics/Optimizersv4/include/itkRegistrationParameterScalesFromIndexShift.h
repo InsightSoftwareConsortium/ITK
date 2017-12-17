@@ -81,11 +81,11 @@ public:
 
 protected:
   RegistrationParameterScalesFromIndexShift();
-  ~RegistrationParameterScalesFromIndexShift() ITK_OVERRIDE {};
+  ~RegistrationParameterScalesFromIndexShift() override {};
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts) ITK_OVERRIDE;
+  void ComputeSampleShifts(const ParametersType &deltaParameters, ScalesType &localShifts) override;
 
   template<typename TContinuousIndexType>
   void TransformPointToContinuousIndex(const VirtualPointType &point, TContinuousIndexType &mappedIndex);

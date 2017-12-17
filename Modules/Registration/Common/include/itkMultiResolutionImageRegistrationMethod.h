@@ -207,20 +207,20 @@ public:
    * output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */
-  ModifiedTimeType GetMTime() const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime() const override;
 
 protected:
   MultiResolutionImageRegistrationMethod();
-  ~MultiResolutionImageRegistrationMethod() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MultiResolutionImageRegistrationMethod() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void  GenerateData() ITK_OVERRIDE;
+  void  GenerateData() override;
 
   /** Initialize by setting the interconnects between the components.
       This method is executed at every level of the pyramid with the

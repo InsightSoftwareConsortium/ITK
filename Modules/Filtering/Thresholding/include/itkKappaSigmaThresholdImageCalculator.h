@@ -110,8 +110,8 @@ public:
 
 protected:
   KappaSigmaThresholdImageCalculator();
-  ~KappaSigmaThresholdImageCalculator() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~KappaSigmaThresholdImageCalculator() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(KappaSigmaThresholdImageCalculator);

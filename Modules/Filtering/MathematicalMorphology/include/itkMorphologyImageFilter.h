@@ -133,13 +133,13 @@ public:
 
 protected:
   MorphologyImageFilter();
-  ~MorphologyImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MorphologyImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId) ITK_OVERRIDE;
+                             ThreadIdType threadId) override;
 
   /** Evaluate image neighborhood with kernel to find the new value
    * for the center pixel value. */

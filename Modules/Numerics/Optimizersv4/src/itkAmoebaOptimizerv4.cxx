@@ -107,7 +107,7 @@ AmoebaOptimizerv4
         {
         }
 
-      Superclass::InternalMeasureType f(const Superclass::InternalParametersType & inparameters) ITK_OVERRIDE
+      Superclass::InternalMeasureType f(const Superclass::InternalParametersType & inparameters) override
         {
           const  Superclass::InternalMeasureType &ret = Superclass::f( inparameters );
           ++m_ItkObj->m_CurrentIteration;

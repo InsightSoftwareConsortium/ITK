@@ -57,14 +57,14 @@ public:
   typedef typename Superclass::ValueType           ValueType;
   typedef typename LayerType::LayerInterfaceType   LayerInterfaceType;
 
-  void Learn( LayerInterfaceType * layer, ValueType learningrate ) ITK_OVERRIDE;
-  void Learn( LayerInterfaceType * layer, TTargetVector errors, ValueType learningrate ) ITK_OVERRIDE;
+  void Learn( LayerInterfaceType * layer, ValueType learningrate ) override;
+  void Learn( LayerInterfaceType * layer, TTargetVector errors, ValueType learningrate ) override;
 
 protected:
   ErrorBackPropagationLearningWithMomentum();
-  ~ErrorBackPropagationLearningWithMomentum() ITK_OVERRIDE {};
+  ~ErrorBackPropagationLearningWithMomentum() override {};
 
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   ValueType m_Momentum;
 };

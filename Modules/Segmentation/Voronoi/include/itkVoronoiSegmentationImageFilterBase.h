@@ -205,18 +205,18 @@ public:
 
   /** This filter does not stream and needs the entire image as input.
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** This filter does not stream and needs to produce the entire output.
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 protected:
   VoronoiSegmentationImageFilterBase();
-  ~VoronoiSegmentationImageFilterBase() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VoronoiSegmentationImageFilterBase() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE; //general pipeline function.
+  void GenerateData() override; //general pipeline function.
 
   SizeType      m_Size;
   int           m_NumberOfSeeds;

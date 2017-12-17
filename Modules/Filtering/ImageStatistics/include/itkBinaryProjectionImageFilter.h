@@ -156,9 +156,9 @@ protected:
     m_BackgroundValue = NumericTraits< OutputPixelType >::NonpositiveMin();
   }
 
-  ~BinaryProjectionImageFilter() ITK_OVERRIDE {}
+  ~BinaryProjectionImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
 
@@ -177,7 +177,7 @@ protected:
        << std::endl;
   }
 
-  AccumulatorType NewAccumulator( SizeValueType size ) const ITK_OVERRIDE
+  AccumulatorType NewAccumulator( SizeValueType size ) const override
   {
     AccumulatorType accumulator(size);
 

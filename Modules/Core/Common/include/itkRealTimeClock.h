@@ -71,9 +71,9 @@ protected:
   RealTimeClock();
 
   /** Destructor. */
-  ~RealTimeClock() ITK_OVERRIDE;
+  ~RealTimeClock() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   FrequencyType m_Frequency;
@@ -84,7 +84,7 @@ private:
   // We hide this method in the private section, because it returns the
   // modified time of the itk::Object. That modified time is ambiguous with
   // the role of the RealTimeStamp.
-  const TimeStamp & GetTimeStamp() const ITK_OVERRIDE;
+  const TimeStamp & GetTimeStamp() const override;
 };
 } // end of namespace itk
 

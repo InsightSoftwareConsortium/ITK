@@ -87,15 +87,15 @@ public:
 
 protected:
   DilateObjectMorphologyImageFilter();
-  ~DilateObjectMorphologyImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~DilateObjectMorphologyImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Apply the kernel to the neighborhood given.
    *
    * All values in neighborhood covered by the kernel will be set to the
    * object value.  */
   void Evaluate(OutputNeighborhoodIteratorType & nit,
-                const KernelType & kernel) ITK_OVERRIDE;
+                const KernelType & kernel) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DilateObjectMorphologyImageFilter);

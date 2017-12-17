@@ -79,14 +79,14 @@ public:
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType & Derivative) const ITK_OVERRIDE;
+                     DerivativeType & Derivative) const override;
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType GetValue(const TransformParametersType & parameters) const override;
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value, DerivativeType & Derivative) const ITK_OVERRIDE;
+                             MeasureType & Value, DerivativeType & Derivative) const override;
 
   /** Set/Get SubtractMean boolean. If true, the sample mean is subtracted
    * from the sample values in the cross-correlation formula and
@@ -98,8 +98,8 @@ public:
 
 protected:
   NormalizedCorrelationImageToImageMetric();
-  ~NormalizedCorrelationImageToImageMetric() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NormalizedCorrelationImageToImageMetric() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationImageToImageMetric);

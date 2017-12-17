@@ -103,7 +103,7 @@ public:
   ConstNeighborhoodIterator();
 
   /** Virtual destructor */
-  ~ConstNeighborhoodIterator() ITK_OVERRIDE {}
+  ~ConstNeighborhoodIterator() override {}
 
   /** Copy constructor */
   ConstNeighborhoodIterator(const ConstNeighborhoodIterator &);
@@ -126,7 +126,7 @@ public:
   Self & operator=(const Self & orig);
 
   /** Standard itk print method */
-  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream &, Indent) const override;
 
   /** Computes the internal, N-d offset of a pixel array position n from
    * (0,0, ..., 0) in the "upper-left" corner of the neighborhood. */

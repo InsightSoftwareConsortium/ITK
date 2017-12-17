@@ -63,11 +63,11 @@ public:
   itkGetOpenCLSourceFromKernelMacro(GPUScalarAnisotropicDiffusionFunctionKernel);
 
   /** Compute average squared gradient of magnitude using the GPU */
-  virtual void GPUCalculateAverageGradientMagnitudeSquared(TImage *) ITK_OVERRIDE;
+  virtual void GPUCalculateAverageGradientMagnitudeSquared(TImage *) override;
 
 protected:
   GPUScalarAnisotropicDiffusionFunction();
-  ~GPUScalarAnisotropicDiffusionFunction() ITK_OVERRIDE {}
+  ~GPUScalarAnisotropicDiffusionFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUScalarAnisotropicDiffusionFunction);

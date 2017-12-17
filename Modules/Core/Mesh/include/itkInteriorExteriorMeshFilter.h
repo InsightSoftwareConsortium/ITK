@@ -83,11 +83,11 @@ public:
 
 protected:
   InteriorExteriorMeshFilter();
-  ~InteriorExteriorMeshFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~InteriorExteriorMeshFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate requested data. */
-  void GenerateData(void) ITK_OVERRIDE;
+  void GenerateData(void) override;
 
   /** Transform applied to all the mesh points. */
   typename SpatialFunctionType::Pointer m_SpatialFunction;

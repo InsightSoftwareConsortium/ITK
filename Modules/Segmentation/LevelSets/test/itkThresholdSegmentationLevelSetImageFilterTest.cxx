@@ -79,7 +79,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */
-  void Execute(Object *caller, const EventObject &) ITK_OVERRIDE
+  void Execute(Object *caller, const EventObject &) override
   {
     std::cout <<
       (dynamic_cast<SparseFieldLevelSetImageFilter< ::TSIFTN::SeedImageType, ::TSIFTN::ImageType> *>(caller))->GetRMSChange()
@@ -89,7 +89,7 @@ public:
               << std::endl;
 
   }
-  void Execute(const Object *, const EventObject &) ITK_OVERRIDE
+  void Execute(const Object *, const EventObject &) override
   {
     std::cout << "ack" << std::endl;
 
@@ -97,7 +97,7 @@ public:
 
 protected:
   RMSCommand()  {}
-  ~RMSCommand() ITK_OVERRIDE {}
+  ~RMSCommand() override {}
 };
 
 
@@ -113,12 +113,12 @@ public:
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */
-  void Execute(Object *caller, const EventObject &) ITK_OVERRIDE
+  void Execute(Object *caller, const EventObject &) override
   {
     const ProcessObject * process = dynamic_cast<ProcessObject *>(caller);
     std::cout << "Progress = " << process->GetProgress() << std::endl;
   }
-  void Execute(const Object *, const EventObject &) ITK_OVERRIDE
+  void Execute(const Object *, const EventObject &) override
   {
     std::cout << "ack" << std::endl;
 
@@ -126,7 +126,7 @@ public:
 
 protected:
   TSIFTNProgressCommand()  {}
-  ~TSIFTNProgressCommand() ITK_OVERRIDE {}
+  ~TSIFTNProgressCommand() override {}
 };
 
 

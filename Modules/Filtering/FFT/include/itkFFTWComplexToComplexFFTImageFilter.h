@@ -120,14 +120,14 @@ protected:
   FFTWComplexToComplexFFTImageFilter();
   virtual ~FFTWComplexToComplexFFTImageFilter() {}
 
-  virtual void UpdateOutputData(DataObject *output) ITK_OVERRIDE;
+  virtual void UpdateOutputData(DataObject *output) override;
 
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  virtual void BeforeThreadedGenerateData() override;
 
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                            ThreadIdType threadId ) ITK_OVERRIDE;
+                            ThreadIdType threadId ) override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTWComplexToComplexFFTImageFilter);

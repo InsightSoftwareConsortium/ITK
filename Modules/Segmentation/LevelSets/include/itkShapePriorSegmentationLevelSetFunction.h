@@ -108,10 +108,10 @@ public:
   /** Compute the equation value with the additional shape prior term. */
   PixelType ComputeUpdate( const NeighborhoodType & neighborhood,
                                    void *globalData,
-                                   const FloatOffsetType & = FloatOffsetType(0.0) ) ITK_OVERRIDE;
+                                   const FloatOffsetType & = FloatOffsetType(0.0) ) override;
 
   /** Compute global time step from the global data structure. */
-  TimeStepType ComputeGlobalTimeStep(void *globalData) const ITK_OVERRIDE;
+  TimeStepType ComputeGlobalTimeStep(void *globalData) const override;
 
   /** A global data type used to store values needed to compute the time step.
     */
@@ -121,7 +121,7 @@ public:
   };
 
   /** Returns a pointer to a global data structure for computing time step. */
-  void * GetGlobalDataPointer() const ITK_OVERRIDE
+  void * GetGlobalDataPointer() const override
   {
     ShapePriorGlobalDataStruct *ans = new ShapePriorGlobalDataStruct();
 
@@ -133,16 +133,16 @@ public:
   }
 
   /** Release the global data structure. */
-  void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE
+  void ReleaseGlobalDataPointer(void *GlobalData) const override
   { delete (ShapePriorGlobalDataStruct *)GlobalData; }
 
 protected:
   ShapePriorSegmentationLevelSetFunction();
-  ~ShapePriorSegmentationLevelSetFunction() ITK_OVERRIDE {}
+  ~ShapePriorSegmentationLevelSetFunction() override {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorSegmentationLevelSetFunction);
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

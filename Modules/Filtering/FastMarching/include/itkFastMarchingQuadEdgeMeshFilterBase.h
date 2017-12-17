@@ -107,29 +107,29 @@ public:
 protected:
 
   FastMarchingQuadEdgeMeshFilterBase();
-  ~FastMarchingQuadEdgeMeshFilterBase() ITK_OVERRIDE;
+  ~FastMarchingQuadEdgeMeshFilterBase() override;
 
   NodeLabelMapType m_Label;
 
-  IdentifierType GetTotalNumberOfNodes() const ITK_OVERRIDE;
+  IdentifierType GetTotalNumberOfNodes() const override;
 
   void SetOutputValue( OutputMeshType* oMesh,
                       const NodeType& iNode,
-                      const OutputPixelType& iValue ) ITK_OVERRIDE;
+                      const OutputPixelType& iValue ) override;
 
   const OutputPixelType GetOutputValue( OutputMeshType* oMesh,
-                                  const NodeType& iNode ) const ITK_OVERRIDE;
+                                  const NodeType& iNode ) const override;
 
-  unsigned char GetLabelValueForGivenNode( const NodeType& iNode ) const ITK_OVERRIDE;
+  unsigned char GetLabelValueForGivenNode( const NodeType& iNode ) const override;
 
   void SetLabelValueForGivenNode( const NodeType& iNode,
-                                  const LabelType& iLabel ) ITK_OVERRIDE;
+                                  const LabelType& iLabel ) override;
 
   void UpdateNeighbors( OutputMeshType* oMesh,
-                        const NodeType& iNode ) ITK_OVERRIDE;
+                        const NodeType& iNode ) override;
 
   void UpdateValue( OutputMeshType* oMesh,
-                    const NodeType& iNode ) ITK_OVERRIDE;
+                    const NodeType& iNode ) override;
 
   const OutputVectorRealType
   Solve( OutputMeshType* oMesh,
@@ -160,9 +160,9 @@ protected:
     OutputPointIdentifierType& oId ) const;
 
   bool CheckTopology( OutputMeshType* oMesh,
-                      const NodeType& iNode ) ITK_OVERRIDE;
+                      const NodeType& iNode ) override;
 
-  void InitializeOutput( OutputMeshType* oMesh ) ITK_OVERRIDE;
+  void InitializeOutput( OutputMeshType* oMesh ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingQuadEdgeMeshFilterBase);

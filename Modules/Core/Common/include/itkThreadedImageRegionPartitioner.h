@@ -82,11 +82,11 @@ public:
   ThreadIdType PartitionDomain(const ThreadIdType threadId,
                            const ThreadIdType requestedTotal,
                            const DomainType& completeRegion,
-                           DomainType& subRegion) const ITK_OVERRIDE;
+                           DomainType& subRegion) const override;
 
 protected:
   ThreadedImageRegionPartitioner();
-  ~ThreadedImageRegionPartitioner() ITK_OVERRIDE;
+  ~ThreadedImageRegionPartitioner() override;
 
   typedef ImageRegionSplitterSlowDimension ImageRegionSplitterType;
 

@@ -63,7 +63,7 @@ protected:
   LogOutput();
 
   /** Destructor */
-  ~LogOutput() ITK_OVERRIDE;
+  ~LogOutput() override;
 };
 }
 

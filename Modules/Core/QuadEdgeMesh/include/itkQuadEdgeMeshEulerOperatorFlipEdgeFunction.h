@@ -74,9 +74,9 @@ public:
 
 protected:
   QuadEdgeMeshEulerOperatorFlipEdgeFunction();
-  ~QuadEdgeMeshEulerOperatorFlipEdgeFunction() ITK_OVERRIDE {}
+  ~QuadEdgeMeshEulerOperatorFlipEdgeFunction() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   EdgeStatusType m_EdgeStatus;
 

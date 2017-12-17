@@ -65,10 +65,10 @@ public:
 
 protected:
   VnlComplexToComplexFFTImageFilter();
-  ~VnlComplexToComplexFFTImageFilter() ITK_OVERRIDE {}
+  ~VnlComplexToComplexFFTImageFilter() override {}
 
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
-  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) ) ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VnlComplexToComplexFFTImageFilter);

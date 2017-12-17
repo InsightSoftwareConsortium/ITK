@@ -95,9 +95,9 @@ protected:
     this->SetDifferenceFunction(q);
   }
 
-  ~CurvatureAnisotropicDiffusionImageFilter() ITK_OVERRIDE {}
+  ~CurvatureAnisotropicDiffusionImageFilter() override {}
 
-  void InitializeIteration() ITK_OVERRIDE
+  void InitializeIteration() override
   {
     Superclass::InitializeIteration();
     if ( this->GetTimeStep() >  0.5 / std::pow( 2.0, static_cast< double >( ImageDimension ) ) )

@@ -62,7 +62,7 @@ public:
   }
 
 
-  MeasureType  GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  MeasureType  GetValue( const ParametersType & parameters ) const override
   {
     double x = parameters[0];
     double y = parameters[1];
@@ -79,12 +79,12 @@ public:
   }
 
   void GetDerivative(const ParametersType & itkNotUsed( parameters ),
-                           DerivativeType & itkNotUsed( derivative ) ) const ITK_OVERRIDE
+                           DerivativeType & itkNotUsed( derivative ) ) const override
   {
     itkGenericExceptionMacro("OnePlusOneEvolutionaryOptimizer is not supposed to call GetDerivative()");
   }
 
-  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const override
     {
     return SpaceDimension;
     }
@@ -107,12 +107,12 @@ public:
   typedef itk::OnePlusOneEvolutionaryOptimizer     OptimizerType;
   typedef   const OptimizerType *                  OptimizerPointer;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
       OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
       if( ! itk::IterationEvent().CheckEvent( &event ) )

@@ -77,9 +77,9 @@ public:
 
 protected:
   DiscreteMeanCurvatureQuadEdgeMeshFilter() {}
-  ~DiscreteMeanCurvatureQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~DiscreteMeanCurvatureQuadEdgeMeshFilter() override {}
 
-  OutputCurvatureType EstimateCurvature(const OutputPointType & iP) ITK_OVERRIDE
+  OutputCurvatureType EstimateCurvature(const OutputPointType & iP) override
   {
     OutputMeshPointer output = this->GetOutput();
 

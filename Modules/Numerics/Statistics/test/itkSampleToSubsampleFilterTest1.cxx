@@ -40,14 +40,14 @@ public:
 
 protected:
   SubsamplerTester() {}
-  ~SubsamplerTester() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
+  ~SubsamplerTester() override {}
+  void PrintSelf(std::ostream& os, Indent indent) const override
     {
     this->Superclass::PrintSelf(os,indent);
     os << "Superclass = " <<  this->Superclass::GetNameOfClass() << std::endl;
     }
 
-  void GenerateData() ITK_OVERRIDE
+  void GenerateData() override
     {
     }
 
