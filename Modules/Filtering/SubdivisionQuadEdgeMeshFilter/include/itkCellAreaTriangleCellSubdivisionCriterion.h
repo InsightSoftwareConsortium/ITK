@@ -65,14 +65,14 @@ public:
   itkNewMacro(Self);
 
   void
-  Compute(MeshType * mesh, SubdivisionCellContainer & cellIds) ITK_OVERRIDE;
+  Compute(MeshType * mesh, SubdivisionCellContainer & cellIds) override;
 
   itkGetConstMacro(MaximumArea, CoordRepType);
   itkSetMacro(MaximumArea, CoordRepType);
 
 protected:
   CellAreaTriangleCellSubdivisionCriterion() { m_MaximumArea = NumericTraits<CoordRepType>::max(); }
-  ~CellAreaTriangleCellSubdivisionCriterion() ITK_OVERRIDE {}
+  ~CellAreaTriangleCellSubdivisionCriterion() override {}
 
 private:
   CoordRepType m_MaximumArea;

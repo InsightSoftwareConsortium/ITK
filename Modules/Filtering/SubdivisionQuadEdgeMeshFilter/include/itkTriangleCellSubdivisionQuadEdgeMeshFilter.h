@@ -95,14 +95,14 @@ public:
 
 protected:
   TriangleCellSubdivisionQuadEdgeMeshFilter();
-  ~TriangleCellSubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~TriangleCellSubdivisionQuadEdgeMeshFilter() override {}
 
   virtual void
   AddNewCellPoints(InputCellType * cell) = 0;
   void
-  GenerateOutputPoints() ITK_OVERRIDE;
+  GenerateOutputPoints() override;
   void
-  GenerateOutputCells() ITK_OVERRIDE;
+  GenerateOutputCells() override;
 
   void
   SplitTriangleFromOneEdge(OutputMeshType *              output,
@@ -120,7 +120,7 @@ protected:
                               const OutputPointIdentifier * edgePointIds);
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   SubdivisionCellContainer m_CellsToBeSubdivided;
   bool                     m_Uniform;

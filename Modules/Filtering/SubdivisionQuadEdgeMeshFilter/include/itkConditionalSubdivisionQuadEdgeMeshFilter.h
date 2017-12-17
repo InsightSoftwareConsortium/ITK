@@ -77,13 +77,13 @@ public:
 protected:
   ConditionalSubdivisionQuadEdgeMeshFilter();
 
-  ~ConditionalSubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~ConditionalSubdivisionQuadEdgeMeshFilter() override {}
 
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   SubdivisionFilterPointer m_SubdivisionFilter;
   SubdivisionCellContainer m_CellsToBeSubdivided;

@@ -87,12 +87,12 @@ public:
 
 protected:
   SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter() {}
-  ~SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter() override {}
 
   void
-  AddNewCellPoints(InputCellType * cell) ITK_OVERRIDE;
+  AddNewCellPoints(InputCellType * cell) override;
   void
-  GenerateOutputCells() ITK_OVERRIDE;
+  GenerateOutputCells() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SquareThreeTriangleCellSubdivisionQuadEdgeMeshFilter);

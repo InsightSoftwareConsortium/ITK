@@ -90,18 +90,18 @@ public:
 
 protected:
   TriangleEdgeCellSubdivisionQuadEdgeMeshFilter();
-  ~TriangleEdgeCellSubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~TriangleEdgeCellSubdivisionQuadEdgeMeshFilter() override {}
 
   void
-  AddNewCellPoints(InputCellType * itkNotUsed(cell)) ITK_OVERRIDE
+  AddNewCellPoints(InputCellType * itkNotUsed(cell)) override
   {}
   virtual void
   AddNewEdgePoints(InputQEType * edge) = 0;
   void
-  GenerateOutputPoints() ITK_OVERRIDE;
+  GenerateOutputPoints() override;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   SubdivisionCellContainer m_EdgesToBeSubdivided;
 

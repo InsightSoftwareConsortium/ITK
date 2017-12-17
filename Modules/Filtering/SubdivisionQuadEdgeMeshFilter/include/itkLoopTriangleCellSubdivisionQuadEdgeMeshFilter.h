@@ -109,13 +109,13 @@ public:
 
 protected:
   LoopTriangleCellSubdivisionQuadEdgeMeshFilter() {}
-  ~LoopTriangleCellSubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~LoopTriangleCellSubdivisionQuadEdgeMeshFilter() override {}
 
   void
-  CopyInputMeshToOutputMeshPoints() ITK_OVERRIDE;
+  CopyInputMeshToOutputMeshPoints() override;
 
   void
-  AddNewCellPoints(InputCellType * cell) ITK_OVERRIDE;
+  AddNewCellPoints(InputCellType * cell) override;
 
   InputPointType
   SmoothingPoint(const InputPointType & ipt, const InputPointsContainer * points);

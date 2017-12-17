@@ -92,7 +92,7 @@ public:
 
 protected:
   SubdivisionQuadEdgeMeshFilter();
-  ~SubdivisionQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~SubdivisionQuadEdgeMeshFilter() override {}
 
   /** inheriting class should implement this method, to take care of mesh geometry (vertex' coordinates). */
   virtual void
@@ -102,10 +102,10 @@ protected:
   virtual void
   GenerateOutputCells() = 0;
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   EdgePointIdentifierContainerPointer m_EdgesPointIdentifier;
 
