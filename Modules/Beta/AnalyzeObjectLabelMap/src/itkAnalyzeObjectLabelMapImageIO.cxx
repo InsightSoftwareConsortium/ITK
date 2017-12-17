@@ -59,7 +59,7 @@ void AnalyzeObjectLabelMapImageIO::PrintSelf(std::ostream& os, Indent indent) co
 
 bool AnalyzeObjectLabelMapImageIO::CanWriteFile(const char * FileNameToWrite)
 {
-  if(FileNameToWrite == 0 || *FileNameToWrite == '\0' )
+  if(FileNameToWrite == nullptr || *FileNameToWrite == '\0' )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
@@ -245,7 +245,7 @@ void AnalyzeObjectLabelMapImageIO::Read(void* buffer)
 bool AnalyzeObjectLabelMapImageIO::CanReadFile( const char* FileNameToRead )
 {
   itkDebugMacro(<< "I am in Can Read File for AnalyzeObjectLabelMapImageIO" << std::endl);
-  if(FileNameToRead == 0 || *FileNameToRead == '\0' )
+  if(FileNameToRead == nullptr || *FileNameToRead == '\0' )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
