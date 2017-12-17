@@ -51,7 +51,7 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::BeforeThre
 {
   typename InputImageType::ConstPointer input = this->GetInput();
 
-  if (this->m_VectorGradientFilter.GetPointer() != NULL)
+  if (this->m_VectorGradientFilter.GetPointer() != nullptr)
   {
     this->m_VectorGradientFilter->SetInput(input);
     for (unsigned int i = 1; i < ImageDimension + 1; ++i)
