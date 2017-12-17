@@ -106,7 +106,7 @@ namespace itk
  *     http://hdl.handle.net/10380/3186
  *
  * \author Dan Mueller, Philips Healthcare, dan dot muel at gmail dot com
- *
+ * 
  * \ingroup Cuberille
  *
  */
@@ -187,8 +187,13 @@ public:
   using Superclass::SetInput;
   virtual void SetInput( const InputImageType * inputImage );
 
+<<<<<<< HEAD
   /** Get/Set interpolate function. */
+  itkGetObjectMacro( Interpolator, InterpolatorType );
+=======
+  /** Get/set interpolate function. */
   itkGetConstObjectMacro( Interpolator, InterpolatorType );
+>>>>>>> COMP: Deprecate use itkGetObjectMacro
   itkSetObjectMacro( Interpolator, InterpolatorType );
 
   /** Get/Set whether triangle or quadrilateral faces should be generated.
@@ -234,10 +239,10 @@ public:
 protected:
   CuberilleImageToMeshFilter();
   ~CuberilleImageToMeshFilter();
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const;
 
-  void GenerateData() ITK_OVERRIDE;
-  virtual void GenerateOutputInformation() ITK_OVERRIDE { }; // do nothing
+  void GenerateData();
+  virtual void GenerateOutputInformation(){ }; // do nothing
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CuberilleImageToMeshFilter);
