@@ -97,7 +97,7 @@ public:
 protected:
   ObjectnessMeasureImageFilter();
 
-  ~ObjectnessMeasureImageFilter() override;
+  ~ObjectnessMeasureImageFilter() ITK_OVERRIDE;
 
 
   void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
