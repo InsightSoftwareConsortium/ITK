@@ -96,7 +96,7 @@ public:
 protected:
   ObjectnessMeasureImageFilter();
 
-  ~ObjectnessMeasureImageFilter() override;
+  ~ObjectnessMeasureImageFilter() ITK_OVERRIDE;
 
 
   void
