@@ -560,9 +560,9 @@ protected:
    * - unknown
    * \sa AnalyzeObjectEntry
    */
-  ~AnalyzeObjectEntry( void ) ITK_OVERRIDE;
+  ~AnalyzeObjectEntry( void ) override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
   template <typename TValue>

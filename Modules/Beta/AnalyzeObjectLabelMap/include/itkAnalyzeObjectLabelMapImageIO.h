@@ -77,13 +77,13 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified.
    */
-  bool CanReadFile(const char* FileNameToRead) ITK_OVERRIDE;
+  bool CanReadFile(const char* FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  void Read(void* buffer) ITK_OVERRIDE;
+  void Read(void* buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -93,14 +93,14 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can write the file specified.
    */
-  bool CanWriteFile(const char * FileNameToWrite) ITK_OVERRIDE;
+  bool CanWriteFile(const char * FileNameToWrite) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  void WriteImageInformation() ITK_OVERRIDE;
+  void WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  void Write(const void* buffer) ITK_OVERRIDE;
+  void Write(const void* buffer) override;
 
   // Streaming not yet supported, so use the default base class to return the LargestPossibleRegion
 #if _USE_STREAMABLE_REGION_FOR_AOLM
@@ -110,15 +110,15 @@ public:
 
 #endif
 
-  bool CanStreamRead() ITK_OVERRIDE
+  bool CanStreamRead() override
   {
     return false;
   }
 
 protected:
   AnalyzeObjectLabelMapImageIO();
-  ~AnalyzeObjectLabelMapImageIO() ITK_OVERRIDE;
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~AnalyzeObjectLabelMapImageIO() override;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
 

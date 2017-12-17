@@ -192,7 +192,7 @@ protected:
   /**
    * \brief the destructor for AnalyzeObjectMap
    */
-  ~AnalyzeObjectMap( void ) ITK_OVERRIDE;
+  ~AnalyzeObjectMap( void ) override;
 
   /**
    * \brief the copy constructor,
@@ -200,7 +200,7 @@ protected:
    */
   AnalyzeObjectMap( const AnalyzeObjectMap & /* rhs */ ); /*Explicitly not allowed*/
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
   /** Number of Objects in the object file */
