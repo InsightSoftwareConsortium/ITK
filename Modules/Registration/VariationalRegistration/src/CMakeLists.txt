@@ -2,7 +2,7 @@ include_directories("${VariationalRegistration_SOURCE_DIR}/src")
 
 # Test if ITK is built with FFTW. FFTWD is recommended and required for the
 # tests with elastic or curvature regularisation to pass.
-if(ITK_USE_FFTWF)
+if(ITK_USE_FFTWF AND NOT ITK_USE_FFTWD)
   message(
     WARNING
     " ITK is built with ITK_USE_FFTWF but ITK_USE_FFTWD is"
