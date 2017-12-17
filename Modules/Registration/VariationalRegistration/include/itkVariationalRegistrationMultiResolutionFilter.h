@@ -196,7 +196,7 @@ public:
   }
 
   /** Get the output displacement field provided by the registration filter. */
-  itkGetObjectMacro(DisplacementField, DisplacementFieldType);
+  itkGetConstObjectMacro(DisplacementField, DisplacementFieldType);
 
   /** Get the number of valid inputs.  For
    *  VariationalRegistrationMultiResolutionFilter, this checks whether the
@@ -210,25 +210,25 @@ public:
   itkSetObjectMacro(RegistrationFilter, RegistrationType);
 
   /** Get the internal registration filter. */
-  itkGetObjectMacro(RegistrationFilter, RegistrationType);
+  itkGetConstObjectMacro(RegistrationFilter, RegistrationType);
 
   /** Set the fixed image pyramid. */
   itkSetObjectMacro(FixedImagePyramid, FixedImagePyramidType);
 
   /** Get the fixed image pyramid. */
-  itkGetObjectMacro(FixedImagePyramid, FixedImagePyramidType);
+  itkGetConstObjectMacro(FixedImagePyramid, FixedImagePyramidType);
 
   /** Set the moving image pyramid. */
   itkSetObjectMacro(MovingImagePyramid, MovingImagePyramidType);
 
   /** Get the moving image pyramid. */
-  itkGetObjectMacro(MovingImagePyramid, MovingImagePyramidType);
+  itkGetConstObjectMacro(MovingImagePyramid, MovingImagePyramidType);
 
   /** Set the mask image pyramid. */
   itkSetObjectMacro(MaskImagePyramid, MaskImagePyramidType);
 
   /** Get the mask image pyramid. */
-  itkGetObjectMacro(MaskImagePyramid, MaskImagePyramidType);
+  itkGetConstObjectMacro(MaskImagePyramid, MaskImagePyramidType);
 
   /** Set number of multi-resolution levels. */
   virtual void
@@ -254,7 +254,7 @@ public:
   itkSetObjectMacro(FieldExpander, FieldExpanderType);
 
   /** Get the moving image pyramid. */
-  itkGetObjectMacro(FieldExpander, FieldExpanderType);
+  itkGetConstObjectMacro(FieldExpander, FieldExpanderType);
 
   /** Stop the registration after the current iteration. */
   virtual void
