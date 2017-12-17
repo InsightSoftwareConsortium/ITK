@@ -31,7 +31,7 @@ GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
   m_UseImageSpacing    = false;
   this->m_ElapsedIterations  = 0;
-  m_DifferenceFunction = ITK_NULLPTR;
+  m_DifferenceFunction = nullptr;
   this->m_NumberOfIterations = NumericTraits< unsigned int >::max();
   m_MaximumRMSError = 0.0;
   m_RMSChange = 0.0;
@@ -280,9 +280,9 @@ GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
   if ( this->m_UseImageSpacing )
     {
     const TOutputImage *outputImage =  this->GetOutput();
-    if ( outputImage == ITK_NULLPTR )
+    if ( outputImage == nullptr )
       {
-      itkExceptionMacro("Output image is ITK_NULLPTR");
+      itkExceptionMacro("Output image is nullptr");
       }
 
     typedef typename TOutputImage::SpacingType SpacingType;

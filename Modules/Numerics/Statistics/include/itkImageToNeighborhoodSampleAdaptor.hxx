@@ -26,7 +26,7 @@ namespace Statistics {
   template < typename TImage, typename TBoundaryCondition>
 ImageToNeighborhoodSampleAdaptor< TImage, TBoundaryCondition>
   ::ImageToNeighborhoodSampleAdaptor() :
-    m_Image(ITK_NULLPTR),
+    m_Image(nullptr),
     m_InstanceIdentifierInternal(0),
     m_UseImageRegion(true)
 {

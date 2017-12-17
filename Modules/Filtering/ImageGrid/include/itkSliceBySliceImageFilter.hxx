@@ -30,8 +30,8 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
                          TInternalOutputImageType >
 ::SliceBySliceImageFilter()
 {
-  m_InputFilter = ITK_NULLPTR;
-  m_OutputFilter = ITK_NULLPTR;
+  m_InputFilter = nullptr;
+  m_OutputFilter = nullptr;
   this->m_Dimension = ImageDimension - 1;
   m_SliceIndex = 0;
 }
@@ -113,7 +113,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
 {
   OutputFilterType *outputFilter = dynamic_cast< OutputFilterType * >( filter );
 
-  if ( outputFilter == ITK_NULLPTR && filter != ITK_NULLPTR )
+  if ( outputFilter == nullptr && filter != nullptr )
     {
     // TODO: can it be replaced by a concept check ?
     itkExceptionMacro(
@@ -132,7 +132,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
 {
   if ( !filter )
     {
-    itkExceptionMacro("InputFilter cannot be ITK_NULLPTR.");
+    itkExceptionMacro("InputFilter cannot be nullptr.");
     }
 
   if ( m_InputFilter.GetPointer() != filter )
@@ -153,7 +153,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
 {
   if ( !filter )
     {
-    itkExceptionMacro("OutputFilter cannot be ITK_NULLPTR.");
+    itkExceptionMacro("OutputFilter cannot be nullptr.");
     }
 
   if ( m_OutputFilter.GetPointer() != filter )

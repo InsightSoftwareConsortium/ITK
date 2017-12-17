@@ -70,7 +70,7 @@ int itkLabelMapFilterTest(int argc, char * argv[])
   LabelMapFilterType::Pointer conversion = LabelMapFilterType::New();
   conversion->SetInput( map );
   conversion->GenerateInputRequestedRegion();
-  conversion->EnlargeOutputRequestedRegion( ITK_NULLPTR );
+  conversion->EnlargeOutputRequestedRegion( nullptr );
   conversion->Update();
 
   RegionType region;

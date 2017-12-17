@@ -146,7 +146,7 @@ public:
   SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override
   {
     const DummyMetaObjectType *dummyMO = dynamic_cast<const MetaDummy *>(mo);
-    if(dummyMO == ITK_NULLPTR)
+    if(dummyMO == nullptr)
       {
       itkExceptionMacro(<< "Can't convert MetaObject to MetaDummy");
       }

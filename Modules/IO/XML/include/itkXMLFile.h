@@ -104,7 +104,7 @@ public:
 
 protected:
   XMLReader() :
-    m_OutputObject(ITK_NULLPTR)
+    m_OutputObject(nullptr)
   {}
 
   ~XMLReader() override {}
@@ -135,7 +135,7 @@ public:
    */
   XMLWriterBase()
   {
-    m_InputObject = ITK_NULLPTR;
+    m_InputObject = nullptr;
   }
 
   /** Set the filename to write */

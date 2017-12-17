@@ -49,9 +49,9 @@ public:
               << m_NumberOfIterations << std::endl;
 
     const TFilterType * filter = static_cast< const TFilterType * >( object );
-    if ( filter->GetCurrentEstimate() == ITK_NULLPTR )
+    if ( filter->GetCurrentEstimate() == nullptr )
       {
-      itkExceptionMacro(<< "CurrentEstimate is ITK_NULLPTR, but should not be.");
+      itkExceptionMacro(<< "CurrentEstimate is nullptr, but should not be.");
       }
   }
 

@@ -83,7 +83,7 @@ void LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
     }
   else
     {
-    itkWarningMacro( << "m_Heaviside is ITK_NULLPTR" );
+    itkWarningMacro( << "m_Heaviside is nullptr" );
     }
 }
 
@@ -139,7 +139,7 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
     }
   else
     {
-    itkWarningMacro( << "m_Heaviside is ITK_NULLPTR" );
+    itkWarningMacro( << "m_Heaviside is nullptr" );
     }
   return NumericTraits< LevelSetOutputPixelType >::ZeroValue();
 }
@@ -168,7 +168,7 @@ LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
     }
   else
     {
-    itkWarningMacro( << "m_Heaviside is ITK_NULLPTR" );
+    itkWarningMacro( << "m_Heaviside is nullptr" );
     }
   return NumericTraits< LevelSetOutputPixelType >::ZeroValue();
 }

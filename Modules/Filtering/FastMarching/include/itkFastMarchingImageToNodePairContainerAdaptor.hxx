@@ -29,8 +29,8 @@ namespace itk
 template< typename TInput, typename TOutput, typename TImage >
 FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
 ::FastMarchingImageToNodePairContainerAdaptor() :
-  m_AliveImage( ITK_NULLPTR ), m_TrialImage( ITK_NULLPTR ), m_ForbiddenImage( ITK_NULLPTR ),
-  m_AlivePoints( ITK_NULLPTR ), m_TrialPoints( ITK_NULLPTR ), m_ForbiddenPoints( ITK_NULLPTR ),
+  m_AliveImage( nullptr ), m_TrialImage( nullptr ), m_ForbiddenImage( nullptr ),
+  m_AlivePoints( nullptr ), m_TrialPoints( nullptr ), m_ForbiddenPoints( nullptr ),
   m_AliveValue( NumericTraits< OutputPixelType >::ZeroValue() ),
   m_TrialValue( NumericTraits< OutputPixelType >::ZeroValue() ),
   m_IsForbiddenImageBinaryMask( false )

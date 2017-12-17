@@ -45,8 +45,8 @@ NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
     }
   this->SetRadius(r);
 
-  this->SetMovingImage(ITK_NULLPTR);
-  this->SetFixedImage(ITK_NULLPTR);
+  this->SetMovingImage(nullptr);
+  this->SetFixedImage(nullptr);
 
   m_FixedImageSpacing.Fill(1.0);
 

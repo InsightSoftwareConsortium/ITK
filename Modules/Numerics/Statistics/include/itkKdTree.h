@@ -385,25 +385,25 @@ struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode:public KdTreeNode<TSample>
   /** Return the left tree pointer. Null for terminal nodes. */
   Superclass * Left() override
   {
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Return the right tree pointer. Null for terminal nodes. */
   Superclass * Right() override
   {
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Return the left tree const pointer. Null for terminal nodes. */
   const Superclass * Left() const override
   {
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Return the right tree const pointer. Null for terminal nodes. */
   const Superclass * Right() const override
   {
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Return the size of the node. */

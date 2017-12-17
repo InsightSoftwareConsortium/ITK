@@ -51,7 +51,7 @@ public:
   typedef AutoPointer Self;
 
   /** Constructor.  */
-  AutoPointer ():m_Pointer(ITK_NULLPTR), m_IsOwner(false)
+  AutoPointer ():m_Pointer(nullptr), m_IsOwner(false)
   {}
 
   /** Copy constructor.  */
@@ -85,7 +85,7 @@ public:
       {
       delete m_Pointer;
       }
-    m_Pointer = ITK_NULLPTR;
+    m_Pointer = nullptr;
     m_IsOwner = false;
   }
 
@@ -175,7 +175,7 @@ public:
   /** Casting operator to boolean. This is used in conditional
       statments to check the content of the pointer against null */
   operator bool() const
-                { return ( m_Pointer != ITK_NULLPTR ); }
+                { return ( m_Pointer != nullptr ); }
 
   /** Function to print object pointed to.  */
 /*  ObjectType *Print (std::ostream& os) const

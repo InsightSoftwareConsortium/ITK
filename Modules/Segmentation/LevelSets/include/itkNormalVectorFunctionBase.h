@@ -83,7 +83,7 @@ public:
   typedef typename NodeType::NodeDataType NormalVectorType;
 
   /** Globaldata methods are not needed in this class. */
-  void * GetGlobalDataPointer() const override { return ITK_NULLPTR; }
+  void * GetGlobalDataPointer() const override { return nullptr; }
   void ReleaseGlobalDataPointer(void *) const override {}
 
   /** For the global time step, we return the time step parameter. */

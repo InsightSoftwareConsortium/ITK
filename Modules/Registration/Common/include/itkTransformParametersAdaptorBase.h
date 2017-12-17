@@ -76,7 +76,7 @@ public:
 
   // note: the void pointer is use to ensure this method has lower
   // overloaded priority and avoid an ambiguous overloaded method
-  virtual void SetTransform( TransformBaseType *_arg, void * priorityLower = ITK_NULLPTR ) = 0;
+  virtual void SetTransform( TransformBaseType *_arg, void * priorityLower = nullptr ) = 0;
 
   /** Set the fixed parameters */
   itkSetMacro( RequiredFixedParameters, FixedParametersType );

@@ -117,7 +117,7 @@ public:
 
   /** Const Interator */
   struct ConstIterator {
-    ConstIterator() { m_NeighborhoodIterator = ITK_NULLPTR; }
+    ConstIterator() { m_NeighborhoodIterator = nullptr; }
     ConstIterator(Self *s)
     {
       m_NeighborhoodIterator = s;

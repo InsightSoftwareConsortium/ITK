@@ -628,7 +628,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
 
 
   // The inverse displacement field for the inverse displacement transform must
-  // have been set to ITK_NULLPTR when calling SetDisplacementField(), so
+  // have been set to nullptr when calling SetDisplacementField(), so
   // 'false' should be returned here
   DisplacementTransformType::Pointer inverseTransform = DisplacementTransformType::New();
   if( displacementTransform->GetInverse( inverseTransform ) )
@@ -648,8 +648,8 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
 
   displacementTransform->SetIdentity();
 
-  displacementTransform->SetDisplacementField( ITK_NULLPTR );
-  displacementTransform->SetInverseDisplacementField( ITK_NULLPTR );
+  displacementTransform->SetDisplacementField( nullptr );
+  displacementTransform->SetInverseDisplacementField( nullptr );
 
   // Check setting all zero for fixed parameters
   displacementTransform = DisplacementTransformType::New();

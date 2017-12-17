@@ -147,7 +147,7 @@ public:
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
     OptimizerPointer optimizer =  static_cast< OptimizerPointer >( object );
-    if( optimizer == ITK_NULLPTR)
+    if( optimizer == nullptr)
       {
       return; // in this unlikely context, just do nothing.
       }

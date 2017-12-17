@@ -363,7 +363,7 @@ public:
   void SetFixedObject( const ObjectType *object ) override
     {
     FixedImageType *image = dynamic_cast<FixedImageType *>( const_cast<ObjectType *>( object ) );
-    if( image != ITK_NULLPTR )
+    if( image != nullptr )
       {
       this->SetFixedImage( image );
       }
@@ -377,7 +377,7 @@ public:
   void SetMovingObject( const ObjectType *object ) override
     {
     MovingImageType *image = dynamic_cast<MovingImageType *>( const_cast<ObjectType *>( object ) );
-    if( image != ITK_NULLPTR )
+    if( image != nullptr )
       {
       this->SetMovingImage( image );
       }
@@ -678,7 +678,7 @@ protected:
    * the user-provided variable does not have to be passed around. It also enables
    * safely sharing a derivative object between metrics during multi-variate
    * analsys, for memory efficiency.
-   * Will be ITK_NULLPTR if not set. */
+   * Will be nullptr if not set. */
   mutable DerivativeType *                m_DerivativeResult;
 
   /** Masks */

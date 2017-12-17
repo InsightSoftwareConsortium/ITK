@@ -290,7 +290,7 @@ void
 BinaryContourImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
 {
-  m_Barrier = ITK_NULLPTR;
+  m_Barrier = nullptr;
   m_ForegroundLineMap.clear();
   m_BackgroundLineMap.clear();
 }

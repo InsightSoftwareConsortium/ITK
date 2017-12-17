@@ -160,7 +160,7 @@ NeuralNetworkFileWriter< TNetwork >
       else
         {
         MET_InitWriteField(mF, "TransferFunction", MET_STRING,
-                           strlen("ITK_NULLPTR"), "ITK_NULLPTR");
+                           strlen("nullptr"), "nullptr");
         }
       this->m_Fields.push_back(mF);
       }
@@ -178,7 +178,7 @@ NeuralNetworkFileWriter< TNetwork >
       else
         {
         MET_InitWriteField(mF, "InputFunction", MET_STRING,
-                           strlen("ITK_NULLPTR"), "ITK_NULLPTR");
+                           strlen("nullptr"), "nullptr");
         }
       mF->terminateRead = true;
       this->m_Fields.push_back(mF);

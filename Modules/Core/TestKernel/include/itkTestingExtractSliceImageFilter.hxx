@@ -127,7 +127,7 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
   phyData =
     dynamic_cast< const ImageBase< InputImageDimension > * >( this->GetInput() );
 
-  if ( phyData == ITK_NULLPTR )
+  if ( phyData == nullptr )
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::ExtractSliceImageFilter::GenerateOutputInformation "

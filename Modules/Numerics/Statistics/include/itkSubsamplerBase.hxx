@@ -26,7 +26,7 @@ template <typename TSample>
 SubsamplerBase<TSample>
 ::SubsamplerBase()
 {
-  m_Sample = ITK_NULLPTR;
+  m_Sample = nullptr;
   m_RequestMaximumNumberOfResults = true;
   m_CanSelectQuery = true;
   m_Seed =  0;
@@ -72,7 +72,7 @@ SubsamplerBase<TSample>
   }
   else
   {
-    os << indent << "Sample is ITK_NULLPTR" << std::endl;
+    os << indent << "Sample is nullptr" << std::endl;
   }
 
   os << std::endl;

@@ -81,7 +81,7 @@ PlaneSpatialObject< TDimension >
 {
   itkDebugMacro("Checking the point [" << point << "is inside the plane");
 
-  if ( name == ITK_NULLPTR )
+  if ( name == nullptr )
     {
     if ( IsInside(point) )
       {

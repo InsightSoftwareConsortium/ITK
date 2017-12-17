@@ -249,16 +249,16 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     {
     m_GPUSmoothingKernels[dir]->Initialize();
     delete m_SmoothingKernels[dir];
-    m_SmoothingKernels[dir] = ITK_NULLPTR;
+    m_SmoothingKernels[dir] = nullptr;
 
     m_UpdateFieldGPUSmoothingKernels[dir]->Initialize();
     delete m_UpdateFieldSmoothingKernels[dir];
-    m_UpdateFieldSmoothingKernels[dir] = ITK_NULLPTR;
+    m_UpdateFieldSmoothingKernels[dir] = nullptr;
     }
 
   m_GPUImageSizes->Initialize();
   delete m_ImageSizes;
-  m_ImageSizes = ITK_NULLPTR;
+  m_ImageSizes = nullptr;
 
   GPUPDEDeformableRegistrationFunctionType *f =
     dynamic_cast<GPUPDEDeformableRegistrationFunctionType *>
@@ -406,10 +406,10 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     // shared memory below
     this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle,
                                            argidx++, sizeof(DeformationScalarType) * GPUSmoothingKernelSizes[indir],
-                                           ITK_NULLPTR);
+                                           nullptr);
     this->m_GPUKernelManager->SetKernelArg(m_SmoothDisplacementFieldGPUKernelHandle,
                                            argidx++, sizeof(DeformationScalarType)
-                                           * (localSize[indir] + GPUSmoothingKernelSizes[indir] - 1), ITK_NULLPTR);
+                                           * (localSize[indir] + GPUSmoothingKernelSizes[indir] - 1), nullptr);
 
     // launch kernel
     this->m_GPUKernelManager->LaunchKernel(m_SmoothDisplacementFieldGPUKernelHandle,

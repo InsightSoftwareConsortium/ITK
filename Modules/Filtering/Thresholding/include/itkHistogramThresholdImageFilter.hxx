@@ -136,7 +136,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
     this->GraftOutput( thresholder->GetOutput() );
     }
   m_Threshold = m_Calculator->GetThreshold();
-  m_Calculator->SetInput( ITK_NULLPTR );
+  m_Calculator->SetInput( nullptr );
 }
 
 template<typename TInputImage, typename TOutputImage, typename TMaskImage>

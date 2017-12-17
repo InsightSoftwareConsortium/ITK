@@ -216,7 +216,7 @@ CenteredEuler3DTransform<TParametersValueType>
 {
   Pointer inv = New();
 
-  return this->GetInverse(inv) ? inv.GetPointer() : ITK_NULLPTR;
+  return this->GetInverse(inv) ? inv.GetPointer() : nullptr;
 }
 
 // Print self

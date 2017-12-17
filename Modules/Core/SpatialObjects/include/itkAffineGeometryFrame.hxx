@@ -27,14 +27,14 @@ template< typename TScalar, unsigned int NDimensions >
 AffineGeometryFrame< TScalar, NDimensions >
 ::AffineGeometryFrame()
 {
-  m_BoundingBox = ITK_NULLPTR;
+  m_BoundingBox = nullptr;
   m_IndexToObjectTransform = TransformType::New();
   m_IndexToObjectTransform->SetIdentity();
   m_ObjectToNodeTransform = TransformType::New();
   m_ObjectToNodeTransform->SetIdentity();
   m_IndexToNodeTransform = TransformType::New();
   m_IndexToNodeTransform->SetIdentity();
-  m_IndexToWorldTransform = ITK_NULLPTR;
+  m_IndexToWorldTransform = nullptr;
 }
 
 /** Destructor */

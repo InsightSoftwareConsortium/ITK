@@ -34,10 +34,10 @@ LayerBase<TMeasurementVector,TTargetVector>
   m_NumberOfNodes = 0;
   m_LayerId = INVALID_LAYER_ID;
   m_LayerTypeCode = INVALIDLAYER;
-  m_InputWeightSet = ITK_NULLPTR;
-  m_OutputWeightSet = ITK_NULLPTR;
-  m_ActivationFunction = ITK_NULLPTR;
-  m_NodeInputFunction = ITK_NULLPTR;
+  m_InputWeightSet = nullptr;
+  m_OutputWeightSet = nullptr;
+  m_ActivationFunction = nullptr;
+  m_NodeInputFunction = nullptr;
 }
 
 template<typename TMeasurementVector, typename TTargetVector>

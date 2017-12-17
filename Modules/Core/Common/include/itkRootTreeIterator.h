@@ -35,7 +35,7 @@ public:
   typedef typename Superclass::NodeType     NodeType;
 
   /** Constructor */
-  RootTreeIterator(TreeType *tree, const TreeNodeType *start = ITK_NULLPTR);
+  RootTreeIterator(TreeType *tree, const TreeNodeType *start = nullptr);
 
   /** Return the type of the iterator */
   NodeType GetType() const override;
@@ -83,7 +83,7 @@ template< typename TTreeType >
 bool
 RootTreeIterator< TTreeType >::HasNext() const
 {
-  if ( const_cast< TreeNodeType * >( FindNextNode() ) != ITK_NULLPTR )
+  if ( const_cast< TreeNodeType * >( FindNextNode() ) != nullptr )
     {
     return true;
     }
@@ -104,13 +104,13 @@ template< typename TTreeType >
 const typename RootTreeIterator< TTreeType >::TreeNodeType *
 RootTreeIterator< TTreeType >::FindNextNode() const
 {
-  if ( this->m_Position == ITK_NULLPTR )
+  if ( this->m_Position == nullptr )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   if ( this->m_Position == this->m_Root )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   return this->m_Position->GetParent();
 }

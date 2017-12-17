@@ -53,7 +53,7 @@ FastChamferDistanceImageFilter< TInputImage, TOutputImage >
     }
 
   m_MaximumDistance = 10.0;
-  m_NarrowBand = ITK_NULLPTR;
+  m_NarrowBand = nullptr;
 }
 
 template< typename TInputImage, typename TOutputImage >

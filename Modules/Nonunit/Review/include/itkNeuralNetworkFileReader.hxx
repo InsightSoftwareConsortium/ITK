@@ -239,10 +239,10 @@ NeuralNetworkFileReader< TNetwork >
         typename tfType::Pointer tf = tfType::New();
         layerptr->SetTransferFunction(tf);
         }
-      else if ( !strcmp( (char *)mF->value, "ITK_NULLPTR" ) )
+      else if ( !strcmp( (char *)mF->value, "nullptr" ) )
         {
-        std::cout << "ITK_NULLPTR" << std::endl;
-        layerptr->SetTransferFunction(ITK_NULLPTR);
+        std::cout << "nullptr" << std::endl;
+        layerptr->SetTransferFunction(nullptr);
         }
 
       mF = MET_GetFieldRecord("InputFunction", &this->m_Fields);
@@ -255,10 +255,10 @@ NeuralNetworkFileReader< TNetwork >
         typename  ifType::Pointer ifcn = ifType::New();
         layerptr->SetNodeInputFunction(ifcn);
         }
-      else if ( !strcmp( (char *)( mF->value ), "ITK_NULLPTR" ) )
+      else if ( !strcmp( (char *)( mF->value ), "nullptr" ) )
         {
-        std::cout << "ITK_NULLPTR" << std::endl;
-        layerptr->SetNodeInputFunction(ITK_NULLPTR);
+        std::cout << "nullptr" << std::endl;
+        layerptr->SetNodeInputFunction(nullptr);
         }
       this->m_Network->AddLayer(layerptr);
       }

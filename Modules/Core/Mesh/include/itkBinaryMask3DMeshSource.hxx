@@ -29,10 +29,10 @@ template< typename TInputImage, typename TOutputMesh >
 BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::BinaryMask3DMeshSource() :
   m_RegionOfInterestProvidedByUser(false),
-  m_LastRow(ITK_NULLPTR),
-  m_LastFrame(ITK_NULLPTR),
-  m_CurrentRow(ITK_NULLPTR),
-  m_CurrentFrame(ITK_NULLPTR),
+  m_LastRow(nullptr),
+  m_LastFrame(nullptr),
+  m_CurrentRow(nullptr),
+  m_CurrentFrame(nullptr),
   m_CurrentRowIndex(0),
   m_CurrentFrameIndex(0),
   m_LastRowNum(0),
@@ -54,8 +54,8 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   m_LastFrameIndex(0),
   m_PointFound(0),
   m_ObjectValue(NumericTraits< InputPixelType >::OneValue()),
-  m_OutputMesh(ITK_NULLPTR),
-  m_InputImage(ITK_NULLPTR)
+  m_OutputMesh(nullptr),
+  m_InputImage(nullptr)
 {
   // Modify superclass default values, can be overridden by subclasses
   this->SetNumberOfRequiredInputs(1);
@@ -1061,12 +1061,12 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
   m_LastFrameIndex = 0;
   m_CurrentRowIndex = 0;
   m_CurrentFrameIndex = 0;
-  m_CurrentFrame = ITK_NULLPTR;
-  m_CurrentRow = ITK_NULLPTR;
-  m_LastRow = ITK_NULLPTR;
+  m_CurrentFrame = nullptr;
+  m_CurrentRow = nullptr;
+  m_LastRow = nullptr;
   m_LastRowNum = 0;
   m_LastFrameNum = 0;
-  m_LastFrame = ITK_NULLPTR;
+  m_LastFrame = nullptr;
   m_CurrentRowNum = 200;
   m_CurrentFrameNum = 2000;
   m_OutputMesh = this->GetOutput();
@@ -1300,7 +1300,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
           free (m_LastRow[i]);
           }
         free (m_LastRow);
-        m_LastRow = ITK_NULLPTR;
+        m_LastRow = nullptr;
         }
       m_LastRowNum = 0;
       }
@@ -1347,7 +1347,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
         free (m_LastFrame[i]);
         }
       free (m_LastFrame);
-      m_LastFrame = ITK_NULLPTR;
+      m_LastFrame = nullptr;
       }
     }
 

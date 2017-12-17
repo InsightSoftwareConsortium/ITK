@@ -129,7 +129,7 @@ public:
     m_MetaArray.InitializeEssential(rows,
                                     _metaElementType,
                                     cols,
-                                    ITK_NULLPTR,
+                                    nullptr,
                                     true,
                                     true);
     m_Buffer = m_MetaArray.ElementData();

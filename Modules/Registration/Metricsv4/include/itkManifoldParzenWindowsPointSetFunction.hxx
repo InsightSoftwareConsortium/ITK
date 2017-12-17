@@ -28,7 +28,7 @@ namespace itk
 template <typename TPointSet, typename TOutput, typename TCoordRep>
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 ::ManifoldParzenWindowsPointSetFunction() :
-  m_PointsLocator( ITK_NULLPTR ),
+  m_PointsLocator( nullptr ),
   m_CovarianceKNeighborhood( 5 ),
   m_EvaluationKNeighborhood( 50 ),
   m_RegularizationSigma( 1.0 ),
@@ -167,7 +167,7 @@ TOutput
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
 ::Evaluate( const InputPointType &point ) const
 {
-  if( this->GetInputPointSet() == ITK_NULLPTR )
+  if( this->GetInputPointSet() == nullptr )
     {
     itkExceptionMacro( "The input point set has not been specified." );
     }
@@ -212,7 +212,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
     }
   else
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 

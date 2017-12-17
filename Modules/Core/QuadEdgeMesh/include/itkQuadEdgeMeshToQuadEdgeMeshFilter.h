@@ -183,7 +183,7 @@ void CopyMeshToMeshPointData(const TInputMesh *in, TOutputMesh *out)
 
   const InputPointDataContainer *inputPointData = in->GetPointData();
 
-  if ( inputPointData == ITK_NULLPTR )
+  if ( inputPointData == nullptr )
     {
     // There is nothing to copy
     return;

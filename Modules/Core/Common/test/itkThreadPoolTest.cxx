@@ -48,7 +48,7 @@ void* execute(void *ptr)
       }
     }
 
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 #if !defined(ITK_USE_PTHREADS)

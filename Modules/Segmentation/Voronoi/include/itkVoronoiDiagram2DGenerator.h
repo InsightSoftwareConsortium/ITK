@@ -169,7 +169,7 @@ private:
       m_C(0.0),
       m_Edgenbr(0)
     {
-      m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = ITK_NULLPTR;
+      m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = nullptr;
     }
 
     ~FortuneEdge(){}
@@ -187,13 +187,13 @@ private:
     FortuneHalfEdge *m_Next;
 
     FortuneHalfEdge() :
-      m_Left(ITK_NULLPTR),
-      m_Right(ITK_NULLPTR),
-      m_Edge(ITK_NULLPTR),
+      m_Left(nullptr),
+      m_Right(nullptr),
+      m_Edge(nullptr),
       m_RorL(false),
-      m_Vert(ITK_NULLPTR),
+      m_Vert(nullptr),
       m_Ystar(0.0),
-      m_Next(ITK_NULLPTR)
+      m_Next(nullptr)
     {}
 
     FortuneHalfEdge(const FortuneHalfEdge & edge) :

@@ -67,7 +67,7 @@ public:
     { return 0; }
 
   void *GetGlobalDataPointer() const override
-    { return ITK_NULLPTR; }
+    { return nullptr; }
 
   void ReleaseGlobalDataPointer(void *) const override {}
 
@@ -104,12 +104,12 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
   std::cout << "Test error handling." << std::endl;
   typedef itk::CurvatureFlowImageFilter<ImageType,ImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( ITK_NULLPTR );
+  filter->SetInput( nullptr );
 
   bool passed = false;
   try
     {
-    std::cout << "Test when input is ITK_NULLPTR." << std::endl;
+    std::cout << "Test when input is nullptr." << std::endl;
     filter->Update();
     }
   catch( itk::ExceptionObject& err )

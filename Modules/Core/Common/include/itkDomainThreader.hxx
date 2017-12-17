@@ -30,7 +30,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
   this->m_DomainPartitioner   = DomainPartitionerType::New();
   this->m_MultiThreader       = MultiThreader::New();
   this->m_NumberOfThreadsUsed = 0;
-  this->m_Associate           = ITK_NULLPTR;
+  this->m_Associate           = nullptr;
 }
 
 template< typename TDomainPartitioner, typename TAssociate >

@@ -94,7 +94,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 {
   if( this->GetNumberOfInputs() < 1 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   return static_cast<const ImageType *>( this->ProcessObject::GetInput( 0 ) );
 }
@@ -106,7 +106,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
 {
   if( this->GetNumberOfInputs() < 2 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   return static_cast<const ImageType *>( this->ProcessObject::GetInput( 1 ) );
 }

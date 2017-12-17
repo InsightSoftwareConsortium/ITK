@@ -248,7 +248,7 @@ SubjectImplementation::GetCommand(unsigned long tag)
       return ( *i )->m_Command;
       }
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 bool
@@ -295,7 +295,7 @@ Object::New()
   Pointer smartPtr;
   Object *rawPtr = ::itk::ObjectFactory< Object >::Create();
 
-  if ( rawPtr == ITK_NULLPTR )
+  if ( rawPtr == nullptr )
     {
     rawPtr = new Object;
     }
@@ -526,7 +526,7 @@ Object
     {
     return this->m_SubjectImplementation->GetCommand(tag);
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 void
@@ -599,8 +599,8 @@ Object
 ::Object():
   LightObject(),
   m_Debug(false),
-  m_SubjectImplementation(ITK_NULLPTR),
-  m_MetaDataDictionary(ITK_NULLPTR),
+  m_SubjectImplementation(nullptr),
+  m_MetaDataDictionary(nullptr),
   m_ObjectName()
 {
   this->Modified();
@@ -638,7 +638,7 @@ MetaDataDictionary &
 Object
 ::GetMetaDataDictionary(void)
 {
-  if ( m_MetaDataDictionary == ITK_NULLPTR )
+  if ( m_MetaDataDictionary == nullptr )
     {
     m_MetaDataDictionary = new MetaDataDictionary;
     }
@@ -649,7 +649,7 @@ const MetaDataDictionary &
 Object
 ::GetMetaDataDictionary(void) const
 {
-  if ( m_MetaDataDictionary == ITK_NULLPTR )
+  if ( m_MetaDataDictionary == nullptr )
     {
     m_MetaDataDictionary = new MetaDataDictionary;
     }
@@ -660,7 +660,7 @@ void
 Object
 ::SetMetaDataDictionary(const MetaDataDictionary & rhs)
 {
-  if ( m_MetaDataDictionary == ITK_NULLPTR )
+  if ( m_MetaDataDictionary == nullptr )
     {
     m_MetaDataDictionary = new MetaDataDictionary;
     }

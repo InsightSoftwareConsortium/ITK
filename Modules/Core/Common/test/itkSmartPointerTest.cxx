@@ -152,7 +152,7 @@ int itkSmartPointerTest(int, char* [] )
 
 
   // check test of null pointer
-  itkTestObject::Pointer q(ITK_NULLPTR);
+  itkTestObject::Pointer q(nullptr);
   std::cout << q;
 
   std::cout <<"first test" << std::endl;

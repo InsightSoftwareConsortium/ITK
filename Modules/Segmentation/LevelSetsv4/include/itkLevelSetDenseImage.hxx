@@ -77,7 +77,7 @@ LevelSetDenseImage< TImage >
 {
   Superclass::Initialize();
 
-  this->m_Image = ITK_NULLPTR;
+  this->m_Image = nullptr;
 }
 
 // ----------------------------------------------------------------------------

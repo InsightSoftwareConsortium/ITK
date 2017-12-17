@@ -41,7 +41,7 @@ BayesianClassifierInitializationImageFilter< TInputImage, TProbabilityPrecisionT
   m_UserSuppliesMembershipFunctions(false),
   m_NumberOfClasses(0)
 {
-  m_MembershipFunctionContainer = ITK_NULLPTR;
+  m_MembershipFunctionContainer = nullptr;
 }
 
 // GenerateOutputInformation method. Here we force update on the entire input

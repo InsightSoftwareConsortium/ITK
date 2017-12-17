@@ -2014,7 +2014,7 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "ITK_LEGACY_REMOVE" \
                          "ITKCommon_EXPORT_EXPLICIT" \
                          "override= override " \
-                         "ITK_NULLPTR=  nullptr " \
+                         "nullptr=  nullptr " \
                          "ITK_NOEXCEPT= noexcept " \
                          "ITK_DISALLOW_COPY_AND_ASSIGN(type)="\
                          "ITK_FORCE_EXPORT_MACRO(X)="

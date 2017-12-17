@@ -69,7 +69,7 @@ VideoSource<TOutputVideoStream>::GetOutput()
   if (this->GetNumberOfOutputs() < 1)
     {
     itkWarningMacro("No outputs set");
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   // Return the output
@@ -87,7 +87,7 @@ VideoSource<TOutputVideoStream>::GetOutput(unsigned int idx)
     (this->TemporalProcessObject::GetOutput(idx) );
 
   // Make sure there is at least 1 output
-  if (out == ITK_NULLPTR)
+  if (out == nullptr)
     {
     itkWarningMacro("dynamic_cast to output type failed");
     }
@@ -121,7 +121,7 @@ GraftNthOutput(unsigned int idx, TOutputVideoStream* graft)
     }
   if (!graft)
     {
-    itkExceptionMacro("Cannot graft from a ITK_NULLPTR pointer");
+    itkExceptionMacro("Cannot graft from a nullptr pointer");
     }
 
   // we use the process object method since all our outputs may not be of the

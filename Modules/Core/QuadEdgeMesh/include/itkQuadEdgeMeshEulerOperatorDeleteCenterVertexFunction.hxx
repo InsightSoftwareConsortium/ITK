@@ -29,19 +29,19 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< TMesh, TQEType >::Evaluate(
   if ( !g )
     {
     itkDebugMacro("Input is not an edge.");
-    return ( (QEType *)ITK_NULLPTR );
+    return ( (QEType *)nullptr );
     }
 
   if ( !this->m_Mesh )
     {
     itkDebugMacro("No mesh present.");
-    return ( (QEType *)ITK_NULLPTR );
+    return ( (QEType *)nullptr );
     }
 
   if ( !g->IsInternal() )
     {
     itkDebugMacro("The edge is either border or wire.");
-    return ( (QEType *)ITK_NULLPTR );
+    return ( (QEType *)nullptr );
     }
 
   // None of the incident facets of g->GetDestination() is a hole.
@@ -58,7 +58,7 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< TMesh, TQEType >::Evaluate(
     if ( !one_edge->IsInternal() )
       {
       itkDebugMacro("DeleteVertex requires a full one-ring, i.e. no holes.");
-      return ( (QEType *)ITK_NULLPTR );
+      return ( (QEType *)nullptr );
       }
     pList.push_back( one_edge->GetDestination() );
     }
@@ -91,7 +91,7 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< TMesh, TQEType >::Evaluate(
     itkDebugMacro(
       "DeleteVertex requires at least two distinct \
     facets incident to the facets that are incident to g->GetDestination()."                                                     );
-    return ( (QEType *)ITK_NULLPTR );
+    return ( (QEType *)nullptr );
     }
 
   // let's do the job now.

@@ -439,7 +439,7 @@ int itkBSplineTransformTest1()
   /**
    * Parameters should remain even when the transform has been destroyed
    */
-  transform = ITK_NULLPTR;
+  transform = nullptr;
 
   if( outParametersCopy != parameters )
     {

@@ -97,10 +97,10 @@ public:
 
   // Since the Jacobian is not quadratic, we need to provide our
   // own implementation of calculating the determinant and inverse.
-  Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = ITK_NULLPTR) const override;
+  Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = nullptr) const override;
 
   /** Compute the inverse of the Jacobian matrix */
-  void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = ITK_NULLPTR) const override;
+  void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = nullptr) const override;
 
 protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;

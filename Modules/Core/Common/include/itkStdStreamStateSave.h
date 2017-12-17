@@ -49,7 +49,7 @@ class StdStreamStateSave
 public:
   explicit StdStreamStateSave(std::ios& stream) :
     m_Ios(stream),
-    m_State(ITK_NULLPTR)
+    m_State(nullptr)
   {
     m_State.copyfmt(stream);
   }

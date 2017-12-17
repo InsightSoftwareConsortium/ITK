@@ -31,7 +31,7 @@ typedef std::vector<ThreadDataStruct> ThreadDataVec;
 class LogTester
 {
 public:
-  LogTester(){ this->m_Logger = ITK_NULLPTR; }
+  LogTester(){ this->m_Logger = nullptr; }
   itk::Logger* GetLogger() { return m_Logger; }
   void SetLogger(itk::Logger* logger) { m_Logger = logger; }
   void log() {

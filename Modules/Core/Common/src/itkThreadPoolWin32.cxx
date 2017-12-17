@@ -42,7 +42,7 @@ std::string GetLastErrorAsString()
     return std::string(); //No error message has been recorded
     }
 
-  LPSTR messageBuffer = ITK_NULLPTR;
+  LPSTR messageBuffer = nullptr;
   size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
       NULL, errorMessageID, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&messageBuffer, 0, NULL);
 
@@ -58,8 +58,8 @@ void
 ThreadPool
 ::PlatformCreate(Semaphore &semaphore)
 {
-  semaphore = CreateSemaphore(ITK_NULLPTR, 0, 0x7ffffffel, ITK_NULLPTR);
-  if (semaphore == ITK_NULLPTR)
+  semaphore = CreateSemaphore(nullptr, 0, 0x7ffffffel, nullptr);
+  if (semaphore == nullptr)
     {
     itkGenericExceptionMacro(<< "CreateSemaphore error. " << GetLastErrorAsString());
     }
@@ -80,7 +80,7 @@ void
 ThreadPool
 ::PlatformSignal(Semaphore &semaphore)
 {
-  if (!ReleaseSemaphore(semaphore, 1, ITK_NULLPTR))
+  if (!ReleaseSemaphore(semaphore, 1, nullptr))
     {
     itkGenericExceptionMacro(<< "SignalSemaphore error. " << GetLastErrorAsString());
     }
@@ -108,14 +108,14 @@ ThreadPool
 ::AddThread()
 {
   ThreadProcessIdType threadHandle = reinterpret_cast<ThreadProcessIdType>(_beginthreadex(
-    ITK_NULLPTR,
+    nullptr,
     0,
     ThreadPool::ThreadExecute,
-    ITK_NULLPTR,
+    nullptr,
     0,
-    ITK_NULLPTR));
+    nullptr));
 
-  if (threadHandle == ITK_NULLPTR)
+  if (threadHandle == nullptr)
     {
     itkDebugMacro(<< "ERROR adding thread to thread pool");
     itkExceptionMacro(<< "Cannot create thread. " << GetLastErrorAsString());

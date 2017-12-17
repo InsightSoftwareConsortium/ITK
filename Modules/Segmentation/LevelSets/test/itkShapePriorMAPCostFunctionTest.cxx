@@ -245,9 +245,9 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
     return EXIT_FAILURE; \
     }
 
-  TEST_INITIALIZATION_ERROR( ShapeFunction, ITK_NULLPTR, shape );
-  TEST_INITIALIZATION_ERROR( ActiveRegion, ITK_NULLPTR, activeRegion );
-  TEST_INITIALIZATION_ERROR( FeatureImage, ITK_NULLPTR, edgeMap );
+  TEST_INITIALIZATION_ERROR( ShapeFunction, nullptr, shape );
+  TEST_INITIALIZATION_ERROR( ActiveRegion, nullptr, activeRegion );
+  TEST_INITIALIZATION_ERROR( FeatureImage, nullptr, edgeMap );
 
   CostFunctionType::ParametersType badParameters( shape->GetNumberOfShapeParameters() - 1 );
   badParameters.Fill( 2.0 );

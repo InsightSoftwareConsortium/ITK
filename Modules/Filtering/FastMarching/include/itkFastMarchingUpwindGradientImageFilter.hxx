@@ -33,8 +33,8 @@ template< typename TLevelSet, typename TSpeedImage >
 FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 ::FastMarchingUpwindGradientImageFilter()
 {
-  m_TargetPoints = ITK_NULLPTR;
-  m_ReachedTargetPoints = ITK_NULLPTR;
+  m_TargetPoints = nullptr;
+  m_ReachedTargetPoints = nullptr;
   m_GradientImage = GradientImageType::New();
   m_GenerateGradientImage = false;
   m_TargetOffset = 1.0;

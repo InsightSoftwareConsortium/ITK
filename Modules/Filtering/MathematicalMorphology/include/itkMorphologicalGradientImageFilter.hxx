@@ -46,7 +46,7 @@ MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
 {
   const FlatKernelType *flatKernel = dynamic_cast< const FlatKernelType * >( &kernel );
 
-  if ( flatKernel != ITK_NULLPTR && flatKernel->GetDecomposable() )
+  if ( flatKernel != nullptr && flatKernel->GetDecomposable() )
     {
     m_AnchorDilateFilter->SetKernel(*flatKernel);
     m_AnchorErodeFilter->SetKernel(*flatKernel);
@@ -102,12 +102,12 @@ MorphologicalGradientImageFilter< TInputImage, TOutputImage, TKernel >
       {
       m_HistogramFilter->SetKernel( this->GetKernel() );
       }
-    else if ( flatKernel != ITK_NULLPTR && flatKernel->GetDecomposable() && algo == ANCHOR )
+    else if ( flatKernel != nullptr && flatKernel->GetDecomposable() && algo == ANCHOR )
       {
       m_AnchorDilateFilter->SetKernel(*flatKernel);
       m_AnchorErodeFilter->SetKernel(*flatKernel);
       }
-    else if ( flatKernel != ITK_NULLPTR && flatKernel->GetDecomposable() && algo == VHGW )
+    else if ( flatKernel != nullptr && flatKernel->GetDecomposable() && algo == VHGW )
       {
       m_VanHerkGilWermanDilateFilter->SetKernel(*flatKernel);
       m_VanHerkGilWermanErodeFilter->SetKernel(*flatKernel);

@@ -41,7 +41,7 @@ std::string GetCastTypeName()
 #ifdef GCC_USEDEMANGLE
   char const *mangledName = typeid( T ).name();
   int         status;
-  char *      unmangled = abi::__cxa_demangle(mangledName, ITK_NULLPTR, ITK_NULLPTR, &status);
+  char *      unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
   name = unmangled;
   free(unmangled);
 #else

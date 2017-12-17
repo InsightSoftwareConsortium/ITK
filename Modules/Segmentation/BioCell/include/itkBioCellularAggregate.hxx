@@ -256,7 +256,7 @@ CellularAggregate< NSpaceDimension >
 ::Add(CellBase *cellBase, const VectorType & perturbation)
 {
   BioCellType *  cell = dynamic_cast< BioCellType * >( cellBase );
-  if(cell == ITK_NULLPTR)
+  if(cell == nullptr)
     {
     itkExceptionMacro(<< "dynamic_cast failed.");
     }
@@ -457,7 +457,7 @@ CellularAggregate< NSpaceDimension >
       {
       const IdentifierType cell2Id = ( *neighbor );
 
-      BioCellType *cell2 = ITK_NULLPTR;
+      BioCellType *cell2 = nullptr;
       PointType    position2;
 
       if ( !m_Mesh->GetPoint(cell2Id, &position2) )
@@ -510,7 +510,7 @@ CellularAggregate< NSpaceDimension >
 
     PointsConstIterator point2It   = beginPoints;
 
-    BioCellType *cell1 = ITK_NULLPTR;
+    BioCellType *cell1 = nullptr;
 
     IdentifierType cell1Id = point1It.Index();
     m_Mesh->GetPointData(cell1Id, &cell1);

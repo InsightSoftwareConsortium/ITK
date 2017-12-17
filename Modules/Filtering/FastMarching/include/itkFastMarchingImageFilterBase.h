@@ -33,7 +33,7 @@ namespace itk
  *
  * The speed function can be specified as a speed image or a
  * speed constant. The speed image is set using the method
- * SetInput(). If the speed image is ITK_NULLPTR, a constant speed function
+ * SetInput(). If the speed image is nullptr, a constant speed function
  * is used and is specified using method the SetSpeedConstant().
  *
  * If the speed function is constant and of value one, fast marching results
@@ -47,7 +47,7 @@ namespace itk
  *
  * The output information is computed as follows.
  *
- * If the speed image is ITK_NULLPTR or if the OverrideOutputInformation is set to
+ * If the speed image is nullptr or if the OverrideOutputInformation is set to
  * true, the output information is set from user specified parameters. These
  * parameters can be specified using methods
  * \li FastMarchingImageFilterBase::SetOutputRegion(),
@@ -132,11 +132,11 @@ public:
   itkGetModifiableObjectMacro(LabelImage, LabelImageType );
 
   /** The output largeset possible, spacing and origin is computed as follows.
-   * If the speed image is ITK_NULLPTR or if the OverrideOutputInformation is true,
+   * If the speed image is nullptr or if the OverrideOutputInformation is true,
    * the output information is set from user specified parameters. These
    * parameters can be specified using methods SetOutputRegion(),
    * SetOutputSpacing(), SetOutputDirection(), and SetOutputOrigin().
-   * Else if the speed image is not ITK_NULLPTR, the output information
+   * Else if the speed image is not nullptr, the output information
    * is copied from the input speed image. */
   virtual void SetOutputSize(const OutputSizeType & size)
   { m_OutputRegion = size; }

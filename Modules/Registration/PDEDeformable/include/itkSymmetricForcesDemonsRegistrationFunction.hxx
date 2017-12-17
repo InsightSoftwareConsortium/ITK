@@ -39,8 +39,8 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
   m_TimeStep = 1.0;
   m_DenominatorThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
-  this->SetMovingImage(ITK_NULLPTR);
-  this->SetFixedImage(ITK_NULLPTR);
+  this->SetMovingImage(nullptr);
+  this->SetFixedImage(nullptr);
   m_FixedImageSpacing.Fill(1.0);
   m_Normalizer = 0.0;
   m_FixedImageGradientCalculator = GradientCalculatorType::New();

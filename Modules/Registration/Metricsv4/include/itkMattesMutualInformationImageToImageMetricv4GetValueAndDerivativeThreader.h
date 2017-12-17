@@ -85,7 +85,7 @@ public:
 
 protected:
   MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader() :
-    m_MattesAssociate(ITK_NULLPTR)
+    m_MattesAssociate(nullptr)
   {}
 
   void BeforeThreadedExecution() override;

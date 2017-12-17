@@ -58,7 +58,7 @@ HistogramToRunLengthFeaturesFilter< THistogram>
 {
   if ( this->GetNumberOfInputs() < 1 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   return itkDynamicCastInDebugMode<const HistogramType *>(this->ProcessObject::GetInput( 0 ) );
 }

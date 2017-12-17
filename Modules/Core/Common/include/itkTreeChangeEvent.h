@@ -40,7 +40,7 @@ public:
 
   /** Constructor */
   TreeChangeEvent():
-    m_ChangePosition( ITK_NULLPTR )
+    m_ChangePosition( nullptr )
     {}
 
   /** Copy constructor */
@@ -53,7 +53,7 @@ public:
   const char * GetEventName() const override { return "TreeChangeEvent"; }
 
   /** Check the event */
-  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != ITK_NULLPTR); }
+  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
 
   /** Make the event object */
   ::itk::EventObject * MakeObject() const override { return new Self(*m_ChangePosition); }
@@ -125,7 +125,7 @@ public:
   const char * GetEventName() const override { return "TreeAddEvent"; }
 
   /** Check event function */
-  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != ITK_NULLPTR); }
+  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
 
   /** Make the event object */
   ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
@@ -160,7 +160,7 @@ public:
   const char * GetEventName() const override { return "TreeRemoveEvent"; }
 
   /** Check the event */
-  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != ITK_NULLPTR); }
+  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
 
   /** Make the event object */
   ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
@@ -190,7 +190,7 @@ public:
 
   const char * GetEventName() const override { return "TreePruneEvent"; }
 
-  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != ITK_NULLPTR); }
+  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
 
   ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
 

@@ -32,7 +32,7 @@ template< typename TInputVideoStream >
 VideoFileWriter< TInputVideoStream >
 ::VideoFileWriter() :
   m_FileName(""),
-  m_VideoIO(ITK_NULLPTR),
+  m_VideoIO(nullptr),
   m_FramesPerSecond(24),
   m_FourCC("MP42"),
   m_NumberOfComponents(0)
@@ -66,7 +66,7 @@ VideoFileWriter< TInputVideoStream >
 {
   if (this->GetNumberOfInputs() < 1)
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   return static_cast<VideoStreamType*>(this->ProcessObject::GetInput(0));
@@ -91,7 +91,7 @@ VideoFileWriter< TInputVideoStream >
 
   // Make sure input is available
   const VideoStreamType* input = this->GetInput();
-  if (input == ITK_NULLPTR)
+  if (input == nullptr)
     {
     itkExceptionMacro("No input to writer");
     }
@@ -218,7 +218,7 @@ VideoFileWriter< TInputVideoStream >
 ::UpdateLargestPossibleRegion()
 {
   const VideoStreamType* input = this->GetInput();
-  if (input == ITK_NULLPTR)
+  if (input == nullptr)
     {
     itkExceptionMacro("No input to writer");
     }
@@ -257,7 +257,7 @@ VideoFileWriter< TInputVideoStream >
 ::InitializeOutputParameters()
 {
   // InputImage and VideoIO must be valid
-  if (this->GetInput() == ITK_NULLPTR)
+  if (this->GetInput() == nullptr)
     {
     return false;
     }

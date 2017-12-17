@@ -99,7 +99,7 @@ public:
   {
     if( n >= NumberOfNodes )
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
     return this->m_node[n];
   }

@@ -115,14 +115,14 @@ public:
   /** Returns true if the tube is evaluable at the requested point,
    *  false otherwise. */
   bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = ITK_NULLPTR) const override;
+                     unsigned int depth = 0, char *name = nullptr) const override;
 
   /** Returns the value of the tube at that point.
    *  Currently this function returns a binary value,
    *  but it might want to return a degree of membership
    *  in case of fuzzy tubes. */
   bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = ITK_NULLPTR) const override;
+               unsigned int depth = 0, char *name = nullptr) const override;
 
   /** Returns true if the point is inside the tube, false otherwise. */
   bool IsInside(const PointType & point,

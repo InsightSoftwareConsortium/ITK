@@ -30,7 +30,7 @@ template <typename TInputPointSet, typename TOutput, typename TCoordRep>
 PointSetFunction<TInputPointSet, TOutput, TCoordRep>
 ::PointSetFunction()
 {
-  this->m_PointSet = ITK_NULLPTR;
+  this->m_PointSet = nullptr;
 }
 
 /**

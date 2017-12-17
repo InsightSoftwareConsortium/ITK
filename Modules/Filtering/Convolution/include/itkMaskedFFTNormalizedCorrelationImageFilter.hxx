@@ -119,14 +119,14 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskI
   InputImagePointer movingImage = InputImageType::New();
   movingImage->Graft( this->GetMovingImage() );
 
-  MaskImagePointer fixedMask = ITK_NULLPTR;
+  MaskImagePointer fixedMask = nullptr;
   if( this->GetFixedImageMask() )
   {
     fixedMask = MaskImageType::New();
     fixedMask->Graft( this->GetFixedImageMask() );
   }
 
-  MaskImagePointer movingMask = ITK_NULLPTR;
+  MaskImagePointer movingMask = nullptr;
   if( this->GetMovingImageMask() )
   {
     movingMask = MaskImageType::New();
@@ -146,9 +146,9 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskI
   movingImage = this->PreProcessImage( movingImage,movingMask );
 
   InputImagePointer rotatedMovingImage = this->RotateImage<InputImageType>( movingImage );
-  movingImage = ITK_NULLPTR;
+  movingImage = nullptr;
   MaskImagePointer rotatedMovingMask = this->RotateImage<MaskImageType>( movingMask);
-  movingMask = ITK_NULLPTR;
+  movingMask = nullptr;
 
   // The combinedImageSize is the size resulting from the correlation of the two images.
   RealSizeType combinedImageSize;
@@ -168,10 +168,10 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskI
   // separation.
   FFTImagePointer fixedFFT = this->CalculateForwardFFT<InputImageType,FFTImageType>( fixedImage, FFTImageSize );
   FFTImagePointer fixedMaskFFT = this->CalculateForwardFFT<MaskImageType,FFTImageType>( fixedMask, FFTImageSize );
-  fixedMask = ITK_NULLPTR;
+  fixedMask = nullptr;
   FFTImagePointer rotatedMovingFFT = this->CalculateForwardFFT<InputImageType,FFTImageType>( rotatedMovingImage, FFTImageSize );
   FFTImagePointer rotatedMovingMaskFFT = this->CalculateForwardFFT<MaskImageType,FFTImageType>( rotatedMovingMask, FFTImageSize );
-  rotatedMovingMask = ITK_NULLPTR;
+  rotatedMovingMask = nullptr;
 
   // Only 6 IFFTs are needed.
   // Compute and save some of these rather than computing them multiple times.
@@ -188,31 +188,31 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskI
   RealImagePointer numerator = this->ElementSubtraction<RealImageType>(
       this->CalculateInverseFFT<FFTImageType,RealImageType>(this->ElementProduct<FFTImageType,FFTImageType>(fixedFFT,rotatedMovingFFT),combinedImageSize),
       this->ElementQuotient<RealImageType>(this->ElementProduct<RealImageType,RealImageType>(fixedCumulativeSumImage,rotatedMovingCumulativeSumImage),numberOfOverlapPixels));
-  fixedFFT = ITK_NULLPTR; // No longer needed
-  rotatedMovingFFT = ITK_NULLPTR; // No longer needed
+  fixedFFT = nullptr; // No longer needed
+  rotatedMovingFFT = nullptr; // No longer needed
 
   // Calculate the fixed part of the masked FFT NCC denominator.
   FFTImagePointer fixedSquaredFFT = this->CalculateForwardFFT<RealImageType,FFTImageType>( this->ElementProduct<InputImageType,RealImageType>(fixedImage,fixedImage), FFTImageSize );
-  fixedImage = ITK_NULLPTR; // No longer needed
+  fixedImage = nullptr; // No longer needed
   RealImagePointer fixedDenom = this->ElementSubtraction<RealImageType>(
       this->CalculateInverseFFT<FFTImageType,RealImageType>(this->ElementProduct<FFTImageType,FFTImageType>(fixedSquaredFFT,rotatedMovingMaskFFT),combinedImageSize),
       this->ElementQuotient<RealImageType>(this->ElementProduct<RealImageType,RealImageType>(fixedCumulativeSumImage,fixedCumulativeSumImage),numberOfOverlapPixels));
-  fixedSquaredFFT = ITK_NULLPTR; // No longer needed
-  rotatedMovingMaskFFT = ITK_NULLPTR; // No longer needed
-  fixedCumulativeSumImage = ITK_NULLPTR; // No longer needed
+  fixedSquaredFFT = nullptr; // No longer needed
+  rotatedMovingMaskFFT = nullptr; // No longer needed
+  fixedCumulativeSumImage = nullptr; // No longer needed
   // Ensure that the result is positive.
   fixedDenom = this->ElementPositive<RealImageType>(fixedDenom);
 
   // Calculate the moving part of the masked FFT NCC denominator.
   FFTImagePointer rotatedMovingSquaredFFT = this->CalculateForwardFFT<RealImageType,FFTImageType>(
       this->ElementProduct<InputImageType,RealImageType>(rotatedMovingImage,rotatedMovingImage), FFTImageSize );
-  rotatedMovingImage = ITK_NULLPTR; // No longer needed
+  rotatedMovingImage = nullptr; // No longer needed
   RealImagePointer rotatedMovingDenom = this->ElementSubtraction<RealImageType>(
       this->CalculateInverseFFT<FFTImageType,RealImageType>(this->ElementProduct<FFTImageType,FFTImageType>(fixedMaskFFT,rotatedMovingSquaredFFT),combinedImageSize),
       this->ElementQuotient<RealImageType>(this->ElementProduct<RealImageType,RealImageType>(rotatedMovingCumulativeSumImage,rotatedMovingCumulativeSumImage),numberOfOverlapPixels));
-  rotatedMovingSquaredFFT = ITK_NULLPTR; // No longer needed
-  fixedMaskFFT = ITK_NULLPTR; // No longer needed
-  rotatedMovingCumulativeSumImage = ITK_NULLPTR; // No longer needed
+  rotatedMovingSquaredFFT = nullptr; // No longer needed
+  fixedMaskFFT = nullptr; // No longer needed
+  rotatedMovingCumulativeSumImage = nullptr; // No longer needed
   // Ensure that the result is positive.
   rotatedMovingDenom = this->ElementPositive<RealImageType>(rotatedMovingDenom);
 
@@ -221,14 +221,14 @@ void MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskI
   sqrtFilter->SetInput( this->ElementProduct<RealImageType,RealImageType>(fixedDenom,rotatedMovingDenom) );
   sqrtFilter->Update();
   RealImagePointer denominator = sqrtFilter->GetOutput();
-  fixedDenom = ITK_NULLPTR;  // No longer needed
-  rotatedMovingDenom = ITK_NULLPTR; // No longer needed
+  fixedDenom = nullptr;  // No longer needed
+  rotatedMovingDenom = nullptr; // No longer needed
 
   // Determine a tolerance on the precision of the denominator values.
   const double precisionTolerance = CalculatePrecisionTolerance<RealImageType>( denominator );
 
   RealImagePointer NCC = this->ElementQuotient<RealImageType>(numerator,denominator);
-  numerator = ITK_NULLPTR; // No longer needed
+  numerator = nullptr; // No longer needed
 
   // Given the numberOfOverlapPixels, we can check that the m_RequiredNumberOfOverlappingPixels is not set higher than
   // the actual maximum overlap voxels.  If it is, we set m_RequiredNumberOfOverlappingPixels to be this maximum.

@@ -32,19 +32,19 @@ namespace itk
 template< typename TInputImage, typename TClassifiedImage >
 RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 ::RGBGibbsPriorFilter(void):
-  m_InputImage(ITK_NULLPTR),
-  m_TrainingImage(ITK_NULLPTR),
-  m_LabelledImage(ITK_NULLPTR),
+  m_InputImage(nullptr),
+  m_TrainingImage(nullptr),
+  m_LabelledImage(nullptr),
   m_NumberOfClasses(0),
   m_MaximumNumberOfIterations(10),
-  m_ClassifierPtr(ITK_NULLPTR),
+  m_ClassifierPtr(nullptr),
   m_BoundaryGradient(7),
   m_BoundaryWeight(1),
   m_GibbsPriorWeight(1),
   m_StartRadius(10),
   m_RecursiveNumber(0),
-  m_LabelStatus(ITK_NULLPTR),
-  m_MediumImage(ITK_NULLPTR),
+  m_LabelStatus(nullptr),
+  m_MediumImage(nullptr),
   m_Temp(0),
   m_ImageWidth(0),
   m_ImageHeight(0),
@@ -53,8 +53,8 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   m_ObjectLabel(1),
   m_VecDim(0),
   m_LowPoint(),
-  m_Region(ITK_NULLPTR),
-  m_RegionCount(ITK_NULLPTR),
+  m_Region(nullptr),
+  m_RegionCount(nullptr),
   m_CliqueWeight_1(0.0),
   m_CliqueWeight_2(0.0),
   m_CliqueWeight_3(0.0),
@@ -569,7 +569,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   const unsigned int rowsize = m_ImageWidth;
 
   m_Temp = 0;
-  srand( static_cast< unsigned int >( time(ITK_NULLPTR) ) );
+  srand( static_cast< unsigned int >( time(nullptr) ) );
 
   while ( m_Temp < 2 * size )
     {

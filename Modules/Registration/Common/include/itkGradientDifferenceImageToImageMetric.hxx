@@ -39,7 +39,7 @@ GradientDifferenceImageToImageMetric< TFixedImage, TMovingImage >
 {
   unsigned int iDimension;
 
-  m_TransformMovingImageFilter = ITK_NULLPTR;
+  m_TransformMovingImageFilter = nullptr;
 
   for ( iDimension = 0; iDimension < FixedImageDimension; iDimension++ )
     {

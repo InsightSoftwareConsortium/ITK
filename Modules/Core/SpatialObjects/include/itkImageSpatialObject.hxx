@@ -38,7 +38,7 @@ ImageSpatialObject< TDimension,  PixelType >
     }
 
   this->ComputeBoundingBox();
-  this->InternalSetPixelType(static_cast<const PixelType *>(ITK_NULLPTR));
+  this->InternalSetPixelType(static_cast<const PixelType *>(nullptr));
   m_Interpolator = NNInterpolatorType::New();
 }
 
@@ -123,7 +123,7 @@ bool
 ImageSpatialObject< TDimension,  PixelType >
 ::IsInside(const PointType & point, unsigned int depth, char *name) const
 {
-  if ( name == ITK_NULLPTR )
+  if ( name == nullptr )
     {
     if ( IsInside(point) )
       {

@@ -85,7 +85,7 @@ public:
                                   void *,
                                   const FloatOffsetType &) override
   {
-    return static_cast< PixelType >( ITK_NULLPTR );
+    return static_cast< PixelType >( nullptr );
   }
 
   /** The update called from the FiniteDifferenceSparseImageFilter. This

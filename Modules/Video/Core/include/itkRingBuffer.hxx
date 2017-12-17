@@ -183,7 +183,7 @@ RingBuffer< TElement >
     {
     for (size_t i = 0; i < n - currentSize; ++i)
       {
-      ElementPointer newPointer = ITK_NULLPTR;
+      ElementPointer newPointer = nullptr;
       this->m_PointerVector.insert( this->m_PointerVector.begin() +
                                     this->m_HeadIndex, newPointer );
 

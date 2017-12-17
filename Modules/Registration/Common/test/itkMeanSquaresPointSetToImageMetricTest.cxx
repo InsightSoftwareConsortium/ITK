@@ -258,8 +258,8 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
 //-------------------------------------------------------
 // exercise misc member functions
 //-------------------------------------------------------
-  std::cout << "Check case when Target is ITK_NULLPTR" << std::endl;
-  metric->SetFixedPointSet( ITK_NULLPTR );
+  std::cout << "Check case when Target is nullptr" << std::endl;
+  metric->SetFixedPointSet( nullptr );
   try
     {
     std::cout << "Value = " << metric->GetValue( parameters );

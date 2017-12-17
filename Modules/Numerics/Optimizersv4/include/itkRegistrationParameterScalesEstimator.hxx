@@ -79,16 +79,16 @@ RegistrationParameterScalesEstimator< TMetric >
 {
 if (m_Metric.IsNull())
     {
-    itkExceptionMacro("RegistrationParameterScalesEstimator: the metric is ITK_NULLPTR");
+    itkExceptionMacro("RegistrationParameterScalesEstimator: the metric is nullptr");
     }
 
-  if (this->m_Metric->GetMovingTransform() == ITK_NULLPTR)
+  if (this->m_Metric->GetMovingTransform() == nullptr)
     {
-    itkExceptionMacro("RegistrationParameterScalesEstimator: this->m_MovingTransform in the metric is ITK_NULLPTR.");
+    itkExceptionMacro("RegistrationParameterScalesEstimator: this->m_MovingTransform in the metric is nullptr.");
     }
-  if (this->m_Metric->GetFixedTransform() == ITK_NULLPTR)
+  if (this->m_Metric->GetFixedTransform() == nullptr)
     {
-    itkExceptionMacro("RegistrationParameterScalesEstimator: this->m_FixedTransform in the metric is ITK_NULLPTR.");
+    itkExceptionMacro("RegistrationParameterScalesEstimator: this->m_FixedTransform in the metric is nullptr.");
     }
 
   return true;

@@ -28,7 +28,7 @@ template<typename TVectorContainer>
 VectorContainerToListSampleAdaptor<TVectorContainer>
 ::VectorContainerToListSampleAdaptor()
 {
-  this->m_VectorContainer = ITK_NULLPTR;
+  this->m_VectorContainer = nullptr;
 }
 
 template<typename TVectorContainer>

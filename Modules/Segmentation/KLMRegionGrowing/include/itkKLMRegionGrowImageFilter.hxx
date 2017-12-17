@@ -29,7 +29,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   m_InternalLambda(0),
   m_InitialNumberOfRegions(0),
   m_TotalBorderLength(0.0),
-  m_BorderCandidate(ITK_NULLPTR),
+  m_BorderCandidate(nullptr),
   m_InitialRegionArea(0)
 {
   m_InitialRegionMean.set_size(InputImageVectorDimension);
@@ -687,7 +687,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
     }
 
   // If any duplicate borders are found during SpliceRegionBorders,
-  // lambda is set to -1.0, and pRegion1 and pRegion2 are set ITK_NULLPTR
+  // lambda is set to -1.0, and pRegion1 and pRegion2 are set nullptr
   // so that after this sort, the duplicate border will be the last
   // entry in m_BordersDynamicPointer
 
@@ -702,9 +702,9 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   m_InternalLambda = m_BorderCandidate->m_Pointer->GetLambda();
 
   // Remove any duplicate borders found during SpliceRegionBorders:
-  // lambda = -1.0,  pRegion1 and pRegion2 = ITK_NULLPTR
-  while ( m_BorderCandidate->m_Pointer->GetRegion1() == ITK_NULLPTR
-          || m_BorderCandidate->m_Pointer->GetRegion2() == ITK_NULLPTR )
+  // lambda = -1.0,  pRegion1 and pRegion2 = nullptr
+  while ( m_BorderCandidate->m_Pointer->GetRegion1() == nullptr
+          || m_BorderCandidate->m_Pointer->GetRegion2() == nullptr )
     {
     m_BordersDynamicPointer.erase(m_BordersDynamicPointer.end() - 1);
 

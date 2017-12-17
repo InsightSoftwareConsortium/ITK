@@ -156,7 +156,7 @@ public:
 
 protected:
   ImageSeriesReader() :
-    m_ImageIO(ITK_NULLPTR),
+    m_ImageIO(nullptr),
     m_ReverseOrder(false),
     m_NumberOfDimensionsInImage(0),
     m_UseStreaming(true),

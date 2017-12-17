@@ -84,7 +84,7 @@ MeshIOFactory
       }
     }
 
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 

@@ -85,7 +85,7 @@ MeshSpatialObject< TMesh >
         {
         double minDist = 0.0;
         const bool pointIsInside = it.Value()->EvaluatePosition(
-          position, m_Mesh->GetPoints(), ITK_NULLPTR, ITK_NULLPTR, &minDist, ITK_NULLPTR);
+          position, m_Mesh->GetPoints(), nullptr, nullptr, &minDist, nullptr);
 
         if ( pointIsInside  && minDist <= this->m_IsInsidePrecision )
           {
@@ -95,7 +95,7 @@ MeshSpatialObject< TMesh >
       else
         {
         if ( it.Value()->EvaluatePosition(position, m_Mesh->GetPoints(),
-                                          ITK_NULLPTR, ITK_NULLPTR, ITK_NULLPTR, ITK_NULLPTR) )
+                                          nullptr, nullptr, nullptr, nullptr) )
           {
           return true;
           }
@@ -112,7 +112,7 @@ bool
 MeshSpatialObject< TMesh >
 ::IsInside(const PointType & point, unsigned int depth, char *name) const
 {
-  if ( name == ITK_NULLPTR )
+  if ( name == nullptr )
     {
     if ( IsInside(point) )
       {

@@ -75,7 +75,7 @@ public:
     {
     const OptimizerType * optimizer =
       dynamic_cast< const OptimizerType * >( object );
-    if(optimizer == ITK_NULLPTR)
+    if(optimizer == nullptr)
       {
       return;
       }
@@ -116,7 +116,7 @@ public:
 
 protected:
   JointPDFStatus() :
-    m_MIMetric( ITK_NULLPTR ),
+    m_MIMetric( nullptr ),
     m_Count( 0 )
     {
     this->m_Writer = WriterType::New();

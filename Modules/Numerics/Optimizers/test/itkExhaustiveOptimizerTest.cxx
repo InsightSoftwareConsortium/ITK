@@ -116,7 +116,7 @@ public:
     typedef itk::ExhaustiveOptimizer OptimizerType;
     const OptimizerType *optimizer = dynamic_cast < const OptimizerType * > ( caller );
 
-    if ( ITK_NULLPTR != optimizer )
+    if ( nullptr != optimizer )
     {
       OptimizerType::ParametersType currentIndex = optimizer->GetCurrentIndex ();
 

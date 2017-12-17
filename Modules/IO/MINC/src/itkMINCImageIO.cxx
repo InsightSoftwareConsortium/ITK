@@ -190,7 +190,7 @@ void MINCImageIO::CleanupDimensions(void)
     for ( int i = 0; i < this->m_MINCPImpl->m_NDims; i++ )
       {
       mifree_name( this->m_MINCPImpl->m_DimensionName[i] );
-      this->m_MINCPImpl->m_DimensionName[i]=ITK_NULLPTR;
+      this->m_MINCPImpl->m_DimensionName[i]=nullptr;
       }
     }
 
@@ -201,12 +201,12 @@ void MINCImageIO::CleanupDimensions(void)
   delete[] this->m_MINCPImpl->m_MincFileDims;
   delete[] this->m_MINCPImpl->m_MincApparentDims;
 
-  this->m_MINCPImpl->m_DimensionName    = ITK_NULLPTR;
-  this->m_MINCPImpl->m_DimensionSize    = ITK_NULLPTR;
-  this->m_MINCPImpl->m_DimensionStart   = ITK_NULLPTR;
-  this->m_MINCPImpl->m_DimensionStep    = ITK_NULLPTR;
-  this->m_MINCPImpl->m_MincFileDims     = ITK_NULLPTR;
-  this->m_MINCPImpl->m_MincApparentDims = ITK_NULLPTR;
+  this->m_MINCPImpl->m_DimensionName    = nullptr;
+  this->m_MINCPImpl->m_DimensionSize    = nullptr;
+  this->m_MINCPImpl->m_DimensionStart   = nullptr;
+  this->m_MINCPImpl->m_DimensionStep    = nullptr;
+  this->m_MINCPImpl->m_MincFileDims     = nullptr;
+  this->m_MINCPImpl->m_MincApparentDims = nullptr;
 }
 
 void MINCImageIO::AllocateDimensions(int nDims)
@@ -224,7 +224,7 @@ void MINCImageIO::AllocateDimensions(int nDims)
 
   for ( int i = 0; i < this->m_MINCPImpl->m_NDims; i++ )
     {
-    this->m_MINCPImpl->m_DimensionName[i]  = ITK_NULLPTR;
+    this->m_MINCPImpl->m_DimensionName[i]  = nullptr;
     this->m_MINCPImpl->m_DimensionSize[i]  = 0;
     this->m_MINCPImpl->m_DimensionStart[i] = 0.0;
     this->m_MINCPImpl->m_DimensionStep[i]  = 0.0;
@@ -246,20 +246,20 @@ void MINCImageIO::CloseVolume(void)
     {
     miclose_volume( this->m_MINCPImpl->m_Volume );
     }
-  this->m_MINCPImpl->m_Volume = ITK_NULLPTR;
+  this->m_MINCPImpl->m_Volume = nullptr;
 }
 
 MINCImageIO::MINCImageIO()
   : m_MINCPImpl(new MINCImageIOPImpl)
 {
   this->m_MINCPImpl->m_NDims = 0;
-  this->m_MINCPImpl->m_DimensionName  = ITK_NULLPTR;
-  this->m_MINCPImpl->m_DimensionSize  = ITK_NULLPTR;
-  this->m_MINCPImpl->m_DimensionStart = ITK_NULLPTR;
-  this->m_MINCPImpl->m_DimensionStep  = ITK_NULLPTR;
-  this->m_MINCPImpl->m_MincFileDims   = ITK_NULLPTR;
-  this->m_MINCPImpl->m_MincApparentDims = ITK_NULLPTR;
-  this->m_MINCPImpl->m_Volume = ITK_NULLPTR;
+  this->m_MINCPImpl->m_DimensionName  = nullptr;
+  this->m_MINCPImpl->m_DimensionSize  = nullptr;
+  this->m_MINCPImpl->m_DimensionStart = nullptr;
+  this->m_MINCPImpl->m_DimensionStep  = nullptr;
+  this->m_MINCPImpl->m_MincFileDims   = nullptr;
+  this->m_MINCPImpl->m_MincApparentDims = nullptr;
+  this->m_MINCPImpl->m_Volume = nullptr;
 
   for ( int i = 0; i < 5; i++ )
     {

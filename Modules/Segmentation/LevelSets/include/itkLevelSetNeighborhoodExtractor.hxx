@@ -34,12 +34,12 @@ template< typename TLevelSet >
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::LevelSetNeighborhoodExtractor() :
   m_LevelSetValue(0.0),
-  m_InsidePoints(ITK_NULLPTR),
-  m_OutsidePoints(ITK_NULLPTR),
-  m_InputLevelSet(ITK_NULLPTR),
+  m_InsidePoints(nullptr),
+  m_OutsidePoints(nullptr),
+  m_InputLevelSet(nullptr),
   m_NarrowBanding(false),
   m_NarrowBandwidth(12.0),
-  m_InputNarrowBand(ITK_NULLPTR),
+  m_InputNarrowBand(nullptr),
   m_LargeValue(NumericTraits< PixelType >::max()),
   m_LastPointIsInside(false)
 {
@@ -116,7 +116,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
 {
   if ( !m_InputLevelSet )
     {
-    itkExceptionMacro(<< "Input level set is ITK_NULLPTR");
+    itkExceptionMacro(<< "Input level set is nullptr");
     }
 
   this->Initialize();

@@ -69,7 +69,7 @@ public:
 #endif
 
 protected:
-  DiscreteCurvatureQuadEdgeMeshFilter() : m_OutputMesh(ITK_NULLPTR) {}
+  DiscreteCurvatureQuadEdgeMeshFilter() : m_OutputMesh(nullptr) {}
   ~DiscreteCurvatureQuadEdgeMeshFilter() override {}
 
   virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP) = 0;

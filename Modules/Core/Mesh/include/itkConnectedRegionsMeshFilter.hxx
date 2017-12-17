@@ -45,8 +45,8 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
   m_ExtractionMode(Self::LargestRegion),
   m_NumberOfCellsInRegion(NumericTraits< SizeValueType >::ZeroValue()),
   m_RegionNumber(NumericTraits< IdentifierType >::ZeroValue()),
-  m_Wave(ITK_NULLPTR),
-  m_Wave2(ITK_NULLPTR)
+  m_Wave(nullptr),
+  m_Wave2(nullptr)
 {
   m_ClosestPoint.Fill(0);
 }
@@ -293,7 +293,7 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
 
   delete m_Wave;
   delete m_Wave2;
-  m_Wave = m_Wave2 = ITK_NULLPTR;
+  m_Wave = m_Wave2 = nullptr;
 
   itkDebugMacro (<< "Extracted " << m_RegionNumber << " region(s)");
 
@@ -310,7 +310,7 @@ ConnectedRegionsMeshFilter< TInputMesh, TOutputMesh >
   cellId = 0;
   CellsContainerConstIterator    cell;
   CellDataContainerConstIterator cellData;
-  bool                           CellDataPresent = (   ITK_NULLPTR != inCellData
+  bool                           CellDataPresent = (   nullptr != inCellData
                                                     && 0 != inCellData->size() );
   InputMeshCellPointer           cellCopy; // need an autopointer to duplicate
                                            // a cell

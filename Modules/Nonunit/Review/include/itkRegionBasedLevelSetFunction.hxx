@@ -57,9 +57,9 @@ RegionBasedLevelSetFunction< TInput,
 
   m_FunctionId = 0;
 
-  m_SharedData = ITK_NULLPTR;
-  m_InitialImage = ITK_NULLPTR;
-  m_FeatureImage = ITK_NULLPTR;
+  m_SharedData = nullptr;
+  m_InitialImage = nullptr;
+  m_FeatureImage = nullptr;
   m_UpdateC = false;
 
   for ( unsigned int i = 0; i < ImageDimension; i++ )

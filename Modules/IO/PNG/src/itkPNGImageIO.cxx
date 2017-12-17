@@ -58,7 +58,7 @@ bool wrapSetjmp( png_structp & png_ptr )
 class PNGFileWrapper
 {
 public:
-  PNGFileWrapper(const char *const fname, const char *const openMode):m_FilePointer(ITK_NULLPTR)
+  PNGFileWrapper(const char *const fname, const char *const openMode):m_FilePointer(nullptr)
   {
     m_FilePointer = fopen(fname, openMode);
   }
@@ -87,7 +87,7 @@ bool PNGImageIO::CanReadFile(const char *file)
 
   // Now check the file header
   PNGFileWrapper pngfp(file, "rb");
-  if ( pngfp.m_FilePointer == ITK_NULLPTR )
+  if ( pngfp.m_FilePointer == nullptr )
     {
     return false;
     }
@@ -103,8 +103,8 @@ bool PNGImageIO::CanReadFile(const char *file)
     return false;
     }
   png_structp png_ptr = png_create_read_struct
-                          (PNG_LIBPNG_VER_STRING, (png_voidp)ITK_NULLPTR,
-                          ITK_NULLPTR, ITK_NULLPTR);
+                          (PNG_LIBPNG_VER_STRING, (png_voidp)nullptr,
+                          nullptr, nullptr);
   if ( !png_ptr )
     {
     return false;
@@ -114,7 +114,7 @@ bool PNGImageIO::CanReadFile(const char *file)
   if ( !info_ptr )
     {
     png_destroy_read_struct(&png_ptr,
-                            (png_infopp)ITK_NULLPTR, (png_infopp)ITK_NULLPTR);
+                            (png_infopp)nullptr, (png_infopp)nullptr);
     return false;
     }
 
@@ -122,7 +122,7 @@ bool PNGImageIO::CanReadFile(const char *file)
   if ( !end_info )
     {
     png_destroy_read_struct(&png_ptr, &info_ptr,
-                            (png_infopp)ITK_NULLPTR);
+                            (png_infopp)nullptr);
     return false;
     }
   png_destroy_read_struct(&png_ptr, &info_ptr,
@@ -164,8 +164,8 @@ void PNGImageIO::Read(void *buffer)
     itkExceptionMacro( "File is not png type: " << this->GetFileName() );
     }
   png_structp png_ptr = png_create_read_struct
-                          (PNG_LIBPNG_VER_STRING, (png_voidp)ITK_NULLPTR,
-                          ITK_NULLPTR, ITK_NULLPTR);
+                          (PNG_LIBPNG_VER_STRING, (png_voidp)nullptr,
+                          nullptr, nullptr);
   if ( !png_ptr )
     {
     itkExceptionMacro( "File is not png type" << this->GetFileName() );
@@ -175,7 +175,7 @@ void PNGImageIO::Read(void *buffer)
   if ( !info_ptr )
     {
     png_destroy_read_struct(&png_ptr,
-                            (png_infopp)ITK_NULLPTR, (png_infopp)ITK_NULLPTR);
+                            (png_infopp)nullptr, (png_infopp)nullptr);
     itkExceptionMacro( "File is not png type " << this->GetFileName() );
     }
 
@@ -183,7 +183,7 @@ void PNGImageIO::Read(void *buffer)
   if ( !end_info )
     {
     png_destroy_read_struct(&png_ptr, &info_ptr,
-                            (png_infopp)ITK_NULLPTR);
+                            (png_infopp)nullptr);
     itkExceptionMacro( "File is not png type " << this->GetFileName() );
     }
 
@@ -273,7 +273,7 @@ void PNGImageIO::Read(void *buffer)
   png_read_image(png_ptr, row_pointers);
   delete[] row_pointers;
   // close the file
-  png_read_end(png_ptr, ITK_NULLPTR);
+  png_read_end(png_ptr, nullptr);
   png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 }
 
@@ -354,8 +354,8 @@ void PNGImageIO::ReadImageInformation()
     return;
     }
   png_structp png_ptr = png_create_read_struct
-                          (PNG_LIBPNG_VER_STRING, (png_voidp)ITK_NULLPTR,
-                          ITK_NULLPTR, ITK_NULLPTR);
+                          (PNG_LIBPNG_VER_STRING, (png_voidp)nullptr,
+                          nullptr, nullptr);
   if ( !png_ptr )
     {
     return;
@@ -365,7 +365,7 @@ void PNGImageIO::ReadImageInformation()
   if ( !info_ptr )
     {
     png_destroy_read_struct(&png_ptr,
-                            (png_infopp)ITK_NULLPTR, (png_infopp)ITK_NULLPTR);
+                            (png_infopp)nullptr, (png_infopp)nullptr);
     return;
     }
 
@@ -373,7 +373,7 @@ void PNGImageIO::ReadImageInformation()
   if ( !end_info )
     {
     png_destroy_read_struct(&png_ptr, &info_ptr,
-                            (png_infopp)ITK_NULLPTR);
+                            (png_infopp)nullptr);
     return;
     }
 
@@ -570,7 +570,7 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
     }
 
   png_structp png_ptr = png_create_write_struct
-                          (PNG_LIBPNG_VER_STRING, (png_voidp)ITK_NULLPTR, ITK_NULLPTR, ITK_NULLPTR);
+                          (PNG_LIBPNG_VER_STRING, (png_voidp)nullptr, nullptr, nullptr);
   if ( !png_ptr )
     {
     itkExceptionMacro(<< "Unable to write PNG file! png_create_write_struct failed.");
@@ -580,7 +580,7 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
   if ( !info_ptr )
     {
     png_destroy_write_struct(&png_ptr,
-                             (png_infopp)ITK_NULLPTR);
+                             (png_infopp)nullptr);
     itkExceptionMacro(<< "Unable to write PNG file!. png_create_info_struct failed.");
     }
 

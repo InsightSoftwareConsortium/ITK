@@ -286,7 +286,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(un
   pixPerElement.set_size( ImageDimension );
   pixPerElement.fill( PixelsPerElement );
 
-  if( ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral *>(&*m_Element) != ITK_NULLPTR )
+  if( ImageDimension == 2 && dynamic_cast<Element2DC0LinearQuadrilateral *>(&*m_Element) != nullptr )
     {
     m_Material->SetYoungsModulus(this->GetElasticity(m_CurrentLevel) );
 
@@ -301,7 +301,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(un
     m_FEMObject->FinalizeMesh();
     itkDebugMacro( << " Generating regular mesh done " << std::endl );
     }
-  else if( ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron *>(&*m_Element) != ITK_NULLPTR )
+  else if( ImageDimension == 3 && dynamic_cast<Element3DC0LinearHexahedron *>(&*m_Element) != nullptr )
     {
     m_Material->SetYoungsModulus( this->GetElasticity(m_CurrentLevel) );
 
@@ -396,7 +396,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(
     {
     for( unsigned int lmind = 0; lmind < m_LandmarkArray.size(); lmind++ )
       {
-      m_LandmarkArray[lmind]->GetElementArray()[0] = ITK_NULLPTR;
+      m_LandmarkArray[lmind]->GetElementArray()[0] = nullptr;
 
       itkDebugMacro( << " Prescale Pt: " << m_LandmarkArray[lmind]->GetTarget() );
       if( scaling )
@@ -1145,7 +1145,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve
         m_FEMObject = this->GetInputFEMObject( m_CurrentLevel );
         }
 
-      this->ApplyLoads(m_FullImageSize, ITK_NULLPTR);
+      this->ApplyLoads(m_FullImageSize, nullptr);
       this->ApplyImageLoads(m_MovingImage, m_FixedImage );
 
 

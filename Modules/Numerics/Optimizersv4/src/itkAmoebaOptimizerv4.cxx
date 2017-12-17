@@ -32,7 +32,7 @@ AmoebaOptimizerv4
   this->m_AutomaticInitialSimplex        = true;
   this->m_InitialSimplexDelta.Fill( NumericTraits< ParametersType::ValueType >::OneValue() );
   this->m_OptimizeWithRestarts = false;
-  this->m_VnlOptimizer = ITK_NULLPTR;
+  this->m_VnlOptimizer = nullptr;
 }
 
 
@@ -91,7 +91,7 @@ AmoebaOptimizerv4
 {
   this->m_Metric = metric;
 
-  //if cost function is ITK_NULLPTR this will throw an exception when the pointer is dereferenced
+  //if cost function is nullptr this will throw an exception when the pointer is dereferenced
   const unsigned int numberOfParameters = metric->GetNumberOfParameters();
 
   class AmoebaCostFunctionAdaptorv4:

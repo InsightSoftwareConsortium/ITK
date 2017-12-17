@@ -28,7 +28,7 @@ void
 QuadEdgeMeshPoint< TCoordRep, VPointDimension, TQuadEdge >
 ::Initialize()
 {
-  m_Edge = static_cast< TQuadEdge * >( ITK_NULLPTR );
+  m_Edge = static_cast< TQuadEdge * >( nullptr );
 }
 
 // ---------------------------------------------------------------------

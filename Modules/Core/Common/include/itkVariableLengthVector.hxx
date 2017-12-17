@@ -32,7 +32,7 @@ namespace itk
 template< typename TValue >
 VariableLengthVector< TValue >
 ::VariableLengthVector():m_LetArrayManageMemory(true),
-  m_Data(ITK_NULLPTR),
+  m_Data(nullptr),
   m_NumElements(0)
 {}
 
@@ -40,11 +40,11 @@ VariableLengthVector< TValue >
 template< typename TValue >
 VariableLengthVector< TValue >
 ::VariableLengthVector(unsigned int length):
-  m_Data(ITK_NULLPTR)
+  m_Data(nullptr)
 {
   Reserve(length);
   // postcondition(s)
-  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
 }
 
 /** Constructor with user specified data */
@@ -77,13 +77,13 @@ VariableLengthVector< TValue >
   if (m_NumElements != 0)
     {
     m_Data = this->AllocateElements(m_NumElements);
-    itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
-    itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data != ITK_NULLPTR);
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
+    itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data != nullptr);
     std::copy(&v.m_Data[0], &v.m_Data[m_NumElements], &this->m_Data[0]);
     }
   else
     {
-    m_Data = ITK_NULLPTR;
+    m_Data = nullptr;
     }
 }
 
@@ -96,7 +96,7 @@ VariableLengthVector< TValue >
 , m_NumElements         (v.m_NumElements)
 {
   v.m_LetArrayManageMemory = true;
-  v.m_Data                 = ITK_NULLPTR;
+  v.m_Data                 = nullptr;
   v.m_NumElements          = 0;
 }
 
@@ -137,7 +137,7 @@ VariableLengthVector< TValue >
   // NB: It's not necessary to always reset v. The choice made is to avoid a
   // test
   v.m_LetArrayManageMemory = true;
-  v.m_Data                 = ITK_NULLPTR;
+  v.m_Data                 = nullptr;
   v.m_NumElements          = 0;
 
   return *this;
@@ -154,7 +154,7 @@ VariableLengthVector< TValue >
   m_LetArrayManageMemory = true;
   m_Data = this->AllocateElements(m_NumElements);
   // allocate Elements post-condition
-  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
   for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
     {
     this->m_Data[i] = static_cast<TValue>(rhs[i]);
@@ -199,7 +199,7 @@ void VariableLengthVector< TValue >
       {
       TValue *temp = this->AllocateElements(size);
       itkAssertInDebugAndIgnoreInReleaseMacro(temp);
-      itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements>0 && m_Data != ITK_NULLPTR));
+      itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements>0 && m_Data != nullptr));
       // only copy the portion of the data used in the old buffer
       std::copy(m_Data,
                 m_Data+m_NumElements,
@@ -219,7 +219,7 @@ void VariableLengthVector< TValue >
     m_NumElements = size;
     m_LetArrayManageMemory = true;
     }
-  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_Data != nullptr);
 }
 
 /** Allocate memory of certain size and return it */
@@ -297,7 +297,7 @@ void VariableLengthVector< TValue >
     delete[] m_Data;
     }
 
-  m_Data = ITK_NULLPTR;
+  m_Data = nullptr;
   m_NumElements = 0;
 }
 
@@ -317,7 +317,7 @@ void VariableLengthVector< TValue >
     {
     TValue * temp = this->AllocateElements(sz); // may throw
     itkAssertInDebugAndIgnoreInReleaseMacro(temp);
-    itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements > 0  && m_Data != ITK_NULLPTR));
+    itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements > 0  && m_Data != nullptr));
     keepValues(sz, m_NumElements, m_Data, temp); // possible leak if TValue copy may throw
     // commit changes
     if (m_LetArrayManageMemory)
@@ -335,7 +335,7 @@ template< typename TValue >
 void VariableLengthVector< TValue >
 ::Fill(TValue const & v)
 {
-  itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements>0 && m_Data!=ITK_NULLPTR));
+  itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements>0 && m_Data!=nullptr));
   // VC++ version of std::fill_n() expects the output iterator to be valid
   // instead of expecting the range [OutIt, OutIt+n) to be valid.
   std::fill(&this->m_Data[0], &this->m_Data[m_NumElements], v);
@@ -357,8 +357,8 @@ VariableLengthVector< TValue >
   // VC++ version of std::copy expects the input range to be valid, and the
   // output iterator as well (as it's a pointer, it's expected non null)
   // Hence the manual loop instead
-  itkAssertInDebugAndIgnoreInReleaseMacro(N==0 || this->m_Data != ITK_NULLPTR);
-  itkAssertInDebugAndIgnoreInReleaseMacro(N==0 || v.m_Data     != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(N==0 || this->m_Data != nullptr);
+  itkAssertInDebugAndIgnoreInReleaseMacro(N==0 || v.m_Data     != nullptr);
   for (ElementIdentifier i=0; i!=N; ++i)
     {
     this->m_Data[i] = v.m_Data[i];
@@ -380,8 +380,8 @@ VariableLengthVector< TValue >
   itkAssertInDebugAndIgnoreInReleaseMacro(N > 0);
   itkAssertInDebugAndIgnoreInReleaseMacro(N == this->Size());
   // Redundant precondition checks
-  itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data     != ITK_NULLPTR);
-  itkAssertInDebugAndIgnoreInReleaseMacro(this->m_Data != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(v.m_Data     != nullptr);
+  itkAssertInDebugAndIgnoreInReleaseMacro(this->m_Data != nullptr);
 
   std::copy(&v.m_Data[0], &v.m_Data[N], &this->m_Data[0]);
 

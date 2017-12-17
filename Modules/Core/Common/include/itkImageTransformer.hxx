@@ -99,7 +99,7 @@ ImageTransformer< TInputImage >
 {
   if ( this->GetNumberOfInputs() < 1 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   return itkDynamicCastInDebugMode< TInputImage * >

@@ -172,7 +172,7 @@ public:
     {
     if( this->m_ThreaderJointPDF.size() == 0 )
       {
-      return typename JointPDFType::Pointer(ITK_NULLPTR);
+      return typename JointPDFType::Pointer(nullptr);
       }
     return this->m_ThreaderJointPDF[0];
     }

@@ -52,7 +52,7 @@ static void itkXMLParserCharacterDataHandler( void* parser, const char* data, in
   static_cast<DOMNodeXMLReader*>(parser)->CharacterDataHandler( data, length );
 }
 
-DOMNodeXMLReader::DOMNodeXMLReader() : m_Context(ITK_NULLPTR)
+DOMNodeXMLReader::DOMNodeXMLReader() : m_Context(nullptr)
 {
 }
 
@@ -69,7 +69,7 @@ DOMNodeXMLReader::Update( std::istream& is )
     this->SetDOMNodeXML( temp );
     }
   m_DOMNodeXML->RemoveAllAttributesAndChildren();
-  this->m_Context = ITK_NULLPTR;
+  this->m_Context = nullptr;
 
   is >> std::noskipws;
   std::string s;
@@ -84,7 +84,7 @@ DOMNodeXMLReader::Update( std::istream& is )
     s.append( 1, c );
     }
 
-  XML_Parser parser = XML_ParserCreate( ITK_NULLPTR );
+  XML_Parser parser = XML_ParserCreate( nullptr );
   XML_SetElementHandler( parser, &itkXMLParserStartElement, &itkXMLParserEndElement );
   XML_SetCharacterDataHandler( parser, &itkXMLParserCharacterDataHandler );
   XML_SetUserData( parser, this );
@@ -124,7 +124,7 @@ DOMNodeXMLReader::Update()
 void
 DOMNodeXMLReader::StartElement( const char* name, const char** atts )
 {
-  OutputType* node = ITK_NULLPTR;
+  OutputType* node = nullptr;
   if ( this->m_Context )
     {
     OutputPointer node1 = OutputType::New();

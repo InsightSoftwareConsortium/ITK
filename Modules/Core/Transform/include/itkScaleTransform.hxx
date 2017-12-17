@@ -208,7 +208,7 @@ ScaleTransform<TParametersValueType, NDimensions>
     {
     return inv.GetPointer();
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 template<typename TParametersValueType, unsigned int NDimensions>

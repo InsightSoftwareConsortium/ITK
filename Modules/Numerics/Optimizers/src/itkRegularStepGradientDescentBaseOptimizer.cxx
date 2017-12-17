@@ -38,7 +38,7 @@ RegularStepGradientDescentBaseOptimizer
   m_CurrentIteration   =   0;
   m_Value = 0;
   m_Maximize = false;
-  m_CostFunction = ITK_NULLPTR;
+  m_CostFunction = nullptr;
   m_CurrentStepLength   =   0;
   m_StopCondition = Unknown;
   m_Gradient.Fill(0.0f);

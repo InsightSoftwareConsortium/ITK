@@ -917,7 +917,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   Superclass::AfterThreadedGenerateData();
 
   // Release the label image
-  m_LabelImage = ITK_NULLPTR;
+  m_LabelImage = nullptr;
 }
 
 template< typename TImage, typename TLabelImage >

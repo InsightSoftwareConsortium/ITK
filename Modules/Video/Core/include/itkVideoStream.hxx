@@ -250,7 +250,7 @@ VideoStream<TFrameType>
     // Save the indices of all frames in the currently buffered region
     const SizeValueType bufferedStart = m_BufferedTemporalRegion.GetFrameStart();
     const SizeValueType bufferedDuration = m_BufferedTemporalRegion.GetFrameDuration();
-    std::vector< DataObject * > frames( bufferedDuration - bufferedStart, ITK_NULLPTR );
+    std::vector< DataObject * > frames( bufferedDuration - bufferedStart, nullptr );
     for (SizeValueType i = bufferedStart; i < bufferedStart + bufferedDuration; ++i)
       {
       frames[i - bufferedStart] = m_DataObjectBuffer->GetBufferContents(i);

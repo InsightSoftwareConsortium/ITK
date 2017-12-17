@@ -27,7 +27,7 @@ namespace itk
 {
 
 template< typename TOutput >
-DOMReader<TOutput>::DOMReader() : m_Output( ITK_NULLPTR )
+DOMReader<TOutput>::DOMReader() : m_Output( nullptr )
 {
   // Create the logger.
   this->m_Logger = LoggerType::New();
@@ -82,7 +82,7 @@ template< typename TOutput >
 void
 DOMReader<TOutput>::Update( const DOMNodeType* inputdom, const void* userdata )
 {
-  if ( inputdom == ITK_NULLPTR )
+  if ( inputdom == nullptr )
     {
     itkExceptionMacro( "read from an invalid DOM object" );
     }
@@ -105,7 +105,7 @@ DOMReader<TOutput>::Update( const DOMNodeType* inputdom, const void* userdata )
   info << ClearContent << "Reading \"" << tagname << "\" done!\n";
   this->GetLogger()->Info( info );
 
-  if ( this->GetOutput() == ITK_NULLPTR )
+  if ( this->GetOutput() == nullptr )
     {
     itkExceptionMacro( "no valid output object was generated" );
     }

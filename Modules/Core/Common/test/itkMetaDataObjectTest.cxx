@@ -65,7 +65,7 @@ int itkMetaDataObjectTest( int , char * [] )
   result += testMetaData< std::string >( "I T K" );
 
   typedef itk::Image< unsigned short, 3 > ImageType;
-  ImageType::Pointer image = ITK_NULLPTR;
+  ImageType::Pointer image = nullptr;
   result += testMetaData< ImageType::Pointer >( image );
 
   return result;

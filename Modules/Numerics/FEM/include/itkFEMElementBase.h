@@ -599,8 +599,8 @@ public:
    *
    * \sa ShapeFunctionDerivatives
    */
-  virtual void ShapeFunctionGlobalDerivatives(const VectorType & pt, MatrixType & shapeDgl, const MatrixType *pJ = ITK_NULLPTR,
-                                              const MatrixType *pshapeD = ITK_NULLPTR) const;
+  virtual void ShapeFunctionGlobalDerivatives(const VectorType & pt, MatrixType & shapeDgl, const MatrixType *pJ = nullptr,
+                                              const MatrixType *pshapeD = nullptr) const;
 
   /**
    * Compute the Jacobian matrix of the transformation from local
@@ -623,7 +623,7 @@ public:
    *                If this pointer is 0, derivatives will be computed as
    *                necessary.
    */
-  virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = ITK_NULLPTR) const;
+  virtual void Jacobian(const VectorType & pt, MatrixType & J, const MatrixType *pshapeD = nullptr) const;
 
   /**
    * Compute the determinant of the Jacobian matrix
@@ -634,7 +634,7 @@ public:
    * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
    *           is set to 0, the Jacobian will be computed as necessary.
    */
-  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = ITK_NULLPTR) const;
+  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ = nullptr) const;
 
   /**
    * Compute the inverse of the Jacobian matrix
@@ -647,7 +647,7 @@ public:
    * \param pJ Optional pointer to Jacobian matrix computed at point pt. If this
    *           is set to 0, the Jacobian will be computed as necessary.
    */
-  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = ITK_NULLPTR) const;
+  virtual void JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ = nullptr) const;
 
   /**
    * Return the total number of degrees of freedom defined in a derived

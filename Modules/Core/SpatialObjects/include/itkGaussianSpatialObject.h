@@ -85,13 +85,13 @@ public:
   /** Returns the value of the Gaussian at the given point.  */
   bool ValueAt(const PointType & point, ScalarType & value,
                        unsigned int depth = 0,
-                       char *name = ITK_NULLPTR) const override;
+                       char *name = nullptr) const override;
 
   /** Return true if the object provides a method to evaluate the value
    * at the specified point, false otherwise. */
   bool IsEvaluableAt(const PointType & point,
                              unsigned int depth = 0,
-                             char *name = ITK_NULLPTR) const override;
+                             char *name = nullptr) const override;
 
   /** Test whether a point is inside or outside the object */
   bool IsInside(const PointType & point,

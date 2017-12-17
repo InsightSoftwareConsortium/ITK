@@ -131,7 +131,7 @@ public:
   void SetFunctionCount(const unsigned int & n)
   {
     this->m_FunctionCount = n;
-    this->m_LevelSetDataPointerVector.resize(n, ITK_NULLPTR);
+    this->m_LevelSetDataPointerVector.resize(n, nullptr);
 
     LevelSetDataPointerVectorIterator it = m_LevelSetDataPointerVector.begin();
     LevelSetDataPointerVectorIterator end = m_LevelSetDataPointerVector.end();
@@ -175,7 +175,7 @@ public:
   KdTreePointer    m_KdTree;
 
 protected:
-  RegionBasedLevelSetFunctionSharedData():m_NumberOfNeighbors(6), m_KdTree(ITK_NULLPTR){}
+  RegionBasedLevelSetFunctionSharedData():m_NumberOfNeighbors(6), m_KdTree(nullptr){}
   ~RegionBasedLevelSetFunctionSharedData() override{}
 
 private:

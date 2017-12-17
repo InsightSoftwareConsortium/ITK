@@ -121,7 +121,7 @@ DataObjectDecorator< T >
     {
     this->SetTimeStamp(m_Component->GetTimeStamp());
     }
-  m_Component = ITK_NULLPTR;
+  m_Component = nullptr;
 }
 
 /**

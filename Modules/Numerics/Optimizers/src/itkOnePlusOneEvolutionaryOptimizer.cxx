@@ -31,7 +31,7 @@ OnePlusOneEvolutionaryOptimizer
 
   m_Maximize = false;
   m_Epsilon = (double)1.5e-4;
-  m_RandomGenerator = ITK_NULLPTR;
+  m_RandomGenerator = nullptr;
 
   m_Initialized = false;
   m_GrowthFactor = 1.05;

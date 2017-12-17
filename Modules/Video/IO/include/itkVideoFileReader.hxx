@@ -32,7 +32,7 @@ VideoFileReader< TOutputVideoStream >
 {
   // Initialize members
   m_FileName = "";
-  m_VideoIO = ITK_NULLPTR;
+  m_VideoIO = nullptr;
   m_PixelConversionNeeded = false;
   m_IFrameSafe = true;
 

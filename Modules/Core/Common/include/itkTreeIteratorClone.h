@@ -43,8 +43,8 @@ public:
   /** Copy constructor  */
   TreeIteratorClone (const TreeIteratorClone< ObjectType > & p)
   {
-    m_Pointer = ITK_NULLPTR;
-    if ( p.m_Pointer != ITK_NULLPTR )
+    m_Pointer = nullptr;
+    if ( p.m_Pointer != nullptr )
       {
       m_Pointer = p.m_Pointer->Clone();
       }
@@ -54,7 +54,7 @@ public:
   TreeIteratorClone (ObjectType *p)
   {
     m_Pointer = 0;
-    if ( p != ITK_NULLPTR )
+    if ( p != nullptr )
       {
       m_Pointer = p->Clone();
       }
@@ -63,7 +63,7 @@ public:
   /** Constructor to reference p  */
   TreeIteratorClone (const ObjectType & p)
   {
-    m_Pointer = ITK_NULLPTR;
+    m_Pointer = nullptr;
     m_Pointer = const_cast< ObjectType * >( &p )->Clone();
   }
 
@@ -71,7 +71,7 @@ public:
   ~TreeIteratorClone ()
   {
     delete m_Pointer;
-    m_Pointer = ITK_NULLPTR;
+    m_Pointer = nullptr;
   }
 
   /** Overload operator ->  */
@@ -112,8 +112,8 @@ public:
     if ( m_Pointer != r )
       {
       delete m_Pointer;
-      m_Pointer = ITK_NULLPTR;
-      if ( r != ITK_NULLPTR )
+      m_Pointer = nullptr;
+      if ( r != nullptr )
         {
         m_Pointer = const_cast< ObjectType * >( r )->Clone();
         }

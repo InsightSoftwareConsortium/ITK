@@ -49,7 +49,7 @@ NeighborhoodSampler< TSample >
 
   const InputRadiusObjectType *radiusObject = this->GetRadiusInput();
 
-  if ( radiusObject == ITK_NULLPTR )
+  if ( radiusObject == nullptr )
     {
     itkExceptionMacro("Radius input is missing");
     }

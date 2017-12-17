@@ -30,7 +30,7 @@ template< typename TValue,
 ImageVectorOptimizerParametersHelper< TValue, NVectorDimension, VImageDimension >
 ::ImageVectorOptimizerParametersHelper()
 {
-  m_ParameterImage = ITK_NULLPTR;
+  m_ParameterImage = nullptr;
 }
 
 /** Move the data pointer */
@@ -66,16 +66,16 @@ void
 ImageVectorOptimizerParametersHelper< TValue, NVectorDimension, VImageDimension >
 ::SetParametersObject(CommonContainerType * container, LightObject * object)
 {
-  if( object == ITK_NULLPTR )
+  if( object == nullptr )
     {
-    m_ParameterImage = ITK_NULLPTR;
+    m_ParameterImage = nullptr;
     return;
     }
   else
     {
     ParameterImageType* image =
       dynamic_cast<ParameterImageType *>( object );
-    if( image == ITK_NULLPTR )
+    if( image == nullptr )
       {
       itkGenericExceptionMacro(
         "ImageVectorOptimizerParametersHelper::SetParametersObject: object is "

@@ -134,7 +134,7 @@ ProcessObject
       // let the output know we no longer want to associate with the object
       it->second->DisconnectSource(this, it->first);
       // let go of our reference to the data object
-      it->second = ITK_NULLPTR;
+      it->second = nullptr;
       }
     }
 }
@@ -166,7 +166,7 @@ ProcessObject
 
       if (num < 1 )
         {
-        m_IndexedInputs[0]->second = ITK_NULLPTR;
+        m_IndexedInputs[0]->second = nullptr;
         }
       }
     else
@@ -234,7 +234,7 @@ ProcessObject
   // if primary or required set to null
   if ( key ==  m_IndexedInputs[0]->first || this->IsRequiredInputName(key) )
     {
-    this->SetInput(key, ITK_NULLPTR);
+    this->SetInput(key, nullptr);
     return;
     }
 
@@ -243,7 +243,7 @@ ProcessObject
     {
     if ( m_IndexedInputs[i]->first == key )
       {
-      this->SetNthInput(i, ITK_NULLPTR);
+      this->SetNthInput(i, nullptr);
       if ( i == m_IndexedInputs.size() - 1 )
         {
         // remove the last indexed input
@@ -387,7 +387,7 @@ ProcessObject
   // if primary or required set to null
   if ( key == m_IndexedOutputs[0]->first )
     {
-    this->SetOutput( key, ITK_NULLPTR );
+    this->SetOutput( key, nullptr );
     return;
     }
 
@@ -396,7 +396,7 @@ ProcessObject
     {
     if ( m_IndexedOutputs[i]->first == key )
       {
-      this->SetNthOutput(i, ITK_NULLPTR);
+      this->SetNthOutput(i, nullptr);
       if ( i == m_IndexedOutputs.size() - 1 )
         {
         // remove the last indexed input
@@ -553,7 +553,7 @@ ProcessObject
       for( DataObjectPointerArraySizeType i=std::max<DataObjectPointerArraySizeType>(num, 1);
            i<this->GetNumberOfIndexedOutputs(); ++i )
         {
-        // an output should never be ITK_NULLPTR
+        // an output should never be nullptr
         itkAssertInDebugAndIgnoreInReleaseMacro( m_IndexedOutputs[i]->second );
 
         // let the output know we no longer want to associate with the
@@ -567,7 +567,7 @@ ProcessObject
 
       if (num < 1 )
         {
-        m_IndexedOutputs[0]->second = ITK_NULLPTR;
+        m_IndexedOutputs[0]->second = nullptr;
         }
       }
     else
@@ -593,7 +593,7 @@ ProcessObject
   DataObjectPointerMap::iterator it = m_Outputs.find(key);
   if ( it == m_Outputs.end() )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   return it->second.GetPointer();
 }
@@ -606,7 +606,7 @@ ProcessObject
   DataObjectPointerMap::const_iterator it = m_Outputs.find(key);
   if ( it == m_Outputs.end() )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   return it->second.GetPointer();
 }
@@ -745,7 +745,7 @@ ProcessObject
     {
     return m_IndexedOutputs.size();
     }
-  return this->GetPrimaryOutput() != ITK_NULLPTR;
+  return this->GetPrimaryOutput() != nullptr;
 }
 
 // ProcessObject::ConstDataObjectPointerArray
@@ -780,7 +780,7 @@ ProcessObject
   DataObjectPointerMap::iterator it = m_Inputs.find(key);
   if ( it == m_Inputs.end() )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   return it->second.GetPointer();
 }
@@ -793,7 +793,7 @@ ProcessObject
   DataObjectPointerMap::const_iterator it = m_Inputs.find(key);
   if ( it == m_Inputs.end() )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   return it->second.GetPointer();
 }
@@ -1064,7 +1064,7 @@ ProcessObject
     {
     return m_IndexedInputs.size();
     }
-  return static_cast<ProcessObject::DataObjectPointerArraySizeType>(this->GetPrimaryInput() != ITK_NULLPTR);
+  return static_cast<ProcessObject::DataObjectPointerArraySizeType>(this->GetPrimaryInput() != nullptr);
 }
 
 // ProcessObject::ConstDataObjectPointerArray
@@ -1419,7 +1419,7 @@ ProcessObject
    */
   for( NameSet::const_iterator it = this->m_RequiredInputNames.begin(); it != this->m_RequiredInputNames.end(); ++it )
     {
-    if ( this->GetInput( *it ) == ITK_NULLPTR )
+    if ( this->GetInput( *it ) == nullptr )
       {
       itkExceptionMacro(<< "Input " << *it << " is required but not set.");
       }
@@ -1431,7 +1431,7 @@ ProcessObject
   NameSet::const_iterator i = m_RequiredInputNames.begin();
   while (i != m_RequiredInputNames.end())
     {
-    if ( this->GetInput(*i) == ITK_NULLPTR )
+    if ( this->GetInput(*i) == nullptr )
       {
       itkExceptionMacro( << "Required Input " << *i << "is not specified!"
                          << " The required inputs are expected to be the first inputs.");

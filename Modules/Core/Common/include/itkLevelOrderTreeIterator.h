@@ -44,10 +44,10 @@ public:
   typedef typename Superclass::NodeType     NodeType;
 
   /** Constructor with end level specification */
-  LevelOrderTreeIterator(TreeType *tree, int endLevel = INT_MAX, const TreeNodeType *start = ITK_NULLPTR);
+  LevelOrderTreeIterator(TreeType *tree, int endLevel = INT_MAX, const TreeNodeType *start = nullptr);
 
   /** Constructor with end level specification */
-  LevelOrderTreeIterator(TreeType *tree, int startLevel, int endLevel, const TreeNodeType *start = ITK_NULLPTR);
+  LevelOrderTreeIterator(TreeType *tree, int startLevel, int endLevel, const TreeNodeType *start = nullptr);
 
   ~LevelOrderTreeIterator() override {}
 

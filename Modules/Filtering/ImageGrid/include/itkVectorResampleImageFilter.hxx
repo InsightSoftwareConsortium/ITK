@@ -94,7 +94,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
 ::AfterThreadedGenerateData()
 {
   // Disconnect input image from the interpolator
-  m_Interpolator->SetInputImage(ITK_NULLPTR);
+  m_Interpolator->SetInputImage(nullptr);
 }
 
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
