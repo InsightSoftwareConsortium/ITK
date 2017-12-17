@@ -128,8 +128,8 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method.
    */
-  virtual OutputType
-  Evaluate(const PointType & point) const;
+  OutputType
+  Evaluate(const PointType & point) const ITK_OVERRIDE;
 
   /** Interpolate the image at a continuous index position
    *
@@ -137,13 +137,13 @@ public:
    * specified index position. No bounds checking is done.
    * The point is assume to lie within the image buffer.
    *
-   * Subclasses must override this method.
+   * Subclasses must ITK_OVERRIDE this method.
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method.
    */
-  virtual OutputType
-  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const;
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const ITK_OVERRIDE;
 
   virtual void
   Initialize(void);
@@ -169,17 +169,17 @@ public:
    * \warning For efficiency, no validity checking of
    * the input image pointer is done. */
   inline bool
-  IsInsideBuffer(const PointType &) const
+  IsInsideBuffer(const PointType &) const ITK_OVERRIDE
   {
     return true;
   }
   bool
-  IsInsideBuffer(const ContinuousIndexType &) const
+  IsInsideBuffer(const ContinuousIndexType &) const ITK_OVERRIDE
   {
     return true;
   }
   bool
-  IsInsideBuffer(const IndexType &) const
+  IsInsideBuffer(const IndexType &) const ITK_OVERRIDE
   {
     return true;
   }
@@ -187,9 +187,9 @@ public:
 protected:
   SiddonJacobsRayCastInterpolateImageFunction();
 
-  ~SiddonJacobsRayCastInterpolateImageFunction() {};
+  ~SiddonJacobsRayCastInterpolateImageFunction() ITK_OVERRIDE {};
 
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /// Transformation used to calculate the new focal point position
