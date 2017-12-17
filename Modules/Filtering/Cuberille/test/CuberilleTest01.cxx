@@ -125,7 +125,7 @@ CuberilleTest01(int argc, char * argv[])
   input->DisconnectPipeline();
 
   // Create output mesh
-  MeshType::Pointer outputMesh = ITK_NULLPTR;
+  MeshType::Pointer outputMesh = nullptr;
   itk::TimeProbe    time;
 #if USE_MARCHING_CUBES
 
