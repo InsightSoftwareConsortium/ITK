@@ -128,15 +128,15 @@ protected:
 
   StrainImageFilter();
 
-  virtual void
+  void
   BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  virtual void
+  void
   ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId) ITK_OVERRIDE;
 
   typedef itk::SplitComponentsImageFilter<InputImageType, OperatorImageType> InputComponentsImageFilterType;
 
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

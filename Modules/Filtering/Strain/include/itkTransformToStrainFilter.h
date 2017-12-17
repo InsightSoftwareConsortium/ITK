@@ -102,12 +102,12 @@ protected:
 
   TransformToStrainFilter();
 
-  virtual void
+  void
   BeforeThreadedGenerateData() ITK_OVERRIDE;
-  virtual void
+  void
   ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId) ITK_OVERRIDE;
 
-  virtual void
+  void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
