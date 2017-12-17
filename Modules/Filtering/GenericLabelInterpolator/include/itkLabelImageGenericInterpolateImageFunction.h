@@ -83,7 +83,7 @@ public:
   OutputType
   EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const override
   {
-    return this->EvaluateAtContinuousIndex(cindex, NULL);
+    return this->EvaluateAtContinuousIndex(cindex, nullptr);
   }
 
   void
