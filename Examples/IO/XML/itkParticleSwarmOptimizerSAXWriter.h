@@ -52,12 +52,12 @@ public:
    * Virtual method defined in itk::XMLWriterBase.
    * Check that whether the file with given name is writable.
    */
-  virtual int CanWriteFile( const char* name ) override;
+  int CanWriteFile( const char* name ) override;
 
   /**
    * Method for performing XML file generation from the input object.
    */
-  virtual int WriteFile() override;
+  int WriteFile() override;
 
 protected:
   ParticleSwarmOptimizerSAXWriter() {}

@@ -148,16 +148,16 @@ protected:
 
   /** A simple method to copy the data from the input to the output.
    * If the input does not exist, a zero field is written to the output. */
-  virtual void CopyInputToOutput() override;
+  void CopyInputToOutput() override;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  virtual void InitializeIteration() override;
+  void InitializeIteration() override;
 
   /** Utility to smooth the deformation field (represented in the Output)
    * using a Gaussian operator. The amount of smoothing can be specified
    * by setting the StandardDeviations. */
-  virtual void SmoothDisplacementField() override;
+  void SmoothDisplacementField() override;
 
   /** Smooth a vector field, which may be m_DisplacementField or
    * m_UpdateBuffer. */
@@ -170,20 +170,20 @@ protected:
   /** Utility to smooth the UpdateBuffer using a Gaussian operator.
    * The amount of smoothing can be specified by setting the
    * UpdateFieldStandardDeviations. */
-  virtual void SmoothUpdateField() override;
+  void SmoothUpdateField() override;
 
   /** This method is called after the solution has been generated. In this case,
    * the filter release the memory of the internal buffers. */
-  virtual void PostProcessOutput() override;
+  void PostProcessOutput() override;
 
   /** This method is called before iterating the solution. */
-  virtual void Initialize() override;
+  void Initialize() override;
 
   /** By default the output deformation field has the same Spacing, Origin
    * and LargestPossibleRegion as the input/initial deformation field.  If
    * the initial deformation field is not set, the output information is
    * copied from the fixed image. */
-  virtual void GenerateOutputInformation() override;
+  void GenerateOutputInformation() override;
 
   /** It is difficult to compute in advance the input moving image region
    * required to compute the requested output region. Thus the safest
@@ -191,7 +191,7 @@ protected:
    *
    * For the fixed image and deformation field, the input requested region
    * set to be the same as that of the output requested region. */
-  virtual void GenerateInputRequestedRegion() override;
+  void GenerateInputRequestedRegion() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUPDEDeformableRegistrationFilter);

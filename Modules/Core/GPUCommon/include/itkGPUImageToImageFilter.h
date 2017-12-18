@@ -77,12 +77,12 @@ public:
   virtual void GraftOutput(const DataObjectIdentifierType & key, typename itk::GPUTraits< TOutputImage >::Type *output);
 
 protected:
-  virtual void GraftOutput(DataObject *output) override;
-  virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output) override;
+  void GraftOutput(DataObject *output) override;
+  void GraftOutput(const DataObjectIdentifierType & key, DataObject *output) override;
   GPUImageToImageFilter();
   ~GPUImageToImageFilter() override;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual void GPUGenerateData() {
   }

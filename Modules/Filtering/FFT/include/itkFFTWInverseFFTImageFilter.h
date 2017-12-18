@@ -109,9 +109,9 @@ public:
 
 protected:
   FFTWInverseFFTImageFilter();
-  virtual ~FFTWInverseFFTImageFilter() {}
+  ~FFTWInverseFFTImageFilter() override {}
 
-  virtual void BeforeThreadedGenerateData() override;
+  void BeforeThreadedGenerateData() override;
 
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             ThreadIdType threadId ) override;

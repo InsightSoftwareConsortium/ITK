@@ -316,7 +316,7 @@ protected:
    * Copy the element stiffness matrix into the correct position in the
    * master stiffess matrix. Since more complex Solver classes may need to
    * assemble many matrices and may also do some funky stuff to them, this
-   * function is virtual and can be overriden in a derived solver class.
+   * function is and can be overriden in a derived solver class.
    */
   virtual void AssembleElementMatrix(Element::Pointer e);
 

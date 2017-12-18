@@ -91,7 +91,7 @@ bool LabelObjectLine< VImageDimension >::IsNextIndex(const IndexType & idx) cons
 
 /**
  * This function just calls the
- * header/self/trailer virtual print methods, which can be overriden by
+ * header/self/trailer print methods, which can be overriden by
  * subclasses.
  */
 template< unsigned int VImageDimension >

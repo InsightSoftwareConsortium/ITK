@@ -119,11 +119,11 @@ public:
 
 protected:
   FFTWComplexToComplexFFTImageFilter();
-  virtual ~FFTWComplexToComplexFFTImageFilter() {}
+  ~FFTWComplexToComplexFFTImageFilter() override {}
 
-  virtual void UpdateOutputData(DataObject *output) override;
+  void UpdateOutputData(DataObject *output) override;
 
-  virtual void BeforeThreadedGenerateData() override;
+  void BeforeThreadedGenerateData() override;
 
   void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                             ThreadIdType threadId ) override;

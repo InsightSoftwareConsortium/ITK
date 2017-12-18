@@ -48,27 +48,27 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char*) override;
+  bool CanReadFile(const char*) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation() override;
+  void ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void* buffer) override;
+  void Read(void* buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanWriteFile(const char*) override;
+  bool CanWriteFile(const char*) override;
 
   /** Writes the header of the image.
    * Assumes SetFileName has been called with a valid file name. */
-  virtual void WriteImageInformation() override;
+  void WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegion has been set properly. */
-  virtual void Write(const void* buffer) override;
+  void Write(const void* buffer) override;
 
 protected:
   FileFreeImageIO();

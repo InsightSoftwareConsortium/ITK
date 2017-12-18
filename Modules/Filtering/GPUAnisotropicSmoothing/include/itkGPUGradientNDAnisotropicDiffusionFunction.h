@@ -95,7 +95,7 @@ public:
                                  void *globalData ) override;
 
   /** This method is called prior to each iteration of the solver. */
-  virtual void InitializeIteration() override
+  void InitializeIteration() override
   {
     m_K = static_cast< PixelType >( this->GetAverageGradientMagnitudeSquared()
                                     * this->GetConductanceParameter() * this->GetConductanceParameter() * -2.0f );

@@ -82,7 +82,7 @@ class ITKFFT_EXPORT ManualWisdomFilenameGenerator:
   public:
     ManualWisdomFilenameGenerator(const std::string &wfn);
     void SetWisdomFilename(const std::string &wfn);
-    virtual std::string GenerateWisdomFilename(const std::string &baseCacheDirectory ) const override;
+    std::string GenerateWisdomFilename(const std::string &baseCacheDirectory ) const override;
   private:
     std::string m_WisdomFilename;
 };
@@ -90,13 +90,13 @@ class ITKFFT_EXPORT ManualWisdomFilenameGenerator:
 class ITKFFT_EXPORT SimpleWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 {
   public:
-    virtual std::string GenerateWisdomFilename(const std::string &baseCacheDirectory) const override;
+    std::string GenerateWisdomFilename(const std::string &baseCacheDirectory) const override;
 };
 
 class ITKFFT_EXPORT HostnameWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
 {
   public:
-  virtual std::string GenerateWisdomFilename(const std::string &baseCacheDirectory) const override;
+  std::string GenerateWisdomFilename(const std::string &baseCacheDirectory) const override;
 };
 
 class ITKFFT_EXPORT HardwareWisdomFilenameGenerator: public WisdomFilenameGeneratorBase
@@ -104,7 +104,7 @@ class ITKFFT_EXPORT HardwareWisdomFilenameGenerator: public WisdomFilenameGenera
 public:
     HardwareWisdomFilenameGenerator();
 
-  virtual std::string GenerateWisdomFilename(const std::string &baseCacheDirectory) const override;
+  std::string GenerateWisdomFilename(const std::string &baseCacheDirectory) const override;
 
   void SetUseOSName(const bool flag);
   void SetUseOSRelease(const bool flag);
@@ -286,7 +286,7 @@ public:
 
 private:
   FFTWGlobalConfiguration(); //This will process env variables
-  ~FFTWGlobalConfiguration(); //This will write cache file if requested.
+  ~FFTWGlobalConfiguration() override; //This will write cache file if requested.
 
   /** Return the singleton instance with no reference counting. */
   static Pointer GetInstance();

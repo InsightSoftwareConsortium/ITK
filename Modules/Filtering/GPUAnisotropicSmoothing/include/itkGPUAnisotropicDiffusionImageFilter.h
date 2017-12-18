@@ -68,7 +68,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Prepare for the iteration process. */
-  virtual void InitializeIteration() override;
+  void InitializeIteration() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUAnisotropicDiffusionImageFilter);

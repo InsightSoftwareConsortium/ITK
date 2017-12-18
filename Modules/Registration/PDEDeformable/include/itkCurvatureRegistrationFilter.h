@@ -173,14 +173,14 @@ public:
 
 protected:
   CurvatureRegistrationFilter();
-  ~CurvatureRegistrationFilter();
+  ~CurvatureRegistrationFilter() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter before starting first iteration. */
-  virtual void Initialize();
+  void Initialize() override;
 
   /** Apply update. */
-  virtual void ApplyUpdate(const TimeStepType& dt);
+  void ApplyUpdate(const TimeStepType& dt) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureRegistrationFilter);

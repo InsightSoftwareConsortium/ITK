@@ -148,7 +148,7 @@ public:
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  virtual void * GetGlobalDataPointer() const override
+  void * GetGlobalDataPointer() const override
   {
     GlobalDataStruct *global = new GlobalDataStruct();
 
@@ -159,18 +159,18 @@ public:
   }
 
   /** Release memory for global data structure. */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const override;
+  void ReleaseGlobalDataPointer(void *GlobalData) const override;
 
   /** Allocate GPU buffers for computing metric statitics
    * */
-  virtual void GPUAllocateMetricData(unsigned int numPixels) override;
+  void GPUAllocateMetricData(unsigned int numPixels) override;
 
   /** Release GPU buffers for computing metric statitics
    * */
-  virtual void GPUReleaseMetricData() override;
+  void GPUReleaseMetricData() override;
 
   /** Set the object's state before each iteration. */
-  virtual void InitializeIteration() override;
+  void InitializeIteration() override;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */

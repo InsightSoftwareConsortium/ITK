@@ -96,11 +96,11 @@ public:
   typedef GPUNeighborhoodOperatorImageFilter< InputImageType, OutputImageType,
                                               RealOutputPixelValueType > SingleFilterType;
 
-  virtual void GenerateInputRequestedRegion() override;
+  void GenerateInputRequestedRegion() override;
 
 protected:
   GPUDiscreteGaussianImageFilter();
-  virtual ~GPUDiscreteGaussianImageFilter() override {}
+  ~GPUDiscreteGaussianImageFilter() override {}
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
