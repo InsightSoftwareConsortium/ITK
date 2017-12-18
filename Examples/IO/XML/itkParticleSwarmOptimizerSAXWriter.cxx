@@ -54,7 +54,7 @@ int ParticleSwarmOptimizerSAXWriter::WriteFile()
       throw e;
       }
 
-    if ( this->m_InputObject == 0 )
+    if ( this->m_InputObject == nullptr )
       {
       itkExceptionMacro( "Object to be written is null!\n" );
       }
