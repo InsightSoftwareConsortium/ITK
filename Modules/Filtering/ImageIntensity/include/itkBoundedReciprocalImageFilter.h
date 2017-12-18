@@ -104,7 +104,7 @@ public:
 
 protected:
   BoundedReciprocalImageFilter() {}
-  virtual ~BoundedReciprocalImageFilter() override {}
+  ~BoundedReciprocalImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoundedReciprocalImageFilter);

@@ -149,7 +149,7 @@ public:
   typedef itk::SmartPointer<const Self> ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const override { return ITK_SOURCE_VERSION; }
+  const char* GetITKSourceVersion() const override { return ITK_SOURCE_VERSION; }
   const char* GetDescription() const override { return "A Factory for ImportImageContainer"; }
 
   /** Method for class instantiation. */

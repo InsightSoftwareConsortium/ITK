@@ -109,11 +109,11 @@ public:
 
 protected:
   FFTWHalfHermitianToRealInverseFFTImageFilter();
-  virtual ~FFTWHalfHermitianToRealInverseFFTImageFilter() {}
+  ~FFTWHalfHermitianToRealInverseFFTImageFilter() override {}
 
-  virtual void UpdateOutputData(DataObject *output) override;
+  void UpdateOutputData(DataObject *output) override;
 
-  virtual void BeforeThreadedGenerateData() override;
+  void BeforeThreadedGenerateData() override;
 
   void ThreadedGenerateData(const OutputRegionType& outputRegionForThread,
                             ThreadIdType threadId) override;

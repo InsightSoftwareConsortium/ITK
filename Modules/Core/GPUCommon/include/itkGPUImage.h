@@ -76,9 +76,9 @@ public:
   //
   // Allocate CPU and GPU memory space
   //
-  virtual void Allocate(bool initialize=false) override;
+  void Allocate(bool initialize=false) override;
 
-  virtual void Initialize() override;
+  void Initialize() override;
 
   void FillBuffer(const TPixel & value);
 
@@ -178,9 +178,9 @@ public:
   virtual void Graft(const Self *data);
 
 protected:
-  virtual void Graft(const DataObject *data) override;
+  void Graft(const DataObject *data) override;
   GPUImage();
-  virtual ~GPUImage() override;
+  ~GPUImage() override;
   using Superclass::Graft;
 
 private:
@@ -197,7 +197,7 @@ public:
   typedef itk::SmartPointer<const Self> ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const override {
+  const char* GetITKSourceVersion() const override {
     return ITK_SOURCE_VERSION;
   }
   const char* GetDescription() const override {

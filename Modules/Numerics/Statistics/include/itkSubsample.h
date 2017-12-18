@@ -83,7 +83,7 @@ public:
 #endif
 
   /** Get the Id Holder */
-  virtual const InstanceIdentifierHolder & GetIdHolder() const
+  const InstanceIdentifierHolder & GetIdHolder() const
   {
     return this->m_IdHolder;
   }

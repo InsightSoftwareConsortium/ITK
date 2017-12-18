@@ -89,11 +89,11 @@ public:
   TreeNodeChangeEvent(const TreeIteratorBase< TTreeType > & position):
     TreeChangeEvent< TTreeType >(position) {}
 
-  virtual const char * GetEventName() const { return "TreeNodeChangeEvent"; }
+  const char * GetEventName() const override { return "TreeNodeChangeEvent"; }
 
-  virtual bool CheckEvent(const::itk::EventObject *e) const { return dynamic_cast< const Self * >( e ); }
+  bool CheckEvent(const::itk::EventObject *e) const override { return dynamic_cast< const Self * >( e ); }
 
-  virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
+  ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
 
   TreeNodeChangeEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
 

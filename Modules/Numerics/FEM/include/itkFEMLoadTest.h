@@ -52,7 +52,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const
+  ::itk::LightObject::Pointer CreateAnother(void) const override
   {
     ::itk::LightObject::Pointer smartPtr;
     Pointer copyPtr = Self::New();

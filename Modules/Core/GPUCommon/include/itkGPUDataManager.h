@@ -118,8 +118,8 @@ public:
 protected:
 
   GPUDataManager();
-  virtual ~GPUDataManager() override;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const override;
+  ~GPUDataManager() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 protected:
   /* NOTE: ivars are protected instead of private to improve performance access in child classes*/

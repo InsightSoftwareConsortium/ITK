@@ -91,7 +91,7 @@ public:
    * execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion() override;
+  void GenerateInputRequestedRegion() override;
 
   /** Enable/Disable using the image spacing information in
    *  calculations. Use this option if you  want derivatives in
@@ -109,7 +109,7 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~LaplacianSharpeningImageFilter() override {}
+  ~LaplacianSharpeningImageFilter() override {}
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all

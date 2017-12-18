@@ -122,7 +122,7 @@ protected:
   typedef RescaleIntensityImageFilter< ImageType, ImageType >  RescalerType;
 //  Software Guide : EndCodeSnippet
 
-  virtual void GenerateData() override;
+  void GenerateData() override;
 
   /** Display */
   void PrintSelf( std::ostream& os, Indent indent ) const override;

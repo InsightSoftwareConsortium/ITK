@@ -129,7 +129,7 @@ public:
 
 protected:
   GPUBinaryThresholdImageFilter();
-  virtual ~GPUBinaryThresholdImageFilter() override {}
+  ~GPUBinaryThresholdImageFilter() override {}
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
@@ -137,7 +137,7 @@ protected:
 
   /** Unlike CPU version, GPU version of binary threshold filter is not
     multi-threaded */
-  virtual void GPUGenerateData() override;
+  void GPUGenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUBinaryThresholdImageFilter);
@@ -159,7 +159,7 @@ public:
   typedef SmartPointer<const Self>             ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const override
+  const char* GetITKSourceVersion() const override
     {
     return ITK_SOURCE_VERSION;
     }

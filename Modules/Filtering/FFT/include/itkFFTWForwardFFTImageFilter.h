@@ -109,11 +109,11 @@ public:
 
 protected:
   FFTWForwardFFTImageFilter();
-  ~FFTWForwardFFTImageFilter() {}
+  ~FFTWForwardFFTImageFilter() override {}
 
-  virtual void GenerateData() override;
+  void GenerateData() override;
 
-  virtual void UpdateOutputData(DataObject *output) override;
+  void UpdateOutputData(DataObject *output) override;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

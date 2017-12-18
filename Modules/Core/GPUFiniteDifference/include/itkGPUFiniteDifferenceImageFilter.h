@@ -75,7 +75,7 @@ public:
 /** This method returns a pointer to a FiniteDifferenceFunction object that
   * will be used by the filter to calculate updates at image pixels.
   * \returns A FiniteDifferenceObject pointer. */
-  virtual const typename FiniteDifferenceFunctionType::Pointer &GetDifferenceFunction() const override
+  const typename FiniteDifferenceFunctionType::Pointer &GetDifferenceFunction() const override
     {
     return this->m_DifferenceFunction;
     }
@@ -83,7 +83,7 @@ public:
  /** This method sets the pointer to a FiniteDifferenceFunction object that
   * will be used by the filter to calculate updates at image pixels.
   * \returns A FiniteDifferenceObject pointer. */
-  virtual void SetDifferenceFunction ( FiniteDifferenceFunctionType *differenceFunction ) override
+  void SetDifferenceFunction ( FiniteDifferenceFunctionType *differenceFunction ) override
     {
     itkDebugMacro("setting m_DifferenceFunction to " << differenceFunction);
     if ( this->m_DifferenceFunction != differenceFunction )
@@ -133,7 +133,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method allocates a temporary update container in the subclass. */
-  virtual void AllocateUpdateBuffer() override = 0;
+  void AllocateUpdateBuffer() override = 0;
 
   /** This method is defined by a subclass to apply changes to the output
    * from an update buffer and a time step value "dt".
@@ -150,12 +150,12 @@ protected:
   /** This method can be defined in subclasses as needed to copy the input
    * to the output. See DenseFiniteDifferenceImageFilter for an
    * implementation. */
-  virtual void CopyInputToOutput() override = 0;
+  void CopyInputToOutput() override = 0;
 
   /** This is the default, high-level algorithm for calculating finite
    * difference solutions.  It calls virtual methods in its subclasses
    * to implement the major steps of the algorithm. */
-  virtual void GPUGenerateData() override;
+  void GPUGenerateData() override;
 
   /** FiniteDifferenceImageFilter needs a larger input requested region than
    * the output requested region.  As such, we need to provide
@@ -168,11 +168,11 @@ protected:
    * handled as described in the FiniteDifferenceFunction defined by the
    * subclass.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() override;
+  void GenerateInputRequestedRegion() override;
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  Defined by a subclass. */
-  virtual bool Halt() override;
+  bool Halt() override;
 
   /** This method is similar to Halt(), and its default implementation in this
    * class is simply to call Halt(). However, this method takes as a parameter
@@ -183,7 +183,7 @@ protected:
    * Notice that ThreadedHalt is only called by the multithreaded filters, so you
    * still should implement Halt, just in case a non-threaded filter is used.
    */
-  virtual bool ThreadedHalt( void *itkNotUsed(threadInfo) ) override {
+  bool ThreadedHalt( void *itkNotUsed(threadInfo) ) override {
     return this->Halt();
   }
 
@@ -192,7 +192,7 @@ protected:
    * initialization, i.e. in the SparseFieldLevelSetImageFilter, initialize
    * the list of layers.
    */
-  virtual void Initialize() override {
+  void Initialize() override {
   }
 
   /** This method is optionally defined by a subclass and is called immediately
@@ -201,7 +201,7 @@ protected:
    * gradient magnitude of the image in anisotropic diffusion functions), or
    * otherwise prepare for the next iteration.
    */
-  virtual void InitializeIteration() override
+  void InitializeIteration() override
   {
     m_DifferenceFunction->InitializeIteration();
   }
@@ -223,7 +223,7 @@ protected:
 
   /** This method is called after the solution has been generated to allow
    * subclasses to apply some further processing to the output. */
-  virtual void PostProcessOutput()  override {
+  void PostProcessOutput()  override {
   }
 
   /** The maximum number of iterations this filter will run */
