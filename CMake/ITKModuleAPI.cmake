@@ -36,6 +36,13 @@ macro(_itk_module_config_recurse ns mod)
         list(APPEND ${ns}_${_factory_name} ${_format})
         list(APPEND ${ns}_FACTORY_NAMES ${mod}::${_factory_format})
         list(APPEND ${ns}_FACTORY_LIST ${_factory_name})
+        # Configure factory Meta-modules
+        set(_meta_module ITK${_factory_name})
+        set(${_meta_module}_LOADED TRUE)
+        list(APPEND ${_meta_module}_TRANSITIVE_DEPENDS ${mod})
+        list(REMOVE_DUPLICATES ${_meta_module}_TRANSITIVE_DEPENDS)
+        list(SORT ${_meta_module}_TRANSITIVE_DEPENDS) # Sort to ensure a deterministic order
+        #
       endforeach()
     endif()
     foreach(dep IN LISTS ${mod}_TRANSITIVE_DEPENDS)
@@ -86,6 +93,22 @@ endmacro()
 #  <namespace>_FACTORY_LIST = List of factories to register
 #  <namespace>_<factory_list> = List of formats in each factory
 # Do not name a module as the namespace.
+#
+# When a module name corresponds to a factory, a meta-module with the same name
+# is created. It is marked as LOADED and it lists its dependencies (all the
+# modules invoking the corresponding factory) in TRANSITIVE_DEPENDS modules.
+#
+# `itk_module_config()` can be called with a <namespace> that is different from
+# the default one (ITK) to avoid overwritting the regular ITK_* variables.
+#
+# This first call of `itk_module_config()` will create the meta-modules. This
+# is done when calling `find_package(ITK)`.
+#
+# Caveat: The logic configuring the itk<factory_type>FactoryRegisterManager.h
+# headers is only available in UseITK. This means that automatic loading of
+# the IO factories will not happen by only relying on find_package(ITK
+# COMPONENTS ITKCore) and itk_module_config(). This will be improved in the
+# future. For more details, read documentation in CMake/UseITK.cmake.
 macro(itk_module_config ns)
   set(${ns}_LIBRARIES "")
   set(${ns}_INCLUDE_DIRS "")
@@ -112,7 +135,7 @@ macro(itk_module_config ns)
     endif()
   endforeach()
   foreach(_factory ${${ns}_FACTORY_LIST})
-    list(SORT ${ns}_${_factory}) # Sort in a deterministic order
+    list(SORT ${ns}_${_factory}) # Sort to ensure a deterministic order
   endforeach()
 endmacro()
 
