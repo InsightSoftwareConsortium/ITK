@@ -102,7 +102,7 @@ public:
       }
 
     const RegistrationType * registration = static_cast<const RegistrationType *>( object );
-    if(registration == 0)
+    if(registration == nullptr)
       {
       itkExceptionMacro(<< "Dynamic cast failed, object of type " << object->GetNameOfClass());
       }
