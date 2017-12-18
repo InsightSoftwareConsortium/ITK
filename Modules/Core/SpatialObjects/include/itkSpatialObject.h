@@ -420,8 +420,10 @@ public:
   /** Transforms points from the object-specific "physical" space
    * to the "physical" space of its parent object.
    */
-  TransformType * GetObjectToNodeTransform();
-
+  itkLegacyMacro(TransformType * GetObjectToNodeTransform());
+  #if defined(ITK_LEGACY_REMOVE)
+  TransformType * GetModifiableObjectToNodeTransform();
+  #endif
   const TransformType * GetObjectToNodeTransform() const;
 
   /** Theses functions are just calling the itkSpatialObjectTreeNode
