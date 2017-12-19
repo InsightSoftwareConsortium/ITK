@@ -111,21 +111,21 @@ public:
 
 protected:
   VariationalRegistrationElasticRegularizer();
-  ~VariationalRegistrationElasticRegularizer() {}
+  ~VariationalRegistrationElasticRegularizer() override {}
 
   /** Print information about the filter. */
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Execute regularization. This method is multi-threaded but does not
    * use ThreadedGenerateData(). */
-  virtual void
-  GenerateData();
+  void
+  GenerateData() override;
 
   /** Method for initialization. Buffer images are allocated and the matrices
    * calculated in this method. */
-  virtual void
-  Initialize();
+  void
+  Initialize() override;
 
   /** Initialize FFTW plans and multi-threading, allocate arrays for FFT */
   virtual bool
