@@ -24,6 +24,10 @@ else()
   endif()
 endif()
 
+if(POLICY CMP0063)
+  cmake_policy(SET CMP0063 NEW)
+endif()
+
 get_property(KWIML_LANGUAGES GLOBAL PROPERTY ENABLED_LANGUAGES)
 foreach(lang ${KWIML_LANGUAGES})
   set(KWIML_LANGUAGE_${lang} 1)
