@@ -9,6 +9,10 @@ string(TOLOWER ${CHARLS_NAMESPACE} CHARLS_LIBRARY_NAME)
 
 project(${CHARLS_NAMESPACE} CXX)
 
+if(POLICY CMP0063)
+  cmake_policy(SET CMP0063 NEW)
+endif()
+
 #-----------------------------------------------------------------------------
 # CHARLS version number
 set(CHARLS_MAJOR_VERSION 1)
