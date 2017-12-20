@@ -424,23 +424,86 @@ Generate Binaries
 ### Windows
 
 
-### Verify the binaries
-
-Run `pip install itk` in a fresh virtualenv and run all the
-`ITKExamples Python` tests against this Python.
-
 Generate Python Packages
 ------------------------
 
-The [ITKPythonPackage] website describes how to
+The [ITKPythonPackage](https://itkpythonpackage.readthedocs.io/en/latest/) website describes how to
 [build ITK Python wheels](https://itkpythonpackage.readthedocs.io/en/latest/Build_ITK_Python_packages.html).
 
-Additionally, external module wheels can also be generated. Please, visit the
-[Build ITK Module Python packages](https://itkpythonpackage.readthedocs.io/en/latest/Build_ITK_Module_Python_packages.html)
-to generate such wheels.
+Python packages are currently generated nightly by the systems, `metroplex`,
+`misty`, and `overload` at Kitware and uploaded to the [ITKPythonPackage
+GitHub Release
+page](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/releases/tag/latest).
 
-Contact ITK Communications at <comm@kitware.com> in order to make the generated
-wheels be available in the Python Package Index ([PyPI]).
+Additionally, external module wheels can also be generated. Please, visit the
+[ITK module Python packages](https://itkpythonpackage.readthedocs.io/en/latest/Build_ITK_Module_Python_packages.html)
+documentation for further information.
+
+### Generate release ITK Python wheels
+
+First, merge the
+[ITKPythonPackage](https://github.com/InsightSoftwareConsortium/ITKPythonPackage)
+`master` branch into the `release` branch.
+
+Next, update the `VERSION` variable in *ITKPythonPackage/itkVersion.py* and
+`ITK_GIT_TAG` in *ITKPythonPackage/CMakeLists.txt*.
+
+Then [build the
+wheels](https://itkpythonpackage.readthedocs.io/en/latest/Build_ITK_Python_packages.html)
+from the `release` branch on Linux, macOS, and Windows.
+
+### Upload the wheels to PyPI
+
+Next, [upload the wheels to the Python Package Index
+(PyPI)](https://itkpythonpackage.readthedocs.io/en/latest/Build_ITK_Module_Python_packages.html#upload-the-packages-to-pypi).
+
+### Verify the binaries
+
+Run `pip install itk` in a fresh virtualenv and run all the
+[ITKExamples](https://github.com/InsightSoftwareConsortium/ITKExamples) Python
+tests against this Python. For example,
+
+```
+virtualenv itk-venv
+./itk-venv/bin/python -m pip install itk
+git clone https://github.com/InsightSoftwareConsortium/ITKExamples
+mkdir ITKExamples-build
+cd ITKExamples-build
+cmake -DITK_DIR=/path/to/ITK-build -DPYTHON_EXECUTABLE=../itk-venv/bin/python ../ITKExamples
+ctest -R Python
+```
+
+### Upload the ITKPythonBuilds
+
+Create a new GitHub Release in the
+[ITKPythonPackage repository](https://github.com/InsightSoftwareConsortium/ITKPythonPackage/releases)
+and upload the wheels there.
+
+Also, create a corresponding GitHub Release in the
+[ITKPythonBuilds](https://github.com/InsightSoftwareConsortium/ITKPythonBuilds)
+repository. Upload builds tarballs created from the build trees with
+scripts found in *ITKPythonPackage/scripts/*, i.e.
+*ITKPythonPackage/scripts/macpython-build-tarball.sh*, etc..
+
+Update the *ITKPythonPackage/scripts/*download-cache-and-build-module-wheels**
+scripts to use the new version of *ITKPythonBuilds*.
+
+### Verify external module GitHub CI builds
+
+Re-run
+[TravisCI](https://travis-ci.org/InsightSoftwareConsortium/ITKModuleTemplate),
+[AppveyorCI](https://ci.appveyor.com/project/itkrobot/itkmoduletemplate), and
+[CircleCI](https://circleci.com/gh/InsightSoftwareConsortium/ITKModuleTemplate) in the
+[ITKModuleTemplate](https://github.com/InsightSoftwareConsortium/ITKModuleTemplate)
+repository to ensure the new *ITKPythonBuilds* and external module package
+build scripts are functioning properly.
+
+### Update the conda-forge package
+
+Create a PR to update
+[conda-forge/itk-feedstock](https://github.com/conda-forge/itk-feedstock) to
+the new version. This conda recipe downloads the wheel binary packages and
+re-packages them as conda packages.
 
 Generate Doxygen Documentation
 ------------------------------
