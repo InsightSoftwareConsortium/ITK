@@ -307,7 +307,7 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
       covariance -= numberOfVoxelInBlock * fixedMean * movingMean;
 
       SimilaritiesValue sim = NumericTraits< SimilaritiesValue >::ZeroValue();
-      if ( fixedVariance * movingVariance )
+      if ( (fixedVariance * movingVariance) != 0.0 )
         {
         sim = ( covariance * covariance ) / ( fixedVariance * movingVariance );
         }
