@@ -24,14 +24,6 @@
 #undef max
 
 #define itkNUMERIC_TRAITS_MIN_MAX_MACRO()          \
-  static ITK_CONSTEXPR_FUNC ValueType min()                           \
-    {                                              \
-    return std::numeric_limits< ValueType >::min(); \
-    }                                              \
-  static ITK_CONSTEXPR_FUNC ValueType max()                           \
-    {                                              \
-    return std::numeric_limits< ValueType >::max(); \
-    }                                              \
   static ITK_CONSTEXPR_FUNC ValueType min(ValueType)                  \
     {                                              \
     return std::numeric_limits< ValueType >::min(); \
@@ -40,6 +32,9 @@
     {                                              \
     return std::numeric_limits< ValueType >::max(); \
     }                                              \
+  using std::numeric_limits< ValueType >::min; \
+  using std::numeric_limits< ValueType >::max \
+  // Note: the last line is without a semicolon, as each macro call already ends with one.
 
 #if ITK_COMPILER_CXX_CONSTEXPR
 #define itkNUMERIC_TRAITS_C11_ASSINMENT(x) = x
@@ -305,11 +300,8 @@ public:
   static ITK_CONSTEXPR_VAR char ITKCommon_EXPORT Zero = 0;
   static ITK_CONSTEXPR_VAR char ITKCommon_EXPORT One = 1;
 
-  static ITK_CONSTEXPR_FUNC char min() { return char(255) < char(0) ? char(-128) : char(0); }
-  static ITK_CONSTEXPR_FUNC char max() { return char(255) < char(0) ? char(127) : char(255); }
+  itkNUMERIC_TRAITS_MIN_MAX_MACRO();
 
-  static ITK_CONSTEXPR_FUNC char min(char) { return min(); }
-  static ITK_CONSTEXPR_FUNC char max(char) { return max(); }
   static ITK_CONSTEXPR_FUNC char NonpositiveMin() { return min(); }
   static ITK_CONSTEXPR_FUNC bool IsPositive(char val) { return val > Zero; }
   static ITK_CONSTEXPR_FUNC bool IsNonpositive(char val) { return val <= Zero; }
