@@ -108,13 +108,12 @@ public:
    *  All pixels connected to this seed will be replaced with ReplaceValue. */
   void AddSeed1(const IndexType & seed);
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
-  /** \deprecated
-   * Set seed point 1. This seed will be isolated from Seed2 (if possible).
-   *  All pixels connected to this seed will be replaced with ReplaceValue.
-   *  This method is deprecated, please use AddSeed1(). */
+  /** Set a single seed point 1.
+   *
+   * This seed will be isolated from Seed2 (if possible). All pixels
+   * connected to this seed will be replaced with ReplaceValue.
+   */
   void SetSeed1(const IndexType & seed);
-#endif
 
   /** Clear all the seeds1. */
   void ClearSeeds1();
@@ -122,12 +121,11 @@ public:
   /** Add seed point 2. This seed will be isolated from Seed1 (if possible). */
   void AddSeed2(const IndexType & seed);
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
-  /** \deprecated
-   * Set seed point 2. This seed will be isolated from Seed1 (if possible).
-   *  This method is deprecated, please use AddSeed2(). */
+  /**  Set a single seed point 2.
+   *
+   * This seed will be isolated from Seed1 (if possible).
+   */
   void SetSeed2(const IndexType & seed);
-#endif
 
   /** Clear all the seeds2. */
   void ClearSeeds2();
