@@ -110,7 +110,7 @@ verify_and_create() {
     else
       echo "Creating     ${alt_algo_file}..."
       echo "${object_alt_algo_hash}" > "${alt_algo_file}"
-      cp "${object_store}/${algo_upper}/${algo_hash}" "${object_store}/${alt_algo_upper}/${alt_algo_hash}"
+      cp "${object_store}/${algo_upper}/${algo_hash}" "${object_store}/${alt_algo_upper}/${object_alt_algo_hash}"
     fi
   done || exit 1
 }
