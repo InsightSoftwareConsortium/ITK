@@ -315,6 +315,14 @@ public:
     const PointContainerPointer & points,
     const WeightContainerType & weights);
 };
+
+
+template<typename TCoordRep, unsigned int NPointDimension>
+inline void swap( Point<TCoordRep, NPointDimension> &a, Point<TCoordRep, NPointDimension> &b )
+{
+  a.swap(b);
+}
+
 }  // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

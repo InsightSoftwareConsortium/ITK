@@ -19,6 +19,7 @@
 #define itkFixedArray_h
 
 #include "itkMacro.h"
+#include <algorithm>
 
 namespace itk
 {
@@ -260,6 +261,11 @@ public:
 
   void Fill(const ValueType &);
 
+  void swap(FixedArray &other)
+    {
+      std::swap_ranges(this->Begin(), this->End(), other.Begin());
+    }
+
 private:
   /** Internal C array representation. */
   CArray m_InternalArray;
@@ -271,6 +277,14 @@ public:
 
 template< typename TValue, unsigned int VLength >
 std::ostream & operator<<(std::ostream & os, const FixedArray< TValue, VLength > & arr);
+
+
+template< typename TValue, unsigned int VLength >
+inline void swap( FixedArray<TValue, VLength> &a, FixedArray<TValue, VLength> &b )
+{
+  a.swap(b);
+}
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

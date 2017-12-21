@@ -220,6 +220,12 @@ OutputStreamType & operator<<(OutputStreamType & os,
 template< typename TComponent, unsigned int NDimension  >
 InputStreamType & operator>>(InputStreamType & is,
                                         SymmetricSecondRankTensor< TComponent, NDimension > & c);
+
+template<typename T>
+inline void swap( SymmetricSecondRankTensor<T> &a, SymmetricSecondRankTensor<T> &b )
+{
+  a.swap(b);
+}
 } // end namespace itk
 
 #include "itkNumericTraitsTensorPixel.h"

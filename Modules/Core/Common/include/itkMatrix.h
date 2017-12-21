@@ -271,6 +271,12 @@ public:
   /** Copy constructor. */
   Matrix(const Self & matrix):m_Matrix(matrix.m_Matrix) {}
 
+  void swap(Self &other)
+    {
+      // allow for augment dependent look up
+      using std::swap;
+      swap(this->m_Matrix, other.m_Matrix);
+    }
 private:
   InternalMatrixType m_Matrix;
 };
@@ -281,6 +287,14 @@ std::ostream & operator<<(std::ostream & os, const Matrix< T, NRows, NColumns > 
   os << v.GetVnlMatrix();
   return os;
 }
+
+
+template< typename T, unsigned int NRows, unsigned int NColumns >
+inline void swap( const Matrix< T, NRows, NColumns > &a, const Matrix< T, NRows, NColumns >&b )
+{
+  a.swap(b);
+}
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

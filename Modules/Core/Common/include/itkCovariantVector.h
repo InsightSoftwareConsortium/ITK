@@ -271,6 +271,14 @@ ITKCommon_EXPORT void CrossProduct(CovariantVector< float, 3 > &,
 ITKCommon_EXPORT void CrossProduct(CovariantVector< int, 3 >,
                                    const Vector< int, 3 > &,
                                    const Vector< int, 3 > &);
+
+
+template< typename T, unsigned int NVectorDimension >
+inline void swap( CovariantVector<T, NVectorDimension> &a, CovariantVector<T, NVectorDimension> &b )
+{
+  a.swap(b);
+}
+
 } // end namespace itk
 
 //
