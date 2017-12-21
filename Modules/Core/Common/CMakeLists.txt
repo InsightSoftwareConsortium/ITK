@@ -113,7 +113,10 @@ include(itkCheckPrivateDynamicCast)
 
 
 set(_template_visibility_init OFF)
-if(NOT ITK_PRIVATE_DYNAMIC_CAST)
+if(NOT ITK_PRIVATE_DYNAMIC_CAST
+    AND NOT (CMAKE_CXX_VISIBILITY_PRESET STREQUAL "hidden"
+             AND NOT BUILD_SHARED_LIBS)
+  )
   set(_template_visibility_init ON)
 endif()
 # This adds default symbol visibility to template class types, which
