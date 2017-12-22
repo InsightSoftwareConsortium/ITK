@@ -109,15 +109,12 @@ Neighborhood< TPixel, VDimension, TContainer >
 ::Neighborhood(const Self & other):
   m_Radius     ( other.m_Radius ),
   m_Size       ( other.m_Size ),
-  m_DataBuffer ( other.m_DataBuffer )
+  m_DataBuffer ( other.m_DataBuffer ),
+  m_OffsetTable( other.m_OffsetTable )
 {
-  m_Radius     = other.m_Radius;
-  m_Size       = other.m_Size;
-  m_DataBuffer = other.m_DataBuffer;
   std::copy(other.m_StrideTable,
             other.m_StrideTable+VDimension,
             m_StrideTable);
-  m_OffsetTable = other.m_OffsetTable;
 }
 
 template< typename TPixel, unsigned int VDimension, typename TContainer >
