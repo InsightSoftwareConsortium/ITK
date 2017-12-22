@@ -78,8 +78,8 @@ public:
   /** Set the number of regions. */
   void SetNumberOfRegions(SizeValueType num)
   {
-    if ( ( num >= 1 ) && ( num <= NumericTraits< SizeValueType >::max() ) )
-              { m_NumberOfRegions = num; } }
+    if ( num >= 1 ) { m_NumberOfRegions = num; }
+  }
 
   /** Get the current region. */
   SizeValueType GetRegion() const
@@ -88,8 +88,8 @@ public:
   /** Set the number of regions. */
   void SetRegion(SizeValueType region)
   {
-    if ( ( region >= 1 ) && ( region <= NumericTraits< SizeValueType >::max() ) )
-              { m_Region = region; } }
+    if ( region >= 1 ) { m_Region = region; }
+  }
 
 private:
   // The maximum number of regions possible.
