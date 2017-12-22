@@ -158,6 +158,7 @@ Rigid3DTransform<TParametersValueType>::Translate(const OffsetType & offset, boo
   this->ComputeTranslation();
 }
 
+
 } // namespace
 
 #endif

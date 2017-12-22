@@ -15,17 +15,30 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkRigid3DTransform_h
-#define itkRigid3DTransform_h
+#ifndef itkv3Rigid3DTransform_h
+#define itkv3Rigid3DTransform_h
 
 #include <iostream>
-#include "itkMatrixOffsetTransformBase.h"
+#include "itkRigid3DTransform.h"
 #include "itkVersor.h"
 
-namespace itk
+namespace itkv3
 {
 /** \class Rigid3DTransform
- * \brief Rigid3DTransform of a vector space (e.g. space coordinates)
+ * \brief ITK3.x compatible Rigid3DTransform of a vector space (e.g. space coordinates)
+ *
+ * NOTE: In ITK4, the itkNewMacro() was removed from
+ * itk::Rigid3DTransform. This class, itkv3::Rigid3DTransform provides
+ * the ITK3.x functionality. The purpose of the class is provide ITKv3
+ * functionality while allowing the user to turn off
+ * ITKV3_COMPATIBILITY.
+ *
+ * Even though the name Rigid3DTransform is conceptually closer to
+ * what a user may expect, the VersorRigid3DTransform is often a
+ * much better transform to use during optimization proceedures from
+ * both a speed perspective (lower dimensional parameter space), and
+ * stability standpoint (versors do not suffer from rotational gimble
+ * lock).
  *
  * This transform applies a rotation and translation in 3D space.
  * The transform is specified as a rotation matrix around a arbitrary center
@@ -42,35 +55,25 @@ namespace itk
  * The serialization of the fixed parameters is an array of 3 elements defining
  * the center of rotation in each dimension.
  *
- * The Rigid3DTransform is intended to be a base class that
- * defines a consistent family of transform types that respect
- * rigid transformations.  Only classes that derive from Rigid3DTransform
- * should be used.
- *
- * \sa Euler3DTransform
- * \sa QuaternionRigidTransform
- * \sa VersorTransform
- *
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class ITK_TEMPLATE_EXPORT Rigid3DTransform:
-  public MatrixOffsetTransformBase<TParametersValueType, 3, 3>
+class Rigid3DTransform:
+    public itk::Rigid3DTransform<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */
-  typedef Rigid3DTransform                                      Self;
-  typedef MatrixOffsetTransformBase<TParametersValueType, 3, 3> Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  typedef Rigid3DTransform                            Self;
+  typedef itk::Rigid3DTransform<TParametersValueType> Superclass;
+  typedef itk::SmartPointer<Self>                     Pointer;
+  typedef itk::SmartPointer<const Self>               ConstPointer;
 
-//HACK #ifdef ITKV3_COMPATIBILITY
-  /** Run-time type information (and related methods).   */
-  itkNewMacro(Self);
-//HACK #endif
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Rigid3DTransform, MatrixOffsetTransformBase);
+  itkTypeMacro(Rigid3DTransform, itk::Rigid3DTransform);
+
+  /** New macro for creation of through a Smart Pointer   */
+  itkNewMacro(Self);
 
   /** Dimension of the space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
@@ -105,84 +108,26 @@ public:
   typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
   typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
 
-  /** Set the transformation from a container of parameters
-   * This is typically used by optimizers.
-   * There are 12 parameters. The first 9 represents the rotation
-   * matrix is row-major order and the last 3 represents the translation.
-   *
-   * \warning The rotation matrix must be orthogonal to within a specified tolerance,
-   * else an exception is thrown.
-   *
-   * \sa Transform::SetParameters()
-   * \sa Transform::SetFixedParameters() */
-  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+/** Get an inverse of this transform. */
+  bool GetInverse(Self *inverse) const
+  {
+  return this->Superclass::GetInverse(inverse);
+  }
 
-  /** Directly set the rotation matrix of the transform.
-   * \warning The input matrix must be orthogonal to within a specified tolerance,
-   * else an exception is thrown.
-   *
-   * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
-
-  /** Directly set the rotation matrix of the transform.
-   * \warning The input matrix must be orthogonal to within the specified tolerance,
-   * else an exception is thrown.
-   *
-   * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance );
-
-  /**
-   * Compose the transformation with a translation
-   *
-   * This method modifies self to include a translation of the
-   * origin.  The translation is precomposed with self if pre is
-   * true, and postcomposed otherwise.
-   */
-  void Translate(const OffsetType & offset, bool pre = false);
-
-  /**
-   * Utility function to test if a matrix is orthogonal within a specified
-   * tolerance
-   */
-  bool MatrixIsOrthogonal(const MatrixType & matrix,
-              const TParametersValueType tolerance =
-                  MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance());
-
-  /**
-   * Back transform by an affine transformation
-   *
-   * This method finds the point or vector that maps to a given
-   * point or vector under the affine transformation defined by
-   * self.  If no such point exists, an exception is thrown.
-   *
-   * \deprecated Please use GetInverseTransform and then call the forward
-   *   transform using the result.
-   *
-   */
-  itkLegacyMacro(InputPointType      BackTransform(const OutputPointType & point) const);
-  itkLegacyMacro(InputVectorType     BackTransform(const OutputVectorType & vector) const);
-  itkLegacyMacro(InputVnlVectorType  BackTransform(const OutputVnlVectorType & vector) const);
-  itkLegacyMacro(InputCovariantVectorType BackTransform(const OutputCovariantVectorType & vector) const);
+/** Return an inverse of this transform. */
+  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE
+  {
+  Pointer inv = New();
+  return this->GetInverse(inv) ? inv.GetPointer() : ITK_NULLPTR;
+  }
 
 protected:
-  Rigid3DTransform(const MatrixType & matrix,
-                   const OutputVectorType & offset);
-  Rigid3DTransform(unsigned int paramDim);
-  Rigid3DTransform();
-  ~Rigid3DTransform() ITK_OVERRIDE;
-
-  /**
-   * Print contents of an Rigid3DTransform
-   */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  Rigid3DTransform()
+  {
+  }
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DTransform);
 };                                //class Rigid3DTransform
-}  // namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkRigid3DTransform.hxx"
-#endif
-
-#endif /* itkRigid3DTransform_h */
+}  // namespace itkv3
+#endif /* itkv3Rigid3DTransform_h */

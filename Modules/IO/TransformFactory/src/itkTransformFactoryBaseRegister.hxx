@@ -29,6 +29,10 @@
 #include "itkFixedCenterOfRotationAffineTransform.h"
 #include "itkIdentityTransform.h"
 #include "itkQuaternionRigidTransform.h"
+#if !defined ITK_LEGACY_REMOVE
+// The v3 Rigid3DTransform will be removed in ITKv6
+#include "itkv3Rigid3DTransform.h"
+#endif
 #include "itkRigid3DPerspectiveTransform.h"
 #include "itkScaleLogarithmicTransform.h"
 #include "itkScaleVersor3DTransform.h"
@@ -126,6 +130,14 @@ void TransformFactoryBase::RegisterTransformFactory()
   TransformFactory< QuaternionRigidTransform<TParameterType > >::RegisterTransform ();
 
   TransformFactory< Rigid2DTransform<TParameterType > >::RegisterTransform ();
+
+#if !defined ITK_LEGACY_REMOVE
+  // We cannot register Rigid3DTransform because in ITKv4 the NewMacro was removed.
+  // Rigid3DTransforms are only intended to be used as a baseclass.
+  // Consider VersorRigid3D as a much more stable (under optimizatoin) registration type.
+  // itkv3::Rigid3DTransform is used as a wrapper to simply add the NewMacro.
+  TransformFactory< itkv3::Rigid3DTransform<TParameterType > >::RegisterTransform ();
+#endif
   TransformFactory< Rigid3DPerspectiveTransform<TParameterType > >::RegisterTransform ();
 
   TransformFactory< ScalableAffineTransform<TParameterType, 3> >::RegisterTransform ();
