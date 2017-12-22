@@ -202,7 +202,7 @@ VariationalRegistrationElasticRegularizer<TDisplacementField>::InitializeElastic
   }
 
   // delete n
-  delete n;
+  delete[] n;
 
   return true;
 }
