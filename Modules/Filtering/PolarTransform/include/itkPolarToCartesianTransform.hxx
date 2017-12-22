@@ -25,6 +25,7 @@ namespace itk
 
 template <typename TParametersValueType, unsigned int NDimensions>
 PolarToCartesianTransform<TParametersValueType, NDimensions>::PolarToCartesianTransform()
+  : Superclass(ParametersDimension)
 {
   this->m_Center.Fill(0.0);
 }
