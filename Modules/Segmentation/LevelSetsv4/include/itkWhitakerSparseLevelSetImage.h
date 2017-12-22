@@ -68,9 +68,10 @@ public:
   typedef typename Superclass::LabelObjectLengthType  LabelObjectLengthType;
   typedef typename Superclass::LabelObjectLineType    LabelObjectLineType;
 
-  typedef typename Superclass::LabelMapType     LabelMapType;
-  typedef typename Superclass::LabelMapPointer  LabelMapPointer;
-  typedef typename Superclass::RegionType       RegionType;
+  typedef typename Superclass::LabelMapType           LabelMapType;
+  typedef typename Superclass::LabelMapPointer        LabelMapPointer;
+  typedef typename Superclass::LabelMapConstPointer   LabelMapConstPointer;
+  typedef typename Superclass::RegionType             RegionType;
 
   typedef typename Superclass::LayerType          LayerType;
   typedef typename Superclass::LayerIterator      LayerIterator;

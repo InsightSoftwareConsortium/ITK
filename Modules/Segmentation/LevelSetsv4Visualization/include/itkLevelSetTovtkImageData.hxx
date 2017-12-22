@@ -99,7 +99,7 @@ LevelSetTovtkImageData< WhitakerSparseLevelSetImage< TOutput, VDimension > >
     itkGenericExceptionMacro( <<"this->m_LevelSet->GetLabelMap() is ITK_NULLPTR" );
     }
 
-  typename LevelSetType::LabelMapPointer labelmap = this->m_LevelSet->GetLabelMap();
+  typename LevelSetType::LabelMapConstPointer labelmap = this->m_LevelSet->GetLabelMap();
 
   this->m_InternalImage->SetRegions( labelmap->GetLargestPossibleRegion() );
   this->m_InternalImage->SetSpacing( labelmap->GetSpacing() );
@@ -159,7 +159,7 @@ LevelSetTovtkImageData< ShiSparseLevelSetImage< VDimension > >
     itkGenericExceptionMacro( <<"this->m_LevelSet->GetLabelMap() is ITK_NULLPTR" );
     }
 
-  LabelMapPointer labelmap = this->m_LevelSet->GetLabelMap();
+  LabelMapPointer labelmap = this->m_LevelSet->GetModifiableLabelMap();
 
   this->m_LabelMapToLabelImageFilter->SetInput( labelmap );
   this->m_LabelMapToLabelImageFilter->Modified();
@@ -202,7 +202,7 @@ LevelSetTovtkImageData< MalcolmSparseLevelSetImage< VDimension > >
     itkGenericExceptionMacro( <<"this->m_LevelSet->GetLabelMap() is ITK_NULLPTR" );
     }
 
-  LabelMapPointer labelmap = this->m_LevelSet->GetLabelMap();
+  LabelMapPointer labelmap = this->m_LevelSet->GetModifiableLabelMap();
 
   this->m_LabelMapToLabelImageFilter->SetInput( labelmap );
   this->m_LabelMapToLabelImageFilter->Modified();

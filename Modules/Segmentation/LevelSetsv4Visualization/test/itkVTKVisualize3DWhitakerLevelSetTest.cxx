@@ -83,7 +83,7 @@ int itkVTKVisualize3DWhitakerLevelSetTest( int , char* [] )
   adaptor->SetInputImage( image );
   adaptor->Initialize();
 
-  LevelSetType::Pointer levelSet = adaptor->GetLevelSet();
+  LevelSetType::Pointer levelSet = adaptor->GetModifiableLevelSet();
 
   typedef itk::VTKVisualizeImageLevelSetIsoValues< ImageType, LevelSetType >
       VisualizationType;
