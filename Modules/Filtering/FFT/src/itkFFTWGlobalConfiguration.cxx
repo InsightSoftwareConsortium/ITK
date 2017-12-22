@@ -549,11 +549,18 @@ FFTWGlobalConfiguration
 #endif
     }
 #if defined(ITK_USE_FFTWF)
+#if !defined(_WIN32) || defined(ITK_STATIC)
+  // Cannot be called with shared libs on Windows because FFTW does not check
+  // for signaled threads and it would cause a deadlock at the end of the main.
   fftwf_cleanup_threads();
+#endif
   fftwf_cleanup();
 #endif
 #if defined(ITK_USE_FFTWD)
+#if !defined(_WIN32) || defined(ITK_STATIC)
+  // Idem
   fftw_cleanup_threads();
+#endif
   fftw_cleanup();
 #endif
   delete this->m_WisdomFilenameGenerator;
