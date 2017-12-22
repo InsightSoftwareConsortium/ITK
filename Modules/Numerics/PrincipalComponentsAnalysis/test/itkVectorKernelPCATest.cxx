@@ -166,7 +166,6 @@ itkVectorKernelPCATest(int argc, char * argv[])
 
   // Should know vector field dimensions now
   unsigned int vectorFieldDim = 0;
-  unsigned int vectorFieldCount = 0;
 
   // how many vector field sets?
   std::vector<std::string> vectorFieldFilenames;
