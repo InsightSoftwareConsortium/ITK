@@ -34,6 +34,15 @@ include(CMakeDependentOption)
 # use ExternalProject
 include(ExternalProject)
 
+if( CMAKE_HOST_WIN32 )
+  if(NOT DEFINED ITK_SKIP_PATH_LENGTH_CHECKS)
+    set(_LongPathKey LongPathsEnabled)
+    execute_process(COMMAND reg query HKLM\\SYSTEM\\CurrentControlSet\\Control\\FileSystem /v ${_LongPathKey} OUTPUT_VARIABLE _output)
+    string(REGEX MATCH "${_LongPathKey}.*REG_DWORD.*[0-9]x([0-9])" _regex ${_output})
+    set(ITK_SKIP_PATH_LENGTH_CHECKS ${CMAKE_MATCH_1})
+  endif()
+endif()
+
 if( CMAKE_HOST_WIN32 AND NOT ITK_SKIP_PATH_LENGTH_CHECKS )
 
   string( LENGTH "${CMAKE_CURRENT_SOURCE_DIR}" n )
