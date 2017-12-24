@@ -74,8 +74,8 @@ public:
    * \deprecated */
   TransformListType * GetTransformList() { return &m_TransformList; }
 #else
-  /** Get the list of transforms. */
   const TransformListType * GetTransformList() { return &m_TransformList; }
+  TransformListType * GetModifiableTransformList() { return &m_TransformList; }
 #endif
 
   /** Set/Get the TransformIO class used internally to read to transform. */

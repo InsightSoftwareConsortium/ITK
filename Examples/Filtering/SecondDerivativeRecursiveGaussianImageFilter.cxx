@@ -174,7 +174,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Izz = duplicator->GetModifiableOutput();
+  ImageType::Pointer Izz = duplicator->GetOutput();
   //  Software Guide: EndCodeSnippet
 
   writer->SetInput( Izz );
@@ -201,7 +201,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Iyy = duplicator->GetModifiableOutput();
+  ImageType::Pointer Iyy = duplicator->GetOutput();
   //  Software Guide : EndCodeSnippet
 
   writer->SetInput( Iyy );
@@ -223,7 +223,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Ixx = duplicator->GetModifiableOutput();
+  ImageType::Pointer Ixx = duplicator->GetOutput();
   //  Software Guide : EndCodeSnippet
 
   writer->SetInput( Ixx );
@@ -252,7 +252,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Iyz = duplicator->GetModifiableOutput();
+  ImageType::Pointer Iyz = duplicator->GetOutput();
   //  Software Guide : EndCodeSnippet
 
   writer->SetInput( Iyz );
@@ -278,7 +278,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Ixz = duplicator->GetModifiableOutput();
+  ImageType::Pointer Ixz = duplicator->GetOutput();
   //  Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -305,7 +305,7 @@ int main(int argc, char * argv [] )
   gc->Update();
   duplicator->Update();
 
-  ImageType::Pointer Ixy = duplicator->GetModifiableOutput();
+  ImageType::Pointer Ixy = duplicator->GetOutput();
 
   writer->SetInput( Ixy );
   outputFileName = outputPrefix + "-Ixy.mhd";

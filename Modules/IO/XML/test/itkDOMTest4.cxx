@@ -41,7 +41,7 @@ int itkDOMTest4( int argc, char* argv[] )
     itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
     reader->SetFileName( argv[1] );
     reader->Update();
-    itk::DOMNode::Pointer dom = reader->GetModifiableOutput();
+    itk::DOMNode::Pointer dom = reader->GetOutput();
 
     std::string sQueryString = argv[2];
     // itk_add_test has problem to supply an empty string, so we use a special string

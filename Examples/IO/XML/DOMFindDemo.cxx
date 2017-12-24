@@ -57,7 +57,7 @@ int main( int argc, char* argv[] )
     itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
     reader->SetFileName( argv[1] );
     reader->Update();
-    itk::DOMNode::Pointer dom = reader->GetModifiableOutput();
+    itk::DOMNode::Pointer dom = reader->GetOutput();
 
     // the following code demonstrates the DOM function Find("QueryString");
     // it navigates through the loaded XML document by typing a query string on the console and

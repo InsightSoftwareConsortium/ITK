@@ -222,7 +222,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
   duplicator->SetInputImage( inputPtr );
   duplicator->Update();
 
-  collapsedPhiLattices[ImageDimension] = duplicator->GetModifiableOutput();
+  collapsedPhiLattices[ImageDimension] = duplicator->GetOutput();
 
   ArrayType totalNumberOfSpans;
   for( unsigned int i = 0; i < ImageDimension; i++ )
@@ -426,7 +426,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
 
   typename ControlPointLatticeType::Pointer psiLattice =
     ControlPointLatticeType::New();
-  psiLattice = duplicator->GetModifiableOutput();
+  psiLattice = duplicator->GetOutput();
 
   for( unsigned int m = 1; m < this->m_MaximumNumberOfLevels; m++ )
     {
@@ -582,7 +582,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
     typename ImageDuplicatorType::Pointer duplicator2 = ImageDuplicatorType::New();
     duplicator2->SetInputImage( refinedLattice );
     duplicator2->Update();
-    psiLattice = duplicator2->GetModifiableOutput();
+    psiLattice = duplicator2->GetOutput();
     }
 
   // Specify the pose parameters of the control point lattice

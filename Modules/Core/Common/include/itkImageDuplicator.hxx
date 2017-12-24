@@ -29,7 +29,7 @@ ImageDuplicator< TInputImage >
 ::ImageDuplicator()
 {
   m_InputImage = ITK_NULLPTR;
-  m_Output = ITK_NULLPTR;
+  m_DuplicateImage = ITK_NULLPTR;
   m_InternalImageTime = 0;
 }
 
@@ -59,13 +59,13 @@ ImageDuplicator< TInputImage >
   m_InternalImageTime = t;
 
   // Allocate the image
-  m_Output = ImageType::New();
-  m_Output->CopyInformation( m_InputImage );
-  m_Output->SetRequestedRegion( m_InputImage->GetRequestedRegion() );
-  m_Output->SetBufferedRegion( m_InputImage->GetBufferedRegion() );
-  m_Output->Allocate();
+  m_DuplicateImage = ImageType::New();
+  m_DuplicateImage->CopyInformation( m_InputImage );
+  m_DuplicateImage->SetRequestedRegion( m_InputImage->GetRequestedRegion() );
+  m_DuplicateImage->SetBufferedRegion( m_InputImage->GetBufferedRegion() );
+  m_DuplicateImage->Allocate();
   typename ImageType::RegionType region = m_InputImage->GetBufferedRegion();
-  ImageAlgorithm::Copy(m_InputImage.GetPointer(),m_Output.GetPointer(),region,region);
+  ImageAlgorithm::Copy(m_InputImage.GetPointer(),m_DuplicateImage.GetPointer(),region,region);
 }
 
 template< typename TInputImage >
@@ -75,7 +75,7 @@ ImageDuplicator< TInputImage >
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Input Image: " << m_InputImage << std::endl;
-  os << indent << "Output Image: " << m_Output << std::endl;
+  os << indent << "Output Image: " << m_DuplicateImage << std::endl;
   os << indent << "Internal Image Time: " << m_InternalImageTime << std::endl;
 }
 } // end namespace itk

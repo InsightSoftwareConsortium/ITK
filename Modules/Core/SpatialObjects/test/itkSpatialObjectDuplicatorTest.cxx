@@ -37,7 +37,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   duplicator->Update();
   duplicator->Print(std::cout);
 
-  EllipseType::Pointer ellipse_copy = duplicator->GetModifiableOutput();
+  EllipseType::Pointer ellipse_copy = duplicator->GetOutput();
 
   std::cout << ellipse_copy->GetRadius() << std::endl;
   std::cout << ellipse_copy->GetProperty()->GetColor() << std::endl;
@@ -51,7 +51,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   DuplicatorGroupType::Pointer duplicatorGroup = DuplicatorGroupType::New();
   duplicatorGroup->SetInput(group);
   duplicatorGroup->Update();
-  GroupType::Pointer group_copy = duplicatorGroup->GetModifiableOutput();
+  GroupType::Pointer group_copy = duplicatorGroup->GetOutput();
 
   GroupType::ChildrenListType* children = group_copy->GetChildren();
 
@@ -105,7 +105,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   DuplicatorDTIType::Pointer duplicatorDti = DuplicatorDTIType::New();
   duplicatorDti->SetInput(dtiTube);
   duplicatorDti->Update();
-  DTITubeType::Pointer dtiTube_copy = duplicatorDti->GetModifiableOutput();
+  DTITubeType::Pointer dtiTube_copy = duplicatorDti->GetOutput();
 
   // Testing DTITubeSO
   std::cout << "Testing DTITubeSpatialObject: ";

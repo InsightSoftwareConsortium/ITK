@@ -141,7 +141,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimen
   duplicator->SetInputImage( field );
   duplicator->Update();
 
-  DisplacementFieldPointer smoothField = duplicator->GetModifiableOutput();
+  DisplacementFieldPointer smoothField = duplicator->GetOutput();
 
   typename GaussianSmoothingSmootherType::Pointer smoother = GaussianSmoothingSmootherType::New();
 
