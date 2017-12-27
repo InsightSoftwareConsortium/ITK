@@ -104,30 +104,35 @@ public:
   OutputPointType
   TransformPoint(const InputPointType & point) const ITK_OVERRIDE;
 
-  /** Method to transform a vector - not applicable for this type of
-      transform. */
+  /** Method to transform a vector - not applicable for this type of transform. */
   OutputVectorType
   TransformVector(const InputVectorType &) const ITK_OVERRIDE
   {
-    itkExceptionMacro(<< "Method not implemented yet.");
+    itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputVectorType();
   }
 
-  /** Method to transform a vnl_vector - not applicable for this type of
-      transform. */
+  /** Method to transform a vnl_vector - not applicable for this type of transform. */
   OutputVnlVectorType
   TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
   {
-    itkExceptionMacro(<< "Method not implemented yet.");
+    itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputVnlVectorType();
   }
 
-  /** Method to transform a CovariantVector - not applicable for this type of
-      transform */
+  /** Method to transform a vector - not applicable for this type of transform. */
+  typename Superclass::OutputVectorPixelType
+  TransformVector(const typename Superclass::InputVectorPixelType &, const InputPointType &) const ITK_OVERRIDE
+  {
+    itkExceptionMacro(<< "Method not applicable for this type of transform.");
+    return typename Superclass::OutputVectorPixelType();
+  }
+
+  /** Method to transform a CovariantVector - not applicable for this type of transform */
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
   {
-    itkExceptionMacro(<< "Method not implemented yet.");
+    itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputCovariantVectorType();
   }
 
@@ -162,7 +167,6 @@ private:
 
   OutputPointType m_Center;
 }; // class PolarToCartesianTransform
-
 
 } // namespace itk
 
