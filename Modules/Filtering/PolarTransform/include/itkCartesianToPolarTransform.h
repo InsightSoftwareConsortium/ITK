@@ -114,8 +114,7 @@ public:
     return OutputVectorType();
   }
 
-  /** Method to transform a vnl_vector - not applicable for this type of
-      transform. */
+  /** Method to transform a vnl_vector - not applicable for this type of transform. */
   OutputVnlVectorType
   TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
   {
@@ -123,8 +122,15 @@ public:
     return OutputVnlVectorType();
   }
 
-  /** Method to transform a CovariantVector - not applicable for this type of
-      transform. */
+  /** Method to transform a vector - not applicable for this type of transform. */
+  typename Superclass::OutputVectorPixelType
+  TransformVector(const typename Superclass::InputVectorPixelType &, const InputPointType &) const ITK_OVERRIDE
+  {
+    itkExceptionMacro(<< "Method not implemented yet.");
+    return typename Superclass::OutputVectorPixelType();
+  }
+
+  /** Method to transform a CovariantVector - not applicable for this type of transform. */
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
   {
@@ -162,7 +168,6 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CartesianToPolarTransform);
 
   InputPointType m_Center;
-
 }; // class CartesianToPolarTransform
 
 } // namespace itk
