@@ -138,7 +138,7 @@ public:
   }
 
   void
-  SetParameters(const ParametersType & parameters) ITK_OVERRIDE
+  SetParameters(const ParametersType &) ITK_OVERRIDE
   {}
 
   void
