@@ -108,7 +108,7 @@ public:
   OutputVectorType
   TransformVector(const InputVectorType &) const ITK_OVERRIDE
   {
-    itkExceptionMacro(<< "Method not implemented yet.");
+    itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputVectorType();
   }
 
@@ -116,7 +116,7 @@ public:
   OutputVnlVectorType
   TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
   {
-    itkExceptionMacro(<< "Method not implemented yet.");
+    itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputVnlVectorType();
   }
 
@@ -124,7 +124,7 @@ public:
   typename Superclass::OutputVectorPixelType
   TransformVector(const typename Superclass::InputVectorPixelType &, const InputPointType &) const ITK_OVERRIDE
   {
-    itkExceptionMacro(<< "Method not implemented yet.");
+    itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return typename Superclass::OutputVectorPixelType();
   }
 
@@ -132,7 +132,7 @@ public:
   OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
   {
-    itkExceptionMacro(<< "Method not implemented yet.");
+    itkExceptionMacro(<< "Method not applicable for this type of transform.");
     return OutputCovariantVectorType();
   }
 
