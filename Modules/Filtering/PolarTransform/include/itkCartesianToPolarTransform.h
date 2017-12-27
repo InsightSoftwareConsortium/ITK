@@ -107,7 +107,7 @@ public:
   TransformPoint(const InputPointType & point) const ITK_OVERRIDE;
 
   /**  Method to transform a vector - not applicable for this type of transform. */
-  virtual OutputVectorType
+  OutputVectorType
   TransformVector(const InputVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro(<< "Method not implemented yet.");
@@ -116,7 +116,7 @@ public:
 
   /** Method to transform a vnl_vector - not applicable for this type of
       transform. */
-  virtual OutputVnlVectorType
+  OutputVnlVectorType
   TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro(<< "Method not implemented yet.");
@@ -125,14 +125,14 @@ public:
 
   /** Method to transform a CovariantVector - not applicable for this type of
       transform. */
-  virtual OutputCovariantVectorType
+  OutputCovariantVectorType
   TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
   {
     itkExceptionMacro(<< "Method not implemented yet.");
     return OutputCovariantVectorType();
   }
 
-  virtual void
+  void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const ITK_OVERRIDE
   {
     itkExceptionMacro(<< "Method not implemented yet.");
@@ -152,7 +152,7 @@ public:
 
 protected:
   CartesianToPolarTransform();
-  virtual ~CartesianToPolarTransform() ITK_OVERRIDE;
+  ~CartesianToPolarTransform() ITK_OVERRIDE;
 
   /** Print contents of an CartesianToPolarTransform. */
   void
