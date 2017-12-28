@@ -25,7 +25,7 @@
 
 int itkNrrdImageReadWriteTest( int ac, char* av[] )
 {
-  if(ac < 2)
+  if(ac < 3)
     {
     std::cerr << "Usage: " << av[0] << " Input Output\n";
     return EXIT_FAILURE;
@@ -74,5 +74,4 @@ int itkNrrdImageReadWriteTest( int ac, char* av[] )
     }
 
   return EXIT_SUCCESS;
-
 }
