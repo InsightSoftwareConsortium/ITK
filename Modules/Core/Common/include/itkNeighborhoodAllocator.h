@@ -92,18 +92,6 @@ public:
     return *this;
   }
 
-  /** Comparison operator. */
-  bool operator==(const Self & other) const
-  {
-    return ( m_Data == other.m_Data );
-  }
-
-  /** Not Equal operator. */
-  bool operator!=(const Self & other) const
-  {
-    return ( m_Data != other.m_Data );
-  }
-
   /** STL-style iterator support for the memory buffer. */
   iterator begin()
   { return m_Data; }
@@ -147,6 +135,27 @@ inline std::ostream & operator<<(
   << ", size=" << a.size()
   << " }";
   return o;
+}
+
+
+// Equality operator.
+template< typename TPixel >
+inline bool operator==(
+  const NeighborhoodAllocator< TPixel >& lhs,
+  const NeighborhoodAllocator< TPixel >& rhs)
+{
+  const unsigned int size = lhs.size();
+  return (size == rhs.size()) &&
+    ((size == 0) || std::equal(lhs.begin(), lhs.end(), rhs.begin()));
+}
+
+// Inequality operator.
+template< typename TPixel >
+inline bool operator!=(
+  const NeighborhoodAllocator< TPixel >& lhs,
+  const NeighborhoodAllocator< TPixel >& rhs)
+{
+  return ! (lhs == rhs);
 }
 } // end namespace itk
 #endif
