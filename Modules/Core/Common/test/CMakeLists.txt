@@ -18,6 +18,7 @@ itkIteratorTests.cxx
 itkImageReverseIteratorTest.cxx
 itkImageComputeOffsetAndIndexTest.cxx
 itkImageDuplicatorTest.cxx
+itkImageDuplicatorTest2.cxx
 itkImageIteratorsForwardBackwardTest.cxx
 itkImageLinearIteratorTest.cxx
 itkImageAdaptorPipeLineTest.cxx
@@ -320,6 +321,9 @@ itk_add_test(NAME itkImageRegionExclusionIteratorWithIndexTest COMMAND ITKCommon
 itk_add_test(NAME itkImageReverseIteratorTest COMMAND ITKCommon1TestDriver itkImageReverseIteratorTest)
 itk_add_test(NAME itkImageDuplicatorTest
       COMMAND ITKCommon1TestDriver itkImageDuplicatorTest)
+itk_add_test(NAME itkImageDuplicatorTest2
+      COMMAND ITKCommon1TestDriver --compare DATA{Baseline/vol-raw-big-dup2.nrrd} ${ITK_TEST_OUTPUT_DIR}/vol-raw-big-dup2.nrrd
+      itkImageDuplicatorTest2 DATA{${ITK_DATA_ROOT}/Input/vol-raw-big.nrrd} ${ITK_TEST_OUTPUT_DIR}/vol-raw-big-dup2.nrrd)
 itk_add_test(NAME itkImageIteratorsForwardBackwardTest
       COMMAND ITKCommon1TestDriver itkImageIteratorsForwardBackwardTest)
 itk_add_test(NAME itkImageLinearIteratorTest

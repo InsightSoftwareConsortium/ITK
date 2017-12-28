@@ -64,7 +64,7 @@ ImageDuplicator< TInputImage >
   m_Output->SetRequestedRegion( m_InputImage->GetRequestedRegion() );
   m_Output->SetBufferedRegion( m_InputImage->GetBufferedRegion() );
   m_Output->Allocate();
-  typename ImageType::RegionType region = m_InputImage->GetLargestPossibleRegion();
+  typename ImageType::RegionType region = m_InputImage->GetBufferedRegion();
   ImageAlgorithm::Copy(m_InputImage.GetPointer(),m_Output.GetPointer(),region,region);
 }
 
