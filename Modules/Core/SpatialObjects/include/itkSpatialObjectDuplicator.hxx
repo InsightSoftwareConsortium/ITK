@@ -123,7 +123,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
     std::cout << "Could not create an instance of " << value << std::endl
               << "The usual cause of this error is not registering the "
               << "SpatialObject with SpatialFactory" << std::endl;
-    std::cout << "Currently registered Transforms: " << std::endl;
+    std::cout << "Currently registered spatial objects: " << std::endl;
     std::list< std::string > names =
       SpatialObjectFactoryBase::GetFactory()->GetClassOverrideWithNames();
     std::list< std::string >::iterator it;
