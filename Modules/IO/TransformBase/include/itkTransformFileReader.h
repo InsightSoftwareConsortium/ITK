@@ -75,8 +75,8 @@ public:
   TransformListType * GetTransformList() { return &m_TransformList; }
 #else
   const TransformListType * GetTransformList() { return &m_TransformList; }
-  TransformListType * GetModifiableTransformList() { return &m_TransformList; }
 #endif
+  TransformListType * GetModifiableTransformList() { return &m_TransformList; }
 
   /** Set/Get the TransformIO class used internally to read to transform. */
   itkSetObjectMacro( TransformIO, TransformIOType );
