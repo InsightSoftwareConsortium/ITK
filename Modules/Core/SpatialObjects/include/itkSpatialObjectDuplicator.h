@@ -86,8 +86,12 @@ protected:
   virtual ~SpatialObjectDuplicator() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
+  /** Recursive function to copy the objects */
   void CopyObject(const InternalSpatialObjectType *source,
                   InternalSpatialObjectType *destination);
+
+  /** If the pointer is null, prints classes in SpatialObjectFactoryBase */
+  void WarnAndPrintFactories(const std::string& spatialObjectType) const;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectDuplicator);
