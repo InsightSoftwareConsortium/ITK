@@ -58,8 +58,25 @@ public:
   /** Get/Set the input SpatialObject. */
   itkSetConstObjectMacro(Input, SpatialObjectType);
 
-  /** Get/Set the output SpatialObject. */
-  itkGetModifiableObjectMacro(Output, SpatialObjectType);
+  /**
+    * Provide an interface to match that
+    * of other ProcessObjects
+    * for this source generation object
+    * by returning a non-const pointer
+    * for the generated Object.
+    */
+  //NOTE:  The m_GeneratedImageSource is only
+  //       exposed via the Source generation interface
+  //       by the GetOutput() method that mimics
+  //       a process object.
+  virtual const SpatialObjectType * GetOutput () const { return this->m_DuplicateSpatialObject.GetPointer(); }
+  virtual SpatialObjectType * GetOutput() { return this->m_DuplicateSpatialObject.GetPointer(); }
+
+#if !defined(ITK_LEGACY_REMOVE)
+  // This interface was exposed in ITKv4 when the itkGetModifiableObjectMacro was used
+  virtual SpatialObjectType * GetModifiedOutput() { return this->m_DuplicateSpatialObject.GetPointer(); }
+#endif
+
 
   /** Compute of the input SpatialObject. */
   void Update();
@@ -76,7 +93,7 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectDuplicator);
 
   SpatialObjectConstPointer m_Input;
-  SpatialObjectPointer      m_Output;
+  SpatialObjectPointer      m_DuplicateSpatialObject;
   ModifiedTimeType          m_InternalSpatialObjectTime;
 };
 } // end namespace itk

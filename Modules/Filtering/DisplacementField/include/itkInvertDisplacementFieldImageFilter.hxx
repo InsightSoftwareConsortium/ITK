@@ -93,7 +93,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
     duplicator->SetInputImage( this->GetInverseFieldInitialEstimate() );
     duplicator->Update();
 
-    inverseDisplacementField = duplicator->GetModifiableOutput();
+    inverseDisplacementField = duplicator->GetOutput();
 
     this->SetNthOutput( 0, inverseDisplacementField );
     }

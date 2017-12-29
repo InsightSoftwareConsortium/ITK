@@ -392,8 +392,8 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     inverseFieldDuplicator->Update();
 
     typename DisplacementFieldTransformType::Pointer fixedDisplacementFieldTransform = DisplacementFieldTransformType::New();
-    fixedDisplacementFieldTransform->SetDisplacementField( fieldDuplicator->GetModifiableOutput() );
-    fixedDisplacementFieldTransform->SetInverseDisplacementField( inverseFieldDuplicator->GetModifiableOutput() );
+    fixedDisplacementFieldTransform->SetDisplacementField( fieldDuplicator->GetOutput() );
+    fixedDisplacementFieldTransform->SetInverseDisplacementField( inverseFieldDuplicator->GetOutput() );
 
     // Set up the fixed composite transform for the current time point
 
@@ -430,10 +430,10 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       typename DisplacementFieldDuplicatorType::Pointer fieldDuplicatorIdentity = DisplacementFieldDuplicatorType::New();
       fieldDuplicatorIdentity->SetInputImage( movingDisplacementFieldTransform->GetDisplacementField() );
       fieldDuplicatorIdentity->Update();
-      fieldDuplicatorIdentity->GetModifiableOutput()->FillBuffer( zeroVector );
+      fieldDuplicatorIdentity->GetOutput()->FillBuffer( zeroVector );
 
       typename DisplacementFieldTransformType::Pointer identityDisplacementFieldTransform = DisplacementFieldTransformType::New();
-      identityDisplacementFieldTransform->SetDisplacementField( fieldDuplicatorIdentity->GetModifiableOutput() );
+      identityDisplacementFieldTransform->SetDisplacementField( fieldDuplicatorIdentity->GetOutput() );
       }
 
     // Set up the moving composite transform for the current time point

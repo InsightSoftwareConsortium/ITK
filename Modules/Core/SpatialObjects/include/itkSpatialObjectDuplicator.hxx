@@ -29,7 +29,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
 ::SpatialObjectDuplicator()
 {
   m_Input = ITK_NULLPTR;
-  m_Output = ITK_NULLPTR;
+  m_DuplicateSpatialObject = ITK_NULLPTR;
   m_InternalSpatialObjectTime = 0;
   SpatialObjectFactoryBase::RegisterDefaultSpatialObjects();
 }
@@ -117,8 +117,8 @@ SpatialObjectDuplicator< TInputSpatialObject >
   std::string          value = m_Input->GetSpatialObjectTypeAsString();
   i = ObjectFactoryBase::CreateInstance( value.c_str() );
 
-  m_Output = dynamic_cast< SpatialObjectType * >( i.GetPointer() );
-  if ( m_Output.IsNull() )
+  m_DuplicateSpatialObject = dynamic_cast< SpatialObjectType * >( i.GetPointer() );
+  if ( m_DuplicateSpatialObject.IsNull() )
     {
     std::cout << "Could not create an instance of " << value << std::endl
               << "The usual cause of this error is not registering the "
@@ -135,9 +135,9 @@ SpatialObjectDuplicator< TInputSpatialObject >
     }
 
   // Correct for extra reference count from CreateInstance().
-  m_Output->UnRegister();
+  m_DuplicateSpatialObject->UnRegister();
 
-  m_Output->CopyInformation(m_Input);
+  m_DuplicateSpatialObject->CopyInformation(m_Input);
 
   // Create the children
   typedef typename TInputSpatialObject::ChildrenListType ChildrenListType;
@@ -145,7 +145,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   typename ChildrenListType::const_iterator it = children->begin();
   while ( it != children->end() )
     {
-    this->CopyObject(*it, m_Output);
+    this->CopyObject(*it, m_DuplicateSpatialObject);
     it++;
     }
   delete children;
@@ -158,7 +158,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Input SpatialObject: " << m_Input << std::endl;
-  os << indent << "Output SpatialObject: " << m_Output << std::endl;
+  os << indent << "Output SpatialObject: " << m_DuplicateSpatialObject << std::endl;
   os << indent << "Internal SpatialObject Time: "
      << m_InternalSpatialObjectTime << std::endl;
 }

@@ -44,7 +44,7 @@ int itkDOMTest3( int argc, char* argv[] )
     itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
     reader->SetFileName( argv[1] );
     reader->Update();
-    itk::DOMNode::Pointer dom = reader->GetModifiableOutput();
+    itk::DOMNode::Pointer dom = reader->GetOutput();
 
     itk::DOMNode* node = dom->GetChild(0);
     if ( !node )
