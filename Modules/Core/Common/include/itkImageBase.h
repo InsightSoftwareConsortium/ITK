@@ -45,13 +45,9 @@
 #include "vnl/vnl_matrix_fixed.hxx" // Get the templates
 #endif
 
-#include "itkImageTransformHelper.h"
 
 namespace itk
 {
-/* Forward declaration (ImageTransformHelper include's ImageBase) */
-template< unsigned int NImageDimension, unsigned int R, unsigned int C, typename TPointValue, typename TMatrixValue >
-class ITK_FORWARD_EXPORT ImageTransformHelper;
 
 /** \class ImageBase
  * \brief Base class for templated image classes.
@@ -414,33 +410,18 @@ public:
     const Point< TCoordRep, VImageDimension > & point,
     IndexType & index) const
   {
-    ImageTransformHelper< VImageDimension,VImageDimension - 1, VImageDimension - 1, TCoordRep, SpacePrecisionType >
-      ::TransformPhysicalPointToIndex(this->m_PhysicalPointToIndex, this->m_Origin, point, index);
-
+    for ( unsigned int i = 0; i < VImageDimension; i++ )
+      {
+      TCoordRep sum = NumericTraits< TCoordRep >::ZeroValue();
+      for ( unsigned int j = 0; j < VImageDimension; j++ )
+        {
+        sum += this->m_PhysicalPointToIndex[i][j] * ( point[j] - this->m_Origin[j] );
+        }
+      index[i] = Math::RoundHalfIntegerUp< IndexValueType >(sum);
+      }
     // Now, check to see if the index is within allowed bounds
     const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
     return isInside;
-    /* NON TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING data version
-     * Leaving here for documentation purposes
-     * template< typename TCoordRep >
-     * bool TransformPhysicalPointToIndex(
-     *   const Point< TCoordRep, VImageDimension > & point,
-     *   IndexType & index) const
-     * {
-     *   for ( unsigned int i = 0; i < VImageDimension; i++ )
-     *     {
-     *     TCoordRep sum = NumericTraits< TCoordRep >::ZeroValue();
-     *     for ( unsigned int j = 0; j < VImageDimension; j++ )
-     *       {
-     *       sum += this->m_PhysicalPointToIndex[i][j] * ( point[j] - this->m_Origin[j] );
-     *       }
-     *     index[i] = Math::RoundHalfIntegerUp< IndexValueType >(sum);
-     *     }
-     *   // Now, check to see if the index is within allowed bounds
-     *   const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
-     *   return isInside;
-     * }
-     */
   }
 
   /** \brief Get the continuous index from a physical point
@@ -500,25 +481,14 @@ public:
     const IndexType & index,
     Point< TCoordRep, VImageDimension > & point) const
   {
-    ImageTransformHelper< VImageDimension, VImageDimension - 1, VImageDimension - 1,TCoordRep, SpacePrecisionType >::
-      TransformIndexToPhysicalPoint(this->m_IndexToPhysicalPoint, this->m_Origin, index, point);
-    /* NON TEMPLATE_META_PROGRAMMING_LOOP_UNROLLING data version
-     * Leaving here for documentation purposes
-     * template< typename TCoordRep >
-     * void TransformIndexToPhysicalPoint(
-     *   const IndexType & index,
-     *   Point< TCoordRep, VImageDimension > & point) const
-     * {
-     *   for ( unsigned int i = 0; i < VImageDimension; ++i )
-     *     {
-     *     point[i] = this->m_Origin[i];
-     *     for ( unsigned int j = 0; j < VImageDimension; ++j )
-     *       {
-     *       point[i] += m_IndexToPhysicalPoint[i][j] * index[j];
-     *       }
-     *     }
-     * }
-     */
+    for ( unsigned int i = 0; i < VImageDimension; ++i )
+      {
+      point[i] = this->m_Origin[i];
+      for ( unsigned int j = 0; j < VImageDimension; ++j )
+        {
+        point[i] += m_IndexToPhysicalPoint[i][j] * index[j];
+        }
+      }
   }
 
   /** Take a vector or covariant vector that has been computed in the
@@ -540,10 +510,6 @@ public:
     const FixedArray< TCoordRep, VImageDimension > & inputGradient,
     FixedArray< TCoordRep, VImageDimension > & outputGradient) const
   {
-    //
-    //TODO: This temporary implementation should be replaced with Template
-    // MetaProgramming.
-    //
     const DirectionType & direction = this->GetDirection();
 
     itkAssertInDebugAndIgnoreInReleaseMacro( inputGradient.GetDataPointer() != outputGradient.GetDataPointer());
@@ -577,10 +543,6 @@ public:
     const FixedArray< TCoordRep, VImageDimension > & inputGradient,
     FixedArray< TCoordRep, VImageDimension > & outputGradient) const
   {
-    //
-    //TODO: This temporary implementation should be replaced with Template
-    // MetaProgramming.
-    //
     const DirectionType & inverseDirection = this->GetInverseDirection();
 
     itkAssertInDebugAndIgnoreInReleaseMacro( inputGradient.GetDataPointer() != outputGradient.GetDataPointer());
