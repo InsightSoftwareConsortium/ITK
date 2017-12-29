@@ -44,7 +44,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
   m_GaussianFunction->SetMean(mean);
   m_GaussianFunction->SetNormalized(false);           // faster
   m_GaussianDerivativeFunction->SetNormalized(false); // faster
-  this->RecomputeGaussianKernel();
 }
 
 template< typename TInputImage, typename TOutput >
@@ -54,6 +53,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 {
   Superclass::SetInputImage(ptr);
   m_OperatorImageFunction->SetInputImage(ptr);
+  this->RecomputeGaussianKernel();
 }
 
 template< typename TInputImage, typename TOutput >
