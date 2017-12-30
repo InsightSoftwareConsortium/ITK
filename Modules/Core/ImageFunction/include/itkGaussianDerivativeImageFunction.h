@@ -98,11 +98,26 @@ public:
   virtual OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const ITK_OVERRIDE;
 
+  /**
+   * UseImageSpacing controls the extent of the computations.
+   * Set UseImageSpacing to true to set the units to physical units of the image.
+   * Set UseImageSpacing to false to set the units of pixels. */
+  void SetUseImageSpacing(const bool val)
+  {
+    if(val != this->m_UseImageSpacing)
+    {
+      this->m_UseImageSpacing = val;
+      this->RecomputeGaussianKernel();
+    }
+  }
+  itkBooleanMacro(UseImageSpacing);
+  itkGetMacro(UseImageSpacing,bool);
+
   /** The variance for the discrete Gaussian kernel. Sets the variance
    * independently for each dimension, but see also
-   * SetVariance(const double v). The default is 0.0 in each dimension. If
-   * UseImageSpacing is true, the units are the physical units of the image. If
-   * UseImageSpacing is false then the units are pixels. */
+   * SetVariance(const double v). The default is 0.0 in each dimension.
+   * The extent of the kernel is controlled by UseImageSpacing.
+   */
   void SetSigma(const double *sigma);
 
   void SetSigma(const double sigma);
