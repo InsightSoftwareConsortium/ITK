@@ -23,7 +23,6 @@
 
 namespace itk
 {
-/** Constructor */
 template< typename TInputSpatialObject >
 SpatialObjectDuplicator< TInputSpatialObject >
 ::SpatialObjectDuplicator()
@@ -34,7 +33,25 @@ SpatialObjectDuplicator< TInputSpatialObject >
   SpatialObjectFactoryBase::RegisterDefaultSpatialObjects();
 }
 
-/** Recursive function to copy the objects */
+
+template<typename TInputSpatialObject>
+void
+SpatialObjectDuplicator<TInputSpatialObject>
+::WarnAndPrintFactories(const std::string& spatialObjectType) const
+{
+  std::cout << "Could not create an instance of " << spatialObjectType << std::endl
+            << "The usual cause of this error is not registering the "
+            << "SpatialObject with SpatialFactory" << std::endl;
+  std::cout << "Currently registered spatial objects: " << std::endl;
+  std::list< std::string > names =
+    SpatialObjectFactoryBase::GetFactory()->GetClassOverrideWithNames();
+  std::list< std::string >::iterator it;
+  for ( it = names.begin(); it != names.end(); it++ )
+    {
+    std::cout << "\t\"" << *it << "\"" << std::endl;
+    }
+}
+
 template< typename TInputSpatialObject >
 void
 SpatialObjectDuplicator< TInputSpatialObject >
@@ -43,7 +60,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
 {
   // Create the new Spatial Object using the SpatialObjectFactory
   LightObject::Pointer i;
-  std::string          value = source->GetSpatialObjectTypeAsString();
+  std::string value = source->GetSpatialObjectTypeAsString();
 
   i = ObjectFactoryBase::CreateInstance( value.c_str() );
 
@@ -52,17 +69,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   SOType *newSO = dynamic_cast< SOType * >( i.GetPointer() );
   if ( newSO == ITK_NULLPTR )
     {
-    std::cout << "Could not create an instance of " << value << std::endl
-              << "The usual cause of this error is not registering the "
-              << "SpatialObject with SpatialFactory" << std::endl;
-    std::cout << "Currently registered Transforms: " << std::endl;
-    std::list< std::string > names =
-      SpatialObjectFactoryBase::GetFactory()->GetClassOverrideWithNames();
-    std::list< std::string >::iterator it;
-    for ( it = names.begin(); it != names.end(); it++ )
-      {
-      std::cout << "\t\"" << *it << "\"" << std::endl;
-      }
+    WarnAndPrintFactories(value);
     return;
     }
 
@@ -85,7 +92,6 @@ SpatialObjectDuplicator< TInputSpatialObject >
   delete children;
 }
 
-/** Update function */
 template< typename TInputSpatialObject >
 void
 SpatialObjectDuplicator< TInputSpatialObject >
@@ -114,23 +120,13 @@ SpatialObjectDuplicator< TInputSpatialObject >
   //Copy the object first
   // Create the new Spatial Object using the SpatialObjectFactory
   LightObject::Pointer i;
-  std::string          value = m_Input->GetSpatialObjectTypeAsString();
+  std::string value = m_Input->GetSpatialObjectTypeAsString();
   i = ObjectFactoryBase::CreateInstance( value.c_str() );
 
   m_DuplicateSpatialObject = dynamic_cast< SpatialObjectType * >( i.GetPointer() );
   if ( m_DuplicateSpatialObject.IsNull() )
     {
-    std::cout << "Could not create an instance of " << value << std::endl
-              << "The usual cause of this error is not registering the "
-              << "SpatialObject with SpatialFactory" << std::endl;
-    std::cout << "Currently registered spatial objects: " << std::endl;
-    std::list< std::string > names =
-      SpatialObjectFactoryBase::GetFactory()->GetClassOverrideWithNames();
-    std::list< std::string >::iterator it;
-    for ( it = names.begin(); it != names.end(); it++ )
-      {
-      std::cout << "\t\"" << *it << "\"" << std::endl;
-      }
+    WarnAndPrintFactories(value);
     return;
     }
 
