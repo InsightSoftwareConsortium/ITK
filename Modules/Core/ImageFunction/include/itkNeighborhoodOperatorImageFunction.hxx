@@ -22,6 +22,8 @@
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkConstNeighborhoodIterator.h"
 
+#include <cassert>
+
 namespace itk
 {
 /** Set the Input Image */
@@ -47,9 +49,10 @@ NeighborhoodOperatorImageFunction< TInputImage, TOutput >
 ::EvaluateAtIndex(const IndexType & index) const
 {
   NeighborhoodInnerProduct< InputImageType, TOutput, TOutput > smartInnerProduct;
-  ConstNeighborhoodIterator< InputImageType >                  bit;
-  bit = ConstNeighborhoodIterator< InputImageType >( m_Operator.GetRadius(), this->GetInputImage(), this->GetInputImage(
-                                                       )->GetRequestedRegion() );
+
+  const TInputImage* const image = this->GetInputImage();
+  assert(image != ITK_NULLPTR);
+  ConstNeighborhoodIterator< InputImageType > bit( m_Operator.GetRadius(), image, image->GetRequestedRegion() );
   bit.SetLocation(index);
 
   return smartInnerProduct(bit, m_Operator);
