@@ -18,7 +18,7 @@
 
 #include "itkXMLFileOutputWindow.h"
 #include <fstream>
-#include <string.h>
+#include <cstring>
 
 namespace itk
 {

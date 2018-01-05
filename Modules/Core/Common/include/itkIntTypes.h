@@ -21,7 +21,7 @@
 #include "itkMacro.h"
 
 #if defined( ITK_HAVE_STDINT_H )
-#include <stdint.h>
+#include <cstdint>
 #else
 // the system doesn't have the C or C++ version of stdint so lets use
 // KWIML's macros for fixed widths

@@ -24,12 +24,12 @@
 #include "itkMetaDataObject.h"
 #include <iostream>
 #include <fstream>
-#include <string.h>
-#include <limits.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
-#include <assert.h>
+#include <cstring>
+#include <climits>
+#include <cstdlib>
+#include <cstdio>
+#include <ctime>
+#include <cassert>
 #include <vector>
 
 //From uiig library "The University of Iowa Imaging Group-UIIG"

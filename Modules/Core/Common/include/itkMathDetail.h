@@ -35,7 +35,7 @@
 // The Sun Studio CC compiler seems to have a bug where if cstdio is
 // included stdio.h must also be included before fenv.h
 #include <cstdio>
-#include <fenv.h> // should this be cfenv?
+#include <cfenv> // should this be cfenv?
 #endif /* ITK_HAVE_FENV_H */
 
 #if defined( ITK_HAVE_EMMINTRIN_H ) && !defined( ITK_WRAPPING_PARSER )

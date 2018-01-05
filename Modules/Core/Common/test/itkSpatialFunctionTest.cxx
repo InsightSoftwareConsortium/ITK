@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include <stdio.h>
+#include <cstdio>
 
 // Spatial function stuff
 #include "itkSphereSpatialFunction.h"

@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include "itkInternationalizationIOHelpers.h"
 
-#include <string.h> // for strcmp (cstring cannot be used on both Sun and VS6)
+#include <cstring> // for strcmp (cstring cannot be used on both Sun and VS6)
 
 // Some utility functions for the test
 #if defined(ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO) \

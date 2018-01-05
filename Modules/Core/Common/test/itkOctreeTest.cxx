@@ -19,9 +19,9 @@
 #include "itkOctree.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionIterator.h"
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
 
 template <typename TPixel,unsigned int TableSize>
 class IdentityMap

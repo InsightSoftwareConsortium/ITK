@@ -28,7 +28,7 @@
 #include "itkProcessObject.h"
 #include "itkMutexLockHolder.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <sstream>
 #include <algorithm>
 

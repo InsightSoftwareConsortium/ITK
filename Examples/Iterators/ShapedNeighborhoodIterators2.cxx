@@ -27,7 +27,7 @@
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include <math.h>
+#include <cmath>
 
 int main( int argc, char ** argv )
 {

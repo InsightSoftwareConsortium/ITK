@@ -22,7 +22,7 @@
 #include "itkVector.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include <time.h>
+#include <ctime>
 
 int itkIteratorTests(int, char* [] )
 {

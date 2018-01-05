@@ -20,7 +20,7 @@
 #include "itksys/SystemTools.hxx"
 
 #include "itk_jpeg.h"
-#include <setjmp.h>
+#include <csetjmp>
 
 // create an error handler for jpeg that
 // can longjmp out of the jpeg library

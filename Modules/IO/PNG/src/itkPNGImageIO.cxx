@@ -18,12 +18,13 @@
 #include "itkPNGImageIO.h"
 #include "itk_png.h"
 #include "itksys/SystemTools.hxx"
+#include <string>
+#include <csetjmp>
 
 namespace itk
 {
 extern "C"
 {
-  #include <setjmp.h>
 /* The PNG library does not expect the error function to return.
    Therefore we must use this ugly longjmp call.  */
 void itkPNGWriteErrorFunction( png_structp png_ptr,
