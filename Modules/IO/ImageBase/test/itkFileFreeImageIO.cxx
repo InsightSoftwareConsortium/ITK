@@ -17,8 +17,8 @@
  *=========================================================================*/
 #include "itkFileFreeImageIO.h"
 #include "itksys/RegularExpression.hxx"
-#include <string.h>
-#include <stdlib.h>
+#include <cstring>
+#include <cstdlib>
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 

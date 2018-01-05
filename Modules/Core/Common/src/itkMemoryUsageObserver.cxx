@@ -26,7 +26,7 @@
 
 #if defined( __SUNPRO_CC ) || defined ( __sun__ )
   #include <unistd.h>
-  #include <stdio.h>
+  #include <cstdio>
   #include <string>
   #include <sstream>
 #endif // !defined(__SUNPRO_CC) && !defined (__sun__)
@@ -39,7 +39,7 @@
 #endif // !defined(WIN32) && !defined(_WIN32)
 
 #if defined( __OpenBSD__ )
-#include <stdlib.h>
+#include <cstdlib>
 #endif
 
 #ifdef linux
@@ -50,6 +50,7 @@
 #ifdef __APPLE__
 #include <sys/sysctl.h>
 #include <mach/mach.h>
+#include <cstdint>
 #include <unistd.h>
 #endif
 

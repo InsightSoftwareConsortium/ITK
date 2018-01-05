@@ -30,7 +30,7 @@
 #if !defined(_WIN32) && defined(ITK_HAVE_FENV_H) && defined(ITK_HAS_FEENABLEEXCEPT)
 
 #include <iostream>
-#include <string.h> // memcpy
+#include <cstring> // memcpy
 
 #ifdef LINUX
 /* BEGIN quote
@@ -55,8 +55,8 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 #endif // LINUX
 
 
-#include <stdio.h> // needed on Solaris
-#include <fenv.h>
+#include <cstdio> // needed on Solaris
+#include <cfenv>
 
 #if defined(__ppc__) || defined(__ppc64__)
 #define DEFINED_PPC 1
@@ -276,7 +276,7 @@ typedef union {
 
 #endif  // DEFINED_INTEL
 
-#include <signal.h>
+#include <csignal>
 
 
 static const char *fe_code_name[] = {
@@ -432,7 +432,7 @@ SetEnabled(bool val)
 #if defined(_WIN32) || !defined(ITK_HAVE_FENV_H) || !defined(ITK_HAS_FEENABLEEXCEPT)
 
 #if defined(_MSC_VER)
-#include <float.h>
+#include <cfloat>
 
 void FloatingPointExceptions
 ::Enable()

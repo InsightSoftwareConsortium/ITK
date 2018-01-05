@@ -1,4 +1,4 @@
-#include <fenv.h>
+#include <cfenv>
 
 int main()
 {

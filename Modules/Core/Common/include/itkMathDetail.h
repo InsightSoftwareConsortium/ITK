@@ -31,12 +31,8 @@
 #include "itkIntTypes.h"
 #include "itkNumericTraits.h"
 
-#ifdef ITK_HAVE_FENV_H
-// The Sun Studio CC compiler seems to have a bug where if cstdio is
-// included stdio.h must also be included before fenv.h
 #include <cstdio>
-#include <fenv.h>
-#endif /* ITK_HAVE_FENV_H */
+#include <cfenv>
 
 #if defined( ITK_HAVE_EMMINTRIN_H ) && !defined( ITK_WRAPPING_PARSER )
 #include <emmintrin.h> // sse 2 intrinsics
