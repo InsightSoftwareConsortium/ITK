@@ -40,7 +40,7 @@
 #include "itkHessianToObjectnessMeasureImageFilter.h"
 #include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 
-int main(int , char* [])
+int itkReviewPrintTest(int , char* [])
 {
   typedef itk::Image<float,2>           Input2DImageType;
   typedef itk::Image<float,2>           OutputType;

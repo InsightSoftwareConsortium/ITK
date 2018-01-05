@@ -33,6 +33,7 @@ itkOptImageToImageMetricsTest.cxx
 itkOptImageToImageMetricsTest2.cxx
 itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
 itkRegionBasedLevelSetFunctionTest.cxx
+itkReviewPrintTest.cxx
 itkRobustAutomaticThresholdCalculatorTest.cxx
 itkRobustAutomaticThresholdImageFilterTest.cxx
 itkScalarChanAndVeseDenseLevelSetImageFilterTest1.cxx
@@ -62,6 +63,8 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 
 CreateTestDriver_SupportBuildInIOFactories(ITKReview  "${ITKReview-Test_LIBRARIES}" "${ITKReviewTests}")
+
+itk_add_test(NAME itkReviewPrintTest COMMAND ITKReviewTestDriver itkReviewPrintTest)
 
 itk_add_test(NAME itkAreaClosingImageFilterTest0
       COMMAND ITKReviewTestDriver
