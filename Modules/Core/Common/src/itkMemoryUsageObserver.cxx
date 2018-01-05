@@ -50,7 +50,6 @@
 #ifdef __APPLE__
 #include <sys/sysctl.h>
 #include <mach/mach.h>
-#include <stdint.h>
 #include <unistd.h>
 #endif
 

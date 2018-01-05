@@ -128,7 +128,7 @@
 
 #include "itkCommand.h"
 
-#include <stdio.h>
+#include <cstdio>
 
 // Functor to rescale plot the histogram on a log scale and invert it.
 template< class TInput >

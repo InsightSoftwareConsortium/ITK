@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
-#include <time.h>
+#include <ctime>
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 

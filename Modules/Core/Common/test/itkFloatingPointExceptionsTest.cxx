@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include "itkFloatingPointExceptions.h"
 #include <iostream>
-#include <float.h>
+#include <cfloat>
 
 // constants declared in another compilation unit to prevent
 // compilation time errors for divide by zero and overflow

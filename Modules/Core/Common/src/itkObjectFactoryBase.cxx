@@ -32,7 +32,7 @@
 #endif
 #include "itkDirectory.h"
 #include "itkVersion.h"
-#include <string.h>
+#include <cstring>
 #include <algorithm>
 
 

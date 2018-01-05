@@ -29,7 +29,7 @@
 #include "itkImageFileWriter.h"
 #include "itkLaplacianRecursiveGaussianImageFilter.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <iomanip>
 
 int main( int argc, char * argv[] )

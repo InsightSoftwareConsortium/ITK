@@ -25,8 +25,8 @@
 #include <sstream>
 #include <list>
 #include <string>
-#include <math.h>
-#include <time.h>
+#include <cmath>
+#include <ctime>
 
 #include "itk_zlib.h"
 #include "itkSpatialOrientationAdapter.h"

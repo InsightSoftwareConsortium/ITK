@@ -20,7 +20,7 @@
 #include "itkIsSame.h"
 #include "itkNumericTraits.h"
 #include "itkFixedArray.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include <iostream>
 
 namespace

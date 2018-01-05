@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
-#include <string.h>
+#include <cstring>
 #include <algorithm>
 #include "itkVersion.h"
 #include "itkTransformFactoryBase.h"
