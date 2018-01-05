@@ -55,12 +55,6 @@ target_link_libraries(WatershedSegmentation1 ${ITK_LIBRARIES})
 add_executable(WatershedSegmentation2 WatershedSegmentation2.cxx )
 target_link_libraries(WatershedSegmentation2 ${ITK_LIBRARIES})
 
-add_executable(CellularSegmentation1 CellularSegmentation1.cxx )
-target_link_libraries(CellularSegmentation1 ${ITK_LIBRARIES})
-
-add_executable(CellularSegmentation2 CellularSegmentation2.cxx )
-target_link_libraries(CellularSegmentation2 ${ITK_LIBRARIES})
-
 add_executable(LaplacianSegmentationLevelSetImageFilter LaplacianSegmentationLevelSetImageFilter.cxx )
 target_link_libraries(LaplacianSegmentationLevelSetImageFilter ${ITK_LIBRARIES})
 

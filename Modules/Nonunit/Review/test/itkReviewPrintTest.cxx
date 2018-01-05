@@ -27,9 +27,6 @@
 #include "itkRegionalMaximaImageFilter.h"
 #include "itkRegionalMinimaImageFilter.h"
 
-#include "itkNeuralNetworkFileReader.h"
-#include "itkNeuralNetworkFileWriter.h"
-
 #include "itkConformalFlatteningMeshFilter.h"
 
 #include "itkVTKPolyDataReader.h"
@@ -51,9 +48,6 @@ int itkReviewPrintTest(int , char* [])
   typedef itk::Image<VectorType, 2> VectorImageType;
 
   typedef itk::QuadEdgeMesh< double, 3 > QuadEdgeMeshType;
-
-  typedef itk::Vector<double, 2> MeasurementVectorType;
-  typedef itk::Vector<double, 1> TargetVectorType;
 
   typedef unsigned short         PixelType;
   typedef itk::Mesh< float, 3 >  MeshType;
@@ -113,18 +107,6 @@ int itkReviewPrintTest(int , char* [])
     itk::RegionalMinimaImageFilter<Input2DImageType,Input2DImageType>::New();
   std:: cout << "-------------RegionalMinimaImageFilterObj "
              << RegionalMinimaImageFilterObj;
-
-  itk::NeuralNetworkFileReader<itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> >::Pointer
-    NeuralNetworkFileReaderObj =
-              itk::NeuralNetworkFileReader<itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> >::New();
-  std:: cout << "-------------NeuralNetworkFileReaderObj "
-             << NeuralNetworkFileReaderObj;
-
-  itk::NeuralNetworkFileWriter<itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> >::Pointer
-    NeuralNetworkFileWriterObj =
-              itk::NeuralNetworkFileWriter<itk::Statistics::OneHiddenLayerBackPropagationNeuralNetwork<MeasurementVectorType, TargetVectorType> >::New();
-  std:: cout << "-------------NeuralNetworkFileWriterObj "
-             << NeuralNetworkFileWriterObj;
 
   itk::ConformalFlatteningMeshFilter<MeshType, MeshType>::Pointer
     ConformalFlatteningMeshFilterObj =

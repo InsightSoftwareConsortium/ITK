@@ -8,7 +8,6 @@ itk_module(ITKReview
     ITKAnisotropicSmoothing
     ITKAntiAlias
     ITKBiasCorrection
-    ITKBioCell
     ITKClassifiers
     ITKCommon
     ITKConnectedComponents
@@ -62,7 +61,6 @@ itk_module(ITKReview
     ITKMathematicalMorphology
     ITKMesh
     ITKNarrowBand
-    ITKNeuralNetworks
     ITKOptimizers
     ITKPath
     ITKPDEDeformableRegistration
