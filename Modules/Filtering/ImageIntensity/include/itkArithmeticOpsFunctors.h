@@ -245,6 +245,8 @@ public:
 
 };
 
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+
 /** \class ModulusTransform
  *
  * \deprecated The two template parametered ModulusTransform functor
@@ -284,6 +286,8 @@ public:
 private:
   TInput m_Dividend;
 };
+
+#endif
 
 /**
  * \class DivFloor
