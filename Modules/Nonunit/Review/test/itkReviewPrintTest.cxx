@@ -43,7 +43,6 @@
 int itkReviewPrintTest(int , char* [])
 {
   typedef itk::Image<float,2>           Input2DImageType;
-  typedef itk::Image<float,2>           OutputType;
   typedef itk::Image<unsigned char,2>   CharType;
   typedef itk::RGBPixel<unsigned char>  RGBPixelType;
   typedef itk::Image< RGBPixelType, 2 > RGBImageType;
@@ -67,6 +66,7 @@ int itkReviewPrintTest(int , char* [])
 
   // Dummy variable just to force the full instantiation of the class
   CharType::Pointer dummyImage = CharType::New();
+  VectorImageType::Pointer dummy2 = VectorImageType::New();
 
   itk::ContourExtractor2DImageFilter<Input2DImageType>::Pointer
     ContourExtractor2DImageFilterObj =
