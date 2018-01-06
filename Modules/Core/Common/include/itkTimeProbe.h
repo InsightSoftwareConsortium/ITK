@@ -67,14 +67,6 @@ public:
    */
   virtual TimeStampType GetInstantValue(void) const ITK_OVERRIDE;
 
-  /** Returns the average times passed between the starts and stops of the
-   *  probe. See the RealTimeClock for details on the precision and units of
-   *  this time value. Obsolete method kept for backward compatibility,
-   *  use Probe::GetMean() instead.
-   *  \deprecated
-   */
-  itkLegacyMacro(TimeStampType GetMeanTime(void) const);
-
   /** Get a handle to m_RealTimeClock. */
   itkGetConstObjectMacro( RealTimeClock, RealTimeClock );
 

@@ -93,18 +93,6 @@ public:
       return *this;
     }
 
-#if !defined(ITK_LEGACY_REMOVE)
-  void Dump()
-  {
-    for ( SizeValueType i = 0; i < m_Size; i++ )
-      {
-      std::cout << m_Permutation[i].m_Value << " " << m_Permutation[i].m_Priority
-                << " " << m_Permutation[i].m_Index << ";";
-      std::cout << std::endl;
-      }
-  }
-#endif
-
   void SetPriority(SizeValueType i, SizeValueType priority)
   {
     if ( i > m_Size )

@@ -227,19 +227,6 @@ public:
   itkSetMacro(ComponentWeights, WeightsType);
   itkGetConstReferenceMacro(ComponentWeights, WeightsType);
 
-#ifndef ITK_LEGACY_REMOVE
-  /** Get the neighborhood radius - always 1 */
-  virtual const RadiusType GetNeighborhoodRadius() const
-  {
-    RadiusType r1;
-    r1.Fill(1);
-    return r1;
-  }
-
-  /** Set the neighborhood radius - ignored */
-  virtual void SetNeighborhoodRadius(const RadiusType) {}
-#endif
-
   /** Set/Get principle components calculation mode.  When this is set to TRUE/ON,
       the gradient calculation will involve a priniciple component analysis of
       the partial derivatives of the color components.  When this value is set

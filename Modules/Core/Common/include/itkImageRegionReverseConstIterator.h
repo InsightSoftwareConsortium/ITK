@@ -221,17 +221,6 @@ public:
     m_SpanBeginOffset = m_SpanEndOffset + static_cast< OffsetValueType >( this->m_Region.GetSize()[0] );
   }
 
-  /** Return an iterator for the beginning of the region. "Begin" for a reverse
-   * iterator is the last pixel in the region.
-   * \deprecated Use GoToBegin() instead */
-  itkLegacyMacro(Self Begin(void) const);
-
-  /** Return an iterator for the end of the region. "End" for a
-  * reverse iterator is one pixel before the first pixel in the
-  * region.
-  * \deprecated Use GoToEnd() instead */
-  itkLegacyMacro(Self End(void) const);
-
   /** Set the index. No bounds checking is performed. This is overridden
    * from the parent because we have an extra ivar.
    * \sa GetIndex */
@@ -365,9 +354,5 @@ protected:
   SizeValueType m_SpanEndOffset;   // offset to one pixel before the row
 };
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkImageRegionReverseConstIterator.hxx"
-#endif
 
 #endif

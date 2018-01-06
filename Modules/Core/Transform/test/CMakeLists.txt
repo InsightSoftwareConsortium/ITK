@@ -13,7 +13,6 @@ itkRigid3DPerspectiveTransformTest.cxx
 itkSimilarity2DTransformTest.cxx
 itkTranslationTransformTest.cxx
 itkIdentityTransformTest.cxx
-itkv3Rigid3DTransformTest.cxx
 itkCenteredAffineTransformTest.cxx
 itkRigid2DTransformTest.cxx
 itkScaleLogarithmicTransformTest.cxx
@@ -67,8 +66,6 @@ itk_add_test(NAME itkTranslationTransformTest
       COMMAND ITKTransformTestDriver itkTranslationTransformTest)
 itk_add_test(NAME itkIdentityTransformTest
       COMMAND ITKTransformTestDriver itkIdentityTransformTest)
-itk_add_test(NAME itkv3Rigid3DTransformTest
-      COMMAND ITKTransformTestDriver itkv3Rigid3DTransformTest)
 itk_add_test(NAME itkCenteredAffineTransformTest
       COMMAND ITKTransformTestDriver itkCenteredAffineTransformTest)
 itk_add_test(NAME itkRigid2DTransformTest

@@ -18,10 +18,6 @@
 #include "itkConstantPadImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-// Disable ITK_FUTURE_LEGACY_REMOVE so we can still test the deprecated behavior.
-#if defined( ITK_FUTURE_LEGACY_REMOVE )
-#undef ITK_FUTURE_LEGACY_REMOVE
-#endif
 #include "itkN4BiasFieldCorrectionImageFilter.h"
 #include "itkOtsuThresholdImageFilter.h"
 #include "itkShrinkImageFilter.h"

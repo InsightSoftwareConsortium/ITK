@@ -82,7 +82,7 @@ ProgressAccumulator
   m_BaseAccumulatedProgress = 0.0f;
 }
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
 void
 ProgressAccumulator
 ::ResetProgress()
@@ -100,7 +100,7 @@ ProgressAccumulator
 }
 #endif
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
 void
 ProgressAccumulator
 ::ResetFilterProgressAndKeepAccumulatedProgress()

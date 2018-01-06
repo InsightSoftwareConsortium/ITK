@@ -279,16 +279,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   return m_CirclesList;
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
-typename HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >::CirclesListType &
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
-::GetCircles(unsigned int)
-{
-  return this->GetCircles();
-}
-#endif
-
 template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 void
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >

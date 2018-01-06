@@ -142,11 +142,6 @@ public:
   /** Initialize the values of the histogram bins to zero */
   void SetToZero();
 
-  /** Get the index of a measurement value from the histogram.
-   * \deprecated Use GetIndex(const MeasurementVectorType &
-   * measurement, IndexType & index ) const instead. */
-  itkLegacyMacro(const IndexType & GetIndex(const MeasurementVectorType & measurement) const);
-
   /** Get the index of histogram corresponding to the specified
    *  measurement value. Returns true if index is valid and false if
    *  the measurement is outside the histogram */
@@ -272,24 +267,6 @@ public:
   bool IncreaseFrequencyOfMeasurement(
          const MeasurementVectorType & measurement,
          AbsoluteFrequencyType value);
-#ifdef ITKV3_COMPATIBILITY
-  //In ITKv4 the member functions are given unique names to dis-ambiguate
-  //the intended behavior.  Make aliases of the overloaded calls
-  //for ITKv3 backwards compatibility.
-  bool IncreaseFrequency(const IndexType & index,
-                                 AbsoluteFrequencyType value)
-    {
-    return IncreaseFrequencyOfIndex(index,value);
-    }
-
-  bool IncreaseFrequency(
-         const MeasurementVectorType & measurement,
-         AbsoluteFrequencyType value)
-    {
-    return IncreaseFrequencyOfMeasurement(measurement,value);
-    }
-
-#endif
 
   /** Get the measurement of an instance identifier. This is the
    * centroid of the bin.

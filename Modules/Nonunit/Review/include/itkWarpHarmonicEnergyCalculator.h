@@ -100,19 +100,6 @@ public:
   void SetUseImageSpacing(bool);
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
-#if !defined(ITK_LEGACY_REMOVE)
-  /** \deprecated Replaced by UseImageSpacingOn() as of ITK 4.12. */
-  itkLegacyMacro(void SetUseImageSpacingOn())
-  {
-    this->SetUseImageSpacing(true);
-  }
-
-  /** \deprecated Replaced by UseImageSpacingOff() as of ITK 4.12. */
-  itkLegacyMacro(void SetUseImageSpacingOff())
-  {
-    this->SetUseImageSpacing(false);
-  }
-#endif
 
   typedef FixedArray< double, ImageDimension > WeightsType;
 

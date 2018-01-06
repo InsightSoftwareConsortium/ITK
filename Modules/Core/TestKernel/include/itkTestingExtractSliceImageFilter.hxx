@@ -31,11 +31,7 @@ namespace Testing
 template< typename TInputImage, typename TOutputImage >
 ExtractSliceImageFilter< TInputImage, TOutputImage >
 ::ExtractSliceImageFilter():
-#ifdef ITKV3_COMPATIBILITY
-  m_DirectionCollaspeStrategy(DIRECTIONCOLLAPSETOGUESS)
-#else
   m_DirectionCollaspeStrategy(DIRECTIONCOLLAPSETOUNKOWN)
-#endif
 {}
 
 

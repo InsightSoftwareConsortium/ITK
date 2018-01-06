@@ -47,7 +47,7 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   itkPushIfTransformDim("BSplineTransform_double_2_2", 2);
   itkPushIfTransformDim("BSplineTransform_double_3_3", 3);
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#if !defined ( ITK_LEGACY_REMOVE )
   itkPushIfTransformDim("BSplineDeformableTransform_double_2_2", 2);
   itkPushIfTransformDim("BSplineDeformableTransform_double_3_3", 3);
 #endif
@@ -85,7 +85,10 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   itkPushIfTransformDim("Rigid2DTransform_double_2_2", 2);
   itkPushIfTransformDim("Rigid3DPerspectiveTransform_double_3_2", 3);
+
+#if !defined ITK_LEGACY_REMOVE
   itkPushIfTransformDim("Rigid3DTransform_double_3_3", 3);
+#endif
 
   itkPushIfTransformDim("ScalableAffineTransform_double_3_3", 3);
   itkPushIfTransformDim("ScaleLogarithmicTransform_double_3_3", 3);
@@ -125,7 +128,7 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   itkPushIfTransformDim("BSplineTransform_float_2_2", 2);
   itkPushIfTransformDim("BSplineTransform_float_3_3", 3);
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#if !defined ( ITK_LEGACY_REMOVE )
   itkPushIfTransformDim("BSplineDeformableTransform_float_2_2", 2);
   itkPushIfTransformDim("BSplineDeformableTransform_float_3_3", 3);
 #endif
@@ -163,7 +166,9 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   itkPushIfTransformDim("Rigid2DTransform_float_2_2", 2);
   itkPushIfTransformDim("Rigid3DPerspectiveTransform_float_3_2", 3);
+#if !defined ITK_LEGACY_REMOVE
   itkPushIfTransformDim("Rigid3DTransform_float_3_3", 3);
+#endif
 
   itkPushIfTransformDim("ScalableAffineTransform_float_3_3", 3);
   itkPushIfTransformDim("ScaleLogarithmicTransform_float_3_3", 3);

@@ -108,23 +108,6 @@ public:
    * parameter[1], parameter[2] } respectively */
   virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
 
-
-#if !defined( ITK_LEGACY_REMOVE )
-  /** Set the fixed parameters and update internal
-   * transformation. This transform has the center point as it's fixed
-   * parameters.
-   */
-  virtual void SetFixedParameters(const FixedParametersType &params) ITK_OVERRIDE
-    {
-      if (params.GetSize() != NDimensions)
-        {
-        itkWarningMacro(<< "The ScaleTransform now has " << NDimensions << " fixed parameters for the Center. Ignoring fixed parameters provided.");
-        return;
-        }
-      Superclass::SetFixedParameters(params);
-    }
-#endif
-
   /** Get the Jacobian matrix. */
   virtual void ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const ITK_OVERRIDE;
 

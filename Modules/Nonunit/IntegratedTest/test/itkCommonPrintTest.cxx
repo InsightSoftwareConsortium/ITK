@@ -68,7 +68,6 @@
 #include "itkQuaternionRigidTransform.h"
 #include "itkRGBToVectorImageAdaptor.h"
 #include "itkRigid3DPerspectiveTransform.h"
-#include "itkv3Rigid3DTransform.h"
 #include "itkScaleSkewVersor3DTransform.h"
 #include "itkScaleTransform.h"
 #include "itkSimilarity2DTransform.h"
@@ -91,11 +90,6 @@
 #include "itkVolumeSplineKernelTransform.h"
 #include "itkXMLFileOutputWindow.h"
 #include "itkRedPixelAccessor.h"
-
-#ifdef ITKV3_COMPATIBILITY
-#include "itkDifferenceImageFilter.h"
-#include "itkRigid3DTransform.h"
-#endif
 
 struct TestObject
 {
@@ -201,12 +195,6 @@ int itkCommonPrintTest(int , char* [])
   itk::CosImageAdaptor<InputType,InputType>::Pointer CosImageAdaptorObj =
     itk::CosImageAdaptor<InputType,InputType>::New();
   std::cout << "------------CosImageAdaptor" << CosImageAdaptorObj;
-
-#ifdef ITKV3_COMPATIBILITY
-  itk::DifferenceImageFilter<InputType,OutputType>::Pointer DifferenceImageFilterObj =
-    itk::DifferenceImageFilter<InputType,OutputType>::New();
-  std::cout << "------------DifferenceImageFilter" << DifferenceImageFilterObj;
-#endif
 
   itk::ElasticBodyReciprocalSplineKernelTransform<double,3>::Pointer ElasticBodyReciprocalSplineKernelTransformObj =
     itk::ElasticBodyReciprocalSplineKernelTransform<double,3>::New();
@@ -407,16 +395,6 @@ int itkCommonPrintTest(int , char* [])
   itk::Rigid2DTransform<double>::Pointer Rigid2DTransformObj =
     itk::Rigid2DTransform<double>::New();
   std::cout << "------------Rigid2DTransform" << Rigid2DTransformObj;
-
-#ifdef ITKV3_COMPATIBILITY
-  itk::Rigid3DTransform<double>::Pointer Rigid3DTransformObj =
-    itk::Rigid3DTransform<double>::New();
-  std::cout << "------------Rigid3DTransform" << Rigid3DTransformObj;
-#endif
-
-  itkv3::Rigid3DTransform<double>::Pointer v3Rigid3DTransformObj =
-    itkv3::Rigid3DTransform<double>::New();
-  std::cout << "------------v3Rigid3DTransform" << v3Rigid3DTransformObj;
 
   itk::Rigid3DPerspectiveTransform<double>::Pointer Rigid3DPerspectiveTransformObj =
     itk::Rigid3DPerspectiveTransform<double>::New();

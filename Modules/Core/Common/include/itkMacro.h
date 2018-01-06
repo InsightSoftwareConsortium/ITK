@@ -211,46 +211,17 @@ namespace itk
   #define ITK_HAS_CXX11_RVREF
 #endif
 
-#if ! defined( ITK_FUTURE_LEGACY_REMOVE )
-  #if ITK_COMPILER_CXX_STATIC_ASSERT
-    #define ITK_HAS_CXX11_STATIC_ASSERT //NOTE DEPRECATED!  should be ITK_COMPILER_CXX_STATIC_ASSERT
-  #endif
-
-  #if ITK_COMPILER_CXX_DELETED_FUNCTIONS
-    #define ITK_DELETE_FUNCTION =delete //NOTE DEPRECATED!  should be ITK_DELETED_FUNCTION
-  #else
-    #define ITK_DELETE_FUNCTION
-  #endif
-  //NOTE DEPRECATED! should use ITK_COMPILER_CXX_ALIGNAS
-  #if ITK_COMPILER_CXX_ALIGNAS
-     // defined if the compiler supports C++11 alignas type specifier
-     #define ITK_HAS_CPP11_ALIGNAS
-  #else
-     #ifdef ITK_HAS_CPP11_ALIGNAS
-       #undef ITK_HAS_CPP11_ALIGNAS
-     #endif
-  #endif
-  #if ITK_COMPILER_CXX_NOEXCEPT // NOTE DEPRECATED!  Kept for backwards compatibility.
-    // Should use ITK_NOEXCEPT defined in: itk_compiler_detection.h.
-    // Following comments apply to ITK_NOEXCEPT as well.
-    // Use only for low-level functions. Swap, UnRegister, etc, involved in move semantics.
-    // Avoid using it elsewhere.
-    // Unnecesary in destructors when c++11 becomes a requirement.
-    //   Used right now to avoid c++03 errors in destructors of child classes of std::exception.
-    #define ITK_NOEXCEPT_OR_THROW() noexcept
-  #else
-    #define ITK_NOEXCEPT_OR_THROW() throw()
-  #endif
-#else
-  //NOTE DEPRECATED should be ITK_NOEXCEPT
-  #define ITK_NOEXCEPT_OR_THROW error "Replace ITK_NOEXCEPT_OR_THROW with ITK_NOEXCEPT"
-  //NOTE DEPRECATED!  should be ITK_COMPILER_CXX_STATIC_ASSERT
-  #define ITK_HAS_CXX11_STATIC_ASSERT error "Replace ITK_HAS_CXX11_STATIC_ASSERT with ITK_COMPILER_CXX_STATIC_ASSERT"
-  //NOTE DEPRECATED!  should be ITK_DELETED_FUNCTION
-  #define ITK_DELETE_FUNCTION error "Replace ITK_DELETE_FUNCTION with ITK_DELETED_FUNCTION"
-  //NOTE DEPRECATED! should use ITK_COMPILER_CXX_ALIGNAS
-  #define ITK_HAS_CPP11_ALIGNAS error "Replace ITK_HAS_CPP11_ALIGNAS with ITK_COMPILER_CXX_ALIGNAS"
-#endif
+//-*-*-*
+//The following deprecations should be removed in ITKV6 and later
+//NOTE DEPRECATED should be ITK_NOEXCEPT
+#define ITK_NOEXCEPT_OR_THROW error "Replace ITK_NOEXCEPT_OR_THROW with ITK_NOEXCEPT"
+//NOTE DEPRECATED!  should be ITK_COMPILER_CXX_STATIC_ASSERT
+#define ITK_HAS_CXX11_STATIC_ASSERT error "Replace ITK_HAS_CXX11_STATIC_ASSERT with ITK_COMPILER_CXX_STATIC_ASSERT"
+//NOTE DEPRECATED!  should be ITK_DELETED_FUNCTION
+#define ITK_DELETE_FUNCTION error "Replace ITK_DELETE_FUNCTION with ITK_DELETED_FUNCTION"
+//NOTE DEPRECATED! should use ITK_COMPILER_CXX_ALIGNAS
+#define ITK_HAS_CPP11_ALIGNAS error "Replace ITK_HAS_CPP11_ALIGNAS with ITK_COMPILER_CXX_ALIGNAS"
+//-*-*-*
 
 
 #if ITK_COMPILER_CXX_CONSTEXPR
@@ -622,13 +593,6 @@ itkTypeMacro(newexcp, parentexcp);                                              
     " instead.")
 #endif
 
-#if defined ( ITK_LEGACY_REMOVE )
-#define ITK_TEMPLATE_TXX  "error ITK_TEMPLATE_TXX is no longer a supported identifier, you should replace with ITK_MANUAL_INSTANTIATION as a replacement"
-#else
-#define ITK_TEMPLATE_TXX 1
-#endif
-
-
 // Most modern x86 CPUs have 64 byte aligned blocks which are used for
 // the cache lines. By aligning multi-threaded structures with the
 // cache lines, false shared can be reduced, and performance
@@ -781,13 +745,6 @@ itkTypeMacro(newexcp, parentexcp);                                              
 #define itkAssertInDebugAndIgnoreInReleaseMacro(X) assert(X)
 #else
 #define itkAssertInDebugAndIgnoreInReleaseMacro(X)
-#endif
-
-#ifdef ITKV3_COMPATIBILITY
-// As of MSVS++ 7.1 and greater, typename is supported in templates
-// All ITKv4 compilers support the typename keyword, but this is
-// needed to ease transition from ITKv3.
-#define ITK_TYPENAME typename
 #endif
 
 /** itkDynamicCastInDebugMode

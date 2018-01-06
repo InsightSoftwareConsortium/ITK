@@ -212,40 +212,6 @@ ScalableAffineTransform<TParametersValueType, NDimensions>
     }
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-template<typename TParametersValueType, unsigned int NDimensions>
-void
-ScalableAffineTransform<TParametersValueType, NDimensions>
-::SetMatrixComponent(const MatrixType & matrix)
-{
-  this->SetMatrix(matrix);
-}
-
-template<typename TParametersValueType, unsigned int NDimensions>
-const typename ScalableAffineTransform<TParametersValueType, NDimensions>::MatrixType &
-ScalableAffineTransform<TParametersValueType, NDimensions>
-::GetMatrixComponent() const
-{
-  return this->GetMatrix();
-}
-
-template<typename TParametersValueType, unsigned int NDimensions>
-void
-ScalableAffineTransform<TParametersValueType, NDimensions>
-::SetOffsetComponent(const OffsetType & offset)
-{
-  this->SetTranslation(offset);
-}
-
-template<typename TParametersValueType, unsigned int NDimensions>
-const typename ScalableAffineTransform<TParametersValueType, NDimensions>::OffsetType &
-ScalableAffineTransform<TParametersValueType, NDimensions>
-::GetOffsetComponent(void) const
-{
-  return this->GetTranslation();
-}
-#endif
-
 } // namespace
 
 #endif

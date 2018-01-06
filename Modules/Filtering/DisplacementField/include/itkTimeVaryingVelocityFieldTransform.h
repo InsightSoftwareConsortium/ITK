@@ -97,7 +97,7 @@ public:
   typedef typename Transform<TParametersValueType,NDimensions, NDimensions>::Pointer TransformPointer;
 
   /** Get the time-varying velocity field. */
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   VelocityFieldType * GetTimeVaryingVelocityField()
     {
     return this->GetModifiableVelocityField();

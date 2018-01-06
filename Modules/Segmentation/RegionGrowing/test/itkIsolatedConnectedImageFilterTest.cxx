@@ -45,7 +45,7 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
 
   FilterType::IndexType seed1;
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   seed1[0] = atoi(av[4]); seed1[1] = atoi(av[5]);
   filter->SetSeed1(seed1); // deprecated method
 
@@ -67,7 +67,7 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
 
   // The min and max values for a .png image
   filter->SetLower(0);
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   filter->SetUpperValueLimit(255); //deprecated method
 #endif
   filter->SetUpper(255);
@@ -92,7 +92,7 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
   std::cout << "filter->GetIsolatedValueTolerance(): "
             << static_cast<itk::NumericTraits<PixelType>::PrintType>(isolatedValueTolerance)
             << std::endl;
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   PixelType upperValueLimit = filter->GetUpperValueLimit();
   std::cout << "filter->GetUpperValueLimit(): "
             << static_cast<itk::NumericTraits<PixelType>::PrintType>(upperValueLimit)

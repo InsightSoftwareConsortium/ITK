@@ -55,23 +55,6 @@ ImageRegionIterator< TImage >
   return *this;
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-template< typename TImage >
-ImageRegionIterator< TImage >
-ImageRegionIterator< TImage >
-::Begin() const
-{
-  return this->Superclass::Begin();
-}
-
-template< typename TImage >
-ImageRegionIterator< TImage >
-ImageRegionIterator< TImage >
-::End() const
-{
-  return this->Superclass::End();
-}
-#endif
 } // end namespace itk
 
 #endif

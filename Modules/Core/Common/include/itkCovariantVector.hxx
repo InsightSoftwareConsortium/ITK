@@ -214,39 +214,6 @@ CovariantVector< T, NVectorDimension >
                               const_cast< T * >( this->GetDataPointer() ) );
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-template< typename T, unsigned int NVectorDimension >
-void
-CovariantVector< T, NVectorDimension >
-::Set_vnl_vector(const vnl_vector< T > & v)
-{
-  for ( unsigned int i = 0; i < v.size(); i++ )
-    {
-    ( *this )[i] = v(i);
-    }
-}
-
-template< typename T, unsigned int NVectorDimension >
-vnl_vector_ref< T >
-CovariantVector< T, NVectorDimension >
-::Get_vnl_vector(void)
-{
-  return vnl_vector_ref< T >( NVectorDimension, this->GetDataPointer() );
-}
-
-template< typename T, unsigned int NVectorDimension >
-vnl_vector< T >
-CovariantVector< T, NVectorDimension >
-::Get_vnl_vector(void) const
-{
-  // Return a vector_ref<>.  This will be automatically converted to a
-  // vnl_vector<>.  We have to use a const_cast<> which would normally
-  // be prohibited in a const method, but it is safe to do here
-  // because the cast to vnl_vector<> will ultimately copy the data.
-  return vnl_vector_ref< T >( NVectorDimension,
-                              const_cast< T * >( this->GetDataPointer() ) );
-}
-#endif
 } // end namespace itk
 
 #endif

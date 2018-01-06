@@ -29,7 +29,10 @@
 #include "itkFixedCenterOfRotationAffineTransform.h"
 #include "itkIdentityTransform.h"
 #include "itkQuaternionRigidTransform.h"
+#if !defined ITK_LEGACY_REMOVE
+// The v3 Rigid3DTransform will be removed in ITKv6
 #include "itkv3Rigid3DTransform.h"
+#endif
 #include "itkRigid3DPerspectiveTransform.h"
 #include "itkScaleLogarithmicTransform.h"
 #include "itkScaleVersor3DTransform.h"
@@ -52,7 +55,7 @@
 #include "itkTimeVaryingVelocityFieldTransform.h"
 #include "itkVelocityFieldTransform.h"
 
-#if !defined( ITK_FUTURE_LEGACY_REMOVE )
+#if !defined ( ITK_LEGACY_REMOVE )
 #include "itkBSplineDeformableTransform.h"
 #endif
 
@@ -107,7 +110,7 @@ void TransformFactoryBase::RegisterTransformFactory()
 
   TransformFactory< BSplineTransform<TParameterType, 2, 3> >::RegisterTransform ();
   TransformFactory< BSplineTransform<TParameterType, 3, 3> >::RegisterTransform ();
-#if !defined( ITK_FUTURE_LEGACY_REMOVE )
+#if !defined ( ITK_LEGACY_REMOVE )
   TransformFactory< BSplineDeformableTransform<TParameterType, 2, 2> >::RegisterTransform ();
   TransformFactory< BSplineDeformableTransform<TParameterType, 3, 3> >::RegisterTransform ();
 #endif
@@ -127,11 +130,12 @@ void TransformFactoryBase::RegisterTransformFactory()
   TransformFactory< QuaternionRigidTransform<TParameterType > >::RegisterTransform ();
 
   TransformFactory< Rigid2DTransform<TParameterType > >::RegisterTransform ();
-  // We cannot register both Rigid3DTransform and
-  // itkv3::Rigid3DTransform because they both have the same name
-#ifdef ITKV3_COMPATIBILITY
-  TransformFactory< Rigid3DTransform<TParameterType > >::RegisterTransform ();
-#else
+
+#if !defined ITK_LEGACY_REMOVE
+  // We cannot register Rigid3DTransform because in ITKv4 the NewMacro was removed.
+  // Rigid3DTransforms are only intended to be used as a baseclass.
+  // Consider VersorRigid3D as a much more stable (under optimizatoin) registration type.
+  // itkv3::Rigid3DTransform is used as a wrapper to simply add the NewMacro.
   TransformFactory< itkv3::Rigid3DTransform<TParameterType > >::RegisterTransform ();
 #endif
   TransformFactory< Rigid3DPerspectiveTransform<TParameterType > >::RegisterTransform ();

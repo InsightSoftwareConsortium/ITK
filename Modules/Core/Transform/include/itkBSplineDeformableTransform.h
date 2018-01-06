@@ -18,7 +18,6 @@
 #ifndef itkBSplineDeformableTransform_h
 #define itkBSplineDeformableTransform_h
 
-#include "itkConfigure.h" // Needed to determine value of ITKV3_COMPATIBILITY
 #include "itkBSplineBaseTransform.h"
 
 namespace itk
@@ -218,18 +217,6 @@ public:
    * API. Mixing the two modes may results in unexpected results.
    */
   virtual void SetCoefficientImages( const CoefficientImageArray & images ) ITK_OVERRIDE;
-
-#ifdef ITKV3_COMPATIBILITY
-  virtual void SetCoefficientImage( const CoefficientImageArray & images )
-    {
-    this->SetCoefficientImages( images );
-    }
-  /* Only for backwards compatibility with ITKv3. */
-  CoefficientImageArray GetCoefficientImage()
-    {
-    return this->GetCoefficientImages();
-    }
-#endif
 
   /** Typedefs for specifying the extent of the grid. */
   typedef typename Superclass::RegionType    RegionType;

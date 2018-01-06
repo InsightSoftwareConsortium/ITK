@@ -328,25 +328,6 @@ Rigid2DTransform<TParametersValueType>
     }
 }
 
-#ifdef ITKV3_COMPATIBILITY
-#if !defined(ITK_LEGACY_REMOVE)
-template<typename TParametersValueType>
-void
-Rigid2DTransform<TParametersValueType>
-::SetRotationMatrix(const MatrixType & matrix)
-{
-  this->SetMatrix(matrix);
-}
-
-template<typename TParametersValueType>
-const typename Rigid2DTransform<TParametersValueType>::MatrixType &
-Rigid2DTransform<TParametersValueType>
-::GetRotationMatrix() const
-{
-  return this->GetMatrix();
-}
-#endif
-#endif
 } // namespace
 
 #endif

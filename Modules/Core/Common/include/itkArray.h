@@ -78,14 +78,14 @@ public:
    * memory when this object is destroyed. */
   Array(ValueType *data, SizeValueType sz, bool LetArrayManageMemory = false);
 
-#if defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if defined ( ITK_LEGACY_REMOVE )
   /** Constructor that initializes array with contents from a user supplied
    * const buffer. The pointer to the buffer and the length is specified. By default,
    * the array does a deep copy of the const pointer data, so the array class also
    * manages memory. */
   Array(const ValueType *datain, SizeValueType sz);
 
-#else // defined ( ITK_FUTURE_LEGACY_REMOVE )
+#else // defined ( ITK_LEGACY_REMOVE )
   /** Constructor that initializes array with contents from a user supplied
    * buffer. The pointer to the buffer and the length is specified. By default,
    * the array does not manage the memory of the buffer. It merely points to
@@ -167,7 +167,7 @@ public:
    * means that subclasses cannot allocate memory. */
   ~Array();
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   void swap(Array &other)
     {
       this->Swap(other);

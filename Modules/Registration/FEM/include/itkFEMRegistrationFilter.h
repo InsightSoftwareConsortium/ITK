@@ -347,19 +347,7 @@ public:
   itkSetMacro(UseLandmarks, bool);
   itkGetMacro(UseLandmarks, bool);
   itkBooleanMacro(UseLandmarks);
-#if !defined(ITK_LEGACY_REMOVE)
-  /** \deprecated Replaced by UseLandmarksOff() as of ITK 4.12. */
-  itkLegacyMacro(void SetUseLandmarksOff())
-  {
-    SetUseLandmarks(false);
-  }
 
-  /** \deprecated Replaced by UseLandmarksOn() as of ITK 4.12. */
-  itkLegacyMacro(void SetUseLandmarksOn())
-  {
-    SetUseLandmarks(true);
-  }
-#endif
   /**
    * Get/Set Use of the mass matrix in FEM solution. This should be true.
    */
@@ -424,19 +412,7 @@ public:
   itkSetMacro(UseNormalizedGradient, bool);
   itkGetMacro(UseNormalizedGradient, bool);
   itkBooleanMacro(UseNormalizedGradient);
-#if !defined(ITK_LEGACY_REMOVE)
-  /** \deprecated Replaced by UseNormalizedGradientOff() as of ITK 4.12. */
-  itkLegacyMacro(void SetUseNormalizedGradientOff())
-  {
-    SetUseNormalizedGradient(false);
-  }
 
-  /** \deprecated Replaced by UseNormalizedGradientOn() as of ITK 4.12. */
-  itkLegacyMacro(void SetUseNormalizedGradientOn())
-  {
-    SetUseNormalizedGradient(true);
-  }
-#endif
   /**
    * Get/Set the number of iterations before regridding is employed.
    */
@@ -511,19 +487,7 @@ public:
   itkSetMacro(CreateMeshFromImage, bool);
   itkGetMacro(CreateMeshFromImage, bool);
   itkBooleanMacro(CreateMeshFromImage);
-#if !defined(ITK_LEGACY_REMOVE)
-  /** \deprecated Replaced by CreateMeshFromImageOn() as of ITK 4.12. */
-  itkLegacyMacro(void SetCreateMeshFromImageOn())
-  {
-    SetCreateMeshFromImage(true);
-  }
 
-  /** \deprecated Replaced by CreateMeshFromImageOff() as of ITK 4.12. */
-  itkLegacyMacro(void SetCreateMeshFromImageOff())
-  {
-    SetCreateMeshFromImage(false);
-  }
-#endif
   /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );
 

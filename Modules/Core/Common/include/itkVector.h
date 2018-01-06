@@ -95,18 +95,6 @@ public:
   /** Get a vnl_vector with a copy of the internal memory block. */
   vnl_vector< T > GetVnlVector() const;
 
-  /** Set a vnl_vector_ref referencing the same memory block.
-   * \deprecated Use SetVnlVector() instead. */
-  itkLegacyMacro(void Set_vnl_vector(const vnl_vector< T > &));
-
-  /** Get a vnl_vector_ref referencing the same memory block.
-   * \deprecated Use GetVnlVector() instead. */
-  itkLegacyMacro(vnl_vector_ref< T > Get_vnl_vector(void));
-
-  /** Get a vnl_vector with a copy of the internal memory block.
-   * \deprecated Use GetVnlVector() instead. */
-  itkLegacyMacro(vnl_vector< T > Get_vnl_vector(void) const);
-
   /** Default constructor and copy constructors. */
   Vector():BaseArray() {}
 

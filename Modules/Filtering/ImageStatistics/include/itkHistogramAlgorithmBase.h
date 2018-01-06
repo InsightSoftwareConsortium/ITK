@@ -68,7 +68,7 @@ public:
    * derive from ProcessObject are not part of the pipeline and
    * should therefore not have an Update() method.
    * It is included for backwards compatibility. */
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   void Update()
   {
     this->Compute();

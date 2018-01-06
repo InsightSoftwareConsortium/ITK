@@ -128,16 +128,6 @@ public:
     return *( const_cast< InternalPixelType * >( this->m_Buffer ) + this->m_Offset );
   }
 
-  /** Return an iterator for the beginning of the region. "Begin"
-   * is defined as the first pixel in the region.
-   * \deprecated Use GoToBegin() instead */
-  itkLegacyMacro(Self Begin(void) const);
-
-  /** Return an iterator for the end of the region. "End" is defined
-  * as one pixel past the last pixel of the region.
-  * \deprecated Use GoToEnd() instead */
-  itkLegacyMacro(Self End(void) const);
-
   /** Get the image that this iterator walks. */
   ImageType * GetImage() const
   {
