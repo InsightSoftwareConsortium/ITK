@@ -112,7 +112,6 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-#if ! defined ( ITK_LEGACY_REMOVE )
 /** \deprecated
  * Set seed point 1. This seed will be isolated from Seed2 (if possible).
  *  This method is deprecated, please use AddSeed1() */
@@ -124,7 +123,6 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   this->ClearSeeds1();
   this->AddSeed1(seed);
 }
-#endif
 
 /** Clear all the seeds1. */
 template< typename TInputImage, typename TOutputImage >
@@ -149,10 +147,9 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-#if ! defined ( ITK_LEGACY_REMOVE )
-/** \deprecated
- * Set seed point 2. This seed will be isolated from Seed1 (if possible).
- *  This method is deprecated, please use AddSeed2() */
+
+/** Set seed point 2. This seed will be isolated from Seed1 (if
+ *  possible).  This method is deprecated, please use AddSeed2() */
 template< typename TInputImage, typename TOutputImage >
 void
 IsolatedConnectedImageFilter< TInputImage, TOutputImage >
@@ -161,7 +158,6 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   this->ClearSeeds2();
   this->AddSeed2(seed);
 }
-#endif
 
 /** Clear all the seeds2. */
 template< typename TInputImage, typename TOutputImage >
