@@ -135,8 +135,8 @@ void TransformFactoryBase::RegisterTransformFactory()
   // We cannot register Rigid3DTransform because in ITKv4 the NewMacro was removed.
   // Rigid3DTransforms are only intended to be used as a baseclass.
   // Consider VersorRigid3D as a much more stable (under optimizatoin) registration type.
-  // itkv3::Rigid3DTransform is used as a wrapper to simply add the NewMacro.
-  TransformFactory< itkv3::Rigid3DTransform<TParameterType > >::RegisterTransform ();
+  // itk::v3::Rigid3DTransform is used as a wrapper to simply add the NewMacro.
+  TransformFactory< v3::Rigid3DTransform<TParameterType > >::RegisterTransform ();
 #endif
   TransformFactory< Rigid3DPerspectiveTransform<TParameterType > >::RegisterTransform ();
 

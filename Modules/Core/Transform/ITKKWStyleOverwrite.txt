@@ -1,2 +1,1 @@
 test/.*\.cxx Namespace Disable
-include/itkv3Rigid3DTransform\.h Namespace Disable

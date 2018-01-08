@@ -22,7 +22,9 @@
 #include "itkRigid3DTransform.h"
 #include "itkVersor.h"
 
-namespace itkv3
+namespace itk
+{
+namespace v3
 {
 /** \class Rigid3DTransform
  * \brief ITK3.x compatible Rigid3DTransform of a vector space (e.g. space coordinates)
@@ -58,19 +60,19 @@ namespace itkv3
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class Rigid3DTransform:
+class ITK_TEMPLATE_EXPORT Rigid3DTransform:
     public itk::Rigid3DTransform<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */
   typedef Rigid3DTransform                            Self;
   typedef itk::Rigid3DTransform<TParametersValueType> Superclass;
-  typedef itk::SmartPointer<Self>                     Pointer;
-  typedef itk::SmartPointer<const Self>               ConstPointer;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
 
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Rigid3DTransform, itk::Rigid3DTransform);
+  itkTypeMacro(Rigid3DTransform, Rigid3DTransform);
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
@@ -129,5 +131,11 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DTransform);
 };                                //class Rigid3DTransform
-}  // namespace itkv3
+}  // namespace v3
+}  // namespace itk
+
+#if !defined(ITK_LEGACY_REMOVE)
+#define itkv3 itk::v3
+#endif
+
 #endif /* itkv3Rigid3DTransform_h */
