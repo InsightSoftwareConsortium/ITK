@@ -705,9 +705,13 @@ ENDIF()
 # selected components.  Initialize with required components.
 SET(KWSYS_CLASSES)
 SET(KWSYS_H_FILES Configure SharedForward)
-SET(KWSYS_HXX_FILES Configure String
-  hashtable hash_fun hash_map hash_set
-  )
+SET(KWSYS_HXX_FILES Configure String)
+
+IF(NOT CMake_SOURCE_DIR)
+  SET(KWSYS_HXX_FILES ${KWSYS_HXX_FILES}
+    hashtable hash_fun hash_map hash_set
+    )
+ENDIF()
 
 # Add selected C++ classes.
 SET(cppclasses
@@ -1027,12 +1031,13 @@ IF(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
     ENDFOREACH()
 
     # C++ tests
-    IF(NOT WATCOM)
+    IF(NOT WATCOM AND NOT CMake_SOURCE_DIR)
       SET(KWSYS_CXX_TESTS
         testHashSTL
         )
     ENDIF()
     SET(KWSYS_CXX_TESTS ${KWSYS_CXX_TESTS}
+      testConfigure
       testSystemTools
       testCommandLineArguments
       testCommandLineArguments1
@@ -1147,17 +1152,22 @@ IF(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
       SET_TESTS_PROPERTIES(kwsys.testProcess-${n} PROPERTIES TIMEOUT 120)
     ENDFOREACH()
 
+    SET(testProcess_COMPILE_FLAGS "")
     # Some Apple compilers produce bad optimizations in this source.
     IF(APPLE AND CMAKE_C_COMPILER_ID MATCHES "^(GNU|LLVM)$")
-      SET_SOURCE_FILES_PROPERTIES(testProcess.c PROPERTIES COMPILE_FLAGS -O0)
+      SET(testProcess_COMPILE_FLAGS "${testProcess_COMPILE_FLAGS} -O0")
     ELSEIF(CMAKE_C_COMPILER_ID STREQUAL "XL" AND
            NOT (CMAKE_SYSTEM MATCHES "Linux.*ppc64le" AND
                 NOT CMAKE_C_COMPILER_VERSION VERSION_LESS "13.1.1"))
       # Tell IBM XL not to warn about our test infinite loop
       # v13.1.1 and newer on Linux ppc64le is clang based and does not accept
       # the -qsuppress option
-      SET_PROPERTY(SOURCE testProcess.c PROPERTY COMPILE_FLAGS -qsuppress=1500-010)
+      SET(testProcess_COMPILE_FLAGS "${testProcess_COMPILE_FLAGS} -qsuppress=1500-010")
     ENDIF()
+    IF(CMAKE_C_FLAGS MATCHES "-fsanitize=")
+      SET(testProcess_COMPILE_FLAGS "${testProcess_COMPILE_FLAGS} -DCRASH_USING_ABORT")
+    ENDIF()
+    SET_PROPERTY(SOURCE testProcess.c PROPERTY COMPILE_FLAGS "${testProcess_COMPILE_FLAGS}")
 
     # Test SharedForward
     CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/testSharedForward.c.in

@@ -27,6 +27,7 @@
 #include <iostream>
 #include <set>
 #include <sstream>
+#include <utility>
 #include <vector>
 
 // Work-around CMake dependency scanning limitation.  This must
@@ -305,7 +306,7 @@ inline int Chdir(const std::string& dir)
   return chdir(dir.c_str());
 }
 inline void Realpath(const std::string& path, std::string& resolved_path,
-                     std::string* errorMessage = 0)
+                     std::string* errorMessage = KWSYS_NULLPTR)
 {
   char resolved_name[KWSYS_SYSTEMTOOLS_MAXPATH];
 
@@ -351,7 +352,7 @@ double SystemTools::GetTime(void)
           11644473600.0);
 #else
   struct timeval t;
-  gettimeofday(&t, 0);
+  gettimeofday(&t, KWSYS_NULLPTR);
   return 1.0 * double(t.tv_sec) + 0.000001 * double(t.tv_usec);
 #endif
 }
@@ -413,7 +414,7 @@ public:
 
   const envchar* Release(const envchar* env)
   {
-    const envchar* old = 0;
+    const envchar* old = KWSYS_NULLPTR;
     iterator i = this->find(env);
     if (i != this->end()) {
       old = *i;
@@ -488,7 +489,7 @@ void SystemTools::GetPath(std::vector<std::string>& path, const char* env)
 
 const char* SystemTools::GetEnvImpl(const char* key)
 {
-  const char* v = 0;
+  const char* v = KWSYS_NULLPTR;
 #if defined(_WIN32)
   std::string env;
   if (SystemTools::GetEnv(key, env)) {
@@ -544,7 +545,7 @@ bool SystemTools::HasEnv(const char* key)
 #else
   const char* v = getenv(key);
 #endif
-  return v != 0;
+  return v != KWSYS_NULLPTR;
 }
 
 bool SystemTools::HasEnv(const std::string& key)
@@ -751,15 +752,15 @@ FILE* SystemTools::Fopen(const std::string& file, const char* mode)
 #endif
 }
 
-bool SystemTools::MakeDirectory(const char* path)
+bool SystemTools::MakeDirectory(const char* path, const mode_t* mode)
 {
   if (!path) {
     return false;
   }
-  return SystemTools::MakeDirectory(std::string(path));
+  return SystemTools::MakeDirectory(std::string(path), mode);
 }
 
-bool SystemTools::MakeDirectory(const std::string& path)
+bool SystemTools::MakeDirectory(const std::string& path, const mode_t* mode)
 {
   if (SystemTools::PathExists(path)) {
     return SystemTools::FileIsDirectory(path);
@@ -774,8 +775,12 @@ bool SystemTools::MakeDirectory(const std::string& path)
   std::string topdir;
   while ((pos = dir.find('/', pos)) != std::string::npos) {
     topdir = dir.substr(0, pos);
-    Mkdir(topdir);
-    pos++;
+
+    if (Mkdir(topdir) == 0 && mode != KWSYS_NULLPTR) {
+      SystemTools::SetPermissions(topdir, *mode);
+    }
+
+    ++pos;
   }
   topdir = dir;
   if (Mkdir(topdir) != 0) {
@@ -790,7 +795,10 @@ bool SystemTools::MakeDirectory(const std::string& path)
           ) {
       return false;
     }
+  } else if (mode != KWSYS_NULLPTR) {
+    SystemTools::SetPermissions(topdir, *mode);
   }
+
   return true;
 }
 
@@ -1512,7 +1520,7 @@ char* SystemTools::AppendStrings(const char* str1, const char* str2)
   size_t len1 = strlen(str1);
   char* newstr = new char[len1 + strlen(str2) + 1];
   if (!newstr) {
-    return 0;
+    return KWSYS_NULLPTR;
   }
   strcpy(newstr, str1);
   strcat(newstr + len1, str2);
@@ -1535,7 +1543,7 @@ char* SystemTools::AppendStrings(const char* str1, const char* str2,
   size_t len1 = strlen(str1), len2 = strlen(str2);
   char* newstr = new char[len1 + len2 + strlen(str3) + 1];
   if (!newstr) {
-    return 0;
+    return KWSYS_NULLPTR;
   }
   strcpy(newstr, str1);
   strcat(newstr + len1, str2);
@@ -1585,7 +1593,7 @@ size_t SystemTools::CountChar(const char* str, char c)
 char* SystemTools::RemoveChars(const char* str, const char* toremove)
 {
   if (!str) {
-    return NULL;
+    return KWSYS_NULLPTR;
   }
   char* clean_str = new char[strlen(str) + 1];
   char* ptr = clean_str;
@@ -1607,7 +1615,7 @@ char* SystemTools::RemoveChars(const char* str, const char* toremove)
 char* SystemTools::RemoveCharsButUpperHex(const char* str)
 {
   if (!str) {
-    return 0;
+    return KWSYS_NULLPTR;
   }
   char* clean_str = new char[strlen(str) + 1];
   char* ptr = clean_str;
@@ -1684,11 +1692,11 @@ bool SystemTools::StringEndsWith(const std::string& str1, const char* str2)
     : false;
 }
 
-// Returns a pointer to the last occurence of str2 in str1
+// Returns a pointer to the last occurrence of str2 in str1
 const char* SystemTools::FindLastString(const char* str1, const char* str2)
 {
   if (!str1 || !str2) {
-    return NULL;
+    return KWSYS_NULLPTR;
   }
 
   size_t len1 = strlen(str1), len2 = strlen(str2);
@@ -1701,7 +1709,7 @@ const char* SystemTools::FindLastString(const char* str1, const char* str2)
     } while (ptr-- != str1);
   }
 
-  return NULL;
+  return KWSYS_NULLPTR;
 }
 
 // Duplicate string
@@ -1711,7 +1719,7 @@ char* SystemTools::DuplicateString(const char* str)
     char* newstr = new char[strlen(str) + 1];
     return strcpy(newstr, str);
   }
-  return NULL;
+  return KWSYS_NULLPTR;
 }
 
 // Return a cropped string
@@ -2501,6 +2509,14 @@ bool SystemTools::RemoveFile(const std::string& source)
   if (IsJunction(ws) && DeleteJunction(ws)) {
     return true;
   }
+  const DWORD DIRECTORY_SOFT_LINK_ATTRS =
+    FILE_ATTRIBUTE_DIRECTORY | FILE_ATTRIBUTE_REPARSE_POINT;
+  DWORD attrs = GetFileAttributesW(ws.c_str());
+  if (attrs != INVALID_FILE_ATTRIBUTES &&
+      (attrs & DIRECTORY_SOFT_LINK_ATTRS) == DIRECTORY_SOFT_LINK_ATTRS &&
+      RemoveDirectoryW(ws.c_str())) {
+    return true;
+  }
   if (DeleteFileW(ws.c_str()) || GetLastError() == ERROR_FILE_NOT_FOUND ||
       GetLastError() == ERROR_PATH_NOT_FOUND) {
     return true;
@@ -3084,7 +3100,7 @@ bool SystemTools::FindProgramPath(const char* argv0, std::string& pathOut,
 
 std::string SystemTools::CollapseFullPath(const std::string& in_relative)
 {
-  return SystemTools::CollapseFullPath(in_relative, 0);
+  return SystemTools::CollapseFullPath(in_relative, KWSYS_NULLPTR);
 }
 
 void SystemTools::AddTranslationPath(const std::string& a,
@@ -3365,7 +3381,7 @@ std::string SystemTools::RelativePath(const std::string& local,
 }
 
 #ifdef _WIN32
-static std::string GetCasePathName(std::string const& pathIn)
+static std::pair<std::string, bool> GetCasePathName(std::string const& pathIn)
 {
   std::string casePath;
   std::vector<std::string> path_components;
@@ -3374,7 +3390,7 @@ static std::string GetCasePathName(std::string const& pathIn)
   {
     // Relative paths cannot be converted.
     casePath = pathIn;
-    return casePath;
+    return std::make_pair(casePath, false);
   }
 
   // Start with root component.
@@ -3426,7 +3442,7 @@ static std::string GetCasePathName(std::string const& pathIn)
 
     casePath += path_components[idx];
   }
-  return casePath;
+  return std::make_pair(casePath, converting);
 }
 #endif
 
@@ -3441,12 +3457,14 @@ std::string SystemTools::GetActualCaseForPath(const std::string& p)
   if (i != SystemTools::PathCaseMap->end()) {
     return i->second;
   }
-  std::string casePath = GetCasePathName(p);
-  if (casePath.size() > MAX_PATH) {
-    return casePath;
+  std::pair<std::string, bool> casePath = GetCasePathName(p);
+  if (casePath.first.size() > MAX_PATH) {
+    return casePath.first;
   }
-  (*SystemTools::PathCaseMap)[p] = casePath;
-  return casePath;
+  if (casePath.second) {
+    (*SystemTools::PathCaseMap)[p] = casePath.first;
+  }
+  return casePath.first;
 #endif
 }
 
@@ -4224,11 +4242,16 @@ bool SystemTools::IsSubDirectory(const std::string& cSubdir,
   std::string dir = cDir;
   SystemTools::ConvertToUnixSlashes(subdir);
   SystemTools::ConvertToUnixSlashes(dir);
-  if (subdir.size() > dir.size() && subdir[dir.size()] == '/') {
-    std::string s = subdir.substr(0, dir.size());
-    return SystemTools::ComparePath(s, dir);
+  if (subdir.size() <= dir.size() || dir.empty()) {
+    return false;
   }
-  return false;
+  bool isRootPath = *dir.rbegin() == '/'; // like "/" or "C:/"
+  size_t expectedSlashPosition = isRootPath ? dir.size() - 1u : dir.size();
+  if (subdir[expectedSlashPosition] != '/') {
+    return false;
+  }
+  std::string s = subdir.substr(0, dir.size());
+  return SystemTools::ComparePath(s, dir);
 }
 
 void SystemTools::Delay(unsigned int msec)
