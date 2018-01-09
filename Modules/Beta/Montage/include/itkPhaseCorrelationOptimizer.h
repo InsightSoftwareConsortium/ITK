@@ -40,6 +40,7 @@ namespace itk
  *         Institute of Information Theory and Automation,
  *         Academy of Sciences of the Czech Republic.
  *
+ * \ingroup Montage
  */
 template <typename TImage>
 class PhaseCorrelationOptimizer: public ProcessObject
