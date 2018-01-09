@@ -29,7 +29,7 @@ template<typename TInternalComputationValueType>
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 ::ObjectToObjectOptimizerBaseTemplate()
 {
-  this->m_Metric = ITK_NULLPTR;
+  this->m_Metric = nullptr;
   this->m_CurrentIteration = 0;
   this->m_NumberOfIterations = 100;
   this->m_CurrentMetricValue = 0;

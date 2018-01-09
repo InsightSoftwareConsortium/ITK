@@ -60,7 +60,7 @@ static void itkXMLParserCharacterDataHandler(void *parser, const char *data,
 void
 XMLReaderBase::parse(void)
 {
-  XML_Parser Parser = XML_ParserCreate(ITK_NULLPTR);
+  XML_Parser Parser = XML_ParserCreate(nullptr);
 
   XML_SetElementHandler(Parser,
                         &itkXMLParserStartElement,

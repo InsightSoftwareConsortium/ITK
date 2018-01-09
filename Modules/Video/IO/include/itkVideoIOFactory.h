@@ -59,7 +59,7 @@ public:
 
 protected:
   VideoIOFactory();
-  ~VideoIOFactory() ITK_OVERRIDE;
+  ~VideoIOFactory() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VideoIOFactory);

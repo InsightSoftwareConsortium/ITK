@@ -101,7 +101,7 @@ public:
   typedef vnl_vector_fixed<TParametersValueType, NOutputDimensions> OutputVnlVectorType;
 
   /**  Method to transform a point. */
-  virtual OutputPointType TransformPoint(const InputPointType  &point ) const ITK_OVERRIDE
+  OutputPointType TransformPoint(const InputPointType  &point ) const override
   {
     if(!m_Initialized)
       {
@@ -147,33 +147,33 @@ public:
   }
 
   /**  Method to transform a vector. */
-  OutputVectorType TransformVector( const InputVectorType& vector, const InputPointType &  ) const ITK_OVERRIDE
+  OutputVectorType TransformVector( const InputVectorType& vector, const InputPointType &  ) const override
   {
     itkExceptionMacro( << "Not Implemented" );
     return vector;
   }
 
   /**  Method to transform a vector. */
-  OutputVnlVectorType TransformVector( const InputVnlVectorType& vector, const InputPointType & ) const ITK_OVERRIDE
+  OutputVnlVectorType TransformVector( const InputVnlVectorType& vector, const InputPointType & ) const override
   {
     itkExceptionMacro( << "Not Implemented" );
     return vector;
   }
 
   /**  Method to transform a vector. */
-  OutputVectorType TransformVector( const InputVectorType& vector) const ITK_OVERRIDE
+  OutputVectorType TransformVector( const InputVectorType& vector) const override
   {
     return Superclass::TransformVector(vector);
   }
 
   /**  Method to transform a vector. */
-  OutputVnlVectorType TransformVector( const InputVnlVectorType& vector) const ITK_OVERRIDE
+  OutputVnlVectorType TransformVector( const InputVnlVectorType& vector) const override
   {
     return Superclass::TransformVector(vector);
   }
 
   /**  Method to transform a vector. */
-  OutputVectorPixelType TransformVector( const InputVectorPixelType& vector) const ITK_OVERRIDE
+  OutputVectorPixelType TransformVector( const InputVectorPixelType& vector) const override
   {
     return Superclass::TransformVector(vector);
   }
@@ -181,38 +181,38 @@ public:
   /**  Method to transform a vector. */
   OutputVectorPixelType TransformVector(
     const InputVectorPixelType& vector,
-    const InputPointType & ) const ITK_OVERRIDE
+    const InputPointType & ) const override
   {
     itkExceptionMacro( << "Not Implemented" );
     return vector;
   }
 
   /**  Method to transform a CovariantVector. */
-  virtual OutputCovariantVectorType TransformCovariantVector(
+  OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &vector
-  , const InputPointType & ) const ITK_OVERRIDE
+  , const InputPointType & ) const override
   {
     itkExceptionMacro( << "Not Implemented" );
     return vector;
   }
 
 /**  Method to transform a CovariantVector. */
-  virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType &vector) const ITK_OVERRIDE
+  OutputCovariantVectorType TransformCovariantVector(
+    const InputCovariantVectorType &vector) const override
   {
     return Superclass::TransformCovariantVector(vector);
   }
 
 /**  Method to transform a CovariantVector. */
-  virtual OutputVectorPixelType TransformCovariantVector(
-    const InputVectorPixelType &vector) const ITK_OVERRIDE
+  OutputVectorPixelType TransformCovariantVector(
+    const InputVectorPixelType &vector) const override
   {
     return Superclass::TransformCovariantVector(vector);
   }
 
   /**  Method to transform a CovariantVector. */
-  virtual OutputVectorPixelType TransformCovariantVector(
-    const InputVectorPixelType &vector, const InputPointType & ) const ITK_OVERRIDE
+  OutputVectorPixelType TransformCovariantVector(
+    const InputVectorPixelType &vector, const InputPointType & ) const override
   {
     itkExceptionMacro( << "Not Implemented" );
     return vector;
@@ -225,19 +225,19 @@ public:
     cleanup();
   }
 
-  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
+  void SetFixedParameters(const FixedParametersType &) override
   {
     itkExceptionMacro( << "Not Implemented" );
   }
 
-  virtual void ComputeJacobianWithRespectToParameters(
+  void ComputeJacobianWithRespectToParameters(
               const InputPointType &,
-              JacobianType &) const ITK_OVERRIDE
+              JacobianType &) const override
   {
     itkExceptionMacro( << "Not Implemented" );
   }
 
-  virtual NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
+  NumberOfParametersType GetNumberOfParameters(void) const override
   {
     //this transform is defined by XFM file
     itkExceptionMacro( << "Not Defined" );
@@ -246,12 +246,12 @@ public:
 
   /** Set the Transformation Parameters
     * and update the internal transformation. */
-  virtual void  SetParameters(const ParametersType &) ITK_OVERRIDE
+  void  SetParameters(const ParametersType &) override
   {
     itkExceptionMacro( << "Not Implemented" );
   }
 
-  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE
+  const ParametersType & GetParameters(void) const override
   {
     itkExceptionMacro( << "Not Implemented" );
     return m_Parameters;
@@ -288,7 +288,7 @@ protected:
       itkExceptionMacro(<< "Sorry, only 3D to 3d minc xfm transform is currently implemented");
   }
 
-  virtual ~MINCTransformAdapter() ITK_OVERRIDE
+  ~MINCTransformAdapter() override
   {
     cleanup();
   }

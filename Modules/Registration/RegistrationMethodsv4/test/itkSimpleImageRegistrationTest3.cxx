@@ -87,12 +87,12 @@ protected:
 
 public:
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *) caller, event);
     }
 
-  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
     const TFilter * filter =
       dynamic_cast< const TFilter * >( object );
@@ -201,7 +201,7 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
   GradientDescentOptimizerv4Type * rigidOptimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( rigidRegistration->GetModifiableOptimizer() );
-  TEST_EXPECT_TRUE( rigidOptimizer != ITK_NULLPTR );
+  TEST_EXPECT_TRUE( rigidOptimizer != nullptr );
   rigidOptimizer->SetLearningRate( 0.1 );
 #ifdef NDEBUG
   rigidOptimizer->SetNumberOfIterations( 100 );
@@ -255,7 +255,7 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
   GradientDescentOptimizerv4Type * affineOptimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineRegistration->GetModifiableOptimizer() );
-  TEST_EXPECT_TRUE( affineOptimizer != ITK_NULLPTR );
+  TEST_EXPECT_TRUE( affineOptimizer != nullptr );
   affineOptimizer->SetLearningRate( 0.1 );
 #ifdef NDEBUG
   affineOptimizer->SetNumberOfIterations( 100 );

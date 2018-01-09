@@ -95,7 +95,7 @@ public:
 
 protected:
   ComplexToImaginaryImageAdaptor() {}
-  virtual ~ComplexToImaginaryImageAdaptor() ITK_OVERRIDE {}
+  ~ComplexToImaginaryImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToImaginaryImageAdaptor);

@@ -89,7 +89,7 @@ public:
 
 protected:
   ExpNegativeImageAdaptor() {}
-  virtual ~ExpNegativeImageAdaptor() ITK_OVERRIDE {}
+  ~ExpNegativeImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpNegativeImageAdaptor);

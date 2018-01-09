@@ -53,7 +53,7 @@ public:
   typedef const TPixel * const_iterator;
 
   /** Default constructor */
-  NeighborhoodAllocator():m_ElementCount(0), m_Data(ITK_NULLPTR)  {}
+  NeighborhoodAllocator():m_ElementCount(0), m_Data(nullptr)  {}
 
   /** Default destructor */
   ~NeighborhoodAllocator()

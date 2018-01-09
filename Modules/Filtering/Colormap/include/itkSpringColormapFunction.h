@@ -59,11 +59,11 @@ public:
   typedef typename Superclass::ScalarType   ScalarType;
   typedef typename Superclass::RealType     RealType;
 
-  virtual RGBPixelType operator()(const TScalar &) const ITK_OVERRIDE;
+  RGBPixelType operator()(const TScalar &) const override;
 
 protected:
   SpringColormapFunction() {}
-  ~SpringColormapFunction() ITK_OVERRIDE {}
+  ~SpringColormapFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpringColormapFunction);

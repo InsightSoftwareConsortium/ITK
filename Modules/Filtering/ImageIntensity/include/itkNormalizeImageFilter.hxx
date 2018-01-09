@@ -28,7 +28,7 @@ template< typename TInputImage, typename TOutputImage >
 NormalizeImageFilter< TInputImage, TOutputImage >
 ::NormalizeImageFilter()
 {
-  m_StatisticsFilter = ITK_NULLPTR;
+  m_StatisticsFilter = nullptr;
   m_StatisticsFilter = StatisticsImageFilter< TInputImage >::New();
   m_ShiftScaleFilter = ShiftScaleImageFilter< TInputImage, TOutputImage >::New();
 }

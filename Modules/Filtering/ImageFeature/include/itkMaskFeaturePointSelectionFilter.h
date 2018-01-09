@@ -143,10 +143,10 @@ public:
 
 protected:
   MaskFeaturePointSelectionFilter();
-  ~MaskFeaturePointSelectionFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MaskFeaturePointSelectionFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Compute the connectivity offsets so that points can be excluded during
    * the execution of the filter. This method must be called after invoking

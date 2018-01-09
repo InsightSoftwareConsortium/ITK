@@ -91,7 +91,7 @@ public:
 
 protected:
   TanImageAdaptor() {}
-  virtual ~TanImageAdaptor() ITK_OVERRIDE {}
+  ~TanImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TanImageAdaptor);

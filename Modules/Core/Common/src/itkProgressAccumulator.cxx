@@ -22,7 +22,7 @@ namespace itk
 ProgressAccumulator
 ::ProgressAccumulator()
 {
-  m_MiniPipelineFilter = ITK_NULLPTR;
+  m_MiniPipelineFilter = nullptr;
 
   // Initialize the progress values
   m_AccumulatedProgress     = 0.0f;

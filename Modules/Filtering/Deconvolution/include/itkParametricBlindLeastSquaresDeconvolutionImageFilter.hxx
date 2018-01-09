@@ -103,7 +103,7 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, 
 {
   // Compute the new padded, shifted, and transformed kernel
   m_KernelSource->UpdateLargestPossibleRegion();
-  InternalComplexImagePointerType preparedKernel = ITK_NULLPTR;
+  InternalComplexImagePointerType preparedKernel = nullptr;
   this->PrepareKernel( m_KernelSource->GetOutput(), preparedKernel, progress, 0.0 );
 
   m_DifferenceFilter->SetInput1( m_TransformedCurrentEstimate );
@@ -266,10 +266,10 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, 
 
   this->Superclass::Finish( progress, progressWeight );
 
-  m_TransformedInput = ITK_NULLPTR;
-  m_TransformedCurrentEstimate = ITK_NULLPTR;
-  m_DifferenceFilter = ITK_NULLPTR;
-  m_ImageUpdateFilter = ITK_NULLPTR;
+  m_TransformedInput = nullptr;
+  m_TransformedCurrentEstimate = nullptr;
+  m_DifferenceFilter = nullptr;
+  m_ImageUpdateFilter = nullptr;
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage >

@@ -81,9 +81,9 @@ public:
 
 protected:
   VTKVisualize2DLevelSetAsElevationMap();
-  virtual ~VTKVisualize2DLevelSetAsElevationMap();
+  ~VTKVisualize2DLevelSetAsElevationMap() override;
 
-  virtual void PrepareVTKPipeline();
+  void PrepareVTKPipeline() override;
 
   void GenerateElevationMap();
 

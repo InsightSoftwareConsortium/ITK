@@ -66,16 +66,16 @@ public:
     this->m_OutputFileNameBase = filename;
     }
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
     const OptimizerType * optimizer =
       dynamic_cast< const OptimizerType * >( object );
-    if(optimizer == ITK_NULLPTR)
+    if(optimizer == nullptr)
       {
       return;
       }
@@ -116,7 +116,7 @@ public:
 
 protected:
   JointPDFStatus() :
-    m_MIMetric( ITK_NULLPTR ),
+    m_MIMetric( nullptr ),
     m_Count( 0 )
     {
     this->m_Writer = WriterType::New();

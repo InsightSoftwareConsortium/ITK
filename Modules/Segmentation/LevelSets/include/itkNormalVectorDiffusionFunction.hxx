@@ -84,7 +84,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
   for ( i = 0; i < ImageDimension; i++ ) // flux offset axis
     {
     PreviousNode = it.GetPrevious (i);
-    if ( PreviousNode == ITK_NULLPTR )
+    if ( PreviousNode == nullptr )
       {
       for ( j = 0; j < ImageDimension; j++ )
         {
@@ -100,7 +100,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
           {
           // compute differences (j-axis) in line with center pixel
           OtherNode = it.GetPrevious (j);
-          if ( OtherNode == ITK_NULLPTR )
+          if ( OtherNode == nullptr )
             {
             NegativeSidePixel[0] = CenterPixel;
             }
@@ -109,7 +109,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
             NegativeSidePixel[0] = OtherNode->m_Data;
             }
           OtherNode = it.GetNext (j);
-          if ( OtherNode == ITK_NULLPTR )
+          if ( OtherNode == nullptr )
             {
             PositiveSidePixel[0] = CenterPixel;
             }
@@ -120,7 +120,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
 
           // compute derivative (j-axis) offset from center pixel on i-axis
           OtherNode = it.GetPixel (center - stride[i] - stride[j]);
-          if ( OtherNode == ITK_NULLPTR )
+          if ( OtherNode == nullptr )
             {
             NegativeSidePixel[1] = PreviousPixel;
             }
@@ -129,7 +129,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
             NegativeSidePixel[1] = OtherNode->m_Data;
             }
           OtherNode = it.GetPixel (center - stride[i] + stride[j]);
-          if ( OtherNode == ITK_NULLPTR )
+          if ( OtherNode == nullptr )
             {
             PositiveSidePixel[1] = PreviousPixel;
             }
@@ -194,7 +194,7 @@ NormalVectorDiffusionFunction< TSparseImageType >
   for ( i = 0; i < ImageDimension; i++ ) // flux offset axis
     {
     NextNode = it.GetNext (i);
-    if ( NextNode == ITK_NULLPTR )
+    if ( NextNode == nullptr )
       {
       change -= CenterNode->m_Flux[i] * neighborhoodScales[i];
       }

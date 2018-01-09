@@ -130,9 +130,9 @@ public:
 
 protected:
   VectorIndexSelectionCastImageFilter() {}
-  virtual ~VectorIndexSelectionCastImageFilter() ITK_OVERRIDE {}
+  ~VectorIndexSelectionCastImageFilter() override {}
 
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE
+  void BeforeThreadedGenerateData() override
   {
     const unsigned int index = this->GetIndex();
     const TInputImage *image = this->GetInput();

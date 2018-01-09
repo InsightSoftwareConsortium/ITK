@@ -60,7 +60,7 @@ public:
 
 protected:
   QuadEdgeMeshZipMeshFunction(){}
-  ~QuadEdgeMeshZipMeshFunction() ITK_OVERRIDE {}
+  ~QuadEdgeMeshZipMeshFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshZipMeshFunction);

@@ -27,7 +27,7 @@ FileOutputWindow
 {
   m_Flush = false;
   m_Append = false;
-  m_Stream = ITK_NULLPTR;
+  m_Stream = nullptr;
   m_FileName = "";
 }
 
@@ -35,7 +35,7 @@ FileOutputWindow
 ::~FileOutputWindow()
 {
   delete m_Stream;
-  m_Stream = ITK_NULLPTR;
+  m_Stream = nullptr;
 }
 
 void

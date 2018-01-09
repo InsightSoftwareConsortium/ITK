@@ -186,7 +186,7 @@ public:
 #endif
 
 protected:
-  ~CannySegmentationLevelSetImageFilter() ITK_OVERRIDE {}
+  ~CannySegmentationLevelSetImageFilter() override {}
   CannySegmentationLevelSetImageFilter();
 
 private:

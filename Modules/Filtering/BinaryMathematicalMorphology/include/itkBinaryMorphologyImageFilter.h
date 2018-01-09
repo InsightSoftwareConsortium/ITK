@@ -182,12 +182,12 @@ public:
   itkBooleanMacro(BoundaryToForeground);
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel) ITK_OVERRIDE;
+  void SetKernel(const KernelType & kernel) override;
 
 protected:
   BinaryMorphologyImageFilter();
-  virtual ~BinaryMorphologyImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BinaryMorphologyImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Analyze kernel and prepare data for GenerateData() function */

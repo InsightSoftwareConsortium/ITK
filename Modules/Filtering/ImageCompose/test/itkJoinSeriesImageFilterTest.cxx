@@ -208,7 +208,7 @@ int itkJoinSeriesImageFilterTest( int, char* [] )
   passed = false;
 
   // Set the 2nd input null
-  joinSeriesImage->SetInput( 1, ITK_NULLPTR );
+  joinSeriesImage->SetInput( 1, nullptr );
   try
     {
     joinSeriesImage->Update();

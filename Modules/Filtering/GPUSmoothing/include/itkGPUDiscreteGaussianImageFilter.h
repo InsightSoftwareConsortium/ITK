@@ -96,16 +96,16 @@ public:
   typedef GPUNeighborhoodOperatorImageFilter< InputImageType, OutputImageType,
                                               RealOutputPixelValueType > SingleFilterType;
 
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 protected:
   GPUDiscreteGaussianImageFilter();
-  virtual ~GPUDiscreteGaussianImageFilter() ITK_OVERRIDE {}
+  ~GPUDiscreteGaussianImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Standard GPU pipeline method. */
-  void GPUGenerateData() ITK_OVERRIDE;
+  void GPUGenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUDiscreteGaussianImageFilter);

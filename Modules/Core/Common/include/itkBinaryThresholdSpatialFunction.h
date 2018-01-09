@@ -85,13 +85,13 @@ public:
   itkGetModifiableObjectMacro(Function, FunctionType);
 
   /** Evaluate the function at a given position. */
-  virtual OutputType Evaluate(const InputType & point) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & point) const override;
 
 protected:
 
   BinaryThresholdSpatialFunction();
-  ~BinaryThresholdSpatialFunction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BinaryThresholdSpatialFunction() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   FunctionOutputType m_LowerThreshold;
   FunctionOutputType m_UpperThreshold;

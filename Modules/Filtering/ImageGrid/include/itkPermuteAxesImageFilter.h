@@ -94,18 +94,18 @@ protected:
    * the pipeline execution model.  The original documentation of this
    * method is below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** PermuteAxesImageFilter needs different input requested region than the output
    * requested region.  As such, PermuteAxesImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   PermuteAxesImageFilter();
-  ~PermuteAxesImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PermuteAxesImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PermuteAxesImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -118,7 +118,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PermuteAxesImageFilter);

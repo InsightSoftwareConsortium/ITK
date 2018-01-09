@@ -147,17 +147,17 @@ int itkImageToListSampleFilterTest(int, char* [] )
   // Restore the pipeline after the exception
   filter->ResetPipeline();
 
-  if ( filter->GetInput() != ITK_NULLPTR )
+  if ( filter->GetInput() != nullptr )
     {
     pass = false;
-    failureMeassage = "GetInput() should return ITK_NULLPTR if the input \
+    failureMeassage = "GetInput() should return nullptr if the input \
                      has not been set";
     }
 
-  if ( filter->GetMaskImage() != ITK_NULLPTR )
+  if ( filter->GetMaskImage() != nullptr )
     {
     pass = false;
-    failureMeassage = "GetMaskImage() should return ITK_NULLPTR if mask image \
+    failureMeassage = "GetMaskImage() should return nullptr if mask image \
                      has not been set";
     }
 

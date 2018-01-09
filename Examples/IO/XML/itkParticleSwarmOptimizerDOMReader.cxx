@@ -31,7 +31,7 @@ ParticleSwarmOptimizerDOMReader::GenerateData( const DOMNodeType* inputdom, cons
   LoggerType* logger = this->GetLogger();
 
   OutputType* output = this->GetOutput();
-  if ( output == ITK_NULLPTR )
+  if ( output == nullptr )
     {
     logger->Info( "creating the output PSO object ...\n" );
     OutputType::Pointer object = OutputType::New();

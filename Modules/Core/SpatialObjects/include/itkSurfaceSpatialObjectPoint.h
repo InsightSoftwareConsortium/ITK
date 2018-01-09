@@ -49,7 +49,7 @@ public:
   SurfaceSpatialObjectPoint();
 
   /** Destructor */
-  virtual ~SurfaceSpatialObjectPoint() ITK_OVERRIDE;
+  ~SurfaceSpatialObjectPoint() override;
 
   /** Get Normal */
   const VectorType & GetNormal() const;
@@ -70,7 +70,7 @@ protected:
   VectorType m_Normal;
 
   /** Method to print the object. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end of namespace itk
 

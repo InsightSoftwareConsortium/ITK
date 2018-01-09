@@ -113,8 +113,8 @@ public:
 
 protected:
   ProgressAccumulator();
-  virtual ~ProgressAccumulator() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
+  ~ProgressAccumulator() override;
+  void PrintSelf(std::ostream & s, Indent indent) const override;
 
 private:
   /**  Command for observing progress of pipeline filters */

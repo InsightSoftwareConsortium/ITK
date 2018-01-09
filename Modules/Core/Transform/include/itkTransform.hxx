@@ -59,7 +59,7 @@ std::string Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 
   n << GetNameOfClass();
   n << "_";
-  n << this->GetTransformTypeAsString(static_cast<TParametersValueType *>(ITK_NULLPTR) );
+  n << this->GetTransformTypeAsString(static_cast<TParametersValueType *>(nullptr) );
   n << "_" << this->GetInputSpaceDimension() << "_" << this->GetOutputSpaceDimension();
   return n.str();
 }

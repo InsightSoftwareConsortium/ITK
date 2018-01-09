@@ -57,19 +57,19 @@ public:
   * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
   * \return Returns true if this MeshIO can read the file specified.
   */
-  virtual bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
+  bool CanReadFile(const char *FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadMeshInformation() ITK_OVERRIDE;
+  void ReadMeshInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void ReadPoints(void *buffer) ITK_OVERRIDE;
+  void ReadPoints(void *buffer) override;
 
-  virtual void ReadCells(void *buffer) ITK_OVERRIDE;
+  void ReadCells(void *buffer) override;
 
-  virtual void ReadPointData(void *buffer) ITK_OVERRIDE;
+  void ReadPointData(void *buffer) override;
 
-  virtual void ReadCellData(void *buffer) ITK_OVERRIDE;
+  void ReadCellData(void *buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -78,22 +78,22 @@ public:
    * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this MeshIO can write the file specified.
    */
-  virtual bool CanWriteFile(const char *FileNameToWrite) ITK_OVERRIDE;
+  bool CanWriteFile(const char *FileNameToWrite) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void WriteMeshInformation() ITK_OVERRIDE;
+  void WriteMeshInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void WritePoints(void *buffer) ITK_OVERRIDE;
+  void WritePoints(void *buffer) override;
 
-  virtual void WriteCells(void *buffer) ITK_OVERRIDE;
+  void WriteCells(void *buffer) override;
 
-  virtual void WritePointData(void *buffer) ITK_OVERRIDE;
+  void WritePointData(void *buffer) override;
 
-  virtual void WriteCellData(void *buffer) ITK_OVERRIDE;
+  void WriteCellData(void *buffer) override;
 
-  virtual void Write() ITK_OVERRIDE;
+  void Write() override;
 
 protected:
   /** Read buffer as ascii stream */
@@ -172,9 +172,9 @@ protected:
 
 protected:
   OFFMeshIO();
-  virtual ~OFFMeshIO() ITK_OVERRIDE;
+  ~OFFMeshIO() override;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void OpenFile();
 

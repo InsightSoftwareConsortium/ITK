@@ -133,8 +133,8 @@ public:
 protected:
 
   ParameterizationQuadEdgeMeshFilter();
-  virtual ~ParameterizationQuadEdgeMeshFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ParameterizationQuadEdgeMeshFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   CoefficientsComputation *m_CoefficientsMethod;
 
@@ -188,7 +188,7 @@ protected:
                           VectorType & oX,
                           VectorType & oY);
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
 

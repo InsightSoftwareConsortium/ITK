@@ -299,7 +299,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
 
   if ( marcher->GetAuxiliaryImage(2) )
     {
-    std::cout << "GetAuxiliaryImage(2) should have returned ITK_NULLPTR";
+    std::cout << "GetAuxiliaryImage(2) should have returned nullptr";
     std::cout << std::endl;
     passed = false;
     }

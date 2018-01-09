@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~ShanbhagThresholdImageFilter() ITK_OVERRIDE {};
+  ~ShanbhagThresholdImageFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShanbhagThresholdImageFilter);

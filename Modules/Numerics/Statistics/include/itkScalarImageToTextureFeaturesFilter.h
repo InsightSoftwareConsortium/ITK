@@ -197,20 +197,20 @@ public:
 
 protected:
   ScalarImageToTextureFeaturesFilter();
-  virtual ~ScalarImageToTextureFeaturesFilter() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ScalarImageToTextureFeaturesFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void FastCompute();
 
   void FullCompute();
 
   /** This method causes the filter to generate its output. */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Make a DataObject to be used for output output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) override;
 
 private:
   typename CooccurrenceMatrixFilterType::Pointer m_GLCMGenerator;

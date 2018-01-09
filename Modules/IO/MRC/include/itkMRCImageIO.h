@@ -71,18 +71,18 @@ public:
   itkTypeMacro(MRCImageIO, StreamingImageIOBase);
 
   // we don't use this method
-  virtual void WriteImageInformation(void) ITK_OVERRIDE {}
+  void WriteImageInformation(void) override {}
 
   //-------- This part of the interface deals with reading data. ------
 
   // See super class for documentation
-  virtual bool CanReadFile(const char *) ITK_OVERRIDE;
+  bool CanReadFile(const char *) override;
 
   // See super class for documentation
-  virtual void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() override;
 
   // See super class for documentation
-  virtual void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) override;
 
   // -------- This part of the interfaces deals with writing data. -----
 
@@ -92,10 +92,10 @@ public:
    * The methods verifies that the file extension is known to be
    * supported by this class.
    */
-  virtual bool CanWriteFile(const char *) ITK_OVERRIDE;
+  bool CanWriteFile(const char *) override;
 
   // see super class for documentation
-  virtual void Write(const void *buffer) ITK_OVERRIDE;
+  void Write(const void *buffer) override;
 
   /** \todo Move to itkIOCommon with the other MetaDataDictionary
    * keys, likely rename the symbol to something like
@@ -106,13 +106,13 @@ public:
 protected:
   MRCImageIO();
   // ~MRCImageIO(); // default works
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Overloaded to return the actually header size of the file
    * specified. The header must be read before this methods is
    * called.
    */
-  virtual SizeType GetHeaderSize(void) const ITK_OVERRIDE;
+  SizeType GetHeaderSize(void) const override;
 
 private:
 

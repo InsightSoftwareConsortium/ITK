@@ -43,7 +43,7 @@ MetaSurfaceConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
   const SurfaceMetaObjectType *surfaceMO = dynamic_cast<const SurfaceMetaObjectType *>(mo);
-  if(surfaceMO == ITK_NULLPTR)
+  if(surfaceMO == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaSurface");
     }

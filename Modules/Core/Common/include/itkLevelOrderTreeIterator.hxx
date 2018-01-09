@@ -30,7 +30,7 @@ LevelOrderTreeIterator< TTreeType >
 {
   m_StartLevel =  -1;
   m_EndLevel = endLevel;
-  if ( start != ITK_NULLPTR )
+  if ( start != nullptr )
     {
     m_Queue.push(start);
     this->m_Position = const_cast< TreeNodeType * >( start );
@@ -54,7 +54,7 @@ LevelOrderTreeIterator< TTreeType >
 {
   m_StartLevel = startLevel;
   m_EndLevel = endLevel;
-  if ( start != ITK_NULLPTR )
+  if ( start != nullptr )
     {
     m_Queue.push(start);
     this->m_Position = const_cast< TreeNodeType * >( start );
@@ -125,14 +125,14 @@ LevelOrderTreeIterator< TTreeType >::FindNextNode() const
   do
     {
     node = FindNextNodeHelp();
-    if ( node == ITK_NULLPTR )
+    if ( node == nullptr )
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
     level = GetLevel(node);
     if ( level > m_EndLevel )
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
     }
   while ( level < m_StartLevel );
@@ -145,7 +145,7 @@ template< typename TTreeType >
 int
 LevelOrderTreeIterator< TTreeType >::GetLevel() const
 {
-  if ( this->m_Position == ITK_NULLPTR )
+  if ( this->m_Position == nullptr )
     {
     return -1;
     }
@@ -165,7 +165,7 @@ template< typename TTreeType >
 int
 LevelOrderTreeIterator< TTreeType >::GetLevel(const TreeNodeType *node) const
 {
-  if ( node == ITK_NULLPTR )
+  if ( node == nullptr )
     {
     return -1;
     }
@@ -186,15 +186,15 @@ LevelOrderTreeIterator< TTreeType >::FindNextNodeHelp() const
 {
   if ( m_Queue.empty() )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   const TreeNodeType *currentNode = m_Queue.front();
   m_Queue.pop();
 
-  if ( currentNode == ITK_NULLPTR )
+  if ( currentNode == nullptr )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   int size = currentNode->CountChildren();
@@ -202,7 +202,7 @@ LevelOrderTreeIterator< TTreeType >::FindNextNodeHelp() const
   for ( int i = 0; i < size; i++ )
     {
     TreeNodeType *child = dynamic_cast< TreeNodeType * >( currentNode->GetChild(i) );
-    if ( child != ITK_NULLPTR )
+    if ( child != nullptr )
       {
       m_Queue.push(child);
       }

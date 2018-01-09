@@ -67,9 +67,9 @@ protected:
 
   /** Override ThreadedGenerateData to set all pixels in the requested region
    * to 1 */
-  virtual void ThreadedGenerateData(
+  void ThreadedGenerateData(
     const OutputFrameSpatialRegionType& outputRegionForThread,
-    int threadId) ITK_OVERRIDE
+    int threadId) override
   {
 
     // Print out your threadId

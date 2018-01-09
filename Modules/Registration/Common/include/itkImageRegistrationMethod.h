@@ -185,19 +185,19 @@ public:
    * output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */
-  virtual ModifiedTimeType GetMTime() const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime() const override;
 
 protected:
   ImageRegistrationMethod();
-  virtual ~ImageRegistrationMethod() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImageRegistrationMethod() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  virtual void  GenerateData() ITK_OVERRIDE;
+  void  GenerateData() override;
 
   /** Provides derived classes with the ability to set this private var */
   itkSetMacro(LastTransformParameters, ParametersType);

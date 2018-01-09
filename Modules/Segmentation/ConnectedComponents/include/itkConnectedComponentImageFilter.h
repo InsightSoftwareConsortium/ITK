@@ -169,28 +169,28 @@ protected:
     Self::AddOptionalInputName("MaskImage",1);
   }
 
-  virtual ~ConnectedComponentImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ConnectedComponentImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Standard pipeline methods.
    */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() override;
 
-  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
 
   /** ConnectedComponentImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** ConnectedComponentImageFilter will produce all of the output.
    * Therefore it must provide an implementation of
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) override;
 
   bool m_FullyConnected;
 

@@ -68,7 +68,7 @@ public:
   void GetNumBlocksAndThreads(int whichKernel, int n, int maxBlocks, int maxThreads, int &blocks, int &threads);
   unsigned int GetReductionKernel(int whichKernel, int blockSize, int isPowOf2);
 
-  void AllocateGPUInputBuffer(TElement *h_idata = ITK_NULLPTR);
+  void AllocateGPUInputBuffer(TElement *h_idata = nullptr);
   void ReleaseGPUInputBuffer();
   void InitializeKernel(unsigned int size);
 
@@ -90,8 +90,8 @@ public:
 
 protected:
   GPUReduction();
-  ~GPUReduction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GPUReduction() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GPU kernel manager for GPUFiniteDifferenceFunction class */
   GPUKernelManager::Pointer m_GPUKernelManager;

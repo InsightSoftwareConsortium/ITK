@@ -236,7 +236,7 @@ public:
 
   /** \brief Get the level set function given its id
     \param[in] iId
-    \return the level set function if it is in the container, else ITK_NULLPTR.
+    \return the level set function if it is in the container, else nullptr.
   */
   LevelSetPointer GetLevelSet( const LevelSetIdentifierType& iId ) const;
 
@@ -276,7 +276,7 @@ protected:
   LevelSetContainerBase();
 
   /** \brief Default Destructor */
-  ~LevelSetContainerBase() ITK_OVERRIDE;
+  ~LevelSetContainerBase() override;
 
   const LevelSetContainerType& GetContainer() const;
   void SetContainer( const LevelSetContainerType& iContainer );

@@ -110,7 +110,7 @@ public:
 
 protected:
   VectorCastImageFilter() {}
-  virtual ~VectorCastImageFilter() ITK_OVERRIDE {}
+  ~VectorCastImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorCastImageFilter);

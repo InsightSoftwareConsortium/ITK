@@ -145,7 +145,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 {
   if( !this->m_InputImage || !this->m_OutputImage )
     {
-    itkExceptionMacro(<< "Input or Output image is ITK_NULLPTR.");
+    itkExceptionMacro(<< "Input or Output image is nullptr.");
     }
 
   InputImageRegionConstIteratorType inputIt( this->m_InputImage, this->m_InputImage->GetRequestedRegion() );
@@ -331,7 +331,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       newStruct.minNorm[ic] = 0;
       newStruct.maxNorm[ic] = 0;
       }
-    newStruct.sampler = ITK_NULLPTR;
+    newStruct.sampler = nullptr;
 
     m_ThreadData.push_back( newStruct );
     }
@@ -2499,7 +2499,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     << std::endl;
 
   os << indent << "PatchRadius (voxel space): ";
-  if( this->m_InputImage != ITK_NULLPTR )
+  if( this->m_InputImage != nullptr )
     {
     os << this->GetPatchRadiusInVoxels() << std::endl;
     }

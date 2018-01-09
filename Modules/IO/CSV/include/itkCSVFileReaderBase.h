@@ -171,9 +171,9 @@ protected:
   std::string                  m_Line;
 
   CSVFileReaderBase();
-  virtual ~CSVFileReaderBase() ITK_OVERRIDE {}
+  ~CSVFileReaderBase() override {}
   /** Print method */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Check that all essential components are present and plugged in. */
   void PrepareForParsing();

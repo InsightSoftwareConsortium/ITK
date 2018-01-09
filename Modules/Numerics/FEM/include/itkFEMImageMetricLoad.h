@@ -83,7 +83,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
+  ::itk::LightObject::Pointer CreateAnother(void) const override;
 
   // Necessary typedefs for dealing with images BEGIN
   typedef typename LoadElement::Float Float;
@@ -261,14 +261,14 @@ public:
   /** Set the pointer to the solution vector.
    * \param ptr Pointer to the object of Solution class.
    */
-  virtual void SetSolution(Solution::ConstPointer ptr) ITK_OVERRIDE
+  void SetSolution(Solution::ConstPointer ptr) override
   {
     m_Solution = ptr;
   }
   /** Get the pointer to the solution vector.
    * \return Pointer to the object of Solution class.
    */
-  virtual Solution::ConstPointer GetSolution() ITK_OVERRIDE
+  Solution::ConstPointer GetSolution() override
   {
     return m_Solution;
   }
@@ -333,10 +333,10 @@ public:
   }
 
   // FIXME - Documentation
-  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) ITK_OVERRIDE;
+  void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) override;
 
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
   GradientImageType *m_MetricGradientImage;

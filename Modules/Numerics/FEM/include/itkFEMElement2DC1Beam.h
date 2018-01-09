@@ -54,7 +54,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
+  ::itk::LightObject::Pointer CreateAnother(void) const override;
 
 
   /**
@@ -73,18 +73,18 @@ public:
    */
 
   /** Get the Stiffness matrix */
-  virtual void GetStiffnessMatrix(MatrixType & Ke) const ITK_OVERRIDE;
+  void GetStiffnessMatrix(MatrixType & Ke) const override;
 
   /** Get the Mass matrix */
-  virtual void GetMassMatrix(MatrixType & Me) const ITK_OVERRIDE;
+  void GetMassMatrix(MatrixType & Me) const override;
 
   /** Get the Strain Displacement matrix */
-  virtual void GetStrainDisplacementMatrix(MatrixType &, const MatrixType &) const ITK_OVERRIDE
+  void GetStrainDisplacementMatrix(MatrixType &, const MatrixType &) const override
   {
   }
 
   /** Get the Material matrix */
-  virtual void GetMaterialMatrix(MatrixType &) const ITK_OVERRIDE
+  void GetMaterialMatrix(MatrixType &) const override
   {
   }
 
@@ -96,9 +96,9 @@ public:
   enum { DefaultIntegrationOrder = 1 };
 
   /** Get the Integration point and weight */
-  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order = 0) const ITK_OVERRIDE;
+  void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order = 0) const override;
 
-  virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const ITK_OVERRIDE;
+  unsigned int GetNumberOfIntegrationPoints(unsigned int order) const override;
 
   // ////////////////////////////////////////////////////////////////////////
   /**
@@ -106,22 +106,22 @@ public:
    */
 
   /** Return the shape functions used to interpolate across the element */
-  virtual VectorType ShapeFunctions(const VectorType & pt) const ITK_OVERRIDE;
+  VectorType ShapeFunctions(const VectorType & pt) const override;
 
   /** Return the shape functions derivatives in the shapeD matrix */
-  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const ITK_OVERRIDE;
+  void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
 
   /** Convert from global to local coordinates */
-  virtual bool GetLocalFromGlobalCoordinates(const VectorType &, VectorType &) const ITK_OVERRIDE
+  bool GetLocalFromGlobalCoordinates(const VectorType &, VectorType &) const override
   {
     return false;
   }
 
   /** Return the determinate of the Jacobian */
-  virtual Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ) const ITK_OVERRIDE;
+  Float JacobianDeterminant(const VectorType & pt, const MatrixType *pJ) const override;
 
   /** Get the degrees of freedom for each node */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const override
   {
     return 3;
   }
@@ -129,22 +129,22 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  virtual Material::ConstPointer GetMaterial(void) const ITK_OVERRIDE
+  Material::ConstPointer GetMaterial(void) const override
   {
     return dynamic_cast<const Material *>(m_mat);
   }
 
-  virtual void SetMaterial(Material::ConstPointer mat_) ITK_OVERRIDE
+  void SetMaterial(Material::ConstPointer mat_) override
   {
     m_mat =
       dynamic_cast<const MaterialLinearElasticity *>( mat_.GetPointer() );
   }
 
   /** No edges to populate in this class */
-  virtual void PopulateEdgeIds(void) ITK_OVERRIDE { /* empty */ }
+  void PopulateEdgeIds(void) override { /* empty */ }
 
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
 

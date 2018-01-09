@@ -32,7 +32,7 @@
 #endif
 #include "itkDirectory.h"
 #include "itkVersion.h"
-#include <string.h>
+#include <cstring>
 #include <algorithm>
 
 
@@ -83,10 +83,10 @@ public:
         (*i)->UnRegister();
         }
       delete m_ObjectFactoryBasePrivate->m_InternalFactories;
-      m_ObjectFactoryBasePrivate->m_InternalFactories = ITK_NULLPTR;
+      m_ObjectFactoryBasePrivate->m_InternalFactories = nullptr;
       }
     delete m_ObjectFactoryBasePrivate;
-    m_ObjectFactoryBasePrivate = ITK_NULLPTR;
+    m_ObjectFactoryBasePrivate = nullptr;
     }
 
   /** Create the GlobalTimeStamp if needed and return it. */
@@ -251,7 +251,7 @@ ObjectFactoryBase
       return newobject;
       }
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 std::list< LightObject::Pointer >
@@ -574,7 +574,7 @@ ObjectFactoryBase
  */
 ObjectFactoryBase::ObjectFactoryBase()
 {
-  m_LibraryHandle = ITK_NULLPTR;
+  m_LibraryHandle = nullptr;
   m_LibraryDate = 0;
   m_OverrideMap = new OverRideMap;
 }
@@ -600,7 +600,7 @@ ObjectFactoryBase
 {
   ObjectFactoryBasePrivate * factoryBase = GetObjectFactoryBase();
 
-  if ( factory->m_LibraryHandle != ITK_NULLPTR )
+  if ( factory->m_LibraryHandle != nullptr )
     {
     itkGenericExceptionMacro( "A dynamic factory tried to be loaded internally!" );
     }
@@ -627,7 +627,7 @@ ObjectFactoryBase
 {
   ObjectFactoryBasePrivate * factoryBase = GetObjectFactoryBase();
 
-  if ( factory->m_LibraryHandle == ITK_NULLPTR )
+  if ( factory->m_LibraryHandle == nullptr )
     {
     const char nonDynamicName[] = "Non-Dynamicaly loaded factory";
     factory->m_LibraryPath = nonDynamicName;
@@ -829,7 +829,7 @@ ObjectFactoryBase
       }
 #endif
     delete factoryBase->m_RegisteredFactories;
-    factoryBase->m_RegisteredFactories = ITK_NULLPTR;
+    factoryBase->m_RegisteredFactories = nullptr;
     factoryBase->m_Initialized = false;
     }
 }
@@ -870,7 +870,7 @@ ObjectFactoryBase
       return ( *i ).second.m_CreateObject->CreateObject();
       }
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 std::list< LightObject::Pointer >
@@ -956,7 +956,7 @@ ObjectFactoryBasePrivate *
 ObjectFactoryBase
 ::GetObjectFactoryBase()
 {
-  if( m_ObjectFactoryBasePrivate == ITK_NULLPTR )
+  if( m_ObjectFactoryBasePrivate == nullptr )
     {
     m_ObjectFactoryBasePrivate = ObjectFactoryBasePrivateInitializer::GetObjectFactoryBasePrivate();
     }
@@ -990,7 +990,7 @@ std::list< ObjectFactoryBase * >
 ObjectFactoryBase
 ::GetRegisteredFactories()
 {
-  if( m_ObjectFactoryBasePrivate == ITK_NULLPTR )
+  if( m_ObjectFactoryBasePrivate == nullptr )
      {
      GetObjectFactoryBase();
      }

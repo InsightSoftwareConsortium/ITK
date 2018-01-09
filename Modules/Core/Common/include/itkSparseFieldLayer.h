@@ -70,7 +70,7 @@ public:
   }
 
   ConstSparseFieldLayerIterator()
-  { m_Pointer = ITK_NULLPTR; }
+  { m_Pointer = nullptr; }
 
   ConstSparseFieldLayerIterator(TNodeType *p)
   { m_Pointer = p; }
@@ -256,8 +256,8 @@ public:
 
 protected:
   SparseFieldLayer();
-  ~SparseFieldLayer() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SparseFieldLayer() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SparseFieldLayer);

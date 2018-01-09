@@ -49,7 +49,7 @@ public:
   ContourSpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~ContourSpatialObjectPoint() ITK_OVERRIDE;
+  ~ContourSpatialObjectPoint() override;
 
   /** Get the picked point. */
   const PointType & GetPickedPoint() const;
@@ -82,7 +82,7 @@ public:
 
 protected:
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

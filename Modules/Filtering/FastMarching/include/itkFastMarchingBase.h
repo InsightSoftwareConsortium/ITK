@@ -211,7 +211,7 @@ protected:
   FastMarchingBase();
 
   /** \brief Destructor */
-  virtual ~FastMarchingBase() ITK_OVERRIDE;
+  ~FastMarchingBase() override;
 
   StoppingCriterionPointer m_StoppingCriterion;
 
@@ -296,10 +296,10 @@ protected:
   virtual void InitializeOutput( OutputDomainType* oDomain ) = 0;
 
   /**    */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** \brief PrintSelf method  */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingBase);

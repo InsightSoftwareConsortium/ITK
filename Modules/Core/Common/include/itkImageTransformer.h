@@ -109,13 +109,13 @@ public:
    * an input to a filter.
    */
   virtual void PushBackInput(const InputImageType *image);
-  virtual void PopBackInput() ITK_OVERRIDE;
+  void PopBackInput() override;
   virtual void PushFrontInput(const InputImageType *image);
-  virtual void PopFrontInput() ITK_OVERRIDE;
+  void PopFrontInput() override;
 
 protected:
   ImageTransformer();
-  virtual ~ImageTransformer() ITK_OVERRIDE {}
+  ~ImageTransformer() override {}
 
   /** The image transformer is assumed to need the whole input.
    *
@@ -130,7 +130,7 @@ protected:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion(),
    *     ImageSource::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** A version of GenerateData() specific for image processing
    * filters.  This implementation will split the processing across
@@ -147,7 +147,7 @@ protected:
    * instead.
    *
    * \sa ThreadedGenerateData() */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** If an imaging filter can be implemented as a multithreaded
    * algorithm, the filter will provide an implementation of
@@ -228,9 +228,9 @@ protected:
    * methods from the superclass.
    * NOTE: The same code resides in ImageToImageFilter
    */
-  virtual void PushBackInput(const DataObject *input) ITK_OVERRIDE
+  void PushBackInput(const DataObject *input) override
   { Superclass::PushBackInput(input); }
-  virtual void PushFrontInput(const DataObject *input) ITK_OVERRIDE
+  void PushFrontInput(const DataObject *input) override
   { Superclass::PushFrontInput(input); }
 
   /** Internal structure used for passing image data into the threading library

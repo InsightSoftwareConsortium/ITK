@@ -99,7 +99,7 @@ public:
 
 protected:
   ExpImageFilter() {}
-  virtual ~ExpImageFilter() ITK_OVERRIDE {}
+  ~ExpImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpImageFilter);

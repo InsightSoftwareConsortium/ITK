@@ -70,14 +70,14 @@ public:
 
  protected:
   /** Constructor */
-  FastMarchingStoppingCriterionBase() : Superclass(), m_Domain( ITK_NULLPTR )
+  FastMarchingStoppingCriterionBase() : Superclass(), m_Domain( nullptr )
   {
     m_CurrentValue = NumericTraits< OutputPixelType >::ZeroValue();
     m_PreviousValue = NumericTraits< OutputPixelType >::ZeroValue();
   }
 
   /** Destructor */
-  virtual ~FastMarchingStoppingCriterionBase() ITK_OVERRIDE {}
+  ~FastMarchingStoppingCriterionBase() override {}
 
   OutputDomainPointer m_Domain;
 

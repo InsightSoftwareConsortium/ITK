@@ -105,9 +105,9 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
 
   standardDeviationFilter->ResetPipeline();
 
-  if ( standardDeviationFilter->GetInput() != ITK_NULLPTR )
+  if ( standardDeviationFilter->GetInput() != nullptr )
     {
-    std::cerr << "GetInput() should return ITK_NULLPTR if the input \
+    std::cerr << "GetInput() should return nullptr if the input \
                      has not been set" << std::endl;
     return EXIT_FAILURE;
     }

@@ -131,16 +131,16 @@ public:
 
 protected:
   BSplineDecompositionImageFilter();
-  virtual ~BSplineDecompositionImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BSplineDecompositionImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** This filter requires all of the input image. */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** This filter must produce all of its output at once. */
-  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
   typedef std::vector< CoeffType >  CoefficientsVectorType;

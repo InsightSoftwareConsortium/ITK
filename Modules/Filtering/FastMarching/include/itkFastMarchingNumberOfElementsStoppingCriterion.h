@@ -61,12 +61,12 @@ public:
   itkSetMacro( TargetNumberOfElements, IdentifierType );
   itkGetMacro( TargetNumberOfElements, IdentifierType );
 
-  bool IsSatisfied() const ITK_OVERRIDE
+  bool IsSatisfied() const override
   {
     return ( this->m_CurrentNumberOfElements >= this->m_TargetNumberOfElements );
   }
 
-  std::string GetDescription() const ITK_OVERRIDE
+  std::string GetDescription() const override
   {
     return "Current Number of Elements >= Target Number of Elements";
   }
@@ -77,17 +77,17 @@ protected:
     m_TargetNumberOfElements( NumericTraits< IdentifierType >::ZeroValue() )
   {}
 
-  ~FastMarchingNumberOfElementsStoppingCriterion() ITK_OVERRIDE {}
+  ~FastMarchingNumberOfElementsStoppingCriterion() override {}
 
   IdentifierType  m_CurrentNumberOfElements;
   IdentifierType  m_TargetNumberOfElements;
 
-  void SetCurrentNode( const NodeType& ) ITK_OVERRIDE
+  void SetCurrentNode( const NodeType& ) override
   {
     ++this->m_CurrentNumberOfElements;
   }
 
-  void Reset() ITK_OVERRIDE
+  void Reset() override
   {
     this->m_CurrentNumberOfElements = NumericTraits< IdentifierType >::ZeroValue();
   }

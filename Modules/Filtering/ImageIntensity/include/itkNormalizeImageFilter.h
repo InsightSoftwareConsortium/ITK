@@ -67,16 +67,16 @@ public:
   typedef typename TOutputImage::Pointer OutputImagePointer;
 
   /** NormalizeImageFilter must call modified on its internal filters */
-  virtual void Modified() const ITK_OVERRIDE;
+  void Modified() const override;
 
 protected:
   NormalizeImageFilter();
 
   /** GenerateData. */
-  void  GenerateData() ITK_OVERRIDE;
+  void  GenerateData() override;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NormalizeImageFilter);

@@ -63,31 +63,31 @@ public:
   // see super class for documentation
   //
   // overidden to return true
-  virtual bool CanStreamWrite(void) ITK_OVERRIDE;
+  bool CanStreamWrite(void) override;
 
   // see super class for documentation
   //
   // overidden to return true
-  virtual bool CanStreamRead(void) ITK_OVERRIDE;
+  bool CanStreamRead(void) override;
 
   // see super class for documentation
   //
   // If UseStreamedReading is true, then returned region is the
   // requested region parameter.
-  virtual ImageIORegion GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const ITK_OVERRIDE;
+  ImageIORegion GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const override;
 
   // see super class for documentation
   //
   // Verifies the set file name meets the pasting requirements, then calls
   // GetActualNumberOfSplitsForWritingCanStreamWrite
-  virtual unsigned int GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
+  unsigned int GetActualNumberOfSplitsForWriting(unsigned int numberOfRequestedSplits,
                                                          const ImageIORegion & pasteRegion,
-                                                         const ImageIORegion & largestPossibleRegion) ITK_OVERRIDE;
+                                                         const ImageIORegion & largestPossibleRegion) override;
 
 protected:
   StreamingImageIOBase();
   // virtual ~StreamingImageIOBase(); not needed
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** \brief Returns true if GetIORegion is not the same size as the
    * largest region give by GetNumberOfDimensions.

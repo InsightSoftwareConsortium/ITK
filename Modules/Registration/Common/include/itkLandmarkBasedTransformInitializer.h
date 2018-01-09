@@ -176,9 +176,9 @@ public:
 
 protected:
   LandmarkBasedTransformInitializer();
-  ~LandmarkBasedTransformInitializer() ITK_OVERRIDE {}
+  ~LandmarkBasedTransformInitializer() override {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LandmarkBasedTransformInitializer);

@@ -120,14 +120,14 @@ int itkImageRegistrationMethodTest_11(int, char* [] )
 
 
   //
-  //  Now verify that they can be set to ITK_NULLPTR
+  //  Now verify that they can be set to nullptr
   //
-  MetricType::Pointer         metric3        = ITK_NULLPTR;
-  TransformType::Pointer      transform3     = ITK_NULLPTR;
-  OptimizerType::Pointer      optimizer3     = ITK_NULLPTR;
-  FixedImageType::Pointer     fixedImage3    = ITK_NULLPTR;
-  MovingImageType::Pointer    movingImage3   = ITK_NULLPTR;
-  InterpolatorType::Pointer   interpolator3  = ITK_NULLPTR;
+  MetricType::Pointer         metric3        = nullptr;
+  TransformType::Pointer      transform3     = nullptr;
+  OptimizerType::Pointer      optimizer3     = nullptr;
+  FixedImageType::Pointer     fixedImage3    = nullptr;
+  MovingImageType::Pointer    movingImage3   = nullptr;
+  InterpolatorType::Pointer   interpolator3  = nullptr;
 
 
   registration->SetMetric(        metric3        );

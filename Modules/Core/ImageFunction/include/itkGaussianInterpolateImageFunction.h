@@ -90,7 +90,7 @@ public:
   typedef FixedArray<RealType, ImageDimension> ArrayType;
 
   /** Set input image. */
-  virtual void SetInputImage( const TInputImage *image ) ITK_OVERRIDE
+  void SetInputImage( const TInputImage *image ) override
     {
     Superclass::SetInputImage( image );
     this->ComputeBoundingBox();
@@ -137,16 +137,16 @@ public:
     }
 
   /** Evaluate at the given index. */
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex ) const ITK_OVERRIDE
+  OutputType EvaluateAtContinuousIndex(
+    const ContinuousIndexType & cindex ) const override
     {
-    return this->EvaluateAtContinuousIndex( cindex, ITK_NULLPTR );
+    return this->EvaluateAtContinuousIndex( cindex, nullptr );
     }
 
 protected:
   GaussianInterpolateImageFunction();
-  ~GaussianInterpolateImageFunction() ITK_OVERRIDE {};
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  ~GaussianInterpolateImageFunction() override {};
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   virtual void ComputeBoundingBox();
 

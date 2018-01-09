@@ -180,20 +180,20 @@ public:
 
 protected:
   LevelSetMotionRegistrationFilter();
-  ~LevelSetMotionRegistrationFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LevelSetMotionRegistrationFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   /** Apply update. */
-  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
+  void ApplyUpdate(const TimeStepType& dt) override;
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  This version
    * calls the superclass' version but also Halts if the RMSChange is zero.
    */
-  virtual bool Halt() ITK_OVERRIDE;
+  bool Halt() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetMotionRegistrationFilter);

@@ -52,7 +52,7 @@ int itkQuadrilateralCellTest(int, char* [] )
                            CoordRepType* closestPoint,
                            CoordRepType pcoord [],
                            double * distance,
-                           InterpolationWeightType* weights) ITK_OVERRIDE
+                           InterpolationWeightType* weights) override
       {
       return this->Superclass::EvaluatePosition( inputPoint,
         points, closestPoint, pcoord, distance, weights );

@@ -111,13 +111,13 @@ public:
   /**
    * Change the displacement field fixed parameters
    */
-  virtual void AdaptTransformParameters() ITK_OVERRIDE;
+  void AdaptTransformParameters() override;
 
 protected:
   BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor();
-  ~BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor() ITK_OVERRIDE;
+  ~BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor() override;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor);

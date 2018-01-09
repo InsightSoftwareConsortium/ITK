@@ -32,7 +32,7 @@ CSVNumericObjectFileWriter<TValue,NRows, NColumns>
 ::CSVNumericObjectFileWriter()
 {
   this->m_FieldDelimiterCharacter = ',';
-  this->m_InputObject = ITK_NULLPTR;
+  this->m_InputObject = nullptr;
 }
 
 template <typename TValue, unsigned int NRows, unsigned int NColumns>
@@ -110,7 +110,7 @@ CSVNumericObjectFileWriter<TValue,NRows,NColumns>
     }
 
   // throw an exception if no input object is provided
-  if ( this->m_InputObject == ITK_NULLPTR )
+  if ( this->m_InputObject == nullptr )
     {
     itkExceptionMacro( << "An input object was not specified!" );
     }

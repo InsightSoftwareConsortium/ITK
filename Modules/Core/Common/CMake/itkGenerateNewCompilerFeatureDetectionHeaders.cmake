@@ -1,24 +1,11 @@
-if( ITK_MANUAL_GENERATE_NEW_COMPILER_DETECTION_HEADERS )
-# In order to provide backwards compatibility to pre-cmake 3.1.0 versions,
-# the WriteCompilerDetectionHeader function should be run from a very
-# recent version of cmake (i.e. 3.5.2) and the auto-generated files
-# should be merged from the temporary build tree with the source
-# code managed source tree.  This should only be done VERY infrequently.
-#
-# SRCDIR=~/ITK
-# BINDIR=~/ITK-bld
-#
-# merge files: ${CMAKE_CURRENT_BINARY_DIR}/TMP/itk_compiler_detection.h  & ${SRCDIR}/Modules/Core/Common/include/itk_compiler_detection.h
-# NOTE: ${SRCDIR}/Modules/Core/Common/include/itk_compiler_detection.h needs to include the custom UNKOWN compiler include stub
-# merge files: ${CMAKE_CURRENT_BINARY_DIR}/TMP/compilers & ${SRCDIR}/Modules/Core/Common/include/compilers
-  ## Dynamically create compiler detection header
-  include(WriteCompilerDetectionHeader)
-  write_compiler_detection_header(
-      FILE "${CMAKE_CURRENT_BINARY_DIR}/TMP/itk_compiler_detection.h"
+## Dynamically create compiler detection header
+include(WriteCompilerDetectionHeader)
+write_compiler_detection_header(
+      FILE "${CMAKE_CURRENT_BINARY_DIR}/itk_compiler_detection.h"
       PREFIX ITK
-      OUTPUT_FILES_VAR compiler_stub_headers
-      OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/TMP/compilers
-      COMPILERS AppleClang Clang GNU MSVC SunPro Intel #Supported compilers as of 3.5.2
+      OUTPUT_FILES_VAR ITK_compiler_detection_support_headers
+      OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/compilers
+      COMPILERS ${CMAKE_CXX_COMPILER_ID} # AppleClang Clang GNU MSVC SunPro Intel #Supported compilers as of 3.5.2
       VERSION ${CMAKE_VERSION}
       FEATURES
         cxx_aggregate_default_initializers      # Aggregate default initializers, as defined in N3605.
@@ -50,7 +37,7 @@ if( ITK_MANUAL_GENERATE_NEW_COMPILER_DETECTION_HEADERS )
         cxx_generic_lambdas                     # Generic lambdas, as defined in N3649.
         cxx_inheriting_constructors             # Inheriting constructors, as defined in N2540.
         cxx_inline_namespaces                   # Inline namespaces, as defined in N2535.
-        cxx_lambdas                             #Lambda functions, as defined in N2927.
+        cxx_lambdas                             # Lambda functions, as defined in N2927.
         cxx_lambda_init_captures                # Initialized lambda captures, as defined in N3648.
         cxx_local_type_template_args            # Local and unnamed types as template arguments, as defined in N2657.
         cxx_long_long_type                      # long long type, as defined in N1811.
@@ -61,7 +48,7 @@ if( ITK_MANUAL_GENERATE_NEW_COMPILER_DETECTION_HEADERS )
         cxx_range_for                           # Range-based for, as defined in N2930.
         cxx_raw_string_literals                 # Raw string literals, as defined in N2442.
         cxx_reference_qualified_functions       # Reference qualified functions, as defined in N2439.
-        cxx_relaxed_constexpr                   #Relaxed constexpr, as defined in N3652.
+        cxx_relaxed_constexpr                   # Relaxed constexpr, as defined in N3652.
         cxx_return_type_deduction               # Return type deduction on normal functions, as defined in N3386.
         cxx_right_angle_brackets                # Right angle bracket parsing, as defined in N1757.
         cxx_rvalue_references                   # R-value references, as defined in N2118.
@@ -78,5 +65,4 @@ if( ITK_MANUAL_GENERATE_NEW_COMPILER_DETECTION_HEADERS )
         cxx_variadic_macros                     # Variadic macros, as defined in N1653.
         cxx_variadic_templates                  # Variadic templates, as defined in N2242.
         cxx_template_template_parameters        # Template template parameters, as defined in ISO/IEC 14882:1998.
-  )
-endif()
+)

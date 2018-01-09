@@ -129,16 +129,16 @@ public:
 
 
   /** returns the number of measurement vectors in this container */
-  InstanceIdentifier Size() const ITK_OVERRIDE;
+  InstanceIdentifier Size() const override;
 
   /** method to return measurement vector for a specified id */
-  virtual const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const override;
 
   /** method to return frequency for a specified id */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier  id) const ITK_OVERRIDE;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier  id) const override;
 
   /** method to return the total frequency */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const override;
 
   /** \class ConstIterator
    *  \brief Const Iterator
@@ -297,8 +297,8 @@ public:
 
 protected:
   ImageToNeighborhoodSampleAdaptor();
-  virtual ~ImageToNeighborhoodSampleAdaptor() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~ImageToNeighborhoodSampleAdaptor() override {}
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToNeighborhoodSampleAdaptor);

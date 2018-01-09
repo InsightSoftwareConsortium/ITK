@@ -54,10 +54,10 @@ protected:
   {
     m_Value = NumericTraits< typename TOutputImage::PixelType >::ZeroValue();
   }
-  ~ConstantImageSource() ITK_OVERRIDE {}
+  ~ConstantImageSource() override {}
 
   /** Does the real work. */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConstantImageSource);

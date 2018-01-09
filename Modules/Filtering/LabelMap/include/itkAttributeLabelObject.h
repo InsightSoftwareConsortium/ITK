@@ -116,7 +116,7 @@ public:
   template< typename TSourceLabelObject >
   void CopyAttributesFrom( const TSourceLabelObject * src )
     {
-    itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+    itkAssertOrThrowMacro ( ( src != nullptr ), "Null Pointer" );
     Superclass::template CopyAttributesFrom<TSourceLabelObject>( src );
 
     m_Attribute = src->GetAttribute();
@@ -125,7 +125,7 @@ public:
   template< typename TSourceLabelObject >
   void CopyAllFrom(const TSourceLabelObject *src)
     {
-    itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+    itkAssertOrThrowMacro ( ( src != nullptr ), "Null Pointer" );
     this->template CopyLinesFrom<TSourceLabelObject>( src );
     this->template CopyAttributesFrom<TSourceLabelObject>( src );
     }
@@ -137,7 +137,7 @@ protected:
     }
 
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream& os, Indent indent) const override
     {
     Superclass::PrintSelf( os, indent );
 

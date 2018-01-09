@@ -61,13 +61,13 @@ public:
     if ( !e )
       {
       itkDebugMacro("Input is not an edge.");
-      return ( (QEType *)ITK_NULLPTR );
+      return ( (QEType *)nullptr );
       }
 
     if ( !this->m_Mesh )
       {
       itkDebugMacro("No mesh present.");
-      return ( (QEType *)ITK_NULLPTR );
+      return ( (QEType *)nullptr );
       }
 
     m_SplitVertex->SetInput(this->m_Mesh);
@@ -85,7 +85,7 @@ protected:
     m_SplitVertex = SplitVertex::New();
   }
 
-  ~QuadEdgeMeshEulerOperatorSplitEdgeFunction() ITK_OVERRIDE {}
+  ~QuadEdgeMeshEulerOperatorSplitEdgeFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitEdgeFunction);

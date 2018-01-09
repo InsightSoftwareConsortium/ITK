@@ -93,14 +93,14 @@ public:
 
 protected:
   FastMarchingUpwindGradientImageFilterBase();
-  ~FastMarchingUpwindGradientImageFilterBase() ITK_OVERRIDE {}
+  ~FastMarchingUpwindGradientImageFilterBase() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void InitializeOutput( OutputImageType* oImage ) ITK_OVERRIDE;
+  void InitializeOutput( OutputImageType* oImage ) override;
 
-  virtual void UpdateNeighbors( OutputImageType* oImage,
-                               const NodeType& iNode ) ITK_OVERRIDE;
+  void UpdateNeighbors( OutputImageType* oImage,
+                               const NodeType& iNode ) override;
 
   virtual void ComputeGradient(OutputImageType* oImage,
                                const NodeType& iNode );

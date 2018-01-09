@@ -81,7 +81,7 @@ public:
 
 protected:
   NthElementImageAdaptor() {}
-  virtual ~NthElementImageAdaptor() ITK_OVERRIDE {}
+  ~NthElementImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NthElementImageAdaptor);

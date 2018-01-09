@@ -152,7 +152,7 @@ public:
 
 protected:
   ScalarConnectedComponentImageFilter() {}
-  virtual ~ScalarConnectedComponentImageFilter() ITK_OVERRIDE {}
+  ~ScalarConnectedComponentImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarConnectedComponentImageFilter);

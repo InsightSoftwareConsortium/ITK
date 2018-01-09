@@ -112,7 +112,7 @@ public:
   {
     Iterator result = m_HashMap.find(a);
 
-    if ( result == m_HashMap.end() ) { return ITK_NULLPTR; }
+    if ( result == m_HashMap.end() ) { return nullptr; }
     else { return &( ( *result ).second ); }
   }
 
@@ -206,7 +206,7 @@ protected:
   SegmentTable() :
     m_MaximumDepth(0)
   {}
-  virtual ~SegmentTable() ITK_OVERRIDE {}
+  ~SegmentTable() override {}
 
   HashMapType m_HashMap;
 

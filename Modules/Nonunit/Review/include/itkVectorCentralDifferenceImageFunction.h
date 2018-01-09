@@ -100,7 +100,7 @@ public:
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    *  calling the method. */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  OutputType EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evalulate the image derivative by central differencing at non-integer
    *  positions.
@@ -110,7 +110,7 @@ public:
    *
    *  ImageFunction::IsInsideBuffer() can be used to check bounds before
    *  calling the method. */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
+  OutputType Evaluate(const PointType & point) const override
   {
     IndexType index;
 
@@ -118,8 +118,8 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const ITK_OVERRIDE
+  OutputType EvaluateAtContinuousIndex(
+    const ContinuousIndexType & cindex) const override
   {
     IndexType index;
 
@@ -143,8 +143,8 @@ public:
 
 protected:
   VectorCentralDifferenceImageFunction();
-  ~VectorCentralDifferenceImageFunction(){}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VectorCentralDifferenceImageFunction() override{}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorCentralDifferenceImageFunction);

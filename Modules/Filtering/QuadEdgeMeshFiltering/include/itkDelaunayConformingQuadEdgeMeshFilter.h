@@ -124,8 +124,8 @@ public:
 
 protected:
   DelaunayConformingQuadEdgeMeshFilter();
-  virtual ~DelaunayConformingQuadEdgeMeshFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~DelaunayConformingQuadEdgeMeshFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   OutputEdgeCellListType m_ListOfConstrainedEdges;
   PriorityQueuePointer   m_PriorityQueue;
@@ -134,7 +134,7 @@ protected:
   SizeValueType           m_NumberOfEdgeFlips;
   FlipEdgeFunctionPointer m_FlipEdge;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   void InitializePriorityQueue();
 

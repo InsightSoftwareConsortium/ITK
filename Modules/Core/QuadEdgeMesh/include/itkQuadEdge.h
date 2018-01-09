@@ -371,11 +371,11 @@ public:
     return ( this->GetRot()->GetRot()->GetRot() );
 #else
     Self *p1 = this->GetRot();
-    if ( !p1 ) { return ITK_NULLPTR; }
+    if ( !p1 ) { return nullptr; }
     Self *p2 = p1->GetRot();
-    if ( !p2 ) { return ITK_NULLPTR; }
+    if ( !p2 ) { return nullptr; }
     Self *p3 = p2->GetRot();
-    if ( !p3 ) { return ITK_NULLPTR; }
+    if ( !p3 ) { return nullptr; }
     return p3;
 #endif
   }
@@ -390,11 +390,11 @@ public:
     return ( this->GetRot()->GetRot()->GetRot() );
 #else
     const Self *p1 = this->GetRot();
-    if ( !p1 ) { return ITK_NULLPTR; }
+    if ( !p1 ) { return nullptr; }
     const Self *p2 = p1->GetRot();
-    if ( !p2 ) { return ITK_NULLPTR; }
+    if ( !p2 ) { return nullptr; }
     const Self *p3 = p2->GetRot();
-    if ( !p3 ) { return ITK_NULLPTR; }
+    if ( !p3 ) { return nullptr; }
     return p3;
 #endif
   }
@@ -405,7 +405,7 @@ public:
   inline const Self * GetInvDnext() const { return this->GetDprev(); }
 
   /** Queries. */
-  inline bool IsHalfEdge() const { return ( ( m_Onext == this ) || ( m_Rot == ITK_NULLPTR ) ); }
+  inline bool IsHalfEdge() const { return ( ( m_Onext == this ) || ( m_Rot == nullptr ) ); }
   inline bool IsIsolated() const { return ( this == this->GetOnext() ); }
   bool IsEdgeInOnextRing(Self *testEdge) const;
 

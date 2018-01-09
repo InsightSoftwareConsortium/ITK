@@ -51,31 +51,31 @@ public:
   itkStaticConstMacro(CellDimension, unsigned int, 0);
 
   /** Implement the standard CellInterface. */
-  virtual CellGeometry GetType(void) const ITK_OVERRIDE
+  CellGeometry GetType(void) const override
   { return Superclass::VERTEX_CELL; }
-  virtual void MakeCopy(CellAutoPointer &) const ITK_OVERRIDE;
+  void MakeCopy(CellAutoPointer &) const override;
 
-  virtual unsigned int GetDimension(void) const ITK_OVERRIDE;
+  unsigned int GetDimension(void) const override;
 
-  virtual unsigned int GetNumberOfPoints(void) const ITK_OVERRIDE;
+  unsigned int GetNumberOfPoints(void) const override;
 
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
+  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
 
-  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier,
-                                  CellAutoPointer &) ITK_OVERRIDE;
-  virtual void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
+  bool GetBoundaryFeature(int dimension, CellFeatureIdentifier,
+                                  CellAutoPointer &) override;
+  void SetPointIds(PointIdConstIterator first) override;
 
-  virtual void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last) ITK_OVERRIDE;
+  void SetPointIds(PointIdConstIterator first,
+                           PointIdConstIterator last) override;
 
-  virtual void SetPointId(int localId, PointIdentifier) ITK_OVERRIDE;
-  virtual PointIdIterator      PointIdsBegin(void) ITK_OVERRIDE;
+  void SetPointId(int localId, PointIdentifier) override;
+  PointIdIterator      PointIdsBegin(void) override;
 
-  virtual PointIdConstIterator PointIdsBegin(void) const ITK_OVERRIDE;
+  PointIdConstIterator PointIdsBegin(void) const override;
 
-  virtual PointIdIterator      PointIdsEnd(void) ITK_OVERRIDE;
+  PointIdIterator      PointIdsEnd(void) override;
 
-  virtual PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
+  PointIdConstIterator PointIdsEnd(void) const override;
 
   /** Vertex-specific interface. */
   virtual void SetPointId(PointIdentifier);
@@ -85,12 +85,12 @@ public:
   itkCellVisitMacro(Superclass::VERTEX_CELL);
 
   /** Evaluate the position of a given point */
-  virtual bool EvaluatePosition(CoordRepType *,
+  bool EvaluatePosition(CoordRepType *,
                                 PointsContainer *,
                                 CoordRepType *,
                                 CoordRepType[],
                                 double *,
-                                InterpolationWeightType *) ITK_OVERRIDE;
+                                InterpolationWeightType *) override;
 
 public:
   VertexCell()
@@ -101,7 +101,7 @@ public:
       }
   }
 
-  ~VertexCell() ITK_OVERRIDE {}
+  ~VertexCell() override {}
 
 protected:
   /**

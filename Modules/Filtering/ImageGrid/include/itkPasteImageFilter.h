@@ -128,7 +128,7 @@ public:
    * then the first input is copied to the output.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 
   /** Override VeriyInputInformation() since this filter's inputs do
@@ -136,12 +136,12 @@ public:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() ITK_OVERRIDE {}
+  void VerifyInputInformation() override {}
 
 protected:
   PasteImageFilter();
-  ~PasteImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PasteImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PasteImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -153,7 +153,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
   SourceImageRegionType m_SourceRegion;
 

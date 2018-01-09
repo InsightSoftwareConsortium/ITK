@@ -79,11 +79,11 @@ public:
 
 protected:
   GPUMeanImageFilter();
-  ~GPUMeanImageFilter() ITK_OVERRIDE;
+  ~GPUMeanImageFilter() override;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void GPUGenerateData() ITK_OVERRIDE;
+  void GPUGenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUMeanImageFilter);
@@ -105,11 +105,11 @@ public:
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const ITK_OVERRIDE
+  const char* GetITKSourceVersion() const override
     {
     return ITK_SOURCE_VERSION;
     }
-  const char* GetDescription() const ITK_OVERRIDE
+  const char* GetDescription() const override
     {
     return "A Factory for GPUMeanImageFilter";
     }

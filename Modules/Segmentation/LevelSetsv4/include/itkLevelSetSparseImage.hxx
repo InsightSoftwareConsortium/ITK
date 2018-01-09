@@ -155,7 +155,7 @@ LevelSetSparseImage< TOutput, VDimension >
 {
   Superclass::Initialize();
 
-  this->m_LabelMap = ITK_NULLPTR;
+  this->m_LabelMap = nullptr;
   this->InitializeLayers();
   this->InitializeInternalLabelList();
 }

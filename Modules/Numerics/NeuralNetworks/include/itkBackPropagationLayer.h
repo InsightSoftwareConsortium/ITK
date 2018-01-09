@@ -60,31 +60,31 @@ public:
   typedef typename Superclass::TransferFunctionInterfaceType
                                                       TransferFunctionInterfaceType;
   //Member Functions
-  virtual void SetNumberOfNodes(unsigned int numNodes) ITK_OVERRIDE;
-  virtual ValueType GetInputValue(unsigned int i) const ITK_OVERRIDE;
+  void SetNumberOfNodes(unsigned int numNodes) override;
+  ValueType GetInputValue(unsigned int i) const override;
   virtual void SetInputValue(unsigned int i, ValueType value);
 
-  virtual ValueType GetOutputValue(unsigned int) const ITK_OVERRIDE;
+  ValueType GetOutputValue(unsigned int) const override;
   virtual void SetOutputValue(unsigned int, ValueType);
 
-  virtual ValueType * GetOutputVector() ITK_OVERRIDE;
+  ValueType * GetOutputVector() override;
   void SetOutputVector(TMeasurementVector value);
 
-  virtual void ForwardPropagate() ITK_OVERRIDE;
-  virtual void ForwardPropagate(TMeasurementVector input) ITK_OVERRIDE;
+  void ForwardPropagate() override;
+  void ForwardPropagate(TMeasurementVector input) override;
 
-  virtual void BackwardPropagate() ITK_OVERRIDE;
-  virtual void BackwardPropagate(InternalVectorType errors) ITK_OVERRIDE;
+  void BackwardPropagate() override;
+  void BackwardPropagate(InternalVectorType errors) override;
 
-  virtual void SetOutputErrorValues(TTargetVector) ITK_OVERRIDE;
-  virtual ValueType GetOutputErrorValue(unsigned int node_id) const ITK_OVERRIDE;
+  void SetOutputErrorValues(TTargetVector) override;
+  ValueType GetOutputErrorValue(unsigned int node_id) const override;
 
-  virtual ValueType GetInputErrorValue(unsigned int node_id) const ITK_OVERRIDE;
-  virtual ValueType * GetInputErrorVector() ITK_OVERRIDE;
-  virtual void SetInputErrorValue(ValueType, unsigned int node_id) ITK_OVERRIDE;
+  ValueType GetInputErrorValue(unsigned int node_id) const override;
+  ValueType * GetInputErrorVector() override;
+  void SetInputErrorValue(ValueType, unsigned int node_id) override;
 
-  virtual ValueType Activation(ValueType) ITK_OVERRIDE;
-  virtual ValueType DActivation(ValueType) ITK_OVERRIDE;
+  ValueType Activation(ValueType) override;
+  ValueType DActivation(ValueType) override;
 
   /** Set/Get the bias */
   itkSetMacro( Bias, ValueType );
@@ -93,10 +93,10 @@ public:
 protected:
 
   BackPropagationLayer();
-  virtual ~BackPropagationLayer() ITK_OVERRIDE;
+  ~BackPropagationLayer() override;
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
 

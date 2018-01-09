@@ -86,7 +86,7 @@ protected:
     this->m_Boundary = NumericTraits< PixelType >::NonpositiveMin();
   }
 
-  ~MovingHistogramDilateImageFilter() ITK_OVERRIDE {}
+  ~MovingHistogramDilateImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramDilateImageFilter);

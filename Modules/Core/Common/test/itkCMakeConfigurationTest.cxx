@@ -33,8 +33,8 @@
 #include <cstdlib>
 #include <cstring>
 #include <sys/stat.h>
-#include <time.h>
-#include <string.h>
+#include <ctime>
+#include <cstring>
 
 void itkCMakeInformationPrintFile(const char* name, std::ostream& os)
 {
@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
       "ITKConfig.cmake",
       "ITKConfigVersion.cmake",
       "ITKTargets.cmake",
-      NULL
+      nullptr
     };
 
   for(const char** f = files; *f; ++f)

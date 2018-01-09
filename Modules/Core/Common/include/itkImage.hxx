@@ -129,7 +129,7 @@ Image< TPixel, VImageDimension >
     // Attempt to cast data to an Image
     const Self * const imgData = dynamic_cast< const Self * >( data );
 
-    if ( imgData != ITK_NULLPTR )
+    if ( imgData != nullptr )
       {
         this->Graft(imgData);
       }

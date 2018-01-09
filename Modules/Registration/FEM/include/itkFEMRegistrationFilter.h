@@ -516,15 +516,15 @@ public:
 
 protected:
   FEMRegistrationFilter();
-  ~FEMRegistrationFilter() ITK_OVERRIDE;
+  ~FEMRegistrationFilter() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This function generates a regular mesh of ElementsPerSide^D size. */
   void CreateMesh(unsigned int ElementsPerSide, SolverType *solver);
 
   /** The non-image loads are entered into the solver. */
-  void ApplyLoads(ImageSizeType Isz, double* spacing = ITK_NULLPTR);
+  void ApplyLoads(ImageSizeType Isz, double* spacing = nullptr);
 
   /** The image loads are entered into the solver. */
   void ApplyImageLoads(MovingImageType* i1, FixedImageType* i2);

@@ -93,7 +93,7 @@ protected:
     this->m_MaximumRGBComponentValue = NumericTraits< RGBComponentType >::max();
     }
 
-  ~ColormapFunction() ITK_OVERRIDE {}
+  ~ColormapFunction() override {}
 
   /**
    * Map [min, max] input values to [0, 1].
@@ -127,7 +127,7 @@ protected:
     return rescaled;
     }
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
     {
     Superclass::PrintSelf(os, indent);
 

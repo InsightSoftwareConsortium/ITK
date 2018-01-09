@@ -162,19 +162,19 @@ public:
 
 protected:
   AntiAliasBinaryImageFilter();
-  ~AntiAliasBinaryImageFilter() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~AntiAliasBinaryImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Overridden from the parent class to indroduce a constraint on
    *  surface flow under certain conditions. */
-  virtual ValueType CalculateUpdateValue(const IndexType & idx,
+  ValueType CalculateUpdateValue(const IndexType & idx,
                                          const TimeStepType & dt,
                                          const ValueType & value,
-                                         const ValueType & change) ITK_OVERRIDE;
+                                         const ValueType & change) override;
 
   /** Overridden from ProcessObject to set certain values before starting the
     * finite difference solver and then create an appropriate output */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AntiAliasBinaryImageFilter);

@@ -37,22 +37,22 @@ public:
   typedef typename Superclass::NodeType           NodeType;
 
   /** Constructor */
-  ChildTreeIterator(TreeType *tree, const TreeNodeType *start = ITK_NULLPTR);
+  ChildTreeIterator(TreeType *tree, const TreeNodeType *start = nullptr);
 
   /** Constructor */
   ChildTreeIterator(const TreeIteratorBase< TTreeType > & iterator);
 
   /** Get the type of the iterator */
-  NodeType GetType() const;
+  NodeType GetType() const override;
 
   /** Go to a specific child node */
-  virtual bool GoToChild(ChildIdentifier number = 0);
+  bool GoToChild(ChildIdentifier number = 0) override;
 
   /** Go to a parent node */
-  virtual bool GoToParent();
+  bool GoToParent() override;
 
   /** Clone function */
-  TreeIteratorBase< TTreeType > * Clone();
+  TreeIteratorBase< TTreeType > * Clone() override;
 
   /** operator = */
   Self & operator=(Superclass & iterator)
@@ -71,10 +71,10 @@ public:
 protected:
 
   /** Get the next value */
-  const ValueType & Next();
+  const ValueType & Next() override;
 
   /** Return true if the next value exists */
-  bool HasNext() const;
+  bool HasNext() const override;
 
 private:
 

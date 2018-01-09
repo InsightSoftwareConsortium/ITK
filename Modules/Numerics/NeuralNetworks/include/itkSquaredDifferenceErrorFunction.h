@@ -53,17 +53,17 @@ public:
   itkNewMacro(Self);
 
   /** Evaluate at the specified Error position */
-  virtual ScalarType Evaluate(const TMeasurementVector& Errors) const ITK_OVERRIDE;
+  ScalarType Evaluate(const TMeasurementVector& Errors) const override;
 
   /** Evaluate derivatives */
-  virtual InternalVectorType EvaluateDerivative(const TMeasurementVector& Errors) const ITK_OVERRIDE;
+  InternalVectorType EvaluateDerivative(const TMeasurementVector& Errors) const override;
 
 protected:
 
   SquaredDifferenceErrorFunction();
-  virtual ~SquaredDifferenceErrorFunction() ITK_OVERRIDE;
+  ~SquaredDifferenceErrorFunction() override;
 
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SquaredDifferenceErrorFunction);

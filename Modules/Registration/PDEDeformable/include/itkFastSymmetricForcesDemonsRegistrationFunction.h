@@ -123,14 +123,14 @@ public:
   }
 
   /** This class uses a constant timestep of 1. */
-  virtual TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const
+  TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const override
   {
     return m_TimeStep;
   }
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
-  virtual void * GetGlobalDataPointer() const
+  void * GetGlobalDataPointer() const override
   {
     GlobalDataStruct *global = new GlobalDataStruct();
 
@@ -141,16 +141,16 @@ public:
   }
 
   /** Release memory for global data structure. */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const;
+  void ReleaseGlobalDataPointer(void *GlobalData) const override;
 
   /** Set the object's state before each iteration. */
-  virtual void InitializeIteration();
+  void InitializeIteration() override;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
-  virtual PixelType  ComputeUpdate( const NeighborhoodType & neighborhood,
+  PixelType  ComputeUpdate( const NeighborhoodType & neighborhood,
                                     void *globalData,
-                                    const FloatOffsetType & offset = FloatOffsetType(0.0) );
+                                    const FloatOffsetType & offset = FloatOffsetType(0.0) ) override;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
@@ -176,8 +176,8 @@ public:
 
 protected:
   FastSymmetricForcesDemonsRegistrationFunction();
-  ~FastSymmetricForcesDemonsRegistrationFunction() {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~FastSymmetricForcesDemonsRegistrationFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** FixedImage image neighborhood iterator type. */
   typedef ConstNeighborhoodIterator< FixedImageType > FixedImageNeighborhoodIteratorType;

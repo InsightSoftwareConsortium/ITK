@@ -128,9 +128,9 @@ protected:
     m_IntermodesCalculator->SetMaximumSmoothingIterations(10000);
     m_IntermodesCalculator->SetUseInterMode(true);
     }
-  ~IntermodesThresholdImageFilter() ITK_OVERRIDE {};
+  ~IntermodesThresholdImageFilter() override {};
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
     {
     Superclass::PrintSelf(os, indent);
 

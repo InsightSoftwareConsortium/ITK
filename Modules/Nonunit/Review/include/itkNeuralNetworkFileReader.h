@@ -116,8 +116,8 @@ public:
 
 protected:
   NeuralNetworkFileReader();
-  ~NeuralNetworkFileReader();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NeuralNetworkFileReader() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

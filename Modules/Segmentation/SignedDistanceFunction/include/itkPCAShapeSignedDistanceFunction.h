@@ -152,25 +152,25 @@ public:
   itkGetModifiableObjectMacro(Transform, TransformType);
 
   /** A PCAShape is defined by a set of shape and pose parameters. */
-  virtual void SetParameters(const ParametersType &) ITK_OVERRIDE;
+  void SetParameters(const ParametersType &) override;
 
-  virtual unsigned int GetNumberOfShapeParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfShapeParameters(void) const override
   { return m_NumberOfPrincipalComponents; }
-  virtual unsigned int GetNumberOfPoseParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfPoseParameters(void) const override
   { return m_Transform ? m_Transform->GetNumberOfParameters() : 0; }
 
   /** Evaluate the signed distance from a shape at a given position. */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
+  OutputType Evaluate(const PointType & point) const override;
 
   /** Initialize must be called before the first call of
    Evaluate() to allow the class to validate any inputs. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
 protected:
   PCAShapeSignedDistanceFunction();
-  ~PCAShapeSignedDistanceFunction() ITK_OVERRIDE {}
+  ~PCAShapeSignedDistanceFunction() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PCAShapeSignedDistanceFunction);

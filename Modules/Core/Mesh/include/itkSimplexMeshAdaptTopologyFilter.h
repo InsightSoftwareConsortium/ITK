@@ -247,14 +247,14 @@ public:
 protected:
 
   SimplexMeshAdaptTopologyFilter();
-  ~SimplexMeshAdaptTopologyFilter() ITK_OVERRIDE;
+  ~SimplexMeshAdaptTopologyFilter() override;
   SimplexMeshAdaptTopologyFilter(const Self &) {}
 
   void operator=(const Self &) {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /**
    * Initialize this filters containers

@@ -83,7 +83,7 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
     }
 
   // Didn't find a usable VideoIO
-  return ITK_NULLPTR;
+  return nullptr;
 
 }
 

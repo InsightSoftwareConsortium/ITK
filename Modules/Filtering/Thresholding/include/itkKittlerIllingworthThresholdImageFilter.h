@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~KittlerIllingworthThresholdImageFilter() ITK_OVERRIDE {};
+  ~KittlerIllingworthThresholdImageFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(KittlerIllingworthThresholdImageFilter);

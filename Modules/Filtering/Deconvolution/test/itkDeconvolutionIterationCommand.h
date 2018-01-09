@@ -33,12 +33,12 @@ public:
   typedef itk::SmartPointer< Self >      Pointer;
   itkNewMacro( Self );
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
   {
     this->Execute( (const itk::Object *)caller, event);
   }
 
-  virtual void Execute(const itk::Object *object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object *object, const itk::EventObject & event) override
   {
     m_NumberOfIterations++;
     if ( ! itk::IterationEvent().CheckEvent( &event ) )
@@ -49,9 +49,9 @@ public:
               << m_NumberOfIterations << std::endl;
 
     const TFilterType * filter = static_cast< const TFilterType * >( object );
-    if ( filter->GetCurrentEstimate() == ITK_NULLPTR )
+    if ( filter->GetCurrentEstimate() == nullptr )
       {
-      itkExceptionMacro(<< "CurrentEstimate is ITK_NULLPTR, but should not be.");
+      itkExceptionMacro(<< "CurrentEstimate is nullptr, but should not be.");
       }
   }
 

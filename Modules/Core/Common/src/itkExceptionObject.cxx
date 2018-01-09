@@ -94,14 +94,14 @@ public:
 
   /** Increase the reference count (mark as used by another object).
     * Delegates the counting to its LightObject superclass  */
-  virtual void Register() const ITK_OVERRIDE
+  void Register() const override
   {
     this->LightObject::Register();
   }
 
   /** Decrease the reference count (release by another object).
     * Delegates the counting to its LightObject superclass  */
-  virtual void UnRegister() const ITK_NOEXCEPT ITK_OVERRIDE
+  void UnRegister() const ITK_NOEXCEPT override
   {
     this->LightObject::UnRegister();
   }
@@ -118,7 +118,7 @@ private:
 
   // Destructor. Only invoked via LightObject::UnRegister(), when its reference
   // count drops to zero.
-  ~ReferenceCountedExceptionData() ITK_OVERRIDE {}
+  ~ReferenceCountedExceptionData() override {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ReferenceCountedExceptionData);
 };
@@ -133,8 +133,8 @@ ExceptionObject::ExceptionObject(
   unsigned int lineNumber,
   const char *desc,
   const char *loc):
-  m_ExceptionData( ReferenceCountedExceptionData::ConstNew(file == ITK_NULLPTR ? "":file, lineNumber, desc == ITK_NULLPTR ? "":desc, loc ==
-                                                               ITK_NULLPTR ? "":loc) )
+  m_ExceptionData( ReferenceCountedExceptionData::ConstNew(file == nullptr ? "":file, lineNumber, desc == nullptr ? "":desc, loc ==
+                                                               nullptr ? "":loc) )
 {}
 
 ExceptionObject::ExceptionObject(
@@ -210,7 +210,7 @@ ExceptionObject::operator==(const ExceptionObject & orig)
     }
   else
     {
-    return ( thisData != ITK_NULLPTR ) && ( origData != ITK_NULLPTR )
+    return ( thisData != nullptr ) && ( origData != nullptr )
            && thisData->m_Location == origData->m_Location
            && thisData->m_Description == origData->m_Description
            && thisData->m_File == origData->m_File

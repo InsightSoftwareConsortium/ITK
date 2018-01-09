@@ -51,11 +51,11 @@ public:
   typedef DomainType                          IndexRangeType;
 
 protected:
-  virtual void ThreadedExecution( const IndexRangeType & subrange,
-                                  const ThreadIdType threadId ) ITK_OVERRIDE;
+  void ThreadedExecution( const IndexRangeType & subrange,
+                                  const ThreadIdType threadId ) override;
 
   QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() {}
-  virtual ~QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() ITK_OVERRIDE {}
+  ~QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate);

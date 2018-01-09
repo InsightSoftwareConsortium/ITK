@@ -173,19 +173,19 @@ MultiThreader::MultiThreader() :
   for( ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i )
     {
     m_ThreadInfoArray[i].ThreadID           = i;
-    m_ThreadInfoArray[i].ActiveFlag         = ITK_NULLPTR;
-    m_ThreadInfoArray[i].ActiveFlagLock     = ITK_NULLPTR;
+    m_ThreadInfoArray[i].ActiveFlag         = nullptr;
+    m_ThreadInfoArray[i].ActiveFlagLock     = nullptr;
 
-    m_MultipleMethod[i]                     = ITK_NULLPTR;
-    m_MultipleData[i]                       = ITK_NULLPTR;
+    m_MultipleMethod[i]                     = nullptr;
+    m_MultipleData[i]                       = nullptr;
 
     m_SpawnedThreadActiveFlag[i]            = 0;
-    m_SpawnedThreadActiveFlagLock[i]        = ITK_NULLPTR;
+    m_SpawnedThreadActiveFlagLock[i]        = nullptr;
     m_SpawnedThreadInfoArray[i].ThreadID    = i;
     }
 
-  m_SingleMethod = ITK_NULLPTR;
-  m_SingleData = ITK_NULLPTR;
+  m_SingleMethod = nullptr;
+  m_SingleData = nullptr;
   if (m_UseThreadPool)
     {
     ThreadIdType idleCount = std::max<ThreadIdType>(1u,
@@ -247,7 +247,7 @@ void MultiThreader::SingleMethodExecute()
   // checked in the WaitForSingleMethodThread loops
   for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
     {
-    process_id[thread_loop] = 0;
+    process_id[thread_loop] = ITK_THREAD_RETURN_VALUE;
     }
 
   // Spawn a set of threads through the SingleMethodProxy. Exceptions

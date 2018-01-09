@@ -55,7 +55,7 @@ void DelaunayConformingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::Initialize
 {
   OutputMeshType *output = this->GetOutput();
 
-  OutputEdgeCellType *edge = ITK_NULLPTR;
+  OutputEdgeCellType *edge = nullptr;
 
   CriterionValueType value = 0.;
 
@@ -140,7 +140,7 @@ void DelaunayConformingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::Process()
     m_QueueMapper.erase(edge);
 
     qe = m_FlipEdge->Evaluate(qe);
-    if ( qe != ITK_NULLPTR )
+    if ( qe != nullptr )
       {
       ++this->m_NumberOfEdgeFlips;
       list_qe[4] = qe;

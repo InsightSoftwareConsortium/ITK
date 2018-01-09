@@ -76,7 +76,7 @@ public:
     m_Negate = false;
     }
 
-  virtual double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  double GetValue( const ParametersType & parameters ) const override
     {
 
     VectorType v( parameters.Size() );
@@ -95,7 +95,7 @@ public:
     }
 
   void GetDerivative( const ParametersType & parameters,
-                            DerivativeType & derivative ) const ITK_OVERRIDE
+                            DerivativeType & derivative ) const override
     {
 
     VectorType v( parameters.Size() );
@@ -120,7 +120,7 @@ public:
       }
     }
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const override
     {
     return SpaceDimension;
     }
@@ -163,7 +163,7 @@ public:
    {
    }
 
-  virtual double GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  double GetValue( const ParametersType & parameters ) const override
     {
     double val;
     if( parameters[0]<0 )
@@ -178,13 +178,13 @@ public:
     }
 
   void GetDerivative( const ParametersType & itkNotUsed(parameters),
-                            DerivativeType & itkNotUsed(derivative) ) const ITK_OVERRIDE
+                            DerivativeType & itkNotUsed(derivative) ) const override
     {
       throw itk::ExceptionObject( __FILE__, __LINE__,
                                   "no derivative available" );
     }
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const override
     {
     return 1;
     }
@@ -200,12 +200,12 @@ public:
 
   void Reset() { m_IterationNumber = 0; }
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
       Execute( (const itk::Object *)caller, event);
     }
 
-  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
     const itk::AmoebaOptimizer *optimizer = static_cast< const itk::AmoebaOptimizer * >( object );
     if( dynamic_cast< const itk::FunctionEvaluationIterationEvent * >( &event ) )

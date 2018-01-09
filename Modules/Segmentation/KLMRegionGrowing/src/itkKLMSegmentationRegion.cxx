@@ -97,7 +97,7 @@ void
 KLMSegmentationRegion
 ::DeleteRegionBorder(KLMSegmentationBorder *pBorderCandidate)
 {
-  if ( pBorderCandidate == ITK_NULLPTR )
+  if ( pBorderCandidate == nullptr )
     {
     itkExceptionMacro(<< "Null pointer to segmentation region border");
     }
@@ -130,7 +130,7 @@ void
 KLMSegmentationRegion
 ::PushBackRegionBorder(KLMSegmentationBorder *pBorderCandidate)
 {
-  if ( pBorderCandidate == ITK_NULLPTR )
+  if ( pBorderCandidate == nullptr )
     {
     itkExceptionMacro(<< "Null pointer to segmentation region border");
     }
@@ -141,7 +141,7 @@ void
 KLMSegmentationRegion
 ::PushFrontRegionBorder(KLMSegmentationBorder *pBorderCandidate)
 {
-  if ( pBorderCandidate == ITK_NULLPTR )
+  if ( pBorderCandidate == nullptr )
     {
     itkExceptionMacro(<< "Null pointer to segmentation region border");
     }
@@ -153,7 +153,7 @@ KLMSegmentationRegion
 ::InsertRegionBorder(KLMSegmentationBorder *pBorderCandidate)
 {
   // Ensure that the border candidate is not a null pointer
-  if ( pBorderCandidate == ITK_NULLPTR )
+  if ( pBorderCandidate == nullptr )
     {
     itkExceptionMacro(<< "Null pointer to segmentation region border");
     }
@@ -209,7 +209,7 @@ KLMSegmentationRegion
                      KLMSegmentationBorder *pBorderCandidate)
 {
   // Ensure that the border candidate is not a null pointer
-  if ( pBorderCandidate == ITK_NULLPTR )
+  if ( pBorderCandidate == nullptr )
     {
     itkExceptionMacro(<< "Null pointer to segmentation region border");
     }
@@ -379,8 +379,8 @@ KLMSegmentationRegion
         } // end else
 
       // Nullify the duplicate border so it can be identified and removed.
-      ( *thatRegionBordersIt )->SetRegion1(ITK_NULLPTR);
-      ( *thatRegionBordersIt )->SetRegion2(ITK_NULLPTR);
+      ( *thatRegionBordersIt )->SetRegion1(nullptr);
+      ( *thatRegionBordersIt )->SetRegion2(nullptr);
       ( *thatRegionBordersIt )->SetLambda(-1.0);
 
       thisRegionBordersIt++;
@@ -439,10 +439,10 @@ void
 KLMSegmentationRegion
 ::UpdateRegionBorderLambda()
 {
-  // Check if the number of borders for this region is ITK_NULLPTR
+  // Check if the number of borders for this region is nullptr
   if ( m_RegionBorderVector.empty() )
     {
-    itkExceptionMacro(<< "The region border for computing Lambda is ITK_NULLPTR");
+    itkExceptionMacro(<< "The region border for computing Lambda is nullptr");
     }
 
   // Set up the iterator to loop through the region border vector

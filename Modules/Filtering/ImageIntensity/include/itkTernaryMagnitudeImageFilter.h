@@ -98,7 +98,7 @@ public:
 
 protected:
   TernaryMagnitudeImageFilter() {}
-  virtual ~TernaryMagnitudeImageFilter() ITK_OVERRIDE {}
+  ~TernaryMagnitudeImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TernaryMagnitudeImageFilter);

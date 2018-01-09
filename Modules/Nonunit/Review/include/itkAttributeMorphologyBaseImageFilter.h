@@ -143,25 +143,25 @@ protected:
     m_Lambda = 0;
   }
 
-  virtual ~AttributeMorphologyBaseImageFilter() {}
+  ~AttributeMorphologyBaseImageFilter() override {}
   AttributeMorphologyBaseImageFilter(const Self &) {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Standard pipeline method.
    */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** AttributeMorphologyBaseImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** AttributeMorphologyBaseImageFilter will produce all of the output.
    * Therefore it must provide an implementation of
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion( DataObject * itkNotUsed(output) ) override;
 
   AttributeType m_AttributeValuePerPixel;
 

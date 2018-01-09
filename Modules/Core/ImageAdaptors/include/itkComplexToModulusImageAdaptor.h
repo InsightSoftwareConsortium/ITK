@@ -95,7 +95,7 @@ public:
 
 protected:
   ComplexToModulusImageAdaptor() {}
-  virtual ~ComplexToModulusImageAdaptor() ITK_OVERRIDE {}
+  ~ComplexToModulusImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToModulusImageAdaptor);

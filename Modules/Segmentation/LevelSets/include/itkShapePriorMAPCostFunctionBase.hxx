@@ -29,9 +29,9 @@ template< typename TFeatureImage, typename TOutputPixel >
 ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 ::ShapePriorMAPCostFunctionBase()
 {
-  m_ShapeFunction = ITK_NULLPTR;
-  m_ActiveRegion  = ITK_NULLPTR;
-  m_FeatureImage  = ITK_NULLPTR;
+  m_ShapeFunction = nullptr;
+  m_ActiveRegion  = nullptr;
+  m_FeatureImage  = nullptr;
 }
 
 /**

@@ -26,7 +26,7 @@ namespace itk
 template< typename TValue >
 TreeContainer< TValue >::TreeContainer()
 {
-  m_Root = ITK_NULLPTR;
+  m_Root = nullptr;
   this->SetSubtree(false);
   m_DefaultChildrenCount = 2;
 }
@@ -35,7 +35,7 @@ TreeContainer< TValue >::TreeContainer()
 template< typename TValue >
 TreeContainer< TValue >::TreeContainer(int dcc)
 {
-  m_Root = ITK_NULLPTR;
+  m_Root = nullptr;
   this->SetSubtree(false);
   m_DefaultChildrenCount = dcc;
 }
@@ -44,7 +44,7 @@ TreeContainer< TValue >::TreeContainer(int dcc)
 template< typename TValue >
 TreeContainer< TValue >::TreeContainer(TreeContainer< TValue > & )
 {
-  m_Root = ITK_NULLPTR;
+  m_Root = nullptr;
   this->SetSubtree(false);
   m_DefaultChildrenCount = 3;
 }
@@ -61,7 +61,7 @@ TreeContainer< TValue >::SetRoot(const TValue element)
 {
   m_Root = TreeNodeType::New();
   m_Root->Set(element);
-  m_Root->SetParent(ITK_NULLPTR);
+  m_Root->SetParent(nullptr);
   return true;
 }
 
@@ -102,23 +102,23 @@ TreeContainer< TValue >::Swap(IteratorType & v, IteratorType & w)
   TreeNode< TValue > *nv = v.GetNode();
   TreeNode< TValue > *nw = w.GetNode();
 
-  if ( nv == ITK_NULLPTR || nw == ITK_NULLPTR )
+  if ( nv == nullptr || nw == nullptr )
     {
     return false;
     }
   TreeNode< TValue > *pv = nv->GetParent();
   TreeNode< TValue > *pw = nw->GetParent();
 
-  if ( pv == ITK_NULLPTR && pw == ITK_NULLPTR )
+  if ( pv == nullptr && pw == nullptr )
     {
     return false;
     }
-  else if ( pv == ITK_NULLPTR )
+  else if ( pv == nullptr )
     {
     pw->ReplaceChild(nw, nv);
     m_Root = nw;
     }
-  else if ( pw == ITK_NULLPTR )
+  else if ( pw == nullptr )
     {
     pv->ReplaceChild(nv, nw);
     m_Root = nv;
@@ -231,7 +231,7 @@ bool TreeContainer< TValue >::Clear()
 {
   PreOrderTreeIterator< Self > it(this, m_Root);
   bool                         success = it.Remove();
-  m_Root = ITK_NULLPTR;
+  m_Root = nullptr;
   return success;
 }
 
@@ -250,7 +250,7 @@ TreeContainer< TValue >::GetNode(TValue val) const
       }
     ++it;
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 /** Set the root of the tree from the iterator position */
@@ -263,15 +263,15 @@ TreeContainer< TValue >::SetRoot(IteratorType & pos)
     return false;
     }
   TreeNode< TValue > *node = pos.GetNode();
-  if ( node == ITK_NULLPTR )
+  if ( node == nullptr )
     {
     return false;
     }
 
   TreeNode< TValue > *parent = node->GetParent();
-  TreeNode< TValue > *help = ITK_NULLPTR;
+  TreeNode< TValue > *help = nullptr;
 
-  if ( parent == ITK_NULLPTR )
+  if ( parent == nullptr )
     {
     return false;
     }
@@ -279,12 +279,12 @@ TreeContainer< TValue >::SetRoot(IteratorType & pos)
   m_Root = node;
   node->AddChild(parent);
   parent->Remove(node);
-  node->SetParent(ITK_NULLPTR);
+  node->SetParent(nullptr);
   help = parent->GetParent();
   parent->SetParent(node);
   node = parent;
 
-  while ( help != ITK_NULLPTR )
+  while ( help != nullptr )
     {
     parent = help;
     help = help->GetParent();

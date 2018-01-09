@@ -32,7 +32,7 @@ public:
   void SetValue(float val) { m_Value = val; }
 
 protected:
-  virtual void M_SetupReadFields(void) ITK_OVERRIDE
+  void M_SetupReadFields(void) override
     {
       MetaObject::M_SetupReadFields();
       MET_FieldRecordType *mf = new MET_FieldRecordType;
@@ -40,7 +40,7 @@ protected:
       mf->terminateRead = false;
       m_Fields.push_back(mf);
     }
-  virtual void M_SetupWriteFields(void) ITK_OVERRIDE
+  void M_SetupWriteFields(void) override
     {
       strcpy(m_ObjectTypeName,"Dummy");
       MetaObject::M_SetupWriteFields();
@@ -49,7 +49,7 @@ protected:
       MET_InitWriteField(mf, "Value", MET_FLOAT, m_Value);
       m_Fields.push_back(mf);
     }
-  virtual bool M_Read(void) ITK_OVERRIDE
+  bool M_Read(void) override
     {
       if(!MetaObject::M_Read())
         {
@@ -105,7 +105,7 @@ protected:
       this->GetProperty()->SetBlue(0);
       this->GetProperty()->SetAlpha(1);
     }
-  ~DummySpatialObject() ITK_OVERRIDE {}
+  ~DummySpatialObject() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DummySpatialObject);
@@ -143,10 +143,10 @@ public:
   typedef MetaDummy                                     DummyMetaObjectType;
 
   /** Convert the MetaObject to Spatial Object */
-  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) ITK_OVERRIDE
+  SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override
   {
     const DummyMetaObjectType *dummyMO = dynamic_cast<const MetaDummy *>(mo);
-    if(dummyMO == ITK_NULLPTR)
+    if(dummyMO == nullptr)
       {
       itkExceptionMacro(<< "Can't convert MetaObject to MetaDummy");
       }
@@ -165,7 +165,7 @@ public:
   }
 
   /** Convert the SpatialObject to MetaObject */
-  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) ITK_OVERRIDE
+  MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) override
   {
     DummySpatialObjectConstPointer dummySO =
       dynamic_cast<const DummySpatialObjectType *>(spatialObject);
@@ -187,13 +187,13 @@ public:
 
 protected:
   /** Create the specific MetaObject for this class */
-  virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE
+  MetaObjectType *CreateMetaObject() override
   {
     return dynamic_cast<MetaObjectType *>(new DummyMetaObjectType);
   }
 
   MetaDummyConverter() {}
-  ~MetaDummyConverter() ITK_OVERRIDE {}
+  ~MetaDummyConverter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaDummyConverter);

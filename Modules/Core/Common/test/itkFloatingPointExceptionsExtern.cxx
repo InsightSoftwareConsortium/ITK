@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <float.h>
+#include <cfloat>
 
 extern const double itkFloatingPointExceptionsTest_double_zero = 0.0;
 extern const double itkFloatingPointExceptionsTest_double_max = DBL_MAX;

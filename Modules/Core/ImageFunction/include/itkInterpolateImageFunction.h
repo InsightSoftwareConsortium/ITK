@@ -89,7 +89,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
+  OutputType Evaluate(const PointType & point) const override
   {
     ContinuousIndexType index;
 
@@ -107,8 +107,8 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const ITK_OVERRIDE = 0;
+  OutputType EvaluateAtContinuousIndex(
+    const ContinuousIndexType & index) const override = 0;
 
   /** Interpolate the image at an index position.
    *
@@ -118,15 +118,15 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE
+  OutputType EvaluateAtIndex(const IndexType & index) const override
   {
     return ( static_cast< RealType >( this->GetInputImage()->GetPixel(index) ) );
   }
 
 protected:
   InterpolateImageFunction(){}
-  ~InterpolateImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  ~InterpolateImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override
   { Superclass::PrintSelf(os, indent); }
 
 private:

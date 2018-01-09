@@ -106,10 +106,10 @@ protected:
     m_LowerBoundaryCropSize.Fill(0);
   }
 
-  ~CropImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~CropImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CropImageFilter);

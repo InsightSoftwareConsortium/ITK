@@ -181,11 +181,11 @@ Element2DC0LinearTriangular
 ::JacobianDeterminant(const VectorType & pt, const MatrixType *pJ) const
 {
 
-  MatrixType *pJlocal = ITK_NULLPTR;
+  MatrixType *pJlocal = nullptr;
 
   // If Jacobian was not provided, we
   // need to compute it here
-  if( pJ == ITK_NULLPTR )
+  if( pJ == nullptr )
     {
     pJlocal = new MatrixType();
     this->Jacobian(pt, *pJlocal);
@@ -204,11 +204,11 @@ void
 Element2DC0LinearTriangular
 ::JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType *pJ) const
 {
-  MatrixType *pJlocal = ITK_NULLPTR;
+  MatrixType *pJlocal = nullptr;
 
   // If Jacobian was not provided, we
   // need to compute it here
-  if( pJ == ITK_NULLPTR )
+  if( pJ == nullptr )
     {
     pJlocal = new MatrixType();
     this->Jacobian(pt, *pJlocal);

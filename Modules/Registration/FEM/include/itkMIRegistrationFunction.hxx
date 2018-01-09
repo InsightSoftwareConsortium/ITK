@@ -54,8 +54,8 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
     }
   this->SetRadius(r);
 
-  this->SetMovingImage(ITK_NULLPTR);
-  this->SetFixedImage(ITK_NULLPTR);
+  this->SetMovingImage(nullptr);
+  this->SetFixedImage(nullptr);
 
   if( m_DoInverse )
     {

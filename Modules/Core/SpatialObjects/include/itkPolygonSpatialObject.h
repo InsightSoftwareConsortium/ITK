@@ -100,9 +100,9 @@ public:
   bool RemoveSegment(const PointType & startpoint, const PointType & endPoint);
 
   /** Test whether a point is inside or outside the object. */
-  virtual bool IsInside(const PointType & point,
+  bool IsInside(const PointType & point,
                         unsigned int depth,
-                        char *name) const ITK_OVERRIDE;
+                        char *name) const override;
 
   /** Test whether a point is inside or outside the object For
    * computational speed purposes, it is faster if the method does not
@@ -110,7 +110,7 @@ public:
   virtual bool IsInside(const PointType & point) const;
 
 protected:
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonSpatialObject);

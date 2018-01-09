@@ -171,15 +171,15 @@ public:
   itkTypeMacro(LBFGS2Optimizerv4, Superclass);
 
   /** Start optimization with an initial value. */
-  virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
+  void StartOptimization(bool doOnlyInitialization = false) override;
 
-  virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;
+  const StopConditionReturnStringType GetStopConditionDescription() const override;
 
   /** This optimizer does not support scaling of the derivatives. */
-  virtual void SetScales(const ScalesType &) ITK_OVERRIDE;
+  void SetScales(const ScalesType &) override;
 
   /** This optimizer does not support weighting of the derivatives. */
-  virtual void SetWeights(const ScalesType ) ITK_OVERRIDE;
+  void SetWeights(const ScalesType ) override;
   /**
   * Set/Get the number of corrections to approximate the inverse hessian matrix.
   * The L-BFGS routine stores the computation results of previous \c m
@@ -239,8 +239,8 @@ public:
 
   /** Aliased to Set/Get MaximumIterations to match base class interface.
    */
-  virtual SizeValueType GetNumberOfIterations() const  ITK_OVERRIDE { return GetMaximumIterations(); }
-  virtual void SetNumberOfIterations( const SizeValueType _arg ) ITK_OVERRIDE { SetMaximumIterations(static_cast<int>(_arg)); }
+  SizeValueType GetNumberOfIterations() const  override { return GetMaximumIterations(); }
+  void SetNumberOfIterations( const SizeValueType _arg ) override { SetMaximumIterations(static_cast<int>(_arg)); }
 
   /**
    * The line search algorithm.
@@ -381,8 +381,8 @@ public:
 
 protected:
   LBFGS2Optimizerv4();
-  virtual ~LBFGS2Optimizerv4() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LBFGS2Optimizerv4() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 
   /** Progress callback from libLBFGS forwards it to the specific instance */

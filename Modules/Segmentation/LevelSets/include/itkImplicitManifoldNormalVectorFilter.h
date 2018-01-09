@@ -133,11 +133,11 @@ public:
 
 protected:
   ImplicitManifoldNormalVectorFilter();
-  ~ImplicitManifoldNormalVectorFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImplicitManifoldNormalVectorFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This calls SetNormalBand to create the band of normals to process. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** This function sets the band for normal vector processing. */
   void SetNormalBand();
@@ -149,11 +149,11 @@ protected:
 
   /** This function does nothing. The output initialization
       is handled by Initialize. */
-  virtual void CopyInputToOutput() ITK_OVERRIDE {}
+  void CopyInputToOutput() override {}
 
   /** This is the stopping criterion function used in the iterative finite
       difference scheme. */
-  virtual bool Halt() ITK_OVERRIDE
+  bool Halt() override
   {
     if ( this->GetElapsedIterations() == m_MaxIteration )
       {
@@ -167,7 +167,7 @@ protected:
 
 protected:
   /** This function implements the unit norm constraint for normal vectors. */
-  virtual NormalVectorType DataConstraint(const NormalVectorType & data) const ITK_OVERRIDE
+  NormalVectorType DataConstraint(const NormalVectorType & data) const override
   {
     return ( data / ( m_MinVectorNorm + data.GetNorm() ) );
   }
@@ -175,7 +175,7 @@ protected:
   /** This function implements unsharp masking which is turned ON/OFF by the
       UnsharpMaskingFlag and controlled by the UnsharpMaskingWeight
       parameters. */
-  virtual void PostProcessOutput() ITK_OVERRIDE;
+  void PostProcessOutput() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImplicitManifoldNormalVectorFilter);

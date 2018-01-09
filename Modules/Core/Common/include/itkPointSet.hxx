@@ -50,7 +50,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
   os << indent << "Maximum Number Of Regions: "
      << m_MaximumNumberOfRegions << std::endl;
   os << indent << "Point Data Container pointer: "
-     << ( ( this->m_PointDataContainer ) ?  this->m_PointDataContainer.GetPointer() : ITK_NULLPTR ) << std::endl;
+     << ( ( this->m_PointDataContainer ) ?  this->m_PointDataContainer.GetPointer() : nullptr ) << std::endl;
   os << indent << "Size of Point Data Container: "
      << ( ( this->m_PointDataContainer ) ?  this->m_PointDataContainer->Size() : 0 ) << std::endl;
 }
@@ -172,7 +172,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
  * Check if a point exists for a given point identifier.  If a spot for
  * the point identifier exists, "point" is set, and true is returned.
  * Otherwise, false is returned, and "point" is not modified.
- * If "point" is ITK_NULLPTR, then it is never set, but the existence of the point
+ * If "point" is nullptr, then it is never set, but the existence of the point
  * is still returned.
  */
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
@@ -247,7 +247,7 @@ PointSet< TPixelType, VDimension, TMeshTraits >
  * Check if point data exists for a given point identifier.  If a spot for
  * the point identifier exists, "data" is set, and true is returned.
  * Otherwise, false is returned, and "data" is not modified.
- * If "data" is ITK_NULLPTR, then it is never set, but the existence of the point
+ * If "data" is nullptr, then it is never set, but the existence of the point
  * data is still returned.
  */
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
@@ -308,8 +308,8 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 {
   Superclass::Initialize();
 
-  m_PointsContainer = ITK_NULLPTR;
-  m_PointDataContainer = ITK_NULLPTR;
+  m_PointsContainer = nullptr;
+  m_PointDataContainer = nullptr;
 }
 
 /******************************************************************************
@@ -323,8 +323,8 @@ PointSet< TPixelType, VDimension, TMeshTraits >
 template< typename TPixelType, unsigned int VDimension, typename TMeshTraits >
 PointSet< TPixelType, VDimension, TMeshTraits >
 ::PointSet():
-  m_PointsContainer(ITK_NULLPTR),
-  m_PointDataContainer(ITK_NULLPTR)
+  m_PointsContainer(nullptr),
+  m_PointDataContainer(nullptr)
 {
 
   // If we used unstructured regions instead of structured regions, then

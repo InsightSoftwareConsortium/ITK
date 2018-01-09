@@ -56,7 +56,7 @@ namespace
       TestDomainThreader() {};
 
     private:
-      virtual void BeforeThreadedExecution() ITK_OVERRIDE
+      void BeforeThreadedExecution() override
         {
         this->m_DomainInThreadedExecution.resize( this->GetNumberOfThreadsUsed() );
         BorderValuesType unsetBorderValues( 2, -1 );
@@ -66,8 +66,8 @@ namespace
           }
         }
 
-      virtual void ThreadedExecution( const DomainType& subdomain,
-                                      const itk::ThreadIdType threadId ) ITK_OVERRIDE
+      void ThreadedExecution( const DomainType& subdomain,
+                                      const itk::ThreadIdType threadId ) override
         {
         if( threadId == 0 )
           {
@@ -80,7 +80,7 @@ namespace
         this->m_DomainInThreadedExecution[threadId][1] = it.Value();
         }
 
-      virtual void AfterThreadedExecution() ITK_OVERRIDE
+      void AfterThreadedExecution() override
         {
         std::cout << "\nDomain partition per thread:" << std::endl;
         for( itk::ThreadIdType i = 0; i < m_DomainInThreadedExecution.size(); ++i )

@@ -205,12 +205,12 @@ public:
 
 protected:
   BinaryThresholdImageFilter();
-  virtual ~BinaryThresholdImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BinaryThresholdImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdImageFilter);

@@ -91,20 +91,20 @@ public:
    * Initialize the metric by making sure that all the components
    *  are present and plugged together correctly.
    */
-  virtual void Initialize( void ) ITK_OVERRIDE;
+  void Initialize( void ) override;
 
   /**
    * Calculates the local metric value for a single point.  The label type
    * is used to segregate the computation.
    */
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const LabelType & ) const ITK_OVERRIDE;
+  MeasureType GetLocalNeighborhoodValue( const PointType &, const LabelType & ) const override;
 
   /**
    * Calculates the local value and derivative for a single point. The label type
    * is used to segregate the computation.
    */
-  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &,
-    MeasureType &, LocalDerivativeType &, const LabelType & ) const ITK_OVERRIDE;
+  void GetLocalNeighborhoodValueAndDerivative( const PointType &,
+    MeasureType &, LocalDerivativeType &, const LabelType & ) const override;
 
   /**
    * Set/get the specific unlabeled point set metric type.  Default is
@@ -120,10 +120,10 @@ public:
 
 protected:
   LabeledPointSetToPointSetMetricv4();
-  virtual ~LabeledPointSetToPointSetMetricv4() ITK_OVERRIDE;
+  ~LabeledPointSetToPointSetMetricv4() override;
 
   /** PrintSelf function */
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabeledPointSetToPointSetMetricv4);

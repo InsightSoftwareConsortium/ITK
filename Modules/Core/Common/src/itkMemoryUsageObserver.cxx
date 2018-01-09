@@ -50,7 +50,7 @@
 #ifdef __APPLE__
 #include <sys/sysctl.h>
 #include <mach/mach.h>
-#include <stdint.h>
+#include <cstdint>
 #include <unistd.h>
 #endif
 
@@ -191,7 +191,7 @@ WindowsMemoryUsageObserver::GetMemoryUsage()
                                 | PROCESS_VM_READ,
                                 FALSE, pid);
 
-  if ( ITK_NULLPTR == hProcess )
+  if ( nullptr == hProcess )
     {
     // Can't determine memory usage.
     return 0;
@@ -369,12 +369,12 @@ SunSolarisMemoryUsageObserver::GetMemoryUsage()
   MemoryLoadType mem = 0;
   int            pid = getpid();
 
-  FILE *            fp = ITK_NULLPTR;
+  FILE *            fp = nullptr;
   std::stringstream command;
 
   command << "pmap " << pid << std::endl;
 
-  if ( ( fp = popen(command.str().c_str(), "r") ) == ITK_NULLPTR )
+  if ( ( fp = popen(command.str().c_str(), "r") ) == nullptr )
     {
     itkGenericExceptionMacro(<< "Error using pmap. Can execute pmap command");
     }
@@ -396,7 +396,7 @@ SunSolarisMemoryUsageObserver::GetMemoryUsage()
       {
       break;
       }
-    if ( fgets(remaining, 256, fp) != ITK_NULLPTR )
+    if ( fgets(remaining, 256, fp) != nullptr )
       {
       mapping = remaining;
       if ( mapping.find("[ heap ]", 0) != std::string::npos )

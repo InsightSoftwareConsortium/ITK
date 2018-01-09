@@ -103,10 +103,10 @@ public:
   itkTypeMacro(LBFGSOptimizerv4, Superclass);
 
   /** Start optimization with an initial value. */
-  virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
+  void StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Plug in a Cost Function into the optimizer  */
-  virtual void SetMetric(MetricType *metric) ITK_OVERRIDE;
+  void SetMetric(MetricType *metric) override;
 
   void VerboseOn();
   void VerboseOff();
@@ -131,8 +131,8 @@ public:
 
 protected:
   LBFGSOptimizerv4();
-  virtual ~LBFGSOptimizerv4() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LBFGSOptimizerv4() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** InternalParameters typedef. */
   typedef vnl_vector< double >  InternalParametersType;

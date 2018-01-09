@@ -71,7 +71,7 @@ public:
   TComponentType GetAlpha() const;
 
   SpatialObjectProperty();
-  virtual ~SpatialObjectProperty() ITK_OVERRIDE;
+  ~SpatialObjectProperty() override;
 
   void SetName(const char *name);
 
@@ -81,7 +81,7 @@ public:
 
 protected:
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void Modified(void){ m_MTime++; }
 

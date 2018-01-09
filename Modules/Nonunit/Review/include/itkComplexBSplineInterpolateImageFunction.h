@@ -96,7 +96,7 @@ public:
   *
   * ImageFunction::IsInsideBuffer() can be used to check bounds before
   * calling the method. */
-  virtual OutputType EvaluateAtContinuousIndex(const ContinuousIndexType & index) const ITK_OVERRIDE;
+  OutputType EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
 
   /** Derivative typedef support */
 /*  typedef CovariantVector< OutputType, itkGetStaticConstMacro( ImageDimension ) > CovariantVectorType;
@@ -119,13 +119,13 @@ public:
 
   /** Set the input image.  This must be set by the user, after setting the
     spline order! */
-  virtual void SetInputImage(const TImageType *inputData) ITK_OVERRIDE;
+  void SetInputImage(const TImageType *inputData) override;
 
 protected:
   ComplexBSplineInterpolateImageFunction();
-  virtual ~ComplexBSplineInterpolateImageFunction() {}
+  ~ComplexBSplineInterpolateImageFunction() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexBSplineInterpolateImageFunction);

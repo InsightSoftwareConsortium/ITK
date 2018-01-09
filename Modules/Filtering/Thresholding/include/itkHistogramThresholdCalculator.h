@@ -75,7 +75,7 @@ public:
   {
     if ( this->GetNumberOfInputs() < 1 )
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
     return static_cast< const HistogramType * >( this->ProcessObject::GetInput(0) );
   }
@@ -84,13 +84,13 @@ public:
   {
     if ( this->GetNumberOfOutputs() < 1 )
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
     return static_cast< DecoratedOutputType * >( this->ProcessObject::GetOutput(0) );
   }
 
   using Superclass::MakeOutput;
-  virtual typename DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType) ITK_OVERRIDE
+  typename DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType) override
   {
     return DecoratedOutputType::New().GetPointer();
   }
@@ -110,7 +110,7 @@ protected:
     this->ProcessObject::SetNumberOfRequiredOutputs(1);
     this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
   }
-  virtual ~HistogramThresholdCalculator() ITK_OVERRIDE {};
+  ~HistogramThresholdCalculator() override {};
   using ProcessObject::SetInput;
 
 private:

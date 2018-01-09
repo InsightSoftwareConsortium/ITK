@@ -74,7 +74,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->m_NumberOfSkippedFixedSampledPoints = 0;
 
   this->m_Value = NumericTraits<MeasureType>::max();
-  this->m_DerivativeResult = ITK_NULLPTR;
+  this->m_DerivativeResult = nullptr;
   this->m_ComputeDerivative = false;
 }
 
@@ -161,13 +161,13 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   if( ! this->m_UseFixedImageGradientFilter )
     {
     itkDebugMacro("Initialize FixedImageGradientCalculator");
-    this->m_FixedImageGradientImage = ITK_NULLPTR;
+    this->m_FixedImageGradientImage = nullptr;
     this->m_FixedImageGradientCalculator->SetInputImage(this->m_FixedImage);
     }
   if( ! this->m_UseMovingImageGradientFilter )
     {
     itkDebugMacro("Initialize MovingImageGradientCalculator");
-    this->m_MovingImageGradientImage = ITK_NULLPTR;
+    this->m_MovingImageGradientImage = nullptr;
     this->m_MovingImageGradientCalculator->SetInputImage(this->m_MovingImage);
     }
 

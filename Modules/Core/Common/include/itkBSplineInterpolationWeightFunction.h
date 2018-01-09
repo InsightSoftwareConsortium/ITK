@@ -85,7 +85,7 @@ public:
 
   /** Evaluate the weights at specified ContinuousIndex position.
    * Subclasses must provide this method. */
-  virtual WeightsType Evaluate(const ContinuousIndexType & index) const ITK_OVERRIDE;
+  WeightsType Evaluate(const ContinuousIndexType & index) const override;
 
   /** Evaluate the weights at specified ContinuousIndex position.
    * The weights are returned in the user specified container.
@@ -106,8 +106,8 @@ public:
 
 protected:
   BSplineInterpolationWeightFunction();
-  ~BSplineInterpolationWeightFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BSplineInterpolationWeightFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineInterpolationWeightFunction);

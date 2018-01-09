@@ -88,10 +88,10 @@ public:
 
 protected:
   OrthogonalSwath2DPathFilter();
-  virtual ~OrthogonalSwath2DPathFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~OrthogonalSwath2DPathFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData(void) ITK_OVERRIDE;
+  void GenerateData(void) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(OrthogonalSwath2DPathFilter);

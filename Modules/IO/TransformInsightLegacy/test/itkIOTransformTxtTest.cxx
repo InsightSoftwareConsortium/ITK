@@ -100,7 +100,7 @@ static int oneTest(const std::string & outputDirectory, const char *goodname,con
       return EXIT_FAILURE;
       }
 
-    if( dynamic_cast<AffineTransformType*>(list->front().GetPointer()) == ITK_NULLPTR )
+    if( dynamic_cast<AffineTransformType*>(list->front().GetPointer()) == nullptr )
       {
       std::cerr << "Failure to dynamic_cast read transform!" << std::endl;
       return EXIT_FAILURE;

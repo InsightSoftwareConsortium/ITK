@@ -54,7 +54,7 @@ public:
 
 protected:
   NonLinearOptimizer() {}
-  virtual ~NonLinearOptimizer() ITK_OVERRIDE;
+  ~NonLinearOptimizer() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NonLinearOptimizer);

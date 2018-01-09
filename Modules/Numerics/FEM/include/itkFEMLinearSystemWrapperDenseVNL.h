@@ -53,100 +53,100 @@ public:
   typedef std::vector<MatrixRepresentation *> MatrixHolder;
 
   /* constructor & destructor */
-  LinearSystemWrapperDenseVNL() : LinearSystemWrapper(), m_Matrices(ITK_NULLPTR), m_Vectors(ITK_NULLPTR), m_Solutions(ITK_NULLPTR)
+  LinearSystemWrapperDenseVNL() : LinearSystemWrapper(), m_Matrices(nullptr), m_Vectors(nullptr), m_Solutions(nullptr)
   {
   }
-  virtual ~LinearSystemWrapperDenseVNL() ITK_OVERRIDE;
+  ~LinearSystemWrapperDenseVNL() override;
 
   /* memory management routines */
-  virtual void  InitializeMatrix(unsigned int matrixIndex) ITK_OVERRIDE;
+  void  InitializeMatrix(unsigned int matrixIndex) override;
 
-  virtual bool  IsMatrixInitialized(unsigned int matrixIndex) ITK_OVERRIDE;
+  bool  IsMatrixInitialized(unsigned int matrixIndex) override;
 
-  virtual void  DestroyMatrix(unsigned int matrixIndex) ITK_OVERRIDE;
+  void  DestroyMatrix(unsigned int matrixIndex) override;
 
-  virtual void  InitializeVector(unsigned int vectorIndex) ITK_OVERRIDE;
+  void  InitializeVector(unsigned int vectorIndex) override;
 
-  virtual bool  IsVectorInitialized(unsigned int vectorIndex) ITK_OVERRIDE;
+  bool  IsVectorInitialized(unsigned int vectorIndex) override;
 
-  virtual void  DestroyVector(unsigned int vectorIndex) ITK_OVERRIDE;
+  void  DestroyVector(unsigned int vectorIndex) override;
 
-  virtual void  InitializeSolution(unsigned int solutionIndex) ITK_OVERRIDE;
+  void  InitializeSolution(unsigned int solutionIndex) override;
 
-  virtual bool  IsSolutionInitialized(unsigned int solutionIndex) ITK_OVERRIDE;
+  bool  IsSolutionInitialized(unsigned int solutionIndex) override;
 
-  virtual void  DestroySolution(unsigned int solutionIndex) ITK_OVERRIDE;
+  void  DestroySolution(unsigned int solutionIndex) override;
 
   virtual void  SetMaximumNonZeroValuesInMatrix(unsigned int, unsigned int)
   {
   }
 
   /* assembly & solving routines */
-  virtual Float GetMatrixValue(unsigned int i, unsigned int j,
-                               unsigned int matrixIndex) const ITK_OVERRIDE
+  Float GetMatrixValue(unsigned int i, unsigned int j,
+                               unsigned int matrixIndex) const override
   {
     return ( *( ( *m_Matrices )[matrixIndex] ) )(i, j);
   }
-  virtual void  SetMatrixValue(unsigned int i, unsigned int j, Float value,
-                               unsigned int matrixIndex) ITK_OVERRIDE
+  void  SetMatrixValue(unsigned int i, unsigned int j, Float value,
+                               unsigned int matrixIndex) override
   {
     ( *( ( *m_Matrices )[matrixIndex] ) )(i, j) =  value;
   }
-  virtual void  AddMatrixValue(unsigned int i, unsigned int j, Float value,
-                               unsigned int matrixIndex) ITK_OVERRIDE
+  void  AddMatrixValue(unsigned int i, unsigned int j, Float value,
+                               unsigned int matrixIndex) override
   {
     ( *( ( *m_Matrices )[matrixIndex] ) )(i, j) += value;
   }
-  virtual Float GetVectorValue(unsigned int i,
-                               unsigned int vectorIndex) const ITK_OVERRIDE
+  Float GetVectorValue(unsigned int i,
+                               unsigned int vectorIndex) const override
   {
     return ( *( ( *m_Vectors )[vectorIndex] ) )[i];
   }
-  virtual void  SetVectorValue(unsigned int i, Float value,
-                               unsigned int vectorIndex) ITK_OVERRIDE
+  void  SetVectorValue(unsigned int i, Float value,
+                               unsigned int vectorIndex) override
   {
     ( *( ( *m_Vectors )[vectorIndex] ) )(i) =  value;
   }
-  virtual void  AddVectorValue(unsigned int i, Float value,
-                               unsigned int vectorIndex) ITK_OVERRIDE
+  void  AddVectorValue(unsigned int i, Float value,
+                               unsigned int vectorIndex) override
   {
     ( *( ( *m_Vectors )[vectorIndex] ) )(i) += value;
   }
-  virtual Float GetSolutionValue(unsigned int i, unsigned int solutionIndex) const ITK_OVERRIDE;
+  Float GetSolutionValue(unsigned int i, unsigned int solutionIndex) const override;
 
-  virtual void  SetSolutionValue(unsigned int i, Float value,
-                                 unsigned int solutionIndex) ITK_OVERRIDE
+  void  SetSolutionValue(unsigned int i, Float value,
+                                 unsigned int solutionIndex) override
   {
     ( *( ( *m_Solutions )[solutionIndex] ) )(i) =  value;
   }
-  virtual void  AddSolutionValue(unsigned int i, Float value,
-                                 unsigned int solutionIndex) ITK_OVERRIDE
+  void  AddSolutionValue(unsigned int i, Float value,
+                                 unsigned int solutionIndex) override
   {
     ( *( ( *m_Solutions )[solutionIndex] ) )(i) += value;
   }
-  virtual void  Solve(void) ITK_OVERRIDE;
+  void  Solve(void) override;
 
   /* matrix & vector manipulation routines */
-  virtual void  ScaleMatrix(Float scale, unsigned int matrixIndex) ITK_OVERRIDE;
+  void  ScaleMatrix(Float scale, unsigned int matrixIndex) override;
 
   virtual void  ScaleVector(Float scale, unsigned int vectorIndex);
 
   virtual void  ScaleSolution(Float scale, unsigned int solutionIndex);
 
-  virtual void  SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2) ITK_OVERRIDE;
+  void  SwapMatrices(unsigned int matrixIndex1, unsigned int matrixIndex2) override;
 
-  virtual void  SwapVectors(unsigned int vectorIndex1, unsigned int vectorIndex2) ITK_OVERRIDE;
+  void  SwapVectors(unsigned int vectorIndex1, unsigned int vectorIndex2) override;
 
-  virtual void  SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2) ITK_OVERRIDE;
+  void  SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2) override;
 
-  virtual void  CopySolution2Vector(unsigned solutionIndex, unsigned int vectorIndex) ITK_OVERRIDE;
+  void  CopySolution2Vector(unsigned solutionIndex, unsigned int vectorIndex) override;
 
-  virtual void  CopyVector2Solution(unsigned int vectorIndex, unsigned int solutionIndex) ITK_OVERRIDE;
+  void  CopyVector2Solution(unsigned int vectorIndex, unsigned int solutionIndex) override;
 
-  virtual void  MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex,
-                                     unsigned int rightMatrixIndex) ITK_OVERRIDE;
+  void  MultiplyMatrixMatrix(unsigned int resultMatrixIndex, unsigned int leftMatrixIndex,
+                                     unsigned int rightMatrixIndex) override;
 
-  virtual void  MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex) ITK_OVERRIDE;
+  void  MultiplyMatrixVector(unsigned int resultVectorIndex, unsigned int matrixIndex, unsigned int vectorIndex) override;
 
 private:
 

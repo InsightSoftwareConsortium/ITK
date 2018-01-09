@@ -71,12 +71,12 @@ public:
   typedef VersorType::VectorType VectorType;
 
   /** Advance one step following the gradient direction. */
-  virtual void StepAlongGradient(double factor,
-                                 const DerivativeType & transformedGradient) ITK_OVERRIDE;
+  void StepAlongGradient(double factor,
+                                 const DerivativeType & transformedGradient) override;
 
 protected:
   VersorTransformOptimizer() {}
-  virtual ~VersorTransformOptimizer() ITK_OVERRIDE {}
+  ~VersorTransformOptimizer() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VersorTransformOptimizer);

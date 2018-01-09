@@ -83,9 +83,9 @@ public:
   itkGetConstReferenceMacro(Kernel, KernelType);
 
   /** Set the kernel to a box kernel of given radius. */
-  virtual void SetRadius(const RadiusType & radius) ITK_OVERRIDE;
+  void SetRadius(const RadiusType & radius) override;
 
-  virtual void SetRadius(const SizeValueType & radius) ITK_OVERRIDE
+  void SetRadius(const SizeValueType & radius) override
   {
     // needed because of the overloading of the method
     Superclass::SetRadius(radius);
@@ -93,9 +93,9 @@ public:
 
 protected:
   KernelImageFilter();
-  ~KernelImageFilter() ITK_OVERRIDE {}
+  ~KernelImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** kernel or structuring element to use. */
   KernelType m_Kernel;

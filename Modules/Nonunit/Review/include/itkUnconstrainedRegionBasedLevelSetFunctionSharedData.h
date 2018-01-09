@@ -124,7 +124,7 @@ public:
   typedef typename Superclass::LevelSetDataPointerVector         LevelSetDataPointerVector;
   typedef typename Superclass::LevelSetDataPointerVectorIterator LevelSetDataPointerVectorIterator;
 
-  void PopulateListImage() ITK_OVERRIDE
+  void PopulateListImage() override
   {
     ListPixelType L;
 
@@ -137,7 +137,7 @@ public:
 
 protected:
   UnconstrainedRegionBasedLevelSetFunctionSharedData():Superclass(){}
-  ~UnconstrainedRegionBasedLevelSetFunctionSharedData(){}
+  ~UnconstrainedRegionBasedLevelSetFunctionSharedData() override{}
 
 private:
   UnconstrainedRegionBasedLevelSetFunctionSharedData(const Self &); //purposely

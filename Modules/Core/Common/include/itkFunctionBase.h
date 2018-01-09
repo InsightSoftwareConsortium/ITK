@@ -64,7 +64,7 @@ public:
 
 protected:
   FunctionBase(){}
-  ~FunctionBase() ITK_OVERRIDE {}
+  ~FunctionBase() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FunctionBase);

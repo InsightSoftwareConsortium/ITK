@@ -78,7 +78,7 @@ public:
 
 protected:
   MultiplyImageFilter() {}
-  virtual ~MultiplyImageFilter() ITK_OVERRIDE {}
+  ~MultiplyImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiplyImageFilter);

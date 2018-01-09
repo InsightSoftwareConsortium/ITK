@@ -170,11 +170,11 @@ public:
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
-  virtual void Allocate(bool initialize=false) ITK_OVERRIDE;
+  void Allocate(bool initialize=false) override;
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** Fill the image buffer with a value.  Be sure to call Allocate()
    * first. */
@@ -225,8 +225,8 @@ public:
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */
-  TPixel * GetBufferPointer() { return m_Buffer ? m_Buffer->GetBufferPointer() : 0; }
-  const TPixel * GetBufferPointer() const { return m_Buffer ? m_Buffer->GetBufferPointer() : ITK_NULLPTR; }
+  TPixel * GetBufferPointer() { return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr; }
+  const TPixel * GetBufferPointer() const { return m_Buffer ? m_Buffer->GetBufferPointer() : nullptr; }
 
   /** Return a pointer to the container. */
   PixelContainer * GetPixelContainer() { return m_Buffer.GetPointer(); }
@@ -248,12 +248,12 @@ public:
    * to the output of a normal filter which is being used to output a
    * special-coordinates image.  Filters designed to produce a particular kind
    * of special-coordinates image should do this automatically. */
-  virtual void SetSpacing(const SpacingType &) ITK_OVERRIDE {}
-  virtual void SetSpacing(const double[VImageDimension]) ITK_OVERRIDE {}
-  virtual void SetSpacing(const float[VImageDimension]) ITK_OVERRIDE {}
-  virtual void SetOrigin(const PointType) ITK_OVERRIDE {}
-  virtual void SetOrigin(const double[VImageDimension]) ITK_OVERRIDE {}
-  virtual void SetOrigin(const float[VImageDimension]) ITK_OVERRIDE {}
+  void SetSpacing(const SpacingType &) override {}
+  void SetSpacing(const double[VImageDimension]) override {}
+  void SetSpacing(const float[VImageDimension]) override {}
+  void SetOrigin(const PointType) override {}
+  void SetOrigin(const double[VImageDimension]) override {}
+  void SetOrigin(const float[VImageDimension]) override {}
 
   /* It is ILLEGAL in C++ to make a templated member function virtual! */
   /* Therefore, we must just let templates take care of everything.    */
@@ -281,9 +281,9 @@ public:
 
 protected:
   SpecialCoordinatesImage();
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual ~SpecialCoordinatesImage() ITK_OVERRIDE {}
+  ~SpecialCoordinatesImage() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpecialCoordinatesImage);

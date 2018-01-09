@@ -32,7 +32,7 @@ template< typename TInputImage >
 ChangeInformationImageFilter< TInputImage >
 ::ChangeInformationImageFilter()
 {
-  m_ReferenceImage = ITK_NULLPTR;
+  m_ReferenceImage = nullptr;
 
   m_ChangeSpacing = false;
   m_ChangeOrigin = false;

@@ -51,8 +51,8 @@ public:
 
   typedef typename Superclass::ValueType ValueType;
 
-  virtual void Learn(LayerType* layer,ValueType learningrate) ITK_OVERRIDE;
-  virtual void Learn(LayerType* layer, TTargetVector error, ValueType learningrate) ITK_OVERRIDE;
+  void Learn(LayerType* layer,ValueType learningrate) override;
+  void Learn(LayerType* layer, TTargetVector error, ValueType learningrate) override;
 
   itkSetMacro(LearningRate1, ValueType);
   itkGetMacro(LearningRate1, ValueType);
@@ -64,10 +64,10 @@ public:
 protected:
 
   RBFBackPropagationLearningFunction();
-  virtual ~RBFBackPropagationLearningFunction() ITK_OVERRIDE {};
+  ~RBFBackPropagationLearningFunction() override {};
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
 

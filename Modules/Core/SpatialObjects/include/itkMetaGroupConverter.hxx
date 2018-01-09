@@ -43,7 +43,7 @@ MetaGroupConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
   const GroupMetaObjectType *group = dynamic_cast<const GroupMetaObjectType *>(mo);
-  if(group == ITK_NULLPTR)
+  if(group == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaGroup" );
     }

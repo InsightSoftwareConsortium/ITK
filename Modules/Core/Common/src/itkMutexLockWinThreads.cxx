@@ -33,7 +33,7 @@ namespace itk
 // Construct a new MutexLock
 SimpleMutexLock::SimpleMutexLock()
 {
-  m_MutexLock = CreateMutex(ITK_NULLPTR, FALSE, ITK_NULLPTR);
+  m_MutexLock = CreateMutex(nullptr, FALSE, nullptr);
 }
 
 // Destruct the MutexVariable

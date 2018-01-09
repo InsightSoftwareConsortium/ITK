@@ -290,8 +290,8 @@ public:
                                       integer errorCode);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionItpackSparseMatrixSbagn()
-  ITK_NOEXCEPT ITK_OVERRIDE;
+  ~FEMExceptionItpackSparseMatrixSbagn()
+  ITK_NOEXCEPT override;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionItpackSparseMatrixSbagn, FEMException);
@@ -320,8 +320,8 @@ public:
                                       integer errorCode);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionItpackSparseMatrixSbsij()
-  ITK_NOEXCEPT ITK_OVERRIDE;
+  ~FEMExceptionItpackSparseMatrixSbsij()
+  ITK_NOEXCEPT override;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionItpackSparseMatrixSbsij, FEMException);

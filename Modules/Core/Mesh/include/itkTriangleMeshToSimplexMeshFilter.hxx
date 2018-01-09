@@ -24,11 +24,11 @@ namespace itk
 template< typename TInputMesh, typename TOutputMesh >
 TriangleMeshToSimplexMeshFilter< TInputMesh, TOutputMesh >
 ::TriangleMeshToSimplexMeshFilter() :
-  m_FaceSet(ITK_NULLPTR),
-  m_Edges(ITK_NULLPTR),
-  m_EdgeNeighborList(ITK_NULLPTR),
-  m_VertexNeighborList(ITK_NULLPTR),
-  m_LineCellIndices(ITK_NULLPTR),
+  m_FaceSet(nullptr),
+  m_Edges(nullptr),
+  m_EdgeNeighborList(nullptr),
+  m_VertexNeighborList(nullptr),
+  m_LineCellIndices(nullptr),
   m_CellIdxOffset(0),
   m_IdOffset(0),
   m_EdgeCellId(0),

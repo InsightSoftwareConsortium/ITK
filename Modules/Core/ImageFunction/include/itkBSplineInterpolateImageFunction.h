@@ -141,7 +141,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
+  OutputType Evaluate(const PointType & point) const override
   {
     ContinuousIndexType index;
 
@@ -161,8 +161,8 @@ public:
     return ( this->EvaluateAtContinuousIndex(index, threadId) );
   }
 
-  virtual OutputType EvaluateAtContinuousIndex(const ContinuousIndexType &
-                                               index) const ITK_OVERRIDE
+  OutputType EvaluateAtContinuousIndex(const ContinuousIndexType &
+                                               index) const override
   {
     // Don't know thread information, make evaluateIndex, weights on the stack.
     // Slower, but safer.
@@ -296,7 +296,7 @@ public:
   itkGetConstMacro(NumberOfThreads, ThreadIdType);
 
   /** Set the input image.  This must be set by the user. */
-  virtual void SetInputImage(const TImageType *inputData) ITK_OVERRIDE;
+  void SetInputImage(const TImageType *inputData) override;
 
   /** The UseImageDirection flag determines whether image derivatives are
    * computed with respect to the image grid or with respect to the physical
@@ -351,8 +351,8 @@ protected:
                                                                           ) const;
 
   BSplineInterpolateImageFunction();
-  ~BSplineInterpolateImageFunction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BSplineInterpolateImageFunction() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   // These are needed by the smoothing spline routine.
   // temp storage for processing of Coefficients

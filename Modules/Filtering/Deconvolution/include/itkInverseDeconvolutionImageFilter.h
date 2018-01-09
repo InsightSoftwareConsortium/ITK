@@ -105,12 +105,12 @@ public:
 
 protected:
   InverseDeconvolutionImageFilter();
-  ~InverseDeconvolutionImageFilter() ITK_OVERRIDE {}
+  ~InverseDeconvolutionImageFilter() override {}
 
   /** This filter uses a minipipeline to compute the output. */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(InverseDeconvolutionImageFilter);

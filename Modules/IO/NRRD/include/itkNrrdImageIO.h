@@ -53,33 +53,33 @@ public:
    * while others can support 2D, 3D, or even n-D. This method returns
    * true/false as to whether the ImageIO can support the dimension
    * indicated. */
-  virtual bool SupportsDimension(unsigned long) ITK_OVERRIDE;
+  bool SupportsDimension(unsigned long) override;
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *) ITK_OVERRIDE;
+  bool CanReadFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) override;
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  virtual bool CanWriteFile(const char *) ITK_OVERRIDE;
+  bool CanWriteFile(const char *) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void WriteImageInformation() ITK_OVERRIDE;
+  void WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void Write(const void *buffer) ITK_OVERRIDE;
+  void Write(const void *buffer) override;
 
 protected:
   NrrdImageIO();
-  ~NrrdImageIO() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NrrdImageIO() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Utility functions for converting between enumerated data type
       representations */

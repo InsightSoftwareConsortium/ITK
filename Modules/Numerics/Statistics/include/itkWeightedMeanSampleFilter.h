@@ -93,10 +93,10 @@ public:
 
 protected:
   WeightedMeanSampleFilter();
-  virtual ~WeightedMeanSampleFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~WeightedMeanSampleFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   // compute mean with weight array
   void ComputeMeanWithWeights();

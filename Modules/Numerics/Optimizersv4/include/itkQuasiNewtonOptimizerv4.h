@@ -88,7 +88,7 @@ public:
   typedef std::vector<HessianType> HessianArrayType;
 
   /** Start and run the optimization */
-  virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
+  void StartOptimization( bool doOnlyInitialization = false ) override;
 
   /** Set the maximum tolerable number of iteration without any progress */
   itkSetMacro(MaximumIterationsWithoutProgress, SizeValueType);
@@ -183,12 +183,12 @@ protected:
    * Advance one step using the Quasi-Newton step. When the Newton step
    * is invalid, the gradient step will be used.
    */
-  virtual void AdvanceOneStep(void) ITK_OVERRIDE;
+  void AdvanceOneStep(void) override;
 
   QuasiNewtonOptimizerv4Template();
-  virtual ~QuasiNewtonOptimizerv4Template() ITK_OVERRIDE;
+  ~QuasiNewtonOptimizerv4Template() override;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuasiNewtonOptimizerv4Template);

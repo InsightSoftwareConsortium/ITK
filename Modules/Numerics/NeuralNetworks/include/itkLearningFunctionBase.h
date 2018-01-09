@@ -55,10 +55,10 @@ public:
 
 protected:
   LearningFunctionBase() {};
-  ~LearningFunctionBase() ITK_OVERRIDE {};
+  ~LearningFunctionBase() override {};
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE
+  void PrintSelf( std::ostream& os, Indent indent ) const override
     {
     Superclass::PrintSelf( os, indent );
     os << indent << "LearningFunctionBase(" << this << ")" << std::endl;

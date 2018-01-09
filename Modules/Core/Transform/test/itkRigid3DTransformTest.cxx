@@ -39,14 +39,14 @@ public:
   typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
   typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
 
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE
+  InverseTransformBasePointer GetInverseTransform() const override
     {
     itkExceptionMacro( << "This is never called." );
     }
 
 private:
   Rigid3DTransformSurrogate() {}
-  ~Rigid3DTransformSurrogate() ITK_OVERRIDE {}
+  ~Rigid3DTransformSurrogate() override {}
 
 };
 

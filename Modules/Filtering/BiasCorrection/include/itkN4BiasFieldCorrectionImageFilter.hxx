@@ -58,7 +58,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 {
   this->SetNumberOfRequiredInputs( 1 );
 
-  this->m_LogBiasFieldControlPointLattice = ITK_NULLPTR;
+  this->m_LogBiasFieldControlPointLattice = nullptr;
 
   this->m_NumberOfFittingLevels.Fill( 1 );
   this->m_NumberOfControlPoints.Fill( 4 );

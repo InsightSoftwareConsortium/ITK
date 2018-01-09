@@ -65,10 +65,10 @@ public:
 
   /** Destructor.  MeshRegion is a lightweight object and is not reference
    * counted. */
-  virtual ~MeshRegion() ITK_OVERRIDE;
+  ~MeshRegion() override;
 
   /** Return the region type. Meshes are described with unstructured regions. */
-  virtual RegionType GetRegionType() const ITK_OVERRIDE
+  RegionType GetRegionType() const override
   { return Superclass::ITK_UNSTRUCTURED_REGION; }
 
   /** Get the number of regions. */
@@ -78,8 +78,8 @@ public:
   /** Set the number of regions. */
   void SetNumberOfRegions(SizeValueType num)
   {
-    if ( ( num >= 1 ) && ( num <= NumericTraits< SizeValueType >::max() ) )
-              { m_NumberOfRegions = num; } }
+    if ( num >= 1 ) { m_NumberOfRegions = num; }
+  }
 
   /** Get the current region. */
   SizeValueType GetRegion() const
@@ -88,8 +88,8 @@ public:
   /** Set the number of regions. */
   void SetRegion(SizeValueType region)
   {
-    if ( ( region >= 1 ) && ( region <= NumericTraits< SizeValueType >::max() ) )
-              { m_Region = region; } }
+    if ( region >= 1 ) { m_Region = region; }
+  }
 
 private:
   // The maximum number of regions possible.

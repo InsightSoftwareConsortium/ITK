@@ -106,20 +106,20 @@ public:
 
 protected:
   ConvolutionImageFilterBase();
-  ~ConvolutionImageFilterBase() ITK_OVERRIDE {}
+  ~ConvolutionImageFilterBase() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The largest possible output region may differ from the largest
    * possible input region. */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** Get the valid region of the convolution. */
   OutputRegionType GetValidRegion() const;
 
   /** Default superclass implementation ensures that input images
    * occupy same physical space. This is not needed for this filter. */
-  virtual void VerifyInputInformation() ITK_OVERRIDE {};
+  void VerifyInputInformation() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConvolutionImageFilterBase);

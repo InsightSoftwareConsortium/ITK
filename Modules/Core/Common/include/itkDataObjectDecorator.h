@@ -91,12 +91,12 @@ public:
   virtual ComponentType * GetModifiable();
 
   /** The most recent MTime of this object and the held component */
-  virtual ModifiedTimeType GetMTime() const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime() const override;
 
   /** Restore the data object to its initial state. This means
    *  releasing the help component.
    */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** \brief Graft the content of one decorator onto another
    *
@@ -104,7 +104,7 @@ public:
    * then the component pointer is copies to that both decorators
    * refer to the same object.
    */
-  virtual void Graft( const DataObject * ) ITK_OVERRIDE;
+  void Graft( const DataObject * ) override;
   void Graft( const Self * decorator );
 
   /** Method to aid in dynamic Graft of polymorphic types.
@@ -125,8 +125,8 @@ public:
 
 protected:
   DataObjectDecorator();
-  ~DataObjectDecorator() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~DataObjectDecorator() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 protected:
 

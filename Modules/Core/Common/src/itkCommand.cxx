@@ -26,10 +26,10 @@ namespace itk
     {}
 
   CStyleCommand::CStyleCommand() :
-    m_ClientData( ITK_NULLPTR ),
-    m_Callback( ITK_NULLPTR ),
-    m_ConstCallback( ITK_NULLPTR ),
-    m_ClientDataDeleteCallback( ITK_NULLPTR )
+    m_ClientData( nullptr ),
+    m_Callback( nullptr ),
+    m_ConstCallback( nullptr ),
+    m_ClientDataDeleteCallback( nullptr )
   {}
 
   CStyleCommand::~CStyleCommand()

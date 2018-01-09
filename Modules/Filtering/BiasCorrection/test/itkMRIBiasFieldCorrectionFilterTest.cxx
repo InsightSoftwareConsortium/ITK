@@ -247,9 +247,9 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
   //TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
 
   //timing
-  long int t1 = time(ITK_NULLPTR);
+  long int t1 = time(nullptr);
   filter->Update();
-  long int t2 = time(ITK_NULLPTR);
+  long int t2 = time(nullptr);
   std::cout << "Run time (in s)" << t2-t1  << std::endl;
 
   sumOfError = 0.0;
@@ -315,9 +315,9 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
   filter->SetInitialBiasFieldCoefficients( initCoefficients );
   //TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
 
-  t1 = time(ITK_NULLPTR);
+  t1 = time(nullptr);
   filter->Update();
-  t2 = time(ITK_NULLPTR);
+  t2 = time(nullptr);
   std::cout << "Run time (in s)" << t2-t1  << std::endl;
 
   sumOfError = 0.0;
@@ -383,9 +383,9 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
   filter->SetInitialBiasFieldCoefficients( initCoefficients );
   //TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
 
-  t1 = time(ITK_NULLPTR);
+  t1 = time(nullptr);
   filter->Update();
-  t2 = time(ITK_NULLPTR);
+  t2 = time(nullptr);
   std::cout << "Run time (in s)" << t2-t1  << std::endl;
 
   sumOfError = 0.0;
@@ -443,9 +443,9 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
   filter->SetInitialBiasFieldCoefficients( initCoefficients );
   //TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
 
-  t1 = time(ITK_NULLPTR);
+  t1 = time(nullptr);
   filter->Update();
-  t2 = time(ITK_NULLPTR);
+  t2 = time(nullptr);
   std::cout << "Run time (in s)" << t2-t1  << std::endl;
 
   sumOfError = 0.0;
@@ -486,9 +486,9 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
   filter->SetInitialBiasFieldCoefficients( initCoefficients );
   //TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
 
-  t1 = time(ITK_NULLPTR);
+  t1 = time(nullptr);
   filter->Update();
-  t2 = time(ITK_NULLPTR);
+  t2 = time(nullptr);
   std::cout << "Run time (in s)" << t2-t1  << std::endl;
 
   double sumOfErrorFinal = 0.0;

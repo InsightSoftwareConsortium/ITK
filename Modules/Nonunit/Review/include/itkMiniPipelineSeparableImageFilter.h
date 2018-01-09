@@ -84,23 +84,23 @@ public:
   /** n-dimensional Kernel radius. */
   typedef typename TInputImage::SizeType RadiusType;
 
-  virtual void SetRadius(const RadiusType &) ITK_OVERRIDE;
+  void SetRadius(const RadiusType &) override;
 
-  virtual void SetRadius(const SizeValueType & radius) ITK_OVERRIDE
+  void SetRadius(const SizeValueType & radius) override
   {
     // needed because of the overloading of the method
     Superclass::SetRadius(radius);
   }
 
-  virtual void Modified() const ITK_OVERRIDE;
+  void Modified() const override;
 
-  virtual void SetNumberOfThreads(ThreadIdType nb) ITK_OVERRIDE;
+  void SetNumberOfThreads(ThreadIdType nb) override;
 
 protected:
   MiniPipelineSeparableImageFilter();
-  ~MiniPipelineSeparableImageFilter() {}
+  ~MiniPipelineSeparableImageFilter() override {}
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   typename FilterType::Pointer m_Filters[ImageDimension];
   typename CastType::Pointer m_Cast;

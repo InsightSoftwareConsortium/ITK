@@ -86,7 +86,7 @@ public:
 
   /** Return the nearest index to the parametric path at the specified location.
    * This is a wrapper to Evaluate(). */
-  virtual IndexType EvaluateToIndex(const InputType & input) const ITK_OVERRIDE;
+  IndexType EvaluateToIndex(const InputType & input) const override;
 
   /** Increment the input variable passed by reference such that the ND index of
    * the path  moves to its next vertex-connected (8-connected in 2D) neighbor.
@@ -103,7 +103,7 @@ public:
    * WARNING:  This default implementation REQUIRES that the ND endpoint of
    * the path be either unique or coincident only with the startpoint, since it
    * uses the endpoint as a stopping condition. */
-  virtual OffsetType IncrementInput(InputType & input) const ITK_OVERRIDE;
+  OffsetType IncrementInput(InputType & input) const override;
 
   /** Evaluate the first derivative of the ND output with respect to the 1D
     * input.  This is a very simple and naive numerical derivative, and it
@@ -118,8 +118,8 @@ public:
 
 protected:
   ParametricPath();
-  ~ParametricPath() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ParametricPath() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Default 1D input increment amount to trace along the path.  Also, the
    * value used by the defualt implementation of EvaluateDerivative() for

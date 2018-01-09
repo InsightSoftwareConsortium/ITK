@@ -152,7 +152,7 @@ namespace
     const FilterType1::RadiusImageType* const radiusImage1 = filter1->GetRadiusImage();
     const FilterType2::RadiusImageType* const radiusImage2 = filter2->GetRadiusImage();
 
-    if ( (radiusImage1 == ITK_NULLPTR) || (radiusImage2 == ITK_NULLPTR) )
+    if ( (radiusImage1 == nullptr) || (radiusImage2 == nullptr) )
     {
       std::cout << "GetRadiusImage() should not return NULL!" << std::endl;
       return false;
@@ -162,7 +162,7 @@ namespace
     const OutputPixelType* const radiusBufferPointer1 = radiusImage1->GetBufferPointer();
     const double* const radiusBufferPointer2 = radiusImage2->GetBufferPointer();
 
-    if ( (radiusBufferPointer1 == ITK_NULLPTR) || (radiusBufferPointer2 == ITK_NULLPTR) )
+    if ( (radiusBufferPointer1 == nullptr) || (radiusBufferPointer2 == nullptr) )
     {
       std::cout << "A GetBufferPointer() call appears to fail!" << std::endl;
       return false;
@@ -192,7 +192,7 @@ namespace
     const CircleType* const circle1 = circles1.front().GetPointer();
     const CircleType* const circle2 = circles2.front().GetPointer();
 
-    if ( (circle1 == ITK_NULLPTR) || (circle2 == ITK_NULLPTR) )
+    if ( (circle1 == nullptr) || (circle2 == nullptr) )
     {
       std::cout << "A Circle pointer appears to be incorrect!" << std::endl;
       return false;
@@ -201,7 +201,7 @@ namespace
     const CircleType::TransformType* const transform1 = circle1->GetObjectToParentTransform();
     const CircleType::TransformType* const transform2 = circle2->GetObjectToParentTransform();
 
-    if ( (transform1 == ITK_NULLPTR) || (transform2 == ITK_NULLPTR) )
+    if ( (transform1 == nullptr) || (transform2 == nullptr) )
     {
       std::cout << "A GetObjectToParentTransform() call appears to be incorrect!" << std::endl;
       return false;

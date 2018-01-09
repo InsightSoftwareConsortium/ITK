@@ -38,9 +38,9 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char * GetITKSourceVersion() const ITK_OVERRIDE;
+  const char * GetITKSourceVersion() const override;
 
-  virtual const char * GetDescription() const ITK_OVERRIDE;
+  const char * GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -58,7 +58,7 @@ public:
 
 protected:
   MetaImageIOFactory();
-  ~MetaImageIOFactory() ITK_OVERRIDE;
+  ~MetaImageIOFactory() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageIOFactory);

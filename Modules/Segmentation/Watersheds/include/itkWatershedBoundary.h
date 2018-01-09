@@ -197,10 +197,10 @@ public:
 
 protected:
   Boundary();
-  virtual ~Boundary() ITK_OVERRIDE {}
+  ~Boundary() override {}
   Boundary(const Self &) {}
   void operator=(const Self &) {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The Nx2 matrix of faces of this boundary.   */
   std::vector< std::pair< FacePointer, FacePointer > > m_Faces;

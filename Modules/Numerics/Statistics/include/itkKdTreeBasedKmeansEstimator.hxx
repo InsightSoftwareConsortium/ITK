@@ -32,7 +32,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   m_MaximumIteration(100),
   m_CentroidPositionChanges(0.0),
   m_CentroidPositionChangesThreshold(0.0),
-  m_KdTree(ITK_NULLPTR),
+  m_KdTree(nullptr),
   m_DistanceMetric(EuclideanDistanceMetric< ParameterType >::New()),
   m_UseClusterLabels(false),
   m_GenerateClusterLabels(false),

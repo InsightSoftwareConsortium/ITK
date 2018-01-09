@@ -69,7 +69,7 @@ public:
   itkTypeMacro(DivideOrZeroOutImageFilter, BinaryFunctorImageFilter);
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream& os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "Threshold: "  << GetThreshold() << std::endl;
@@ -107,7 +107,7 @@ public:
 
 protected:
   DivideOrZeroOutImageFilter() {};
-  virtual ~DivideOrZeroOutImageFilter() ITK_OVERRIDE {};
+  ~DivideOrZeroOutImageFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DivideOrZeroOutImageFilter);

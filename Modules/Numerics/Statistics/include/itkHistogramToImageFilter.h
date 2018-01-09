@@ -115,15 +115,15 @@ public:
 
 protected:
   HistogramToImageFilter();
-  ~HistogramToImageFilter() ITK_OVERRIDE;
+  ~HistogramToImageFilter() override;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   FunctorType m_Functor;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToImageFilter);

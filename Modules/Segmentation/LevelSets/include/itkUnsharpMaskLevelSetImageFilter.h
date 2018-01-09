@@ -96,8 +96,8 @@ public:
 
 protected:
   UnsharpMaskLevelSetImageFilter();
-  ~UnsharpMaskLevelSetImageFilter() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~UnsharpMaskLevelSetImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The LevelSetFunctionWithRefitTerm object. */
   typename FunctionType::Pointer m_Function;
@@ -106,7 +106,7 @@ protected:
   unsigned int m_MaxFilterIteration;
 
   /** This filter halts when the iteration count reaches the specified count. */
-  virtual bool Halt() ITK_OVERRIDE
+  bool Halt() override
   {
     if ( this->GetElapsedIterations() == m_MaxFilterIteration )
       {

@@ -68,7 +68,7 @@ public:
 protected:
   LevelSetImage();
 
-  virtual ~LevelSetImage() ITK_OVERRIDE;
+  ~LevelSetImage() override;
 
   typedef GradientType ScalingType;
   ScalingType m_NeighborhoodScales;

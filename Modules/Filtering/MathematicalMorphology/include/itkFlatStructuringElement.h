@@ -122,7 +122,7 @@ public:
   typedef typename itk::Image< PixelType, VDimension > ImageType;
 
   /** Default destructor. */
-  virtual ~FlatStructuringElement() ITK_OVERRIDE {}
+  ~FlatStructuringElement() override {}
 
   /** Default constructor. */
   FlatStructuringElement()
@@ -211,7 +211,7 @@ public:
 
 protected:
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   bool m_Decomposable;

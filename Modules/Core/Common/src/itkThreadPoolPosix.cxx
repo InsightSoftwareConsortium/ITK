@@ -17,10 +17,10 @@
  *=========================================================================*/
 #include "itkThreadPool.h"
 #include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
+#include <cstdlib>
+#include <cstdio>
+#include <cerrno>
+#include <cstring>
 
 #include "itksys/SystemInformation.hxx"
 
@@ -127,7 +127,7 @@ bool
 ThreadPool
 ::PlatformClose(ThreadProcessIdType &threadId)
 {
-  return pthread_join(threadId, ITK_NULLPTR) == 0;
+  return pthread_join(threadId, nullptr) == 0;
 }
 
 void
@@ -142,7 +142,7 @@ ThreadPool
 #if !defined( __CYGWIN__ )
   pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
 #endif
-  const int rc = pthread_create(&m_Threads.back(), &attr, &ThreadPool::ThreadExecute, ITK_NULLPTR);
+  const int rc = pthread_create(&m_Threads.back(), &attr, &ThreadPool::ThreadExecute, nullptr);
 
   if (rc)
     {

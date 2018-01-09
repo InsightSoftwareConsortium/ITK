@@ -21,11 +21,11 @@
 namespace itk
 {
 // static variable initialization
-GPUContextManager* GPUContextManager::m_Instance = ITK_NULLPTR;
+GPUContextManager* GPUContextManager::m_Instance = nullptr;
 
 GPUContextManager* GPUContextManager::GetInstance()
 {
-  if(m_Instance == ITK_NULLPTR)
+  if(m_Instance == nullptr)
     {
     m_Instance = new GPUContextManager();
     }
@@ -35,7 +35,7 @@ GPUContextManager* GPUContextManager::GetInstance()
 void GPUContextManager::DestroyInstance()
 {
   m_Instance->Delete();
-  m_Instance = ITK_NULLPTR;
+  m_Instance = nullptr;
   itkDebugStatement(std::cout << "OpenCL context is destroyed." << std::endl);
 }
 
@@ -44,12 +44,12 @@ GPUContextManager::GPUContextManager()
   cl_int errid;
 
   // Get the platforms
-  errid = clGetPlatformIDs(0, ITK_NULLPTR, &m_NumberOfPlatforms);
+  errid = clGetPlatformIDs(0, nullptr, &m_NumberOfPlatforms);
   OpenCLCheckError( errid, __FILE__, __LINE__, ITK_LOCATION );
 
   // Get NVIDIA platform by default
   m_Platform = OpenCLSelectPlatform("NVIDIA");
-  assert(m_Platform != ITK_NULLPTR);
+  assert(m_Platform != nullptr);
 
   cl_device_type devType = CL_DEVICE_TYPE_GPU;//CL_DEVICE_TYPE_CPU;//
 
@@ -57,8 +57,8 @@ GPUContextManager::GPUContextManager()
   m_Devices = OpenCLGetAvailableDevices(m_Platform, devType, &m_NumberOfDevices);
 
   // create context
-  m_Context = clCreateContext(ITK_NULLPTR, m_NumberOfDevices, m_Devices, ITK_NULLPTR, ITK_NULLPTR, &errid);
-//   m_Context = clCreateContext(0, m_NumberOfDevices, m_Devices, clLogMessagesToStdoutAPPLE, ITK_NULLPTR, &errid);
+  m_Context = clCreateContext(nullptr, m_NumberOfDevices, m_Devices, nullptr, nullptr, &errid);
+//   m_Context = clCreateContext(0, m_NumberOfDevices, m_Devices, clLogMessagesToStdoutAPPLE, nullptr, &errid);
 
   OpenCLCheckError( errid, __FILE__, __LINE__, ITK_LOCATION );
 

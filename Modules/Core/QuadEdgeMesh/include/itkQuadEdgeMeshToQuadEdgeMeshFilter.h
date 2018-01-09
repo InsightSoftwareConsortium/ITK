@@ -102,7 +102,7 @@ public:
 
 protected:
   QuadEdgeMeshToQuadEdgeMeshFilter();
-  virtual ~QuadEdgeMeshToQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~QuadEdgeMeshToQuadEdgeMeshFilter() override {}
 
   virtual void CopyInputMeshToOutputMesh();
 
@@ -183,7 +183,7 @@ void CopyMeshToMeshPointData(const TInputMesh *in, TOutputMesh *out)
 
   const InputPointDataContainer *inputPointData = in->GetPointData();
 
-  if ( inputPointData == ITK_NULLPTR )
+  if ( inputPointData == nullptr )
     {
     // There is nothing to copy
     return;

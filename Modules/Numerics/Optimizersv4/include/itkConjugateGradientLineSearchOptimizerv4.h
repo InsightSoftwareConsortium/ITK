@@ -72,21 +72,21 @@ public:
   /** Type for the convergence checker */
   typedef itk::Function::WindowConvergenceMonitoringFunction<TInternalComputationValueType> ConvergenceMonitoringType;
 
-  virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
+  void StartOptimization( bool doOnlyInitialization = false ) override;
 
 protected:
 
   /** Advance one Step following the gradient direction.
    * Includes transform update. */
-  virtual void AdvanceOneStep(void) ITK_OVERRIDE;
+  void AdvanceOneStep(void) override;
 
   /** Default constructor */
   ConjugateGradientLineSearchOptimizerv4Template();
 
   /** Destructor */
-  virtual ~ConjugateGradientLineSearchOptimizerv4Template() ITK_OVERRIDE;
+  ~ConjugateGradientLineSearchOptimizerv4Template() override;
 
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
 

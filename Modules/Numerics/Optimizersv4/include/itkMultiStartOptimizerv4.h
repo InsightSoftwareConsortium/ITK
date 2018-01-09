@@ -100,7 +100,7 @@ public:
   void InstantiateLocalOptimizer();
 
   /** Begin the optimization */
-  virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
+  void StartOptimization( bool doOnlyInitialization = false ) override;
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */
@@ -111,7 +111,7 @@ public:
   virtual void ResumeOptimization();
 
   /** Get the reason for termination */
-  virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;
+  const StopConditionReturnStringType GetStopConditionDescription() const override;
 
   /** Get the list of parameters over which to search.  */
   ParametersListType & GetParametersList();
@@ -134,9 +134,9 @@ public:
 protected:
   /** Default constructor */
   MultiStartOptimizerv4Template();
-  virtual ~MultiStartOptimizerv4Template() ITK_OVERRIDE;
+  ~MultiStartOptimizerv4Template() override;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /* Common variables for optimization control and reporting */
   bool                          m_Stop;

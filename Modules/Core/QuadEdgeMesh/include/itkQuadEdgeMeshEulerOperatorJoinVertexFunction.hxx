@@ -120,9 +120,9 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Evaluate(QEType *
     case SAMOSA_CONFIG:
     // Eye case
     case EYE_CONFIG:
-      return ( (QEType *)ITK_NULLPTR );
+      return ( (QEType *)nullptr );
     case EDGE_JOINING_DIFFERENT_BORDERS:
-      return ( (QEType *)ITK_NULLPTR );
+      return ( (QEType *)nullptr );
     }
 }
 
@@ -197,7 +197,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Process(QEType *e
     if ( QEType::m_NoPoint != zip->Evaluate(leftZip) )
       {
       itkDebugMacro("Zip must return NoPoint (left).");
-      return ( (QEType *)ITK_NULLPTR );
+      return ( (QEType *)nullptr );
       }
     }
   else
@@ -217,7 +217,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Process(QEType *e
     if ( QEType::m_NoPoint != zip->Evaluate(riteZip) )
       {
       itkDebugMacro("Zip must return NoPoint (right).");
-      return ( (QEType *)ITK_NULLPTR );
+      return ( (QEType *)nullptr );
       }
     }
   else
@@ -281,9 +281,9 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::ProcessIsolatedFa
     }
 
   // it now retuns one edge from NewDest or NewOrg if there are any
-  // else ITK_NULLPTR
+  // else nullptr
   QEType *temp = this->m_Mesh->FindEdge(dest);
-  if ( temp != ITK_NULLPTR )
+  if ( temp != nullptr )
     {
     return temp;
     }

@@ -540,8 +540,8 @@ public:
 
 protected:
   ImageIOBase();
-  ~ImageIOBase() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImageIOBase() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const;
 

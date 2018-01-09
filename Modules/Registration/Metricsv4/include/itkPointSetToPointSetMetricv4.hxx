@@ -29,15 +29,15 @@ template<typename TFixedPointSet, typename TMovingPointSet, class TInternalCompu
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::PointSetToPointSetMetricv4()
 {
-  this->m_FixedPointSet = ITK_NULLPTR;    // has to be provided by the user.
-  this->m_MovingPointSet = ITK_NULLPTR;    // has to be provided by the user.
+  this->m_FixedPointSet = nullptr;    // has to be provided by the user.
+  this->m_MovingPointSet = nullptr;    // has to be provided by the user.
 
-  this->m_FixedTransformedPointSet = ITK_NULLPTR;
-  this->m_MovingTransformedPointSet = ITK_NULLPTR;
-  this->m_VirtualTransformedPointSet = ITK_NULLPTR;
+  this->m_FixedTransformedPointSet = nullptr;
+  this->m_MovingTransformedPointSet = nullptr;
+  this->m_VirtualTransformedPointSet = nullptr;
 
-  this->m_FixedTransformedPointsLocator = ITK_NULLPTR;
-  this->m_MovingTransformedPointsLocator = ITK_NULLPTR;
+  this->m_FixedTransformedPointsLocator = nullptr;
+  this->m_MovingTransformedPointsLocator = nullptr;
 
   this->m_MovingTransformPointLocatorsNeedInitialization = false;
   this->m_FixedTransformPointLocatorsNeedInitialization = false;

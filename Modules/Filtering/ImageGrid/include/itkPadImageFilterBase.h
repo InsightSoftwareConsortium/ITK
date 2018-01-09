@@ -90,19 +90,19 @@ public:
 
 protected:
   PadImageFilterBase();
-  ~PadImageFilterBase() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PadImageFilterBase() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** PadImageFilterBase needs a smaller input requested region than
    * output requested region.  As such, PadImageFilterBase needs to
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** This class can be multithreaded. */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
   /** Method for subclasses to set the boundary condition. */
   void InternalSetBoundaryCondition( const BoundaryConditionPointerType boundaryCondition );

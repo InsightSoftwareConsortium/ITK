@@ -114,17 +114,17 @@ public:
 protected:
 
   TriangleMeshToSimplexMeshFilter();
-  ~TriangleMeshToSimplexMeshFilter() ITK_OVERRIDE;
+  ~TriangleMeshToSimplexMeshFilter() override;
   TriangleMeshToSimplexMeshFilter(const Self &) {}
 
   void operator=(const Self &) {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Override from ProcessObject
    */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /**
    * Initializes all necessary datastructures

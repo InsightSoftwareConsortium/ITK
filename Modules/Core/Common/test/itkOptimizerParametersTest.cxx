@@ -121,7 +121,7 @@ bool runTestByType()
   TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj.GetPointer() ) );
 
   /* Test with null helper and expect exception */
-  params.SetHelper( ITK_NULLPTR );
+  params.SetHelper( nullptr );
   TRY_EXPECT_EXCEPTION( params.MoveDataPointer( block ) );
   TRY_EXPECT_EXCEPTION( params.SetParametersObject( dummyObj.GetPointer() ) );
 

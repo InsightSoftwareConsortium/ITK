@@ -83,7 +83,7 @@ public:
 
 protected:
   FastIncrementalBinaryDilateImageFilter() {}
-  virtual ~FastIncrementalBinaryDilateImageFilter() ITK_OVERRIDE {}
+  ~FastIncrementalBinaryDilateImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastIncrementalBinaryDilateImageFilter);

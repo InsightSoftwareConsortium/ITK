@@ -61,12 +61,12 @@ const unsigned int Dimension = 2;
 
   public:
 
-    void Execute(itk::Object *caller, const itk::EventObject & event)
+    void Execute(itk::Object *caller, const itk::EventObject & event) override
       {
         Execute( (const itk::Object *)caller, event);
       }
 
-    void Execute(const itk::Object * object, const itk::EventObject & event)
+    void Execute(const itk::Object * object, const itk::EventObject & event) override
       {
          const RegistrationFilterType * filter =
            static_cast< const RegistrationFilterType * >( object );

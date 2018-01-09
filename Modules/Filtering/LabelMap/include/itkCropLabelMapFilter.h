@@ -112,11 +112,11 @@ protected:
     m_LowerBoundaryCropSize.Fill(0);
   }
 
-  ~CropLabelMapFilter() ITK_OVERRIDE {}
+  ~CropLabelMapFilter() override {}
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CropLabelMapFilter);

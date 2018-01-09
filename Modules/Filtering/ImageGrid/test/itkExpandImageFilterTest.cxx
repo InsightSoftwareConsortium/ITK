@@ -243,8 +243,8 @@ int itkExpandImageFilterTest(int, char* [] )
   try
     {
     testPassed = false;
-    std::cout << "Setting Input to ITK_NULLPTR" << std::endl;
-    expander->SetInput( ITK_NULLPTR );
+    std::cout << "Setting Input to nullptr" << std::endl;
+    expander->SetInput( nullptr );
     expander->Update();
     }
   catch( itk::ExceptionObject& err )
@@ -265,8 +265,8 @@ int itkExpandImageFilterTest(int, char* [] )
   try
     {
     testPassed = false;
-    std::cout << "Setting Interpolator to ITK_NULLPTR" << std::endl;
-    expander->SetInterpolator( ITK_NULLPTR );
+    std::cout << "Setting Interpolator to nullptr" << std::endl;
+    expander->SetInterpolator( nullptr );
     expander->Update();
     }
   catch( itk::ExceptionObject& err )

@@ -80,7 +80,7 @@ SimplexMesh< TPixelType, VDimension, TMeshTraits >
 
   mesh = dynamic_cast< const Superclass * >( data );
 
-  if ( mesh == ITK_NULLPTR )
+  if ( mesh == nullptr )
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::Mesh::CopyInformation() cannot cast "
@@ -286,7 +286,7 @@ typename SimplexMesh< TPixelType, VDimension, TMeshTraits >::NeighborListType *
 SimplexMesh< TPixelType, VDimension, TMeshTraits >
 ::GetNeighbors(PointIdentifier idx, unsigned int radius, NeighborListType *list) const
 {
-  if ( list == ITK_NULLPTR )
+  if ( list == nullptr )
     {
     list = new NeighborListType();
     IndexArray neighborArray = GetNeighbors(idx);

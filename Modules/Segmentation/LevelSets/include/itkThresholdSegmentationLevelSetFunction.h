@@ -91,9 +91,9 @@ public:
   FeatureScalarType GetLowerThreshold() const
   { return m_LowerThreshold; }
 
-  virtual void CalculateSpeedImage() ITK_OVERRIDE;
+  void CalculateSpeedImage() override;
 
-  virtual void Initialize(const RadiusType & r) ITK_OVERRIDE
+  void Initialize(const RadiusType & r) override
   {
     Superclass::Initialize(r);
 
@@ -167,11 +167,11 @@ protected:
     this->SetEdgeWeight(0.0);
   }
 
-  virtual ~ThresholdSegmentationLevelSetFunction() ITK_OVERRIDE {}
+  ~ThresholdSegmentationLevelSetFunction() override {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdSegmentationLevelSetFunction);
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "UpperThreshold: " << m_UpperThreshold << std::endl;

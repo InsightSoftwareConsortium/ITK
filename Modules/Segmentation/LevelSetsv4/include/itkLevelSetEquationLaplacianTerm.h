@@ -92,23 +92,23 @@ public:
   typedef Vector< LevelSetOutputRealType, itkGetStaticConstMacro(ImageDimension) > NeighborhoodScalesType;
 
   /** Update the term parameter values at end of iteration */
-  virtual void Update() ITK_OVERRIDE;
+  void Update() override;
 
   /** Initialize the parameters in the terms prior to an iteration */
-  virtual void InitializeParameters() ITK_OVERRIDE;
+  void InitializeParameters() override;
 
   /** \todo to be documented. */
-  virtual void Initialize( const LevelSetInputIndexType& ) ITK_OVERRIDE;
+  void Initialize( const LevelSetInputIndexType& ) override;
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  virtual void UpdatePixel( const LevelSetInputIndexType& iP,
+  void UpdatePixel( const LevelSetInputIndexType& iP,
                             const LevelSetOutputRealType& oldValue,
-                            const LevelSetOutputRealType& newValue ) ITK_OVERRIDE;
+                            const LevelSetOutputRealType& newValue ) override;
 
 protected:
   LevelSetEquationLaplacianTerm();
 
-  virtual ~LevelSetEquationLaplacianTerm() ITK_OVERRIDE;
+  ~LevelSetEquationLaplacianTerm() override;
 
   /** Return the spatial speed dependence a given pixel location
    * Usually, it is constant across the image domain */
@@ -116,12 +116,12 @@ protected:
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) ITK_OVERRIDE;
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) override;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
-                                        const LevelSetDataType& iData ) ITK_OVERRIDE;
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
+                                        const LevelSetDataType& iData ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationLaplacianTerm);

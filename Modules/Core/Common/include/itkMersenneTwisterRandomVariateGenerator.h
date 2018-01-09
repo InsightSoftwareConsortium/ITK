@@ -206,7 +206,7 @@ public:
    * values together, otherwise the generator state can be learned after
    * reading 624 consecutive values.
    */
-  virtual double GetVariate() ITK_OVERRIDE;
+  double GetVariate() override;
 
   /** Same as GetVariate() */
   double operator()();
@@ -239,8 +239,8 @@ public:
 
 protected:
   MersenneTwisterRandomVariateGenerator();
-  virtual ~MersenneTwisterRandomVariateGenerator() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MersenneTwisterRandomVariateGenerator() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Period parameter */
   itkStaticConstMacro(M, unsigned int, 397);
@@ -359,7 +359,7 @@ inline void
 MersenneTwisterRandomVariateGenerator::SetSeed()
 {
   // use time() and clock() to generate a unlikely-to-repeat seed.
-  SetSeed( hash( time(ITK_NULLPTR), clock() ) );
+  SetSeed( hash( time(nullptr), clock() ) );
 }
 
 

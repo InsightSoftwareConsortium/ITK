@@ -75,8 +75,8 @@ void usage()
 
 int main( int argc, char *argv[] )
 {
-  char *input_name = ITK_NULLPTR;
-  char *output_name = ITK_NULLPTR;
+  char *input_name = nullptr;
+  char *output_name = nullptr;
 
   bool ok;
   bool verbose = false;
@@ -232,7 +232,7 @@ int main( int argc, char *argv[] )
     if (ok == false)
       {
 
-      if (input_name == ITK_NULLPTR)
+      if (input_name == nullptr)
         {
         input_name = argv[1];
         argc--;

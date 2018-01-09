@@ -102,10 +102,10 @@ public:
 protected:
 
   TrainingFunctionBase();
-  ~TrainingFunctionBase() ITK_OVERRIDE {}
+  ~TrainingFunctionBase() override {}
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   TSample*                m_TrainingSamples;// original samples
   TTargetVector*          m_SampleTargets;  // original samples

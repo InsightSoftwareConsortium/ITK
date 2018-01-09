@@ -52,14 +52,14 @@ public:
 
   typedef Array<double> InternalVectorType;
 
-  virtual OutputType Evaluate(const ErrorVectorType&) const ITK_OVERRIDE = 0;
+  OutputType Evaluate(const ErrorVectorType&) const override = 0;
 
   virtual InternalVectorType EvaluateDerivative(const ErrorVectorType&) const = 0;
 
 protected:
 
   ErrorFunctionBase(){};
-  ~ErrorFunctionBase() ITK_OVERRIDE {};
+  ~ErrorFunctionBase() override {};
 
 private:
 

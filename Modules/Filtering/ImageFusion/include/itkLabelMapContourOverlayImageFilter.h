@@ -191,27 +191,27 @@ public:
 
 protected:
   LabelMapContourOverlayImageFilter();
-  ~LabelMapContourOverlayImageFilter() ITK_OVERRIDE {};
+  ~LabelMapContourOverlayImageFilter() override {};
 
   /** LabelMapContourOverlayImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** LabelMapContourOverlayImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *itkNotUsed(output)) override;
 
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) ITK_OVERRIDE;
+  void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId ) override;
 
-  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
+  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
-  virtual LabelMapType * GetLabelMap() ITK_OVERRIDE
+  LabelMapType * GetLabelMap() override
     {
     return m_TempImage;
     }

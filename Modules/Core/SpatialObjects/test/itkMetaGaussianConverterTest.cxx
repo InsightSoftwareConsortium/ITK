@@ -102,7 +102,7 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
   //
   MetaGaussian* newMetaGaussian = dynamic_cast<MetaGaussian *>(
     converter->SpatialObjectToMetaObject(GaussianSpatialObj));
-  if(newMetaGaussian == ITK_NULLPTR)
+  if(newMetaGaussian == nullptr)
     {
     itkGenericExceptionMacro(
       << "Failed to downcast from GaussianSpatialObject to MetaGaussian");

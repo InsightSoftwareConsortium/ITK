@@ -98,8 +98,8 @@ public:
 
 protected:
   MovingHistogramMorphologyImageFilter();
-  ~MovingHistogramMorphologyImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MovingHistogramMorphologyImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */
 //   void  ThreadedGenerateData (const OutputImageRegionType&
@@ -108,7 +108,7 @@ protected:
 
   /** Configure the histogram.
    *  Used by this class to pass the boundary value to the histogram object. */
-  virtual void ConfigureHistogram(THistogram & histogram) ITK_OVERRIDE;
+  void ConfigureHistogram(THistogram & histogram) override;
 
   PixelType m_Boundary;
 

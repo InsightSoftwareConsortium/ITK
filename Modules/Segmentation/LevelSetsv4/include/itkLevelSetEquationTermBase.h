@@ -140,7 +140,7 @@ protected:
   LevelSetEquationTermBase();
 
   /** Destructor */
-  virtual ~LevelSetEquationTermBase() ITK_OVERRIDE;
+  ~LevelSetEquationTermBase() override;
 
   void SetUp();
 

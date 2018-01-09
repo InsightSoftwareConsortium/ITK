@@ -134,17 +134,17 @@ public:
 protected:
   GPUPDEDeformableRegistrationFunction()
   {
-    m_MovingImage = ITK_NULLPTR;
-    m_FixedImage = ITK_NULLPTR;
-    m_DisplacementField = ITK_NULLPTR;
+    m_MovingImage = nullptr;
+    m_FixedImage = nullptr;
+    m_DisplacementField = nullptr;
     m_Energy = 0.0;
     m_NormalizeGradient = true;
     m_GradientStep = 1.0;
   }
 
-  ~GPUPDEDeformableRegistrationFunction() ITK_OVERRIDE {}
+  ~GPUPDEDeformableRegistrationFunction() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "MovingImage: ";

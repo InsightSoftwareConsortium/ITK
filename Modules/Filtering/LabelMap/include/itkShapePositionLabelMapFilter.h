@@ -90,9 +90,9 @@ public:
 
 protected:
   ShapePositionLabelMapFilter();
-  ~ShapePositionLabelMapFilter() ITK_OVERRIDE {};
+  ~ShapePositionLabelMapFilter() override {};
 
-  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
+  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 
   template< typename TAttributeAccessor >
   void TemplatedThreadedProcessLabelObject( const TAttributeAccessor & accessor, bool physical, LabelObjectType * labelObject )
@@ -130,7 +130,7 @@ protected:
     labelObject->AddIndex( idx );
   }
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   AttributeType m_Attribute;
 

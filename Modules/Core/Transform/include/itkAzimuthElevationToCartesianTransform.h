@@ -137,7 +137,7 @@ public:
                                                 const long maxElevation);
 
   /** Transform from azimuth-elevation to cartesian. */
-  OutputPointType     TransformPoint(const InputPointType  & point) const ITK_OVERRIDE;
+  OutputPointType     TransformPoint(const InputPointType  & point) const override;
 
   /** Back transform from cartesian to azimuth-elevation.  */
   inline InputPointType  BackTransform(const OutputPointType  & point) const
@@ -163,7 +163,7 @@ public:
 
   /** Overrides the TransformCategoryType to  UnknownTransformCategory. Even though
   this class derives from AffineTransform, its not a linear transform */
-  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  TransformCategoryType GetTransformCategory() const override
   {
        return Self::UnknownTransformCategory;
   }
@@ -219,10 +219,10 @@ protected:
   AzimuthElevationToCartesianTransform();
 
   /** Destroy an AzimuthElevationToCartesianTransform object. */
-  virtual ~AzimuthElevationToCartesianTransform() ITK_OVERRIDE;
+  ~AzimuthElevationToCartesianTransform() override;
 
   /** Print contents of an AzimuthElevationTransform. */
-  void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & s, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AzimuthElevationToCartesianTransform);

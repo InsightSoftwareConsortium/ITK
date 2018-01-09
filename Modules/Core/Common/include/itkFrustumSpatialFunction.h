@@ -67,7 +67,7 @@ public:
     } FrustumRotationPlaneType;
 
   /** Evaluates the function at a given position. */
-  OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & position) const override;
 
   /** Set/Get the apex of the pyramid. */
   itkGetConstMacro(Apex, InputType);
@@ -99,8 +99,8 @@ public:
 
 protected:
   FrustumSpatialFunction();
-  virtual ~FrustumSpatialFunction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~FrustumSpatialFunction() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FrustumSpatialFunction);

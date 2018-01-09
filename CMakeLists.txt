@@ -1,20 +1,23 @@
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
-
-foreach(p
-    CMP0025 # CMake 3.0
-    CMP0028
-    CMP0042 # CMake 3.0
-    CMP0054 # CMake 3.1
-    CMP0056 # CMake 3.2
-    CMP0058 # CMake 3.3
-    CMP0063 # CMake 3.3.2
-    )
-  if(POLICY ${p})
-    cmake_policy(SET ${p} NEW)
-  endif()
-endforeach()
+cmake_minimum_required(VERSION 3.8.2 FATAL_ERROR)
+if(CMAKE_CXX_STANDARD EQUAL "98" )
+   MESSAGE(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=98 is not supported in ITK version 5 and greater.")
+endif()
 
 project(ITK NONE)
+
+set(ITK_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
+set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
+
+if (APPLE)
+  include(itkApple)
+endif ()
+
+include(itkCompilerChecks)
+include(itkVersion)
+set(ITK_VERSION
+    "${ITK_MAJOR_VERSION}.${ITK_MINOR_VERSION}.${ITK_BUILD_VERSION}")
+include(itkSupportMacros)
+
 # Configure CMake variables that will be used in the module macros
 # ITK_USE_FILE is used when a remote module includes an example directory
 # that can be configured as an independent project.
@@ -79,8 +82,6 @@ endif()
 include(CTest)
 mark_as_advanced(CLEAR BUILD_TESTING)
 
-set(ITK_CMAKE_DIR ${ITK_SOURCE_DIR}/CMake)
-set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
 include(ITKDownloadSetup)
 include(PreventInSourceBuilds)
 include(PreventInBuildInstalls)
@@ -93,10 +94,6 @@ include(itkCheckSourceTree)
 set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
 
 #-----------------------------------------------------------------------------
-# ITK version number.
-set(ITK_VERSION_MAJOR "5")
-set(ITK_VERSION_MINOR "0")
-set(ITK_VERSION_PATCH "0")
 configure_file(CMake/ITKConfigVersion.cmake.in ITKConfigVersion.cmake @ONLY)
 
 if(NOT ITK_INSTALL_RUNTIME_DIR)

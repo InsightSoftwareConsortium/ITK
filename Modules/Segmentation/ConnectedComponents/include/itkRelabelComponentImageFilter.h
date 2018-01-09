@@ -253,20 +253,20 @@ protected:
     m_OriginalNumberOfObjects(0), m_MinimumObjectSize(0),
     m_SortByObjectSize(true)
   { this->InPlaceOff(); }
-  virtual ~RelabelComponentImageFilter() ITK_OVERRIDE {}
+  ~RelabelComponentImageFilter() override {}
 
   /**
    * Standard pipeline method.
    */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** RelabelComponentImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Standard printself method */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   struct RelabelComponentObjectType {
     LabelType m_ObjectNumber;

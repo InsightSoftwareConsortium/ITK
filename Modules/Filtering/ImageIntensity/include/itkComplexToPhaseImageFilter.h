@@ -93,7 +93,7 @@ public:
 
 protected:
   ComplexToPhaseImageFilter() {}
-  virtual ~ComplexToPhaseImageFilter() ITK_OVERRIDE {}
+  ~ComplexToPhaseImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToPhaseImageFilter);

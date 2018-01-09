@@ -76,7 +76,7 @@ public:
    * Virtual destructor should properly destroy the object and clean up any
    * memory allocated for matrix and vector storage.
    */
-  virtual ~LinearSystemWrapper();
+  ~LinearSystemWrapper() override;
 
   /**
    * Clear all the data (matrices) inside the system, so that the system
@@ -507,8 +507,8 @@ public:
   FEMExceptionLinearSystem(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionLinearSystem()
-  ITK_NOEXCEPT ITK_OVERRIDE;
+  ~FEMExceptionLinearSystem()
+  ITK_NOEXCEPT override;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionLinearSystem, FEMException);
@@ -535,8 +535,8 @@ public:
                                  unsigned int index2);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionLinearSystemBounds()
-  ITK_NOEXCEPT ITK_OVERRIDE;
+  ~FEMExceptionLinearSystemBounds()
+  ITK_NOEXCEPT override;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionLinearSystem, FEMException);

@@ -91,7 +91,7 @@ public:
    * execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Enable/Disable using the image spacing information in
    *  calculations. Use this option if you  want derivatives in
@@ -109,16 +109,16 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~LaplacianSharpeningImageFilter() ITK_OVERRIDE {}
+  ~LaplacianSharpeningImageFilter() override {}
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default.   */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream &, Indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSharpeningImageFilter);

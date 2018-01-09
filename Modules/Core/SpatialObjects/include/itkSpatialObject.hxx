@@ -36,7 +36,7 @@ SpatialObject< TDimension >
   m_Bounds = BoundingBoxType::New();
   m_BoundsMTime = 0;
   m_Property = PropertyType::New();
-  m_TreeNode = ITK_NULLPTR;
+  m_TreeNode = nullptr;
 
   m_ObjectToWorldTransform = TransformType::New();
   m_ObjectToWorldTransform->SetIdentity();
@@ -363,7 +363,7 @@ SpatialObject< TDimension >
   // handle internal inverse
   if(!this->GetIndexToWorldTransform()->GetInverse( const_cast< TransformType *>( this->GetInternalInverseTransform() ) ))
     {
-    this->m_InternalInverseTransform = ITK_NULLPTR;
+    this->m_InternalInverseTransform = nullptr;
     }
   delete children;
 }
@@ -483,7 +483,7 @@ SpatialObject< TDimension >
   // handle internal inverse
   if(!this->GetIndexToWorldTransform()->GetInverse( const_cast< TransformType *>( this->GetInternalInverseTransform() ) ))
     {
-    this->m_InternalInverseTransform = ITK_NULLPTR;
+    this->m_InternalInverseTransform = nullptr;
     }
 }
 
@@ -614,7 +614,7 @@ SpatialObject< TDimension >
 {
   if ( !m_TreeNode )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   typename TreeNodeType::ChildrenListType * children =
@@ -689,7 +689,7 @@ SpatialObject< TDimension >
     {
     return m_TreeNode->GetParent()->Get();
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 /** Get the parent of the spatial object */
@@ -702,7 +702,7 @@ SpatialObject< TDimension >
     {
     return m_TreeNode->GetParent()->Get();
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 /** Set the parent of the spatial object */
@@ -713,7 +713,7 @@ SpatialObject< TDimension >
 {
   if ( !parent )
     {
-    m_TreeNode->SetParent(ITK_NULLPTR);
+    m_TreeNode->SetParent(nullptr);
     }
   else
     {
@@ -866,7 +866,7 @@ SpatialObject< TDimension >
 {
   const SpatialObject *imgData = dynamic_cast< const SpatialObject * >( data );
 
-  if ( imgData == ITK_NULLPTR)
+  if ( imgData == nullptr)
     {
     // pointer could not be cast back down
     itkExceptionMacro(
@@ -954,7 +954,7 @@ SpatialObject< TDimension >
     return static_cast< TreeNodeType * >(
              m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform();
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 template< unsigned int TDimension >
@@ -967,7 +967,7 @@ SpatialObject< TDimension >
     return static_cast< TreeNodeType * >(
              m_TreeNode.GetPointer() )->GetNodeToParentNodeTransform();
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 /** Return the type of the spatial object as a string
@@ -997,7 +997,7 @@ void SpatialObject< TDimension >
 
   imgData = dynamic_cast< const SpatialObject * >( data );
 
-  if ( imgData == ITK_NULLPTR )
+  if ( imgData == nullptr )
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::SpatialObject::CopyInformation() cannot cast "

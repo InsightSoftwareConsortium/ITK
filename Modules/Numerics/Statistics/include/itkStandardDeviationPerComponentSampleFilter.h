@@ -94,17 +94,17 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(StandardDeviationPerComponentSampleFilter);
 
   StandardDeviationPerComponentSampleFilter();
-  virtual ~StandardDeviationPerComponentSampleFilter() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~StandardDeviationPerComponentSampleFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DataObject pointer */
   typedef DataObject::Pointer DataObjectPointer;
 
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   MeasurementVectorSizeType GetMeasurementVectorSize() const;
 

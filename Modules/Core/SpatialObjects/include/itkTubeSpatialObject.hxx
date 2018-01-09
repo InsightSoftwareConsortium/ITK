@@ -315,7 +315,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 {
   itkDebugMacro("Checking the point [" << point << "] is inside the tube");
 
-  if ( name == ITK_NULLPTR )
+  if ( name == nullptr )
     {
     if ( IsInside(point) )
       {
@@ -546,7 +546,7 @@ TubeSpatialObject< TDimension, TTubePointType >
   // check if we are the same type
   const Self *source = dynamic_cast< const Self * >( data );
 
-  if ( source == ITK_NULLPTR )
+  if ( source == nullptr )
     {
     std::cout << "CopyInformation: objects are not of the same type"
               << std::endl;

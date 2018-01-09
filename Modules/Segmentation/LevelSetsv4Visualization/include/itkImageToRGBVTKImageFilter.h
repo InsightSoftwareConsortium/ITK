@@ -64,11 +64,11 @@ public:
   void SetInput(const InputImageType *);
 
   /** This call delegate the update to the importer */
-  void Update();
+  void Update() override;
 
 protected:
   ImageToRGBVTKImageFilter();
-  virtual ~ImageToRGBVTKImageFilter();
+  ~ImageToRGBVTKImageFilter() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageToRGBVTKImageFilter);

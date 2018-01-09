@@ -124,7 +124,7 @@ public:
 
 protected:
   HistogramToEntropyImageFilter() {}
-  virtual ~HistogramToEntropyImageFilter() ITK_OVERRIDE {}
+  ~HistogramToEntropyImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToEntropyImageFilter);

@@ -76,13 +76,13 @@ public:
   typedef typename PixelType::ValueType ScalarValueType;
 
   /** Compute the equation value. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
+  PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
                                   const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  ) ITK_OVERRIDE;
+                                  ) override;
 
   /** This method is called prior to each iteration of the solver. */
-  virtual void InitializeIteration() ITK_OVERRIDE
+  void InitializeIteration() override
   {
     m_K = this->GetAverageGradientMagnitudeSquared() * this->GetConductanceParameter()
           * this->GetConductanceParameter() * -2.0f;
@@ -90,7 +90,7 @@ public:
 
 protected:
   VectorGradientNDAnisotropicDiffusionFunction();
-  ~VectorGradientNDAnisotropicDiffusionFunction() ITK_OVERRIDE {}
+  ~VectorGradientNDAnisotropicDiffusionFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientNDAnisotropicDiffusionFunction);

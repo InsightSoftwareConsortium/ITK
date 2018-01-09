@@ -76,8 +76,8 @@ protected:
   JointHistogramMutualInformationComputeJointPDFThreader() {}
 
   /** Walk through the domain, and call this->ProcessPoint on every point. */
-  virtual void ThreadedExecution( const DomainType & subdomain,
-                                  const ThreadIdType threadId ) ITK_OVERRIDE;
+  void ThreadedExecution( const DomainType & subdomain,
+                                  const ThreadIdType threadId ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationComputeJointPDFThreader);
@@ -118,8 +118,8 @@ protected:
   JointHistogramMutualInformationComputeJointPDFThreader() {}
 
   /** Walk through the domain, and call this->ProcessPoint on every point. */
-  virtual void ThreadedExecution( const DomainType & subdomain,
-                                  const ThreadIdType threadId ) ITK_OVERRIDE;
+  void ThreadedExecution( const DomainType & subdomain,
+                                  const ThreadIdType threadId ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationComputeJointPDFThreader);

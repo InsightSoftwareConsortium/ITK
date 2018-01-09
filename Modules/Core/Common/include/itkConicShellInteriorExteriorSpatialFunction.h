@@ -86,7 +86,7 @@ public:
   typedef CovariantVector< double, VDimension > GradientType;
 
   /** Evaluates the function at a given position. */
-  OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & position) const override;
 
   /** Set/Get the origin of the function. */
   itkGetConstMacro(Origin, InputType);
@@ -117,8 +117,8 @@ public:
 
 protected:
   ConicShellInteriorExteriorSpatialFunction();
-  virtual ~ConicShellInteriorExteriorSpatialFunction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ConicShellInteriorExteriorSpatialFunction() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConicShellInteriorExteriorSpatialFunction);

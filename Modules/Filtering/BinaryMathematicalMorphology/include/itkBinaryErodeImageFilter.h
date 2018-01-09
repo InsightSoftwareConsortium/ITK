@@ -125,10 +125,10 @@ public:
 
 protected:
   BinaryErodeImageFilter();
-  virtual ~BinaryErodeImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BinaryErodeImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   // type inherited from the superclass
   typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;

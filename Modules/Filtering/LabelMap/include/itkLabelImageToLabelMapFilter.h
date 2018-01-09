@@ -100,22 +100,22 @@ public:
 
 protected:
   LabelImageToLabelMapFilter();
-  ~LabelImageToLabelMapFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LabelImageToLabelMapFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** LabelImageToLabelMapFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** LabelImageToLabelMapFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
 
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
-  virtual void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageToLabelMapFilter);

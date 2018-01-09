@@ -40,7 +40,7 @@ QPropXORTest1(int argc, char* argv[])
   int num_hidden_nodes = 2;
   int num_output_nodes = 1;
 
-  srand(time(ITK_NULLPTR));
+  srand(time(nullptr));
 
   typedef itk::Array<double>                                 MeasurementVectorType;
   typedef itk::Array<double>                                 TargetVectorType;

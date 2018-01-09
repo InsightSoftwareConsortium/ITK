@@ -94,8 +94,8 @@ protected:
 
   /**-PROTECTED METHODS------------------------------------------------------*/
   RingBuffer();
-  virtual ~RingBuffer() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream &os, Indent indent) const ITK_OVERRIDE;
+  ~RingBuffer() override;
+  void PrintSelf(std::ostream &os, Indent indent) const override;
 
   /** Get the proper buffer index from an offset */
   OffsetValueType GetOffsetBufferIndex(OffsetValueType offset);

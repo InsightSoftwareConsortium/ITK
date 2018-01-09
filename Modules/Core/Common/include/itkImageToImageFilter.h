@@ -165,11 +165,11 @@ public:
    */
   virtual void PushBackInput(const InputImageType *image);
 
-  virtual void PopBackInput() ITK_OVERRIDE;
+  void PopBackInput() override;
 
   virtual void PushFrontInput(const InputImageType *image);
 
-  virtual void PopFrontInput() ITK_OVERRIDE;
+  void PopFrontInput() override;
 
   /** get/set the Coordinate tolerance
    *  This tolerance is used when comparing the space defined
@@ -209,9 +209,9 @@ public:
 
 protected:
   ImageToImageFilter();
-  ~ImageToImageFilter() ITK_OVERRIDE;
+  ~ImageToImageFilter() override;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** \brief Verifies that the input images occupy the same physical
    * space and the each index is at the same physical location.
@@ -232,7 +232,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() ITK_OVERRIDE;
+  void VerifyInputInformation() override;
 
   /** What is the input requested region that is required to produce
    * the output requested region? The base assumption for image
@@ -258,7 +258,7 @@ protected:
    *
    * \sa ProcessObject::GenerateInputRequestedRegion(),
    *     ImageSource::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Typedef for the region copier function object that converts an
    * input region to an output region. */
@@ -351,9 +351,9 @@ protected:
    * the versions from ProcessObject to avoid warnings about hiding
    * methods from the superclass.
    */
-  void PushBackInput(const DataObject *input) ITK_OVERRIDE
+  void PushBackInput(const DataObject *input) override
   { Superclass::PushBackInput(input); }
-  void PushFrontInput(const DataObject *input) ITK_OVERRIDE
+  void PushFrontInput(const DataObject *input) override
   { Superclass::PushFrontInput(input); }
 
 private:

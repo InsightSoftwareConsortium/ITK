@@ -136,7 +136,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
   std::cout << "PAR_MaxNumberOfCardiacPhases = " << tempInt << std::endl;
 
   PhilipsRECImageIOType::TriggerTimesContainerType::Pointer
-    ptrToTimePoints = ITK_NULLPTR;
+    ptrToTimePoints = nullptr;
   if( !itk::ExposeMetaData<PhilipsRECImageIOType::TriggerTimesContainerType
     ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_TriggerTimes",
     ptrToTimePoints) )
@@ -146,7 +146,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
     }
   if( !ptrToTimePoints )
     {
-    std::cerr << "PAR_TriggerTimes is ITK_NULLPTR" << std::endl;
+    std::cerr << "PAR_TriggerTimes is nullptr" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "TriggerTimes =";
@@ -166,7 +166,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
   std::cout << "PAR_MaxNumberOfEchoes = " << tempInt << std::endl;
 
   PhilipsRECImageIOType::EchoTimesContainerType::Pointer
-    ptrToEchoes = ITK_NULLPTR;
+    ptrToEchoes = nullptr;
   if( !itk::ExposeMetaData<PhilipsRECImageIOType::EchoTimesContainerType
     ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_EchoTimes",
     ptrToEchoes) )
@@ -176,7 +176,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
     }
   if( !ptrToEchoes )
     {
-    std::cerr << "PAR_EchoTimes is ITK_NULLPTR" << std::endl;
+    std::cerr << "PAR_EchoTimes is nullptr" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "EchoTimes =";
@@ -253,7 +253,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
   std::cout << "PAR_ScanResolution = " << scanRes << std::endl;
 
   PhilipsRECImageIOType::RepetitionTimesContainerType::Pointer
-    ptrToTR = ITK_NULLPTR;
+    ptrToTR = nullptr;
   if( !itk::ExposeMetaData<PhilipsRECImageIOType::RepetitionTimesContainerType
     ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_RepetitionTimes",
     ptrToTR) )
@@ -263,7 +263,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
     }
   if( !ptrToTR )
     {
-    std::cerr << "PAR_RepetitionTimes is ITK_NULLPTR" << std::endl;
+    std::cerr << "PAR_RepetitionTimes is nullptr" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "RepetitionTimes =";
@@ -432,7 +432,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
   std::cout << "PAR_MaxNumberOfDiffusionValues = " << tempInt << std::endl;
 
   PhilipsRECImageIOType::GradientBvalueContainerType::Pointer
-    ptrToBValues = ITK_NULLPTR;
+    ptrToBValues = nullptr;
   if( !itk::ExposeMetaData<PhilipsRECImageIOType::GradientBvalueContainerType
     ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_GradientBValues",
     ptrToBValues) )
@@ -442,7 +442,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
     }
   if( !ptrToBValues )
     {
-    std::cerr << "PAR_GradientBValues is ITK_NULLPTR" << std::endl;
+    std::cerr << "PAR_GradientBValues is nullptr" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "GradientBValues =";
@@ -462,7 +462,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
   std::cout << "PAR_MaxNumberOfGradientOrients = " << tempInt << std::endl;
 
   PhilipsRECImageIOType::GradientDirectionContainerType::Pointer
-    ptrToGradValues = ITK_NULLPTR;
+    ptrToGradValues = nullptr;
   if( !itk::ExposeMetaData<PhilipsRECImageIOType::GradientDirectionContainerType
     ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_GradientDirectionValues",
     ptrToGradValues) )
@@ -472,7 +472,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
     }
   if( !ptrToGradValues )
     {
-    std::cerr << "PAR_GradientDirectionValues is ITK_NULLPTR" << std::endl;
+    std::cerr << "PAR_GradientDirectionValues is nullptr" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "GradientDirectionValues =";
@@ -531,7 +531,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
   ScanningSequenceImageTypeRescaleValuesContainerTypePtr;
 
   ScanningSequenceImageTypeRescaleValuesContainerTypePtr
-    ptrToRescaleValues = ITK_NULLPTR;
+    ptrToRescaleValues = nullptr;
   if( !itk::ExposeMetaData<ScanningSequenceImageTypeRescaleValuesContainerTypePtr>
     (imageIO->GetMetaDataDictionary(),
     "PAR_ScanningSequenceImageTypeRescaleValues",
@@ -543,7 +543,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
     }
   if( !ptrToRescaleValues )
     {
-    std::cerr << "PAR_ScanningSequenceImageTypeRescaleValues is ITK_NULLPTR";
+    std::cerr << "PAR_ScanningSequenceImageTypeRescaleValues is nullptr";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
@@ -571,7 +571,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
   std::cout << "PAR_NumberOfASLLabelTypes = " << tempInt << std::endl;
 
   PhilipsRECImageIOType::LabelTypesASLContainerType::Pointer
-    ptrToASLLabelTypes = ITK_NULLPTR;
+    ptrToASLLabelTypes = nullptr;
   if( !itk::ExposeMetaData<PhilipsRECImageIOType::LabelTypesASLContainerType
     ::Pointer>(imageIO->GetMetaDataDictionary(), "PAR_ASLLabelTypes",
     ptrToASLLabelTypes) )
@@ -581,7 +581,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
     }
   if( !ptrToASLLabelTypes )
     {
-    std::cerr << "PAR_ASLLabelTypes is ITK_NULLPTR" << std::endl;
+    std::cerr << "PAR_ASLLabelTypes is nullptr" << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "ASLLabelTypes =";

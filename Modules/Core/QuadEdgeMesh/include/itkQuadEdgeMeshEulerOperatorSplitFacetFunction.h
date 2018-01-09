@@ -58,7 +58,7 @@ public:
 
 protected:
   QuadEdgeMeshEulerOperatorSplitFacetFunction(){}
-  ~QuadEdgeMeshEulerOperatorSplitFacetFunction() ITK_OVERRIDE {}
+  ~QuadEdgeMeshEulerOperatorSplitFacetFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitFacetFunction);

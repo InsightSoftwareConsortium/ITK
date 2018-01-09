@@ -88,7 +88,7 @@ public:
 
 protected:
   LabelUniqueLabelMapFilter() {};
-  ~LabelUniqueLabelMapFilter() ITK_OVERRIDE {};
+  ~LabelUniqueLabelMapFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelUniqueLabelMapFilter);

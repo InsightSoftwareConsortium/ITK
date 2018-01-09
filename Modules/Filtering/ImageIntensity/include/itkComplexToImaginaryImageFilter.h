@@ -93,7 +93,7 @@ public:
 
 protected:
   ComplexToImaginaryImageFilter() {}
-  virtual ~ComplexToImaginaryImageFilter() ITK_OVERRIDE {}
+  ~ComplexToImaginaryImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToImaginaryImageFilter);

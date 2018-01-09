@@ -137,7 +137,7 @@ public:
    * copy all necessary information from passed object
    * to the mesh
    */
-  virtual void CopyInformation(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) override;
 
   /**
    * Add a new edge to the simplex mesh by specifying the ids of the start
@@ -170,7 +170,7 @@ public:
   /**
    * Get all neighbor points with a specified radius
    */
-  NeighborListType * GetNeighbors(PointIdentifier pointId, unsigned int radius, NeighborListType *list = ITK_NULLPTR) const;
+  NeighborListType * GetNeighbors(PointIdentifier pointId, unsigned int radius, NeighborListType *list = nullptr) const;
 
   /**
    * Add a neighbor to a point.
@@ -260,8 +260,8 @@ public:
 protected:
   //  /** Constructor for use by New() method. */
   SimplexMesh();
-  virtual ~SimplexMesh() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SimplexMesh() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * The map stores a SimplexMeshGeometry object for each mesh point

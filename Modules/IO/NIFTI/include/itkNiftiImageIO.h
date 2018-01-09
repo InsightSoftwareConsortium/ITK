@@ -61,13 +61,13 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified.
    */
-  virtual bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
+  bool CanReadFile(const char *FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) override;
 
   //-------- This part of the interfaces deals with writing data. -----
 
@@ -77,23 +77,23 @@ public:
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can write the file specified.
    */
-  virtual bool CanWriteFile(const char *FileNameToWrite) ITK_OVERRIDE;
+  bool CanWriteFile(const char *FileNameToWrite) override;
 
   /** Set the spacing and dimension information for the set filename.
    *
    * For Nifti this does not write a file, it only fills in the
    * appropriate header information.
    */
-  virtual void WriteImageInformation() ITK_OVERRIDE;
+  void WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void Write(const void *buffer) ITK_OVERRIDE;
+  void Write(const void *buffer) override;
 
   /** Calculate the region of the image that can be efficiently read
    *  in response to a given requested region. */
-  virtual ImageIORegion
-  GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const ITK_OVERRIDE;
+  ImageIORegion
+  GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const override;
 
   /** A mode to allow the Nifti filter to read and write to the LegacyAnalyze75 format as interpreted by
     * the nifti library maintainers.  This format does not properly respect the file orientation fields.
@@ -105,8 +105,8 @@ public:
 
 protected:
   NiftiImageIO();
-  ~NiftiImageIO() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NiftiImageIO() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual bool GetUseLegacyModeForTwoFileWriting(void) const { return false; }
 

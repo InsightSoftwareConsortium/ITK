@@ -24,7 +24,7 @@
 
 namespace itk
 {
-SpatialObjectFactoryBase *SpatialObjectFactoryBase:: m_Factory = ITK_NULLPTR;
+SpatialObjectFactoryBase *SpatialObjectFactoryBase:: m_Factory = nullptr;
 
 SpatialObjectFactoryBase::SpatialObjectFactoryBase()
 {}

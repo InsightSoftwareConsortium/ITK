@@ -28,10 +28,10 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
 {
 
   // allocate if necessary
-  if( m_Matrices == ITK_NULLPTR )
+  if( m_Matrices == nullptr )
     {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
-    if( m_Matrices == ITK_NULLPTR )
+    if( m_Matrices == nullptr )
       {
       itkGenericExceptionMacro(<< "LinearSystemWrapperVNL::InitializeMatrix(): m_Matrices allocation failed.");
       }
@@ -41,7 +41,7 @@ void LinearSystemWrapperVNL::InitializeMatrix(unsigned int matrixIndex)
   delete ( *m_Matrices )[matrixIndex];
 
   ( *m_Matrices )[matrixIndex] = new MatrixRepresentation( this->GetSystemOrder(), this->GetSystemOrder() );
-  if( ( *m_Matrices )[matrixIndex] == ITK_NULLPTR )
+  if( ( *m_Matrices )[matrixIndex] == nullptr )
     {
     itkGenericExceptionMacro(
       << "LinearSystemWrapperVNL::InitializeMatrix(): allocation of (*m_Matrices)[" << matrixIndex << "] failed.");
@@ -67,17 +67,17 @@ void LinearSystemWrapperVNL::DestroyMatrix(unsigned int matrixIndex)
   if( m_Matrices )
     {
     delete ( *m_Matrices )[matrixIndex];
-    ( *m_Matrices )[matrixIndex] = ITK_NULLPTR;
+    ( *m_Matrices )[matrixIndex] = nullptr;
     }
 }
 
 void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
 {
   // allocate if necessary
-  if( m_Vectors == ITK_NULLPTR )
+  if( m_Vectors == nullptr )
     {
     m_Vectors = new std::vector<vnl_vector<Float> *>(m_NumberOfVectors);
-    if( m_Vectors == ITK_NULLPTR )
+    if( m_Vectors == nullptr )
       {
       itkGenericExceptionMacro(<< "InitializeVector(): m_Vectors memory allocation failed.");
       }
@@ -87,7 +87,7 @@ void LinearSystemWrapperVNL::InitializeVector(unsigned int vectorIndex)
   delete ( *m_Vectors )[vectorIndex];
 
   ( *m_Vectors )[vectorIndex] = new vnl_vector<Float>( this->GetSystemOrder() );
-  if( ( *m_Vectors )[vectorIndex] == ITK_NULLPTR )
+  if( ( *m_Vectors )[vectorIndex] == nullptr )
     {
     itkGenericExceptionMacro(<< "InitializeVector(): allocation of (*m_Vectors)[" << vectorIndex << "] failed.");
     }
@@ -113,17 +113,17 @@ void LinearSystemWrapperVNL::DestroyVector(unsigned int vectorIndex)
   if( m_Vectors )
     {
     delete ( *m_Vectors )[vectorIndex];
-    ( *m_Vectors )[vectorIndex] = ITK_NULLPTR;
+    ( *m_Vectors )[vectorIndex] = nullptr;
     }
 }
 
 void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
 {
   // allocate if necessary
-  if( m_Solutions == ITK_NULLPTR )
+  if( m_Solutions == nullptr )
     {
     m_Solutions = new std::vector<vnl_vector<Float> *>(m_NumberOfSolutions);
-    if( m_Solutions == ITK_NULLPTR )
+    if( m_Solutions == nullptr )
       {
       itkGenericExceptionMacro(<< "InitializeSolution(): m_Solutions memory allocation failed.");
       }
@@ -133,7 +133,7 @@ void LinearSystemWrapperVNL::InitializeSolution(unsigned int solutionIndex)
   delete ( *m_Solutions )[solutionIndex];
 
   ( *m_Solutions )[solutionIndex] = new vnl_vector<Float>( this->GetSystemOrder() );
-  if( ( *m_Solutions )[solutionIndex] == ITK_NULLPTR )
+  if( ( *m_Solutions )[solutionIndex] == nullptr )
     {
     itkGenericExceptionMacro(<< "InitializeSolution(): allocation of (*m_olutions)[" << solutionIndex << "] failed.");
     }
@@ -159,14 +159,14 @@ void LinearSystemWrapperVNL::DestroySolution(unsigned int solutionIndex)
   if( m_Solutions )
     {
     delete ( *m_Solutions )[solutionIndex];
-    ( *m_Solutions )[solutionIndex] = ITK_NULLPTR;
+    ( *m_Solutions )[solutionIndex] = nullptr;
     }
 }
 
 LinearSystemWrapperVNL::Float LinearSystemWrapperVNL::GetSolutionValue(unsigned int i,
                                                                        unsigned int SolutionIndex) const
 {
-  if( m_Solutions == ITK_NULLPTR )
+  if( m_Solutions == nullptr )
     {
     return 0.0;
     }
@@ -191,9 +191,9 @@ void LinearSystemWrapperVNL::Solve(void)
   /* use functions to make sure that zero based matrix, vector, & index store
     final system to solve */
   /*
-  if (m_PrimaryMatrixSetupFunction != ITK_NULLPTR) (*m_PrimaryMatrixSetupFunction)(static_cast<Superclass*>(this));
-  if (m_PrimaryVectorSetupFunction != ITK_NULLPTR) (*m_PrimaryVectorSetupFunction)(static_cast<Superclass*>(this));
-  if (m_PrimarySolutionSetupFunction != ITK_NULLPTR) (*m_PrimarySolutionSetupFunction)(static_cast<Superclass*>(this));
+  if (m_PrimaryMatrixSetupFunction != nullptr) (*m_PrimaryMatrixSetupFunction)(static_cast<Superclass*>(this));
+  if (m_PrimaryVectorSetupFunction != nullptr) (*m_PrimaryVectorSetupFunction)(static_cast<Superclass*>(this));
+  if (m_PrimarySolutionSetupFunction != nullptr) (*m_PrimarySolutionSetupFunction)(static_cast<Superclass*>(this));
   */
 
   /*

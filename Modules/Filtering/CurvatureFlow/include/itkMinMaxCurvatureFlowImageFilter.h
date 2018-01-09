@@ -135,12 +135,12 @@ public:
 
 protected:
   MinMaxCurvatureFlowImageFilter();
-  ~MinMaxCurvatureFlowImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MinMaxCurvatureFlowImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration.
    * Progress feeback is implemented as part of this method. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MinMaxCurvatureFlowImageFilter);

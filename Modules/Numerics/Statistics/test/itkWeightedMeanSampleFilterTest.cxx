@@ -48,7 +48,7 @@ public:
   typedef double OutputType;
 
   /**Evaluate at the specified input position */
-  virtual OutputType Evaluate( const InputType& input ) const ITK_OVERRIDE
+  OutputType Evaluate( const InputType& input ) const override
     {
     MeasurementVectorType measurements;
     // set the weight factor of the measurment
@@ -66,7 +66,7 @@ public:
 
 protected:
   WeightedMeanTestFunction() {}
-  ~WeightedMeanTestFunction() ITK_OVERRIDE {}
+  ~WeightedMeanTestFunction() override {}
 }; // end of class
 
 
@@ -121,9 +121,9 @@ int itkWeightedMeanSampleFilterTest(int, char* [] )
   std::cerr << "Exception caught: " << excp << std::endl;
   }
 
-  if ( filter->GetInput() != ITK_NULLPTR )
+  if ( filter->GetInput() != nullptr )
     {
-    std::cerr << "GetInput() should return ITK_NULLPTR if the input \
+    std::cerr << "GetInput() should return nullptr if the input \
                      has not been set" << std::endl;
     return EXIT_FAILURE;
     }

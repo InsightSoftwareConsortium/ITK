@@ -39,16 +39,16 @@ public:
   itkTypeMacro(FastMarchingStoppingCriterionBaseHelperTest,
                 FastMarchingStoppingCriterionBase );
 
-  bool IsSatisfied() const ITK_OVERRIDE { return true; }
-  std::string GetDescription() const ITK_OVERRIDE { return "Description"; }
+  bool IsSatisfied() const override { return true; }
+  std::string GetDescription() const override { return "Description"; }
 
 protected:
   FastMarchingStoppingCriterionBaseHelperTest() : Superclass() {}
-  ~FastMarchingStoppingCriterionBaseHelperTest() ITK_OVERRIDE {}
+  ~FastMarchingStoppingCriterionBaseHelperTest() override {}
 
-  void SetCurrentNode( const NodeType& ) ITK_OVERRIDE {}
+  void SetCurrentNode( const NodeType& ) override {}
 
-  void Reset() ITK_OVERRIDE {}
+  void Reset() override {}
 
 private:
   FastMarchingStoppingCriterionBaseHelperTest( const Self& );

@@ -88,7 +88,7 @@ public:
 
   /** Evalutate the  in the given dimension at specified point
    *  Subclasses should override this method. */
-  virtual TOutput Evaluate(const PointType &) const ITK_OVERRIDE
+  TOutput Evaluate(const PointType &) const override
   {
     std::cout << "NeighborhoodOperatorImageFunction::Evaluate(): Not implemented!" << std::endl;
     TOutput out;
@@ -97,12 +97,12 @@ public:
   }
 
   /** Evaluate the function at specified Index position */
-  virtual TOutput EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  TOutput EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evaluate the function at specified ContinuousIndex position.
    * Subclasses should override this method. */
-  virtual TOutput EvaluateAtContinuousIndex(
-    const ContinuousIndexType &) const ITK_OVERRIDE
+  TOutput EvaluateAtContinuousIndex(
+    const ContinuousIndexType &) const override
   {
     std::cout << "NeighborhoodOperatorImageFunction::EvaluateAtContinuousIndex():Not implemented!" << std::endl;
     TOutput out;
@@ -114,10 +114,10 @@ protected:
   NeighborhoodOperatorImageFunction();
   NeighborhoodOperatorImageFunction(const Self &){}
 
-  ~NeighborhoodOperatorImageFunction() ITK_OVERRIDE {}
+  ~NeighborhoodOperatorImageFunction() override {}
 
   void operator=(const Self &){}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

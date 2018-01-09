@@ -97,10 +97,10 @@ public:
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   /** This method is used to run after multi-threading. */
-  void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -111,12 +111,12 @@ public:
 
 protected:
   InterpolateImageFilter();
-  ~InterpolateImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~InterpolateImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** InterpolateImageFilter can be implemented as a multithreaded filter. */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(InterpolateImageFilter);

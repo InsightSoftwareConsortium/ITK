@@ -20,7 +20,7 @@
 #include "itksys/SystemTools.hxx"
 
 #include "itk_jpeg.h"
-#include <setjmp.h>
+#include <csetjmp>
 
 // create an error handler for jpeg that
 // can longjmp out of the jpeg library
@@ -71,14 +71,14 @@ bool wrapSetjmp( itk_jpeg_error_mgr & jerr )
 class JPEGFileWrapper
 {
 public:
-  JPEGFileWrapper(const char *const fname, const char *const openMode):m_FilePointer(ITK_NULLPTR)
+  JPEGFileWrapper(const char *const fname, const char *const openMode):m_FilePointer(nullptr)
   {
     m_FilePointer = fopen(fname, openMode);
   }
 
   virtual ~JPEGFileWrapper()
   {
-    if ( m_FilePointer != ITK_NULLPTR )
+    if ( m_FilePointer != nullptr )
       {
       fclose(m_FilePointer);
       }
@@ -135,7 +135,7 @@ bool JPEGImageIO::CanReadFile(const char *file)
 
   // Now check the file header
   JPEGFileWrapper JPEGfp(file, "rb");
-  if ( JPEGfp.m_FilePointer == ITK_NULLPTR )
+  if ( JPEGfp.m_FilePointer == nullptr )
     {
     return false;
     }

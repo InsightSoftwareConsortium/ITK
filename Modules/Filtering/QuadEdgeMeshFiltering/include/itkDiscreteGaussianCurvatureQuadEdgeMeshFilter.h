@@ -77,15 +77,15 @@ public:
 
 protected:
   DiscreteGaussianCurvatureQuadEdgeMeshFilter() {}
-  ~DiscreteGaussianCurvatureQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~DiscreteGaussianCurvatureQuadEdgeMeshFilter() override {}
 
-  virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP) ITK_OVERRIDE
+  OutputCurvatureType EstimateCurvature(const OutputPointType & iP) override
   {
     OutputMeshPointer output = this->GetOutput();
 
     OutputQEType *qe = iP.GetEdge();
 
-    if ( qe != ITK_NULLPTR )
+    if ( qe != nullptr )
       {
       OutputQEType *qe_it = qe;
       OutputQEType *qe_it2;

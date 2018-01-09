@@ -176,7 +176,7 @@ protected:
 
   /** Default constructor*/
   LaplacianDeformationQuadEdgeMeshFilter();
-  virtual ~LaplacianDeformationQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~LaplacianDeformationQuadEdgeMeshFilter() override {}
 
   typedef itksys::hash_map< OutputPointIdentifier, OutputPointIdentifier >  OutputMapPointIdentifier;
   typedef typename OutputMapPointIdentifier::iterator                       OutputMapPointIdentifierIterator;
@@ -213,7 +213,7 @@ protected:
   unsigned int              m_Order;
   AreaType                  m_AreaComputationType;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   OutputCoordRepType ComputeMixedAreaForGivenVertex(OutputPointIdentifier vId);
   OutputCoordRepType ComputeMixedArea(OutputQEPrimal *iQE1, OutputQEPrimal *iQE2);

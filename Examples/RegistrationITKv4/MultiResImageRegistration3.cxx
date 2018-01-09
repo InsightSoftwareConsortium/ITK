@@ -53,14 +53,14 @@ public:
   typedef   itk::RegularStepGradientDescentOptimizer   OptimizerType;
   typedef   OptimizerType *                            OptimizerPointer;
 
-  void Execute(itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object * object, const itk::EventObject & event) override
     {
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;
       }
     RegistrationPointer registration = static_cast<RegistrationPointer>( object );
-    if(registration == ITK_NULLPTR)
+    if(registration == nullptr)
       {
       return;
       }
@@ -83,7 +83,7 @@ public:
       }
     }
 
-  void Execute(const itk::Object * , const itk::EventObject & ) ITK_OVERRIDE
+  void Execute(const itk::Object * , const itk::EventObject & ) override
     { return; }
 };
 
@@ -106,12 +106,12 @@ public:
   typedef   itk::RegularStepGradientDescentOptimizer OptimizerType;
   typedef   const OptimizerType *                    OptimizerPointer;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
       Execute( (const itk::Object *)caller, event);
     }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
       OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
       if( !(itk::IterationEvent().CheckEvent( &event )) )

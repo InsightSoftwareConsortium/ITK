@@ -70,9 +70,9 @@ public:
 
 protected:
   OptimizerParameterScalesEstimatorTemplate(){};
-  ~OptimizerParameterScalesEstimatorTemplate() ITK_OVERRIDE {};
+  ~OptimizerParameterScalesEstimatorTemplate() override {};
 
-  virtual void PrintSelf(std::ostream &os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream &os, Indent indent) const override
     {
     Superclass::PrintSelf(os,indent);
     }

@@ -98,7 +98,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
   while( this->m_CurrentIteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !this->m_IsConverged )
     {
     typename CompositeTransformType::Pointer fixedComposite = CompositeTransformType::New();
-    if( fixedInitialTransform != ITK_NULLPTR )
+    if( fixedInitialTransform != nullptr )
       {
       fixedComposite->AddTransform( fixedInitialTransform );
       }
@@ -148,7 +148,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
     fixedComposer->Update();
 
     DisplacementFieldPointer fixedToMiddleSmoothTotalFieldTmp = this->BSplineSmoothDisplacementField( fixedComposer->GetOutput(),
-      this->m_FixedToMiddleTransform->GetNumberOfControlPointsForTheTotalField(), ITK_NULLPTR, ITK_NULLPTR );
+      this->m_FixedToMiddleTransform->GetNumberOfControlPointsForTheTotalField(), nullptr, nullptr );
 
     typename ComposerType::Pointer movingComposer = ComposerType::New();
     movingComposer->SetDisplacementField( movingToMiddleSmoothUpdateField );
@@ -156,7 +156,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
     movingComposer->Update();
 
     DisplacementFieldPointer movingToMiddleSmoothTotalFieldTmp = this->BSplineSmoothDisplacementField( movingComposer->GetOutput(),
-      this->m_MovingToMiddleTransform->GetNumberOfControlPointsForTheTotalField(), ITK_NULLPTR, ITK_NULLPTR );
+      this->m_MovingToMiddleTransform->GetNumberOfControlPointsForTheTotalField(), nullptr, nullptr );
 
     // Iteratively estimate the inverse fields.
 
@@ -194,10 +194,10 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
   const TransformBaseType * movingTransform, const FixedImageMasksContainerType fixedImageMasks, const MovingImageMasksContainerType movingImageMasks,
   MeasureType & value )
 {
-  DisplacementFieldPointer metricGradientField = ITK_NULLPTR;
-  DisplacementFieldPointer updateField = ITK_NULLPTR;
+  DisplacementFieldPointer metricGradientField = nullptr;
+  DisplacementFieldPointer updateField = nullptr;
 
-  typename WeightedMaskImageType::Pointer weightedMask = ITK_NULLPTR;
+  typename WeightedMaskImageType::Pointer weightedMask = nullptr;
 
   // We handle the point-set registration for this B-spline method as a special case.   A
   // point-set is defined irregularly (i.e., not necessarily at voxel centers) over
@@ -298,7 +298,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
       weightedMask->DisconnectPipeline();
       }
     updateField = this->BSplineSmoothDisplacementField( metricGradientField,
-      this->m_FixedToMiddleTransform->GetNumberOfControlPointsForTheUpdateField(), weightedMask, ITK_NULLPTR );
+      this->m_FixedToMiddleTransform->GetNumberOfControlPointsForTheUpdateField(), weightedMask, nullptr );
     }
 
   DisplacementFieldPointer scaledUpdateField = this->ScaleUpdateField( updateField );

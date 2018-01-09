@@ -134,7 +134,7 @@ public:
 
   /** Return Current Value */
   itkGetConstReferenceMacro(CurrentCost, MeasureType);
-  virtual const MeasureType & GetValue() const ITK_OVERRIDE;
+  const MeasureType & GetValue() const override;
 
   /** Return if optimizer has been initialized */
   itkGetConstReferenceMacro(Initialized, bool);
@@ -142,7 +142,7 @@ public:
   /** Start optimization.
    * Optimization will stop when it meets either of two termination conditions,
    * the maximum iteration limit or epsilon (minimal search radius)  */
-  virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
+  void StartOptimization(bool doOnlyInitialization = false) override;
 
   /** when users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and
@@ -156,13 +156,13 @@ public:
   itkGetConstReferenceMacro(MetricWorstPossibleValue, double);
   itkSetMacro(MetricWorstPossibleValue, double);
 
-  virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const override;
 
 protected:
   OnePlusOneEvolutionaryOptimizerv4();
   OnePlusOneEvolutionaryOptimizerv4(const OnePlusOneEvolutionaryOptimizerv4 &);
-  virtual ~OnePlusOneEvolutionaryOptimizerv4() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~OnePlusOneEvolutionaryOptimizerv4() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

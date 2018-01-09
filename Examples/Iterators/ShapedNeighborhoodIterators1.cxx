@@ -19,7 +19,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include <math.h>
+#include <cmath>
 
 // Software Guide : BeginLatex
 //

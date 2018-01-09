@@ -69,7 +69,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
     else
       {
       this->SetNumberOfRequiredOutputs(1);
-      this->SetNthOutput(1, ITK_NULLPTR);
+      this->SetNthOutput(1, nullptr);
       }
     }
 }

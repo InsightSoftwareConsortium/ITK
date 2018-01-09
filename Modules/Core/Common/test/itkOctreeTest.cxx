@@ -19,9 +19,9 @@
 #include "itkOctree.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionIterator.h"
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
+#include <cstdlib>
+#include <ctime>
+#include <cmath>
 
 template <typename TPixel,unsigned int TableSize>
 class IdentityMap
@@ -47,7 +47,7 @@ int itkOctreeTest(int, char *[])
   img->SetBufferedRegion(region);
   img->SetRequestedRegion(region);
   img->Allocate();
-  srand( (unsigned)time( ITK_NULLPTR) );
+  srand( (unsigned)time( nullptr) );
   itk::ImageRegionIterator<ImageType> ri(img,region);
   try
     {

@@ -86,23 +86,23 @@ public:
    * buffered region */
   virtual const TemporalRegionType GetUnbufferedRequestedTemporalRegion();
 
-  virtual void SetRequestedRegionToLargestPossibleRegion() ITK_OVERRIDE;
+  void SetRequestedRegionToLargestPossibleRegion() override;
 
-  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion() ITK_OVERRIDE;
+  bool RequestedRegionIsOutsideOfTheBufferedRegion() override;
 
-  virtual bool VerifyRequestedRegion() ITK_OVERRIDE;
+  bool VerifyRequestedRegion() override;
 
-  virtual void CopyInformation(const DataObject *) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *) override;
 
-  virtual void SetRequestedRegion(const DataObject *) ITK_OVERRIDE;
+  void SetRequestedRegion(const DataObject *) override;
 
-  virtual void Graft(const DataObject *) ITK_OVERRIDE;
+  void Graft(const DataObject *) override;
 
 protected:
 
   TemporalDataObject();
-  virtual ~TemporalDataObject() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~TemporalDataObject() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Buffer for holding component data objects */
   BufferType::Pointer m_DataObjectBuffer;

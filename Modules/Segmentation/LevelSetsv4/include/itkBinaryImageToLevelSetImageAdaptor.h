@@ -101,14 +101,14 @@ public:
   /**
    * Input is a binary image m_InputImage
    * Output is a WhitakerSparseLevelSetImagePointer  */
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
 protected:
   /** Constructor */
   BinaryImageToLevelSetImageAdaptor();
 
   /** Destructor */
-  virtual ~BinaryImageToLevelSetImageAdaptor() ITK_OVERRIDE;
+  ~BinaryImageToLevelSetImageAdaptor() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
@@ -179,7 +179,7 @@ public:
 
 protected:
   BinaryImageToSparseLevelSetImageAdaptorBase() : Superclass() {}
-  virtual ~BinaryImageToSparseLevelSetImageAdaptorBase() ITK_OVERRIDE {}
+  ~BinaryImageToSparseLevelSetImageAdaptorBase() override {}
 
   LevelSetLabelMapPointer m_LabelMap;
 
@@ -257,14 +257,14 @@ public:
 
   typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType;
 
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
 protected:
   /** Constructor */
   BinaryImageToLevelSetImageAdaptor();
 
   /** Destructor */
-  virtual ~BinaryImageToLevelSetImageAdaptor() ITK_OVERRIDE;
+  ~BinaryImageToLevelSetImageAdaptor() override;
 
 private:
 
@@ -348,14 +348,14 @@ public:
 
   typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType;
 
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
 protected:
   /** Constructor */
   BinaryImageToLevelSetImageAdaptor();
 
   /** Destructor */
-  ~BinaryImageToLevelSetImageAdaptor() ITK_OVERRIDE;
+  ~BinaryImageToLevelSetImageAdaptor() override;
 
   /** Find the active layer separating the foreground and background regions */
   void FindActiveLayer();
@@ -431,14 +431,14 @@ public:
 
   typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType;
 
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
 protected:
   /** Constructor */
   BinaryImageToLevelSetImageAdaptor();
 
   /** Destructor */
-  virtual ~BinaryImageToLevelSetImageAdaptor() ITK_OVERRIDE;
+  ~BinaryImageToLevelSetImageAdaptor() override;
 
   /** Find the active layer separating the foreground and background regions */
   void FindActiveLayer();

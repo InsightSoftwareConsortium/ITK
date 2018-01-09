@@ -77,18 +77,18 @@ public:
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType & Derivative) const ITK_OVERRIDE;
+                     DerivativeType & Derivative) const override;
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType GetValue(const TransformParametersType & parameters) const override;
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value, DerivativeType & Derivative) const ITK_OVERRIDE;
+                             MeasureType & Value, DerivativeType & Derivative) const override;
 
 protected:
   MeanSquaresPointSetToImageMetric();
-  virtual ~MeanSquaresPointSetToImageMetric() ITK_OVERRIDE {}
+  ~MeanSquaresPointSetToImageMetric() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresPointSetToImageMetric);

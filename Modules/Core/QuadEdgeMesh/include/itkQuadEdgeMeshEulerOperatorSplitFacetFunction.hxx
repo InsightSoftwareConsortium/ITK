@@ -45,32 +45,32 @@ QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::Evaluate(QEType *
   if ( !h || !g )
     {
     itkDebugMacro("At least one of the Input is not an edge.");
-    return ( (QEType *)ITK_NULLPTR );
+    return ( (QEType *)nullptr );
     }
 
   if ( !this->m_Mesh )
     {
     itkDebugMacro("No mesh present.");
-    return ( (QEType *)ITK_NULLPTR );
+    return ( (QEType *)nullptr );
     }
 
   if ( h == g )
     {
     itkDebugMacro("Provided edges should be different.");
-    return ( (QEType *)ITK_NULLPTR );
+    return ( (QEType *)nullptr );
     }
 
   if ( h->GetLeft() != g->GetLeft() )
     {
     itkDebugMacro("The edges are not around the same face.");
-    return ( (QEType *)ITK_NULLPTR );
+    return ( (QEType *)nullptr );
     }
 
   if ( ( h->GetLnext() == g )
        || ( g->GetLnext() == h ) )
     {
     itkDebugMacro("Provided edges should NOT be consecutive.");
-    return ( (QEType *)ITK_NULLPTR );
+    return ( (QEType *)nullptr );
     }
 
   typedef typename MeshType::VertexRefType VertexRefType;

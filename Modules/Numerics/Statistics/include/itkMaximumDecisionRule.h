@@ -63,11 +63,11 @@ public:
    * Evaluate the decision rule, returning the class label associated
    * with the largest discriminant score.
    */
-  virtual ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const ITK_OVERRIDE;
+  ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const override;
 
 protected:
   MaximumDecisionRule() {}
-  virtual ~MaximumDecisionRule() ITK_OVERRIDE {}
+  ~MaximumDecisionRule() override {}
 
 };  // end of class
 } // end of namespace Statistics

@@ -101,9 +101,9 @@ public:
    * This is typically used by optimizers.
    * There are 6 parameters. The first three represent the
    * versor, the last three represent the translation. */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
 
-  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE;
+  const ParametersType & GetParameters(void) const override;
 
   /** Update the transform's parameters by the values in \c update.
    * \param update must be of the same length as returned by
@@ -112,21 +112,21 @@ public:
    * SetParameters is called at the end of this method, to allow the transform
    * to perform any required operations on the updated parameters - typically
    * a conversion to member variables for use in TransformPoint. */
-  virtual void UpdateTransformParameters( const DerivativeType & update, TParametersValueType factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, TParametersValueType factor = 1.0 ) override;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
 protected:
   VersorRigid3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
   VersorRigid3DTransform(unsigned int paramDim);
   VersorRigid3DTransform();
-  ~VersorRigid3DTransform() ITK_OVERRIDE {}
+  ~VersorRigid3DTransform() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VersorRigid3DTransform);

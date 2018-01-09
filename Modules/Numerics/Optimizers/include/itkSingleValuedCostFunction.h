@@ -74,7 +74,7 @@ public:
 
 protected:
   SingleValuedCostFunction() {}
-  virtual ~SingleValuedCostFunction() ITK_OVERRIDE;
+  ~SingleValuedCostFunction() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedCostFunction);

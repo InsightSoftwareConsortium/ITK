@@ -118,10 +118,10 @@ public:
   itkSetMacro(Maximum, InputPixelType);
   itkGetConstReferenceMacro(Maximum, InputPixelType);
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -132,7 +132,7 @@ public:
 
 protected:
   InvertIntensityImageFilter();
-  virtual ~InvertIntensityImageFilter() ITK_OVERRIDE {}
+  ~InvertIntensityImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(InvertIntensityImageFilter);

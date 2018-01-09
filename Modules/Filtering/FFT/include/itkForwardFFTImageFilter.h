@@ -80,13 +80,13 @@ public:
 
 protected:
   ForwardFFTImageFilter() {}
-  virtual ~ForwardFFTImageFilter() {}
+  ~ForwardFFTImageFilter() override {}
 
   /** This class requires the entire input. */
-  virtual void GenerateInputRequestedRegion();
+  void GenerateInputRequestedRegion() override;
 
   /** This class produces the entire output. */
-  virtual void EnlargeOutputRequestedRegion(DataObject *output);
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ForwardFFTImageFilter);

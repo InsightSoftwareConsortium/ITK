@@ -115,35 +115,35 @@ public:
    * the current contour (defined by nodes of the active region
    * that are less than zero) which are outside the shape
    * specified by the input parameters. */
-  virtual MeasureType ComputeLogInsideTerm(const ParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType ComputeLogInsideTerm(const ParametersType & parameters) const override;
 
   /** Compute the gradient term component of the MAP cost function.
    * In particular, this method assume that ( 1 - FeatureImage ) approximates
    * a Gaussian (zero mean, unit variance) algon the normal of the evolving contour.
    * The gradient term is then given by a Laplacian of the goodness of fit of
    * the Gaussian. */
-  virtual MeasureType ComputeLogGradientTerm(const ParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType ComputeLogGradientTerm(const ParametersType & parameters) const override;
 
   /** Compute the shape prior component of the MAP cost function.
    * In particular, the method assumes that the shape parameters comes from
    * independent Gaussian distributions defined by the ShapeParameterMeans
    * and ShapeParameterVariances array. */
-  virtual MeasureType ComputeLogShapePriorTerm(const ParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType ComputeLogShapePriorTerm(const ParametersType & parameters) const override;
 
   /** Compute the pose prior component of the MAP cost function.
    * In particular, this method assumes that the pose parameters are
    * uniformly distributed and returns a constant of zero. */
-  virtual MeasureType ComputeLogPosePriorTerm(const ParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType ComputeLogPosePriorTerm(const ParametersType & parameters) const override;
 
   /** Initialize the cost function by making sure that all the components
    *  are present. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
 protected:
   ShapePriorMAPCostFunction();
-  virtual ~ShapePriorMAPCostFunction() ITK_OVERRIDE {}
+  ~ShapePriorMAPCostFunction() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorMAPCostFunction);

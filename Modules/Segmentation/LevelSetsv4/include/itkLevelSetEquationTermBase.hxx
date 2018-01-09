@@ -67,7 +67,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
     }
   else
     {
-    itkGenericExceptionMacro( << "iContainer is ITK_NULLPTR" );
+    itkGenericExceptionMacro( << "iContainer is nullptr" );
     }
 }
 
@@ -122,7 +122,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
     {
     if( this->m_LevelSetContainer.IsNull() )
       {
-      itkGenericExceptionMacro( <<"m_LevelSetContainer is ITK_NULLPTR" );
+      itkGenericExceptionMacro( <<"m_LevelSetContainer is nullptr" );
       }
     this->m_CurrentLevelSetPointer = this->m_LevelSetContainer->GetLevelSet( this->m_CurrentLevelSetId );
 
@@ -135,7 +135,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 
   if( !this->m_Heaviside.IsNotNull() )
     {
-    itkWarningMacro( << "m_Heaviside is ITK_NULLPTR" );
+    itkWarningMacro( << "m_Heaviside is nullptr" );
     }
 }
 // ----------------------------------------------------------------------------

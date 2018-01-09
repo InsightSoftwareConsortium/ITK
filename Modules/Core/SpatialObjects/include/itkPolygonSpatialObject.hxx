@@ -412,7 +412,7 @@ bool
 PolygonSpatialObject< TDimension >
 ::IsInside(const PointType & point) const
 {
-  return this->IsInside(point, 0, ITK_NULLPTR);
+  return this->IsInside(point, 0, nullptr);
 }
 
 template< unsigned int TDimension >

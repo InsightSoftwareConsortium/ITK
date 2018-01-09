@@ -135,12 +135,12 @@ public:
 
 protected:
   MovingHistogramImageFilter();
-  ~MovingHistogramImageFilter() ITK_OVERRIDE {}
+  ~MovingHistogramImageFilter() override {}
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId) ITK_OVERRIDE;
+                             ThreadIdType threadId) override;
 
   // declare the type used to store the histogram
   typedef THistogram HistogramType;

@@ -111,7 +111,7 @@ public:
 
 protected:
   GrayscaleFunctionErodeImageFilter();
-  ~GrayscaleFunctionErodeImageFilter() ITK_OVERRIDE {}
+  ~GrayscaleFunctionErodeImageFilter() override {}
 
   /** Evaluate image neighborhood with kernel to find the new value
    * for the center pixel value
@@ -122,7 +122,7 @@ protected:
    * for non-boundary pixels. */
   PixelType Evaluate(const NeighborhoodIteratorType & nit,
                      const KernelIteratorType kernelBegin,
-                     const KernelIteratorType kernelEnd) ITK_OVERRIDE;
+                     const KernelIteratorType kernelEnd) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFunctionErodeImageFilter);

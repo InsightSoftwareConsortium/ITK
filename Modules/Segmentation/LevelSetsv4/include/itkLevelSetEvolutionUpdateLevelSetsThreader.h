@@ -69,11 +69,11 @@ public:
 protected:
   LevelSetEvolutionUpdateLevelSetsThreader();
 
-  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
+  void BeforeThreadedExecution() override;
 
-  virtual void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) ITK_OVERRIDE;
+  void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) override;
 
-  virtual void AfterThreadedExecution() ITK_OVERRIDE;
+  void AfterThreadedExecution() override;
 
   typedef CompensatedSummation< LevelSetOutputRealType > RMSChangeAccumulatorType;
   typedef std::vector< RMSChangeAccumulatorType > RMSChangeAccumulatorPerThreadType;

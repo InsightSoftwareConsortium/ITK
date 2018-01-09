@@ -98,7 +98,7 @@ public:
    * output images.
    * The original documentation of this method is below.
    * \sa ProcessObject::GenerateOutputRequestedRegion(); */
-  virtual void GenerateOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void GenerateOutputRequestedRegion(DataObject *output) override;
 
   /** RecursiveMultiResolutionPyramidImageFilter requires a larger input
    * requested region than the output requested regions to accommodate the
@@ -106,15 +106,15 @@ public:
    * MultiResolutionPyramidImageFilter needs to provide an implementation for
    * GenerateInputRequestedRegion().  The original documentation of this
    * method is below.  \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 protected:
   RecursiveMultiResolutionPyramidImageFilter();
-  ~RecursiveMultiResolutionPyramidImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~RecursiveMultiResolutionPyramidImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate the output data. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveMultiResolutionPyramidImageFilter);

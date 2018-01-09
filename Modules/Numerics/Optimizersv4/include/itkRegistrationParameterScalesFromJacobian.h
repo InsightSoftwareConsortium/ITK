@@ -69,7 +69,7 @@ public:
   typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
 
   /** Estimate parameter scales. */
-  virtual void EstimateScales(ScalesType &scales) ITK_OVERRIDE;
+  void EstimateScales(ScalesType &scales) override;
 
   /**
    *  Estimate the scale for \f$\Delta p\f$, the step of change on parameters.
@@ -88,17 +88,17 @@ public:
    *  For multiple voxels, we average the above formula to get the overall
    *  step scale.
    */
-  virtual FloatType EstimateStepScale(const ParametersType &step) ITK_OVERRIDE;
+  FloatType EstimateStepScale(const ParametersType &step) override;
 
   /** Estimate the scales of local steps. */
-  virtual void EstimateLocalStepScales(const ParametersType &step,
-    ScalesType &localStepScales) ITK_OVERRIDE;
+  void EstimateLocalStepScales(const ParametersType &step,
+    ScalesType &localStepScales) override;
 
 protected:
   RegistrationParameterScalesFromJacobian();
-  ~RegistrationParameterScalesFromJacobian() ITK_OVERRIDE {};
+  ~RegistrationParameterScalesFromJacobian() override {};
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    *  Compute the step scales for samples, i.e. the impacts on each sampled

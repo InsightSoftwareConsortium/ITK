@@ -67,7 +67,7 @@ public:
   typedef FixedArray< double, VImageDimension > ArrayType;
 
   /** Evaluate the function at a given position. */
-  OutputType Evaluate(const TInput & position) const ITK_OVERRIDE;
+  OutputType Evaluate(const TInput & position) const override;
 
   /** Set/Get the scale factor to multiply the true value of the Gaussian. */
   itkSetMacro(Scale, double);
@@ -88,8 +88,8 @@ public:
 
 protected:
   GaussianSpatialFunction();
-  virtual ~GaussianSpatialFunction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GaussianSpatialFunction() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSpatialFunction);

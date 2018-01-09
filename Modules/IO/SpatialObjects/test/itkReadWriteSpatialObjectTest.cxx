@@ -741,7 +741,7 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
     if(!strcmp((*obj)->GetTypeName(),"ImageSpatialObject"))
       {
       const itkImageType *constImage = dynamic_cast<const ImageType*>((*obj).GetPointer())->GetImage();
-      if(constImage == ITK_NULLPTR)
+      if(constImage == nullptr)
         {
         std::cerr << "dynamic_cast failed." << std::endl;
         return EXIT_FAILURE;

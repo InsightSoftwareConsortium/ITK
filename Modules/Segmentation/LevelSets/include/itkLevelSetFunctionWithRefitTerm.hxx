@@ -166,9 +166,9 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
   NodeType *      targetnode = m_SparseTargetImage->GetPixel (idx);
   ScalarValueType refitterm, cv, tcv;
 
-  if ( ( targetnode == ITK_NULLPTR ) || ( targetnode->m_CurvatureFlag == false ) )
+  if ( ( targetnode == nullptr ) || ( targetnode->m_CurvatureFlag == false ) )
     {
-    if ( targetnode == ITK_NULLPTR )
+    if ( targetnode == nullptr )
       {
       itkExceptionMacro(<< "required node has null pointer\n");
       }

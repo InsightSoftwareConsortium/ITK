@@ -155,11 +155,11 @@ public:
 
 protected:
   TimeVaryingVelocityFieldImageRegistrationMethodv4();
-  virtual ~TimeVaryingVelocityFieldImageRegistrationMethodv4() ITK_OVERRIDE;
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  ~TimeVaryingVelocityFieldImageRegistrationMethodv4() override;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
   /** Perform the registration. */
-  virtual void  GenerateData() ITK_OVERRIDE;
+  void  GenerateData() override;
 
   /** Multithreaded function which calculates the norm of the velocity field. */
   void ThreadedGenerateData( const RegionType &, ThreadIdType );

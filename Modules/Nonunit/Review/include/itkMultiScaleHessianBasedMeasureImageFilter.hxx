@@ -53,7 +53,7 @@ MultiScaleHessianBasedMeasureImageFilter
   m_SigmaStepMethod = Self::LogarithmicSigmaSteps;
 
   m_HessianFilter = HessianFilterType::New();
-  m_HessianToMeasureFilter = ITK_NULLPTR;
+  m_HessianToMeasureFilter = nullptr;
 
   //Instantiate Update buffer
   m_UpdateBuffer = UpdateBufferType::New();

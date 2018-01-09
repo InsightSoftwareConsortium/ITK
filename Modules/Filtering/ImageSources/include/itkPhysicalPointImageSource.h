@@ -65,9 +65,9 @@ protected:
   PhysicalPointImageSource( ) {};
   // virtual ~PhysicalPointImageSource() default implementation ok
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
-  virtual void ThreadedGenerateData (const RegionType &outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void ThreadedGenerateData (const RegionType &outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhysicalPointImageSource);

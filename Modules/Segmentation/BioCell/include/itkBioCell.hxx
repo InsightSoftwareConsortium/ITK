@@ -33,11 +33,11 @@ namespace bio
 template< unsigned int NSpaceDimension >
 Cell< NSpaceDimension >
 ::Cell() :
-  m_Aggregate(ITK_NULLPTR)
+  m_Aggregate(nullptr)
 {
   m_Force.Fill(0.0f);
 
-  // Genome pointers are set to ITK_NULLPTR in the superclass.
+  // Genome pointers are set to nullptr in the superclass.
 }
 
 /**
@@ -86,8 +86,8 @@ Cell< NSpaceDimension >
   siblingB->m_Genome = m_GenomeCopy;
 
   // Mark that the genome pointer is not owned by this cell anymore.
-  m_Genome     = ITK_NULLPTR;
-  m_GenomeCopy = ITK_NULLPTR;
+  m_Genome     = nullptr;
+  m_GenomeCopy = nullptr;
 
   // Register both daughter cells with the CellularAggregate.
   CellularAggregateBase *aggregate = this->GetCellularAggregate();

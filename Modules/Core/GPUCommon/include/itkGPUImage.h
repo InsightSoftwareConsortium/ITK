@@ -76,9 +76,9 @@ public:
   //
   // Allocate CPU and GPU memory space
   //
-  virtual void Allocate(bool initialize=false) ITK_OVERRIDE;
+  void Allocate(bool initialize=false) override;
 
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   void FillBuffer(const TPixel & value);
 
@@ -98,9 +98,9 @@ public:
   //
   // Get CPU buffer pointer
   //
-  TPixel* GetBufferPointer() ITK_OVERRIDE;
+  TPixel* GetBufferPointer() override;
 
-  const TPixel * GetBufferPointer() const ITK_OVERRIDE;
+  const TPixel * GetBufferPointer() const override;
 
   /** Return the Pixel Accessor object */
   AccessorType GetPixelAccessor(void)
@@ -165,7 +165,7 @@ public:
    * increment GPU's time stamp in GPUGenerateData() the
    * CPU's time stamp will be increased after that.
    */
-  void DataHasBeenGenerated() ITK_OVERRIDE
+  void DataHasBeenGenerated() override
   {
     Superclass::DataHasBeenGenerated();
     if( m_DataManager->IsCPUBufferDirty() )
@@ -178,9 +178,9 @@ public:
   virtual void Graft(const Self *data);
 
 protected:
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  void Graft(const DataObject *data) override;
   GPUImage();
-  virtual ~GPUImage() ITK_OVERRIDE;
+  ~GPUImage() override;
   using Superclass::Graft;
 
 private:
@@ -197,10 +197,10 @@ public:
   typedef itk::SmartPointer<const Self> ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const ITK_OVERRIDE {
+  const char* GetITKSourceVersion() const override {
     return ITK_SOURCE_VERSION;
   }
-  const char* GetDescription() const ITK_OVERRIDE {
+  const char* GetDescription() const override {
     return "A Factory for GPUImage";
   }
 

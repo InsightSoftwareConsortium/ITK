@@ -57,11 +57,11 @@ public:
 
 protected:
   MeshSourceGraftOutputFilter();
-  ~MeshSourceGraftOutputFilter() ITK_OVERRIDE {};
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~MeshSourceGraftOutputFilter() override {};
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Generate Requested Data */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Transform to apply to all the mesh points. */
   typename TransformType::Pointer   m_Transform;

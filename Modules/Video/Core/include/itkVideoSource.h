@@ -99,7 +99,7 @@ public:
    * multiple types of output must override this to return the proper type. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 protected:
 
@@ -114,14 +114,14 @@ protected:
    * mid-pipeline filters will always have their outputs' requested spatial
    * regions set by the GenerateInputRequestedRegion call from the filter one
    * further down the pipeline. */
-  virtual void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output) ITK_OVERRIDE;
+  void GenerateOutputRequestedTemporalRegion(TemporalDataObject* output) override;
 
   /** We override the default implementation of TemporalStreamingGenerateData
    * from TemporalProcessObject to provide functionality for spatial streaming.
    * This implementation works exactly the same way as the implementation of
    * GenerateData in ImageSource. The filter-specific implementation of
    * ThreadedGenerateData will be responsible of accessing the correct frames. */
-  virtual void TemporalStreamingGenerateData() ITK_OVERRIDE;
+  void TemporalStreamingGenerateData() override;
 
   /** ThreadedGenerateData here serves the same symnatic purpose as
    * ThreadedGenerateData in ProcessObjects that handle Images. This is to say
@@ -172,8 +172,8 @@ protected:
     };
 
   VideoSource();
-  virtual ~VideoSource() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VideoSource() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

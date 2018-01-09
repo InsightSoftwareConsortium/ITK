@@ -97,7 +97,7 @@ protected:
   ComplexToComplexFFTImageFilter():
     m_TransformDirection( FORWARD ) {}
 
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToComplexFFTImageFilter);

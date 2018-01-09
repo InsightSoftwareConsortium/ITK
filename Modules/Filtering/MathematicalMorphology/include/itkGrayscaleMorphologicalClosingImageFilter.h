@@ -112,7 +112,7 @@ public:
 // KernelSuperclass;
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel) ITK_OVERRIDE;
+  void SetKernel(const KernelType & kernel) override;
 
   /** Set/Get the backend filter class. */
   void SetAlgorithm(int algo);
@@ -120,7 +120,7 @@ public:
 
   /** GrayscaleMorphologicalClosingImageFilter need to set its internal filters
     as modified */
-  virtual void Modified() const ITK_OVERRIDE;
+  void Modified() const override;
 
   /** A safe border is added to input image to avoid borders effects
    * and remove it once the closing is done */
@@ -130,10 +130,10 @@ public:
 
 protected:
   GrayscaleMorphologicalClosingImageFilter();
-  ~GrayscaleMorphologicalClosingImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GrayscaleMorphologicalClosingImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleMorphologicalClosingImageFilter);

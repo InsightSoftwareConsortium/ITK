@@ -48,9 +48,9 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Class Methods used to interface with the registered factories. */
-  virtual const char * GetITKSourceVersion() const ITK_OVERRIDE;
+  const char * GetITKSourceVersion() const override;
 
-  virtual const char * GetDescription() const ITK_OVERRIDE;
+  const char * GetDescription() const override;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -68,7 +68,7 @@ public:
 
 protected:
   LSMImageIOFactory();
-  ~LSMImageIOFactory() ITK_OVERRIDE;
+  ~LSMImageIOFactory() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LSMImageIOFactory);

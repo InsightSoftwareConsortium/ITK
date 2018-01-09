@@ -43,12 +43,12 @@ BinaryImageToLevelSetImageAdaptor< TInputImage, LevelSetDenseImage< TLevelSetIma
 {
   if( this->m_InputImage.IsNull() )
     {
-    itkGenericExceptionMacro( "m_InputImage is ITK_NULLPTR" );
+    itkGenericExceptionMacro( "m_InputImage is nullptr" );
     }
 
   if( m_SignedDistanceTransformFilter.IsNull() )
     {
-    itkGenericExceptionMacro( "m_SignedDistanceTransformFilter is ITK_NULLPTR" );
+    itkGenericExceptionMacro( "m_SignedDistanceTransformFilter is nullptr" );
     }
   m_SignedDistanceTransformFilter->SetInput( this->m_InputImage );
   m_SignedDistanceTransformFilter->Update();
@@ -85,7 +85,7 @@ BinaryImageToLevelSetImageAdaptor<
 {
   if( this->m_InputImage.IsNull() )
     {
-    itkGenericExceptionMacro( << "m_InputImage is ITK_NULLPTR" );
+    itkGenericExceptionMacro( << "m_InputImage is nullptr" );
     }
 
   this->m_LabelMap = LevelSetLabelMapType::New();
@@ -139,7 +139,7 @@ BinaryImageToLevelSetImageAdaptor<
   this->m_LevelSet->SetLabelMap( this->m_LabelMap );
 
   // release the memory
-  this->m_InternalImage = ITK_NULLPTR;
+  this->m_InternalImage = nullptr;
 }
 
 template< typename TInput, typename TOutput >
@@ -422,7 +422,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::
 {
   if( this->m_InputImage.IsNull() )
     {
-    itkGenericExceptionMacro( << "m_InputImage is ITK_NULLPTR" );
+    itkGenericExceptionMacro( << "m_InputImage is nullptr" );
     }
 
   this->m_LabelMap = LevelSetLabelMapType::New();
@@ -463,7 +463,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput, ShiSparseLevelSetImage< TInput::
   FindActiveLayer();
 
   this->m_LevelSet->SetLabelMap( this->m_LabelMap );
-  this->m_InternalImage = ITK_NULLPTR;
+  this->m_InternalImage = nullptr;
 }
 
 
@@ -579,7 +579,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
 {
   if( this->m_InputImage.IsNull() )
     {
-    itkGenericExceptionMacro( << "m_InputImage is ITK_NULLPTR" );
+    itkGenericExceptionMacro( << "m_InputImage is nullptr" );
     }
 
   this->m_LabelMap = LevelSetLabelMapType::New();
@@ -622,7 +622,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
   this->CreateMinimalInterface();
 
   this->m_LevelSet->SetLabelMap( this->m_LabelMap );
-  this->m_InternalImage = ITK_NULLPTR;
+  this->m_InternalImage = nullptr;
 }
 
 template< typename TInput >

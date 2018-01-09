@@ -122,7 +122,7 @@ public:
 
 protected:
   Atan2ImageFilter() {}
-  virtual ~Atan2ImageFilter() ITK_OVERRIDE {}
+  ~Atan2ImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Atan2ImageFilter);

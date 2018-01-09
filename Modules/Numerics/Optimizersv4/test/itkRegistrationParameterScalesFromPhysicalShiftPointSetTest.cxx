@@ -52,16 +52,16 @@ public:
 
   itkNewMacro(Self);
 
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & ) const ITK_OVERRIDE
+  MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & ) const override
   { return 1.0; }
 
-  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType & measure, LocalDerivativeType & derivative, const PixelType & ) const ITK_OVERRIDE
+  void GetLocalNeighborhoodValueAndDerivative( const PointType &, MeasureType & measure, LocalDerivativeType & derivative, const PixelType & ) const override
   { measure = 1.0; derivative.Fill(0.0); }
 
 private:
 
   RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric() {}
-  ~RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric() ITK_OVERRIDE {}
+  ~RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric() override {}
 
 };
 

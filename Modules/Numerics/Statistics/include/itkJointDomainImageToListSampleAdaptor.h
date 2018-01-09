@@ -149,13 +149,13 @@ public:
   const TImage * GetImage() const;
 
   /** returns the number of measurement vectors in this container */
-  InstanceIdentifier Size() const ITK_OVERRIDE;
+  InstanceIdentifier Size() const override;
 
   /** Get frequency */
-  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const ITK_OVERRIDE;
+  AbsoluteFrequencyType GetFrequency(InstanceIdentifier id) const override;
 
   /** Get total frequency */
-  TotalAbsoluteFrequencyType GetTotalFrequency() const ITK_OVERRIDE;
+  TotalAbsoluteFrequencyType GetTotalFrequency() const override;
 
   itkStaticConstMacro(RangeDomainDimension, unsigned int,
                       itk::PixelTraits< typename TImage::PixelType >::Dimension);
@@ -171,14 +171,14 @@ public:
 
   /** Gets the measurement vector specified by the instance
    * identifier. This method overrides superclass method. */
-  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const ITK_OVERRIDE;
+  const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier id) const override;
 
   /** Method to set UsePixelContainer flag */
   itkSetMacro(UsePixelContainer, bool);
   itkGetConstMacro(UsePixelContainer, bool);
   itkBooleanMacro(UsePixelContainer);
 
-  //  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  //  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** \class ConstIterator
    * \brief Const Iterator
@@ -328,8 +328,8 @@ private:
 
 protected:
   JointDomainImageToListSampleAdaptor();
-  virtual ~JointDomainImageToListSampleAdaptor() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~JointDomainImageToListSampleAdaptor() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(JointDomainImageToListSampleAdaptor);

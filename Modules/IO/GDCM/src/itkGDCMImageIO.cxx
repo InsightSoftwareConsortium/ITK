@@ -61,7 +61,7 @@ namespace itk
 class InternalHeader
 {
 public:
-  InternalHeader():m_Header(ITK_NULLPTR) {}
+  InternalHeader():m_Header(nullptr) {}
   ~InternalHeader()
   {
     delete m_Header;

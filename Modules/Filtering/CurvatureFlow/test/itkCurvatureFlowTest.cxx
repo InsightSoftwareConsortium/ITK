@@ -59,21 +59,21 @@ public:
   typedef typename Superclass::PixelType        PixelType;
   typedef typename Superclass::TimeStepType     TimeStepType;
 
-  virtual PixelType ComputeUpdate( const NeighborhoodType &, void *,
-                                   const FloatOffsetType & ) ITK_OVERRIDE
+  PixelType ComputeUpdate( const NeighborhoodType &, void *,
+                                   const FloatOffsetType & ) override
     { return 0; }
 
-  virtual TimeStepType ComputeGlobalTimeStep( void * ) const ITK_OVERRIDE
+  TimeStepType ComputeGlobalTimeStep( void * ) const override
     { return 0; }
 
-  virtual void *GetGlobalDataPointer() const ITK_OVERRIDE
-    { return ITK_NULLPTR; }
+  void *GetGlobalDataPointer() const override
+    { return nullptr; }
 
-  virtual void ReleaseGlobalDataPointer(void *) const ITK_OVERRIDE {}
+  void ReleaseGlobalDataPointer(void *) const override {}
 
 protected:
   DummyFunction() {}
-  ~DummyFunction() ITK_OVERRIDE {}
+  ~DummyFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DummyFunction);
@@ -104,12 +104,12 @@ int itkCurvatureFlowTest(int argc, char* argv[] )
   std::cout << "Test error handling." << std::endl;
   typedef itk::CurvatureFlowImageFilter<ImageType,ImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( ITK_NULLPTR );
+  filter->SetInput( nullptr );
 
   bool passed = false;
   try
     {
-    std::cout << "Test when input is ITK_NULLPTR." << std::endl;
+    std::cout << "Test when input is nullptr." << std::endl;
     filter->Update();
     }
   catch( itk::ExceptionObject& err )

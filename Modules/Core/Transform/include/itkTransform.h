@@ -99,13 +99,13 @@ public:
   itkCloneMacro(Self);
 
   /** Get the size of the input space */
-  unsigned int GetInputSpaceDimension(void) const ITK_OVERRIDE
+  unsigned int GetInputSpaceDimension(void) const override
   {
     return NInputDimensions;
   }
 
   /** Get the size of the output space */
-  unsigned int GetOutputSpaceDimension(void) const ITK_OVERRIDE
+  unsigned int GetOutputSpaceDimension(void) const override
   {
     return NOutputDimensions;
   }
@@ -343,7 +343,7 @@ public:
    * SetParametersByValue.
    * \sa SetParametersByValue
    */
-  virtual void SetParameters(const ParametersType &) ITK_OVERRIDE = 0;
+  void SetParameters(const ParametersType &) override = 0;
 
   /** Set the transformation parameters and update internal transformation.
    * This method forces the transform to copy the parameters.  The
@@ -352,7 +352,7 @@ public:
    * by keeping a reference to the parameters.
    * \sa SetParameters
    */
-  virtual void SetParametersByValue(const ParametersType & p) ITK_OVERRIDE
+  void SetParametersByValue(const ParametersType & p) override
   {
     this->SetParameters(p);
   }
@@ -361,27 +361,27 @@ public:
     * The range of values must conform to std::copy(begin, end, m_Parameters)
     * requirements.
     */
-  virtual void CopyInParameters(const ParametersValueType * const begin,
-                                const ParametersValueType * const end) ITK_OVERRIDE;
+  void CopyInParameters(const ParametersValueType * const begin,
+                                const ParametersValueType * const end) override;
 
   /** This function allow copying a range of values into the FixedParameters
     * The range of values must conform to std::copy(begin, end, m_FixedParameters)
     * requirements.
     */
-  virtual void CopyInFixedParameters(const FixedParametersValueType * const begin,
-                                     const FixedParametersValueType * const end) ITK_OVERRIDE;
+  void CopyInFixedParameters(const FixedParametersValueType * const begin,
+                                     const FixedParametersValueType * const end) override;
 
   /** Get the Transformation Parameters. */
-  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE
+  const ParametersType & GetParameters(void) const override
   {
     return m_Parameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE = 0;
+  void SetFixedParameters(const FixedParametersType &) override = 0;
 
   /** Get the Fixed Parameters. */
-  virtual const FixedParametersType & GetFixedParameters(void) const ITK_OVERRIDE
+  const FixedParametersType & GetFixedParameters(void) const override
   {
     return m_FixedParameters;
   }
@@ -410,7 +410,7 @@ public:
   }
 
   /** Return the number of parameters that completely define the Transfom  */
-  virtual NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
+  NumberOfParametersType GetNumberOfParameters(void) const override
   {
     return this->m_Parameters.Size();
   }
@@ -435,25 +435,25 @@ public:
   }
 
   /** Return an inverse of this transform. If the inverse has not been
-   *  implemented, return ITK_NULLPTR. The type of the inverse transform
+   *  implemented, return nullptr. The type of the inverse transform
    *  does not necessarily need to match the type of the forward
    *  transform. This allows one to return a numeric inverse transform
    *  instead.
    */
   virtual InverseTransformBasePointer GetInverseTransform() const
   {
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Generate a platform independent name */
-  virtual std::string GetTransformTypeAsString() const ITK_OVERRIDE;
+  std::string GetTransformTypeAsString() const override;
 
   typedef typename Superclass::TransformCategoryType    TransformCategoryType;
 
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.
    */
-  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  TransformCategoryType GetTransformCategory() const override
   {
     return Superclass::UnknownTransformCategory;
   }
@@ -532,11 +532,11 @@ protected:
    * This does a complete copy of the transform
    * state to the new transform
    */
-  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
   Transform();
   Transform(NumberOfParametersType NumberOfParameters);
-  virtual ~Transform() ITK_OVERRIDE { }
+  ~Transform() override { }
 
   mutable ParametersType      m_Parameters;
   mutable FixedParametersType m_FixedParameters;

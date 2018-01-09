@@ -120,27 +120,27 @@ public:
    * computed over the the overlapping region between the two images.
    * This is value is only available for the previous iteration and
    * NOT the current iteration. */
-  virtual double GetMetric() const ITK_OVERRIDE;
+  double GetMetric() const override;
 
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
    * moving and fixed image pixel, the update vector (for that
    * iteration) will be the zero vector. Default is 0.001. */
-  virtual void SetIntensityDifferenceThreshold(double) ITK_OVERRIDE;
+  void SetIntensityDifferenceThreshold(double) override;
 
-  virtual double GetIntensityDifferenceThreshold() const ITK_OVERRIDE;
+  double GetIntensityDifferenceThreshold() const override;
 
 protected:
   GPUDemonsRegistrationFilter();
-  ~GPUDemonsRegistrationFilter() ITK_OVERRIDE {}
+  ~GPUDemonsRegistrationFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   /** Apply update. */
-  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
+  void ApplyUpdate(const TimeStepType& dt) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUDemonsRegistrationFilter);
@@ -162,11 +162,11 @@ public:
   typedef SmartPointer<const Self>           ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const ITK_OVERRIDE
+  const char* GetITKSourceVersion() const override
     {
     return ITK_SOURCE_VERSION;
     }
-  const char* GetDescription() const ITK_OVERRIDE
+  const char* GetDescription() const override
     {
     return "A Factory for GPUDemonsRegistrationFilter";
     }

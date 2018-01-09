@@ -87,10 +87,10 @@ public:
   itkGetConstReferenceMacro(Radius, InputSizeType);
 
   /** Evalulate the function at specified index */
-  virtual bool EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  bool EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evaluate the function at non-integer positions */
-  virtual bool Evaluate(const PointType & point) const ITK_OVERRIDE
+  bool Evaluate(const PointType & point) const override
   {
     IndexType index;
 
@@ -98,8 +98,8 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
-  virtual bool EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const ITK_OVERRIDE
+  bool EvaluateAtContinuousIndex(
+    const ContinuousIndexType & cindex) const override
   {
     IndexType index;
 
@@ -109,8 +109,8 @@ public:
 
 protected:
   NeighborhoodBinaryThresholdImageFunction();
-  ~NeighborhoodBinaryThresholdImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NeighborhoodBinaryThresholdImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodBinaryThresholdImageFunction);

@@ -88,7 +88,7 @@ protected:
   QuadricDecimationQuadEdgeMeshFilter();
 
   /** \brief Destructor */
-  virtual ~QuadricDecimationQuadEdgeMeshFilter() ITK_OVERRIDE;
+  ~QuadricDecimationQuadEdgeMeshFilter() override;
 
   /** \brief Compute the quadric error at the origin of the edge
    *  \param[in] iEdge input edge
@@ -117,7 +117,7 @@ protected:
    * \param[in] iEdge input edge
    * \return measure value, here the corresponding quadric error
    */
-  MeasureType MeasureEdge(OutputQEType *iEdge) ITK_OVERRIDE
+  MeasureType MeasureEdge(OutputQEType *iEdge) override
   {
     OutputPointIdentifier id_org = iEdge->GetOrigin();
     OutputPointIdentifier id_dest = iEdge->GetDestination();
@@ -138,17 +138,17 @@ protected:
    * \param[in] iIdToBeDeleted id of the point to be deleted
    * \param[in] iRemaining  id of the point to be kept
    */
-  virtual void DeletePoint(const OutputPointIdentifier & iIdToBeDeleted,
-                           const OutputPointIdentifier & iRemaining) ITK_OVERRIDE;
+  void DeletePoint(const OutputPointIdentifier & iIdToBeDeleted,
+                           const OutputPointIdentifier & iRemaining) override;
 
   /** \brief Compute the optimal position for a given edge iEdge
   * \param[in] iEdge
   * \return the optimal point location
   */
-  OutputPointType Relocate(OutputQEType *iEdge) ITK_OVERRIDE;
+  OutputPointType Relocate(OutputQEType *iEdge) override;
 
   /** \brief Compute Quadric error for all edges */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadricDecimationQuadEdgeMeshFilter);

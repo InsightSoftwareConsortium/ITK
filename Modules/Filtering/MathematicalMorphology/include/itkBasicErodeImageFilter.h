@@ -103,7 +103,7 @@ public:
 
 protected:
   BasicErodeImageFilter();
-  ~BasicErodeImageFilter() ITK_OVERRIDE {}
+  ~BasicErodeImageFilter() override {}
 
   /** Evaluate image neighborhood with kernel to find the new value
    * for the center pixel value.
@@ -111,9 +111,9 @@ protected:
    * It will return the minimum value of the image pixels whose corresponding
    * element in the structuring element is positive. This version of
    * Evaluate is used for non-boundary pixels. */
-  virtual PixelType Evaluate(const NeighborhoodIteratorType & nit,
+  PixelType Evaluate(const NeighborhoodIteratorType & nit,
                              const KernelIteratorType kernelBegin,
-                             const KernelIteratorType kernelEnd) ITK_OVERRIDE;
+                             const KernelIteratorType kernelEnd) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BasicErodeImageFilter);

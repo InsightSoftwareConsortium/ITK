@@ -137,12 +137,12 @@ public:
 
 protected:
   ImportImageContainer();
-  virtual ~ImportImageContainer() ITK_OVERRIDE;
+  ~ImportImageContainer() override;
 
   /** PrintSelf routine. Normally this is a protected internal method. It is
    * made public here so that Image can call this method.  Users should not
    * call this method but should call Print() instead. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Allocates elements of the array.  If UseDefaultConstructor is true, then

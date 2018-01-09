@@ -62,7 +62,7 @@ public:
   {
     itkWarningMacro(<< "PointBasedSpatialObject::GetPoint() is not implemented"
                     << " in the base class" << std::endl);
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   virtual SpatialObjectPointType *
@@ -70,7 +70,7 @@ public:
   {
     itkWarningMacro(<< "PointBasedSpatialObject::GetPoint() is not implemented"
                     << " in the base class" << std::endl);
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Return the number of points in the list */
@@ -82,7 +82,7 @@ public:
   }
 
   /**  */
-  bool ComputeLocalBoundingBox() const ITK_OVERRIDE
+  bool ComputeLocalBoundingBox() const override
   {
     itkWarningMacro(<< "PointBasedSpatialObject::ComputeLocalBoundingBox() is"
                     << " not implemented in the base class" << std::endl);
@@ -93,10 +93,10 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(PointBasedSpatialObject);
 
   PointBasedSpatialObject();
-  virtual ~PointBasedSpatialObject() ITK_OVERRIDE;
+  ~PointBasedSpatialObject() override;
 
   /** Method to print the object.*/
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

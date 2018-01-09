@@ -136,7 +136,7 @@ static bool isDeclineString(std::string response)
 }
 
 itk::SimpleFastMutexLock              itk::FFTWGlobalConfiguration::m_CreationLock;
-itk::FFTWGlobalConfiguration::Pointer itk::FFTWGlobalConfiguration::m_Instance=ITK_NULLPTR;
+itk::FFTWGlobalConfiguration::Pointer itk::FFTWGlobalConfiguration::m_Instance=nullptr;
 
 FFTWGlobalConfiguration::Pointer
 FFTWGlobalConfiguration
@@ -654,7 +654,7 @@ FFTWGlobalConfiguration
   int  fd;
   if ( !_sopen_s( &fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
     {
-    if ( (f = _fdopen(fd, "r")) != ITK_NULLPTR )
+    if ( (f = _fdopen(fd, "r")) != nullptr )
       {// strange but seems ok under VC++ not so friendly with checking the return values of affectations
       ret = fftwf_import_wisdom_from_file( f );
       }
@@ -689,7 +689,7 @@ FFTWGlobalConfiguration
   int  fd;
   if ( !_sopen_s( &fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
     {
-    if ( (f = _fdopen(fd, "r")) != ITK_NULLPTR )
+    if ( (f = _fdopen(fd, "r")) != nullptr )
       {// strange but seems ok under VC++
       ret = fftw_import_wisdom_from_file( f );
       }
@@ -731,7 +731,7 @@ FFTWGlobalConfiguration
   if ( !_sopen_s( &fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
     {
     FILE *f;
-    if ( (f = _fdopen(fd, "r")) != ITK_NULLPTR )
+    if ( (f = _fdopen(fd, "r")) != nullptr )
       {// strange but seems ok under VC++
       ret = fftwf_import_wisdom_from_file( f );
       }
@@ -767,7 +767,7 @@ FFTWGlobalConfiguration
   int  fd;
   if ( !_sopen_s( &fd, path.c_str(), _O_RDONLY, _SH_DENYNO, _S_IREAD))
     {
-    if ( (f = _fdopen(fd, "r")) != ITK_NULLPTR )
+    if ( (f = _fdopen(fd, "r")) != nullptr )
       {// strange but seems ok under VC++
       ret = fftw_import_wisdom_from_file( f );
       }

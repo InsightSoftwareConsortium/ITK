@@ -50,7 +50,7 @@ class ITK_TEMPLATE_EXPORT SmartPointerForwardReference
 public:
   /** Constructor  */
   SmartPointerForwardReference ()
-  { m_Pointer = ITK_NULLPTR; }
+  { m_Pointer = nullptr; }
 
   /** Const constructor  */
   SmartPointerForwardReference (const SmartPointerForwardReference< T > & p);

@@ -118,7 +118,7 @@ public:
   virtual void SetVelocityField( VelocityFieldType * );
   itkGetModifiableObjectMacro(VelocityField, VelocityFieldType );
 
-  virtual void SetFixedParameters( const FixedParametersType & ) ITK_OVERRIDE;
+  void SetFixedParameters( const FixedParametersType & ) override;
 
   /** Get/Set the interpolator.
    * Create out own set accessor that assigns the velocity field */
@@ -133,7 +133,7 @@ public:
    * implementation since we don't want to optimize over the deformation
    * field for this class but rather the time-varying velocity field
    */
-  virtual void SetDisplacementField( DisplacementFieldType * displacementField) ITK_OVERRIDE
+  void SetDisplacementField( DisplacementFieldType * displacementField) override
     {
     itkDebugMacro("setting DisplacementField to " << displacementField);
     if ( this->m_DisplacementField != displacementField )
@@ -143,13 +143,13 @@ public:
       }
     }
 
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) override;
 
   /** Return an inverse of this transform. */
   bool GetInverse( Self *inverse ) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const override;
 
   /** Trigger the computation of the displacement field by integrating the velocity field. */
   virtual void IntegrateVelocityField() {};
@@ -191,11 +191,11 @@ public:
 protected:
 
   VelocityFieldTransform();
-  virtual ~VelocityFieldTransform() ITK_OVERRIDE;
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  ~VelocityFieldTransform() override;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Clone the current transform */
-  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
   typename DisplacementFieldType::Pointer CopyDisplacementField( const DisplacementFieldType * ) const;
 

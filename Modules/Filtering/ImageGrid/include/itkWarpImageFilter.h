@@ -201,7 +201,7 @@ public:
    * implementation for GenerateOutputInformation() which set
    * the output information according the OutputSpacing, OutputOrigin
    * and the displacement field's LargestPossibleRegion. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** It is difficult to compute in advance the input image region
    * required to compute the requested output region. Thus the safest
@@ -209,15 +209,15 @@ public:
    *
    * For the displacement field, the input requested region
    * set to be the same as that of the output requested region. */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** This method is used to set the state of the filter before
    * multi-threading. */
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   /** This method is used to set the state of the filter after
    * multi-threading. */
-  virtual void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -236,13 +236,13 @@ protected:
   WarpImageFilter();
   // ~WarpImageFilter() {} default implementation is ok
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** WarpImageFilter is implemented as a multi-threaded filter.
    * As such, it needs to provide and implementation for
    * ThreadedGenerateData(). */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
   /** Override VeriyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space. But check the that
@@ -250,7 +250,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() ITK_OVERRIDE;
+  void VerifyInputInformation() override;
 
   /** This function should be in an interpolator but none of the ITK
    * interpolators at this point handle edge conditions properly

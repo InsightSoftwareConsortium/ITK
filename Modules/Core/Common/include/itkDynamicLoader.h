@@ -78,7 +78,7 @@ public:
 
 protected:
   DynamicLoader();
-  ~DynamicLoader() ITK_OVERRIDE;
+  ~DynamicLoader() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DynamicLoader);

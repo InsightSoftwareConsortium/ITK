@@ -47,7 +47,7 @@ int itkSphereSignedDistanceFunctionTest( int, char *[])
 
   // cast it to a generic function
   FunctionType::Pointer function = dynamic_cast<FunctionType *>( sphere.GetPointer() );
-  sphere = ITK_NULLPTR;
+  sphere = nullptr;
 
   // we must initialize the function before use
   function->Initialize();

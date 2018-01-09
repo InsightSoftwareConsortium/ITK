@@ -78,7 +78,7 @@ public:
    * output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   enum  HashFunction { MD5 };
 
@@ -94,22 +94,22 @@ protected:
 
   // virtual ~HashImageFilter(); // implementation not needed
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual
+
     void ThreadedGenerateData(const typename Superclass::OutputImageRegionType &,
-                              ThreadIdType) ITK_OVERRIDE {}
+                              ThreadIdType) override {}
 
   // See superclass for doxygen documentation
   //
   // This method is to do work after the superclass potential threaded
   // copy.
-  void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() override;
 
   // See superclass for doxygen documentation
   //
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HashImageFilter);

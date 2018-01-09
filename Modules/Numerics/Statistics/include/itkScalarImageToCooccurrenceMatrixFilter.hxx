@@ -145,8 +145,8 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
 
   const ImageType *input = this->GetInput();
 
-  // At this point input must be non-ITK_NULLPTR because the ProcessObject
-  // checks the number of required input to be non-ITK_NULLPTR pointers before
+  // At this point input must be non-nullptr because the ProcessObject
+  // checks the number of required input to be non-nullptr pointers before
   // calling this GenerateData() method.
 
   // First, create an appropriate histogram with the right number of bins
@@ -173,7 +173,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
   RadiusType radius;
   radius.Fill(minRadius);
 
-  const ImageType *maskImage = ITK_NULLPTR;
+  const ImageType *maskImage = nullptr;
 
   // Check if a mask image has been provided
   //
@@ -183,7 +183,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
     }
 
   // Now fill in the histogram
-  if ( maskImage != ITK_NULLPTR )
+  if ( maskImage != nullptr )
     {
     this->FillHistogramWithMask(radius, input->GetRequestedRegion(), maskImage);
     }

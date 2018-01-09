@@ -42,7 +42,7 @@ class ITKCommon_EXPORT MemoryProbe:
 public:
 
   MemoryProbe();
-  ~MemoryProbe() ITK_OVERRIDE;
+  ~MemoryProbe() override;
 
   /** Type for measuring memory. */
   typedef SizeValueType MemoryLoadType;
@@ -51,7 +51,7 @@ public:
   typedef double MeanMemoryLoadType;
 
 protected:
-  virtual MemoryLoadType GetInstantValue(void) const ITK_OVERRIDE;
+  MemoryLoadType GetInstantValue(void) const override;
 
 private:
   mutable MemoryUsageObserver m_MemoryObserver;

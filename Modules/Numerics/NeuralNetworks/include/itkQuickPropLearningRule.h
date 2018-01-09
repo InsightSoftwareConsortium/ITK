@@ -56,8 +56,8 @@ public:
   itkNewMacro(Self);
 
   typedef typename Superclass::ValueType ValueType;
-  virtual void Learn(LayerType* layer, ValueType learningrate) ITK_OVERRIDE;
-  virtual void Learn(LayerType* layer, TTargetVector errors, ValueType learningrate) ITK_OVERRIDE;
+  void Learn(LayerType* layer, ValueType learningrate) override;
+  void Learn(LayerType* layer, TTargetVector errors, ValueType learningrate) override;
 
   itkSetMacro(Max_Growth_Factor, ValueType);
   itkGetConstReferenceMacro(Max_Growth_Factor,ValueType);
@@ -67,7 +67,7 @@ public:
 
 protected:
   QuickPropLearningRule();
-  virtual ~QuickPropLearningRule() ITK_OVERRIDE{};
+  ~QuickPropLearningRule() override{};
 
   ValueType m_Momentum;
   ValueType m_Max_Growth_Factor;
@@ -76,7 +76,7 @@ protected:
   ValueType m_Epsilon;
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 };
 
 } // end namespace Statistics

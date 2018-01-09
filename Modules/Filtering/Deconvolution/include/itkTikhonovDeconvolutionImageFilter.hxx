@@ -47,8 +47,8 @@ TikhonovDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInte
 
   const KernelImageType* kernelImage = this->GetKernelImage();
 
-  InternalComplexImagePointerType input = ITK_NULLPTR;
-  InternalComplexImagePointerType kernel = ITK_NULLPTR;
+  InternalComplexImagePointerType input = nullptr;
+  InternalComplexImagePointerType kernel = nullptr;
 
   this->PrepareInputs( localInput, kernelImage, input, kernel, progress, 0.7 );
 
@@ -69,8 +69,8 @@ TikhonovDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInte
   progress->RegisterInternalFilter( tikhonovFilter, 0.1 );
 
   // Free up the memory for the prepared inputs
-  input = ITK_NULLPTR;
-  kernel = ITK_NULLPTR;
+  input = nullptr;
+  kernel = nullptr;
 
   this->ProduceOutput( tikhonovFilter->GetOutput(), progress, 0.2 );
 }

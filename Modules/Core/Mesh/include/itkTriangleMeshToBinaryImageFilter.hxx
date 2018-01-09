@@ -46,7 +46,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
   m_Direction.GetVnlMatrix().set_identity();
 
   m_Tolerance = 1e-5;
-  m_InfoImage = ITK_NULLPTR;
+  m_InfoImage = nullptr;
 }
 
 /** Destructor */
@@ -168,7 +168,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 
   // Get the input and output pointers
   OutputImagePointer OutputImage = this->GetOutput();
-  if ( m_InfoImage == ITK_NULLPTR )
+  if ( m_InfoImage == nullptr )
     {
     if ( m_Size[0] == 0 ||  m_Size[1] == 0 ||  m_Size[2] == 0 )
       {

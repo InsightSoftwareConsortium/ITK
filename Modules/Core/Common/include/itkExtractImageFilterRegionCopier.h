@@ -150,8 +150,8 @@ public:
   }
 
   /** Duplicate the superclass method to avoid warnings. */
-  virtual void operator()(ImageRegion< T1 > & destRegion,
-                          const ImageRegion< T2 > & srcRegion) const
+  void operator()(ImageRegion< T1 > & destRegion,
+                          const ImageRegion< T2 > & srcRegion) const override
   {
     ImageRegionCopier< T1, T2 >::operator()(destRegion, srcRegion);
   }

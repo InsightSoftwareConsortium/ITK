@@ -64,11 +64,11 @@ public:
 
 protected:
   GPUAnisotropicDiffusionImageFilter() {}
-  ~GPUAnisotropicDiffusionImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GPUAnisotropicDiffusionImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Prepare for the iteration process. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUAnisotropicDiffusionImageFilter);

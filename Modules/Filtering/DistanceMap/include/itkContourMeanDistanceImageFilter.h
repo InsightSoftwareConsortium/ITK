@@ -132,17 +132,17 @@ public:
 
 protected:
   ContourMeanDistanceImageFilter();
-  ~ContourMeanDistanceImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ContourMeanDistanceImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GenerateData. */
-  void  GenerateData() ITK_OVERRIDE;
+  void  GenerateData() override;
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ContourMeanDistanceImageFilter);

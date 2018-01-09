@@ -82,12 +82,12 @@ public:
 
 protected:
   BoxSigmaImageFilter();
-  ~BoxSigmaImageFilter() ITK_OVERRIDE {}
+  ~BoxSigmaImageFilter() override {}
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId) ITK_OVERRIDE;
+                             ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoxSigmaImageFilter);

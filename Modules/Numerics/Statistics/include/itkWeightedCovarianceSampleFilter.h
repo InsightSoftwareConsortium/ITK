@@ -99,10 +99,10 @@ public:
 
 protected:
   WeightedCovarianceSampleFilter();
-  virtual ~WeightedCovarianceSampleFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~WeightedCovarianceSampleFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Compute covariance matrix with weights computed from a function */
   void ComputeCovarianceMatrixWithWeightingFunction();

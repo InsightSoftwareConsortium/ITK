@@ -68,7 +68,7 @@ namespace itk
  * then unit or zero values are returned for GetVirtualSpacing(),
  * GetVirtualDirection() and GetVirtualOrigin(), as appropriate. The virtual region is left
  * undefined and an attempt to retrieve it via GetVirtualRegion() will generate an exception.
- * The m_VirtualImage member will be ITK_NULLPTR.
+ * The m_VirtualImage member will be nullptr.
  *
  * During evaluation, derived classes should verify that points are within the virtual domain
  * and thus valid, as appropriate for the needs of the metric. When points are deemed invalid
@@ -173,14 +173,14 @@ public:
   /** DisplacementFieldTransform types for working with local-support transforms */
   typedef DisplacementFieldTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >  MovingDisplacementFieldTransformType;
 
-  virtual void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) override;
 
-  virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;
-  virtual NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE;
-  virtual void SetParameters( ParametersType & params ) ITK_OVERRIDE;
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
-  virtual bool HasLocalSupport() const ITK_OVERRIDE;
-  virtual void UpdateTransformParameters( const DerivativeType & derivative, TParametersValueType factor) ITK_OVERRIDE;
+  NumberOfParametersType GetNumberOfParameters() const override;
+  NumberOfParametersType GetNumberOfLocalParameters() const override;
+  void SetParameters( ParametersType & params ) override;
+  const ParametersType & GetParameters() const override;
+  bool HasLocalSupport() const override;
+  void UpdateTransformParameters( const DerivativeType & derivative, TParametersValueType factor) override;
 
   /** Connect the fixed transform. */
   itkSetObjectMacro(FixedTransform, FixedTransformType);
@@ -291,16 +291,16 @@ public:
   typedef typename Superclass::MetricCategoryType   MetricCategoryType;
 
   /** Get metric category */
-  virtual MetricCategoryType GetMetricCategory() const ITK_OVERRIDE
+  MetricCategoryType GetMetricCategory() const override
     {
     return Superclass::OBJECT_METRIC;
     }
 
 protected:
   ObjectToObjectMetric();
-  virtual ~ObjectToObjectMetric() ITK_OVERRIDE;
+  ~ObjectToObjectMetric() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Verify that virtual domain and displacement field are the same size
    * and in the same physical space. */
@@ -312,7 +312,7 @@ protected:
   /** If the moving transform is a DisplacementFieldTransform, return it.
    *  If the moving transform is a CompositeTransform, the routine will check if the
    *  first (last to be added) transform is a DisplacementFieldTransform, and if so return it.
-   *  Otherwise, return ITK_NULLPTR. */
+   *  Otherwise, return nullptr. */
   const MovingDisplacementFieldTransformType * GetMovingDisplacementFieldTransform() const;
 
   /** Check that the number of valid points is above a default

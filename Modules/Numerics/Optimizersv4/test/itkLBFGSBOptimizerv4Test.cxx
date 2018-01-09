@@ -68,32 +68,32 @@ public:
     m_HasLocalSupport = false;
   }
 
-  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE
+  void Initialize(void) throw ( itk::ExceptionObject ) override
   {
     m_Parameters.SetSize( SpaceDimension );
   }
 
-  virtual Superclass::NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE
+  Superclass::NumberOfParametersType GetNumberOfLocalParameters() const override
   {
     return SpaceDimension;
   }
 
-  virtual Superclass::NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
+  Superclass::NumberOfParametersType GetNumberOfParameters(void) const override
   {
     return SpaceDimension;
   }
 
-  virtual void SetParameters( ParametersType & params ) ITK_OVERRIDE
+  void SetParameters( ParametersType & params ) override
   {
     this->m_Parameters =  params;
   }
 
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const override
   {
     return this->m_Parameters;
   }
 
-  virtual bool HasLocalSupport() const ITK_OVERRIDE
+  bool HasLocalSupport() const override
   {
     return m_HasLocalSupport;
   }
@@ -103,11 +103,11 @@ public:
     m_HasLocalSupport = hls;
   }
 
-  virtual void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE
+  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) override
   {
   }
 
-  virtual MeasureType GetValue() const ITK_OVERRIDE
+  MeasureType GetValue() const override
   {
 
     double x = m_Parameters[0];
@@ -120,7 +120,7 @@ public:
     return val;
   }
 
-  virtual void GetDerivative( DerivativeType  & derivative ) const ITK_OVERRIDE
+  void GetDerivative( DerivativeType  & derivative ) const override
   {
     double x = m_Parameters[0];
     double y = m_Parameters[1];
@@ -132,7 +132,7 @@ public:
     std::cout << "GetDerivative ( " << x << " , " << y << ") = " << "(" << -derivative[0] << " , " << -derivative[1] << ")" << std::endl;
   }
 
-  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const override
   {
     value = GetValue();
     GetDerivative( derivative );
@@ -162,12 +162,12 @@ public:
   bool GetHadEndEvent()
     { return m_HadEndEvent; }
 
-  virtual void Execute( itk::Object *caller, const itk::EventObject & event ) ITK_OVERRIDE
+  void Execute( itk::Object *caller, const itk::EventObject & event ) override
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  virtual void Execute( const itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute( const itk::Object *caller, const itk::EventObject & event) override
     {
     if( itk::StartEvent().CheckEvent( &event ))
       {

@@ -126,11 +126,11 @@ public:
  * Therefore it is safe to invoke GetBounds() after any of those methods. */
   itkGetConstReferenceMacro(Bounds, BoundsArrayType);
 
-  /** Get the center of the bounding box. Returns ITK_NULLPTR if bounding box
+  /** Get the center of the bounding box. Returns nullptr if bounding box
    * cannot be computed. */
   PointType GetCenter() const;
 
-  /** Get the minimum point of the bounding box. Returns ITK_NULLPTR if bounding box
+  /** Get the minimum point of the bounding box. Returns nullptr if bounding box
    * cannot be computed. */
   PointType GetMinimum() const;
 
@@ -139,7 +139,7 @@ public:
    * set's) modified time changes. */
   void      SetMinimum(const PointType &);
 
-  /** Get the maximum point of the bounding box. Returns ITK_NULLPTR if bounding box
+  /** Get the maximum point of the bounding box. Returns nullptr if bounding box
    * cannot be computed. */
   PointType GetMaximum() const;
 
@@ -164,15 +164,15 @@ public:
   bool IsInside(const PointType &) const;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  virtual ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime(void) const override;
 
   /** Duplicates this bounding box */
   Pointer DeepCopy() const;
 
 protected:
   BoundingBox();
-  virtual ~BoundingBox() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BoundingBox() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   typedef typename PointsContainer::ConstIterator ConstIterator;
 

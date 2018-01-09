@@ -73,17 +73,17 @@ public:
   /** Return true if the object is evaluable at the requested point,
    *  and else otherwise. */
   bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+                     unsigned int depth = 0, char *name = nullptr) const override;
 
   /** Returns the value of the Mesh at the requested point.
    *  If the point is not inside the object, then an exception is thrown.
    * \sa ExceptionObject */
   bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+               unsigned int depth = 0, char *name = nullptr) const override;
 
   /** Returns true if the point is inside, false otherwise. */
   bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const ITK_OVERRIDE;
+                unsigned int depth, char *name) const override;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -91,10 +91,10 @@ public:
   virtual bool IsInside(const PointType & point) const;
 
   /** Compute the boundaries of the iamge spatial object. */
-  bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
+  bool ComputeLocalBoundingBox() const override;
 
   /** Returns the latest modified time of the object and its component. */
-  ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime(void) const override;
 
   /** Return the type of pixel used */
   const char * GetPixelType()
@@ -118,9 +118,9 @@ protected:
   double      m_IsInsidePrecision;
 
   MeshSpatialObject();
-  virtual ~MeshSpatialObject() ITK_OVERRIDE;
+  ~MeshSpatialObject() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end of namespace itk
 

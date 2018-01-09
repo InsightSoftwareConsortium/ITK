@@ -27,14 +27,14 @@ template< typename TInputImage, typename TKernelImage, typename TOutputImage, ty
 RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::RichardsonLucyDeconvolutionImageFilter()
 {
-  m_PaddedInput = ITK_NULLPTR;
+  m_PaddedInput = nullptr;
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
 RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 ::~RichardsonLucyDeconvolutionImageFilter()
 {
-  m_PaddedInput = ITK_NULLPTR;
+  m_PaddedInput = nullptr;
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >
@@ -146,14 +146,14 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage,
 {
   this->Superclass::Finish( progress, progressWeight );
 
-  m_ComplexMultiplyFilter1 = ITK_NULLPTR;
-  m_IFFTFilter1 = ITK_NULLPTR;
-  m_DivideFilter = ITK_NULLPTR;
-  m_FFTFilter = ITK_NULLPTR;
-  m_ConjugateAdaptor = ITK_NULLPTR;
-  m_ComplexMultiplyFilter2 = ITK_NULLPTR;
-  m_IFFTFilter2 = ITK_NULLPTR;
-  m_MultiplyFilter = ITK_NULLPTR;
+  m_ComplexMultiplyFilter1 = nullptr;
+  m_IFFTFilter1 = nullptr;
+  m_DivideFilter = nullptr;
+  m_FFTFilter = nullptr;
+  m_ConjugateAdaptor = nullptr;
+  m_ComplexMultiplyFilter2 = nullptr;
+  m_IFFTFilter2 = nullptr;
+  m_MultiplyFilter = nullptr;
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision >

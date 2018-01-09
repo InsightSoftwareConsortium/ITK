@@ -115,7 +115,7 @@ ImageSource< TOutputImage >
   TOutputImage *out = dynamic_cast< TOutputImage * >
                       ( this->ProcessObject::GetOutput(idx) );
 
-  if ( out == ITK_NULLPTR && this->ProcessObject::GetOutput(idx) != ITK_NULLPTR )
+  if ( out == nullptr && this->ProcessObject::GetOutput(idx) != nullptr )
     {
     itkWarningMacro (<< "Unable to convert output number " << idx << " to type " <<  typeid( OutputImageType ).name () );
     }
@@ -143,7 +143,7 @@ ImageSource< TOutputImage >
 {
   if ( !graft )
     {
-    itkExceptionMacro(<< "Requested to graft output that is a ITK_NULLPTR pointer");
+    itkExceptionMacro(<< "Requested to graft output that is a nullptr pointer");
     }
 
   // we use the process object method since all out output may not be

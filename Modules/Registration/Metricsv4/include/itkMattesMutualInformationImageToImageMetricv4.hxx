@@ -39,8 +39,8 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
   m_FixedImageBinSize(0.0),
   m_MovingImageBinSize(0.0),
 
-  m_CubicBSplineKernel(ITK_NULLPTR),
-  m_CubicBSplineDerivativeKernel(ITK_NULLPTR),
+  m_CubicBSplineKernel(nullptr),
+  m_CubicBSplineDerivativeKernel(nullptr),
 
   m_PRatioArray(0),
 
@@ -50,7 +50,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 
   // For multi-threading the metric
   m_ThreaderJointPDF(0),
-  m_JointPDFDerivatives(ITK_NULLPTR),
+  m_JointPDFDerivatives(nullptr),
   m_JointPDFSum(0.0)
 {
   // We have our own GetValueAndDerivativeThreader's that we want
@@ -420,7 +420,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 {
   m_CurrentFillSize = 0;
   m_MemoryBlockSize = cachedNumberOfLocalParameters * maxBufferLength;
-  m_BufferPDFValuesContainer.resize(maxBufferLength, ITK_NULLPTR);
+  m_BufferPDFValuesContainer.resize(maxBufferLength, nullptr);
   m_BufferOffsetContainer.resize(maxBufferLength, 0);
   m_CachedNumberOfLocalParameters = cachedNumberOfLocalParameters;
   m_MaxBufferSize = maxBufferLength;
@@ -444,7 +444,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 {
   m_MaxBufferSize = m_MaxBufferSize * 2;
   m_MemoryBlockSize = m_MemoryBlockSize * 2;
-  m_BufferPDFValuesContainer.resize(m_MaxBufferSize, ITK_NULLPTR);
+  m_BufferPDFValuesContainer.resize(m_MaxBufferSize, nullptr);
   m_BufferOffsetContainer.resize(m_MaxBufferSize, 0);
   m_MemoryBlock.resize(m_MemoryBlockSize, 0.0);
   for( size_t index = 0; index < m_MaxBufferSize; ++index )

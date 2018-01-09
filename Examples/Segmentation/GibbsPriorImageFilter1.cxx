@@ -28,7 +28,7 @@
 
 #include <iostream>
 #include <string>
-#include <math.h>
+#include <cmath>
 
 // Software Guide : BeginCodeSnippet
 #include "itkRGBGibbsPriorFilter.h"

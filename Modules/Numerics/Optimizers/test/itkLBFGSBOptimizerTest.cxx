@@ -65,7 +65,7 @@ public:
   {
   }
 
-  virtual double GetValue( const ParametersType & position ) const ITK_OVERRIDE
+  double GetValue( const ParametersType & position ) const override
   {
 
     double x = position[0];
@@ -83,7 +83,7 @@ public:
   }
 
   void GetDerivative( const ParametersType & position,
-                            DerivativeType  & derivative ) const ITK_OVERRIDE
+                            DerivativeType  & derivative ) const override
   {
 
     double x = position[0];
@@ -103,7 +103,7 @@ public:
   }
 
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const override
     {
     return SpaceDimension;
     }
@@ -126,12 +126,12 @@ public:
   bool GetHadEndEvent()
     { return m_HadEndEvent; }
 
-  virtual void Execute( itk::Object *caller, const itk::EventObject & event ) ITK_OVERRIDE
+  void Execute( itk::Object *caller, const itk::EventObject & event ) override
     {
     Execute( (const itk::Object *)caller, event);
     }
 
-  virtual void Execute( const itk::Object *, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute( const itk::Object *, const itk::EventObject & event) override
     {
     if( itk::StartEvent().CheckEvent( &event ))
       {

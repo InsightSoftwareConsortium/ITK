@@ -86,7 +86,7 @@ public:
 
     typedef typename MetricType::TransformPointer TransformPointer;
     const TransformPointer *transformPtr= metric->GetThreaderTransform();
-    if ((transformPtr==static_cast<const TransformPointer *>(ITK_NULLPTR))||
+    if ((transformPtr==static_cast<const TransformPointer *>(nullptr))||
         (transformPtr[0].IsNull()))
       {
       exit(EXIT_FAILURE);

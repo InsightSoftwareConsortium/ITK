@@ -67,7 +67,7 @@ public:
    * \return \f$ 1 \f$
    */
   InputCoordRepType operator()( const InputMeshType *itkNotUsed(iMesh),
-                                InputQEType *itkNotUsed(iEdge) ) const
+                                InputQEType *itkNotUsed(iEdge) ) const override
   {
     return 1.0;
   }
@@ -101,7 +101,7 @@ public:
    * \param[in] iEdge
    * \return \f$ \frac{1}{\|\boldsymbol{p1} - \boldsymbol{p2} \|} \f$
    */
-  InputCoordRepType operator()(const InputMeshType *iMesh, InputQEType *iEdge) const
+  InputCoordRepType operator()(const InputMeshType *iMesh, InputQEType *iEdge) const override
   {
     InputPointIdentifier id1 = iEdge->GetOrigin();
     InputPointIdentifier id2 = iEdge->GetDestination();
@@ -141,7 +141,7 @@ public:
    * \param[in] iEdge
    * \return \f$ \cot \alpha_{ij} + \cot \beta_{ij} \f$
    */
-  InputCoordRepType operator()(const InputMeshType *iMesh, InputQEType *iEdge) const
+  InputCoordRepType operator()(const InputMeshType *iMesh, InputQEType *iEdge) const override
   {
     InputPointIdentifier id1 = iEdge->GetOrigin();
     InputPointIdentifier id2 = iEdge->GetDestination();
@@ -195,7 +195,7 @@ public:
    * \return \f$ \frac{\cot \gamma_{ij} + \cot
    \delta_{ij}}{\|\boldsymbol{p1} - \boldsymbol{p2} \|^2} \f$
    */
-  InputCoordRepType operator()(const InputMeshType *iMesh, InputQEType *iEdge) const
+  InputCoordRepType operator()(const InputMeshType *iMesh, InputQEType *iEdge) const override
   {
     InputPointIdentifier id1 = iEdge->GetOrigin();
     InputPointType       pt1 = iMesh->GetPoint(id1);
@@ -285,7 +285,7 @@ public:
 
   HarmonicMatrixCoefficients() {}
 
-  InputCoordRepType operator()(const InputMeshType *iMesh, InputQEType *iEdge) const
+  InputCoordRepType operator()(const InputMeshType *iMesh, InputQEType *iEdge) const override
   {
     InputPointIdentifier id1 = iEdge->GetOrigin();
     InputPointIdentifier id2 = iEdge->GetDestination();

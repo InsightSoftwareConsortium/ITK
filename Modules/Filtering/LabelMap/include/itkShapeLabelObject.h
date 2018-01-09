@@ -679,7 +679,7 @@ public:
   template< typename TSourceLabelObject >
   void CopyAllFrom(const TSourceLabelObject *src)
   {
-    itkAssertOrThrowMacro ( ( src != ITK_NULLPTR ), "Null Pointer" );
+    itkAssertOrThrowMacro ( ( src != nullptr ), "Null Pointer" );
     this->template CopyLinesFrom<TSourceLabelObject>( src );
     this->template CopyAttributesFrom<TSourceLabelObject>( src );
   }
@@ -707,7 +707,7 @@ protected:
     m_OrientedBoundingBoxOrigin.Fill(0);
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
 

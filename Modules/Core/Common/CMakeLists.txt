@@ -62,7 +62,7 @@ endif()
 # Identify the version of CXX compiler used when ITK was built. This needs to be
 # identified so that external applications can identify how ITK was built.
 set(ITK_COMPILED_CXX_STANDARD_VERSION 1)
-foreach(CXX_TEST_VERSION 199711L 201103L 201402L)
+foreach(CXX_TEST_VERSION 201103L 201402L 201703L)
   try_compile(ITK_MIN_CXX_LEVEL_TEST
     ${CMAKE_CURRENT_BINARY_DIR}/CMakeTmp
     ${CMAKE_CURRENT_LIST_DIR}/CMake/itkGetCXXCompilerVersion.cxx
@@ -139,14 +139,21 @@ set(ITKCommon_LIBRARIES ITKCommon)
 
 itk_module_impl()
 
-install(FILES
-  ${ITKCommon_BINARY_DIR}/itkConfigure.h
-  DESTINATION ${ITKCommon_INSTALL_INCLUDE_DIR}
-  COMPONENT Development
-  )
-
 # configure and install compiler feature header files
 # that have fine granular support of C++11 features
 # identified in a way consistent with CMake 3.1.0 and
 # greater
 include(CMake/itkGenerateNewCompilerFeatureDetectionHeaders.cmake)
+
+install(FILES
+  ${ITKCommon_BINARY_DIR}/itkConfigure.h
+  ${CMAKE_CURRENT_BINARY_DIR}/itk_compiler_detection.h
+  DESTINATION ${ITKCommon_INSTALL_INCLUDE_DIR}
+  COMPONENT Development
+)
+
+install(FILES
+  ${ITK_compiler_detection_support_headers}
+  DESTINATION ${ITKCommon_INSTALL_INCLUDE_DIR}/compilers
+  COMPONENT Development
+)

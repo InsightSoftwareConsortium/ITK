@@ -251,7 +251,7 @@ public:
    * execution model. The original documentation of this method is
    * below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -267,16 +267,16 @@ public:
 
 protected:
   OrientImageFilter();
-  ~OrientImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~OrientImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** OrientImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** OrientImageFilter will produce the entire output. */
-  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) override;
 
   /*** Member functions used by GenerateData: */
   void DeterminePermutationsAndFlips(const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient,
@@ -290,7 +290,7 @@ protected:
 
   /** Single-threaded version of GenerateData. This filter delegates
    * to PermuteAxesImageFilter and FlipImageFilter. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(OrientImageFilter);

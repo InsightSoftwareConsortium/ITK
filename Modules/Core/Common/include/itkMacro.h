@@ -207,9 +207,7 @@ namespace itk
   #endif
 #endif
 
-#if ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L
-  #define ITK_HAS_CXX11_RVREF
-#endif
+#define ITK_HAS_CXX11_RVREF
 
 //-*-*-*
 //The following deprecations should be removed in ITKV6 and later
@@ -238,7 +236,7 @@ namespace itk
 # if ( __GNUC__ >= 7 )
 #  define ITK_FALLTHROUGH __attribute__((fallthrough))
 # endif
-#elif ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L && defined(__has_warning)
+#elif defined(__has_warning)
 # if __has_feature(cxx_attributes) && __has_warning("-Wimplicit-fallthrough")
 #  define ITK_FALLTHROUGH [[clang::fallthrough]]
 # endif
@@ -277,7 +275,7 @@ namespace itk
   static Pointer New(void)                                     \
     {                                                          \
     Pointer smartPtr = ::itk::ObjectFactory< x >::Create();    \
-    if ( smartPtr.GetPointer() == ITK_NULLPTR )                \
+    if ( smartPtr.GetPointer() == nullptr )                \
       {                                                        \
       smartPtr = new x;                                        \
       }                                                        \
@@ -286,7 +284,7 @@ namespace itk
     }
 
 #define itkCreateAnotherMacro(x)                               \
-  virtual ::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE \
+  ::itk::LightObject::Pointer CreateAnother(void) const override \
     {                                                          \
     ::itk::LightObject::Pointer smartPtr;                      \
     smartPtr = x::New().GetPointer();                          \
@@ -322,7 +320,7 @@ namespace itk
     rawPtr->UnRegister();                                      \
     return smartPtr;                                           \
     }                                                          \
-  virtual ::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE \
+  ::itk::LightObject::Pointer CreateAnother(void) const override \
     {                                                          \
     ::itk::LightObject::Pointer smartPtr;                      \
     smartPtr = x::New().GetPointer();                          \
@@ -343,7 +341,7 @@ namespace itk
 /** Macro used to add standard methods to all classes, mainly type
  * information. */
 #define itkTypeMacro(thisClass, superclass)  \
-  virtual const char *GetNameOfClass() const ITK_OVERRIDE \
+  const char *GetNameOfClass() const override \
     {                                        \
     return #thisClass;                      \
     }
@@ -867,7 +865,7 @@ CLANG_PRAGMA_POP                                                     \
     const DecoratorType *input =                                     \
       itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetInput(#name) );                      \
-    if( input == ITK_NULLPTR )                                       \
+    if( input == nullptr )                                       \
       {                                                              \
       itkExceptionMacro(<<"input" #name " is not set");              \
       }                                                              \
@@ -927,9 +925,9 @@ CLANG_PRAGMA_POP                                                     \
     const DecoratorType *input =                                     \
       itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetInput(#name) );                      \
-    if( input == ITK_NULLPTR )                                       \
+    if( input == nullptr )                                       \
       {                                                              \
-      return ITK_NULLPTR;                                            \
+      return nullptr;                                            \
       }                                                              \
     return input->Get();                                             \
     }
@@ -1246,7 +1244,7 @@ class kernel                                \
 // A useful macro in the PrintSelf method for printing member variables
 // which are pointers to object based on the LightObject class.
 #define itkPrintSelfObjectMacro(name)                                 \
-  if (static_cast<const LightObject*>(this->m_##name) == ITK_NULLPTR) \
+  if (static_cast<const LightObject*>(this->m_##name) == nullptr) \
     {                                                                 \
     os << indent << #name << ": (null)" << std::endl;                 \
     }                                                                 \
@@ -1307,7 +1305,7 @@ class kernel                                \
     const DecoratorType *output =                                    \
       itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetOutput(#name) );                     \
-    if( output == ITK_NULLPTR )                                      \
+    if( output == nullptr )                                      \
       {                                                              \
       itkExceptionMacro(<<"output" #name " is not set");             \
       }                                                              \

@@ -72,7 +72,7 @@ public:
 
   //Add the layers to the network.
   // 1 input, 2 hidden, 1 output
-  void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   itkSetMacro(NumOfInputNodes, unsigned int);
   itkGetConstReferenceMacro(NumOfInputNodes, unsigned int);
@@ -103,7 +103,7 @@ public:
   itkSetMacro(OutputLayerBias, ValueType);
   itkGetConstReferenceMacro(OutputLayerBias, ValueType);
 
-  virtual NetworkOutputType GenerateOutput(TMeasurementVector samplevector) ITK_OVERRIDE;
+  NetworkOutputType GenerateOutput(TMeasurementVector samplevector) override;
 
   void SetInputFunction(InputFunctionInterfaceType* f);
   void SetInputTransferFunction(TransferFunctionInterfaceType* f);
@@ -114,10 +114,10 @@ public:
 protected:
 
   TwoHiddenLayerBackPropagationNeuralNetwork();
-  virtual ~TwoHiddenLayerBackPropagationNeuralNetwork() ITK_OVERRIDE {};
+  ~TwoHiddenLayerBackPropagationNeuralNetwork() override {};
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
 

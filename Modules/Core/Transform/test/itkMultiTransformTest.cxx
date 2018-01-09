@@ -114,12 +114,12 @@ public:
   typedef typename Superclass::InputPointType              InputPointType;
   typedef typename Superclass::JacobianType                JacobianType;
 
-  typename Superclass::OutputPointType TransformPoint( const InputPointType & point ) const ITK_OVERRIDE
+  typename Superclass::OutputPointType TransformPoint( const InputPointType & point ) const override
   {
     return point;
   }
 
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & itkNotUsed(p), JacobianType & itkNotUsed(jacobian) ) const ITK_OVERRIDE
+  void ComputeJacobianWithRespectToParameters(const InputPointType  & itkNotUsed(p), JacobianType & itkNotUsed(jacobian) ) const override
     {
     itkExceptionMacro(
       "ComputeJacobianWithRespectToParamters( InputPointType, JacobianType"
@@ -127,7 +127,7 @@ public:
     }
 protected:
   MultiTransformTestTransform(){};
-  virtual ~MultiTransformTestTransform() ITK_OVERRIDE {};
+  ~MultiTransformTestTransform() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiTransformTestTransform);

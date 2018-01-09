@@ -137,7 +137,7 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 
   TRY_EXPECT_NO_EXCEPTION( metric->Initialize() );
 
-  metric->SetFixedImage( NULL );
+  metric->SetFixedImage( nullptr );
   TRY_EXPECT_EXCEPTION( metric->GetDerivative( parameters, derivative ) );
 
   metric->SetFixedImage( fixedImage );

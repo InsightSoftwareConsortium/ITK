@@ -77,12 +77,12 @@ public:
   typedef itk::RegularStepGradientDescentOptimizerv4<double> OptimizerType;
   typedef const OptimizerType*                               OptimizerPointer;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
   {
     Execute( (const itk::Object *)caller, event);
   }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
   {
     OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
 

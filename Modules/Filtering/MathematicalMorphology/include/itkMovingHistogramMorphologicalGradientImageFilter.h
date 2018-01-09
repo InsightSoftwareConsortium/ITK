@@ -267,7 +267,7 @@ public:
 
 protected:
   MovingHistogramMorphologicalGradientImageFilter() {}
-  ~MovingHistogramMorphologicalGradientImageFilter() ITK_OVERRIDE {}
+  ~MovingHistogramMorphologicalGradientImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramMorphologicalGradientImageFilter);

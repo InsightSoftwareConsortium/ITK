@@ -51,7 +51,7 @@ int itkQuadEdgeMeshEulerOperatorSplitEdgeTest( int, char * [] )
 
   splitEdge->SetInput( mesh );
   std::cout << "     " << "Test No QE Input";
-  if( splitEdge->Evaluate( (QEType*)ITK_NULLPTR ) )
+  if( splitEdge->Evaluate( (QEType*)nullptr ) )
     {
     std::cout << "FAILED." << std::endl;
     return EXIT_FAILURE;

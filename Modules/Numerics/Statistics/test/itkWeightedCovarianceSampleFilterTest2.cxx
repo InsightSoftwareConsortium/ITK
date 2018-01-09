@@ -78,7 +78,7 @@ public:
   typedef double OutputType;
 
   /**Evaluate at the specified input position */
-  virtual OutputType Evaluate( const InputType & itkNotUsed( input ) ) const ITK_OVERRIDE
+  OutputType Evaluate( const InputType & itkNotUsed( input ) ) const override
     {
     MeasurementVectorType2 measurements;
     // set the weight factor of the measurment
@@ -88,7 +88,7 @@ public:
 
 protected:
   WeightedCovarianceTestFunction() {}
-  ~WeightedCovarianceTestFunction() ITK_OVERRIDE {}
+  ~WeightedCovarianceTestFunction() override {}
 }; // end of class
 
 
@@ -156,9 +156,9 @@ int itkWeightedCovarianceSampleFilterTest2(int, char* [] )
     std::cout << "Expected exception caught: " << excp << std::endl;
     }
 
-  if ( filter->GetInput() != ITK_NULLPTR )
+  if ( filter->GetInput() != nullptr )
     {
-    std::cerr << "GetInput() should return ITK_NULLPTR if the input \
+    std::cerr << "GetInput() should return nullptr if the input \
                      has not been set" << std::endl;
     return EXIT_FAILURE;
     }

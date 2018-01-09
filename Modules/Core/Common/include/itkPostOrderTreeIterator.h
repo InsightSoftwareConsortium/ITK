@@ -39,17 +39,17 @@ public:
   PostOrderTreeIterator(TreeType *tree);
 
   /** Get the type of the iterator */
-  NodeType GetType() const;
+  NodeType GetType() const override;
 
   /** Clone function */
-  TreeIteratorBase< TTreeType > * Clone();
+  TreeIteratorBase< TTreeType > * Clone() override;
 
 protected:
   /** Return the next node */
-  const ValueType & Next();
+  const ValueType & Next() override;
 
   /** Return true if the next node exists */
-  bool HasNext() const;
+  bool HasNext() const override;
 
 protected:
 
@@ -63,16 +63,16 @@ protected:
 /** Constructor */
 template< typename TTreeType >
 PostOrderTreeIterator< TTreeType >::PostOrderTreeIterator(TTreeType *tree):
-  TreeIteratorBase< TTreeType >(tree, ITK_NULLPTR)
+  TreeIteratorBase< TTreeType >(tree, nullptr)
 {
-  if ( tree->GetRoot() == ITK_NULLPTR )
+  if ( tree->GetRoot() == nullptr )
     {
-    this->m_Begin = ITK_NULLPTR;
+    this->m_Begin = nullptr;
     }
   else
     {
     const TreeNodeType *root = dynamic_cast<const TreeNodeType *>(tree->GetRoot());
-    if(root == ITK_NULLPTR)
+    if(root == nullptr)
       {
       itkGenericExceptionMacro(<< "Can't downcast root node to TreeNodeType *");
       }
@@ -95,7 +95,7 @@ template< typename TTreeType >
 bool
 PostOrderTreeIterator< TTreeType >::HasNext() const
 {
-  if ( const_cast< TreeNodeType * >( FindNextNode() ) != ITK_NULLPTR )
+  if ( const_cast< TreeNodeType * >( FindNextNode() ) != nullptr )
     {
     return true;
     }
@@ -116,22 +116,22 @@ template< typename TTreeType >
 const typename PostOrderTreeIterator< TTreeType >::TreeNodeType *
 PostOrderTreeIterator< TTreeType >::FindNextNode() const
 {
-  if ( this->m_Position == ITK_NULLPTR || this->m_Position == this->m_Root )
+  if ( this->m_Position == nullptr || this->m_Position == this->m_Root )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   TreeNodeType *sister = const_cast< TreeNodeType * >( FindSister(this->m_Position) );
 
-  if ( sister != ITK_NULLPTR )
+  if ( sister != nullptr )
     {
     return FindMostRightLeaf(sister);
     }
-  if(this->m_Position->GetParent() == ITK_NULLPTR)
+  if(this->m_Position->GetParent() == nullptr)
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   TreeNodeType *rval = dynamic_cast<TreeNodeType *>(this->m_Position->GetParent());
-  if(rval == ITK_NULLPTR)
+  if(rval == nullptr)
     {
       itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
     }
@@ -145,11 +145,11 @@ PostOrderTreeIterator< TTreeType >::FindSister(TreeNodeType *node) const
 {
   if ( !node->HasParent() )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   TreeNodeType *parent = dynamic_cast<TreeNodeType *>(node->GetParent());
-  if(parent == ITK_NULLPTR)
+  if(parent == nullptr)
     {
     itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
     }
@@ -159,21 +159,21 @@ PostOrderTreeIterator< TTreeType >::FindSister(TreeNodeType *node) const
 
   while ( childPosition < lastChildPosition )
     {
-    if(parent->GetChild(childPosition + 1) == ITK_NULLPTR)
+    if(parent->GetChild(childPosition + 1) == nullptr)
       {
       childPosition++;
       }
     else
       {
       TreeNodeType *sister = dynamic_cast<TreeNodeType *>(parent->GetChild(childPosition + 1));
-      if ( sister == ITK_NULLPTR)
+      if ( sister == nullptr)
       {
       itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
       }
       return sister;
       }
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 /** Find the most right leaf */
@@ -189,23 +189,23 @@ PostOrderTreeIterator< TTreeType >::FindMostRightLeaf(TreeNodeType *node) const
 
     do
       {
-      if(node->GetChild(i) == ITK_NULLPTR)
+      if(node->GetChild(i) == nullptr)
         {
-        helpNode = ITK_NULLPTR;
+        helpNode = nullptr;
         }
       else
         {
         helpNode = dynamic_cast<TreeNodeType *>(node->GetChild(i));
-       if(helpNode == ITK_NULLPTR)
+       if(helpNode == nullptr)
           {
           itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
           }
         }
       i++;
       }
-    while ( helpNode == ITK_NULLPTR && i < childCount );
+    while ( helpNode == nullptr && i < childCount );
 
-    if ( helpNode == ITK_NULLPTR )
+    if ( helpNode == nullptr )
       {
       return node;
       }

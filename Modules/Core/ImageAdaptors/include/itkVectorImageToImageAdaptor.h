@@ -183,7 +183,7 @@ public:
 
 protected:
   VectorImageToImageAdaptor() {}
-  virtual ~VectorImageToImageAdaptor() ITK_OVERRIDE {}
+  ~VectorImageToImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorImageToImageAdaptor);

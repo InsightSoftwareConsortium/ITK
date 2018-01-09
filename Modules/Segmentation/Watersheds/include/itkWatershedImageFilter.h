@@ -186,12 +186,12 @@ public:
   itkNewMacro(Self);
 
   /** Standard process object method.  This filter is not multithreaded. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Overloaded to link the input to this filter with the input of the
       mini-pipeline */
   using Superclass::SetInput;
-  void SetInput(const InputImageType *input) ITK_OVERRIDE
+  void SetInput(const InputImageType *input) override
   {
     // if the input is changed, we'll need to clear the cached tree
     // when we execute
@@ -205,7 +205,7 @@ public:
     m_Segmenter->SetInputImage( const_cast< InputImageType * >( input ) );
   }
 
-  virtual void SetInput(unsigned int i, const TInputImage *image) ITK_OVERRIDE
+  void SetInput(unsigned int i, const TInputImage *image) override
   {
     if ( i != 0 )
                   { itkExceptionMacro(<< "Filter has only one input."); }
@@ -241,7 +241,7 @@ public:
   }
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *data) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -258,12 +258,12 @@ public:
 
 protected:
   WatershedImageFilter();
-  virtual ~WatershedImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~WatershedImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** An opportunity to Allocate/Deallocate bulk data.
    */
-  virtual void PrepareOutputs() ITK_OVERRIDE;
+  void PrepareOutputs() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WatershedImageFilter);

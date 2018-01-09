@@ -48,12 +48,12 @@ protected:
 
 public:
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *) caller, event);
     }
 
-  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
 
     const TOptimizer *optimizer = dynamic_cast< const TOptimizer * > (object);
@@ -62,7 +62,7 @@ public:
       { return; }
 
     // stash the stream state
-    std::ios  state(NULL);
+    std::ios  state(nullptr);
     state.copyfmt(std::cout);
     std::cout << std::fixed << std::setfill(' ') << std::setprecision( 5 );
     std::cout << std::setw(3) << optimizer->GetCurrentIteration();

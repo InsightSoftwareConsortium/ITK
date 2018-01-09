@@ -53,7 +53,7 @@ TreeIteratorBase< TTreeType >::TreeIteratorBase(TTreeType *tree, const TreeNodeT
   m_Position = const_cast< TreeNodeType * >( m_Root );
   m_Tree = tree;
   m_Begin = m_Position;
-  m_End = ITK_NULLPTR;
+  m_End = nullptr;
 }
 
 /** Constructor */
@@ -71,7 +71,7 @@ TreeIteratorBase< TTreeType >::TreeIteratorBase(const TTreeType *tree, const Tre
   m_Position = const_cast< TreeNodeType * >( m_Root );
   m_Tree = const_cast< TTreeType * >( tree );
   m_Begin = m_Position;
-  m_End = ITK_NULLPTR;
+  m_End = nullptr;
 }
 
 /** Return the current value of the node */
@@ -98,7 +98,7 @@ template< typename TTreeType >
 bool
 TreeIteratorBase< TTreeType >::Add(ValueType element)
 {
-  if ( m_Position == ITK_NULLPTR && m_Root == ITK_NULLPTR )
+  if ( m_Position == nullptr && m_Root == nullptr )
     {
     bool returnValue = const_cast< TTreeType * >( m_Tree )->SetRoot(element);
     // signal AddEvent for self
@@ -108,7 +108,7 @@ TreeIteratorBase< TTreeType >::Add(ValueType element)
     m_Tree->InvokeEvent( TreeAddEvent< TTreeType >(*this) );
     return returnValue;
     }
-  else if ( m_Position == ITK_NULLPTR )
+  else if ( m_Position == nullptr )
     {
     return false;
     }
@@ -165,7 +165,7 @@ template< typename TTreeType >
 bool
 TreeIteratorBase< TTreeType >::IsRoot() const
 {
-  if ( m_Root == ITK_NULLPTR )
+  if ( m_Root == nullptr )
     {
     return false;
     }
@@ -192,13 +192,13 @@ TreeIteratorBase< TTreeType >::Add(TTreeType & subTree)
     return false;
     }
 
-  if ( m_Root == ITK_NULLPTR )
+  if ( m_Root == nullptr )
     {
     m_Root = static_cast< const TreeNodeType * >( subTree.GetRoot() );
     }
   else
     {
-    if ( m_Position == ITK_NULLPTR )
+    if ( m_Position == nullptr )
       {
       return false;
       }
@@ -223,11 +223,11 @@ template< typename TTreeType >
 bool
 TreeIteratorBase< TTreeType >::HasChild(int number) const
 {
-  if ( m_Position == ITK_NULLPTR )
+  if ( m_Position == nullptr )
     {
     return false;
     }
-  if ( m_Position->GetChild(number) != ITK_NULLPTR )
+  if ( m_Position->GetChild(number) != nullptr )
     {
     return true;
     }
@@ -257,7 +257,7 @@ TreeIteratorBase< TTreeType >::RemoveChild(int number)
     }
   TreeNodeType *child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
 
-  if ( child != ITK_NULLPTR )
+  if ( child != nullptr )
     {
     // signal PruneEvent (node plus all children are removed)
     TreeIteratorBase< TTreeType > *childIterator = Clone();
@@ -279,7 +279,7 @@ template< typename TTreeType >
 int
 TreeIteratorBase< TTreeType >::CountChildren() const
 {
-  if ( m_Position == ITK_NULLPTR )
+  if ( m_Position == nullptr )
     {
     return -1;
     }
@@ -291,7 +291,7 @@ template< typename TTreeType >
 bool
 TreeIteratorBase< TTreeType >::HasParent() const
 {
-  return ( m_Position != ITK_NULLPTR && m_Position->GetParent() != ITK_NULLPTR );
+  return ( m_Position != nullptr && m_Position->GetParent() != nullptr );
 }
 
 /** Disconnect the tree */
@@ -299,7 +299,7 @@ template< typename TTreeType >
 bool
 TreeIteratorBase< TTreeType >::Disconnect()
 {
-  if ( m_Position == ITK_NULLPTR )
+  if ( m_Position == nullptr )
     {
     return false;
     }
@@ -327,7 +327,7 @@ TreeIteratorBase< TTreeType >::Disconnect()
 
   m_Tree->InvokeEvent( TreeRemoveEvent< TTreeType >(*this) );
 
-  m_Position = ITK_NULLPTR;
+  m_Position = nullptr;
   return true;
 }
 
@@ -339,7 +339,7 @@ TreeIteratorBase< TTreeType >::Children()
   itkGenericOutputMacro("Not implemented yet");
   ::itk::ExceptionObject e_(__FILE__, __LINE__, "Not implemented yet", ITK_LOCATION);
   throw e_; /* Explicit naming to work around Intel compiler bug.  */
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 /** Return the first parent found */
@@ -347,9 +347,9 @@ template< typename TTreeType >
 const typename TreeIteratorBase< TTreeType >::TreeNodeType *
 TreeIteratorBase< TTreeType >::GetParent() const
 {
-  if ( m_Position == ITK_NULLPTR )
+  if ( m_Position == nullptr )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   return m_Position->GetParent();
@@ -362,21 +362,21 @@ TreeIteratorBase< TTreeType > *TreeIteratorBase< TTreeType >::Parents()
   itkGenericOutputMacro("Not implemented yet");
   ::itk::ExceptionObject e_(__FILE__, __LINE__, "Not implemented yet", ITK_LOCATION);
   throw e_; /* Explicit naming to work around Intel compiler bug.  */
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 /** Go to a child */
 template< typename TTreeType >
 bool TreeIteratorBase< TTreeType >::GoToChild(ChildIdentifier number)
 {
-  if ( m_Position == ITK_NULLPTR )
+  if ( m_Position == nullptr )
     {
     return false;
     }
 
   TreeNodeType *next = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
 
-  if ( next == ITK_NULLPTR )
+  if ( next == nullptr )
     {
     return false;
     }
@@ -388,7 +388,7 @@ bool TreeIteratorBase< TTreeType >::GoToChild(ChildIdentifier number)
 template< typename TTreeType >
 bool TreeIteratorBase< TTreeType >::GoToParent()
 {
-  if ( m_Position == ITK_NULLPTR )
+  if ( m_Position == nullptr )
     {
     return false;
     }
@@ -408,18 +408,18 @@ TreeIteratorBase< TTreeType > *TreeIteratorBase< TTreeType >::GetChild(int numbe
 {
   if ( !m_Position )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   TreeNodeType *child = dynamic_cast< TreeNodeType * >( m_Position->GetChild(number) );
 
   if ( !child )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 //    return new WalkTreeIterator<ValueType,P>( child, m_Root, m_Tree, getType()
 // );
-  return ITK_NULLPTR;
+  return nullptr;
 }
 
 /** Count the number of nodes from the beginning */
@@ -477,7 +477,7 @@ template< typename TTreeType >
 bool
 TreeIteratorBase< TTreeType >::Remove()
 {
-  if ( m_Position == ITK_NULLPTR )
+  if ( m_Position == nullptr )
     {
     return false;
     }
@@ -493,13 +493,13 @@ TreeIteratorBase< TTreeType >::Remove()
     }
   else if ( m_Root == m_Position )
     {
-    m_Root = ITK_NULLPTR;
-    m_Tree->SetRoot( (TreeNodeType *)ITK_NULLPTR );
-    // this won't do anything if root is already != ITK_NULLPTR  ==> root cannot be
+    m_Root = nullptr;
+    m_Tree->SetRoot( (TreeNodeType *)nullptr );
+    // this won't do anything if root is already != nullptr  ==> root cannot be
     // removed
     }
 
-  m_Position->SetParent(ITK_NULLPTR); // we don't have a parent anymore
+  m_Position->SetParent(nullptr); // we don't have a parent anymore
   m_Tree->InvokeEvent( TreePruneEvent< TTreeType >(*this) );
   while ( m_Position->CountChildren() > 0 )  // remove all children
     {
@@ -508,8 +508,8 @@ TreeIteratorBase< TTreeType >::Remove()
     m_Position->Remove(child);
     }
 
-  position = ITK_NULLPTR;
-  m_Position = ITK_NULLPTR;  // Smart pointer, deletes *m_Position
+  position = nullptr;
+  m_Position = nullptr;  // Smart pointer, deletes *m_Position
 
   m_Tree->Modified();
 

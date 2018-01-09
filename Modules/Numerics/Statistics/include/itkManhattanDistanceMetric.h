@@ -55,14 +55,14 @@ public:
   itkNewMacro(Self);
 
   /** Gets the distance between the origin and x */
-  double Evaluate(const MeasurementVectorType & x) const ITK_OVERRIDE;
+  double Evaluate(const MeasurementVectorType & x) const override;
 
   /** Gets the distance between x1 and x2 */
-  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const ITK_OVERRIDE;
+  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const override;
 
 protected:
   ManhattanDistanceMetric() {}
-  virtual ~ManhattanDistanceMetric() ITK_OVERRIDE {}
+  ~ManhattanDistanceMetric() override {}
 };  // end of class
 } // end of namespace Statistics
 } // end of namespace itk

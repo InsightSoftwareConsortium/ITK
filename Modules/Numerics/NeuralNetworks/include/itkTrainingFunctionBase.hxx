@@ -31,8 +31,8 @@ TrainingFunctionBase<TSample,TTargetVector,ScalarType>
 {
   m_PerformanceFunction = DefaultPerformanceType::New();
   m_Iterations = 0;
-  m_TrainingSamples = ITK_NULLPTR;
-  m_SampleTargets = ITK_NULLPTR;
+  m_TrainingSamples = nullptr;
+  m_SampleTargets = nullptr;
   m_LearningRate = 1.0;
 }
 

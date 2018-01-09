@@ -137,7 +137,7 @@ public:
 
 protected:
   GPUKernelManager();
-  virtual ~GPUKernelManager() ITK_OVERRIDE;
+  ~GPUKernelManager() override;
 
   bool CheckArgumentReady(int kernelIdx);
 

@@ -51,7 +51,7 @@ public:
   TubeSpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~TubeSpatialObjectPoint() ITK_OVERRIDE;
+  ~TubeSpatialObjectPoint() override;
 
   /** Get the tangent */
   const VectorType & GetTangent() const;
@@ -108,7 +108,7 @@ protected:
   unsigned short int m_NumDimensions;
 
   /** Print the object */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end of namespace itk
 

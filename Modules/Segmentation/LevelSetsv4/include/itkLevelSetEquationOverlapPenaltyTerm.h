@@ -91,13 +91,13 @@ public:
 
 
   /** Update the term parameter values at end of iteration */
-  virtual void Update() ITK_OVERRIDE;
+  void Update() override;
 
   /** Initialize parameters in the terms prior to an iteration */
-  virtual void InitializeParameters() ITK_OVERRIDE;
+  void InitializeParameters() override;
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
-  virtual void Initialize( const LevelSetInputIndexType& index ) ITK_OVERRIDE;
+  void Initialize( const LevelSetInputIndexType& index ) override;
 
   /** Compute the sum of Heaviside functions in the multi-levelset cases
    *  except the current levelset */
@@ -105,22 +105,22 @@ public:
                                   LevelSetOutputRealType& sum );
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  virtual void UpdatePixel( const LevelSetInputIndexType& index,
+  void UpdatePixel( const LevelSetInputIndexType& index,
                             const LevelSetOutputRealType& oldValue,
-                            const LevelSetOutputRealType& newValue ) ITK_OVERRIDE;
+                            const LevelSetOutputRealType& newValue ) override;
 
 
 protected:
   LevelSetEquationOverlapPenaltyTerm();
 
-  virtual ~LevelSetEquationOverlapPenaltyTerm() ITK_OVERRIDE;
+  ~LevelSetEquationOverlapPenaltyTerm() override;
 
   /** Returns the term contribution for a given location index */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& index ) ITK_OVERRIDE;
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& index ) override;
 
   /** Returns the term contribution for a given location index */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& index,
-                                        const LevelSetDataType& data ) ITK_OVERRIDE;
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& index,
+                                        const LevelSetDataType& data ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationOverlapPenaltyTerm);

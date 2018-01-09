@@ -64,27 +64,27 @@ public:
   typedef Logger *LoggerType;
 
   /** Send a string to display. */
-  virtual void DisplayText(const char *t) ITK_OVERRIDE;
+  void DisplayText(const char *t) override;
 
   /** Send a string as an error message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayErrorText(const char *t) ITK_OVERRIDE;
+  void DisplayErrorText(const char *t) override;
 
   /** Send a string as a warningmessage to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayWarningText(const char *t) ITK_OVERRIDE;
+  void DisplayWarningText(const char *t) override;
 
   /** Send a string as a message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayGenericOutputText(const char *t) ITK_OVERRIDE;
+  void DisplayGenericOutputText(const char *t) override;
 
   /** Send a string as a debug message to display.
    * The default implementation calls DisplayText() but subclasses
    * could present this message differently. */
-  virtual void DisplayDebugText(const char *t) ITK_OVERRIDE;
+  void DisplayDebugText(const char *t) override;
 
   itkSetMacro(Logger, LoggerType);
 
@@ -96,9 +96,9 @@ public:
   }
 
 protected:
-  LoggerOutput():m_Logger(ITK_NULLPTR) {}
-  virtual ~LoggerOutput() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  LoggerOutput():m_Logger(nullptr) {}
+  ~LoggerOutput() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   Logger *m_Logger;
