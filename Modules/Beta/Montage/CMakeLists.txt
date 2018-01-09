@@ -9,17 +9,15 @@ project(SimpleImageReconstruction)
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
 
-# if( NOT USE_FFTWD)
-#  message(FATAL_ERROR "ITK Must be configured with USE_FFTWD ON")
-# endif()
-
-find_package(VTK REQUIRED)
-include(${VTK_USE_FILE})
+set(REQUIRED_ITK_VERSION "4.0.0")
+if("${ITK_VERSION}" VERSION_LESS "${REQUIRED_ITK_VERSION}")
+  message(FATAL_ERROR "ITK Version ${REQUIRED_ITK_VERSION} or greater is required.")
+endif()
 
 include(CMake/PlatformSpecificChecks.cmake)
 
 
-OPTION(BUILD_SHARED_LIBS "Build with shared libraries." ${VTK_BUILD_SHARED_LIBS})
+OPTION(BUILD_SHARED_LIBS "Build with shared libraries." ${ITK_BUILD_SHARED_LIBS})
 IF(BUILD_SHARED_LIBS)
   SET(SimpleImageReconstruction_BUILD_SHARED_LIBS_CONFIG 1)
 ELSE(BUILD_SHARED_LIBS)
@@ -36,4 +34,3 @@ include_directories(
   )
 
 add_subdirectory(Source)
-add_subdirectory(Testing)

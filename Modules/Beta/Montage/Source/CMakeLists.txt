@@ -1,2 +1,1 @@
 add_subdirectory(SliceStacking)
-add_subdirectory(TileStitching)
