@@ -127,8 +127,8 @@ public:
                                                    ComplexConjugateImageType;
 
   /**  Type of the Operator */
-  typedef          PhaseCorrelationOperator<Self> OperatorType;
-  typedef typename OperatorType::Pointer          OperatorPointer;
+  typedef          PhaseCorrelationOperator< InternalPixelType, ImageDimension > OperatorType;
+  typedef typename OperatorType::Pointer                                         OperatorPointer;
 
   /**  Type of the Optimizer */
   typedef          PhaseCorrelationOptimizer< RealImageType >

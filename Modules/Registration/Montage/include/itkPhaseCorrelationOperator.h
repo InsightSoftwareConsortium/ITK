@@ -27,14 +27,14 @@ namespace itk
 /** \class PhaseCorrelationOperator
  *  \brief Computes the spectrum ratio in phase correlation method.
  *
- *  The class is templated over the registration method type, in which it has to
- *  be plugged in.
+ *  The class is templated over the type of the real-valued pixel it will be
+ *  operating on and the image dimension.
  *
  *  The two input spectrums may have different size, while their real size is
  *  the same. To subsample them to same resolution, high frequencies must be
  *  excluded.
  *
- *  Then is computed freaquency ratio at every index of output correlation
+ *  This frequency ratio is computed at every index of output correlation
  *  surface.
  *
  *  This class provides interface for further techniques to improve the
@@ -49,24 +49,20 @@ namespace itk
  *
  * \ingroup Montage
  */
-template < typename TRegistrationMethod >
+template < typename TRealPixel, unsigned int VImageDimension >
 class PhaseCorrelationOperator :
   public ImageToImageFilter<
-      Image< std::complex< typename TRegistrationMethod::InternalPixelType >,
-             TRegistrationMethod::ImageDimension >,
-      Image< std::complex< typename TRegistrationMethod::InternalPixelType >,
-             TRegistrationMethod::ImageDimension > >
+      Image< std::complex< TRealPixel >, VImageDimension >,
+      Image< std::complex< TRealPixel >, VImageDimension > >
 {
 
 public:
-  typedef PhaseCorrelationOperator  Self;
+  typedef PhaseCorrelationOperator                           Self;
   typedef ImageToImageFilter<
-      Image< std::complex< typename TRegistrationMethod::InternalPixelType >,
-             TRegistrationMethod::ImageDimension >,
-      Image< std::complex< typename TRegistrationMethod::InternalPixelType >,
-             TRegistrationMethod::ImageDimension > >    Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+      Image< std::complex< TRealPixel >, VImageDimension >,
+      Image< std::complex< TRealPixel >, VImageDimension > > Superclass;
+  typedef SmartPointer<Self>                                 Pointer;
+  typedef SmartPointer<const Self>                           ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,14 +72,12 @@ public:
 
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int,
-                      TRegistrationMethod::ImageDimension);
+                      VImageDimension);
 
   /** Typedef to images. */
-  typedef typename TRegistrationMethod::InternalPixelType
-                                                        PixelType;
+  typedef TRealPixel                                    PixelType;
   typedef std::complex<PixelType>                       ComplexType;
-  typedef Image< ComplexType, itkGetStaticConstMacro(ImageDimension) >
-                                                        ImageType;
+  typedef Image< ComplexType, ImageDimension >          ImageType;
   typedef typename ImageType::Pointer                   ImagePointer;
   typedef typename ImageType::ConstPointer              ImageConstPointer;
   typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
@@ -99,6 +93,11 @@ public:
   itkSetMacro(FullMatrix, bool);
   itkGetMacro(FullMatrix, bool);
 
+protected:
+  PhaseCorrelationOperator();
+  virtual ~PhaseCorrelationOperator() {};
+  void PrintSelf(std::ostream& os, Indent indent) const;
+
   /** PhaseCorrelationOperator produces an image which is a different
    * resolution and with a different pixel spacing than its input
    * images. */
@@ -108,11 +107,6 @@ public:
    *  output requested region. */
   virtual void GenerateInputRequestedRegion();
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
-
-protected:
-  PhaseCorrelationOperator();
-  virtual ~PhaseCorrelationOperator() {};
-  void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** PhaseCorrelationOperator can be implemented as a multithreaded filter.
    *  This method performs the computation. */

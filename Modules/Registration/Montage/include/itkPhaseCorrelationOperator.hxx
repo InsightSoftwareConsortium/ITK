@@ -35,8 +35,8 @@ namespace itk
  */
 
 
-template < typename TRegistrationMethod >
-PhaseCorrelationOperator<TRegistrationMethod>
+template < typename TRealPixel, unsigned int VImageDimension >
+PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::PhaseCorrelationOperator()
 {
   m_FullMatrix = false; //?! what should be the default?
@@ -45,38 +45,36 @@ PhaseCorrelationOperator<TRegistrationMethod>
 }
 
 
-template < typename TRegistrationMethod >
+template < typename TRealPixel, unsigned int VImageDimension >
 void
-PhaseCorrelationOperator<TRegistrationMethod>
+PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os,indent);
 }
 
 
-template < typename TRegistrationMethod >
+template < typename TRealPixel, unsigned int VImageDimension >
 void
-PhaseCorrelationOperator<TRegistrationMethod>
+PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::SetFixedImage( ImageType * fixedImage )
 {
-  itkDebugMacro( "setting fixed image to " << fixedImage );
-  SetNthInput(0, const_cast<ImageType *>( fixedImage ));
+  this->SetNthInput(0, const_cast<ImageType *>( fixedImage ));
 }
 
 
-template < typename TRegistrationMethod >
+template < typename TRealPixel, unsigned int VImageDimension >
 void
-PhaseCorrelationOperator<TRegistrationMethod>
+PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::SetMovingImage( ImageType * fixedImage )
 {
-  itkDebugMacro( "setting moving image to " << fixedImage );
-  SetNthInput(1, const_cast<ImageType *>( fixedImage ));
+  this->SetNthInput(1, const_cast<ImageType *>( fixedImage ));
 }
 
 
-template < typename TRegistrationMethod >
+template < typename TRealPixel, unsigned int VImageDimension >
 void
-PhaseCorrelationOperator<TRegistrationMethod>
+PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
                        ThreadIdType threadId)
 {
@@ -212,9 +210,9 @@ PhaseCorrelationOperator<TRegistrationMethod>
 }
 
 
-template < typename TRegistrationMethod >
-typename PhaseCorrelationOperator<TRegistrationMethod>::ComplexType
-PhaseCorrelationOperator<TRegistrationMethod>
+template < typename TRealPixel, unsigned int VImageDimension >
+typename PhaseCorrelationOperator< TRealPixel, VImageDimension >::ComplexType
+PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::ComputeAtIndex(typename ImageType::IndexType & outputIndex,
                           ComplexType          & fixedValue,
                           ComplexType          & movingValue)
@@ -239,9 +237,9 @@ PhaseCorrelationOperator<TRegistrationMethod>
 /**
  *  Request all available data. This filter is cropping from the center.
  */
-template < typename TRegistrationMethod >
+template < typename TRealPixel, unsigned int VImageDimension >
 void
-PhaseCorrelationOperator<TRegistrationMethod>
+PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
@@ -264,9 +262,9 @@ PhaseCorrelationOperator<TRegistrationMethod>
  *  The output will have the lower size of the two input images in all
  *  dimensions.
  */
-template < typename TRegistrationMethod >
+template < typename TRealPixel, unsigned int VImageDimension >
 void
-PhaseCorrelationOperator<TRegistrationMethod>
+PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
@@ -351,9 +349,9 @@ PhaseCorrelationOperator<TRegistrationMethod>
 }
 
 
-template < typename TRegistrationMethod >
+template < typename TRealPixel, unsigned int VImageDimension >
 void
-PhaseCorrelationOperator<TRegistrationMethod>
+PhaseCorrelationOperator< TRealPixel, VImageDimension >
 ::EnlargeOutputRequestedRegion(DataObject *output)
 {
   Superclass::EnlargeOutputRequestedRegion(output);
