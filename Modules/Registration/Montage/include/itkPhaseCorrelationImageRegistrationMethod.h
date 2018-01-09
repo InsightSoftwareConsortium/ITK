@@ -129,15 +129,15 @@ public:
   typedef          PhaseCorrelationOperator<Self> OperatorType;
   typedef typename OperatorType::Pointer          OperatorPointer;
 
-	/**  Type of the Optimizer */
+  /**  Type of the Optimizer */
   typedef          PhaseCorrelationOptimizer< RealImageType >
                                                    RealOptimizerType;
-  typedef typename RealOptimizerType::Pointer			 RealOptimizerPointer;
+  typedef typename RealOptimizerType::Pointer      RealOptimizerPointer;
   typedef          PhaseCorrelationOptimizer< ComplexConjugateImageType >
                                                    ComplexOptimizerType;
-  typedef typename ComplexOptimizerType::Pointer	 ComplexOptimizerPointer;
+  typedef typename ComplexOptimizerType::Pointer   ComplexOptimizerPointer;
 
-	/**  Type for the transform. */
+  /**  Type for the transform. */
   typedef          TranslationTransform<
                            typename MovingImageType::PointType::ValueType,
                            ImageDimension >
@@ -242,14 +242,14 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const;
 
   /** Initialize by setting the interconnects between the components. */
-  virtual void Initialize() throw (ExceptionObject);
+  virtual void Initialize();
 
   /** Method that initiates the optimization process. */
-  void StartOptimization(void) throw (ExceptionObject);
+  void StartOptimization();
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void  GenerateData () throw (ExceptionObject);
+  void  GenerateData ();
 
   /** Provides derived classes with the ability to set this private var */
   itkSetMacro( TransformParameters, ParametersType );

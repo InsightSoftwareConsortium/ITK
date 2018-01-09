@@ -47,11 +47,10 @@ class MaxPhaseCorrelationOptimizer :
   public PhaseCorrelationOptimizer<typename TRegistrationMethod::RealImageType>
 {
 public:
-  typedef MaxPhaseCorrelationOptimizer  Self;
-  typedef PhaseCorrelationOptimizer<
-                      typename TRegistrationMethod::RealImageType>  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef MaxPhaseCorrelationOptimizer                                            Self;
+  typedef PhaseCorrelationOptimizer< typename TRegistrationMethod::RealImageType> Superclass;
+  typedef SmartPointer<Self>                                                      Pointer;
+  typedef SmartPointer<const Self>                                                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
