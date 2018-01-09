@@ -44,7 +44,7 @@ namespace itk
  * \ingroup Montage
  */
 template < typename TRegistrationMethod >
-class MaxPhaseCorrelationOptimizer :
+class ITK_TEMPLATE_EXPORT MaxPhaseCorrelationOptimizer :
   public PhaseCorrelationOptimizer<typename TRegistrationMethod::RealImageType>
 {
 public:
