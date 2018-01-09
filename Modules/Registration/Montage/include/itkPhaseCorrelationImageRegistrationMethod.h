@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Kitware Inc.
+ *  Copyright Insight Software Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,9 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#ifndef __itkPhaseCorrelationImageRegistrationMethod_h
-#define __itkPhaseCorrelationImageRegistrationMethod_h
+#ifndef itkPhaseCorrelationImageRegistrationMethod_h
+#define itkPhaseCorrelationImageRegistrationMethod_h
 
 #include "itkImage.h"
 #include "itkProcessObject.h"
@@ -25,8 +24,8 @@
 #include "itkPhaseCorrelationOptimizer.h"
 #include <complex>
 #include "itkConstantPadImageFilter.h"
-#include "itkFFTRealToComplexConjugateImageFilter.h"
-#include "itkFFTComplexConjugateToRealImageFilter.h"
+#include "itkForwardFFTImageFilter.h"
+#include "itkInverseFFTImageFilter.h"
 #include "itkDataObjectDecorator.h"
 #include "itkTranslationTransform.h"
 
@@ -86,14 +85,14 @@ namespace itk
  *
  */
 template <typename TFixedImage, typename TMovingImage>
-class ITK_EXPORT PhaseCorrelationImageRegistrationMethod : public ProcessObject
+class PhaseCorrelationImageRegistrationMethod: public ProcessObject
 {
 public:
   /** Standard class typedefs. */
-  typedef PhaseCorrelationImageRegistrationMethod  Self;
-  typedef ProcessObject  Superclass;
-  typedef SmartPointer<Self>   Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  typedef PhaseCorrelationImageRegistrationMethod Self;
+  typedef ProcessObject                           Superclass;
+  typedef SmartPointer<Self>                      Pointer;
+  typedef SmartPointer<const Self>                ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -111,28 +110,24 @@ public:
   typedef typename MovingImageType::ConstPointer   MovingImageConstPointer;
 
   /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      GetImageDimension<FixedImageType>::ImageDimension );
+  itkStaticConstMacro( ImageDimension, unsigned int, FixedImageType::ImageDimension );
 
   /** Pixel type, that will be used by internal filters.
    *  It should be float for integral and float inputs and it should
    *  be double for double inputs */
-  typedef typename NumericTraits<FixedImagePixelType>::RealType
-                                                   InternalPixelType;
+  typedef typename NumericTraits<FixedImagePixelType>::RealType InternalPixelType;
 
   /** Type of the image, that is passed between the internal components. */
-  typedef typename itk::Image< InternalPixelType,
-                               itkGetStaticConstMacro(ImageDimension) >
-                                                   RealImageType;
+  typedef Image< InternalPixelType, ImageDimension > RealImageType;
 
   /** Type of the image, that is passed between the internal components. */
-  typedef typename itk::Image< std::complex< InternalPixelType >,
+  typedef Image< std::complex< InternalPixelType >,
                                itkGetStaticConstMacro(ImageDimension) >
                                                    ComplexConjugateImageType;
 
-	/**  Type of the Operator */
-	typedef          PhaseCorrelationOperator<Self>  OperatorType;
-	typedef typename OperatorType::Pointer			     OperatorPointer;
+  /**  Type of the Operator */
+  typedef          PhaseCorrelationOperator<Self> OperatorType;
+  typedef typename OperatorType::Pointer          OperatorPointer;
 
 	/**  Type of the Optimizer */
   typedef          PhaseCorrelationOptimizer< RealImageType >
@@ -145,9 +140,9 @@ public:
 	/**  Type for the transform. */
   typedef          TranslationTransform<
                            typename MovingImageType::PointType::ValueType,
-                           itkGetStaticConstMacro(ImageDimension) >
+                           ImageDimension >
                                                    TransformType;
-	typedef typename TransformType::Pointer          TransformPointer;
+  typedef typename TransformType::Pointer          TransformPointer;
 
   /** Type for the output transform parameters (the shift). */
   typedef typename TransformType::ParametersType   ParametersType;
@@ -235,7 +230,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   itkStaticConstMacro(MovingImageDimension, unsigned int,
-    GetImageDimension<FixedImageType>::ImageDimension );
+    FixedImageType::ImageDimension );
   /** Start concept checking */
   itkConceptMacro(SameDimensionCheck,
     (Concept::SameDimension<ImageDimension, MovingImageDimension>));
@@ -263,10 +258,9 @@ protected:
   /** Types for internal componets. */
   typedef itk::ConstantPadImageFilter< FixedImageType, RealImageType >   FixedPadderType;
   typedef itk::ConstantPadImageFilter< MovingImageType, RealImageType >  MovingPadderType;
-  typedef itk::FFTRealToComplexConjugateImageFilter< RealImageType >     FFTFilterType;
+  typedef itk::ForwardFFTImageFilter< RealImageType >                    FFTFilterType;
   typedef typename FFTFilterType::OutputImageType                        ComplexImageType;
-  typedef itk::FFTComplexConjugateToRealImageFilter<
-    ComplexImageType, RealImageType >                                    IFFTFilterType;
+  typedef itk::InverseFFTImageFilter< ComplexImageType, RealImageType >  IFFTFilterType;
 
 private:
   PhaseCorrelationImageRegistrationMethod(const Self&); //purposely not implemented
@@ -293,7 +287,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPhaseCorrelationImageRegistrationMethod.txx"
+#include "itkPhaseCorrelationImageRegistrationMethod.hxx"
 #endif
 
 #endif

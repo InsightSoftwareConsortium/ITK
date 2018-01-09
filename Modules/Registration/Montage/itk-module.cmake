@@ -14,12 +14,10 @@ file(READ "${MY_CURRENT_DIR}/README.rst" DOCUMENTATION)
 itk_module(Montage
   DEPENDS
     ITKCommon
-    ITKStatistics
-  COMPILE_DEPENDS
-    ITKImageSources
+    ITKFFT
+    ITKTransform
   TEST_DEPENDS
     ITKTestKernel
-    ITKMetaIO
   DESCRIPTION
     "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT

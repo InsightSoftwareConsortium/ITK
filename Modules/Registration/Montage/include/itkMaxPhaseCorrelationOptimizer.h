@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Kitware Inc.
+ *  Copyright Insight Software Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,14 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#ifndef __itkMaxPhaseCorrelationOptimizer_h
-#define __itkMaxPhaseCorrelationOptimizer_h
-
+#ifndef itkMaxPhaseCorrelationOptimizer_h
+#define itkMaxPhaseCorrelationOptimizer_h
 
 #include "itkPhaseCorrelationOptimizer.h"
 #include "itkMinimumMaximumImageCalculator.h"
-
 
 namespace itk
 {
@@ -46,7 +43,7 @@ namespace itk
  *
  */
 template < typename TRegistrationMethod >
-class ITK_EXPORT MaxPhaseCorrelationOptimizer :
+class MaxPhaseCorrelationOptimizer :
   public PhaseCorrelationOptimizer<typename TRegistrationMethod::RealImageType>
 {
 public:
@@ -67,8 +64,7 @@ public:
   typedef typename ImageType::ConstPointer              ImageConstPointer;
 
   /** Dimensionality of input and output data. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      GetImageDimension<ImageType>::ImageDimension );
+  itkStaticConstMacro( ImageDimension, unsigned int, ImageType::ImageDimension );
 
   /** Type for the output parameters.
   *  It defines a position in the optimization search space. */
@@ -99,7 +95,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMaxPhaseCorrelationOptimizer.txx"
+#include "itkMaxPhaseCorrelationOptimizer.hxx"
 #endif
 
 #endif
