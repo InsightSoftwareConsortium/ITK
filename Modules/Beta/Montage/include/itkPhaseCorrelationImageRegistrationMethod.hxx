@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Kitware Inc.
+ *  Copyright Insight Software Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,18 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#ifndef _itkPhaseCorrelationImageRegistrationMethod_txx
-#define _itkPhaseCorrelationImageRegistrationMethod_txx
+#ifndef itkPhaseCorrelationImageRegistrationMethod_hxx
+#define itkPhaseCorrelationImageRegistrationMethod_hxx
 
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 
 namespace itk
 {
 
-/*
- * Constructor
- */
 template < typename TFixedImage, typename TMovingImage >
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 ::PhaseCorrelationImageRegistrationMethod()
@@ -66,9 +62,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/**
- *
- */
 template < typename TFixedImage, typename TMovingImage >
 unsigned long
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
@@ -108,13 +101,10 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/*
- * Initialize by setting the interconnects between components.
- */
 template < typename TFixedImage, typename TMovingImage >
 void
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
-::Initialize() throw (ExceptionObject)
+::Initialize()
 {
   itkDebugMacro( "initializing registration" );
 
@@ -213,13 +203,10 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/*
- * Starts the Optimization process
- */
 template < typename TFixedImage, typename TMovingImage >
 void
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
-::StartOptimization( void ) throw (ExceptionObject)
+::StartOptimization()
 {
   itkDebugMacro( "starting optimization" );
   typedef typename RealImageType::PointType   OffsetType;
@@ -267,9 +254,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/*
- * PrintSelf
- */
 template < typename TFixedImage, typename TMovingImage >
 void
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
@@ -291,13 +275,10 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/*
- * Generate Data
- */
 template < typename TFixedImage, typename TMovingImage >
 void
 PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
-::GenerateData() throw (ExceptionObject)
+::GenerateData()
 {
   if (!m_Updating)
     {
@@ -328,9 +309,6 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
 }
 
 
-/*
- *  Get Output
- */
 template < typename TFixedImage, typename TMovingImage >
 const typename PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
     ::TransformOutputType *

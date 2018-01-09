@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Kitware Inc.
+ *  Copyright Insight Software Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,9 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#ifndef __itkPhaseCorrelationOperator_txx
-#define __itkPhaseCorrelationOperator_txx
+#ifndef itkPhaseCorrelationOperator_hxx
+#define itkPhaseCorrelationOperator_hxx
 
 #include "itkPhaseCorrelationOperator.h"
 #include "itkImageRegionIterator.h"
@@ -36,9 +35,6 @@ namespace itk
  */
 
 
-/**
- *  Constructor
- */
 template < typename TRegistrationMethod >
 PhaseCorrelationOperator<TRegistrationMethod>
 ::PhaseCorrelationOperator()
@@ -48,9 +44,7 @@ PhaseCorrelationOperator<TRegistrationMethod>
   this->SetNumberOfRequiredInputs( 2 );
 }
 
-/**
- *
- */
+
 template < typename TRegistrationMethod >
 void
 PhaseCorrelationOperator<TRegistrationMethod>
@@ -84,10 +78,8 @@ template < typename TRegistrationMethod >
 void
 PhaseCorrelationOperator<TRegistrationMethod>
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
-  itkDebugMacro( "initializing execution" );
-
   // Get the input and output pointers
   ImageConstPointer  fixed     = this->GetInput(0);
   ImageConstPointer  moving    = this->GetInput(1);
@@ -359,9 +351,6 @@ PhaseCorrelationOperator<TRegistrationMethod>
 }
 
 
-/**
- *  Generate everything.
- */
 template < typename TRegistrationMethod >
 void
 PhaseCorrelationOperator<TRegistrationMethod>
