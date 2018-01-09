@@ -86,7 +86,7 @@ namespace itk
  * \ingroup Montage
  */
 template <typename TFixedImage, typename TMovingImage>
-class PhaseCorrelationImageRegistrationMethod: public ProcessObject
+class ITK_TEMPLATE_EXPORT PhaseCorrelationImageRegistrationMethod: public ProcessObject
 {
 public:
   /** Standard class typedefs. */

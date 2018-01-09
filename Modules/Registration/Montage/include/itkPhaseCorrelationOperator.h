@@ -50,7 +50,7 @@ namespace itk
  * \ingroup Montage
  */
 template < typename TRealPixel, unsigned int VImageDimension >
-class PhaseCorrelationOperator :
+class ITK_TEMPLATE_EXPORT PhaseCorrelationOperator :
   public ImageToImageFilter<
       Image< std::complex< TRealPixel >, VImageDimension >,
       Image< std::complex< TRealPixel >, VImageDimension > >

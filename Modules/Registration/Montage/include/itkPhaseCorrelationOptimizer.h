@@ -43,7 +43,7 @@ namespace itk
  * \ingroup Montage
  */
 template <typename TImage>
-class PhaseCorrelationOptimizer: public ProcessObject
+class ITK_TEMPLATE_EXPORT PhaseCorrelationOptimizer: public ProcessObject
 {
 public:
   typedef PhaseCorrelationOptimizer Self;
