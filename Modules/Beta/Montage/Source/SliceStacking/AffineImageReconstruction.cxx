@@ -237,7 +237,7 @@ void AffineRegistration::Execute()
   try
     {
     chronometer.Start("Registration");
-    registration->StartRegistration();
+    registration->Update();
     chronometer.Stop("Registration");
     }
   catch( itk::ExceptionObject & err )

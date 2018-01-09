@@ -1,6 +1,0 @@
-
-add_executable(StitchingTest StitchingTest.cxx)
-target_link_libraries(StitchingTest TileStitching)
-
-add_executable(ThresholdingTest ThresholdingTest.cxx)
-target_link_libraries(ThresholdingTest TileStitching)
