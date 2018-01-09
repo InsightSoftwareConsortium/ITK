@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Kitware Inc.
+ *  Copyright Insight Software Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,13 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#ifndef __itkPhaseCorrelationOperator_h
-#define __itkPhaseCorrelationOperator_h
+#ifndef itkPhaseCorrelationOperator_h
+#define itkPhaseCorrelationOperator_h
 
 #include "itkImageToImageFilter.h"
 #include <complex>
-#include "itkPhaseCorrelationImageRegistrationMethod.h"
 
 namespace itk
 {
@@ -51,12 +49,12 @@ namespace itk
  *
  */
 template < typename TRegistrationMethod >
-class ITK_EXPORT PhaseCorrelationOperator :
+class PhaseCorrelationOperator :
   public ImageToImageFilter<
       Image< std::complex< typename TRegistrationMethod::InternalPixelType >,
-             GetImageDimension<TRegistrationMethod>::ImageDimension >,
+             TRegistrationMethod::ImageDimension >,
       Image< std::complex< typename TRegistrationMethod::InternalPixelType >,
-             GetImageDimension<TRegistrationMethod>::ImageDimension > >
+             TRegistrationMethod::ImageDimension > >
 {
 
 public:
@@ -160,7 +158,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPhaseCorrelationOperator.txx"
+#include "itkPhaseCorrelationOperator.hxx"
 #endif
 
 #endif
