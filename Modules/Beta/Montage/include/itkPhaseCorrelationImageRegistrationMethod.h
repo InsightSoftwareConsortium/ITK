@@ -37,9 +37,9 @@ namespace itk
  *  \brief Base class for phase-correlation-based image registration.
  *
  *  Phase Correlation Method (PCM) estimates shift between the Fixed image and
- *  Moving image. See <em>C. D. Kuglin and D. C. Hines, “The phase correlation
- *  image alignment method,” in Proc. Int. Conf. on Cybernetics and Society,
- *  pp. 163–165, IEEE, Sep. 1975</em> for method description.
+ *  Moving image. See <em>C. D. Kuglin and D. C. Hines, The phase correlation
+ *  image alignment method, in Proc. Int. Conf. on Cybernetics and Society,
+ *  pp. 163-165, IEEE, Sep. 1975</em> for method description.
  *
  *  The method consists of 4 (5) steps:
  *    0. Resample the images to same spacing and size.
