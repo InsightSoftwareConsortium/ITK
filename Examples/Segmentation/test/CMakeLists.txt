@@ -191,24 +191,6 @@ itk_add_test(NAME ThresholdSegmentationLevelSetGrayMatterTest COMMAND ${ITK_TEST
         107 69 5 180 210
 )
 
-itk_add_test(NAME CellularSegmentation1Test COMMAND ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:CellularSegmentation1>
-        ${ITK_SOURCE_DIR}/Examples/Data/BrainProtonDensitySlice.png
-        100 115 200 255 3000
-        ${TEMP}/CellularSegmentation1Test.vtk
-)
-
-if( ITK_USE_BRAINWEB_DATA )
-
-itk_add_test(NAME CellularSegmentation2Test COMMAND ${ITK_TEST_DRIVER}
-  $<TARGET_FILE:CellularSegmentation2>
-        DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
-        81 113 96 220 255 2000
-        ${TEMP}/CellularSegmentation2Test.vtk
-)
-
-endif()
-
 itk_add_test(NAME VectorConfidenceConnectedTest1 COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/VectorConfidenceConnected1.png}
             ${TEMP}/VectorConfidenceConnected1.png

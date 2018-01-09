@@ -28,7 +28,6 @@ itkMultiphaseDenseFiniteDifferenceImageFilterTest.cxx
 itkMultiphaseFiniteDifferenceImageFilterTest.cxx
 itkMultiphaseSparseFiniteDifferenceImageFilterTest.cxx
 itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
-itkNeuralNetworkIOTest.cxx
 itkOptImageToImageMetricsTest.cxx
 itkOptImageToImageMetricsTest2.cxx
 itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
@@ -235,9 +234,6 @@ itk_add_test(NAME itkMultiScaleHessianBasedMeasureImageFilterTest
           --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha
               itkMultiScaleHessianBasedMeasureImageFilterTest DATA{${ITK_DATA_ROOT}/Input/DSA.png} ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestScalesOutput.mha 5 10 10 1 0 ${ITK_TEST_OUTPUT_DIR}/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput2.mha)
-itk_add_test(NAME itkNeuralNetworkIOTest
-      COMMAND ITKReviewTestDriver itkNeuralNetworkIOTest
-              DATA{${ITK_DATA_ROOT}/Input/xornet.txt} DATA{${ITK_DATA_ROOT}/Input/xortest.txt} ${ITK_TEST_OUTPUT_DIR})
 
 itk_add_test(NAME itkOptImageToImageMetricsTest01
       COMMAND ITKReviewTestDriver --redirectOutput ${TEMP}/itkOptImageToImageMetricsTest01.txt
