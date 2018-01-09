@@ -14,9 +14,6 @@ if("${ITK_VERSION}" VERSION_LESS "${REQUIRED_ITK_VERSION}")
   message(FATAL_ERROR "ITK Version ${REQUIRED_ITK_VERSION} or greater is required.")
 endif()
 
-include(CMake/PlatformSpecificChecks.cmake)
-
-
 OPTION(BUILD_SHARED_LIBS "Build with shared libraries." ${ITK_BUILD_SHARED_LIBS})
 IF(BUILD_SHARED_LIBS)
   SET(SimpleImageReconstruction_BUILD_SHARED_LIBS_CONFIG 1)
