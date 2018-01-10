@@ -334,5 +334,53 @@ int PhaseCorrelationRegistration( int , char* [] )
 
 int itkPhaseCorrelationImageRegistrationMethodTest( int argc, char* argv[] )
 {
-  return PhaseCorrelationRegistration< 2, signed char, signed char >( argc, argv );
+  if( argc < 2 )
+    {
+    std::cerr << "Usage: " << argv[0] << " <<Dimension><FixedPixelTypeCharacter><MovingImageTypeCharacter>>" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( !strcmp( argv[1], "2cc" ) )
+    {
+    return PhaseCorrelationRegistration< 2, signed char, signed char >( argc, argv );
+    }
+  else if( !strcmp( argv[1], "2ff" ) )
+    {
+    return PhaseCorrelationRegistration< 2, float, float >( argc, argv );
+    }
+  else if( !strcmp( argv[1], "2dd" ) )
+    {
+    return PhaseCorrelationRegistration< 2, double, double >( argc, argv );
+    }
+  else if( !strcmp( argv[1], "2cf" ) )
+    {
+    return PhaseCorrelationRegistration< 2, signed char, float >( argc, argv );
+    }
+  else if( !strcmp( argv[1], "2fd" ) )
+    {
+    return PhaseCorrelationRegistration< 2, float, double >( argc, argv );
+    }
+  else if( !strcmp( argv[1], "3cc" ) )
+    {
+    return PhaseCorrelationRegistration< 3, signed char, signed char >( argc, argv );
+    }
+  else if( !strcmp( argv[1], "3ff" ) )
+    {
+    return PhaseCorrelationRegistration< 3, float, float >( argc, argv );
+    }
+  else if( !strcmp( argv[1], "3dd" ) )
+    {
+    return PhaseCorrelationRegistration< 3, double, double >( argc, argv );
+    }
+  else if( !strcmp( argv[1], "3cf" ) )
+    {
+    return PhaseCorrelationRegistration< 3, signed char, float >( argc, argv );
+    }
+  else if( !strcmp( argv[1], "3fd" ) )
+    {
+    return PhaseCorrelationRegistration< 3, float, double >( argc, argv );
+    }
+
+  std::cerr << "Unexpected Dimension/FixedPixelType/MovingPixelType!" << std::endl;
+  return EXIT_FAILURE;
 }
