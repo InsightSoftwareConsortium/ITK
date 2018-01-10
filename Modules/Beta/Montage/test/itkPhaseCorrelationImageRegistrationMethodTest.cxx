@@ -153,18 +153,18 @@ private:
 }
 
 
-template < unsigned int Dimension,
+template < unsigned int NDimension,
            typename TFixedImagePixel,
-	   typename TMovingImagePixel >
+     typename TMovingImagePixel >
 int PhaseCorrelationRegistration( int , char* [] )
 {
   bool pass = true;
 
   // Fixed Image Type
-  typedef itk::Image<TFixedImagePixel, Dimension>   FixedImageType;
+  typedef itk::Image<TFixedImagePixel, NDimension>   FixedImageType;
 
   // Moving Image Type
-  typedef itk::Image<TMovingImagePixel, Dimension>  MovingImageType;
+  typedef itk::Image<TMovingImagePixel, NDimension>  MovingImageType;
 
   // Size Type
   typedef typename MovingImageType::SizeType           SizeType;
@@ -173,7 +173,7 @@ int PhaseCorrelationRegistration( int , char* [] )
   typedef itk::PhaseCorrelationImageRegistrationMethodImageSource<
       typename FixedImageType::PixelType,
       typename MovingImageType::PixelType,
-      Dimension >                                      ImageSourceType;
+      NDimension >                                      ImageSourceType;
 
   // Resample filter
   typedef itk::ResampleImageFilter< MovingImageType, MovingImageType >
@@ -190,7 +190,7 @@ int PhaseCorrelationRegistration( int , char* [] )
                                                        PCMType;
 
   // Operator type
-  typedef itk::PhaseCorrelationOperator< typename itk::NumericTraits< TFixedImagePixel >::RealType, Dimension >     OperatorType;
+  typedef itk::PhaseCorrelationOperator< typename itk::NumericTraits< TFixedImagePixel >::RealType, NDimension >     OperatorType;
 
   // Optimizer type
   typedef itk::MaxPhaseCorrelationOptimizer<PCMType>   OptimizerType;
@@ -209,11 +209,11 @@ int PhaseCorrelationRegistration( int , char* [] )
   typename InterpolatorType::Pointer   interpolator  = InterpolatorType::New();
 
   SizeType size;
-  double spacing[ Dimension ];
-  double origin[ Dimension ];
+  double spacing[ NDimension ];
+  double origin[ NDimension ];
   typename MovingImageType::SizeType   newMovingSize;
   typename MovingImageType::PointType  newMovingOrigin;
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < NDimension; i++)
     {
     size[i] = 100;
     spacing[i] = 1.0;
@@ -310,7 +310,7 @@ int PhaseCorrelationRegistration( int , char* [] )
     }
 
   // All other parameters must be 0
-  for (unsigned int i=numberOfParameters; i<Dimension; i++)
+  for (unsigned int i=numberOfParameters; i<NDimension; i++)
     {
     if (  ( vnl_math_abs ( finalParameters[i] ) > tolerance )
         ||
@@ -329,8 +329,8 @@ int PhaseCorrelationRegistration( int , char* [] )
 
   std::cout << "Test PASSED." << std::endl;
   return EXIT_SUCCESS;
-
 }
+
 
 int itkPhaseCorrelationImageRegistrationMethodTest( int argc, char* argv[] )
 {
