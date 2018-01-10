@@ -28,7 +28,7 @@ endif ()
 # Optimized function needs to define:
 # ARCH_IS_BIG_ENDIAN
 # Big endian thing:
-#include (${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
+#include (TestBigEndian)
 #TEST_BIG_ENDIAN(MD5_WORDS_BIGENDIAN)
 #set_source_files_properties(${MD5_SOURCES}
 #  PROPERTIES COMPILE_FLAGS -DARCH_IS_BIG_ENDIAN

@@ -634,7 +634,7 @@ CHECK_INCLUDE_FILE("pthread.h"      GDCM_HAVE_PTHREAD_H)
 
 # Big endian thing:
 if(GDCM_STANDALONE)
-  include(${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
+  include(TestBigEndian)
   TEST_BIG_ENDIAN(GDCM_WORDS_BIGENDIAN)
 endif()
 
