@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Kitware Inc.
+ *  Copyright Insight Software Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,18 +15,15 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#ifndef __itkPhaseCorrelationOptimizer_txx
-#define __itkPhaseCorrelationOptimizer_txx
+#ifndef itkPhaseCorrelationOptimizer_hxx
+#define itkPhaseCorrelationOptimizer_hxx
 
 #include "itkPhaseCorrelationOptimizer.h"
 
 namespace itk
 {
 
-/*
- * Constructor
- */
+
 template < typename TImage >
 PhaseCorrelationOptimizer<TImage>
 ::PhaseCorrelationOptimizer()
@@ -43,9 +40,6 @@ PhaseCorrelationOptimizer<TImage>
 }
 
 
-/**
- *
- */
 template < typename TImage >
 void
 PhaseCorrelationOptimizer<TImage>
@@ -56,9 +50,6 @@ PhaseCorrelationOptimizer<TImage>
 }
 
 
-/**
- *
- */
 template < typename TImage >
 void
 PhaseCorrelationOptimizer<TImage>
@@ -108,9 +99,7 @@ PhaseCorrelationOptimizer<TImage>
     }
 }
 
-/*
- *  Get Output
- */
+
 template < typename TImage >
 const typename PhaseCorrelationOptimizer<TImage>::OffsetOutputType *
 PhaseCorrelationOptimizer<TImage>
@@ -119,6 +108,7 @@ PhaseCorrelationOptimizer<TImage>
   return static_cast< const OffsetOutputType * >(
                                           this->ProcessObject::GetOutput(0) );
 }
+
 
 template < typename TImage >
 DataObject::Pointer
@@ -137,6 +127,5 @@ PhaseCorrelationOptimizer<TImage>
 }
 
 } //end namespace itk
-
 
 #endif

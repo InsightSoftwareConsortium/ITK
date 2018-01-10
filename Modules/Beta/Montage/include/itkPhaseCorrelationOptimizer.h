@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Kitware Inc.
+ *  Copyright Insight Software Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,20 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#ifndef __itkPhaseCorrelationOptimizer_h
-#define __itkPhaseCorrelationOptimizer_h
-
+#ifndef itkPhaseCorrelationOptimizer_h
+#define itkPhaseCorrelationOptimizer_h
 
 #include "itkImage.h"
 #include "itkProcessObject.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-
 namespace itk
 {
 
 /** \class PhaseCorrelationOptimizer
+ *
  *  \brief Defines common interface for optimizers, that estimates the shift
  *         from correlation surface.
  *
@@ -42,14 +40,15 @@ namespace itk
  *         Institute of Information Theory and Automation,
  *         Academy of Sciences of the Czech Republic.
  *
+ * \ingroup Montage
  */
 template <typename TImage>
-class ITK_EXPORT PhaseCorrelationOptimizer : public ProcessObject
+class ITK_TEMPLATE_EXPORT PhaseCorrelationOptimizer: public ProcessObject
 {
 public:
-  typedef PhaseCorrelationOptimizer  Self;
-  typedef ProcessObject  Superclass;
-  typedef SmartPointer<Self>   Pointer;
+  typedef PhaseCorrelationOptimizer Self;
+  typedef ProcessObject             Superclass;
+  typedef SmartPointer<Self>        Pointer;
   typedef SmartPointer<const Self>  ConstPointer;
 
   /** Run-time type information (and related methods). */
@@ -60,8 +59,7 @@ public:
   typedef typename ImageType::ConstPointer            ImageConstPointer;
 
   /** Dimensionality of input and output data. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-      GetImageDimension<ImageType>::ImageDimension );
+  itkStaticConstMacro( ImageDimension, unsigned int, ImageType::ImageDimension );
 
   /** Type for the output parameters.
    *  It defines a position in the optimization search space. */
@@ -97,7 +95,7 @@ protected:
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the output values. */
-  void  GenerateData ();
+  void GenerateData () ITK_OVERRIDE;
 
 
   /** This method is executed by this type and must be reimplemented by child
@@ -119,7 +117,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPhaseCorrelationOptimizer.txx"
+#include "itkPhaseCorrelationOptimizer.hxx"
 #endif
 
 #endif

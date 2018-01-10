@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Kitware Inc.
+ *  Copyright Insight Software Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,9 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-
-#ifndef __itkMaxPhaseCorrelationOptimizer_txx
-#define __itkMaxPhaseCorrelationOptimizer_txx
+#ifndef itkMaxPhaseCorrelationOptimizer_hxx
+#define itkMaxPhaseCorrelationOptimizer_hxx
 
 #include "itkMaxPhaseCorrelationOptimizer.h"
 
@@ -31,9 +30,6 @@
 namespace itk
 {
 
-/*
- * Constructor
- */
 template < typename TRegistrationMethod >
 MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 ::MaxPhaseCorrelationOptimizer() : Superclass()
@@ -42,9 +38,6 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 }
 
 
-/**
- *
- */
 template < typename TRegistrationMethod >
 void
 MaxPhaseCorrelationOptimizer<TRegistrationMethod>
@@ -55,9 +48,6 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 }
 
 
-/**
- *
- */
 template < typename TRegistrationMethod >
 void
 MaxPhaseCorrelationOptimizer<TRegistrationMethod>
@@ -90,7 +80,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
   typename ImageType::SpacingType
               spacing = input->GetSpacing();
 
-  for (int i = 0; i < ImageDimension ; i++)
+  for (int i = 0; i < ImageDimension; ++i)
     {
     if ( index[i] > vcl_floor( size[i] / 2.0 ) )
       {
@@ -105,9 +95,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
   this->SetOffset( offset );
 }
 
-/**
- *
- */
+
 template < typename TRegistrationMethod >
 unsigned long
 MaxPhaseCorrelationOptimizer<TRegistrationMethod>
@@ -126,6 +114,5 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>
 }
 
 } //end namespace itk
-
 
 #endif
