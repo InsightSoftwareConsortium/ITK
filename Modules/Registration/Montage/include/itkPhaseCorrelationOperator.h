@@ -143,6 +143,13 @@ protected:
                           ComplexType          & fixedValue,
                           ComplexType          & movingValue);
 
+  /** Override VerifyInputInformation() since this filter's inputs do not need
+   * to occupy the same physical space.
+   *
+   * \sa ProcessObject::VerifyInputInformation
+   */
+  void VerifyInputInformation() ITK_OVERRIDE {}
+
 private:
   PhaseCorrelationOperator(const Self&); //purposely not implemented
   void operator=(const Self&); //purposely not implemented
