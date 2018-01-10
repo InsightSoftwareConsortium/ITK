@@ -19,6 +19,7 @@
 #define itkPhaseCorrelationImageRegistrationMethod_hxx
 
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -172,23 +173,21 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage,TMovingImage>
   typename MovingImageType::SpacingType movingSpacing =
       m_MovingImage->GetSpacing();
 
-  unsigned long fixedPad[ ImageDimension ];
-  unsigned long movingPad[ ImageDimension ];
+  typename FixedImageType::SizeType fixedPad;
+  typename MovingImageType::SizeType movingPad;
 
   for (int i=0; i<ImageDimension; i++)
     {
     if ( fixedSize[i]*fixedSpacing[i] > movingSize[i]*movingSpacing[i] )
       {
-      movingPad[i] = (unsigned long)vcl_floor(
-                                fixedSize[i]*fixedSpacing[i]/movingSpacing[i] -
-                                movingSize[i] );
+      movingPad[i] = Math::Floor< SizeValueType >( fixedSize[i]*fixedSpacing[i]/movingSpacing[i] -
+                                  movingSize[i] );
       fixedPad[i] = 0;
       }
     else
       {
-      fixedPad[i] = (unsigned long)vcl_floor(
-                               movingSize[i]*movingSpacing[i]/fixedSpacing[i] -
-                               fixedSize[i] );
+      fixedPad[i] = Math::Floor< SizeValueType >( movingSize[i]*movingSpacing[i]/fixedSpacing[i] -
+                                fixedSize[i] );
       movingPad[i] = 0;
       }
     }
