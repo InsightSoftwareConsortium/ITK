@@ -216,7 +216,7 @@ public:
 
 protected:
   MorphologicalContourInterpolator();
-  ~MorphologicalContourInterpolator() {}
+  ~MorphologicalContourInterpolator() ITK_OVERRIDE {}
   typename TImage::PixelType m_Label;
   int                        m_Axis;
   bool                       m_HeuristicAlignment;
@@ -238,7 +238,7 @@ protected:
   ImagesEqual(typename BoolSliceType::Pointer & a, typename BoolSliceType::Pointer & b);
 
   /** Does the real work. */
-  virtual void
+  void
   GenerateData() ITK_OVERRIDE;
 
   /** Determines correspondances between two slices and calls apropriate methods. */
@@ -339,7 +339,7 @@ protected:
   CardSymDifference(typename BoolSliceType::Pointer & shape1, typename BoolSliceType::Pointer & shape2);
 
   /** Copied from ImageSource and changed to allocate a cleared buffer. */
-  virtual void
+  void
   AllocateOutputs() ITK_OVERRIDE;
 
   /** Returns the centroid of given regions */
@@ -402,9 +402,9 @@ protected:
   typename ConnectedComponentsType::Pointer                       m_ConnectedComponents;
 
 private:
-  MorphologicalContourInterpolator(const Self &) ITK_DELETE_FUNCTION;
+  MorphologicalContourInterpolator(const Self &) ITK_DELETED_FUNCTION;
   void
-  operator=(const Self &) ITK_DELETE_FUNCTION;
+  operator=(const Self &) ITK_DELETED_FUNCTION;
 };
 } // namespace itk
 
