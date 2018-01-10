@@ -160,7 +160,7 @@ endif()
 
 #-----------------------------------------------------------------------------
 # Big endian test:
-include (${CMAKE_ROOT}/Modules/TestBigEndian.cmake)
+include (TestBigEndian)
 TEST_BIG_ENDIAN(OPJ_BIG_ENDIAN)
 
 #-----------------------------------------------------------------------------
