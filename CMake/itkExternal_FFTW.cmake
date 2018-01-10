@@ -31,7 +31,11 @@ message("${msg}")
 
 set(_additional_configure_env)
 set(_additional_external_project_args)
+set(_additional_deployment_target_flags)
 if (APPLE)
+  if(CMAKE_OSX_DEPLOYMENT_TARGET)
+     set(_additional_deployment_target_flags "-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+  endif()
   list(APPEND _additional_configure_env
         "SDKROOT=${CMAKE_OSX_SYSROOT}"
         "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
@@ -95,12 +99,12 @@ else()
         CONFIGURE_COMMAND
           env
             "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
-            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
+            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG} ${_additional_deployment_target_flags}"
             "LDFLAGS=$ENV{LDFLAGS}"
             "LIBS=$ENV{LIBS}"
             "CPP=$ENV{CPP}"
-            "CPPFLAGS=$ENV{CPPFLAGS}"
-            "CXXFLAGS=$ENV{CXXFLAGS} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
+            "CPPFLAGS=$ENV{CPPFLAGS} ${_additional_deployment_target_flags}"
+            "CXXFLAGS=$ENV{CXXFLAGS} ${GCC_POSITION_INDEPENDENT_CODE_FLAG} ${_additional_deployment_target_flags}"
             ${_additional_configure_env}
           ${ITK_BINARY_DIR}/fftwf/src/fftwf/configure
             ${FFTW_SHARED_FLAG}
@@ -122,13 +126,13 @@ else()
         DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
         CONFIGURE_COMMAND
           env
-           "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
-           "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
-           "LDFLAGS=$ENV{LDFLAGS}"
-           "LIBS=$ENV{LIBS}"
-           "CPP=$ENV{CPP}"
-           "CPPFLAGS=$ENV{CPPFLAGS}"
-           "CXXFLAGS=$ENV{CXXFLAGS} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
+            "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
+            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG} ${_additional_deployment_target_flags}"
+            "LDFLAGS=$ENV{LDFLAGS}"
+            "LIBS=$ENV{LIBS}"
+            "CPP=$ENV{CPP}"
+            "CPPFLAGS=$ENV{CPPFLAGS} ${_additional_deployment_target_flags}"
+            "CXXFLAGS=$ENV{CXXFLAGS} ${GCC_POSITION_INDEPENDENT_CODE_FLAG} ${_additional_deployment_target_flags}"
             ${_additional_configure_env}
           ${ITK_BINARY_DIR}/fftwd/src/fftwd/configure
             ${FFTW_SHARED_FLAG}
