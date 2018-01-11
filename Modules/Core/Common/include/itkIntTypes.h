@@ -20,25 +20,10 @@
 
 #include "itkMacro.h"
 
-#if defined( ITK_HAVE_STDINT_H )
-#include <cstdint>
-#else
-// the system doesn't have the C or C++ version of stdint so lets use
-// KWIML's macros for fixed widths
-#include "itk_kwiml.h"
-
-#ifdef ITK_HAVE_STDDEF_H
-#include <cstddef>
-#endif //ITK_HAVE_STDDEF_H
-
-#endif // ITK_HAVE_CSTDINT
-
 #include <climits>
 
 namespace itk
 {
-#if defined( ITK_HAVE_STDINT_H )
-
 // Note: these types are technically optional in C99 stdint.h file. As
 // such a try complile for their existence may be needed.
 typedef::int8_t   int8_t;
@@ -76,48 +61,6 @@ typedef::uintmax_t uintmax_t;
 typedef::intptr_t  intptr_t;
 typedef::uintptr_t uintptr_t;
 
-#else // ITK_HAVE_STDINT_H
-
-/** Fixed width integer types. */
-typedef KWIML_INT_int8_t   int8_t;
-typedef KWIML_INT_uint8_t  uint8_t;
-typedef KWIML_INT_int16_t  int16_t;
-typedef KWIML_INT_uint16_t uint16_t;
-typedef KWIML_INT_int32_t  int32_t;
-typedef KWIML_INT_uint32_t uint32_t;
-typedef KWIML_INT_int64_t  int64_t;
-typedef KWIML_INT_uint64_t uint64_t;
-
-/** Types which are at least a certain size, these are preferred over
- *  fixed width. */
-typedef int8_t   int_least8_t;
-typedef uint8_t  uint_least8_t;
-typedef int16_t  int_least16_t;
-typedef uint16_t uint_least16_t;
-typedef int32_t  int_least32_t;
-typedef uint32_t uint_least32_t;
-typedef int64_t  int_least64_t;
-typedef uint64_t uint_least64_t;
-
-/** Types which are at least a certain size but may be greater if
- *  performace benefits, these are preferred over fixed width. */
-typedef int8_t   int_fast8_t;
-typedef uint8_t  uint_fast8_t;
-typedef int16_t  int_fast16_t;
-typedef uint16_t uint_fast16_t;
-typedef int32_t  int_fast32_t;
-typedef uint32_t uint_fast32_t;
-typedef int64_t  int_fast64_t;
-typedef uint64_t uint_fast64_t;
-
-/** Types which contain the largest represetable integer. */
-typedef int64_t  intmax_t;
-typedef uint64_t uintmax_t;
-
-typedef::ptrdiff_t intptr_t;
-typedef::size_t    uintptr_t;
-
-#endif // ITK_HAVE_STDINT_H
 
 #if defined(ITK_USE_64BITS_IDS) && ((ULLONG_MAX != ULONG_MAX) || (LLONG_MAX != LONG_MAX))
 
