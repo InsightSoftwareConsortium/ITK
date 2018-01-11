@@ -93,6 +93,20 @@ public:
 
   static ThreadIdType  GetGlobalDefaultNumberOfThreads();
 
+  /** This is the structure that is passed to the thread that is
+   * created from the SingleMethodExecute. It is passed in as a void *,
+   * and it is up to the method to cast correctly and extract the information.
+   * The ThreadID is a number between 0 and NumberOfThreads-1 that
+   * indicates the id of this thread. The UserData is the
+   * (void *)arg passed into the SetSingleMethod. */
+  struct ThreadInfoStruct
+    {
+    ThreadIdType ThreadID;
+    ThreadIdType NumberOfThreads;
+    void* UserData;
+    ThreadFunctionType ThreadFunction;
+    enum { SUCCESS, ITK_EXCEPTION, ITK_PROCESS_ABORTED_EXCEPTION, STD_EXCEPTION, UNKNOWN } ThreadExitCode;
+    };
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
    * m_NumberOfThreads threads. As a side effect the m_NumberOfThreads will be
@@ -141,6 +155,14 @@ protected:
    *  SingleMethodExecute() and MultipleMethodExecute() methods.
    */
   ThreadIdType m_NumberOfThreads;
+
+  /** Static function used as a "proxy callback" by multi-threaders.  The
+  * threading library will call this routine for each thread, which
+  * will delegate the control to the prescribed SingleMethod. This
+  * routine acts as an intermediary between the multi-threaders and the
+  * user supplied callback (SingleMethod) in order to catch any
+  * exceptions thrown by the threads. */
+  static ITK_THREAD_RETURN_TYPE SingleMethodProxy(void *arg);
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiThreaderBase);

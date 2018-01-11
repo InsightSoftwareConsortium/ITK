@@ -1156,10 +1156,10 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   constexpr unsigned int LOAD_BALANCE_ITERATION_FREQUENCY = 30;
 
   unsigned int i;
-  ThreadIdType ThreadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
+  ThreadIdType ThreadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
 
   auto * str = (ParallelSparseFieldLevelSetThreadStruct *)
-    ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+    ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
 
   // allocate thread data: every thread allocates its own data
   // We do NOT assume here that malloc is thread safe: hence make threads

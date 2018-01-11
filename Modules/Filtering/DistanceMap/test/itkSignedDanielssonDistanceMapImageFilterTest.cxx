@@ -64,18 +64,7 @@ void test(int testIdx)
   inputImage2D->SetLargestPossibleRegion( region2D );
   inputImage2D->SetBufferedRegion( region2D );
   inputImage2D->SetRequestedRegion( region2D );
-  inputImage2D->Allocate();
-
-  using myIteratorType2D1 = itk::ImageRegionIteratorWithIndex< myImageType2D1 >;
-
-  myIteratorType2D1 it2D1( inputImage2D, region2D );
-
-  // Set the image to 0
-  while( !it2D1.IsAtEnd() )
-    {
-    it2D1.Set( 0 );
-    ++it2D1;
-    }
+  inputImage2D->Allocate( true );
 
   if ( !testIdx )
     {

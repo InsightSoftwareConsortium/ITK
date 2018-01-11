@@ -44,7 +44,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -317,14 +317,14 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       threadEnv += (*av)[i + 1];
       itksys::SystemTools::PutEnv( threadEnv.c_str() );
       // and set the number of threads locally for the comparison
-      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(atoi((*av)[i + 1]));
+      itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(atoi((*av)[i + 1]));
       *av += 2;
       *ac -= 2;
       }
     else if ( !skip && strcmp((*av)[i], "--without-threads") == 0 )
       {
       itksys::SystemTools::PutEnv( "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1" );
-      itk::MultiThreader::SetGlobalDefaultNumberOfThreads(1);
+      itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
       *av += 1;
       *ac -= 1;
       }

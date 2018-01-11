@@ -86,7 +86,7 @@ int itkMirrorPadImageTest(int, char* [] )
 //  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
 //  fow->SetInstance(fow);
 
-//  itk::MultiThreader::SetGlobalDefaultNumberOfThreads(8);
+//  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(8);
 
   // type alias to simplify the syntax
   using SimpleImage = itk::Image<short, 2>;

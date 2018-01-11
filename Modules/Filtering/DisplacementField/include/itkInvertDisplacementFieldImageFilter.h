@@ -63,6 +63,7 @@ public:
   using PixelType = typename OutputFieldType::PixelType;
   using VectorType = typename OutputFieldType::PixelType;
   using RegionType = typename OutputFieldType::RegionType;
+  using OutputImageRegionType = RegionType;
   using IndexType = typename OutputFieldType::IndexType;
 
   using PointType = typename OutputFieldType::PointType;

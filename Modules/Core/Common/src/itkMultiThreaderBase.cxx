@@ -48,7 +48,7 @@ namespace itk
 static bool GlobalDefaultUseThreadPoolIsInitialized=false;
 static SimpleFastMutexLock globalDefaultInitializerLock;
 
-bool MultiThreaderBase::m_GlobalDefaultUseThreadPool = false;
+bool MultiThreaderBase::m_GlobalDefaultUseThreadPool = true;
 
 void MultiThreaderBase::SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool )
   {
@@ -187,6 +187,39 @@ MultiThreaderBase::MultiThreaderBase()
 
 MultiThreaderBase::~MultiThreaderBase()
 {
+}
+
+ITK_THREAD_RETURN_TYPE
+MultiThreaderBase
+::SingleMethodProxy(void *arg)
+{
+  // grab the ThreadInfoStruct originally prescribed
+  auto * threadInfoStruct = static_cast<MultiThreaderBase::ThreadInfoStruct *>( arg );
+
+  // execute the user specified threader callback, catching any exceptions
+  try
+    {
+    ( *threadInfoStruct->ThreadFunction )(arg);
+    threadInfoStruct->ThreadExitCode = ThreadInfoStruct::SUCCESS;
+    }
+  catch( ProcessAborted & )
+    {
+    threadInfoStruct->ThreadExitCode = ThreadInfoStruct::ITK_PROCESS_ABORTED_EXCEPTION;
+    }
+  catch( ExceptionObject & )
+    {
+    threadInfoStruct->ThreadExitCode = ThreadInfoStruct::ITK_EXCEPTION;
+    }
+  catch( std::exception & )
+    {
+    threadInfoStruct->ThreadExitCode = ThreadInfoStruct::STD_EXCEPTION;
+    }
+  catch( ... )
+    {
+    threadInfoStruct->ThreadExitCode = ThreadInfoStruct::UNKNOWN;
+    }
+
+  return ITK_THREAD_RETURN_VALUE;
 }
 
 // Print method for the multithreader

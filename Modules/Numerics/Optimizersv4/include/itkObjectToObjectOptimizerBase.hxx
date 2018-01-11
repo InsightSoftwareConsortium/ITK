@@ -19,7 +19,7 @@
 #define itkObjectToObjectOptimizerBase_hxx
 
 #include "itkObjectToObjectOptimizerBase.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -35,7 +35,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
   this->m_CurrentMetricValue = 0;
   // Initialize, but w/out calling SetNumberOfThreads, to avoid
   // valgrind warning.
-  this->m_NumberOfThreads = MultiThreader::GetGlobalDefaultNumberOfThreads();
+  this->m_NumberOfThreads = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
   this->m_ScalesAreIdentity = false;
   this->m_WeightsAreIdentity = true;
   this->m_DoEstimateScales = true;

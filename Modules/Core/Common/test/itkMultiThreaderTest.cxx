@@ -131,22 +131,3 @@ int itkMultiThreaderTest(int argc, char* argv[])
 
   return EXIT_SUCCESS;
 }
-
-namespace itkMultiThreaderTestHelpers
-{
-
-void ThreadedMethod()
-{
-
-#ifdef ITK_USE_PTHREADS
-// ThreadProcessIdType threadId = pthread_self();
-#endif
-
-#ifdef ITK_USE_WIN32_THREADS
-// ThreadProcessIdType threadId = GetCurrentThread();
-#endif
-
-}
-
-
-} // end of itkMultiThreaderTestHelpers

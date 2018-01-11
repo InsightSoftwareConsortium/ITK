@@ -178,7 +178,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   /* Transform the point into fixed and moving spaces, and evaluate.
    * Different behavior with pre-warping enabled is handled transparently.
    * Do this in a try block to catch exceptions and print more useful info
-   * then we otherwise get when exceptions are caught in MultiThreader. */
+   * then we otherwise get when exceptions are caught in MultiThreaderBase. */
   try
     {
     pointIsValid = this->m_CorrelationAssociate->TransformAndEvaluateFixedPoint( virtualPoint, mappedFixedPoint, mappedFixedPixelValue );

@@ -51,7 +51,7 @@
 #include "itkVersorRigid3DTransform.h"
 #include "itkVersorTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 #include <iostream>
 
 template <typename TTransform>
@@ -65,7 +65,7 @@ template <typename TTransform>
 ITK_THREAD_RETURN_TYPE
 TestGetInverseThreadFunction(void *perThreadData)
 {
-  auto * ti = static_cast<itk::MultiThreader::ThreadInfoStruct *>(perThreadData);
+  auto * ti = static_cast<itk::MultiThreaderBase::ThreadInfoStruct *>(perThreadData);
   auto * td = static_cast<ThreadData<TTransform> *>(ti->UserData);
   for(unsigned int i = 0; i < 100000; ++i)
     {
@@ -79,7 +79,7 @@ template <typename TTransform>
 unsigned
 TransformTest()
 {
-  typename itk::MultiThreader::Pointer threader = itk::MultiThreader::New();
+  typename itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
 
   ThreadData<TTransform> td;
   td.m_Transform  = TTransform::New();

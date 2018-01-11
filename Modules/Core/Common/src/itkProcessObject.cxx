@@ -78,11 +78,9 @@ ProcessObject
   m_IndexedInputs.push_back( m_Inputs.insert(p).first );
   m_IndexedOutputs.push_back( m_Outputs.insert(std::move(p)).first );
 
-  m_Threader = MultiThreaderType::New();
-  m_NumberOfThreads = m_Threader->GetNumberOfThreads();
+  this->Self::SetMultiThreader(MultiThreaderType::New());
 
   m_ReleaseDataBeforeUpdateFlag = true;
-
 }
 
 
@@ -1353,7 +1351,7 @@ ProcessObject
   os << indent << "Progress: " << m_Progress << std::endl;
 
   os << indent << "Multithreader: " << std::endl;
-  m_Threader->PrintSelf( os, indent.GetNextIndent() );
+  m_MultiThreader->PrintSelf( os, indent.GetNextIndent() );
 }
 
 
@@ -1661,6 +1659,36 @@ ProcessObject
       {
       o.second->SetRequestedRegion(output);
       }
+    }
+}
+
+
+void
+ProcessObject
+::SetMultiThreader(MultiThreaderType* threader)
+{
+  if (this->m_MultiThreader != threader)
+    {
+    if (this->m_MultiThreader.IsNull())
+      {
+      this->m_MultiThreader = threader;
+      m_NumberOfThreads = m_MultiThreader->GetNumberOfThreads();
+      }
+    else
+      {
+      ThreadIdType oldDefaultNumber = m_MultiThreader->GetNumberOfThreads();
+      this->m_MultiThreader = threader;
+      ThreadIdType newDefaultNumber = m_MultiThreader->GetNumberOfThreads();
+      if (m_NumberOfThreads == oldDefaultNumber)
+        {
+        m_NumberOfThreads = newDefaultNumber;
+        }
+      else //clamp to new default
+        {
+        m_NumberOfThreads = std::min(m_NumberOfThreads, newDefaultNumber);
+        }
+      }
+    this->Modified();
     }
 }
 

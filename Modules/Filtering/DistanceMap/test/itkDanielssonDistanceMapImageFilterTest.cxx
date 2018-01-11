@@ -48,25 +48,13 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   inputImage2D->SetLargestPossibleRegion( region2D );
   inputImage2D->SetBufferedRegion( region2D );
   inputImage2D->SetRequestedRegion( region2D );
-  inputImage2D->Allocate();
-
+  inputImage2D->Allocate( true );
 
   /* Set pixel (4,4) with the value 1
    * and pixel (1,6) with the value 2
    * The Danielsson Distance is performed for each pixel with a value > 0
    * The ClosestPoints computation is based on the value of the pixel.
    */
-
-  using myIteratorType2D1 = itk::ImageRegionIteratorWithIndex<myImageType2D1>;
-
-  myIteratorType2D1 it2D1(inputImage2D,region2D);
-
-  // Set the image to 0
-  while( !it2D1.IsAtEnd() )
-    {
-    it2D1.Set( 0 );
-    ++it2D1;
-    }
 
   index2D[0] = 4;
   index2D[1] = 4;

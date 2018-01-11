@@ -235,43 +235,6 @@ void MultiThreader::SingleMethodExecute()
     }
 }
 
-
-ITK_THREAD_RETURN_TYPE
-MultiThreader
-::SingleMethodProxy(void *arg)
-{
-  // grab the ThreadInfoStruct originally prescribed
-  auto * threadInfoStruct = reinterpret_cast<MultiThreader::ThreadInfoStruct *>( arg );
-
-  // execute the user specified threader callback, catching any exceptions
-  try
-    {
-    ( *threadInfoStruct->ThreadFunction )(threadInfoStruct);
-    threadInfoStruct->ThreadExitCode = MultiThreader::ThreadInfoStruct::SUCCESS;
-    }
-  catch( ProcessAborted & )
-    {
-    threadInfoStruct->ThreadExitCode =
-      MultiThreader::ThreadInfoStruct::ITK_PROCESS_ABORTED_EXCEPTION;
-    }
-  catch( ExceptionObject & )
-    {
-    threadInfoStruct->ThreadExitCode =
-      MultiThreader::ThreadInfoStruct::ITK_EXCEPTION;
-    }
-  catch( std::exception & )
-    {
-    threadInfoStruct->ThreadExitCode =
-      MultiThreader::ThreadInfoStruct::STD_EXCEPTION;
-    }
-  catch( ... )
-    {
-    threadInfoStruct->ThreadExitCode = MultiThreader::ThreadInfoStruct::UNKNOWN;
-    }
-
-  return ITK_THREAD_RETURN_VALUE;
-}
-
 // Print method for the multithreader
 void MultiThreader::PrintSelf(std::ostream & os, Indent indent) const
 {

@@ -89,7 +89,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   InputImageConstPointer input = this->GetInput();
 
   ThreadIdType nbOfThreads = this->GetNumberOfThreads();
-  ThreadIdType maxNumberOfThreads = itk::MultiThreader::GetGlobalMaximumNumberOfThreads();
+  ThreadIdType maxNumberOfThreads = itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads();
   if ( maxNumberOfThreads != 0 )
     {
     nbOfThreads = std::min( this->GetNumberOfThreads(), maxNumberOfThreads );

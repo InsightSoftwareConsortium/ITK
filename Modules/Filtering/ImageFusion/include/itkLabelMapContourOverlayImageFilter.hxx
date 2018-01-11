@@ -188,9 +188,9 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 
 
   ThreadIdType nbOfThreads = this->GetNumberOfThreads();
-  if( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
+  if( itk::MultiThreaderBase::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    nbOfThreads = std::min( this->GetNumberOfThreads(), MultiThreader::GetGlobalMaximumNumberOfThreads() );
+    nbOfThreads = std::min( this->GetNumberOfThreads(), MultiThreaderBase::GetGlobalMaximumNumberOfThreads() );
     }
   // number of threads can be constrained by the region size, so call the SplitRequestedRegion
   // to get the real number of threads which will be used

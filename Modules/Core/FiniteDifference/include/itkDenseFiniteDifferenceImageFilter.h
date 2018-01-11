@@ -19,7 +19,7 @@
 #define itkDenseFiniteDifferenceImageFilter_h
 
 #include "itkFiniteDifferenceImageFilter.h"
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {

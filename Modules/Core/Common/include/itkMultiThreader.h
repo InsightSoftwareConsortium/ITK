@@ -63,6 +63,27 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultiThreader, MultiThreaderBase);
 
+#if !defined ( ITK_LEGACY_REMOVE )
+  /** Set/Get the maximum number of threads to use when multithreading.  It
+  * will be clamped to the range [ 1, ITK_MAX_THREADS ] because several arrays
+  * are already statically allocated using the ITK_MAX_THREADS number.
+  * Therefore the caller of this method should check that the requested number
+  * of threads was accepted. Legacy: use MultiThreaderBase to invoke these. */
+  static void SetGlobalMaximumNumberOfThreads(ThreadIdType val)
+  {
+    itkGenericOutputMacro("Warning: SetGlobalMaximumNumberOfThreads \
+should now be called on itk::MultiThreaderBase. \
+It can affect all MultiThreaderBase's derived classes in ITK");
+    Superclass::SetGlobalMaximumNumberOfThreads(val);
+  }
+  static ThreadIdType GetGlobalMaximumNumberOfThreads()
+  {
+    itkGenericOutputMacro("Warning: GetGlobalMaximumNumberOfThreads \
+should now be called on itk::MultiThreaderBase. \
+It can affect all MultiThreaderBase's derived classes in ITK");
+    return Superclass::GetGlobalMaximumNumberOfThreads();
+  }
+#endif
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
    * m_NumberOfThreads threads. As a side effect the m_NumberOfThreads will be
@@ -95,29 +116,10 @@ public:
   /** Terminate the thread that was created with a SpawnThreadExecute() */
   void TerminateThread(ThreadIdType thread_id) override;
 
-  /** This is the structure that is passed to the thread that is
-   * created from the SingleMethodExecute, MultipleMethodExecute or
-   * the SpawnThread method. It is passed in as a void *, and it is up
-   * to the method to cast correctly and extract the information.  The
-   * ThreadID is a number between 0 and NumberOfThreads-1 that
-   * indicates the id of this thread. The NumberOfThreads is
-   * this->NumberOfThreads for threads created from
-   * SingleMethodExecute or MultipleMethodExecute, and it is 1 for
-   * threads created from SpawnThread.  The UserData is the (void
-   * *)arg passed into the SetSingleMethod, SetMultipleMethod, or
-   * SpawnThread method. */
-#ifdef ThreadInfoStruct
-#undef ThreadInfoStruct
-#endif
-  struct ThreadInfoStruct
+  struct ThreadInfoStruct: MultiThreaderBase::ThreadInfoStruct
     {
-    ThreadIdType ThreadID;
-    ThreadIdType NumberOfThreads;
     int *ActiveFlag;
     MutexLock::Pointer ActiveFlagLock;
-    void *UserData;
-    ThreadFunctionType ThreadFunction;
-    enum { SUCCESS, ITK_EXCEPTION, ITK_PROCESS_ABORTED_EXCEPTION, STD_EXCEPTION, UNKNOWN } ThreadExitCode;
     };
 
 protected:
@@ -147,14 +149,6 @@ private:
   /** Internal storage of the data. */
   void *m_SingleData;
   void *m_MultipleData[ITK_MAX_THREADS];
-
-  /** Static function used as a "proxy callback" by the MultiThreader.  The
-   * threading library will call this routine for each thread, which
-   * will delegate the control to the prescribed SingleMethod. This
-   * routine acts as an intermediary between the MultiThreader and the
-   * user supplied callback (SingleMethod) in order to catch any
-   * exceptions thrown by the threads. */
-  static ITK_THREAD_RETURN_TYPE SingleMethodProxy(void *arg);
 
   /** spawn a new thread for the SingleMethod */
   ThreadProcessIdType SpawnDispatchSingleMethodThread(ThreadInfoStruct *);

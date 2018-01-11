@@ -42,16 +42,13 @@ PoolMultiThreader::PoolMultiThreader() :
 {
   for( ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i )
     {
-    m_ThreadInfoArray[i].ThreadID           = i;
-    m_ThreadInfoArray[i].ActiveFlag         = nullptr;
-    m_ThreadInfoArray[i].ActiveFlagLock     = nullptr;
+    m_ThreadInfoArray[i].ThreadID = i;
     }
 
   m_SingleMethod = nullptr;
   m_SingleData = nullptr;
 
-  ThreadIdType idleCount = std::max<ThreadIdType>(1u,
-                                                  m_ThreadPool->GetNumberOfCurrentlyIdleThreads());
+  ThreadIdType idleCount = std::max<ThreadIdType>(1u, m_ThreadPool->GetNumberOfCurrentlyIdleThreads());
   ThreadIdType maxCount = std::max(1u, GetGlobalDefaultNumberOfThreads());
   m_NumberOfThreads = std::min(maxCount, idleCount);
 }
@@ -208,44 +205,6 @@ void PoolMultiThreader::SingleMethodExecute()
       itkExceptionMacro(<< "Exception occurred during SingleMethodExecute" << std::endl << exceptionDetails);
       }
     }
-}
-
-ITK_THREAD_RETURN_TYPE
-PoolMultiThreader
-::SingleMethodProxy(void *arg)
-{
-  // grab the ThreadInfoStruct originally prescribed
-  PoolMultiThreader::ThreadInfoStruct
-  * threadInfoStruct =
-    reinterpret_cast<PoolMultiThreader::ThreadInfoStruct *>( arg );
-
-  // execute the user specified threader callback, catching any exceptions
-  try
-    {
-    ( *threadInfoStruct->ThreadFunction )(threadInfoStruct);
-    threadInfoStruct->ThreadExitCode = PoolMultiThreader::ThreadInfoStruct::SUCCESS;
-    }
-  catch( ProcessAborted & )
-    {
-    threadInfoStruct->ThreadExitCode =
-      PoolMultiThreader::ThreadInfoStruct::ITK_PROCESS_ABORTED_EXCEPTION;
-    }
-  catch( ExceptionObject & )
-    {
-    threadInfoStruct->ThreadExitCode =
-      PoolMultiThreader::ThreadInfoStruct::ITK_EXCEPTION;
-    }
-  catch( std::exception & )
-    {
-    threadInfoStruct->ThreadExitCode =
-      PoolMultiThreader::ThreadInfoStruct::STD_EXCEPTION;
-    }
-  catch( ... )
-    {
-    threadInfoStruct->ThreadExitCode = PoolMultiThreader::ThreadInfoStruct::UNKNOWN;
-    }
-
-  return ITK_THREAD_RETURN_VALUE;
 }
 
 // Print method for the multithreader

@@ -124,7 +124,7 @@ public:
   itkGetConstMacro(MeasureMatches, bool);
 
   /** Return the multithreader used by this class. */
-  MultiThreader * GetMultiThreader()
+  MultiThreaderBase * GetMultiThreader()
   { return m_Threader; }
 
 protected:
@@ -155,7 +155,7 @@ protected:
   virtual
   ThreadIdType SplitFixedRegion(ThreadIdType i, int num, FixedImageRegionType & splitRegion);
 
-  /** Static function used as a "callback" by the MultiThreader.  The threading
+  /** Static function used as a "callback" by the MultiThreaderBase.  The threading
    * library will call this routine for each thread, which will delegate the
    * control to ThreadedGetValue(). */
   static ITK_THREAD_RETURN_TYPE ThreaderCallback(void *arg);
@@ -175,7 +175,7 @@ private:
 
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
-  MultiThreader::Pointer m_Threader;
+  MultiThreaderBase::Pointer m_Threader;
 };
 } // end namespace itk
 

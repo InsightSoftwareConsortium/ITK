@@ -222,7 +222,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   // of threads is adjusted from 1 to 8.
   for (int currNumThreadsToTest = 1; currNumThreadsToTest <= 8; currNumThreadsToTest++)
     {
-    itk::MultiThreader::SetGlobalMaximumNumberOfThreads(currNumThreadsToTest);
+    itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(currNumThreadsToTest);
     metric->SetNumberOfThreads(currNumThreadsToTest);
     metric->Initialize();
 
@@ -271,7 +271,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   // usage scenario.
   metric->SetNumberOfThreads(8);
   constexpr int numThreads = 2;
-  itk::MultiThreader::SetGlobalMaximumNumberOfThreads(numThreads);
+  itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numThreads);
   metric->Initialize();
 
   std::cout << "Threads Metric    d(Metric)/d(param[1]) " << std::endl;

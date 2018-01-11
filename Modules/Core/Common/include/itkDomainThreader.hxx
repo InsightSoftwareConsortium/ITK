@@ -28,7 +28,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
 ::DomainThreader()
 {
   this->m_DomainPartitioner   = DomainPartitionerType::New();
-  this->m_MultiThreader       = MultiThreader::New();
+  this->m_MultiThreader       = MultiThreaderBase::New();
   this->m_NumberOfThreadsUsed = 0;
   this->m_Associate           = nullptr;
 }
@@ -40,7 +40,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
 }
 
 template< typename TDomainPartitioner, typename TAssociate >
-MultiThreader *
+MultiThreaderBase *
 DomainThreader< TDomainPartitioner, TAssociate >
 ::GetMultiThreader() const
 {
@@ -123,7 +123,7 @@ DomainThreader< TDomainPartitioner, TAssociate >
   ThreadStruct str;
   str.domainThreader = this;
 
-  MultiThreader* multiThreader = this->GetMultiThreader();
+  MultiThreaderBase* multiThreader = this->GetMultiThreader();
   multiThreader->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution
@@ -135,7 +135,7 @@ ITK_THREAD_RETURN_TYPE
 DomainThreader< TDomainPartitioner, TAssociate >
 ::ThreaderCallback( void* arg )
 {
-  auto * info = static_cast<MultiThreader::ThreadInfoStruct *>(arg);
+  auto * info = static_cast<MultiThreaderBase::ThreadInfoStruct *>(arg);
   auto * str = static_cast<ThreadStruct *>(info->UserData);
   DomainThreader *thisDomainThreader = str->domainThreader;
   const ThreadIdType threadId    = info->ThreadID;

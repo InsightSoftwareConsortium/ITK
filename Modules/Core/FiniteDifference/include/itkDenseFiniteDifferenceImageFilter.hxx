@@ -108,10 +108,10 @@ ITK_THREAD_RETURN_TYPE
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::ApplyUpdateThreaderCallback(void *arg)
 {
-  ThreadIdType threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
-  ThreadIdType threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  ThreadIdType threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
+  ThreadIdType threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
-  auto * str = (DenseFDThreadStruct *) ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+  auto * str = (DenseFDThreadStruct *) ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -176,10 +176,10 @@ ITK_THREAD_RETURN_TYPE
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::CalculateChangeThreaderCallback(void *arg)
 {
-  ThreadIdType threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
-  ThreadIdType threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  ThreadIdType threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
+  ThreadIdType threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
-  auto * str = (DenseFDThreadStruct *) ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+  auto * str = (DenseFDThreadStruct *) ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.

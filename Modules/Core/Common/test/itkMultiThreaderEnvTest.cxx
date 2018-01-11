@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkMultiThreader.h"
+#include "itkMultiThreaderBase.h"
 
 int itkMultiThreaderEnvTest(int argc, char* argv[])
 {
@@ -28,15 +28,15 @@ int itkMultiThreaderEnvTest(int argc, char* argv[])
     }
   const auto requiredValue = static_cast<unsigned int>( atoi( argv[1] ) );
 
-  itk::MultiThreader::Pointer    threader = itk::MultiThreader::New();
+  itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   if(threader.IsNull())
     {
     return EXIT_FAILURE;
     }
-  if( itk::MultiThreader::GetGlobalDefaultNumberOfThreads() != requiredValue )
+  if( itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() != requiredValue )
     {
     std::cout << "ERROR: Wrong number of maximum number of threads set from environment. "
-      << requiredValue << " != " << itk::MultiThreader::GetGlobalDefaultNumberOfThreads() << std::endl;
+      << requiredValue << " != " << itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads() << std::endl;
     return EXIT_FAILURE;
     }
   return EXIT_SUCCESS;

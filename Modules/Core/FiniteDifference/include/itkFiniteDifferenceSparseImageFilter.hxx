@@ -100,10 +100,10 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   FDThreadStruct *str;
   ThreadIdType    total, threadId, threadCount;
 
-  threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
-  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
   str = (FDThreadStruct *)
-        ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+        ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -207,11 +207,11 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   FDThreadStruct *str;
   ThreadIdType    total, threadId, threadCount;
 
-  threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
-  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
   str = (FDThreadStruct *)
-        ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+        ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -238,11 +238,11 @@ FiniteDifferenceSparseImageFilter< TInputImageType, TSparseOutputImageType >
   FDThreadStruct *str;
   ThreadIdType    total, threadId, threadCount;
 
-  threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
-  threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
+  threadId = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->ThreadID;
+  threadCount = ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
   str = (FDThreadStruct *)
-        ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+        ( ( (MultiThreaderBase::ThreadInfoStruct *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
