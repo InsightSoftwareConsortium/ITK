@@ -113,11 +113,11 @@ VTKPolyDataMeshIO::GetComponentTypeFromString(const std::string & pointType)
     }
   else if ( pointType == "unsigned_long_long" || pointType == "vtktypeuint64" )
     {
-    compType = ULONGLONG; // is this supported by standard vtk format?
+    compType = ULONGLONG;
     }
   else if ( pointType == "long_long"  || pointType == "vtktypeint64" )
     {
-    compType = LONGLONG; // is this supported by standard vtk format?
+    compType = LONGLONG;
     }
   else if ( pointType == "float" )
     {
@@ -142,7 +142,6 @@ void
 VTKPolyDataMeshIO
 ::ReadMeshInformation()
 {
-  // Read input file into a file stream
   std::ifstream inputFile;
 
   // Use default filetype
@@ -160,18 +159,16 @@ VTKPolyDataMeshIO
     itkExceptionMacro("Unable to open file\n" "inputFilename= " << this->m_FileName);
     }
 
-  // Define used variables
   unsigned int numLine = 0;
   std::string line;
 
-  // Read vtk header file(the first 3 lines)
+  // Read vtk file header (the first 3 lines)
   while ( !inputFile.eof() && numLine < 3 )
     {
     std::getline(inputFile, line, '\n');
     ++numLine;
     }
 
-  // Determine file type
   if ( line.find("ASCII") != std::string::npos )
     {
     if ( this->m_FileType != ASCII )
@@ -634,11 +631,77 @@ VTKPolyDataMeshIO
   inputFile.close();
 }
 
+#define CASE_INVOKE_BY_TYPE(function,param)                         \
+case UCHAR:                                                         \
+  {                                                                 \
+  function( param, static_cast< unsigned char * >( buffer ) );      \
+  break;                                                            \
+  }                                                                 \
+case CHAR:                                                          \
+  {                                                                 \
+  function( param, static_cast< char * >( buffer ) );               \
+  break;                                                            \
+  }                                                                 \
+case USHORT:                                                        \
+  {                                                                 \
+  function( param, static_cast< unsigned short * >( buffer ) );     \
+  break;                                                            \
+  }                                                                 \
+case SHORT:                                                         \
+  {                                                                 \
+  function( param, static_cast< short * >( buffer ) );              \
+  break;                                                            \
+  }                                                                 \
+case UINT:                                                          \
+  {                                                                 \
+  function( param, static_cast< unsigned int * >( buffer ) );       \
+  break;                                                            \
+  }                                                                 \
+case INT:                                                           \
+  {                                                                 \
+  function( param, static_cast< int * >( buffer ) );                \
+  break;                                                            \
+  }                                                                 \
+case ULONG:                                                         \
+  {                                                                 \
+  function( param, static_cast< unsigned long * >( buffer ) );      \
+  break;                                                            \
+  }                                                                 \
+case LONG:                                                          \
+  {                                                                 \
+  function( param, static_cast< long * >( buffer ) );               \
+  break;                                                            \
+  }                                                                 \
+case ULONGLONG:                                                     \
+  {                                                                 \
+  function( param, static_cast< unsigned long long * >( buffer ) ); \
+  break;                                                            \
+  }                                                                 \
+case LONGLONG:                                                      \
+  {                                                                 \
+  function( param, static_cast< long long * >( buffer ) );          \
+  break;                                                            \
+  }                                                                 \
+case FLOAT:                                                         \
+  {                                                                 \
+  function( param, static_cast< float * >( buffer ) );              \
+  break;                                                            \
+  }                                                                 \
+case DOUBLE:                                                        \
+  {                                                                 \
+  function( param, static_cast< double * >( buffer ) );             \
+  break;                                                            \
+  }                                                                 \
+case LDOUBLE:                                                       \
+  {                                                                 \
+  function( param, static_cast< long double * >( buffer ) );        \
+  break;                                                            \
+  }
+
 void
 VTKPolyDataMeshIO
 ::ReadPoints(void *buffer)
 {
-  // Read input file
   std::ifstream inputFile;
 
   if ( this->m_FileType == ASCII )
@@ -650,82 +713,18 @@ VTKPolyDataMeshIO
     inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
     }
 
-  // Test whether the file has been opened
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro("Unable to open file\n" "inputFilename= " << this->m_FileName);
     }
 
-  // Read points according to filetype as ASCII or BINARY
+
   if ( this->m_FileType == ASCII )
     {
     switch ( this->m_PointComponentType )
       {
-      case UCHAR:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< unsigned char * >( buffer ) );
-        break;
-        }
-      case CHAR:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< char * >( buffer ) );
-        break;
-        }
-      case USHORT:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< unsigned short * >( buffer ) );
-        break;
-        }
-      case SHORT:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< short * >( buffer ) );
-        break;
-        }
-      case UINT:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< unsigned int * >( buffer ) );
-        break;
-        }
-      case INT:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< int * >( buffer ) );
-        break;
-        }
-      case ULONG:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< unsigned long * >( buffer ) );
-        break;
-        }
-      case LONG:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< long * >( buffer ) );
-        break;
-        }
-      case ULONGLONG:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< unsigned long long * >( buffer ) );
-        break;
-        }
-      case LONGLONG:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< long long * >( buffer ) );
-        break;
-        }
-      case FLOAT:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< float * >( buffer ) );
-        break;
-        }
-      case DOUBLE:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< double * >( buffer ) );
-        break;
-        }
-      case LDOUBLE:
-        {
-        ReadPointsBufferAsASCII( inputFile, static_cast< long double * >( buffer ) );
-        break;
-        }
+      CASE_INVOKE_BY_TYPE(ReadPointsBufferAsASCII,inputFile)
+
       default:
         {
         itkExceptionMacro(<< "Unknown point component type");
@@ -736,98 +735,8 @@ VTKPolyDataMeshIO
     {
     switch ( this->m_PointComponentType )
       {
-      case UCHAR:
-        {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< unsigned char * >( buffer ) );
-        break;
-        }
-      case CHAR:
-        {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< char * >( buffer ) );
-        break;
-        }
-      case USHORT:
-        {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< unsigned short * >( buffer ) );
-        break;
-        }
-      case SHORT:
-        {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< short * >( buffer ) );
-        break;
-        }
-      case UINT:
-        {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< unsigned int * >( buffer ) );
-        break;
-        }
-      case INT:
-        {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< int * >( buffer ) );
-        break;
-        }
-      case ULONG:
-        {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< unsigned long * >( buffer ) );
-        break;
-        }
-      case LONG:
-        {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< long * >( buffer ) );
-        break;
-        }
-      case ULONGLONG:
-        {
-        SizeValueType       numberOfComponents = this->m_NumberOfPoints * this->m_PointDimension;
-        unsigned long long *input = static_cast< unsigned long long * >( buffer );
-        unsigned long *     data = new unsigned long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< unsigned long >( input[ii] );
-          }
+      CASE_INVOKE_BY_TYPE(ReadPointsBufferAsBINARY, inputFile)
 
-        ReadPointsBufferAsBINARY(inputFile, data);
-        delete[] data;
-        break;
-        }
-      case LONGLONG:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfPoints * this->m_PointDimension;
-        long long *   input = static_cast< long long * >( buffer );
-        long *        data = new long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< long >( input[ii] );
-          }
-
-        ReadPointsBufferAsBINARY(inputFile, data);
-        delete[] data;
-        break;
-        }
-      case FLOAT:
-        {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< float * >( buffer ) );
-        break;
-        }
-      case DOUBLE:
-        {
-        ReadPointsBufferAsBINARY( inputFile, static_cast< double * >( buffer ) );
-        break;
-        }
-      case LDOUBLE:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfPoints * this->m_PointDimension;
-        long double * input = static_cast< long double * >( buffer );
-        double *      data = new double[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< double >( input[ii] );
-          }
-
-        ReadPointsBufferAsBINARY(inputFile, data);
-        delete[] data;
-        break;
-        }
       default:
         {
         itkExceptionMacro(<< "Unknown point component type");
@@ -846,7 +755,6 @@ void
 VTKPolyDataMeshIO
 ::ReadCells(void *buffer)
 {
-  // Read input file
   std::ifstream inputFile;
 
   if ( this->m_FileType == ASCII )
@@ -858,13 +766,12 @@ VTKPolyDataMeshIO
     inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
     }
 
-  // Test whether the file has been opened
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro(<< "Unable to open file\n" "inputFilename= " << this->m_FileName);
     }
 
-  // Read cells according to file type
+
   if ( this->m_FileType == ASCII )
     {
     ReadCellsBufferAsASCII(inputFile, buffer);
@@ -1032,7 +939,6 @@ void
 VTKPolyDataMeshIO
 ::ReadPointData(void *buffer)
 {
-  // Read input file
   std::ifstream inputFile;
 
   if ( this->m_FileType == ASCII )
@@ -1044,82 +950,18 @@ VTKPolyDataMeshIO
     inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
     }
 
-  // Test whether the file has been opened
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro(<< "Unable to open file\n" "inputFilename= " << this->m_FileName);
     }
 
-  // Read cells according to file type
+
   if ( this->m_FileType == ASCII )
     {
     switch ( this->m_PointPixelComponentType )
       {
-      case UCHAR:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< unsigned char * >( buffer ) );
-        break;
-        }
-      case CHAR:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< char * >( buffer ) );
-        break;
-        }
-      case USHORT:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< unsigned short * >( buffer ) );
-        break;
-        }
-      case SHORT:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< short * >( buffer ) );
-        break;
-        }
-      case UINT:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< unsigned int * >( buffer ) );
-        break;
-        }
-      case INT:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< int * >( buffer ) );
-        break;
-        }
-      case ULONG:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< unsigned long * >( buffer ) );
-        break;
-        }
-      case LONG:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< long * >( buffer ) );
-        break;
-        }
-      case ULONGLONG:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< unsigned long long * >( buffer ) );
-        break;
-        }
-      case LONGLONG:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< long long * >( buffer ) );
-        break;
-        }
-      case FLOAT:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< float * >( buffer ) );
-        break;
-        }
-      case DOUBLE:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< double * >( buffer ) );
-        break;
-        }
-      case LDOUBLE:
-        {
-        ReadPointDataBufferAsASCII( inputFile, static_cast< long double * >( buffer ) );
-        break;
-        }
+      CASE_INVOKE_BY_TYPE(ReadPointDataBufferAsASCII, inputFile)
+
       default:
         {
         itkExceptionMacro(<< "Unknown point pixel component");
@@ -1130,98 +972,8 @@ VTKPolyDataMeshIO
     {
     switch ( this->m_PointPixelComponentType )
       {
-      case UCHAR:
-        {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< unsigned char * >( buffer ) );
-        break;
-        }
-      case CHAR:
-        {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< char * >( buffer ) );
-        break;
-        }
-      case USHORT:
-        {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< unsigned short * >( buffer ) );
-        break;
-        }
-      case SHORT:
-        {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< short * >( buffer ) );
-        break;
-        }
-      case UINT:
-        {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< unsigned int * >( buffer ) );
-        break;
-        }
-      case INT:
-        {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< int * >( buffer ) );
-        break;
-        }
-      case ULONG:
-        {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< unsigned long * >( buffer ) );
-        break;
-        }
-      case LONG:
-        {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< long * >( buffer ) );
-        break;
-        }
-      case ULONGLONG:
-        {
-        SizeValueType       numberOfComponents = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
-        unsigned long long *input = static_cast< unsigned long long * >( buffer );
-        unsigned long *     data = new unsigned long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< unsigned long >( input[ii] );
-          }
+      CASE_INVOKE_BY_TYPE(ReadPointDataBufferAsBINARY, inputFile)
 
-        ReadPointDataBufferAsBINARY(inputFile, data);
-        delete[] data;
-        break;
-        }
-      case LONGLONG:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
-        long long *   input = static_cast< long long * >( buffer );
-        long *        data = new long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< long >( input[ii] );
-          }
-
-        ReadPointDataBufferAsBINARY(inputFile, data);
-        delete[] data;
-        break;
-        }
-      case FLOAT:
-        {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< float * >( buffer ) );
-        break;
-        }
-      case DOUBLE:
-        {
-        ReadPointDataBufferAsBINARY( inputFile, static_cast< double * >( buffer ) );
-        break;
-        }
-      case LDOUBLE:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
-        long double * input = static_cast< long double * >( buffer );
-        double *      data = new double[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< double >( input[ii] );
-          }
-
-        ReadPointDataBufferAsBINARY(inputFile, data);
-        delete[] data;
-        break;
-        }
       default:
         {
         itkExceptionMacro(<< "Unknown point pixel component");
@@ -1240,7 +992,6 @@ void
 VTKPolyDataMeshIO
 ::ReadCellData(void *buffer)
 {
-  // Read input file
   std::ifstream inputFile;
 
   if ( this->m_FileType == ASCII )
@@ -1252,82 +1003,18 @@ VTKPolyDataMeshIO
     inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
     }
 
-  // Test whether the file has been opened
   if ( !inputFile.is_open() )
     {
     itkExceptionMacro(<< "Unable to open file\n" "inputFilename= " << this->m_FileName);
     }
 
-  // Read cell data according file type
+
   if ( this->m_FileType == ASCII )
     {
     switch ( this->m_CellPixelComponentType )
       {
-      case UCHAR:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< unsigned char * >( buffer ) );
-        break;
-        }
-      case CHAR:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< char * >( buffer ) );
-        break;
-        }
-      case USHORT:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< unsigned short * >( buffer ) );
-        break;
-        }
-      case SHORT:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< short * >( buffer ) );
-        break;
-        }
-      case UINT:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< unsigned int * >( buffer ) );
-        break;
-        }
-      case INT:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< int * >( buffer ) );
-        break;
-        }
-      case ULONG:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< unsigned long * >( buffer ) );
-        break;
-        }
-      case LONG:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< long * >( buffer ) );
-        break;
-        }
-      case ULONGLONG:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< unsigned long long * >( buffer ) );
-        break;
-        }
-      case LONGLONG:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< long long * >( buffer ) );
-        break;
-        }
-      case FLOAT:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< float * >( buffer ) );
-        break;
-        }
-      case DOUBLE:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< double * >( buffer ) );
-        break;
-        }
-      case LDOUBLE:
-        {
-        ReadCellDataBufferAsASCII( inputFile, static_cast< long double * >( buffer ) );
-        break;
-        }
+       CASE_INVOKE_BY_TYPE(ReadCellDataBufferAsASCII, inputFile)
+
       default:
         {
         itkExceptionMacro(<< "Unknown cell pixel component");
@@ -1338,98 +1025,8 @@ VTKPolyDataMeshIO
     {
     switch ( this->m_CellPixelComponentType )
       {
-      case UCHAR:
-        {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< unsigned char * >( buffer ) );
-        break;
-        }
-      case CHAR:
-        {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< char * >( buffer ) );
-        break;
-        }
-      case USHORT:
-        {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< unsigned short * >( buffer ) );
-        break;
-        }
-      case SHORT:
-        {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< short * >( buffer ) );
-        break;
-        }
-      case UINT:
-        {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< unsigned int * >( buffer ) );
-        break;
-        }
-      case INT:
-        {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< int * >( buffer ) );
-        break;
-        }
-      case ULONG:
-        {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< unsigned long * >( buffer ) );
-        break;
-        }
-      case LONG:
-        {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< long * >( buffer ) );
-        break;
-        }
-      case ULONGLONG:
-        {
-        SizeValueType       numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
-        unsigned long long *input = static_cast< unsigned long long * >( buffer );
-        unsigned long *     data = new unsigned long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< unsigned long >( input[ii] );
-          }
+      CASE_INVOKE_BY_TYPE(ReadCellDataBufferAsBINARY, inputFile)
 
-        ReadCellDataBufferAsBINARY(inputFile, data);
-        delete[] data;
-        break;
-        }
-      case LONGLONG:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
-        long long *   input = static_cast< long long * >( buffer );
-        long *        data = new long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< long >( input[ii] );
-          }
-
-        ReadCellDataBufferAsBINARY(inputFile, data);
-        delete[] data;
-        break;
-        }
-      case FLOAT:
-        {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< float * >( buffer ) );
-        break;
-        }
-      case DOUBLE:
-        {
-        ReadCellDataBufferAsBINARY( inputFile, static_cast< double * >( buffer ) );
-        break;
-        }
-      case LDOUBLE:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
-        long double * input = static_cast< long double * >( buffer );
-        double *      data = new double[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< double >( input[ii] );
-          }
-
-        ReadCellDataBufferAsBINARY(inputFile, data);
-        delete[] data;
-        break;
-        }
       default:
         {
         itkExceptionMacro(<< "Unknown cell pixel component");
@@ -1492,6 +1089,73 @@ VTKPolyDataMeshIO
   outputFile.close();
 }
 
+#define CASE_INVOKE_WITH_COMPONENT_TYPE(function)                                        \
+case UCHAR:                                                                              \
+  {                                                                                      \
+  function(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");      \
+  break;                                                                                 \
+  }                                                                                      \
+case CHAR:                                                                               \
+  {                                                                                      \
+  function(outputFile, static_cast< char * >( buffer ), " char");                        \
+  break;                                                                                 \
+  }                                                                                      \
+case USHORT:                                                                             \
+  {                                                                                      \
+  function(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");    \
+  break;                                                                                 \
+  }                                                                                      \
+case SHORT:                                                                              \
+  {                                                                                      \
+  function(outputFile, static_cast< short * >( buffer ), " short");                      \
+  break;                                                                                 \
+  }                                                                                      \
+case UINT:                                                                               \
+  {                                                                                      \
+  function(outputFile, static_cast< unsigned int * >( buffer ), " unsigned_int");        \
+  break;                                                                                 \
+  }                                                                                      \
+case INT:                                                                                \
+  {                                                                                      \
+  function(outputFile, static_cast< int * >( buffer ), " int");                          \
+  break;                                                                                 \
+  }                                                                                      \
+case ULONG:                                                                              \
+  {                                                                                      \
+  function(outputFile, static_cast< unsigned long * >( buffer ), " unsigned_long");      \
+  break;                                                                                 \
+  }                                                                                      \
+case LONG:                                                                               \
+  {                                                                                      \
+  function(outputFile, static_cast< long * >( buffer ), " long");                        \
+  break;                                                                                 \
+  }                                                                                      \
+case ULONGLONG:                                                                          \
+  {                                                                                      \
+  function(outputFile, static_cast< unsigned long long * >( buffer ), " vtktypeuint64"); \
+  break;                                                                                 \
+  }                                                                                      \
+case LONGLONG:                                                                           \
+  {                                                                                      \
+  function(outputFile, static_cast< long long * >( buffer ), " vtktypeint64");           \
+  break;                                                                                 \
+  }                                                                                      \
+case FLOAT:                                                                              \
+  {                                                                                      \
+  function(outputFile, static_cast< float * >( buffer ), " float");                      \
+  break;                                                                                 \
+  }                                                                                      \
+case DOUBLE:                                                                             \
+  {                                                                                      \
+  function(outputFile, static_cast< double * >( buffer ), " double");                    \
+  break;                                                                                 \
+  }                                                                                      \
+case LDOUBLE:                                                                            \
+  {                                                                                      \
+  function(outputFile, static_cast< long double * >( buffer ), " long_double");          \
+  break;                                                                                 \
+  }
+
 void
 VTKPolyDataMeshIO
 ::WritePoints(void *buffer)
@@ -1502,7 +1166,6 @@ VTKPolyDataMeshIO
     itkExceptionMacro("No Input FileName");
     }
 
-  // Write to output file
   std::ofstream outputFile;
   if ( this->m_FileType == ASCII )
     {
@@ -1519,79 +1182,13 @@ VTKPolyDataMeshIO
                       "outputFilename= " << this->m_FileName);
     }
 
-  // Write file according to ASCII or BINARY
+
   if ( this->m_FileType == ASCII )
     {
     switch ( this->m_PointComponentType )
       {
-      case UCHAR:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
-        break;
-        }
-      case CHAR:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< char * >( buffer ), " char");
-        break;
-        }
-      case USHORT:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
-        break;
-        }
+      CASE_INVOKE_WITH_COMPONENT_TYPE(WritePointsBufferAsASCII)
 
-      case SHORT:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< short * >( buffer ), " short");
-        break;
-        }
-
-      case UINT:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< unsigned int * >( buffer ), " unsigned_int");
-        break;
-        }
-
-      case INT:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< int * >( buffer ), " int");
-        break;
-        }
-      case ULONG:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< unsigned long * >( buffer ), " unsigned_long");
-        break;
-        }
-      case LONG:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< long * >( buffer ), " long");
-        break;
-        }
-      case ULONGLONG:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< unsigned long long * >( buffer ), " unsigned_long");
-        break;
-        }
-      case LONGLONG:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< long long * >( buffer ), " long");
-        break;
-        }
-      case FLOAT:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< float * >( buffer ), " float");
-        break;
-        }
-      case DOUBLE:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< double * >( buffer ), " double");
-        break;
-        }
-      case LDOUBLE:
-        {
-        WritePointsBufferAsASCII(outputFile, static_cast< long double * >( buffer ), " double");
-        break;
-        }
       default:
         itkExceptionMacro(<< "Unknonwn point component type");
       }
@@ -1600,98 +1197,8 @@ VTKPolyDataMeshIO
     {
     switch ( this->m_PointComponentType )
       {
-      case UCHAR:
-        {
-        WritePointsBufferAsBINARY(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
-        break;
-        }
-      case CHAR:
-        {
-        WritePointsBufferAsBINARY(outputFile, static_cast< char * >( buffer ), " char");
-        break;
-        }
-      case USHORT:
-        {
-        WritePointsBufferAsBINARY(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
-        break;
-        }
+      CASE_INVOKE_WITH_COMPONENT_TYPE(WritePointsBufferAsBINARY)
 
-      case SHORT:
-        {
-        WritePointsBufferAsBINARY(outputFile, static_cast< short * >( buffer ), " short");
-        break;
-        }
-
-      case UINT:
-        {
-        WritePointsBufferAsBINARY(outputFile, static_cast< unsigned int * >( buffer ), " unsigned_int");
-        break;
-        }
-
-      case INT:
-        {
-        WritePointsBufferAsBINARY(outputFile, static_cast< int * >( buffer ), " int");
-        break;
-        }
-      case ULONG:
-        {
-        WritePointsBufferAsBINARY(outputFile, static_cast< unsigned long * >( buffer ), " unsigned_long");
-        break;
-        }
-      case LONG:
-        {
-        WritePointsBufferAsBINARY(outputFile, static_cast< long * >( buffer ), " long");
-        break;
-        }
-      case ULONGLONG:
-        {
-        SizeValueType       numberOfComponents = this->m_NumberOfPoints * this->m_PointDimension;
-        unsigned long long *input = static_cast< unsigned long long * >( buffer );
-        unsigned long *     data = new unsigned long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< unsigned long >( input[ii] );
-          }
-        WritePointsBufferAsBINARY(outputFile, data, " unsigned_long");
-        delete[] data;
-        break;
-        }
-      case LONGLONG:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfPoints * this->m_PointDimension;
-        long long *   input = static_cast< long long * >( buffer );
-        long *        data = new long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< long >( input[ii] );
-          }
-        WritePointsBufferAsBINARY(outputFile, data, " long");
-        delete[] data;
-        break;
-        }
-      case FLOAT:
-        {
-        WritePointsBufferAsBINARY(outputFile, static_cast< float * >( buffer ), " float");
-        break;
-        }
-      case DOUBLE:
-        {
-        WritePointsBufferAsBINARY(outputFile, static_cast< double * >( buffer ), " double");
-        break;
-        }
-      case LDOUBLE:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfPoints * this->m_PointDimension;
-        long double * input = static_cast< long double * >( buffer );
-        double *      data = new double[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< double >( input[ii] );
-          }
-        WritePointsBufferAsBINARY(outputFile, data, " double");
-        delete[] data;
-        break;
-        }
       default:
         itkExceptionMacro(<< "Unknonwn point component type");
       }
@@ -1704,17 +1211,95 @@ VTKPolyDataMeshIO
   outputFile.close();
 }
 
+#define CASE_UPDATE_AND_WRITE(function)                                   \
+case UCHAR:                                                               \
+  {                                                                       \
+  UpdateCellInformation( static_cast< unsigned char * >( buffer ) );      \
+  function( outputFile, static_cast< unsigned char * >( buffer ) );       \
+  break;                                                                  \
+  }                                                                       \
+case CHAR:                                                                \
+  {                                                                       \
+  UpdateCellInformation( static_cast< char * >( buffer ) );               \
+  function( outputFile, static_cast< char * >( buffer ) );                \
+  break;                                                                  \
+  }                                                                       \
+case USHORT:                                                              \
+  {                                                                       \
+  UpdateCellInformation( static_cast< unsigned short * >( buffer ) );     \
+  function( outputFile, static_cast< unsigned short * >( buffer ) );      \
+  break;                                                                  \
+  }                                                                       \
+case SHORT:                                                               \
+  {                                                                       \
+  UpdateCellInformation( static_cast< short * >( buffer ) );              \
+  function( outputFile, static_cast< short * >( buffer ) );               \
+  break;                                                                  \
+  }                                                                       \
+case UINT:                                                                \
+  {                                                                       \
+  UpdateCellInformation( static_cast< unsigned int * >( buffer ) );       \
+  function( outputFile, static_cast< unsigned int * >( buffer ) );        \
+  break;                                                                  \
+  }                                                                       \
+case INT:                                                                 \
+  {                                                                       \
+  UpdateCellInformation( static_cast< int * >( buffer ) );                \
+  function( outputFile, static_cast< int * >( buffer ) );                 \
+  break;                                                                  \
+  }                                                                       \
+case ULONG:                                                               \
+  {                                                                       \
+  UpdateCellInformation( static_cast< unsigned long * >( buffer ) );      \
+  function( outputFile, static_cast< unsigned long * >( buffer ) );       \
+  break;                                                                  \
+  }                                                                       \
+case LONG:                                                                \
+  {                                                                       \
+  UpdateCellInformation( static_cast< long * >( buffer ) );               \
+  function( outputFile, static_cast< long * >( buffer ) );                \
+  break;                                                                  \
+  }                                                                       \
+case ULONGLONG:                                                           \
+  {                                                                       \
+  UpdateCellInformation( static_cast< unsigned long long * >( buffer ) ); \
+  function( outputFile, static_cast< unsigned long long * >( buffer ) );  \
+  break;                                                                  \
+  }                                                                       \
+case LONGLONG:                                                            \
+  {                                                                       \
+  UpdateCellInformation( static_cast< long long * >( buffer ) );          \
+  function( outputFile, static_cast< long long * >( buffer ) );           \
+  break;                                                                  \
+  }                                                                       \
+case FLOAT:                                                               \
+  {                                                                       \
+  UpdateCellInformation( static_cast< float * >( buffer ) );              \
+  function( outputFile, static_cast< float * >( buffer ) );               \
+  break;                                                                  \
+  }                                                                       \
+case DOUBLE:                                                              \
+  {                                                                       \
+  UpdateCellInformation( static_cast< double * >( buffer ) );             \
+  function( outputFile, static_cast< double * >( buffer ) );              \
+  break;                                                                  \
+  }                                                                       \
+case LDOUBLE:                                                             \
+  {                                                                       \
+  UpdateCellInformation( static_cast< long double * >( buffer ) );        \
+  function( outputFile, static_cast< long double * >( buffer ) );         \
+  break;                                                                  \
+  }
+
 void
 VTKPolyDataMeshIO
 ::WriteCells(void *buffer)
 {
-  // Check file name
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
     }
 
-  // Write to output file
   std::ofstream outputFile;
   if ( this->m_FileType == ASCII )
     {
@@ -1731,92 +1316,13 @@ VTKPolyDataMeshIO
                       "outputFilename= " << this->m_FileName);
     }
 
-  // Write file according to ASCII or BINARY
+
   if ( this->m_FileType == ASCII )
     {
     switch ( this->m_CellComponentType )
       {
-      case UCHAR:
-        {
-        UpdateCellInformation( static_cast< unsigned char * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< unsigned char * >( buffer ) );
-        break;
-        }
-      case CHAR:
-        {
-        UpdateCellInformation( static_cast< char * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< char * >( buffer ) );
-        break;
-        }
-      case USHORT:
-        {
-        UpdateCellInformation( static_cast< unsigned short * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< unsigned short * >( buffer ) );
-        break;
-        }
+      CASE_UPDATE_AND_WRITE(WriteCellsBufferAsASCII)
 
-      case SHORT:
-        {
-        UpdateCellInformation( static_cast< short * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< short * >( buffer ) );
-        break;
-        }
-
-      case UINT:
-        {
-        UpdateCellInformation( static_cast< unsigned int * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< unsigned int * >( buffer ) );
-        break;
-        }
-
-      case INT:
-        {
-        UpdateCellInformation( static_cast< int * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< int * >( buffer ) );
-        break;
-        }
-      case ULONG:
-        {
-        UpdateCellInformation( static_cast< unsigned long * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< unsigned long * >( buffer ) );
-        break;
-        }
-      case LONG:
-        {
-        UpdateCellInformation( static_cast< long * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< long * >( buffer ) );
-        break;
-        }
-      case ULONGLONG:
-        {
-        UpdateCellInformation( static_cast< unsigned long long * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< unsigned long long * >( buffer ) );
-        break;
-        }
-      case LONGLONG:
-        {
-        UpdateCellInformation( static_cast< long long * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< long long * >( buffer ) );
-        break;
-        }
-      case FLOAT:
-        {
-        UpdateCellInformation( static_cast< float * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< float * >( buffer ) );
-        break;
-        }
-      case DOUBLE:
-        {
-        UpdateCellInformation( static_cast< double * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< double * >( buffer ) );
-        break;
-        }
-      case LDOUBLE:
-        {
-        UpdateCellInformation( static_cast< long double * >( buffer ) );
-        WriteCellsBufferAsASCII( outputFile, static_cast< long double * >( buffer ) );
-        break;
-        }
       default:
         itkExceptionMacro(<< "Unknonwn cell component type");
       }
@@ -1825,87 +1331,8 @@ VTKPolyDataMeshIO
     {
     switch ( this->m_CellComponentType )
       {
-      case UCHAR:
-        {
-        UpdateCellInformation( static_cast< unsigned char * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< unsigned char * >( buffer ) );
-        break;
-        }
-      case CHAR:
-        {
-        UpdateCellInformation( static_cast< char * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< char * >( buffer ) );
-        break;
-        }
-      case USHORT:
-        {
-        UpdateCellInformation( static_cast< unsigned short * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< unsigned short * >( buffer ) );
-        break;
-        }
+      CASE_UPDATE_AND_WRITE(WriteCellsBufferAsBINARY)
 
-      case SHORT:
-        {
-        UpdateCellInformation( static_cast< short * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< short * >( buffer ) );
-        break;
-        }
-
-      case UINT:
-        {
-        UpdateCellInformation( static_cast< unsigned int * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< unsigned int * >( buffer ) );
-        break;
-        }
-
-      case INT:
-        {
-        UpdateCellInformation( static_cast< int * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< int * >( buffer ) );
-        break;
-        }
-      case ULONG:
-        {
-        UpdateCellInformation( static_cast< unsigned long * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< unsigned long * >( buffer ) );
-        break;
-        }
-      case LONG:
-        {
-        UpdateCellInformation( static_cast< long * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< long * >( buffer ) );
-        break;
-        }
-      case ULONGLONG:
-        {
-        UpdateCellInformation( static_cast< unsigned long long * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< unsigned long long * >( buffer ) );
-        break;
-        }
-      case LONGLONG:
-        {
-        UpdateCellInformation( static_cast< long long * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< long long * >( buffer ) );
-        break;
-        }
-      case FLOAT:
-        {
-        UpdateCellInformation( static_cast< float * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< float * >( buffer ) );
-        break;
-        }
-      case DOUBLE:
-        {
-        UpdateCellInformation( static_cast< double * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< double * >( buffer ) );
-        break;
-        }
-      case LDOUBLE:
-        {
-        UpdateCellInformation( static_cast< long double * >( buffer ) );
-        WriteCellsBufferAsBINARY( outputFile, static_cast< long double * >( buffer ) );
-        break;
-        }
       default:
         itkExceptionMacro(<< "Unknonwn cell component type");
       }
@@ -1928,7 +1355,6 @@ VTKPolyDataMeshIO
     itkExceptionMacro("No Input FileName");
     }
 
-  // Write to output file
   std::ofstream outputFile;
   if ( this->m_FileType == ASCII )
     {
@@ -1945,78 +1371,13 @@ VTKPolyDataMeshIO
                       "outputFilename= " << this->m_FileName);
     }
 
-  // Write point data according to ASCII or BINARY
+
   if ( this->m_FileType == ASCII )
     {
     switch ( this->m_PointPixelComponentType )
       {
-      case UCHAR:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
-        break;
-        }
-      case CHAR:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< char * >( buffer ), " char");
-        break;
-        }
-      case USHORT:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
-        break;
-        }
+      CASE_INVOKE_WITH_COMPONENT_TYPE(WritePointDataBufferAsASCII)
 
-      case SHORT:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< short * >( buffer ), " short");
-        break;
-        }
-
-      case UINT:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< unsigned int * >( buffer ), " unsigned_int");
-        break;
-        }
-      case INT:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< int * >( buffer ), " int");
-        break;
-        }
-      case ULONG:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< unsigned long * >( buffer ), " unsigned_long");
-        break;
-        }
-      case LONG:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< long * >( buffer ), " long");
-        break;
-        }
-      case ULONGLONG:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< unsigned long long * >( buffer ), " unsigned_long");
-        break;
-        }
-      case LONGLONG:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< long long * >( buffer ), " long");
-        break;
-        }
-      case FLOAT:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< float * >( buffer ), " float");
-        break;
-        }
-      case DOUBLE:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< double * >( buffer ), " double");
-        break;
-        }
-      case LDOUBLE:
-        {
-        WritePointDataBufferAsASCII(outputFile, static_cast< long double * >( buffer ), " double");
-        break;
-        }
       default:
         itkExceptionMacro(<< "Unknonwn point pixel component type");
       }
@@ -2025,101 +1386,8 @@ VTKPolyDataMeshIO
     {
     switch ( this->m_PointPixelComponentType )
       {
-      case UCHAR:
-        {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
-        break;
-        }
-      case CHAR:
-        {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< char * >( buffer ), " char");
-        break;
-        }
-      case USHORT:
-        {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
-        break;
-        }
+      CASE_INVOKE_WITH_COMPONENT_TYPE(WritePointDataBufferAsBINARY)
 
-      case SHORT:
-        {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< short * >( buffer ), " short");
-        break;
-        }
-
-      case UINT:
-        {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< unsigned int * >( buffer ), " unsigned_int");
-        break;
-        }
-
-      case INT:
-        {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< int * >( buffer ), " int");
-        break;
-        }
-      case ULONG:
-        {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< unsigned long * >( buffer ), " unsigned_long");
-        break;
-        }
-      case LONG:
-        {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< long * >( buffer ), " long");
-        break;
-        }
-      case ULONGLONG:
-        {
-        SizeValueType       numberOfComponents = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
-        unsigned long long *input = static_cast< unsigned long long * >( buffer );
-        unsigned long *     data = new unsigned long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< unsigned long >( input[ii] );
-          }
-
-        WritePointDataBufferAsBINARY(outputFile, data, " unsigned_long");
-        delete[] data;
-        break;
-        }
-      case LONGLONG:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
-        long long *   input = static_cast< long long * >( buffer );
-        long *        data = new long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< long >( input[ii] );
-          }
-
-        WritePointDataBufferAsBINARY(outputFile, data, " long");
-        delete[] data;
-        break;
-        }
-      case FLOAT:
-        {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< float * >( buffer ), " float");
-        break;
-        }
-      case DOUBLE:
-        {
-        WritePointDataBufferAsBINARY(outputFile, static_cast< double * >( buffer ), " double");
-        break;
-        }
-      case LDOUBLE:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
-        long double * input = static_cast< long double * >( buffer );
-        double *      data = new double[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< double >( input[ii] );
-          }
-
-        WritePointDataBufferAsBINARY(outputFile, data, " double");
-        delete[] data;
-        break;
-        }
       default:
         itkExceptionMacro(<< "Unknonwn point pixel component type");
       }
@@ -2136,13 +1404,11 @@ void
 VTKPolyDataMeshIO
 ::WriteCellData(void *buffer)
 {
-  // check file name
   if ( this->m_FileName == "" )
     {
     itkExceptionMacro("No Input FileName");
     }
 
-  // Write to output file
   std::ofstream outputFile;
   if ( this->m_FileType == ASCII )
     {
@@ -2159,79 +1425,12 @@ VTKPolyDataMeshIO
                       "outputFilename= " << this->m_FileName);
     }
 
-  // Write cell data according to ASCII or BINARY
   if ( this->m_FileType == ASCII )
     {
     switch ( this->m_CellPixelComponentType )
       {
-      case UCHAR:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
-        break;
-        }
-      case CHAR:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< char * >( buffer ), " char");
-        break;
-        }
-      case USHORT:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
-        break;
-        }
+      CASE_INVOKE_WITH_COMPONENT_TYPE(WriteCellDataBufferAsASCII)
 
-      case SHORT:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< short * >( buffer ), " short");
-        break;
-        }
-
-      case UINT:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< unsigned int * >( buffer ), " unsigned_int");
-        break;
-        }
-
-      case INT:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< int * >( buffer ), " int");
-        break;
-        }
-      case ULONG:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< unsigned long * >( buffer ), " unsigned_long");
-        break;
-        }
-      case LONG:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< long * >( buffer ), " long");
-        break;
-        }
-      case ULONGLONG:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< unsigned long long * >( buffer ), " unsigned_long");
-        break;
-        }
-      case LONGLONG:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< long long * >( buffer ), " long");
-        break;
-        }
-      case FLOAT:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< float * >( buffer ), " float");
-        break;
-        }
-      case DOUBLE:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< double * >( buffer ), " double");
-        break;
-        }
-      case LDOUBLE:
-        {
-        WriteCellDataBufferAsASCII(outputFile, static_cast< long double * >( buffer ), " double");
-        break;
-        }
       default:
         itkExceptionMacro(<< "Unknonwn cell pixel component type");
       }
@@ -2240,101 +1439,8 @@ VTKPolyDataMeshIO
     {
     switch ( this->m_CellPixelComponentType )
       {
-      case UCHAR:
-        {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< unsigned char * >( buffer ), " unsigned_char");
-        break;
-        }
-      case CHAR:
-        {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< char * >( buffer ), " char");
-        break;
-        }
-      case USHORT:
-        {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< unsigned short * >( buffer ), " unsigned_short");
-        break;
-        }
+      CASE_INVOKE_WITH_COMPONENT_TYPE(WriteCellDataBufferAsBINARY)
 
-      case SHORT:
-        {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< short * >( buffer ), " short");
-        break;
-        }
-
-      case UINT:
-        {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< unsigned int * >( buffer ), " unsigned_int");
-        break;
-        }
-
-      case INT:
-        {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< int * >( buffer ), " int");
-        break;
-        }
-      case ULONG:
-        {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< unsigned long * >( buffer ), " unsigned_long");
-        break;
-        }
-      case LONG:
-        {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< long * >( buffer ), " long");
-        break;
-        }
-      case ULONGLONG:
-        {
-        SizeValueType       numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
-        unsigned long long *input = static_cast< unsigned long long * >( buffer );
-        unsigned long *     data = new unsigned long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< unsigned long >( input[ii] );
-          }
-
-        WriteCellDataBufferAsBINARY(outputFile, data, " unsigned_long");
-        delete[] data;
-        break;
-        }
-      case LONGLONG:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
-        long long *   input = static_cast< long long * >( buffer );
-        long *        data = new long[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< long >( input[ii] );
-          }
-
-        WriteCellDataBufferAsBINARY(outputFile, data, " long");
-        delete[] data;
-        break;
-        }
-      case FLOAT:
-        {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< float * >( buffer ), " float");
-        break;
-        }
-      case DOUBLE:
-        {
-        WriteCellDataBufferAsBINARY(outputFile, static_cast< double * >( buffer ), " double");
-        break;
-        }
-      case LDOUBLE:
-        {
-        SizeValueType numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
-        long double * input = static_cast< long double * >( buffer );
-        double *      data = new double[numberOfComponents];
-        for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
-          {
-          data[ii] = static_cast< double >( input[ii] );
-          }
-
-        WriteCellDataBufferAsBINARY(outputFile, data, " double");
-        delete[] data;
-        break;
-        }
       default:
         itkExceptionMacro(<< "Unknonwn cell pixel component type");
       }
