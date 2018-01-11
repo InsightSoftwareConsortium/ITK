@@ -81,7 +81,7 @@ public:
     m_FixedImage->SetRequestedRegion( region );
     m_FixedImage->Allocate();
 
-    /* Fill images with a 2D gaussian*/
+    /* Fill images with a gaussian*/
     typedef  itk::ImageRegionIteratorWithIndex<MovingImageType>
         MovingImageIteratorType;
 
