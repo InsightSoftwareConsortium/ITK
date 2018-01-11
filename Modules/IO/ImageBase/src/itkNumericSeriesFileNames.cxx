@@ -19,7 +19,7 @@
 #define _itkNumericSeriesFileNames_h
 
 #include "itkNumericSeriesFileNames.h"
-#include <stdio.h>
+#include <cstdio>
 
 namespace itk
 {
