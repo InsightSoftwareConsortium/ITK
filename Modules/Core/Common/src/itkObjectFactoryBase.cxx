@@ -73,20 +73,26 @@ public:
   /** Delete the time stamp if it was created. */
   ~ObjectFactoryBasePrivateInitializer()
     {
-    ::itk::ObjectFactoryBase::UnRegisterAllFactories();
-    if ( m_ObjectFactoryBasePrivate->m_InternalFactories )
+    // If m_ObjectFactoryBasePrivate is null, then either we have already
+    // called the destructor once, and we would crash to run it a second time,
+    // or nothing has been initialized, and thier is no need to do anything.
+    if(m_ObjectFactoryBasePrivate)
       {
-      for ( std::list< itk::ObjectFactoryBase * >::iterator i =
-              m_ObjectFactoryBasePrivate->m_InternalFactories->begin();
-            i != m_ObjectFactoryBasePrivate->m_InternalFactories->end(); ++i )
+      ::itk::ObjectFactoryBase::UnRegisterAllFactories();
+      if ( m_ObjectFactoryBasePrivate->m_InternalFactories )
         {
-        (*i)->UnRegister();
+        for ( std::list< itk::ObjectFactoryBase * >::iterator i =
+                m_ObjectFactoryBasePrivate->m_InternalFactories->begin();
+              i != m_ObjectFactoryBasePrivate->m_InternalFactories->end(); ++i )
+          {
+          (*i)->UnRegister();
+          }
+        delete m_ObjectFactoryBasePrivate->m_InternalFactories;
+        m_ObjectFactoryBasePrivate->m_InternalFactories = ITK_NULLPTR;
         }
-      delete m_ObjectFactoryBasePrivate->m_InternalFactories;
-      m_ObjectFactoryBasePrivate->m_InternalFactories = ITK_NULLPTR;
+      delete m_ObjectFactoryBasePrivate;
+      m_ObjectFactoryBasePrivate = ITK_NULLPTR;
       }
-    delete m_ObjectFactoryBasePrivate;
-    m_ObjectFactoryBasePrivate = ITK_NULLPTR;
     }
 
   /** Create the GlobalTimeStamp if needed and return it. */
