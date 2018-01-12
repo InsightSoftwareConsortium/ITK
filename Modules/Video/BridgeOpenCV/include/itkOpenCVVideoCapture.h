@@ -58,7 +58,7 @@ public:
   typedef OpenCVVideoCapture<VideoStreamType> Self;
   typedef typename VideoStreamType::FrameType FrameType;
   typedef typename FrameType::PixelType       PixelType;
-  static ITK_CONSTEXPR_VAR unsigned int Dimensions =        FrameType::ImageDimension;
+  static constexpr unsigned int Dimensions =        FrameType::ImageDimension;
   /** Constructor that initializes internal VideoStream to null */
   OpenCVVideoCapture();
 

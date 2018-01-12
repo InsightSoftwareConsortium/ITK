@@ -60,8 +60,8 @@ class NumericTraits< ForcedFailureTestCase > : public std::numeric_limits< Force
 {
   public:
   typedef ForcedFailureTestCase ValueType;
-  static ITK_CONSTEXPR_VAR bool IsSigned = true;    //the default (for unknown classes) in std::numeric_limits is false, false.
-  static ITK_CONSTEXPR_VAR bool IsInteger = true;   //so this should not match and the test should fail.
+  static constexpr bool IsSigned = true;    //the default (for unknown classes) in std::numeric_limits is false, false.
+  static constexpr bool IsInteger = true;   //so this should not match and the test should fail.
 };
 
 template<>
@@ -69,8 +69,8 @@ class NumericTraits< std::complex< ForcedFailureTestCase > >
 {
   public:
   typedef ForcedFailureTestCase ValueType;
-  static ITK_CONSTEXPR_VAR bool IsSigned = false;  //Complex values are never integers, and their IsSigned property
-  static ITK_CONSTEXPR_VAR bool IsInteger = true;  //should match that of their base type, so this should fail
+  static constexpr bool IsSigned = false;  //Complex values are never integers, and their IsSigned property
+  static constexpr bool IsInteger = true;  //should match that of their base type, so this should fail
 };
 
 }//end namespace itk

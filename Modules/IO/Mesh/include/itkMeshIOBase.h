@@ -148,7 +148,7 @@ public:
 
   template< typename T >
   struct MapComponentType {
-    static ITK_CONSTEXPR_VAR IOComponentType CType = UNKNOWNCOMPONENTTYPE;
+    static constexpr IOComponentType CType = UNKNOWNCOMPONENTTYPE;
   };
 
   template< typename T >
@@ -760,7 +760,7 @@ private:
   template< >                                      \
   struct MeshIOBase:: MapComponentType< type >     \
   {                                                \
-    static ITK_CONSTEXPR_VAR IOComponentType CType = ctype;    \
+    static constexpr IOComponentType CType = ctype;    \
   }
 
 MESHIOBASE_TYPEMAP(unsigned char, UCHAR);
