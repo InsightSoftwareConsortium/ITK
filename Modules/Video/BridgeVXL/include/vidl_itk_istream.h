@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __vidl_itk_istream_h
-#define __vidl_itk_istream_h
+#ifndef vidl_itk_istream_h
+#define vidl_itk_istream_h
 
 #include "vidl/vidl_istream.h"
 #include "itkVideoStream.h"
