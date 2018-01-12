@@ -120,7 +120,7 @@ public:
   InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE
   {
   Pointer inv = New();
-  return this->GetInverse(inv) ? inv.GetPointer() : ITK_NULLPTR;
+  return this->GetInverse(inv) ? inv.GetPointer() : nullptr;
   }
 
 protected:

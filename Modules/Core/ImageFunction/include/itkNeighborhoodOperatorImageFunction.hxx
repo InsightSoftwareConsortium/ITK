@@ -51,7 +51,7 @@ NeighborhoodOperatorImageFunction< TInputImage, TOutput >
   NeighborhoodInnerProduct< InputImageType, TOutput, TOutput > smartInnerProduct;
 
   const TInputImage* const image = this->GetInputImage();
-  assert(image != ITK_NULLPTR);
+  assert(image != nullptr);
   ConstNeighborhoodIterator< InputImageType > bit( m_Operator.GetRadius(), image, image->GetRequestedRegion() );
   bit.SetLocation(index);
 
