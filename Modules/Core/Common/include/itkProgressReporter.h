@@ -107,7 +107,7 @@ protected:
   float          m_ProgressWeight;
 
 private:
-  ProgressReporter() ITK_DELETED_FUNCTION;
+  ProgressReporter() = delete;
 };
 } // end namespace itk
 
