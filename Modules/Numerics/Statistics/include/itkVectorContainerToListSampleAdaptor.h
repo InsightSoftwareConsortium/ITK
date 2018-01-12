@@ -166,7 +166,7 @@ public:
     }
 
   private:
-    ConstIterator() ITK_DELETED_FUNCTION;
+    ConstIterator() = delete;
     VectorContainerConstIterator      m_Iter;
     InstanceIdentifier                m_InstanceIdentifier;
   };
@@ -199,11 +199,11 @@ public:
   private:
     // To ensure const-correctness these method must not be in the public API.
     // The are not implemented, since they should never be called.
-    Iterator() ITK_DELETED_FUNCTION;
-    Iterator( const Self *adaptor ) ITK_DELETED_FUNCTION;
-    Iterator( VectorContainerConstIterator iter, InstanceIdentifier iid ) ITK_DELETED_FUNCTION;
-    Iterator( const ConstIterator & it) ITK_DELETED_FUNCTION;
-    ConstIterator & operator=( const ConstIterator & it ) ITK_DELETED_FUNCTION;
+    Iterator() = delete;
+    Iterator( const Self *adaptor ) = delete;
+    Iterator( VectorContainerConstIterator iter, InstanceIdentifier iid ) = delete;
+    Iterator( const ConstIterator & it) = delete;
+    ConstIterator & operator=( const ConstIterator & it ) = delete;
   };
 
   /** returns an iterator that points to the beginning of the container */

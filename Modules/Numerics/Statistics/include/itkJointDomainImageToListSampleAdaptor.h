@@ -250,7 +250,7 @@ protected:
     }
 
 private:
-    ConstIterator() ITK_DELETED_FUNCTION;
+    ConstIterator() = delete;
     mutable MeasurementVectorType              m_MeasurementVectorCache;
     InstanceIdentifier                         m_InstanceIdentifier;
     const JointDomainImageToListSampleAdaptor *m_Adaptor;
@@ -287,10 +287,10 @@ protected:
 private:
     // To ensure const-correctness these method must not be in the public API.
     // The are purposly not implemented, since they should never be called.
-    Iterator() ITK_DELETED_FUNCTION;
-    Iterator(const Self *adaptor) ITK_DELETED_FUNCTION;
-    Iterator(const ConstIterator & it) ITK_DELETED_FUNCTION;
-    ConstIterator & operator=(const ConstIterator & it) ITK_DELETED_FUNCTION;
+    Iterator() = delete;
+    Iterator(const Self *adaptor) = delete;
+    Iterator(const ConstIterator & it) = delete;
+    ConstIterator & operator=(const ConstIterator & it) = delete;
 
   };
 

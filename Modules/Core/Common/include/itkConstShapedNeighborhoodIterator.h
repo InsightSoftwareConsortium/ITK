@@ -372,7 +372,7 @@ protected:
   ConstIterator m_ConstBeginIterator;
 private:
   /** Copy constructor */
-  ConstShapedNeighborhoodIterator(const ConstShapedNeighborhoodIterator &) ITK_DELETED_FUNCTION;
+  ConstShapedNeighborhoodIterator(const ConstShapedNeighborhoodIterator &) = delete;
 };
 } // namespace itk
 
