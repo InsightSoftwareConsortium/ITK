@@ -29,7 +29,9 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
 ::SaltAndPepperNoiseImageFilter() :
-  m_Probability( 0.01 )
+  m_Probability( 0.01 ),
+  m_SaltValue( NumericTraits<OutputImagePixelType>::max() ),
+  m_PepperValue( NumericTraits<OutputImagePixelType>::NonpositiveMin() )
 {
 }
 
@@ -71,12 +73,12 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
         if( rand->GetVariate() < 0.5 )
           {
           // Salt
-          outputIt.Set( NumericTraits<OutputImagePixelType>::max() );
+          outputIt.Set( m_SaltValue );
           }
         else
           {
           // Pepper
-          outputIt.Set( NumericTraits<OutputImagePixelType>::NonpositiveMin() );
+          outputIt.Set( m_PepperValue );
           }
         }
       else

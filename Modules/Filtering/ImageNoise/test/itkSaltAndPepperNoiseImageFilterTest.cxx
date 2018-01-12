@@ -59,6 +59,17 @@ int itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
   saltAndPepperNoiseImageFilter->SetProbability( probability );
   TEST_SET_GET_VALUE( probability, saltAndPepperNoiseImageFilter->GetProbability() );
 
+  // change the default values and then set back to defaults so that
+  // the original test image is still valid.
+  PixelType saltValue = 245;
+  saltAndPepperNoiseImageFilter->SetSaltValue( saltValue );
+  TEST_SET_GET_VALUE( saltValue, saltAndPepperNoiseImageFilter->GetSaltValue() );
+  PixelType pepperValue = 10;
+  saltAndPepperNoiseImageFilter->SetPepperValue( pepperValue );
+  TEST_SET_GET_VALUE( pepperValue, saltAndPepperNoiseImageFilter->GetPepperValue() );
+  saltAndPepperNoiseImageFilter->SetSaltValue( itk::NumericTraits<PixelType>::max() );
+  saltAndPepperNoiseImageFilter->SetPepperValue( itk::NumericTraits<PixelType>::NonpositiveMin() );
+
   saltAndPepperNoiseImageFilter->SetInput( reader->GetOutput() );
 
   itk::SimpleFilterWatcher watcher( saltAndPepperNoiseImageFilter, "SaltAndPepperNoiseImageFilter" );
