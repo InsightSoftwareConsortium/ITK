@@ -28,9 +28,15 @@ namespace itk
  *
  * \brief Alter an image with fixed value impulse noise, often called salt and pepper noise.
  *
- * Salt and pepper noise is a special kind of impulse noise where the value
- * of the noise is either the maximum possible value in the image or its
- * minimum. It can be modeled as:
+ * Salt (sensor saturation) and pepper (dead pixels) noise is a
+ * special kind of impulse noise where the value of the noise is
+ * either the maximum possible value in the image or its
+ * minimum. This is not necessarily the maximal/minimal possible intensity
+ * value based on the pixel type. For example, the native pixel type
+ * for CT is a signed 16 bit integer, but only 12 bits used, so we
+ * would like to set the salt and pepper values to match this smaller intensity range
+ * and not the range the pixel type represents.
+ * It can be modeled as:
  *
  * \par
  * \f$ I =
@@ -91,6 +97,18 @@ public:
   itkGetConstMacro(Probability, double);
   itkSetMacro(Probability, double);
 
+  /** Set/Get the salt/high pixel value.
+   * Defaults to NumericTraits<OutputImagePixelType>::max(). */
+  itkSetMacro(SaltValue, OutputImagePixelType);
+  itkGetConstMacro(SaltValue, OutputImagePixelType);
+
+
+  /** Set/Get the pepper/low pixel value.
+   * Defaults to NumericTraits<OutputImagePixelType>::NonpositiveMin(). */
+  itkSetMacro(PepperValue, OutputImagePixelType);
+  itkGetConstMacro(PepperValue, OutputImagePixelType);
+
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
   itkConceptMacro(InputConvertibleToOutputCheck,
@@ -111,7 +129,9 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SaltAndPepperNoiseImageFilter);
 
-  double m_Probability;
+  double               m_Probability;
+  OutputImagePixelType m_SaltValue;
+  OutputImagePixelType m_PepperValue;
 
 };
 } // end namespace itk
