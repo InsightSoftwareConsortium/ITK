@@ -136,9 +136,9 @@ public:
     return Self( NumericTraits< T >::OneValue() );
   }
 
-  static ITK_CONSTEXPR_VAR bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static ITK_CONSTEXPR_VAR bool IsInteger = NumericTraits< ValueType >::IsInteger;
-  static ITK_CONSTEXPR_VAR bool IsComplex = NumericTraits< ValueType >::IsComplex;
+  static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static constexpr bool IsInteger = NumericTraits< ValueType >::IsInteger;
+  static constexpr bool IsComplex = NumericTraits< ValueType >::IsComplex;
 
   /** Fixed length vectors cannot be resized, so an exception will
    *  be thrown if the input size is not valid.  In this case, the

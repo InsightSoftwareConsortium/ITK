@@ -134,9 +134,9 @@ public:
     return OneValue();
   }
 
-  static ITK_CONSTEXPR_VAR bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static ITK_CONSTEXPR_VAR bool IsInteger = NumericTraits< ValueType >::IsInteger;
-  static ITK_CONSTEXPR_VAR bool IsComplex = NumericTraits< ValueType >::IsComplex;
+  static constexpr bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static constexpr bool IsInteger = NumericTraits< ValueType >::IsInteger;
+  static constexpr bool IsComplex = NumericTraits< ValueType >::IsComplex;
 
   /** RGBA pixels must have 4 components, so the size cannot be
    *  set to anything besides 4.  If called with size of 4, this

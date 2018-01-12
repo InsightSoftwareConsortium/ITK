@@ -42,7 +42,7 @@ extern "C"
 {
 static void TagExtender(TIFF *tiff)
 {
-  static ITK_CONSTEXPR_VAR TIFFFieldInfo xtiffFieldInfo[] = {
+  static constexpr TIFFFieldInfo xtiffFieldInfo[] = {
           { TIF_CZ_LSMINFO, TIFF_VARIABLE, TIFF_VARIABLE, TIFF_BYTE,
           FIELD_CUSTOM, 0, 1, const_cast< char * >( "LSM Private Tag" ) }
     };

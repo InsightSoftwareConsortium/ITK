@@ -65,7 +65,7 @@ int itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int arg
   otsuMultipleCalculator->SetInputHistogram( histogramGenerator->GetOutput() );
   otsuMultipleCalculator->SetNumberOfThresholds(numberOfThresholds);
 
-  static ITK_CONSTEXPR_VAR int binsArray[] = {4,8,16,32,64,128,256,512,1024};
+  static constexpr int binsArray[] = {4,8,16,32,64,128,256,512,1024};
   std::vector<int> binsVector (binsArray, binsArray + sizeof(binsArray) / sizeof(binsArray[0]) );
   for( std::vector<int>::iterator binsIterator = binsVector.begin(); binsIterator != binsVector.end(); binsIterator++ )
   {

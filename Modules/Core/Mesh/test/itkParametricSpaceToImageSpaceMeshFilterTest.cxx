@@ -29,7 +29,7 @@ struct helper
 template< unsigned int VDimension >
 struct helper< itk::Index< VDimension > >
 {
-  static ITK_CONSTEXPR_VAR unsigned int Dimension = VDimension;
+  static constexpr unsigned int Dimension = VDimension;
   typedef itk::Index< VDimension > PositionType;
 
   template< class TImage, class TIterator >
@@ -42,7 +42,7 @@ struct helper< itk::Index< VDimension > >
 template< typename TCoord, unsigned int VDimension >
 struct helper< itk::Point< TCoord, VDimension > >
 {
-  static ITK_CONSTEXPR_VAR unsigned int Dimension = VDimension;
+  static constexpr unsigned int Dimension = VDimension;
   typedef itk::Point< TCoord, VDimension > PositionType;
 
   template< class TImage, class TIterator >
