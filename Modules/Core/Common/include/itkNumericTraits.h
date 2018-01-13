@@ -36,12 +36,6 @@
   using std::numeric_limits< ValueType >::max \
   // Note: the last line is without a semicolon, as each macro call already ends with one.
 
-#if ITK_COMPILER_CXX_CONSTEXPR
-#define itkNUMERIC_TRAITS_C11_ASSINMENT(x) = x
-#else
-#define itkNUMERIC_TRAITS_C11_ASSINMENT(x)
-#endif
-
 #if !defined( ITK_LEGACY_FUTURE_REMOVE )
 # include "vcl_limits.h"
 #endif
@@ -102,10 +96,10 @@ public:
   typedef RealType ScalarRealType;
 
   /** Additive identity. */
-  static const T Zero;
+  static const T ITKCommon_EXPORT Zero;
 
   /** Multiplicative identity. */
-  static const T One;
+  static const T ITKCommon_EXPORT One;
 
   /** Smallest (most nonpositive) value */
   static constexpr T NonpositiveMin() { return TraitsType::min(); }
@@ -240,8 +234,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static constexpr bool Zero = false;
-  static constexpr bool One = true;
+  static constexpr bool ITKCommon_EXPORT Zero = false;
+  static constexpr bool ITKCommon_EXPORT One = true;
 
   static constexpr bool min() { return false; }
   static constexpr bool max() { return true; }
@@ -788,8 +782,8 @@ public:
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
 
-  static constexpr float ITKCommon_EXPORT Zero itkNUMERIC_TRAITS_C11_ASSINMENT(0.0f);
-  static constexpr float ITKCommon_EXPORT One itkNUMERIC_TRAITS_C11_ASSINMENT(1.0f);
+  static constexpr float ITKCommon_EXPORT Zero =0.0f;
+  static constexpr float ITKCommon_EXPORT One =1.0f;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr float NonpositiveMin() { return -std::numeric_limits< ValueType >::max(); }
@@ -841,8 +835,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static constexpr double ITKCommon_EXPORT Zero itkNUMERIC_TRAITS_C11_ASSINMENT(0.0);
-  static constexpr double ITKCommon_EXPORT One  itkNUMERIC_TRAITS_C11_ASSINMENT(1.0);
+  static constexpr double ITKCommon_EXPORT Zero = 0.0;
+  static constexpr double ITKCommon_EXPORT One  = 1.0;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr double NonpositiveMin() { return -std::numeric_limits< ValueType >::max(); }
@@ -902,8 +896,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static constexpr long double ITKCommon_EXPORT Zero itkNUMERIC_TRAITS_C11_ASSINMENT(0.0);
-  static constexpr long double ITKCommon_EXPORT One itkNUMERIC_TRAITS_C11_ASSINMENT(1.0);
+  static constexpr long double ITKCommon_EXPORT Zero = 0.0;
+  static constexpr long double ITKCommon_EXPORT One = 1.0;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static constexpr long double NonpositiveMin() { return -std::numeric_limits< ValueType >::max(); }
@@ -1750,7 +1744,6 @@ public:
 
 } // end namespace itk
 
-#undef itkNUMERIC_TRAITS_C11_ASSINMENT
 #include "itkFixedArray.h"
 
 #endif // itkNumericTraits_h

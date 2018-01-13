@@ -26,7 +26,6 @@ namespace itk
  * definitions are defined. Other compilers (GCC) seem not to care, while
  * still others (Clang) require it.
  */
-#if !defined(_MSC_VER) || (ITK_COMPILER_CXX_CONSTEXPR)
 constexpr bool NumericTraits< bool >:: Zero;
 constexpr bool NumericTraits< bool >:: One;
 
@@ -62,33 +61,7 @@ constexpr long long NumericTraits< long long >:: One;
 
 constexpr unsigned long long NumericTraits< unsigned long long >:: Zero;
 constexpr unsigned long long NumericTraits< unsigned long long >:: One;
-#endif
 
-// If not C++11, then use static initialization for real types
-#if !(ITK_COMPILER_CXX_CONSTEXPR)
-
-const float NumericTraits< float >:: Zero = 0.0F;
-const float NumericTraits< float >:: One = 1.0F;
-
-const double NumericTraits< double >:: Zero = 0.0;
-const double NumericTraits< double >:: One = 1.0;
-
-const long double NumericTraits< long double >:: Zero = 0.0;
-const long double NumericTraits< long double >:: One = 1.0;
-
-#else
-
-constexpr float NumericTraits< float >:: Zero;
-constexpr float NumericTraits< float >:: One;
-
-constexpr double NumericTraits< double >:: Zero;
-constexpr double NumericTraits< double >:: One;
-
-constexpr long double NumericTraits< long double >:: Zero;
-constexpr long double NumericTraits< long double >:: One;
-
-
-#endif
 
 const std::complex< char >  NumericTraits< std::complex< char > >:: Zero = std::complex< char >(0, 0);
 const std::complex< char >  NumericTraits< std::complex< char > >:: One  = std::complex< char >(1, 0);
