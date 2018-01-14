@@ -21,7 +21,7 @@
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkRLEImage.h"
-#include <time.h>
+#include <ctime>
 
 int
 itkIteratorTests(int, char *[])
