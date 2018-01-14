@@ -22,7 +22,7 @@
 #include "itkRGBPixel.h"
 #include "itkRGBAPixel.h"
 #include "vnl/vnl_matrix.h"
-#include <stdio.h>
+#include <cstdio>
 #include <fstream>
 
 namespace itk
