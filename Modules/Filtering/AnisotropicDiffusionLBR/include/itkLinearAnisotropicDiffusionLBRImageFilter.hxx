@@ -214,7 +214,6 @@ protected:
   static void Stencil(const Dispatch< 3 > &, const TensorType & D, StencilOffsetsType & offsets, StencilCoefficientsType & coefficients)
   {
     // Construct a superbase, and make it obtuse with Selling's algorithm
-    typedef Vector<ScalarType,Dimension> VectorType;
     VectorType sb[Dimension+1];
     for(int i=0; i<Dimension; ++i)
       {
