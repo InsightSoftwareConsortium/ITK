@@ -39,7 +39,7 @@ CIT 6, 89-94 (1998).
 #include "itkSiddonJacobsRayCastInterpolateImageFunction.h"
 
 #include "vnl/vnl_math.h"
-#include "stdlib.h"
+#include <cstdlib>
 
 namespace itk
 {
