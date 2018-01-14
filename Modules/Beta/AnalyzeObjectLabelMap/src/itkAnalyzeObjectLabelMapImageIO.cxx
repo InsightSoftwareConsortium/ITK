@@ -24,8 +24,8 @@ PURPOSE.  See the above copyright notices for more information.
 #include <itksys/SystemTools.hxx>
 #include <vnl/vnl_math.h>
 #include "itk_zlib.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <vector>
 
 namespace itk

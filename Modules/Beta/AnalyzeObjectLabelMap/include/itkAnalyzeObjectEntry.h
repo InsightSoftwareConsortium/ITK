@@ -19,7 +19,7 @@ PURPOSE.  See the above copyright notices for more information.
 #define itkAnalyzeObjectEntry_h
 
 #include <string>
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 #include <fstream>
 

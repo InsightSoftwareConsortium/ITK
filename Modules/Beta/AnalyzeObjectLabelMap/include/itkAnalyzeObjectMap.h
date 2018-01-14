@@ -17,7 +17,7 @@ PURPOSE.  See the above copyright notices for more information.
 #ifndef itkAnalyzeObjectMap_h
 #define itkAnalyzeObjectMap_h
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <vector>
 #include "itkAnalyzeObjectEntry.h"
