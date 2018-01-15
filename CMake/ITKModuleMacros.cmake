@@ -341,6 +341,12 @@ macro(itk_module_examples)
       # If configuration is done from within ITK,
       # point to internal ITKConfig.cmake
       set(ITK_DIR ${ITK_BINARY_DIR}/CMakeTmp)
+    else()
+      # Ensure that executables get added to the current build tree instead of
+      # ITK's build tree when building as an external module.
+      if(CMAKE_RUNTIME_OUTPUT_DIRECTORY STREQUAL "${ITK_DIR}/bin")
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+      endif()
     endif()
     # Adds example subdirectory
     add_subdirectory( examples )
