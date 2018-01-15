@@ -33,6 +33,8 @@ namespace itk
 #define BRUKER_SIGNED_INT     "_32BIT_SGN_INT"
 #define BRUKER_FLOAT          "_32BIT_FLOAT"
 
+namespace
+{
 // Internal function to throw an exception if a needed parameter does not exist
 template<typename T>
 T GetParameter(const itk::MetaDataDictionary &dict, const std::string &name)
@@ -311,6 +313,7 @@ void ReadJCAMPDX(const std::string &filename, MetaDataDictionary &dict)
         }
       }
     }
+}
 }
 
 Bruker2dseqImageIO::Bruker2dseqImageIO() :
