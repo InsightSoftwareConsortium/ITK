@@ -57,7 +57,7 @@ public:
   /** Evaluate the function. Subclasses must implement this. */
   virtual TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE = 0;
 
-#ifdef ITK_USE_STRICT_CONCEPT_CHECKING
+#ifdef ITK_USE_CONCEPT_CHECKING
     // Begin concept checking
     itkConceptMacro( TRealValueTypeIsFloatingPointCheck,
                          ( Concept::IsFloatingPoint< TRealValueType > ) );

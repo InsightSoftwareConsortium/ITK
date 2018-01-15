@@ -113,7 +113,7 @@ public:
   itkGetConstReferenceMacro(State, FilterStateType);
 #endif
 
-#ifdef ITK_USE_STRICT_CONCEPT_CHECKING
+#ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( OutputPixelIsFloatingPointCheck,
                    ( Concept::IsFloatingPoint< OutputPixelValueType > ) );

@@ -325,8 +325,9 @@ endif()
 # ITK turn on concept checking
 option(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
 mark_as_advanced(ITK_USE_CONCEPT_CHECKING)
-option(ITK_USE_STRICT_CONCEPT_CHECKING "Turn on Strict concept checking to give more stringent errors at compile time if a type cannot be used as a template parameter." OFF)
-mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
+if(ITK_USE_STRICT_CONCEPT_CHECKING)
+  message(WARNING "Compilers requireing ITK_USE_STRICT_CONCEPT_CHECKING are no longer suppported.  This variable is no longer used.")
+endif()
 
 #-----------------------------------------------------------------------------
 # Mandatory wrapping options.
