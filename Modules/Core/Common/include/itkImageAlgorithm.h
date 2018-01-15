@@ -190,7 +190,6 @@ private:
   /** Unary functor just for static_cast operator */
   template<typename TInputType, typename TOutputType>
   struct StaticCast
-    : public std::unary_function<TInputType,TOutputType>
     {
     TOutputType operator() (const TInputType i) { return static_cast<TOutputType>(i); }
     };
