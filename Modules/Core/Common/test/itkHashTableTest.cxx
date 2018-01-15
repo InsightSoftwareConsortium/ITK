@@ -19,6 +19,7 @@
 #include "itksys/hash_set.hxx"
 #include "itksys/hash_map.hxx"
 #include <iostream>
+#include <cstring>
 
 /**
  * Helper function to prevent compiler's unused variable warning.
@@ -26,10 +27,6 @@
 template <typename T>
 void IgnoreUnusedVariable(const T&)
 {
-}
-
-extern "C" {
-#include <cstring>
 }
 
 struct eqstr
