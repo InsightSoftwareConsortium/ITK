@@ -87,4 +87,10 @@ int itkFFTPadImageFilterTest( int argc, char * argv[] )
 
   return EXIT_SUCCESS;
 
+
+  // Ensure we can build with a different output image type.
+  typedef itk::Image< double, Dimension >                      OutputImageType;
+  typedef itk::FFTPadImageFilter< ImageType, OutputImageType > FFTPadWithOutputType;
+  FFTPadWithOutputType::Pointer fftPadWithOutput = FFTPadWithOutputType::New();
+  (void) fftPadWithOutput;
 }

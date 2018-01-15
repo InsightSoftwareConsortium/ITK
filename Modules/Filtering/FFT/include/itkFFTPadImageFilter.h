@@ -95,9 +95,9 @@ public:
   itkSetMacro(SizeGreatestPrimeFactor, SizeValueType);
 
   /** Typedef to describe the boundary condition. */
-  typedef ImageBoundaryCondition< TInputImage >           BoundaryConditionType;
-  typedef BoundaryConditionType *                         BoundaryConditionPointerType;
-  typedef ZeroFluxNeumannBoundaryCondition< TInputImage > DefaultBoundaryConditionType;
+  typedef ImageBoundaryCondition< TInputImage, TOutputImage >           BoundaryConditionType;
+  typedef BoundaryConditionType *                                       BoundaryConditionPointerType;
+  typedef ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage > DefaultBoundaryConditionType;
 
 protected:
   FFTPadImageFilter();
