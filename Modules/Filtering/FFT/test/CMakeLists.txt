@@ -264,3 +264,8 @@ foreach(padMethod ZeroFluxNeumann Zero Wrap) # Mirror
         ${ITK_TEST_OUTPUT_DIR}/itkFFTPadImageFilterTest${padMethod}${gpf}.png ${gpf} ${padMethod})
   endforeach()
 endforeach()
+
+# Test header files circular dependencies
+add_executable(ITKFFTTestCircularDependency itkTestCircularDependency.cxx)
+target_link_libraries(ITKFFTTestCircularDependency ${ITKFFT-Test_LIBRARIES})
+itk_add_test(NAME itkFFTTestCircularDependency COMMAND ITKFFTTestCircularDependency)

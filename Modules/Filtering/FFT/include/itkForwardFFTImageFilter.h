@@ -94,15 +94,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef itkVnlForwardFFTImageFilter_h
-#ifndef itkVnlForwardFFTImageFilter_hxx
-#ifndef itkFFTWForwardFFTImageFilter_h
-#ifndef itkFFTWForwardFFTImageFilter_hxx
 #include "itkForwardFFTImageFilter.hxx"
-#endif
-#endif
-#endif
-#endif
 #endif
 
 #endif

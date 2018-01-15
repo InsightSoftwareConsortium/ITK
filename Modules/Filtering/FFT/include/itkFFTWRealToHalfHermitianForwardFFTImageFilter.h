@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
+
 #ifndef itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
 #define itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
-
-#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 
 #include "itkFFTWCommon.h"
 

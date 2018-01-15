@@ -108,15 +108,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef itkVnlComplexToComplexFFTImageFilter_h
-#ifndef itkVnlComplexToComplexFFTImageFilter_hxx
-#ifndef itkFFTWComplexToComplexFFTImageFilter_h
-#ifndef itkFFTWComplexToComplexFFTImageFilter_hxx
 #include "itkComplexToComplexFFTImageFilter.hxx"
-#endif
-#endif
-#endif
-#endif
 #endif
 
 #endif

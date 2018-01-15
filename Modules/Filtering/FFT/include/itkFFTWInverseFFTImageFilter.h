@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkInverseFFTImageFilter.h"
+
 #ifndef itkFFTWInverseFFTImageFilter_h
 #define itkFFTWInverseFFTImageFilter_h
-
-#include "itkInverseFFTImageFilter.h"
 
 #include "itkFFTWCommon.h"
 

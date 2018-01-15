@@ -108,15 +108,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#ifndef itkVnlRealToHalfHermitianForwardFFTImageFilter_h
-#ifndef itkVnlRealToHalfHermitianForwardFFTImageFilter_hxx
-#ifndef itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
-#ifndef itkFFTWRealToHalfHermitianForwardFFTImageFilter_hxx
 #include "itkRealToHalfHermitianForwardFFTImageFilter.hxx"
-#endif
-#endif
-#endif
-#endif
 #endif
 
 #endif

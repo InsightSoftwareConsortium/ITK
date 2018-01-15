@@ -20,7 +20,6 @@
 
 #include "itkHalfToFullHermitianImageFilter.h"
 #include "itkFFTWForwardFFTImageFilter.h"
-#include "itkForwardFFTImageFilter.hxx"
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
 #include "itkProgressReporter.h"

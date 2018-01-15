@@ -15,10 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkForwardFFTImageFilter.h"
+
 #ifndef itkVnlForwardFFTImageFilter_h
 #define itkVnlForwardFFTImageFilter_h
 
-#include "itkForwardFFTImageFilter.h"
 #include "vnl/algo/vnl_fft_base.h"
 
 namespace itk
