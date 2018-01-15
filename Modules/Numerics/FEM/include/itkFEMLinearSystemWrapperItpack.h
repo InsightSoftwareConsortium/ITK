@@ -64,21 +64,11 @@ public:
   /** vector of matrices typedef */
   typedef std::vector<MatrixRepresentation> MatrixHolder;
 
-  /* auto pointer to vector of matrices typedef */
-  /* typedef std::auto_ptr<MatrixHolder> MatrixArrayPtr; */
-
   /** vector representation typedef */
-  /* typedef std::auto_ptr<double> VectorRepresentation; */
   typedef double *VectorRepresentation;
 
   /** vector of vector typedef */
   typedef std::vector<VectorRepresentation> VectorHolder;
-
-  /* auto pointer to vector of vectors typedef */
-  /* typedef std::auto_ptr<VectorHolder> VectorArrayPtr; */
-
-  /* pointer to array of unsigned int typedef */
-  /* typedef std::auto_ptr<unsigned int> UnsignedIntegerArrayPtr; */
 
   /* -----------------------------------------------------------------
    *
