@@ -15,10 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
+
 #ifndef itkVnlRealToHalfHermitianForwardFFTImageFilter_h
 #define itkVnlRealToHalfHermitianForwardFFTImageFilter_h
 
-#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkVnlFFTCommon.h"
 #include "vnl/algo/vnl_fft_base.h"
 

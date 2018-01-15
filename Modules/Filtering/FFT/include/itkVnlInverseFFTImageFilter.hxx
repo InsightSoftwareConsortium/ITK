@@ -18,7 +18,6 @@
 #ifndef itkVnlInverseFFTImageFilter_hxx
 #define itkVnlInverseFFTImageFilter_hxx
 
-#include "itkInverseFFTImageFilter.hxx"
 #include "itkProgressReporter.h"
 #include "itkVnlFFTCommon.h"
 #include "itkVnlInverseFFTImageFilter.h"

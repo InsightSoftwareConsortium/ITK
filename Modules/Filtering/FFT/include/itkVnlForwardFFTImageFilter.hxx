@@ -19,7 +19,6 @@
 #define itkVnlForwardFFTImageFilter_hxx
 
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkForwardFFTImageFilter.hxx"
 #include "itkProgressReporter.h"
 #include "itkVnlFFTCommon.h"
 #include "itkVnlForwardFFTImageFilter.h"

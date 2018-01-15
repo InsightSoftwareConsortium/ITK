@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkInverseFFTImageFilter.h"
+
 #ifndef itkVnlInverseFFTImageFilter_h
 #define itkVnlInverseFFTImageFilter_h
-
-#include "itkInverseFFTImageFilter.h"
 
 #include "itkImage.h"
 #include "vnl/algo/vnl_fft_base.h"

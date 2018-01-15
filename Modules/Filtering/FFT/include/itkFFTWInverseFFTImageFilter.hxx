@@ -20,7 +20,6 @@
 
 #include "itkFullToHalfHermitianImageFilter.h"
 #include "itkFFTWInverseFFTImageFilter.h"
-#include "itkInverseFFTImageFilter.hxx"
 
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"

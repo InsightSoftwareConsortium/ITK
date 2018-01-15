@@ -15,10 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkComplexToComplexFFTImageFilter.h"
+
 #ifndef itkFFTWComplexToComplexFFTImageFilter_h
 #define itkFFTWComplexToComplexFFTImageFilter_h
 
-#include "itkComplexToComplexFFTImageFilter.h"
 #include "itkFFTWCommon.h"
 
 
