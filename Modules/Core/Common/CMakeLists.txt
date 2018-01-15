@@ -34,11 +34,6 @@ include(CheckIncludeFiles)
 check_include_files(fenv.h HAVE_FENV_H)
 # check if the platform has some widely used header files
 check_include_files("unistd.h" HAVE_UNISTD_H)
-# check if the platform has the header file "stdint.h" which has been added as part of the C99 standard
-check_include_files("stdint.h" HAVE_STDINT_H)
-# every system should have this header
-check_include_files("stddef.h" HAVE_STDDEF_H)
-check_include_files("sys/types.h" HAVE_SYS_TYPES_H)
 
 
 # Check if this platform support the sse2 rounding functions for 32 and 64 bits
