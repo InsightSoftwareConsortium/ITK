@@ -28,9 +28,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkIndex.h"
 #include <iostream>
-extern "C" {
 #include <ctime>
-}
 
 namespace itk {
 
