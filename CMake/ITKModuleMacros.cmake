@@ -331,12 +331,22 @@ macro(itk_module_test)
 endmacro()
 
 macro(itk_module_examples)
-  cmake_dependent_option(Module_${itk-module}_BUILD_EXAMPLES "Build the examples" OFF "BUILD_EXAMPLES" OFF)
+  set(_build_examples_default OFF)
+  if(BUILD_EXAMPLES OR ITK_BUILD_EXAMPLES)
+    set(_build_examples_default ON)
+  endif()
+  set(Module_${itk-module}_BUILD_EXAMPLES ${_build_examples_default} CACHE BOOL "Build the examples for Module_${itk-module}")
   if(Module_${itk-module}_BUILD_EXAMPLES)
     if(ITK_SOURCE_DIR)
       # If configuration is done from within ITK,
       # point to internal ITKConfig.cmake
       set(ITK_DIR ${ITK_BINARY_DIR}/CMakeTmp)
+    else()
+      # Ensure that executables get added to the current build tree instead of
+      # ITK's build tree when building as an external module.
+      if(CMAKE_RUNTIME_OUTPUT_DIRECTORY STREQUAL "${ITK_DIR}/bin")
+        set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+      endif()
     endif()
     # Adds example subdirectory
     add_subdirectory( examples )
