@@ -6,10 +6,6 @@ set(MontageTests
 
 CreateTestDriver(Montage "${Montage-Test_LIBRARIES}" "${MontageTests}")
 
-#itk_add_test(NAME itkMinimalStandardRandomVariateGeneratorTest
-  #COMMAND MontageTestDriver itkMinimalStandardRandomVariateGeneratorTest
-  #)
-
 itk_add_test(NAME itkPhaseCorrelationImageRegistrationMethodTest_2cc
   COMMAND MontageTestDriver
   itkPhaseCorrelationImageRegistrationMethodTest
