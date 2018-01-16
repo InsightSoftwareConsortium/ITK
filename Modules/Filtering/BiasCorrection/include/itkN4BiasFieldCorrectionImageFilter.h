@@ -56,9 +56,9 @@ namespace itk {
  *  3. A binary mask or a weighted image can be supplied.  If a binary mask
  *     is specified, those voxels in the input image which correspond to the
  *     voxels in the mask image are used to estimate the bias field. If a
- *     UseMaskLabel value is set to true, only voxels in the MaskImage that match
- *     the MaskLabel will be used; otherwise, all non-zero voxels in the
- *     MaskImage will be masked. If a confidence image is specified, the
+ *     UseMaskLabel value is set to false (the default), all non-zero
+ *     voxels in the  MaskImage will be masked; otherwise only voxels
+ *     in the MaskImage that match  the MaskLabel will be used. If a confidence image is specified, the
  *     input voxels are weighted in the b-spline fitting routine according
  *     to the confidence voxel values.
  *  4. The filter returns the corrected image.  If the bias field is wanted, one
@@ -163,9 +163,7 @@ public:
     return static_cast<const MaskImageType*>( this->ProcessObject::GetInput( 1 ) );
     }
 
-#if ! defined ( ITK_LEGACY_REMOVE )
   /**
-   * \deprecated
    * Set/Get mask label value. If a binary mask image is specified and if
    * UseMaskValue is true, only those input image voxels corresponding
    * with mask image values equal to MaskLabel are used in estimating the
@@ -178,11 +176,10 @@ public:
 
   /**
    * Use a mask label for identifying mask functionality. See SetMaskLabel.
-   * Defaults to true. */
+   * Defaults to false. */
   itkSetMacro( UseMaskLabel, bool );
   itkGetConstMacro( UseMaskLabel, bool );
   itkBooleanMacro( UseMaskLabel );
-#endif
 
   /**
    * Set confidence image function.  If a confidence image is specified,
@@ -416,10 +413,8 @@ private:
    */
   RealType CalculateConvergenceMeasurement( const RealImageType *, const RealImageType * ) const;
 
-#if ! defined ( ITK_LEGACY_REMOVE )
   MaskPixelType m_MaskLabel;
   bool          m_UseMaskLabel;
-#endif
 
   // Parameters for deconvolution with Wiener filter
 
