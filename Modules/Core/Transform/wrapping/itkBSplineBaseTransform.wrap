@@ -1,5 +1,5 @@
 itk_wrap_class("itk::BSplineBaseTransform" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    itk_wrap_template("${ITKM_D}${d}${d}" "${ITKT_D},${d},${d}")
+    itk_wrap_template("${ITKM_D}${d}3" "${ITKT_D},${d},3")
   endforeach()
 itk_end_wrap_class()
