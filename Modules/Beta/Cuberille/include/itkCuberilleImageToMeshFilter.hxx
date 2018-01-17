@@ -20,6 +20,7 @@
 
 #define SWAP(x,y) unsigned int t;t=x;x=y;y=t;
 
+#include "itkMath.h"
 #include "itkCuberilleImageToMeshFilter.h"
 #include "itkNumericTraits.h"
 #include "itkConnectedComponentAlgorithm.h"
@@ -76,7 +77,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   m_MaxSpacing = image->GetSpacing()[0];
   for ( int i=1; i< InputImageType::ImageDimension; i++ )
     {
-    m_MaxSpacing = vnl_math_max( m_MaxSpacing, image->GetSpacing()[i] );
+    m_MaxSpacing = std::max( m_MaxSpacing, image->GetSpacing()[i] );
     }
 
   // Set default step length
@@ -368,8 +369,8 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     // Compute which direction moves vertex closer to iso-surface value
     value[0] = m_Interpolator->Evaluate( temp[0] );
     value[1] = m_Interpolator->Evaluate( temp[1] );
-    diff[0] = vnl_math_abs( value[0] - m_IsoSurfaceValue );
-    diff[1] = vnl_math_abs( value[1] - m_IsoSurfaceValue );
+    diff[0] = itk::Math::abs( value[0] - m_IsoSurfaceValue );
+    diff[1] = itk::Math::abs( value[1] - m_IsoSurfaceValue );
     i = ( diff[0] <= diff[1] ) ? 0 : 1;
     if ( previousi < 0 ) previousi = i;
     swaps += (int)( previousi != i );
@@ -423,7 +424,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
         }
       // Compute metric (combination of difference and distance)
       value = m_Interpolator->Evaluate( temp );
-      metric = vnl_math_abs( value - m_IsoSurfaceValue ); // Difference
+      metric = itk::Math::abs( value - m_IsoSurfaceValue ); // Difference
       //metric /= NumericTraits<InputPixelType>::max(); // Normalized difference
       //metric /= d; // Distance
 
@@ -454,7 +455,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 
     // Compute whether vertex is close enough to iso-surface value
     value = m_Interpolator->Evaluate(vertex);
-    done |= vnl_math_abs( value - m_IsoSurfaceValue ) < m_ProjectVertexSurfaceDistanceThreshold;
+    done |= itk::Math::abs( value - m_IsoSurfaceValue ) < m_ProjectVertexSurfaceDistanceThreshold;
 #if DEBUG_PRINT
     if ( done ) m_ProjectVertexTerminate[0]++;
 #endif
