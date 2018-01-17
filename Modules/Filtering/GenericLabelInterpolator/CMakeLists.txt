@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 3.9.5)
 project(GenericLabelInterpolator)
 
 if(NOT ITK_SOURCE_DIR)
