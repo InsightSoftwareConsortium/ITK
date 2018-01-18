@@ -27,12 +27,23 @@ This work is based on, in part::
   The Insight Journal - 2006 July - December
   http://hdl.handle.net/1926/396
 
-See also:
+See Also
+--------
 
-  - http://dream3d.bluequartz.net/
-  - http://www.incf.org
-  - http://www.itk.org
-  - http://www.alleninstitute.org
+- http://dream3d.bluequartz.net/
+- http://www.incf.org
+- http://www.itk.org
+- http://www.alleninstitute.org
+
+License
+-------
 
 This code is copyrighted by the Insight Software Consortium,
 and it is distributed under the Apache 2 license.
+
+Acknowledgements
+----------------
+
+The code contained herein was partially funded by the following contracts:
+
+- United States Air Force Prime Contract FA8650-15-D-5231
