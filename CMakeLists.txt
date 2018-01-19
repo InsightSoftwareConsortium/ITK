@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.9.5 FATAL_ERROR)
 
 foreach(p
-    ## Only policies introduced after the cmake_minimum_required (3.8.2) need
-    ## to explicitly be set to NEW.
+    ## Only policies introduced after the cmake_minimum_required
+    ## version need to explicitly be set to NEW.
     CMP0070 #3.10.0 Define ``file(GENERATE)`` behavior for relative paths.
     CMP0071 #3.10.0 Let ``AUTOMOC`` and ``AUTOUIC`` process ``GENERATED`` files.
     )
