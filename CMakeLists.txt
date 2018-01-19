@@ -1,8 +1,24 @@
 cmake_minimum_required(VERSION 3.9.5 FATAL_ERROR)
 
+if(CMAKE_CXX_STANDARD EQUAL "98" )
+   MESSAGE(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=98 is not supported in ITK version 5 and greater.")
+endif()
+
+#####
+##  Set the default target properties for ITK
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 11) # Supported values are ``11``, ``14``, and ``17``.
+endif()
+if(NOT CMAKE_CXX_STANDARD_REQUIRED)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+if(NOT CMAKE_CXX_EXTENSIONS)
+  set(CMAKE_CXX_EXTENSIONS OFF)
+endif()
+
 foreach(p
-    ## Only policies introduced after the cmake_minimum_required (3.8.2) need
-    ## to explicitly be set to NEW.
+    ## Only policies introduced after the cmake_minimum_required
+    ## version need to explicitly be set to NEW.
     CMP0070 #3.10.0 Define ``file(GENERATE)`` behavior for relative paths.
     CMP0071 #3.10.0 Let ``AUTOMOC`` and ``AUTOUIC`` process ``GENERATED`` files.
     )
