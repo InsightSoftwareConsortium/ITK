@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.9.5)
 project(MorphologicalContourInterpolation)
 
 if(NOT ITK_SOURCE_DIR)
