@@ -62,6 +62,12 @@ constexpr long long NumericTraits< long long >:: One;
 constexpr unsigned long long NumericTraits< unsigned long long >:: Zero;
 constexpr unsigned long long NumericTraits< unsigned long long >:: One;
 
+constexpr float NumericTraits< float >:: Zero;
+constexpr float NumericTraits< float >:: One;
+
+constexpr double NumericTraits< double >:: Zero;
+constexpr double NumericTraits< double >:: One;
+
 
 const std::complex< char >  NumericTraits< std::complex< char > >:: Zero = std::complex< char >(0, 0);
 const std::complex< char >  NumericTraits< std::complex< char > >:: One  = std::complex< char >(1, 0);
