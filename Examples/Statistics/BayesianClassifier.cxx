@@ -25,7 +25,7 @@
 //
 // The output of the filter is a label map (an image of unsigned char's) with
 // pixel values indicating the classes they correspond to. Pixels with intensity 0
-// belong to the 0th class, 1 belong to the 1st class etc.... The classification
+// belong to the 0th class, 1 belong to the 1st class etc. The classification
 // is done by applying a Maximum decision rule to the posterior image.
 //
 // The filter allows you to specify a prior image as well, (although this is not
