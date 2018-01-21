@@ -36,7 +36,7 @@
 // Sobel edge detection, where iteration speed is a critical.
 //
 // Splitting the image into the necessary regions is an easy task when you use
-// the \doxygen{ImageBoundaryFacesCalculator}.  The face
+// the \doxygen{NeighborhoodAlgorithm::ImageBoundaryFacesCalculator}.  The face
 // calculator is so named because it returns a list of the ``faces'' of the ND
 // dataset.  Faces are those regions whose pixels all lie within a distance $d$
 // from the boundary, where $d$ is the radius of the neighborhood stencil used
