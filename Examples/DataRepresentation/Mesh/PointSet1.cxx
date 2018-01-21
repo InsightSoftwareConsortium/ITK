@@ -18,9 +18,9 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{itk::PointSet} is a basic class intended to represent geometry
+//  The \doxygen{PointSet} is a basic class intended to represent geometry
 //  in the form of a set of points in $N$-dimensional space. It is the base
-//  class for the \doxygen{itk::Mesh} providing the methods necessary to
+//  class for the \doxygen{Mesh} providing the methods necessary to
 //  manipulate sets of points. Points can have values associated with
 //  them. The type of such values is defined by a template parameter of the
 //  \code{itk::PointSet} class (i.e., \code{TPixelType}). Two basic
