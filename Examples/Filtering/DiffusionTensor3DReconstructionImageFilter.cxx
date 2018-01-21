@@ -33,7 +33,7 @@
 //        ftp://public.kitware.com/pub/namic/DTI/Data/dwi.nhdr
 //        ftp://public.kitware.com/pub/namic/DTI/Data/dwi.img.gz (gunzip this)
 //     These datasets contain a reference T1 image and 30 diffusion weighted
-//     images. See the nrrd header for details such as B value etc..
+//     images. See the nrrd header for details such as B value etc.
 //
 //  2. Run the example with the following args
 //       dwi.nhdr 80 Tensors.mhd FractionalAnisotropy.mhd RelativeAnisotropy.mhd 1
