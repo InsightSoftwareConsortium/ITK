@@ -76,17 +76,17 @@ public:
 
   /** Get the derivatives of the match measure. */
   void
-  GetDerivative(const TransformParametersType & parameters, DerivativeType & Derivative) const;
+  GetDerivative(const TransformParametersType & parameters, DerivativeType & Derivative) const override;
 
   /**  Get the value for single valued optimizers. */
   MeasureType
-  GetValue(const TransformParametersType & parameters) const;
+  GetValue(const TransformParametersType & parameters) const override;
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
                         MeasureType &                   Value,
-                        DerivativeType &                Derivative) const;
+                        DerivativeType &                Derivative) const override;
 
   /** Set/Get SubtractMean boolean. If true, the sample mean is subtracted
    * from the sample values in the cross-correlation formula and
@@ -98,9 +98,9 @@ public:
 
 protected:
   NormalizedCorrelationTwoImageToOneImageMetric();
-  virtual ~NormalizedCorrelationTwoImageToOneImageMetric() {};
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  ~NormalizedCorrelationTwoImageToOneImageMetric() override {};
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   NormalizedCorrelationTwoImageToOneImageMetric(const Self &); // purposely not implemented

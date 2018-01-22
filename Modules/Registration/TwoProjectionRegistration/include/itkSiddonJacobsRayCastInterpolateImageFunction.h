@@ -128,8 +128,8 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method.
    */
-  virtual OutputType
-  Evaluate(const PointType & point) const;
+  OutputType
+  Evaluate(const PointType & point) const override;
 
   /** Interpolate the image at a continuous index position
    *
@@ -142,8 +142,8 @@ public:
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method.
    */
-  virtual OutputType
-  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const;
+  OutputType
+  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
 
   virtual void
   Initialize(void);
@@ -169,17 +169,17 @@ public:
    * \warning For efficiency, no validity checking of
    * the input image pointer is done. */
   inline bool
-  IsInsideBuffer(const PointType &) const
+  IsInsideBuffer(const PointType &) const override
   {
     return true;
   }
   bool
-  IsInsideBuffer(const ContinuousIndexType &) const
+  IsInsideBuffer(const ContinuousIndexType &) const override
   {
     return true;
   }
   bool
-  IsInsideBuffer(const IndexType &) const
+  IsInsideBuffer(const IndexType &) const override
   {
     return true;
   }
@@ -187,10 +187,10 @@ public:
 protected:
   SiddonJacobsRayCastInterpolateImageFunction();
 
-  ~SiddonJacobsRayCastInterpolateImageFunction() {};
+  ~SiddonJacobsRayCastInterpolateImageFunction() override {};
 
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /// Transformation used to calculate the new focal point position
   TransformPointer m_Transform; // Displacement of the volume

@@ -86,13 +86,13 @@ public:
   typedef const OptimizerType * OptimizerPointer;
 
   void
-  Execute(itk::Object * caller, const itk::EventObject & event)
+  Execute(itk::Object * caller, const itk::EventObject & event) override
   {
     Execute((const itk::Object *)caller, event);
   }
 
   void
-  Execute(const itk::Object * object, const itk::EventObject & event)
+  Execute(const itk::Object * object, const itk::EventObject & event) override
   {
     OptimizerPointer optimizer = dynamic_cast<OptimizerPointer>(object);
     if (typeid(event) != typeid(itk::IterationEvent))
@@ -139,11 +139,11 @@ exe_usage()
 int
 TwoProjection2D3DRegistration(int argc, char * argv[])
 {
-  char * fileImage2D1 = NULL;
+  char * fileImage2D1 = nullptr;
   double projAngle1 = -999;
-  char * fileImage2D2 = NULL;
+  char * fileImage2D2 = nullptr;
   double projAngle2 = -999;
-  char * fileVolume3D = NULL;
+  char * fileVolume3D = nullptr;
   // Default output file names
   const char * fileOutput1 = "Image2D1_Registered.tif";
   const char * fileOutput2 = "Image2D2_Registered.tif";
@@ -354,7 +354,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
     if (ok == false)
     {
 
-      if (fileImage2D1 == NULL)
+      if (fileImage2D1 == nullptr)
       {
         fileImage2D1 = argv[1];
         argc--;
@@ -368,7 +368,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
         argv++;
       }
 
-      if (fileImage2D2 == NULL)
+      if (fileImage2D2 == nullptr)
       {
         fileImage2D2 = argv[1];
         argc--;
@@ -382,7 +382,7 @@ TwoProjection2D3DRegistration(int argc, char * argv[])
         argv++;
       }
 
-      else if (fileVolume3D == NULL)
+      else if (fileVolume3D == nullptr)
       {
         fileVolume3D = argv[1];
         argc--;

@@ -199,7 +199,7 @@ public:
 
   /** Return the number of parameters required by the Transform */
   unsigned int
-  GetNumberOfParameters() const
+  GetNumberOfParameters() const override
   {
     return m_Transform->GetNumberOfParameters();
   }
@@ -211,9 +211,9 @@ public:
 
 protected:
   TwoImageToOneImageMetric();
-  virtual ~TwoImageToOneImageMetric() {};
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  ~TwoImageToOneImageMetric() override {};
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   mutable unsigned long m_NumberOfPixelsCounted;
 
