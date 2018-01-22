@@ -61,6 +61,7 @@ itk_add_test(NAME itkDCMTKSeriesStreamReadImageWrite1
 
 itk_add_test(NAME itkDCMTKSeriesImageOrientationWrite1
   COMMAND ITKIODCMTKTestDriver
+  --compareCoordinateTolerance 1e-3
   --compare DATA{${ITK_DATA_ROOT}/Baseline/itkDCMTKSeriesImageOrientationWrite1.mha}
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesImageOrientationWrite1.mha
   itkDCMTKSeriesReadImageWrite
