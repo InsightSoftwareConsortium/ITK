@@ -216,7 +216,7 @@ public:
 
 protected:
   MorphologicalContourInterpolator();
-  ~MorphologicalContourInterpolator() ITK_OVERRIDE {}
+  ~MorphologicalContourInterpolator() override {}
   typename TImage::PixelType m_Label;
   int                        m_Axis;
   bool                       m_HeuristicAlignment;
@@ -239,7 +239,7 @@ protected:
 
   /** Does the real work. */
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   /** Determines correspondances between two slices and calls apropriate methods. */
   void
@@ -340,7 +340,7 @@ protected:
 
   /** Copied from ImageSource and changed to allocate a cleared buffer. */
   void
-  AllocateOutputs() ITK_OVERRIDE;
+  AllocateOutputs() override;
 
   /** Returns the centroid of given regions */
   typename SliceType::IndexType
