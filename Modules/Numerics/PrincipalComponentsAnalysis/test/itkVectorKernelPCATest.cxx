@@ -31,7 +31,7 @@ ParseVectorFields(std::vector<std::string> vectorFieldFilenames, typename TVecto
   int testStatus = EXIT_SUCCESS;
 
   typedef itk::MeshFileReader<TMesh> ReaderType;
-  ReaderType::Pointer                meshReader = ReaderType::New();
+  typename ReaderType::Pointer       meshReader = ReaderType::New();
 
   unsigned int fieldSetCount = vectorFieldFilenames.size();
   vectorFieldSet->Reserve(fieldSetCount);
@@ -52,9 +52,9 @@ ParseVectorFields(std::vector<std::string> vectorFieldFilenames, typename TVecto
     TRY_EXPECT_NO_EXCEPTION(meshReader->Update());
 
     // Get the objects
-    TMesh::Pointer meshWithField = meshReader->GetOutput();
+    typename TMesh::Pointer meshWithField = meshReader->GetOutput();
 
-    TMesh::PointDataContainerPointer pointData = meshWithField->GetPointData();
+    typename TMesh::PointDataContainerPointer pointData = meshWithField->GetPointData();
     if (setIx == 0)
     {
       vectorFieldCount = pointData->Size();
@@ -166,7 +166,6 @@ itkVectorKernelPCATest(int argc, char * argv[])
 
   // Should know vector field dimensions now
   unsigned int vectorFieldDim = 0;
-  unsigned int vectorFieldCount = 0;
 
   // how many vector field sets?
   std::vector<std::string> vectorFieldFilenames;
