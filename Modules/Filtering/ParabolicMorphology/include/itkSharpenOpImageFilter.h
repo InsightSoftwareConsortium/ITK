@@ -118,7 +118,7 @@ public:
 
 protected:
   SharpenOpImageFilter() {}
-  virtual ~SharpenOpImageFilter() {}
+  ~SharpenOpImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SharpenOpImageFilter);

@@ -137,15 +137,15 @@ public:
 
   /** ParabolicOpenCloseImageFilter must forward the Modified() call to its
     internal filters */
-  virtual void
-  Modified() const ITK_OVERRIDE;
+  void
+  Modified() const override;
 
 protected:
   void
-  GenerateData() ITK_OVERRIDE;
+  GenerateData() override;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   typedef ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage> MorphFilterType;
   typedef ConstantPadImageFilter<TInputImage, TInputImage>                 PadFilterType;
@@ -162,7 +162,7 @@ protected:
     m_ParabolicAlgorithm = INTERSECTION;
   }
 
-  virtual ~ParabolicOpenCloseSafeBorderImageFilter() {}
+  ~ParabolicOpenCloseSafeBorderImageFilter() override {}
   int m_ParabolicAlgorithm;
 
 private:
