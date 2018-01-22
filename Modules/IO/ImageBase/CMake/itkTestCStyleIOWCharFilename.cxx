@@ -21,7 +21,7 @@
 
 #include <io.h> // for _wopen
 #include <fcntl.h> // for _O_RDONLY
-#include <stdio.h> // for _wfopen
+#include <cstdio> // for _wfopen
 
 int main()
 {

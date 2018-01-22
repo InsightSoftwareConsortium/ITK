@@ -28,7 +28,7 @@
 #include "itkMultiThreader.h"
 #include "itkObjectFactory.h"
 #include "itksys/SystemTools.hxx"
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "itkWindows.h"
 #include <process.h>

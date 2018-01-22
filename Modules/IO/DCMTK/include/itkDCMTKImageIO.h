@@ -21,7 +21,7 @@
 
 
 #include <fstream>
-#include <stdio.h>
+#include <cstdio>
 #include "itkImageIOBase.h"
 
 class DicomImage;
