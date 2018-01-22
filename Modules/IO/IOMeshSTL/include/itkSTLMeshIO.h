@@ -57,40 +57,40 @@ public:
    * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this MeshIO can read the file specified.
    */
-  virtual bool
-  CanReadFile(const char * FileNameToRead) ITK_OVERRIDE;
+  bool
+  CanReadFile(const char * FileNameToRead) override;
 
   /** Read the content of the file into a Mesh. */
   virtual void
   Read();
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void
-  ReadMeshInformation() ITK_OVERRIDE;
+  void
+  ReadMeshInformation() override;
 
   /** Stores the point data into the memory buffer provided. */
-  virtual void
-  ReadPoints(void * buffer) ITK_OVERRIDE;
+  void
+  ReadPoints(void * buffer) override;
 
   /** Stores the cell data into the memory buffer provided. */
-  virtual void
-  ReadCells(void * buffer) ITK_OVERRIDE;
+  void
+  ReadCells(void * buffer) override;
 
   /** Indicates whether ReadPoints() should be called. */
-  virtual bool
-  GetUpdatePoints() const ITK_OVERRIDE;
+  bool
+  GetUpdatePoints() const override;
 
   /** Indicates whether ReadCells() should be called. */
-  virtual bool
-  GetUpdateCells() const ITK_OVERRIDE;
+  bool
+  GetUpdateCells() const override;
 
   /** STL files do not carry information in points or cells.
    * Therefore the following two methods are implemented as null
    * operations. */
-  virtual void
-  ReadPointData(void * itkNotUsed(buffer)) ITK_OVERRIDE {};
-  virtual void
-  ReadCellData(void * itkNotUsed(buffer)) ITK_OVERRIDE {};
+  void
+  ReadPointData(void * itkNotUsed(buffer)) override {};
+  void
+  ReadCellData(void * itkNotUsed(buffer)) override {};
 
   /*-------- This part of the interfaces deals with writing data. ----- */
   /** Determine if the file can be written with this MeshIO implementation.
@@ -98,16 +98,16 @@ public:
    * \post Sets classes MeshIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this MeshIO can write the file specified.
    */
-  virtual bool
-  CanWriteFile(const char * FileNameToWrite) ITK_OVERRIDE;
+  bool
+  CanWriteFile(const char * FileNameToWrite) override;
 
   /** Write header of the STL file */
-  virtual void
-  WriteMeshInformation() ITK_OVERRIDE;
+  void
+  WriteMeshInformation() override;
 
   /** Write the content of the Mesh into an STL file. */
-  virtual void
-  Write() ITK_OVERRIDE;
+  void
+  Write() override;
 
   /** The STL format stores point coordinates repeatedly as part of every
    * triangle. Therefore point coordinates are writen as part of the
@@ -115,8 +115,8 @@ public:
    * Consequently, this method only performs an internal copy of the Point
    * coordinates data, than then is used in the WriteCells() method.
    */
-  virtual void
-  WritePoints(void * buffer) ITK_OVERRIDE;
+  void
+  WritePoints(void * buffer) override;
 
   /** The WriteCells() method does most of the work. It writes
    * out every triangle in the mesh. For every triangle, it
@@ -134,23 +134,23 @@ public:
    *        endfacet
    *
    */
-  virtual void
-  WriteCells(void * buffer) ITK_OVERRIDE;
+  void
+  WriteCells(void * buffer) override;
 
   /** STL files do not carry information in points or cells.
    * Therefore the following two methods are implemented as null
    * operations. */
-  virtual void
-  WritePointData(void * itkNotUsed(buffer)) ITK_OVERRIDE {};
-  virtual void
-  WriteCellData(void * itkNotUsed(buffer)) ITK_OVERRIDE {};
+  void
+  WritePointData(void * itkNotUsed(buffer)) override {};
+  void
+  WriteCellData(void * itkNotUsed(buffer)) override {};
 
 protected:
   STLMeshIO();
-  virtual ~STLMeshIO() {}
+  ~STLMeshIO() override {}
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Templated version of write points method, that is aware of the specific
    * type used to represent the point coordinates. */
