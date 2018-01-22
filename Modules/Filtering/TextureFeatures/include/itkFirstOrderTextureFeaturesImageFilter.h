@@ -98,7 +98,7 @@ protected:
   FirstOrderTextureFeaturesImageFilter() {}
 
   void
-  GenerateOutputInformation()
+  GenerateOutputInformation() override
   {
     // this methods is overloaded so that if the output image is a
     // VectorImage then the correct number of components are set.
@@ -117,7 +117,7 @@ protected:
   }
 
 
-  ~FirstOrderTextureFeaturesImageFilter() {}
+  ~FirstOrderTextureFeaturesImageFilter() override {}
 
 private:
   FirstOrderTextureFeaturesImageFilter(const Self &); // purposely not implemented

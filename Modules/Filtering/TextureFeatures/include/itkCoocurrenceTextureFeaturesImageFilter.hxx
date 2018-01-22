@@ -91,7 +91,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Be
 
   typedef BinaryFunctorImageFilter<MaskImageType, InputImageType, DigitizedImageType, DigitizerFunctorType> FilterType;
   typename FilterType::Pointer filter = FilterType::New();
-  if (this->GetMaskImage() != ITK_NULLPTR)
+  if (this->GetMaskImage() != nullptr)
   {
     typename TMaskImage::Pointer mask = MaskImageType::New();
     mask->Graft(const_cast<TMaskImage *>(this->GetMaskImage()));
@@ -114,7 +114,7 @@ void
 CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::AfterThreadedGenerateData()
 {
   // Free internal image
-  this->m_DigitizedInputImage = ITK_NULLPTR;
+  this->m_DigitizedInputImage = nullptr;
 }
 
 
