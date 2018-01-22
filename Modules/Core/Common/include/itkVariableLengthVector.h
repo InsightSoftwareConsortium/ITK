@@ -830,7 +830,7 @@ public:
     return *this;
     }
 
-  /** Compound substraction operator with a expression template vector.
+  /** Compound subtraction operator with a expression template vector.
    * \tparam TExpr1 Type of the left sub-expression
    * \tparam TExpr2 Type of the right sub-expression
    * \tparam TBinaryOp Binary Operation to apply to both sub-expressions.
@@ -1045,7 +1045,7 @@ struct GetType<VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> >
 
 namespace op
 {
-/** Tells whether objects from two types can be added or substracted.
+/** Tells whether objects from two types can be added or subtracted.
  * The operation is authorized if and only if:
  * - both are arrays,
  * - or one operand is an array while the second is a number.
@@ -1194,7 +1194,7 @@ typename mpl::EnableIf<Details::op::CanBeAddedOrSubstracted<TExpr1,TExpr2>, Vari
 operator+(TExpr1 const& lhs, TExpr2 const& rhs)
 { return VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Plus>(lhs, rhs); }
 
-/** Substraction involving a \c VariableLengthVector.
+/** Subtraction involving a \c VariableLengthVector.
  * This operation is generic and takes:
  * - two arrays,
  * - or one array and one number (on either side)
