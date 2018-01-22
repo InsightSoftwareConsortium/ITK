@@ -27,4 +27,5 @@
  */
 #include "itkFEMMaterialBase.h"
 #include "itkFEMMaterialLinearElasticity.h"
-#endif
+
+#endif // itkFEMMaterials_h

@@ -96,4 +96,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif  // #ifndef itkFEMElement2DC0LinearQuadrilateralMembrane_h
+#endif // itkFEMElement2DC0LinearQuadrilateralMembrane_h

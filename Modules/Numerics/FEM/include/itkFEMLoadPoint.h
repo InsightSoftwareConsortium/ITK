@@ -90,4 +90,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMLoadPoint_h
+#endif // itkFEMLoadPoint_h

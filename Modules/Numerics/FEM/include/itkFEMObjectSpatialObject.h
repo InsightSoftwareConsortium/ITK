@@ -92,4 +92,4 @@ protected:
 #include "itkFEMObjectSpatialObject.hxx"
 #endif
 
-#endif //itkFEMObjectSpatialObject_h
+#endif // itkFEMObjectSpatialObject_h

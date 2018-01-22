@@ -107,4 +107,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMLoadDOF_h
+#endif // itkFEMLoadNode_h

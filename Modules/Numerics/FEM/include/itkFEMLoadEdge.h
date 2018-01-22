@@ -110,4 +110,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMLoadEdge_h
+#endif // itkFEMLoadEdge_h

@@ -85,4 +85,4 @@ private:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMLoadTest_h
+#endif // itkFEMLoadTest_h

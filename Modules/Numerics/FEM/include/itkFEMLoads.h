@@ -37,4 +37,4 @@
 #include "itkFEMLoadTest.h"
 #include "itkFEMLoadLandmark.h"
 
-#endif
+#endif // itkFEMLoads_h

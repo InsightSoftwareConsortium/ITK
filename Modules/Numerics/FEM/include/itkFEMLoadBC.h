@@ -89,4 +89,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMLoadBC_h
+#endif // itkFEMLoadBC_h

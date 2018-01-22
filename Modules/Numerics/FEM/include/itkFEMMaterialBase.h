@@ -68,4 +68,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMMaterialBase_h
+#endif // itkFEMMaterialBase_h

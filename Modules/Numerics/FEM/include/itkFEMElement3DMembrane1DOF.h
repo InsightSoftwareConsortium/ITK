@@ -118,7 +118,7 @@ protected:
    */
   MaterialLinearElasticity::ConstPointer m_Mat;
 
-};  // class Element3DMembrane1DOF
+};
 
 } // end namespace fem
 } // end namespace itk
@@ -127,4 +127,4 @@ protected:
 #include "itkFEMElement3DMembrane1DOF.hxx"
 #endif
 
-#endif  // #ifndef itkFEMElement3DMembrane1DOF_h
+#endif // itkFEMElement3DMembrane1DOF_h

@@ -59,4 +59,4 @@ public:
 } // end namespace fem
 } // end namespace itk
 
-#endif /* #ifndef itkFEMUtility_h */
+#endif // itkFEMUtility_h

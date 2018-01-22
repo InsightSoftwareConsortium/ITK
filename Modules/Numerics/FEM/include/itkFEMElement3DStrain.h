@@ -120,4 +120,4 @@ protected:
 #include "itkFEMElement3DStrain.hxx"
 #endif
 
-#endif  // #ifndef itkFEMElement3DStrain_h
+#endif  // itkFEMElement3DStrain_h

@@ -182,4 +182,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMLoadBCMFC_h
+#endif // itkFEMLoadBCMFC_h

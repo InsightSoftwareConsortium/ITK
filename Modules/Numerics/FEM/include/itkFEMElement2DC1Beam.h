@@ -157,4 +157,4 @@ private:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMElement2DC1Beam_h
+#endif // itkFEMElement2DC1Beam_h

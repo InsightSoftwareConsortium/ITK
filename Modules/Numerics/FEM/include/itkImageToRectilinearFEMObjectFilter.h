@@ -168,4 +168,4 @@ private:
 #include "itkImageToRectilinearFEMObjectFilter.hxx"
 #endif
 
-#endif // #ifndef itkImageToRectilinearFEMObjectFilter_h
+#endif // itkImageToRectilinearFEMObjectFilter_h

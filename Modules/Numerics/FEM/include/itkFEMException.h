@@ -171,4 +171,4 @@ public:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMException_h
+#endif // itkFEMException_h

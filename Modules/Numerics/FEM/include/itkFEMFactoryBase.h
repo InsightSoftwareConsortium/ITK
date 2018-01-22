@@ -113,4 +113,4 @@ private:
 };
 } // end namespace itk
 
-#endif
+#endif // itkFEMFactoryBase_h

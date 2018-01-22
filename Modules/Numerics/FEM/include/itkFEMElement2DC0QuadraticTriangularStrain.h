@@ -102,4 +102,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif  // #ifndef itkFEMElement2DC0QuadraticTriangularStrain_h
+#endif // itkFEMElement2DC0QuadraticTriangularStrain_h

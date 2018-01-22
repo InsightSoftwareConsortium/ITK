@@ -58,4 +58,4 @@ public:
 };
 } // end namespace itk
 
-#endif
+#endif // itkFEMFactory_h

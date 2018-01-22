@@ -329,4 +329,4 @@ public:
 } // end namespace fem
 } // end namespace itk
 
-#endif
+#endif // itkFEMItpackSparseMatrix_h

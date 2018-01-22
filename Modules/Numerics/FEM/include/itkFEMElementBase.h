@@ -685,4 +685,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMElementBase_h
+#endif // itkFEMElementBase_h

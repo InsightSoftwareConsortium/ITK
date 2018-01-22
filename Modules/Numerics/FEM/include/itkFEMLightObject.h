@@ -102,4 +102,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMLightObject_h
+#endif // itkFEMLightObject_h

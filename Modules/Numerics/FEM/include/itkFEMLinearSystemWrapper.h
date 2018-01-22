@@ -544,4 +544,4 @@ public:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMLinearSystemWrapper_h
+#endif // itkFEMLinearSystemWrapper_h

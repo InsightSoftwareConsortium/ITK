@@ -416,4 +416,4 @@ private:
 #include "itkFEMSolver.hxx"
 #endif
 
-#endif // #ifndef itkFEMSolver_h
+#endif // itkFEMSolver_h

@@ -303,4 +303,4 @@ private:
 #include "itkFEMScatteredDataPointSetToImageFilter.hxx"
 #endif
 
-#endif
+#endif // itkFEMScatteredDataPointSetToImageFilter_h

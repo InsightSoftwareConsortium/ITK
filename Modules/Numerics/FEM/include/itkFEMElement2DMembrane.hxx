@@ -111,4 +111,4 @@ Element2DMembrane<TBaseClass>
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMElement2DMembrane_hxx
+#endif
