@@ -85,5 +85,3 @@ private:
 #include "itkQuadEdgeMeshEulerOperatorSplitVertexFunction.hxx"
 
 #endif
-
-// eof - itkQuadEdgeMeshEulerOperatorSplitVertexFunction.h

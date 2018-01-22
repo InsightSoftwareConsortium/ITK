@@ -179,5 +179,3 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::Process(QEType *h)
 } // namespace itk
 
 #endif
-
-// eof - itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.hxx

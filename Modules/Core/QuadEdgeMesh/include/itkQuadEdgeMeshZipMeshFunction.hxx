@@ -211,5 +211,3 @@ QuadEdgeMeshZipMeshFunction< TMesh, TQEType >::Evaluate(QEType *e)
 } // namespace itk
 
 #endif
-
-// eof - itkQuadEdgeMeshZipMeshFunction.hxx

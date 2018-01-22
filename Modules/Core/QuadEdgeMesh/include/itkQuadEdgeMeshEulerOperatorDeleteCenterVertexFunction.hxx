@@ -120,5 +120,3 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< TMesh, TQEType >::Evaluate(
 } // namespace itk
 
 #endif
-
-// eof - itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.hxx

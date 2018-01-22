@@ -106,5 +106,3 @@ QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::Evaluate(QEType *
 }
 
 #endif
-
-// eof - itkQuadEdgeMeshEulerOperatorSplitFacetFunction.hxx
