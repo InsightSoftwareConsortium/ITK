@@ -116,7 +116,10 @@ void BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension,
   // Find the starting index of the support region
   for ( j = 0; j < SpaceDimension; j++ )
     {
-    startIndex[j] = Math::Floor< IndexValueType >(index[j] - static_cast< double >( SplineOrder - 1 ) / 2.0);
+    // Note that the expression passed to Math::Floor is adapted to work around
+    // a compiler bug which caused endless compilations (apparently), by
+    // Visual C++ 2015 Update 3, on 64-bit builds of Release configurations.
+    startIndex[j] = Math::Floor< IndexValueType >(index[j] + 0.5 - SplineOrder/2.0);
     }
 
   // Compute the weights

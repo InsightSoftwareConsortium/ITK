@@ -18,6 +18,13 @@
 
 #include "itkBSplineInterpolationWeightFunction.h"
 
+// Test template instantiation for TCoordRep = float and VSplineOrder = 1.
+// Note that this particular template instantiation would take forever to
+// compile on VS2015 Update 3 64-bit Release when using ITK 4.13, but
+// itkBSplineInterpolationWeightFunction.hxx can now handle this Visual C++
+// compiler bug.
+template class itk::BSplineInterpolationWeightFunction<float, 2U, 1U>;
+
 /*
  * This test exercises methods in the
  * BSplineInterpolationWeightFunction class.
