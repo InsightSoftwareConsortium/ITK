@@ -91,8 +91,9 @@ itkParaSpacingTest(int, char * argv[])
   typedef itk::ChangeInformationImageFilter<IType> ChangeType;
   ChangeType::Pointer                              changer = ChangeType::New();
   changer->SetInput(reader->GetOutput());
-  ChangeType::SpacingType newspacing;
+  ChangeType::SpacingType oldspacing, newspacing;
 
+  oldspacing = filter->GetOutput()->GetSpacing();
   newspacing[0] = 1 / sqrt((float)1);
   newspacing[1] = 1 / sqrt((float)0.5);
 
@@ -104,15 +105,22 @@ itkParaSpacingTest(int, char * argv[])
   filter->SetInput(changer->GetOutput());
   filter->SetScale(scale);
   filter->SetUseImageSpacing(true);
+  // change the spacing back to original to allow comparison
+  ChangeType::Pointer changerback = ChangeType::New();
+  changerback->SetInput(filter->GetOutput());
+  changerback->SetOutputSpacing(oldspacing);
+  changerback->ChangeSpacingOn();
+
   try
   {
-    filter->Update();
+    changerback->Update();
   }
   catch (itk::ExceptionObject & excp)
   {
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
   }
+  writer->SetInput(changerback->GetOutput());
   writer->SetFileName(argv[3]);
   try
   {
