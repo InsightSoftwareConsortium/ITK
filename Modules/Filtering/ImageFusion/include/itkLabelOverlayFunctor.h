@@ -139,7 +139,7 @@ private:
 
   typename Functor::LabelToRGBFunctor< TLabel, TRGBPixel > m_RGBFunctor;
 };
-}  // end namespace functor
+}  // end namespace Functor
 }  // end namespace itk
 
 #endif

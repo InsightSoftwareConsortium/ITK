@@ -121,9 +121,8 @@ protected:
   const MaterialLinearElasticity * m_mat;
 
 };  // class Element1DStress
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFEMElement1DStress.hxx"

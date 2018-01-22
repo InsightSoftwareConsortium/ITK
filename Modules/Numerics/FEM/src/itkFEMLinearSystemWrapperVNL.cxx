@@ -306,5 +306,5 @@ LinearSystemWrapperVNL::~LinearSystemWrapperVNL()
   delete m_Solutions;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

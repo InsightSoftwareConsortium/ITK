@@ -682,7 +682,7 @@ protected:
 
 };
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMElementBase_h

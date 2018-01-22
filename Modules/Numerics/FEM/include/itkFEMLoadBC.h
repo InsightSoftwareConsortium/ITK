@@ -86,8 +86,7 @@ protected:
    */
   vnl_vector<Element::Float> m_Value;
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMLoadBC_h

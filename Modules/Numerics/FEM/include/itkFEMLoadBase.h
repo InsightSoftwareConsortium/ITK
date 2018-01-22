@@ -94,10 +94,8 @@ protected:
    * on which the external force is applied.
    */
   Element::ConstPointer m_Element;
-
-
 };
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMLoadBase_h

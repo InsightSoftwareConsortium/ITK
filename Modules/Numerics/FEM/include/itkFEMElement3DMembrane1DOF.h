@@ -120,8 +120,8 @@ protected:
 
 };  // class Element3DMembrane1DOF
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFEMElement3DMembrane1DOF.hxx"

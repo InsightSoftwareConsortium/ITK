@@ -75,5 +75,5 @@ void Element2DC0LinearQuadrilateralMembrane::PrintSelf(std::ostream& os, Indent 
   Superclass::PrintSelf(os, indent);
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

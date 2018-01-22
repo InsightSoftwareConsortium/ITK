@@ -76,5 +76,5 @@ void Element2DC0LinearQuadrilateralStress::PrintSelf(std::ostream& os, Indent in
   Superclass::PrintSelf(os, indent);
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

@@ -97,7 +97,7 @@ public:
 private:
   CalculatorType m_Calculator;
 };
-}  // end namespace functor
+}  // end namespace Functor
 
 /** \class SymmetricEigenAnalysisImageFilter
  * \brief Computes the eigen-values of every input symmetric matrix pixel.

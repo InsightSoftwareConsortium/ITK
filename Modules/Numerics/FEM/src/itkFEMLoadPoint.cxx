@@ -92,5 +92,5 @@ void LoadPoint::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Force Point: " << this->m_ForcePoint << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

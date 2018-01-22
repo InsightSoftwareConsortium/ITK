@@ -103,7 +103,7 @@ Element1DStress<TBaseClass>
   os << indent << "Young Modulus: " << this->m_mat << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMElement1DStress_hxx

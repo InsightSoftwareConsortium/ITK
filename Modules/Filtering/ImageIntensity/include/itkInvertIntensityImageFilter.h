@@ -63,7 +63,7 @@ public:
 private:
   TInput m_Maximum;
 };
-}  // end namespace functor
+}  // end namespace Functor
 
 /** \class InvertIntensityImageFilter
  * \brief Invert the intensity of an image.

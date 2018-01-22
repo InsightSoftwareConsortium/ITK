@@ -156,6 +156,5 @@ const double GaussIntegrate::w[110] =
   0.152753387130726
   };
 
-}  //end namespace fem
-
-}  // end namespace itk
+} // end namespace fem
+} // end namespace itk

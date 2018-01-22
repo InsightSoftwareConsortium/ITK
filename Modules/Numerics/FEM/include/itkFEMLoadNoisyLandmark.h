@@ -230,8 +230,7 @@ private:
   MatrixType m_LandmarkTensor;
 
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif

@@ -68,7 +68,7 @@ QuadEdgeMeshEulerOperatorSplitVertexFunction< TMesh, TQEType >::Evaluate(QEType 
 
   return ( ReturnedEdge );
 }
-} // namespace itk
+} // end namespace itk
 
 #endif
 

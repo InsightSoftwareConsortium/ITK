@@ -176,7 +176,7 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::Process(QEType *h)
 
   return ( splitFacet->Evaluate(H, G) );
 }
-} // namespace itk
+} // end namespace itk
 
 #endif
 

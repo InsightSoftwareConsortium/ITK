@@ -154,7 +154,7 @@ private:
   RGBComponentType m_MinimumRGBComponentValue;
   RGBComponentType m_MaximumRGBComponentValue;
 };
-} // end namespace functor
+} // end namespace Function
 } // end namespace itk
 
 #endif

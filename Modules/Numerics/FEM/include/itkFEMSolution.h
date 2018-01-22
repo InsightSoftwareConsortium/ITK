@@ -72,7 +72,7 @@ public:
    */
   virtual ~Solution();
 };
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMSolution_h

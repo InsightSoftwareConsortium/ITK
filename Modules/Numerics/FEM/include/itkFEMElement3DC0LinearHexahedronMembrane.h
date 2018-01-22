@@ -79,7 +79,7 @@ protected:
 
 };  // class Element3DC0LinearHexahedronMembrane
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif  // #ifndef itkFEMElement3DC0LinearHexahedronMembrane_h

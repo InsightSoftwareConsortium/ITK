@@ -176,7 +176,7 @@ public:
 
   TLabel m_BackgroundValue;
 };
-}  // end namespace functor
+}  // end namespace Functor
 }  // end namespace itk
 
 #endif

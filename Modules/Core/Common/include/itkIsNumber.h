@@ -52,8 +52,8 @@ template <> struct IsNumber<double>                 : TrueType {};
 template <> struct IsNumber<long double>            : TrueType {};
 /// \endcond
 
-} // itk::mpl namespace
+} // end namespace mpl
 /// \endcond
-} // itk namespace
+} // end namespace itk
 
 #endif // itkIsNumber_h

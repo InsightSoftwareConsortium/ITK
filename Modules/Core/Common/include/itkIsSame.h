@@ -36,7 +36,7 @@ template<typename, typename> struct IsSame : public FalseType { };
 template<typename T> struct IsSame<T, T> : public TrueType {};
 /// \endcond
 
-} // end namespace itk::mpl
+} // end namespace mpl
 
 // itk::IsSame have move to itk::mpl
 // Expect them to be deprecated.

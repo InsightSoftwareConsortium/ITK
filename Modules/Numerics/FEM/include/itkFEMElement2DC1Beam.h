@@ -154,8 +154,7 @@ private:
   const MaterialLinearElasticity *m_mat;
 
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMElement2DC1Beam_h

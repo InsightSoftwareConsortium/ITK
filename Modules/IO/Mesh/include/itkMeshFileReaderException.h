@@ -49,7 +49,6 @@ public:
                           const char *loc = "Unknown");
 
 };
-
-} // namespace ITK
+} // end namespace itk
 
 #endif

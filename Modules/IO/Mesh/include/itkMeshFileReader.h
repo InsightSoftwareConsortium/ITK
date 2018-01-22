@@ -172,7 +172,7 @@ private:
 
   std::string m_ExceptionMessage;
 };
-} // namespace ITK
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkMeshFileReader.hxx"

@@ -331,9 +331,8 @@ private:
   typename DisplacementFieldType::Pointer             m_DisplacementField;
 
 };
-
-}
-} // end namespace fem/itk
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFEMFiniteDifferenceFunctionLoad.hxx"

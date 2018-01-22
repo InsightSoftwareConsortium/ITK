@@ -168,7 +168,7 @@ public:
   /** Type related information. */
   itkTypeMacro(FEMExceptionSolution, FEMException);
 };
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMException_h

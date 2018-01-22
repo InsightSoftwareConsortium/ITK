@@ -72,8 +72,7 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 };  // class Element3DC0LinearTriangularMembrane
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif  // #ifndef itkFEMElement3DC0LinearTriangularMembrane_h

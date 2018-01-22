@@ -88,7 +88,7 @@ private:
   TInput   m_WindowMaximum;
   TInput   m_WindowMinimum;
 };
-}  // end namespace functor
+}  // end namespace Functor
 
 /** \class IntensityWindowingImageFilter
  * \brief Applies a linear transformation to the intensity levels of the

@@ -125,5 +125,5 @@ void MaterialLinearElasticity::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Density Heat Capacity: " << this->m_DensityHeatCapacity << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

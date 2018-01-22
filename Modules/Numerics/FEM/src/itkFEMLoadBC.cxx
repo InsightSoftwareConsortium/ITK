@@ -68,5 +68,5 @@ void LoadBC::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Degree Of Freedom: " << this->m_DegreeOfFreedom << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

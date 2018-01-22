@@ -299,5 +299,5 @@ Element3DC0LinearTriangularLaplaceBeltrami::PrintSelf(std::ostream& os, Indent i
   Superclass::PrintSelf(os, indent);
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

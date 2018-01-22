@@ -48,7 +48,6 @@ public:
                           const char *message = "Error in IO",
                           const char *loc = "Unknown");
 };
-
-} // namespace ITK
+} // end namespace itk
 
 #endif

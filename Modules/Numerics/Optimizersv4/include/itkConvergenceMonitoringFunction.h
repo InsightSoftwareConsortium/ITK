@@ -119,7 +119,7 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConvergenceMonitoringFunction);
 
 };
-} // end namespace function
+} // end namespace Function
 } // end namespace itk
 
 #endif

@@ -92,7 +92,7 @@ private:
 
   typename SplitVertex::Pointer m_SplitVertex;
 };
-} // namespace itk
+} // end namespace itk
 
 #endif
 

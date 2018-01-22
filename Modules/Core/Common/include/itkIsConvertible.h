@@ -65,7 +65,7 @@ public:
   static ITK_CONSTEXPR_VAR bool Value = sizeof(Test(MakeT())) == sizeof(TOne);
 };
 
-} // itk::mpl namespace
+} // end namespace mpl
 
 // itk::IsConvertible has moved to itk::mpl.
 // Expect itk::IsConvertible to be deprecated.
@@ -73,5 +73,5 @@ using mpl::IsConvertible;
 
 /** \endcond */
 
-} // itk namespace
+} // end namespace itk
 #endif // itkIsConvertible_h

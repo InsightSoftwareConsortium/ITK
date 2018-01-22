@@ -208,7 +208,7 @@ QuadEdgeMeshZipMeshFunction< TMesh, TQEType >::Evaluate(QEType *e)
   this->m_Mesh->Modified();
   return ( resultingPointId );
 }
-} // namespace itk
+} // end namespace itk
 
 #endif
 

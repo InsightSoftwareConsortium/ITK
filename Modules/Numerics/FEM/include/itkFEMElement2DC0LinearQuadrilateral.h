@@ -111,7 +111,7 @@ protected:
 private:
 
 };
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif  // #ifndef itkFEMElement2DC0LinearQuadrilateral_h

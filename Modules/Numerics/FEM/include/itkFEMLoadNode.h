@@ -104,8 +104,7 @@ protected:
    */
   vnl_vector<Float> m_Force;
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMLoadDOF_h

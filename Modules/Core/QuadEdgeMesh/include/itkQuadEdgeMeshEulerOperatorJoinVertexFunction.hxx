@@ -611,7 +611,8 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsEdgeLinkingTwoD
       }
     }
 }
-} // namespace itkQE
+
+} // end namespace itk
 
 #endif
 

@@ -138,7 +138,7 @@ Element3DStrain<TBaseClass>
   os << indent << "Materials: " << this->m_mat << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMElement3DStrain_hxx

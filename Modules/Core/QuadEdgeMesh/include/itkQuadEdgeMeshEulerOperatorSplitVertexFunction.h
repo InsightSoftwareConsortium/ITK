@@ -80,7 +80,7 @@ private:
 
   PointIdentifier m_NewPoint; // stock newly created point ID for user.
 };
-} // namespace itk
+} // end namespace itk
 
 #include "itkQuadEdgeMeshEulerOperatorSplitVertexFunction.hxx"
 

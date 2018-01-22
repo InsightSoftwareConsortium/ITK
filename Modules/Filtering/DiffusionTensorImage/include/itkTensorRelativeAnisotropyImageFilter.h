@@ -49,7 +49,7 @@ public:
     return x.GetRelativeAnisotropy();
   }
 };
-}  // end namespace functor
+}  // end namespace Functor
 
 /** \class TensorRelativeAnisotropyImageFilter
  * \brief Computes the Relative Anisotropy for every pixel of a input tensor image.

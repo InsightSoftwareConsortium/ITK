@@ -65,7 +65,7 @@ public:
 private:
   RealType m_Factor;
 };
-}  // end namespace functor
+}  // end namespace Functor
 
 /** \class VectorRescaleIntensityImageFilter
  * \brief Applies a linear transformation to the magnitude of pixel vectors in a

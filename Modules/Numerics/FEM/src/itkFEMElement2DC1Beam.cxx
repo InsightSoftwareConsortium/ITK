@@ -221,5 +221,5 @@ void Element2DC1Beam::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Materials: " << this->m_mat << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

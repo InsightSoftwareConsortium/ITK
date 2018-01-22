@@ -346,6 +346,6 @@ ImageToRectilinearFEMObjectFilter<TInputImage>
   os << indent << "Element: " << m_Element << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 #endif // itkImageToRectilinearFEMObjectFilter_hxx

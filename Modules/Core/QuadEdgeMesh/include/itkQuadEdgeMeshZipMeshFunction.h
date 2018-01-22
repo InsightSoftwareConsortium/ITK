@@ -65,7 +65,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshZipMeshFunction);
 };
-} // namespace itk
+} // end namespace itk
 
 #include "itkQuadEdgeMeshZipMeshFunction.hxx"
 

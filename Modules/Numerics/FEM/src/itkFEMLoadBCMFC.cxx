@@ -137,5 +137,5 @@ void LoadBCMFC::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Right HandSide: " << this->m_RightHandSide << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

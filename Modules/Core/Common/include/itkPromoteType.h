@@ -126,9 +126,9 @@ public:
    */
   typedef typename Details::SizeToType<sizeof Check(a+b, 0), TA, TB>::Type Type;
 };
-} // itk::mpl namespace
+} // end namespace mpl
 
 /// \endcond
-} // itk namespace
+} // end namespace itk
 
 #endif // itkPromoteType_h

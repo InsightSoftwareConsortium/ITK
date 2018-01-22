@@ -153,7 +153,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorJoinVertexFunction);
 };
-} // namespace itk
+} // end namespace itk
 
 #include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.hxx"
 

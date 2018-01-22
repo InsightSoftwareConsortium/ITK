@@ -103,7 +103,8 @@ QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::Evaluate(QEType *
   this->m_Mesh->Modified();
   return ( newEdgeGeom );
 }
-}
+
+} // end namespace itk
 
 #endif
 

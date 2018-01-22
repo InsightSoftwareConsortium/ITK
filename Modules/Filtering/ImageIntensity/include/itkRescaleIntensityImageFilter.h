@@ -92,7 +92,7 @@ private:
   RealType m_EpsilonCompensation;
 #endif
 };
-}  // end namespace functor
+}  // end namespace Functor
 
 /** \class RescaleIntensityImageFilter
  * \brief Applies a linear transformation to the intensity levels of the

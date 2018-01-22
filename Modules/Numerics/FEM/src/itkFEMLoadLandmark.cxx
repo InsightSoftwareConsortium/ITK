@@ -188,5 +188,5 @@ void LoadLandmark::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Solution: " << this->m_Solution << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

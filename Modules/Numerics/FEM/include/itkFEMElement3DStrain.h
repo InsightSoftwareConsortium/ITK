@@ -113,9 +113,8 @@ protected:
   const MaterialLinearElasticity *m_mat;
 
 };  // class Element3DStrain
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFEMElement3DStrain.hxx"

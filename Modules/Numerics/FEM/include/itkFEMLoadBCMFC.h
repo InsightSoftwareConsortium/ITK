@@ -179,8 +179,7 @@ protected:
    */
   vnl_vector<Element::Float> m_RightHandSide;
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMLoadBCMFC_h

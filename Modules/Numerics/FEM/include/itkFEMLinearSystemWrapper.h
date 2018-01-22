@@ -541,7 +541,7 @@ public:
   /** Type related information. */
   itkTypeMacro(FEMExceptionLinearSystem, FEMException);
 };
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMLinearSystemWrapper_h

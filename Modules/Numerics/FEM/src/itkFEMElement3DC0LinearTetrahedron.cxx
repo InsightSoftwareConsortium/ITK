@@ -215,5 +215,5 @@ Element3DC0LinearTetrahedron::PrintSelf(std::ostream& os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
