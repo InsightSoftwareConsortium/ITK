@@ -23,8 +23,8 @@
 
 namespace itk
 {
-//#define __USE_VERY_VERBOSE_NIFTI_DEBUGGING__
-#if defined( __USE_VERY_VERBOSE_NIFTI_DEBUGGING__ )
+//#define ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING
+#if defined( ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING )
 namespace
 {
 static int print_hex_vals(
@@ -244,7 +244,7 @@ static void dumpdata(const void *x)
 }
 #else
 #define dumpdata(x)
-#endif // #if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
+#endif // #if defined(ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING)
 
 namespace {
 static unsigned int str_xform2code( const std::string codeName )
@@ -1006,7 +1006,7 @@ NiftiImageIO
   static std::string prev;
   if ( prev != this->GetFileName() )
     {
-#if defined( __USE_VERY_VERBOSE_NIFTI_DEBUGGING__ )
+#if defined( ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING )
     DumpNiftiHeader( this->GetFileName() );
 #endif
     prev = this->GetFileName();
