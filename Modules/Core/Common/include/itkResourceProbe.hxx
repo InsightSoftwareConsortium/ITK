@@ -267,7 +267,7 @@ ResourceProbe< ValueType, MeanType >
   os << "    Clock:           " << m_ProcessorClockFrequency << std::endl;
   os << "    Physical CPUs:   " << m_NumberOfPhysicalCPU << std::endl;
   os << "    Logical CPUs:    " << m_NumberOfLogicalCPU << std::endl;
-  // Retrieve memory information in megabyte.
+  // Retrieve memory information in mebibytes.
   os << "    Virtual Memory:  Total: "
      << std::left << std::setw( tabwidth ) << m_TotalVirtualMemory
      <<" Available: "<< m_AvailableVirtualMemory << std::endl;
@@ -628,7 +628,7 @@ ResourceProbe< ValueType, MeanType >
   itkversion << ITK_VERSION_MAJOR << "." << ITK_VERSION_MINOR << "." << ITK_VERSION_PATCH;
   m_ITKVersion              = itkversion.str();
 
- // Retrieve memory information in megabyte.
+ // Retrieve memory information in mebibytes.
   m_TotalVirtualMemory      = systeminfo.GetTotalVirtualMemory();
   m_AvailableVirtualMemory  = systeminfo.GetAvailableVirtualMemory();
   m_TotalPhysicalMemory     = systeminfo.GetTotalPhysicalMemory();

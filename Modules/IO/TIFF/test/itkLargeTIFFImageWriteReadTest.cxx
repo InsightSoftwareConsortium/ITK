@@ -63,16 +63,16 @@ int itkLargeTIFFImageWriteReadTestHelper( std::string filename, typename TImage:
     numberOfPixels *= static_cast< SizeValueType >( region.GetSize( i ) );
     }
 
-  const SizeValueType oneMegaByte = SizeValueType( 1024 ) *
+  const SizeValueType oneMebiByte = SizeValueType( 1024 ) *
     SizeValueType( 1024 );
 
   const SizeValueType sizeInBytes = sizeof(PixelType) * numberOfPixels;
 
-  const SizeValueType sizeInMegaBytes = sizeInBytes / oneMegaByte;
+  const SizeValueType sizeInMebiBytes = sizeInBytes / oneMebiByte;
 
 
-  std::cout << "Trying to allocate an image of size " << sizeInMegaBytes
-    << " MB " << std::endl;
+  std::cout << "Trying to allocate an image of size " << sizeInMebiBytes
+    << " MiB " << std::endl;
 
   chronometer.Start( "Allocate" );
   image->Allocate();

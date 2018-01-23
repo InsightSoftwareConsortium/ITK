@@ -57,11 +57,9 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
     numberOfPixels *= region.GetSize( i );
     }
 
-  const unsigned long sizeInMegaBytes = static_cast< unsigned long >(
-    ( sizeof(PixelType) * numberOfPixels ) / ( 1024.0 * 1024.0 ) );
+  const size_t sizeInMebiBytes = sizeof(PixelType) * numberOfPixels / ( 1024 * 1024 );
 
-
-  std::cout << "Trying to allocate an image of size " << sizeInMegaBytes << " Mb " << std::endl;
+  std::cout << "Trying to allocate an image of size " << sizeInMebiBytes << " MiB " << std::endl;
 
   chronometer.Start("Allocate");
   image->Allocate();

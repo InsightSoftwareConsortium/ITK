@@ -76,7 +76,7 @@ int main(int,char *[])
   std::cout << "NumberOfPhysicalCPU:          "
             << mySys.GetNumberOfPhysicalCPU() << std::endl;
 
-  // Retrieve memory information in megabyte.
+  // Retrieve memory information in mebibytes.
   std::cout << "TotalVirtualMemory:           "
             << mySys.GetTotalVirtualMemory() << std::endl;
   std::cout << "AvailableVirtualMemory:       "
