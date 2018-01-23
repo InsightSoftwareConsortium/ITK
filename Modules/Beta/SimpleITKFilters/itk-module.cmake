@@ -18,6 +18,7 @@ itk_module(SimpleITKFilters
   COMPILE_DEPENDS
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
     ITKMetaIO
   DESCRIPTION
     "${DOCUMENTATION}"
