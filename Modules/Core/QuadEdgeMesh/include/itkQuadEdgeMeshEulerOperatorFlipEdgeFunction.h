@@ -92,5 +92,3 @@ private:
 #include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.hxx"
 
 #endif
-
-// eof - itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h

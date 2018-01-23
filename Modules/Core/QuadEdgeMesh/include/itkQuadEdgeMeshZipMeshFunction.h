@@ -70,5 +70,3 @@ private:
 #include "itkQuadEdgeMeshZipMeshFunction.hxx"
 
 #endif
-
-// eof - itkQuadEdgeMeshZipMeshFunction.h

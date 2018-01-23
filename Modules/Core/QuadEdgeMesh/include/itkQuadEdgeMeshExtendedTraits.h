@@ -148,5 +148,3 @@ public:
 } // end namespace itk
 
 #endif
-
-// eof - itkQuadEdgeMeshExtendedTraits.h

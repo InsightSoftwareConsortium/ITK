@@ -615,5 +615,3 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::IsEdgeLinkingTwoD
 } // end namespace itk
 
 #endif
-
-// eof - itkQuadEdgeMeshEulerOperatorJoinVertexFunction.hxx

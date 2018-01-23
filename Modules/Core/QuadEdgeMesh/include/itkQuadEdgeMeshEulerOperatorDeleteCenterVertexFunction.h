@@ -76,5 +76,3 @@ private:
 #include "itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.hxx"
 
 #endif
-
-// eof - itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.h

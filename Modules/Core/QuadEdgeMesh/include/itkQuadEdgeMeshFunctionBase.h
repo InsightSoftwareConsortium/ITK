@@ -101,5 +101,3 @@ protected:
 } // end namespace itk
 
 #endif
-
-// eof - itkQuadEdgeMeshFunctionBase.h

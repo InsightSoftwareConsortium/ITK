@@ -158,5 +158,3 @@ private:
 #include "itkQuadEdgeMeshEulerOperatorJoinVertexFunction.hxx"
 
 #endif
-
-// eof - itkQuadEdgeMeshEulerOperatorJoinVertexFunction.h
