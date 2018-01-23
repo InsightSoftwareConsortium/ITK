@@ -16,6 +16,7 @@ itk_module(
   COMPILE_DEPENDS
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
     ITKMetaIO
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
