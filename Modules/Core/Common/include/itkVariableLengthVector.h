@@ -1058,7 +1058,7 @@ namespace op
  * \ingroup ITKCommon
  */
 template <typename TExpr1, typename TExpr2>
-struct CanBeAddedOrSubstracted
+struct CanBeAddedOrSubtracted
 : mpl::Or< mpl::And<mpl::IsArray<TExpr1>, mpl::IsArray<TExpr2> >,
             mpl::And<mpl::IsArray<TExpr1>, mpl::IsNumber<TExpr2> >,
             mpl::And<mpl::IsNumber<TExpr1>, mpl::IsArray<TExpr2> >
@@ -1190,7 +1190,7 @@ private:
  */
 template <typename TExpr1, typename TExpr2>
 inline
-typename mpl::EnableIf<Details::op::CanBeAddedOrSubstracted<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Plus> >::Type
+typename mpl::EnableIf<Details::op::CanBeAddedOrSubtracted<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Plus> >::Type
 operator+(TExpr1 const& lhs, TExpr2 const& rhs)
 { return VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Plus>(lhs, rhs); }
 
@@ -1205,7 +1205,7 @@ operator+(TExpr1 const& lhs, TExpr2 const& rhs)
  */
 template <typename TExpr1, typename TExpr2>
 inline
-typename mpl::EnableIf<Details::op::CanBeAddedOrSubstracted<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Sub> >::Type
+typename mpl::EnableIf<Details::op::CanBeAddedOrSubtracted<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Sub> >::Type
 operator-(TExpr1 const& lhs, TExpr2 const& rhs)
 { return VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Sub>(lhs, rhs); }
 
