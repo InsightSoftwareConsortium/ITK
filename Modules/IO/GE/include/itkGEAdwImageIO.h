@@ -434,4 +434,4 @@ private:
 };
 } // end namespace itk
 
-#endif // itkAnalyzeImageIO_h
+#endif // itkGEAdwImageIO_h
