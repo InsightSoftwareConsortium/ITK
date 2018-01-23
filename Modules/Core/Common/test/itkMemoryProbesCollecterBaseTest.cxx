@@ -35,7 +35,7 @@ void Sleep(unsigned int milleseconds)
 
 int itkMemoryProbesCollecterBaseTest(int, char *[])
 {
-  const size_t megabyte = 1024L * 1024L;
+  const size_t mebibyte = 1024L * 1024L;
 
   itk::MemoryProbesCollectorBase mcollecter;
   itk::MemoryProbe probe;
@@ -46,8 +46,8 @@ int itkMemoryProbesCollecterBaseTest(int, char *[])
   mcollecter.Clear();
   mcollecter.Start("Update");
   probe.Start();
-  char *buf = new char[megabyte];
-  for(unsigned int i = 0; i < megabyte; i++)
+  char *buf = new char[mebibyte];
+  for(unsigned int i = 0; i < mebibyte; i++)
     {
     buf[i] = static_cast<char>(i & 0xff);
     }
