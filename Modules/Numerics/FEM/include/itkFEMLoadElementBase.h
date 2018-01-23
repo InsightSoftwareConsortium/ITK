@@ -110,4 +110,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMLoadElementBase_h
+#endif // itkFEMLoadElementBase_h

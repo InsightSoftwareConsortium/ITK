@@ -338,7 +338,7 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FEMObject);
 
   void AddNextLoadInternal(Load *l);
-};  // End Class: FEMObject
+};
 
 }
 }
@@ -347,4 +347,4 @@ private:
 #include "itkFEMObject.hxx"
 #endif
 
-#endif // #ifndef itkFEMObject_h
+#endif // itkFEMObject_h

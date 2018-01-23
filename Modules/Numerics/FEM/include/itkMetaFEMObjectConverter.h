@@ -91,4 +91,4 @@ private:
 #endif
 
 
-#endif
+#endif // itkMetaFEMObjectConverter_h

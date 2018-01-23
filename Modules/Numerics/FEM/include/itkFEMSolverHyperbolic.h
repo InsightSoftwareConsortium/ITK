@@ -134,5 +134,4 @@ private:
 #include "itkFEMSolverHyperbolic.hxx"
 #endif
 
-
-#endif // #ifndef itkFEMSolverHyperbolic_h
+#endif // itkFEMSolverHyperbolic_h

@@ -98,4 +98,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMLoadBase_h
+#endif // itkFEMLoadBase_h

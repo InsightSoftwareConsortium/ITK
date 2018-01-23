@@ -96,4 +96,4 @@ Element3DMembrane1DOF<TBaseClass>
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMElement3DMembrane1DOF_hxx
+#endif

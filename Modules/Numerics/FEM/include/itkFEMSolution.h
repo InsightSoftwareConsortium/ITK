@@ -75,4 +75,4 @@ public:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMSolution_h
+#endif // itkFEMSolution_h

@@ -162,4 +162,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMMaterialLinearElasticity_h
+#endif // itkFEMMaterialLinearElasticity_h

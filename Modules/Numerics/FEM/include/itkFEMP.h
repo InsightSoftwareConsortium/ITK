@@ -172,4 +172,4 @@ const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMP_h
+#endif // itkFEMP_h

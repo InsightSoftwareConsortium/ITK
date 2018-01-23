@@ -107,4 +107,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMLoadGrav_h
+#endif // itkFEMLoadGrav_h

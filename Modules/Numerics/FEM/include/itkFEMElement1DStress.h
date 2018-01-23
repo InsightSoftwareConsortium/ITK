@@ -128,4 +128,4 @@ protected:
 #include "itkFEMElement1DStress.hxx"
 #endif
 
-#endif  // #ifndef itkFEMElement1DStress_h
+#endif // itkFEMElement1DStress_h

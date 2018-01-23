@@ -181,4 +181,4 @@ int FEMPArray<T>::Renumber()
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMPArray_h
+#endif // itkFEMPArray_h

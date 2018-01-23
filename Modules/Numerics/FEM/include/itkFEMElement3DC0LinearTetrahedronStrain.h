@@ -78,4 +78,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif  // #ifndef itkFEMElement3DC0LinearTetrahedronStrain_h
+#endif // itkFEMElement3DC0LinearTetrahedronStrain_h

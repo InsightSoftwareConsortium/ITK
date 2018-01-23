@@ -128,4 +128,4 @@ protected:
 #include "itkFEMElement2DStrain.hxx"
 #endif
 
-#endif  // #ifndef itkFEMElement2DStrain_h
+#endif // itkFEMElement2DStrain_h

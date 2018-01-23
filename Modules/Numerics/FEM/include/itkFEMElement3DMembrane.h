@@ -128,4 +128,4 @@ protected:
 #include "itkFEMElement3DMembrane.hxx"
 #endif
 
-#endif  // #ifndef itkFEMElement3DMembrane_h
+#endif // itkFEMElement3DMembrane_h

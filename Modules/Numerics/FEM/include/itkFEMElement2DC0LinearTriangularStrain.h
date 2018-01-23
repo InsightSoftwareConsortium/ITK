@@ -94,4 +94,4 @@ protected:
 } // end namespace fem
 } // end namespace itk
 
-#endif  // #ifndef itkFEMElement2DC0LinearTriangularStrain_h
+#endif // itkFEMElement2DC0LinearTriangularStrain_h

@@ -150,4 +150,4 @@ protected:
 #include "itkFEMElementStd.hxx"
 #endif
 
-#endif // #ifndef itkFEMElementStd_h
+#endif // itkFEMElementStd_h

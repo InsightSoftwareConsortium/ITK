@@ -110,4 +110,4 @@ Element2DStress<TBaseClass>
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMElement2DStress_hxx
+#endif

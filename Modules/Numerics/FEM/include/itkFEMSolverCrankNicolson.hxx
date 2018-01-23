@@ -869,4 +869,5 @@ SolverCrankNicolson<VDimension>
 
 }  // end namespace fem
 }  // end namespace itk
-#endif // itkFEMSolverCrankNicolson_hxx
+
+#endif

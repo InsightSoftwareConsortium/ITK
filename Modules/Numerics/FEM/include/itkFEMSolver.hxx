@@ -980,4 +980,5 @@ Solver<VDimension>
 
 } // end namespace fem
 } // end namespace itk
-#endif // itkFEMSolver_hxx
+
+#endif

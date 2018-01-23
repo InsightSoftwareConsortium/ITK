@@ -251,4 +251,4 @@ SolverHyperbolic<VDimension>
 } // end namespace fem
 } // end namespace itk
 
-#endif // itkFEMSolverHyperbolic_hxx
+#endif

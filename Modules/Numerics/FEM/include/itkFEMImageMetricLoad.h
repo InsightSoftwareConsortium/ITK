@@ -370,4 +370,4 @@ private:
 #include "itkFEMImageMetricLoad.hxx"
 #endif
 
-#endif
+#endif // itkFEMImageMetricLoad_h

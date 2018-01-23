@@ -261,4 +261,4 @@ private:
 #include "itkFEMSolverCrankNicolson.hxx"
 #endif
 
-#endif // #ifndef itkFEMSolverCrankNicolson_h
+#endif // itkFEMSolverCrankNicolson_h

@@ -131,4 +131,4 @@ protected:
 #include "itkFEMElement2DMembrane.hxx"
 #endif
 
-#endif  // #ifndef itkFEMElement2DMembrane_h
+#endif // itkFEMElement2DMembrane_h

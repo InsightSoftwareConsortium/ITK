@@ -28,4 +28,5 @@
 #include "itkFEMLinearSystemWrapperItpack.h"
 #include "itkFEMLinearSystemWrapperVNL.h"
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
-#endif
+
+#endif // itkFEMLinearSystemWrappers_h

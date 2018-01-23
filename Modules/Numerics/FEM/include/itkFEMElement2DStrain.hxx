@@ -111,4 +111,4 @@ Element2DStrain<TBaseClass>
 } // end namespace fem
 } // end namespace itk
 
-#endif // #ifndef itkFEMElement2DStrain_hxx
+#endif

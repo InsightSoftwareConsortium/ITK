@@ -18,6 +18,7 @@
 
 #ifndef itkFEMLinearSystemWrapperVNL_h
 #define itkFEMLinearSystemWrapperVNL_h
+
 #include "itkFEMLinearSystemWrapper.h"
 #include "vnl/vnl_sparse_matrix.h"
 #include "vnl/vnl_vector.h"
@@ -158,4 +159,4 @@ private:
 } // end namespace fem
 } // end namespace itk
 
-#endif
+#endif // itkFEMLinearSystemWrapperVNL_h

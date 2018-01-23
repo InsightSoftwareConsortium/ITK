@@ -1100,4 +1100,5 @@ RobustSolver<VDimension>
 
 }  // end namespace fem
 }  // end namespace itk
-#endif // itkFEMRobustSolver_hxx
+
+#endif

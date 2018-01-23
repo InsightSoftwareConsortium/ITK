@@ -52,4 +52,4 @@ ElementStd< VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass >
 }  // end namespace fem
 }  // end namespace itk
 
-#endif // #ifndef itkFEMElementStd_hxx
+#endif

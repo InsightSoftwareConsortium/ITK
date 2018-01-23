@@ -84,4 +84,4 @@ FEMObjectSpatialObject< TDimension>
 
 } // end namespace itk
 
-#endif //__FEMObjectSpatialObject_hxx
+#endif

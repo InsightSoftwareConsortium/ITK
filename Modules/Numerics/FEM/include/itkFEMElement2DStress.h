@@ -123,7 +123,7 @@ protected:
         dynamic_cast<const MaterialLinearElasticity *>( mat_ );
     }
 
-};  // class Element2DStress
+};
 
 } // end namespace fem
 } // end namespace itk
@@ -132,4 +132,4 @@ protected:
 #include "itkFEMElement2DStress.hxx"
 #endif
 
-#endif  // #ifndef itkFEMElement2DStress_h
+#endif // itkFEMElement2DStress_h
