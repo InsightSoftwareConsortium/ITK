@@ -104,8 +104,7 @@ protected:
 
   vnl_vector<Float> m_GravityForce;
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMLoadGrav_h

@@ -145,7 +145,7 @@ public:
   /** Other useful types. */
   typedef typename PointType::VectorType VectorType;
 };
-} // enamespace
+} // end namespace itk
 
 #endif
 

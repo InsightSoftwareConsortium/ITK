@@ -49,7 +49,7 @@ public:
     return x.GetFractionalAnisotropy();
   }
 };
-}  // end namespace functor
+}  // end namespace Functor
 
 /** \class TensorFractionalAnisotropyImageFilter
  * \brief Computes the Fractional Anisotropy for every pixel of a input tensor image.

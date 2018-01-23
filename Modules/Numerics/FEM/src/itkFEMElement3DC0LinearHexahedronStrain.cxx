@@ -79,5 +79,5 @@ Element3DC0LinearHexahedronStrain::PrintSelf(std::ostream& os, Indent indent) co
   Superclass::PrintSelf(os, indent);
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

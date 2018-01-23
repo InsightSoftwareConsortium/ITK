@@ -68,7 +68,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(JetColormapFunction);
 };
-} // end namespace functor
+} // end namespace Function
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

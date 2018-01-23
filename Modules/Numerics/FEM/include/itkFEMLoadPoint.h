@@ -87,8 +87,7 @@ protected:
   vnl_vector<Float> m_ForcePoint;
 
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMLoadPoint_h

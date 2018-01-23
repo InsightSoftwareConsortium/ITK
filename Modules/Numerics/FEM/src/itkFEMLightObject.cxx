@@ -43,5 +43,5 @@ void FEMLightObject::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Global Number: " << this->m_GlobalNumber << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

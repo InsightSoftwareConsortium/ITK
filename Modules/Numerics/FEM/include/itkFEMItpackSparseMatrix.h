@@ -326,7 +326,7 @@ public:
   /** Type related information. */
   itkTypeMacro(FEMExceptionItpackSparseMatrixSbsij, FEMException);
 };
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif

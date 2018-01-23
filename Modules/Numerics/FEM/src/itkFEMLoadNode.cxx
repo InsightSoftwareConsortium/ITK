@@ -67,5 +67,5 @@ void LoadNode::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Force: " << this->m_Force << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

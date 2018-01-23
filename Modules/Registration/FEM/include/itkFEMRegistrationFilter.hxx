@@ -1484,7 +1484,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std
   itkPrintSelfObjectMacro( Interpolator );
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif

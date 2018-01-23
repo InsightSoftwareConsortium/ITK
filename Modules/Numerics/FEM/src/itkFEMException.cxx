@@ -85,5 +85,5 @@ FEMExceptionSolution::~FEMExceptionSolution() ITK_NOEXCEPT
 {
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

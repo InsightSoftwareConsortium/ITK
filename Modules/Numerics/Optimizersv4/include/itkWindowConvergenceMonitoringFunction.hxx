@@ -149,7 +149,7 @@ WindowConvergenceMonitoringFunction<TScalar>
   os << "Window size: " << this->m_WindowSize << std::endl;
 }
 
-} // end namespace function
+} // end namespace Function
 } // end namespace itk
 
 #endif

@@ -698,7 +698,7 @@ public:
   /** Type related information. */
   itkTypeMacro(FEMExceptionItpackSolver, FEMException);
 };
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMLinearSystemWrapperItpack_h

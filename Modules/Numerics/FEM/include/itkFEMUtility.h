@@ -56,7 +56,7 @@ public:
 
 };
 
-}
-}  /* end namespace itk */
+} // end namespace fem
+} // end namespace itk
 
 #endif /* #ifndef itkFEMUtility_h */

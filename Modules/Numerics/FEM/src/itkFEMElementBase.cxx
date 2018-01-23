@@ -486,5 +486,5 @@ std::vector<std::vector<int> > Element::GetEdgeIds(void) const
   return this->m_EdgeIds;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

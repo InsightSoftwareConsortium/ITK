@@ -691,6 +691,7 @@ FEMObject<VDimension>
   os << indent << "MaterialContainer: " << this->m_MaterialContainer << std::endl;
 }
 
-}
-} // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
+
 #endif // itkFEMObject_hxx

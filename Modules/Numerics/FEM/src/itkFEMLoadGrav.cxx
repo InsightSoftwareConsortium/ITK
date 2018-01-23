@@ -126,5 +126,5 @@ void LoadGravConst::PrintSelf(std::ostream& os, Indent indent) const
   os << indent << "Gravity Force: " << this->m_GravityForce << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

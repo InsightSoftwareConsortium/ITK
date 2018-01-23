@@ -93,7 +93,7 @@ Element3DMembrane1DOF<TBaseClass>
   os << indent << "Materials: " << this->m_Mat << std::endl;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMElement3DMembrane1DOF_hxx

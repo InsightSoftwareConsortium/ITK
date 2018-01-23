@@ -177,9 +177,8 @@ private:
   typename BlockMatchingFilterType::Pointer    m_BlockMatchingFilter;
   typename FEMFilterType::Pointer              m_FEMFilter;
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPhysicsBasedNonRigidRegistrationMethod.hxx"

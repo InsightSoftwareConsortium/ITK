@@ -82,8 +82,7 @@ public:
 private:
 
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMLoadTest_h

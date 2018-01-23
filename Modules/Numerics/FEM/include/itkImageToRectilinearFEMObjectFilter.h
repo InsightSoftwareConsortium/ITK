@@ -161,9 +161,8 @@ private:
   MaterialPointerType      m_Material;
   ElementBasePointerType   m_Element;
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkImageToRectilinearFEMObjectFilter.hxx"

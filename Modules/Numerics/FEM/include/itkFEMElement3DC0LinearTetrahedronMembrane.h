@@ -77,8 +77,7 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 };  // class Element3DC0LinearTetrahedronMembrane
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif  // #ifndef itkFEMElement3DC0LinearTetrahedronMembrane_h

@@ -254,8 +254,8 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SolverCrankNicolson);
 
 };
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFEMSolverCrankNicolson.hxx"

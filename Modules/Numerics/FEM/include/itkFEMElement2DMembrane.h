@@ -124,9 +124,8 @@ protected:
   const MaterialLinearElasticity *m_mat;
 
 };  // class Element2DMembrane
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFEMElement2DMembrane.hxx"

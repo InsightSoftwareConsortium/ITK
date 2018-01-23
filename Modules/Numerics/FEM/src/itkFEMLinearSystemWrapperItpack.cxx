@@ -1247,5 +1247,5 @@ FEMExceptionItpackSolver::FEMExceptionItpackSolver(const char *file, unsigned in
   SetLocation(location);
 }
 
-}
-}   // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

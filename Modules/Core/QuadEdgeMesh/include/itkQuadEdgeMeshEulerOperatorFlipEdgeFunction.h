@@ -87,7 +87,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorFlipEdgeFunction);
 };
-} // namespace itkQE
+} // end namespace itk
 
 #include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.hxx"
 

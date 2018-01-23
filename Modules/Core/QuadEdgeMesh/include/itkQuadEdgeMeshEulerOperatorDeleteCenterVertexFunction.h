@@ -71,7 +71,7 @@ private:
 
   PointIdentifier m_OldPointID;
 };
-} // namespace itk
+} // end namespace itk
 
 #include "itkQuadEdgeMeshEulerOperatorDeleteCenterVertexFunction.hxx"
 

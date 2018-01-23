@@ -40,5 +40,5 @@ void LoadNoisyLandmark::PrintSelf(std::ostream& os, Indent indent) const
 
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

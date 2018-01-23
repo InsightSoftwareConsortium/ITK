@@ -253,5 +253,5 @@ void Element2DC0QuadraticTriangular::PrintSelf(std::ostream& os, Indent indent) 
   Superclass::PrintSelf(os, indent);
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

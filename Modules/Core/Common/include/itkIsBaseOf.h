@@ -41,9 +41,9 @@ struct IsBaseOf
     =    IsConvertible<const TDerived*, const TBase*>::Value
     && ! IsSame<const TBase*, const void*>::Value;
   };
-} // itk::mpl namespace
+} // end namespace mpl
 
 /// \endcond
-} // itk namespace
+} // end namespace itk
 
 #endif // itkIsBaseOf_h

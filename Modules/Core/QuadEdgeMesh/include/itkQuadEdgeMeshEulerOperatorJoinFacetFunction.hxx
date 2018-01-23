@@ -78,7 +78,8 @@ QuadEdgeMeshEulerOperatorJoinFacetFunction< TMesh, TQEType >::Evaluate(QEType *e
   this->m_Mesh->Modified();
   return ( return_e );
 }
-}
+
+} // end namespace itk
 
 #endif
 

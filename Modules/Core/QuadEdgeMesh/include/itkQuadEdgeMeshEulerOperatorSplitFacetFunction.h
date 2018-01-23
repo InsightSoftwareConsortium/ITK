@@ -63,7 +63,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitFacetFunction);
 };
-} // namespace itk
+} // end namespace itk
 
 #include "itkQuadEdgeMeshEulerOperatorSplitFacetFunction.hxx"
 

@@ -178,7 +178,7 @@ int FEMPArray<T>::Renumber()
   return j;
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMPArray_h

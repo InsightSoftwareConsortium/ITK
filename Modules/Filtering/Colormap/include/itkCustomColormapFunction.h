@@ -104,7 +104,7 @@ private:
   ChannelType m_GreenChannel;
   ChannelType m_BlueChannel;
 };
-} // end namespace functor
+} // end namespace Function
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

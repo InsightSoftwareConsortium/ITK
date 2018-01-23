@@ -89,7 +89,7 @@ private:
   RealType                                       m_TotalEnergy;
 
 };
-} // end namespace function
+} // end namespace Function
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -73,5 +73,5 @@ void Element2DC0LinearTriangularMembrane::PrintSelf(std::ostream& os, Indent ind
   Superclass::PrintSelf(os, indent);
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

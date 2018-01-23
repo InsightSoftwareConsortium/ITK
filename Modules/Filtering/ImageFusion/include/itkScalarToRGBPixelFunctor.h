@@ -88,7 +88,7 @@ private:
   bool          m_UseMSBForHashing;
   unsigned int  m_ColorIndex[3];
 };
-} // end namespace functor
+} // end namespace Functor
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

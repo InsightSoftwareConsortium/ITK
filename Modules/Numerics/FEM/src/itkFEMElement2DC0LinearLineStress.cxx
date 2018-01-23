@@ -89,5 +89,5 @@ void Element2DC0LinearLineStress::PrintSelf(std::ostream& os, Indent indent) con
   Superclass::PrintSelf(os, indent);
 }
 
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk

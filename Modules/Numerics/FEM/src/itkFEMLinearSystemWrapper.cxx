@@ -459,5 +459,5 @@ FEMExceptionLinearSystemBounds::~FEMExceptionLinearSystemBounds() ITK_NOEXCEPT
 {
 }
 
-}
-}
+} // end namespace fem
+} // end namespace itk

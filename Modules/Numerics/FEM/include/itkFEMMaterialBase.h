@@ -65,8 +65,7 @@ protected:
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMMaterialBase_h

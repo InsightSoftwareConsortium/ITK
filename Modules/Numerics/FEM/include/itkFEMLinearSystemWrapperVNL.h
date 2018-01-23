@@ -155,7 +155,7 @@ private:
   /** vector of pointers to VNL vectors */
   std::vector<vnl_vector<Float> *> *m_Solutions;
 };
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif

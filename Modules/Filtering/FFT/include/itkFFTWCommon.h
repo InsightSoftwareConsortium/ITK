@@ -663,6 +663,6 @@ public:
 };
 
 #endif
-}
-}
+} // end namespace fftw
+} // end namespace itk
 #endif

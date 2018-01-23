@@ -24,5 +24,5 @@ namespace fem
 
 Solution::~Solution() { };
 
-}
-}
+} // end namespace fem
+} // end namespace itk

@@ -93,8 +93,7 @@ protected:
 private:
 
 };  // class Element2DC0LinearQuadrilateralStrain
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif  // #ifndef itkFEMElement2DC0LinearQuadrilateralStrain_h

@@ -99,8 +99,7 @@ protected:
    */
   int m_GlobalNumber;
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMLightObject_h

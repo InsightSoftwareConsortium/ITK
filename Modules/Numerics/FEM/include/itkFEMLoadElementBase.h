@@ -107,8 +107,7 @@ protected:
   ElementPointersVectorType m_Element;  /** pointers to element objects on which the
                                    load acts */
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif // #ifndef itkFEMLoadElementBase_h

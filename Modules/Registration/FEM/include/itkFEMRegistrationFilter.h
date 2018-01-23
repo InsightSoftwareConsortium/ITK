@@ -663,9 +663,8 @@ private:
   StandardDeviationsType m_StandardDeviations;
 
 };
-
-}
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFEMRegistrationFilter.hxx"
