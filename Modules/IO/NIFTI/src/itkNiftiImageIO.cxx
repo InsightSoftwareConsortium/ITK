@@ -226,6 +226,7 @@ static int DumpNiftiHeader(const std::string & fname)
   fputs("-------------------------------------------------------\n",
         stderr);
   fflush(stderr);
+  free(hp);
 
   return 0;
 }
@@ -247,7 +248,7 @@ static void dumpdata(const void *x)
 #endif // #if defined(ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING)
 
 namespace {
-static unsigned int str_xform2code( const std::string codeName )
+static unsigned int str_xform2code( const std::string & codeName )
 {
   if( codeName == "NIFTI_XFORM_SCANNER_ANAT" )
     {
@@ -269,7 +270,7 @@ static unsigned int str_xform2code( const std::string codeName )
   return NIFTI_XFORM_UNKNOWN;
 }
 
-static const char * str_xform(const unsigned int xform)
+static const char * str_xform(unsigned int xform)
 {
   switch(xform)
   {
@@ -457,7 +458,7 @@ bool
 NiftiImageIO
 ::CanWriteFile(const char *FileNameToWrite)
 {
-  const int ValidFileNameFound = nifti_is_complete_filename(FileNameToWrite) > 0;
+  const bool ValidFileNameFound = nifti_is_complete_filename(FileNameToWrite) > 0;
 
   return ValidFileNameFound;
 }
@@ -487,11 +488,11 @@ void RescaleFunction(TBuffer *buffer,
 
 template< typename PixelType >
 void
-CastCopy(float *to, void *from, size_t pixelcount)
+CastCopy(float *to, const void *from, size_t pixelcount)
 {
-  PixelType *_from = static_cast< PixelType * >( from );
+  const PixelType *_from = static_cast< const PixelType * >( from );
 
-  for ( unsigned i = 0; i < pixelcount; i++ )
+  for ( size_t i = 0; i < pixelcount; i++ )
     {
     to[i] = static_cast< float >( _from[i] );
     }
@@ -535,10 +536,8 @@ void NiftiImageIO::Read(void *buffer)
     _size[4] = numComponents;
     }
   // Free memory if any was occupied already (incase of re-using the IO filter).
-  if ( this->m_NiftiImage != nullptr )
-    {
-    nifti_image_free(this->m_NiftiImage);
-    }
+  nifti_image_free(this->m_NiftiImage);
+
   //
   // allocate nifti image...
   this->m_NiftiImage = nifti_image_read(this->GetFileName(), false);
@@ -1341,7 +1340,7 @@ NiftiImageIO
 
 namespace
 {
-inline mat44 mat44_transpose(mat44 in)
+inline mat44 mat44_transpose(const mat44 & in)
 {
   mat44 out;
 
@@ -1715,9 +1714,9 @@ namespace
 {
 void Normalize(std::vector< double > & x)
 {
-  double sum = 0;
+  double sum = 0.0;
 
-  for ( unsigned int i = 0; i < x.size(); i++ )
+  for ( size_t i = 0; i < x.size(); i++ )
     {
     sum += ( x[i] * x[i] );
     }
@@ -1726,7 +1725,7 @@ void Normalize(std::vector< double > & x)
     return;
     }
   sum = std::sqrt(sum);
-  for ( unsigned int i = 0; i < x.size(); i++ )
+  for ( size_t i = 0; i < x.size(); i++ )
     {
     x[i] = x[i] / sum;
     }
@@ -1811,7 +1810,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
     }
 
   const int             max_defined_orientation_dims = ( dims > 3 ) ? 3 : dims;
-  std::vector< double > xDirection(dims, 0);
+  std::vector< double > xDirection(dims, 0.0);
   for ( int i = 0; i < max_defined_orientation_dims; i++ )
     {
     xDirection[i] = theMat.m[i][0];
@@ -1825,7 +1824,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 
   if ( max_defined_orientation_dims > 1 )
     {
-    std::vector< double > yDirection(dims, 0);
+    std::vector< double > yDirection(dims, 0.0);
     for ( int i = 0; i < max_defined_orientation_dims; i++ )
       {
       yDirection[i] = theMat.m[i][1];
@@ -1840,7 +1839,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 
   if ( max_defined_orientation_dims > 2 )
     {
-    std::vector< double > zDirection(dims, 0);
+    std::vector< double > zDirection(dims, 0.0);
     for ( int i = 0; i < max_defined_orientation_dims; i++ )
       {
       zDirection[i] = theMat.m[i][2];
@@ -1905,7 +1904,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   //of the nifti_make_orthog_mat44() method below.
   typedef float DirectionMatrixComponentType;
   int                                         mindims(dims < 3 ? 3 : dims);
-  std::vector< DirectionMatrixComponentType > dirx(mindims, 0);
+  std::vector< DirectionMatrixComponentType > dirx(mindims, 0.0f);
   unsigned int                                i;
   for ( i = 0; i < this->GetDirection(0).size(); i++ )
     {
@@ -1930,7 +1929,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   std::vector< DirectionMatrixComponentType > dirz(mindims, 0);
   if ( origdims > 2 )
     {
-    for ( unsigned int ii = 0; ii < this->GetDirection(2).size(); ii++ )
+    for ( size_t ii = 0; ii < this->GetDirection(2).size(); ii++ )
       {
       dirz[ii] = static_cast< DirectionMatrixComponentType >( -this->GetDirection(2)[ii] );
       }
