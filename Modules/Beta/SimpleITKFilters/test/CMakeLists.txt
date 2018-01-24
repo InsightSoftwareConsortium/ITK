@@ -42,15 +42,16 @@ itk_add_test(NAME itkObjectnessMeasureImageFilterTest_compatibility1
     DATA{Input/DSA.png}
     ${ITK_TEST_OUTPUT_DIR}/itkObjectnessMeasureImageFilterTest_compatibility1.mha
     1 0)
+
 itk_add_test(NAME itkObjectnessMeasureImageFilterTest_compatibility2
       COMMAND ${itk-module}TestDriver
   --compareNumberOfPixelsTolerance 7000
   --compareIntensityTolerance .01
   --compare
     ${ITK_TEST_OUTPUT_DIR}/itkObjectnessMeasureImageFilterTest_compatibility2.mha
-    DATA{${ITK_DATA_ROOT}/Baseline/Filtering/itkHessianToObjectnessMeasureImageFilterTest2.mha}
+    DATA{Baseline/itkHessianToObjectnessMeasureImageFilterTest2.mha}
   itkObjectnessMeasureImageFilterTest
-    DATA{${ITK_DATA_ROOT}/Input/DSA.png}
+    DATA{Input/DSA.png}
     ${ITK_TEST_OUTPUT_DIR}/itkObjectnessMeasureImageFilterTest_compatibility2.mha
     0 0)
 
