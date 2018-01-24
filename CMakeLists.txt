@@ -197,6 +197,10 @@ set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_
 if(NOT CMAKE_POSITION_INDEPENDENT_CODE)
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
+# Because GoogleTest sets CMAKE_DEBUG_POSTFIX CMake CACHE variable to "d" when it is
+# built in debug, we preemptively set it to an empty string to avoid having a postfix
+# added to the ITK library names.
+set(CMAKE_DEBUG_POSTFIX "" CACHE STRING "Generate debug library name with a postfix.")
 
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
