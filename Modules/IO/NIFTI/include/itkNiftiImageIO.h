@@ -95,8 +95,7 @@ public:
 
   /** A mode to allow the Nifti filter to read and write to the LegacyAnalyze75 format as interpreted by
     * the nifti library maintainers.  This format does not properly respect the file orientation fields.
-    * The itkAnalyzeImageIO file reader/writer should be used to match the Analyze75 file definitions as
-    * specified by the Mayo Clinic BIR laboratory.  By default this is set to false.
+    * By default this is set to true.
     */
   itkSetMacro(LegacyAnalyze75Mode, bool);
   itkGetConstMacro(LegacyAnalyze75Mode, bool);
