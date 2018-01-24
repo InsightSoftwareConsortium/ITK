@@ -39,7 +39,7 @@ itk_add_test(NAME itkObjectnessMeasureImageFilterTest_compatibility1
       ${ITK_TEST_OUTPUT_DIR}/itkObjectnessMeasureImageFilterTest_compatibility1.mha
       DATA{Input/itkHessianToObjectnessMeasureImageFilterTest.mha}
   itkObjectnessMeasureImageFilterTest
-    DATA{${ITK_DATA_ROOT}/Input/DSA.png}
+    DATA{Input/DSA.png}
     ${ITK_TEST_OUTPUT_DIR}/itkObjectnessMeasureImageFilterTest_compatibility1.mha
     1 0)
 itk_add_test(NAME itkObjectnessMeasureImageFilterTest_compatibility2
