@@ -106,7 +106,7 @@ public:
       }
     else
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
   }
 
@@ -139,7 +139,7 @@ public:
   /** PrintSelf routine. Normally this is a protected internal method. It is
    * made public here so that Image can call this method.  Users should not
    * call this method but should call Print() instead.  */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Object::PrintSelf(os, indent);
     // Print out the pointer to bulk data memory. We use const_cast<> to

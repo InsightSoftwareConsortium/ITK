@@ -95,13 +95,13 @@ public:
    * or ThreadedGenerateData() method.  Instead, all the work is done
    * in UpdateOutputData() since it must update a little, execute a little,
    * update some more, execute some more, etc. */
-  virtual void UpdateOutputData(DataObject *output) ITK_OVERRIDE;
+  void UpdateOutputData(DataObject *output) override;
 
   /** Override PropagateRequestedRegion from ProcessObject
    *  Since inside UpdateOutputData we iterate over streaming pieces
    *  we don't need to proapage up the pipeline
    */
-  virtual void PropagateRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void PropagateRequestedRegion(DataObject *output) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -114,8 +114,8 @@ public:
 
 protected:
   StreamingImageFilter();
-  ~StreamingImageFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~StreamingImageFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(StreamingImageFilter);

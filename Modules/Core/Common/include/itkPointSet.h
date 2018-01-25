@@ -135,7 +135,7 @@ protected:
   PointsContainerPointer m_PointsContainer;
 
   /** An object containing data associated with the mesh's points.
-   * Optionally, this can be ITK_NULLPTR, indicating that no data are associated with
+   * Optionally, this can be nullptr, indicating that no data are associated with
    * the points.  The data for a point can be accessed through its point
    * identifier. */
   PointDataContainerPointer m_PointDataContainer;
@@ -144,7 +144,7 @@ public:
   /** PointSet-level operation interface. */
   void PassStructure(Self *inputPointSet);
 
-  virtual void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) override;
 
   PointIdentifier GetNumberOfPoints() const;
 
@@ -175,23 +175,23 @@ public:
   bool GetPointData(PointIdentifier, PixelType *) const;
 
   /** Methods to manage streaming. */
-  virtual void UpdateOutputInformation() ITK_OVERRIDE;
+  void UpdateOutputInformation() override;
 
-  virtual void SetRequestedRegionToLargestPossibleRegion() ITK_OVERRIDE;
+  void SetRequestedRegionToLargestPossibleRegion() override;
 
-  virtual void CopyInformation(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) override;
 
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  void Graft(const DataObject *data) override;
 
-  virtual bool RequestedRegionIsOutsideOfTheBufferedRegion() ITK_OVERRIDE;
+  bool RequestedRegionIsOutsideOfTheBufferedRegion() override;
 
-  virtual bool VerifyRequestedRegion() ITK_OVERRIDE;
+  bool VerifyRequestedRegion() override;
 
   /** Set the requested region from this data object to match the requested
    * region of the data object passed in as a parameter.  This method
    * implements the API from DataObject. The data object parameter must be
    * castable to a PointSet. */
-  virtual void SetRequestedRegion(const DataObject *data) ITK_OVERRIDE;
+  void SetRequestedRegion(const DataObject *data) override;
 
   /** Set/Get the Requested region */
   virtual void SetRequestedRegion(const RegionType & region);
@@ -206,8 +206,8 @@ public:
 protected:
   /** Constructor for use by New() method. */
   PointSet();
-  ~PointSet() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PointSet() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   // If the RegionType is ITK_UNSTRUCTURED_REGION, then the following
   // variables represent the maximum number of region that the data

@@ -88,13 +88,13 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const ITK_OVERRIDE;
+  OutputType EvaluateAtContinuousIndex(
+    const ContinuousIndexType & index) const override;
 
 protected:
   VectorLinearInterpolateImageFunction();
-  ~VectorLinearInterpolateImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VectorLinearInterpolateImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorLinearInterpolateImageFunction);

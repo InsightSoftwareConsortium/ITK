@@ -107,7 +107,7 @@ public:
   {
     if ( idx >= VAuxDimension )
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
     else
       {
@@ -125,12 +125,12 @@ public:
 
 protected:
   LevelSetVelocityNeighborhoodExtractor();
-  ~LevelSetVelocityNeighborhoodExtractor() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LevelSetVelocityNeighborhoodExtractor() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
-  virtual double CalculateDistance(Index & index) ITK_OVERRIDE;
+  double CalculateDistance(Index & index) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetVelocityNeighborhoodExtractor);

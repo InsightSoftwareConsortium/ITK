@@ -47,7 +47,7 @@ typename TFilter::SplinePolesVectorType ParseSplinePoles( char *splinePolesIn )
       {
       (*splinePolesIn)++;
       }
-    else if( endPtr == NULL || *endPtr == 0 )
+    else if( endPtr == nullptr || *endPtr == 0 )
       {
       splinePolesOut.push_back( value );
       break;

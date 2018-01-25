@@ -127,8 +127,8 @@ public:
 
 protected:
   NormalQuadEdgeMeshFilter();
-  ~NormalQuadEdgeMeshFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NormalQuadEdgeMeshFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   WeightType m_Weight;
 
@@ -169,7 +169,7 @@ protected:
   * filter! Something must be done in the class
   * itkQuadEdgeMeshToQuadEdgeMeshFilter.
   */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   NormalQuadEdgeMeshFilter (const Self &);

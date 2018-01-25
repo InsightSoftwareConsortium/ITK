@@ -151,11 +151,11 @@ public:
 
 protected:
   IsoContourDistanceImageFilter();
-  ~IsoContourDistanceImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~IsoContourDistanceImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
   void ThreadedGenerateDataFull(const OutputImageRegionType & outputRegionForThread,
                                 ThreadIdType threadId);
@@ -163,11 +163,11 @@ protected:
   void ThreadedGenerateDataBand(const OutputImageRegionType & outputRegionForThread,
                                 ThreadIdType threadId);
 
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *) override;
 
   typedef ConstNeighborhoodIterator< InputImageType > InputNeighbordIteratorType;
   typedef NeighborhoodIterator< OutputImageType >     OutputNeighborhoodIteratorType;

@@ -114,12 +114,12 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
   SubsamplerBase();
-  virtual ~SubsamplerBase() ITK_OVERRIDE {};
+  ~SubsamplerBase() override {};
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   SampleConstPointer m_Sample;
   bool               m_RequestMaximumNumberOfResults;

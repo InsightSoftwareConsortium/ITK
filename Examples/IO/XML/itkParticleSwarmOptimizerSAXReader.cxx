@@ -49,10 +49,10 @@ void ParticleSwarmOptimizerSAXReader::StartElement( const char* name, const char
     }
   else if ( itksys::SystemTools::Strucmp( name, "bound" ) == 0 && this->ContextIs( "/optimizer" ) )
     {
-    std::vector<double>* bound = 0;
+    std::vector<double>* bound = nullptr;
 
     const char* id = this->GetAttribute( atts, "id" );
-    if ( id == 0 )
+    if ( id == nullptr )
       {
       itkExceptionMacro( "Bound ID is missing!\n" );
       }
@@ -156,7 +156,7 @@ int ParticleSwarmOptimizerSAXReader::ReadFile()
       throw e;
       }
 
-    if ( this->m_OutputObject == 0 )
+    if ( this->m_OutputObject == nullptr )
       {
       itkExceptionMacro( "Object to be read is null!\n" );
       }
@@ -178,7 +178,7 @@ int ParticleSwarmOptimizerSAXReader::ReadFile()
 void ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes( const char** atts, ParticleSwarmOptimizer* opt )
 {
   // go over all the attribute-value pairs
-  for ( size_t i = 0; atts[i] != 0; i += 2 )
+  for ( size_t i = 0; atts[i] != nullptr; i += 2 )
     {
     if ( itksys::SystemTools::Strucmp( atts[i], "NumberOfParticles" ) == 0 )
       {
@@ -236,7 +236,7 @@ void ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes( const char** a
 void ParticleSwarmOptimizerSAXReader::ProcessBoundAttributes( const char** atts, std::vector<double>& bound )
 {
   // go over all the attribute-value pairs
-  for ( size_t i = 0; atts[i] != 0; i += 2 )
+  for ( size_t i = 0; atts[i] != nullptr; i += 2 )
     {
     if ( itksys::SystemTools::Strucmp( atts[i], "value" ) == 0 )
       {
@@ -260,14 +260,14 @@ void ParticleSwarmOptimizerSAXReader::ProcessBoundAttributes( const char** atts,
 const char* ParticleSwarmOptimizerSAXReader::GetAttribute( const char** atts, const char* key )
 {
   // go over all the attribute-value pairs
-  for ( size_t i = 0; atts[i] != 0; i += 2 )
+  for ( size_t i = 0; atts[i] != nullptr; i += 2 )
     {
     if ( itksys::SystemTools::Strucmp( atts[i], key ) == 0 )
       {
       return atts[i+1];
       }
     }
-  return 0;
+  return nullptr;
 }
 
 /** Check the current tags to see whether it matches a user input. */

@@ -84,10 +84,10 @@ public:
                       InputImageType::ImageDimension);
 
   /** Evalulate the function at specified index */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  OutputType EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evaluate the function at non-integer positions */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
+  OutputType Evaluate(const PointType & point) const override
   {
     IndexType index;
 
@@ -95,8 +95,8 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const ITK_OVERRIDE
+  OutputType EvaluateAtContinuousIndex(
+    const ContinuousIndexType & cindex) const override
   {
     IndexType index;
 
@@ -111,8 +111,8 @@ public:
 
 protected:
   MedianImageFunction();
-  ~MedianImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MedianImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MedianImageFunction);

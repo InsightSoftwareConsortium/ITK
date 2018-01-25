@@ -107,7 +107,7 @@ public:
 
 protected:
   DomainThreader();
-  virtual ~DomainThreader() ITK_OVERRIDE;
+  ~DomainThreader() override;
 
   /** This is evauated at the beginning of Execute() so that it can be used in
    * BeforeThreadedExecution(). */

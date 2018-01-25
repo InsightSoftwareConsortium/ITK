@@ -30,8 +30,8 @@ namespace itk
 template< typename TTransform, typename TFixedImage, typename TMovingImage >
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::LandmarkBasedTransformInitializer():
-  m_ReferenceImage(ITK_NULLPTR),
-  m_Transform(ITK_NULLPTR),
+  m_ReferenceImage(nullptr),
+  m_Transform(nullptr),
   m_FixedLandmarks(0),
   m_MovingLandmarks(0),
   m_LandmarkWeight(0),
@@ -48,27 +48,27 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InternalInitializeTransform(TTransform2 *)
 {
 
-  if ( dynamic_cast<BSplineTransformType *>(this->m_Transform.GetPointer()) != ITK_NULLPTR )
+  if ( dynamic_cast<BSplineTransformType *>(this->m_Transform.GetPointer()) != nullptr )
     {
-    this->InternalInitializeTransform(static_cast<BSplineTransformType *>(ITK_NULLPTR));
+    this->InternalInitializeTransform(static_cast<BSplineTransformType *>(nullptr));
     return;
     }
 
-  if ( dynamic_cast<AffineTransformType *>(this->m_Transform.GetPointer()) != ITK_NULLPTR )
+  if ( dynamic_cast<AffineTransformType *>(this->m_Transform.GetPointer()) != nullptr )
     {
-    this->InternalInitializeTransform(static_cast<AffineTransformType *>(ITK_NULLPTR));
+    this->InternalInitializeTransform(static_cast<AffineTransformType *>(nullptr));
     return;
     }
 
-  if ( dynamic_cast< VersorRigid3DTransformType * >( this->m_Transform.GetPointer() ) != ITK_NULLPTR )
+  if ( dynamic_cast< VersorRigid3DTransformType * >( this->m_Transform.GetPointer() ) != nullptr )
     {
-    this->InternalInitializeTransform(static_cast< VersorRigid3DTransformType*>(ITK_NULLPTR));
+    this->InternalInitializeTransform(static_cast< VersorRigid3DTransformType*>(nullptr));
     return;
     }
 
-  if ( dynamic_cast< Rigid2DTransformType * >(this->m_Transform.GetPointer() ) != ITK_NULLPTR )
+  if ( dynamic_cast< Rigid2DTransformType * >(this->m_Transform.GetPointer() ) != nullptr )
     {
-    this->InternalInitializeTransform(static_cast<Rigid2DTransformType *>(ITK_NULLPTR));
+    this->InternalInitializeTransform(static_cast<Rigid2DTransformType *>(nullptr));
     return;
     }
 
@@ -83,7 +83,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 {
   BSplineTransformType *transform =
     dynamic_cast<BSplineTransformType *>(this->m_Transform.GetPointer());
-  if ( transform == ITK_NULLPTR )
+  if ( transform == nullptr )
     {
     itkExceptionMacro( << "BSplineTransform Expected but transform is "
                        << this->m_Transform->GetNameOfClass() );
@@ -205,7 +205,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 {
   AffineTransformType *transform =
     dynamic_cast<AffineTransformType *>(this->m_Transform.GetPointer());
-  if ( transform == ITK_NULLPTR )
+  if ( transform == nullptr )
     {
     itkExceptionMacro( << "AffineTransform Expected but transform is "
                        << this->m_Transform->GetNameOfClass() );
@@ -360,7 +360,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   itkDebugMacro("Internal Initialize VersorRigid3DTransformType");
   VersorRigid3DTransformType *transform = dynamic_cast< VersorRigid3DTransformType * >(
     this->m_Transform.GetPointer() );
-  if ( transform == ITK_NULLPTR )
+  if ( transform == nullptr )
     {
     itkExceptionMacro( << "VersorRigid3DTransformType Expected but transform is "
                        << this->m_Transform->GetNameOfClass() );
@@ -554,7 +554,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   Rigid2DTransformType *transform =
     dynamic_cast< Rigid2DTransformType * >(this->m_Transform.GetPointer() );
 
-  if ( transform == ITK_NULLPTR )
+  if ( transform == nullptr )
     {
     itkExceptionMacro( << "VersorRigid3DTransformType Expected but transform is "
                        << this->m_Transform->GetNameOfClass() );
@@ -702,7 +702,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     itkExceptionMacro("Different number of fixed and moving landmarks");
     return;
     }
-  this->InternalInitializeTransform(static_cast<TTransform *>(ITK_NULLPTR));
+  this->InternalInitializeTransform(static_cast<TTransform *>(nullptr));
 }
 
 template< typename TTransform, typename TFixedImage, typename TMovingImage >

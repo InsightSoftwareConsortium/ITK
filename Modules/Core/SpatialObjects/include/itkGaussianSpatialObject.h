@@ -83,20 +83,20 @@ public:
   ScalarType SquaredZScore(const PointType & point) const;
 
   /** Returns the value of the Gaussian at the given point.  */
-  virtual bool ValueAt(const PointType & point, ScalarType & value,
+  bool ValueAt(const PointType & point, ScalarType & value,
                        unsigned int depth = 0,
-                       char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+                       char *name = nullptr) const override;
 
   /** Return true if the object provides a method to evaluate the value
    * at the specified point, false otherwise. */
-  virtual bool IsEvaluableAt(const PointType & point,
+  bool IsEvaluableAt(const PointType & point,
                              unsigned int depth = 0,
-                             char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+                             char *name = nullptr) const override;
 
   /** Test whether a point is inside or outside the object */
-  virtual bool IsInside(const PointType & point,
+  bool IsInside(const PointType & point,
                         unsigned int depth,
-                        char *name) const ITK_OVERRIDE;
+                        char *name) const override;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -105,7 +105,7 @@ public:
 
   /** This function needs to be called every time one of the object's
    *  components is changed. */
-  virtual bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
+  bool ComputeLocalBoundingBox() const override;
 
   /** Returns the sigma=m_Radius level set of the Gaussian function, as an
    * EllipseSpatialObject.  */
@@ -115,14 +115,14 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSpatialObject);
 
   GaussianSpatialObject();
-  ~GaussianSpatialObject() ITK_OVERRIDE;
+  ~GaussianSpatialObject() override;
 
   ScalarType m_Maximum;
   ScalarType m_Radius;
   ScalarType m_Sigma;
 
   /** Print the object information in a stream. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

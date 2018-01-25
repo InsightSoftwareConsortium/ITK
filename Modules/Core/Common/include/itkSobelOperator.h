@@ -113,7 +113,7 @@ public:
    * The radius of the operator will be 0 except along the axis on which
    * the operator will work.
    * \sa CreateToRadius \sa FillCenteredDirectional \sa SetDirection() \sa GetDirection() */
-  virtual void CreateDirectional() ITK_OVERRIDE
+  void CreateDirectional() override
   {
     this->CreateToRadius(1);
   }
@@ -135,7 +135,7 @@ public:
   /**
    * Prints some debugging information
    */
-  virtual void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent i) const override
   {
     os << i << "SobelOperator { this=" << this  << "}" << std::endl;
     Superclass::PrintSelf( os, i.GetNextIndent() );
@@ -152,12 +152,12 @@ protected:
   /**
    * Calculates operator coefficients.
    */
-  CoefficientVector GenerateCoefficients() ITK_OVERRIDE;
+  CoefficientVector GenerateCoefficients() override;
 
   /**
    * Arranges coefficients spatially in the memory buffer.
    */
-  void Fill(const CoefficientVector & c) ITK_OVERRIDE;
+  void Fill(const CoefficientVector & c) override;
 };
 } // namespace itk
 

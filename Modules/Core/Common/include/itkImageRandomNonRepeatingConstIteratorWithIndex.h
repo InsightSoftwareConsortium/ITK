@@ -236,7 +236,7 @@ public:
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomNonRepeatingConstIteratorWithIndex();
-  ~ImageRandomNonRepeatingConstIteratorWithIndex()
+  ~ImageRandomNonRepeatingConstIteratorWithIndex() override
   {
     delete m_Permutation;
   }
@@ -255,7 +255,7 @@ public:
   {
     this->ImageConstIteratorWithIndex< TImage >::operator=(it);
 
-    m_Permutation = ITK_NULLPTR;
+    m_Permutation = nullptr;
   }
 
   /** operator= is provided to deep copy m_Permutation. */

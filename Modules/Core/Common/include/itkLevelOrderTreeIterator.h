@@ -44,15 +44,15 @@ public:
   typedef typename Superclass::NodeType     NodeType;
 
   /** Constructor with end level specification */
-  LevelOrderTreeIterator(TreeType *tree, int endLevel = INT_MAX, const TreeNodeType *start = ITK_NULLPTR);
+  LevelOrderTreeIterator(TreeType *tree, int endLevel = INT_MAX, const TreeNodeType *start = nullptr);
 
   /** Constructor with end level specification */
-  LevelOrderTreeIterator(TreeType *tree, int startLevel, int endLevel, const TreeNodeType *start = ITK_NULLPTR);
+  LevelOrderTreeIterator(TreeType *tree, int startLevel, int endLevel, const TreeNodeType *start = nullptr);
 
-  virtual ~LevelOrderTreeIterator() {}
+  ~LevelOrderTreeIterator() override {}
 
   /** Get the type of the iterator */
-  NodeType GetType() const;
+  NodeType GetType() const override;
 
   /** Get the start level */
   int GetStartLevel() const;
@@ -64,7 +64,7 @@ public:
   int GetLevel() const;
 
   /** Clone function */
-  TreeIteratorBase< TTreeType > * Clone();
+  TreeIteratorBase< TTreeType > * Clone() override;
 
   /** operator = */
   const Self & operator=(const Self & iterator)
@@ -82,10 +82,10 @@ public:
 protected:
 
   /** Return the next node */
-  const ValueType & Next();
+  const ValueType & Next() override;
 
   /** Return true if the next node exists */
-  bool HasNext() const;
+  bool HasNext() const override;
 
 private:
 

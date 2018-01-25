@@ -240,14 +240,14 @@ int itkAtomicIntTest(int, char*[])
     }
 
   itk::MultiThreader::Pointer mt = itk::MultiThreader::New();
-  mt->SetSingleMethod(MyFunction, NULL);
+  mt->SetSingleMethod(MyFunction, nullptr);
   mt->SetNumberOfThreads(NumThreads);
   mt->SingleMethodExecute();
 
-  mt->SetSingleMethod(MyFunction2, NULL);
+  mt->SetSingleMethod(MyFunction2, nullptr);
   mt->SingleMethodExecute();
 
-  mt->SetSingleMethod(MyFunction3, NULL);
+  mt->SetSingleMethod(MyFunction3, nullptr);
   mt->SingleMethodExecute();
 
   // Making sure that atomic incr returned unique
@@ -281,7 +281,7 @@ int itkAtomicIntTest(int, char*[])
       }
     }
 
-  mt->SetSingleMethod(MyFunction4, NULL);
+  mt->SetSingleMethod(MyFunction4, nullptr);
   mt->SingleMethodExecute();
 
   std::cout << Total << " " << TotalAtomic.load() << std::endl;
@@ -289,7 +289,7 @@ int itkAtomicIntTest(int, char*[])
 
   std::cout << "MTime: " << AnObject->GetMTime() << std::endl;
 
-  mt->SetSingleMethod(MyFunctionPtr, NULL);
+  mt->SetSingleMethod(MyFunctionPtr, nullptr);
   mt->SingleMethodExecute();
 
   // Making sure that pointer atomic incr returned unique

@@ -89,12 +89,12 @@ public:
 
 protected:
   SpatialObjectToPointSetFilter();
-  ~SpatialObjectToPointSetFilter() ITK_OVERRIDE;
+  ~SpatialObjectToPointSetFilter() override;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateOutputInformation() override {}  // do nothing
+  void GenerateData() override;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToPointSetFilter);

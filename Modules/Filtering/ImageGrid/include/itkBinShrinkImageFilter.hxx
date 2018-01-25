@@ -142,7 +142,7 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
 
   // allocate acumulate line
   const size_t         ln =  outputRegionForThread.GetSize(0);
-  AccumulatePixelType *accBuffer = ITK_NULLPTR;
+  AccumulatePixelType *accBuffer = nullptr;
   accBuffer = new AccumulatePixelType[ln];
 
   try
@@ -244,7 +244,7 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
     const_cast< InputImageType * >( this->GetInput() );
   const OutputImageType * outputPtr = this->GetOutput();
 
-  itkAssertInDebugAndIgnoreInReleaseMacro( inputPtr != ITK_NULLPTR );
+  itkAssertInDebugAndIgnoreInReleaseMacro( inputPtr != nullptr );
   itkAssertInDebugAndIgnoreInReleaseMacro( outputPtr );
 
   // Compute the input requested region (size and start index)
@@ -292,7 +292,7 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
   OutputImageType * outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro( inputPtr );
-  itkAssertInDebugAndIgnoreInReleaseMacro( outputPtr != ITK_NULLPTR );
+  itkAssertInDebugAndIgnoreInReleaseMacro( outputPtr != nullptr );
 
   // Compute the output spacing, the output image size, and the
   // output image start index

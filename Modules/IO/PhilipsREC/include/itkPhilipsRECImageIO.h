@@ -104,13 +104,13 @@ public:
        * \param FileNameToRead The name of the file to test for reading.
        * \return Returns true if this ImageIO can read the file specified.
        */
-  virtual bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
+  bool CanReadFile(const char *FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -120,28 +120,28 @@ public:
        * \post This function will always return false (Not implemented).
        * \return Returns true if this ImageIO can write the file specified.
        */
-  virtual bool CanWriteFile( const char *itkNotUsed(FileNameToWrite) ) ITK_OVERRIDE
+  bool CanWriteFile( const char *itkNotUsed(FileNameToWrite) ) override
   {
     return false;
   }
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void WriteImageInformation() ITK_OVERRIDE
+  void WriteImageInformation() override
   {
     return;
   }
 
   /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
-  virtual void Write( const void *itkNotUsed(buffer) ) ITK_OVERRIDE
+  void Write( const void *itkNotUsed(buffer) ) override
   {
     return;
   }
 
 protected:
   PhilipsRECImageIO();
-  ~PhilipsRECImageIO() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~PhilipsRECImageIO() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

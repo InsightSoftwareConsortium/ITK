@@ -258,7 +258,7 @@ public:
                        bool start = true):
     Superclass(e, op, start) {}
 
-  virtual ~QuadEdgeMeshIterator() {}
+  ~QuadEdgeMeshIterator() override {}
 
   QuadEdgeType * Value() { return ( this->m_Iterator ); }
   const QuadEdgeType * Value() const { return ( this->m_Iterator ); }
@@ -283,7 +283,7 @@ public:
   typedef typename QuadEdgeType::OriginRefType OriginRefType;
 
 public:
-  QuadEdgeMeshIteratorGeom(QuadEdgeType *e = (QuadEdgeType *)0,
+  QuadEdgeMeshIteratorGeom(QuadEdgeType *e = (QuadEdgeType *)nullptr,
                            int op = Superclass::OperatorOnext,
                            bool start = true):
     Superclass(e, op, start) {}
@@ -314,7 +314,7 @@ public:
                             bool start = true):
     Superclass(const_cast< QuadEdgeType * >( e ), op, start) {}
 
-  virtual ~QuadEdgeMeshConstIterator() {}
+  ~QuadEdgeMeshConstIterator() override {}
 
   Self & operator=(const NoConstType & r)
   {
@@ -354,7 +354,7 @@ public:
                                 bool start = true):
     Superclass(e, op, start) {}
 
-  virtual ~QuadEdgeMeshConstIteratorGeom() {}
+  ~QuadEdgeMeshConstIteratorGeom() override {}
 
   Self & operator=(const NoConstType & r)
   {

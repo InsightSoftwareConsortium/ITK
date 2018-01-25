@@ -109,7 +109,7 @@ public:
                           const MeasureArrayType & classSigmas);
 
   /** Destructor. */
-    virtual ~CompositeValleyFunction() ITK_OVERRIDE;
+    ~CompositeValleyFunction() override;
 
   /** Get energy table's higher bound. */
   double GetUpperBound() { return m_UpperBound; }
@@ -137,7 +137,7 @@ public:
   }
 
   /** Evalaute the function at point x.  */
-  virtual MeasureType Evaluate(MeasureType x) ITK_OVERRIDE;
+  MeasureType Evaluate(MeasureType x) override;
 
   /** Get an energy value for the valley. */
   inline MeasureType valley(MeasureType d)

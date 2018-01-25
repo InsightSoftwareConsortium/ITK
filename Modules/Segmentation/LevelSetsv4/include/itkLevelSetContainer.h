@@ -82,7 +82,7 @@ public:
 
 protected:
   LevelSetContainer() {}
-  ~LevelSetContainer() ITK_OVERRIDE {}
+  ~LevelSetContainer() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainer);
@@ -181,7 +181,7 @@ public:
 
 protected:
   LevelSetContainer() {}
-  ~LevelSetContainer() ITK_OVERRIDE {}
+  ~LevelSetContainer() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainer);

@@ -22,7 +22,7 @@ namespace itkSTLThreadTestImpl
 {
 static int done = 0;
 static int numberOfIterations = 10;
-static itk::MutexLock::Pointer sharedMutex = 0;
+static itk::MutexLock::Pointer sharedMutex = nullptr;
 
 static ITK_THREAD_RETURN_TYPE Runner(void*);
 static int Thread(int);
@@ -106,7 +106,7 @@ int itkSTLThreadTest(int argc, char* argv[])
   std::cout << "threader->GetGlobalMaximumNumberOfThreads(): "
             << threader->GetGlobalMaximumNumberOfThreads() << std::endl;
 
-  itk::ThreadIdType threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, ITK_NULLPTR);
+  itk::ThreadIdType threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, nullptr);
   std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): "
             << threadId << std::endl;
   threader->TerminateThread(threadId);

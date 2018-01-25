@@ -78,22 +78,22 @@ public:
   itkCellVisitMacro(Superclass::POLYGON_CELL);
 
   /** Implement the standard CellInterface. */
-  virtual CellGeometry GetType(void) const ITK_OVERRIDE
+  CellGeometry GetType(void) const override
   { return Superclass::POLYGON_CELL; }
-  virtual void MakeCopy(CellAutoPointer &) const ITK_OVERRIDE;
+  void MakeCopy(CellAutoPointer &) const override;
 
-  virtual unsigned int GetDimension(void) const ITK_OVERRIDE;
+  unsigned int GetDimension(void) const override;
 
-  virtual unsigned int GetNumberOfPoints(void) const ITK_OVERRIDE;
+  unsigned int GetNumberOfPoints(void) const override;
 
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
+  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
 
-  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) ITK_OVERRIDE;
+  bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
 
-  virtual void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
+  void SetPointIds(PointIdConstIterator first) override;
 
-  virtual void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last) ITK_OVERRIDE;
+  void SetPointIds(PointIdConstIterator first,
+                           PointIdConstIterator last) override;
 
   void AddPointId(PointIdentifier);
   void RemovePointId(PointIdentifier);
@@ -103,14 +103,14 @@ public:
 
   void ClearPoints();
 
-  virtual void SetPointId(int localId, PointIdentifier) ITK_OVERRIDE;
-  virtual PointIdIterator      PointIdsBegin(void) ITK_OVERRIDE;
+  void SetPointId(int localId, PointIdentifier) override;
+  PointIdIterator      PointIdsBegin(void) override;
 
-  virtual PointIdConstIterator PointIdsBegin(void) const ITK_OVERRIDE;
+  PointIdConstIterator PointIdsBegin(void) const override;
 
-  virtual PointIdIterator      PointIdsEnd(void) ITK_OVERRIDE;
+  PointIdIterator      PointIdsEnd(void) override;
 
-  virtual PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
+  PointIdConstIterator PointIdsEnd(void) const override;
 
   /** Polygon-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices() const;
@@ -131,7 +131,7 @@ public:
     this->BuildEdges();
   }
 
-  ~PolygonCell() ITK_OVERRIDE {}
+  ~PolygonCell() override {}
 
 protected:
   std::vector< EdgeInfo >        m_Edges;

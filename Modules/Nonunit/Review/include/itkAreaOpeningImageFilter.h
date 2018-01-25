@@ -108,9 +108,9 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~AreaOpeningImageFilter() {}
+  ~AreaOpeningImageFilter() override {}
 
-  void GenerateData() ITK_OVERRIDE
+  void GenerateData() override
   {
     this->m_AttributeValuePerPixel = 1;
     if ( m_UseImageSpacing )
@@ -129,7 +129,7 @@ protected:
     Superclass::GenerateData();
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "UseImageSpacing: "  << m_UseImageSpacing << std::endl;

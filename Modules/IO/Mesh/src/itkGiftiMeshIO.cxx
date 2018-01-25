@@ -49,7 +49,7 @@ public:
 
 GiftiMeshIO
 ::GiftiMeshIO() :
-  m_GiftiImageHolder(new GiftiImageProxy(ITK_NULLPTR), true),
+  m_GiftiImageHolder(new GiftiImageProxy(nullptr), true),
   m_GiftiImage(*m_GiftiImageHolder.GetPointer())
 {
   this->AddSupportedWriteExtension(".gii");
@@ -120,7 +120,7 @@ GiftiMeshIO
     }
     else
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 
@@ -135,7 +135,7 @@ GiftiMeshIO
     }
     else
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 
@@ -163,7 +163,7 @@ GiftiMeshIO
   m_GiftiImage = gifti_read_image(this->GetFileName(), false);
 
   // Whether reading is successful
-  if ( m_GiftiImage == ITK_NULLPTR )
+  if ( m_GiftiImage == nullptr )
     {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
     }
@@ -874,7 +874,7 @@ GiftiMeshIO
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
 
   // Whter reading is successful
-  if ( m_GiftiImage == ITK_NULLPTR )
+  if ( m_GiftiImage == nullptr )
     {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
     }
@@ -901,7 +901,7 @@ GiftiMeshIO
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
 
   // Whter reading is successful
-  if ( m_GiftiImage == ITK_NULLPTR )
+  if ( m_GiftiImage == nullptr )
     {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
     }
@@ -1047,7 +1047,7 @@ GiftiMeshIO
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
 
   // Whter reading is successful
-  if ( m_GiftiImage == ITK_NULLPTR )
+  if ( m_GiftiImage == nullptr )
     {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
     }
@@ -1077,7 +1077,7 @@ GiftiMeshIO
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
 
   // Whter reading is successful
-  if ( m_GiftiImage == ITK_NULLPTR )
+  if ( m_GiftiImage == nullptr )
     {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
     }
@@ -1131,7 +1131,7 @@ GiftiMeshIO
   m_GiftiImage = gifti_create_image(nda, NIFTI_INTENT_POINTSET, NIFTI_TYPE_UINT32, 0, dims, 0);
 
   // Whter reading is successful
-  if ( m_GiftiImage == ITK_NULLPTR )
+  if ( m_GiftiImage == nullptr )
     {
     itkExceptionMacro(<< "Could not create a new gifti image");
     }

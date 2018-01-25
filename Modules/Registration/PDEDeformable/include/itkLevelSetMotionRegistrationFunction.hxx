@@ -44,8 +44,8 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
   m_GradientMagnitudeThreshold = 1e-9;
   m_IntensityDifferenceThreshold = 0.001;
   m_GradientSmoothingStandardDeviations = 1.0;
-  this->SetMovingImage(ITK_NULLPTR);
-  this->SetFixedImage(ITK_NULLPTR);
+  this->SetMovingImage(nullptr);
+  this->SetFixedImage(nullptr);
 
   typename DefaultInterpolatorType::Pointer interp =
     DefaultInterpolatorType::New();

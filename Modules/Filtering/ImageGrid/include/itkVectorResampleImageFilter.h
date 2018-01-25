@@ -179,25 +179,25 @@ public:
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model. The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** VectorResampleImageFilter needs a different input requested region than
    * the output requested region. As such, VectorResampleImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Set the state of the filter before multi-threading.
    * Note that InterpolatorType::SetInputImage is not thread-safe and hence
    * has to be set up before ThreadedGenerateData. */
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   /** Set the state of the filter after multi-threading. */
-  virtual void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() override;
 
   /** Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime(void) const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -210,8 +210,8 @@ public:
 
 protected:
   VectorResampleImageFilter();
-  ~VectorResampleImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VectorResampleImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** VectorResampleImageFilter can be implemented as a multithreaded filter. Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
@@ -222,7 +222,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorResampleImageFilter);

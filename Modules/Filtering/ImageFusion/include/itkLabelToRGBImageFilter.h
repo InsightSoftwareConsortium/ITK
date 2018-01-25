@@ -100,15 +100,15 @@ public:
 
 protected:
   LabelToRGBImageFilter();
-  virtual ~LabelToRGBImageFilter() ITK_OVERRIDE {}
+  ~LabelToRGBImageFilter() override {}
 
   /** Process to execute before entering the multithreaded section */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelToRGBImageFilter);

@@ -44,7 +44,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
   m_MovingImagePyramid  = MovingImagePyramidType::New();
   m_FixedImagePyramid     = FixedImagePyramidType::New();
   m_FieldExpander     = FieldExpanderType::New();
-  m_InitialDisplacementField = ITK_NULLPTR;
+  m_InitialDisplacementField = nullptr;
 
   m_NumberOfLevels = 3;
   m_NumberOfIterations.SetSize(m_NumberOfLevels);
@@ -212,7 +212,7 @@ void
 MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplacementField, TRealType >
 ::GenerateData()
 {
-  // Check for ITK_NULLPTR images and pointers
+  // Check for nullptr images and pointers
   MovingImageConstPointer movingImage = this->GetMovingImage();
   FixedImageConstPointer  fixedImage = this->GetFixedImage();
 
@@ -262,7 +262,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
   unsigned int fixedLevel = std::min( (int)m_CurrentLevel,
                                           (int)m_FixedImagePyramid->GetNumberOfLevels() );
 
-  DisplacementFieldPointer tempField = ITK_NULLPTR;
+  DisplacementFieldPointer tempField = nullptr;
 
   DisplacementFieldPointer inputPtr =
     const_cast< DisplacementFieldType * >( this->GetInput(0) );
@@ -318,7 +318,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
     m_FieldExpander->SetOutputDirection( fi->GetDirection() );
 
     m_FieldExpander->UpdateLargestPossibleRegion();
-    m_FieldExpander->SetInput(ITK_NULLPTR);
+    m_FieldExpander->SetInput(nullptr);
     tempField = m_FieldExpander->GetOutput();
     tempField->DisconnectPipeline();
     }
@@ -329,7 +329,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
     {
     if ( tempField.IsNull() )
       {
-      m_RegistrationFilter->SetInitialDisplacementField(ITK_NULLPTR);
+      m_RegistrationFilter->SetInitialDisplacementField(nullptr);
       }
     else
       {
@@ -348,7 +348,7 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
       m_FieldExpander->SetOutputDirection( fi->GetDirection() );
 
       m_FieldExpander->UpdateLargestPossibleRegion();
-      m_FieldExpander->SetInput(ITK_NULLPTR);
+      m_FieldExpander->SetInput(nullptr);
       tempField = m_FieldExpander->GetOutput();
       tempField->DisconnectPipeline();
 
@@ -427,9 +427,9 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
     }
 
   // Release memory
-  m_FieldExpander->SetInput(ITK_NULLPTR);
+  m_FieldExpander->SetInput(nullptr);
   m_FieldExpander->GetOutput()->ReleaseData();
-  m_RegistrationFilter->SetInput(ITK_NULLPTR);
+  m_RegistrationFilter->SetInput(nullptr);
   m_RegistrationFilter->GetOutput()->ReleaseData();
 }
 

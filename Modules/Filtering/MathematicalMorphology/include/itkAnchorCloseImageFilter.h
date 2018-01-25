@@ -46,7 +46,7 @@ protected:
     this->m_Boundary1 = NumericTraits< typename TImage::PixelType >::NonpositiveMin();
     this->m_Boundary2 = NumericTraits< typename TImage::PixelType >::max();
   }
-  virtual ~AnchorCloseImageFilter() ITK_OVERRIDE {}
+  ~AnchorCloseImageFilter() override {}
 
 private:
 

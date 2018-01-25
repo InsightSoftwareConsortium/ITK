@@ -109,9 +109,9 @@ public:
 
 protected:
   Path();
-  ~Path() ITK_OVERRIDE {}
+  ~Path() override {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   itkGetConstMacro(ZeroOffset, OffsetType);
   itkGetConstMacro(ZeroIndex, IndexType);

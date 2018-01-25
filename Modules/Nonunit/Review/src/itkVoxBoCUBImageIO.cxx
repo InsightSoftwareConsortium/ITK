@@ -103,7 +103,7 @@ public:
   CompressedCUBFileAdaptor(const char *file, const char *mode)
   {
     m_GzFile = gzopen(file, mode);
-    if ( m_GzFile == ITK_NULLPTR )
+    if ( m_GzFile == nullptr )
       {
       ExceptionObject exception;
       exception.SetDescription("File cannot be accessed");
@@ -111,7 +111,7 @@ public:
       }
   }
 
-  virtual ~CompressedCUBFileAdaptor()
+  ~CompressedCUBFileAdaptor() override
   {
     if ( m_GzFile )
       {
@@ -120,7 +120,7 @@ public:
       }
   }
 
-  virtual unsigned char ReadByte() ITK_OVERRIDE
+  unsigned char ReadByte() override
   {
     int byte = gzgetc(m_GzFile);
 
@@ -135,9 +135,9 @@ public:
     return static_cast< unsigned char >( byte );
   }
 
-  virtual void ReadData(void *data, SizeType bytes) ITK_OVERRIDE
+  void ReadData(void *data, SizeType bytes) override
   {
-    if ( m_GzFile == ITK_NULLPTR )
+    if ( m_GzFile == nullptr )
       {
       ExceptionObject exception;
       exception.SetDescription("File cannot be read");
@@ -159,9 +159,9 @@ public:
       }
   }
 
-  virtual void WriteData(const void *data, SizeType bytes) ITK_OVERRIDE
+  void WriteData(const void *data, SizeType bytes) override
   {
-    if ( m_GzFile == ITK_NULLPTR )
+    if ( m_GzFile == nullptr )
       {
       ExceptionObject exception;
       exception.SetDescription("File cannot be written");
@@ -201,7 +201,7 @@ public:
       }
   }
 
-  ~DirectCUBFileAdaptor()
+  ~DirectCUBFileAdaptor() override
   {
     if ( m_File )
       {
@@ -209,7 +209,7 @@ public:
       }
   }
 
-  virtual unsigned char ReadByte() ITK_OVERRIDE
+  unsigned char ReadByte() override
   {
     int byte = fgetc(m_File);
 
@@ -224,9 +224,9 @@ public:
     return static_cast< unsigned char >( byte );
   }
 
-  virtual void ReadData(void *data, SizeType bytes) ITK_OVERRIDE
+  void ReadData(void *data, SizeType bytes) override
   {
-    if ( m_File == ITK_NULLPTR )
+    if ( m_File == nullptr )
       {
       ExceptionObject exception;
       exception.SetDescription("File cannot be read");
@@ -248,9 +248,9 @@ public:
       }
   }
 
-  virtual void WriteData(const void *data, SizeType bytes) ITK_OVERRIDE
+  void WriteData(const void *data, SizeType bytes) override
   {
-    if ( m_File == ITK_NULLPTR )
+    if ( m_File == nullptr )
       {
       ExceptionObject exception;
       exception.SetDescription("File cannot be written");
@@ -322,8 +322,8 @@ VoxBoCUBImageIO::VoxBoCUBImageIO()
 {
   InitializeOrientationMap();
   m_ByteOrder = BigEndian;
-  m_Reader = ITK_NULLPTR;
-  m_Writer = ITK_NULLPTR;
+  m_Reader = nullptr;
+  m_Writer = nullptr;
 }
 
 /** Destructor */
@@ -352,12 +352,12 @@ VoxBoCUBImageIO::CreateReader(const char *filename)
       }
     else
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
     }
   catch ( ... )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 
@@ -380,12 +380,12 @@ VoxBoCUBImageIO::CreateWriter(const char *filename)
       }
     else
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
     }
   catch ( ... )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 
@@ -394,7 +394,7 @@ bool VoxBoCUBImageIO::CanReadFile(const char *filename)
   // First check if the file can be read
   GenericCUBFileAdaptor *reader = CreateReader(filename);
 
-  if ( reader == ITK_NULLPTR )
+  if ( reader == nullptr )
     {
     itkDebugMacro(<< "The file is not a valid CUB file");
     return false;
@@ -442,7 +442,7 @@ bool VoxBoCUBImageIO::CanWriteFile(const char *name)
 
 void VoxBoCUBImageIO::Read(void *buffer)
 {
-  if ( m_Reader == ITK_NULLPTR )
+  if ( m_Reader == nullptr )
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File cannot be read");
@@ -466,7 +466,7 @@ void VoxBoCUBImageIO::ReadImageInformation()
 
   // Create a reader
   m_Reader = CreateReader( m_FileName.c_str() );
-  if ( m_Reader == ITK_NULLPTR )
+  if ( m_Reader == nullptr )
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File cannot be read");
@@ -615,7 +615,7 @@ void
 VoxBoCUBImageIO
 ::WriteImageInformation(void)
 {
-  if ( m_Writer == ITK_NULLPTR )
+  if ( m_Writer == nullptr )
     {
     ExceptionObject exception(__FILE__, __LINE__);
     exception.SetDescription("File cannot be read");
@@ -744,7 +744,7 @@ VoxBoCUBImageIO
   WriteImageInformation();
   m_Writer->WriteData( buffer, this->GetImageSizeInBytes() );
   delete m_Writer;
-  m_Writer = ITK_NULLPTR;
+  m_Writer = nullptr;
 }
 
 /** Print Self Method */

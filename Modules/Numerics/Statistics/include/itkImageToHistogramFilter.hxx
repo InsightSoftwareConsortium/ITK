@@ -254,7 +254,7 @@ ImageToHistogramFilter< TImage >
   m_Histograms.clear();
   m_Minimums.clear();
   m_Maximums.clear();
-  m_Barrier = ITK_NULLPTR;
+  m_Barrier = nullptr;
 }
 
 

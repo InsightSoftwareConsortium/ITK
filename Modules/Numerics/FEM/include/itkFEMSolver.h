@@ -251,7 +251,7 @@ public:
    * output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) override;
 
   /** Get the output data of this process object.  The output of this
    * function is not valid until an appropriate Update() method has
@@ -272,12 +272,12 @@ public:
 
 protected:
   Solver();
-  virtual ~Solver() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~Solver() override;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  virtual void  GenerateData() ITK_OVERRIDE;
+  void  GenerateData() override;
 
 
   /**
@@ -316,7 +316,7 @@ protected:
    * Copy the element stiffness matrix into the correct position in the
    * master stiffess matrix. Since more complex Solver classes may need to
    * assemble many matrices and may also do some funky stuff to them, this
-   * function is virtual and can be overriden in a derived solver class.
+   * function is and can be overriden in a derived solver class.
    */
   virtual void AssembleElementMatrix(Element::Pointer e);
 

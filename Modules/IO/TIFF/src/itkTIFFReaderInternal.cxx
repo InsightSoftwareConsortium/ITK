@@ -63,7 +63,7 @@ void TIFFReaderInternal::Clean()
     {
     TIFFClose(this->m_Image);
     }
-  this->m_Image = ITK_NULLPTR;
+  this->m_Image = nullptr;
   this->m_Width = 0;
   this->m_Height = 0;
   this->m_SamplesPerPixel = 0;
@@ -92,7 +92,7 @@ void TIFFReaderInternal::Clean()
 
 TIFFReaderInternal::TIFFReaderInternal()
 {
-  this->m_Image           = ITK_NULLPTR;
+  this->m_Image           = nullptr;
   this->Clean();
 }
 

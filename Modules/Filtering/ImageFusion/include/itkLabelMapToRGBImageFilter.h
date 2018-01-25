@@ -97,13 +97,13 @@ public:
 
 protected:
   LabelMapToRGBImageFilter();
-  ~LabelMapToRGBImageFilter() ITK_OVERRIDE {};
+  ~LabelMapToRGBImageFilter() override {};
 
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
+  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) override;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToRGBImageFilter);

@@ -129,7 +129,7 @@ public:
 
 protected:
   NaryAddImageFilter() {}
-  virtual ~NaryAddImageFilter() ITK_OVERRIDE {}
+  ~NaryAddImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NaryAddImageFilter);

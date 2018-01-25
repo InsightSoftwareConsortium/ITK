@@ -72,7 +72,7 @@ public:
 
 
   /** Returns the latest modified time of the object and its component. */
-  ModifiedTimeType GetMTime( void ) const ITK_OVERRIDE;
+  ModifiedTimeType GetMTime( void ) const override;
 
 protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(FEMObjectSpatialObject);
@@ -80,9 +80,9 @@ protected:
   FEMObjectPointer m_FEMObject;
 
   FEMObjectSpatialObject();
-  virtual ~FEMObjectSpatialObject() ITK_OVERRIDE;
+  ~FEMObjectSpatialObject() override;
 
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 };
 

@@ -107,7 +107,7 @@ public:
 
 protected:
   FFTConvolutionImageFilter();
-  ~FFTConvolutionImageFilter() ITK_OVERRIDE {}
+  ~FFTConvolutionImageFilter() override {}
 
   /** Because the inputs are real, we can use the specialized filters
    * for real-to-complex Fourier transforms. */
@@ -125,10 +125,10 @@ protected:
    * pipeline execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** This filter uses a minipipeline to compute the output. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Prepare the input images for operations in the Fourier
    * domain. This includes resizing the input and kernel images,
@@ -187,7 +187,7 @@ protected:
   /** Get whether the X dimension has an odd size. */
   bool GetXDimensionIsOdd() const;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTConvolutionImageFilter);

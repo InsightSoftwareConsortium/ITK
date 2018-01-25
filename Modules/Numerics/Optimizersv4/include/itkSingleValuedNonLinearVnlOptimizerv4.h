@@ -64,7 +64,7 @@ public:
   /** Stop condition internal string type */
   typedef Superclass::StopConditionDescriptionType  StopConditionDescriptionType;
 
-  virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
+  void StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Set the metric (cost function). This method has to be overloaded
    *  by derived classes because the CostFunctionAdaptor requires
@@ -72,7 +72,7 @@ public:
    *  number of parameters is obtained at run-time from the itkObjectToObjectMetric.
    *  As a consequence each derived optimizer should construct its own
    *  CostFunctionAdaptor when overloading this method  */
-  virtual void SetMetric(MetricType *metric) ITK_OVERRIDE = 0;
+  void SetMetric(MetricType *metric) override = 0;
 
   /** Return Cached Values. These method have the advantage of not triggering a
    * recomputation of the metric value, but it has the disadvantage of returning
@@ -83,11 +83,11 @@ public:
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
 
   /** Get the reason for termination */
-  virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE = 0;
+  const StopConditionReturnStringType GetStopConditionDescription() const override = 0;
 
 protected:
   SingleValuedNonLinearVnlOptimizerv4();
-  virtual ~SingleValuedNonLinearVnlOptimizerv4() ITK_OVERRIDE;
+  ~SingleValuedNonLinearVnlOptimizerv4() override;
 
   typedef SingleValuedVnlCostFunctionAdaptorv4 CostFunctionAdaptorType;
 
@@ -102,7 +102,7 @@ protected:
   CostFunctionAdaptorType * GetNonConstCostFunctionAdaptor() const;
 
   /** Print out internal state */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** The purpose of this method is to get around the lack of iteration reporting

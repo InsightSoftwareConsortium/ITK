@@ -103,7 +103,7 @@ public:
   /** Scales type */
   typedef typename Superclass::ScalesType       ScalesType;
 
-  virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
+  void StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Start optimization */
   void StartWalking();
@@ -126,7 +126,7 @@ public:
   itkGetConstReferenceMacro(CurrentIndex, ParametersType);
 
   /** Get the reason for termination */
-  virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const override;
 
   /**  Set the position to initialize the optimization. */
   void SetInitialPosition(const ParametersType & param);
@@ -139,8 +139,8 @@ public:
 
 protected:
   ExhaustiveOptimizerv4();
-  virtual ~ExhaustiveOptimizerv4() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ExhaustiveOptimizerv4() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Advance to the next grid position. */
   void AdvanceOneStep();

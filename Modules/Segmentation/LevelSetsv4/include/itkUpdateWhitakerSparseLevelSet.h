@@ -125,7 +125,7 @@ public:
 
 protected:
   UpdateWhitakerSparseLevelSet();
-  virtual ~UpdateWhitakerSparseLevelSet() ITK_OVERRIDE;
+  ~UpdateWhitakerSparseLevelSet() override;
 
   /** Update zero level set layer by moving relevant points to layers -1 or 1 */
   void UpdateLayerZero();

@@ -61,7 +61,7 @@ public:
 
   typedef std::vector< RealType > ChannelType;
 
-  virtual RGBPixelType operator()(const TScalar &) const ITK_OVERRIDE;
+  RGBPixelType operator()(const TScalar &) const override;
 
   void SetRedChannel(ChannelType red)
     {
@@ -95,7 +95,7 @@ public:
 
 protected:
   CustomColormapFunction() {}
-  ~CustomColormapFunction() ITK_OVERRIDE {}
+  ~CustomColormapFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CustomColormapFunction);

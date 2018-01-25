@@ -49,30 +49,30 @@ public:
   itkNewMacro(Self);
 
   // Pure virtual functions that all Metrics must provide
-  unsigned int GetNumberOfParameters() const ITK_OVERRIDE { return 5; }
+  unsigned int GetNumberOfParameters() const override { return 5; }
 
-  MeasureType GetValue() const ITK_OVERRIDE
+  MeasureType GetValue() const override
     {
     return 1.0;
     }
 
-  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const override
     {
     value = 1.0;
     derivative.Fill(0.0);
     }
 
-  unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
+  unsigned int GetNumberOfLocalParameters() const override
   { return 0; }
 
-  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE {}
+  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) override {}
 
-  const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const override
   { return m_Parameters; }
 
-  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE {}
+  void Initialize(void) throw ( itk::ExceptionObject ) override {}
 
-  void PrintSelf(std::ostream& os, itk::Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream& os, itk::Indent indent) const override
   { Superclass::PrintSelf( os, indent ); }
 
   ParametersType  m_Parameters;
@@ -98,7 +98,7 @@ public:
 private:
 
   RegistrationParameterScalesEstimatorTestMetric() {}
-  ~RegistrationParameterScalesEstimatorTestMetric() ITK_OVERRIDE {}
+  ~RegistrationParameterScalesEstimatorTestMetric() override {}
 
 };
 
@@ -136,7 +136,7 @@ public:
   typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
 
   /** Estimate parameter scales with maximum squared norms of Jacobians. */
-  virtual void EstimateScales(ScalesType &parameterScales) ITK_OVERRIDE
+  void EstimateScales(ScalesType &parameterScales) override
     {
     this->CheckAndSetInputs();
     this->SetSamplingStrategy( Superclass::RandomSampling );
@@ -179,22 +179,22 @@ public:
       }
     }
 
-  virtual double EstimateStepScale(const ParametersType &step) ITK_OVERRIDE
+  double EstimateStepScale(const ParametersType &step) override
     {
     double norm = step.two_norm();
     return norm;
     }
 
   /** Estimate the scales of local steps. */
-  virtual void EstimateLocalStepScales(const ParametersType &step,
-    ScalesType &localStepScales) ITK_OVERRIDE
+  void EstimateLocalStepScales(const ParametersType &step,
+    ScalesType &localStepScales) override
     {
     localStepScales.SetSize(step.size());
     }
 
 protected:
   RegistrationParameterScalesEstimatorTest(){};
-  ~RegistrationParameterScalesEstimatorTest() ITK_OVERRIDE {};
+  ~RegistrationParameterScalesEstimatorTest() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesEstimatorTest);

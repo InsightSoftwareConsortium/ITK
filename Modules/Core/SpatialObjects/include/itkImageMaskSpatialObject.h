@@ -68,7 +68,7 @@ public:
 
   /** Returns true if the point is inside, false otherwise. */
   bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const ITK_OVERRIDE;
+                unsigned int depth, char *name) const override;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -87,15 +87,15 @@ public:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  virtual bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
+  bool ComputeLocalBoundingBox() const override;
 
 protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageMaskSpatialObject);
 
   ImageMaskSpatialObject();
-  virtual ~ImageMaskSpatialObject() ITK_OVERRIDE;
+  ~ImageMaskSpatialObject() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end of namespace itk
 

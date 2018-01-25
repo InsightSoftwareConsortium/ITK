@@ -90,21 +90,21 @@ public:
 
 protected:
   RichardsonLucyDeconvolutionImageFilter();
-  virtual ~RichardsonLucyDeconvolutionImageFilter() ITK_OVERRIDE;
+  ~RichardsonLucyDeconvolutionImageFilter() override;
 
-  virtual void Initialize(ProgressAccumulator * progress,
+  void Initialize(ProgressAccumulator * progress,
                           float progressWeight,
-                          float iterationProgressWeight) ITK_OVERRIDE;
+                          float iterationProgressWeight) override;
 
-  virtual void Iteration(ProgressAccumulator * progress,
-                         float iterationProgressWeight) ITK_OVERRIDE;
+  void Iteration(ProgressAccumulator * progress,
+                         float iterationProgressWeight) override;
 
-  virtual void Finish(ProgressAccumulator *progress, float progressWeight) ITK_OVERRIDE;
+  void Finish(ProgressAccumulator *progress, float progressWeight) override;
 
   typedef typename Superclass::FFTFilterType  FFTFilterType;
   typedef typename Superclass::IFFTFilterType IFFTFilterType;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RichardsonLucyDeconvolutionImageFilter);

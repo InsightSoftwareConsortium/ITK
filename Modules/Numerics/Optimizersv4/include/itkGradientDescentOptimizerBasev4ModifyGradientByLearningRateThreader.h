@@ -53,11 +53,11 @@ public:
   typedef DomainType                                  IndexRangeType;
 
 protected:
-  virtual void ThreadedExecution( const IndexRangeType & subrange,
-                                  const ThreadIdType threadId ) ITK_OVERRIDE;
+  void ThreadedExecution( const IndexRangeType & subrange,
+                                  const ThreadIdType threadId ) override;
 
   GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() {}
-  virtual ~GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() ITK_OVERRIDE {}
+  ~GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate);

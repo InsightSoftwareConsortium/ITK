@@ -85,17 +85,17 @@ public:
 
 protected:
   CyclicShiftImageFilter();
-  ~CyclicShiftImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~CyclicShiftImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This filter needs the entire input be available so it needs to
    * provide an implementation of GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** This filter can be threaded. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId) ITK_OVERRIDE;
+                             ThreadIdType threadId) override;
 
   /** Protected so that subclasses may set it without calling
   Modified(). */

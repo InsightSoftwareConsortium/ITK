@@ -115,9 +115,9 @@ public:
 
 protected:
   ShapeOpeningLabelMapFilter();
-  ~ShapeOpeningLabelMapFilter() ITK_OVERRIDE {}
+  ~ShapeOpeningLabelMapFilter() override {}
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   template< typename TAttributeAccessor >
   void TemplatedGenerateData(const TAttributeAccessor & accessor)
@@ -128,7 +128,7 @@ protected:
     ImageType *output = this->GetOutput();
     ImageType *output2 = this->GetOutput(1);
     itkAssertInDebugAndIgnoreInReleaseMacro(this->GetNumberOfIndexedOutputs() == 2);
-    itkAssertInDebugAndIgnoreInReleaseMacro(output2 != ITK_NULLPTR);
+    itkAssertInDebugAndIgnoreInReleaseMacro(output2 != nullptr);
 
     // set the background value for the second output - this is not done in the
     // superclasses
@@ -160,7 +160,7 @@ protected:
       }
   }
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   double m_Lambda;
 

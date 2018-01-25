@@ -47,7 +47,7 @@ public:
 
 protected:
   RandomVariateGeneratorBase();
-  virtual ~RandomVariateGeneratorBase() ITK_OVERRIDE;
+  ~RandomVariateGeneratorBase() override;
 
 private:
 };  // end of class

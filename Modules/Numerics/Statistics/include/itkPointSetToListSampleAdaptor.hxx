@@ -28,7 +28,7 @@ template< typename TPointSet >
 PointSetToListSampleAdaptor< TPointSet >
 ::PointSetToListSampleAdaptor()
 {
-  this->m_PointSet = ITK_NULLPTR;
+  this->m_PointSet = nullptr;
   this->SetMeasurementVectorSize( TPointSet::PointDimension );
 }
 

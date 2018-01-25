@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~LiThresholdImageFilter() ITK_OVERRIDE {};
+  ~LiThresholdImageFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LiThresholdImageFilter);

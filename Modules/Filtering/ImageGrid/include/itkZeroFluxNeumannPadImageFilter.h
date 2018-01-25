@@ -112,7 +112,7 @@ public:
 
 protected:
   ZeroFluxNeumannPadImageFilter();
-  ~ZeroFluxNeumannPadImageFilter() ITK_OVERRIDE {};
+  ~ZeroFluxNeumannPadImageFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ZeroFluxNeumannPadImageFilter);

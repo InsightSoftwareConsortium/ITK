@@ -79,10 +79,10 @@ public:
   /** Set the transform to be adapted */
   itkSetObjectMacro( Transform, TransformType );
 
-  virtual void SetTransform( TransformBaseType * _arg, void * ) ITK_OVERRIDE
+  void SetTransform( TransformBaseType * _arg, void * ) override
     {
       TransformType *tx = dynamic_cast<TransformType *>(_arg);
-      itkAssertOrThrowMacro( tx != ITK_NULLPTR, "Unable to convert Transform to require concrete transform!" );
+      itkAssertOrThrowMacro( tx != nullptr, "Unable to convert Transform to require concrete transform!" );
       this->SetTransform(tx);
     }
 
@@ -90,7 +90,7 @@ public:
   itkNewMacro( Self );
 
   /** Set the fixed parameters */
-  virtual void SetRequiredFixedParameters( const FixedParametersType fixedParameters ) ITK_OVERRIDE
+  void SetRequiredFixedParameters( const FixedParametersType fixedParameters ) override
     {
     itkDebugMacro("setting RequiredFixedParameters to " << fixedParameters );
     if ( this->m_RequiredFixedParameters != fixedParameters )
@@ -101,19 +101,19 @@ public:
     }
 
   /** Get the fixed parameters */
-  virtual const FixedParametersType & GetRequiredFixedParameters() const ITK_OVERRIDE
+  const FixedParametersType & GetRequiredFixedParameters() const override
     {
     return this->m_RequiredFixedParameters;
     }
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters() ITK_OVERRIDE {};
+  void AdaptTransformParameters() override {};
 
 protected:
   TransformParametersAdaptor() {}
-  ~TransformParametersAdaptor() ITK_OVERRIDE {}
+  ~TransformParametersAdaptor() override {}
 
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE
+  void PrintSelf( std::ostream & os, Indent indent ) const override
   {
     Superclass::PrintSelf( os, indent );
     itkPrintSelfObjectMacro( Transform );

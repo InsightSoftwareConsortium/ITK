@@ -55,7 +55,7 @@ namespace itk
       this->SetDifferenceFunction(m_Function);
     }
 
-    virtual bool Halt () ITK_OVERRIDE
+    bool Halt () override
     {
       if (this->GetElapsedIterations() == 20)
         {
@@ -67,7 +67,7 @@ namespace itk
         }
     }
 
-    virtual void CreateNarrowBand() ITK_OVERRIDE
+    void CreateNarrowBand() override
       {
       //Create a band
       typename ImageType::SizeType sz= this->GetInput()->GetRequestedRegion().GetSize();

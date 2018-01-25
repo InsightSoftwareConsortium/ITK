@@ -153,7 +153,7 @@ public:
 
 protected:
   ConnectedComponentFunctorImageFilter() {}
-  virtual ~ConnectedComponentFunctorImageFilter() ITK_OVERRIDE {}
+  ~ConnectedComponentFunctorImageFilter() override {}
   ConnectedComponentFunctorImageFilter(const Self &) {}
 
   FunctorType m_Functor;
@@ -161,7 +161,7 @@ protected:
   /**
    * Standard pipeline method.
    */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 };
 } // end namespace itk
 

@@ -76,13 +76,13 @@ void GPUImageDataManager< ImageType >::MakeCPUBufferUpToDate()
      * correctly managed. Therefore, we check the time stamp of
      * CPU and GPU data as well
      */
-    if( (m_IsCPUBufferDirty || (gpu_time > cpu_time) ) && m_GPUBuffer != ITK_NULLPTR && m_CPUBuffer != ITK_NULLPTR )
+    if( (m_IsCPUBufferDirty || (gpu_time > cpu_time) ) && m_GPUBuffer != nullptr && m_CPUBuffer != nullptr )
       {
       cl_int errid;
       itkDebugMacro(<< "GPU->CPU data copy" );
       errid = clEnqueueReadBuffer(m_ContextManager->GetCommandQueue(
-                                    m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, ITK_NULLPTR,
-                                  ITK_NULLPTR);
+                                    m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, nullptr,
+                                  nullptr);
       OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
       m_Image->Modified();
@@ -113,13 +113,13 @@ void GPUImageDataManager< ImageType >::MakeGPUBufferUpToDate()
     * correctly managed. Therefore, we check the time stamp of
     * CPU and GPU data as well
     */
-    if( (m_IsGPUBufferDirty || (gpu_time < cpu_time) ) && m_CPUBuffer != ITK_NULLPTR && m_GPUBuffer != ITK_NULLPTR )
+    if( (m_IsGPUBufferDirty || (gpu_time < cpu_time) ) && m_CPUBuffer != nullptr && m_GPUBuffer != nullptr )
       {
       cl_int errid;
       itkDebugMacro(<< "CPU->GPU data copy");
       errid = clEnqueueWriteBuffer(m_ContextManager->GetCommandQueue(
-                                     m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, ITK_NULLPTR,
-                                   ITK_NULLPTR);
+                                     m_CommandQueueId), m_GPUBuffer, CL_TRUE, 0, m_BufferSize, m_CPUBuffer, 0, nullptr,
+                                   nullptr);
       OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 
       this->SetTimeStamp( cpu_time_stamp );

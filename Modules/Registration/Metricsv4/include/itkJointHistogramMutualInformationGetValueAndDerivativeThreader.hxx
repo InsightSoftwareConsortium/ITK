@@ -26,8 +26,8 @@ namespace itk
 template< typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric >
 JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TJointHistogramMetric >
 ::JointHistogramMutualInformationGetValueAndDerivativeThreader() :
-  m_JointHistogramMIPerThreadVariables( ITK_NULLPTR ),
-  m_JointAssociate( ITK_NULLPTR )
+  m_JointHistogramMIPerThreadVariables( nullptr ),
+  m_JointAssociate( nullptr )
 {}
 
 
@@ -48,7 +48,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
 
   /* Store the casted pointer to avoid dynamic casting in tight loops. */
   this->m_JointAssociate = dynamic_cast< TJointHistogramMetric * >( this->m_Associate );
-  if( this->m_JointAssociate == ITK_NULLPTR )
+  if( this->m_JointAssociate == nullptr )
     {
     itkExceptionMacro("Dynamic casting of associate pointer failed.");
     }

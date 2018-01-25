@@ -74,7 +74,7 @@ int itkTIFFImageIOTestHelper( int, char * argv[] )
   TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   // Test 2 reads with only one ReadImageInformation
-  TestMultipleReads< ImageType >( argv[1], ITK_NULLPTR );
+  TestMultipleReads< ImageType >( argv[1], nullptr );
 
 
   typename ImageType::Pointer image = reader->GetOutput();

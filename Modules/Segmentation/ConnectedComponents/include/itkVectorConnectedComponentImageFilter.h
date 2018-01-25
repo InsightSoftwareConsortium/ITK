@@ -134,7 +134,7 @@ public:
 
 protected:
   VectorConnectedComponentImageFilter() {}
-  virtual ~VectorConnectedComponentImageFilter() ITK_OVERRIDE {}
+  ~VectorConnectedComponentImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorConnectedComponentImageFilter);

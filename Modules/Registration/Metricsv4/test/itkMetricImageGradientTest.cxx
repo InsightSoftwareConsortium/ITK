@@ -101,7 +101,7 @@ protected:
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
    */
-  virtual bool ProcessPoint(
+  bool ProcessPoint(
                              const VirtualIndexType &         itkNotUsed(virtualIndex),
                              const VirtualPointType &         itkNotUsed(virtualPoint),
                              const FixedImagePointType &      itkNotUsed(mappedFixedPoint),
@@ -112,7 +112,7 @@ protected:
                              const MovingImageGradientType &  itkNotUsed(mappedMovingImageGradient),
                              MeasureType &                    itkNotUsed(metricValueReturn),
                              DerivativeType &                 itkNotUsed(localDerivativeReturn),
-                             const ThreadIdType               itkNotUsed(threadId) ) const ITK_OVERRIDE
+                             const ThreadIdType               itkNotUsed(threadId) ) const override
   {
     return false;
   }
@@ -174,7 +174,7 @@ protected:
     this->m_SparseGetValueAndDerivativeThreader = VanillaSparseGetValueAndDerivativeThreaderType::New();
   }
 
-  virtual ~VanillaImageToImageMetricv4() ITK_OVERRIDE {}
+  ~VanillaImageToImageMetricv4() override {}
 
   // template <unsigned int VVirtualImageDimension, typename TMovingTransformType>
   // template <>

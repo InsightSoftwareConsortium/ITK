@@ -77,7 +77,7 @@ public:
   }
 
 
-  DefaultVectorPixelAccessorFunctor () : m_Begin(ITK_NULLPTR) {}
+  DefaultVectorPixelAccessorFunctor () : m_Begin(nullptr) {}
 
   /** Set the PixelAccessor. This is set at construction time by the image iterators.
    * The type PixelAccessorType is obtained from the ImageType over which the iterators

@@ -74,13 +74,13 @@ public:
                       Superclass::VectorDimension);
 
   /** Compute the equation value. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
+  PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
                                   const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  ) ITK_OVERRIDE;
+                                  ) override;
 
   /** This method is called prior to each iteration of the solver. */
-  virtual void InitializeIteration() ITK_OVERRIDE
+  void InitializeIteration() override
   {
     m_K = this->GetAverageGradientMagnitudeSquared() * this->GetConductanceParameter()
           * this->GetConductanceParameter() * -2.0f;
@@ -88,8 +88,8 @@ public:
 
 protected:
   VectorCurvatureNDAnisotropicDiffusionFunction();
-  ~VectorCurvatureNDAnisotropicDiffusionFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  ~VectorCurvatureNDAnisotropicDiffusionFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {  Superclass::PrintSelf(os, indent);   }
 
 private:

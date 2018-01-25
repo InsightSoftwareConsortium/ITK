@@ -33,7 +33,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
 ::DeformableSimplexMesh3DGradientConstraintForceFilter()
 {
   m_Range = 1;
-  m_StartVoxel = ITK_NULLPTR;
+  m_StartVoxel = nullptr;
 }
 
 template< typename TInputMesh, typename TOutputMesh >
@@ -59,7 +59,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
 ::Clear()
 {
   delete m_StartVoxel;
-  m_StartVoxel = ITK_NULLPTR;
+  m_StartVoxel = nullptr;
   std::vector< ImageVoxel * >::iterator it;
   for ( it = m_Positive.begin(); it != m_Positive.end(); it++ )
     {
@@ -367,7 +367,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter< TInputMesh, TOutputMesh >
     }
   else
     {
-    m_StartVoxel = ITK_NULLPTR;
+    m_StartVoxel = nullptr;
     }
 
   // now fun begins try to use all the above

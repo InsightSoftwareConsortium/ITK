@@ -584,7 +584,7 @@ CompositeTransform<TParametersValueType, NDimensions>
     }
   else
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 

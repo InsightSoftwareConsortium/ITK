@@ -473,13 +473,13 @@ public:
 #endif
 
 protected:
-  virtual ~SegmentationLevelSetImageFilter() ITK_OVERRIDE {}
+  ~SegmentationLevelSetImageFilter() override {}
   SegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Overrides parent implementation */
-  virtual void InitializeIteration() ITK_OVERRIDE
+  void InitializeIteration() override
   {
     Superclass::InitializeIteration();
     // Estimate the progress of the filter
@@ -489,7 +489,7 @@ protected:
 
   /** Overridden from ProcessObject to set certain values before starting the
    * finite difference solver and then create an appropriate output */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Flag which sets the inward/outward direction of propagation speed. See
       SetReverseExpansionDirection for more information. */

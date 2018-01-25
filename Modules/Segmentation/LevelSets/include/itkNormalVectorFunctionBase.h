@@ -83,11 +83,11 @@ public:
   typedef typename NodeType::NodeDataType NormalVectorType;
 
   /** Globaldata methods are not needed in this class. */
-  virtual void * GetGlobalDataPointer() const ITK_OVERRIDE { return ITK_NULLPTR; }
-  virtual void ReleaseGlobalDataPointer(void *) const ITK_OVERRIDE {}
+  void * GetGlobalDataPointer() const override { return nullptr; }
+  void ReleaseGlobalDataPointer(void *) const override {}
 
   /** For the global time step, we return the time step parameter. */
-  virtual TimeStepType ComputeGlobalTimeStep(void *) const ITK_OVERRIDE
+  TimeStepType ComputeGlobalTimeStep(void *) const override
   { return m_TimeStep; }
 
   /** Sets the time step. */
@@ -100,8 +100,8 @@ public:
 
 protected:
   NormalVectorFunctionBase();
-  ~NormalVectorFunctionBase() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NormalVectorFunctionBase() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** The time step for normal vector finite difference computations. */

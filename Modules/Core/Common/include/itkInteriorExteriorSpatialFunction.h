@@ -69,12 +69,12 @@ public:
    * A return of 1 means inside or on the surface of the function,
    * 0 means outside the function
    * The actual definition of inside/outside is left up to the subclass */
-  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE = 0;
+  OutputType Evaluate(const InputType & input) const override = 0;
 
 protected:
   InteriorExteriorSpatialFunction();
-  virtual ~InteriorExteriorSpatialFunction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~InteriorExteriorSpatialFunction() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(InteriorExteriorSpatialFunction);

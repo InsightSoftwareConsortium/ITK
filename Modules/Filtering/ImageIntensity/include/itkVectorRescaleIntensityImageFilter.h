@@ -139,9 +139,9 @@ public:
   itkGetConstReferenceMacro(InputMaximumMagnitude, InputRealType);
 
   /** Process to execute before entering the multithreaded section. */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -154,7 +154,7 @@ public:
 
 protected:
   VectorRescaleIntensityImageFilter();
-  virtual ~VectorRescaleIntensityImageFilter() ITK_OVERRIDE {}
+  ~VectorRescaleIntensityImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorRescaleIntensityImageFilter);

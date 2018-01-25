@@ -281,7 +281,7 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
   function->SetUseImageDirection( true );
   // first set to null and then reset image so that cached
   // info is recalculated
-  function->SetInputImage( ITK_NULLPTR );
+  function->SetInputImage( nullptr );
   function->SetInputImage( image );
   OutputType directionOnDerivative = function->Evaluate( point );
   std::cout << "Point: " << point << " directionOnDerivative: "
@@ -317,7 +317,7 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
   function->SetUseImageDirection( true );
   // first set to null and then reset image so that cached
   // info is recalculated
-  function->SetInputImage( ITK_NULLPTR );
+  function->SetInputImage( nullptr );
   function->SetInputImage( image );
   OutputType directionOneNegDerivative = function->Evaluate( point );
   std::cout << "Point: " << point << " directionOneNegDerivative: " << directionOneNegDerivative << std::endl;
@@ -339,7 +339,7 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
   function->SetUseImageDirection( true );
   // first set to null and then reset image so that cached
   // info is recalculated
-  function->SetInputImage( ITK_NULLPTR );
+  function->SetInputImage( nullptr );
   function->SetInputImage( image );
   OutputType directionSwapDerivative = function->Evaluate( point );
   std::cout << "Point: " << point << " directionSwapDerivative: " << directionSwapDerivative << std::endl;

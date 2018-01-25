@@ -61,7 +61,7 @@ public:
   typedef typename Superclass::OutputType OutputType;
 
   /** Evaluates the function at a given position. */
-  OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & position) const override;
 
   /** Get and set the center of the ellipsoid. */
   itkGetConstMacro(Center, InputType);
@@ -73,9 +73,9 @@ public:
 
 protected:
   SymmetricEllipsoidInteriorExteriorSpatialFunction();
-  virtual ~SymmetricEllipsoidInteriorExteriorSpatialFunction() ITK_OVERRIDE;
+  ~SymmetricEllipsoidInteriorExteriorSpatialFunction() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   SymmetricEllipsoidInteriorExteriorSpatialFunction(const Self &); //purposely

@@ -120,7 +120,7 @@ public:
 class CustomLineVisitor
 {
 public:
-  CustomLineVisitor():m_Mesh( 0 ) {}
+  CustomLineVisitor():m_Mesh( nullptr ) {}
   virtual ~CustomLineVisitor() {}
 
   void SetMesh( MeshType * mesh ) { m_Mesh = mesh; }

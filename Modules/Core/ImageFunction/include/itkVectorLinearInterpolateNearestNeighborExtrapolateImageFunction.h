@@ -95,21 +95,21 @@ public:
 
   /** Should check if an index is inside the image buffer, however we
    * require that it answers true to use the extrapolation possibility. */
-  virtual bool IsInsideBuffer(const IndexType &) const ITK_OVERRIDE
+  bool IsInsideBuffer(const IndexType &) const override
   {
     return true;
   }
 
   /** Should check if a point is inside the image buffer, however we
    * require that it answers true to use the extrapolation possibility. */
-  virtual bool IsInsideBuffer(const PointType &) const ITK_OVERRIDE
+  bool IsInsideBuffer(const PointType &) const override
   {
     return true;
   }
 
   /** Should check if a continuous index is inside the image buffer, however we
    * require that it answers true to use the extrapolation possibility. */
-  virtual bool IsInsideBuffer(const ContinuousIndexType &) const ITK_OVERRIDE
+  bool IsInsideBuffer(const ContinuousIndexType &) const override
   {
     return true;
   }
@@ -119,21 +119,21 @@ public:
    * Returns the linearly interpolated image intensity at a
    * specified point position. If the point does not lie within the
    * image buffer a nearest neighbor interpolation is done. */
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & index) const ITK_OVERRIDE;
+  OutputType EvaluateAtContinuousIndex(
+    const ContinuousIndexType & index) const override;
 
   /** Evaluate the function at an index position
    *
    * Simply returns the image value at the
    * specified index position. If the index does not lie within the
    * image buffer a nearest neighbor interpolation is done. */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  OutputType EvaluateAtIndex(const IndexType & index) const override;
 
 protected:
   VectorLinearInterpolateNearestNeighborExtrapolateImageFunction();
-  virtual ~VectorLinearInterpolateNearestNeighborExtrapolateImageFunction() ITK_OVERRIDE {}
+  ~VectorLinearInterpolateNearestNeighborExtrapolateImageFunction() override {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   VectorLinearInterpolateNearestNeighborExtrapolateImageFunction(const Self &); //purposely

@@ -150,7 +150,7 @@ public:
 
 protected:
   GPUNeighborhoodOperatorImageFilter();
-  virtual ~GPUNeighborhoodOperatorImageFilter() ITK_OVERRIDE {}
+  ~GPUNeighborhoodOperatorImageFilter() override {}
 
   /** NeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a
@@ -166,9 +166,9 @@ protected:
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId);*/
 
-  void GPUGenerateData() ITK_OVERRIDE;
+  void GPUGenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     GPUSuperclass::PrintSelf(os, indent);
   }

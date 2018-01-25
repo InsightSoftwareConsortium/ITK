@@ -130,10 +130,10 @@ public:
 
 protected:
   ApproximateSignedDistanceMapImageFilter();
-  virtual ~ApproximateSignedDistanceMapImageFilter() ITK_OVERRIDE {}
-  virtual void GenerateData() ITK_OVERRIDE;
+  ~ApproximateSignedDistanceMapImageFilter() override {}
+  void GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ApproximateSignedDistanceMapImageFilter);

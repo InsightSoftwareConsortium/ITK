@@ -142,9 +142,9 @@ public:
 
 protected:
   InPlaceLabelMapFilter();
-  ~InPlaceLabelMapFilter() ITK_OVERRIDE;
+  ~InPlaceLabelMapFilter() override;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The GenerateData method normally allocates the buffers for all
    * of the outputs of a filter. Since InPlaceLabelMapFilter's can use an
@@ -158,13 +158,13 @@ protected:
    * an InPlaceFilter is not threaded (i.e. it provides an
    * implementation of GenerateData()), then this method (or
    * equivalent) must be called in GenerateData(). */
-  virtual void AllocateOutputs() ITK_OVERRIDE;
+  void AllocateOutputs() override;
 
   /**
    * Return the output label collection image, instead of the input as in the default
    * implementation
    */
-  virtual InputImageType * GetLabelMap() ITK_OVERRIDE
+  InputImageType * GetLabelMap() override
   {
     return this->GetOutput();
   }

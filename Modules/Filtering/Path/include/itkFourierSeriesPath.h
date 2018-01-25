@@ -83,11 +83,11 @@ public:
   typedef typename CoefficientsType::Pointer      CoefficientsPointer;
 
   /** Return the location of the parametric path at the specified location. */
-  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE;
+  OutputType Evaluate(const InputType & input) const override;
 
   /** Evaluate the first derivative of the ND output with respect to the 1D
     * input.  This is an exact, algebraic function. */
-  virtual VectorType EvaluateDerivative(const InputType & input) const ITK_OVERRIDE;
+  VectorType EvaluateDerivative(const InputType & input) const override;
 
   /** Add another harmonic's frequency coefficients. */
   void AddHarmonic(const VectorType & CosCoefficients,
@@ -105,15 +105,15 @@ public:
   itkNewMacro(Self);
 
   /** Needed for Pipelining */
-  virtual void Initialize(void) ITK_OVERRIDE
+  void Initialize(void) override
   {
     this->Clear();
   }
 
 protected:
   FourierSeriesPath();
-  ~FourierSeriesPath() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~FourierSeriesPath() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FourierSeriesPath);

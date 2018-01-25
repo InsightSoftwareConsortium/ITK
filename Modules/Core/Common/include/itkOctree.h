@@ -128,12 +128,12 @@ public:
 
   ImageTypePointer GetImage();
 
-  virtual void BuildFromBuffer(const void *buffer, const unsigned int xsize, const unsigned int ysize, const unsigned int zsize) ITK_OVERRIDE;
+  void BuildFromBuffer(const void *buffer, const unsigned int xsize, const unsigned int ysize, const unsigned int zsize) override;
 
   void BuildFromImage(Image< TPixel, 3 > *fromImage);
 
   Octree();
-  ~Octree() ITK_OVERRIDE;
+  ~Octree() override;
   void SetColor(unsigned int color) { m_Tree.SetColor(color); }
   void SetTree(OctreeNodeBranch *branch) { m_Tree.SetBranch(branch); }
   void SetTrueDims(const unsigned int Dim0, const unsigned int Dim1,
@@ -142,19 +142,19 @@ public:
   int GetValue(const unsigned int Dim0, const unsigned int Dim1,
                         const unsigned int Dim2);
 
-  virtual void SetWidth(unsigned int width) ITK_OVERRIDE;
+  void SetWidth(unsigned int width) override;
 
-  virtual void SetDepth(unsigned int depth) ITK_OVERRIDE;
+  void SetDepth(unsigned int depth) override;
 
-  virtual unsigned int GetWidth() ITK_OVERRIDE;
+  unsigned int GetWidth() override;
 
-  virtual unsigned int GetDepth() ITK_OVERRIDE;
+  unsigned int GetDepth() override;
 
-  virtual OctreeNode * GetTree() ITK_OVERRIDE;
+  OctreeNode * GetTree() override;
 
-  virtual const OctreeNodeBranch * GetColorTable() const ITK_OVERRIDE;
+  const OctreeNodeBranch * GetColorTable() const override;
 
-  virtual int GetColorTableSize() const ITK_OVERRIDE;
+  int GetColorTableSize() const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Octree);

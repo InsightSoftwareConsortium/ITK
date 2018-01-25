@@ -136,7 +136,7 @@ public:
   /** Curvature speed.  Can be used to spatially modify the effects of
       curvature . The default implementation returns one. */
   virtual ScalarValueType CurvatureSpeed(const NeighborhoodType &,
-                                         const FloatOffsetType &, GlobalDataStruct * = 0
+                                         const FloatOffsetType &, GlobalDataStruct * = nullptr
                                          ) const
   { return NumericTraits< ScalarValueType >::OneValue(); }
 
@@ -178,9 +178,9 @@ public:
   { return m_EpsilonMagnitude; }
 
   /** Compute the equation value. */
-  virtual PixelType ComputeUpdate( const NeighborhoodType & neighborhood,
+  PixelType ComputeUpdate( const NeighborhoodType & neighborhood,
                                    void *globalData,
-                                   const FloatOffsetType & = FloatOffsetType(0.0) ) ITK_OVERRIDE;
+                                   const FloatOffsetType & = FloatOffsetType(0.0) ) override;
 
   /** Computes the time step for an update given a global data structure.
    * The data used in the computation may take different forms depending on
@@ -188,7 +188,7 @@ public:
    * instance of the equation object itself since the equation object must
    * remain stateless for thread safety.  The global data is therefore managed
    * for each thread by the finite difference solver filters. */
-  virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const ITK_OVERRIDE;
+  TimeStepType ComputeGlobalTimeStep(void *GlobalData) const override;
 
   /** Returns a pointer to a global data structure that is passed to this
    * object from the solver at each calculation.  The idea is that the solver
@@ -197,7 +197,7 @@ public:
    * data should also be initialized in this method.  Global data can be used
    * for caching any values used or reused by the FunctionObject.  Each thread
    * should receive its own global data struct. */
-  virtual void * GetGlobalDataPointer() const ITK_OVERRIDE
+  void * GetGlobalDataPointer() const override
   {
     GlobalDataStruct *ans = new GlobalDataStruct();
 
@@ -216,7 +216,7 @@ public:
    * data pointer, it passes it to this method, which frees the memory.
    * The solver cannot free the memory because it does not know the type
    * to which the pointer points. */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE
+  void ReleaseGlobalDataPointer(void *GlobalData) const override
   { delete (GlobalDataStruct *)GlobalData; }
 
   /**  */
@@ -301,8 +301,8 @@ protected:
   {
   }
 
-  virtual ~LevelSetFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
+  ~LevelSetFunction() override {}
+  void PrintSelf(std::ostream & s, Indent indent) const override;
 
   /** Constants used in the time step calculation. */
   static double m_WaveDT;

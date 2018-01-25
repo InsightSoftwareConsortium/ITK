@@ -79,20 +79,20 @@ public:
 
   /** Returns the value of the level set function at a given location inputIndex */
   using Superclass::Evaluate;
-  virtual OutputType Evaluate( const InputType& inputIndex ) const ITK_OVERRIDE;
+  OutputType Evaluate( const InputType& inputIndex ) const override;
 
   /** Returns the Hessian of the level set function at a given location inputIndex */
-  virtual HessianType EvaluateHessian( const InputType& inputIndex ) const ITK_OVERRIDE;
+  HessianType EvaluateHessian( const InputType& inputIndex ) const override;
 
   /** Returns the Laplacian of the level set function at a given location inputIndex */
-  virtual OutputRealType EvaluateLaplacian( const InputType& inputIndex ) const ITK_OVERRIDE;
+  OutputRealType EvaluateLaplacian( const InputType& inputIndex ) const override;
 
   /** Returns the Laplacian of the level set function at a given location inputIndex */
-  virtual OutputRealType EvaluateMeanCurvature( const InputType& inputIndex ) const ITK_OVERRIDE;
+  OutputRealType EvaluateMeanCurvature( const InputType& inputIndex ) const override;
 
-  virtual void EvaluateHessian( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
-  virtual void EvaluateLaplacian( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
-  virtual void EvaluateMeanCurvature( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
+  void EvaluateHessian( const InputType& inputIndex, LevelSetDataType& data ) const override;
+  void EvaluateLaplacian( const InputType& inputIndex, LevelSetDataType& data ) const override;
+  void EvaluateMeanCurvature( const InputType& inputIndex, LevelSetDataType& data ) const override;
 
   static inline LayerIdType MinusThreeLayer() { return -3; }
   static inline LayerIdType MinusOneLayer() { return -1; }
@@ -103,12 +103,12 @@ protected:
 
   ShiSparseLevelSetImage();
 
-  virtual ~ShiSparseLevelSetImage() ITK_OVERRIDE;
+  ~ShiSparseLevelSetImage() override;
 
   /** Initialize the sparse field layers */
-  virtual void InitializeLayers() ITK_OVERRIDE;
+  void InitializeLayers() override;
 
-  virtual void InitializeInternalLabelList() ITK_OVERRIDE;
+  void InitializeInternalLabelList() override;
 
 private:
 

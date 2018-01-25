@@ -205,7 +205,7 @@ ThreadPool
       ThreadJob dummy;
       dummy.m_ThreadFunction = &noOperation;
       dummy.m_Semaphore = &jobSem[i];
-      dummy.m_UserData = ITK_NULLPTR; //makes dummy jobs easier to spot while debugging
+      dummy.m_UserData = nullptr; //makes dummy jobs easier to spot while debugging
       AddWork(dummy);
       }
 

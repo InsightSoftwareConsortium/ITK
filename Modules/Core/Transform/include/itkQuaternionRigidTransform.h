@@ -107,33 +107,33 @@ public:
   }
 
   /** Set the parameters to the IdentityTransform */
-  virtual void SetIdentity(void) ITK_OVERRIDE;
+  void SetIdentity(void) override;
 
   /** Set the transformation from a container of parameters.
    * This is typically used by optimizers.
    * There are 7 parameters. The first four represents the
    * quaternion and the last three represents the
    * offset. */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
 
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const override;
 
   /** Compute the Jacobian of the transformation.
    * This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the transform
    * is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
 protected:
   QuaternionRigidTransform(const MatrixType & matrix, const OutputVectorType & offset);
   QuaternionRigidTransform(unsigned int paramDims);
   QuaternionRigidTransform();
-  ~QuaternionRigidTransform() ITK_OVERRIDE {}
+  ~QuaternionRigidTransform() override {}
 
-  void ComputeMatrix() ITK_OVERRIDE;
+  void ComputeMatrix() override;
 
-  void ComputeMatrixParameters() ITK_OVERRIDE;
+  void ComputeMatrixParameters() override;
 
   void SetVarRotation(const VnlQuaternionType & rotation)
   {
@@ -142,7 +142,7 @@ protected:
 
   const InverseMatrixType & GetInverseMatrix() const;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuaternionRigidTransform);

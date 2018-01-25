@@ -127,13 +127,13 @@ public:
 
 protected:
   SampleClassifierFilter();
-  virtual ~SampleClassifierFilter() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SampleClassifierFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(SampleClassifierFilter);
 
   /** Starts the classification process */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Make a DataObject of the correct type to used as the specified
    * output. This method
@@ -143,7 +143,7 @@ protected:
    */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 private:
 

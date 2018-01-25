@@ -88,7 +88,7 @@ public:
   void SortSeeds();
 
   /** Produce the output information. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE {}
+  void GenerateOutputInformation() override {}
 
   /** Update the Voronoi Diagram after adding seed(s). */
   void UpdateDiagram();
@@ -106,11 +106,11 @@ public:
 
 protected:
   VoronoiDiagram2DGenerator();
-  ~VoronoiDiagram2DGenerator() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VoronoiDiagram2DGenerator() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate Voronoi Diagram based on the current list of seeds. */
-  void GenerateData(void) ITK_OVERRIDE;
+  void GenerateData(void) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiDiagram2DGenerator);
@@ -169,7 +169,7 @@ private:
       m_C(0.0),
       m_Edgenbr(0)
     {
-      m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = ITK_NULLPTR;
+      m_Ep[0] = m_Ep[1] = m_Reg[0] = m_Reg[1] = nullptr;
     }
 
     ~FortuneEdge(){}
@@ -187,13 +187,13 @@ private:
     FortuneHalfEdge *m_Next;
 
     FortuneHalfEdge() :
-      m_Left(ITK_NULLPTR),
-      m_Right(ITK_NULLPTR),
-      m_Edge(ITK_NULLPTR),
+      m_Left(nullptr),
+      m_Right(nullptr),
+      m_Edge(nullptr),
       m_RorL(false),
-      m_Vert(ITK_NULLPTR),
+      m_Vert(nullptr),
       m_Ystar(0.0),
-      m_Next(ITK_NULLPTR)
+      m_Next(nullptr)
     {}
 
     FortuneHalfEdge(const FortuneHalfEdge & edge) :

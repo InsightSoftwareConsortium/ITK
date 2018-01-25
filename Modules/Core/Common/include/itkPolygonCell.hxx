@@ -298,7 +298,7 @@ PolygonCell< TCellInterface >
     }
   else
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 
@@ -318,7 +318,7 @@ PolygonCell< TCellInterface >
     }
   else
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 
@@ -337,7 +337,7 @@ PolygonCell< TCellInterface >
     }
   else
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 
@@ -357,7 +357,7 @@ PolygonCell< TCellInterface >
     }
   else
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 }
 

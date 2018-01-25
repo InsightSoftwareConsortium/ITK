@@ -171,7 +171,7 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
   ElasticityType * m1 =
     dynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() );
 
-  if ( m1 == ITK_NULLPTR)
+  if ( m1 == nullptr)
     {
     std::cout << " [FAILED]" << std::endl;
     std::cout << "\tdynamic_cast<itk::fem::MaterialLinearElasticity *>( femObject->GetMaterial(0).GetPointer() ) failed" << std::endl;

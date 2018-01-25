@@ -119,10 +119,10 @@ public:
   void InitializeIterator();
 
   /** Default Destructor. */
-  virtual ~ShapedFloodFilledFunctionConditionalConstIterator() {}
+  ~ShapedFloodFilledFunctionConditionalConstIterator() override {}
 
   /** Compute whether the index of interest should be included in the flood */
-  virtual bool IsPixelIncluded(const IndexType & index) const = 0;
+  bool IsPixelIncluded(const IndexType & index) const override = 0;
 
   /** operator= is provided to make sure the handle to the image is properly
    * reference counted. */
@@ -141,15 +141,15 @@ public:
    * This causes the index to be calculated from pointer arithmetic and is
    * therefore an expensive operation.
    * \sa SetIndex */
-  const IndexType GetIndex()
+  const IndexType GetIndex() override
   { return m_IndexStack.front(); }
 
   /** Get the pixel value */
-  const PixelType Get(void) const
+  const PixelType Get(void) const override
   { return this->m_Image->GetPixel( m_IndexStack.front() ); }
 
   /** Is the iterator at the end of the region? */
-  bool IsAtEnd()
+  bool IsAtEnd() override
   { return this->m_IsAtEnd; }
 
   /** Put more seeds on the list */
@@ -199,7 +199,7 @@ public:
   }
 
   /** Walk forward one index */
-  void operator++()
+  void operator++() override
   { this->DoFloodStep(); }
 
   void DoFloodStep();

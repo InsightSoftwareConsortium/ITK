@@ -124,7 +124,7 @@ public:
 
 protected:
   MeanProjectionImageFilter() {}
-  virtual ~MeanProjectionImageFilter() ITK_OVERRIDE {}
+  ~MeanProjectionImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanProjectionImageFilter);

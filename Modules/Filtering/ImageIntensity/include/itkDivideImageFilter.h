@@ -96,14 +96,14 @@ public:
 
 protected:
   DivideImageFilter() {}
-  virtual ~DivideImageFilter() ITK_OVERRIDE {}
+  ~DivideImageFilter() override {}
 
-  void GenerateData() ITK_OVERRIDE
+  void GenerateData() override
     {
     const typename Superclass::DecoratedInput2ImagePixelType *input
        = dynamic_cast< const typename Superclass::DecoratedInput2ImagePixelType * >(
         this->ProcessObject::GetInput(1) );
-    if( input != ITK_NULLPTR && itk::Math::AlmostEquals(input->Get(), itk::NumericTraits< typename TInputImage2::PixelType >::ZeroValue()) )
+    if( input != nullptr && itk::Math::AlmostEquals(input->Get(), itk::NumericTraits< typename TInputImage2::PixelType >::ZeroValue()) )
       {
       itkGenericExceptionMacro(<<"The constant value used as denominator should not be set to zero");
       }

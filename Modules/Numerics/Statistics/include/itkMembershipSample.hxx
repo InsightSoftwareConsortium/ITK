@@ -101,7 +101,7 @@ MembershipSample< TSample >
   int classIndex = this->GetInternalClassLabel(classLabel);
   if (classIndex < 0)
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
 
   return m_ClassSamples[classIndex];

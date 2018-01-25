@@ -97,7 +97,7 @@ public:
   /** Object memory management methods. */
   QuadEdgeMeshPolygonCell(PointIdentifier nPoints = 0);
   QuadEdgeMeshPolygonCell(QuadEdgeType *e);
-  virtual ~QuadEdgeMeshPolygonCell() ITK_OVERRIDE;
+  ~QuadEdgeMeshPolygonCell() override;
 
   /** Accessors for m_Ident. */
   void SetIdent(CellIdentifier cid) { m_Ident = cid; }
@@ -111,9 +111,9 @@ public:
   SelfAutoPointer New();
 
   /** TCellInterface abstract methods definition. */
-  virtual void Accept(CellIdentifier cellId, MultiVisitor *mv) ITK_OVERRIDE;
+  void Accept(CellIdentifier cellId, MultiVisitor *mv) override;
 
-  virtual CellGeometry GetType() const ITK_OVERRIDE { return ( Superclass::POLYGON_CELL ); }
+  CellGeometry GetType() const override { return ( Superclass::POLYGON_CELL ); }
 
   /** itk topology related methods. */
   static int GetTopologyId()
@@ -121,21 +121,21 @@ public:
     return ( Superclass::POLYGON_CELL );
   }
 
-  virtual unsigned int GetDimension() const ITK_OVERRIDE
+  unsigned int GetDimension() const override
   {
     return ( Self::CellDimension );
   }
 
-  virtual unsigned int GetNumberOfPoints() const ITK_OVERRIDE;
+  unsigned int GetNumberOfPoints() const override;
 
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
+  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const override;
 
-  virtual bool GetBoundaryFeature(int dimension,
+  bool GetBoundaryFeature(int dimension,
                                   CellFeatureIdentifier cellId,
-                                  CellAutoPointer & cell) ITK_OVERRIDE;
+                                  CellAutoPointer & cell) override;
 
   /** Useless methods. */
-  virtual void MakeCopy(CellAutoPointer & cell) const ITK_OVERRIDE
+  void MakeCopy(CellAutoPointer & cell) const override
   {
     const PointIdentifier numberOfPoints = this->GetNumberOfPoints();
     Self *                newPolygonCell = new Self(numberOfPoints);
@@ -158,22 +158,22 @@ public:
   }
 
   /** ITK Cell API - Iterator-related methods. */
-  virtual void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
+  void SetPointIds(PointIdConstIterator first) override;
 
-  virtual void SetPointIds(PointIdConstIterator first,
-                           PointIdConstIterator last) ITK_OVERRIDE;
+  void SetPointIds(PointIdConstIterator first,
+                           PointIdConstIterator last) override;
 
-  virtual void SetPointId(int localId, PointIdentifier pId) ITK_OVERRIDE;
+  void SetPointId(int localId, PointIdentifier pId) override;
 
   virtual PointIdentifier GetPointId(int localId) const;
 
-  virtual PointIdIterator PointIdsBegin() ITK_OVERRIDE
+  PointIdIterator PointIdsBegin() override
   {
     // NOTE ALEX: should update the array on the fly to make it faster
     MakePointIds();
     if ( m_PointIds.size() == 0 )
       {
-      return ( static_cast< PointIdIterator >( ITK_NULLPTR ) );
+      return ( static_cast< PointIdIterator >( nullptr ) );
       }
     else
       {
@@ -181,12 +181,12 @@ public:
       }
   }
 
-  virtual PointIdIterator PointIdsEnd() ITK_OVERRIDE
+  PointIdIterator PointIdsEnd() override
   {
     // NOTE ALEX: should update the array on the fly to make it faster
     if ( m_PointIds.size() == 0 )
       {
-      return ( static_cast< PointIdIterator >( ITK_NULLPTR ) );
+      return ( static_cast< PointIdIterator >( nullptr ) );
       }
     else
       {
@@ -194,13 +194,13 @@ public:
       }
   }
 
-  virtual PointIdConstIterator PointIdsBegin() const ITK_OVERRIDE
+  PointIdConstIterator PointIdsBegin() const override
   {
     // NOTE ALEX: should update the array on the fly to make it faster
     MakePointIds();
     if ( m_PointIds.size() == 0 )
       {
-      return ( static_cast< PointIdIterator >( ITK_NULLPTR ) );
+      return ( static_cast< PointIdIterator >( nullptr ) );
       }
     else
       {
@@ -208,12 +208,12 @@ public:
       }
   }
 
-  virtual PointIdConstIterator PointIdsEnd() const ITK_OVERRIDE
+  PointIdConstIterator PointIdsEnd() const override
   {
     // NOTE ALEX: should update the array on the fly to make it faster
     if ( m_PointIds.size() == 0 )
       {
-      return ( static_cast< PointIdIterator >( ITK_NULLPTR ) );
+      return ( static_cast< PointIdIterator >( nullptr ) );
       }
     else
       {

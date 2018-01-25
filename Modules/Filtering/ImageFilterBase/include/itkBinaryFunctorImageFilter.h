@@ -168,7 +168,7 @@ public:
 
 protected:
   BinaryFunctorImageFilter();
-  virtual ~BinaryFunctorImageFilter() ITK_OVERRIDE {}
+  ~BinaryFunctorImageFilter() override {}
 
   /** BinaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
@@ -181,11 +181,11 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
   // Needed to take the image information from the 2nd input, if the first one is
   // a simple decorated object.
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryFunctorImageFilter);

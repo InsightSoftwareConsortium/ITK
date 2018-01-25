@@ -444,26 +444,26 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   TestKernelTransform
     ("ElasticBodyReciprocalSplineKernelTransform->SetParameters() -",
-     static_cast<itk::ElasticBodyReciprocalSplineKernelTransform<double,3> *>(ITK_NULLPTR));
+     static_cast<itk::ElasticBodyReciprocalSplineKernelTransform<double,3> *>(nullptr));
   TestKernelTransform
     ("ElasticBodySplineKernelTransform->SetParameters() - ",
-     static_cast<itk::ElasticBodySplineKernelTransform< double, 3 > *>(ITK_NULLPTR));
+     static_cast<itk::ElasticBodySplineKernelTransform< double, 3 > *>(nullptr));
 
   TestKernelTransform
     ("KernelTransform->SetParameters() - ",
-     static_cast<itk::KernelTransform< double, 3 > *>(ITK_NULLPTR));
+     static_cast<itk::KernelTransform< double, 3 > *>(nullptr));
 
   TestKernelTransform
     ("ThinPlateR2LogRSplineKernelTransform->SetParameters() - ",
-     static_cast<itk::ThinPlateR2LogRSplineKernelTransform< double, 3 > *>(ITK_NULLPTR));
+     static_cast<itk::ThinPlateR2LogRSplineKernelTransform< double, 3 > *>(nullptr));
 
   TestKernelTransform
     ("ThinPlateSplineKernelTransform->SetParameters() - ",
-     static_cast<itk::ThinPlateSplineKernelTransform< double, 3 > *>(ITK_NULLPTR));
+     static_cast<itk::ThinPlateSplineKernelTransform< double, 3 > *>(nullptr));
 
   TestKernelTransform
     ("VolumeSplineKernelTransform->SetParameters() - ",
-     static_cast<itk::VolumeSplineKernelTransform< double, 3 > *>(ITK_NULLPTR));
+     static_cast<itk::VolumeSplineKernelTransform< double, 3 > *>(nullptr));
 
   std::cout << std::endl << "Done." << std::endl;
 

@@ -143,7 +143,7 @@ int itkFEMElementTest(int ac, char *av[])
 
   // Open a file handle & associate it with the input file
   std::string modelFile = itksys::SystemTools::GetFilenameName(fname);
-  double *    expectedSolution = ITK_NULLPTR;
+  double *    expectedSolution = nullptr;
   double      tolerance;
 
   f.open(fname, std::ios::binary);
@@ -437,7 +437,7 @@ int itkFEMElementTest(int ac, char *av[])
       PrintNodalCoordinates(S, s, comment);
       PrintU(S, s, comment);
 
-      if( expectedSolution != ITK_NULLPTR )
+      if( expectedSolution != nullptr )
         {
         bool foundError = CheckDisplacements(S, s, comment, expectedSolution, tolerance);
         if( foundError )

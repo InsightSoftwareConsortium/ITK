@@ -106,7 +106,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~OtsuThresholdImageFilter() ITK_OVERRIDE {};
+  ~OtsuThresholdImageFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(OtsuThresholdImageFilter);

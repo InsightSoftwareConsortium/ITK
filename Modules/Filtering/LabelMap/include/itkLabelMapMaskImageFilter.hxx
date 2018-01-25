@@ -79,7 +79,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
       ProcessObject * upstream = input->GetSource();
       if (upstream)
         {
-        // this->SetInput(ITK_NULLPTR);
+        // this->SetInput(nullptr);
         // std::cout << "Update the input (again?)." << std::endl;
         upstream->Update();
         // this->SetInput(input);

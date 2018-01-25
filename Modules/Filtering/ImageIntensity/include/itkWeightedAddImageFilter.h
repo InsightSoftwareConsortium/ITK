@@ -171,7 +171,7 @@ public:
 
 protected:
   WeightedAddImageFilter() {}
-  virtual ~WeightedAddImageFilter() ITK_OVERRIDE {}
+  ~WeightedAddImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WeightedAddImageFilter);

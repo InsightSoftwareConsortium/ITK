@@ -99,11 +99,11 @@ public:
 
 protected:
   VTKPolyDataReader();
-  ~VTKPolyDataReader() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VTKPolyDataReader() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Reads the file */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Filename to read */
 

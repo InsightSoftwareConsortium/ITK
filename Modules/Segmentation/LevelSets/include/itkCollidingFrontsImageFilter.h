@@ -157,11 +157,11 @@ public:
 
 protected:
   CollidingFrontsImageFilter();
-  virtual ~CollidingFrontsImageFilter() ITK_OVERRIDE {}
+  ~CollidingFrontsImageFilter() override {}
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream &, Indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CollidingFrontsImageFilter);

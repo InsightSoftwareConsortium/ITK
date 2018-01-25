@@ -278,20 +278,20 @@ protected:
     m_TerminationUpdateThreshold(1e-5)
   {
   }
-  virtual ~MultiLabelSTAPLEImageFilter() ITK_OVERRIDE {}
+  ~MultiLabelSTAPLEImageFilter() override {}
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  void PrintSelf(std::ostream&, Indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream&, Indent) const override;
 
   /** Determine maximum value among all input images' pixels */
   typename TInputImage::PixelType ComputeMaximumInputValue();
 
   // Override since the filter needs all the data for the algorithm
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   // Override since the filter produces all of its output
-  void EnlargeOutputRequestedRegion( DataObject * ) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion( DataObject * ) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiLabelSTAPLEImageFilter);

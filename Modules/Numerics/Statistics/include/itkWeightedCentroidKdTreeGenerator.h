@@ -92,18 +92,18 @@ protected:
   WeightedCentroidKdTreeGenerator();
 
   /** Destructor */
-  virtual ~WeightedCentroidKdTreeGenerator() ITK_OVERRIDE {}
+  ~WeightedCentroidKdTreeGenerator() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Nonterminal node generation routine */
-  virtual KdTreeNodeType * GenerateNonterminalNode(unsigned int beginIndex,
+  KdTreeNodeType * GenerateNonterminalNode(unsigned int beginIndex,
                                                    unsigned int endIndex,
                                                    MeasurementVectorType
                                                    & lowerBound,
                                                    MeasurementVectorType
                                                    & upperBound,
-                                                   unsigned int level) ITK_OVERRIDE;
+                                                   unsigned int level) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WeightedCentroidKdTreeGenerator);

@@ -118,8 +118,8 @@ public:
 
 protected:
   ImageFileReader();
-  ~ImageFileReader() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImageFileReader() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Convert a block of pixels from one type to another. */
   void DoConvertBuffer(void *buffer, size_t numberOfPixels);
@@ -133,17 +133,17 @@ protected:
 
   /** Prepare the allocation of the output image during the first back
    * propagation of the pipeline. */
-  virtual void GenerateOutputInformation(void) ITK_OVERRIDE;
+  void GenerateOutputInformation(void) override;
 
   /** Give the reader a chance to indicate that it will produce more
    * output than it was requested to produce. ImageFileReader cannot
    * currently read a portion of an image (since the ImageIO objects
    * cannot read a portion of an image), so the ImageFileReader must
    * enlarge the RequestedRegion to the size of the image on disk. */
-  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
   /** Does the real work. */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   ImageIOBase::Pointer m_ImageIO;
 

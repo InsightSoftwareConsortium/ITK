@@ -181,15 +181,15 @@ public:
     }
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters() ITK_OVERRIDE;
+  void AdaptTransformParameters() override;
 
-  virtual void SetRequiredFixedParameters( const FixedParametersType ) ITK_OVERRIDE;
+  void SetRequiredFixedParameters( const FixedParametersType ) override;
 
 protected:
   TimeVaryingBSplineVelocityFieldTransformParametersAdaptor();
-  ~TimeVaryingBSplineVelocityFieldTransformParametersAdaptor() ITK_OVERRIDE;
+  ~TimeVaryingBSplineVelocityFieldTransformParametersAdaptor() override;
 
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingBSplineVelocityFieldTransformParametersAdaptor);

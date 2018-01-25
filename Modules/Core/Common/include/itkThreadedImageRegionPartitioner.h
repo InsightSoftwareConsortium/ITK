@@ -78,15 +78,15 @@ public:
    * If \c threadId is greater than the return value, the contents of
    * \c subRegion are undefined.
    */
-  virtual
+
   ThreadIdType PartitionDomain(const ThreadIdType threadId,
                            const ThreadIdType requestedTotal,
                            const DomainType& completeRegion,
-                           DomainType& subRegion) const ITK_OVERRIDE;
+                           DomainType& subRegion) const override;
 
 protected:
   ThreadedImageRegionPartitioner();
-  virtual ~ThreadedImageRegionPartitioner() ITK_OVERRIDE;
+  ~ThreadedImageRegionPartitioner() override;
 
   typedef ImageRegionSplitterSlowDimension ImageRegionSplitterType;
 

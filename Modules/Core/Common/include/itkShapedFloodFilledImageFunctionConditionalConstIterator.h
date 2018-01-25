@@ -103,10 +103,10 @@ public:
     FunctionType *fnPtr):Superclass(imagePtr,
                                     fnPtr) {}
   /** Default Destructor. */
-  virtual ~ShapedFloodFilledImageFunctionConditionalConstIterator() {}
+  ~ShapedFloodFilledImageFunctionConditionalConstIterator() override {}
 
   /** Compute whether the index of interest should be included in the flood */
-  bool IsPixelIncluded(const IndexType & index) const;
+  bool IsPixelIncluded(const IndexType & index) const override;
 };
 } // end namespace itk
 

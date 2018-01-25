@@ -87,7 +87,7 @@ public:
 
 protected:
   ComplexConjugateImageAdaptor() {}
-  virtual ~ComplexConjugateImageAdaptor() ITK_OVERRIDE {}
+  ~ComplexConjugateImageAdaptor() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexConjugateImageAdaptor);

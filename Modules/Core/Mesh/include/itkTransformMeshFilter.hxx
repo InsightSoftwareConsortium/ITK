@@ -30,7 +30,7 @@ template< typename TInputMesh, typename TOutputMesh, typename TTransform >
 TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
 ::TransformMeshFilter()
 {
-  m_Transform = ITK_NULLPTR; // has to be provided by the user.
+  m_Transform = nullptr; // has to be provided by the user.
 }
 
 /**

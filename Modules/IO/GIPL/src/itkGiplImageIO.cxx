@@ -75,7 +75,7 @@ public:
 GiplImageIO::GiplImageIO()
 {
   m_Internal = new GiplImageIOInternals;
-  m_Internal->m_GzFile = ITK_NULLPTR;
+  m_Internal->m_GzFile = nullptr;
   m_ByteOrder = BigEndian;
   m_IsCompressed = false;
 }
@@ -85,10 +85,10 @@ GiplImageIO::~GiplImageIO()
 {
   if ( m_IsCompressed )
     {
-    if ( m_Internal->m_GzFile != ITK_NULLPTR )
+    if ( m_Internal->m_GzFile != nullptr )
       {
       gzclose(m_Internal->m_GzFile);
-      m_Internal->m_GzFile = ITK_NULLPTR;
+      m_Internal->m_GzFile = nullptr;
       }
     }
   else
@@ -146,7 +146,7 @@ bool GiplImageIO::CanReadFile(const char *filename)
   else
     {
     m_Internal->m_GzFile = gzopen(filename, "rb");
-    if ( m_Internal->m_GzFile == ITK_NULLPTR )
+    if ( m_Internal->m_GzFile == nullptr )
       {
       return false;
       }
@@ -167,11 +167,11 @@ bool GiplImageIO::CanReadFile(const char *filename)
     if ( ( magic_number == GIPL_MAGIC_NUMBER ) || ( magic_number == GIPL_MAGIC_NUMBER2 ) )
       {
       gzclose(m_Internal->m_GzFile);
-      m_Internal->m_GzFile = ITK_NULLPTR;
+      m_Internal->m_GzFile = nullptr;
       return true;
       }
     gzclose(m_Internal->m_GzFile);
-    m_Internal->m_GzFile = ITK_NULLPTR;
+    m_Internal->m_GzFile = nullptr;
     }
   return false;
 }
@@ -219,7 +219,7 @@ void GiplImageIO::Read(void *buffer)
   bool success;
   if ( m_IsCompressed )
     {
-    if ( p != ITK_NULLPTR )
+    if ( p != nullptr )
       {
       success = true;
       }
@@ -236,7 +236,7 @@ void GiplImageIO::Read(void *buffer)
   if ( m_IsCompressed )
     {
     gzclose(m_Internal->m_GzFile);
-    m_Internal->m_GzFile = ITK_NULLPTR;
+    m_Internal->m_GzFile = nullptr;
     }
   else
     {
@@ -263,7 +263,7 @@ void GiplImageIO::ReadImageInformation()
   if ( m_IsCompressed )
     {
     m_Internal->m_GzFile = gzopen(m_FileName.c_str(), "rb");
-    if ( m_Internal->m_GzFile == ITK_NULLPTR )
+    if ( m_Internal->m_GzFile == nullptr )
       {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("File cannot be read");
@@ -719,7 +719,7 @@ GiplImageIO
   if ( m_IsCompressed )
     {
     m_Internal->m_GzFile = gzopen(m_FileName.c_str(), "wb");
-    if ( m_Internal->m_GzFile == ITK_NULLPTR )
+    if ( m_Internal->m_GzFile == nullptr )
       {
       ExceptionObject exception(__FILE__, __LINE__);
       exception.SetDescription("File cannot be write");
@@ -1088,7 +1088,7 @@ GiplImageIO
   if ( m_IsCompressed )
     {
     gzclose(m_Internal->m_GzFile);
-    m_Internal->m_GzFile = ITK_NULLPTR;
+    m_Internal->m_GzFile = nullptr;
     }
   else
     {

@@ -182,9 +182,9 @@ public:
 
 protected:
   FiniteDifferenceFunction();
-  ~FiniteDifferenceFunction() ITK_OVERRIDE {}
+  ~FiniteDifferenceFunction() override {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   RadiusType m_Radius;
   PixelRealType m_ScaleCoefficients[ImageDimension];

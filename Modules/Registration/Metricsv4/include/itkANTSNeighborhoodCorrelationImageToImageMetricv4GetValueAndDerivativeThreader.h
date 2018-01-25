@@ -144,7 +144,7 @@ public:
 
 protected:
   ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader() :
-    m_ANTSAssociate(ITK_NULLPTR)
+    m_ANTSAssociate(nullptr)
   {}
 
   /**
@@ -180,9 +180,9 @@ protected:
    * TransformAndEvaluateMovingPoint, and \c ProcessPoint.
    * And adds entries to m_MeasurePerThread and m_LocalDerivativesPerThread,
    * m_NumberOfValidPointsPerThread. */
-  virtual bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
+  bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
                                     const VirtualPointType & virtualPoint,
-                                    const ThreadIdType threadId ) ITK_OVERRIDE {
+                                    const ThreadIdType threadId ) override {
     return ProcessVirtualPoint_impl(IdentityHelper<TDomainPartitioner>(), virtualIndex, virtualPoint, threadId );
   }
 
@@ -207,7 +207,7 @@ protected:
   /** \c ProcessPoint() must be overloaded since it is a pure virtual function.
    * It is not used for either sparse or dense threader.
    * */
-  virtual bool ProcessPoint(
+  bool ProcessPoint(
          const VirtualIndexType &          itkNotUsed(virtualIndex),
          const VirtualPointType &          itkNotUsed(virtualPoint),
          const FixedImagePointType &       itkNotUsed(mappedFixedPoint),
@@ -218,13 +218,13 @@ protected:
          const MovingImageGradientType &   itkNotUsed(mappedMovingImageGradient),
          MeasureType &                     itkNotUsed(metricValueReturn),
          DerivativeType &                  itkNotUsed(localDerivativeReturn),
-         const ThreadIdType                itkNotUsed(threadId) ) const ITK_OVERRIDE
+         const ThreadIdType                itkNotUsed(threadId) ) const override
      {
         itkExceptionMacro("ProcessPoint should never be reached in ANTS CC metric threader class.");
      }
 
-  virtual void ThreadedExecution( const DomainType& domain,
-                                    const ThreadIdType threadId ) ITK_OVERRIDE
+  void ThreadedExecution( const DomainType& domain,
+                                    const ThreadIdType threadId ) override
     {
     ThreadedExecution_impl(IdentityHelper<TDomainPartitioner>(), domain, threadId );
     }

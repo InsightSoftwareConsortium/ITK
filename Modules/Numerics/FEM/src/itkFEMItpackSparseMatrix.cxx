@@ -33,10 +33,10 @@ ItpackSparseMatrix::ItpackSparseMatrix()
   m_LEVEL = -1;  /* no error messages */
   m_NOUT = 0;    /* output unit number */
 
-  m_IA = ITK_NULLPTR;
-  m_JA = ITK_NULLPTR;
-  m_IWORK = ITK_NULLPTR;
-  m_A = ITK_NULLPTR;
+  m_IA = nullptr;
+  m_JA = nullptr;
+  m_IWORK = nullptr;
+  m_A = nullptr;
 }
 
 ItpackSparseMatrix::ItpackSparseMatrix(integer order)
@@ -50,10 +50,10 @@ ItpackSparseMatrix::ItpackSparseMatrix(integer order)
   m_LEVEL = -1;  /* no error messages */
   m_NOUT = 0;    /* output unit number */
 
-  m_IA = ITK_NULLPTR;
-  m_JA = ITK_NULLPTR;
-  m_IWORK = ITK_NULLPTR;
-  m_A = ITK_NULLPTR;
+  m_IA = nullptr;
+  m_JA = nullptr;
+  m_IWORK = nullptr;
+  m_A = nullptr;
 }
 
 ItpackSparseMatrix::ItpackSparseMatrix(integer order, integer maxNonZeroValues)
@@ -67,10 +67,10 @@ ItpackSparseMatrix::ItpackSparseMatrix(integer order, integer maxNonZeroValues)
   m_LEVEL = -1;   /* no error messages */
   m_NOUT = 0;     /* output unit number */
 
-  m_IA = ITK_NULLPTR;
-  m_JA = ITK_NULLPTR;
-  m_IWORK = ITK_NULLPTR;
-  m_A = ITK_NULLPTR;
+  m_IA = nullptr;
+  m_JA = nullptr;
+  m_IWORK = nullptr;
+  m_A = nullptr;
 }
 
 void ItpackSparseMatrix::Initialize()
@@ -135,10 +135,10 @@ void ItpackSparseMatrix::Clear()
   m_LEVEL = -1;
   m_NOUT = 0;
 
-  m_IA = ITK_NULLPTR;
-  m_JA = ITK_NULLPTR;
-  m_IWORK = ITK_NULLPTR;
-  m_A = ITK_NULLPTR;
+  m_IA = nullptr;
+  m_JA = nullptr;
+  m_IWORK = nullptr;
+  m_A = nullptr;
 }
 
 void ItpackSparseMatrix::Finalize()
@@ -296,7 +296,7 @@ ItpackSparseMatrix::doublereal * ItpackSparseMatrix::GetA()
 {
   if( m_MatrixInitialized == 0 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   if( m_MatrixFinalized == 0 )
     {
@@ -310,7 +310,7 @@ ItpackSparseMatrix::integer * ItpackSparseMatrix::GetIA()
 {
   if( m_MatrixInitialized == 0 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   if( m_MatrixFinalized == 0 )
     {
@@ -324,7 +324,7 @@ ItpackSparseMatrix::integer * ItpackSparseMatrix::GetJA()
 {
   if( m_MatrixInitialized == 0 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   if( m_MatrixFinalized == 0 )
     {

@@ -58,10 +58,10 @@ bool GE4ImageIO::CanReadFile(const char *FileNameToRead)
     }
   tmpStr[16] = '\0';
   // if none of these strings show up, most likely not GE4
-  if ( strstr (tmpStr, "CORONAL") == ITK_NULLPTR
-       && strstr (tmpStr, "SAGITTAL") == ITK_NULLPTR
-       && strstr (tmpStr, "AXIAL") == ITK_NULLPTR
-       && strstr (tmpStr, "OBLIQUE") == ITK_NULLPTR )
+  if ( strstr (tmpStr, "CORONAL") == nullptr
+       && strstr (tmpStr, "SAGITTAL") == nullptr
+       && strstr (tmpStr, "AXIAL") == nullptr
+       && strstr (tmpStr, "OBLIQUE") == nullptr )
     {
     f.close();
     return false;
@@ -81,9 +81,9 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
 #else
 #define RGEDEBUG(x)
 #endif
-  if ( FileNameToRead == ITK_NULLPTR || strlen(FileNameToRead) == 0 )
+  if ( FileNameToRead == nullptr || strlen(FileNameToRead) == 0 )
     {
-    return ITK_NULLPTR;
+    return nullptr;
     }
   //
   // need to check if this is a valid file before going further
@@ -92,7 +92,7 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
     RAISE_EXCEPTION();
     }
   GEImageHeader *hdr = new GEImageHeader;
-  if ( hdr == ITK_NULLPTR )
+  if ( hdr == nullptr )
     {
     RAISE_EXCEPTION();
     }
@@ -157,7 +157,7 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
   this->GetStringAt(f, SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_PLANENAME * 2, tmpStr, 16);
   tmpStr[16] = '\0';
 
-  if ( strstr (tmpStr, "CORONAL") != ITK_NULLPTR )
+  if ( strstr (tmpStr, "CORONAL") != nullptr )
     {
     //hdr->imagePlane =
     // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
@@ -165,7 +165,7 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
     // brains2 filter.
     hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
     }
-  else if ( strstr (tmpStr, "SAGITTAL") != ITK_NULLPTR )
+  else if ( strstr (tmpStr, "SAGITTAL") != nullptr )
     {
     //hdr->imagePlane =
     // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
@@ -173,7 +173,7 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
     // brains2 filter.
     hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
     }
-  else if ( strstr (tmpStr, "AXIAL") != ITK_NULLPTR )
+  else if ( strstr (tmpStr, "AXIAL") != nullptr )
     {
     //hdr->imagePlane =
     // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
@@ -329,7 +329,7 @@ GEImageHeader * GE4ImageIO::ReadHeader(const char *FileNameToRead)
   //    status = stat (imageFile, &statBuf);
   //    if (status == -1)
   //      {
-  //  return (ITK_NULLPTR);
+  //  return (nullptr);
   //      }
   //
   //    hdr->offset = statBuf.st_size - (hdr->imageXsize * hdr->imageYsize * 2);

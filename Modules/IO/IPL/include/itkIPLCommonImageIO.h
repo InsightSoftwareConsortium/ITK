@@ -80,21 +80,21 @@ public:
     * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
     * \return Returns true if this ImageIO can read the file specified.
     */
-  virtual bool CanReadFile(const char *FileNameToRead) ITK_OVERRIDE;
+  bool CanReadFile(const char *FileNameToRead) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() override;
 
   /** Optionally, modify spacing, origin and direction */
   virtual void ModifyImageInformation() {}
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) override;
 
   /** Compute the size (in bytes) of the components of a pixel. For
        * example, and RGB pixel of unsigned char would have a
        * component size of 1 byte. */
-  virtual unsigned int GetComponentSize() const ITK_OVERRIDE;
+  unsigned int GetComponentSize() const override;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
@@ -104,14 +104,14 @@ public:
        * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
        * \return Returns true if this ImageIO can write the file specified.
        */
-  virtual bool CanWriteFile(const char *FileNameToWrite) ITK_OVERRIDE;
+  bool CanWriteFile(const char *FileNameToWrite) override;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void WriteImageInformation() ITK_OVERRIDE;
+  void WriteImageInformation() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
        * that the IORegions has been set properly. */
-  virtual void Write(const void *buffer) ITK_OVERRIDE;
+  void Write(const void *buffer) override;
 
   /** Set sorting method by name ascending. */
   virtual void SortImageListByNameAscend();
@@ -121,8 +121,8 @@ public:
 
 protected:
   IPLCommonImageIO();
-  ~IPLCommonImageIO() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~IPLCommonImageIO() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   int AddElementToList(char const *const filename,
                        const float sliceLocation,

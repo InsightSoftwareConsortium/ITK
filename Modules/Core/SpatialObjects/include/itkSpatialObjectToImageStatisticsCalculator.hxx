@@ -32,8 +32,8 @@ template< typename TInputImage, typename TInputSpatialObject, unsigned int TSamp
 SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSampleDimension >
 ::SpatialObjectToImageStatisticsCalculator()
 {
-  m_Image = ITK_NULLPTR;
-  m_SpatialObject = ITK_NULLPTR;
+  m_Image = nullptr;
+  m_SpatialObject = nullptr;
   m_Mean.Fill(0);
   m_CovarianceMatrix.SetIdentity();
   m_SampleDirection = TSampleDimension - 1;

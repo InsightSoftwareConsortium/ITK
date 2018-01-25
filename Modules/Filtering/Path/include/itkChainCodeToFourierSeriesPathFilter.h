@@ -78,10 +78,10 @@ public:
 
 protected:
   ChainCodeToFourierSeriesPathFilter();
-  virtual ~ChainCodeToFourierSeriesPathFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ChainCodeToFourierSeriesPathFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData(void) ITK_OVERRIDE;
+  void GenerateData(void) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodeToFourierSeriesPathFilter);

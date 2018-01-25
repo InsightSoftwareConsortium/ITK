@@ -68,7 +68,7 @@ public:
   MeasurementVectorSizeType;
 
   /**  Set the length of each measurement vector. */
-  virtual void SetMeasurementVectorSize(MeasurementVectorSizeType) ITK_OVERRIDE;
+  void SetMeasurementVectorSize(MeasurementVectorSizeType) override;
 
   /** Type of the DistanceMetric to use */
   typedef DistanceMetric< MeasurementVectorType > DistanceMetricType;
@@ -94,15 +94,15 @@ public:
   /**
    * Method to get probability of an instance. The return value is the
    * value of the density function, not probability. */
-  double Evaluate(const MeasurementVectorType & measurement) const ITK_OVERRIDE;
+  double Evaluate(const MeasurementVectorType & measurement) const override;
 
 protected:
   DistanceToCentroidMembershipFunction();
-  virtual ~DistanceToCentroidMembershipFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~DistanceToCentroidMembershipFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Return a copy of the current membership function */
-  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DistanceToCentroidMembershipFunction);

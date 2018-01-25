@@ -96,19 +96,19 @@ public:
 
 protected:
   BinaryClosingByReconstructionImageFilter();
-  ~BinaryClosingByReconstructionImageFilter() ITK_OVERRIDE {};
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~BinaryClosingByReconstructionImageFilter() override {};
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** BinaryClosingByReconstructionImageFilter need to make sure they request enough of an
    * input image to account for the structuring element size.  The input
    * requested region is expanded by the radius of the structuring element.
    * If the request extends past the LargestPossibleRegion for the input,
    * the request is cropped by the LargestPossibleRegion. */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleDilateImageFilter GrayscaleErodeImageFilter. */
-  void  GenerateData () ITK_OVERRIDE;
+  void  GenerateData () override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryClosingByReconstructionImageFilter);

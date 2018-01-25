@@ -74,7 +74,7 @@ public:
 
 protected:
   ThinPlateR2LogRSplineKernelTransform() {}
-  virtual ~ThinPlateR2LogRSplineKernelTransform() ITK_OVERRIDE {}
+  ~ThinPlateR2LogRSplineKernelTransform() override {}
 
   typedef typename Superclass::GMatrixType GMatrixType;
   /** Compute G(x)
@@ -85,12 +85,12 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix. */
-  virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const ITK_OVERRIDE;
+  void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const override;
 
   /** Compute the contribution of the landmarks weighted by the kernel funcion
       to the global deformation of the space  */
-  virtual void ComputeDeformationContribution(const InputPointType & inputPoint,
-                                              OutputPointType & result) const ITK_OVERRIDE;
+  void ComputeDeformationContribution(const InputPointType & inputPoint,
+                                              OutputPointType & result) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThinPlateR2LogRSplineKernelTransform);

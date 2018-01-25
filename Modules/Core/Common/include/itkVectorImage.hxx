@@ -117,7 +117,7 @@ void
 VectorImage< TPixel, VImageDimension >
 ::Graft(const Self *image)
 {
-  if(image == ITK_NULLPTR)
+  if(image == nullptr)
     {
     return;
     }
@@ -136,14 +136,14 @@ void
 VectorImage< TPixel, VImageDimension >
 ::Graft(const DataObject *data)
 {
-  if(data == ITK_NULLPTR)
+  if(data == nullptr)
     {
     return;
     }
   // Attempt to cast data to an Image
   const Self *imgData = dynamic_cast< const Self * >( data );
 
-  if( imgData == ITK_NULLPTR )
+  if( imgData == nullptr )
     {
     // pointer could not be cast back down
     itkExceptionMacro( << "itk::VectorImage::Graft() cannot cast "

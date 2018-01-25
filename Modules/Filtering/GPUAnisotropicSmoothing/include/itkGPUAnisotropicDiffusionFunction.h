@@ -104,20 +104,20 @@ public:
 
   /** Returns the time step supplied by the user.  We don't need to use the
    * global data supplied since we are returning a fixed value.  */
-  virtual TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const ITK_OVERRIDE
+  TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const override
   {
     return this->GetTimeStep();
   }
 
   /** The anisotropic diffusion classes don't use this particular parameter
    * so it's safe to return a null value. */
-  virtual void * GetGlobalDataPointer() const ITK_OVERRIDE
+  void * GetGlobalDataPointer() const override
   {
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Does nothing.  No global data is used in this class of equations.   */
-  virtual void ReleaseGlobalDataPointer( void *itkNotUsed(GlobalData) ) const ITK_OVERRIDE
+  void ReleaseGlobalDataPointer( void *itkNotUsed(GlobalData) ) const override
   {
     /* do nothing */
   }
@@ -130,9 +130,9 @@ protected:
     m_TimeStep                 = 0.125f;  // default value
   }
 
-  ~GPUAnisotropicDiffusionFunction() ITK_OVERRIDE {}
+  ~GPUAnisotropicDiffusionFunction() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "TimeStep: " << m_TimeStep << std::endl;

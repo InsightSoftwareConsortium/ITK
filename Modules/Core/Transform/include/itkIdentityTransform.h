@@ -111,35 +111,35 @@ public:
   typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
 
   /**  Method to transform a point. */
-  virtual OutputPointType TransformPoint(const InputPointType  & point) const ITK_OVERRIDE
+  OutputPointType TransformPoint(const InputPointType  & point) const override
   {
     return point;
   }
 
   /**  Method to transform a vector. */
   using Superclass::TransformVector;
-  virtual OutputVectorType TransformVector(const InputVectorType & vector) const ITK_OVERRIDE
+  OutputVectorType TransformVector(const InputVectorType & vector) const override
   {
     return vector;
   }
 
   /**  Method to transform a vnl_vector. */
-  virtual OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const ITK_OVERRIDE
+  OutputVnlVectorType TransformVector(const InputVnlVectorType & vector) const override
   {
     return vector;
   }
 
   /**  Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
-  virtual OutputCovariantVectorType TransformCovariantVector(
-    const InputCovariantVectorType & vector) const ITK_OVERRIDE
+  OutputCovariantVectorType TransformCovariantVector(
+    const InputCovariantVectorType & vector) const override
   {
     return vector;
   }
 
   /** Set the transformation to an Identity
    *
-   * This is a ITK_NULLPTR operation in the case of this particular transform.
+   * This is a nullptr operation in the case of this particular transform.
      The method is provided only to comply with the interface of other transforms. */
   void SetIdentity(void)
   {
@@ -173,8 +173,8 @@ public:
    *
    * \f]
    */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType &,
-                                                       JacobianType & jacobian) const ITK_OVERRIDE
+  void ComputeJacobianWithRespectToParameters( const InputPointType &,
+                                                       JacobianType & jacobian) const override
   {
     jacobian = this->m_IdentityJacobian;
   }
@@ -183,8 +183,8 @@ public:
    *  jacobian because the transform is position-invariant.
    *  jac will be resized as needed, but it will be more efficient if
    *  it is already properly sized. */
-  virtual void ComputeJacobianWithRespectToPosition(const InputPointType &,
-                                                    JacobianType & jac) const ITK_OVERRIDE
+  void ComputeJacobianWithRespectToPosition(const InputPointType &,
+                                                    JacobianType & jac) const override
   {
     jac.SetSize( NDimensions, NDimensions );
     jac.Fill(0.0);
@@ -197,12 +197,12 @@ public:
   /* Always returns true if not null, as an identity is it's own inverse */
   bool GetInverse( Self *inverseTransform ) const
   {
-    return (inverseTransform != ITK_NULLPTR);
+    return (inverseTransform != nullptr);
   }
 
   /** Return an inverse of the identity transform - another identity transform.
     */
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE
+  InverseTransformBasePointer GetInverseTransform() const override
   {
     return this->New().GetPointer();
   }
@@ -212,30 +212,30 @@ public:
    *
    * \f[ T( a*P + b*Q ) = a * T(P) + b * T(Q) \f]
    */
-  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  TransformCategoryType GetTransformCategory() const override
   {
     return Self::Linear;
   }
 
   /** Get the Fixed Parameters. */
-  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE
+  const FixedParametersType & GetFixedParameters() const override
   {
     return this->m_FixedParameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE
+  void SetFixedParameters(const FixedParametersType &) override
   {
   }
 
   /** Get the Parameters. */
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const override
   {
     return this->m_Parameters;
   }
 
   /** Set the fixed parameters and update internal transformation. */
-  virtual void SetParameters(const ParametersType &) ITK_OVERRIDE
+  void SetParameters(const ParametersType &) override
   {
   }
 
@@ -248,7 +248,7 @@ protected:
     this->m_IdentityJacobian.Fill(0.0);
   }
 
-  virtual ~IdentityTransform() ITK_OVERRIDE {}
+  ~IdentityTransform() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IdentityTransform);

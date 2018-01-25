@@ -275,9 +275,9 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 
   const SizeValueType ln = region.GetSize(this->m_Direction);
 
-  RealType *inps = ITK_NULLPTR;
-  RealType *outs = ITK_NULLPTR;
-  RealType *scratch = ITK_NULLPTR;
+  RealType *inps = nullptr;
+  RealType *outs = nullptr;
+  RealType *scratch = nullptr;
 
   try
     {
@@ -323,7 +323,7 @@ RecursiveSeparableImageFilter< TInputImage, TOutputImage >
     // is aborted.
 
     // release locally allocated memory, if memory allocation fails
-    // then we will delete a ITK_NULLPTR pointer, which is a valid operation
+    // then we will delete a nullptr pointer, which is a valid operation
     delete[] outs;
     delete[] inps;
     delete[] scratch;

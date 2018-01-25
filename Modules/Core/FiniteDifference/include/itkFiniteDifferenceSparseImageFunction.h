@@ -81,11 +81,11 @@ public:
    *  class because we need to work with neighborhoods of pointers to data
    *  variables instead of neighborhoods of data directly. This function is
    *  replaced by the ComputeSparseUpdate function. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType &,
+  PixelType ComputeUpdate(const NeighborhoodType &,
                                   void *,
-                                  const FloatOffsetType &) ITK_OVERRIDE
+                                  const FloatOffsetType &) override
   {
-    return static_cast< PixelType >( ITK_NULLPTR );
+    return static_cast< PixelType >( nullptr );
   }
 
   /** The update called from the FiniteDifferenceSparseImageFilter. This
@@ -109,8 +109,8 @@ public:
 
 protected:
   FiniteDifferenceSparseImageFunction() {}
-  ~FiniteDifferenceSparseImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~FiniteDifferenceSparseImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceSparseImageFunction);

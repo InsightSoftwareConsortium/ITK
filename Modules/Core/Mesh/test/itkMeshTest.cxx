@@ -116,7 +116,7 @@ public:
   CountClass* m_CountClass;
   VisitCells()
   {
-    m_CountClass = ITK_NULLPTR;
+    m_CountClass = nullptr;
   }
 };
 
@@ -253,7 +253,7 @@ int itkMeshTest(int, char* [] )
   catch(...)
     {
     std::cout << "CellPointer cannot be down-cast to a QuadCellType" << std::endl;
-    quad = ITK_NULLPTR;
+    quad = nullptr;
     }
   if( quad )
     {
@@ -331,7 +331,7 @@ int itkMeshTest(int, char* [] )
     1,              // Topological dimension of feature.
     1,              // CellIdentifier
     1,              // CellFeatureIdentifier
-    ITK_NULLPTR);          // We don't want the neighbors themselves (yet)
+    nullptr);          // We don't want the neighbors themselves (yet)
   std::cout << "Number of neighbors (hex edge 1): "
             << numberOfNeighbors << ". " << std::endl;
 
@@ -443,7 +443,7 @@ int itkMeshTest(int, char* [] )
     catch(...)
       {
       std::cout << "CellPointer cannot be down-cast to a VertexCellType" << std::endl;
-      vertex = ITK_NULLPTR;
+      vertex = nullptr;
       }
     if( vertex )
       {
@@ -522,7 +522,7 @@ int itkMeshTest(int, char* [] )
     catch(...)
       {
       std::cout << "CellPointer cannot be down-cast to a VertexCellType" << std::endl;
-      vertex = ITK_NULLPTR;
+      vertex = nullptr;
       }
     if( vertex )
       {
@@ -562,7 +562,7 @@ int itkMeshTest(int, char* [] )
     catch(...)
       {
       std::cout << "CellPointer cannot be down-cast to a VertexCellType" << std::endl;
-      edge = ITK_NULLPTR;
+      edge = nullptr;
       }
     if( edge )
       {

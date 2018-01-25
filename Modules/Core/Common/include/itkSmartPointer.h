@@ -48,7 +48,7 @@ public:
 
   /** Constructor  */
   SmartPointer ()
-  { m_Pointer = ITK_NULLPTR; }
+  { m_Pointer = nullptr; }
 
   /** Copy constructor  */
   SmartPointer (const SmartPointer< ObjectType > & p):
@@ -64,7 +64,7 @@ public:
   ~SmartPointer ()
   {
     this->UnRegister();
-    m_Pointer = ITK_NULLPTR;
+    m_Pointer = nullptr;
   }
 
   /** Overload operator ->  */
@@ -77,11 +77,11 @@ public:
 
   /** Test if the pointer is not NULL. */
   bool IsNotNull() const
-  { return m_Pointer != ITK_NULLPTR; }
+  { return m_Pointer != nullptr; }
 
   /** Test if the pointer is NULL. */
   bool IsNull() const
-  { return m_Pointer == ITK_NULLPTR; }
+  { return m_Pointer == nullptr; }
 
   /** Template comparison operators. */
   template< typename TR >

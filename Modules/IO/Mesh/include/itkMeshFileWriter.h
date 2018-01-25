@@ -115,7 +115,7 @@ public:
 
   /** Aliased to the Write() method to be consistent with the rest of the
   * pipeline. */
-  virtual void Update() ITK_OVERRIDE
+  void Update() override
   {
     this->Write();
   }
@@ -127,8 +127,8 @@ public:
 
 protected:
   MeshFileWriter();
-  ~MeshFileWriter() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MeshFileWriter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   template< typename Output >
   void CopyPointsToBuffer(Output *data);

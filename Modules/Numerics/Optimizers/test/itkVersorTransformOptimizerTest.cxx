@@ -73,7 +73,7 @@ public:
   }
 
 
-  virtual MeasureType GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  MeasureType GetValue( const ParametersType & parameters ) const override
   {
 
     std::cout << "GetValue( " << parameters << " ) = ";
@@ -111,7 +111,7 @@ public:
   }
 
   void GetDerivative( const ParametersType & parameters,
-                            DerivativeType & derivative  ) const ITK_OVERRIDE
+                            DerivativeType & derivative  ) const override
   {
 
     VectorType rightPart;
@@ -167,7 +167,7 @@ public:
 
   }
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const override
     {
     return SpaceDimension;
     }

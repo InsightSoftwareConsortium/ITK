@@ -32,7 +32,7 @@ ElementStd< VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass >
   // Set all node ids to 0 (undefined)
   for( int i = 0; i < NumberOfNodes; i++ )
     {
-    this->m_node[i] = ITK_NULLPTR;
+    this->m_node[i] = nullptr;
     }
 }
 

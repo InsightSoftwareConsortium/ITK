@@ -92,7 +92,7 @@ public:
   typedef          TParametersValueType   ScaleType;
 
   /** Set the parameters to the IdentityTransform */
-  virtual void SetIdentity(void) ITK_OVERRIDE;
+  void SetIdentity(void) override;
 
   /** Directly set the rotation matrix of the transform.
    *
@@ -100,7 +100,7 @@ public:
    * to within a specified tolerance, else an exception is thrown.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
+  void SetMatrix(const MatrixType & matrix) override;
 
   /** Directly set the rotation matrix of the transform.
    *
@@ -108,15 +108,15 @@ public:
    * to within the specified tolerance, else an exception is thrown.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance) ITK_OVERRIDE;
+  void SetMatrix(const MatrixType & matrix, const TParametersValueType tolerance) override;
 
   /** Set the transformation from a container of parameters This is typically
    * used by optimizers.  There are 7 parameters. The first three represent the
    * versor, the next three represent the translation and the last one
    * represents the scaling factor. */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
 
-  virtual const ParametersType & GetParameters(void) const ITK_OVERRIDE;
+  const ParametersType & GetParameters(void) const override;
 
   /** Set/Get the value of the isotropic scaling factor */
   void SetScale(ScaleType scale);
@@ -127,22 +127,22 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
 protected:
   Similarity3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
   Similarity3DTransform(unsigned int paramDim);
   Similarity3DTransform();
-  ~Similarity3DTransform() ITK_OVERRIDE {}
+  ~Similarity3DTransform() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Recomputes the matrix by calling the Superclass::ComputeMatrix() and then
    * applying the scale factor. */
-  void ComputeMatrix() ITK_OVERRIDE;
+  void ComputeMatrix() override;
 
   /** Computes the parameters from an input matrix. */
-  void ComputeMatrixParameters() ITK_OVERRIDE;
+  void ComputeMatrixParameters() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Similarity3DTransform);

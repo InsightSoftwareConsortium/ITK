@@ -82,7 +82,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    *  including its internal member variables. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
+  ::itk::LightObject::Pointer CreateAnother(void) const override;
 
   // Necessary typedefs for dealing with images BEGIN
   typedef typename LoadElement::Float Float;
@@ -255,12 +255,12 @@ public:
     m_Gamma = s;
   }
 
-  virtual void SetSolution(Solution::ConstPointer ptr) ITK_OVERRIDE
+  void SetSolution(Solution::ConstPointer ptr) override
   {
     m_Solution = ptr;
   }
 
-  virtual Solution::ConstPointer GetSolution() ITK_OVERRIDE
+  Solution::ConstPointer GetSolution() override
   {
     return m_Solution;
   }
@@ -301,11 +301,11 @@ public:
 
   void SetCurrentEnergy( double e = 0.0 );
 
-  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) ITK_OVERRIDE;
+  void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) override;
 
 protected:
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
   FiniteDifferenceFunctionLoad(); // cannot be private until we always use smart pointers

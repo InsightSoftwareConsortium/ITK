@@ -28,7 +28,7 @@ template< typename TImage >
 ImageToListSampleAdaptor< TImage >
 ::ImageToListSampleAdaptor()
 {
-  m_Image = ITK_NULLPTR;
+  m_Image = nullptr;
 }
 
 template< typename TImage >

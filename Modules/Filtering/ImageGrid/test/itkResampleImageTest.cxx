@@ -141,9 +141,9 @@ int itkResampleImageTest(int, char* [] )
 
   try
     {
-    std::cout << "Setting interpolator to ITK_NULLPTR" << std::endl;
+    std::cout << "Setting interpolator to nullptr" << std::endl;
     passed = false;
-    resample->SetInterpolator( ITK_NULLPTR );
+    resample->SetInterpolator( nullptr );
     resample->Update();
     }
   catch( itk::ExceptionObject& err )

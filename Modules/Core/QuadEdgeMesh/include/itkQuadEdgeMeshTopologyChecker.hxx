@@ -31,7 +31,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
   m_ExpectedNumberOfFaces = NumericTraits< CellIdentifier >::ZeroValue();
   m_ExpectedNumberOfBoundaries = NumericTraits< CellIdentifier >::ZeroValue();
   m_ExpectedGenus = NumericTraits< OffsetValueType >::ZeroValue();
-  m_Mesh = ITK_NULLPTR;
+  m_Mesh = nullptr;
 }
 
 template< typename TMesh >
@@ -113,7 +113,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
             }
           }
         }
-      else // cell->GetQEGEom( ) == ITK_NULLPTR
+      else // cell->GetQEGEom( ) == nullptr
         {
         // supposely impossible, throw exception
         }

@@ -32,12 +32,12 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
 {
   this->SetNumberOfRequiredOutputs(1);    // for the Transform
 
-  m_FixedImage   = ITK_NULLPTR; // has to be provided by the user.
-  m_MovingImage  = ITK_NULLPTR; // has to be provided by the user.
-  m_Transform    = ITK_NULLPTR; // has to be provided by the user.
-  m_Interpolator = ITK_NULLPTR; // has to be provided by the user.
-  m_Metric       = ITK_NULLPTR; // has to be provided by the user.
-  m_Optimizer    = ITK_NULLPTR; // has to be provided by the user.
+  m_FixedImage   = nullptr; // has to be provided by the user.
+  m_MovingImage  = nullptr; // has to be provided by the user.
+  m_Transform    = nullptr; // has to be provided by the user.
+  m_Interpolator = nullptr; // has to be provided by the user.
+  m_Metric       = nullptr; // has to be provided by the user.
+  m_Optimizer    = nullptr; // has to be provided by the user.
 
   // Use MultiResolutionPyramidImageFilter as the default
   // image pyramids.
@@ -473,7 +473,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
       break;
     default:
       itkExceptionMacro("MakeOutput request for an output number larger than the expected number of outputs");
-      return ITK_NULLPTR;
+      return nullptr;
     }
 }
 } // end namespace itk

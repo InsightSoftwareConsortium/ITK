@@ -27,8 +27,8 @@ template< typename TInputSpatialObject >
 SpatialObjectDuplicator< TInputSpatialObject >
 ::SpatialObjectDuplicator()
 {
-  m_Input = ITK_NULLPTR;
-  m_DuplicateSpatialObject = ITK_NULLPTR;
+  m_Input = nullptr;
+  m_DuplicateSpatialObject = nullptr;
   m_InternalSpatialObjectTime = 0;
   SpatialObjectFactoryBase::RegisterDefaultSpatialObjects();
 }
@@ -67,7 +67,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   typedef itk::SpatialObject< TInputSpatialObject::ObjectDimension > SOType;
 
   SOType *newSO = dynamic_cast< SOType * >( i.GetPointer() );
-  if ( newSO == ITK_NULLPTR )
+  if ( newSO == nullptr )
     {
     WarnAndPrintFactories(value);
     return;

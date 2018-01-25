@@ -120,7 +120,7 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
   std::cout << "Testing with requested region..." << std::endl;
   ImageType::Pointer temp = filter->GetOutput();
   temp->DisconnectPipeline();
-  temp = ITK_NULLPTR;
+  temp = nullptr;
 
   ImageType::RegionType rr = reader->GetOutput()->GetLargestPossibleRegion();
   for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
@@ -241,9 +241,9 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  // check ITK_NULLPTR input/output
-  TRY_EXPECT_EXCEPTION(badFilter->SetInputFilter(ITK_NULLPTR));
-  TRY_EXPECT_EXCEPTION(badFilter->SetOutputFilter(ITK_NULLPTR));
+  // check nullptr input/output
+  TRY_EXPECT_EXCEPTION(badFilter->SetInputFilter(nullptr));
+  TRY_EXPECT_EXCEPTION(badFilter->SetOutputFilter(nullptr));
 
   return EXIT_SUCCESS;
 }

@@ -80,7 +80,7 @@ public:
 
   SimpleMultiResolutionImageRegistrationUI2( TRegistration * ptr ) :
     Superclass(ptr) {};
-  virtual ~SimpleMultiResolutionImageRegistrationUI2(){}
+  ~SimpleMultiResolutionImageRegistrationUI2() override{}
 
   void SetNumberOfIterations( itk::Array<unsigned int> & iter )
     {
@@ -92,7 +92,7 @@ public:
     m_LearningRates = rates;
     }
 
-  virtual void StartNewLevel()
+  void StartNewLevel() override
     {
 
     // call the superclass's implementation

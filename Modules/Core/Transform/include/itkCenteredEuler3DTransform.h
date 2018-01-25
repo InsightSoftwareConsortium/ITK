@@ -89,7 +89,7 @@ public:
    * axes (X,Y,Z), the next three parameters represent the coordinates of the
    * center of rotation and the last three parameters represent the
    * translation. */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers. There are nine parameters. The first
@@ -97,30 +97,30 @@ public:
    * axes (X,Y,Z), the next three parameters represent the coordinates of the
    * center of rotation and the last three parameters represent the
    * translation. */
-  const ParametersType & GetParameters(void) const ITK_OVERRIDE;
+  const ParametersType & GetParameters(void) const override;
 
   /** This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
   /** Get an inverse of this transform. */
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const override;
 
 protected:
   CenteredEuler3DTransform();
   CenteredEuler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
   CenteredEuler3DTransform(unsigned int ParametersDimension);
-  ~CenteredEuler3DTransform() ITK_OVERRIDE;
+  ~CenteredEuler3DTransform() override;
 
   /**
    * Print contents of an CenteredEuler3DTransform
    */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CenteredEuler3DTransform);

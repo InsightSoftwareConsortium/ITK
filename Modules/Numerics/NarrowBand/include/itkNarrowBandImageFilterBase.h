@@ -201,7 +201,7 @@ public:
       }
   }
 
-  virtual void CopyInputToOutput() ITK_OVERRIDE;
+  void CopyInputToOutput() override;
 
 protected:
   NarrowBandImageFilterBase()
@@ -216,8 +216,8 @@ protected:
     m_Barrier = Barrier::New();
   }
 
-  virtual ~NarrowBandImageFilterBase() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NarrowBandImageFilterBase() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   NarrowBandPointer m_NarrowBand;
 
@@ -244,17 +244,17 @@ protected:
    *  a band, and calls the SplitRegions function of NarrowBand to pre-partition
    *  the band for multi-threading.
    */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** This method check the narrow band state each iteration and reinitialize
       the narrow band if it is appropriate calling CreateNarrowBand and
       SplitRegions to pre-partion the band for multi-threading.
   */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   /** This method allows deallocation of data and further post processing
   */
-  virtual void PostProcessOutput() ITK_OVERRIDE;
+  void PostProcessOutput() override;
 
   /* This function clears all pixels from the narrow band */
   void ClearNarrowBand();
@@ -265,7 +265,7 @@ protected:
   /** This is the default, high-level algorithm for calculating finite
     * difference solutions.  It calls virtual methods in its subclasses
     * to implement the major steps of the algorithm. */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /* Variables to control reinitialization */
   IdentifierType m_ReinitializationFrequency;
@@ -296,7 +296,7 @@ private:
    * functions. This function is here for compatibility with the
    * FiniteDifferenceSolver framework.
    */
-  virtual void AllocateUpdateBuffer() ITK_OVERRIDE {}
+  void AllocateUpdateBuffer() override {}
 
   /** This method gives support for a multithread iterative scheme. */
   static ITK_THREAD_RETURN_TYPE IterateThreaderCallback(void *arg);
@@ -313,7 +313,7 @@ private:
                                    const ThreadRegionType & regionToProcess,
                                    ThreadIdType threadId);
 
-  virtual void ApplyUpdate(const TimeStepType&) ITK_OVERRIDE {}
+  void ApplyUpdate(const TimeStepType&) override {}
 
   /** This method populates m_NarrowBand with changes for each pixel in the
    * output using the ThreadedCalculateChange() method and a multithreading
@@ -321,7 +321,7 @@ private:
   virtual TimeStepType ThreadedCalculateChange(const ThreadRegionType & regionToProcess,
                                                ThreadIdType threadId);
 
-  virtual TimeStepType CalculateChange() ITK_OVERRIDE { return 0; }
+  TimeStepType CalculateChange() override { return 0; }
 };
 } // end namespace itk
 

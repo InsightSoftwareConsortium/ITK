@@ -302,33 +302,33 @@ public:
 
 protected:
   KLMRegionGrowImageFilter();
-  ~KLMRegionGrowImageFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~KLMRegionGrowImageFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    * Standard pipeline method.
    */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** KLMRegionGrowImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** KLMRegionGrowImageFilter will produce all of the output.
    * Therefore it must provide an implementation of
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *) override;
 
   /** This is the interface function that calls the specific algorithm
    * implementation of region growing. */
-  void ApplyRegionGrowImageFilter() ITK_OVERRIDE;
+  void ApplyRegionGrowImageFilter() override;
 
   /** Function to merge two regions.
    * The smaller label is always assigned to the new region.  This is
    * consistent with the connected components algorithm. */
-  virtual void MergeRegions() ITK_OVERRIDE;
+  void MergeRegions() override;
 
   /** Generate output approximated image. */
   virtual void GenerateOutputImage();

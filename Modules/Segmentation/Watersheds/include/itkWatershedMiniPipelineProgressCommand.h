@@ -43,9 +43,9 @@ public:
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */
-  virtual void Execute(Object *caller, const EventObject & event) ITK_OVERRIDE;
+  void Execute(Object *caller, const EventObject & event) override;
 
-  virtual void Execute(const Object *caller, const EventObject & event) ITK_OVERRIDE;
+  void Execute(const Object *caller, const EventObject & event) override;
 
   /** Set/Get the filter whose UpdateProgress will be set by this
    * command object */
@@ -64,10 +64,10 @@ public:
   itkGetConstMacro(NumberOfFilters, unsigned int);
 
 protected:
-  WatershedMiniPipelineProgressCommand():m_Count(0.0), m_Filter(ITK_NULLPTR),
+  WatershedMiniPipelineProgressCommand():m_Count(0.0), m_Filter(nullptr),
     m_NumberOfFilters(1) {}
-  virtual ~WatershedMiniPipelineProgressCommand() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~WatershedMiniPipelineProgressCommand() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   double         m_Count;

@@ -127,17 +127,17 @@ public:
 
 protected:
   ImportImageFilter();
-  ~ImportImageFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImportImageFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This filter does not actually "produce" any data, rather it "wraps"
    * the user supplied data into an itk::Image.  */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** This is a source, so it must set the spacing, size, and largest possible
    * region for the output image that it will produce.
    * \sa ProcessObject::GenerateOutputInformation() */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** This filter can only produce the amount of data that it is given,
    * so we must override ProcessObject::EnlargeOutputRequestedRegion()
@@ -146,7 +146,7 @@ protected:
    * given.)
    *
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageFilter);

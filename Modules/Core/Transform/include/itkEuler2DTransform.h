@@ -99,7 +99,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const override;
 
   /**
    * This method creates and returns a new Euler2DTransform object
@@ -117,9 +117,9 @@ public:
 protected:
   Euler2DTransform(unsigned int parametersDimension);
   Euler2DTransform();
-  ~Euler2DTransform() ITK_OVERRIDE {}
+  ~Euler2DTransform() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Euler2DTransform);

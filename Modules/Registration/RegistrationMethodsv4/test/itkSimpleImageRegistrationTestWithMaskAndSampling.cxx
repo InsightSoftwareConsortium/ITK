@@ -42,14 +42,14 @@ protected:
 
 public:
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *) caller, event);
     }
 
-  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-      if(object == ITK_NULLPTR)
+      if(object == nullptr)
         {
         itkExceptionMacro(<< "Command update on null object");
         }
@@ -61,7 +61,7 @@ public:
       std::cout << std::endl;
       const TFilter * filter = static_cast< const TFilter * >( object );
 
-      if( typeid( event ) != typeid( itk::MultiResolutionIterationEvent ) || object == ITK_NULLPTR )
+      if( typeid( event ) != typeid( itk::MultiResolutionIterationEvent ) || object == nullptr )
         { return; }
 
       unsigned int currentLevel = filter->GetCurrentLevel();

@@ -202,10 +202,10 @@ public:
 #endif
 
 protected:
-  ~NarrowBandThresholdSegmentationLevelSetImageFilter() ITK_OVERRIDE {}
+  ~NarrowBandThresholdSegmentationLevelSetImageFilter() override {}
   NarrowBandThresholdSegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   NarrowBandThresholdSegmentationLevelSetImageFilter(const Self &); // purposely
                                                                     // not impl.

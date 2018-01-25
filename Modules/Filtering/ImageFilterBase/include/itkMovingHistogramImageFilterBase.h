@@ -133,15 +133,15 @@ public:
   typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare > OffsetMapType;
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel) ITK_OVERRIDE;
+  void SetKernel(const KernelType & kernel) override;
 
   itkGetConstMacro(PixelsPerTranslation, SizeValueType);
 
 protected:
   MovingHistogramImageFilterBase();
-  ~MovingHistogramImageFilterBase() ITK_OVERRIDE {}
+  ~MovingHistogramImageFilterBase() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   void GetDirAndOffset(const IndexType LineStart,
                        const IndexType PrevLineStart,

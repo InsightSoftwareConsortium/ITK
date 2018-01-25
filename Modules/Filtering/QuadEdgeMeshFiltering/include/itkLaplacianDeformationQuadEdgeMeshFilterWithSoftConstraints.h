@@ -80,8 +80,8 @@ public:
 protected:
 
   LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints();
-  virtual ~LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /**
    *  \brief Fill matrix iM and vectors Bx and m_By depending on if one
@@ -89,7 +89,7 @@ protected:
    */
   void FillMatrix(MatrixType & iM, VectorType & iBx, VectorType & iBy, VectorType & iBz);
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   typedef typename Superclass::ConstraintMapType                ConstraintMapType;
   typedef typename Superclass::ConstraintMapConstIterator       ConstraintMapConstIterator;
@@ -103,7 +103,7 @@ protected:
   typedef typename Superclass::RowConstIterator RowConstIterator;
   typedef typename Superclass::RowIterator      RowIterator;
 
-  virtual void ComputeVertexIdMapping() ITK_OVERRIDE;
+  void ComputeVertexIdMapping() override;
 
   OutputCoordRepType m_Lambda;
   OutputCoordRepType m_LambdaSquare;

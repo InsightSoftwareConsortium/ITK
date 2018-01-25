@@ -97,15 +97,15 @@ public:
 
 protected:
   VotingBinaryHoleFillingImageFilter();
-  virtual ~VotingBinaryHoleFillingImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VotingBinaryHoleFillingImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Make protected the methods SetBirthThreshold() and
    * SetSurvivalThreshold() so users of this filter do not have access to
    * them. */
-  void SetBirthThreshold(const unsigned int value) ITK_OVERRIDE
+  void SetBirthThreshold(const unsigned int value) override
   { this->Superclass::SetBirthThreshold(value);  }
-  void SetSurvivalThreshold(const unsigned int value) ITK_OVERRIDE
+  void SetSurvivalThreshold(const unsigned int value) override
   { this->Superclass::SetSurvivalThreshold(value);  }
 
   /** VotingBinaryHoleFillingImageFilter can be implemented as a multithreaded filter.
@@ -119,13 +119,13 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
   /** Methods to be called before and after the invokation of
    * ThreadedGenerateData(). */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryHoleFillingImageFilter);

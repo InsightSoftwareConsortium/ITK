@@ -107,7 +107,7 @@ public:
    * Some derived readers may accept an incomplete DOM object during the reading process, in those cases
    * the optional argument 'userdata' can be used to provide the missed information.
    */
-  void Update( const DOMNodeType* inputdom, const void* userdata = ITK_NULLPTR );
+  void Update( const DOMNodeType* inputdom, const void* userdata = nullptr );
 
   /**
    * Function called by end-users to generate the output object from the input XML file.

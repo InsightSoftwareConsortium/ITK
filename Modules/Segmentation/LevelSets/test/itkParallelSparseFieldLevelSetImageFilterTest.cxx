@@ -130,7 +130,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  ~MorphFunction() ITK_OVERRIDE {}
+  ~MorphFunction() override {}
 
   MorphFunction()
   {
@@ -141,11 +141,11 @@ protected:
 
 private:
   ::itk::Image<float, 3>::Pointer m_DistanceTransform;
-  virtual ScalarValueType PropagationSpeed(
+  ScalarValueType PropagationSpeed(
     const NeighborhoodType& neighborhood,
     const FloatOffsetType &,
     GlobalDataStruct *
-    ) const ITK_OVERRIDE
+    ) const override
   {
     ::itk::Index<3> idx = neighborhood.GetIndex();
     return m_DistanceTransform->GetPixel(idx);
@@ -179,7 +179,7 @@ public:
   void SetDistanceTransform(::itk::Image<float, 3> *im)
   {
   MorphFunction *func = dynamic_cast<MorphFunction *>( this->GetDifferenceFunction().GetPointer());
-  if( func == ITK_NULLPTR )
+  if( func == nullptr )
     {
     itkGenericExceptionMacro("MorphFunction cast failed");
     }
@@ -187,7 +187,7 @@ public:
   }
 
 protected:
-  ~MorphFilter() ITK_OVERRIDE {}
+  ~MorphFilter() override {}
   MorphFilter()
   {
     MorphFunction::Pointer p = MorphFunction::New();
@@ -202,7 +202,7 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MorphFilter);
   unsigned int m_Iterations;
 
-  virtual bool Halt() ITK_OVERRIDE
+  bool Halt() override
   {
     if (this->GetElapsedIterations() == m_Iterations) return true;
     else return false;

@@ -83,7 +83,7 @@ void ImageIOBase::Resize(const unsigned int numDimensions,
                          const unsigned int *dimensions)
 {
   m_NumberOfDimensions = numDimensions;
-  if ( dimensions != ITK_NULLPTR )
+  if ( dimensions != nullptr )
     {
     for ( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
       {

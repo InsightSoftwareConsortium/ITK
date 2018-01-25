@@ -157,14 +157,14 @@ public:
 
   /** Standard DataObject routine to initialize.  Returns the segment
    * tree to a default state, deallocating memory. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
 protected:
   SegmentTree() {}
-  virtual ~SegmentTree() ITK_OVERRIDE {}
+  ~SegmentTree() override {}
   SegmentTree(const Self &) {}
   void operator=(const Self &) {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   DequeType m_Deque;
 };

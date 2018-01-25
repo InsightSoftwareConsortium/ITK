@@ -132,13 +132,13 @@ public:
 
 protected:
   StatisticsLabelMapFilter();
-  ~StatisticsLabelMapFilter() ITK_OVERRIDE {}
+  ~StatisticsLabelMapFilter() override {}
 
-  virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
+  void ThreadedProcessLabelObject(LabelObjectType *labelObject) override;
 
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsLabelMapFilter);

@@ -145,35 +145,35 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode:public KdTreeNode<TSample>
   KdTreeNonterminalNode( unsigned int, MeasurementType, Superclass *,
     Superclass * );
 
-  virtual ~KdTreeNonterminalNode() {}
+  ~KdTreeNonterminalNode() override {}
 
-  virtual bool IsTerminal() const
+  bool IsTerminal() const override
   {
     return false;
   }
 
-  void GetParameters( unsigned int &, MeasurementType & ) const;
+  void GetParameters( unsigned int &, MeasurementType & ) const override;
 
   /** Returns the pointer to the left child of this node */
-  Superclass * Left()
+  Superclass * Left() override
   {
     return m_Left;
   }
 
   /** Returns the pointer to the right child of this node */
-  Superclass * Right()
+  Superclass * Right() override
   {
     return m_Right;
   }
 
   /** Returns the const pointer to the left child of this node */
-  const Superclass * Left() const
+  const Superclass * Left() const override
   {
     return m_Left;
   }
 
   /** Returns the const pointer to the right child of this node */
-  const Superclass * Right() const
+  const Superclass * Right() const override
   {
     return m_Right;
   }
@@ -182,7 +182,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode:public KdTreeNode<TSample>
    * Returs the number of measurement vectors under this node including
    * its children
    */
-  unsigned int Size() const
+  unsigned int Size() const override
   {
     return 0;
   }
@@ -191,20 +191,20 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode:public KdTreeNode<TSample>
    * Returns the vector sum of the all measurement vectors under this node.
    * Do nothing for this class.
    */
-  void GetWeightedCentroid( CentroidType & ) {}
+  void GetWeightedCentroid( CentroidType & ) override {}
 
   /**
    * Returns the centroid. weighted centroid divided by the size. Do nothing for
    * this class.
    */
-  void GetCentroid( CentroidType & ) {}
+  void GetCentroid( CentroidType & ) override {}
 
   /**
    * Returns the identifier of the only MeasurementVector associated with
    * this node in the tree. This MeasurementVector will be used later during
    * the distance computation when querying the tree.
    */
-  InstanceIdentifier GetInstanceIdentifier( InstanceIdentifier ) const
+  InstanceIdentifier GetInstanceIdentifier( InstanceIdentifier ) const override
   {
     return this->m_InstanceIdentifier;
   }
@@ -212,7 +212,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode:public KdTreeNode<TSample>
   /**
    * Set the identifier of the node.
    */
-  void AddInstanceIdentifier( InstanceIdentifier valueId )
+  void AddInstanceIdentifier( InstanceIdentifier valueId ) override
   {
     this->m_InstanceIdentifier = valueId;
   }
@@ -253,16 +253,16 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode:public KdTreeNo
   KdTreeWeightedCentroidNonterminalNode( unsigned int, MeasurementType,
     Superclass *, Superclass *, CentroidType &, unsigned int );
 
-  virtual ~KdTreeWeightedCentroidNonterminalNode() {}
+  ~KdTreeWeightedCentroidNonterminalNode() override {}
 
   /** Not a terminal node. */
-  virtual bool IsTerminal() const
+  bool IsTerminal() const override
   {
     return false;
   }
 
   /** Return the parameters of the node. */
-  void GetParameters( unsigned int &, MeasurementType & ) const;
+  void GetParameters( unsigned int &, MeasurementType & ) const override;
 
   /** Return the length of a measurement vector */
   MeasurementVectorSizeType GetMeasurementVectorSize() const
@@ -271,31 +271,31 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode:public KdTreeNo
   }
 
   /** Return the left tree pointer. */
-  Superclass * Left()
+  Superclass * Left() override
   {
     return m_Left;
   }
 
   /** Return the right tree pointer. */
-  Superclass * Right()
+  Superclass * Right() override
   {
     return m_Right;
   }
 
   /** Return the left tree const pointer. */
-  const Superclass * Left() const
+  const Superclass * Left() const override
   {
     return m_Left;
   }
 
   /** Return the right tree const pointer. */
-  const Superclass * Right() const
+  const Superclass * Right() const override
   {
     return m_Right;
   }
 
   /** Return the size of the node. */
-  unsigned int Size() const
+  unsigned int Size() const override
   {
     return m_Size;
   }
@@ -303,7 +303,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode:public KdTreeNo
   /**
    * Returns the vector sum of the all measurement vectors under this node.
    */
-  void GetWeightedCentroid(CentroidType & centroid)
+  void GetWeightedCentroid(CentroidType & centroid) override
   {
     centroid = m_WeightedCentroid;
   }
@@ -311,7 +311,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode:public KdTreeNo
   /**
    * Returns the centroid. weighted centroid divided by the size.
    */
-  void GetCentroid(CentroidType & centroid)
+  void GetCentroid(CentroidType & centroid) override
   {
     centroid = m_Centroid;
   }
@@ -321,7 +321,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode:public KdTreeNo
    * this node in the tree. This MeasurementVector will be used later during
    * the distance computation when querying the tree.
    */
-  InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier) const
+  InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier) const override
   {
     return this->m_InstanceIdentifier;
   }
@@ -329,7 +329,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode:public KdTreeNo
   /**
    * Set the identifier of the node.
    */
-  void AddInstanceIdentifier(InstanceIdentifier valueId)
+  void AddInstanceIdentifier(InstanceIdentifier valueId) override
   {
     this->m_InstanceIdentifier = valueId;
   }
@@ -368,46 +368,46 @@ struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode:public KdTreeNode<TSample>
 
   KdTreeTerminalNode() {}
 
-  virtual ~KdTreeTerminalNode()
+  ~KdTreeTerminalNode() override
   {
     this->m_InstanceIdentifiers.clear();
   }
 
   /** A terminal node. */
-  bool IsTerminal() const
+  bool IsTerminal() const override
   {
     return true;
   }
 
   /** Return the parameters of the node. */
-  void GetParameters( unsigned int &, MeasurementType & ) const {}
+  void GetParameters( unsigned int &, MeasurementType & ) const override {}
 
   /** Return the left tree pointer. Null for terminal nodes. */
-  Superclass * Left()
+  Superclass * Left() override
   {
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Return the right tree pointer. Null for terminal nodes. */
-  Superclass * Right()
+  Superclass * Right() override
   {
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Return the left tree const pointer. Null for terminal nodes. */
-  const Superclass * Left() const
+  const Superclass * Left() const override
   {
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Return the right tree const pointer. Null for terminal nodes. */
-  const Superclass * Right() const
+  const Superclass * Right() const override
   {
-    return ITK_NULLPTR;
+    return nullptr;
   }
 
   /** Return the size of the node. */
-  unsigned int Size() const
+  unsigned int Size() const override
   {
     return static_cast< unsigned int >( m_InstanceIdentifiers.size() );
   }
@@ -416,20 +416,20 @@ struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode:public KdTreeNode<TSample>
    * Returns the vector sum of the all measurement vectors under this node.
    * Do nothing for this case.
    */
-  void GetWeightedCentroid( CentroidType & ) {}
+  void GetWeightedCentroid( CentroidType & ) override {}
 
   /**
    * Returns the centroid. weighted centroid divided by the size.  Do nothing
    * for this case.
    */
-  void GetCentroid( CentroidType & ) {}
+  void GetCentroid( CentroidType & ) override {}
 
   /**
    * Returns the identifier of the only MeasurementVector associated with
    * this node in the tree. This MeasurementVector will be used later during
    * the distance computation when querying the tree.
    */
-  InstanceIdentifier GetInstanceIdentifier( InstanceIdentifier index ) const
+  InstanceIdentifier GetInstanceIdentifier( InstanceIdentifier index ) const override
   {
     return m_InstanceIdentifiers[index];
   }
@@ -437,7 +437,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode:public KdTreeNode<TSample>
   /**
    * Set the identifier of the node.
    */
-  void AddInstanceIdentifier( InstanceIdentifier id )
+  void AddInstanceIdentifier( InstanceIdentifier id ) override
   {
     m_InstanceIdentifiers.push_back( id );
   }
@@ -721,9 +721,9 @@ protected:
   KdTree();
 
   /** Destructor: deletes the root node and the empty terminal node. */
-  virtual ~KdTree() ITK_OVERRIDE;
+  ~KdTree() override;
 
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
   /** search loop */
   int NearestNeighborSearchLoop( const KdTreeNodeType *,

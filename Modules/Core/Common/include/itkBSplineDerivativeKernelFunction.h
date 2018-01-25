@@ -59,16 +59,16 @@ public:
   itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
   /** Evaluate the function. */
-  TRealValueType Evaluate( const TRealValueType & u ) const ITK_OVERRIDE
+  TRealValueType Evaluate( const TRealValueType & u ) const override
     {
     return this->Evaluate( Dispatch< VSplineOrder >(), u );
     }
 
 protected:
   BSplineDerivativeKernelFunction() {}
-  virtual ~BSplineDerivativeKernelFunction() ITK_OVERRIDE {}
+  ~BSplineDerivativeKernelFunction() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
     {
     Superclass::PrintSelf(os, indent);
     os << indent  << "Spline Order: " << SplineOrder << std::endl;

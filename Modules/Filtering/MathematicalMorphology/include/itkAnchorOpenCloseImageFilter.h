@@ -85,12 +85,12 @@ public:
 
 protected:
   AnchorOpenCloseImageFilter();
-  ~AnchorOpenCloseImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~AnchorOpenCloseImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const InputImageRegionType & outputRegionForThread,
-                             ThreadIdType threadId) ITK_OVERRIDE;
+                             ThreadIdType threadId) override;
 
   InputImagePixelType m_Boundary1;
   InputImagePixelType m_Boundary2;

@@ -85,7 +85,7 @@ template<typename T> void CheckVariableLengthArrayTraits(const T &t)
 #ifdef GCC_USEDEMANGLE
   char const *mangledName = typeid( t ).name();
   int         status;
-  char *      unmangled = abi::__cxa_demangle(mangledName, ITK_NULLPTR, ITK_NULLPTR, &status);
+  char *      unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
   name = unmangled;
   free(unmangled);
 #else
@@ -117,7 +117,7 @@ template<typename T> void CheckFixedArrayTraits(const T &t)
 #ifdef GCC_USEDEMANGLE
   char const *mangledName = typeid( t ).name();
   int         status;
-  char *      unmangled = abi::__cxa_demangle(mangledName, ITK_NULLPTR, ITK_NULLPTR, &status);
+  char *      unmangled = abi::__cxa_demangle(mangledName, nullptr, nullptr, &status);
   name = unmangled;
   free(unmangled);
 #else

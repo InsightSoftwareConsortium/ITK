@@ -40,23 +40,23 @@ public:
 
   /** Constructor */
   TreeChangeEvent():
-    m_ChangePosition( ITK_NULLPTR )
+    m_ChangePosition( nullptr )
     {}
 
   /** Copy constructor */
   TreeChangeEvent(const TreeIteratorBase< TTreeType > & position) { m_ChangePosition = &position; }
 
   /** Destructor */
-  virtual ~TreeChangeEvent() ITK_OVERRIDE {}
+  ~TreeChangeEvent() override {}
 
   /** Get the event name */
-  virtual const char * GetEventName() const ITK_OVERRIDE { return "TreeChangeEvent"; }
+  const char * GetEventName() const override { return "TreeChangeEvent"; }
 
   /** Check the event */
-  virtual bool CheckEvent(const::itk::EventObject *e) const ITK_OVERRIDE { return (dynamic_cast< const Self * >( e ) != ITK_NULLPTR); }
+  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
 
   /** Make the event object */
-  virtual::itk::EventObject * MakeObject() const ITK_OVERRIDE { return new Self(*m_ChangePosition); }
+  ::itk::EventObject * MakeObject() const override { return new Self(*m_ChangePosition); }
 
   /** Get the change position */
   const TreeIteratorBase< TTreeType > & GetChangePosition() const { return *m_ChangePosition; }
@@ -89,11 +89,11 @@ public:
   TreeNodeChangeEvent(const TreeIteratorBase< TTreeType > & position):
     TreeChangeEvent< TTreeType >(position) {}
 
-  virtual const char * GetEventName() const { return "TreeNodeChangeEvent"; }
+  const char * GetEventName() const override { return "TreeNodeChangeEvent"; }
 
-  virtual bool CheckEvent(const::itk::EventObject *e) const { return dynamic_cast< const Self * >( e ); }
+  bool CheckEvent(const::itk::EventObject *e) const override { return dynamic_cast< const Self * >( e ); }
 
-  virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
+  ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
 
   TreeNodeChangeEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
 
@@ -122,13 +122,13 @@ public:
     TreeChangeEvent< TTreeType >(position) {}
 
   /** Get the name of the event */
-  virtual const char * GetEventName() const { return "TreeAddEvent"; }
+  const char * GetEventName() const override { return "TreeAddEvent"; }
 
   /** Check event function */
-  virtual bool CheckEvent(const::itk::EventObject *e) const { return (dynamic_cast< const Self * >( e ) != ITK_NULLPTR); }
+  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
 
   /** Make the event object */
-  virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
+  ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
 
   TreeAddEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
 
@@ -157,13 +157,13 @@ public:
     TreeChangeEvent< TTreeType >(position) {}
 
   /** Get the event name */
-  virtual const char * GetEventName() const { return "TreeRemoveEvent"; }
+  const char * GetEventName() const override { return "TreeRemoveEvent"; }
 
   /** Check the event */
-  virtual bool CheckEvent(const::itk::EventObject *e) const { return (dynamic_cast< const Self * >( e ) != ITK_NULLPTR); }
+  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
 
   /** Make the event object */
-  virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
+  ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
 
   TreeRemoveEvent(const Self & s):TreeChangeEvent< TTreeType >(s) {}
 
@@ -188,11 +188,11 @@ public:
   TreePruneEvent(const TreeIteratorBase< TTreeType > & position):
   TreeRemoveEvent< TTreeType >(position) {}
 
-  virtual const char * GetEventName() const { return "TreePruneEvent"; }
+  const char * GetEventName() const override { return "TreePruneEvent"; }
 
-  virtual bool CheckEvent(const::itk::EventObject *e) const { return (dynamic_cast< const Self * >( e ) != ITK_NULLPTR); }
+  bool CheckEvent(const::itk::EventObject *e) const override { return (dynamic_cast< const Self * >( e ) != nullptr); }
 
-  virtual::itk::EventObject * MakeObject() const { return new Self(*this->m_ChangePosition); }
+  ::itk::EventObject * MakeObject() const override { return new Self(*this->m_ChangePosition); }
 
   TreePruneEvent(const Self & s):TreeRemoveEvent< TTreeType >(s) {}
 

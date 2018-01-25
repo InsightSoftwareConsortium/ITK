@@ -158,7 +158,7 @@ public:
   itkGetConstMacro(MeasurementVectorSize, MeasurementVectorSizeType);
 
   /** Method to graft another sample */
-  virtual void Graft(const DataObject *thatObject) ITK_OVERRIDE
+  void Graft(const DataObject *thatObject) override
   {
     this->Superclass::Graft(thatObject);
 
@@ -176,9 +176,9 @@ protected:
       MeasurementVectorType() );
   }
 
-  virtual ~Sample() ITK_OVERRIDE {}
+  ~Sample() override {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "Length of measurement vectors in the sample: "

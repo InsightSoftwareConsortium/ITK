@@ -59,17 +59,17 @@ public:
   typedef MetaContour                                     ContourMetaObjectType;
 
   /** Convert the MetaObject to Spatial Object */
-  virtual SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) ITK_OVERRIDE;
+  SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;
 
   /** Convert the SpatialObject to MetaObject */
-  virtual MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) ITK_OVERRIDE;
+  MetaObjectType *SpatialObjectToMetaObject(const SpatialObjectType *spatialObject) override;
 
 protected:
   /** Create the specific MetaObject for this class */
-  virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE;
+  MetaObjectType *CreateMetaObject() override;
 
   MetaContourConverter();
-  ~MetaContourConverter() ITK_OVERRIDE {}
+  ~MetaContourConverter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaContourConverter);

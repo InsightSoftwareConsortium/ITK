@@ -124,9 +124,9 @@ public:
 protected:
   GenerateImageSource();
   // virtual ~GenerateImageSource() default implementation ok
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GenerateImageSource);

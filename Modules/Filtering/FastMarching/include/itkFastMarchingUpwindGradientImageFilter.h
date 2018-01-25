@@ -189,15 +189,15 @@ public:
 
 protected:
   FastMarchingUpwindGradientImageFilter();
-  ~FastMarchingUpwindGradientImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~FastMarchingUpwindGradientImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  virtual void Initialize(LevelSetImageType *) ITK_OVERRIDE;
+  void Initialize(LevelSetImageType *) override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
-  virtual void UpdateNeighbors(const IndexType & index,
-                               const SpeedImageType *, LevelSetImageType *) ITK_OVERRIDE;
+  void UpdateNeighbors(const IndexType & index,
+                               const SpeedImageType *, LevelSetImageType *) override;
 
   virtual void ComputeGradient(const IndexType & index,
                                const LevelSetImageType *output,

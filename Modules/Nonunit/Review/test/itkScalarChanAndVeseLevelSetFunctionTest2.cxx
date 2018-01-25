@@ -61,11 +61,11 @@ public:
   virtual void computeOverlapParameters( const FeatureIndexType,
     unsigned int &, unsigned int & ) {}
 
-  virtual void ComputeParameters() ITK_OVERRIDE {}
+  void ComputeParameters() override {}
 
 protected:
   ScalarChanAndVeseLevelSetFunctionTest2Helper() {}
-  ~ScalarChanAndVeseLevelSetFunctionTest2Helper() {}
+  ~ScalarChanAndVeseLevelSetFunctionTest2Helper() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunctionTest2Helper);

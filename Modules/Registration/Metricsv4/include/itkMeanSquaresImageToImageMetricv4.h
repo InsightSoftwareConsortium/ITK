@@ -81,7 +81,7 @@ public:
 
 protected:
   MeanSquaresImageToImageMetricv4();
-  virtual ~MeanSquaresImageToImageMetricv4() ITK_OVERRIDE;
+  ~MeanSquaresImageToImageMetricv4() override;
 
   friend class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
   friend class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
@@ -90,7 +90,7 @@ protected:
   typedef MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
     MeanSquaresSparseGetValueAndDerivativeThreaderType;
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetricv4);

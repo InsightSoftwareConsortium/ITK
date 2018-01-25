@@ -112,11 +112,11 @@ protected:
     m_LowerBoundaryPadSize.Fill(0);
   }
 
-  ~PadLabelMapFilter() ITK_OVERRIDE {}
+  ~PadLabelMapFilter() override {}
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PadLabelMapFilter);

@@ -27,8 +27,8 @@ SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
 ::SpatialObjectWriter()
 {
   m_FileName = "";
-  m_SpatialObject = ITK_NULLPTR;
-  m_Scene = ITK_NULLPTR;
+  m_SpatialObject = nullptr;
+  m_Scene = nullptr;
   m_BinaryPoints = false;
   m_WriteImagesInSeparateFile = false;
 }
@@ -64,10 +64,10 @@ SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
   m_MetaToSpatialConverter.SetBinaryPoints(m_BinaryPoints);
   m_MetaToSpatialConverter.SetWriteImagesInSeparateFile(m_WriteImagesInSeparateFile);
 
-  if ( m_Scene != ITK_NULLPTR )
+  if ( m_Scene != nullptr )
     {
     m_MetaToSpatialConverter.WriteMeta( m_Scene, m_FileName.c_str() );
-    m_Scene = ITK_NULLPTR;
+    m_Scene = nullptr;
     }
   else
     {
@@ -81,7 +81,7 @@ SpatialObjectWriter< NDimensions, PixelType, TMeshTraits >
 
       m_MetaToSpatialConverter.WriteMeta( tScene,
                                           m_FileName.c_str() );
-      m_SpatialObject = ITK_NULLPTR;
+      m_SpatialObject = nullptr;
       }
     }
 }

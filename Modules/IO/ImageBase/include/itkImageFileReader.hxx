@@ -34,7 +34,7 @@ template< typename TOutputImage, typename ConvertPixelTraits >
 ImageFileReader< TOutputImage, ConvertPixelTraits >
 ::ImageFileReader()
 {
-  m_ImageIO = ITK_NULLPTR;
+  m_ImageIO = nullptr;
   this->SetFileName("");
   m_UserSpecifiedImageIO = false;
   m_UseStreaming = true;
@@ -396,7 +396,7 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
   itkDebugMacro (<< "Setting imageIO IORegion to: " << m_ActualIORegion);
   m_ImageIO->SetIORegion(m_ActualIORegion);
 
-  char *loadBuffer = ITK_NULLPTR;
+  char *loadBuffer = nullptr;
   // the size of the buffer is computed based on the actual number of
   // pixels to be read and the actual size of the pixels to be read
   // (as opposed to the sizes of the output)
@@ -466,7 +466,7 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
 
     // clean up
     delete[] loadBuffer;
-    loadBuffer = ITK_NULLPTR;
+    loadBuffer = nullptr;
 
     // then rethrow
     throw;
@@ -476,7 +476,7 @@ void ImageFileReader< TOutputImage, ConvertPixelTraits >
 
   // clean up
   delete[] loadBuffer;
-  loadBuffer = ITK_NULLPTR;
+  loadBuffer = nullptr;
 }
 
 template< typename TOutputImage, typename ConvertPixelTraits >

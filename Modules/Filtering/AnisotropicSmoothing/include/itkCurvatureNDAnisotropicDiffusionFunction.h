@@ -103,13 +103,13 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Compute incremental update. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
+  PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
                                   const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  ) ITK_OVERRIDE;
+                                  ) override;
 
   /** This method is called prior to each iteration of the solver. */
-  virtual void InitializeIteration() ITK_OVERRIDE
+  void InitializeIteration() override
   {
     m_K = static_cast< PixelType >( this->GetAverageGradientMagnitudeSquared()
                                     * this->GetConductanceParameter()
@@ -118,7 +118,7 @@ public:
 
 protected:
   CurvatureNDAnisotropicDiffusionFunction();
-  ~CurvatureNDAnisotropicDiffusionFunction() ITK_OVERRIDE {}
+  ~CurvatureNDAnisotropicDiffusionFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureNDAnisotropicDiffusionFunction);

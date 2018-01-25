@@ -59,9 +59,9 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
-  virtual void CalculateSpeedImage() ITK_OVERRIDE;
+  void CalculateSpeedImage() override;
 
-  virtual void Initialize(const RadiusType & r) ITK_OVERRIDE
+  void Initialize(const RadiusType & r) override
   {
     Superclass::Initialize(r);
 
@@ -76,7 +76,7 @@ public:
    * otherwise. in fact, SegmentationLevelSetImageFilter tries to set
    * it when SetFeatureScaling is called.
    */
-  void SetAdvectionWeight(const ScalarValueType value) ITK_OVERRIDE
+  void SetAdvectionWeight(const ScalarValueType value) override
   {
     if ( Math::ExactlyEquals(value, NumericTraits< ScalarValueType >::ZeroValue()) )
       {
@@ -93,7 +93,7 @@ protected:
     this->SetCurvatureWeight(1.0);
   }
 
-  virtual ~LaplacianSegmentationLevelSetFunction() ITK_OVERRIDE {}
+  ~LaplacianSegmentationLevelSetFunction() override {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSegmentationLevelSetFunction);
 };

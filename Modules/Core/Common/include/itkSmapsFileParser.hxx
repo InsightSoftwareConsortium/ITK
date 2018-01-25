@@ -178,8 +178,8 @@ void VMMapFileParser< TVMMapDataType >::ReadFile(const std::string & mapFileLoca
       std::stringstream vmmapCommand;
       vmmapCommand << "vmmap " << getpid();
 
-      FILE *vmmapCommandOutput = ITK_NULLPTR;
-      if ( ( vmmapCommandOutput = popen(vmmapCommand.str().c_str(), "r") ) == ITK_NULLPTR )
+      FILE *vmmapCommandOutput = nullptr;
+      if ( ( vmmapCommandOutput = popen(vmmapCommand.str().c_str(), "r") ) == nullptr )
         {
         itkGenericExceptionMacro(<< "Error using pmap. Can execute pmap command");
         }

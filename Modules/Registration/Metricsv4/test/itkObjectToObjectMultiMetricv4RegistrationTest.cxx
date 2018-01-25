@@ -49,12 +49,12 @@ protected:
 
 public:
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *) caller, event);
     }
 
-  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       {
@@ -202,7 +202,7 @@ int itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char *argv[])
   translationTransform->SetIdentity();
 
   // create images
-  ImageType::Pointer fixedImage = ITK_NULLPTR, movingImage = ITK_NULLPTR;
+  ImageType::Pointer fixedImage = nullptr, movingImage = nullptr;
   ImageType::OffsetType imageShift;
   imageShift.Fill(0);
   ObjectToObjectMultiMetricv4RegistrationTestCreateImages<ImageType>( fixedImage, movingImage, imageShift );

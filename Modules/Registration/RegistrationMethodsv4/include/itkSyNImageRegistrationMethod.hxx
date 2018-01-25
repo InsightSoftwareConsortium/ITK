@@ -50,8 +50,8 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
   this->m_NumberOfIterationsPerLevel[2] = 40;
   this->m_DownsampleImagesForMetricDerivatives = true;
   this->m_AverageMidPointGradients = false;
-  this->m_FixedToMiddleTransform = ITK_NULLPTR;
-  this->m_MovingToMiddleTransform = ITK_NULLPTR;
+  this->m_FixedToMiddleTransform = nullptr;
+  this->m_MovingToMiddleTransform = nullptr;
 }
 
 template<typename TFixedImage, typename TMovingImage, typename TOutputTransform, typename TVirtualImage, typename TPointSet>
@@ -165,7 +165,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
   while( this->m_CurrentIteration++ < this->m_NumberOfIterationsPerLevel[this->m_CurrentLevel] && !this->m_IsConverged )
     {
     typename CompositeTransformType::Pointer fixedComposite = CompositeTransformType::New();
-    if ( fixedInitialTransform != ITK_NULLPTR )
+    if ( fixedInitialTransform != nullptr )
       {
       fixedComposite->AddTransform( fixedInitialTransform );
       }

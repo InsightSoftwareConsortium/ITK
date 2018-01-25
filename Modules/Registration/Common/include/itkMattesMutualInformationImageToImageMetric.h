@@ -162,16 +162,16 @@ public:
    *  (2) uniformly select NumberOfSpatialSamples within
    *      the FixedImageRegion, and
    *  (3) allocate memory for pdf data structures. */
-  virtual void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) override;
 
   /**  Get the value. */
-  MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType GetValue(const ParametersType & parameters) const override;
 
   /** Get the derivatives of the match measure. */
-  void GetDerivative(const ParametersType & parameters, DerivativeType & Derivative) const ITK_OVERRIDE;
+  void GetDerivative(const ParametersType & parameters, DerivativeType & Derivative) const override;
 
   /**  Get the value and derivatives for single valued optimizers. */
-  void GetValueAndDerivative(const ParametersType & parameters, MeasureType & Value, DerivativeType & Derivative) const ITK_OVERRIDE;
+  void GetValueAndDerivative(const ParametersType & parameters, MeasureType & Value, DerivativeType & Derivative) const override;
 
 /** Number of bins to used in the histogram.
   * According to Mattes et al the optimum value is 50.
@@ -224,9 +224,9 @@ public:
    */
   const typename JointPDFType::Pointer GetJointPDF () const
     {
-    if( this->m_MMIMetricPerThreadVariables == ITK_NULLPTR )
+    if( this->m_MMIMetricPerThreadVariables == nullptr )
       {
-      return JointPDFType::Pointer(ITK_NULLPTR);
+      return JointPDFType::Pointer(nullptr);
       }
     return this->m_MMIMetricPerThreadVariables[0].JointPDF;
     }
@@ -239,9 +239,9 @@ public:
    */
   const typename JointPDFDerivativesType::Pointer GetJointPDFDerivatives () const
     {
-    if( this->m_MMIMetricPerThreadVariables == ITK_NULLPTR )
+    if( this->m_MMIMetricPerThreadVariables == nullptr )
       {
-      return JointPDFDerivativesType::Pointer(ITK_NULLPTR);
+      return JointPDFDerivativesType::Pointer(nullptr);
       }
     return this->m_MMIMetricPerThreadVariables[0].JointPDFDerivatives;
     }
@@ -249,8 +249,8 @@ public:
 protected:
 
   MattesMutualInformationImageToImageMetric();
-  virtual ~MattesMutualInformationImageToImageMetric() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MattesMutualInformationImageToImageMetric() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetric);
@@ -277,20 +277,20 @@ private:
                                      &  movingImageGradientValue,
                                      PDFValueType cubicBSplineDerivativeValue) const;
 
-  virtual void GetValueThreadPreProcess(ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
-  virtual void GetValueThreadPostProcess(ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
+  void GetValueThreadPreProcess(ThreadIdType threadId, bool withinSampleThread) const override;
+  void GetValueThreadPostProcess(ThreadIdType threadId, bool withinSampleThread) const override;
   //NOTE:  The signature in base class requires that movingImageValue is of type double
-  virtual bool GetValueThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
+  bool GetValueThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
                                                   const MovingImagePointType & mappedPoint,
-                                                  double movingImageValue) const ITK_OVERRIDE;
+                                                  double movingImageValue) const override;
 
-  virtual void GetValueAndDerivativeThreadPreProcess( ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
-  virtual void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadId, bool withinSampleThread) const ITK_OVERRIDE;
+  void GetValueAndDerivativeThreadPreProcess( ThreadIdType threadId, bool withinSampleThread) const override;
+  void GetValueAndDerivativeThreadPostProcess( ThreadIdType threadId, bool withinSampleThread) const override;
   //NOTE:  The signature in base class requires that movingImageValue is of type double
-  virtual bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
+  bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId, SizeValueType fixedImageSample,
                                                                const MovingImagePointType & mappedPoint,
                                                                double movingImageValue, const ImageDerivativesType &
-                                                               movingImageGradientValue) const ITK_OVERRIDE;
+                                                               movingImageGradientValue) const override;
 
   /** Variables to define the marginal and joint histograms. */
   SizeValueType m_NumberOfHistogramBins;

@@ -147,8 +147,8 @@ public:
 
 protected:
   ProbabilityDistribution(void);
-  virtual ~ProbabilityDistribution(void) ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ProbabilityDistribution(void) override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   ParametersType m_Parameters;
 

@@ -166,7 +166,7 @@ public:
   itkNewMacro(Self);
 
   /** Print internal ivars */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   { this->Superclass::PrintSelf(os, indent); }
 
   /** Set the dimension of the tensor. (For example the SymmetricSecondRankTensor
@@ -189,7 +189,7 @@ public:
 
 protected:
   SymmetricEigenAnalysisImageFilter() {}
-  virtual ~SymmetricEigenAnalysisImageFilter() ITK_OVERRIDE {}
+  ~SymmetricEigenAnalysisImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricEigenAnalysisImageFilter);

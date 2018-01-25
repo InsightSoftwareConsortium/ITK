@@ -123,7 +123,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != nullptr);
 
     const VectorType & globalPosition = landmark->GetSource();
 
@@ -142,7 +142,7 @@ RobustSolver<VDimension>
         const Element * element = this->m_InterpolationGrid->GetPixel(index);
 
         // Landmark is inside the mesh
-        if(element != ITK_NULLPTR)
+        if(element != nullptr)
           {
           landmark->SetContainedElement( element );
 
@@ -340,7 +340,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    if(landmark == ITK_NULLPTR)
+    if(landmark == nullptr)
       {
       itkExceptionMacro("Encounter landmark that is not a LoadNoisyLandmark");
       }
@@ -415,7 +415,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != nullptr);
 
     if(!landmark->IsOutlier())
       {
@@ -517,7 +517,7 @@ RobustSolver<VDimension>
   for(it = loadVector.begin(); it <= nth; it++)
     {
     LoadNoisyLandmark * landmark = dynamic_cast<LoadNoisyLandmark*>((*it).GetPointer());
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != nullptr);
 
     landmark->SetOutlier(true);
     }
@@ -578,7 +578,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    if(landmark == ITK_NULLPTR)
+    if(landmark == nullptr)
       {
       itkExceptionMacro("Encounter landmark that is not a LoadNoisyLandmark");
       }
@@ -709,7 +709,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    if(landmark == ITK_NULLPTR)
+    if(landmark == nullptr)
       {
       itkExceptionMacro("Encounter landmark that is not a LoadNoisyLandmark");
       }
@@ -798,7 +798,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != nullptr);
 
     if(landmark->IsOutlier())
       {
@@ -917,7 +917,7 @@ RobustSolver<VDimension>
 
     LoadNoisyLandmark *landmark = dynamic_cast<LoadNoisyLandmark*>(load.GetPointer());
 
-    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != ITK_NULLPTR);
+    itkAssertInDebugAndIgnoreInReleaseMacro(landmark != nullptr);
 
     if(!landmark->IsOutlier())
       {
@@ -1007,7 +1007,7 @@ RobustSolver<VDimension>
   this->m_InterpolationGrid->Allocate();
 
    // Initialize all pointers in interpolation grid image to 0
-  this->m_InterpolationGrid->FillBuffer(ITK_NULLPTR);
+  this->m_InterpolationGrid->FillBuffer(nullptr);
 
   // Fill the interpolation grid with proper pointers to elements
   FEMIndexType numberOfElements = this->m_FEMObject->GetNumberOfElements();

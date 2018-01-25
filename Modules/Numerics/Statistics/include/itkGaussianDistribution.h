@@ -76,16 +76,16 @@ public:
 
   /** Return the number of parameters.  For a univariate Gaussian,
    * this is 2 (mean, variance). */
-  virtual SizeValueType GetNumberOfParameters() const ITK_OVERRIDE { return 2; }
+  SizeValueType GetNumberOfParameters() const override { return 2; }
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
-  virtual double EvaluatePDF(double x) const ITK_OVERRIDE;
+  double EvaluatePDF(double x) const override;
 
   /** Evaluate the probability density function (pdf). The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (mean, variance). */
-  virtual double EvaluatePDF(double x, const ParametersType &) const ITK_OVERRIDE;
+  double EvaluatePDF(double x, const ParametersType &) const override;
 
   /** Evaluate the probability density function (pdf). The parameters
    * of the distribution are passed as separate parameters. */
@@ -93,12 +93,12 @@ public:
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are  assigned via SetParameters().  */
-  virtual double EvaluateCDF(double x) const ITK_OVERRIDE;
+  double EvaluateCDF(double x) const override;
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (mean, variance). */
-  virtual double EvaluateCDF(double x, const ParametersType &) const ITK_OVERRIDE;
+  double EvaluateCDF(double x, const ParametersType &) const override;
 
   /** Evaluate the cumulative distribution function (cdf). The parameters
    * of the distribution are passed as separate parameters. */
@@ -107,13 +107,13 @@ public:
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0. The parameters
    * of the distribution are  assigned via SetParameters().  */
-  virtual double EvaluateInverseCDF(double p) const ITK_OVERRIDE;
+  double EvaluateInverseCDF(double p) const override;
 
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
    * for the distribution are passed as a parameters vector. The
    * ordering of the parameters is (mean, variance). */
-  virtual double EvaluateInverseCDF(double p, const ParametersType &) const ITK_OVERRIDE;
+  double EvaluateInverseCDF(double p, const ParametersType &) const override;
 
   /** Evaluate the inverse cumulative distribution function (inverse
    * cdf).  Parameter p must be between 0.0 and 1.0.  The parameters
@@ -128,10 +128,10 @@ public:
 
   /** Get the mean of the Gaussian distribution. Defaults to 0.0. The
    * mean is stored in position 0 of the parameters vector. */
-  virtual double GetMean() const ITK_OVERRIDE;
+  double GetMean() const override;
 
   /** Does this distribution have a mean? */
-  virtual bool HasMean() const ITK_OVERRIDE { return true; }
+  bool HasMean() const override { return true; }
 
   /** Set the variance of the Gaussian distribution.  Defaults
    * to 1.0. The variance is stored in position 1 of the parameters
@@ -140,10 +140,10 @@ public:
 
   /** Get the variance of the Gaussian distribution. Defaults to
    * 1.0. The variance is stored in position 1 of the parameters vector. */
-  virtual double GetVariance() const ITK_OVERRIDE;
+  double GetVariance() const override;
 
   /** Does this distribution have a variance? */
-  virtual bool HasVariance() const ITK_OVERRIDE { return true; }
+  bool HasVariance() const override { return true; }
 
   /** Static method to evaluate the probability density function (pdf)
    * of a standardized (mean zero, unit variance) Gaussian. The static
@@ -232,9 +232,9 @@ public:
 
 protected:
   GaussianDistribution();
-  virtual ~GaussianDistribution(void) ITK_OVERRIDE {}
+  ~GaussianDistribution(void) override {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianDistribution);

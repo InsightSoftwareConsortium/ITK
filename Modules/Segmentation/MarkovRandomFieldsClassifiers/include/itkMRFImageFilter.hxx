@@ -32,10 +32,10 @@ MRFImageFilter< TInputImage, TClassifiedImage >
   m_TotalNumberOfPixelsInInputImage(1),
   m_ErrorTolerance(0.2),
   m_SmoothingFactor(1),
-  m_ClassProbability(ITK_NULLPTR),
+  m_ClassProbability(nullptr),
   m_NumberOfIterations(0),
   m_StopCondition(MaximumNumberOfIterations),
-  m_ClassifierPtr(ITK_NULLPTR)
+  m_ClassifierPtr(nullptr)
 {
   if ( (int)InputImageDimension != (int)ClassifiedImageDimension )
     {

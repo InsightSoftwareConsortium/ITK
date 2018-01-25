@@ -70,8 +70,8 @@ public:
 
   /** Return a list of children (the list should be deleted by the user */
 #if !defined( ITK_WRAPPING_PARSER )
-  virtual ChildrenListType * GetChildren(unsigned int depth = 0,
-                                         char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+  ChildrenListType * GetChildren(unsigned int depth = 0,
+                                         char *name = nullptr) const override;
 
 #endif
 
@@ -79,8 +79,8 @@ protected:
 
   /** Constructor */
   SpatialObjectTreeNode();
-  virtual ~SpatialObjectTreeNode() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SpatialObjectTreeNode() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   TransformPointer m_NodeToParentNodeTransform;
   TransformPointer m_NodeToWorldTransform;

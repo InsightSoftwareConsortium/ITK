@@ -101,10 +101,10 @@ public:
   InternalOptimizerType * GetOptimizer();
 
   /** Start optimization with an initial value. */
-  virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
+  void StartOptimization(bool doOnlyInitialization = false) override;
 
   /** Plug in a Cost Function into the optimizer  */
-  virtual void SetMetric(MetricType *metric) ITK_OVERRIDE;
+  void SetMetric(MetricType *metric) override;
 
   /** Set/Get the optimizer trace flag. If set to true, the optimizer
    * prints out information every iteration.
@@ -129,12 +129,12 @@ public:
   itkGetConstMacro(GradientConvergenceTolerance, double);
 
   /** Get the reason for termination */
-  virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;
+  const StopConditionReturnStringType GetStopConditionDescription() const override;
 
 protected:
   LBFGSOptimizerBasev4();
-  virtual ~LBFGSOptimizerBasev4() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~LBFGSOptimizerBasev4() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 

@@ -115,7 +115,7 @@ public:
 
   /** Evaluate the function at specified Point position.
    * Subclasses must provide this method. */
-  virtual TOutput Evaluate(const PointType & point) const ITK_OVERRIDE = 0;
+  TOutput Evaluate(const PointType & point) const override = 0;
 
   /** Evaluate the function at specified Index position.
    * Subclasses must provide this method. */
@@ -212,8 +212,8 @@ public:
 
 protected:
   ImageFunction();
-  ~ImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Const pointer to the input image. */
   InputImageConstPointer m_Image;

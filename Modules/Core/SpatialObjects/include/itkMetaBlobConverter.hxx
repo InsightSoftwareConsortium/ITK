@@ -43,7 +43,7 @@ MetaBlobConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
   const BlobMetaObjectType *Blob = dynamic_cast<const BlobMetaObjectType *>(mo);
-  if(Blob == ITK_NULLPTR)
+  if(Blob == nullptr)
     {
     itkExceptionMacro(<< "Can't downcast MetaObject to BlobMetaObject");
     }

@@ -242,7 +242,7 @@ public:
 protected:
 
   FEMScatteredDataPointSetToImageFilter();
-  virtual ~FEMScatteredDataPointSetToImageFilter() ITK_OVERRIDE;
+  ~FEMScatteredDataPointSetToImageFilter() override;
 
   /** Generate 2D/3D rectilinear mesh */
   void GenerateRectilinearMesh();
@@ -269,11 +269,11 @@ protected:
   void InitializeLoads(FEMObjectType * femObject);
 
   /** Run the solver and call ProduceDeformationField to produce deformation field */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   void ProduceDeformationField();
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

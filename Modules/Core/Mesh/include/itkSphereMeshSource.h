@@ -85,10 +85,10 @@ public:
 
 protected:
   SphereMeshSource();
-  ~SphereMeshSource() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SphereMeshSource() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** model center */
   OPointType m_Center;

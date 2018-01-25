@@ -242,7 +242,7 @@ public:
       }
     else
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
   }
 
@@ -346,7 +346,7 @@ public:
   {
     m_FunctionCount = n;
 
-    m_DifferenceFunctions.resize(m_FunctionCount, ITK_NULLPTR);
+    m_DifferenceFunctions.resize(m_FunctionCount, nullptr);
 
     RadiusType radius;
     radius.Fill(1);
@@ -358,7 +358,7 @@ public:
       }
 
     // Initialize the images
-    m_LevelSet.resize(m_FunctionCount, ITK_NULLPTR);
+    m_LevelSet.resize(m_FunctionCount, nullptr);
 
     // Initialize the lookup table
     this->m_Lookup.resize(m_FunctionCount);
@@ -380,7 +380,7 @@ public:
 protected:
   MultiphaseFiniteDifferenceImageFilter()
   {
-    this->m_KdTree = ITK_NULLPTR;
+    this->m_KdTree = nullptr;
     this->m_ElapsedIterations = 0;
     this->m_MaximumRMSError = itk::Math::eps;
     this->m_RMSChange = NumericTraits< double >::max();
@@ -392,7 +392,7 @@ protected:
     this->InPlaceOff();
   }
 
-  ~MultiphaseFiniteDifferenceImageFilter(){}
+  ~MultiphaseFiniteDifferenceImageFilter() override{}
 
   IdCellType                       m_FunctionCount;
   std::vector< InputImagePointer > m_LevelSet;
@@ -411,7 +411,7 @@ protected:
    * calculation. */
   bool m_UseImageSpacing;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method allocates a temporary update container in the subclass. */
   virtual void AllocateUpdateBuffer() = 0;
@@ -436,7 +436,7 @@ protected:
   /** This is the default, high-level algorithm for calculating finite
    * difference solutions.  It calls virtual methods in its subclasses
    * to implement the major steps of the algorithm. */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** FiniteDifferenceImageFilter2 needs a larger input requested region than
    * the output requested region.  As such, we need to provide
@@ -449,7 +449,7 @@ protected:
    * handled as described in the FiniteDifferenceFunction defined by the
    * subclass.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  Defined by a subclass. */

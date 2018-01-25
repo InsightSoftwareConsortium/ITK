@@ -152,7 +152,7 @@ public:
   /** Start optimization.
    * Optimization will stop when it meets either of two termination conditions,
    * the maximum iteration limit or epsilon (minimal search radius)  */
-  virtual void StartOptimization() ITK_OVERRIDE;
+  void StartOptimization() override;
 
   /** when users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and
@@ -166,13 +166,13 @@ public:
   itkGetConstReferenceMacro(MetricWorstPossibleValue, double);
   itkSetMacro(MetricWorstPossibleValue, double);
 
-  virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const override;
 
 protected:
   OnePlusOneEvolutionaryOptimizer();
   OnePlusOneEvolutionaryOptimizer(const OnePlusOneEvolutionaryOptimizer &);
-  virtual ~OnePlusOneEvolutionaryOptimizer() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~OnePlusOneEvolutionaryOptimizer() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 

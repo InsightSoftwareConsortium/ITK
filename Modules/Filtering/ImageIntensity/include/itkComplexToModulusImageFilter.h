@@ -94,7 +94,7 @@ public:
 
 protected:
   ComplexToModulusImageFilter() {}
-  virtual ~ComplexToModulusImageFilter() ITK_OVERRIDE {}
+  ~ComplexToModulusImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToModulusImageFilter);

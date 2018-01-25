@@ -63,16 +63,16 @@ public:
 protected:
   ImageRegionSplitterSlowDimension();
 
-  virtual unsigned int GetNumberOfSplitsInternal( unsigned int dim,
+  unsigned int GetNumberOfSplitsInternal( unsigned int dim,
                                                   const IndexValueType regionIndex[],
                                                   const SizeValueType regionSize[],
-                                                  unsigned int requestedNumber ) const ITK_OVERRIDE;
+                                                  unsigned int requestedNumber ) const override;
 
-  virtual unsigned int GetSplitInternal( unsigned int dim,
+  unsigned int GetSplitInternal( unsigned int dim,
                                          unsigned int i,
                                          unsigned int numberOfPieces,
                                          IndexValueType regionIndex[],
-                                         SizeValueType regionSize[] ) const ITK_OVERRIDE;
+                                         SizeValueType regionSize[] ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterSlowDimension);

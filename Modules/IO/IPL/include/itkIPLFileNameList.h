@@ -77,12 +77,12 @@ public:
     m_SliceOffset = 0;
     m_EchoNumber = 0;
     m_ImageNumber = 0;
-    m_Data = ITK_NULLPTR;
+    m_Data = nullptr;
   }
 
   IPLFileSortInfo(const char *const filename, float sliceLocation,
                   int sliceOffset, int echoNumber, int imageNumber,
-                  void *data = ITK_NULLPTR)
+                  void *data = nullptr)
   {
     m_ImageFileName = filename;
     m_SliceLocation = sliceLocation;
@@ -168,7 +168,7 @@ public:
         {}
     if ( it == itend )
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
     return *it;
   }

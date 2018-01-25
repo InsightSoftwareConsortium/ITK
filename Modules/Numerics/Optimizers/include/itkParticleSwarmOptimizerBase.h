@@ -114,7 +114,7 @@ public:
   itkBooleanMacro( PrintSwarm )
 
   /** Start optimization. */
-  virtual void StartOptimization( void ) ITK_OVERRIDE;
+  void StartOptimization( void ) override;
 
 
   /** Set/Get number of particles in the swarm - the maximal number of function
@@ -188,7 +188,7 @@ public:
   MeasureType GetValue() const;
 
   /** Get the reason for termination */
-  virtual const std::string GetStopConditionDescription() const ITK_OVERRIDE;
+  const std::string GetStopConditionDescription() const override;
 
   /** Print the swarm information to the given output stream. Each line
    * (particle data) is of the form:
@@ -198,8 +198,8 @@ public:
 
 protected:
   ParticleSwarmOptimizerBase();
-  virtual ~ParticleSwarmOptimizerBase() ITK_OVERRIDE;
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  ~ParticleSwarmOptimizerBase() override;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
   void PrintParamtersType(  const ParametersType& x, std::ostream& os ) const;
 
   /**

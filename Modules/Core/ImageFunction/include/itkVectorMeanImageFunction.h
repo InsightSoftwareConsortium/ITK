@@ -86,10 +86,10 @@ public:
   typedef typename NumericTraits< typename TInputImage::PixelType >::RealType RealType;
 
   /** Evalulate the function at specified index */
-  virtual RealType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  RealType EvaluateAtIndex(const IndexType & index) const override;
 
   /** Evaluate the function at non-integer positions */
-  virtual RealType Evaluate(const PointType & point) const ITK_OVERRIDE
+  RealType Evaluate(const PointType & point) const override
   {
     IndexType index;
 
@@ -97,8 +97,8 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
-  virtual RealType EvaluateAtContinuousIndex(
-    const ContinuousIndexType & cindex) const ITK_OVERRIDE
+  RealType EvaluateAtContinuousIndex(
+    const ContinuousIndexType & cindex) const override
   {
     IndexType index;
 
@@ -113,8 +113,8 @@ public:
 
 protected:
   VectorMeanImageFunction();
-  ~VectorMeanImageFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VectorMeanImageFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorMeanImageFunction);

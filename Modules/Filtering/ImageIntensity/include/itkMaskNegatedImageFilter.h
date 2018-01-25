@@ -217,9 +217,9 @@ public:
 
 protected:
   MaskNegatedImageFilter() {}
-  virtual ~MaskNegatedImageFilter() ITK_OVERRIDE {}
+  ~MaskNegatedImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
     os << indent << "OutsideValue: "  << this->GetOutsideValue() << std::endl;

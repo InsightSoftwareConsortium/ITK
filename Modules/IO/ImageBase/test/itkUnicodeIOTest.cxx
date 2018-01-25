@@ -44,7 +44,7 @@ bool checkAlphaExists()
   utf8_str += ".txt";
   FILE * tmp = fopen(utf8_str.c_str(), "r");
 #endif
-  if (tmp!=ITK_NULLPTR)
+  if (tmp!=nullptr)
     {
     // closing is required at least for mingw to be able to delete the file afterwards
     fclose(tmp);
@@ -134,7 +134,7 @@ int main( int , char * [] )
     ++nberror;
     }
 
-  if (wfile!=ITK_NULLPTR)
+  if (wfile!=nullptr)
     {
     fputs("test",wfile);
     fclose(wfile);
@@ -147,11 +147,11 @@ int main( int , char * [] )
 
   FILE * rfile = itk::i18n::I18nFopen(utf8_str, "rb");
 
-  if (rfile!=ITK_NULLPTR)
+  if (rfile!=nullptr)
     {
     char teststring[10];
     char * retptr = fgets(teststring, 10, rfile);
-    if (retptr!=ITK_NULLPTR)
+    if (retptr!=nullptr)
       {
       std::cout << "teststring=" << teststring <<std::endl;
 

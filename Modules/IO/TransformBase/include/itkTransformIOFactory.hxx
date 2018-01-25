@@ -71,7 +71,7 @@ TransformIOFactoryTemplate<TParametersValueType>
         }
       }
     }
-  return ITK_NULLPTR;
+  return nullptr;
 }
 } // end namespace itk
 

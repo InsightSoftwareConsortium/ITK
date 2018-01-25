@@ -144,16 +144,16 @@ public:
 #endif
 
 protected:
-  ~CurvesLevelSetImageFilter() ITK_OVERRIDE {}
+  ~CurvesLevelSetImageFilter() override {}
   CurvesLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(CurvesLevelSetImageFilter);
 
   /** Overridden from Superclass to handle the case when PropagationScaling is
     zero.*/
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   CurvesFunctionPointer m_CurvesFunction;

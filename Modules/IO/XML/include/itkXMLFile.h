@@ -65,8 +65,8 @@ public:
 
 protected:
   XMLReaderBase() {}
-  virtual ~XMLReaderBase() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~XMLReaderBase() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Instantiates and invokes the XML parser for the file named by
    * m_Filename.  The parser will throw an exception in the case of XML
@@ -104,10 +104,10 @@ public:
 
 protected:
   XMLReader() :
-    m_OutputObject(ITK_NULLPTR)
+    m_OutputObject(nullptr)
   {}
 
-  virtual ~XMLReader() {}
+  ~XMLReader() override {}
 
   T *m_OutputObject;
 
@@ -135,7 +135,7 @@ public:
    */
   XMLWriterBase()
   {
-    m_InputObject = ITK_NULLPTR;
+    m_InputObject = nullptr;
   }
 
   /** Set the filename to write */

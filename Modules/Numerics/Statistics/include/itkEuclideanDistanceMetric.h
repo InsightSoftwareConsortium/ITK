@@ -54,10 +54,10 @@ public:
   itkNewMacro(Self);
 
   /** Gets the distance between the origin and x */
-  double Evaluate(const MeasurementVectorType & x) const ITK_OVERRIDE;
+  double Evaluate(const MeasurementVectorType & x) const override;
 
   /** Gets the distance between x1 and x2 */
-  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const ITK_OVERRIDE;
+  double Evaluate(const MeasurementVectorType & x1, const MeasurementVectorType & x2) const override;
 
   /** Gets the cooridnate distance between a and b. NOTE: a and b
    * should be type of component. This method is used by
@@ -67,7 +67,7 @@ public:
 
 protected:
   EuclideanDistanceMetric() {}
-  virtual ~EuclideanDistanceMetric() ITK_OVERRIDE {}
+  ~EuclideanDistanceMetric() override {}
 };  // end of class
 } // end of namespace Statistics
 } // end of namespace itk

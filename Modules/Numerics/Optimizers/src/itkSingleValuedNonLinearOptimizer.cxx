@@ -25,7 +25,7 @@ namespace itk
 SingleValuedNonLinearOptimizer
 ::SingleValuedNonLinearOptimizer()
 {
-  m_CostFunction = ITK_NULLPTR;
+  m_CostFunction = nullptr;
 }
 
 /**

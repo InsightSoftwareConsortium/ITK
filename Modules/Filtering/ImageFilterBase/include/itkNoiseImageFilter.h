@@ -93,7 +93,7 @@ public:
 
 protected:
   NoiseImageFilter();
-  virtual ~NoiseImageFilter() ITK_OVERRIDE {}
+  ~NoiseImageFilter() override {}
 
   /** NoiseImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -106,7 +106,7 @@ protected:
    * \sa BoxImageFilter::ThreadedGenerateData(),
    *     BoxImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NoiseImageFilter);

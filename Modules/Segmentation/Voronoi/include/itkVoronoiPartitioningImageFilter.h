@@ -64,9 +64,9 @@ public:
   typedef typename Superclass::NeighborIdIterator NeighborIdIterator;
 
   /** Create the output results.  */
-  virtual void MakeSegmentBoundary(void) ITK_OVERRIDE;
+  void MakeSegmentBoundary(void) override;
 
-  virtual void MakeSegmentObject(void) ITK_OVERRIDE;
+  void MakeSegmentObject(void) override;
 
   /** Set/Get the threshold used to determine if a Voronoi region is
    * homogeneous. If the standard deviation of the intensities in the
@@ -92,17 +92,17 @@ public:
 
 protected:
   VoronoiPartitioningImageFilter();
-  ~VoronoiPartitioningImageFilter() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~VoronoiPartitioningImageFilter() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   // Classify all the voronoi cells as interior , exterior or boundary.
-  virtual void ClassifyDiagram(void) ITK_OVERRIDE;
+  void ClassifyDiagram(void) override;
 
   // Generate the seeds to be added by dividing the boundary cells.
-  virtual void GenerateAddingSeeds(void) ITK_OVERRIDE;
+  void GenerateAddingSeeds(void) override;
 
   // Are the pixels specified in the index list homogeneous?
-  virtual bool TestHomogeneity(IndexList & Plist) ITK_OVERRIDE;
+  bool TestHomogeneity(IndexList & Plist) override;
 
   // Threshold for homogeneity criterion
   double m_SigmaThreshold;

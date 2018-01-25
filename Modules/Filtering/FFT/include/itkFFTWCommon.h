@@ -133,7 +133,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftwf_plan_dft_c2r(rank,n,in,out,roflags);
-    if( plan == ITK_NULLPTR )
+    if( plan == nullptr )
       {
       // no wisdom available for that plan
       if( canDestroyInput )
@@ -157,7 +157,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
+    itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
   }
 
@@ -225,7 +225,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftwf_plan_dft_r2c(rank,n,in,out,roflags);
-    if( plan == ITK_NULLPTR )
+    if( plan == nullptr )
       {
       // no wisdom available for that plan
       if( canDestroyInput )
@@ -249,7 +249,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
+    itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
   }
 
@@ -319,7 +319,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftwf_plan_dft(rank,n,in,out,sign,roflags);
-    if( plan == ITK_NULLPTR )
+    if( plan == nullptr )
       {
       // no wisdom available for that plan
       if( canDestroyInput )
@@ -343,7 +343,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
+    itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
   }
 
@@ -437,7 +437,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftw_plan_dft_c2r(rank,n,in,out,roflags);
-    if( plan == ITK_NULLPTR )
+    if( plan == nullptr )
       {
       // no wisdom available for that plan
       if( canDestroyInput )
@@ -461,7 +461,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
+    itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
   }
 
@@ -528,7 +528,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftw_plan_dft_r2c(rank,n,in,out,roflags);
-    if( plan == ITK_NULLPTR )
+    if( plan == nullptr )
       {
       // no wisdom available for that plan
       if( canDestroyInput )
@@ -552,7 +552,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
+    itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
   }
 
@@ -622,7 +622,7 @@ public:
       roflags = flags | FFTW_WISDOM_ONLY;
       }
     PlanType plan = fftw_plan_dft(rank,n,in,out,sign,roflags);
-    if( plan == ITK_NULLPTR )
+    if( plan == nullptr )
       {
       // no wisdom available for that plan
       if( canDestroyInput )
@@ -646,7 +646,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
+    itkAssertOrThrowMacro( plan != nullptr , "PLAN_CREATION_FAILED ");
     return plan;
   }
 

@@ -71,7 +71,7 @@ public:
   /** Evaluate the function at a given position and return the
    *  value in the specific direction. SetDirection() should be used
    *  to set the direction. */
-  OutputType Evaluate(const TInput & position) const ITK_OVERRIDE;
+  OutputType Evaluate(const TInput & position) const override;
 
   /** Evaluate the function at a given position and return a vector */
   VectorType EvaluateVector(const TInput & position) const;
@@ -90,8 +90,8 @@ public:
 
 protected:
   GaussianDerivativeSpatialFunction();
-  virtual ~GaussianDerivativeSpatialFunction() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GaussianDerivativeSpatialFunction() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianDerivativeSpatialFunction);

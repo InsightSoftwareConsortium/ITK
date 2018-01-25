@@ -74,8 +74,8 @@ public:
 
 protected:
   LiThresholdCalculator() {};
-  virtual ~LiThresholdCalculator() ITK_OVERRIDE {};
-  void GenerateData(void) ITK_OVERRIDE;
+  ~LiThresholdCalculator() override {};
+  void GenerateData(void) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LiThresholdCalculator);

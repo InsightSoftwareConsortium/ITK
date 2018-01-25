@@ -86,8 +86,8 @@ public:
 
 protected:
   Optimizer();
-  virtual ~Optimizer() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~Optimizer() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Set the current position. */
   virtual void SetCurrentPosition(const ParametersType & param);

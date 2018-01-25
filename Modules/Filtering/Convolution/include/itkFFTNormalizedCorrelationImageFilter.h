@@ -132,11 +132,11 @@ protected:
       Self::RemoveInput("MovingImageMask");
       Self::RemoveInput("FixedImageMask");
     }
-  virtual ~FFTNormalizedCorrelationImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~FFTNormalizedCorrelationImageFilter() override {}
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Standard pipeline method.*/
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTNormalizedCorrelationImageFilter);

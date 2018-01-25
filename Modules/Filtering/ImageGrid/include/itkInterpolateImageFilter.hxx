@@ -46,7 +46,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
   // Set default distance to 0,5
   m_Distance = 0.5;
 
-  m_IntermediateImage = ITK_NULLPTR;
+  m_IntermediateImage = nullptr;
 }
 
 /**
@@ -164,7 +164,7 @@ InterpolateImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
 {
   // Clean up intermediate memory usage
-  m_IntermediateImage = ITK_NULLPTR;
+  m_IntermediateImage = nullptr;
 }
 
 /**

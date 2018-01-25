@@ -78,22 +78,22 @@ public:
   // Functions inherited from Path
 
   /** Evaluate the chaincode for the offset at the specified path-position. */
-  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE
+  OutputType Evaluate(const InputType & input) const override
   {
     return m_Chain[input];
   }
 
   /** Like Evaluate(), but returns the index at the specified path-position. */
-  virtual IndexType EvaluateToIndex(const InputType & input) const ITK_OVERRIDE;
+  IndexType EvaluateToIndex(const InputType & input) const override;
 
   /** Increment the input variable passed by reference and then return the
    * offset stored at the new path-position.  If the chaincode is unable to be
    * incremented, input is not changed and an offset of zero is returned, which
    * may be used to check for the end of the chain code. */
-  virtual OffsetType IncrementInput(InputType & input) const ITK_OVERRIDE;
+  OffsetType IncrementInput(InputType & input) const override;
 
   /** Where does the path end (what is the last valid input value)? */
-  virtual InputType EndOfInput() const ITK_OVERRIDE
+  InputType EndOfInput() const override
   {
     return static_cast<InputType>(NumberOfSteps());  // 0 is before the first step, 1 is after it
   }
@@ -133,7 +133,7 @@ public:
   }
 
   /** Needed for Pipelining */
-  virtual void Initialize(void) ITK_OVERRIDE
+  void Initialize(void) override
   {
     m_Start = this->GetZeroIndex();
     this->Clear();
@@ -141,8 +141,8 @@ public:
 
 protected:
   ChainCodePath();
-  ~ChainCodePath() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ChainCodePath() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodePath);

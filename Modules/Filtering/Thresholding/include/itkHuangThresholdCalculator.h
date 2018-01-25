@@ -70,10 +70,10 @@ public:
 
 protected:
   HuangThresholdCalculator() { m_FirstBin = 0; m_LastBin = 0; m_Size = 0; }
-  virtual ~HuangThresholdCalculator() ITK_OVERRIDE {}
-  void GenerateData(void) ITK_OVERRIDE;
+  ~HuangThresholdCalculator() override {}
+  void GenerateData(void) override;
 
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   typedef typename HistogramType::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
   typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;

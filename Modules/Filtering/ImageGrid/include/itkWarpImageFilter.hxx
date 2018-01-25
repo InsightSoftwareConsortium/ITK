@@ -197,7 +197,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::AfterThreadedGenerateData()
 {
   // Disconnect input image from interpolator
-  m_Interpolator->SetInputImage(ITK_NULLPTR);
+  m_Interpolator->SetInputImage(nullptr);
 }
 
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
@@ -420,7 +420,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   DisplacementFieldType *fieldPtr =
     const_cast<DisplacementFieldType *>(this->GetDisplacementField());
   const OutputImageType *outputPtr = this->GetOutput();
-  if ( fieldPtr != ITK_NULLPTR )
+  if ( fieldPtr != nullptr )
     {
     // tolerance for origin and spacing depends on the size of pixel
     // tolerance for direction is a fraction of the unit cube.
@@ -467,7 +467,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 
   const DisplacementFieldType* fieldPtr = this->GetDisplacementField();
   if ( this->m_OutputSize[0] == 0
-       && fieldPtr != ITK_NULLPTR )
+       && fieldPtr != nullptr )
     {
     outputPtr->SetLargestPossibleRegion( fieldPtr->
                                          GetLargestPossibleRegion() );

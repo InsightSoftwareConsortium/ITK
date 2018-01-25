@@ -69,13 +69,13 @@ public:
   FrameOffsetType GetFrameDuration() const;
 
   /** Return RegionType (SRUCTURED_REGION) */
-  virtual RegionType GetRegionType() const ITK_OVERRIDE;
+  RegionType GetRegionType() const override;
 
   /** Constructor */
   TemporalRegion();
 
   /** Destructor */
-  virtual ~TemporalRegion() ITK_OVERRIDE;
+  ~TemporalRegion() override;
 
   /** Compare two temporal regions in Frame space */
   virtual bool IsEqualInFrames(const Self & region) const;
@@ -90,7 +90,7 @@ public:
 
 protected:
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Time boundaries */
   RealTimeStamp    m_RealStart;

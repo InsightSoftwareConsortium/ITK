@@ -39,7 +39,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
 
   /* Store the casted pointer to avoid dynamic casting in tight loops. */
   this->m_MattesAssociate = dynamic_cast<TMattesMutualInformationMetric *>(this->m_Associate);
-  if( this->m_MattesAssociate == ITK_NULLPTR )
+  if( this->m_MattesAssociate == nullptr )
     {
     itkExceptionMacro("Dynamic casting of associate pointer failed.");
     }
@@ -148,7 +148,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     this->m_MattesAssociate->m_PRatioArray.resize(0);
     this->m_MattesAssociate->m_JointPdfIndex1DArray.resize(0);
     this->m_MattesAssociate->m_LocalDerivativeByParzenBin.resize(0);
-    this->m_MattesAssociate->m_JointPDFDerivatives = ITK_NULLPTR;
+    this->m_MattesAssociate->m_JointPDFDerivatives = nullptr;
     }
 
   if(  this->m_MattesAssociate->GetComputeDerivative() && this->m_MattesAssociate->HasLocalSupport() )
@@ -156,7 +156,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     this->m_MattesAssociate->m_PRatioArray.assign( this->m_MattesAssociate->m_NumberOfHistogramBins * this->m_MattesAssociate->m_NumberOfHistogramBins, 0.0);
     this->m_MattesAssociate->m_JointPdfIndex1DArray.assign( this->m_MattesAssociate->GetNumberOfParameters(), 0 );
     // Don't need this with local-support
-    this->m_MattesAssociate->m_JointPDFDerivatives = ITK_NULLPTR;
+    this->m_MattesAssociate->m_JointPDFDerivatives = nullptr;
     // This always has four entries because the parzen window size is fixed.
     this->m_MattesAssociate->m_LocalDerivativeByParzenBin.resize(4);
     // The first container cannot point to the existing derivative result

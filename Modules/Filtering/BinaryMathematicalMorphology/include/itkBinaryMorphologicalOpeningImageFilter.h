@@ -96,12 +96,12 @@ public:
 
 protected:
   BinaryMorphologicalOpeningImageFilter();
-  ~BinaryMorphologicalOpeningImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~BinaryMorphologicalOpeningImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleDilateImageFilter GrayscaleErodeImageFilter. */
-  void  GenerateData() ITK_OVERRIDE;
+  void  GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMorphologicalOpeningImageFilter);

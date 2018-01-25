@@ -30,7 +30,7 @@ template< typename TSample >
 Subsample< TSample >
 ::Subsample()
 {
-  m_Sample = ITK_NULLPTR;
+  m_Sample = nullptr;
   m_TotalFrequency = NumericTraits< AbsoluteFrequencyType >::ZeroValue();
   m_ActiveDimension = 0;
 }
@@ -43,7 +43,7 @@ Subsample< TSample >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Sample: ";
-  if ( m_Sample != ITK_NULLPTR )
+  if ( m_Sample != nullptr )
     {
     os << m_Sample << std::endl;
     }

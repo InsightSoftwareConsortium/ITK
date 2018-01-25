@@ -90,7 +90,7 @@ protected:
   std::string m_FileName;
 
   SpatialObjectReader();
-  virtual ~SpatialObjectReader() ITK_OVERRIDE;
+  ~SpatialObjectReader() override;
 
 private:
 

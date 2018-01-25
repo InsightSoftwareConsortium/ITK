@@ -149,7 +149,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 
   const TMask * mask = this->GetMaskImage();
 
-  if ( mask == ITK_NULLPTR )
+  if ( mask == nullptr )
     {
     // create all 1s selectionMap
     selectionMap->FillBuffer( NumericTraits< MapPixelType >::OneValue() );

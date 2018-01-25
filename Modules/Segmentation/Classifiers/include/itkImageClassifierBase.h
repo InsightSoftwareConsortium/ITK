@@ -139,14 +139,14 @@ public:
 
 protected:
   ImageClassifierBase();
-  ~ImageClassifierBase() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ImageClassifierBase() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Allocate memory for the classified image. */
   void Allocate();
 
   /** Starts the classification process */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageClassifierBase);

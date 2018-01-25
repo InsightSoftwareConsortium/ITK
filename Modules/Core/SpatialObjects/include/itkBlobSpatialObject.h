@@ -78,16 +78,16 @@ public:
   void SetPoints(PointListType & newPoints);
 
   /** Return a point in the list given the index */
-  const SpatialObjectPointType * GetPoint(IdentifierType id) const ITK_OVERRIDE
+  const SpatialObjectPointType * GetPoint(IdentifierType id) const override
   {
     return &( m_Points[id] );
   }
 
   /** Return a point in the list given the index */
-  SpatialObjectPointType * GetPoint(IdentifierType id) ITK_OVERRIDE { return &( m_Points[id] ); }
+  SpatialObjectPointType * GetPoint(IdentifierType id) override { return &( m_Points[id] ); }
 
   /** Return the number of points in the list */
-  SizeValueType GetNumberOfPoints(void) const ITK_OVERRIDE
+  SizeValueType GetNumberOfPoints(void) const override
   {
     return static_cast<SizeValueType>( m_Points.size() );
   }
@@ -95,18 +95,18 @@ public:
   /** Returns true if the Blob is evaluable at the requested point,
    *  false otherwise. */
   bool IsEvaluableAt(const PointType & point,
-                     unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+                     unsigned int depth = 0, char *name = nullptr) const override;
 
   /** Returns the value of the Blob at that point.
    *  Currently this function returns a binary value,
    *  but it might want to return a degree of membership
    *  in case of fuzzy Blobs. */
   bool ValueAt(const PointType & point, double & value,
-               unsigned int depth = 0, char *name = ITK_NULLPTR) const ITK_OVERRIDE;
+               unsigned int depth = 0, char *name = nullptr) const override;
 
   /** Returns true if the point is inside the Blob, false otherwise. */
   bool IsInside(const PointType & point,
-                unsigned int depth, char *name) const ITK_OVERRIDE;
+                unsigned int depth, char *name) const override;
 
   /** Test whether a point is inside or outside the object
    *  For computational speed purposes, it is faster if the method does not
@@ -114,7 +114,7 @@ public:
   bool IsInside(const PointType & point) const;
 
   /** Compute the boundaries of the Blob. */
-  bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
+  bool ComputeLocalBoundingBox() const override;
 
 protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(BlobSpatialObject);
@@ -122,10 +122,10 @@ protected:
   PointListType m_Points;
 
   BlobSpatialObject();
-  virtual ~BlobSpatialObject() ITK_OVERRIDE;
+  ~BlobSpatialObject() override;
 
   /** Method to print the object. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
 

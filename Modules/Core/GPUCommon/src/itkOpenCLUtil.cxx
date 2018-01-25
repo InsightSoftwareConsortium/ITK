@@ -48,17 +48,17 @@ int OpenCLGetLocalBlockSize(unsigned int ImageDim)
 //
 cl_device_id* OpenCLGetAvailableDevices(cl_platform_id platform, cl_device_type devType, cl_uint* numAvailableDevices)
 {
-  cl_device_id* availableDevices = ITK_NULLPTR;
+  cl_device_id* availableDevices = nullptr;
   cl_uint       totalNumDevices;
 
   // get total # of devices
   cl_int errid;
 
-  errid = clGetDeviceIDs(platform, devType, 0, ITK_NULLPTR, &totalNumDevices);
+  errid = clGetDeviceIDs(platform, devType, 0, nullptr, &totalNumDevices);
   OpenCLCheckError( errid, __FILE__, __LINE__, ITK_LOCATION );
 
   cl_device_id* totalDevices = (cl_device_id *)malloc(totalNumDevices * sizeof(cl_device_id) );
-  errid = clGetDeviceIDs(platform, devType, totalNumDevices, totalDevices, ITK_NULLPTR);
+  errid = clGetDeviceIDs(platform, devType, totalNumDevices, totalDevices, nullptr);
   OpenCLCheckError( errid, __FILE__, __LINE__, ITK_LOCATION );
 
   (*numAvailableDevices) = 0;
@@ -67,7 +67,7 @@ cl_device_id* OpenCLGetAvailableDevices(cl_platform_id platform, cl_device_type 
   for(cl_uint i=0; i<totalNumDevices; i++)
     {
     cl_bool isAvailable;
-    clGetDeviceInfo(totalDevices[i], CL_DEVICE_AVAILABLE, sizeof(cl_bool), &isAvailable, ITK_NULLPTR);
+    clGetDeviceInfo(totalDevices[i], CL_DEVICE_AVAILABLE, sizeof(cl_bool), &isAvailable, nullptr);
 
     if(isAvailable)
       {
@@ -81,7 +81,7 @@ cl_device_id* OpenCLGetAvailableDevices(cl_platform_id platform, cl_device_type 
   for(cl_uint i=0; i<totalNumDevices; i++)
     {
     cl_bool isAvailable;
-    clGetDeviceInfo(totalDevices[i], CL_DEVICE_AVAILABLE, sizeof(cl_bool), &isAvailable, ITK_NULLPTR);
+    clGetDeviceInfo(totalDevices[i], CL_DEVICE_AVAILABLE, sizeof(cl_bool), &isAvailable, nullptr);
 
     if(isAvailable)
       {
@@ -103,11 +103,11 @@ cl_device_id OpenCLGetMaxFlopsDev(cl_context cxGPUContext)
   cl_device_id* cdDevices;
 
   // get the list of GPU devices associated with context
-  clGetContextInfo(cxGPUContext, CL_CONTEXT_DEVICES, 0, ITK_NULLPTR, &szParmDataBytes);
+  clGetContextInfo(cxGPUContext, CL_CONTEXT_DEVICES, 0, nullptr, &szParmDataBytes);
   cdDevices = (cl_device_id*) malloc(szParmDataBytes);
   size_t device_count = szParmDataBytes / sizeof(cl_device_id);
 
-  clGetContextInfo(cxGPUContext, CL_CONTEXT_DEVICES, szParmDataBytes, cdDevices, ITK_NULLPTR);
+  clGetContextInfo(cxGPUContext, CL_CONTEXT_DEVICES, szParmDataBytes, cdDevices, nullptr);
 
   cl_device_id max_flops_device = cdDevices[0];
 
@@ -115,12 +115,12 @@ cl_device_id OpenCLGetMaxFlopsDev(cl_context cxGPUContext)
 
   // CL_DEVICE_MAX_COMPUTE_UNITS
   cl_uint compute_units;
-  clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(compute_units), &compute_units, ITK_NULLPTR);
+  clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(compute_units), &compute_units, nullptr);
 
   // CL_DEVICE_MAX_CLOCK_FREQUENCY
   cl_uint clock_frequency;
   clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_CLOCK_FREQUENCY, sizeof(clock_frequency), &clock_frequency,
-                  ITK_NULLPTR);
+                  nullptr);
 
   int max_flops = compute_units * clock_frequency;
   ++current_device;
@@ -129,12 +129,12 @@ cl_device_id OpenCLGetMaxFlopsDev(cl_context cxGPUContext)
     {
     // CL_DEVICE_MAX_COMPUTE_UNITS
     //cl_uint compute_units;
-    clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(compute_units), &compute_units, ITK_NULLPTR);
+    clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(compute_units), &compute_units, nullptr);
 
     // CL_DEVICE_MAX_CLOCK_FREQUENCY
     //cl_uint clock_frequency;
     clGetDeviceInfo(cdDevices[current_device], CL_DEVICE_MAX_CLOCK_FREQUENCY, sizeof(clock_frequency), &clock_frequency,
-                    ITK_NULLPTR);
+                    nullptr);
 
     int flops = compute_units * clock_frequency;
     if( flops > max_flops )
@@ -157,29 +157,29 @@ void OpenCLPrintDeviceInfo(cl_device_id device, bool verbose)
 {
   char device_string[1024];
 
-  clGetDeviceInfo(device, CL_DEVICE_NAME, sizeof(device_string), &device_string, ITK_NULLPTR);
+  clGetDeviceInfo(device, CL_DEVICE_NAME, sizeof(device_string), &device_string, nullptr);
   printf("%s\n", device_string);
 
   size_t worksize[3];
-  clGetDeviceInfo(device,CL_DEVICE_MAX_WORK_ITEM_SIZES,sizeof(worksize),&worksize,ITK_NULLPTR);
+  clGetDeviceInfo(device,CL_DEVICE_MAX_WORK_ITEM_SIZES,sizeof(worksize),&worksize,nullptr);
   std::cout << "Maximum Work Item Sizes : { " << worksize[0] << ", " << worksize[1] << ", " << worksize[2] << " }" << std::endl;
 
   size_t maxWorkgroupSize;
-  clGetDeviceInfo(device,CL_DEVICE_MAX_WORK_GROUP_SIZE,sizeof(maxWorkgroupSize),&maxWorkgroupSize,ITK_NULLPTR);
+  clGetDeviceInfo(device,CL_DEVICE_MAX_WORK_GROUP_SIZE,sizeof(maxWorkgroupSize),&maxWorkgroupSize,nullptr);
   std::cout << "Maximum Work Group Size : " << maxWorkgroupSize << std::endl;
 
   if (verbose)
   {
     cl_uint mem_align;
-    clGetDeviceInfo(device, CL_DEVICE_MEM_BASE_ADDR_ALIGN, sizeof(mem_align), &mem_align, ITK_NULLPTR);
+    clGetDeviceInfo(device, CL_DEVICE_MEM_BASE_ADDR_ALIGN, sizeof(mem_align), &mem_align, nullptr);
     std::cout << "Alignment in bits of the base address : " << mem_align << std::endl;
 
     cl_uint min_align;
-    clGetDeviceInfo(device, CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE, sizeof(min_align), &min_align, ITK_NULLPTR);
+    clGetDeviceInfo(device, CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE, sizeof(min_align), &min_align, nullptr);
     std::cout << "Smallest alignment in bytes for any data type : " << min_align << std::endl;
 
     char device_extensions[1024];
-    clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, sizeof(device_extensions), &device_extensions, ITK_NULLPTR);
+    clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS, sizeof(device_extensions), &device_extensions, nullptr);
     printf("%s\n", device_extensions);
 
   }
@@ -194,10 +194,10 @@ cl_platform_id OpenCLSelectPlatform(const char* name)
   cl_uint         num_platforms;
   cl_platform_id* clPlatformIDs;
   cl_int          ciErrNum;
-  cl_platform_id  clSelectedPlatformID = ITK_NULLPTR;
+  cl_platform_id  clSelectedPlatformID = nullptr;
 
   // Get OpenCL platform count
-  ciErrNum = clGetPlatformIDs (0, ITK_NULLPTR, &num_platforms);
+  ciErrNum = clGetPlatformIDs (0, nullptr, &num_platforms);
   if (ciErrNum != CL_SUCCESS)
     {
     printf(" Error %i in clGetPlatformIDs Call !!!\n\n", ciErrNum);
@@ -211,18 +211,18 @@ cl_platform_id OpenCLSelectPlatform(const char* name)
     else
       {
       // if there's a platform or more, make space for ID's
-      if ( (clPlatformIDs = (cl_platform_id*)malloc(num_platforms * sizeof(cl_platform_id) ) ) == ITK_NULLPTR)
+      if ( (clPlatformIDs = (cl_platform_id*)malloc(num_platforms * sizeof(cl_platform_id) ) ) == nullptr)
         {
         printf("Failed to allocate memory for cl_platform ID's!\n\n");
         }
       else
         {
-        ciErrNum = clGetPlatformIDs (num_platforms, clPlatformIDs, ITK_NULLPTR);
+        ciErrNum = clGetPlatformIDs (num_platforms, clPlatformIDs, nullptr);
         if(ciErrNum == CL_SUCCESS)
           {
           clSelectedPlatformID = clPlatformIDs[0];         // default
   // debug
-  ciErrNum = clGetPlatformInfo (clPlatformIDs[0], CL_PLATFORM_NAME, 1024, &chBuffer, ITK_NULLPTR);
+  ciErrNum = clGetPlatformInfo (clPlatformIDs[0], CL_PLATFORM_NAME, 1024, &chBuffer, nullptr);
   std::cout << "Platform " << " : " << chBuffer << std::endl;
   //
           }
@@ -233,7 +233,7 @@ cl_platform_id OpenCLSelectPlatform(const char* name)
 
           for(cl_uint i = 0; i < num_platforms; ++i)
             {
-            ciErrNum = clGetPlatformInfo (clPlatformIDs[i], CL_PLATFORM_NAME, 1024, &chBuffer, ITK_NULLPTR);
+            ciErrNum = clGetPlatformInfo (clPlatformIDs[i], CL_PLATFORM_NAME, 1024, &chBuffer, nullptr);
 
 // debug
             std::cout << "Platform " << i << " : " << chBuffer << std::endl;
@@ -241,7 +241,7 @@ cl_platform_id OpenCLSelectPlatform(const char* name)
 
             if(ciErrNum == CL_SUCCESS)
               {
-              if(strstr(chBuffer, name) != ITK_NULLPTR)
+              if(strstr(chBuffer, name) != nullptr)
                 {
                 clSelectedPlatformID = clPlatformIDs[i];
                 }
@@ -349,7 +349,7 @@ bool IsGPUAvailable()
 {
   cl_platform_id platformId = OpenCLSelectPlatform("NVIDIA");
 
-  if(platformId == ITK_NULLPTR) return false;
+  if(platformId == nullptr) return false;
 
   cl_device_type devType = CL_DEVICE_TYPE_GPU;
 

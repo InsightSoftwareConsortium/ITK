@@ -51,12 +51,12 @@ protected:
 
 public:
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
     Execute( (const itk::Object *) caller, event);
     }
 
-  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
     const TFilter * filter =
       dynamic_cast< const TFilter * >( object );
@@ -145,7 +145,7 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
   // Set the number of iterations
   typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
   GradientDescentOptimizerv4Type * optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineSimple->GetModifiableOptimizer() );
-  TEST_EXPECT_TRUE( optimizer != ITK_NULLPTR );
+  TEST_EXPECT_TRUE( optimizer != nullptr );
 #ifdef NDEBUG
   optimizer->SetNumberOfIterations( 100 );
 #else

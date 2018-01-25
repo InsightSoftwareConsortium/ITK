@@ -161,15 +161,15 @@ public:
   { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
 
 protected:
-  ~GeodesicActiveContourShapePriorLevelSetImageFilter() ITK_OVERRIDE {}
+  ~GeodesicActiveContourShapePriorLevelSetImageFilter() override {}
   GeodesicActiveContourShapePriorLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 
   /** Overridden from Superclass to handle the case when PropagationScaling is zero
    * and CurvatureScaling is non-zero.*/
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourShapePriorLevelSetImageFilter);

@@ -164,16 +164,16 @@ public:
 
 protected:
   LabelVotingImageFilter();
-  virtual ~LabelVotingImageFilter() ITK_OVERRIDE {}
+  ~LabelVotingImageFilter() override {}
 
   /** Determine maximum label value in all input images and initialize
    * global data. */
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() override;
 
   void ThreadedGenerateData
-    (const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+    (const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
-  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream &, Indent) const override;
 
   /** Determine maximum value among all input images' pixels. */
   InputPixelType ComputeMaximumInputValue();

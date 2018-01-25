@@ -86,7 +86,7 @@ public:
   bool Remove(Self *n);
 
   /** Get the number of children given a name and depth */
-  ChildIdentifier GetNumberOfChildren(unsigned int depth = 0, char *name = ITK_NULLPTR) const;
+  ChildIdentifier GetNumberOfChildren(unsigned int depth = 0, char *name = nullptr) const;
 
   /** Replace a given child by a new one */
   bool ReplaceChild(Self *oldChild, Self *newChild);
@@ -105,7 +105,7 @@ public:
 
   /** Get the children list */
 #if !defined( ITK_WRAPPING_PARSER )
-  virtual ChildrenListType * GetChildren(unsigned int depth = 0, char *name = ITK_NULLPTR) const;
+  virtual ChildrenListType * GetChildren(unsigned int depth = 0, char *name = nullptr) const;
 
 #endif
 
@@ -120,7 +120,7 @@ public:
 protected:
 
   TreeNode();
-  virtual ~TreeNode() ITK_OVERRIDE;
+  ~TreeNode() override;
   TValue m_Data;
 
   Self *m_Parent;

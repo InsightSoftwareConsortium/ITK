@@ -84,16 +84,16 @@ public:
 
 protected:
   FullToHalfHermitianImageFilter();
-  ~FullToHalfHermitianImageFilter() ITK_OVERRIDE {}
+  ~FullToHalfHermitianImageFilter() override {}
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
   /** The output is a different size from the input. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** This class requires the entire input. */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool);
 

@@ -134,7 +134,7 @@ classname::classname(const classname &s):super(s){};                        \
 classname::~classname() {}                                                  \
 const char * classname::GetEventName() const { return #classname; }          \
 bool classname::CheckEvent(const::itk::EventObject * e) const               \
-      { return ( dynamic_cast< const classname * >( e ) != ITK_NULLPTR ); } \
+      { return ( dynamic_cast< const classname * >( e ) != nullptr ); } \
 ::itk::EventObject *classname::MakeObject() const { return new classname; } \
 
 //
@@ -157,7 +157,7 @@ public:                                                              \
     virtual ~classname() {}                                          \
     virtual const char *GetEventName() const { return #classname; } \
     virtual bool CheckEvent(const::itk::EventObject * e) const       \
-               { return ( dynamic_cast< const Self * >( e ) != ITK_NULLPTR ); }         \
+               { return ( dynamic_cast< const Self * >( e ) != nullptr ); }         \
     virtual::itk::EventObject *MakeObject() const                    \
                { return new Self; }                                  \
     classname(const Self &s):super(s){};                             \

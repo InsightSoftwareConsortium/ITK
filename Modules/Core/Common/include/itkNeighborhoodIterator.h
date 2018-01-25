@@ -252,7 +252,7 @@ public:
     Superclass(radius, ptr, region) {}
 
   /** Standard print method */
-  virtual void PrintSelf(std::ostream &, Indent) const;
+  void PrintSelf(std::ostream &, Indent) const override;
 
   /** Returns the central memory pointer of the neighborhood. */
   InternalPixelType * GetCenterPointer()

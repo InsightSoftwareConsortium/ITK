@@ -30,8 +30,8 @@ template< typename TInputImage, typename TBasisImage >
 ImagePCADecompositionCalculator< TInputImage, TBasisImage >
 ::ImagePCADecompositionCalculator()
 {
-  m_Image = ITK_NULLPTR;
-  m_MeanImage = ITK_NULLPTR;
+  m_Image = nullptr;
+  m_MeanImage = nullptr;
   m_BasisMatrixCalculated = false;
   m_NumPixels = 0;
 }

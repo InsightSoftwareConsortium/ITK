@@ -121,7 +121,7 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
 
   if ( extractor->GetAuxImage( 2 ) )
     {
-    std::cout << "Out of range index should return ITK_NULLPTR pointer" << std::endl;
+    std::cout << "Out of range index should return nullptr pointer" << std::endl;
     return EXIT_FAILURE;
     }
 

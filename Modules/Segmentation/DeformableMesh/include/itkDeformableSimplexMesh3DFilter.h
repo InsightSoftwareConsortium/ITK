@@ -201,13 +201,13 @@ public:
 
 protected:
   DeformableSimplexMesh3DFilter();
-  ~DeformableSimplexMesh3DFilter() ITK_OVERRIDE;
+  ~DeformableSimplexMesh3DFilter() override;
   ITK_DISALLOW_COPY_AND_ASSIGN(DeformableSimplexMesh3DFilter);
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /**
    * Initializes the datastructures necessary for mesh

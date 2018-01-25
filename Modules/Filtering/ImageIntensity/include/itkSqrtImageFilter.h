@@ -97,7 +97,7 @@ public:
 
 protected:
   SqrtImageFilter() {}
-  virtual ~SqrtImageFilter() ITK_OVERRIDE {}
+  ~SqrtImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SqrtImageFilter);

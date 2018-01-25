@@ -28,7 +28,7 @@ EdgeDecimationQuadEdgeMeshFilter() :
   Superclass(),
   m_Relocate(true),
   m_CheckOrientation(false),
-  m_Element(ITK_NULLPTR)
+  m_Element(nullptr)
 
 {
   m_JoinVertexFunction = OperatorType::New();
@@ -107,7 +107,7 @@ IsEdgeOKToBeProcessed(OutputQEType *)
 #endif
   {
 #ifdef NDEBUG
-  if ( iEdge == ITK_NULLPTR )
+  if ( iEdge == nullptr )
     {
     itkDebugMacro("iEdge == 0, at iteration: " << this->m_Iteration);
     return false;
@@ -122,13 +122,13 @@ IsEdgeOKToBeProcessed(OutputQEType *)
     }
 
   OutputMeshPointer output = this->GetOutput();
-  if ( output->FindEdge(id_org) == ITK_NULLPTR )
+  if ( output->FindEdge(id_org) == nullptr )
     {
     itkDebugMacro("output->FindEdge( id_org ) == 0, at iteration: "
                   << this->m_Iteration);
     return false;
     }
-  if ( iEdge->GetSym() == ITK_NULLPTR )
+  if ( iEdge->GetSym() == nullptr )
     {
     itkDebugMacro("iEdge->GetSym() == 0, at iteration: "
                   << this->m_Iteration);
@@ -142,13 +142,13 @@ IsEdgeOKToBeProcessed(OutputQEType *)
                   << this->m_Iteration);
     return false;
     }
-  if ( output->FindEdge(id_dest) == ITK_NULLPTR )
+  if ( output->FindEdge(id_dest) == nullptr )
     {
     itkDebugMacro("output->FindEdge( id_dest ) == 0, at iteration: "
                   << this->m_Iteration);
     return false;
     }
-  if ( output->FindEdge(id_org, id_dest) == ITK_NULLPTR )
+  if ( output->FindEdge(id_org, id_dest) == nullptr )
     {
     itkDebugMacro("output->FindEdge( id_org, id_dest ) == 0, at iteration: "
                   << this->m_Iteration);
@@ -376,7 +376,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::ProcessWithoutA
     DeletePoint(old_id, new_id);
 
     OutputQEType *edge = this->m_OutputMesh->FindEdge(new_id);
-    if ( edge == ITK_NULLPTR )
+    if ( edge == nullptr )
       {
       itkDebugMacro("edge == 0, at iteration " << this->m_Iteration);
       return false;

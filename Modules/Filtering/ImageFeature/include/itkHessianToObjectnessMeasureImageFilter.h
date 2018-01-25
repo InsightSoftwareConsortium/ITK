@@ -129,12 +129,12 @@ public:
 
 protected:
   HessianToObjectnessMeasureImageFilter();
-  ~HessianToObjectnessMeasureImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~HessianToObjectnessMeasureImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void VerifyPreconditions() ITK_OVERRIDE;
+  void VerifyPreconditions() override;
 
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HessianToObjectnessMeasureImageFilter);

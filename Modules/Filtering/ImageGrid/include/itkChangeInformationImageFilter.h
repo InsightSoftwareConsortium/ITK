@@ -208,26 +208,26 @@ public:
   itkGetConstMacro(CenterImage, bool);
 
   /** Apply changes to the output image information. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** Apply changes to the input image requested region. */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Copy the input buffer. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 protected:
   ChangeInformationImageFilter();
   //~ChangeInformationImageFilter() {} default implementation ok
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Override VeriyInputInformation() since this filter's inputs do
    * not need to occoupy the same physical space.
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() ITK_OVERRIDE {}
+  void VerifyInputInformation() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ChangeInformationImageFilter);

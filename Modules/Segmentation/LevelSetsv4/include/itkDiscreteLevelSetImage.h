@@ -57,64 +57,64 @@ public:
   typedef typename Superclass::LevelSetDataType LevelSetDataType;
 
   /** Returns the gradient of the level set function at a given location inputIndex */
-  virtual OutputType  Evaluate( const InputType& inputIndex ) const ITK_OVERRIDE = 0;
+  OutputType  Evaluate( const InputType& inputIndex ) const override = 0;
 
   /** Returns the image gradient of the level set function at a given location inputIndex */
-  virtual GradientType EvaluateGradient( const InputType& inputIndex ) const ITK_OVERRIDE;
+  GradientType EvaluateGradient( const InputType& inputIndex ) const override;
 
   /** Returns the image hessian of the level set function at a given location inputIndex */
-  virtual HessianType EvaluateHessian( const InputType& inputIndex ) const ITK_OVERRIDE;
+  HessianType EvaluateHessian( const InputType& inputIndex ) const override;
 
   /** Returns the image Laplacian of the level set function at a given location inputIndex */
-  virtual OutputRealType EvaluateLaplacian( const InputType& inputIndex ) const ITK_OVERRIDE;
+  OutputRealType EvaluateLaplacian( const InputType& inputIndex ) const override;
 
   /** Returns the mean curvature of the level set function at a given location inputIndex */
-  virtual OutputRealType EvaluateMeanCurvature( const InputType& inputIndex ) const ITK_OVERRIDE;
+  OutputRealType EvaluateMeanCurvature( const InputType& inputIndex ) const override;
 
   virtual GradientType EvaluateForwardGradient( const InputType& inputIndex ) const;
 
   virtual GradientType EvaluateBackwardGradient( const InputType& inputIndex ) const;
 
   /** Returns the value of the level set function at a given location inputIndex */
-  virtual void Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
+  void Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const override;
 
   /** Returns the gradient of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateGradient( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
+  void EvaluateGradient( const InputType& inputIndex, LevelSetDataType& data ) const override;
 
   /** Returns the Hessian of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateHessian( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
+  void EvaluateHessian( const InputType& inputIndex, LevelSetDataType& data ) const override;
 
   /** Returns the Hessian of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateMeanCurvature( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
+  void EvaluateMeanCurvature( const InputType& inputIndex, LevelSetDataType& data ) const override;
 
   /** Returns the Laplacian of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateLaplacian( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
+  void EvaluateLaplacian( const InputType& inputIndex, LevelSetDataType& data ) const override;
 
   /** Returns the gradient of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateForwardGradient( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
+  void EvaluateForwardGradient( const InputType& inputIndex, LevelSetDataType& data ) const override;
 
   /** Returns the gradient of the level set function at a given location inputIndex
    * as part of the LevelSetDataType */
-  virtual void EvaluateBackwardGradient( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
+  void EvaluateBackwardGradient( const InputType& inputIndex, LevelSetDataType& data ) const override;
 
 protected:
   DiscreteLevelSetImage();
 
-  virtual ~DiscreteLevelSetImage() ITK_OVERRIDE;
+  ~DiscreteLevelSetImage() override;
 
   /** Initial the level set pointer */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() override;
 
   /** Copy level set information from data object */
-  virtual void CopyInformation(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) override;
 
   /** Graft data object as level set object */
-  virtual void Graft( const DataObject* data ) ITK_OVERRIDE;
+  void Graft( const DataObject* data ) override;
 
 private:
 

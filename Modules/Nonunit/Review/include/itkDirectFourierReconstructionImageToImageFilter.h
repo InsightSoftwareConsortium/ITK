@@ -117,19 +117,19 @@ protected:
   /** Constructor */
   DirectFourierReconstructionImageToImageFilter();
   /** Destructor */
-  ~DirectFourierReconstructionImageToImageFilter() {}
+  ~DirectFourierReconstructionImageToImageFilter() override {}
 
   /** Output class information */
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Generate metadata for output image */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** Calculate the required input region */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Actual filter computation */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   /** Const slice iterator type of the input image */

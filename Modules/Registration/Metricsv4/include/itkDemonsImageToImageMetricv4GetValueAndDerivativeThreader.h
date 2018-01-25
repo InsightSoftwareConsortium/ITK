@@ -65,18 +65,18 @@ public:
 
 protected:
   DemonsImageToImageMetricv4GetValueAndDerivativeThreader() :
-    m_DemonsAssociate(ITK_NULLPTR)
+    m_DemonsAssociate(nullptr)
   {}
 
   /** Overload.
    *  Get pointer to metric object.
    */
-  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
+  void BeforeThreadedExecution() override;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
    */
-  virtual bool ProcessPoint(
+  bool ProcessPoint(
         const VirtualIndexType &          virtualIndex,
         const VirtualPointType &          virtualPoint,
         const FixedImagePointType &       mappedFixedPoint,
@@ -87,7 +87,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueReturn,
         DerivativeType &                  localDerivativeReturn,
-        const ThreadIdType                threadId ) const ITK_OVERRIDE;
+        const ThreadIdType                threadId ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DemonsImageToImageMetricv4GetValueAndDerivativeThreader);

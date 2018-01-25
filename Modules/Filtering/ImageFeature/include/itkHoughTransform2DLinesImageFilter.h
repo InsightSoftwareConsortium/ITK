@@ -109,7 +109,7 @@ public:
   itkNewMacro(Self);
 
   /** Method for evaluating the implicit function over the image. */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   /** Set the threshold above which the filter should consider
       the point as a valid point */
@@ -162,14 +162,14 @@ public:
 protected:
 
   HoughTransform2DLinesImageFilter();
-  virtual ~HoughTransform2DLinesImageFilter() ITK_OVERRIDE {}
+  ~HoughTransform2DLinesImageFilter() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** HoughTransform2DLinesImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** HoughTransform2DLinesImageFilter's output is the accumulator
    * array.  The size of the output is a function of the size of the
@@ -177,10 +177,10 @@ protected:
    * size than the input, it must provide an implementation of
    * GenerateOutputInformation.
    * \sa ProcessObject::GenerateOutputRequestedRegion() */
-  void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
   /** HoughTransform2DLinesImageFilter must produce the entire output */
-  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
 

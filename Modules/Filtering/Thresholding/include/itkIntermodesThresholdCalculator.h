@@ -90,10 +90,10 @@ protected:
     m_UseInterMode = true;
   }
 
-  virtual ~IntermodesThresholdCalculator() ITK_OVERRIDE {}
+  ~IntermodesThresholdCalculator() override {}
 
-  void GenerateData(void) ITK_OVERRIDE;
-  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void GenerateData(void) override;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   typedef typename HistogramType::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
   typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;

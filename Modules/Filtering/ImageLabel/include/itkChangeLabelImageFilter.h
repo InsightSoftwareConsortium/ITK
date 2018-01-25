@@ -160,8 +160,8 @@ public:
 
 protected:
   ChangeLabelImageFilter();
-  virtual ~ChangeLabelImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ChangeLabelImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ChangeLabelImageFilter);

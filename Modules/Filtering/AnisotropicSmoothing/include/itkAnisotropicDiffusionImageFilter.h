@@ -135,15 +135,15 @@ public:
 
 protected:
   AnisotropicDiffusionImageFilter();
-  ~AnisotropicDiffusionImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~AnisotropicDiffusionImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Supplies the halting criteria for this class of filters.  The
    * algorithm will stop after a user-specified number of iterations. */
   //  virtual bool Halt();
 
   /** Prepare for the iteration process. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   bool m_GradientMagnitudeIsFixed;
 

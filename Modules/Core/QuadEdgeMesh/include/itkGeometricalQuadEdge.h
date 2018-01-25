@@ -111,7 +111,7 @@ public:
 public:
   /** Memory creation methods. */
   GeometricalQuadEdge();
-  virtual ~GeometricalQuadEdge() {}
+  ~GeometricalQuadEdge() override {}
 
   /** Set methods. */
   inline void SetOrigin(const OriginRefType v)
@@ -215,10 +215,10 @@ public:
 
   bool IsInLnextRing(Self *);
 
-  Self * GetNextBorderEdgeWithUnsetLeft(Self *edgeTest = 0);
+  Self * GetNextBorderEdgeWithUnsetLeft(Self *edgeTest = nullptr);
 
   bool InsertAfterNextBorderEdgeWithUnsetLeft(Self *isol,
-                                              Self *hint = 0);
+                                              Self *hint = nullptr);
 
   bool ReorderOnextRingBeforeAddFace(Self *second);
 

@@ -79,9 +79,9 @@ public:
    * Methods related to numeric integration
    */
 
-  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const ITK_OVERRIDE;
+  void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const override;
 
-  virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const ITK_OVERRIDE;
+  unsigned int GetNumberOfIntegrationPoints(unsigned int order) const override;
 
   // ////////////////////////////////////////////////////////////////////////
   /**
@@ -89,13 +89,13 @@ public:
    */
 
   /** Return the shape functions used to interpolate across the element */
-  virtual VectorType ShapeFunctions(const VectorType & pt) const ITK_OVERRIDE;
+  VectorType ShapeFunctions(const VectorType & pt) const override;
 
   /** Return the shape functions derivatives in the shapeD matrix */
-  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const ITK_OVERRIDE;
+  void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
 
   /** Convert from global to local coordinates */
-  virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const ITK_OVERRIDE;
+  bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const override;
 
   /**
    * Methods used in computing parametric/local coordinates given global coordinates.
@@ -107,9 +107,9 @@ public:
   Float Determinant3x3(const VectorType & c1, const VectorType & c2, const VectorType & c3) const;
 
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
-  virtual void PopulateEdgeIds(void) ITK_OVERRIDE;
+  void PopulateEdgeIds(void) override;
 
 };
 } // end namespace fem

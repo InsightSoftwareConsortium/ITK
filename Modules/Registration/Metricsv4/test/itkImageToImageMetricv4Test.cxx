@@ -71,7 +71,7 @@ protected:
   TestImageToImageGetValueAndDerivativeThreader() { }
 
   /* Provide the worker routine to process each point */
-  virtual bool ProcessPoint(
+  bool ProcessPoint(
         const VirtualIndexType &          itkNotUsed(virtualIndex),
         const VirtualPointType &          itkNotUsed(virtualPoint),
         const FixedImagePointType &       itkNotUsed(mappedFixedPoint),
@@ -82,7 +82,7 @@ protected:
         const MovingImageGradientType &   mappedMovingImageGradient,
         MeasureType &                     metricValueResult,
         DerivativeType &                  localDerivativeReturn,
-        const itk::ThreadIdType           itkNotUsed(threadId) ) const ITK_OVERRIDE
+        const itk::ThreadIdType           itkNotUsed(threadId) ) const override
     {
     /* Just return some test values that can verify proper mechanics */
     metricValueResult = mappedFixedPixelValue + mappedMovingPixelValue;
@@ -158,9 +158,9 @@ protected:
     this->m_DenseGetValueAndDerivativeThreader  = DenseThreaderType::New();
     this->m_SparseGetValueAndDerivativeThreader = SparseThreaderType::New();
     }
-  virtual ~ImageToImageMetricv4TestMetric() ITK_OVERRIDE {}
+  ~ImageToImageMetricv4TestMetric() override {}
 
-  void PrintSelf(std::ostream& stream, itk::Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream& stream, itk::Indent indent) const override
   {
     Superclass::PrintSelf( stream, indent );
   }

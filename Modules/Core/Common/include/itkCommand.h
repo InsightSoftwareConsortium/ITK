@@ -63,7 +63,7 @@ public:
 
 protected:
   Command();
-  ~Command() ITK_OVERRIDE;
+  ~Command() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Command);
@@ -116,7 +116,7 @@ public:
   }
 
   /**  Invoke the member function. */
-  virtual void Execute(Object *caller, const EventObject & event) ITK_OVERRIDE
+  void Execute(Object *caller, const EventObject & event) override
   {
     if ( m_MemberFunction )
       {
@@ -125,7 +125,7 @@ public:
   }
 
   /**  Invoke the member function with a const object. */
-  virtual void Execute(const Object *caller, const EventObject & event) ITK_OVERRIDE
+  void Execute(const Object *caller, const EventObject & event) override
   {
     if ( m_ConstMemberFunction )
       {
@@ -139,12 +139,12 @@ protected:
   TConstMemberFunctionPointer m_ConstMemberFunction;
 
   MemberCommand() :
-    m_This( ITK_NULLPTR ),
-    m_MemberFunction( ITK_NULLPTR ),
-    m_ConstMemberFunction( ITK_NULLPTR )
+    m_This( nullptr ),
+    m_MemberFunction( nullptr ),
+    m_ConstMemberFunction( nullptr )
   {}
 
-  virtual ~MemberCommand() ITK_OVERRIDE {}
+  ~MemberCommand() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MemberCommand);
@@ -186,7 +186,7 @@ public:
   }
 
   /**  Invoke the member function. */
-  virtual void Execute(Object *, const EventObject & event) ITK_OVERRIDE
+  void Execute(Object *, const EventObject & event) override
   {
     if ( m_MemberFunction )
       {
@@ -195,7 +195,7 @@ public:
   }
 
   /**  Invoke the member function with a const object */
-  virtual void Execute(const Object *, const EventObject & event) ITK_OVERRIDE
+  void Execute(const Object *, const EventObject & event) override
   {
     if ( m_MemberFunction )
       {
@@ -208,11 +208,11 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
 
   ReceptorMemberCommand() :
-    m_This( ITK_NULLPTR ),
-    m_MemberFunction( ITK_NULLPTR )
+    m_This( nullptr ),
+    m_MemberFunction( nullptr )
   {}
 
-  virtual ~ReceptorMemberCommand() ITK_OVERRIDE {}
+  ~ReceptorMemberCommand() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReceptorMemberCommand);
@@ -253,7 +253,7 @@ public:
   }
 
   /** Invoke the callback function. */
-  virtual void Execute(Object *, const EventObject &) ITK_OVERRIDE
+  void Execute(Object *, const EventObject &) override
   {
     if ( m_MemberFunction )
       {
@@ -261,7 +261,7 @@ public:
       }
   }
 
-  virtual void Execute(const Object *, const EventObject &) ITK_OVERRIDE
+  void Execute(const Object *, const EventObject &) override
   {
     if ( m_MemberFunction )
       {
@@ -274,11 +274,11 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
 
   SimpleMemberCommand() :
-    m_This( ITK_NULLPTR ),
-    m_MemberFunction( ITK_NULLPTR )
+    m_This( nullptr ),
+    m_MemberFunction( nullptr )
   {}
 
-  virtual ~SimpleMemberCommand() ITK_OVERRIDE {}
+  ~SimpleMemberCommand() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SimpleMemberCommand);
@@ -319,7 +319,7 @@ public:
   }
 
   /** Invoke the const member method callback. */
-  virtual void Execute(Object *, const EventObject &) ITK_OVERRIDE
+  void Execute(Object *, const EventObject &) override
   {
     if ( m_MemberFunction )
       {
@@ -327,7 +327,7 @@ public:
       }
   }
 
-  virtual void Execute(const Object *, const EventObject &) ITK_OVERRIDE
+  void Execute(const Object *, const EventObject &) override
   {
     if ( m_MemberFunction )
       {
@@ -340,11 +340,11 @@ protected:
   TMemberFunctionPointer m_MemberFunction;
 
   SimpleConstMemberCommand() :
-    m_This( ITK_NULLPTR ),
-    m_MemberFunction( ITK_NULLPTR )
+    m_This( nullptr ),
+    m_MemberFunction( nullptr )
   {}
 
-  virtual ~SimpleConstMemberCommand() {}
+  ~SimpleConstMemberCommand() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SimpleConstMemberCommand);
@@ -393,14 +393,14 @@ public:
   void SetClientDataDeleteCallback(DeleteDataFunctionPointer f);
 
   /** Execute the callback function. */
-  virtual void Execute(Object *caller, const EventObject & event) ITK_OVERRIDE;
+  void Execute(Object *caller, const EventObject & event) override;
 
   /** Execute the callback function with a const Object */
-  virtual void Execute(const Object *caller, const EventObject & event) ITK_OVERRIDE;
+  void Execute(const Object *caller, const EventObject & event) override;
 
 protected:
   CStyleCommand();
-  ~CStyleCommand() ITK_OVERRIDE;
+  ~CStyleCommand() override;
 
   void *                    m_ClientData;
   FunctionPointer           m_Callback;

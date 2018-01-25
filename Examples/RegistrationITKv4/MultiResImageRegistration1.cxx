@@ -174,7 +174,7 @@ public:
 
   // Software Guide : BeginCodeSnippet
   void Execute( itk::Object * object,
-                const itk::EventObject & event) ITK_OVERRIDE
+                const itk::EventObject & event) override
     {
     // Software Guide : EndCodeSnippet
 
@@ -261,7 +261,7 @@ public:
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  void Execute(const itk::Object * , const itk::EventObject & ) ITK_OVERRIDE
+  void Execute(const itk::Object * , const itk::EventObject & ) override
     {
     return;
     }
@@ -286,12 +286,12 @@ public:
   typedef   itk::RegularStepGradientDescentOptimizerv4<double>  OptimizerType;
   typedef   const OptimizerType *                               OptimizerPointer;
 
-  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) override
   {
   Execute( (const itk::Object *)caller, event);
   }
 
-  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) override
   {
   OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
   if( !(itk::IterationEvent().CheckEvent( &event )) )

@@ -159,9 +159,9 @@ public:
 
 protected:
   PhysicsBasedNonRigidRegistrationMethod();
-  virtual ~PhysicsBasedNonRigidRegistrationMethod() ITK_OVERRIDE;
-  virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
-  virtual void GenerateData() ITK_OVERRIDE;
+  ~PhysicsBasedNonRigidRegistrationMethod() override;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhysicsBasedNonRigidRegistrationMethod);

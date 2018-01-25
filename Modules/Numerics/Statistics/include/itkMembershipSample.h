@@ -113,7 +113,7 @@ public:
   unsigned int GetClassLabel(const InstanceIdentifier & id) const;
 
   /** Gets the Subsample that includes only the instances that belong
-   *   to the classLabel. If classLabel does not exist, ITK_NULLPTR is returned. */
+   *   to the classLabel. If classLabel does not exist, nullptr is returned. */
   const ClassSampleType * GetClassSample(const ClassLabelType & classLabel) const;
 
   /** Gets the class labels that corresponding to the each instance in
@@ -136,7 +136,7 @@ public:
   TotalAbsoluteFrequencyType GetTotalFrequency() const;
 
   /** Method to graft another sample */
-  virtual void Graft(const DataObject *thatObject) ITK_OVERRIDE;
+  void Graft(const DataObject *thatObject) override;
 
 //  void PrintSelf(std::ostream& os, Indent indent) const;
 
@@ -287,8 +287,8 @@ private:
 
 protected:
   MembershipSample();
-  virtual ~MembershipSample() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MembershipSample() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MembershipSample);

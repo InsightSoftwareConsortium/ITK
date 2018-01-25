@@ -74,14 +74,14 @@ public:
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
+  PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
                                   const FloatOffsetType & offset = FloatOffsetType(0.0)
-                                  ) ITK_OVERRIDE;
+                                  ) override;
 
 protected:
   BinaryMinMaxCurvatureFlowFunction();
-  ~BinaryMinMaxCurvatureFlowFunction() ITK_OVERRIDE {}
+  ~BinaryMinMaxCurvatureFlowFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMinMaxCurvatureFlowFunction);

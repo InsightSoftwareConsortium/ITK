@@ -241,7 +241,7 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
   typedef itk::QuadEdgeMeshTopologyChecker< MeshType > CheckerType;
   CheckerType::Pointer check = CheckerType::New();
 
-  while( qe != ITK_NULLPTR )
+  while( qe != nullptr )
     {
     joinVertex->SetInput( mesh );
     PointIdentifier id_org = qe->GetOrigin();

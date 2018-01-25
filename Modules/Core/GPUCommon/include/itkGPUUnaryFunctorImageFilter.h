@@ -84,11 +84,11 @@ public:
 protected:
   GPUUnaryFunctorImageFilter() {
   }
-  virtual ~GPUUnaryFunctorImageFilter() ITK_OVERRIDE {}
+  ~GPUUnaryFunctorImageFilter() override {}
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() override;
 
-  virtual void GPUGenerateData() ITK_OVERRIDE;
+  void GPUGenerateData() override;
 
   /** GPU kernel handle is defined here instead of in the child class
    * because GPUGenerateData() in this base class is used. */

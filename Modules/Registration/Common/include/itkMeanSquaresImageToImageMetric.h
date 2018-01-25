@@ -86,25 +86,25 @@ public:
    *  (2) uniformly select NumberOfSpatialSamples within
    *      the FixedImageRegion, and
    *  (3) allocate memory for pdf data structures. */
-  virtual void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) override;
 
   /**  Get the value. */
-  MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType GetValue(const ParametersType & parameters) const override;
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const ParametersType & parameters,
-                     DerivativeType & Derivative) const ITK_OVERRIDE;
+                     DerivativeType & Derivative) const override;
 
   /**  Get the value and derivatives for single valued optimizers. */
   void GetValueAndDerivative(const ParametersType & parameters,
                              MeasureType & Value,
-                             DerivativeType & Derivative) const ITK_OVERRIDE;
+                             DerivativeType & Derivative) const override;
 
 protected:
 
   MeanSquaresImageToImageMetric();
-  virtual ~MeanSquaresImageToImageMetric() ITK_OVERRIDE;
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MeanSquaresImageToImageMetric() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
 
@@ -113,14 +113,14 @@ private:
   bool GetValueThreadProcessSample(ThreadIdType threadId,
                                    SizeValueType fixedImageSample,
                                    const MovingImagePointType & mappedPoint,
-                                   double movingImageValue) const ITK_OVERRIDE;
+                                   double movingImageValue) const override;
 
   bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId,
                                                 SizeValueType fixedImageSample,
                                                 const MovingImagePointType & mappedPoint,
                                                 double movingImageValue,
                                                 const ImageDerivativesType &
-                                                movingImageGradientValue) const ITK_OVERRIDE;
+                                                movingImageGradientValue) const override;
 
   struct PerThreadS
   {

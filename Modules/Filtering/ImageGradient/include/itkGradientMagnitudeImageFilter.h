@@ -82,7 +82,7 @@ public:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
@@ -112,7 +112,7 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~GradientMagnitudeImageFilter() ITK_OVERRIDE {}
+  ~GradientMagnitudeImageFilter() override {}
 
   /** GradientMagnitudeImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a
@@ -126,9 +126,9 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
-  void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream &, Indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientMagnitudeImageFilter);

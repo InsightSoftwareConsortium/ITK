@@ -68,7 +68,7 @@ int main( int argc, char* argv[] )
       {
       std::cout << "query = \"" << query << "\"" << std::endl;
       itk::DOMNode::Pointer dom2 = dom1->Find( query );
-      if ( (itk::DOMNode*)dom2 == 0 )
+      if ( (itk::DOMNode*)dom2 == nullptr )
         {
         std::cout << "invalid query!" << std::endl;
         }

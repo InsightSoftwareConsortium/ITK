@@ -63,8 +63,8 @@ public:
    * The size of the new memroy block must be the same as current size of
    * Array and the parameter image's buffer, in elements of TValue.
    * Memory must be managed by caller afterwards. */
-  virtual void MoveDataPointer(CommonContainerType* container,
-                               TValue * pointer );
+  void MoveDataPointer(CommonContainerType* container,
+                               TValue * pointer ) override;
 
   /** Set an image that holds the parameter data. \c container is a pointer
    * of type itkArray to the object to which this helper is assigned.
@@ -73,10 +73,10 @@ public:
    * A dynamic cast is performed on \c object to make sure its of proper type.
    * Generally this will be called from
    * OptimizerParameters::SetParameterObject. */
-  virtual void SetParametersObject(CommonContainerType * container,
-                                   LightObject * );
+  void SetParametersObject(CommonContainerType * container,
+                                   LightObject * ) override;
 
-  virtual ~ImageVectorOptimizerParametersHelper(){}
+  ~ImageVectorOptimizerParametersHelper() override {}
 
 private:
   /** The parameter image used by the class */

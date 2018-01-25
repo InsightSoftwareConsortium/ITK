@@ -112,7 +112,7 @@ public:
 // KernelSuperclass;
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel) ITK_OVERRIDE;
+  void SetKernel(const KernelType & kernel) override;
 
   /** Set/Get the boundary value. */
   void SetBoundary(const PixelType value);
@@ -125,16 +125,16 @@ public:
   itkGetConstMacro(Algorithm, int);
 
   /** GrayscaleErodeImageFilter need to set its internal filters as modified */
-  virtual void Modified() const ITK_OVERRIDE;
+  void Modified() const override;
 
-  void SetNumberOfThreads(ThreadIdType nb) ITK_OVERRIDE;
+  void SetNumberOfThreads(ThreadIdType nb) override;
 
 protected:
   GrayscaleErodeImageFilter();
-  ~GrayscaleErodeImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GrayscaleErodeImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleErodeImageFilter);

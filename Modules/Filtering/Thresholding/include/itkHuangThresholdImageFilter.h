@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~HuangThresholdImageFilter() ITK_OVERRIDE {};
+  ~HuangThresholdImageFilter() override {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HuangThresholdImageFilter);

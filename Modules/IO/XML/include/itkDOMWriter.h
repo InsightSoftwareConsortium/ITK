@@ -102,7 +102,7 @@ public:
    * Some derived writers may accept an incomplete input object during the writing process, in those cases
    * the optional argument 'userdata' can be used to provide the missed information.
    */
-  void Update( DOMNodeType* outputdom, const void* userdata = ITK_NULLPTR );
+  void Update( DOMNodeType* outputdom, const void* userdata = nullptr );
 
   /**
    * Function called by end-users to write the input object to the output XML file.

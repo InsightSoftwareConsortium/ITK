@@ -92,10 +92,10 @@ public:
 
   /** Compute the equation value. */
   virtual void GPUComputeUpdate( const typename TImage::Pointer output, typename TImage::Pointer buffer,
-                                 void *globalData ) ITK_OVERRIDE;
+                                 void *globalData ) override;
 
   /** This method is called prior to each iteration of the solver. */
-  virtual void InitializeIteration() ITK_OVERRIDE
+  void InitializeIteration() override
   {
     m_K = static_cast< PixelType >( this->GetAverageGradientMagnitudeSquared()
                                     * this->GetConductanceParameter() * this->GetConductanceParameter() * -2.0f );
@@ -103,7 +103,7 @@ public:
 
 protected:
   GPUGradientNDAnisotropicDiffusionFunction();
-  ~GPUGradientNDAnisotropicDiffusionFunction() ITK_OVERRIDE {}
+  ~GPUGradientNDAnisotropicDiffusionFunction() override {}
 
   /** Inner product function. */
   NeighborhoodInnerProduct< ImageType > m_InnerProduct;

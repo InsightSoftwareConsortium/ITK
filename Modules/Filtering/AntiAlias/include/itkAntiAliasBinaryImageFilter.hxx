@@ -30,7 +30,7 @@ AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
 ::AntiAliasBinaryImageFilter() :
   m_UpperBinaryValue( NumericTraits< BinaryValueType >::OneValue() ),
   m_LowerBinaryValue( NumericTraits< BinaryValueType >::ZeroValue() ),
-  m_InputImage( ITK_NULLPTR )
+  m_InputImage( nullptr )
 {
   m_CurvatureFunction = CurvatureFunctionType::New();
   this->SetDifferenceFunction(m_CurvatureFunction);
@@ -117,7 +117,7 @@ AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateData();
 
   // Release the pointer
-  m_InputImage = ITK_NULLPTR;
+  m_InputImage = nullptr;
 }
 
 template< typename TInputImage, typename TOutputImage >

@@ -89,38 +89,38 @@ public:
   ElementStd();
 
   /** Methods that define the geometry of an element. */
-  virtual unsigned int GetNumberOfNodes(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfNodes(void) const override
   {
     return NumberOfNodes;
   }
 
   /** Get/Set the Nodes that define the element. */
-  virtual NodeIDType GetNode(unsigned int n) const ITK_OVERRIDE
+  NodeIDType GetNode(unsigned int n) const override
   {
     if( n >= NumberOfNodes )
       {
-      return ITK_NULLPTR;
+      return nullptr;
       }
     return this->m_node[n];
   }
 
-  virtual void SetNode(unsigned int n, NodeIDType node) ITK_OVERRIDE
+  void SetNode(unsigned int n, NodeIDType node) override
   {
     this->SetNodeInternal(n,node);
   }
-  virtual void SetNode(unsigned int n, typename Superclass::Node::Pointer node) ITK_OVERRIDE
+  void SetNode(unsigned int n, typename Superclass::Node::Pointer node) override
   {
     this->SetNodeInternal(n,node);
   }
 
   /** Get the nodal coordinates. */
-  virtual const VectorType & GetNodeCoordinates(unsigned int n) const ITK_OVERRIDE
+  const VectorType & GetNodeCoordinates(unsigned int n) const override
   {
     return m_node[n]->GetCoordinates();
   }
 
   /** Get the number of spatial dimensions. */
-  virtual unsigned int GetNumberOfSpatialDimensions() const ITK_OVERRIDE
+  unsigned int GetNumberOfSpatialDimensions() const override
   {
     return NumberOfSpatialDimensions;
   }
@@ -128,7 +128,7 @@ public:
 
 protected:
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
   virtual void SetNodeInternal(unsigned int n, const Node *node)
   {

@@ -114,7 +114,7 @@ public:
 
 protected:
   SumProjectionImageFilter() {}
-  virtual ~SumProjectionImageFilter() ITK_OVERRIDE {}
+  ~SumProjectionImageFilter() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SumProjectionImageFilter);

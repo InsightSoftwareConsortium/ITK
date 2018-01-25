@@ -96,7 +96,7 @@ EllipseSpatialObject< TDimension >
 {
   itkDebugMacro("Checking the point [" << point << "] is inside the Ellipse");
 
-  if ( name == ITK_NULLPTR )
+  if ( name == nullptr )
     {
     if ( IsInside(point) )
       {

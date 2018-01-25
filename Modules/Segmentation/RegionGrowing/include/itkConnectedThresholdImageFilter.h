@@ -65,7 +65,7 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Set seed point. */
   void SetSeed(const IndexType & seed);
@@ -141,15 +141,15 @@ public:
 
 protected:
   ConnectedThresholdImageFilter();
-  ~ConnectedThresholdImageFilter() ITK_OVERRIDE {}
+  ~ConnectedThresholdImageFilter() override {}
 
   // Override since the filter needs all the data for the algorithm.
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
   // Override since the filter produces the entire dataset.
-  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedThresholdImageFilter);

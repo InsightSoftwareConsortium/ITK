@@ -116,7 +116,7 @@ public:
    * This value is calculated for the current iteration */
   virtual double GetMetric() const;
 
-  virtual const double & GetRMSChange() const ITK_OVERRIDE;
+  const double & GetRMSChange() const override;
 
   /** Set/Get the threshold below which the absolute difference of
    * intensity yields a match. When the intensities match between a
@@ -128,14 +128,14 @@ public:
 
 protected:
   SymmetricForcesDemonsRegistrationFilter();
-  ~SymmetricForcesDemonsRegistrationFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~SymmetricForcesDemonsRegistrationFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Initialize the state of filter and equation before each iteration. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() override;
 
   /** Apply update. */
-  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
+  void ApplyUpdate(const TimeStepType& dt) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricForcesDemonsRegistrationFilter);

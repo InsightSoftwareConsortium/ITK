@@ -80,10 +80,10 @@ public:
   enum { DefaultIntegrationOrder = 1 };
 
   /** Get the Integration point and weight */
-  virtual void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const ITK_OVERRIDE;
+  void GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const override;
 
   /** Get the number of integration points */
-  virtual unsigned int GetNumberOfIntegrationPoints(unsigned int order) const ITK_OVERRIDE;
+  unsigned int GetNumberOfIntegrationPoints(unsigned int order) const override;
 
   // ////////////////////////////////////////////////////////////////////////
   /**
@@ -91,18 +91,18 @@ public:
    */
 
   /** Return the shape functions used to interpolate across the element */
-  virtual VectorType ShapeFunctions(const VectorType & pt) const ITK_OVERRIDE;
+  VectorType ShapeFunctions(const VectorType & pt) const override;
 
   /** Return the shape functions derivatives in the shapeD matrix */
-  virtual void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const ITK_OVERRIDE;
+  void ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const override;
 
   /** Convert from global to local coordinates */
-  virtual bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const ITK_OVERRIDE;
+  bool GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const override;
 
 protected:
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const override;
 
-  virtual void PopulateEdgeIds(void) ITK_OVERRIDE;
+  void PopulateEdgeIds(void) override;
 
 };
 } // end namespace fem

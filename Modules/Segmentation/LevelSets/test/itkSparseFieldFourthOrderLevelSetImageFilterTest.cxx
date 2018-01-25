@@ -119,7 +119,7 @@ protected:
     m_Function->Print(std::cout);
   }
 
-  virtual bool Halt () ITK_OVERRIDE
+  bool Halt () override
   {
     if (this->GetElapsedIterations() == 50)
       {

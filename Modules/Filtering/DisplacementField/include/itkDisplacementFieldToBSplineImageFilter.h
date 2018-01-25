@@ -254,13 +254,13 @@ protected:
   DisplacementFieldToBSplineImageFilter();
 
   /** Deconstructor */
-  virtual ~DisplacementFieldToBSplineImageFilter() ITK_OVERRIDE;
+  ~DisplacementFieldToBSplineImageFilter() override;
 
   /** Standard print self function **/
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** preprocessing function */
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldToBSplineImageFilter);

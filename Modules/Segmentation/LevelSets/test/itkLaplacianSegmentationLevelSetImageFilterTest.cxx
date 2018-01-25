@@ -117,7 +117,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard Command virtual methods */
-  virtual void Execute(Object *caller, const EventObject &) ITK_OVERRIDE
+  void Execute(Object *caller, const EventObject &) override
   {
     std::cout <<
       (dynamic_cast<SparseFieldLevelSetImageFilter< ::LSIFTN::SeedImageType, ::LSIFTN::ImageType> *>(caller))->GetRMSChange()
@@ -127,7 +127,7 @@ public:
               << std::endl;
 
   }
-  virtual void Execute(const Object *, const EventObject &) ITK_OVERRIDE
+  void Execute(const Object *, const EventObject &) override
   {
     std::cout << "ack" << std::endl;
 
@@ -135,7 +135,7 @@ public:
 
 protected:
   RMSCommand()  {}
-  virtual ~RMSCommand() ITK_OVERRIDE {}
+  ~RMSCommand() override {}
 };
 
 }

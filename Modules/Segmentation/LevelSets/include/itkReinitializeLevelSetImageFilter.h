@@ -132,15 +132,15 @@ public:
 
 protected:
   ReinitializeLevelSetImageFilter();
-  ~ReinitializeLevelSetImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ReinitializeLevelSetImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Internal typedefs. */
   typedef Image< float, itkGetStaticConstMacro(SetDimension) > SpeedImageType;
   typedef LevelSetNeighborhoodExtractor< TLevelSet >           LocatorType;
   typedef FastMarchingImageFilter< TLevelSet, SpeedImageType > FastMarchingImageFilterType;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
   virtual void GenerateDataFull();
 
@@ -148,9 +148,9 @@ protected:
 
   virtual void AllocateOutput();
 
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() override;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *) override;
 
   void SetOutputNarrowBand(NodeContainer *ptr)
   { m_OutputNarrowBand = ptr; }

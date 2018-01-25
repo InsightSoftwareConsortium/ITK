@@ -85,12 +85,12 @@ public:
   // Functions inherited from Path
 
   /** Evaluate the hilbert path for the index at the specified path-position. */
-  virtual OutputType Evaluate( const PathIndexType & input ) const ITK_OVERRIDE
+  OutputType Evaluate( const PathIndexType & input ) const override
     {
     return this->m_HilbertPath[input];
     }
 
-  virtual OutputType EvaluateToIndex( const PathIndexType & input ) const ITK_OVERRIDE
+  OutputType EvaluateToIndex( const PathIndexType & input ) const override
     {
     return this->m_HilbertPath[input];
     }
@@ -102,7 +102,7 @@ public:
     }
 
   /** Where does the path end (what is the last valid input value)? */
-  virtual InputType EndOfInput() const ITK_OVERRIDE
+  InputType EndOfInput() const override
     {
     return static_cast<InputType>( this->NumberOfSteps() );  // 0 is before the first step, 1 is after it
     }
@@ -110,7 +110,7 @@ public:
   /** Increment the input variable passed by reference and then return the
    * index stored at the new path-position.
    */
-  virtual OffsetType IncrementInput( InputType & itkNotUsed( input ) ) const ITK_OVERRIDE
+  OffsetType IncrementInput( InputType & itkNotUsed( input ) ) const override
     {
     itkExceptionMacro( "Not implemented." );
     }
@@ -129,7 +129,7 @@ public:
     }
 
   /** Needed for Pipelining */
-  virtual void Initialize( void ) ITK_OVERRIDE
+  void Initialize( void ) override
     {
     this->Clear();
     this->ConstructHilbertPath();
@@ -149,8 +149,8 @@ public:
 
 protected:
   HilbertPath();
-  ~HilbertPath() ITK_OVERRIDE {}
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  ~HilbertPath() override {}
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HilbertPath);

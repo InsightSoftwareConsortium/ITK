@@ -50,7 +50,7 @@ typename TFilter::RealArrayType ParseKernelBandwithSigma( char* kernelBandwithSi
       {
       (*kernelBandwithSigmaIn)++;
       }
-    else if( endPtr == NULL || *endPtr == 0 )
+    else if( endPtr == nullptr || *endPtr == 0 )
       {
       kernelBandwithSigmaOut[i] = value;
       break;

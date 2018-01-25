@@ -31,7 +31,7 @@ class mammal
 class human : public mammal
 {
   public:
-    virtual int GetType() ITK_OVERRIDE
+    int GetType() override
     {
       return 32;
     }
@@ -40,7 +40,7 @@ class human : public mammal
 class naked_mole_rat : public mammal
 {
   public:
-    virtual int GetType() ITK_OVERRIDE
+    int GetType() override
     {
       return 2;
     }

@@ -172,8 +172,8 @@ public:
 
 protected:
   ScalarImageToCooccurrenceMatrixFilter();
-  virtual ~ScalarImageToCooccurrenceMatrixFilter() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~ScalarImageToCooccurrenceMatrixFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   virtual void FillHistogram(RadiusType radius, RegionType region);
 
@@ -184,10 +184,10 @@ protected:
 
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
   /** This method causes the filter to generate its output. */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageToCooccurrenceMatrixFilter);

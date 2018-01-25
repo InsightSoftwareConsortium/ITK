@@ -76,7 +76,7 @@ public:
       }
     else
       {
-      m_Data = ITK_NULLPTR;
+      m_Data = nullptr;
       }
   }
 
@@ -95,7 +95,7 @@ public:
    */
   ~FEMP()
   {
-    m_Data = ITK_NULLPTR;
+    m_Data = nullptr;
   }
 
   /**
@@ -146,11 +146,11 @@ const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
     /**
      * First destroy the existing object on the left hand side
      */
-    m_Data = ITK_NULLPTR;
+    m_Data = nullptr;
 
     /**
      * Then clone the one on the right hand side
-     * of the expression (if not ITK_NULLPTR).
+     * of the expression (if not nullptr).
      */
     if( rhs.m_Data )
       {
@@ -163,7 +163,7 @@ const FEMP<T> & FEMP<T>::operator=(const FEMP<T> & rhs)
       }
     else
       {
-      m_Data = ITK_NULLPTR;
+      m_Data = nullptr;
       }
     }
   return *this;

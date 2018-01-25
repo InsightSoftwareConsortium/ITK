@@ -114,7 +114,7 @@ DCMTKSequence
   DcmItem *item = this->m_DcmSequenceOfItems->getItem(index);
   DcmSequenceOfItems *sequence =
     dynamic_cast<DcmSequenceOfItems *>(item);
-  if(sequence == ITK_NULLPTR)
+  if(sequence == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Can't find DCMTKSequence at index " << index);
     }
@@ -134,7 +134,7 @@ DCMTKSequence
   this->GetStack(group,element,resultStack,throwException);
   DcmCodeString *codeStringElement =
     dynamic_cast<DcmCodeString *>(resultStack.top());
-  if(codeStringElement == ITK_NULLPTR)
+  if(codeStringElement == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find CodeString Element "
                    << std::hex
@@ -169,7 +169,7 @@ DCMTKSequence
   this->GetStack(group,element,resultStack,throwException);
   DcmOtherByteOtherWord *obItem = dynamic_cast<DcmOtherByteOtherWord *>(resultStack.top());
 
-  if(obItem == ITK_NULLPTR)
+  if(obItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -216,7 +216,7 @@ GetElementFD(const unsigned short group,
   DcmStack resultStack;
   this->GetStack(group,element,resultStack);
   DcmFloatingPointDouble *fdItem = dynamic_cast<DcmFloatingPointDouble *>(resultStack.top());
-  if(fdItem == ITK_NULLPTR)
+  if(fdItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Can't get CodeString Element at tag "
                    << std::hex << group << " "
@@ -267,7 +267,7 @@ DCMTKSequence
   DcmStack resultStack;
   this->GetStack(group,element,resultStack);
   DcmDecimalString *decimalStringElement = dynamic_cast<DcmDecimalString *>(resultStack.top());
-  if(decimalStringElement == ITK_NULLPTR)
+  if(decimalStringElement == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Element at tag "
                    << std::hex << group << " "
@@ -300,7 +300,7 @@ DCMTKSequence
   this->GetStack(group,element,resultStack);
 
   DcmSequenceOfItems *seqElement = dynamic_cast<DcmSequenceOfItems *>(resultStack.top());
-  if(seqElement == ITK_NULLPTR)
+  if(seqElement == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Can't get  at tag "
                    << std::hex << group << " "
@@ -317,7 +317,7 @@ DCMTKSequence
                  const bool throwException) const
 {
   DcmItem *itemElement = this->m_DcmSequenceOfItems->getItem(index);
-  if(itemElement == ITK_NULLPTR)
+  if(itemElement == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Can't get item "
                    << index
@@ -339,7 +339,7 @@ DCMTKSequence
   this->GetStack(group,element,resultStack);
 
   DcmTime *dcmTime = dynamic_cast<DcmTime *>(resultStack.top());
-  if(dcmTime == ITK_NULLPTR)
+  if(dcmTime == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Can't get  at tag "
                    << std::hex << group << " "
@@ -464,7 +464,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmLongString *loItem = dynamic_cast<DcmLongString *>(el);
-  if(loItem == ITK_NULLPTR)
+  if(loItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -501,7 +501,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmLongString *loItem = dynamic_cast<DcmLongString *>(el);
-  if(loItem == ITK_NULLPTR)
+  if(loItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -539,7 +539,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmDecimalString *dsItem = dynamic_cast<DcmDecimalString *>(el);
-  if(dsItem == ITK_NULLPTR)
+  if(dsItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -577,7 +577,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmFloatingPointDouble *fdItem = dynamic_cast<DcmFloatingPointDouble *>(el);
-  if(fdItem == ITK_NULLPTR)
+  if(fdItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -634,7 +634,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmFloatingPointSingle *flItem = dynamic_cast<DcmFloatingPointSingle *>(el);
-  if(flItem == ITK_NULLPTR)
+  if(flItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -701,7 +701,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmUnsignedShort *usItem = dynamic_cast<DcmUnsignedShort *>(el);
-  if(usItem == ITK_NULLPTR)
+  if(usItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -731,7 +731,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmUnsignedShort *usItem = dynamic_cast<DcmUnsignedShort *>(el);
-  if(usItem == ITK_NULLPTR)
+  if(usItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -763,7 +763,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmCodeString *csItem = dynamic_cast<DcmCodeString *>(el);
-  if(csItem == ITK_NULLPTR)
+  if(csItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -818,7 +818,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmPersonName *pnItem = dynamic_cast<DcmPersonName *>(el);
-  if(pnItem == ITK_NULLPTR)
+  if(pnItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -857,7 +857,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmIntegerString *isItem = dynamic_cast<DcmIntegerString *>(el);
-  if(isItem == ITK_NULLPTR)
+  if(isItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -891,7 +891,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmSignedLong *isItem = dynamic_cast<DcmSignedLong *>(el);
-  if(isItem == ITK_NULLPTR)
+  if(isItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -963,7 +963,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmOtherByteOtherWord *obItem = dynamic_cast<DcmOtherByteOtherWord *>(el);
-  if(obItem == ITK_NULLPTR)
+  if(obItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex
                    << group << " " << std::hex
@@ -1017,7 +1017,7 @@ DCMTKFileReader
                    << entry << std::dec);
     }
   DcmUniqueIdentifier *uiItem = dynamic_cast<DcmUniqueIdentifier *>(el);
-  if(uiItem == ITK_NULLPTR)
+  if(uiItem == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Can't convert data item " << group
                    << "," << entry);
@@ -1052,7 +1052,7 @@ GetElementDA(const unsigned short group,
                    << element << std::dec);
     }
   DcmDate *dcmDate = dynamic_cast<DcmDate *>(el);
-  if(dcmDate == ITK_NULLPTR)
+  if(dcmDate == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Can't get  at tag "
                    << std::hex << group << " "
@@ -1081,7 +1081,7 @@ DCMTKFileReader
                    << element << std::dec);
     }
   DcmTime *dcmTime = dynamic_cast<DcmTime *>(el);
-  if(dcmTime == ITK_NULLPTR)
+  if(dcmTime == nullptr)
     {
     DCMTKExceptionOrErrorReturn(<< "Can't get  at tag "
                    << std::hex << group << " "

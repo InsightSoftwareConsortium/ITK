@@ -29,9 +29,9 @@ template< typename TImage >
 ImageConstIteratorWithIndex< TImage >
 ::ImageConstIteratorWithIndex()
 {
-  m_Position  = ITK_NULLPTR;
-  m_Begin     = ITK_NULLPTR;
-  m_End       = ITK_NULLPTR;
+  m_Position  = nullptr;
+  m_Begin     = nullptr;
+  m_End       = nullptr;
   m_Remaining = false;
 }
 

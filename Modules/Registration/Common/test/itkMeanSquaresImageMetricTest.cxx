@@ -313,8 +313,8 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   std::cout << "NumberOfPixelsCounted: " << metric->GetNumberOfPixelsCounted() << std::endl;
   std::cout << "FixedImageRegion: " << metric->GetFixedImageRegion() << std::endl;
 
-  std::cout << "Check case when Target is ITK_NULLPTR" << std::endl;
-  metric->SetFixedImage( ITK_NULLPTR );
+  std::cout << "Check case when Target is nullptr" << std::endl;
+  metric->SetFixedImage( nullptr );
   try
     {
     std::cout << "Value = " << metric->GetValue( parameters );
@@ -370,10 +370,10 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
     return EXIT_FAILURE; \
     }
 
-  TEST_INITIALIZATION_ERROR( Transform, ITK_NULLPTR, transform );
-  TEST_INITIALIZATION_ERROR( FixedImage, ITK_NULLPTR, fixedImage );
-  TEST_INITIALIZATION_ERROR( MovingImage, ITK_NULLPTR, movingImage );
-  TEST_INITIALIZATION_ERROR( Interpolator, ITK_NULLPTR, interpolator );
+  TEST_INITIALIZATION_ERROR( Transform, nullptr, transform );
+  TEST_INITIALIZATION_ERROR( FixedImage, nullptr, fixedImage );
+  TEST_INITIALIZATION_ERROR( MovingImage, nullptr, movingImage );
+  TEST_INITIALIZATION_ERROR( Interpolator, nullptr, interpolator );
 
   std::cout << "Test passed. " << std::endl;
   return EXIT_SUCCESS;

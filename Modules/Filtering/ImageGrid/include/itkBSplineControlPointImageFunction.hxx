@@ -48,7 +48,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>
 
   this->m_CloseDimension.Fill( 0 );
 
-  this->m_NeighborhoodWeightImage = ITK_NULLPTR;
+  this->m_NeighborhoodWeightImage = nullptr;
 
   this->m_BSplineEpsilon = 1e-3;
 }

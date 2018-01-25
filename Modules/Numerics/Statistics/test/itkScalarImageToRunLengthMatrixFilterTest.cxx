@@ -192,7 +192,7 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
         << std::endl;
       passed = false;
       }
-    if ( filter->GetMaskImage() == ITK_NULLPTR )
+    if ( filter->GetMaskImage() == nullptr )
       {
       std::cerr << "Error: " << std::endl;
       std::cerr << "Mask should not be null." << std::endl;

@@ -85,23 +85,23 @@ int itkDecoratorTest(int, char* [] )
 
   TransformBaseObjectType::Pointer decoratedBaseTransform = TransformBaseObjectType::New();
   decoratedBaseTransform->Graft( decoratedTransform.GetPointer() );
-  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != ITK_NULLPTR );
+  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
 
   decoratedBaseTransform->ReleaseData();
-  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == ITK_NULLPTR );
+  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
   decoratedBaseTransform->Graft( f.GetPointer() );
-  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == ITK_NULLPTR );
+  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() == nullptr );
 
-  decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(ITK_NULLPTR) );
+  decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(nullptr) );
   decoratedBaseTransform->Graft( decoratedTransform.GetPointer() );
-  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != ITK_NULLPTR );
+  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
 
-  decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(ITK_NULLPTR) );
-  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != ITK_NULLPTR );
+  decoratedBaseTransform->Graft( static_cast<itk::DataObject *>(nullptr) );
+  TEST_EXPECT_TRUE( decoratedBaseTransform->Get() != nullptr );
 
   decoratedTransform->ReleaseData();
   decoratedTransform->Graft( decoratedBaseTransform );
-  TEST_EXPECT_TRUE( decoratedTransform->Get() == ITK_NULLPTR );
+  TEST_EXPECT_TRUE( decoratedTransform->Get() == nullptr );
 
   std::cout << "----------------------------------------------------"
             << std::endl;

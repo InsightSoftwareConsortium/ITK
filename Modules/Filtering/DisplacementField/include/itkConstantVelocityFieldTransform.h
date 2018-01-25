@@ -123,7 +123,7 @@ public:
   virtual void SetConstantVelocityField( ConstantVelocityFieldType * );
   itkGetModifiableObjectMacro(ConstantVelocityField, ConstantVelocityFieldType );
 
-  virtual void SetFixedParameters( const FixedParametersType & ) ITK_OVERRIDE;
+  void SetFixedParameters( const FixedParametersType & ) override;
 
   /** Get/Set the interpolator.
    * Create out own set accessor that assigns the velocity field */
@@ -133,13 +133,13 @@ public:
   /** Get the modification time of velocity field */
   itkGetConstReferenceMacro( ConstantVelocityFieldSetTime, ModifiedTimeType );
 
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) override;
 
   /** Return an inverse of this transform. */
   bool GetInverse( Self *inverse ) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const override;
 
   /** Trigger the computation of the displacement field by integrating
    * the constant velocity field. */
@@ -187,11 +187,11 @@ public:
 protected:
 
   ConstantVelocityFieldTransform();
-  virtual ~ConstantVelocityFieldTransform() ITK_OVERRIDE;
-  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  ~ConstantVelocityFieldTransform() override;
+  void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Clone the current transform */
-  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
   typename DisplacementFieldType::Pointer CopyDisplacementField( const DisplacementFieldType * ) const;
 

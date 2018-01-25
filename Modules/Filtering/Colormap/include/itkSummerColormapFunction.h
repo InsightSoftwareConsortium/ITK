@@ -59,11 +59,11 @@ public:
   typedef typename Superclass::ScalarType   ScalarType;
   typedef typename Superclass::RealType     RealType;
 
-  virtual RGBPixelType operator()(const TScalar &) const ITK_OVERRIDE;
+  RGBPixelType operator()(const TScalar &) const override;
 
 protected:
   SummerColormapFunction() {}
-  ~SummerColormapFunction() ITK_OVERRIDE {}
+  ~SummerColormapFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SummerColormapFunction);

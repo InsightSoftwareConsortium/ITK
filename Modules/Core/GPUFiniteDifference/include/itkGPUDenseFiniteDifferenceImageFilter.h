@@ -100,33 +100,33 @@ public:
 
 protected:
   GPUDenseFiniteDifferenceImageFilter();
-  ~GPUDenseFiniteDifferenceImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GPUDenseFiniteDifferenceImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** This method applies changes from the m_UpdateBuffer to the output using
    * the GPU.  "dt" is the time step to use for the update of each pixel. */
-  virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
+  void ApplyUpdate(const TimeStepType& dt) override;
 
-  virtual void GPUApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
+  void GPUApplyUpdate(const TimeStepType& dt) override;
 
   /** This method populates an update buffer with changes for each pixel in the
    * output using the GPU. Returns value is a time step to be used for the update. */
-  virtual TimeStepType GPUCalculateChange() ITK_OVERRIDE;
+  TimeStepType GPUCalculateChange() override;
 
   /** A simple method to copy the data from the input to the output.  ( Supports
    * "read-only" image adaptors in the case where the input image type converts
    * to a different output image type. )  */
-  virtual void CopyInputToOutput() ITK_OVERRIDE;
+  void CopyInputToOutput() override;
 
   /** Method to allow subclasses to get direct access to the update
    * buffer */
-  virtual UpdateBufferType * GetUpdateBuffer() ITK_OVERRIDE {
+  UpdateBufferType * GetUpdateBuffer() override {
     return CPUSuperclass::GetUpdateBuffer();
   }
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */
-  virtual void AllocateUpdateBuffer() ITK_OVERRIDE;
+  void AllocateUpdateBuffer() override;
 
   /* GPU kernel handle for GPUApplyUpdate */
   int m_ApplyUpdateGPUKernelHandle;

@@ -65,10 +65,10 @@ public:
 
   /** Destructor.  MeshRegion is a lightweight object and is not reference
    * counted. */
-  virtual ~MeshRegion() ITK_OVERRIDE;
+  ~MeshRegion() override;
 
   /** Return the region type. Meshes are described with unstructured regions. */
-  virtual RegionType GetRegionType() const ITK_OVERRIDE
+  RegionType GetRegionType() const override
   { return Superclass::ITK_UNSTRUCTURED_REGION; }
 
   /** Get the number of regions. */

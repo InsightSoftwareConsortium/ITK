@@ -147,9 +147,9 @@ public:
 
 public:
   /** Object creation methods. */
-  QuadEdgeMeshFrontBaseIterator(MeshType *mesh  = (MeshType *)0,
+  QuadEdgeMeshFrontBaseIterator(MeshType *mesh  = (MeshType *)nullptr,
                                 bool start = true,
-                                QEType *seed  = (QEType *)0);
+                                QEType *seed  = (QEType *)nullptr);
   virtual ~QuadEdgeMeshFrontBaseIterator();
 
   Self & operator=(const Self & r)
@@ -240,9 +240,9 @@ public:
   /** Object creation methods. */
   QuadEdgeMeshFrontIterator(MeshType *mesh = (MeshType *)0,
                             bool start = true,
-                            QEType *seed  = (QEType *)0):
+                            QEType *seed  = (QEType *)nullptr):
     Superclass(mesh, start, seed) {}
-  virtual ~QuadEdgeMeshFrontIterator() {}
+  ~QuadEdgeMeshFrontIterator() override {}
   QEType * Value() { return ( this->m_CurrentEdge ); }
 };
 
@@ -268,7 +268,7 @@ public:
   /** Object creation methods. */
   QuadEdgeMeshConstFrontIterator(const MeshType *mesh = (MeshType *)0,
                                  bool start = true,
-                                 QEType *seed  = (QEType *)0)
+                                 QEType *seed  = (QEType *)nullptr)
   {
     (void)mesh;
     (void)start;
@@ -276,7 +276,7 @@ public:
   }
 
   /** \todo do we need here a    : Superclass( mesh, start, seed ) { } */
-  virtual ~QuadEdgeMeshConstFrontIterator() {}
+  ~QuadEdgeMeshConstFrontIterator() override {}
   Self & operator=(const NoConstType & r)
   {
     this->m_Mesh  = r.GetMesh();

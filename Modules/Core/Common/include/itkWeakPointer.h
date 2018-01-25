@@ -49,7 +49,7 @@ public:
 
   /** Constructor.  */
   WeakPointer ()
-  { m_Pointer = ITK_NULLPTR; }
+  { m_Pointer = nullptr; }
 
   /** Copy constructor.  */
   WeakPointer (const WeakPointer< ObjectType > & p):m_Pointer(p.m_Pointer) {}
@@ -59,7 +59,7 @@ public:
 
   /** Destructor.  */
   ~WeakPointer ()
-  { m_Pointer = ITK_NULLPTR; }
+  { m_Pointer = nullptr; }
 
   /** Overload operator ->.  */
   ObjectType * operator->() const
@@ -88,11 +88,11 @@ public:
 
   /** Test if the pointer is not NULL. */
   bool IsNotNull() const
-  { return m_Pointer != ITK_NULLPTR; }
+  { return m_Pointer != nullptr; }
 
   /** Test if the pointer is NULL. */
   bool IsNull() const
-  { return m_Pointer == ITK_NULLPTR; }
+  { return m_Pointer == nullptr; }
 
   /** Comparison of pointers. Less than comparison.  */
   bool operator<(const WeakPointer & r) const

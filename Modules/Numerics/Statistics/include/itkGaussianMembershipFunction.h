@@ -106,17 +106,17 @@ public:
   itkGetConstReferenceMacro(InverseCovariance, CovarianceMatrixType);
 
   /** Evaluate the probability density of a measurement vector. */
-  double Evaluate(const MeasurementVectorType & measurement) const ITK_OVERRIDE;
+  double Evaluate(const MeasurementVectorType & measurement) const override;
 
   /** Method to clone a membership function, i.e. create a new instance of
    * the same type of membership function and configure its ivars to
    * match. */
-  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const override;
 
 protected:
   GaussianMembershipFunction();
-  virtual ~GaussianMembershipFunction() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GaussianMembershipFunction() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianMembershipFunction);

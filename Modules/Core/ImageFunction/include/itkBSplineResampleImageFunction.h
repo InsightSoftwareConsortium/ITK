@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Set the input image representing the BSplineCoefficients */
-  virtual void SetInputImage(const TImageType *inputData) ITK_OVERRIDE
+  void SetInputImage(const TImageType *inputData) override
   {
     // bypass my superclass
     this->InterpolateImageFunction< TImageType, TCoordRep >::SetInputImage(inputData);
@@ -87,7 +87,7 @@ public:
 
 protected:
   BSplineResampleImageFunction() {}
-  virtual ~BSplineResampleImageFunction() ITK_OVERRIDE {}
+  ~BSplineResampleImageFunction() override {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineResampleImageFunction);

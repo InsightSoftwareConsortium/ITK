@@ -77,7 +77,7 @@ void MultiThreader::MultipleMethodExecute()
                      &m_ThreadInfoArray[threadCount], 0,
                      (unsigned int *)&threadId);
 
-    if( processId[threadCount] == ITK_NULLPTR )
+    if( processId[threadCount] == nullptr )
       {
       itkExceptionMacro("Error in thread creation!");
       }
@@ -183,7 +183,7 @@ MultiThreader
   HANDLE threadHandle =  (HANDLE)_beginthreadex(0, 0,
                                                 this->SingleMethodProxy,
                                                 threadInfo, 0, (unsigned int *)&threadId);
-  if ( threadHandle == ITK_NULLPTR )
+  if ( threadHandle == nullptr )
     {
     itkExceptionMacro("Error in thread creation !!!");
     }

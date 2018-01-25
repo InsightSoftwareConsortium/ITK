@@ -53,7 +53,7 @@ public:
   DataObjectError();
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
-  virtual ~DataObjectError() ITK_NOEXCEPT ITK_OVERRIDE {}
+  ~DataObjectError() ITK_NOEXCEPT override {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const char *file, unsigned int lineNumber);
@@ -101,7 +101,7 @@ public:
   InvalidRequestedRegionError();
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
-  virtual ~InvalidRequestedRegionError() ITK_NOEXCEPT ITK_OVERRIDE {}
+  ~InvalidRequestedRegionError() ITK_NOEXCEPT override {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError(const char *file, unsigned int lineNumber);
@@ -123,7 +123,7 @@ protected:
    * specific exception subtypes.  The default is to print out the
    * location where the exception was first thrown and any description
    * provided by the "thrower".   */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 };
 
 /*----------------------------Data Object--------------------------------*/
@@ -479,8 +479,8 @@ public:
 
 protected:
   DataObject();
-  virtual ~DataObject() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~DataObject() override;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Propagate a call to ResetPipeline(). Called only from ProcessObject. */
   virtual void PropagateResetPipeline();

@@ -133,16 +133,16 @@ public:
   itkSetMacro(CentralRegionRadius, IndexValueType);
 
   /** Estimate parameter scales */
-  virtual void EstimateScales(ScalesType &scales) ITK_OVERRIDE = 0;
+  void EstimateScales(ScalesType &scales) override = 0;
 
   /** Estimate the step scale, the impact of a step on deformation. */
-  virtual FloatType EstimateStepScale(const ParametersType &step) ITK_OVERRIDE = 0;
+  FloatType EstimateStepScale(const ParametersType &step) override = 0;
 
   /** Estimate the scales of local steps. */
-  virtual void EstimateLocalStepScales(const ParametersType &step, ScalesType &localStepScales) ITK_OVERRIDE = 0;
+  void EstimateLocalStepScales(const ParametersType &step, ScalesType &localStepScales) override = 0;
 
   /** Estimate the trusted scale for steps. It returns the voxel spacing. */
-  virtual FloatType EstimateMaximumStepSize() ITK_OVERRIDE;
+  FloatType EstimateMaximumStepSize() override;
 
   /** Set the sampling strategy automatically for scales estimation. */
   virtual void SetScalesSamplingStrategy();
@@ -152,9 +152,9 @@ public:
 
 protected:
   RegistrationParameterScalesEstimator();
-  ~RegistrationParameterScalesEstimator() ITK_OVERRIDE {};
+  ~RegistrationParameterScalesEstimator() override {};
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Check the metric and the transforms. */
   bool CheckAndSetInputs();

@@ -97,7 +97,7 @@ public:
 
 protected:
   MedianImageFilter();
-  virtual ~MedianImageFilter() ITK_OVERRIDE {}
+  ~MedianImageFilter() override {}
 
   /** MedianImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -110,7 +110,7 @@ protected:
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            ThreadIdType threadId) ITK_OVERRIDE;
+                            ThreadIdType threadId) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MedianImageFilter);

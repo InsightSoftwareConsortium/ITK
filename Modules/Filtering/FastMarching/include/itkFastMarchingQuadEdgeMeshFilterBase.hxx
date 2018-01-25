@@ -31,7 +31,7 @@ template< typename TInput, typename TOutput >
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::FastMarchingQuadEdgeMeshFilterBase() : Superclass()
 {
-  this->m_InputMesh = ITK_NULLPTR;
+  this->m_InputMesh = nullptr;
 }
 
 template< typename TInput, typename TOutput >
@@ -128,7 +128,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
         }
       else
         {
-        itkGenericExceptionMacro( <<"qe_it is ITK_NULLPTR" );
+        itkGenericExceptionMacro( <<"qe_it is nullptr" );
         }
       qe_it = qe_it->GetOnext();
       }
@@ -136,7 +136,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
     }
   else
     {
-    itkGenericExceptionMacro( <<"qe is ITK_NULLPTR" );
+    itkGenericExceptionMacro( <<"qe is nullptr" );
     }
 }
 
@@ -225,7 +225,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
       else
         {
         // throw one exception here
-        itkGenericExceptionMacro( << "qe_it2 is ITK_NULLPTR" );
+        itkGenericExceptionMacro( << "qe_it2 is nullptr" );
         }
       }
     while( qe_it != qe );
@@ -242,7 +242,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   else
     {
     // throw one exception
-    itkGenericExceptionMacro( << "qe_it is ITK_NULLPTR" );
+    itkGenericExceptionMacro( << "qe_it is nullptr" );
     }
   }
 

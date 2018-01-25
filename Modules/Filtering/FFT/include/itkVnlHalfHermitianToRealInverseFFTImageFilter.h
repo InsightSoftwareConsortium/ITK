@@ -78,7 +78,7 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  SizeValueType GetSizeGreatestPrimeFactor() const ITK_OVERRIDE;
+  SizeValueType GetSizeGreatestPrimeFactor() const override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -91,9 +91,9 @@ public:
 
 protected:
   VnlHalfHermitianToRealInverseFFTImageFilter()  {}
-  virtual ~VnlHalfHermitianToRealInverseFFTImageFilter() ITK_OVERRIDE {}
+  ~VnlHalfHermitianToRealInverseFFTImageFilter() override {}
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VnlHalfHermitianToRealInverseFFTImageFilter);

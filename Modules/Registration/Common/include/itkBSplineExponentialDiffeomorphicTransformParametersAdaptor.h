@@ -111,13 +111,13 @@ public:
   /**
    * Change the displacement field fixed parameters
    */
-  virtual void AdaptTransformParameters() ITK_OVERRIDE;
+  void AdaptTransformParameters() override;
 
 protected:
   BSplineExponentialDiffeomorphicTransformParametersAdaptor();
-  ~BSplineExponentialDiffeomorphicTransformParametersAdaptor() ITK_OVERRIDE;
+  ~BSplineExponentialDiffeomorphicTransformParametersAdaptor() override;
 
-  void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream & os, Indent indent ) const override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineExponentialDiffeomorphicTransformParametersAdaptor);

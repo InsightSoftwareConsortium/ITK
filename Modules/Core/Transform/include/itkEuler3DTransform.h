@@ -91,12 +91,12 @@ public:
    * This is typically used by optimizers.  There are 6 parameters. The first
    * three represent the angles to rotate around the coordinate axis, and the
    * last three represents the offset. */
-  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) override;
 
-  const ParametersType & GetParameters(void) const ITK_OVERRIDE;
+  const ParametersType & GetParameters(void) const override;
 
-  const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
-  virtual void SetFixedParameters(const FixedParametersType & parameters) ITK_OVERRIDE;
+  const FixedParametersType & GetFixedParameters() const override;
+  void SetFixedParameters(const FixedParametersType & parameters) override;
 
   /** Set the rotational part of the transform. */
   void SetRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
@@ -109,7 +109,7 @@ public:
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the
    * transform is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
 
   /** The Euler angle representation of a rotation is not unique and
    * depends on the order of rotations. In general there are 12
@@ -120,24 +120,24 @@ public:
   virtual void SetComputeZYX (const bool flag);
   itkGetConstMacro(ComputeZYX, bool);
 
-  virtual void SetIdentity(void) ITK_OVERRIDE;
+  void SetIdentity(void) override;
 
 protected:
   Euler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
   Euler3DTransform(unsigned int paramsSpaceDims);
   Euler3DTransform();
 
-  ~Euler3DTransform() ITK_OVERRIDE {}
+  ~Euler3DTransform() override {}
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Set values of angles directly without recomputing other parameters. */
   void SetVarRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
 
   /** Compute the components of the rotation matrix in the superclass. */
-  void ComputeMatrix(void) ITK_OVERRIDE;
+  void ComputeMatrix(void) override;
 
-  void ComputeMatrixParameters(void) ITK_OVERRIDE;
+  void ComputeMatrixParameters(void) override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Euler3DTransform);

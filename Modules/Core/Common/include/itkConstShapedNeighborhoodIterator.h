@@ -117,7 +117,7 @@ public:
 
   /** Const Interator */
   struct ConstIterator {
-    ConstIterator() { m_NeighborhoodIterator = ITK_NULLPTR; }
+    ConstIterator() { m_NeighborhoodIterator = nullptr; }
     ConstIterator(Self *s)
     {
       m_NeighborhoodIterator = s;
@@ -229,7 +229,7 @@ protected:
   }
 
   /** Virtual destructor */
-  virtual ~ConstShapedNeighborhoodIterator()  {}
+  ~ConstShapedNeighborhoodIterator() override {}
 
   /** Constructor which establishes the region size, neighborhood, and image
    * over which to walk. */
@@ -296,7 +296,7 @@ protected:
   }
 
   /** Standard itk print method */
-  virtual void PrintSelf(std::ostream &, Indent) const;
+  void PrintSelf(std::ostream &, Indent) const override;
 
   /** Add/Remove a neighborhood offset (from the center of the neighborhood)
    *  to/from the active list.  Active list offsets are the only locations

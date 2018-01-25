@@ -41,8 +41,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   m_ManualReinitialization( false ),
   m_State( UNINITIALIZED )
 {
-  m_InputImage  = ITK_NULLPTR;
-  m_OutputImage = ITK_NULLPTR;
+  m_InputImage  = nullptr;
+  m_OutputImage = nullptr;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -239,7 +239,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   thisPtr->Superclass::VerifyPreconditions();
 
   // Cache input image, if it has not yet been set.
-  if( thisPtr->m_InputImage == ITK_NULLPTR )
+  if( thisPtr->m_InputImage == nullptr )
     {
     thisPtr->m_InputImage = this->GetInput();
     }

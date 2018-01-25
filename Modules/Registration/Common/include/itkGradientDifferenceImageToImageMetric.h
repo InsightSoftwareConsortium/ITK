@@ -121,18 +121,18 @@ public:
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,
-                     DerivativeType  & derivative) const ITK_OVERRIDE;
+                     DerivativeType  & derivative) const override;
 
   /**  Get the value for single valued optimizers. */
-  MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType GetValue(const TransformParametersType & parameters) const override;
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative(const TransformParametersType & parameters,
-                             MeasureType & Value, DerivativeType & derivative) const ITK_OVERRIDE;
+                             MeasureType & Value, DerivativeType & derivative) const override;
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) override;
 
   /** Write gradient images to a files for debugging purposes. */
   void WriteGradientImagesToFiles() const;
@@ -144,8 +144,8 @@ public:
 
 protected:
   GradientDifferenceImageToImageMetric();
-  virtual ~GradientDifferenceImageToImageMetric() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GradientDifferenceImageToImageMetric() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Compute the range of the moved image gradients. */
   void ComputeMovedGradientRange() const;

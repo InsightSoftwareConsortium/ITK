@@ -103,7 +103,7 @@ public:
 // KernelSuperclass;
 
   /** Set kernel (structuring element). */
-  void SetKernel(const KernelType & kernel) ITK_OVERRIDE;
+  void SetKernel(const KernelType & kernel) override;
 
   /** Set/Get the backend filter class. */
   void SetAlgorithm(int algo);
@@ -112,7 +112,7 @@ public:
 
   /** GrayscaleMorphologicalOpeningImageFilter need to set its internal filters
     as modified */
-  virtual void Modified() const ITK_OVERRIDE;
+  void Modified() const override;
 
   /** define values used to determine which algorithm to use */
   enum AlgorithmType {
@@ -130,10 +130,10 @@ public:
 
 protected:
   GrayscaleMorphologicalOpeningImageFilter();
-  ~GrayscaleMorphologicalOpeningImageFilter() ITK_OVERRIDE {}
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~GrayscaleMorphologicalOpeningImageFilter() override {}
+  void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  void GenerateData() ITK_OVERRIDE;
+  void GenerateData() override;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleMorphologicalOpeningImageFilter);

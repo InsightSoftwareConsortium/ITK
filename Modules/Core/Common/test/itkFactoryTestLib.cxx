@@ -57,7 +57,7 @@ public:
     }
 
 protected:
-  TElement* AllocateElements(ElementIdentifier size, bool) const ITK_OVERRIDE
+  TElement* AllocateElements(ElementIdentifier size, bool) const override
     {
     std::cout << "TestImportImageContainer: Allocating "
               << size << " elements of type "
@@ -101,7 +101,7 @@ protected:
     return data;
     }
 
-  void DeallocateManagedMemory() ITK_OVERRIDE
+  void DeallocateManagedMemory() override
     {
     std::cout << "TestImportImageContainer: Deallocating "
               << this->Capacity() << " elements of type "
@@ -149,8 +149,8 @@ public:
   typedef itk::SmartPointer<const Self> ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char* GetITKSourceVersion() const ITK_OVERRIDE { return ITK_SOURCE_VERSION; }
-  const char* GetDescription() const ITK_OVERRIDE { return "A Factory for ImportImageContainer"; }
+  const char* GetITKSourceVersion() const override { return ITK_SOURCE_VERSION; }
+  const char* GetDescription() const override { return "A Factory for ImportImageContainer"; }
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
