@@ -744,41 +744,27 @@ ITKCommon_EXPORT unsigned long long GreatestPrimeFactor( unsigned long long n );
  * Alias the vnl_math functions in the itk::Math
  * namespace. If possible, use the std:: equivalents
  */
-/** A macro to allow perfect forwarding of functions using
-  * C++11 or greater features
-  * http://stackoverflow.com/questions/9864125/c11-how-to-alias-a-function
-  */
-#define ITK_PERFECT_FORWARD_MACRO(new_name, old_name) \
-  template <typename... TArgs> \
-    auto new_name(TArgs&&... args) -> decltype(old_name(std::forward<TArgs>(args)...)) { \
-      return old_name(std::forward<TArgs>(args)...); \
-    }
-
-  // Prefer to use perfect forwarding to the std library if C++11 features are available and consistent with vnl
-ITK_PERFECT_FORWARD_MACRO(isnan,std::isnan);
-ITK_PERFECT_FORWARD_MACRO(isinf,std::isinf);
-ITK_PERFECT_FORWARD_MACRO(isfinite,std::isfinite);
-ITK_PERFECT_FORWARD_MACRO(isnormal,std::isnormal);
-ITK_PERFECT_FORWARD_MACRO(cbrt,std::cbrt);
-ITK_PERFECT_FORWARD_MACRO(hypot,std::hypot);
-// Pefect forwarding to vnl specializations
-ITK_PERFECT_FORWARD_MACRO(angle_0_to_2pi,vnl_math::angle_0_to_2pi);
-ITK_PERFECT_FORWARD_MACRO(angle_minuspi_to_pi,vnl_math::angle_minuspi_to_pi);
-ITK_PERFECT_FORWARD_MACRO(rnd_halfinttoeven,vnl_math::rnd_halfinttoeven);
-ITK_PERFECT_FORWARD_MACRO(rnd_halfintup,vnl_math::rnd_halfintup);
-ITK_PERFECT_FORWARD_MACRO(rnd,vnl_math::rnd);
-ITK_PERFECT_FORWARD_MACRO(floor,vnl_math::floor);
-ITK_PERFECT_FORWARD_MACRO(ceil,vnl_math::ceil);
-ITK_PERFECT_FORWARD_MACRO(sgn,vnl_math::sgn);
-ITK_PERFECT_FORWARD_MACRO(sgn0,vnl_math::sgn0);
-ITK_PERFECT_FORWARD_MACRO(remainder_truncated,vnl_math::remainder_truncated);
-ITK_PERFECT_FORWARD_MACRO(remainder_floored,vnl_math::remainder_floored);
-ITK_PERFECT_FORWARD_MACRO(abs,vnl_math::abs);
-ITK_PERFECT_FORWARD_MACRO(sqr,vnl_math::sqr);
-ITK_PERFECT_FORWARD_MACRO(cube,vnl_math::cube);
-ITK_PERFECT_FORWARD_MACRO(squared_magnitude,vnl_math::squared_magnitude);
-
-#undef ITK_PERFECT_FORWARD_MACRO
+using std::isnan;
+using std::isinf;
+using std::isfinite;
+using std::isnormal;
+using std::cbrt;
+using std::hypot;
+using vnl_math::angle_0_to_2pi;
+using vnl_math::angle_minuspi_to_pi;
+using vnl_math::rnd_halfinttoeven;
+using vnl_math::rnd_halfintup;
+using vnl_math::rnd;
+using vnl_math::floor;
+using vnl_math::ceil;
+using vnl_math::sgn;
+using vnl_math::sgn0;
+using vnl_math::remainder_truncated;
+using vnl_math::remainder_floored;
+using vnl_math::abs;
+using vnl_math::sqr;
+using vnl_math::cube;
+using vnl_math::squared_magnitude;
 
 } // end namespace Math
 } // end namespace itk
