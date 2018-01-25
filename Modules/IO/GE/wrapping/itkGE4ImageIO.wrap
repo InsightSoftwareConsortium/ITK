@@ -1,2 +1,0 @@
-itk_wrap_simple_class("itk::GE4ImageIO" POINTER)
-itk_wrap_simple_class("itk::GE4ImageIOFactory" POINTER)

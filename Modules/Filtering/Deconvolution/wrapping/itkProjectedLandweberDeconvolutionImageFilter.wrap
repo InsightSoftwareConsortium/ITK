@@ -1,3 +1,0 @@
-itk_wrap_class("itk::ProjectedLandweberDeconvolutionImageFilter" POINTER_WITH_SUPERCLASS)
-  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2 "2;3;4")
-itk_end_wrap_class()

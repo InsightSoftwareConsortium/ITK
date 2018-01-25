@@ -1,3 +1,0 @@
-itk_wrap_class("itk::CovariantVector")
-  set(WRAPPER_TEMPLATES "${itk_Wrap_CovariantVector}")
-itk_end_wrap_class()

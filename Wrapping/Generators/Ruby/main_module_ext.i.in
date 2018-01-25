@@ -1,7 +1,0 @@
-%{
-@ITK_WRAP_RUBY_LIBRARY_DECLS@
-%}
-
-%init %{
-@ITK_WRAP_RUBY_LIBRARY_CALLS@
-%}

@@ -1,3 +1,0 @@
-itk_wrap_class("itk::Array")
-  set(WRAPPER_TEMPLATES "${itk_Wrap_Array}")
-itk_end_wrap_class()

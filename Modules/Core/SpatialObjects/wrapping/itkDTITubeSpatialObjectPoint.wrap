@@ -1,7 +1,0 @@
-itk_wrap_filter_dims(has_d_3 3)
-
-if(has_d_3)
-  itk_wrap_class("itk::DTITubeSpatialObjectPoint")
-    itk_wrap_template(3 3)
-  itk_end_wrap_class()
-endif(has_d_3)

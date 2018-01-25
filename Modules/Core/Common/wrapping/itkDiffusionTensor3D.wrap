@@ -1,4 +1,0 @@
-itk_wrap_class("itk::DiffusionTensor3D")
-  itk_wrap_template("${ITKM_F}" "${ITKT_F}")
-  itk_wrap_template("${ITKM_D}" "${ITKT_D}")
-itk_end_wrap_class()
