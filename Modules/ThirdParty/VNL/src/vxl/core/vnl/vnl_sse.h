@@ -77,8 +77,8 @@
 # define VNL_SSE_HEAP_STORE(pf) _mm_storeu_##pf
 # define VNL_SSE_HEAP_LOAD(pf) _mm_loadu_##pf
 # if VNL_CONFIG_THREAD_SAFE
-#   define VNL_SSE_ALLOC(n,s,a) new char[n*s]
-#   define VNL_SSE_FREE(v,n,s) delete [] static_cast<char*>(v)
+#   define VNL_SSE_ALLOC(n,s,a) new char[(n)*(s)]
+#   define VNL_SSE_FREE(v,n,s) (delete [] static_cast<char*>(v))
 # else
 #   define VNL_SSE_ALLOC(n,s,a) vnl_alloc::allocate((n == 0) ? 8 : (n * s));
 #   define VNL_SSE_FREE(v,n,s) if (v) vnl_alloc::deallocate(v, (n == 0) ? 8 : (n * s));

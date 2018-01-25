@@ -175,15 +175,15 @@
  * Macro function that adds data to a imaginary element in the matrix by
  * a pointer.
  */
-#define  spADD_IMAG_ELEMENT(element,imag)       *(element+1) += imag
+#define  spADD_IMAG_ELEMENT(element,imag)       *((element)+1) += imag
 
 /*!
  * Macro function that adds data to a complex element in the matrix by
  * a pointer.
  */
 #define  spADD_COMPLEX_ELEMENT(element,real,imag)       \
-{   *(element) += real;                                 \
-    *(element+1) += imag;                               \
+{   *(element) += (real);                                 \
+    *((element)+1) += (imag);                               \
 }
 
 /*!
@@ -191,10 +191,10 @@
  * specified by the given template.
  */
 #define  spADD_REAL_QUAD(template,real)         \
-{   *((template).Element1) += real;             \
-    *((template).Element2) += real;             \
-    *((template).Element3Negated) -= real;      \
-    *((template).Element4Negated) -= real;      \
+{   *((template).Element1) += (real);             \
+    *((template).Element2) += (real);             \
+    *((template).Element3Negated) -= (real);      \
+    *((template).Element4Negated) -= (real);      \
 }
 
 /*!
@@ -202,10 +202,10 @@
  * elements specified by the given template.
  */
 #define  spADD_IMAG_QUAD(template,imag)         \
-{   *((template).Element1+1) += imag;           \
-    *((template).Element2+1) += imag;           \
-    *((template).Element3Negated+1) -= imag;    \
-    *((template).Element4Negated+1) -= imag;    \
+{   *((template).Element1+1) += (imag);           \
+    *((template).Element2+1) += (imag);           \
+    *((template).Element3Negated+1) -= (imag);    \
+    *((template).Element4Negated+1) -= (imag);    \
 }
 
 /*!
@@ -213,14 +213,14 @@
  * elements specified by the given template.
  */
 #define  spADD_COMPLEX_QUAD(template,real,imag) \
-{   *((template).Element1) += real;             \
-    *((template).Element2) += real;             \
-    *((template).Element3Negated) -= real;      \
-    *((template).Element4Negated) -= real;      \
-    *((template).Element1+1) += imag;           \
-    *((template).Element2+1) += imag;           \
-    *((template).Element3Negated+1) -= imag;    \
-    *((template).Element4Negated+1) -= imag;    \
+{   *((template).Element1) += (real);             \
+    *((template).Element2) += (real);             \
+    *((template).Element3Negated) -= (real);      \
+    *((template).Element4Negated) -= (real);      \
+    *((template).Element1+1) += (imag);           \
+    *((template).Element2+1) += (imag);           \
+    *((template).Element3Negated+1) -= (imag);    \
+    *((template).Element4Negated+1) -= (imag);    \
 }
 
 /*

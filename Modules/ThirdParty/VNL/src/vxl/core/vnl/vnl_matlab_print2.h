@@ -61,7 +61,7 @@ template <class T>
 inline
 vnl_matlab_print_proxy<T>
 vnl_matlab_print(T const &obj,
-                 char const *name = 0,
+                 char const *name = VXL_NULLPTR,
                  vnl_matlab_print_format format = vnl_matlab_print_format_default)
 {
   return vnl_matlab_print_proxy<T>(obj, name, format);

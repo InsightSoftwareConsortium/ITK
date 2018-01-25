@@ -16,10 +16,11 @@
  *
  *=========================================================================*/
 #include "lsmrDense.h"
+#include "vcl_compiler_detection.h"
 
 lsmrDense::lsmrDense()
 {
-  this->A = 0;
+  this->A = VXL_NULLPTR;
 }
 
 

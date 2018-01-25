@@ -33,8 +33,8 @@ template <class T> class vnl_matrix;
 // If the data in the file cannot reasonably be read into the destination, abort().
 //
 // The vector/matrix will be resized if necessary.
-template <class T> VNL_TEMPLATE_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_vector<T> &, char const *name =0);
-template <class T> VNL_TEMPLATE_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_matrix<T> &, char const *name =0);
+template <class T> VNL_TEMPLATE_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_vector<T> &, char const *name =VXL_NULLPTR);
+template <class T> VNL_TEMPLATE_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_matrix<T> &, char const *name =VXL_NULLPTR);
 
 // ------------------------------ less easy ------------------------------
 

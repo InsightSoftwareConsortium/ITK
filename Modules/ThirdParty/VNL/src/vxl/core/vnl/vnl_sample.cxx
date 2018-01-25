@@ -11,7 +11,7 @@
 #include <vcl_compiler.h>
 #include <vxl_config.h>
 
-#include <stdlib.h> // dont_vxl_filter
+#include <cstdlib> // dont_vxl_filter
 
 #if !VXL_STDLIB_HAS_DRAND48
 // rand() is not always a good random number generator,

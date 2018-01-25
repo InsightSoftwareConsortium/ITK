@@ -29,7 +29,7 @@ void sse_op_callback(const long* n,
                      const double* p,
                      double* q)
 {
-  assert(current_system != 0);
+  assert(current_system != VXL_NULLPTR);
 
   current_system->CalculateProduct(*n,*m,p,q);
 }
@@ -46,7 +46,7 @@ void sse_iovect_callback(const long* n,
                          const long* j,
                          const long* k)
 {
-  assert(current_system != 0);
+  assert(current_system != VXL_NULLPTR);
 
   if (*k==0)
     current_system->SaveVectors(*n,*m,q,*j-*m);

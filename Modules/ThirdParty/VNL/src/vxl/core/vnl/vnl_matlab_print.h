@@ -46,7 +46,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 template <class T> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_diag_matrix<T> const&,
-                              char const *variable_name =0,
+                              char const *variable_name =VXL_NULLPTR,
                               vnl_matlab_print_format =vnl_matlab_print_format_default);
 
 //: print a vnl_matrix<T>.
@@ -54,7 +54,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 template <class T> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_matrix<T> const&,
-                              char const *variable_name =0,
+                              char const *variable_name =VXL_NULLPTR,
                               vnl_matlab_print_format =vnl_matlab_print_format_default);
 
 //: print a vnl_matrix_fixed<T>.
@@ -62,7 +62,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 template <class T, unsigned int n, unsigned int m> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_matrix_fixed<T,n,m> const&,
-                              char const *variable_name =0,
+                              char const *variable_name =VXL_NULLPTR,
                               vnl_matlab_print_format =vnl_matlab_print_format_default);
 
 //: print a vnl_matrix_ref<T>.
@@ -70,7 +70,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 template <class T> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_matrix_ref<T> const &,
-                              char const *variable_name =0,
+                              char const *variable_name =VXL_NULLPTR,
                               vnl_matlab_print_format =vnl_matlab_print_format_default);
 
 //: print a vnl_vector<T>.
@@ -78,7 +78,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 template <class T> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_vector<T> const &,
-                              char const *variable_name =0,
+                              char const *variable_name =VXL_NULLPTR,
                               vnl_matlab_print_format =vnl_matlab_print_format_default);
 
 //: print a vnl_vector_fixed<T>.
@@ -86,7 +86,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 template <class T, unsigned int n> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_vector_fixed<T,n> const &,
-                              char const *variable_name =0,
+                              char const *variable_name =VXL_NULLPTR,
                               vnl_matlab_print_format =vnl_matlab_print_format_default);
 
 

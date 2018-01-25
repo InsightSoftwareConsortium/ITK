@@ -24,7 +24,7 @@ public:
 
   lsqrVNL()
     {
-    this->ls_ = NULL;
+    this->ls_ = VXL_NULLPTR;
     }
 
   virtual ~lsqrVNL()
@@ -123,7 +123,7 @@ int vnl_lsqr::minimize(vnl_vector<double>& result)
   long n = ls_->get_number_of_unknowns();
   double damp = 0;
   long leniw = 1;
-  long* iw = 0;
+  long* iw = VXL_NULLPTR;
   long lenrw = m;
 #ifdef __GNUC__
   double rw[m];

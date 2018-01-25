@@ -1,7 +1,7 @@
 #include <vcl_atomic_count.h>
 #include <vcl_cstdio.h>
 
-#define TEST(str,x,y) vcl_printf(str ":   "); if (x!=y) { vcl_printf("FAILED\n"); status = 1; } else { vcl_printf("PASSED\n"); }
+#define TEST(str,x,y) vcl_printf(str ":   "); if ((x)!=(y)) { vcl_printf("FAILED\n"); status = 1; } else { vcl_printf("PASSED\n"); }
 
 int test_atomic_count_main(int /*argc*/,char* /*argv*/[])
 {

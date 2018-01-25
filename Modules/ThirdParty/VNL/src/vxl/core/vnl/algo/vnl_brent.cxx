@@ -23,7 +23,7 @@ double vnl_brent::minimize_given_bounds(double ax, double bx, double cx,
                                         double tol,
                                         double *xmin)
 {
-  assert( xmin != NULL );
+  assert( xmin != VXL_NULLPTR );
   this->set_x_tolerance( tol );
   *xmin = vnl_brent_minimizer::minimize_given_bounds( ax, bx, cx );
   return vnl_brent_minimizer::f_at_last_minimum();
@@ -33,7 +33,7 @@ double vnl_brent::minimize_given_bounds_and_1st_f(double ax, double bx,
                                                   double fb, double cx,
                                                   double tol, double *xmin)
 {
-  assert( xmin != NULL );
+  assert( xmin != VXL_NULLPTR );
   this->set_x_tolerance( tol );
   *xmin = vnl_brent_minimizer::minimize_given_bounds_and_one_f( ax, bx, cx, fb );
   return vnl_brent_minimizer::f_at_last_minimum();

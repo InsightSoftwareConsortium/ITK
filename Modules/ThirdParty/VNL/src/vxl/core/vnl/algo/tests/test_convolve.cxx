@@ -63,7 +63,6 @@ void test_convolve()
 
   TEST_NEAR("vnl_convolve() with_fft(16384)", (r9-r10).two_norm(), 0.0, 1e-6);
   std::cout << "Done FFT-2-based 10000x2000 convolution in " << ms2/double(ntimes) << " milliseconds\n";
-  TEST("vnl_convolve() timing: should be at least 2.5x faster", 5*ms2 < 2*ms1, true);
 
   vnl_vector<double> r11;
   const std::clock_t timer_05 = std::clock();
@@ -73,7 +72,6 @@ void test_convolve()
   const int ms3 = ( timer_06 - timer_05)/ (CLOCKS_PER_SEC/1000);
   TEST_NEAR("vnl_convolve() with_fft(12800)", (r9-r11).two_norm(), 0.0, 1e-6);
   std::cout << "Done FFT-2,5-based 10000x2000 convolution in " << ms3/double(ntimes) << " milliseconds\n";
-  TEST("vnl_convolve() timing: should even be faster", 2*ms3 < 3*ms2, true);
 
   vnl_vector<double> r12;
   const std::clock_t timer_07 = std::clock();
@@ -83,7 +81,6 @@ void test_convolve()
   const int ms4 = ( timer_08 - timer_07)/ (CLOCKS_PER_SEC/1000);
   TEST_NEAR("vnl_convolve() with_fft(27648)", (r9-r12).two_norm(), 0.0, 1e-6);
   std::cout << "Done FFT-2,3-based 10000x2000 convolution in " << ms4/double(ntimes) << " milliseconds\n";
-  TEST("vnl_convolve() timing: should be slower", 5*ms4 > 3*ms2, true);
 
   double c1_data[] = { -1, 0, 1, 2, 3, 4 };
   vnl_vector<double> c1(6, 6, c1_data);
