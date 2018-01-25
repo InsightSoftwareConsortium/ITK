@@ -47,7 +47,8 @@ namespace itk
   typedef pthread_mutex_t FastMutexType;
   typedef void *( * ThreadFunctionType )(void *);
   typedef pthread_t ThreadProcessIdType;
-#define ITK_THREAD_RETURN_VALUE  NULL /* This is from a c library, and always needs to be NULL, not ITK_NULLPTR */
+#define ITK_DEFAULT_THREAD_ID    0
+#define ITK_THREAD_RETURN_VALUE  NULL /* This is from a c library, and always needs to be NULL, not nullptr */
 #define ITK_THREAD_RETURN_TYPE   void *
 
 #elif defined(ITK_USE_WIN32_THREADS)
@@ -57,6 +58,7 @@ namespace itk
   typedef CRITICAL_SECTION       FastMutexType;
   typedef unsigned(__stdcall * ThreadFunctionType)(void *);
   typedef HANDLE                 ThreadProcessIdType;
+#define ITK_DEFAULT_THREAD_ID   INVALID_HANDLE_VALUE
 #define ITK_THREAD_RETURN_VALUE 0
 #define ITK_THREAD_RETURN_TYPE unsigned __stdcall
 
@@ -67,6 +69,7 @@ namespace itk
   typedef int     FastMutexType;
   typedef void ( *ThreadFunctionType )(void *);
   typedef int     ThreadProcessIdType;
+#define ITK_DEFAULT_THREAD_ID    0
 #define ITK_THREAD_RETURN_VALUE
 #define ITK_THREAD_RETURN_TYPE void
 
