@@ -29,7 +29,7 @@ class VNL_TEMPLATE_EXPORT vnl_sym_matrix
 {
  public:
   //: Construct an empty symmetric matrix.
-  vnl_sym_matrix(): data_(0), index_(0), nn_(0) {}
+  vnl_sym_matrix(): data_(VXL_NULLPTR), index_(VXL_NULLPTR), nn_(0) {}
 
   //: Construct a symmetric matrix of size nn by nn.
   explicit vnl_sym_matrix(unsigned nn):
@@ -222,7 +222,7 @@ inline vnl_sym_matrix<T>::vnl_sym_matrix(vnl_matrix<T> const& that):
 
 template <class T>
 inline vnl_sym_matrix<T>::vnl_sym_matrix(vnl_sym_matrix<T> const& that):
-  data_(0), index_(0), nn_(0)
+  data_(VXL_NULLPTR), index_(VXL_NULLPTR), nn_(0)
 {
   set_size(that.rows());
   update(that);

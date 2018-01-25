@@ -17,10 +17,11 @@
  *=========================================================================*/
 
 #include "lsqrDense.h"
+#include "vcl_compiler_detection.h"
 
 lsqrDense::lsqrDense()
 {
-  this->A = 0;
+  this->A = VXL_NULLPTR;
 }
 
 

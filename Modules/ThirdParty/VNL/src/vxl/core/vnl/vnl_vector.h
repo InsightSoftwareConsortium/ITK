@@ -134,7 +134,7 @@ class VNL_TEMPLATE_EXPORT vnl_vector
   vnl_vector(vnl_vector<T> const &, vnl_matrix<T> const &, vnl_tag_mul); // v * M
   vnl_vector(vnl_vector<T> &that, vnl_tag_grab)
     : num_elmts(that.num_elmts), data(that.data)
-  { that.num_elmts=0; that.data=0; } // "*this" now uses "that"'s data.
+  { that.num_elmts=0; that.data=VXL_NULLPTR; } // "*this" now uses "that"'s data.
 // </internal>
 #endif
 

@@ -77,7 +77,7 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     std::cerr << "vnl_lbfgs: ";
 
   double best_f = 0;
-  vnl_vector<double> best_x = x;
+  vnl_vector<double> best_x;
 
   bool ok;
   this->num_evaluations_ = 0;
@@ -105,8 +105,8 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
       best_f = f;
     }
 
-#define print_(i,a,b,c,d) std::cerr<<std::setw(6)<<i<<' '<<std::setw(20)<<a<<' '\
-           <<std::setw(20)<<b<<' '<<std::setw(20)<<c<<' '<<std::setw(20)<<d<<'\n'
+#define print_(i,a,b,c,d) std::cerr<<std::setw(6)<<(i)<<' '<<std::setw(20)<<(a)<<' '\
+           <<std::setw(20)<<(b)<<' '<<std::setw(20)<<(c)<<' '<<std::setw(20)<<(d)<<'\n'
 
     if (check_derivatives_)
     {

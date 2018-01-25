@@ -49,8 +49,8 @@ void test_static_const_definition()
 #undef TEST_TYPE
 }
 
-#define TEST(m,x,y)    if ((x)!=(y)) { vcl_cout<< "FAIL: " << m << '\n'; fail=true; } \
-                       else { vcl_cout<< "PASS: " << m << '\n'; }
+#define TEST(m,x,y)    if ((x)!=(y)) { vcl_cout<< "FAIL: " << (m) << '\n'; fail=true; } \
+                       else { vcl_cout<< "PASS: " << (m) << '\n'; }
 
 int test_limits_main(int /*argc*/, char* /*argv*/[])
 {

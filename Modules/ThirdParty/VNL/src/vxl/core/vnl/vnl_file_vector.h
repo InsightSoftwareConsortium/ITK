@@ -31,7 +31,7 @@ class VNL_TEMPLATE_EXPORT vnl_file_vector : public vnl_vector<T>
   vnl_file_vector(char const* filename);
 
   operator safe_bool () const
-    { return (ok_)? VCL_SAFE_BOOL_TRUE : 0; }
+    { return (ok_)? VCL_SAFE_BOOL_TRUE : VXL_NULLPTR; }
   bool operator!() const
     { return !ok_; }
 

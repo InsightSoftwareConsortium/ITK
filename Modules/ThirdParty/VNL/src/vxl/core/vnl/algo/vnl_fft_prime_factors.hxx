@@ -9,7 +9,7 @@
 
 template <class T>
 vnl_fft_prime_factors<T>::vnl_fft_prime_factors()
-  : trigs_(0)
+  : trigs_(VXL_NULLPTR)
   , number_(0)
 {
 }

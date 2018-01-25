@@ -3,7 +3,7 @@
 
 #define Assert(x) {vcl_cout << "TEST " #x " : "; vcl_cout << ((x)?"PASSED":"FAILED")}
 
-#define AssertEq(x) {vcl_cout<<"TEST ["<<fred<<"] == ["<<x<<"] : ";vcl_cout<<(fred==(x)?"PASSED":"FAILED")<<vcl_endl;}
+#define AssertEq(x) {vcl_cout<<"TEST ["<<fred<<"] == ["<<(x)<<"] : ";vcl_cout<<(fred==(x)?"PASSED":"FAILED")<<vcl_endl;}
 
 int test_string_main(int /*argc*/,char* /*argv*/[])
 {

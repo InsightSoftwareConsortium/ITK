@@ -9,9 +9,9 @@
 
 
 #define print_hex(p) \
-  std::hex<<std::setfill('0')<<std::setw(2)<<(short)reinterpret_cast<unsigned char*>(&p)[sizeof(p)-1]; \
+  std::hex<<std::setfill('0')<<std::setw(2)<<(short)reinterpret_cast<unsigned char*>(&(p))[sizeof(p)-1]; \
   for (unsigned int i=2; i<=sizeof(p); ++i) \
-    std::cout<<std::setfill('0')<<std::setw(2)<<(short)(reinterpret_cast<unsigned char*>(&p))[sizeof(p)-i]; \
+    std::cout<<std::setfill('0')<<std::setw(2)<<(short)(reinterpret_cast<unsigned char*>(&(p)))[sizeof(p)-i]; \
   std::cout<<std::dec
 
 
@@ -156,9 +156,9 @@ void test_na()
   float na_f = vnl_na(float());
 
 #define print_hex(p) \
-  std::hex<<std::setfill('0')<<std::setw(2)<<(short)reinterpret_cast<unsigned char*>(&p)[sizeof(p)-1]; \
+  std::hex<<std::setfill('0')<<std::setw(2)<<(short)reinterpret_cast<unsigned char*>(&(p))[sizeof(p)-1]; \
   for (unsigned int i=2; i<=sizeof(p); ++i) \
-    std::cout<<std::setfill('0')<<std::setw(2)<<(short)(reinterpret_cast<unsigned char*>(&p))[sizeof(p)-i]; \
+    std::cout<<std::setfill('0')<<std::setw(2)<<(short)(reinterpret_cast<unsigned char*>(&(p)))[sizeof(p)-i]; \
   std::cout<<std::dec
 
   std::cout << "qnan_d = " << qnan_d << " = " << print_hex(qnan_d) << '\n'

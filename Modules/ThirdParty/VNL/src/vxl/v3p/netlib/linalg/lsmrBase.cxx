@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "lsmrBase.h"
+#include "vcl_compiler_detection.h"
 
 #include <algorithm>
 #include <cmath>
@@ -40,7 +41,7 @@ lsmrBase::lsmrBase()
   this->btol = 1e-6;
   this->conlim = 1.0 / ( 10 * sqrt( this->eps ) );
   this->itnlim = 10;
-  this->nout = NULL;
+  this->nout = VXL_NULLPTR;
   this->istop = 0;
   this->itn = 0;
   this->normA = 0.0;

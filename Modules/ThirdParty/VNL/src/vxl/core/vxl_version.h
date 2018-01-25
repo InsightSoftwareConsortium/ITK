@@ -26,9 +26,9 @@
 
 //: Version date.  This is updated every day.
 // Formats are year=CCYY, month=MM, day=DD
-#define VXL_VERSION_DATE_YEAR 2017
-#define VXL_VERSION_DATE_MONTH 12
-#define VXL_VERSION_DATE_DAY 08
+#define VXL_VERSION_DATE_YEAR 2018
+#define VXL_VERSION_DATE_MONTH 01
+#define VXL_VERSION_DATE_DAY 25
 
 //: Helper macros to create strings with the preprocessor.
 #define VXL_VERSION_TO_STRING(s) VXL_VERSION_TO_STRING0(s)

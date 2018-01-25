@@ -13,7 +13,7 @@ doxygen_add_package(core-test "Test Framework")
 # Do platform-specific configuration.
 # configure files
 #
-vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vxl_config.h.in ${PROJECT_BINARY_DIR}/vxl_config.h ${VXL_INSTALL_INCLUDE_DIR})
+vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vxl_config.h.in ${PROJECT_BINARY_DIR}/vxl_config.h include/vxl/core)
 include_directories(${PROJECT_BINARY_DIR})
 
 set(global_sources

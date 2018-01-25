@@ -45,7 +45,7 @@ vnl_svd_economy<real_t>::vnl_svd_economy( vnl_matrix<real_t> const& M ) :
   vnl_linpack_svdc_economy((real_t*)X, &m_, &m_, &n_,
                            wspace.data_block(),
                            espace.data_block(),
-                           0, &ldu,
+                           VXL_NULLPTR, &ldu,
                            vspace.data_block(), &n_,
                            work.data_block(),
                            &job, &info);

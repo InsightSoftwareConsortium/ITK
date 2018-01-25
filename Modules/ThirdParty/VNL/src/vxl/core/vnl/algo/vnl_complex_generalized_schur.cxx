@@ -30,10 +30,10 @@ bool vnl_generalized_schur(vnl_matrix<std::complex<double> > *A,
   assert(B->rows() == B->cols());
 
   long n = A->rows();
-  assert(alpha!=0); alpha->set_size(n);    alpha->fill(0);
-  assert(beta!=0);  beta ->set_size(n);    beta ->fill(0);
-  assert(L!=0);     L    ->set_size(n, n); L    ->fill(0);
-  assert(R!=0);     R    ->set_size(n, n); R    ->fill(0);
+  assert(alpha!=VXL_NULLPTR); alpha->set_size(n);    alpha->fill(0);
+  assert(beta!=VXL_NULLPTR);  beta ->set_size(n);    beta ->fill(0);
+  assert(L!=VXL_NULLPTR);     L    ->set_size(n, n); L    ->fill(0);
+  assert(R!=VXL_NULLPTR);     R    ->set_size(n, n); R    ->fill(0);
 
   long sdim = 0;
   long lwork = 1000 + (8*n + 16);

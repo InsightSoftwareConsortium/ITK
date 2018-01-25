@@ -153,41 +153,19 @@ namespace vnl_math
 namespace vnl_math
 {
 #if VXL_FULLCXX11SUPPORT
-  // Prefer to use perfect forwarding to the std library if C++11 features are available.
-  //http://stackoverflow.com/questions/9864125/c11-how-to-alias-a-function
-  template <typename... Args>
-    auto isnan(Args&&... args) -> decltype(std::isnan(std::forward<Args>(args)...)) {
-      return std::isnan(std::forward<Args>(args)...);
+  using std::isnan;
+  using std::isinf;
+  using std::isfinite;
+  using std::isnormal;
+  using std::max;
+  using std::min;
+  using std::cbrt;
+  template <typename TArg>
+  TArg cuberoot(TArg&& arg)
+    {
+    return std::cbrt(std::forward<TArg>(arg));
     }
-  template <typename... Args>
-    auto isinf(Args&&... args) -> decltype(std::isinf(std::forward<Args>(args)...)) {
-      return std::isinf(std::forward<Args>(args)...);
-    }
-  template <typename... Args>
-    auto isfinite(Args&&... args) -> decltype(std::isfinite(std::forward<Args>(args)...)) {
-      return std::isfinite(std::forward<Args>(args)...);
-    }
-  template <typename... Args>
-    auto isnormal(Args&&... args) -> decltype(std::isnormal(std::forward<Args>(args)...)) {
-      return std::isnormal(std::forward<Args>(args)...);
-    }
-  template <typename... Args>
-    auto max(Args&&... args) -> decltype(std::max(std::forward<Args>(args)...)) {
-      return std::max(std::forward<Args>(args)...);
-    }
-  template <typename... Args>
-    auto min(Args&&... args) -> decltype(std::min(std::forward<Args>(args)...)) {
-      return std::min(std::forward<Args>(args)...);
-    }
-  //cbrt is defined in C++11
-  template <typename... Args>
-    auto cuberoot(Args&&... args) -> decltype(std::cbrt(std::forward<Args>(args)...)) {
-      return std::cbrt(std::forward<Args>(args)...);
-    }
-  template <typename... Args>
-    auto hypot(Args&&... args) -> decltype(std::hypot(std::forward<Args>(args)...)) {
-      return std::hypot(std::forward<Args>(args)...);
-    }
+  using std::hypot;
 #else
  // isnan
  inline bool isnan(char)               { return false; }

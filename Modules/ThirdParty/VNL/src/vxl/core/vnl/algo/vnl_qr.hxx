@@ -199,10 +199,10 @@ vnl_vector<T> vnl_qr<T>::solve(const vnl_vector<T>& b) const
   vnl_linpack_qrsl(qrdc_out_.data_block(),
                    &n, &n, &p,
                    qraux_.data_block(),
-                   b_data, (T*)0, Qt_B.data_block(),
+                   b_data, (T*)VXL_NULLPTR, Qt_B.data_block(),
                    x.data_block(),
-                   (T*)0/*residual*/,
-                   (T*)0/*Ax*/,
+                   (T*)VXL_NULLPTR/*residual*/,
+                   (T*)VXL_NULLPTR/*Ax*/,
                    &JOB,
                    &info);
 
@@ -230,11 +230,11 @@ vnl_vector<T> vnl_qr<T>::QtB(const vnl_vector<T>& b) const
                    &n, &n, &p,
                    qraux_.data_block(),
                    b_data,
-                   (T*)0,               // A: Qb
+                   (T*)VXL_NULLPTR,               // A: Qb
                    Qt_B.data_block(),   // B: Q'b
-                   (T*)0,               // C: x
-                   (T*)0,               // D: residual
-                   (T*)0,               // E: Ax
+                   (T*)VXL_NULLPTR,               // C: x
+                   (T*)VXL_NULLPTR,               // D: residual
+                   (T*)VXL_NULLPTR,               // E: Ax
                    &JOB,
                    &info);
 

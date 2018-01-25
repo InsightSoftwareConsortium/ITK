@@ -24,7 +24,7 @@ int test_cmath_main(int /*argc*/,char* /*argv*/[])
 
 #define macro(var, type) \
 do { \
-  if (vcl_abs(var) == var && vcl_abs(- var) == var) \
+  if (vcl_abs(var) == (var) && vcl_abs(- (var)) == (var)) \
     vcl_cout << "vcl_abs(" #type ") PASSED" << vcl_endl; \
   else \
     vcl_cerr << "vcl_abs(" #type ") *** FAILED *** " << vcl_endl; \
@@ -58,7 +58,7 @@ do { \
   do { \
     T x = 2; \
     T y = vcl_sqrt(x); \
-    if (vcl_abs(x - y*y) < eps) \
+    if (vcl_abs(x - y*y) < (eps)) \
       vcl_cout << "vcl_sqrt(" #T ") PASSED" << vcl_endl; \
     else \
       vcl_cout << "vcl_sqrt(" #T ") *** FAILED *** " << vcl_endl; \

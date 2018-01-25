@@ -26,7 +26,7 @@
 #endif
 
 #elif VXL_HAS_STD_ISFINITE || VXL_HAS_STD_ISNAN ||  VXL_HAS_STD_ISNORMAL
-# include<math.h>
+# include<cmath>
 # if VXL_HAS_STD_ISFINITE
 #    define finite  std::isfinite
 #    define finitef std::isfinite

@@ -30,7 +30,7 @@ class VNL_TEMPLATE_EXPORT vnl_file_matrix : public vnl_matrix<T>
   vnl_file_matrix(char const* filename);
 
   operator safe_bool () const
-    { return (ok_)? VCL_SAFE_BOOL_TRUE : 0; }
+    { return (ok_)? VCL_SAFE_BOOL_TRUE : VXL_NULLPTR; }
   bool operator!() const
     { return !ok_; }
 
