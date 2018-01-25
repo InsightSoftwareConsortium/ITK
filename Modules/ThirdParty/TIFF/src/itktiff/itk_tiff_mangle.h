@@ -39,44 +39,44 @@ The seventh and eighth commmands mangles the symbols and formats the output in s
 The developer will then need to *MANUALLY* add the symbols to the list below. Please try to keep the symbols in a sorted order (you can use sort utility, in Linux don't forget to to set environmental variable LC_COLLATE=POSIX to deal with the underscores correctly)
 */
 
-// Section containing symbols which are conditionally defined
-#ifdef  LZW_SUPPORT
-#define  TIFFInitLZW    itk_TIFFInitLZW
-#endif
-
-#ifdef  PACKBITS_SUPPORT
-#define  TIFFInitPackBits  itk_TIFFInitPackBits
-#endif
-
-#ifdef  NEXT_SUPPORT
-#define  TIFFInitNeXT    itk_TIFFInitNeXT
-#endif
-
-#ifdef  JPEG_SUPPORT
-#define  TIFFInitJPEG    itk_TIFFInitJPEG
-#endif
-
-#ifdef  OJPEG_SUPPORT
-#define  TIFFInitOJPEG    itk_TIFFInitOJPEG
-#endif
-
-#ifdef  CCITT_SUPPORT
-#define  TIFFInitCCITTRLE  itk_TIFFInitCCITTRLE
-#define  TIFFInitCCITTRLEW  itk_TIFFInitCCITTRLEW
-#define  TIFFInitCCITTFax3  itk_TIFFInitCCITTFax3
-#define  TIFFInitCCITTFax4  itk_TIFFInitCCITTFax4
+// Section containing symbols which are conditionally defined (alphabetizied!)
+#ifdef CCITT_SUPPORT
+#define TIFFInitCCITTFax3 itk_TIFFInitCCITTFax3
+#define TIFFInitCCITTFax4 itk_TIFFInitCCITTFax4
+#define TIFFInitCCITTRLE itk_TIFFInitCCITTRLE
+#define TIFFInitCCITTRLEW itk_TIFFInitCCITTRLEW
 #endif
 
 #ifdef JBIG_SUPPORT
-#define  TIFFInitJBIG    itk_TIFFInitJBIG
+#define TIFFInitJBIG itk_TIFFInitJBIG
 #endif
 
-#ifdef  ZIP_SUPPORT
-#define  TIFFInitZIP    itk_TIFFInitZIP
+#ifdef JPEG_SUPPORT
+#define TIFFInitJPEG itk_TIFFInitJPEG
 #endif
 
 #ifdef LOGLUV_SUPPORT
-#define TIFFInitSGILog    itk_TIFFInitSGILog
+#define TIFFInitSGILog itk_TIFFInitSGILog
+#endif
+
+#ifdef LZW_SUPPORT
+#define TIFFInitLZW itk_TIFFInitLZW
+#endif
+
+#ifdef NEXT_SUPPORT
+#define TIFFInitNeXT itk_TIFFInitNeXT
+#endif
+
+#ifdef OJPEG_SUPPORT
+#define TIFFInitOJPEG itk_TIFFInitOJPEG
+#endif
+
+#ifdef PACKBITS_SUPPORT
+#define TIFFInitPackBits itk_TIFFInitPackBits
+#endif
+
+#ifdef ZIP_SUPPORT
+#define TIFFInitZIP itk_TIFFInitZIP
 #endif
 
 // Section containing symbols which are found in Linux but not in all platforms
@@ -100,9 +100,9 @@ The developer will then need to *MANUALLY* add the symbols to the list below. Pl
 #define _TIFFwarningHandlerExt itk__TIFFwarningHandlerExt
 #endif
 
-//Section containing symbols which are found in Mac but not in all platforms
+// Section containing symbols which are found in Mac but not in all platforms
 
-//Common symbols
+// Common symbols
 #define LogL10fromY itk_LogL10fromY
 #define LogL10toY itk_LogL10toY
 #define LogL16fromY itk_LogL16fromY
