@@ -19,7 +19,6 @@
 #define itkMINCTransformIO_hxx
 
 #include "itksys/SystemTools.hxx"
-#include "itksys/SystemInformation.hxx"
 #include "itkCompositeTransform.h"
 #include "itkCompositeTransformIOHelper.h"
 #include "itkVersion.h"
