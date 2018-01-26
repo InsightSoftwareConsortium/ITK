@@ -7,24 +7,25 @@ It is included in all files while building the tiff library.  Due to
 namespace pollution, no tiff headers should be included in .h files in
 ITK.
 
-The following commands are used to generate the suggested symbols on Mac OS X:
+The following command was used to obtain the symbol list on macOS:
 
-Mac: nm lib/libitktiff-*.a 2> /dev/null | grep " T \| D \| R " | awk '{ print substr($3, 2); }' | awk '!/itk_/ { print }' | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /'
+Mac: nm -g lib/libitktiff* 2> /dev/null | grep " [TDRS] " | awk '{ print substr($3, 2); }' | awk '{ sub(/itk_/, ""); print }' | sed 's/\(.*\)/#define \1\ itk_\1/' | sort
 
-The following commands are used to generate the suggested symbols on Linux:
+The following command was used to obtain the symbol list on Linux:
 
-Linux: nm lib/libitktiff-*.a 2> /dev/null | grep " T \| D \| R " | awk '{ print $3 }' | awk '!/itk_/ { print }' | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /'
+Linux: nm -g lib/libitktiff* 2> /dev/null | grep " [TDRS] " | awk '{ print $3 }' | awk '{ sub(/itk_/, ""); print }' | sed 's/\(.*\)/#define \1\ itk_\1/' | sort
 
-
-The first command extracts all symbols from the library.
-The second command extracts all the public symbols from the library. (Text, Data, Read-only data)
-The third command prints out only the third column which is the symbol name (the first 2 columns are location and type) (also removes the leading underscore on every line for Mac)
-The fourth command prints out only those symbols which have not been mangled with "itk_" already
-The fifth and sixth commands mangles the symbols and formats the output in such a way to be easily copy and pasted below.
+Explanation:
+1) The nm command extracts all global/external symbols from the library.
+2) The grep command extracts all the public symbols from the library. (Text, Data, Read-only data, Small objects).
+3) The first awk command prints out only the third column which is the symbol name (the first 2 columns are location and type) (also removes the leading underscore on macOS).
+4) The second awk command prints remove any "itk_" prefix that exists already.
+5) The sed command mangles the symbols and formats the output in such a way to be copy and pasted below.
+6) The sort commands sorts the lines alphabetically.
 
 The following commands are used to generate the suggested symbols on Windows systems:
 
-dumpbin /symbols itktiff-*.lib > symbol_table.txt (Must be done from the Visual Studio Command Prompt)
+dumpbin /symbols itktiff* > symbol_table.txt (Must be done from the Visual Studio Command Prompt)
 cat symbol_table.txt | grep "External" | grep -i "TIFF" | awk '{print $(NF) }' | awk '!/itk_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /' (Must be done in git bash)
 
 For the bash commands:
@@ -39,70 +40,72 @@ The seventh and eighth commmands mangles the symbols and formats the output in s
 The developer will then need to *MANUALLY* add the symbols to the list below. Please try to keep the symbols in a sorted order (you can use sort utility, in Linux don't forget to to set environmental variable LC_COLLATE=POSIX to deal with the underscores correctly)
 */
 
-// Section containing symbols which are conditionally defined
-#ifdef  LZW_SUPPORT
-#define  TIFFInitLZW    itk_TIFFInitLZW
-#endif
-
-#ifdef  PACKBITS_SUPPORT
-#define  TIFFInitPackBits  itk_TIFFInitPackBits
-#endif
-
-#ifdef  NEXT_SUPPORT
-#define  TIFFInitNeXT    itk_TIFFInitNeXT
-#endif
-
-#ifdef  JPEG_SUPPORT
-#define  TIFFInitJPEG    itk_TIFFInitJPEG
-#endif
-
-#ifdef  OJPEG_SUPPORT
-#define  TIFFInitOJPEG    itk_TIFFInitOJPEG
-#endif
-
-#ifdef  CCITT_SUPPORT
-#define  TIFFInitCCITTRLE  itk_TIFFInitCCITTRLE
-#define  TIFFInitCCITTRLEW  itk_TIFFInitCCITTRLEW
-#define  TIFFInitCCITTFax3  itk_TIFFInitCCITTFax3
-#define  TIFFInitCCITTFax4  itk_TIFFInitCCITTFax4
+// Section containing symbols which are conditionally defined (alphabetizied!)
+#ifdef CCITT_SUPPORT
+#define TIFFInitCCITTFax3 itk_TIFFInitCCITTFax3
+#define TIFFInitCCITTFax4 itk_TIFFInitCCITTFax4
+#define TIFFInitCCITTRLE itk_TIFFInitCCITTRLE
+#define TIFFInitCCITTRLEW itk_TIFFInitCCITTRLEW
 #endif
 
 #ifdef JBIG_SUPPORT
-#define  TIFFInitJBIG    itk_TIFFInitJBIG
+#define TIFFInitJBIG itk_TIFFInitJBIG
 #endif
 
-#ifdef  ZIP_SUPPORT
-#define  TIFFInitZIP    itk_TIFFInitZIP
+#ifdef JPEG_SUPPORT
+#define TIFFInitJPEG itk_TIFFInitJPEG
 #endif
 
 #ifdef LOGLUV_SUPPORT
-#define TIFFInitSGILog    itk_TIFFInitSGILog
+#define TIFFInitSGILog itk_TIFFInitSGILog
+#endif
+
+#ifndef LZMA_SUPPORT
+#define TIFFInitLZMA itk_TIFFInitLZMA
+#endif
+
+#ifdef LZW_SUPPORT
+#define TIFFInitLZW itk_TIFFInitLZW
+#endif
+
+#ifdef NEXT_SUPPORT
+#define TIFFInitNeXT itk_TIFFInitNeXT
+#endif
+
+#ifdef OJPEG_SUPPORT
+#define TIFFInitOJPEG itk_TIFFInitOJPEG
+#endif
+
+#ifdef PACKBITS_SUPPORT
+#define TIFFInitPackBits itk_TIFFInitPackBits
+#endif
+
+#ifdef PIXARLOG_SUPPORT
+#define TIFFInitPixarLog itk_TIFFInitPixarLog
+#endif
+
+#ifdef THUNDER_SUPPORT
+#define TIFFInitThunderScan itk_TIFFInitThunderScan
+#endif
+
+#ifdef ZIP_SUPPORT
+#define TIFFInitZIP itk_TIFFInitZIP
 #endif
 
 // Section containing symbols which are found in Linux but not in all platforms
 #ifdef __linux__
-#define TIFFFaxBlackCodes itk_TIFFFaxBlackCodes
-#define TIFFFaxBlackTable itk_TIFFFaxBlackTable
-#define TIFFFaxMainTable itk_TIFFFaxMainTable
-#define TIFFFaxWhiteCodes itk_TIFFFaxWhiteCodes
-#define TIFFFaxWhiteTable itk_TIFFFaxWhiteTable
 #endif
 
 // Section containing symbols which are found in Windows but not in all platforms
 #ifdef _WIN32
-#define TIFFFaxBlackCodes itk_TIFFFaxBlackCodes
-#define TIFFFaxBlackTable itk_TIFFFaxBlackTable
-#define TIFFFaxMainTable itk_TIFFFaxMainTable
-#define TIFFFaxWhiteCodes itk_TIFFFaxWhiteCodes
-#define TIFFFaxWhiteTable itk_TIFFFaxWhiteTable
 #define TIFFOpenW itk_TIFFOpenW
-#define _TIFFerrorHandlerExt itk__TIFFerrorHandlerExt
-#define _TIFFwarningHandlerExt itk__TIFFwarningHandlerExt
 #endif
 
-//Section containing symbols which are found in Mac but not in all platforms
+// Section containing symbols which are found in macOS but not in all platforms
+#ifdef __APPLE__
+#endif
 
-//Common symbols
+// Common symbols
 #define LogL10fromY itk_LogL10fromY
 #define LogL10toY itk_LogL10toY
 #define LogL16fromY itk_LogL16fromY
@@ -136,6 +139,11 @@ The developer will then need to *MANUALLY* add the symbols to the list below. Pl
 #define TIFFDefaultTileSize itk_TIFFDefaultTileSize
 #define TIFFError itk_TIFFError
 #define TIFFErrorExt itk_TIFFErrorExt
+#define TIFFFaxBlackCodes itk_TIFFFaxBlackCodes
+#define TIFFFaxBlackTable itk_TIFFFaxBlackTable
+#define TIFFFaxMainTable itk_TIFFFaxMainTable
+#define TIFFFaxWhiteCodes itk_TIFFFaxWhiteCodes
+#define TIFFFaxWhiteTable itk_TIFFFaxWhiteTable
 #define TIFFFdOpen itk_TIFFFdOpen
 #define TIFFFieldDataType itk_TIFFFieldDataType
 #define TIFFFieldName itk_TIFFFieldName
@@ -301,9 +309,7 @@ The developer will then need to *MANUALLY* add the symbols to the list below. Pl
 #define _TIFFNoTileEncode itk__TIFFNoTileEncode
 #define _TIFFPrintFieldInfo itk__TIFFPrintFieldInfo
 #define _TIFFRewriteField itk__TIFFRewriteField
-#define _TIFFSampleToTagType itk__TIFFSampleToTagType
 #define _TIFFSetDefaultCompressionState itk__TIFFSetDefaultCompressionState
-#define _TIFFSetupFieldInfo itk__TIFFSetupFieldInfo
 #define _TIFFSetupFields itk__TIFFSetupFields
 #define _TIFFSwab16BitData itk__TIFFSwab16BitData
 #define _TIFFSwab24BitData itk__TIFFSwab24BitData
@@ -312,6 +318,7 @@ The developer will then need to *MANUALLY* add the symbols to the list below. Pl
 #define _TIFFUInt64ToDouble itk__TIFFUInt64ToDouble
 #define _TIFFUInt64ToFloat itk__TIFFUInt64ToFloat
 #define _TIFFerrorHandler itk__TIFFerrorHandler
+#define _TIFFerrorHandlerExt itk__TIFFerrorHandlerExt
 #define _TIFFfree itk__TIFFfree
 #define _TIFFgetMode itk__TIFFgetMode
 #define _TIFFmalloc itk__TIFFmalloc
@@ -330,6 +337,7 @@ The developer will then need to *MANUALLY* add the symbols to the list below. Pl
 #define _TIFFsetShortArray itk__TIFFsetShortArray
 #define _TIFFsetString itk__TIFFsetString
 #define _TIFFwarningHandler itk__TIFFwarningHandler
+#define _TIFFwarningHandlerExt itk__TIFFwarningHandlerExt
 #define uv_decode itk_uv_decode
 #define uv_encode itk_uv_encode
 
