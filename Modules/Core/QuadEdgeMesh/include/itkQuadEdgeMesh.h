@@ -35,68 +35,7 @@
 #include "itkQuadEdgeMeshFrontIterator.h"
 #include "itkConceptChecking.h"
 
-/****
- * \brief Documentation of itkQE namespace
- * \todo More comments here !
- *
- * \note Design notes: some QuadEdgeMesh algorithms are based on iterating
- * various connectivity operators e.g. curvature driven surface deformation.
- * Many of those connectivity altering operators (e.g. the Euler operators)
- * are lightweight in the sense that they only modify very limited regions
- * of a QuadEdgeMesh: they typically act within the range of couple edges of
- * distance from a considered vertex, edge or face.
- * On the one side, we cannot choose to implement those atomic operations
- * as "classical" itk filters since each filter invocation yields a new
- * copy of the input mesh as its output: this would drasticaly
- * increase the memory consumption.
- * In fact, those atomic operations have a too much finer grain to be
- * implemeted as filters: the filter is more at the scale of the
- * application of a large number of such atomic operations.
- * One the other hand, we cannot choose to implement those atomic operations
- * as methods of this QuadEdgeMesh class (or a derived one) at the risk of
- * rapid code bloat.
- * Maybe we could choose to make thematic regroupment within derived
- * classes, but this would force an end user to multiple inheritance which
- * can prove to be a drag in a templated context.
- * Eventually, we chose to implement them as function object: the
- * loosely coupling of those operation methods with the targeted QuadEdgeMesh
- * object and heavier invocation syntax are a small price to pay in
- * exchange for optimal memory usage and end user modularity.
- * But we couldn't inherit from \ref FunctionBase since its
- * Evaluate( const InputType& input ) method promises to leave its
- * argument (the mesh we want to modify in our case) untouched.
- * Hence we created the \ref itkQE::MeshFunctionBase class whose main
- * difference with \ref FunctionBase is that its Evaluate()
- * method allows to modify the considered mesh.
- * When considering a new QuadEdgeMesh method we are left with four possible
- * "slots" to implement it:
- *   - the QuadEdgeMesh method
- *   - a derived class from FunctionBase when the method leaves
- *     the mesh constant.
- *   - a derived class from \ref itkQE::MeshFunctionBase when the
- *     method modifies the mesh (typically in the case of Euler operators)
- *   - as a classic Mesh filter.
- * The choice of the slot is a mere matter of trade-off and in order
- * to keep QuadEdgeMesh tiny and humanly readable key decision factors
- * can be the occurrence of the calls and the human level complexity of
- * the code.
- * With those criteria in mind we made the following choices:
- *   - really atomic, lightweight and general purpose methods like
- *     \ref Mesh::ComputeNumberOfPoints are left within the Mesh class.
- *   - heavier methods and less often called like
- *     \ref SanityCheckMeshFunction were implemented as derived classes of
- *     \ref FunctionBase.
- *   - methods with the same weight (measured e.g. in number of lines of
- *     code) but that modify the considered mesh, like
- *     \ref BoundaryEdgesMeshFunction or
- *     \ref ZipMeshFunction, were implemented as derived classes of
- *     \ref itkQE::MeshFunctionBase. Still the mesh modifications are
- *     really limited and concern a couple edges.
- *   - more specialised methods, with a wider scope and that require a
- *     copy of the mesh should follow the classical itk Filter pattern,
- *     like \ref itkQE::MeshExtractComponentFilter, and inherit from
- *     \ref MeshToMeshFilter.
- */
+
 namespace itk
 {
 /**
