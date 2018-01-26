@@ -73,16 +73,13 @@ public:
 
   typedef Vector< TOutput, itkGetStaticConstMacro(ImageDimension2) >                         VectorType;
   typedef typename Superclass::OutputType                                                    OutputType;
-  typedef FixedArray< OperatorNeighborhoodType, 2 * itkGetStaticConstMacro(ImageDimension2) > OperatorArrayType;
+  typedef FixedArray< OperatorNeighborhoodType, itkGetStaticConstMacro(ImageDimension2) > OperatorArrayType;
   typedef NeighborhoodOperatorImageFunction< InputImageType,
                                              TOutput > OperatorImageFunctionType;
   typedef typename OperatorImageFunctionType::Pointer OperatorImageFunctionPointer;
 
   typedef GaussianDerivativeSpatialFunction< TOutput, 1 >  GaussianDerivativeFunctionType;
   typedef typename GaussianDerivativeFunctionType::Pointer GaussianDerivativeFunctionPointer;
-
-  typedef GaussianSpatialFunction< TOutput, 1 >  GaussianFunctionType;
-  typedef typename GaussianFunctionType::Pointer GaussianFunctionPointer;
 
   /** Point typedef support. */
   // typedef Point< TOutput, itkGetStaticConstMacro(ImageDimension2) > PointType;
@@ -151,19 +148,14 @@ protected:
    * a fastest Derivative Gaussian operator. */
   void RecomputeGaussianKernel();
 
-  /** Recompute the Gaussian kernel used to evaluate indexes. The variance
-   * should be uniform. */
-  void RecomputeContinuousGaussianKernel(
-    const double *offset) const;
-
 private:
 
   double                            m_Sigma[ImageDimension2];
 
-  /** Array of 1D operators. Contains a derivative kernel and a gaussian kernel for
-   * each dimension. */
+  /** Array of 1D operators. Contains a derivative kernel for
+   * each dimension. Note: A future version of ITK could extend this array
+   * to include a Gaussian blurring kernel for each dimension.*/
   mutable OperatorArrayType         m_OperatorArray;
-  mutable OperatorArrayType         m_ContinuousOperatorArray;
 
   /** OperatorImageFunction */
   OperatorImageFunctionPointer      m_OperatorImageFunction;
@@ -174,7 +166,6 @@ private:
 
   /** Neighborhood Image Function. */
   GaussianDerivativeFunctionPointer m_GaussianDerivativeFunction;
-  GaussianFunctionPointer           m_GaussianFunction;
 };
 } // namespace itk
 
