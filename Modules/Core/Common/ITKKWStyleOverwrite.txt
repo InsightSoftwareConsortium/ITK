@@ -17,7 +17,6 @@ itkVectorContainer\.h DeclarationOrder Disable
 itkVectorContainer\.h InternalVariables Disable
 itkVectorContainer\.h Typedefs Disable
 itkVectorImage\.h Template Disable
-itkSmartPointerForwardReferenceProcessObject\.cxx Namespace Disable
 itkSparseImageTest\.cxx InternalVariables Disable
 itkImageToImageFilter.\h InternalVariables Disable
 itkTimeStamp\.cxx Namespace Disable

@@ -29,8 +29,8 @@
 #define itkDataObject_h
 
 #include "itkObject.h"
-#include "itkSmartPointerForwardReference.h"
 #include "itkMacro.h"
+#include "itkWeakPointer.h"
 #include "itkRealTimeStamp.h"
 
 namespace itk
@@ -297,14 +297,9 @@ public:
    * been disconnected from the pipeline, or the data object
    * was created manually. (Note: we cannot use the GetObjectMacro()
    * defined in itkMacro because the mutual dependency of
-   * DataObject and ProcessObject causes compile problems. Also,
-   * a forward reference smart pointer is returned, not a smart pointer,
-   * because of the circular dependency between the process and data object.)
-   *
-   * GetSource() returns a SmartPointerForwardReference and not a WeakPointer
-   * because it is assumed the code calling GetSource() wants to hold a
-   * long term reference to the source. */
-  SmartPointerForwardReference< ProcessObject > GetSource() const;
+   * DataObject and ProcessObject causes compile problems. )
+   */
+  SmartPointer< ProcessObject > GetSource() const;
 
   /** Which of the source's outputs corresponds to this data object? */
   const DataObjectIdentifierType & GetSourceOutputName() const;

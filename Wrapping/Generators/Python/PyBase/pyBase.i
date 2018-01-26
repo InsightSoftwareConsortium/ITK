@@ -166,14 +166,6 @@ str = str
   }
 %enddef
 
-// convert the only known SmartPointerForwardReference to a raw pointer
-%typemap(out) itk::SmartPointerForwardReference< itk::ProcessObject > {
-  itk::ProcessObject * ptr = $1;
-  $result = SWIG_NewPointerObj((void *) ptr, $descriptor(itkProcessObject *), 1);
-  if (ptr) {
-        ptr->Register();
-  }
-}
 
 %extend itkMetaDataDictionary {
     std::string __str__() {
