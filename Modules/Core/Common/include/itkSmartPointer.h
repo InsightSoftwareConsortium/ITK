@@ -19,7 +19,9 @@
 #define itkSmartPointer_h
 
 #include <iostream>
+#include <utility>
 #include "itkConfigure.h"
+
 
 namespace itk
 {
@@ -54,6 +56,11 @@ public:
   SmartPointer (const SmartPointer< ObjectType > & p):
     m_Pointer(p.m_Pointer)
   { this->Register(); }
+
+  /** Move constructor */
+  SmartPointer (SmartPointer<ObjectType > &&p)
+    : m_Pointer(p.m_Pointer)
+    { p.m_Pointer = nullptr; }
 
   /** Constructor to pointer p  */
   SmartPointer (ObjectType *p):
@@ -117,11 +124,28 @@ public:
   SmartPointer & operator=(const SmartPointer & r)
   { return this->operator=( r.GetPointer() ); }
 
+
+  /** Move assignment operator **/
+  SmartPointer & operator=( SmartPointer && r)
+    {
+      if(this != &r)
+        {
+        this->UnRegister();
+        this->m_Pointer = r.m_Pointer;
+        r.m_Pointer = nullptr;
+        }
+      return *this;
+    }
+
+
   /** Overload operator assignment.  */
   SmartPointer & operator=(ObjectType *r)
   {
-    SmartPointer temp(r);
-    temp.Swap(*this);
+    if ( m_Pointer != r )
+      {
+      SmartPointer temp(r);
+      *this = std::move(temp);
+      }
 
     return *this;
   }
