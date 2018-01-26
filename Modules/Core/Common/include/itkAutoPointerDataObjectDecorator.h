@@ -68,8 +68,8 @@ public:
   typedef SmartPointer< const Self >     ConstPointer;
 
   /** Typedef for the component type (object being decorated) */
-  typedef T                  ComponentType;
-  typedef std::auto_ptr< T > ComponentPointer;
+  typedef T                    ComponentType;
+  typedef std::unique_ptr< T > ComponentPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

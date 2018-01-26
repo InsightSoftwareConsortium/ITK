@@ -60,8 +60,8 @@ class NumericTraits< ForcedFailureTestCase > : public std::numeric_limits< Force
 {
   public:
   typedef ForcedFailureTestCase ValueType;
-  static ITK_CONSTEXPR_VAR bool IsSigned = true;    //the default (for unknown classes) in std::numeric_limits is false, false.
-  static ITK_CONSTEXPR_VAR bool IsInteger = true;   //so this should not match and the test should fail.
+  static constexpr bool IsSigned = true;    //the default (for unknown classes) in std::numeric_limits is false, false.
+  static constexpr bool IsInteger = true;   //so this should not match and the test should fail.
 };
 
 template<>
@@ -69,8 +69,8 @@ class NumericTraits< std::complex< ForcedFailureTestCase > >
 {
   public:
   typedef ForcedFailureTestCase ValueType;
-  static ITK_CONSTEXPR_VAR bool IsSigned = false;  //Complex values are never integers, and their IsSigned property
-  static ITK_CONSTEXPR_VAR bool IsInteger = true;  //should match that of their base type, so this should fail
+  static constexpr bool IsSigned = false;  //Complex values are never integers, and their IsSigned property
+  static constexpr bool IsInteger = true;  //should match that of their base type, so this should fail
 };
 
 }//end namespace itk
@@ -126,8 +126,8 @@ template<typename T> void CheckFixedArrayTraits(const T &t)
 
   // check std::numeric_limits members
   std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
-  std::cout << "\tZero: " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::Zero) << std::endl;
-  std::cout << "\tOne: " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::One) << std::endl;
+  std::cout << "\tZero: " << static_cast<typename itk::NumericTraits<T>::PrintType>((T)(itk::NumericTraits<T>::Zero)) << std::endl;
+  std::cout << "\tOne: " << static_cast<typename itk::NumericTraits<T>::PrintType>((T)(itk::NumericTraits<T>::One)) << std::endl;
   std::cout << "\tmin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min()) << std::endl;
   std::cout << "\tNonpositiveMin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin()) << std::endl;
   std::cout << "\tmax(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max()) << std::endl;

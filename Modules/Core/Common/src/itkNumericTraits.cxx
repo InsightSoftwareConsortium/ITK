@@ -26,69 +26,48 @@ namespace itk
  * definitions are defined. Other compilers (GCC) seem not to care, while
  * still others (Clang) require it.
  */
-#if !defined(_MSC_VER) || (ITK_COMPILER_CXX_CONSTEXPR)
-ITK_CONSTEXPR_VAR bool NumericTraits< bool >:: Zero;
-ITK_CONSTEXPR_VAR bool NumericTraits< bool >:: One;
+constexpr bool NumericTraits< bool >:: Zero;
+constexpr bool NumericTraits< bool >:: One;
 
-ITK_CONSTEXPR_VAR unsigned char NumericTraits< unsigned char >:: Zero;
-ITK_CONSTEXPR_VAR unsigned char NumericTraits< unsigned char >:: One;
+constexpr unsigned char NumericTraits< unsigned char >:: Zero;
+constexpr unsigned char NumericTraits< unsigned char >:: One;
 
-ITK_CONSTEXPR_VAR signed char NumericTraits< signed char >:: Zero;
-ITK_CONSTEXPR_VAR signed char NumericTraits< signed char >:: One;
+constexpr signed char NumericTraits< signed char >:: Zero;
+constexpr signed char NumericTraits< signed char >:: One;
 
-ITK_CONSTEXPR_VAR char NumericTraits< char >:: Zero;
-ITK_CONSTEXPR_VAR char NumericTraits< char >:: One;
+constexpr char NumericTraits< char >:: Zero;
+constexpr char NumericTraits< char >:: One;
 
-ITK_CONSTEXPR_VAR unsigned short NumericTraits< unsigned short >:: Zero;
-ITK_CONSTEXPR_VAR unsigned short NumericTraits< unsigned short >:: One;
+constexpr unsigned short NumericTraits< unsigned short >:: Zero;
+constexpr unsigned short NumericTraits< unsigned short >:: One;
 
-ITK_CONSTEXPR_VAR short NumericTraits< short >:: Zero;
-ITK_CONSTEXPR_VAR short NumericTraits< short >:: One;
+constexpr short NumericTraits< short >:: Zero;
+constexpr short NumericTraits< short >:: One;
 
-ITK_CONSTEXPR_VAR unsigned int NumericTraits< unsigned int >:: Zero;
-ITK_CONSTEXPR_VAR unsigned int NumericTraits< unsigned int >:: One;
+constexpr unsigned int NumericTraits< unsigned int >:: Zero;
+constexpr unsigned int NumericTraits< unsigned int >:: One;
 
-ITK_CONSTEXPR_VAR int NumericTraits< int >:: Zero;
-ITK_CONSTEXPR_VAR int NumericTraits< int >:: One;
+constexpr int NumericTraits< int >:: Zero;
+constexpr int NumericTraits< int >:: One;
 
-ITK_CONSTEXPR_VAR unsigned long NumericTraits< unsigned long >:: Zero;
-ITK_CONSTEXPR_VAR unsigned long NumericTraits< unsigned long >:: One;
+constexpr unsigned long NumericTraits< unsigned long >:: Zero;
+constexpr unsigned long NumericTraits< unsigned long >:: One;
 
-ITK_CONSTEXPR_VAR long NumericTraits< long >:: Zero;
-ITK_CONSTEXPR_VAR long NumericTraits< long >:: One;
+constexpr long NumericTraits< long >:: Zero;
+constexpr long NumericTraits< long >:: One;
 
-ITK_CONSTEXPR_VAR long long NumericTraits< long long >:: Zero;
-ITK_CONSTEXPR_VAR long long NumericTraits< long long >:: One;
+constexpr long long NumericTraits< long long >:: Zero;
+constexpr long long NumericTraits< long long >:: One;
 
-ITK_CONSTEXPR_VAR unsigned long long NumericTraits< unsigned long long >:: Zero;
-ITK_CONSTEXPR_VAR unsigned long long NumericTraits< unsigned long long >:: One;
-#endif
+constexpr unsigned long long NumericTraits< unsigned long long >:: Zero;
+constexpr unsigned long long NumericTraits< unsigned long long >:: One;
 
-// If not C++11, then use static initialization for real types
-#if !(ITK_COMPILER_CXX_CONSTEXPR)
+constexpr float NumericTraits< float >:: Zero;
+constexpr float NumericTraits< float >:: One;
 
-const float NumericTraits< float >:: Zero = 0.0F;
-const float NumericTraits< float >:: One = 1.0F;
+constexpr double NumericTraits< double >:: Zero;
+constexpr double NumericTraits< double >:: One;
 
-const double NumericTraits< double >:: Zero = 0.0;
-const double NumericTraits< double >:: One = 1.0;
-
-const long double NumericTraits< long double >:: Zero = 0.0;
-const long double NumericTraits< long double >:: One = 1.0;
-
-#else
-
-ITK_CONSTEXPR_VAR float NumericTraits< float >:: Zero;
-ITK_CONSTEXPR_VAR float NumericTraits< float >:: One;
-
-ITK_CONSTEXPR_VAR double NumericTraits< double >:: Zero;
-ITK_CONSTEXPR_VAR double NumericTraits< double >:: One;
-
-ITK_CONSTEXPR_VAR long double NumericTraits< long double >:: Zero;
-ITK_CONSTEXPR_VAR long double NumericTraits< long double >:: One;
-
-
-#endif
 
 const std::complex< char >  NumericTraits< std::complex< char > >:: Zero = std::complex< char >(0, 0);
 const std::complex< char >  NumericTraits< std::complex< char > >:: One  = std::complex< char >(1, 0);

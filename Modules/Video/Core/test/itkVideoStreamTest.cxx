@@ -19,7 +19,7 @@
 #include "itkVideoStream.h"
 
 // Set up typedefs
-static ITK_CONSTEXPR_VAR unsigned int Dimension = 2;
+static constexpr unsigned int Dimension = 2;
 typedef unsigned char                      PixelType;
 typedef itk::Image< PixelType, Dimension > FrameType;
 typedef itk::VideoStream< FrameType >      VideoType;

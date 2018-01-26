@@ -33,10 +33,10 @@ namespace itk
  * to another AutoPointer when the assignement operator is used.
  * An AutoPointer can release ownership of the object it holds.
  *
- * This class follows the design of the std::auto_ptr class. The main
- * reason for not using the std version is to avoid templated methods,
- * which greatly increase the difficulty of wrapping for Tcl, Python
- * and Java.
+ * This class follows the design of the std::unique_ptr (auto_ptr being
+ * deprecated in C++11) class. The main * reason for not using the std
+ * version is to avoid templated methods, which greatly increase the
+ * difficulty of wrapping for Tcl, Python and Java.
  *
  * \ingroup ITKSystemObjects
  * \ingroup DataAccess
