@@ -26,7 +26,10 @@ foreach(p
     cmake_policy(SET ${p} NEW)
   endif()
 endforeach()
-project(ITK NONE)
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKInitializeBuildType.cmake)
+
+project(ITK CXX C)
 
 set(ITK_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
 set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
@@ -51,9 +54,6 @@ set(ITK_USE_FILE "${ITK_CONFIG_CMAKE_DIR}/UseITK.cmake")
 # outside of their original project and used without any modification.
 configure_file(CMake/ITKInternalConfig.cmake ${ITK_BINARY_DIR}/CMakeTmp/ITKConfig.cmake COPYONLY)
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKInitializeBuildType.cmake)
-enable_language(C)
-enable_language(CXX)
 
 include(CMakeDependentOption)
 #
