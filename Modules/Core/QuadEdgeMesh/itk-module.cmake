@@ -47,7 +47,7 @@ to implement it:
   constant.
   - A derived class from itk::MeshFunctionBase when the method modifies the
   mesh (typically in the case of Euler operators).
-  - As a classic \\\\ref ITKMesh filter.
+  - As a classic ITKMesh filter.
 
 The choice of the slot is a mere matter of trade-off and in order to keep
 QuadEdgeMesh tiny and humanly readable key decision factors can be the
