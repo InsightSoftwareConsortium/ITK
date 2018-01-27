@@ -52,14 +52,16 @@ public:
   { m_Pointer = nullptr; }
 
   /** Copy constructor.  */
-  WeakPointer (const WeakPointer< ObjectType > & p):m_Pointer(p.m_Pointer) {}
+  WeakPointer (const WeakPointer< ObjectType > & p) = default;
+
+  /** Move constructor */
+  WeakPointer (WeakPointer< ObjectType > && p) = default;
 
   /** Constructor to pointer p.  */
   WeakPointer (ObjectType *p):m_Pointer(p) {}
 
   /** Destructor.  */
-  ~WeakPointer ()
-  { m_Pointer = nullptr; }
+  ~WeakPointer () = default;
 
   /** Overload operator ->.  */
   ObjectType * operator->() const
@@ -112,8 +114,9 @@ public:
 
   /** Overload operator assignment.  */
   // cppcheck-suppress operatorEqVarError
-  WeakPointer & operator=(const WeakPointer & r)
-  { return this->operator=( r.GetPointer() ); }
+  WeakPointer & operator=(const WeakPointer & r) = default;
+
+  WeakPointer & operator=(WeakPointer && r) = default;
 
   /** Overload operator assignment.  */
   WeakPointer & operator=(ObjectType *r)

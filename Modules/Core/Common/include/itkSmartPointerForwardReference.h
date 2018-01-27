@@ -55,8 +55,14 @@ public:
   /** Const constructor  */
   SmartPointerForwardReference (const SmartPointerForwardReference< T > & p);
 
+  /** Move construct */
+  SmartPointerForwardReference (SmartPointerForwardReference< T > && p)
+    : m_Pointer(p.m_Pointer)
+    { p.m_Pointer = nullptr; }
+
   /** Construct from a WeakPointer */
   SmartPointerForwardReference (const WeakPointer< T > & p);
+
 
   /** Constructor to pointer p  */
   SmartPointerForwardReference (T *p);
@@ -88,6 +94,9 @@ public:
   /** Overload operator assignment.  */
   SmartPointerForwardReference & operator=(const SmartPointerForwardReference & r);
 
+
+  SmartPointerForwardReference & operator=( SmartPointerForwardReference && r);
+
   /** Overload operator assignment.  */
   SmartPointerForwardReference & operator=(const WeakPointer< T > & r);
 
@@ -96,6 +105,13 @@ public:
 
   /** Function to print object pointed to  */
   T * Print(std::ostream & os) const;
+
+  void Swap(SmartPointerForwardReference &other)
+    {
+      T *tmp = this->m_Pointer;
+      this->m_Pointer = other.m_Pointer;
+      other.m_Pointer = tmp;
+    }
 
 private:
   /** The pointer to the object referred to by this smart pointer. */
@@ -112,6 +128,14 @@ std::ostream & operator<<(std::ostream & os, SmartPointerForwardReference< T > p
   p.Print(os);
   return os;
 }
+
+
+template<typename T>
+inline void swap( SmartPointerForwardReference<T> &a, SmartPointerForwardReference<T> &b )
+{
+  a.Swap(b);
+}
+
 } // end namespace itk
 
 #endif

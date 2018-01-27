@@ -132,6 +132,21 @@ SmartPointerForwardReference< T >
 template< typename T >
 SmartPointerForwardReference< T > &
 SmartPointerForwardReference< T >
+::operator=(SmartPointerForwardReference && r)
+{
+  if(this != &r)
+    {
+    this->UnRegister();
+    this->m_Pointer = r.m_Pointer;
+    r.m_Pointer = nullptr;
+    }
+  return *this;
+}
+
+//----------------------------------------------------------------------------
+template< typename T >
+SmartPointerForwardReference< T > &
+SmartPointerForwardReference< T >
 ::operator=(const WeakPointer< T > & r)
 {
   return this->operator=( r.GetPointer() );
@@ -145,14 +160,10 @@ SmartPointerForwardReference< T >
 {
   if ( m_Pointer != r )
     {
-    T *tmp = m_Pointer; //avoid recursive unregisters by retaining temporarily
-    m_Pointer = r;
-    this->Register();
-    if ( tmp )
-      {
-      tmp->UnRegister();
-      }
+    SmartPointerForwardReference tmp(m_Pointer);
+    *this = std::move(tmp);
     }
+
   return *this;
 }
 

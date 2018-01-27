@@ -269,7 +269,7 @@ DataObject
 
 //----------------------------------------------------------------------------
 
-SmartPointerForwardReference< ProcessObject >
+SmartPointer< ProcessObject >
 DataObject
 ::GetSource() const
 {
