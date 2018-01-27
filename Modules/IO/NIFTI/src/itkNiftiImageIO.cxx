@@ -226,6 +226,7 @@ static int DumpNiftiHeader(const std::string & fname)
   fputs("-------------------------------------------------------\n",
         stderr);
   fflush(stderr);
+  free(hp);
 
   return 0;
 }
@@ -247,7 +248,7 @@ static void dumpdata(const void *x)
 #endif // #if defined(ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING)
 
 namespace {
-static unsigned int str_xform2code( const std::string codeName )
+static unsigned int str_xform2code( const std::string & codeName )
 {
   if( codeName == "NIFTI_XFORM_SCANNER_ANAT" )
     {
@@ -269,7 +270,7 @@ static unsigned int str_xform2code( const std::string codeName )
   return NIFTI_XFORM_UNKNOWN;
 }
 
-static const char * str_xform(const unsigned int xform)
+static const char * str_xform(unsigned int xform)
 {
   switch(xform)
   {
@@ -457,7 +458,7 @@ bool
 NiftiImageIO
 ::CanWriteFile(const char *FileNameToWrite)
 {
-  const int ValidFileNameFound = nifti_is_complete_filename(FileNameToWrite) > 0;
+  const bool ValidFileNameFound = nifti_is_complete_filename(FileNameToWrite) > 0;
 
   return ValidFileNameFound;
 }
@@ -487,11 +488,11 @@ void RescaleFunction(TBuffer *buffer,
 
 template< typename PixelType >
 void
-CastCopy(float *to, void *from, size_t pixelcount)
+CastCopy(float *to, const void *from, size_t pixelcount)
 {
-  PixelType *_from = static_cast< PixelType * >( from );
+  const PixelType *_from = static_cast< const PixelType * >( from );
 
-  for ( unsigned i = 0; i < pixelcount; i++ )
+  for ( size_t i = 0; i < pixelcount; i++ )
     {
     to[i] = static_cast< float >( _from[i] );
     }
@@ -535,10 +536,8 @@ void NiftiImageIO::Read(void *buffer)
     _size[4] = numComponents;
     }
   // Free memory if any was occupied already (incase of re-using the IO filter).
-  if ( this->m_NiftiImage != nullptr )
-    {
-    nifti_image_free(this->m_NiftiImage);
-    }
+  nifti_image_free(this->m_NiftiImage);
+
   //
   // allocate nifti image...
   this->m_NiftiImage = nifti_image_read(this->GetFileName(), false);
@@ -831,170 +830,167 @@ NiftiImageIO
   return false;
 }
 
-// This method adds the available header information to the
-// metadata dictionary.
+// This method adds information to the metadata dictionary.
 void NiftiImageIO::SetImageIOMetadataFromNIfTI()
 {
-  int             swap = 0;
-  nifti_1_header *header = nifti_read_header(this->GetFileName(), &swap, true);
+  auto & nim = this->m_NiftiImage;
 
-  if ( header )
+  // Encapsulate as much information as possible.
+  MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
+  // Necessary to clear dict if ImageIO object is re-used
+  thisDic.Clear();
+
+  std::ostringstream nifti_type;
+  nifti_type << nim->nifti_type;
+  EncapsulateMetaData< std::string >( thisDic, "nifti_type", nifti_type.str() );
+
+  std::ostringstream dim_info;
+  dim_info << FPS_INTO_DIM_INFO( nim->freq_dim, nim->phase_dim, nim->slice_dim );
+  EncapsulateMetaData< std::string >( thisDic, "dim_info", dim_info.str() );
+
+  for ( int idx = 0; idx < 8; idx++ )
     {
-    // Encapsulate as many header information as possible.
-    MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
-    // Necessary to clear dict if ImageIO object is re-used
-    thisDic.Clear();
-
-    std::ostringstream dim_info;
-    dim_info << header->dim_info;
-    EncapsulateMetaData< std::string >( thisDic, "dim_info", dim_info.str() );
-
-    for ( int idx = 0; idx < 8; idx++ )
-      {
-      std::ostringstream dim;
-      dim << header->dim[idx];
-      std::ostringstream dimKey;
-      dimKey << "dim[" << idx << "]";
-      EncapsulateMetaData< std::string >( thisDic, dimKey.str(), dim.str() );
-      }
-
-    std::ostringstream intent_p1;
-    intent_p1 << header->intent_p1;
-    EncapsulateMetaData< std::string >( thisDic, "intent_p1", intent_p1.str() );
-
-    std::ostringstream intent_p2;
-    intent_p2 << header->intent_p2;
-    EncapsulateMetaData< std::string >( thisDic, "intent_p2", intent_p2.str() );
-
-    std::ostringstream intent_p3;
-    intent_p3 << header->intent_p3;
-    EncapsulateMetaData< std::string >( thisDic, "intent_p3", intent_p3.str() );
-
-    std::ostringstream intent_code;
-    intent_code << header->intent_code;
-    EncapsulateMetaData< std::string >( thisDic, "intent_code", intent_code.str() );
-
-    std::ostringstream datatype;
-    datatype << header->datatype;
-    EncapsulateMetaData< std::string >( thisDic, "datatype", datatype.str() );
-
-    std::ostringstream bitpix;
-    bitpix << header->bitpix;
-    EncapsulateMetaData< std::string >( thisDic, "bitpix", bitpix.str() );
-
-    std::ostringstream slice_start;
-    slice_start << header->slice_start;
-    EncapsulateMetaData< std::string >( thisDic, "slice_start", slice_start.str() );
-
-    for ( int idx = 0; idx < 8; idx++ )
-      {
-      std::ostringstream pixdim;
-      pixdim << header->pixdim[idx];
-      std::ostringstream pixdimKey;
-      pixdimKey << "pixdim[" << idx << "]";
-      EncapsulateMetaData< std::string >( thisDic, pixdimKey.str(), pixdim.str() );
-      }
-
-    std::ostringstream vox_offset;
-    vox_offset << header->vox_offset;
-    EncapsulateMetaData< std::string >( thisDic, "vox_offset", vox_offset.str() );
-
-    std::ostringstream scl_slope;
-    scl_slope << header->scl_slope;
-    EncapsulateMetaData< std::string >( thisDic, "scl_slope", scl_slope.str() );
-
-    std::ostringstream scl_inter;
-    scl_inter << header->scl_inter;
-    EncapsulateMetaData< std::string >( thisDic, "scl_inter", scl_inter.str() );
-
-    std::ostringstream slice_end;
-    slice_end << header->slice_end;
-    EncapsulateMetaData< std::string >( thisDic, "slice_end", slice_end.str() );
-
-    std::ostringstream slice_code;
-    slice_code << header->slice_code;
-    EncapsulateMetaData< std::string >( thisDic, "slice_code", slice_code.str() );
-
-    std::ostringstream xyzt_units;
-    xyzt_units << header->xyzt_units;
-    EncapsulateMetaData< std::string >( thisDic, "xyzt_units", xyzt_units.str() );
-
-    std::ostringstream cal_max;
-    cal_max << header->cal_max;
-    EncapsulateMetaData< std::string >( thisDic, "cal_max", cal_max.str() );
-
-    std::ostringstream cal_min;
-    cal_min << header->cal_min;
-    EncapsulateMetaData< std::string >( thisDic, "cal_min", cal_min.str() );
-
-    std::ostringstream slice_duration;
-    slice_duration << header->slice_duration;
-    EncapsulateMetaData< std::string >( thisDic, "slice_duration", slice_duration.str() );
-
-    std::ostringstream toffset;
-    toffset << header->toffset;
-    EncapsulateMetaData< std::string >( thisDic, "toffset", toffset.str() );
-
-    std::ostringstream descrip;
-    descrip << header->descrip;
-    EncapsulateMetaData< std::string >( thisDic, "descrip", descrip.str() );
-
-    std::ostringstream aux_file;
-    aux_file << header->aux_file;
-    EncapsulateMetaData< std::string >( thisDic, "aux_file", aux_file.str() );
-
-    std::ostringstream qform_code;
-    qform_code << header->qform_code;
-    EncapsulateMetaData< std::string >( thisDic, "qform_code", qform_code.str() );
-    EncapsulateMetaData< std::string >( thisDic, "qform_code_name", std::string( str_xform( header->qform_code ) ) );
-
-    std::ostringstream sform_code;
-    sform_code << header->sform_code;
-    EncapsulateMetaData< std::string >( thisDic, "sform_code", sform_code.str() );
-    EncapsulateMetaData< std::string >( thisDic, "sform_code_name", std::string( str_xform( header->sform_code ) ) );
-
-    std::ostringstream quatern_b;
-    quatern_b << header->quatern_b;
-    EncapsulateMetaData< std::string >( thisDic, "quatern_b", quatern_b.str() );
-
-    std::ostringstream quatern_c;
-    quatern_c << header->quatern_c;
-    EncapsulateMetaData< std::string >( thisDic, "quatern_c", quatern_c.str() );
-
-    std::ostringstream quatern_d;
-    quatern_d << header->quatern_d;
-    EncapsulateMetaData< std::string >( thisDic, "quatern_d", quatern_d.str() );
-
-    std::ostringstream qoffset_x;
-    qoffset_x << header->qoffset_x;
-    EncapsulateMetaData< std::string >( thisDic, "qoffset_x", qoffset_x.str() );
-
-    std::ostringstream qoffset_y;
-    qoffset_y << header->qoffset_y;
-    EncapsulateMetaData< std::string >( thisDic, "qoffset_y", qoffset_y.str() );
-
-    std::ostringstream qoffset_z;
-    qoffset_z << header->qoffset_z;
-    EncapsulateMetaData< std::string >( thisDic, "qoffset_z", qoffset_z.str() );
-
-    std::ostringstream srow_x;
-    srow_x << header->srow_x[0] << " " << header->srow_x[1] << " " << header->srow_x[2] << " " << header->srow_x[3];
-    EncapsulateMetaData< std::string >( thisDic, "srow_x", srow_x.str() );
-
-    std::ostringstream srow_y;
-    srow_y << header->srow_y[0] << " " << header->srow_y[1] << " " << header->srow_y[2] << " " << header->srow_y[3];
-    EncapsulateMetaData< std::string >( thisDic, "srow_y", srow_y.str() );
-
-    std::ostringstream srow_z;
-    srow_z << header->srow_z[0] << " " << header->srow_z[1] << " " << header->srow_z[2] << " " << header->srow_z[3];
-    EncapsulateMetaData< std::string >( thisDic, "srow_z", srow_z.str() );
-
-    std::ostringstream intent_name;
-    intent_name << header->intent_name;
-    EncapsulateMetaData< std::string >( thisDic, "intent_name", intent_name.str() );
-
-    free(header);
+    std::ostringstream dim;
+    dim << nim->dim[idx];
+    std::ostringstream dimKey;
+    dimKey << "dim[" << idx << "]";
+    EncapsulateMetaData< std::string >( thisDic, dimKey.str(), dim.str() );
     }
+
+  std::ostringstream intent_p1;
+  intent_p1 << nim->intent_p1;
+  EncapsulateMetaData< std::string >( thisDic, "intent_p1", intent_p1.str() );
+
+  std::ostringstream intent_p2;
+  intent_p2 << nim->intent_p2;
+  EncapsulateMetaData< std::string >( thisDic, "intent_p2", intent_p2.str() );
+
+  std::ostringstream intent_p3;
+  intent_p3 << nim->intent_p3;
+  EncapsulateMetaData< std::string >( thisDic, "intent_p3", intent_p3.str() );
+
+  std::ostringstream intent_code;
+  intent_code << nim->intent_code;
+  EncapsulateMetaData< std::string >( thisDic, "intent_code", intent_code.str() );
+
+  std::ostringstream datatype;
+  datatype << nim->datatype;
+  EncapsulateMetaData< std::string >( thisDic, "datatype", datatype.str() );
+
+  std::ostringstream bitpix;
+  bitpix << (8 * nim->nbyper);
+  EncapsulateMetaData< std::string >( thisDic, "bitpix", bitpix.str() );
+
+  std::ostringstream slice_start;
+  slice_start << nim->slice_start;
+  EncapsulateMetaData< std::string >( thisDic, "slice_start", slice_start.str() );
+
+  for ( int idx = 0; idx < 8; idx++ )
+    {
+    std::ostringstream pixdim;
+    pixdim << nim->pixdim[idx];
+    std::ostringstream pixdimKey;
+    pixdimKey << "pixdim[" << idx << "]";
+    EncapsulateMetaData< std::string >( thisDic, pixdimKey.str(), pixdim.str() );
+    }
+
+  std::ostringstream vox_offset;
+  vox_offset << nim->iname_offset;
+  EncapsulateMetaData< std::string >( thisDic, "vox_offset", vox_offset.str() );
+
+  std::ostringstream scl_slope;
+  scl_slope << nim->scl_slope;
+  EncapsulateMetaData< std::string >( thisDic, "scl_slope", scl_slope.str() );
+
+  std::ostringstream scl_inter;
+  scl_inter << nim->scl_inter;
+  EncapsulateMetaData< std::string >( thisDic, "scl_inter", scl_inter.str() );
+
+  std::ostringstream slice_end;
+  slice_end << nim->slice_end;
+  EncapsulateMetaData< std::string >( thisDic, "slice_end", slice_end.str() );
+
+  std::ostringstream slice_code;
+  slice_code << nim->slice_code;
+  EncapsulateMetaData< std::string >( thisDic, "slice_code", slice_code.str() );
+
+  std::ostringstream xyzt_units;
+  xyzt_units << SPACE_TIME_TO_XYZT( nim->xyz_units, nim->time_units );
+  EncapsulateMetaData< std::string >( thisDic, "xyzt_units", xyzt_units.str() );
+
+  std::ostringstream cal_max;
+  cal_max << nim->cal_max;
+  EncapsulateMetaData< std::string >( thisDic, "cal_max", cal_max.str() );
+
+  std::ostringstream cal_min;
+  cal_min << nim->cal_min;
+  EncapsulateMetaData< std::string >( thisDic, "cal_min", cal_min.str() );
+
+  std::ostringstream slice_duration;
+  slice_duration << nim->slice_duration;
+  EncapsulateMetaData< std::string >( thisDic, "slice_duration", slice_duration.str() );
+
+  std::ostringstream toffset;
+  toffset << nim->toffset;
+  EncapsulateMetaData< std::string >( thisDic, "toffset", toffset.str() );
+
+  std::ostringstream descrip;
+  descrip << nim->descrip;
+  EncapsulateMetaData< std::string >( thisDic, "descrip", descrip.str() );
+
+  std::ostringstream aux_file;
+  aux_file << nim->aux_file;
+  EncapsulateMetaData< std::string >( thisDic, "aux_file", aux_file.str() );
+
+  std::ostringstream qform_code;
+  qform_code << nim->qform_code;
+  EncapsulateMetaData< std::string >( thisDic, "qform_code", qform_code.str() );
+  EncapsulateMetaData< std::string >( thisDic, "qform_code_name", std::string( str_xform( nim->qform_code ) ) );
+
+  std::ostringstream sform_code;
+  sform_code << nim->sform_code;
+  EncapsulateMetaData< std::string >( thisDic, "sform_code", sform_code.str() );
+  EncapsulateMetaData< std::string >( thisDic, "sform_code_name", std::string( str_xform( nim->sform_code ) ) );
+
+  std::ostringstream quatern_b;
+  quatern_b << nim->quatern_b;
+  EncapsulateMetaData< std::string >( thisDic, "quatern_b", quatern_b.str() );
+
+  std::ostringstream quatern_c;
+  quatern_c << nim->quatern_c;
+  EncapsulateMetaData< std::string >( thisDic, "quatern_c", quatern_c.str() );
+
+  std::ostringstream quatern_d;
+  quatern_d << nim->quatern_d;
+  EncapsulateMetaData< std::string >( thisDic, "quatern_d", quatern_d.str() );
+
+  std::ostringstream qoffset_x;
+  qoffset_x << nim->qoffset_x;
+  EncapsulateMetaData< std::string >( thisDic, "qoffset_x", qoffset_x.str() );
+
+  std::ostringstream qoffset_y;
+  qoffset_y << nim->qoffset_y;
+  EncapsulateMetaData< std::string >( thisDic, "qoffset_y", qoffset_y.str() );
+
+  std::ostringstream qoffset_z;
+  qoffset_z << nim->qoffset_z;
+  EncapsulateMetaData< std::string >( thisDic, "qoffset_z", qoffset_z.str() );
+
+  std::ostringstream srow_x;
+  srow_x << nim->sto_xyz.m[0][0] << " " << nim->sto_xyz.m[0][1] << " " << nim->sto_xyz.m[0][2]<< " " << nim->sto_xyz.m[0][3];
+  EncapsulateMetaData< std::string >( thisDic, "srow_x", srow_x.str() );
+
+  std::ostringstream srow_y;
+  srow_y << nim->sto_xyz.m[1][0] << " " << nim->sto_xyz.m[1][1] << " " << nim->sto_xyz.m[1][2] << " " << nim->sto_xyz.m[1][3];
+  EncapsulateMetaData< std::string >( thisDic, "srow_y", srow_y.str() );
+
+  std::ostringstream srow_z;
+  srow_z << nim->sto_xyz.m[2][0] << " " << nim->sto_xyz.m[2][1] << " " << nim->sto_xyz.m[2][2] << " " << nim->sto_xyz.m[2][3];
+  EncapsulateMetaData< std::string >( thisDic, "srow_z", srow_z.str() );
+
+  std::ostringstream intent_name;
+  intent_name << nim->intent_name;
+  EncapsulateMetaData< std::string >( thisDic, "intent_name", intent_name.str() );
 }
 
 void
@@ -1341,7 +1337,7 @@ NiftiImageIO
 
 namespace
 {
-inline mat44 mat44_transpose(mat44 in)
+inline mat44 mat44_transpose(const mat44 & in)
 {
   mat44 out;
 
@@ -1715,9 +1711,9 @@ namespace
 {
 void Normalize(std::vector< double > & x)
 {
-  double sum = 0;
+  double sum = 0.0;
 
-  for ( unsigned int i = 0; i < x.size(); i++ )
+  for ( size_t i = 0; i < x.size(); i++ )
     {
     sum += ( x[i] * x[i] );
     }
@@ -1726,7 +1722,7 @@ void Normalize(std::vector< double > & x)
     return;
     }
   sum = std::sqrt(sum);
-  for ( unsigned int i = 0; i < x.size(); i++ )
+  for ( size_t i = 0; i < x.size(); i++ )
     {
     x[i] = x[i] / sum;
     }
@@ -1740,8 +1736,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 
   //
   // in the case of an Analyze75 file, use old analyze orient method.
-  if ( this->m_NiftiImage->qform_code == 0
-       && this->m_NiftiImage->sform_code == 0 )
+  if ( this->m_NiftiImage->nifti_type == NIFTI_FTYPE_ANALYZE )
     {
     SpatialOrientationAdapter::DirectionType   dir;
     SpatialOrientationAdapter::OrientationType orient;
@@ -1811,7 +1806,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
     }
 
   const int             max_defined_orientation_dims = ( dims > 3 ) ? 3 : dims;
-  std::vector< double > xDirection(dims, 0);
+  std::vector< double > xDirection(dims, 0.0);
   for ( int i = 0; i < max_defined_orientation_dims; i++ )
     {
     xDirection[i] = theMat.m[i][0];
@@ -1825,7 +1820,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 
   if ( max_defined_orientation_dims > 1 )
     {
-    std::vector< double > yDirection(dims, 0);
+    std::vector< double > yDirection(dims, 0.0);
     for ( int i = 0; i < max_defined_orientation_dims; i++ )
       {
       yDirection[i] = theMat.m[i][1];
@@ -1840,7 +1835,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 
   if ( max_defined_orientation_dims > 2 )
     {
-    std::vector< double > zDirection(dims, 0);
+    std::vector< double > zDirection(dims, 0.0);
     for ( int i = 0; i < max_defined_orientation_dims; i++ )
       {
       zDirection[i] = theMat.m[i][2];
@@ -1905,7 +1900,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   //of the nifti_make_orthog_mat44() method below.
   typedef float DirectionMatrixComponentType;
   int                                         mindims(dims < 3 ? 3 : dims);
-  std::vector< DirectionMatrixComponentType > dirx(mindims, 0);
+  std::vector< DirectionMatrixComponentType > dirx(mindims, 0.0f);
   unsigned int                                i;
   for ( i = 0; i < this->GetDirection(0).size(); i++ )
     {
@@ -1930,7 +1925,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   std::vector< DirectionMatrixComponentType > dirz(mindims, 0);
   if ( origdims > 2 )
     {
-    for ( unsigned int ii = 0; ii < this->GetDirection(2).size(); ii++ )
+    for ( size_t ii = 0; ii < this->GetDirection(2).size(); ii++ )
       {
       dirz[ii] = static_cast< DirectionMatrixComponentType >( -this->GetDirection(2)[ii] );
       }
