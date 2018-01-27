@@ -589,7 +589,7 @@ public:
     }
 
   private:
-    NearestNeighbors() ITK_DELETED_FUNCTION;
+    NearestNeighbors() = delete;
     /** The index of the farthest neighbor among k-neighbors */
     unsigned int m_FarthestNeighborIndex;
 

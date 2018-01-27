@@ -13,5 +13,5 @@ Schaerer J. \"A MultipleImageIterator for iterating over multiple images simulta
   December, 2014.
 "
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/MultipleImageIterator.git
-  GIT_TAG 1105469ce1c2cc289008d9cb6bebde487a39ae3e
+  GIT_TAG a479c440bdeff9d80b0f329d4b1b73bc0044fd60
   )

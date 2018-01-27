@@ -89,7 +89,7 @@ CalculateOrientedImage(
   bool useLabelImage,
   const TInputImage *inputImage)
 {
-  static ITK_CONSTEXPR_VAR unsigned int Dimension = TInputImage::ImageDimension;
+  static constexpr unsigned int Dimension = TInputImage::ImageDimension;
 
   // CalculateOrientedBoundingBoxVertices needs to have already been
   // called.  This is taken care of by the flags.

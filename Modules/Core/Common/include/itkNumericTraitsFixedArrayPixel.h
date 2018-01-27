@@ -181,14 +181,18 @@ public:
   static const Self ITKCommon_EXPORT One;
 };
 
-// a macro to define and initialize static member variables
+// a macro to define and initialize static member variables,
+// NOTE: (T)(NumericTraits< T >::[Zero|One]) is needed to generate
+//       a temporary variable that is initialized from the
+//       constexpr [Zero|One] to be passed by const reference
+//       to the GENERIC_ARRAY<T,D> constructor.
 #define itkStaticNumericTraitsGenericArrayMacro(GENERIC_ARRAY, T, D)                                 \
   template< >                                                                                        \
-  ITKCommon_EXPORT const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::Zero = GENERIC_ARRAY< T, D >( \
-    NumericTraits< T >::Zero);                                                                       \
+  ITKCommon_EXPORT const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::Zero =       \
+                   GENERIC_ARRAY< T, D >( (T)(NumericTraits< T >::Zero) );                           \
   template< >                                                                                        \
-  ITKCommon_EXPORT const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::One = GENERIC_ARRAY< T, D >( \
-    NumericTraits< T >::One);
+  ITKCommon_EXPORT const GENERIC_ARRAY< T, D >  NumericTraits< GENERIC_ARRAY< T, D > >::One =        \
+                   GENERIC_ARRAY< T, D >( (T)(NumericTraits< T >::One) );
 
 //
 // List here the array dimension specializations of these static

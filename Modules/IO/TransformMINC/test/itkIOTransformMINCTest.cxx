@@ -29,7 +29,7 @@
 #include "itkMath.h"
 
 
-static ITK_CONSTEXPR_VAR int    point_counter=1000;
+static constexpr int    point_counter=1000;
 
 
 template<typename T>void RandomPix(vnl_random &randgen,itk::Vector<T,3> &pix,

@@ -222,12 +222,12 @@ namespace itk
 //-*-*-*
 
 
-#if ITK_COMPILER_CXX_CONSTEXPR
+#if defined ( ITK_FUTURE_LEGACY_REMOVE )
   #define ITK_CONSTEXPR_FUNC constexpr
   #define ITK_CONSTEXPR_VAR constexpr
 #else
-  #define ITK_CONSTEXPR_FUNC inline
-  #define ITK_CONSTEXPR_VAR const
+  #define ITK_CONSTEXPR_FUNC "Replace ITK_CONSTEXPR_FUNC with constexpr"
+  #define ITK_CONSTEXPR_VAR  "Replace ITK_CONSTEXPR_VAR with constexpr"
 #endif
 
 // Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,
@@ -792,7 +792,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
 #if defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__ ) < 405 && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
 #  define itkStaticConstMacro(name,type,value) enum { name = value }
 #else
-#  define itkStaticConstMacro(name,type,value) static ITK_CONSTEXPR_VAR type name = value
+#  define itkStaticConstMacro(name,type,value) static constexpr type name = value
 #endif
 
 #define itkGetStaticConstMacro(name) (Self::name)

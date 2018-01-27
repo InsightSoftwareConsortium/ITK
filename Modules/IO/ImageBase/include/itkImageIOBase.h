@@ -445,7 +445,7 @@ public:
   template <typename TPixel>
     struct MapPixelType
   {
-    static ITK_CONSTEXPR_VAR IOComponentType CType =
+    static constexpr IOComponentType CType =
       UNKNOWNCOMPONENTTYPE;
   };
   template <typename TPixel>
@@ -710,7 +710,7 @@ private:
 #define IMAGEIOBASE_TYPEMAP(type,ctype)                         \
   template <> struct ImageIOBase::MapPixelType<type>    \
   {                                                     \
-    static ITK_CONSTEXPR_VAR IOComponentType CType = ctype; \
+    static constexpr IOComponentType CType = ctype; \
   }
 
 // the following typemaps are not platform independent

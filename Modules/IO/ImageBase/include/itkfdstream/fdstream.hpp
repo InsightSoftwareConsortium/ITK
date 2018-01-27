@@ -108,8 +108,8 @@ class fdinbuf : public std::streambuf {
      * - at most, pbSize characters in putback area plus
      * - at most, bufSize characters in ordinary read buffer
      */
-    static ITK_CONSTEXPR_VAR ptrdiff_t pbSize = 4;     // size of putback area
-    static ITK_CONSTEXPR_VAR ptrdiff_t bufSize = 1024; // size of the data buffer
+    static constexpr ptrdiff_t pbSize = 4;     // size of putback area
+    static constexpr ptrdiff_t bufSize = 1024; // size of the data buffer
     char buffer[bufSize+pbSize];           // data buffer
 
   public:

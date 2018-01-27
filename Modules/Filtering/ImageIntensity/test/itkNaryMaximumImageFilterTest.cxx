@@ -117,8 +117,8 @@ int itkNaryMaximumImageFilterTest( int, char* [] )
   InputImageType::Pointer inputImageA = InputImageType::New();
   InputImageType::Pointer inputImageB = InputImageType::New();
 
-  static ITK_CONSTEXPR_VAR int minValue = 12;
-  static ITK_CONSTEXPR_VAR int maxValue = 13;
+  static constexpr int minValue = 12;
+  static constexpr int maxValue = 13;
   InitializeImage( inputImageA, minValue );
   InitializeImage( inputImageB, maxValue );
 
