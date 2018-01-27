@@ -47,8 +47,6 @@ ThreadPool
 
   itksys::SystemInformation mySys;
   mySys.RunCPUCheck();
-  mySys.RunOSCheck();
-  mySys.RunMemoryCheck();
   int result = mySys.GetNumberOfPhysicalCPU(); // Avoid using hyperthreading cores.
   if( result == -1 )
     {
