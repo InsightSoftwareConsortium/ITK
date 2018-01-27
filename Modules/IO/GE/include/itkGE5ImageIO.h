@@ -125,4 +125,4 @@ private:
 };
 } // end namespace itk
 
-#endif // itkAnalyzeImageIO_h
+#endif // itkGE5ImageIO_h

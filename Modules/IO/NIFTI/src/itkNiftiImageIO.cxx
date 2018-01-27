@@ -23,8 +23,8 @@
 
 namespace itk
 {
-//#define __USE_VERY_VERBOSE_NIFTI_DEBUGGING__
-#if defined( __USE_VERY_VERBOSE_NIFTI_DEBUGGING__ )
+//#define ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING
+#if defined( ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING )
 namespace
 {
 static int print_hex_vals(
@@ -244,7 +244,7 @@ static void dumpdata(const void *x)
 }
 #else
 #define dumpdata(x)
-#endif // #if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
+#endif // #if defined(ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING)
 
 namespace {
 static unsigned int str_xform2code( const std::string codeName )
@@ -711,7 +711,6 @@ void NiftiImageIO::Read(void *buffer)
                 {
                 itkbuf[itk_index+b] = niftibuf[nifti_index+b];
                 }
-
               }
             }
           }
@@ -814,11 +813,10 @@ NiftiImageIO
 ::CanReadFile(const char *FileNameToRead)
 {
   // is_nifti_file returns
-  //       > 0 for a nifti file
-  //      == 0 for an analyze file,
+  //      == 2 for a nifti file (header+data in 2 files)
+  //      == 1 for a nifti file (header+data in 1 file)
+  //      == 0 for an analyze 7.5 file,
   //       < 0 for an error,
-  // if the return test is >= 0, nifti will read analyze files
-  //return is_nifti_file(FileNameToRead) > 0;
   const int image_FTYPE = is_nifti_file(FileNameToRead);
 
   if ( image_FTYPE > 0 )
@@ -829,7 +827,7 @@ NiftiImageIO
     {
     return true;
     }
-  // image_FTYPE < 0
+
   return false;
 }
 
@@ -994,6 +992,7 @@ void NiftiImageIO::SetImageIOMetadataFromNIfTI()
     std::ostringstream intent_name;
     intent_name << header->intent_name;
     EncapsulateMetaData< std::string >( thisDic, "intent_name", intent_name.str() );
+
     free(header);
     }
 }
@@ -1006,7 +1005,7 @@ NiftiImageIO
   static std::string prev;
   if ( prev != this->GetFileName() )
     {
-#if defined( __USE_VERY_VERBOSE_NIFTI_DEBUGGING__ )
+#if defined( ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING )
     DumpNiftiHeader( this->GetFileName() );
 #endif
     prev = this->GetFileName();
@@ -1356,6 +1355,7 @@ inline mat44 mat44_transpose(mat44 in)
   return out;
 }
 }
+
 void
 NiftiImageIO
 ::WriteImageInformation(void)
@@ -1885,7 +1885,7 @@ unsigned int NiftiImageIO::getSFormCodeFromDictionary() const
   {
     return atoi(temp.c_str());
   }
-  return NIFTI_XFORM_UNKNOWN; // Guess NIFTI_XFORM_UNKNOWN to indicate that only qform is relavant.
+  return NIFTI_XFORM_UNKNOWN; // Guess NIFTI_XFORM_UNKNOWN to indicate that only qform is relevant.
 }
 
 void
@@ -1898,7 +1898,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   this->m_NiftiImage->sform_code = this->getSFormCodeFromDictionary();
 
   //
-  // set the quarternions, from the direction vectors
+  // set the quaternions, from the direction vectors
   //Initialize to size 3 with values of 0
   //
   //The type here must be float, because that matches the signature

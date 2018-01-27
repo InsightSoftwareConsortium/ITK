@@ -191,4 +191,4 @@ private:
     RAISE_EXCEPTION(); \
     }
 
-#endif // itkAnalyzeImageIO_h
+#endif // itkIPLCommonImageIO_h

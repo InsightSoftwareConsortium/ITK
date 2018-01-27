@@ -56,7 +56,6 @@ public:
   //-------- This part of the interfaces deals with reading data. -----
 
   /** Determine if the file can be read with this ImageIO implementation.
-   * \author Hans J Johnson
    * \param FileNameToRead The name of the file to test for reading.
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can read the file specified.
@@ -73,7 +72,6 @@ public:
 
   /** Determine if the file can be written with this ImageIO implementation.
    * \param FileNameToWrite The name of the file to test for writing.
-   * \author Hans J. Johnson
    * \post Sets classes ImageIOBase::m_FileName variable to be FileNameToWrite
    * \return Returns true if this ImageIO can write the file specified.
    */
@@ -97,8 +95,7 @@ public:
 
   /** A mode to allow the Nifti filter to read and write to the LegacyAnalyze75 format as interpreted by
     * the nifti library maintainers.  This format does not properly respect the file orientation fields.
-    * The itkAnalyzeImageIO file reader/writer should be used to match the Analyze75 file definitions as
-    * specified by the Mayo Clinic BIR laboratory.  By default this is set to false.
+    * By default this is set to true.
     */
   itkSetMacro(LegacyAnalyze75Mode, bool);
   itkGetConstMacro(LegacyAnalyze75Mode, bool);
