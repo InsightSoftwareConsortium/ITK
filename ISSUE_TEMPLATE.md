@@ -11,9 +11,11 @@ filed]
 2. [Second Step]
 3. [and so on...]
 
-[Provide a minimal, compilable code snippet (either through a
-[GitHub gist](https://gist.github.com/) or your own files reproducing the issue
-if necessary]
+[Provide a minimal, complete, compilable, and verifiable example (commonly
+abbreviated as MWE, minimal working example) or code snippet, either through a
+[GitHub gist](https://gist.github.com/) or providing your own files (including
+your source code, `CMakeLists.txt` file and your data) reproducing the issue or
+clearly showing where your concern lies.
 
 ### Expected behavior
 
