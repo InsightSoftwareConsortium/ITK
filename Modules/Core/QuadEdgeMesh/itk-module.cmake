@@ -58,17 +58,15 @@ With those criteria in mind the following choices were made:
   itk::QuadEdgeMesh::ComputeNumberOfPoints are left within the
   itk::QuadEdgeMesh mesh class.
   - Heavier methods and less often called like
-  itk::SanityCheckMeshFunction were implemented as derived classes of
-  itk::FunctionBase.
+  itk::QuadEdgeMeshBoundaryEdgesMeshFunction were implemented as derived
+  classes of itk::FunctionBase.
   - Methods with the same weight (measured e.g. in number of lines of code) but
-  that modify the considered mesh, like itk::BoundaryEdgesMeshFunction or
-  itk::ZipMeshFunction, were implemented as derived classes of
-  itk::MeshFunctionBase. Still the mesh modifications are really limited and
-  concern a couple edges.
+  that modify the considered mesh, like itk::BoundaryEdgesMeshFunction, were
+  implemented as derived classes of itk::MeshFunctionBase. Still the mesh
+  modifications are really limited and concern a couple edges.
   - More specialized methods, with a wider scope and that require a
-  copy of the mesh should follow the classical ITK Filter pattern,
-  like itk::MeshExtractComponentFilter, and inherit from
-  itk::MeshToMeshFilter.")
+  copy of the mesh should follow the classical ITK Filter pattern and inherit
+  from itk::MeshToMeshFilter.")
 
 itk_module(ITKQuadEdgeMesh
   ENABLE_SHARED

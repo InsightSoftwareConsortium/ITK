@@ -42,7 +42,7 @@ namespace itk
  *
  * \warning Don't forget to close the opened block with the corresponding
  *          itk::itkQEMeshForAllPointsMacro macro.
- * \sa itk::MeshExtractComponentFilter::GetOutput().
+ *
  */
 #define itkQEMeshForAllPointsMacro(MeshType,                               \
                                    MeshInstance,                           \

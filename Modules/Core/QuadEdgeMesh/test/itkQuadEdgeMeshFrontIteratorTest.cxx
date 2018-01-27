@@ -17,15 +17,15 @@
  *=========================================================================*/
 
 /**
- * This test verifies that a \ref itk::QuadEdgeMesh::FrontIterator walkthrough on
+ * This test verifies that a \ref itk::QuadEdgeMeshFrontIterator walkthrough on
  * a Mesh correctly visits all the points. Therefore, we count the points
  * and assert that the result is identical to the one obtained with
- * \ref itk::QuadEdgeMesh::ComputeNumberOfPoints .
- * This can only work when the instance of the Mesh we are considering has
- * a single component (possibly multiply connected). In order to verify
- * this assumption we use \ref MeshExtractComponentFilter which is based
- * on a \ref itk::QuadEdgeMesh::FrontDualIterator. Hence we shall have tested
- * both primal and dual version of the front iterator.
+ * \ref itk::QuadEdgeMeshComputeNumberOfPoints .
+ * This can only work when the instance of the Mesh we are considering has a
+ * single component (possibly multiply connected). In order to verify this
+ * assumption we use \ref itk::QuadEdgeMeshFrontDualIterator which is based on
+ * a \ref itk::QuadEdgeMeshFrontIterator . Hence we shall have tested both
+ * primal and dual version of the front iterator.
  */
 
 #include "itkQuadEdgeMesh.h"
