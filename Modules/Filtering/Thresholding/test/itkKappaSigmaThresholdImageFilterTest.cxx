@@ -33,22 +33,22 @@ int itkKappaSigmaThresholdImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  unsigned char  InputPixelType;
-  typedef  unsigned char  MaskPixelType;
-  typedef  unsigned char  OutputPixelType;
+  using InputPixelType = unsigned char;
+  using MaskPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
 
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< MaskPixelType,   Dimension >   MaskImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using MaskImageType = itk::Image< MaskPixelType,   Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::KappaSigmaThresholdImageFilter<
-    InputImageType, MaskImageType, OutputImageType >  FilterType;
+  using FilterType = itk::KappaSigmaThresholdImageFilter<
+    InputImageType, MaskImageType, OutputImageType >;
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   FilterType::Pointer filter = FilterType::New();

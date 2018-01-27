@@ -43,53 +43,50 @@ template< typename TEquationContainer, typename TLevelSet >
 class ITK_TEMPLATE_EXPORT LevelSetEvolutionBase : public Object
 {
 public:
-  typedef LevelSetEvolutionBase      Self;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef Object                     Superclass;
+  using Self = LevelSetEvolutionBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = Object;
 
   /** Run-time type information */
   itkTypeMacro( LevelSetEvolutionBase, Object );
 
-  typedef TEquationContainer                      EquationContainerType;
-  typedef typename EquationContainerType::Pointer EquationContainerPointer;
-  typedef typename EquationContainerType::TermContainerType
-                                                  TermContainerType;
-  typedef typename TermContainerType::Pointer     TermContainerPointer;
+  using EquationContainerType = TEquationContainer;
+  using EquationContainerPointer = typename EquationContainerType::Pointer;
+  using TermContainerType = typename EquationContainerType::TermContainerType;
+  using TermContainerPointer = typename TermContainerType::Pointer;
 
-  typedef typename TermContainerType::TermType TermType;
-  typedef typename TermType::Pointer           TermPointer;
+  using TermType = typename TermContainerType::TermType;
+  using TermPointer = typename TermType::Pointer;
 
-  typedef typename TermContainerType::InputImageType InputImageType;
-  typedef typename InputImageType::PixelType         InputImagePixelType;
-  typedef typename InputImageType::ConstPointer      InputImageConstPointer;
-  typedef typename InputImageType::RegionType        InputImageRegionType;
-  typedef typename NumericTraits< InputImagePixelType >::RealType
-                                                     InputPixelRealType;
+  using InputImageType = typename TermContainerType::InputImageType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputPixelRealType = typename NumericTraits<InputImagePixelType>::RealType;
 
   itkStaticConstMacro ( ImageDimension, unsigned int, InputImageType::ImageDimension );
 
-  typedef typename TermContainerType::LevelSetContainerType       LevelSetContainerType;
+  using LevelSetContainerType = typename TermContainerType::LevelSetContainerType;
 
-  typedef typename LevelSetContainerType::LevelSetIdentifierType  LevelSetIdentifierType;
+  using LevelSetIdentifierType = typename LevelSetContainerType::LevelSetIdentifierType;
 
-  typedef TLevelSet                               LevelSetType;
-  typedef typename LevelSetType::InputType        LevelSetInputType;
-  typedef typename LevelSetType::OutputType       LevelSetOutputType;
-  typedef typename LevelSetType::OutputRealType   LevelSetOutputRealType;
-  typedef typename LevelSetType::LevelSetDataType LevelSetDataType;
+  using LevelSetType = TLevelSet;
+  using LevelSetInputType = typename LevelSetType::InputType;
+  using LevelSetOutputType = typename LevelSetType::OutputType;
+  using LevelSetOutputRealType = typename LevelSetType::OutputRealType;
+  using LevelSetDataType = typename LevelSetType::LevelSetDataType;
 
-  typedef typename LevelSetContainerType::IdListType          IdListType;
-  typedef typename LevelSetContainerType::IdListIterator      IdListIterator;
-  typedef typename LevelSetContainerType::IdListConstIterator IdListConstIterator;
-  typedef typename LevelSetContainerType::IdListImageType     IdListImageType;
-  typedef typename LevelSetContainerType::CacheImageType      CacheImageType;
+  using IdListType = typename LevelSetContainerType::IdListType;
+  using IdListIterator = typename LevelSetContainerType::IdListIterator;
+  using IdListConstIterator = typename LevelSetContainerType::IdListConstIterator;
+  using IdListImageType = typename LevelSetContainerType::IdListImageType;
+  using CacheImageType = typename LevelSetContainerType::CacheImageType;
 
-  typedef typename LevelSetContainerType::DomainMapImageFilterType DomainMapImageFilterType;
+  using DomainMapImageFilterType = typename LevelSetContainerType::DomainMapImageFilterType;
 
-  typedef LevelSetEvolutionStoppingCriterion< LevelSetContainerType >
-                                                  StoppingCriterionType;
-  typedef typename StoppingCriterionType::Pointer StoppingCriterionPointer;
+  using StoppingCriterionType = LevelSetEvolutionStoppingCriterion<LevelSetContainerType>;
+  using StoppingCriterionPointer = typename StoppingCriterionType::Pointer;
 
   itkSetObjectMacro( LevelSetContainer, LevelSetContainerType );
   itkGetModifiableObjectMacro(LevelSetContainer, LevelSetContainerType );

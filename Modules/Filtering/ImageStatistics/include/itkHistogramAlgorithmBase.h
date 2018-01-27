@@ -37,17 +37,17 @@ template< typename TInputHistogram >
 class ITK_TEMPLATE_EXPORT HistogramAlgorithmBase:public Object
 {
 public:
-  /**Standard class typedefs. */
-  typedef HistogramAlgorithmBase     Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /**Standard class type aliases. */
+  using Self = HistogramAlgorithmBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**Standard Macros */
   itkTypeMacro(HistogramAlgorithmBase, Object);
 
-  /** Histogram typedefs alias */
-  typedef TInputHistogram InputHistogramType;
+  /** Histogram type alias alias */
+  using InputHistogramType = TInputHistogram;
 
   /** Stores the histogram pointer */
   void SetInputHistogram(const TInputHistogram *histogram)

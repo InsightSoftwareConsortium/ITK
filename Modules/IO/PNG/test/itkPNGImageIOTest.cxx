@@ -40,11 +40,11 @@ int itkPNGImageIOTest( int argc, char * argv[] )
     }
 
   const unsigned long                         Dimension = 2;
-  typedef unsigned char                       PixelType;
+  using PixelType = unsigned char;
 
   // We are converting read data into RGB pixel image
-  typedef itk::RGBPixel< PixelType >            RGBPixelType;
-  typedef itk::Image< RGBPixelType, Dimension > RGBImageType;
+  using RGBPixelType = itk::RGBPixel< PixelType >;
+  using RGBImageType = itk::Image< RGBPixelType, Dimension >;
 
 
   // Read in the image
@@ -165,9 +165,9 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   // - 1D image: The writer should write it out as a 2D image.
   //
 
-  typedef itk::Image< unsigned short, 3 > ImageType3D;
-  typedef itk::Image< unsigned short, 2 > ImageType2D;
-  typedef itk::Image< unsigned short, 1 > ImageType1D;
+  using ImageType3D = itk::Image< unsigned short, 3 >;
+  using ImageType2D = itk::Image< unsigned short, 2 >;
+  using ImageType1D = itk::Image< unsigned short, 1 >;
 
   //
   // 3D non-degenerate volume
@@ -187,7 +187,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   volume->Allocate();
   volume->FillBuffer( 0 );
 
-  typedef itk::ImageFileWriter< ImageType3D > WriterType3D;
+  using WriterType3D = itk::ImageFileWriter< ImageType3D >;
   WriterType3D::Pointer writer3D = WriterType3D::New();
   writer3D->SetFileName( argv[2] );
   writer3D->SetImageIO( io );
@@ -233,7 +233,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   image->Allocate();
   image->FillBuffer( 0 );
 
-  typedef itk::ImageFileWriter< ImageType2D > WriterType2D;
+  using WriterType2D = itk::ImageFileWriter< ImageType2D >;
   WriterType2D::Pointer writer2D = WriterType2D::New();
 
   writer2D->SetFileName( argv[2] );
@@ -278,7 +278,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
   line->Allocate();
   line->FillBuffer( 0 );
 
-  typedef itk::ImageFileWriter< ImageType1D > WriterType1D;
+  using WriterType1D = itk::ImageFileWriter< ImageType1D >;
   WriterType1D::Pointer writer1D = WriterType1D::New();
   writer1D->SetFileName( argv[2] );
   writer1D->SetImageIO( io );

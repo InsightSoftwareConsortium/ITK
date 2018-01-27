@@ -25,15 +25,15 @@ int itkWarpMeshFilterTest(int, char* [] )
   const unsigned int Dimension = 3;
 
   // Declare the type of the input and output mesh
-  typedef itk::DefaultStaticMeshTraits<
-    double, Dimension, Dimension, double, double, double> MeshTraits;
-  typedef itk::Mesh<double,Dimension,MeshTraits>          MeshType;
+  using MeshTraits = itk::DefaultStaticMeshTraits<
+    double, Dimension, Dimension, double, double, double>;
+  using MeshType = itk::Mesh<double,Dimension,MeshTraits>;
 
 
   // declare triangle mesh source
-  typedef itk::RegularSphereMeshSource< MeshType >  SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType           PointType;
-  typedef SphereMeshSourceType::VectorType          VectorType;
+  using SphereMeshSourceType = itk::RegularSphereMeshSource< MeshType >;
+  using PointType = SphereMeshSourceType::PointType;
+  using VectorType = SphereMeshSourceType::VectorType;
 
   SphereMeshSourceType::Pointer  sphereMeshSource = SphereMeshSourceType::New();
 
@@ -53,8 +53,8 @@ int itkWarpMeshFilterTest(int, char* [] )
 
 
   // Declare the deformation field
-  typedef itk::Vector< double, Dimension>     VectorType;
-  typedef itk::Image< VectorType, Dimension > DisplacementFieldType;
+  using VectorType = itk::Vector< double, Dimension>;
+  using DisplacementFieldType = itk::Image< VectorType, Dimension >;
 
   DisplacementFieldType::Pointer deformationField = DisplacementFieldType::New();
 
@@ -98,9 +98,8 @@ int itkWarpMeshFilterTest(int, char* [] )
   deformationField->FillBuffer( simpleVector );
 
   // Declare the Warping filter
-  typedef itk::WarpMeshFilter<
-            MeshType, MeshType, DisplacementFieldType >
-                                           WarpFilterType;
+  using WarpFilterType = itk::WarpMeshFilter<
+            MeshType, MeshType, DisplacementFieldType >;
 
   WarpFilterType::Pointer warpFilter = WarpFilterType::New();
 

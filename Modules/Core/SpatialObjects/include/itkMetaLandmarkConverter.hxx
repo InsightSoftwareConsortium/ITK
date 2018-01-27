@@ -67,7 +67,7 @@ MetaLandmarkConverter< NDimensions >
   landmarkSO->GetProperty()->SetBlue(landmarkMO->Color()[2]);
   landmarkSO->GetProperty()->SetAlpha(landmarkMO->Color()[3]);
 
-  typedef itk::SpatialObjectPoint< NDimensions > LandmarkPointType;
+  using LandmarkPointType = itk::SpatialObjectPoint< NDimensions >;
 
   typename LandmarkMetaObjectType::PointListType::const_iterator it2
     = landmarkMO->GetPoints().begin();
@@ -76,7 +76,7 @@ MetaLandmarkConverter< NDimensions >
     {
     LandmarkPointType pnt;
 
-    typedef typename LandmarkSpatialObjectType::PointType PointType;
+    using PointType = typename LandmarkSpatialObjectType::PointType;
     PointType point;
 
     for ( unsigned int ii = 0; ii < ndims; ii++ )

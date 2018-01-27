@@ -48,9 +48,9 @@ int itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
 {
   typename TImage::Pointer img = itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage<TImage>(10, 10, 5, 3);
 
-  typedef TImage                                                    ImageType;
-  typedef itk::ConstNeighborhoodIteratorWithOnlyIndex< ImageType >  ConstNeighborhoodIteratorType;
-  typedef typename ConstNeighborhoodIteratorType::IndexType         IndexType;
+  using ImageType = TImage;
+  using ConstNeighborhoodIteratorType = itk::ConstNeighborhoodIteratorWithOnlyIndex< ImageType >;
+  using IndexType = typename ConstNeighborhoodIteratorType::IndexType;
 
   IndexType loc;
   loc[0] = 4; loc[1] = 4; loc[2] = 2; loc[3] = 1;
@@ -356,7 +356,7 @@ int itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   radius[3] = 1;
 
   std::cout << "Creating ConstNeighborhoodIterator" << std::endl;
-  typedef ConstNeighborhoodIteratorType IteratorType;
+  using IteratorType = ConstNeighborhoodIteratorType;
   IteratorType iib_it(radius, iib_img, iib_img->GetRequestedRegion());
   typename IteratorType::OffsetType resultOffset;
   typename IteratorType::OffsetType internalIndex;

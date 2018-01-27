@@ -50,12 +50,12 @@ class ITK_TEMPLATE_EXPORT BSplineSyNImageRegistrationMethod
 : public SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineSyNImageRegistrationMethod                                           Self;
-  typedef SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
-                                                       TVirtualImage, TPointSet>      Superclass;
-  typedef SmartPointer<Self>                                                          Pointer;
-  typedef SmartPointer<const Self>                                                    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineSyNImageRegistrationMethod;
+  using Superclass = SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
+                                                       TVirtualImage, TPointSet>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -66,64 +66,64 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( BSplineSyNImageRegistrationMethod, SyNImageRegistrationMethod );
 
-  /** Input typedefs for the images. */
-  typedef TFixedImage                                                 FixedImageType;
-  typedef typename FixedImageType::Pointer                            FixedImagePointer;
-  typedef typename Superclass::FixedImagesContainerType               FixedImagesContainerType;
-  typedef TMovingImage                                                MovingImageType;
-  typedef typename MovingImageType::Pointer                           MovingImagePointer;
-  typedef typename Superclass::MovingImagesContainerType              MovingImagesContainerType;
+  /** Input type alias for the images. */
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::Pointer;
+  using FixedImagesContainerType = typename Superclass::FixedImagesContainerType;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::Pointer;
+  using MovingImagesContainerType = typename Superclass::MovingImagesContainerType;
 
-  typedef typename Superclass::PointSetType                           PointSetType;
-  typedef typename Superclass::PointSetsContainerType                 PointSetsContainerType;
+  using PointSetType = typename Superclass::PointSetType;
+  using PointSetsContainerType = typename Superclass::PointSetsContainerType;
 
-  /** Metric and transform typedefs */
-  typedef typename Superclass::ImageMetricType                        ImageMetricType;
-  typedef typename ImageMetricType::Pointer                           ImageMetricPointer;
-  typedef typename ImageMetricType::MeasureType                       MeasureType;
+  /** Metric and transform type alias */
+  using ImageMetricType = typename Superclass::ImageMetricType;
+  using ImageMetricPointer = typename ImageMetricType::Pointer;
+  using MeasureType = typename ImageMetricType::MeasureType;
 
-  typedef typename Superclass::ImageMaskSpatialObjectType             ImageMaskSpatialObjectType;
-  typedef typename ImageMaskSpatialObjectType::ImageType              MaskImageType;
-  typedef typename Superclass::FixedImageMaskType                     FixedImageMaskType;
-  typedef typename ImageMaskSpatialObjectType::ImageType              FixedMaskImageType;
-  typedef typename Superclass::FixedImageMasksContainerType           FixedImageMasksContainerType;
-  typedef typename Superclass::MovingImageMaskType                    MovingImageMaskType;
-  typedef typename ImageMaskSpatialObjectType::ImageType              MovingMaskImageType;
-  typedef typename Superclass::MovingImageMasksContainerType          MovingImageMasksContainerType;
+  using ImageMaskSpatialObjectType = typename Superclass::ImageMaskSpatialObjectType;
+  using MaskImageType = typename ImageMaskSpatialObjectType::ImageType;
+  using FixedImageMaskType = typename Superclass::FixedImageMaskType;
+  using FixedMaskImageType = typename ImageMaskSpatialObjectType::ImageType;
+  using FixedImageMasksContainerType = typename Superclass::FixedImageMasksContainerType;
+  using MovingImageMaskType = typename Superclass::MovingImageMaskType;
+  using MovingMaskImageType = typename ImageMaskSpatialObjectType::ImageType;
+  using MovingImageMasksContainerType = typename Superclass::MovingImageMasksContainerType;
 
-  typedef typename Superclass::VirtualImageType                       VirtualImageType;
-  typedef typename Superclass::VirtualImageBaseType                   VirtualImageBaseType;
-  typedef typename Superclass::VirtualImageBaseConstPointer           VirtualImageBaseConstPointer;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualImageBaseType = typename Superclass::VirtualImageBaseType;
+  using VirtualImageBaseConstPointer = typename Superclass::VirtualImageBaseConstPointer;
 
-  typedef typename Superclass::MultiMetricType                        MultiMetricType;
-  typedef typename Superclass::MetricType                             MetricType;
-  typedef typename MetricType::Pointer                                MetricPointer;
-  typedef typename Superclass::PointSetMetricType                     PointSetMetricType;
+  using MultiMetricType = typename Superclass::MultiMetricType;
+  using MetricType = typename Superclass::MetricType;
+  using MetricPointer = typename MetricType::Pointer;
+  using PointSetMetricType = typename Superclass::PointSetMetricType;
 
-  typedef typename Superclass::NumberOfIterationsArrayType            NumberOfIterationsArrayType;
+  using NumberOfIterationsArrayType = typename Superclass::NumberOfIterationsArrayType;
 
-  typedef typename Superclass::InitialTransformType                   InitialTransformType;
-  typedef TOutputTransform                                            OutputTransformType;
-  typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
-  typedef typename OutputTransformType::ScalarType                    RealType;
-  typedef typename OutputTransformType::DerivativeType                DerivativeType;
-  typedef typename DerivativeType::ValueType                          DerivativeValueType;
-  typedef typename OutputTransformType::DisplacementFieldType         DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer                     DisplacementFieldPointer;
-  typedef typename DisplacementFieldType::PixelType                   DisplacementVectorType;
+  using InitialTransformType = typename Superclass::InitialTransformType;
+  using OutputTransformType = TOutputTransform;
+  using OutputTransformPointer = typename OutputTransformType::Pointer;
+  using RealType = typename OutputTransformType::ScalarType;
+  using DerivativeType = typename OutputTransformType::DerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
+  using DisplacementFieldType = typename OutputTransformType::DisplacementFieldType;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
+  using DisplacementVectorType = typename DisplacementFieldType::PixelType;
 
-  typedef DisplacementFieldToBSplineImageFilter<DisplacementFieldType>  BSplineFilterType;
-  typedef typename BSplineFilterType::ArrayType                         ArrayType;
-  typedef typename BSplineFilterType::RealImageType                     WeightedMaskImageType;
-  typedef typename BSplineFilterType::InputPointSetType                 BSplinePointSetType;
+  using BSplineFilterType = DisplacementFieldToBSplineImageFilter<DisplacementFieldType>;
+  using ArrayType = typename BSplineFilterType::ArrayType;
+  using WeightedMaskImageType = typename BSplineFilterType::RealImageType;
+  using BSplinePointSetType = typename BSplineFilterType::InputPointSetType;
 
-  typedef typename Superclass::CompositeTransformType                 CompositeTransformType;
-  typedef typename Superclass::DisplacementFieldTransformType         DisplacementFieldTransformType;
-  typedef typename Superclass::DisplacementFieldTransformPointer      DisplacementFieldTransformPointer;
-  typedef typename CompositeTransformType::TransformType              TransformBaseType;
+  using CompositeTransformType = typename Superclass::CompositeTransformType;
+  using DisplacementFieldTransformType = typename Superclass::DisplacementFieldTransformType;
+  using DisplacementFieldTransformPointer = typename Superclass::DisplacementFieldTransformPointer;
+  using TransformBaseType = typename CompositeTransformType::TransformType;
 
-  typedef typename Superclass::DecoratedOutputTransformType           DecoratedOutputTransformType;
-  typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
+  using DecoratedOutputTransformType = typename Superclass::DecoratedOutputTransformType;
+  using DecoratedOutputTransformPointer = typename DecoratedOutputTransformType::Pointer;
 
 protected:
   BSplineSyNImageRegistrationMethod();

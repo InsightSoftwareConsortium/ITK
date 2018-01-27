@@ -29,27 +29,25 @@ int itkAtan2ImageFilterTest( int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the pixel types of the images
-  typedef float                PixelType;
+  using PixelType = float;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, ImageDimension > InputImageType;
-  typedef itk::Image< PixelType, ImageDimension > OutputImageType;
+  using InputImageType = itk::Image< PixelType, ImageDimension >;
+  using OutputImageType = itk::Image< PixelType, ImageDimension >;
 
   // Declare appropriate Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType >  InputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType > OutputIteratorType;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Declare the type of the index to access images
-  typedef itk::Index< ImageDimension >         IndexType;
+  using IndexType = itk::Index< ImageDimension >;
 
   // Declare the type of the size
-  typedef itk::Size< ImageDimension >          SizeType;
+  using SizeType = itk::Size< ImageDimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< ImageDimension >   RegionType;
+  using RegionType = itk::ImageRegion< ImageDimension >;
 
   // Create two images
   InputImageType::Pointer sinImage = InputImageType::New();
@@ -103,8 +101,8 @@ int itkAtan2ImageFilterTest( int, char* [] )
     }
 
   // Declare the type for the Atan filter
-  typedef itk::Atan2ImageFilter<
-    InputImageType, InputImageType, OutputImageType > FilterType;
+  using FilterType = itk::Atan2ImageFilter<
+    InputImageType, InputImageType, OutputImageType >;
 
   // Create the Filter
   FilterType::Pointer filter = FilterType::New();

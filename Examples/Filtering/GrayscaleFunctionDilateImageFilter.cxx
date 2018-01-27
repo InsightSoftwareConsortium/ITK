@@ -32,12 +32,12 @@ int main(int argc, char *argv[] )
     }
 
   const unsigned int Dimension = 2;
-  typedef  unsigned char  PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension>  ImageType;
+  using ImageType = itk::Image< PixelType, Dimension>;
 
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -46,11 +46,11 @@ int main(int argc, char *argv[] )
   writer->SetFileName( argv[2] );
 
 
-  typedef itk::BinaryBallStructuringElement<
-    PixelType, Dimension> KernelType;
+  using KernelType = itk::BinaryBallStructuringElement<
+    PixelType, Dimension>;
 
-  typedef itk::GrayscaleFunctionDilateImageFilter<
-    ImageType, ImageType, KernelType> FilterType;
+  using FilterType = itk::GrayscaleFunctionDilateImageFilter<
+    ImageType, ImageType, KernelType>;
 
   FilterType::Pointer filter = FilterType::New();
 

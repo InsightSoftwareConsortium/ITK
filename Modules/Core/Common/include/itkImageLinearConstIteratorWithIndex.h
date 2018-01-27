@@ -101,33 +101,33 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageLinearConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageLinearConstIteratorWithIndex     Self;
-  typedef ImageConstIteratorWithIndex< TImage > Superclass;
+  /** Standard class type aliases. */
+  using Self = ImageLinearConstIteratorWithIndex;
+  using Superclass = ImageConstIteratorWithIndex< TImage >;
 
-  /** Index typedef support. While this was already typdef'ed in the superclass,
+  /** Index type alias support While this was already typdef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index so that it is not
    * confused with ImageIterator::Index. */
-  typedef typename TImage::IndexType IndexType;
+  using IndexType = typename TImage::IndexType;
 
-  /** Region typedef support. While this was already typdef'ed in the superclass,
+  /** Region type alias support While this was already typdef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Region back to itk::ImageRegion so that it
    * is not confused with ImageIterator::Index. */
-  typedef typename TImage::RegionType RegionType;
+  using RegionType = typename TImage::RegionType;
 
-  /** Image typedef support. While this was already typdef'ed in the superclass,
+  /** Image type alias support While this was already typdef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index so that it is not
    * confused with ImageIterator::Index. */
-  typedef TImage ImageType;
+  using ImageType = TImage;
 
-  /** PixelContainer typedef support. Used to refer to the container for
+  /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer  PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  using PixelContainer = typename TImage::PixelContainer;
+  using PixelContainerPointer = typename PixelContainer::Pointer;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageLinearConstIteratorWithIndex() :

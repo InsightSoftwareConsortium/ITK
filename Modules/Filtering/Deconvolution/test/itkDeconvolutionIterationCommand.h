@@ -28,9 +28,9 @@ template< typename TFilterType >
 class DeconvolutionIterationCommand : public itk::Command
 {
 public:
-  typedef DeconvolutionIterationCommand  Self;
-  typedef itk::Command                   Superclass;
-  typedef itk::SmartPointer< Self >      Pointer;
+  using Self = DeconvolutionIterationCommand;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer< Self >;
   itkNewMacro( Self );
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override

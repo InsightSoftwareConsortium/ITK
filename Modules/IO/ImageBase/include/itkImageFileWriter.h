@@ -84,11 +84,11 @@ template< typename TInputImage >
 class ITKIOImageBase_HIDDEN ImageFileWriter:public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageFileWriter            Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageFileWriter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -96,11 +96,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageFileWriter, ProcessObject);
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                         InputImageType;
-  typedef typename InputImageType::Pointer    InputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType;
-  typedef typename InputImageType::PixelType  InputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   /** Set/Get the image input of this writer.  */
   using Superclass::SetInput;

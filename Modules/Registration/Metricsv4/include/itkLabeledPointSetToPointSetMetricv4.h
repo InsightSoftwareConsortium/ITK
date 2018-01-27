@@ -56,12 +56,12 @@ class ITK_TEMPLATE_EXPORT LabeledPointSetToPointSetMetricv4:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef LabeledPointSetToPointSetMetricv4                            Self;
-  typedef PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet,
-    TInternalComputationValueType>                                     Superclass;
-  typedef SmartPointer<Self>                                           Pointer;
-  typedef SmartPointer<const Self>                                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LabeledPointSetToPointSetMetricv4;
+  using Superclass = PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet,
+    TInternalComputationValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -69,23 +69,23 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( LabeledPointSetToPointSetMetricv4, PointSetToPointSetMetricv4 );
 
-  typedef TFixedPointSet                              FixedPointSetType;
-  typedef typename FixedPointSetType::Pointer         FixedPointSetPointer;
-  typedef TMovingPointSet                             MovingPointSetType;
-  typedef typename MovingPointSetType::Pointer        MovingPointSetPointer;
+  using FixedPointSetType = TFixedPointSet;
+  using FixedPointSetPointer = typename FixedPointSetType::Pointer;
+  using MovingPointSetType = TMovingPointSet;
+  using MovingPointSetPointer = typename MovingPointSetType::Pointer;
 
   /** Types transferred from the base class */
-  typedef typename Superclass::MeasureType            MeasureType;
-  typedef typename Superclass::DerivativeType         DerivativeType;
-  typedef typename Superclass::LocalDerivativeType    LocalDerivativeType;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::PointIdentifier        PointIdentifier;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using LocalDerivativeType = typename Superclass::LocalDerivativeType;
+  using PointType = typename Superclass::PointType;
+  using PointIdentifier = typename Superclass::PointIdentifier;
 
-  typedef typename Superclass::PixelType              LabelType;
-  typedef std::vector<LabelType>                      LabelSetType;
+  using LabelType = typename Superclass::PixelType;
+  using LabelSetType = std::vector<LabelType>;
 
-  typedef Superclass                                  PointSetMetricType;
-  typedef typename PointSetMetricType::Pointer        PointSetMetricPointer;
+  using PointSetMetricType = Superclass;
+  using PointSetMetricPointer = typename PointSetMetricType::Pointer;
 
   /**
    * Initialize the metric by making sure that all the components

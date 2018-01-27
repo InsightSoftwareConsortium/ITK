@@ -38,17 +38,15 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
     }
 
   const unsigned int                          Dimension = 2;
-  typedef float                               FloatType;
-  typedef double                              DoubleType;
-  typedef itk::Image< FloatType, Dimension >  FloatImageType;
-  typedef itk::Image< DoubleType, Dimension > DoubleImageType;
+  using FloatType = float;
+  using DoubleType = double;
+  using FloatImageType = itk::Image< FloatType, Dimension >;
+  using DoubleImageType = itk::Image< DoubleType, Dimension >;
 
   bool success = true;
 
-  typedef itk::VnlForwardFFTImageFilter< FloatImageType >
-    FloatVnlFullFFTType;
-  typedef itk::VnlInverseFFTImageFilter< FloatVnlFullFFTType::OutputImageType >
-    FloatVnlFullIFFTType;
+  using FloatVnlFullFFTType = itk::VnlForwardFFTImageFilter<FloatImageType>;
+  using FloatVnlFullIFFTType = itk::VnlInverseFFTImageFilter<FloatVnlFullFFTType::OutputImageType>;
   if ( !ForwardInverseFullFFTTest< FloatVnlFullFFTType, FloatVnlFullIFFTType >( argv[1] ) )
     {
     success = false;
@@ -59,10 +57,8 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
     std::cout << "Test passed for FloatVnlFullFFTType" << std::endl;
     }
 
-  typedef itk::VnlForwardFFTImageFilter< DoubleImageType >
-    DoubleVnlFullFFTType;
-  typedef itk::VnlInverseFFTImageFilter< DoubleVnlFullFFTType::OutputImageType >
-    DoubleVnlFullIFFTType;
+  using DoubleVnlFullFFTType = itk::VnlForwardFFTImageFilter<DoubleImageType>;
+  using DoubleVnlFullIFFTType = itk::VnlInverseFFTImageFilter<DoubleVnlFullFFTType::OutputImageType>;
   if ( !ForwardInverseFullFFTTest< DoubleVnlFullFFTType, DoubleVnlFullIFFTType >( argv[1] ) )
     {
     success = false;
@@ -74,10 +70,8 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
     }
 
 #if defined(ITK_USE_FFTWF)
-  typedef itk::FFTWForwardFFTImageFilter< FloatImageType >
-    FloatFFTWFullFFTType;
-  typedef itk::FFTWInverseFFTImageFilter< FloatFFTWFullFFTType::OutputImageType >
-    FloatFFTWFullIFFTType;
+  using FloatFFTWFullFFTType = itk::FFTWForwardFFTImageFilter<FloatImageType>;
+  using FloatFFTWFullIFFTType = itk::FFTWInverseFFTImageFilter<FloatFFTWFullFFTType::OutputImageType>;
   if ( !ForwardInverseFullFFTTest< FloatFFTWFullFFTType, FloatFFTWFullIFFTType >( argv[1] ) )
     {
     success = false;
@@ -90,10 +84,8 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
 #endif
 
 #if defined(ITK_USE_FFTWD)
-  typedef itk::FFTWForwardFFTImageFilter< DoubleImageType >
-    DoubleFFTWFullFFTType;
-  typedef itk::FFTWInverseFFTImageFilter< DoubleFFTWFullFFTType::OutputImageType >
-    DoubleFFTWFullIFFTType;
+  using DoubleFFTWFullFFTType = itk::FFTWForwardFFTImageFilter<DoubleImageType>;
+  using DoubleFFTWFullIFFTType = itk::FFTWInverseFFTImageFilter<DoubleFFTWFullFFTType::OutputImageType>;
   if ( !ForwardInverseFullFFTTest< DoubleFFTWFullFFTType, DoubleFFTWFullIFFTType >( argv[1] ) )
     {
     success = false;
@@ -107,10 +99,8 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
 #endif
 
 
-  typedef itk::VnlRealToHalfHermitianForwardFFTImageFilter< FloatImageType >
-    FloatVnlHalfFFTType;
-  typedef itk::VnlHalfHermitianToRealInverseFFTImageFilter< FloatVnlHalfFFTType::OutputImageType >
-    FloatVnlHalfIFFTType;
+  using FloatVnlHalfFFTType = itk::VnlRealToHalfHermitianForwardFFTImageFilter<FloatImageType>;
+  using FloatVnlHalfIFFTType = itk::VnlHalfHermitianToRealInverseFFTImageFilter<FloatVnlHalfFFTType::OutputImageType>;
   if ( !ForwardInverseHalfFFTTest< FloatVnlHalfFFTType, FloatVnlHalfIFFTType >( argv[1] ) )
     {
     success = false;
@@ -121,10 +111,8 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
     std::cout << "Test passed for FloatVnlHalfFFTType" << std::endl;
     }
 
-  typedef itk::VnlRealToHalfHermitianForwardFFTImageFilter< DoubleImageType >
-    DoubleVnlHalfFFTType;
-  typedef itk::VnlHalfHermitianToRealInverseFFTImageFilter< DoubleVnlHalfFFTType::OutputImageType >
-    DoubleVnlHalfIFFTType;
+  using DoubleVnlHalfFFTType = itk::VnlRealToHalfHermitianForwardFFTImageFilter<DoubleImageType>;
+  using DoubleVnlHalfIFFTType = itk::VnlHalfHermitianToRealInverseFFTImageFilter<DoubleVnlHalfFFTType::OutputImageType>;
   if ( !ForwardInverseHalfFFTTest< DoubleVnlHalfFFTType, DoubleVnlHalfIFFTType >( argv[1] ) )
     {
     success = false;
@@ -136,10 +124,8 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
     }
 
 #if defined(ITK_USE_FFTWF)
-  typedef itk::FFTWRealToHalfHermitianForwardFFTImageFilter< FloatImageType >
-    FloatFFTWHalfFFTType;
-  typedef itk::FFTWHalfHermitianToRealInverseFFTImageFilter< FloatFFTWHalfFFTType::OutputImageType >
-    FloatFFTWHalfIFFTType;
+  using FloatFFTWHalfFFTType = itk::FFTWRealToHalfHermitianForwardFFTImageFilter<FloatImageType>;
+  using FloatFFTWHalfIFFTType = itk::FFTWHalfHermitianToRealInverseFFTImageFilter<FloatFFTWHalfFFTType::OutputImageType>;
   if ( !ForwardInverseHalfFFTTest< FloatFFTWHalfFFTType, FloatFFTWHalfIFFTType >( argv[1] ) )
     {
     success = false;
@@ -152,10 +138,8 @@ int itkForwardInverseFFTImageFilterTest(int argc, char* argv[])
 #endif
 
 #if defined(ITK_USE_FFTWD)
-  typedef itk::FFTWRealToHalfHermitianForwardFFTImageFilter< DoubleImageType >
-    DoubleFFTWHalfFFTType;
-  typedef itk::FFTWHalfHermitianToRealInverseFFTImageFilter< DoubleFFTWHalfFFTType::OutputImageType >
-    DoubleFFTWHalfIFFTType;
+  using DoubleFFTWHalfFFTType = itk::FFTWRealToHalfHermitianForwardFFTImageFilter<DoubleImageType>;
+  using DoubleFFTWHalfIFFTType = itk::FFTWHalfHermitianToRealInverseFFTImageFilter<DoubleFFTWHalfFFTType::OutputImageType>;
   if ( !ForwardInverseHalfFFTTest< DoubleFFTWHalfFFTType, DoubleFFTWHalfIFFTType >( argv[1] ) )
     {
     success = false;

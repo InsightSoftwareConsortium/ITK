@@ -78,18 +78,18 @@ public:
   itkStaticConstMacro(KernelDimension, unsigned int,
                       TKernel::NeighborhoodDimension);
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef TKernel      KernelType;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using KernelType = TKernel;
 
-  /** Standard class typedefs. */
-  typedef BinaryErodeImageFilter Self;
-  typedef BinaryMorphologyImageFilter< InputImageType, OutputImageType,
-                                       KernelType > Superclass;
+  /** Standard class type aliases. */
+  using Self = BinaryErodeImageFilter;
+  using Superclass = BinaryMorphologyImageFilter< InputImageType, OutputImageType,
+                                       KernelType >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -98,18 +98,18 @@ public:
   itkTypeMacro(BinaryErodeImageFilter, BinaryMorphologyImageFilter);
 
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator KernelIteratorType;
+  using KernelIteratorType = typename KernelType::ConstIterator;
 
-  /** Image typedef support. */
-  typedef typename InputImageType::PixelType                 InputPixelType;
-  typedef typename OutputImageType::PixelType                OutputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType InputRealType;
-  typedef typename InputImageType::OffsetType                OffsetType;
-  typedef typename InputImageType::IndexType                 IndexType;
+  /** Image type alias support */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using InputRealType = typename NumericTraits< InputPixelType >::RealType;
+  using OffsetType = typename InputImageType::OffsetType;
+  using IndexType = typename InputImageType::IndexType;
 
-  typedef typename InputImageType::RegionType  InputImageRegionType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename InputImageType::SizeType    InputSizeType;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using InputSizeType = typename InputImageType::SizeType;
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. This is an alias to the
@@ -131,7 +131,7 @@ protected:
   void GenerateData() override;
 
   // type inherited from the superclass
-  typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;
+  using NeighborIndexContainer = typename Superclass::NeighborIndexContainer;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryErodeImageFilter);

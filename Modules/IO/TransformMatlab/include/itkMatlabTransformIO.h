@@ -32,16 +32,15 @@ template<typename ParametersValueType>
 class ITK_TEMPLATE_EXPORT MatlabTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
 {
 public:
-  typedef MatlabTransformIOTemplate                       Self;
-  typedef TransformIOBaseTemplate<ParametersValueType>    Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef typename Superclass::TransformType              TransformType;
-  typedef typename Superclass::TransformPointer           TransformPointer;
-  typedef typename Superclass::TransformListType          TransformListType;
+  using Self = MatlabTransformIOTemplate;
+  using Superclass = TransformIOBaseTemplate<ParametersValueType>;
+  using Pointer = SmartPointer< Self >;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformListType = typename Superclass::TransformListType;
 
-  typedef typename TransformIOBaseTemplate
-                      <ParametersValueType>::ConstTransformListType
-                                                          ConstTransformListType;
+  using ConstTransformListType = typename TransformIOBaseTemplate
+                      <ParametersValueType>::ConstTransformListType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MatlabTransformIOTemplate, Superclass);
@@ -69,7 +68,7 @@ protected:
 };
 
 /** This helps to meet backward compatibility */
-typedef MatlabTransformIOTemplate<double> MatlabTransformIO;
+using MatlabTransformIO = MatlabTransformIOTemplate<double>;
 
 }
 

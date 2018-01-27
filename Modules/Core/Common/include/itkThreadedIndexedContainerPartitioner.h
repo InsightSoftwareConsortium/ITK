@@ -45,11 +45,11 @@ class ITKCommon_EXPORT ThreadedIndexedContainerPartitioner
   : public ThreadedDomainPartitioner< Index<2> >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ThreadedIndexedContainerPartitioner   Self;
-  typedef ThreadedDomainPartitioner< Index<2> > Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ThreadedIndexedContainerPartitioner;
+  using Superclass = ThreadedDomainPartitioner< Index<2> >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,10 +58,10 @@ public:
   itkTypeMacro(ThreadedIndexedContainerPartitioner, ThreadedDomainPartitioner);
 
   /** Type for convenience of base class methods */
-  typedef Superclass::DomainType  DomainType;
+  using DomainType = Superclass::DomainType;
 
   /** Synonym for the domain that is more descriptive. */
-  typedef DomainType                       IndexRangeType;
+  using IndexRangeType = DomainType;
 
   /** Split the index range \c completeIndexRange into up to \c requestedTotal
    * non-overlapping subranges, setting subrange number \c threadId as

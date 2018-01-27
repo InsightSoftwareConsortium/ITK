@@ -44,7 +44,7 @@ BinaryMinMaxCurvatureFlowFunction< TImage >
 ::ComputeUpdate(const NeighborhoodType & it, void *globalData,
                 const FloatOffsetType & offset)
 {
-  typedef CurvatureFlowFunction< TImage > CurvatureFlowFunctionType;
+  using CurvatureFlowFunctionType = CurvatureFlowFunction< TImage >;
   PixelType update = this->CurvatureFlowFunctionType::ComputeUpdate(
     it, globalData, offset);
 

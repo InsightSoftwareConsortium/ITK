@@ -27,8 +27,8 @@ template class itk::Array<float>;
 int itkArrayTest(int, char* [] )
 {
 
-  typedef itk::Array<float>  FloatArrayType;
-  typedef itk::Array<double> DoubleArrayType;
+  using FloatArrayType = itk::Array<float>;
+  using DoubleArrayType = itk::Array<double>;
 
   FloatArrayType  fa(10);
   DoubleArrayType da(10);

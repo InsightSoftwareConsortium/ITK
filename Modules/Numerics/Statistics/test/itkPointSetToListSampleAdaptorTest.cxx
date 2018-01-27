@@ -23,8 +23,8 @@
 
 int itkPointSetToListSampleAdaptorTest( int, char * [] )
 {
-  typedef itk::PointSet< double, 3 >                                   PointSetType;
-  typedef itk::Statistics::PointSetToListSampleAdaptor< PointSetType > PointSetToListSampleAdaptorType;
+  using PointSetType = itk::PointSet< double, 3 >;
+  using PointSetToListSampleAdaptorType = itk::Statistics::PointSetToListSampleAdaptor< PointSetType >;
 
   PointSetType::Pointer pointSet = PointSetType::New();
   PointSetType::PointType point;
@@ -166,7 +166,7 @@ int itkPointSetToListSampleAdaptorTest( int, char * [] )
   std::cerr << "Iterators..." << std::endl;
     {
     // forward iterator
-    typedef PointSetToListSampleAdaptorType::Iterator IteratorType;
+    using IteratorType = PointSetToListSampleAdaptorType::Iterator;
 
     IteratorType s_iter = listSample->Begin();
 
@@ -228,7 +228,7 @@ int itkPointSetToListSampleAdaptorTest( int, char * [] )
   std::cerr << "Const Iterators..." << std::endl;
     {
     // forward iterator
-    typedef PointSetToListSampleAdaptorType::ConstIterator  ConstIteratorType;
+    using ConstIteratorType = PointSetToListSampleAdaptorType::ConstIterator;
 
     ConstIteratorType s_iter = listSample->Begin();
 

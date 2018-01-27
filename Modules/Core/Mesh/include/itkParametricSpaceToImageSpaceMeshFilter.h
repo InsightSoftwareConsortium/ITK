@@ -48,19 +48,19 @@ class ITK_TEMPLATE_EXPORT ParametricSpaceToImageSpaceMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ParametricSpaceToImageSpaceMeshFilter       Self;
-  typedef MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ParametricSpaceToImageSpaceMeshFilter;
+  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Type for representing coordinates. */
-  typedef typename TInputMesh::CoordRepType CoordRepType;
+  using CoordRepType = typename TInputMesh::CoordRepType;
 
-  typedef TInputMesh                       InputMeshType;
-  typedef TOutputMesh                      OutputMeshType;
-  typedef typename InputMeshType::Pointer  InputMeshPointer;
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  using InputMeshType = TInputMesh;
+  using OutputMeshType = TOutputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

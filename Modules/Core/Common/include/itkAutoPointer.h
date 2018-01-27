@@ -47,8 +47,8 @@ class AutoPointer
 {
 public:
   /** Extract information from template parameter. */
-  typedef TObjectType ObjectType;
-  typedef AutoPointer Self;
+  using ObjectType = TObjectType;
+  using Self = AutoPointer;
 
   /** Constructor.  */
   AutoPointer ():m_Pointer(nullptr), m_IsOwner(false)

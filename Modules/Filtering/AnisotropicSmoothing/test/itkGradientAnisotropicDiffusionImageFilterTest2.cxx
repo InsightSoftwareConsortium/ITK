@@ -25,10 +25,10 @@
 #include "itkTestingComparisonImageFilter.h"
 #include <fstream>
 
-typedef float                    PixelType;
-typedef itk::Image<PixelType, 2> myFloatImage;
-typedef itk::Image<PixelType, 2> ImageType;
-typedef ImageType::Pointer       ImagePointer;
+using PixelType = float;
+using myFloatImage = itk::Image<PixelType, 2>;
+using ImageType = itk::Image<PixelType, 2>;
+using ImagePointer = ImageType::Pointer;
 
 namespace {
 
@@ -39,7 +39,7 @@ bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
   int radiusTolerance = 0;
   unsigned long numberOfPixelTolerance = 0;
 
-  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
+  using DiffType = itk::Testing::ComparisonImageFilter<ImageType,ImageType>;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(baselineImage);
   diff->SetTestInput(testImage);
@@ -85,7 +85,7 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
 
   filter->SetInput(input->GetOutput());
 
-  typedef itk::Image<unsigned char, 2> myUCharImage;
+  using myUCharImage = itk::Image<unsigned char, 2>;
   itk::CastImageFilter<myFloatImage, myUCharImage>::Pointer caster
     = itk::CastImageFilter<myFloatImage, myUCharImage>::New();
   caster->SetInput(filter->GetOutput());
@@ -113,7 +113,7 @@ int itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char* av[] )
 
   // We now set up testing when the image spacing is not trivial 1 and
   // perform diffusion with spacing on
-  typedef itk::ChangeInformationImageFilter<myFloatImage> ChangeInformationType;
+  using ChangeInformationType = itk::ChangeInformationImageFilter<myFloatImage>;
   ChangeInformationType::Pointer changeInfo = ChangeInformationType::New();
   changeInfo->SetInput( input->GetOutput() );
   myFloatImage::SpacingType spacing;

@@ -64,14 +64,14 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char   InputPixelType;
-  typedef  float           OutputPixelType;
-  typedef  unsigned short  VoronoiPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = float;
+  using VoronoiPixelType = unsigned short;
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
-  typedef itk::Image< VoronoiPixelType, Dimension >  VoronoiImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using VoronoiImageType = itk::Image< VoronoiPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -84,17 +84,17 @@ int main( int argc, char * argv[] )
   // SoftwareGuide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::SignedDanielssonDistanceMapImageFilter<
+  using FilterType = itk::SignedDanielssonDistanceMapImageFilter<
                                          InputImageType,
                                          OutputImageType,
-                                         VoronoiImageType >  FilterType;
+                                         VoronoiImageType >;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::RescaleIntensityImageFilter<
-                   OutputImageType, OutputImageType > RescalerType;
+  using RescalerType = itk::RescaleIntensityImageFilter<
+                   OutputImageType, OutputImageType >;
 
   RescalerType::Pointer scaler = RescalerType::New();
 
@@ -108,9 +108,9 @@ int main( int argc, char * argv[] )
 
   // Reader and Writer types are instantiated.
   //
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-  typedef itk::ImageFileWriter< VoronoiImageType > VoronoiWriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using VoronoiWriterType = itk::ImageFileWriter< VoronoiImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -168,12 +168,12 @@ int main( int argc, char * argv[] )
   //  The type of this output image is defined by the VectorImageType
   //  trait of the filter type.
 
-  typedef FilterType::VectorImageType   OffsetImageType;
+  using OffsetImageType = FilterType::VectorImageType;
 
   //  We can use this type for instantiating an \doxygen{ImageFileWriter} type
   //  and creating an object of this class in the following lines.
 
-  typedef itk::ImageFileWriter< OffsetImageType >  WriterOffsetType;
+  using WriterOffsetType = itk::ImageFileWriter< OffsetImageType >;
   WriterOffsetType::Pointer offsetWriter = WriterOffsetType::New();
   offsetWriter->SetInput(  filter->GetVectorDistanceMap()  );
   offsetWriter->SetFileName( argv[4]  );

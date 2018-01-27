@@ -114,7 +114,7 @@ int itkCSVArray2DFileReaderTest (int argc, char *argv[])
  double nan = std::numeric_limits<double>::quiet_NaN();
 
  // Read and Parse the data
- typedef itk::CSVArray2DFileReader<double> ReaderType;
+ using ReaderType = itk::CSVArray2DFileReader<double>;
  ReaderType::Pointer reader = ReaderType::New();
 
  std::string filename = "nonexistentfilename.csv";
@@ -161,11 +161,11 @@ int itkCSVArray2DFileReaderTest (int argc, char *argv[])
  // Exercise the print function
  reader->Print(std::cout);
 
- typedef itk::CSVArray2DDataObject<double> DataFrameObjectType;
+ using DataFrameObjectType = itk::CSVArray2DDataObject<double>;
  DataFrameObjectType::Pointer dfo = reader->GetOutput();
 
  // Test the matrix
- typedef itk::Array2D<double> MatrixType;
+ using MatrixType = itk::Array2D<double>;
  MatrixType test_matrix = dfo->GetMatrix();
 
  MatrixType matrix(4,6);

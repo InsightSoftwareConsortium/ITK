@@ -108,7 +108,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   for( InputDataObjectIterator it( this ); !it.IsAtEnd(); it++ )
     {
     // Check whether the input is an image of the appropriate dimension
-    typedef ImageBase< InputImageDimension > ImageBaseType;
+    using ImageBaseType = ImageBase< InputImageDimension >;
     ImageBaseType * input = dynamic_cast< ImageBaseType * >( it.GetInput() );
     if ( input )
       {
@@ -168,7 +168,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 ::VerifyInputInformation()
 {
 
-  typedef ImageBase< InputImageDimension > ImageBaseType;
+  using ImageBaseType = ImageBase< InputImageDimension >;
 
   ImageBaseType *inputPtr1 = nullptr;
   InputDataObjectIterator it(this);

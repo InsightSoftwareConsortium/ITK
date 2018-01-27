@@ -36,8 +36,8 @@ InterpolateImageFilter< TInputImage, TOutputImage >
   this->SetNumberOfRequiredInputs(2);
 
   // Set default interpolator to linear
-  typedef LinearInterpolateImageFunction< IntermediateImageType >
-  LinearInterpolatorType;
+  using LinearInterpolatorType =
+      LinearInterpolateImageFunction< IntermediateImageType >;
   typename LinearInterpolatorType::Pointer interpolator =
     LinearInterpolatorType::New();
 
@@ -103,15 +103,15 @@ InterpolateImageFilter< TInputImage, TOutputImage >
     }
 
   // Create intermediate image
-  typedef typename IntermediateImageType::RegionType IntermediateImageRegionType;
-  typedef typename TOutputImage::RegionType          ImageRegionType;
+  using IntermediateImageRegionType = typename IntermediateImageType::RegionType;
+  using ImageRegionType = typename TOutputImage::RegionType;
 
   ImageRegionType outputRegion = this->GetOutput()->GetRequestedRegion();
 
   IntermediateImageRegionType intermediateRegion;
 
-  typedef ImageToImageFilterDetail::ImageRegionCopier< ImageDimension + 1, ImageDimension >
-  RegionCopierType;
+  using RegionCopierType =
+      ImageToImageFilterDetail::ImageRegionCopier< ImageDimension + 1, ImageDimension >;
   RegionCopierType regionCopier;
   regionCopier(intermediateRegion, outputRegion);
 
@@ -181,13 +181,13 @@ InterpolateImageFilter< TInputImage, TOutputImage >
   OutputImagePointer outputPtr = this->GetOutput();
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageRegionIteratorWithIndex< TOutputImage > OutputIterator;
+  using OutputIterator = ImageRegionIteratorWithIndex< TOutputImage >;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
-  typedef typename TOutputImage::PixelType               OutputPixelType;
-  typedef typename TOutputImage::IndexType               IndexType;
-  typedef typename InterpolatorType::ContinuousIndexType ContinuousIndexType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using IndexType = typename TOutputImage::IndexType;
+  using ContinuousIndexType = typename InterpolatorType::ContinuousIndexType;
 
   IndexType outputIndex;                         // Index to current output
                                                  // pixel

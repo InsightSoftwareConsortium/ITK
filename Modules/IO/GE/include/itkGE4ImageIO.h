@@ -58,10 +58,10 @@ namespace itk
 class ITKIOGE_EXPORT GE4ImageIO:public IPLCommonImageIO
 {
 public:
-  /** Standard class typedefs. */
-  typedef GE4ImageIO           Self;
-  typedef IPLCommonImageIO     Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = GE4ImageIO;
+  using Superclass = IPLCommonImageIO;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

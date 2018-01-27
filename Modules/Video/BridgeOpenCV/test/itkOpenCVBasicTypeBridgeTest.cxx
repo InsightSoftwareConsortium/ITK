@@ -21,9 +21,9 @@ namespace FromOpenCV
 {
 int Point2ConversionTest()
 {
-  typedef itk::Point< int, 2 >    ITKPoint2iType;
-  typedef itk::Point< float, 2 >  ITKPoint2fType;
-  typedef itk::Point< double, 2 > ITKPoint2dType;
+  using ITKPoint2iType = itk::Point< int, 2 >;
+  using ITKPoint2fType = itk::Point< float, 2 >;
+  using ITKPoint2dType = itk::Point< double, 2 >;
 
   cv::Point   cvA( 1, 2 );
   cv::Point2f cvB( 0.1, 0.2 );
@@ -54,9 +54,9 @@ int Point2ConversionTest()
 
 int Point3ConversionTest()
 {
-  typedef itk::Point< int, 3 >    ITKPoint3iType;
-  typedef itk::Point< float, 3 >  ITKPoint3fType;
-  typedef itk::Point< double, 3 > ITKPoint3dType;
+  using ITKPoint3iType = itk::Point< int, 3 >;
+  using ITKPoint3fType = itk::Point< float, 3 >;
+  using ITKPoint3dType = itk::Point< double, 3 >;
 
   cv::Point3i cvA( 1, 2, 3 );
   cv::Point3f cvB( 0.1, 0.2, 0.3 );
@@ -87,8 +87,8 @@ int Point3ConversionTest()
 
 int PointToVectorConversionTest()
 {
-  typedef itk::Point< double, 3 > ITKPoint3dType;
-  typedef cv::Vec< double, 3 >    cvVectorType;
+  using ITKPoint3dType = itk::Point< double, 3 >;
+  using cvVectorType = cv::Vec< double, 3 >;
 
   cvVectorType cvU;
   cvU[0] = -0.4;
@@ -110,7 +110,7 @@ int PointToVectorConversionTest()
 
 int Index2ConversionTest()
 {
-  typedef itk::Index< 2 > ITKIndexType;
+  using ITKIndexType = itk::Index< 2 >;
 
   cv::Point cvA( 1, 2 );
 
@@ -127,7 +127,7 @@ int Index2ConversionTest()
 
 int Index3ConversionTest()
 {
-  typedef itk::Index< 3 > ITKIndexType;
+  using ITKIndexType = itk::Index< 3 >;
 
   cv::Point3i cvA( 1, 2, 3 );
 
@@ -144,7 +144,7 @@ int Index3ConversionTest()
 
 int Size2ConversionTest()
 {
-  typedef itk::Size< 2 > ITKSizeType;
+  using ITKSizeType = itk::Size< 2 >;
 
   cv::Size cvA( 1, 2 );
 
@@ -164,8 +164,8 @@ int MatrixConversionTest()
 {
   const unsigned int NRows = 2;
   const unsigned int NColumns = 3;
-  typedef itk::Matrix< double, NRows, NColumns > ITKMatrixType;
-  typedef cv::Matx< double, NRows, NColumns >    CVMatrixType;
+  using ITKMatrixType = itk::Matrix< double, NRows, NColumns >;
+  using CVMatrixType = cv::Matx< double, NRows, NColumns >;
 
   CVMatrixType cvA;
   int k = 1;
@@ -204,8 +204,8 @@ int MatrixConversionTest()
 int VectorConversionTest()
 {
   const unsigned int Dimension = 10;
-  typedef itk::Vector< double, Dimension >  ITKVectorType;
-  typedef cv::Vec< double, Dimension >      CVVectorType;
+  using ITKVectorType = itk::Vector< double, Dimension >;
+  using CVVectorType = cv::Vec< double, Dimension >;
 
   CVVectorType cvA;
   for( unsigned int i = 0; i < Dimension; i++ )
@@ -285,9 +285,9 @@ namespace FromITK
 {
 int Point2ConversionTest()
 {
-  typedef itk::Point< int, 2 >    ITKPoint2iType;
-  typedef itk::Point< float, 2 >  ITKPoint2fType;
-  typedef itk::Point< double, 2 > ITKPoint2dType;
+  using ITKPoint2iType = itk::Point< int, 2 >;
+  using ITKPoint2fType = itk::Point< float, 2 >;
+  using ITKPoint2dType = itk::Point< double, 2 >;
 
   ITKPoint2iType itkA;
   itkA[0] = 1;
@@ -325,9 +325,9 @@ int Point2ConversionTest()
 
 int Point3ConversionTest()
 {
-  typedef itk::Point< int, 3 >    ITKPoint3iType;
-  typedef itk::Point< float, 3 >  ITKPoint3fType;
-  typedef itk::Point< double, 3 > ITKPoint3dType;
+  using ITKPoint3iType = itk::Point< int, 3 >;
+  using ITKPoint3fType = itk::Point< float, 3 >;
+  using ITKPoint3dType = itk::Point< double, 3 >;
 
   ITKPoint3iType itkA;
   itkA[0] = 1;
@@ -369,7 +369,7 @@ int Point3ConversionTest()
 
 int Index2ConversionTest()
 {
-  typedef itk::Index< 2 > ITKIndexType;
+  using ITKIndexType = itk::Index< 2 >;
 
   ITKIndexType itkA;
   itkA[0] = 1;
@@ -388,7 +388,7 @@ int Index2ConversionTest()
 
 int Index3ConversionTest()
 {
-  typedef itk::Index< 3 > ITKIndexType;
+  using ITKIndexType = itk::Index< 3 >;
 
   ITKIndexType itkA;
   itkA[0] = 1;
@@ -408,7 +408,7 @@ int Index3ConversionTest()
 
 int Size2ConversionTest()
 {
-  typedef itk::Size< 2 > ITKSizeType;
+  using ITKSizeType = itk::Size< 2 >;
 
   ITKSizeType itkA;
   itkA[0] = 1;
@@ -429,8 +429,8 @@ int MatrixConversionTest()
 {
   const unsigned int NRows = 2;
   const unsigned int NColumns = 3;
-  typedef itk::Matrix< double, NRows, NColumns > ITKMatrixType;
-  typedef cv::Matx< double, NRows, NColumns >    CVMatrixType;
+  using ITKMatrixType = itk::Matrix< double, NRows, NColumns >;
+  using CVMatrixType = cv::Matx< double, NRows, NColumns >;
 
   ITKMatrixType itkA;
   int k = 1;
@@ -469,8 +469,8 @@ int MatrixConversionTest()
 int VectorConversionTest()
 {
   const unsigned int Dimension = 10;
-  typedef itk::Vector< double, Dimension >  ITKVectorType;
-  typedef cv::Vec< double, Dimension >      CVVectorType;
+  using ITKVectorType = itk::Vector< double, Dimension >;
+  using CVVectorType = cv::Vec< double, Dimension >;
 
   ITKVectorType itkA;
   for( unsigned int i = 0; i < Dimension; i++ )
@@ -501,8 +501,8 @@ int VectorConversionTest()
 
 int PointToVectorConversionTest()
 {
-  typedef itk::Point< double, 3 > ITKPoint3dType;
-  typedef cv::Vec< double, 3 >    cvVectorType;
+  using ITKPoint3dType = itk::Point< double, 3 >;
+  using cvVectorType = cv::Vec< double, 3 >;
 
   ITKPoint3dType itkA;
   itkA[0] = -0.4;

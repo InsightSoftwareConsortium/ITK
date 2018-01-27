@@ -29,26 +29,24 @@ int itkComplexToRealFilterAndAdaptorTest( int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef std::complex< float >               InputPixelType;
-  typedef float                               OutputPixelType;
+  using InputPixelType = std::complex< float >;
+  using OutputPixelType = float;
 
-  typedef itk::Image< InputPixelType, ImageDimension >    InputImageType;
-  typedef itk::Image< OutputPixelType, ImageDimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType, ImageDimension >;
+  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
 
   // Declare appropriate Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType>  InputIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType> OutputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<ImageDimension>         IndexType;
+  using IndexType = itk::Index<ImageDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<ImageDimension>          SizeType;
+  using SizeType = itk::Size<ImageDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<ImageDimension>   RegionType;
+  using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
   InputImageType::Pointer inputImage  = InputImageType::New();
@@ -86,8 +84,8 @@ int itkComplexToRealFilterAndAdaptorTest( int, char* [] )
   }
 
   // Declare the type for the ComplexToReal filter
-  typedef itk::ComplexToRealImageFilter< InputImageType,
-                               OutputImageType > FilterType;
+  using FilterType = itk::ComplexToRealImageFilter< InputImageType,
+                               OutputImageType >;
 
   // Create the Filter
   FilterType::Pointer filter = FilterType::New();
@@ -133,8 +131,8 @@ int itkComplexToRealFilterAndAdaptorTest( int, char* [] )
   // Test the itk::ComplexToRealImageAdaptor
   //
 
-  typedef itk::ComplexToRealImageAdaptor< InputImageType,
-                          OutputImageType::PixelType > AdaptorType;
+  using AdaptorType = itk::ComplexToRealImageAdaptor< InputImageType,
+                          OutputImageType::PixelType >;
 
   AdaptorType::Pointer realAdaptor = AdaptorType::New();
 
@@ -143,10 +141,10 @@ int itkComplexToRealFilterAndAdaptorTest( int, char* [] )
 
   realAdaptor->SetImage( inputImage );
 
-  typedef itk::SubtractImageFilter<
+  using DiffFilterType = itk::SubtractImageFilter<
                         OutputImageType,
                         AdaptorType,
-                        OutputImageType > DiffFilterType;
+                        OutputImageType >;
 
   DiffFilterType::Pointer diffFilter = DiffFilterType::New();
 

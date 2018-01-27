@@ -54,12 +54,12 @@ namespace fem
 class ITKFEM_EXPORT LinearSystemWrapper : public Solution
 {
 public:
-  typedef LinearSystemWrapper Self;
-  typedef Solution            Superclass;
-  typedef Self *              Pointer;
-  typedef const Self *        ConstPointer;
+  using Self = LinearSystemWrapper;
+  using Superclass = Solution;
+  using Pointer = Self *;
+  using ConstPointer = const Self *;
 
-  typedef std::vector<unsigned int> ColumnArray;
+  using ColumnArray = std::vector<unsigned int>;
 
   /**
    * Constructor for linear system, should perform any initialization that

@@ -26,7 +26,7 @@ int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
 {
   const unsigned int Dimension = 3;
 
-  typedef itk::EllipseSpatialObject< Dimension > EllipseType;
+  using EllipseType = itk::EllipseSpatialObject< Dimension >;
 
   // Create a ellipse.
   EllipseType::Pointer ellipse = EllipseType::New();
@@ -42,10 +42,9 @@ int itkPointSetToSpatialObjectDemonsRegistrationTest(int, char* [] )
 
   ellipse->ComputeObjectToWorldTransform();
 
-  typedef itk::Mesh< float, Dimension >  PointSetType;
+  using PointSetType = itk::Mesh< float, Dimension >;
 
-  typedef itk::RegularSphereMeshSource<
-                                 PointSetType > SphereType;
+  using SphereType = itk::RegularSphereMeshSource<PointSetType>;
 
   SphereType::Pointer sphereSource = SphereType::New();
 

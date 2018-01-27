@@ -35,8 +35,8 @@ template< typename TInput1, typename TInput2, typename TOutput >
 class WeightedAdd2
 {
 public:
-  typedef typename NumericTraits< TInput1 >::AccumulateType AccumulatorType;
-  typedef typename NumericTraits< TInput1 >::RealType       RealType;
+  using AccumulatorType = typename NumericTraits< TInput1 >::AccumulateType;
+  using RealType = typename NumericTraits< TInput1 >::RealType;
   WeightedAdd2() : m_Alpha(0.0), m_Beta(0.0) {}
   ~WeightedAdd2() {}
   bool operator!=(const WeightedAdd2 & other) const
@@ -121,20 +121,20 @@ class WeightedAddImageFilter:
 
 {
 public:
-  /** Standard class typedefs. */
-  typedef WeightedAddImageFilter Self;
-  typedef BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = WeightedAddImageFilter;
+  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                                     Functor::WeightedAdd2<
                                       typename TInputImage1::PixelType,
                                       typename TInputImage2::PixelType,
                                       typename TOutputImage::PixelType >
-                                    >                                 Superclass;
+                                    >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::FunctorType FunctorType;
-  typedef typename FunctorType::RealType   RealType;
+  using FunctorType = typename Superclass::FunctorType;
+  using RealType = typename FunctorType::RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

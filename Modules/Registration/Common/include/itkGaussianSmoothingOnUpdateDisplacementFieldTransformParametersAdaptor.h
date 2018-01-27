@@ -35,11 +35,11 @@ class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateDisplacementFieldTransformPar
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor          Self;
-  typedef DisplacementFieldTransformParametersAdaptor<TTransform>                       Superclass;
-  typedef SmartPointer<Self>                                                            Pointer;
-  typedef SmartPointer<const Self>                                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor;
+  using Superclass = DisplacementFieldTransformParametersAdaptor<TTransform>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -48,8 +48,8 @@ public:
   itkTypeMacro( GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor,
     DisplacementFieldTransformParametersAdaptor );
 
-  typedef TTransform                               TransformType;
-  typedef typename TransformType::ScalarType       ScalarType;
+  using TransformType = TTransform;
+  using ScalarType = typename TransformType::ScalarType;
 
   /**
    * Get/Set the Gaussian smoothing standard deviation for the update field.

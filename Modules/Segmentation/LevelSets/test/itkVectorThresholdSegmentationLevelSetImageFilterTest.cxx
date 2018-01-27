@@ -36,19 +36,19 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                     PixelComponentType;
-  typedef itk::RGBPixel<PixelComponentType> RGBPixelType;
-  typedef unsigned char                     InputPixelType;
-  typedef float                             OutputPixelType;
-  typedef unsigned char                     WritePixelType;
+  using PixelComponentType = unsigned char;
+  using RGBPixelType = itk::RGBPixel<PixelComponentType>;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = float;
+  using WritePixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  Dimension > InputImageType;
-  typedef itk::Image< RGBPixelType,    Dimension > RGBImageType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::Image< WritePixelType,  Dimension > WriteImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using RGBImageType = itk::Image< RGBPixelType,    Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using WriteImageType = itk::Image< WritePixelType,  Dimension >;
 
-  typedef itk::ImageFileReader< InputImageType >   InputReaderType;
-  typedef itk::ImageFileReader< RGBImageType >     RGBReaderType;
+  using InputReaderType = itk::ImageFileReader< InputImageType >;
+  using RGBReaderType = itk::ImageFileReader< RGBImageType >;
 
   RGBReaderType::Pointer   rgbReader   = RGBReaderType::New();
   InputReaderType::Pointer inputReader = InputReaderType::New();
@@ -57,11 +57,11 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   rgbReader->SetFileName(av[2]);
 
   // Create a filter
-  typedef itk::VectorThresholdSegmentationLevelSetImageFilter<
+  using FilterType = itk::VectorThresholdSegmentationLevelSetImageFilter<
                                               InputImageType,
                                               RGBImageType,
                                               OutputPixelType
-                                                > FilterType;
+                                                >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -70,7 +70,7 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   filter->SetFeatureImage( rgbReader->GetOutput() );
 
   // Mean values hand coded for the VisibleWomanSlice.png color file
-  typedef FilterType::MeanVectorType  MeanVectorType;
+  using MeanVectorType = FilterType::MeanVectorType;
   MeanVectorType  mean = MeanVectorType(3);
 
   mean[0] = 44.7504;
@@ -80,7 +80,7 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   filter->SetMean( mean );
 
   // Covariance values hand coded for the VisibleWomanSlice.png color file
-  typedef FilterType::CovarianceMatrixType  CovarianceMatrixType;
+  using CovarianceMatrixType = FilterType::CovarianceMatrixType;
   CovarianceMatrixType  covariance = CovarianceMatrixType( 3, 3 );
 
   covariance[0][0] = 79.2225;
@@ -125,7 +125,7 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
     }
 
 
-  typedef itk::RescaleIntensityImageFilter< OutputImageType, WriteImageType > RescalerType;
+  using RescalerType = itk::RescaleIntensityImageFilter< OutputImageType, WriteImageType >;
   RescalerType::Pointer rescaler = RescalerType::New();
 
   rescaler->SetInput( filter->GetOutput() );
@@ -134,7 +134,7 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
   rescaler->SetOutputMaximum( 255 );
 
   // Generate test image
-  typedef itk::ImageFileWriter< WriteImageType >   WriterType;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetInput( rescaler->GetOutput() );

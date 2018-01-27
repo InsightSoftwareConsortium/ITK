@@ -175,8 +175,8 @@ ReinitializeLevelSetImageFilter< TLevelSet >
   LevelSetPointer      tempLevelSet = m_Marcher->GetOutput();
 
   // define iterators
-  typedef ImageRegionIterator< LevelSetImageType >      IteratorType;
-  typedef ImageRegionConstIterator< LevelSetImageType > ConstIteratorType;
+  using IteratorType = ImageRegionIterator< LevelSetImageType >;
+  using ConstIteratorType = ImageRegionConstIterator< LevelSetImageType >;
 
   ConstIteratorType inputIt( inputPtr,
                              inputPtr->GetBufferedRegion() );
@@ -254,8 +254,8 @@ ReinitializeLevelSetImageFilter< TLevelSet >
   LevelSetPointer      tempLevelSet = m_Marcher->GetOutput();
 
   // define iterators
-  typedef ImageRegionIterator< LevelSetImageType >      IteratorType;
-  typedef ImageRegionConstIterator< LevelSetImageType > ConstIteratorType;
+  using IteratorType = ImageRegionIterator< LevelSetImageType >;
+  using ConstIteratorType = ImageRegionConstIterator< LevelSetImageType >;
 
   ConstIteratorType inputIt( inputPtr,
                              inputPtr->GetBufferedRegion() );

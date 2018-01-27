@@ -44,14 +44,14 @@ class ITK_TEMPLATE_EXPORT CenteredVersorTransformInitializer:
     TFixedImage, TMovingImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef CenteredVersorTransformInitializer Self;
-  typedef CenteredTransformInitializer<
+  /** Standard class type aliases. */
+  using Self = CenteredVersorTransformInitializer;
+  using Superclass = CenteredTransformInitializer<
     VersorRigid3DTransform< double >,
-    TFixedImage, TMovingImage >          Superclass;
+    TFixedImage, TMovingImage >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -60,8 +60,8 @@ public:
   itkTypeMacro(CenteredVersorTransformInitializer, Object);
 
   /** Type of the transform to initialize */
-  typedef typename Superclass::TransformType    TransformType;
-  typedef typename Superclass::TransformPointer TransformPointer;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
 
   /** Dimension of parameters. */
   itkStaticConstMacro(InputSpaceDimension, unsigned int,
@@ -70,20 +70,20 @@ public:
                       Superclass::OutputSpaceDimension);
 
   /** Image Types to use in the initialization of the transform */
-  typedef   typename Superclass::FixedImageType  FixedImageType;
-  typedef   typename Superclass::MovingImageType MovingImageType;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using MovingImageType = typename Superclass::MovingImageType;
 
-  typedef   typename Superclass::FixedImagePointer  FixedImagePointer;
-  typedef   typename Superclass::MovingImagePointer MovingImagePointer;
+  using FixedImagePointer = typename Superclass::FixedImagePointer;
+  using MovingImagePointer = typename Superclass::MovingImagePointer;
 
   /** Offset type. */
-  typedef typename Superclass::OffsetType OffsetType;
+  using OffsetType = typename Superclass::OffsetType;
 
   /** Point type. */
-  typedef typename Superclass::InputPointType InputPointType;
+  using InputPointType = typename Superclass::InputPointType;
 
   /** Vector type. */
-  typedef typename Superclass::OutputVectorType OutputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
 
   /** Initialize the transform using data from the images */
   void InitializeTransform() override;

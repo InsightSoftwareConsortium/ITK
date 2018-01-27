@@ -55,10 +55,10 @@ namespace itk
 class ITKCommon_EXPORT LightObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef LightObject                Self;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LightObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   static Pointer New();

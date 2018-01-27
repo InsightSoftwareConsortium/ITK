@@ -340,7 +340,7 @@ bool MRCImageIO::CanWriteFile(const char *fname)
 template< typename TPixelType >
 void MRCImageIO::UpdateHeaderWithMinMaxMean(const TPixelType *bufferBegin)
 {
-  typedef const TPixelType *ConstPixelPointer;
+  using ConstPixelPointer = const TPixelType *;
 
   ConstPixelPointer bufferEnd = bufferBegin + m_IORegion.GetNumberOfPixels();
 

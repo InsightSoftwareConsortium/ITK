@@ -242,9 +242,9 @@ BSplineTransformParametersAdaptor<TTransform>
   IndexType newGridIndex = coefficientImageRegion.GetIndex();
 
   //  Resample the coefficient images
-  typedef BSplineResampleImageFunction<ImageType, ParametersValueType> CoefficientUpsampleFunctionType;
-  typedef ResampleImageFilter<ImageType, ImageType, ParametersValueType> UpsampleFilterType;
-  typedef BSplineDecompositionImageFilter<ImageType, ImageType> DecompositionFilterType;
+  using CoefficientUpsampleFunctionType = BSplineResampleImageFunction<ImageType, ParametersValueType>;
+  using UpsampleFilterType = ResampleImageFilter<ImageType, ImageType, ParametersValueType>;
+  using DecompositionFilterType = BSplineDecompositionImageFilter<ImageType, ImageType>;
 
   CoefficientImageArray newCoefficientImages;
 

@@ -39,10 +39,10 @@ template < typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilter< TInputImage, TOutputImage >
 {
   public:
-    typedef LevelSetDomainMapImageFilter                      Self;
-    typedef ImageToImageFilter< TInputImage,TOutputImage >    Superclass;
-    typedef SmartPointer< Self >                              Pointer;
-    typedef SmartPointer< const Self >                        ConstPointer;
+    using Self = LevelSetDomainMapImageFilter;
+    using Superclass = ImageToImageFilter< TInputImage,TOutputImage >;
+    using Pointer = SmartPointer< Self >;
+    using ConstPointer = SmartPointer< const Self >;
 
     itkStaticConstMacro ( ImageDimension, unsigned int,
                           TInputImage::ImageDimension );
@@ -53,26 +53,26 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilt
     /** Run-time type information */
     itkTypeMacro ( LevelSetDomainMapImageFilter, ImageToImageFilter );
 
-    typedef TInputImage                                 InputImageType;
-    typedef typename InputImageType::ConstPointer       InputImageConstPointer;
-    typedef typename InputImageType::PixelType          InputImagePixelType;
-    typedef typename InputImageType::RegionType         InputImageRegionType;
-    typedef typename InputImageType::SizeType           InputImageSizeType;
-    typedef typename InputImageSizeType::SizeValueType  InputImageSizeValueType;
-    typedef typename InputImageType::IndexType          InputImageIndexType;
+    using InputImageType = TInputImage;
+    using InputImageConstPointer = typename InputImageType::ConstPointer;
+    using InputImagePixelType = typename InputImageType::PixelType;
+    using InputImageRegionType = typename InputImageType::RegionType;
+    using InputImageSizeType = typename InputImageType::SizeType;
+    using InputImageSizeValueType = typename InputImageSizeType::SizeValueType;
+    using InputImageIndexType = typename InputImageType::IndexType;
 
-    typedef TOutputImage                           OutputImageType;
-    typedef typename OutputImageType::Pointer      OutputImagePointer;
-    typedef typename OutputImageType::IndexType    OutputImageIndexType;
-    typedef typename OutputImageType::PixelType    OutputImagePixelType;
+    using OutputImageType = TOutputImage;
+    using OutputImagePointer = typename OutputImageType::Pointer;
+    using OutputImageIndexType = typename OutputImageType::IndexType;
+    using OutputImagePixelType = typename OutputImageType::PixelType;
 
-    typedef ImageRegionConstIteratorWithIndex< InputImageType >   InputConstIteratorType;
-    typedef ImageRegionIteratorWithIndex< InputImageType >        InputIndexIteratorType;
-    typedef ImageRegionIterator< InputImageType >                 InputIteratorType;
+    using InputConstIteratorType = ImageRegionConstIteratorWithIndex< InputImageType >;
+    using InputIndexIteratorType = ImageRegionIteratorWithIndex< InputImageType >;
+    using InputIteratorType = ImageRegionIterator< InputImageType >;
 
-    typedef ImageRegionConstIteratorWithIndex< OutputImageType >  OutputConstIteratorType;
-    typedef ImageRegionIteratorWithIndex< OutputImageType >       OutputIndexIteratorType;
-    typedef ImageRegionIterator< OutputImageType >                OutputIteratorType;
+    using OutputConstIteratorType = ImageRegionConstIteratorWithIndex< OutputImageType >;
+    using OutputIndexIteratorType = ImageRegionIteratorWithIndex< OutputImageType >;
+    using OutputIteratorType = ImageRegionIterator< OutputImageType >;
 
     /** \class LevelSetDomain
      * \brief Specifies an image region where an unique std::list of level sets Id's are defined.
@@ -102,7 +102,7 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilt
       };
 
     /** Map from a integer identifier to the level set list image domain. */
-    typedef std::map< IdentifierType, LevelSetDomain > DomainMapType;
+    using DomainMapType = std::map< IdentifierType, LevelSetDomain >;
 
     /** Get a map from the identifier for the domains with consistent level set ids
      * * struct containing an (int, string, etc) identifier and the ImageRegion that

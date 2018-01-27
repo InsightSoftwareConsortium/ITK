@@ -52,23 +52,23 @@ class ITK_TEMPLATE_EXPORT AnchorOpenCloseImageFilter:
   public KernelImageFilter< TImage, TImage, TKernel >
 {
 public:
-  /** Standard class typedefs. */
-  typedef AnchorOpenCloseImageFilter           Self;
-  typedef KernelImageFilter< TImage, TImage, TKernel >
-                                               Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = AnchorOpenCloseImageFilter;
+  using Superclass =
+      KernelImageFilter< TImage, TImage, TKernel >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  /** Kernel typedef. */
-  typedef TKernel                    KernelType;
-  typedef typename KernelType::LType KernelLType;
+  /** Some convenient type alias. */
+  /** Kernel type alias. */
+  using KernelType = TKernel;
+  using KernelLType = typename KernelType::LType;
 
-  typedef TImage                                InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  using InputImageType = TImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -98,21 +98,21 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AnchorOpenCloseImageFilter);
 
-  typedef BresenhamLine< itkGetStaticConstMacro(InputImageDimension) > BresType;
-  typedef typename BresType::OffsetArray                               BresOffsetArray;
+  using BresType = BresenhamLine< itkGetStaticConstMacro(InputImageDimension) >;
+  using BresOffsetArray = typename BresType::OffsetArray;
 
   // the class that operates on lines -- does the opening in one
   // operation. The classes following are named on the assumption that
   // we are doing an opening
 
-//  typedef AnchorOpenCloseLine<InputImagePixelType, THistogramCompare,
-// TFunction1, TFunction2> AnchorLineOpenType;
-  typedef AnchorOpenCloseLine< InputImagePixelType, TCompare1 > AnchorLineOpenType;
+//  using AnchorLineOpenType = AnchorOpenCloseLine<InputImagePixelType, THistogramCompare,
+// TFunction1, TFunction2>;
+  using AnchorLineOpenType = AnchorOpenCloseLine< InputImagePixelType, TCompare1 >;
 
-  typedef AnchorErodeDilateLine< InputImagePixelType, TCompare1 > AnchorLineErodeType;
+  using AnchorLineErodeType = AnchorErodeDilateLine< InputImagePixelType, TCompare1 >;
 
   // the class that does the dilation
-  typedef AnchorErodeDilateLine< InputImagePixelType, TCompare2 > AnchorLineDilateType;
+  using AnchorLineDilateType = AnchorErodeDilateLine< InputImagePixelType, TCompare2 >;
 
   void DoFaceOpen(InputImageConstPointer input,
                   InputImagePointer output,

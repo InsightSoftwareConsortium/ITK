@@ -85,9 +85,9 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef short         PixelType;
+  using PixelType = short;
   const   unsigned int  Dimension = 2;
-  typedef itk::Image< PixelType, Dimension >    ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -107,8 +107,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   // Software Guide : EndCodeSnippet
 
 

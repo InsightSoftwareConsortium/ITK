@@ -31,7 +31,7 @@ int itkIdentityTransformTest(int, char *[] )
   const unsigned int N = 2;
   bool               Ok = true;
 
-  typedef itk::IdentityTransform<double> IdentityTransformType;
+  using IdentityTransformType = itk::IdentityTransform<double>;
   IdentityTransformType::Pointer transform = IdentityTransformType::New();
 
   std::cout << "Testing TransformPoint: ";

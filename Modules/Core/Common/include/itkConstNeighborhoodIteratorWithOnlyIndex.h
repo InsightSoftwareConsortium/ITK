@@ -63,32 +63,32 @@ class ITK_TEMPLATE_EXPORT ConstNeighborhoodIteratorWithOnlyIndex:
 public:
 
   /** Type used to refer to space dimensions */
-  typedef unsigned int                  DimensionValueType;
+  using DimensionValueType = unsigned int;
 
   /** Save the image dimension. */
   itkStaticConstMacro(Dimension, DimensionValueType, TImage::ImageDimension);
 
-  typedef char                          DummyNeighborhoodPixelType;
+  using DummyNeighborhoodPixelType = char;
 
-  /** Standard class typedefs. */
-  typedef ConstNeighborhoodIteratorWithOnlyIndex Self;
-  typedef Neighborhood< DummyNeighborhoodPixelType, itkGetStaticConstMacro(Dimension) >    Superclass;
+  /** Standard class type aliases. */
+  using Self = ConstNeighborhoodIteratorWithOnlyIndex;
+  using Superclass = Neighborhood< DummyNeighborhoodPixelType, itkGetStaticConstMacro(Dimension) >;
 
-  /** Inherit typedefs from superclass */
-  typedef typename Superclass::OffsetType      OffsetType;
-  typedef typename Superclass::RadiusType      RadiusType;
-  typedef typename Superclass::SizeType        SizeType;
-  typedef typename Superclass::Iterator        Iterator;
-  typedef typename Superclass::ConstIterator   ConstIterator;
+  /** Inherit type alias from superclass */
+  using OffsetType = typename Superclass::OffsetType;
+  using RadiusType = typename Superclass::RadiusType;
+  using SizeType = typename Superclass::SizeType;
+  using Iterator = typename Superclass::Iterator;
+  using ConstIterator = typename Superclass::ConstIterator;
 
   /** Typedef support for common objects */
-  typedef TImage                                     ImageType;
-  typedef typename TImage::RegionType                RegionType;
-  typedef Index< itkGetStaticConstMacro(Dimension) > IndexType;
-  typedef Neighborhood< DummyNeighborhoodPixelType, itkGetStaticConstMacro(Dimension) > NeighborhoodType;
+  using ImageType = TImage;
+  using RegionType = typename TImage::RegionType;
+  using IndexType = Index< itkGetStaticConstMacro(Dimension) >;
+  using NeighborhoodType = Neighborhood< DummyNeighborhoodPixelType, itkGetStaticConstMacro(Dimension) >;
 
   /** Type used to refer to the elements in the list of neighbor pixels. */
-  typedef typename NeighborhoodType::NeighborIndexType  NeighborIndexType;
+  using NeighborIndexType = typename NeighborhoodType::NeighborIndexType;
 
   /** Default constructor */
   ConstNeighborhoodIteratorWithOnlyIndex();

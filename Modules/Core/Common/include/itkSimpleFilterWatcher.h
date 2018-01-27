@@ -46,7 +46,7 @@ namespace itk
  *
  * Example of use:
  *
- * typedef itk::BinaryThresholdImageFilter<ImageType> FilterType;
+ * using FilterType = itk::BinaryThresholdImageFilter<ImageType>;
  * FilterType::Pointer thresholdFilter = FilterType::New();
  *
  * SimpleFilterWatcher watcher(thresholdFilter, "Threshold");
@@ -226,7 +226,7 @@ private:
   std::string                 m_Comment;
   itk::ProcessObject::Pointer m_Process;
 
-  typedef SimpleMemberCommand< SimpleFilterWatcher > CommandType;
+  using CommandType = SimpleMemberCommand< SimpleFilterWatcher >;
   CommandType::Pointer m_StartFilterCommand;
   CommandType::Pointer m_EndFilterCommand;
   CommandType::Pointer m_ProgressFilterCommand;

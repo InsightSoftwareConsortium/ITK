@@ -42,30 +42,30 @@ class ITK_TEMPLATE_EXPORT VideoFileReader : public VideoSource< TOutputVideoStre
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef VideoFileReader                          Self;
-  typedef VideoSource< TOutputVideoStream >        Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef TOutputVideoStream                       VideoStreamType;
-  typedef typename VideoStreamType::Pointer        VideoStreamPointer;
+  /** Standard class type aliases. */
+  using Self = VideoFileReader;
+  using Superclass = VideoSource< TOutputVideoStream >;
+  using Pointer = SmartPointer<Self>;
+  using VideoStreamType = TOutputVideoStream;
+  using VideoStreamPointer = typename VideoStreamType::Pointer;
 
-  typedef typename VideoStreamType::FrameType      FrameType;
-  typedef typename FrameType::PixelType            PixelType;
-  typedef typename FrameType::RegionType           RegionType;
-  typedef typename FrameType::SizeType             SizeType;
-  typedef typename FrameType::IndexType            IndexType;
-  typedef typename FrameType::PointType            PointType;
-  typedef typename FrameType::SpacingType          SpacingType;
-  typedef typename FrameType::DirectionType        DirectionType;
+  using FrameType = typename VideoStreamType::FrameType;
+  using PixelType = typename FrameType::PixelType;
+  using RegionType = typename FrameType::RegionType;
+  using SizeType = typename FrameType::SizeType;
+  using IndexType = typename FrameType::IndexType;
+  using PointType = typename FrameType::PointType;
+  using SpacingType = typename FrameType::SpacingType;
+  using DirectionType = typename FrameType::DirectionType;
 
-  typedef typename VideoIOBase::TemporalOffsetType TemporalOffsetType;
-  typedef typename VideoIOBase::FrameOffsetType    FrameOffsetType;
-  typedef typename VideoIOBase::TemporalRatioType  TemporalRatioType;
+  using TemporalOffsetType = typename VideoIOBase::TemporalOffsetType;
+  using FrameOffsetType = typename VideoIOBase::FrameOffsetType;
+  using TemporalRatioType = typename VideoIOBase::TemporalRatioType;
 
   itkStaticConstMacro(FrameDimension,unsigned int,FrameType::ImageDimension);
 
-  /** Pixel conversion typedefs */
-  typedef DefaultConvertPixelTraits<PixelType> ConvertPixelTraits;
+  /** Pixel conversion type alias */
+  using ConvertPixelTraits = DefaultConvertPixelTraits<PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

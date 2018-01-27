@@ -60,10 +60,10 @@ class ITK_TEMPLATE_EXPORT LevelSetVelocityNeighborhoodExtractor:
 {
 public:
   /** Standard class typdedefs. */
-  typedef LevelSetVelocityNeighborhoodExtractor      Self;
-  typedef LevelSetNeighborhoodExtractor< TLevelSet > Superclass;
-  typedef SmartPointer< Self >                       Pointer;
-  typedef SmartPointer< const Self >                 ConstPointer;
+  using Self = LevelSetVelocityNeighborhoodExtractor;
+  using Superclass = LevelSetNeighborhoodExtractor< TLevelSet >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,24 +73,24 @@ public:
                LevelSetNeighborhoodExtractor);
 
   /** The type of the level set. */
-  typedef LevelSetTypeDefault< TLevelSet > LevelSetType;
+  using LevelSetType = LevelSetTypeDefault< TLevelSet >;
 
   /** The dimension of the level set. */
   itkStaticConstMacro(SetDimension, unsigned int,
                       LevelSetType::SetDimension);
 
-  /** Index typedef support */
-  typedef::itk::Index< itkGetStaticConstMacro(SetDimension) > Index;
+  /** Index type alias support */
+  using Index = ::itk::Index< itkGetStaticConstMacro(SetDimension) >;
 
-  /** AuxVarType typedef support. */
-  typedef AuxVarTypeDefault< TAuxValue, VAuxDimension, itkGetStaticConstMacro(SetDimension) >
-  AuxVarType;
-  typedef typename AuxVarType::AuxValueType         AuxValueType;
-  typedef typename AuxVarType::AuxValueVectorType   AuxValueVectorType;
-  typedef typename AuxVarType::AuxValueContainer    AuxValueContainer;
-  typedef typename AuxVarType::AuxImageType         AuxImageType;
-  typedef typename AuxVarType::AuxImagePointer      AuxImagePointer;
-  typedef typename AuxVarType::AuxImageConstPointer AuxImageConstPointer;
+  /** AuxVarType type alias support */
+  using AuxVarType =
+      AuxVarTypeDefault< TAuxValue, VAuxDimension, itkGetStaticConstMacro(SetDimension) >;
+  using AuxValueType = typename AuxVarType::AuxValueType;
+  using AuxValueVectorType = typename AuxVarType::AuxValueVectorType;
+  using AuxValueContainer = typename AuxVarType::AuxValueContainer;
+  using AuxImageType = typename AuxVarType::AuxImageType;
+  using AuxImagePointer = typename AuxVarType::AuxImagePointer;
+  using AuxImageConstPointer = typename AuxVarType::AuxImageConstPointer;
 
   /** Set the auxiliary images. */
   void SetAuxImage(const AuxImageType *ptr, unsigned int idx = 0)

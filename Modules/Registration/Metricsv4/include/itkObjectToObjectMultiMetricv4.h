@@ -94,11 +94,11 @@ class ITK_TEMPLATE_EXPORT ObjectToObjectMultiMetricv4:
   public ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 {
 public:
-  /** Standard class typedefs */
-  typedef ObjectToObjectMultiMetricv4                                                                      Self;
-  typedef ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>  Superclass;
-  typedef SmartPointer<Self>                                                                               Pointer;
-  typedef SmartPointer<const Self>                                                                         ConstPointer;
+  /** Standard class type aliases */
+  using Self = ObjectToObjectMultiMetricv4;
+  using Superclass = ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ObjectToObjectMultiMetricv4, ObjectToObjectMetric);
@@ -107,27 +107,27 @@ public:
   itkNewMacro( Self );
 
   /** Types inherited from Superclass. */
-  typedef typename Superclass::MeasureType                  MeasureType;
-  typedef typename Superclass::DerivativeType               DerivativeType;
-  typedef typename Superclass::DerivativeValueType          DerivativeValueType;
-  typedef typename Superclass::ParametersType               ParametersType;
-  typedef typename Superclass::ParametersValueType          ParametersValueType;
-  typedef typename Superclass::NumberOfParametersType       NumberOfParametersType;
-  typedef typename Superclass::CoordinateRepresentationType CoordinateRepresentationType;
-  typedef typename Superclass::MovingTransformType          MovingTransformType;
-  typedef typename Superclass::FixedTransformType           FixedTransformType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename Superclass::DerivativeValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
+  using CoordinateRepresentationType = typename Superclass::CoordinateRepresentationType;
+  using MovingTransformType = typename Superclass::MovingTransformType;
+  using FixedTransformType = typename Superclass::FixedTransformType;
 
-  /** typedefs related to the metric queue */
-  typedef Superclass                               MetricType;
-  typedef typename MetricType::Pointer             MetricBasePointer;
-  typedef typename MetricType::ConstPointer        MetricBaseConstPointer;
-  typedef std::deque<MetricBasePointer>            MetricQueueType;
+  /** type alias related to the metric queue */
+  using MetricType = Superclass;
+  using MetricBasePointer = typename MetricType::Pointer;
+  using MetricBaseConstPointer = typename MetricType::ConstPointer;
+  using MetricQueueType = std::deque<MetricBasePointer>;
 
-  typedef typename Superclass::ObjectType          ObjectType;
+  using ObjectType = typename Superclass::ObjectType;
 
-  typedef typename DerivativeType::ValueType       WeightValueType;
-  typedef Array<WeightValueType>                   WeightsArrayType;
-  typedef Array<MeasureType>                       MetricValueArrayType;
+  using WeightValueType = typename DerivativeType::ValueType;
+  using WeightsArrayType = Array<WeightValueType>;
+  using MetricValueArrayType = Array<MeasureType>;
 
   itkSetMacro(MetricWeights,WeightsArrayType);
   itkGetMacro(MetricWeights,WeightsArrayType);
@@ -190,7 +190,7 @@ public:
 
   bool SupportsArbitraryVirtualDomainSamples( void ) const override;
 
-  typedef typename Superclass::MetricCategoryType   MetricCategoryType;
+  using MetricCategoryType = typename Superclass::MetricCategoryType;
 
   /** Get metric category */
   MetricCategoryType GetMetricCategory() const override

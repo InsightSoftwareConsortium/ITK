@@ -28,15 +28,15 @@
 int itkVectorImageToImageAdaptorTest( int, char* [] )
 {
 
-  //image type typedefs
+  //image type type alias
   const unsigned int Dimension    = 3;
   const unsigned int VectorLength = 4;
   const unsigned int componentToExtract = 3;
-  typedef float PixelType;
+  using PixelType = float;
 
-  typedef itk::VectorImage< PixelType, Dimension >   VectorImageType;
+  using VectorImageType = itk::VectorImage< PixelType, Dimension >;
 
-  typedef itk::VectorImageToImageAdaptor< PixelType, Dimension > VectorImageToImageAdaptorType;
+  using VectorImageToImageAdaptorType = itk::VectorImageToImageAdaptor< PixelType, Dimension >;
 
   //initialize a vector image
   VectorImageType::Pointer vectorImage = VectorImageType::New();

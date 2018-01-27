@@ -63,11 +63,11 @@ template< typename TTransform,
 class ITK_TEMPLATE_EXPORT CenteredTransformInitializer:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef CenteredTransformInitializer Self;
-  typedef Object                       Superclass;
-  typedef SmartPointer< Self >         Pointer;
-  typedef SmartPointer< const Self >   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = CenteredTransformInitializer;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -76,8 +76,8 @@ public:
   itkTypeMacro(CenteredTransformInitializer, Object);
 
   /** Type of the transform to initialize */
-  typedef TTransform                      TransformType;
-  typedef typename TransformType::Pointer TransformPointer;
+  using TransformType = TTransform;
+  using TransformPointer = typename TransformType::Pointer;
 
   /** Dimension of parameters. */
   itkStaticConstMacro(InputSpaceDimension, unsigned int,
@@ -86,29 +86,27 @@ public:
                       TransformType::OutputSpaceDimension);
 
   /** Image Types to use in the initialization of the transform */
-  typedef   TFixedImage  FixedImageType;
-  typedef   TMovingImage MovingImageType;
+  using FixedImageType = TFixedImage;
+  using MovingImageType = TMovingImage;
 
-  typedef   typename FixedImageType::ConstPointer  FixedImagePointer;
-  typedef   typename MovingImageType::ConstPointer MovingImagePointer;
+  using FixedImagePointer = typename FixedImageType::ConstPointer;
+  using MovingImagePointer = typename MovingImageType::ConstPointer;
 
   /** Moment calculators */
-  typedef ImageMomentsCalculator< FixedImageType >  FixedImageCalculatorType;
-  typedef ImageMomentsCalculator< MovingImageType > MovingImageCalculatorType;
+  using FixedImageCalculatorType = ImageMomentsCalculator< FixedImageType >;
+  using MovingImageCalculatorType = ImageMomentsCalculator< MovingImageType >;
 
-  typedef typename FixedImageCalculatorType::Pointer
-  FixedImageCalculatorPointer;
-  typedef typename MovingImageCalculatorType::Pointer
-  MovingImageCalculatorPointer;
+  using FixedImageCalculatorPointer = typename FixedImageCalculatorType::Pointer;
+  using MovingImageCalculatorPointer = typename MovingImageCalculatorType::Pointer;
 
   /** Offset type. */
-  typedef typename TransformType::OffsetType OffsetType;
+  using OffsetType = typename TransformType::OffsetType;
 
   /** Point type. */
-  typedef typename TransformType::InputPointType InputPointType;
+  using InputPointType = typename TransformType::InputPointType;
 
   /** Vector type. */
-  typedef typename TransformType::OutputVectorType OutputVectorType;
+  using OutputVectorType = typename TransformType::OutputVectorType;
 
   /** Set the transform to be initialized */
   itkSetObjectMacro(Transform,   TransformType);

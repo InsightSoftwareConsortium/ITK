@@ -42,10 +42,10 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   // create a fastmarching object
-  typedef float                   PixelType;
-  typedef itk::Image<PixelType,2> FloatImage;
-  typedef itk::FastMarchingUpwindGradientImageFilter<FloatImage,FloatImage>
-                                  FloatFMType;
+  using PixelType = float;
+  using FloatImage = itk::Image<PixelType,2>;
+  using FloatFMType =
+      itk::FastMarchingUpwindGradientImageFilter<FloatImage,FloatImage>;
 
   FloatFMType::Pointer marcher = FloatFMType::New();
 
@@ -58,8 +58,8 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
 
   itk::SimpleFilterWatcher MarcherWatcher( marcher );
 
-  typedef FloatFMType::NodeType      NodeType;
-  typedef FloatFMType::NodeContainer NodeContainer;
+  using NodeType = FloatFMType::NodeType;
+  using NodeContainer = FloatFMType::NodeContainer;
 
   // setup alive points
   NodeContainer::Pointer alivePoints = NodeContainer::New();
@@ -154,8 +154,8 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
   marcher->Update();
 
   // check the results
-  typedef FloatFMType::GradientImageType FloatGradientImage;
-  typedef FloatGradientImage::PixelType  GradientPixelType;
+  using FloatGradientImage = FloatFMType::GradientImageType;
+  using GradientPixelType = FloatGradientImage::PixelType;
   FloatGradientImage::Pointer gradientOutput = marcher->GetGradientImage();
   itk::ImageRegionIterator<FloatGradientImage>
     iterator( gradientOutput, gradientOutput->GetBufferedRegion() );

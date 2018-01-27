@@ -31,16 +31,15 @@ int main( int argc, char * argv[] )
     }
 
   // For now, this program runs on 3D deformation fields
-  typedef itk::Vector< float, 3 > InputPixelType;
-  typedef float                   OutputPixelType;
+  using InputPixelType = itk::Vector< float, 3 >;
+  using OutputPixelType = float;
 
-  typedef itk::Image< InputPixelType,  3 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 3 >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  3 >;
+  using OutputImageType = itk::Image< OutputPixelType, 3 >;
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef itk::DeformationFieldJacobianDeterminantFilter<
-               InputImageType >  FilterType;
+  using FilterType = itk::DeformationFieldJacobianDeterminantFilter< InputImageType >;
 
   // Set up deformation field reader
   ReaderType::Pointer reader = ReaderType::New();
@@ -52,7 +51,7 @@ int main( int argc, char * argv[] )
   //  filter->SetUseImageSpacingOn();
   filter->Update();
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   // Write Jacobian determinant image.
   WriterType::Pointer writer = WriterType::New();

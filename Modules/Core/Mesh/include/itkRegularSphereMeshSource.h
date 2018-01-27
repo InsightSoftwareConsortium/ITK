@@ -41,11 +41,11 @@ template< typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT RegularSphereMeshSource:public MeshSource< TOutputMesh >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef RegularSphereMeshSource         Self;
-  typedef itk::MeshSource< TOutputMesh >  Superclass;
-  typedef itk::SmartPointer< Self >       Pointer;
-  typedef itk::SmartPointer< const Self > ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = RegularSphereMeshSource;
+  using Superclass = itk::MeshSource< TOutputMesh >;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -54,26 +54,26 @@ public:
   itkTypeMacro(RegularSphereMeshSource, MeshSource);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TOutputMesh                         OutputMeshType;
-  typedef typename OutputMeshType::MeshTraits MeshTraits;
-  typedef typename OutputMeshType::PointType  PointType;
-  typedef typename MeshTraits::PixelType      PixelType;
-  typedef typename PointType::VectorType      VectorType;
+  using OutputMeshType = TOutputMesh;
+  using MeshTraits = typename OutputMeshType::MeshTraits;
+  using PointType = typename OutputMeshType::PointType;
+  using PixelType = typename MeshTraits::PixelType;
+  using VectorType = typename PointType::VectorType;
 
-  /** Some convenient typedefs. */
-  typedef typename OutputMeshType::Pointer                OutputMeshPointer;
-  typedef typename OutputMeshType::CellTraits             CellTraits;
-  typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer        PointsContainer;
+  /** Some convenient type alias. */
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using CellTraits = typename OutputMeshType::CellTraits;
+  using PointsContainerPointer = typename OutputMeshType::PointsContainerPointer;
+  using PointsContainer = typename OutputMeshType::PointsContainer;
 
   /** Define the triangular cell types which form the surface  */
-  typedef itk::CellInterface< PixelType, CellTraits > CellInterfaceType;
-  typedef itk::TriangleCell< CellInterfaceType >      TriCellType;
-  typedef typename TriCellType::SelfAutoPointer       TriCellAutoPointer;
-  typedef typename TriCellType::CellAutoPointer       CellAutoPointer;
+  using CellInterfaceType = itk::CellInterface< PixelType, CellTraits >;
+  using TriCellType = itk::TriangleCell< CellInterfaceType >;
+  using TriCellAutoPointer = typename TriCellType::SelfAutoPointer;
+  using CellAutoPointer = typename TriCellType::CellAutoPointer;
 
-  typedef std::pair< IdentifierType, IdentifierType >         IndexPairType;
-  typedef itk::MapContainer< IndexPairType, IdentifierType >  PointMapType;
+  using IndexPairType = std::pair< IdentifierType, IdentifierType >;
+  using PointMapType = itk::MapContainer< IndexPairType, IdentifierType >;
 
   /** Set the resolution level to be used for generating cells in the Sphere.
    *  High values of this parameter will produce sphere with more triangles. */

@@ -68,15 +68,15 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char  PixelType;
+  using PixelType = unsigned char;
 
   const unsigned int Dimension = 3;
 
-  typedef itk::Image< PixelType,  Dimension >   ImageType;
+  using ImageType = itk::Image< PixelType,  Dimension >;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -96,7 +96,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ChangeInformationImageFilter< ImageType >  FilterType;
+  using FilterType = itk::ChangeInformationImageFilter< ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet

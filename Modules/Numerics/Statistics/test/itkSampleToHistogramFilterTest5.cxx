@@ -41,32 +41,31 @@ int itkSampleToHistogramFilterTest5(int argc, char *argv[] )
   // SampleToHistogramFilter can be used for generating the
   // histogram of an image.
   //
-  typedef unsigned char  VMeasurementType;  // type for the samples
-  typedef float          HMeasurementType;  // type for the histogram
+  using VMeasurementType = unsigned char;  // type for the samples
+  using HMeasurementType = float;  // type for the histogram
 
 
-  typedef itk::RGBPixel< VMeasurementType > PixelType;
+  using PixelType = itk::RGBPixel< VMeasurementType >;
 
   const unsigned int numberOfComponents = 3;
 
-  typedef itk::Image< PixelType, imageDimension >   ImageType;
+  using ImageType = itk::Image< PixelType, imageDimension >;
 
-  typedef itk::Statistics::ImageToListSampleFilter<
-    ImageType > ImageToListSampleFilterType;
+  using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<ImageType>;
 
-  typedef ImageToListSampleFilterType::ListSampleType  SampleType;
+  using SampleType = ImageToListSampleFilterType::ListSampleType;
 
-  typedef itk::Statistics::Histogram< HMeasurementType,
-          itk::Statistics::DenseFrequencyContainer2 > HistogramType;
+  using HistogramType = itk::Statistics::Histogram< HMeasurementType,
+          itk::Statistics::DenseFrequencyContainer2 >;
 
-  typedef itk::Statistics::SampleToHistogramFilter<
-    SampleType, HistogramType > FilterType;
+  using FilterType = itk::Statistics::SampleToHistogramFilter<
+    SampleType, HistogramType >;
 
-  typedef HistogramType::MeasurementVectorType  MeasurementVectorType;
+  using MeasurementVectorType = HistogramType::MeasurementVectorType;
 
-  typedef FilterType::HistogramSizeType      HistogramSizeType;
+  using HistogramSizeType = FilterType::HistogramSizeType;
 
-  typedef itk::ImageFileReader< ImageType >    ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -136,7 +135,7 @@ int itkSampleToHistogramFilterTest5(int argc, char *argv[] )
   HistogramType::ConstIterator histogramItr = histogram->Begin();
   HistogramType::ConstIterator histogramEnd = histogram->End();
 
-  typedef itk::NumericTraits< VMeasurementType >::PrintType    PrintType;
+  using PrintType = itk::NumericTraits< VMeasurementType >::PrintType;
 
   unsigned int count = 0;
   while( histogramItr != histogramEnd )

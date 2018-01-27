@@ -37,11 +37,11 @@ class ITK_TEMPLATE_EXPORT ThinPlateSplineKernelTransform:
   public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ThinPlateSplineKernelTransform                     Self;
-  typedef KernelTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                 Pointer;
-  typedef SmartPointer<const Self>                           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ThinPlateSplineKernelTransform;
+  using Superclass = KernelTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
@@ -50,33 +50,33 @@ public:
   itkTypeMacro(ThinPlateSplineKernelTransform, KernelTransform);
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::FixedParametersType FixedParametersType;
+  using ParametersType = typename Superclass::ParametersType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
 
   /** Jacobian Type */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Dimension of the domain space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
 
-  /** These (rather redundant) typedefs are needed because typedefs are not inherited */
-  typedef typename Superclass::InputPointType            InputPointType;
-  typedef typename Superclass::OutputPointType           OutputPointType;
-  typedef typename Superclass::InputVectorType           InputVectorType;
-  typedef typename Superclass::OutputVectorType          OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
-  typedef typename Superclass::PointsIterator            PointsIterator;
+  /** These (rather redundant) type alias are needed because type alias are not inherited */
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
+  using PointsIterator = typename Superclass::PointsIterator;
 
 protected:
   ThinPlateSplineKernelTransform() {}
   ~ThinPlateSplineKernelTransform() override {}
 
-  /** These (rather redundant) typedefs are needed because typedefs are not inherited. */
-  typedef typename Superclass::GMatrixType GMatrixType;
+  /** These (rather redundant) type alias are needed because type alias are not inherited. */
+  using GMatrixType = typename Superclass::GMatrixType;
 
   /** Compute G(x)
    * For the thin plate spline, this is:

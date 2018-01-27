@@ -64,12 +64,12 @@ namespace fem
 class ITKFEM_EXPORT Element3DC0LinearHexahedron : public ElementStd<8, 3>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element3DC0LinearHexahedron Self;
-  typedef ElementStd<8, 3>            TemplatedParentClass;
-  typedef TemplatedParentClass        Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element3DC0LinearHexahedron;
+  using TemplatedParentClass = ElementStd<8, 3>;
+  using Superclass = TemplatedParentClass;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element3DC0LinearHexahedron, TemplatedParentClass);

@@ -40,11 +40,11 @@ namespace itk
 class ITKIOMesh_EXPORT MeshIOFactory:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef MeshIOFactory              Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MeshIOFactory;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Class Methods used to interface with the registered factories */
   itkNewMacro(Self);
@@ -52,8 +52,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeshIOFactory, Object);
 
-  /** Convenient typedefs. */
-  typedef::itk::MeshIOBase::Pointer MeshIOBasePointer;
+  /** Convenient type alias. */
+  using MeshIOBasePointer = ::itk::MeshIOBase::Pointer;
 
   /** Mode in which the files is intended to be used */
   typedef enum { ReadMode, WriteMode } FileModeType;

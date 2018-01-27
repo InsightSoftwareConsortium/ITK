@@ -38,8 +38,8 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
 {
   const unsigned int dim = 3;
 
-  // Image typedef
-  typedef itk::Image< unsigned char, dim > TImageType;
+  // Image type alias
+  using TImageType = itk::Image< unsigned char, dim >;
 
   //-----------------Create a new input image--------------------
   // Image size and spacing parameters
@@ -86,8 +86,8 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
 
   //---------Create and initialize a spatial function-----------
 
-  typedef itk::SphereSpatialFunction<dim> TFunctionType;
-  typedef TFunctionType::InputType        TFunctionPositionType;
+  using TFunctionType = itk::SphereSpatialFunction<dim>;
+  using TFunctionPositionType = TFunctionType::InputType;
 
   // Create and initialize a new sphere function
 
@@ -107,8 +107,8 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   const TImageType::IndexValueType pos[] = {10,10,10};
   seedPos.SetIndex(pos);
 
-  typedef itk::FloodFilledSpatialFunctionConditionalIterator
-    <TImageType, TFunctionType> TItType;
+  using TItType = itk::FloodFilledSpatialFunctionConditionalIterator
+    <TImageType, TFunctionType>;
   TItType sfi = TItType(sourceImage, spatialFunc, seedPos);
 
   // for coverage, recover the seeds
@@ -135,7 +135,7 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
             << std::endl;
 
   //--------------------Do blurring----------------
-  typedef TImageType TOutputType;
+  using TOutputType = TImageType;
 
   // Create a binomial blur filter
   itk::BinomialBlurImageFilter<TImageType, TOutputType>::Pointer binfilter;
@@ -158,8 +158,8 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   //------------Finally we can test the DOG filter------------
 
   // Create a differennce of gaussians gradient filter
-  typedef itk::DifferenceOfGaussiansGradientImageFilter<TOutputType,
-    double> TDOGFilterType;
+  using TDOGFilterType = itk::DifferenceOfGaussiansGradientImageFilter<TOutputType,
+    double>;
   TDOGFilterType::Pointer DOGFilter = TDOGFilterType::New();
   FilterWatcher watcher(DOGFilter);
 
@@ -178,8 +178,8 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
   DOGFilter->Update();
 
   //-------------Test vector magnitude-------------
-  typedef itk::VectorMagnitudeImageFilter<TDOGFilterType::TOutputImage,
-    itk::Image<unsigned char, dim> > VectorMagType;
+  using VectorMagType = itk::VectorMagnitudeImageFilter<TDOGFilterType::TOutputImage,
+    itk::Image<unsigned char, dim> >;
 
   VectorMagType::Pointer vectorMagFilter = VectorMagType::New();
 

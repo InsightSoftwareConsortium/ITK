@@ -68,13 +68,13 @@ class ITK_TEMPLATE_EXPORT MaskedRankImageFilter:
                                            Function::RankHistogram< typename TInputImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MaskedRankImageFilter Self;
-  typedef MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
-                                            Function::RankHistogram< typename TInputImage::PixelType > > Superclass;
+  /** Standard class type aliases. */
+  using Self = MaskedRankImageFilter;
+  using Superclass = MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel,
+                                            Function::RankHistogram< typename TInputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -83,32 +83,32 @@ public:
   itkTypeMacro(MaskedRankImageFilter,
                MovingHistogramImageFilter);
 
-  /** Image related typedefs. */
-  typedef TInputImage                                InputImageType;
-  typedef TOutputImage                               OutputImageType;
-  typedef typename TInputImage::RegionType           RegionType;
-  typedef typename TInputImage::SizeType             SizeType;
-  typedef typename TInputImage::IndexType            IndexType;
-  typedef typename TInputImage::PixelType            PixelType;
-  typedef typename TInputImage::OffsetType           OffsetType;
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename TOutputImage::PixelType           OutputPixelType;
-  typedef typename TInputImage::PixelType            InputPixelType;
+  /** Image related type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
+  using OffsetType = typename TInputImage::OffsetType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
 
-  typedef typename Superclass::HistogramType         HistogramType;
+  using HistogramType = typename Superclass::HistogramType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Kernel typedef. */
-  typedef TKernel KernelType;
+  /** Kernel type alias. */
+  using KernelType = TKernel;
 
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator KernelIteratorType;
+  using KernelIteratorType = typename KernelType::ConstIterator;
 
   /** n-dimensional Kernel radius. */
-  typedef typename KernelType::SizeType RadiusType;
+  using RadiusType = typename KernelType::SizeType;
 
   itkSetClampMacro(Rank, float, 0.0, 1.0);
   itkGetConstMacro(Rank, float)

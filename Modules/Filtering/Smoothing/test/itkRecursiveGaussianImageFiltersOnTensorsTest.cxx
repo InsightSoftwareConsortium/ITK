@@ -29,7 +29,7 @@ int itkRecursiveGaussianImageFiltersOnTensorsTest(int, char* [] )
   const double       tolerance = 0.001;
 
   //Create ON and OFF tensors.
-  typedef itk::SymmetricSecondRankTensor<double,3> Double3DTensorType;
+  using Double3DTensorType = itk::SymmetricSecondRankTensor<double,3>;
   Double3DTensorType tensor0(0.0);
   Double3DTensorType tensor1;
   tensor1(0,0) = 1.0;
@@ -42,9 +42,9 @@ int itkRecursiveGaussianImageFiltersOnTensorsTest(int, char* [] )
   tensor1(2,1) =  0.0; // overrides (1,2)
   tensor1(2,2) = 1.0;
 
-  typedef Double3DTensorType                                  PixelType;
-  typedef itk::Image< PixelType, Dimension >                  ImageType;
-  typedef itk::ImageLinearConstIteratorWithIndex< ImageType > ConstIteratorType;
+  using PixelType = Double3DTensorType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex< ImageType >;
 
   //Create the 9x9 input image
   ImageType::SizeType size;
@@ -79,8 +79,8 @@ int itkRecursiveGaussianImageFiltersOnTensorsTest(int, char* [] )
   //Gaussian filter this image now. Each component of the tensor
   // is filtered independently.
   //
-  typedef itk::RecursiveGaussianImageFilter<
-          ImageType, ImageType >  FilterType;
+  using FilterType = itk::RecursiveGaussianImageFilter<
+          ImageType, ImageType >;
   FilterType::Pointer filterX = FilterType::New();
   FilterType::Pointer filterY = FilterType::New();
   filterX->SetDirection( 0 );   // 0 --> X direction

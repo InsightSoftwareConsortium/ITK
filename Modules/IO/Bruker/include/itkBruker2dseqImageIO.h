@@ -78,11 +78,11 @@ namespace itk
 class ITKIOBruker_EXPORT Bruker2dseqImageIO : public ImageIOBase
 {
 public:
-  /* Standard class typedefs. */
-  typedef Bruker2dseqImageIO          Self;
-  typedef ImageIOBase                 Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  /* Standard class type aliases. */
+  using Self = Bruker2dseqImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** New macro for creation of through a SmartPointer. */
   itkNewMacro(Self);

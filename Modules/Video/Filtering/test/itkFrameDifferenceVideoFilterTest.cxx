@@ -23,15 +23,15 @@
 #include "itkFileListVideoIOFactory.h"
 
 
-// Set up typedefs for test
+// Set up type alias for test
 const unsigned int Dimension =                   2;
-typedef unsigned char                            InputPixelType;
-typedef itk::Image< InputPixelType, Dimension >  InputFrameType;
-typedef itk::VideoStream< InputFrameType >       InputVideoType;
-typedef unsigned char                            OutputPixelType;
-typedef itk::Image< OutputPixelType, Dimension > OutputFrameType;
-typedef itk::VideoStream< OutputFrameType >      OutputVideoType;
-typedef itk::SizeValueType                       SizeValueType;
+using InputPixelType = unsigned char;
+using InputFrameType = itk::Image< InputPixelType, Dimension >;
+using InputVideoType = itk::VideoStream< InputFrameType >;
+using OutputPixelType = unsigned char;
+using OutputFrameType = itk::Image< OutputPixelType, Dimension >;
+using OutputVideoType = itk::VideoStream< OutputFrameType >;
+using SizeValueType = itk::SizeValueType;
 
 
 /**
@@ -82,7 +82,7 @@ InputFrameType::Pointer CreateInputFrame(InputPixelType val)
 int itkFrameDifferenceVideoFilterTest( int itkNotUsed(argc), char* itkNotUsed(argv)[] )
 {
   // Instantiate the filter
-  typedef itk::FrameDifferenceVideoFilter< InputVideoType, OutputVideoType > FilterType;
+  using FilterType = itk::FrameDifferenceVideoFilter< InputVideoType, OutputVideoType >;
   FilterType::Pointer filter = FilterType::New();
 
 

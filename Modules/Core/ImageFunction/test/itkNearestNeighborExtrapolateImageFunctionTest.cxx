@@ -27,13 +27,13 @@
  */
 int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
 {
-  typedef double CoordRep;
+  using CoordRep = double;
   const unsigned int ImageDimension = 2;
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const   unsigned int VectorDimension = 4;
-  typedef itk::Vector< PixelType, VectorDimension >     VectorPixelType;
-  typedef itk::Image<PixelType,ImageDimension>          ImageType;
-  typedef itk::Image< VectorPixelType, ImageDimension > VectorImageType;
+  using VectorPixelType = itk::Vector< PixelType, VectorDimension >;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using VectorImageType = itk::Image< VectorPixelType, ImageDimension >;
 
   ImageType::SizeType imageSize;
   imageSize[0] = 5;
@@ -48,7 +48,7 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
   vectorimage->SetRegions( imageRegion );
   vectorimage->Allocate();
 
-  typedef itk::ImageRegionIterator<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIterator<ImageType>;
   Iterator iter( image, imageRegion );
   iter.GoToBegin();
   unsigned char counter = 0;
@@ -59,7 +59,7 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
     ++iter;
     }
 
-  typedef itk::ImageRegionIterator<VectorImageType> VectorIterator;
+  using VectorIterator = itk::ImageRegionIterator<VectorImageType>;
   VectorIterator vectoriter( vectorimage, imageRegion );
   vectoriter.GoToBegin();
   counter = 0;
@@ -72,10 +72,10 @@ int itkNearestNeighborExtrapolateImageFunctionTest( int, char *[])
     }
 
   // set up the extrapolator
-  typedef itk::NearestNeighborExtrapolateImageFunction<ImageType,CoordRep> FunctionType;
+  using FunctionType = itk::NearestNeighborExtrapolateImageFunction<ImageType,CoordRep>;
   FunctionType::Pointer function = FunctionType::New();
 
-  typedef itk::NearestNeighborExtrapolateImageFunction<VectorImageType,CoordRep> VectorFunctionType;
+  using VectorFunctionType = itk::NearestNeighborExtrapolateImageFunction<VectorImageType,CoordRep>;
   VectorFunctionType::Pointer vectorfunction = VectorFunctionType::New();
 
   function->SetInputImage( image );

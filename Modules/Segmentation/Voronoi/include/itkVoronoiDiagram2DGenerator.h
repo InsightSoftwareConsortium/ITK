@@ -47,10 +47,10 @@ class ITK_TEMPLATE_EXPORT VoronoiDiagram2DGenerator:
   public MeshSource< VoronoiDiagram2D< TCoordType > >
 {
 public:
-  typedef VoronoiDiagram2DGenerator                    Self;
-  typedef MeshSource< VoronoiDiagram2D< TCoordType > > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  using Self = VoronoiDiagram2DGenerator;
+  using Superclass = MeshSource< VoronoiDiagram2D< TCoordType > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,17 +58,17 @@ public:
   /** Standard part of every itk Object. */
   itkTypeMacro(VoronoiDiagram2DGenerator, MeshSource);
 
-  /** Convenient typedefs. */
-  typedef VoronoiDiagram2D< TCoordType > VoronoidDiagramType;
-  typedef VoronoidDiagramType            VDMesh;
-  typedef typename VDMesh::SeedsIterator SeedsIterator;
-  typedef typename VDMesh::Pointer       OutputType;
-  typedef typename VDMesh::PointType     PointType;
-  typedef typename VDMesh::SeedsType     SeedsType;
-  typedef typename VDMesh::EdgeInfo      EdgeInfo;
-  typedef typename VDMesh::EdgeInfoDQ    EdgeInfoDQ;
-  typedef typename VDMesh::CoordRepType  CoordRepType;
-  typedef typename VDMesh::VoronoiEdge   VoronoiEdge;
+  /** Convenient type alias. */
+  using VoronoidDiagramType = VoronoiDiagram2D< TCoordType >;
+  using VDMesh = VoronoidDiagramType;
+  using SeedsIterator = typename VDMesh::SeedsIterator;
+  using OutputType = typename VDMesh::Pointer;
+  using PointType = typename VDMesh::PointType;
+  using SeedsType = typename VDMesh::SeedsType;
+  using EdgeInfo = typename VDMesh::EdgeInfo;
+  using EdgeInfoDQ = typename VDMesh::EdgeInfoDQ;
+  using CoordRepType = typename VDMesh::CoordRepType;
+  using VoronoiEdge = typename VDMesh::VoronoiEdge;
 
   /** Get the number of seed points. */
   itkGetConstMacro(NumberOfSeeds, unsigned int);

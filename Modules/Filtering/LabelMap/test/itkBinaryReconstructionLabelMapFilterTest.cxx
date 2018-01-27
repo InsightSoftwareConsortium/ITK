@@ -40,25 +40,25 @@ int itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
 
   const unsigned int dim = 3;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  using ImageType = itk::Image< PixelType, dim >;
 
-  typedef itk::AttributeLabelObject< PixelType, dim, bool >     AttributeLabelObjectType;
-  typedef itk::LabelMap< AttributeLabelObjectType >             LabelMapType;
+  using AttributeLabelObjectType = itk::AttributeLabelObject< PixelType, dim, bool >;
+  using LabelMapType = itk::LabelMap< AttributeLabelObjectType >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-  typedef itk::BinaryReconstructionLabelMapFilter< LabelMapType, ImageType > LabelReconstructionType;
+  using LabelReconstructionType = itk::BinaryReconstructionLabelMapFilter< LabelMapType, ImageType >;
   LabelReconstructionType::Pointer reconstruction = LabelReconstructionType::New();
 
   //testing get and set macros for Lambda
@@ -73,16 +73,16 @@ int itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   reconstruction->Update();
   reconstruction->GetOutput()->PrintLabelObjects();
 
-  typedef itk::AttributeSelectionLabelMapFilter< LabelMapType > LabelOpeningType;
+  using LabelOpeningType = itk::AttributeSelectionLabelMapFilter< LabelMapType >;
   LabelOpeningType::Pointer opening = LabelOpeningType::New();
   opening->SetInput( reconstruction->GetOutput() );
   opening->SetAttribute(true);
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
+  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
   l2i->SetInput( opening->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );

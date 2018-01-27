@@ -266,12 +266,12 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
     this->m_Transform->GetTimeVaryingVelocityFieldControlPointLattice()->GetLargestPossibleRegion();
   IndexType requiredLatticeIndex = latticeRegion.GetIndex();
 
-  typedef Image<ParametersValueType, TotalDimension> ComponentImageType;
+  using ComponentImageType = Image<ParametersValueType, TotalDimension>;
 
   //  Resample the coefficient images
-  typedef BSplineResampleImageFunction<ComponentImageType, ParametersValueType> CoefficientUpsampleFunctionType;
-  typedef ResampleImageFilter<ComponentImageType, ComponentImageType, ParametersValueType> UpsampleFilterType;
-  typedef BSplineDecompositionImageFilter<ComponentImageType, ComponentImageType> DecompositionFilterType;
+  using CoefficientUpsampleFunctionType = BSplineResampleImageFunction<ComponentImageType, ParametersValueType>;
+  using UpsampleFilterType = ResampleImageFilter<ComponentImageType, ComponentImageType, ParametersValueType>;
+  using DecompositionFilterType = BSplineDecompositionImageFilter<ComponentImageType, ComponentImageType>;
 
   VectorType zeroVector( 0.0 );
 
@@ -286,7 +286,7 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>
   // Loop over dimension: each direction is upsampled separately.
   for( SizeValueType j = 0; j < TotalDimension-1; j++ )
     {
-    typedef VectorIndexSelectionCastImageFilter<TimeVaryingVelocityFieldControlPointLatticeType, ComponentImageType> SelectionFilterType;
+    using SelectionFilterType = VectorIndexSelectionCastImageFilter<TimeVaryingVelocityFieldControlPointLatticeType, ComponentImageType>;
     typename SelectionFilterType::Pointer selector = SelectionFilterType::New();
     selector->SetInput( this->m_Transform->GetTimeVaryingVelocityFieldControlPointLattice() );
     selector->SetIndex( j );

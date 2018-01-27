@@ -35,25 +35,25 @@ int itkGridForwardWarpImageFilterTest( int argc, char* argv[] )
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
 
-  typedef itk::Vector< double, ImageDimension >   DeformationPixelType;
-  typedef unsigned char                           OutputPixelType;
+  using DeformationPixelType = itk::Vector< double, ImageDimension >;
+  using OutputPixelType = unsigned char;
 
   // Declare the types of the images
-  typedef itk::Image< DeformationPixelType, ImageDimension >  DisplacementFieldType;
-  typedef itk::Image< OutputPixelType, ImageDimension >       OutputImageType;
+  using DisplacementFieldType = itk::Image< DeformationPixelType, ImageDimension >;
+  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
 
   // Declare iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex< DisplacementFieldType > DeformationIteratorType;
+  using DeformationIteratorType = itk::ImageRegionIteratorWithIndex< DisplacementFieldType >;
 
 
   // Declare the type of the index to access images
-  typedef itk::Index< ImageDimension >         IndexType;
+  using IndexType = itk::Index< ImageDimension >;
 
   // Declare the type of the size
-  typedef itk::Size< ImageDimension >          SizeType;
+  using SizeType = itk::Size< ImageDimension >;
 
   // Declare the type of the region
-  typedef itk::ImageRegion< ImageDimension >   RegionType;
+  using RegionType = itk::ImageRegion< ImageDimension >;
 
   // Create an input image
   DisplacementFieldType ::Pointer inputDisplacementField = DisplacementFieldType ::New();
@@ -95,8 +95,8 @@ int itkGridForwardWarpImageFilterTest( int argc, char* argv[] )
     }
 
   // Declare the type for the GridForwardWarpImageFilter filter
-  typedef itk::GridForwardWarpImageFilter< DisplacementFieldType,
-    OutputImageType > FilterType;
+  using FilterType = itk::GridForwardWarpImageFilter< DisplacementFieldType,
+    OutputImageType >;
 
 
   // Create the filter instance
@@ -124,7 +124,7 @@ int itkGridForwardWarpImageFilterTest( int argc, char* argv[] )
 
 
   // Write the result image
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[1] );

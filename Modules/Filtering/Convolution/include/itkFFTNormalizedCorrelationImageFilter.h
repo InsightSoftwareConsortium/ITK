@@ -71,7 +71,7 @@ namespace itk
  *
  * Example filter usage:
  * \code
- * typedef itk::FFTNormalizedCorrelationImageFilter< ShortImageType, DoubleImageType > FilterType;
+ * using FilterType = itk::FFTNormalizedCorrelationImageFilter< ShortImageType, DoubleImageType >;
  * FilterType::Pointer filter = FilterType::New();
  * filter->SetFixedImage( fixedImage );
  * filter->SetMovingImage( movingImage );
@@ -99,11 +99,11 @@ class ITK_TEMPLATE_EXPORT FFTNormalizedCorrelationImageFilter :
     public MaskedFFTNormalizedCorrelationImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef FFTNormalizedCorrelationImageFilter                                     Self;
-  typedef MaskedFFTNormalizedCorrelationImageFilter < TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer<Self>                                                      Pointer;
-  typedef SmartPointer<const Self>                                                ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FFTNormalizedCorrelationImageFilter;
+  using Superclass = MaskedFFTNormalizedCorrelationImageFilter < TInputImage, TOutputImage >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -117,14 +117,14 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Extract some information from the image types. */
-   typedef TInputImage                               InputImageType;
-   typedef TOutputImage                              OutputImageType;
-   typedef typename InputImageType::RegionType       InputRegionType;
-   typedef typename InputImageType::Pointer          InputImagePointer;
-   typedef typename InputImageType::ConstPointer     InputImageConstPointer;
-   typedef typename InputImageType::SizeType         InputSizeType;
-   typedef typename OutputImageType::Pointer         OutputImagePointer;
-   typedef typename OutputImageType::PixelType       OutputPixelType;
+   using InputImageType = TInputImage;
+   using OutputImageType = TOutputImage;
+   using InputRegionType = typename InputImageType::RegionType;
+   using InputImagePointer = typename InputImageType::Pointer;
+   using InputImageConstPointer = typename InputImageType::ConstPointer;
+   using InputSizeType = typename InputImageType::SizeType;
+   using OutputImagePointer = typename OutputImageType::Pointer;
+   using OutputPixelType = typename OutputImageType::PixelType;
 
 protected:
   FFTNormalizedCorrelationImageFilter()

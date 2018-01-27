@@ -35,11 +35,11 @@ class ITK_TEMPLATE_EXPORT BSplineSmoothingOnUpdateDisplacementFieldTransformPara
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor          Self;
-  typedef DisplacementFieldTransformParametersAdaptor<TTransform>                      Superclass;
-  typedef SmartPointer<Self>                                                           Pointer;
-  typedef SmartPointer<const Self>                                                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor;
+  using Superclass = DisplacementFieldTransformParametersAdaptor<TTransform>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -48,10 +48,10 @@ public:
   itkTypeMacro( BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor,
     DisplacementFieldTransformParametersAdaptor );
 
-  typedef TTransform                               TransformType;
-  typedef typename TransformType::ScalarType       ScalarType;
-  typedef typename TransformType::SplineOrderType  SplineOrderType;
-  typedef typename TransformType::ArrayType        ArrayType;
+  using TransformType = TTransform;
+  using ScalarType = typename TransformType::ScalarType;
+  using SplineOrderType = typename TransformType::SplineOrderType;
+  using ArrayType = typename TransformType::ArrayType;
 
   /** Dimension of parameters. */
   itkStaticConstMacro( SpaceDimension, unsigned int, TransformType::Dimension );

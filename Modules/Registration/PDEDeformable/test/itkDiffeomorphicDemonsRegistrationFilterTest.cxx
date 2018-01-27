@@ -54,7 +54,7 @@ typename TImage::PixelType foregnd,
 typename TImage::PixelType backgnd )
 {
 
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator it( image, image->GetBufferedRegion() );
   it.GoToBegin();
 
@@ -83,7 +83,7 @@ CopyImageBuffer(
 TImage *input,
 TImage *output )
 {
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator inIt( input, output->GetBufferedRegion() );
   Iterator outIt( output, output->GetBufferedRegion() );
   for(; !inIt.IsAtEnd(); ++inIt, ++outIt)
@@ -112,15 +112,15 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char                         PixelType;
+  using PixelType = unsigned char;
   enum {ImageDimension = 2};
-  typedef itk::Image<PixelType,ImageDimension>  ImageType;
-  typedef itk::Vector<float,ImageDimension>     VectorType;
-  typedef itk::Image<VectorType,ImageDimension> FieldType;
-  typedef ImageType::IndexType                  IndexType;
-  typedef ImageType::SizeType                   SizeType;
-  typedef ImageType::RegionType                 RegionType;
-  typedef ImageType::DirectionType              DirectionType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using VectorType = itk::Vector<float,ImageDimension>;
+  using FieldType = itk::Image<VectorType,ImageDimension>;
+  using IndexType = ImageType::IndexType;
+  using SizeType = ImageType::SizeType;
+  using RegionType = ImageType::RegionType;
+  using DirectionType = ImageType::DirectionType;
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
@@ -178,7 +178,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   zeroVec.Fill( 0.0 );
   initField->FillBuffer( zeroVec );
 
-  typedef itk::VectorCastImageFilter<FieldType,FieldType> CasterType;
+  using CasterType = itk::VectorCastImageFilter<FieldType,FieldType>;
   CasterType::Pointer caster = CasterType::New();
   caster->SetInput( initField );
   caster->InPlaceOff();
@@ -186,8 +186,8 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
-  typedef itk::DiffeomorphicDemonsRegistrationFilter<
-    ImageType,ImageType,FieldType>                      RegistrationType;
+  using RegistrationType = itk::DiffeomorphicDemonsRegistrationFilter<
+    ImageType,ImageType,FieldType>;
 
   RegistrationType::Pointer registrator = RegistrationType::New();
 
@@ -212,7 +212,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
 
   const int gradientType = atoi( argv[1] );
 
-  typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
+  using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
 
   switch( gradientType )
     {
@@ -265,7 +265,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
     }
   registrator->SetStandardDeviations( v );
 
-  typedef DiffeomorphicDemonsShowProgressObject<RegistrationType> ProgressType;
+  using ProgressType = DiffeomorphicDemonsShowProgressObject<RegistrationType>;
 
   ProgressType progressWatch(registrator);
   itk::SimpleMemberCommand<ProgressType>::Pointer command;
@@ -275,12 +275,12 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
   registrator->AddObserver( itk::ProgressEvent(), command);
 
   // warp moving image
-  typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
+  using WarperType = itk::WarpImageFilter<ImageType,ImageType,FieldType>;
   WarperType::Pointer warper = WarperType::New();
 
-  typedef WarperType::CoordRepType CoordRepType;
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
-    InterpolatorType;
+  using CoordRepType = WarperType::CoordRepType;
+  using InterpolatorType =
+      itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
 
@@ -316,7 +316,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv [] )
     ++warpedIter;
     }
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer1 = WriterType::New();
   WriterType::Pointer writer2 = WriterType::New();

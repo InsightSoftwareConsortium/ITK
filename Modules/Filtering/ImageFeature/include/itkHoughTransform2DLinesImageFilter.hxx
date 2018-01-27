@@ -247,8 +247,8 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
   if ( m_NumberOfLines > 0 )
     {
     /** Blur the accumulator in order to find the maximum */
-    typedef float                              InternalImagePixelType;
-    typedef Image< InternalImagePixelType, 2 > InternalImageType;
+    using InternalImagePixelType = float;
+    using InternalImageType = Image< InternalImagePixelType, 2 >;
 
     OutputImagePointer outputImage = this->GetOutput(0);
 
@@ -258,12 +258,12 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
       }
 
     /** xxxConvert the accumulator output image type to internal image type */
-    typedef CastImageFilter< OutputImageType, InternalImageType > CastImageFilterType;
+    using CastImageFilterType = CastImageFilter< OutputImageType, InternalImageType >;
 
     const typename CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
     castImageFilter->SetInput(outputImage);
 
-    typedef DiscreteGaussianImageFilter< InternalImageType, InternalImageType > GaussianFilterType;
+    using GaussianFilterType = DiscreteGaussianImageFilter< InternalImageType, InternalImageType >;
     const typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
     // the output is the accumulator image
@@ -272,7 +272,7 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
     gaussianFilter->Update();
     const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
-    typedef MinimumMaximumImageCalculator< InternalImageType > MinMaxCalculatorType;
+    using MinMaxCalculatorType = MinimumMaximumImageCalculator< InternalImageType >;
     typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
     itk::ImageRegionIterator< InternalImageType >
     it_input( postProcessImage, postProcessImage->GetLargestPossibleRegion() );

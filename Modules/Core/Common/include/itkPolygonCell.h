@@ -53,7 +53,7 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT PolygonCell:public TCellInterface
 {
 public:
-  /** Standard class typedefs. */
+  /** Standard class type aliases. */
   itkCellCommonTypedefs(PolygonCell);
   itkCellInheritedTypedefs(TCellInterface);
 
@@ -64,15 +64,15 @@ public:
   itkStaticConstMacro(CellDimension, unsigned int, 2);
 
   /** The type of boundary for this triangle's vertices. */
-  typedef VertexCell< TCellInterface >         VertexType;
-  typedef typename VertexType::SelfAutoPointer VertexAutoPointer;
+  using VertexType = VertexCell< TCellInterface >;
+  using VertexAutoPointer = typename VertexType::SelfAutoPointer;
 
   /** The type of boundary for this triangle's edges. */
-  typedef LineCell< TCellInterface >         EdgeType;
-  typedef typename EdgeType::SelfAutoPointer EdgeAutoPointer;
+  using EdgeType = LineCell< TCellInterface >;
+  using EdgeAutoPointer = typename EdgeType::SelfAutoPointer;
 
-  typedef FixedArray< int, 2 >   EdgeInfo;
-  typedef std::deque< EdgeInfo > EdgeInfoDQ;
+  using EdgeInfo = FixedArray< int, 2 >;
+  using EdgeInfoDQ = std::deque< EdgeInfo >;
 
   /** Need to add POLYGON_CELL into CellInterface. */
   itkCellVisitMacro(Superclass::POLYGON_CELL);

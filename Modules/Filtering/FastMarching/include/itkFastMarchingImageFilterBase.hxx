@@ -558,14 +558,14 @@ InitializeOutput( OutputImageType* oImage )
     {
     // Now create the connected component image and relabel such that labels
     // are 1, 2, 3, ...
-    typedef ConnectedComponentImageFilter<ConnectedComponentImageType,
-      ConnectedComponentImageType> ConnectedComponentFilterType;
+    using ConnectedComponentFilterType = ConnectedComponentImageFilter<ConnectedComponentImageType,
+      ConnectedComponentImageType>;
     typename ConnectedComponentFilterType::Pointer connecter
         = ConnectedComponentFilterType::New();
     connecter->SetInput( m_ConnectedComponentImage );
 
-    typedef RelabelComponentImageFilter<ConnectedComponentImageType,
-        ConnectedComponentImageType> RelabelerType;
+    using RelabelerType = RelabelComponentImageFilter<ConnectedComponentImageType,
+        ConnectedComponentImageType>;
     typename RelabelerType::Pointer relabeler = RelabelerType::New();
     relabeler->SetInput( connecter->GetOutput() );
 

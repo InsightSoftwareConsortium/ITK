@@ -37,18 +37,18 @@ int itkSquaredDifferenceImageFilterTest(int, char* [] )
   const float epsilon = 1e-6;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>  myImageType1;
-  typedef itk::Image<float, myDimension>  myImageType2;
-  typedef itk::Image<float, myDimension>  myImageType4;
+  using myImageType1 = itk::Image<float, myDimension>;
+  using myImageType2 = itk::Image<float, myDimension>;
+  using myImageType4 = itk::Image<float, myDimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create two images
   myImageType1::Pointer inputImageA  = myImageType1::New();
@@ -82,9 +82,9 @@ int itkSquaredDifferenceImageFilterTest(int, char* [] )
   inputImageB->Allocate();
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType2>  myIteratorType2;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType4>  myIteratorType4;
+  using myIteratorType1 = itk::ImageRegionIteratorWithIndex<myImageType1>;
+  using myIteratorType2 = itk::ImageRegionIteratorWithIndex<myImageType2>;
+  using myIteratorType4 = itk::ImageRegionIteratorWithIndex<myImageType4>;
 
   // Create one iterator for Image A (this is a light object)
   myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
@@ -112,10 +112,10 @@ int itkSquaredDifferenceImageFilterTest(int, char* [] )
 
 
   // Declare the type for the Magnitude Filter
-  typedef itk::SquaredDifferenceImageFilter<
+  using myFilterType = itk::SquaredDifferenceImageFilter<
                                 myImageType1,
                                 myImageType2,
-                                myImageType4  >       myFilterType;
+                                myImageType4  >;
 
 
   // Create a MagnitudeImageFilter

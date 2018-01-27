@@ -78,14 +78,14 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char  PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType,  2 >   ImageType;
+  using ImageType = itk::Image< PixelType,  2 >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -105,7 +105,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::FlipImageFilter< ImageType >  FilterType;
+  using FilterType = itk::FlipImageFilter< ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -122,7 +122,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef FilterType::FlipAxesArrayType     FlipAxesArrayType;
+  using FlipAxesArrayType = FilterType::FlipAxesArrayType;
 
   FlipAxesArrayType flipArray;
 

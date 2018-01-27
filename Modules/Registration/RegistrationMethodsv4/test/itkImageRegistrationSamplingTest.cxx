@@ -25,11 +25,11 @@
  */
 int itkImageRegistrationSamplingTest( int, char *[] )
 {
-  typedef double                   PixelType;
-  typedef itk::Image<PixelType, 2> FixedImageType;
-  typedef itk::Image<PixelType, 2> MovingImageType;
+  using PixelType = double;
+  using FixedImageType = itk::Image<PixelType, 2>;
+  using MovingImageType = itk::Image<PixelType, 2>;
 
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> RegistrationType;
+  using RegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
   RegistrationType::Pointer registrationMethod = RegistrationType::New();
 
   try

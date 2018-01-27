@@ -38,9 +38,9 @@ int itkImageMaskSpatialObjectTest3(int, char* [])
   const unsigned int NDimensions = 3;
   int retval=EXIT_SUCCESS;
 
-  typedef itk::ImageMaskSpatialObject<NDimensions>     ImageMaskSpatialObjectType;
-  typedef ImageMaskSpatialObjectType::PixelType        PixelType;
-  typedef itk::Image<PixelType,NDimensions>            ImageType;
+  using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<NDimensions>;
+  using PixelType = ImageMaskSpatialObjectType::PixelType;
+  using ImageType = itk::Image<PixelType,NDimensions>;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size = {{ 5, 5, 5 }};
@@ -100,7 +100,7 @@ int itkImageMaskSpatialObjectTest3(int, char* [])
     return retval;
     }
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> ImageRegionIteratorType;
+  using ImageRegionIteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
   ImageRegionIteratorType it(image,image->GetLargestPossibleRegion());
   for(it.GoToBegin(); !it.IsAtEnd(); ++it)
     {

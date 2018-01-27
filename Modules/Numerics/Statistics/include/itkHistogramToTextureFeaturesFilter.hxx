@@ -72,7 +72,7 @@ template< typename THistogram >
 void
 HistogramToTextureFeaturesFilter< THistogram >::GenerateData(void)
 {
-  typedef typename HistogramType::ConstIterator HistogramIterator;
+  using HistogramIterator = typename HistogramType::ConstIterator;
 
   const HistogramType *inputHistogram = this->GetInput();
 
@@ -201,7 +201,7 @@ HistogramToTextureFeaturesFilter< THistogram >::ComputeMeansAndVariances(double 
   // an array of the same length as a histogram axis. This could probably be
   // cleverly compressed to one pass, but it's not clear that that's necessary.
 
-  typedef typename HistogramType::ConstIterator HistogramIterator;
+  using HistogramIterator = typename HistogramType::ConstIterator;
 
   const HistogramType *inputHistogram =  this->GetInput();
 

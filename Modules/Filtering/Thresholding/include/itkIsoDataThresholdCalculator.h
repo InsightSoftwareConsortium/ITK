@@ -54,11 +54,11 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT IsoDataThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef IsoDataThresholdCalculator                        Self;
-  typedef HistogramThresholdCalculator<THistogram, TOutput> Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = IsoDataThresholdCalculator;
+  using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,16 +67,16 @@ public:
   itkTypeMacro(IsoDataThresholdCalculator, HistogramThresholdCalculator);
 
   /** Type definition for the input image. */
-  typedef THistogram  HistogramType;
-  typedef TOutput     OutputType;
+  using HistogramType = THistogram;
+  using OutputType = TOutput;
 
 protected:
   IsoDataThresholdCalculator() {}
   ~IsoDataThresholdCalculator() override {}
   void GenerateData(void) override;
 
-  typedef typename HistogramType::SizeValueType               SizeValueType;
-  typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;
+  using SizeValueType = typename HistogramType::SizeValueType;
+  using InstanceIdentifier = typename HistogramType::InstanceIdentifier;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IsoDataThresholdCalculator);

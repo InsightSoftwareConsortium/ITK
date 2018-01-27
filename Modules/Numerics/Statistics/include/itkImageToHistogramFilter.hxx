@@ -238,7 +238,7 @@ ImageToHistogramFilter< TImage >
   typename HistogramType::IndexType index;
   for( unsigned int i=1; i<m_Histograms.size(); i++ )
     {
-    typedef typename HistogramType::ConstIterator         HistogramIterator;
+    using HistogramIterator = typename HistogramType::ConstIterator;
 
     HistogramIterator hit = m_Histograms[i]->Begin();
     HistogramIterator end = m_Histograms[i]->End();

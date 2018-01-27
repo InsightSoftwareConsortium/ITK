@@ -70,11 +70,11 @@ class ITK_TEMPLATE_EXPORT OnePlusOneEvolutionaryOptimizerv4:
   public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef OnePlusOneEvolutionaryOptimizerv4                                   Self;
-  typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>  Superclass;
-  typedef SmartPointer< Self >                                                Pointer;
-  typedef SmartPointer< const Self >                                          ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = OnePlusOneEvolutionaryOptimizerv4;
+  using Superclass = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -83,20 +83,20 @@ public:
   itkTypeMacro(OnePlusOneEvolutionaryOptimizerv4, Superclass);
 
   /** Type of the Cost Function   */
-  typedef  SingleValuedCostFunctionv4   CostFunctionType;
-  typedef  CostFunctionType::Pointer    CostFunctionPointer;
+  using CostFunctionType = SingleValuedCostFunctionv4;
+  using CostFunctionPointer = CostFunctionType::Pointer;
 
   /** Normal random variate generator type. */
-  typedef Statistics::RandomVariateGeneratorBase NormalVariateGeneratorType;
+  using NormalVariateGeneratorType = Statistics::RandomVariateGeneratorBase;
 
   /** Measure type */
-  typedef typename Superclass::MeasureType      MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
   /** Parameters type */
-  typedef typename Superclass::ParametersType   ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Scales type */
-  typedef typename Superclass::ScalesType       ScalesType;
+  using ScalesType = typename Superclass::ScalesType;
 
   /** Set/Get maximum iteration limit. */
   itkSetMacro(MaximumIteration, unsigned int);

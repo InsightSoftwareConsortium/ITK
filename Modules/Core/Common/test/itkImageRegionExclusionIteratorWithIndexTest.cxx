@@ -27,11 +27,11 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
 {
   const unsigned int ImageDimension = TRegion::ImageDimension;
 
-  typedef itk::Index< ImageDimension >                  IndexPixelType;
-  typedef unsigned char                                 ValuePixelType;
+  using IndexPixelType = itk::Index< ImageDimension >;
+  using ValuePixelType = unsigned char;
 
-  typedef itk::Image< IndexPixelType, ImageDimension >  IndexImageType;
-  typedef itk::Image< ValuePixelType, ImageDimension >  ValueImageType;
+  using IndexImageType = itk::Image< IndexPixelType, ImageDimension >;
+  using ValueImageType = itk::Image< ValuePixelType, ImageDimension >;
 
   typename IndexImageType::Pointer myIndexImage = IndexImageType::New();
 
@@ -47,8 +47,8 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
   myValueImage->SetRequestedRegion( region );
   myValueImage->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex< ValueImageType >  ValueIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< IndexImageType >  IndexIteratorType;
+  using ValueIteratorType = itk::ImageRegionIteratorWithIndex< ValueImageType >;
+  using IndexIteratorType = itk::ImageRegionIteratorWithIndex< IndexImageType >;
 
   const unsigned char normalRegionValue    = 100;
   const unsigned char exclusionRegionValue = 200;
@@ -91,8 +91,8 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
     ++ive;
     }
 
-  typedef itk::ImageRegionExclusionIteratorWithIndex< IndexImageType > ExclusionIndexIteratorType;
-  typedef itk::ImageRegionExclusionIteratorWithIndex< ValueImageType > ExclusionValueIteratorType;
+  using ExclusionIndexIteratorType = itk::ImageRegionExclusionIteratorWithIndex< IndexImageType >;
+  using ExclusionValueIteratorType = itk::ImageRegionExclusionIteratorWithIndex< ValueImageType >;
 
   ExclusionValueIteratorType ev( myValueImage, region );
   ExclusionIndexIteratorType ei( myIndexImage, region );
@@ -171,8 +171,8 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
     return false;
     }
 
-  typedef itk::ImageRegionExclusionConstIteratorWithIndex< IndexImageType > ExclusionIndexConstIteratorType;
-  typedef itk::ImageRegionExclusionConstIteratorWithIndex< ValueImageType > ExclusionValueConstIteratorType;
+  using ExclusionIndexConstIteratorType = itk::ImageRegionExclusionConstIteratorWithIndex< IndexImageType >;
+  using ExclusionValueConstIteratorType = itk::ImageRegionExclusionConstIteratorWithIndex< ValueImageType >;
 
   ExclusionValueConstIteratorType cev( myValueImage, region );
   ExclusionIndexConstIteratorType cei( myIndexImage, region );
@@ -256,9 +256,9 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
 int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
 {
   const unsigned int                    Dimension = 3;
-  typedef itk::Size< Dimension >        SizeType;
-  typedef itk::Index< Dimension >       IndexType;
-  typedef itk::ImageRegion< Dimension > RegionType;
+  using SizeType = itk::Size< Dimension >;
+  using IndexType = itk::Index< Dimension >;
+  using RegionType = itk::ImageRegion< Dimension >;
 
   SizeType   regionSize;
   IndexType  regionStart;

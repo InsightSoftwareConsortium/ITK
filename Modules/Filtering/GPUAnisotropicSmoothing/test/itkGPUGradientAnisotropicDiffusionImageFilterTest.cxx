@@ -35,14 +35,14 @@
 template< unsigned int VImageDimension >
 int runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string& inFile, const std::string& outFile)
 {
-  typedef float InputPixelType;
-  typedef float OutputPixelType;
+  using InputPixelType = float;
+  using OutputPixelType = float;
 
-  typedef itk::GPUImage< InputPixelType,  VImageDimension >   InputImageType;
-  typedef itk::GPUImage< OutputPixelType, VImageDimension >   OutputImageType;
+  using InputImageType = itk::GPUImage< InputPixelType,  VImageDimension >;
+  using OutputImageType = itk::GPUImage< OutputPixelType, VImageDimension >;
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   typename WriterType::Pointer writer = WriterType::New();
@@ -51,8 +51,8 @@ int runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string& inFile,
   writer->SetFileName( outFile );
 
   // Create CPU/GPU anistorpic diffusion filter
-  typedef itk::GradientAnisotropicDiffusionImageFilter< InputImageType, OutputImageType > CPUAnisoDiffFilterType;
-  typedef itk::GPUGradientAnisotropicDiffusionImageFilter< InputImageType, OutputImageType > GPUAnisoDiffFilterType;
+  using CPUAnisoDiffFilterType = itk::GradientAnisotropicDiffusionImageFilter< InputImageType, OutputImageType >;
+  using GPUAnisoDiffFilterType = itk::GPUGradientAnisotropicDiffusionImageFilter< InputImageType, OutputImageType >;
 
   typename CPUAnisoDiffFilterType::Pointer CPUFilter = CPUAnisoDiffFilterType::New();
   typename GPUAnisoDiffFilterType::Pointer GPUFilter = GPUAnisoDiffFilterType::New();

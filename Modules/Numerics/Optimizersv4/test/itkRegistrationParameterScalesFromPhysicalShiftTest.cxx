@@ -31,16 +31,16 @@ class RegistrationParameterScalesFromPhysicalShiftTestMetric:
   public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegistrationParameterScalesFromPhysicalShiftTestMetric              Self;
-  typedef itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage> Superclass;
-  typedef itk::SmartPointer< Self >                                           Pointer;
-  typedef itk::SmartPointer< const Self >                                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegistrationParameterScalesFromPhysicalShiftTestMetric;
+  using Superclass = itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
-  typedef typename Superclass::MeasureType          MeasureType;
-  typedef typename Superclass::DerivativeType       DerivativeType;
-  typedef typename Superclass::ParametersType       ParametersType;
-  typedef typename Superclass::ParametersValueType  ParametersValueType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
 
   itkTypeMacro(RegistrationParameterScalesFromPhysicalShiftTestMetric, ImageToImageMetricv4);
 
@@ -73,14 +73,14 @@ public:
   ParametersType  m_Parameters;
 
   // Image related types
-  typedef TFixedImage                             FixedImageType;
-  typedef TMovingImage                            MovingImageType;
-  typedef TVirtualImage                           VirtualImageType;
+  using FixedImageType = TFixedImage;
+  using MovingImageType = TMovingImage;
+  using VirtualImageType = TVirtualImage;
 
-  typedef typename FixedImageType::ConstPointer   FixedImageConstPointer;
-  typedef typename MovingImageType::ConstPointer  MovingImageConstPointer;
-  typedef typename VirtualImageType::Pointer      VirtualImagePointer;
-  typedef typename VirtualImageType::RegionType   VirtualRegionType;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
+  using VirtualImagePointer = typename VirtualImageType::Pointer;
+  using VirtualRegionType = typename VirtualImageType::RegionType;
 
   /* Image dimension accessors */
   itkStaticConstMacro(FixedImageDimension, itk::SizeValueType,
@@ -104,13 +104,13 @@ int itkRegistrationParameterScalesFromPhysicalShiftTest(int , char* [])
 
   // Image begins
   const itk::SizeValueType    ImageDimension = 2;
-  typedef double              PixelType;
-  typedef double              FloatType;
+  using PixelType = double;
+  using FloatType = double;
 
   // Image Types
-  typedef itk::Image<PixelType,ImageDimension>           FixedImageType;
-  typedef itk::Image<PixelType,ImageDimension>           MovingImageType;
-  typedef itk::Image<PixelType,ImageDimension>           VirtualImageType;
+  using FixedImageType = itk::Image<PixelType,ImageDimension>;
+  using MovingImageType = itk::Image<PixelType,ImageDimension>;
+  using VirtualImageType = itk::Image<PixelType,ImageDimension>;
 
   FixedImageType::Pointer  fixedImage  = FixedImageType::New();
   MovingImageType::Pointer movingImage = MovingImageType::New();
@@ -123,17 +123,17 @@ int itkRegistrationParameterScalesFromPhysicalShiftTest(int , char* [])
   fixedImage->SetRegions( size );
 
   // Transforms
-  typedef itk::AffineTransform<double, ImageDimension>      MovingTransformType;
+  using MovingTransformType = itk::AffineTransform<double, ImageDimension>;
   MovingTransformType::Pointer movingTransform =  MovingTransformType::New();
   movingTransform->SetIdentity();
 
-  typedef itk::TranslationTransform<double, ImageDimension> FixedTransformType;
+  using FixedTransformType = itk::TranslationTransform<double, ImageDimension>;
   FixedTransformType::Pointer fixedTransform =    FixedTransformType::New();
   fixedTransform->SetIdentity();
 
   // Metric
-  typedef RegistrationParameterScalesFromPhysicalShiftTestMetric
-    <FixedImageType, MovingImageType>   MetricType;
+  using MetricType = RegistrationParameterScalesFromPhysicalShiftTestMetric
+    <FixedImageType, MovingImageType>;
   MetricType::Pointer metric = MetricType::New();
 
   metric->SetVirtualDomainFromImage( virtualImage );
@@ -146,7 +146,7 @@ int itkRegistrationParameterScalesFromPhysicalShiftTest(int , char* [])
   //
   // Testing RegistrationParameterScalesFromPhysicalShift
   //
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType >  RegistrationParameterScalesFromPhysicalShiftType;
+  using RegistrationParameterScalesFromPhysicalShiftType = itk::RegistrationParameterScalesFromPhysicalShift< MetricType >;
   RegistrationParameterScalesFromPhysicalShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromPhysicalShiftType::New();
 
   shiftScaleEstimator->SetMetric(metric);
@@ -289,10 +289,10 @@ int itkRegistrationParameterScalesFromPhysicalShiftTest(int , char* [])
   //
   // Testing local scales for a transform with local support, ex. DisplacementFieldTransform
   //
-  typedef itk::DisplacementFieldTransform<double, ImageDimension>
-                                                            DisplacementTransformType;
-  typedef DisplacementTransformType::DisplacementFieldType  FieldType;
-  typedef itk::Vector<double, ImageDimension>               VectorType;
+  using DisplacementTransformType =
+      itk::DisplacementFieldTransform<double, ImageDimension>;
+  using FieldType = DisplacementTransformType::DisplacementFieldType;
+  using VectorType = itk::Vector<double, ImageDimension>;
 
   VectorType zero;
   zero.Fill(0.0);

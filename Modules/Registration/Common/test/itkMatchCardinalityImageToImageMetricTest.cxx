@@ -32,13 +32,13 @@ int itkMatchCardinalityImageToImageMetricTest(int argc, char* argv[] )
     exit (1);
     }
 
-  typedef itk::Image<unsigned char,2>          ImageType;
-  typedef itk::TranslationTransform<double, 2> TransformType;
-  typedef itk::MatchCardinalityImageToImageMetric<ImageType,ImageType>
-                                               MetricType;
-  typedef itk::ImageFileReader<ImageType>      ReaderType;
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,double>
-                                               InterpolatorType;
+  using ImageType = itk::Image<unsigned char,2>;
+  using TransformType = itk::TranslationTransform<double, 2>;
+  using MetricType =
+      itk::MatchCardinalityImageToImageMetric<ImageType,ImageType>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using InterpolatorType =
+      itk::NearestNeighborInterpolateImageFunction<ImageType,double>;
 
   ReaderType::Pointer reader = ReaderType::New();
   MetricType::Pointer metric = MetricType::New();

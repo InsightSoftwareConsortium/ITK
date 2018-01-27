@@ -73,16 +73,16 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
                 const double kernelBandwidthMultiplicationFactor,
                 const std::string & noiseModelStr, const double noiseModelFidelityWeight )
 {
-  typedef itk::ImageFileReader< ImageT > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageT >;
 
-  typedef itk::PatchBasedDenoisingImageFilter< ImageT, ImageT > FilterType;
+  using FilterType = itk::PatchBasedDenoisingImageFilter< ImageT, ImageT >;
 
-  typedef itk::Statistics::GaussianRandomSpatialNeighborSubsampler<
-    typename FilterType::PatchSampleType, typename ImageT::RegionType > SamplerType;
+  using SamplerType = itk::Statistics::GaussianRandomSpatialNeighborSubsampler<
+    typename FilterType::PatchSampleType, typename ImageT::RegionType >;
 
-  typedef typename FilterType::OutputImageType OutputImageType;
+  using OutputImageType = typename FilterType::OutputImageType;
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   // Read the noisy image to be denoised
   typename ReaderType::Pointer reader = ReaderType::New();
@@ -318,9 +318,9 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  typedef float                                                       PixelType;
-  typedef itk::Image< PixelType, 3 >                                  ImageType;
-  typedef itk::PatchBasedDenoisingImageFilter< ImageType, ImageType > FilterType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, 3 >;
+  using FilterType = itk::PatchBasedDenoisingImageFilter< ImageType, ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -409,27 +409,27 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
       }
     }
 
-  typedef float PixelComponentType;
+  using PixelComponentType = float;
 
-  typedef PixelComponentType                           OneComponentType;
-  typedef itk::RGBPixel< PixelComponentType >          ThreeComponentType;
-  typedef itk::RGBAPixel< PixelComponentType >         FourComponentType;
-  typedef itk::DiffusionTensor3D< PixelComponentType > SixComponentType;
+  using OneComponentType = PixelComponentType;
+  using ThreeComponentType = itk::RGBPixel< PixelComponentType >;
+  using FourComponentType = itk::RGBAPixel< PixelComponentType >;
+  using SixComponentType = itk::DiffusionTensor3D< PixelComponentType >;
 
-  typedef itk::Image< OneComponentType, 2 > OneComponent2DImage;
-  typedef itk::Image< OneComponentType, 3 > OneComponent3DImage;
+  using OneComponent2DImage = itk::Image< OneComponentType, 2 >;
+  using OneComponent3DImage = itk::Image< OneComponentType, 3 >;
 
-  //typedef itk::VectorImage< PixelComponentType, 2 > TwoComponent2DImage;
-  //typedef itk::VectorImage< PixelComponentType, 3 > TwoComponent3DImage;
+  //using TwoComponent2DImage = itk::VectorImage< PixelComponentType, 2 >;
+  //using TwoComponent3DImage = itk::VectorImage< PixelComponentType, 3 >;
 
-  typedef itk::Image< ThreeComponentType, 2 > ThreeComponent2DImage;
-  typedef itk::Image< ThreeComponentType, 3 > ThreeComponent3DImage;
+  using ThreeComponent2DImage = itk::Image< ThreeComponentType, 2 >;
+  using ThreeComponent3DImage = itk::Image< ThreeComponentType, 3 >;
 
-  typedef itk::Image< FourComponentType, 2 > FourComponent2DImage;
-  typedef itk::Image< FourComponentType, 3 > FourComponent3DImage;
+  using FourComponent2DImage = itk::Image< FourComponentType, 2 >;
+  using FourComponent3DImage = itk::Image< FourComponentType, 3 >;
 
-  typedef itk::Image< SixComponentType, 2 > SixComponent2DImage;
-  typedef itk::Image< SixComponentType, 3 > SixComponent3DImage;
+  using SixComponent2DImage = itk::Image< SixComponentType, 2 >;
+  using SixComponent3DImage = itk::Image< SixComponentType, 3 >;
 
   if( numComponents == 1 && numDimensions == 2 )
     {

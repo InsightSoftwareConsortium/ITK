@@ -36,7 +36,7 @@ namespace itk
  * An example operator to compute X derivatives of a 2D image can be
  * created with:
  * \code
- *       typedef itk::DerivativeOperator<float, 2> DerivativeOperatorType;
+ *       using DerivativeOperatorType = itk::DerivativeOperator<float, 2>;
  *       DerivativeOperatorType derivativeOperator;
  *       derivativeOperator.SetDirection(0); // X dimension
  *       itk::Size<2> radius;
@@ -68,13 +68,13 @@ class ITK_TEMPLATE_EXPORT DerivativeOperator:
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:
-  /** Standard class typedefs. */
-  typedef DerivativeOperator Self;
-  typedef NeighborhoodOperator<
-    TPixel, VDimension, TAllocator >           Superclass;
+  /** Standard class type aliases. */
+  using Self = DerivativeOperator;
+  using Superclass = NeighborhoodOperator<
+    TPixel, VDimension, TAllocator >;
 
-  typedef typename Superclass::PixelType     PixelType;
-  typedef typename Superclass::PixelRealType PixelRealType;
+  using PixelType = typename Superclass::PixelType;
+  using PixelRealType = typename Superclass::PixelRealType;
 
   /** Constructor. */
   DerivativeOperator():m_Order(1) {}
@@ -115,7 +115,7 @@ public:
 protected:
   /** Typedef support for coefficient vector type.  Necessary to
    * work around compiler bug on VC++. */
-  typedef typename Superclass::CoefficientVector CoefficientVector;
+  using CoefficientVector = typename Superclass::CoefficientVector;
 
   /** Calculates operator coefficients. */
   CoefficientVector GenerateCoefficients() override;

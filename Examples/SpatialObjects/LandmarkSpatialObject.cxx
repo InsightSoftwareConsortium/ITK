@@ -40,9 +40,9 @@ int main( int , char *[] )
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
-  typedef itk::LandmarkSpatialObject<3>  LandmarkType;
-  typedef LandmarkType::Pointer          LandmarkPointer;
-  typedef itk::SpatialObjectPoint<3>     LandmarkPointType;
+  using LandmarkType = itk::LandmarkSpatialObject<3>;
+  using LandmarkPointer = LandmarkType::Pointer;
+  using LandmarkPointType = itk::SpatialObjectPoint<3>;
 
   LandmarkPointer landmark = LandmarkType::New();
 // Software Guide : EndCodeSnippet

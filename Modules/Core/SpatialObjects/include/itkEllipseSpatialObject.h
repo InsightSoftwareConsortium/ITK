@@ -40,19 +40,19 @@ class ITK_TEMPLATE_EXPORT EllipseSpatialObject:
 {
 public:
 
-  typedef EllipseSpatialObject                         Self;
-  typedef double                                       ScalarType;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
-  typedef SpatialObject< TDimension >                  Superclass;
-  typedef SmartPointer< Superclass >                   SuperclassPointer;
-  typedef typename Superclass::PointType               PointType;
-  typedef typename Superclass::TransformType           TransformType;
-  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
-  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >           PointContainerPointer;
+  using Self = EllipseSpatialObject;
+  using ScalarType = double;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SpatialObject< TDimension >;
+  using SuperclassPointer = SmartPointer< Superclass >;
+  using PointType = typename Superclass::PointType;
+  using TransformType = typename Superclass::TransformType;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointContainerPointer = SmartPointer< PointContainerType >;
 
-  typedef FixedArray< double, TDimension > ArrayType;
+  using ArrayType = FixedArray< double, TDimension >;
   itkStaticConstMacro(NumberOfDimension, unsigned int,
                       TDimension);
 

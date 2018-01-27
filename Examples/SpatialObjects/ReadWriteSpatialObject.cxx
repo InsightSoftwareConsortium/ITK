@@ -51,7 +51,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::SpatialObjectWriter<3> WriterType;
+  using WriterType = itk::SpatialObjectWriter<3>;
   WriterType::Pointer writer = WriterType::New();
 // Software Guide : EndCodeSnippet
 
@@ -62,7 +62,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::EllipseSpatialObject<3> EllipseType;
+  using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer ellipse = EllipseType::New();
   ellipse->SetRadius(3);
 // Software Guide : EndCodeSnippet
@@ -91,7 +91,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::SpatialObjectReader<3> ReaderType;
+  using ReaderType = itk::SpatialObjectReader<3>;
   ReaderType::Pointer reader = ReaderType::New();
 // Software Guide : EndCodeSnippet
 

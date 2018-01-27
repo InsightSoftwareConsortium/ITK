@@ -50,8 +50,8 @@ public:
     m_Filter( nullptr )
     {};
 
-  typedef typename TInputImage::SizeType  ImageSizeType;
-  typedef typename TInputImage::PixelType InputPixelType;
+  using ImageSizeType = typename TInputImage::SizeType;
+  using InputPixelType = typename TInputImage::PixelType;
   enum {InputPixelDimension=PixelTraits<InputPixelType>::Dimension};
 
   /**
@@ -150,7 +150,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   //  std::cout << "Output object before filter execution" << std::endl
   //            << m_Filter->GetOutput() << std::endl;
 
-  typedef ImageToImageFilter<TInputImage, TOutputImage> ImageFilterType;
+  using ImageFilterType = ImageToImageFilter<TInputImage, TOutputImage>;
   typename ImageFilterType::Pointer sourceBefore =
      dynamic_cast< ImageFilterType * >( m_Filter->GetOutput()->GetSource().GetPointer() );
 

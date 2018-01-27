@@ -52,11 +52,11 @@ template< typename TInputMesh >
 class ITKIOMesh_HIDDEN MeshFileWriter:public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef MeshFileWriter             Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MeshFileWriter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,13 +64,13 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeshFileWriter, ProcessObject);
 
-  /** Some convenient typedefs. */
-  typedef TInputMesh                         InputMeshType;
-  typedef typename InputMeshType::Pointer    InputMeshPointer;
-  typedef typename InputMeshType::RegionType InputMeshRegionType;
-  typedef typename InputMeshType::PixelType  InputMeshPixelType;
-  typedef typename InputMeshType::CellType   InputMeshCellType;
-  typedef typename MeshIOBase::SizeValueType SizeValueType;
+  /** Some convenient type alias. */
+  using InputMeshType = TInputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using InputMeshRegionType = typename InputMeshType::RegionType;
+  using InputMeshPixelType = typename InputMeshType::PixelType;
+  using InputMeshCellType = typename InputMeshType::CellType;
+  using SizeValueType = typename MeshIOBase::SizeValueType;
 
   /** Set/Get the mesh input of this writer.  */
   using Superclass::SetInput;

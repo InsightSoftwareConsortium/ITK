@@ -234,7 +234,7 @@ PermuteAxesImageFilter< TImage >
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
 
   // Setup output region iterator
-  typedef ImageRegionIteratorWithIndex< TImage > OutputIterator;
+  using OutputIterator = ImageRegionIteratorWithIndex< TImage >;
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   typename TImage::IndexType outputIndex;

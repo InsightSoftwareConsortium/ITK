@@ -35,9 +35,9 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
   //------------------------------------------------------
   //Create a simple test images
   //------------------------------------------------------
-  typedef itk::Image<unsigned char, NDIMENSION> InputImageType;
+  using InputImageType = itk::Image<unsigned char, NDIMENSION>;
 
-  typedef itk::ImageRegionIterator< InputImageType > InputImageIterator;
+  using InputImageIterator = itk::ImageRegionIterator< InputImageType >;
 
 
   InputImageType::Pointer image = InputImageType::New();
@@ -111,8 +111,7 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
   try
     {
 
-    typedef itk::Statistics::ScalarImageToRunLengthMatrixFilter<
-      InputImageType> FilterType;
+    using FilterType = itk::Statistics::ScalarImageToRunLengthMatrixFilter<InputImageType>;
 
     FilterType::Pointer filter = FilterType::New();
 
@@ -152,7 +151,7 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
       {
       for( unsigned int j = 0; j < 5; j++ )
         {
-        typedef FilterType::HistogramType::IndexType IndexType;
+        using IndexType = FilterType::HistogramType::IndexType;
         IndexType index( hist->GetMeasurementVectorSize() );
         index[0] = i;
         index[1] = j;
@@ -260,7 +259,7 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
       {
       for( unsigned int j = 0; j < 5; j++ )
         {
-        typedef FilterType::HistogramType::IndexType IndexType;
+        using IndexType = FilterType::HistogramType::IndexType;
         IndexType index( hist->GetMeasurementVectorSize() );
         index[0] = i;
         index[1] = j;

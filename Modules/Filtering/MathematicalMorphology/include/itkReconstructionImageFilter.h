@@ -56,34 +56,34 @@ class ITK_TEMPLATE_EXPORT ReconstructionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ReconstructionImageFilter                       Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  /** Standard class type aliases. */
+  using Self = ReconstructionImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                            InputImageType;
-  typedef typename InputImageType::SizeType      ISizeType;
-  typedef TInputImage                            MarkerImageType;
-  typedef typename MarkerImageType::Pointer      MarkerImagePointer;
-  typedef typename MarkerImageType::ConstPointer MarkerImageConstPointer;
-  typedef typename MarkerImageType::RegionType   MarkerImageRegionType;
-  typedef typename MarkerImageType::PixelType    MarkerImagePixelType;
-  typedef typename InputImageType::PixelType     InputImagePixelType;
-  typedef typename InputImageType::IndexType     InputImageIndexType;
-  typedef TInputImage                            MaskImageType;
-  typedef typename MaskImageType::Pointer        MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer   MaskImageConstPointer;
-  typedef typename MaskImageType::RegionType     MaskImageRegionType;
-  typedef typename MaskImageType::PixelType      MaskImagePixelType;
-  typedef TOutputImage                           OutputImageType;
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
-  typedef typename OutputImageType::IndexType    OutputImageIndexType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using ISizeType = typename InputImageType::SizeType;
+  using MarkerImageType = TInputImage;
+  using MarkerImagePointer = typename MarkerImageType::Pointer;
+  using MarkerImageConstPointer = typename MarkerImageType::ConstPointer;
+  using MarkerImageRegionType = typename MarkerImageType::RegionType;
+  using MarkerImagePixelType = typename MarkerImageType::PixelType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using InputImageIndexType = typename InputImageType::IndexType;
+  using MaskImageType = TInputImage;
+  using MaskImagePointer = typename MaskImageType::Pointer;
+  using MaskImageConstPointer = typename MaskImageType::ConstPointer;
+  using MaskImageRegionType = typename MaskImageType::RegionType;
+  using MaskImagePixelType = typename MaskImageType::PixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using OutputImageIndexType = typename OutputImageType::IndexType;
 
   /** ImageDimension constants */
   /** ImageDimension constants */
@@ -162,18 +162,18 @@ private:
   bool m_FullyConnected;
   bool m_UseInternalCopy;
 
-  typedef typename itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< OutputImageType > FaceCalculatorType;
+  using FaceCalculatorType = typename itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< OutputImageType >;
 
-  typedef typename FaceCalculatorType::FaceListType           FaceListType;
-  typedef typename FaceCalculatorType::FaceListType::iterator FaceListTypeIt;
+  using FaceListType = typename FaceCalculatorType::FaceListType;
+  using FaceListTypeIt = typename FaceCalculatorType::FaceListType::iterator;
 
-  typedef ImageRegionConstIterator< InputImageType > InputIteratorType;
-  typedef ImageRegionIterator< OutputImageType >     OutputIteratorType;
+  using InputIteratorType = ImageRegionConstIterator< InputImageType >;
+  using OutputIteratorType = ImageRegionIterator< OutputImageType >;
 
-  typedef typename OutputImageType::IndexType               OutIndexType;
-  typedef typename InputImageType::IndexType                InIndexType;
-  typedef ConstShapedNeighborhoodIterator< InputImageType > CNInputIterator;
-  typedef ShapedNeighborhoodIterator< OutputImageType >     NOutputIterator;
+  using OutIndexType = typename OutputImageType::IndexType;
+  using InIndexType = typename InputImageType::IndexType;
+  using CNInputIterator = ConstShapedNeighborhoodIterator< InputImageType >;
+  using NOutputIterator = ShapedNeighborhoodIterator< OutputImageType >;
 }; // end of class
 } // end namespace itk
 

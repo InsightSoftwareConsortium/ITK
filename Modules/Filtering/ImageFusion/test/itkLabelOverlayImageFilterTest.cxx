@@ -36,11 +36,11 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
     return 1;
     }
 
-  typedef unsigned char                               PixelType;
-  typedef itk::Image< PixelType, Dimension >          ImageType;
-  typedef itk::RGBPixel<unsigned char>                ColorPixelType;
-  typedef itk::Image< ColorPixelType, Dimension >     ColorImageType;
-  typedef itk::ImageFileReader< ImageType >           ReaderType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ColorPixelType = itk::RGBPixel<unsigned char>;
+  using ColorImageType = itk::Image< ColorPixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   //Read in the input image
   ReaderType::Pointer reader = ReaderType::New();
@@ -51,8 +51,8 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
   reader2->SetFileName( argv[2] );
 
   //Instantiate the filter
-  typedef itk::LabelOverlayImageFilter<
-    ImageType, ImageType, ColorImageType> FilterType;
+  using FilterType = itk::LabelOverlayImageFilter<
+    ImageType, ImageType, ColorImageType>;
   FilterType::Pointer filter = FilterType::New();
 
   // Exercising Background Value methods
@@ -89,7 +89,7 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   //Instantiate output image
-  typedef itk::ImageFileWriter< ColorImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ColorImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetInput( filter->GetOutput() );
@@ -130,8 +130,8 @@ int itkLabelOverlayImageFilterTest(int argc, char * argv[])
 
   // the following just ensures the filter can be instantiated with a
   // VectorImage as output.
-  // typedef itk::VectorImage< short, Dimension > VectorImageType;
-  // typedef itk::LabelOverlayImageFilter< ImageType, ImageType, VectorImageType > LabelOverlayToVectorFilterType;
+  // using VectorImageType = itk::VectorImage< short, Dimension >;
+  // using LabelOverlayToVectorFilterType = itk::LabelOverlayImageFilter< ImageType, ImageType, VectorImageType >;
   // std::cout << LabelOverlayToVectorFilterType::New();
 
   return EXIT_SUCCESS;

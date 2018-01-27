@@ -37,39 +37,39 @@
 #include "itkTestingMacros.h"
 
 
-  typedef double InputPixelType;
-  typedef double CoordValueType;
+  using InputPixelType = double;
+  using CoordValueType = double;
 
 
   // Setup for 2D Images
   enum { ImageDimension2D = 2 };
 
-  typedef itk::Image< InputPixelType, ImageDimension2D > ImageType2D;
-  typedef ImageType2D::Pointer                           ImageType2DPointer;
-  typedef ImageType2D::SizeType                          ImageType2DSizeType;
-  typedef itk::InterpolateImagePointsFilter<ImageType2D,ImageType2D,CoordValueType>
-                                                          InterpolatorType2D;
+  using ImageType2D = itk::Image< InputPixelType, ImageDimension2D >;
+  using ImageType2DPointer = ImageType2D::Pointer;
+  using ImageType2DSizeType = ImageType2D::SizeType;
+  using InterpolatorType2D =
+      itk::InterpolateImagePointsFilter<ImageType2D,ImageType2D,CoordValueType>;
 
-  typedef itk::Image< CoordValueType, ImageDimension2D > CoordImageType2D;
-  typedef CoordImageType2D::Pointer                      CoordImageType2DPointer;
-  typedef CoordImageType2D::SizeType                     CoordImage2DSizeType;
+  using CoordImageType2D = itk::Image< CoordValueType, ImageDimension2D >;
+  using CoordImageType2DPointer = CoordImageType2D::Pointer;
+  using CoordImage2DSizeType = CoordImageType2D::SizeType;
 
   void set2DInterpolateImagePointsFilterData(ImageType2D::Pointer);
 
   // Setup for 3D Images
   enum { ImageDimension3D = 3 };
 
-  typedef itk::Image< InputPixelType, ImageDimension3D > ImageType3D;
-  typedef ImageType3D::Pointer                           ImageTypePtr3D;
-  typedef ImageType3D::SizeType                          SizeType3D;
-  typedef ImageType3D::IndexType                         IndexType3D;
-  typedef itk::InterpolateImagePointsFilter<ImageType3D,ImageType3D,CoordValueType>
-                                                          InterpolatorType3D;
+  using ImageType3D = itk::Image< InputPixelType, ImageDimension3D >;
+  using ImageTypePtr3D = ImageType3D::Pointer;
+  using SizeType3D = ImageType3D::SizeType;
+  using IndexType3D = ImageType3D::IndexType;
+  using InterpolatorType3D =
+      itk::InterpolateImagePointsFilter<ImageType3D,ImageType3D,CoordValueType>;
 
-  typedef itk::Image< CoordValueType, ImageDimension3D > CoordImageType3D;
-  typedef CoordImageType3D::Pointer                      CoordImageType3DPointer;
-  typedef CoordImageType3D::SizeType                     CoordSizeType3D;
-  typedef CoordImageType3D::IndexType                    CoordIndexType3D;
+  using CoordImageType3D = itk::Image< CoordValueType, ImageDimension3D >;
+  using CoordImageType3DPointer = CoordImageType3D::Pointer;
+  using CoordSizeType3D = CoordImageType3D::SizeType;
+  using CoordIndexType3D = CoordImageType3D::IndexType;
 
   ImageTypePtr3D set3DData();
 
@@ -120,7 +120,7 @@ int test2DInterpolateImagePointsFilter()
   index2->Allocate();
 
   // Setup copy iterators
-  typedef itk::ImageRegionIterator<CoordImageType2D>  InputIterator;
+  using InputIterator = itk::ImageRegionIterator<CoordImageType2D>;
   InputIterator inIter1( index1, region );
   InputIterator inIter2( index2, region );
 
@@ -244,8 +244,8 @@ int test3DInterpolateImagePointsFilter()
 
   // Calculate RMSE
   // First set up iterators
-  typedef itk::ImageRegionIterator<ImageType3D>      InputIterator;
-  typedef itk::ImageRegionIterator<CoordImageType3D> OutputIterator;
+  using InputIterator = itk::ImageRegionIterator<ImageType3D>;
+  using OutputIterator = itk::ImageRegionIterator<CoordImageType3D>;
   InputIterator inIter(image,region);
   OutputIterator outIter(outputImage,region);
   double rmse;
@@ -323,7 +323,7 @@ void set2DInterpolateImagePointsFilterData(ImageType2D::Pointer imgPtr)
   imgPtr->SetBufferedRegion( region );
   imgPtr->Allocate();
 
-  typedef itk::ImageRegionIterator<ImageType2D>  InputIterator;
+  using InputIterator = itk::ImageRegionIterator<ImageType2D>;
 
   InputIterator inIter( imgPtr, region );
 
@@ -340,7 +340,7 @@ void set2DInterpolateImagePointsFilterData(ImageType2D::Pointer imgPtr)
 ImageTypePtr3D set3DData()
 {
   // Create a Gaussian image source
-  typedef itk::GaussianImageSource< ImageType3D > GaussianSourceType;
+  using GaussianSourceType = itk::GaussianImageSource< ImageType3D >;
   GaussianSourceType::Pointer pSource = GaussianSourceType::New();
 
   ImageType3D::SpacingValueType spacing[] = { 1.2f, 1.3f, 1.4f };

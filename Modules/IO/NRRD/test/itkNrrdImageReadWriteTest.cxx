@@ -31,10 +31,10 @@ int itkNrrdImageReadWriteTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  typedef float                    PixelType;
-  typedef itk::Image<PixelType, 3> myImage;
+  using PixelType = float;
+  using myImage = itk::Image<PixelType, 3>;
 
-  typedef itk::ImageFileReader<myImage>  ReaderType;
+  using ReaderType = itk::ImageFileReader<myImage>;
 
   ReaderType::Pointer reader = ReaderType::New();
 

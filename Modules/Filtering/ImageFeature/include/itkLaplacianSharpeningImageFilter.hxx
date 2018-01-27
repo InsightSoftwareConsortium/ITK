@@ -112,8 +112,8 @@ LaplacianSharpeningImageFilter< TInputImage, TOutputImage >
   oper.CreateOperator();
 
   // do calculations in floating point
-  typedef Image< RealType, ImageDimension >                                RealImageType;
-  typedef NeighborhoodOperatorImageFilter< InputImageType, RealImageType > NOIF;
+  using RealImageType = Image< RealType, ImageDimension >;
+  using NOIF = NeighborhoodOperatorImageFilter< InputImageType, RealImageType >;
   ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
 
   typename NOIF::Pointer filter = NOIF::New();

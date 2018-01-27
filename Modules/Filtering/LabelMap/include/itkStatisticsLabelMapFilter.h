@@ -43,27 +43,27 @@ class ITK_TEMPLATE_EXPORT StatisticsLabelMapFilter:
                               Image< typename TImage::PixelType,  TImage ::ImageDimension > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef StatisticsLabelMapFilter      Self;
-  typedef ShapeLabelMapFilter< TImage > Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer< const Self >    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = StatisticsLabelMapFilter;
+  using Superclass = ShapeLabelMapFilter< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TImage                               ImageType;
-  typedef typename ImageType::Pointer          ImagePointer;
-  typedef typename ImageType::ConstPointer     ImageConstPointer;
-  typedef typename ImageType::PixelType        PixelType;
-  typedef typename ImageType::IndexType        IndexType;
-  typedef typename ImageType::PointType        PointType;
-  typedef typename ImageType::LabelObjectType  LabelObjectType;
-  typedef typename LabelObjectType::MatrixType MatrixType;
-  typedef typename LabelObjectType::VectorType VectorType;
+  /** Some convenient type alias. */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using IndexType = typename ImageType::IndexType;
+  using PointType = typename ImageType::PointType;
+  using LabelObjectType = typename ImageType::LabelObjectType;
+  using MatrixType = typename LabelObjectType::MatrixType;
+  using VectorType = typename LabelObjectType::VectorType;
 
-  typedef TFeatureImage                           FeatureImageType;
-  typedef typename FeatureImageType::Pointer      FeatureImagePointer;
-  typedef typename FeatureImageType::ConstPointer FeatureImageConstPointer;
-  typedef typename FeatureImageType::PixelType    FeatureImagePixelType;
+  using FeatureImageType = TFeatureImage;
+  using FeatureImagePointer = typename FeatureImageType::Pointer;
+  using FeatureImageConstPointer = typename FeatureImageType::ConstPointer;
+  using FeatureImagePixelType = typename FeatureImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int,

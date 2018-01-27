@@ -88,8 +88,7 @@ typename ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep,
     m_RealInterpolator->EvaluateAtContinuousIndex(x);
   typename InterpolatorType::OutputType imagPart =
     m_ImaginaryInterpolator->EvaluateAtContinuousIndex(x);
-  typedef typename ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >::OutputType
-  ReturnType;
+  using ReturnType = typename ComplexBSplineInterpolateImageFunction< TImageType, TCoordRep, TCoefficientType >::OutputType;
 
   return ReturnType(realPart, imagPart);
 }

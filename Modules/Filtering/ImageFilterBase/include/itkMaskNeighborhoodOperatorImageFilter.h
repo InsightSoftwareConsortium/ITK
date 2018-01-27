@@ -53,13 +53,13 @@ class ITK_TEMPLATE_EXPORT MaskNeighborhoodOperatorImageFilter:
   public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
 {
 public:
-  /** Standard "Self" & Superclass typedef. */
-  typedef MaskNeighborhoodOperatorImageFilter Self;
-  typedef NeighborhoodOperatorImageFilter<
-    TInputImage, TOutputImage, TOperatorValueType > Superclass;
+  /** Standard "Self" & Superclass type alias. */
+  using Self = MaskNeighborhoodOperatorImageFilter;
+  using Superclass = NeighborhoodOperatorImageFilter<
+    TInputImage, TOutputImage, TOperatorValueType >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,12 +69,12 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename  TInputImage::PixelType         InputPixelType;
-  typedef typename  TInputImage::InternalPixelType InputInternalPixelType;
-  typedef typename   TMaskImage::PixelType         MaskPixelType;
-  typedef typename   TMaskImage::InternalPixelType MaskInternalPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using InputPixelType = typename  TInputImage::PixelType;
+  using InputInternalPixelType = typename  TInputImage::InternalPixelType;
+  using MaskPixelType = typename   TMaskImage::PixelType;
+  using MaskInternalPixelType = typename   TMaskImage::InternalPixelType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -85,23 +85,22 @@ public:
   itkStaticConstMacro(MaskImageDimension, unsigned int,
                       TMaskImage::ImageDimension);
 
-  /** Image typedef support. */
-  typedef TInputImage                      InputImageType;
-  typedef TMaskImage                       MaskImageType;
-  typedef TOutputImage                     OutputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
-  typedef typename MaskImageType::Pointer  MaskImagePointer;
+  /** Image type alias support */
+  using InputImageType = TInputImage;
+  using MaskImageType = TMaskImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using MaskImagePointer = typename MaskImageType::Pointer;
 
   /** Typedef for generic boundary condition pointer. */
-  typedef ImageBoundaryCondition< OutputImageType > *
-  ImageBoundaryConditionPointerType;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition<OutputImageType> *;
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename Superclass::OperatorValueType     OperatorValueType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using OperatorValueType = typename Superclass::OperatorValueType;
 
   /** Neighborhood types */
-  typedef typename Superclass::OutputNeighborhoodType OutputNeighborhoodType;
+  using OutputNeighborhoodType = typename Superclass::OutputNeighborhoodType;
 
   /** Set the mask image. Using a mask is optional.  When a mask is
    * specified, the normalized correlation is only calculated for

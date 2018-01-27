@@ -55,12 +55,12 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
 
   const unsigned int ImageDimension = 3;
 
-  typedef short                                          InputPixelType;
-  typedef itk::Image< InputPixelType,  ImageDimension >  InputImageType;
-  typedef float                                          MeshPixelType;
-  typedef itk::Mesh< MeshPixelType, ImageDimension >     MeshType;
+  using InputPixelType = short;
+  using InputImageType = itk::Image< InputPixelType,  ImageDimension >;
+  using MeshPixelType = float;
+  using MeshType = itk::Mesh< MeshPixelType, ImageDimension >;
 
-  typedef itk::ImageFileReader< InputImageType >         ImageReaderType;
+  using ImageReaderType = itk::ImageFileReader< InputImageType >;
 
   // Read fixed image
   ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
@@ -81,7 +81,7 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   TRY_EXPECT_NO_EXCEPTION( maskImageReader->Update() );
 
   // Read mesh
-  typedef itk::VTKTetrahedralMeshReader< MeshType > MeshReaderType;
+  using MeshReaderType = itk::VTKTetrahedralMeshReader< MeshType >;
 
   MeshReaderType::Pointer meshReader = MeshReaderType::New();
   meshReader->SetFileName( argv[4] );
@@ -89,11 +89,11 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   TRY_EXPECT_NO_EXCEPTION( meshReader->Update() );
 
   // Create PhysicsBasedNonRigidRegistrationMethod filter
-  typedef itk::Image< itk::Vector< MeshPixelType, ImageDimension >,
-    ImageDimension > DeformationFieldType;
-  typedef itk::fem::PhysicsBasedNonRigidRegistrationMethod<
+  using DeformationFieldType = itk::Image< itk::Vector< MeshPixelType, ImageDimension >,
+    ImageDimension >;
+  using PBNRRFilterType = itk::fem::PhysicsBasedNonRigidRegistrationMethod<
     InputImageType, InputImageType, InputImageType, MeshType,
-    DeformationFieldType> PBNRRFilterType;
+    DeformationFieldType>;
 
   PBNRRFilterType::Pointer filter = PBNRRFilterType::New();
 
@@ -160,12 +160,12 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   DeformationFieldType::Pointer deformationField = filter->GetOutput();
 
   // Warp image
-  typedef itk::WarpImageFilter< InputImageType, InputImageType,
-    DeformationFieldType > WarpFilterType;
+  using WarpFilterType = itk::WarpImageFilter< InputImageType, InputImageType,
+    DeformationFieldType >;
   WarpFilterType::Pointer warpFilter = WarpFilterType::New();
 
-  typedef itk::LinearInterpolateImageFunction< InputImageType, double >
-    InterpolatorType;
+  using InterpolatorType =
+      itk::LinearInterpolateImageFunction< InputImageType, double >;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   warpFilter->SetInterpolator( interpolator );
 
@@ -178,7 +178,7 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   TRY_EXPECT_NO_EXCEPTION( warpFilter->Update() );
 
   // Write warped image to file
-  typedef itk::ImageFileWriter< InputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< InputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[5] );
   writer->SetInput( warpFilter->GetOutput() );

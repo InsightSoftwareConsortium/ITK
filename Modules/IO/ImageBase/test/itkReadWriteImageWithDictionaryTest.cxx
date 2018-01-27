@@ -29,9 +29,9 @@ int itkReadWriteImageWithDictionaryTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< unsigned char, 3 >    ImageType;
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ImageType = itk::Image< unsigned char, 3 >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   //Create the 16x16 input image
   ImageType::Pointer  inputImage = ImageType::New();

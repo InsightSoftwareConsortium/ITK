@@ -20,9 +20,9 @@
 
 int itkTimeVaryingVelocityFieldTransformTest( int, char* [] )
 {
-  typedef itk::Vector<double, 3>      VectorType;
-  typedef itk::Image<VectorType, 3>   DisplacementFieldType;
-  typedef itk::Image<VectorType, 4>   TimeVaryingVelocityFieldType;
+  using VectorType = itk::Vector<double, 3>;
+  using DisplacementFieldType = itk::Image<VectorType, 3>;
+  using TimeVaryingVelocityFieldType = itk::Image<VectorType, 4>;
 
   TimeVaryingVelocityFieldType::PointType origin;
   origin.Fill( 0.0 );
@@ -45,8 +45,8 @@ int itkTimeVaryingVelocityFieldTransformTest( int, char* [] )
   timeVaryingVelocityField->Allocate();
   timeVaryingVelocityField->FillBuffer( displacement1 );
 
-  typedef itk::TimeVaryingVelocityFieldIntegrationImageFilter
-    <TimeVaryingVelocityFieldType, DisplacementFieldType> IntegratorType;
+  using IntegratorType = itk::TimeVaryingVelocityFieldIntegrationImageFilter
+    <TimeVaryingVelocityFieldType, DisplacementFieldType>;
 
   IntegratorType::Pointer integrator = IntegratorType::New();
   integrator->SetInput( timeVaryingVelocityField );
@@ -95,7 +95,7 @@ int itkTimeVaryingVelocityFieldTransformTest( int, char* [] )
 
   // Now test the transform
 
-  typedef itk::TimeVaryingVelocityFieldTransform<double, 3> TransformType;
+  using TransformType = itk::TimeVaryingVelocityFieldTransform<double, 3>;
   TransformType::Pointer transform = TransformType::New();
   transform->SetLowerTimeBound( 0.0 );
   transform->SetUpperTimeBound( 1.0 );
@@ -108,7 +108,7 @@ int itkTimeVaryingVelocityFieldTransformTest( int, char* [] )
   TransformType::InputPointType point;
   point.Fill( 1.3 );
 
-  typedef TransformType::OutputPointType OutputPointType;
+  using OutputPointType = TransformType::OutputPointType;
   OutputPointType transformedPoint = transform->TransformPoint( point );
   OutputPointType cloneTransformedPoint = clone->TransformPoint( point );
 
@@ -135,7 +135,7 @@ int itkTimeVaryingVelocityFieldTransformTest( int, char* [] )
   TransformType::InputPointType clonePoint2;
   clonePoint2.CastFrom( cloneTransformedPoint );
 
-  typedef TransformType::InverseTransformBasePointer InverseTransformBasePointer;
+  using InverseTransformBasePointer = TransformType::InverseTransformBasePointer;
   InverseTransformBasePointer inverseTransform = transform->GetInverseTransform();
   InverseTransformBasePointer cloneInverseTransform = clone->GetInverseTransform();
 

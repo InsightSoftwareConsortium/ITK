@@ -54,27 +54,27 @@
 #include "itkWeightedCovarianceSampleFilter.h"
 // Software Guide : EndCodeSnippet
 
-typedef itk::Vector< float, 3 > MeasurementVectorType;
+using MeasurementVectorType = itk::Vector< float, 3 >;
 
 class ExampleWeightFunction :
   public itk::FunctionBase< MeasurementVectorType, double >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ExampleWeightFunction                              Self;
-  typedef itk::FunctionBase< MeasurementVectorType, double > Superclass;
-  typedef itk::SmartPointer<Self>                            Pointer;
-  typedef itk::SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ExampleWeightFunction;
+  using Superclass = itk::FunctionBase< MeasurementVectorType, double >;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Standard macros. */
   itkTypeMacro(ExampleWeightFunction, FunctionBase);
   itkNewMacro(Self);
 
   /** Input type */
-  typedef MeasurementVectorType InputType;
+  using InputType = MeasurementVectorType;
 
   /** Output type */
-  typedef double OutputType;
+  using OutputType = double;
 
   /**Evaluate at the specified input position */
   OutputType Evaluate( const InputType& input ) const override
@@ -105,7 +105,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize( 3 );
   MeasurementVectorType mv;
@@ -151,8 +151,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::WeightedMeanSampleFilter< SampleType >
-    WeightedMeanAlgorithmType;
+  using WeightedMeanAlgorithmType = itk::Statistics::WeightedMeanSampleFilter<SampleType>;
 
   WeightedMeanAlgorithmType::WeightArrayType weightArray( sample->Size() );
   weightArray.Fill( 0.5 );
@@ -169,8 +168,7 @@ int main()
   std::cout << "Sample weighted mean = "
             << weightedMeanAlgorithm->GetMean() << std::endl;
 
-  typedef itk::Statistics::WeightedCovarianceSampleFilter< SampleType >
-                                              WeightedCovarianceAlgorithmType;
+  using WeightedCovarianceAlgorithmType = itk::Statistics::WeightedCovarianceSampleFilter<SampleType>;
 
   WeightedCovarianceAlgorithmType::Pointer weightedCovarianceAlgorithm =
                                         WeightedCovarianceAlgorithmType::New();

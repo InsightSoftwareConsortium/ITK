@@ -30,12 +30,12 @@ namespace itk
   class NbTestClass: public NarrowBandImageFilterBase<TInputImageType, TOutputImageType>
   {
      public:
-     typedef NbTestClass Self;
+     using Self = NbTestClass;
 
-     typedef NarrowBandImageFilterBase<TInputImageType, TOutputImageType> Superclass;
-     typedef SmartPointer<Self>       Pointer;
-     typedef SmartPointer<const Self> ConstPointer;
-     typedef TOutputImageType         ImageType;
+     using Superclass = NarrowBandImageFilterBase<TInputImageType, TOutputImageType>;
+     using Pointer = SmartPointer<Self>;
+     using ConstPointer = SmartPointer<const Self>;
+     using ImageType = TOutputImageType;
 
     /** Standard method for creation through object factory. */
         itkNewMacro(Self);
@@ -43,7 +43,7 @@ namespace itk
     /** Run-time class information. */
      itkTypeMacro(NbTestClass,NarrowBandImageFilterBase);
 
-     typedef CurvatureFlowFunction<TOutputImageType> FiniteFunctionType;
+     using FiniteFunctionType = CurvatureFlowFunction<TOutputImageType>;
 
 
   protected:
@@ -116,12 +116,12 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef float         PixelType;
-  typedef unsigned char WriterPixelType;
+  using PixelType = float;
+  using WriterPixelType = unsigned char;
   const unsigned int ImageDimension = 2;
-  typedef itk::Image<PixelType,ImageDimension>       ImageType;
-  typedef itk::Image<WriterPixelType,ImageDimension> WriterImageType;
-  typedef itk::Point<double,ImageDimension>          PointType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using WriterImageType = itk::Image<WriterPixelType,ImageDimension>;
+  using PointType = itk::Point<double,ImageDimension>;
 
   ImageType::SizeType size = {{64,64}};
   ImageType::IndexType index = {{0,0}};
@@ -135,7 +135,7 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter( inputImage, region );
   iter.GoToBegin();
 
@@ -147,7 +147,7 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
     ++iter;
     }
 
-  typedef itk::RandomImageSource<ImageType> RandomSourceType;
+  using RandomSourceType = itk::RandomImageSource<ImageType>;
   RandomSourceType::Pointer randomSource = RandomSourceType::New();
   ImageType::SizeValueType tam[2];
   tam[0]=64;
@@ -160,25 +160,25 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
   //  number of threads to 1.
   randomSource->SetNumberOfThreads(1);
 
-  typedef itk::AddImageFilter<ImageType,ImageType,ImageType> AddFilterType;
+  using AddFilterType = itk::AddImageFilter<ImageType,ImageType,ImageType>;
   AddFilterType::Pointer addFilter = AddFilterType::New();
   addFilter->SetInput1(inputImage);
   addFilter->SetInput2(randomSource->GetOutput());
 
-  typedef itk::NbTestClass <ImageType,ImageType> FilterType;
+  using FilterType = itk::NbTestClass <ImageType,ImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(addFilter->GetOutput());
   filter->Print(std::cout);
   try
     {
-    typedef itk::RescaleIntensityImageFilter<ImageType, WriterImageType> RescaleType;
+    using RescaleType = itk::RescaleIntensityImageFilter<ImageType, WriterImageType>;
     RescaleType::Pointer rescale = RescaleType::New();
     rescale->SetInput(filter->GetOutput());
     rescale->SetOutputMinimum(0);
     rescale->SetOutputMaximum(255);
 
-    typedef itk::ImageFileWriter<WriterImageType> WriterType;
+    using WriterType = itk::ImageFileWriter<WriterImageType>;
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput( rescale->GetOutput() );
     writer->SetFileName( argv[1] );

@@ -60,7 +60,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 
   this->SetTransformParameters(parameters);
 
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits<MeasureType>::AccumulateType;
 
   AccumulateType sff = NumericTraits<AccumulateType>::ZeroValue();
   AccumulateType smm = NumericTraits<AccumulateType>::ZeroValue();
@@ -142,7 +142,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 
   this->SetTransformParameters(parameters);
 
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits<MeasureType>::AccumulateType;
 
   AccumulateType sff  = NumericTraits<AccumulateType>::ZeroValue();
   AccumulateType smm  = NumericTraits<AccumulateType>::ZeroValue();
@@ -203,9 +203,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
-      typedef typename OutputPointType::CoordRepType CoordRepType;
-      typedef ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>
-      MovingImageContinuousIndexType;
+      using CoordRepType = typename OutputPointType::CoordRepType;
+      using MovingImageContinuousIndexType =
+          ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>;
 
       MovingImageContinuousIndexType tempIndex;
       this->GetMovingImage()->TransformPhysicalPointToContinuousIndex(transformedPoint, tempIndex);
@@ -293,7 +293,7 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 
   this->SetTransformParameters(parameters);
 
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits<MeasureType>::AccumulateType;
 
   AccumulateType sff  = NumericTraits<AccumulateType>::ZeroValue();
   AccumulateType smm  = NumericTraits<AccumulateType>::ZeroValue();
@@ -354,9 +354,9 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
-      typedef typename OutputPointType::CoordRepType CoordRepType;
-      typedef ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>
-      MovingImageContinuousIndexType;
+      using CoordRepType = typename OutputPointType::CoordRepType;
+      using MovingImageContinuousIndexType =
+          ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>;
 
       MovingImageContinuousIndexType tempIndex;
       this->GetMovingImage()->TransformPhysicalPointToContinuousIndex(transformedPoint, tempIndex);

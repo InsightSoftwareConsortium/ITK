@@ -29,16 +29,16 @@ class ObjectToObjectMetricTestMetric:
   public itk::ObjectToObjectMetricBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef ObjectToObjectMetricTestMetric                          Self;
-  typedef itk::ObjectToObjectMetricBase                           Superclass;
-  typedef itk::SmartPointer< Self >                               Pointer;
-  typedef itk::SmartPointer< const Self >                         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ObjectToObjectMetricTestMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
-  typedef typename Superclass::MeasureType          MeasureType;
-  typedef typename Superclass::DerivativeType       DerivativeType;
-  typedef typename Superclass::ParametersType       ParametersType;
-  typedef typename Superclass::ParametersValueType  ParametersValueType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
 
   itkTypeMacro(ObjectToObjectMetricTestMetric, ObjectToObjectMetricBase);
 
@@ -92,8 +92,8 @@ private:
 
 int itkObjectToObjectMetricBaseTest(int ,char * [])
 {
-  typedef itk::Image< unsigned char, 3 >                       ImageType;
-  typedef ObjectToObjectMetricTestMetric<ImageType, ImageType> ObjectMetricType;
+  using ImageType = itk::Image< unsigned char, 3 >;
+  using ObjectMetricType = ObjectToObjectMetricTestMetric<ImageType, ImageType>;
 
   ObjectMetricType::Pointer objectMetric = ObjectMetricType::New();
 
@@ -103,7 +103,7 @@ int itkObjectToObjectMetricBaseTest(int ,char * [])
 
   std::cout << objectMetric->GetNameOfClass() << std::endl;
 
-  typedef ObjectMetricType::ParametersType ParametersType;
+  using ParametersType = ObjectMetricType::ParametersType;
 
   ParametersType parameters(13);
   parameters.Fill( 19.5);

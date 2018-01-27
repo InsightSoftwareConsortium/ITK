@@ -43,7 +43,7 @@ void GenerateImage( typename TImage::Pointer ioImage )
   region.SetIndex( index );
   region.SetSize( size );
 
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   ioImage->SetRegions( region );
   ioImage->Allocate();
@@ -70,14 +70,14 @@ int itkImageToRGBVTKImageFilterTest( int argc, char* argv[] )
   (void) argc;
   (void) argv;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 2;
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   ImageType::Pointer image = ImageType::New();
   GenerateImage< ImageType >( image );
 
-  typedef itk::ImageToRGBVTKImageFilter< ImageType > RGBConvertType;
+  using RGBConvertType = itk::ImageToRGBVTKImageFilter< ImageType >;
   RGBConvertType::Pointer converter = RGBConvertType::New();
   converter->SetInput( image );
   converter->Update();

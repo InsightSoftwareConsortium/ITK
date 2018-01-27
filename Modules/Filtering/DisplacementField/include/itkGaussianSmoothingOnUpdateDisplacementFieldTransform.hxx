@@ -56,7 +56,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimen
   const typename DisplacementFieldType::RegionType & bufferedRegion = displacementField->GetBufferedRegion();
   const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
-  typedef ImportImageFilter<DisplacementVectorType, NDimensions> ImporterType;
+  using ImporterType = ImportImageFilter<DisplacementVectorType, NDimensions>;
   const bool importFilterWillReleaseMemory = false;
 
   //
@@ -136,7 +136,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimen
     return field;
     }
 
-  typedef ImageDuplicator< DisplacementFieldType > DuplicatorType;
+  using DuplicatorType = ImageDuplicator< DisplacementFieldType >;
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
   duplicator->SetInputImage( field );
   duplicator->Update();

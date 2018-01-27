@@ -27,11 +27,11 @@ template <typename ImageType>
 class MyDerivedCSNI : public itk::ConstShapedNeighborhoodIterator<ImageType>
 {
 public:
-  typedef typename itk::ConstShapedNeighborhoodIterator<ImageType> Superclass;
-  typedef typename Superclass::SizeType                            SizeType;
-  typedef typename Superclass::IndexType                           IndexType;
-  typedef typename Superclass::RadiusType                          RadiusType;
-  typedef typename Superclass::RegionType                          RegionType;
+  using Superclass = typename itk::ConstShapedNeighborhoodIterator<ImageType>;
+  using SizeType = typename Superclass::SizeType;
+  using IndexType = typename Superclass::IndexType;
+  using RadiusType = typename Superclass::RadiusType;
+  using RegionType = typename Superclass::RegionType;
 
   void TestNewExposedProtectedMembers();
   MyDerivedCSNI(const SizeType & radius,

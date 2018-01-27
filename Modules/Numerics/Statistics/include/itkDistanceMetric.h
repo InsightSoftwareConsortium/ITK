@@ -47,24 +47,24 @@ template< typename TVector >
 class ITK_TEMPLATE_EXPORT DistanceMetric:public FunctionBase< TVector, double  >
 {
 public:
-  /** Standard typedefs */
-  typedef DistanceMetric                  Self;
-  typedef FunctionBase< TVector, double > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard type alias */
+  using Self = DistanceMetric;
+  using Superclass = FunctionBase< TVector, double >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** declare the MeasurementVector type */
-  typedef TVector MeasurementVectorType;
+  using MeasurementVectorType = TVector;
 
   /** declare Measurement vector component type */
   /** Type used to represent the number of components oft he
     MeasurementVectorType */
-  typedef unsigned int MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = unsigned int;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DistanceMetric, FunctionBase);
 
-  typedef Array< double > OriginType;
+  using OriginType = Array< double >;
 
   /** Sets the origin point that will be used for the single point version
    * Evaluate() function. This function is necessary part of implementing the

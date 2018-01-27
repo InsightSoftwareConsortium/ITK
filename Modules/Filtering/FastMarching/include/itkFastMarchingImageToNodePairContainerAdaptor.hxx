@@ -140,7 +140,7 @@ FastMarchingImageToNodePairContainerAdaptor< TInput, TOutput, TImage >
     NodePairContainerPointer nodes = NodePairContainerType::New();
     nodes->Initialize();
 
-    typedef ImageRegionConstIteratorWithIndex< ImageType > IteratorType;
+    using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
     IteratorType it( image, image->GetBufferedRegion() );
 
     if( iLabel == Traits::Alive ||

@@ -62,16 +62,16 @@ class OrImageFilter:
 
 {
 public:
-  /** Standard class typedefs. */
-  typedef OrImageFilter Self;
-  typedef BinaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = OrImageFilter;
+  using Superclass = BinaryFunctorImageFilter<
     TInputImage1, TInputImage2, TOutputImage,
     Functor::OR< typename TInputImage1::PixelType,
                  typename TInputImage2::PixelType,
-                 typename TOutputImage::PixelType > > Superclass;
+                 typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

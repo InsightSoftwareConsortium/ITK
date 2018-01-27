@@ -27,19 +27,19 @@ int itkAddImageAdaptorTest(int, char* [] )
   const unsigned int Dimension = 3;
 
   // Declare the pixel type
-  typedef int  PixelType;
+  using PixelType = int;
 
   // Declare the types of the image
-  typedef itk::Image<PixelType, Dimension>    ImageType;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<Dimension>         IndexType;
+  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
-  typedef itk::Size<Dimension>          SizeType;
+  using SizeType = itk::Size<Dimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<Dimension>   RegionType;
+  using RegionType = itk::ImageRegion<Dimension>;
 
   // Create input image
   ImageType::Pointer inputImage  = ImageType::New();
@@ -66,7 +66,7 @@ int itkAddImageAdaptorTest(int, char* [] )
   inputImage->Allocate();
 
   // Declare Iterator type apropriated for this image
-  typedef itk::ImageRegionIteratorWithIndex<ImageType>  IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
   // Create one iterator for Image A.
   IteratorType it1( inputImage, inputImage->GetBufferedRegion() );
@@ -86,7 +86,7 @@ int itkAddImageAdaptorTest(int, char* [] )
   // This section tests for AddImageAdaptor
   //---------------------------------------
 
-  typedef itk::AddImageAdaptor< ImageType >  AdaptorType;
+  using AdaptorType = itk::AddImageAdaptor< ImageType >;
 
   AdaptorType::Pointer addAdaptor = AdaptorType::New();
 
@@ -95,10 +95,10 @@ int itkAddImageAdaptorTest(int, char* [] )
   addAdaptor->SetImage( inputImage );
   addAdaptor->SetValue( additiveConstant );
 
-  typedef itk::SubtractImageFilter<
+  using DiffFilterType = itk::SubtractImageFilter<
                         AdaptorType,
                         ImageType,
-                        ImageType   > DiffFilterType;
+                        ImageType   >;
 
   DiffFilterType::Pointer diffFilter = DiffFilterType::New();
 
@@ -117,7 +117,7 @@ int itkAddImageAdaptorTest(int, char* [] )
   // Create an iterator for going through the image output
   IteratorType dt(diffImage, diffImage->GetBufferedRegion());
 
-  typedef itk::NumericTraits< PixelType >::RealType  RealPixelType;
+  using RealPixelType = itk::NumericTraits< PixelType >::RealType;
 
   dt.GoToBegin();
 

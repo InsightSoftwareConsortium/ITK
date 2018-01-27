@@ -35,26 +35,26 @@ int itkOrImageFilterTest( int argc, char* argv[] )
   const unsigned int Dimension = 3;
 
   // Declare the pixel types of the images
-  typedef unsigned char                       PixelType;
+  using PixelType = unsigned char;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension >  InputImage1Type;
-  typedef itk::Image< PixelType, Dimension >  InputImage2Type;
-  typedef itk::Image< PixelType, Dimension >  OutputImageType;
+  using InputImage1Type = itk::Image< PixelType, Dimension >;
+  using InputImage2Type = itk::Image< PixelType, Dimension >;
+  using OutputImageType = itk::Image< PixelType, Dimension >;
 
   // Declare the type of the index to access images
-  typedef itk::Index< Dimension >         IndexType;
+  using IndexType = itk::Index< Dimension >;
 
   // Declare the type of the size
-  typedef itk::Size< Dimension >          SizeType;
+  using SizeType = itk::Size< Dimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< Dimension >   RegionType;
+  using RegionType = itk::ImageRegion< Dimension >;
 
   // Declare the type for the filter
-  typedef itk::OrImageFilter< InputImage1Type,
+  using OrImageFilterType = itk::OrImageFilter< InputImage1Type,
                               InputImage2Type,
-                              OutputImageType > OrImageFilterType;
+                              OutputImageType >;
 
   // Create the two input images
   InputImage1Type::Pointer inputImageA = InputImage1Type::New();
@@ -88,10 +88,8 @@ int itkOrImageFilterTest( int argc, char* argv[] )
   inputImageB->Allocate();
 
   // Declare appropriate Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex< InputImage1Type >
-    InputImage1IteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImage2Type >
-    InputImage2IteratorType;
+  using InputImage1IteratorType = itk::ImageRegionIteratorWithIndex<InputImage1Type>;
+  using InputImage2IteratorType = itk::ImageRegionIteratorWithIndex<InputImage2Type>;
 
   // Create one iterator for Image A (this is a light object)
   InputImage1IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
@@ -136,7 +134,7 @@ int itkOrImageFilterTest( int argc, char* argv[] )
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Write the result image
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

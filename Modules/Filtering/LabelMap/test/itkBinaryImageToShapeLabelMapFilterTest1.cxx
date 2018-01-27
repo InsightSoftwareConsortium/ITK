@@ -38,18 +38,18 @@ int itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > ImageType;
+  using ImageType = itk::Image< unsigned char, dim >;
 
-  typedef itk::ShapeLabelObject< unsigned char, dim > LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >            LabelMapType;
+  using LabelObjectType = itk::ShapeLabelObject< unsigned char, dim >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
   //reading image to file
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   //converting binary image to shape label map
-  typedef itk::BinaryImageToShapeLabelMapFilter< ImageType, LabelMapType> I2LType;
+  using I2LType = itk::BinaryImageToShapeLabelMapFilter< ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   itk::SimpleFilterWatcher watcher1( i2l );
 
@@ -105,13 +105,13 @@ int itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE(true, i2l->GetComputeOrientedBoundingBox() );
 
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
+  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
   itk::SimpleFilterWatcher watcher2( l2i );
 
   l2i->SetInput( i2l->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );
   writer->SetFileName( argv[2] );

@@ -32,10 +32,10 @@ template<typename TFilter>
 class itkLabeledPointSetMetricRegistrationTestCommandIterationUpdate : public itk::Command
 {
 public:
-  typedef itkLabeledPointSetMetricRegistrationTestCommandIterationUpdate   Self;
+  using Self = itkLabeledPointSetMetricRegistrationTestCommandIterationUpdate;
 
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -64,8 +64,8 @@ public:
 template<class PointSetMetricType>
 int itkLabeledPointSetMetricRegistrationTestPerMetric( unsigned int numberOfIterations, PointSetMetricType *pointSetMetric )
 {
-  typedef typename PointSetMetricType::FixedPointSetType    PointSetType;
-  typedef typename PointSetType::PointType                  PointType;
+  using PointSetType = typename PointSetMetricType::FixedPointSetType;
+  using PointType = typename PointSetType::PointType;
 
   typename PointSetType::Pointer fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
@@ -108,11 +108,11 @@ int itkLabeledPointSetMetricRegistrationTestPerMetric( unsigned int numberOfIter
     count++;
     }
 
-  typedef itk::AffineTransform<double, PointSetType::PointDimension> AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<double, PointSetType::PointDimension>;
   typename AffineTransformType::Pointer transform = AffineTransformType::New();
   transform->SetIdentity();
 
-  typedef itk::LabeledPointSetToPointSetMetricv4<PointSetType> LabeledPointSetMetricType;
+  using LabeledPointSetMetricType = itk::LabeledPointSetToPointSetMetricv4<PointSetType>;
   typename LabeledPointSetMetricType::Pointer metric = LabeledPointSetMetricType::New();
   metric->SetFixedPointSet( fixedPoints );
   metric->SetMovingPointSet( movingPoints );
@@ -121,21 +121,21 @@ int itkLabeledPointSetMetricRegistrationTestPerMetric( unsigned int numberOfIter
   metric->Initialize();
 
   // scales estimator
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< LabeledPointSetMetricType > RegistrationParameterScalesFromShiftType;
+  using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift< LabeledPointSetMetricType >;
   typename RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric( metric );
   // needed with pointset metrics
   shiftScaleEstimator->SetVirtualDomainPointSet( metric->GetVirtualTransformedPointSet() );
 
   // optimizer
-  typedef itk::GradientDescentOptimizerv4  OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizerv4;
   typename OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
   optimizer->SetScalesEstimator( shiftScaleEstimator );
   optimizer->SetMaximumStepSizeInPhysicalUnits( 3.0 );
 
-  typedef itkLabeledPointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType> CommandType;
+  using CommandType = itkLabeledPointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType>;
   typename CommandType::Pointer observer = CommandType::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 
@@ -188,12 +188,12 @@ int itkLabeledPointSetMetricRegistrationTest( int argc, char *argv[] )
     }
 
   const unsigned int Dimension = 2;
-  typedef itk::PointSet<unsigned int, Dimension> PointSetType;
+  using PointSetType = itk::PointSet<unsigned int, Dimension>;
 
   int allSuccess = EXIT_SUCCESS;
 
   {
-  typedef itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
   int success = itkLabeledPointSetMetricRegistrationTestPerMetric<PointSetMetricType>( numberOfIterations, metric.GetPointer() );
 
@@ -201,7 +201,7 @@ int itkLabeledPointSetMetricRegistrationTest( int argc, char *argv[] )
   }
 
   {
-  typedef itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetMetricType = itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType>;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetPointSetSigma( 2.0 );
   metric->SetEvaluationKNeighborhood( 3 );
@@ -211,7 +211,7 @@ int itkLabeledPointSetMetricRegistrationTest( int argc, char *argv[] )
   }
 
   {
-  typedef itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetMetricType = itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType>;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetPointSetSigma( 1.0 );
   metric->SetKernelSigma( 10.0 );

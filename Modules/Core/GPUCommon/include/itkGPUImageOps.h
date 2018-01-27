@@ -34,8 +34,8 @@ itkGPUKernelClassMacro(GPUImageOpsKernel);
 class GPUImageOps
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUImageOps Self;
+  /** Standard class type aliases. */
+  using Self = GPUImageOps;
 
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUImageOpsKernel);

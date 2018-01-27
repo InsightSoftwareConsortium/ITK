@@ -55,10 +55,10 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   // the kernel an odd size.
   if ( this->GetNormalize() )
     {
-    typedef typename NumericTraits< typename TKernelImage::PixelType >::RealType RealPixelType;
-    typedef Image< RealPixelType, ImageDimension >                               RealImageType;
+    using RealPixelType = typename NumericTraits< typename TKernelImage::PixelType >::RealType;
+    using RealImageType = Image< RealPixelType, ImageDimension >;
 
-    typedef NormalizeToConstantImageFilter< KernelImageType, RealImageType > NormalizeFilterType;
+    using NormalizeFilterType = NormalizeToConstantImageFilter< KernelImageType, RealImageType >;
     typename NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
     normalizeFilter->SetConstant( NumericTraits< RealPixelType >::OneValue() );
     normalizeFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
@@ -82,8 +82,8 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
 ::ComputeConvolution( const TImage * kernelImage,
                       ProgressAccumulator * progress )
 {
-  typedef typename TImage::PixelType KernelImagePixelType;
-  typedef ImageKernelOperator< KernelImagePixelType, ImageDimension > KernelOperatorType;
+  using KernelImagePixelType = typename TImage::PixelType;
+  using KernelOperatorType = ImageKernelOperator< KernelImagePixelType, ImageDimension >;
   KernelOperatorType kernelOperator;
 
   bool kernelNeedsPadding = this->GetKernelNeedsPadding();
@@ -103,7 +103,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     }
 
   // Flip the kernel
-  typedef FlipImageFilter< TImage > FlipperType;
+  using FlipperType = FlipImageFilter< TImage >;
   typename FlipperType::Pointer flipper = FlipperType::New();
   typename FlipperType::FlipAxesArrayType axesArray;
   axesArray.Fill( true );
@@ -113,7 +113,7 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   if ( kernelNeedsPadding )
     {
     // Pad the kernel if necessary to an odd size in each dimension.
-    typedef ConstantPadImageFilter< TImage, TImage > PadImageFilterType;
+    using PadImageFilterType = ConstantPadImageFilter< TImage, TImage >;
     typename PadImageFilterType::Pointer kernelPadImageFilter = PadImageFilterType::New();
     kernelPadImageFilter->SetConstant( NumericTraits< KernelImagePixelType >::ZeroValue() );
     kernelPadImageFilter->SetPadLowerBound( this->GetKernelPadSize() );
@@ -138,8 +138,8 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   localInput->Graft( this->GetInput() );
 
   // The NeighborhoodOperatorImageFilter does all the work.
-  typedef NeighborhoodOperatorImageFilter< InputImageType, OutputImageType, KernelImagePixelType >
-    ConvolutionFilterType;
+  using ConvolutionFilterType =
+      NeighborhoodOperatorImageFilter< InputImageType, OutputImageType, KernelImagePixelType >;
   typename ConvolutionFilterType::Pointer convolutionFilter = ConvolutionFilterType::New();
   convolutionFilter->SetOperator( kernelOperator );
   convolutionFilter->OverrideBoundaryCondition( this->GetBoundaryCondition() );
@@ -159,9 +159,9 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
     }
   else // OutputRegionMode == Self::VALID
     {
-    typedef CropImageFilter< OutputImageType, OutputImageType > CropFilterType;
-    typedef typename CropFilterType::Pointer                    CropFilterPointer;
-    typedef typename CropFilterType::SizeType                   CropSizeType;
+    using CropFilterType = CropImageFilter< OutputImageType, OutputImageType >;
+    using CropFilterPointer = typename CropFilterType::Pointer;
+    using CropSizeType = typename CropFilterType::SizeType;
 
     // Set up the crop sizes.
     CropSizeType upperCropSize( radius );

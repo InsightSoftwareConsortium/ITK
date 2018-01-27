@@ -24,12 +24,12 @@
 #include "itkImageFileWriter.h"
 #include "itkOpenCVVideoIOFactory.h"
 
-// ITK typedefs
-typedef itk::RGBPixel<char>                  PixelType;
-typedef itk::ImportImageFilter<PixelType, 2> ImportFilterType;
-typedef itk::Image<PixelType, 2>             ImageType;
-typedef itk::ImageFileWriter<ImageType>      WriterType;
-typedef itk::SizeValueType                   FrameOffsetType;
+// ITK type alias
+using PixelType = itk::RGBPixel<char>;
+using ImportFilterType = itk::ImportImageFilter<PixelType, 2>;
+using ImageType = itk::Image<PixelType, 2>;
+using WriterType = itk::ImageFileWriter<ImageType>;
+using FrameOffsetType = itk::SizeValueType;
 
 //
 // Utility function to get an ITK image from an void* buffer

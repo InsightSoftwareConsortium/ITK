@@ -50,11 +50,11 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   //------------------------------------------------------
   //Create 3 simple test images with
   //------------------------------------------------------
-  typedef itk::Image<double,NDIMENSION> InputImageType;
-  typedef itk::Image<double,NDIMENSION> OutputImageType;
+  using InputImageType = itk::Image<double,NDIMENSION>;
+  using OutputImageType = itk::Image<double,NDIMENSION>;
 
-  typedef itk::ImageRegionIterator< InputImageType >  InputImageIterator;
-  typedef itk::ImageRegionIterator< OutputImageType > OutputImageIterator;
+  using InputImageIterator = itk::ImageRegionIterator< InputImageType >;
+  using OutputImageIterator = itk::ImageRegionIterator< OutputImageType >;
 
   InputImageType::Pointer image1 = InputImageType::New();
 
@@ -131,8 +131,8 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   //----------------------------------------------------------------------
   //Set the image model estimator
   //----------------------------------------------------------------------
-  typedef itk::ImagePCAShapeModelEstimator<InputImageType, OutputImageType>
-    ImagePCAShapeModelEstimatorType;
+  using ImagePCAShapeModelEstimatorType =
+      itk::ImagePCAShapeModelEstimator<InputImageType, OutputImageType>;
 
   ImagePCAShapeModelEstimatorType::Pointer
     applyPCAShapeEstimator = ImagePCAShapeModelEstimatorType::New();
@@ -153,7 +153,7 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
   applyPCAShapeEstimator->Print(std::cout);
 
   //Exercise TypeMacro in superclass
-  typedef ImagePCAShapeModelEstimatorType::Superclass GenericEstimatorType;
+  using GenericEstimatorType = ImagePCAShapeModelEstimatorType::Superclass;
   std::cout << applyPCAShapeEstimator->GenericEstimatorType::GetNameOfClass() << std::endl;
 
   //Print out the number of training images and the number of principal

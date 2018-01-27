@@ -31,9 +31,9 @@
 template<unsigned int Dimension>
 int itkEuclideanDistancePointSetMetricTest2Run()
 {
-  typedef itk::PointSet<unsigned char, Dimension> PointSetType;
+  using PointSetType = itk::PointSet<unsigned char, Dimension>;
 
-  typedef typename PointSetType::PointType PointType;
+  using PointType = typename PointSetType::PointType;
 
   typename PointSetType::Pointer fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
@@ -89,15 +89,15 @@ int itkEuclideanDistancePointSetMetricTest2Run()
 
   // Test with displacement field transform
   std::cout << "Testing with displacement field transform." << std::endl;
-  //typedef itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, Dimension> DisplacementFieldTransformType;
-  typedef itk::DisplacementFieldTransform<double, Dimension> DisplacementFieldTransformType;
+  //using DisplacementFieldTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, Dimension>;
+  using DisplacementFieldTransformType = itk::DisplacementFieldTransform<double, Dimension>;
   typename DisplacementFieldTransformType::Pointer displacementTransform = DisplacementFieldTransformType::New();
 
   // Setup the physical space to match the point set virtual domain,
   // which is defined by the fixed point set since the fixed transform
   // is identity.
-  typedef typename DisplacementFieldTransformType::DisplacementFieldType FieldType;
-  typedef typename FieldType::RegionType RegionType;
+  using FieldType = typename DisplacementFieldTransformType::DisplacementFieldType;
+  using RegionType = typename FieldType::RegionType;
 
   typename FieldType::SpacingType spacing;
   spacing.Fill( 1.0 );
@@ -134,7 +134,7 @@ int itkEuclideanDistancePointSetMetricTest2Run()
   displacementTransform->SetDisplacementField( displacementField );
 
   // Instantiate the metric
-  typedef itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   typename PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetFixedPointSet( fixedPoints );
   metric->SetMovingPointSet( movingPoints );

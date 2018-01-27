@@ -47,11 +47,11 @@ class ITK_TEMPLATE_EXPORT ImageToParametricSpaceFilter:
   public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToParametricSpaceFilter                  Self;
-  typedef ImageToMeshFilter< TInputImage, TOutputMesh > Superclass;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageToParametricSpaceFilter;
+  using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,29 +59,29 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToParametricSpaceFilter, ImageToMeshFilter);
 
-  /** Some typedefs associated with the input images. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  /** Some type alias associated with the input images. */
+  using InputImageType = TInputImage;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
-  /** Some typedefs associated with the output mesh. */
-  typedef TOutputMesh                                 OutputMeshType;
-  typedef typename OutputMeshType::PointType          PointType;
-  typedef typename OutputMeshType::Pointer            OutputMeshPointer;
-  typedef typename OutputMeshType::PointsContainer    PointsContainer;
-  typedef typename OutputMeshType::PointIdentifier    PointIdentifier;
-  typedef typename PointsContainer::Pointer           PointsContainerPointer;
-  typedef typename PointsContainer::Iterator          PointsContainerIterator;
-  typedef typename OutputMeshType::PointDataContainer PointDataContainer;
-  typedef typename PointDataContainer::Pointer        PointDataContainerPointer;
-  typedef typename PointDataContainer::Iterator       PointDataContainerIterator;
+  /** Some type alias associated with the output mesh. */
+  using OutputMeshType = TOutputMesh;
+  using PointType = typename OutputMeshType::PointType;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using PointsContainer = typename OutputMeshType::PointsContainer;
+  using PointIdentifier = typename OutputMeshType::PointIdentifier;
+  using PointsContainerPointer = typename PointsContainer::Pointer;
+  using PointsContainerIterator = typename PointsContainer::Iterator;
+  using PointDataContainer = typename OutputMeshType::PointDataContainer;
+  using PointDataContainerPointer = typename PointDataContainer::Pointer;
+  using PointDataContainerIterator = typename PointDataContainer::Iterator;
 
   /** The dimension of the output mesh. */
   itkStaticConstMacro(PointDimension, unsigned int,
                       TOutputMesh::PointDimension);
 
-  /** Some typedefs associated with the output mesh. */
+  /** Some type alias associated with the output mesh. */
   void GenerateData() override;
 
   /** Prepare the output. */

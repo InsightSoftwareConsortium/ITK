@@ -26,8 +26,8 @@ int itkListSampleTest(int argc, char *argv[] )
     std::cerr << "itkListSampleTest LengthOfMeasurementVector" << std::endl;
     }
 
-  typedef itk::Array< float >                                  MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Array< float >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
   SampleType::MeasurementVectorSizeType measurementVectorSize = atoi(argv[1]);
   std::cerr << "Measurement vector size: " << measurementVectorSize
@@ -161,7 +161,7 @@ int itkListSampleTest(int argc, char *argv[] )
     {
     // forward iterator
     std::cerr << "Trying Iterator::Copy Constructor...";
-    typedef SampleType::Iterator IteratorType;
+    using IteratorType = SampleType::Iterator;
 
     IteratorType s_iter = sample->Begin();
 
@@ -257,7 +257,7 @@ int itkListSampleTest(int argc, char *argv[] )
     {
     std::cerr << "Trying Iterator::Copy Constructor (from const)...";
     // forward iterator
-    typedef SampleType::ConstIterator  ConstIteratorType;
+    using ConstIteratorType = SampleType::ConstIterator;
 
     ConstIteratorType s_iter = sample->Begin();
 
@@ -394,11 +394,9 @@ int itkListSampleTest(int argc, char *argv[] )
 
 
   // Test a VariableSizeVector
-  typedef itk::VariableLengthVector< float >
-    VariableSizeMeasurementVectorType;
+  using VariableSizeMeasurementVectorType = itk::VariableLengthVector<float>;
 
-  typedef itk::Statistics::ListSample< VariableSizeMeasurementVectorType >
-    VariableSizeListSampleType;
+  using VariableSizeListSampleType = itk::Statistics::ListSample<VariableSizeMeasurementVectorType>;
 
   VariableSizeListSampleType::Pointer variableSizeSample =
     VariableSizeListSampleType::New();
@@ -503,7 +501,7 @@ int itkListSampleTest(int argc, char *argv[] )
 
   // Testing methods specific to Iterators
     {
-    typedef SampleType::Iterator IteratorType;
+    using IteratorType = SampleType::Iterator;
     IteratorType iter = sample->Begin();
     IteratorType iter2 = sample->Begin();
 
@@ -597,7 +595,7 @@ int itkListSampleTest(int argc, char *argv[] )
   // Testing methods specific to ConstIterators
     {
     std::cerr << "Trying ConstIterator operator!=() and operator=()...";
-    typedef SampleType::ConstIterator ConstIteratorType;
+    using ConstIteratorType = SampleType::ConstIterator;
     ConstIteratorType iter = sample->Begin();
     ConstIteratorType iter2 = sample->End();
 

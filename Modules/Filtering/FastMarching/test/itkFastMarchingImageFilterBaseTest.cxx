@@ -22,13 +22,13 @@
 template< unsigned int VDimension >
 int FastMarchingImageFilterBase( )
   {
-  typedef float PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< PixelType, VDimension > ImageType;
+  using ImageType = itk::Image< PixelType, VDimension >;
   typename ImageType::Pointer input = ImageType::New();
 
-  typedef itk::FastMarchingImageFilterBase< ImageType, ImageType >
-      FMMType;
+  using FMMType =
+      itk::FastMarchingImageFilterBase< ImageType, ImageType >;
   typename FMMType::Pointer fmm = FMMType::New();
   fmm->SetInput( input );
 

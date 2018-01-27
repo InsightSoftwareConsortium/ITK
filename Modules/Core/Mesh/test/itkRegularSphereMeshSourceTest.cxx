@@ -23,14 +23,14 @@
 int itkRegularSphereMeshSourceTest(int, char* [] )
 {
 
-  typedef itk::Mesh<float, 3>   MeshType;
+  using MeshType = itk::Mesh<float, 3>;
 
-  typedef itk::RegularSphereMeshSource< MeshType >  SphereMeshSourceType;
+  using SphereMeshSourceType = itk::RegularSphereMeshSource< MeshType >;
 
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
 
-  typedef SphereMeshSourceType::PointType   PointType;
-  typedef SphereMeshSourceType::VectorType  VectorType;
+  using PointType = SphereMeshSourceType::PointType;
+  using VectorType = SphereMeshSourceType::VectorType;
 
   PointType center;
   center.Fill( 7.4 );
@@ -83,8 +83,8 @@ int itkRegularSphereMeshSourceTest(int, char* [] )
       }
     }
 
-  typedef MeshType::CellsContainerPointer  CellsContainerPointer;
-  typedef MeshType::CellType               CellType;
+  using CellsContainerPointer = MeshType::CellsContainerPointer;
+  using CellType = MeshType::CellType;
 
   CellsContainerPointer cells = myMesh->GetCells();
 

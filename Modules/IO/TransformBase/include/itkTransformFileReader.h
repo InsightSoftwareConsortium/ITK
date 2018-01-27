@@ -38,25 +38,25 @@ class ITK_TEMPLATE_EXPORT TransformFileReaderTemplate: public LightProcessObject
 {
 public:
 
-  /** SmartPointer typedef support */
-  typedef TransformFileReaderTemplate                 Self;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef TransformBaseTemplate<TParametersValueType> TransformType;
+  /** SmartPointer type alias support */
+  using Self = TransformFileReaderTemplate;
+  using Pointer = SmartPointer<Self>;
+  using TransformType = TransformBaseTemplate<TParametersValueType>;
 
-  typedef typename TransformType::ParametersType           ParametersType;
-  typedef typename TransformType::ParametersValueType      ParametersValueType;
-  typedef typename TransformType::FixedParametersType      FixedParametersType;
-  typedef typename TransformType::FixedParametersValueType FixedParametersValueType;
+  using ParametersType = typename TransformType::ParametersType;
+  using ParametersValueType = typename TransformType::ParametersValueType;
+  using FixedParametersType = typename TransformType::FixedParametersType;
+  using FixedParametersValueType = typename TransformType::FixedParametersValueType;
 
-  typedef TransformIOBaseTemplate< ParametersValueType >   TransformIOType;
-  typedef typename TransformIOType::TransformPointer       TransformPointer;
-  typedef typename TransformIOType::TransformListType      TransformListType;
+  using TransformIOType = TransformIOBaseTemplate< ParametersValueType >;
+  using TransformPointer = typename TransformIOType::TransformPointer;
+  using TransformListType = typename TransformIOType::TransformListType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  typedef Object Superclass;
+  using Superclass = Object;
   itkTypeMacro(TransformFileReaderTemplate, LightProcessObject);
 
   /** Set the filename  */
@@ -97,7 +97,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef itk::TransformFileReaderTemplate<double> TransformFileReader;
+using TransformFileReader = itk::TransformFileReaderTemplate<double>;
 
 } // namespace itk
 

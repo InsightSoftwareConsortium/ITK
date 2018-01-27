@@ -79,10 +79,10 @@ class ITK_TEMPLATE_EXPORT ScalarChanAndVeseLevelSetFunction:
   public ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
 public:
-  typedef ScalarChanAndVeseLevelSetFunction                                            Self;
-  typedef ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData > Superclass;
-  typedef SmartPointer< Self >                                                         Pointer;
-  typedef SmartPointer< const Self >                                                   ConstPointer;
+  using Self = ScalarChanAndVeseLevelSetFunction;
+  using Superclass = ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -92,44 +92,44 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
 
-  typedef TInputImage                                 InputImageType;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::InputPixelType         InputPixelType;
-  typedef typename Superclass::InputIndexType         InputIndexType;
-  typedef typename Superclass::InputIndexValueType    InputIndexValueType;
-  typedef typename Superclass::InputSizeType          InputSizeType;
-  typedef typename Superclass::InputSizeValueType     InputSizeValueType;
-  typedef typename Superclass::InputRegionType        InputRegionType;
-  typedef typename Superclass::InputPointType         InputPointType;
+  using InputImageType = TInputImage;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputPixelType = typename Superclass::InputPixelType;
+  using InputIndexType = typename Superclass::InputIndexType;
+  using InputIndexValueType = typename Superclass::InputIndexValueType;
+  using InputSizeType = typename Superclass::InputSizeType;
+  using InputSizeValueType = typename Superclass::InputSizeValueType;
+  using InputRegionType = typename Superclass::InputRegionType;
+  using InputPointType = typename Superclass::InputPointType;
 
-  typedef TFeatureImage                           FeatureImageType;
-  typedef typename FeatureImageType::ConstPointer FeatureImageConstPointer;
-  typedef typename Superclass::FeaturePixelType   FeaturePixelType;
-  typedef typename Superclass::FeatureIndexType   FeatureIndexType;
-  typedef typename Superclass::FeatureOffsetType  FeatureOffsetType;
+  using FeatureImageType = TFeatureImage;
+  using FeatureImageConstPointer = typename FeatureImageType::ConstPointer;
+  using FeaturePixelType = typename Superclass::FeaturePixelType;
+  using FeatureIndexType = typename Superclass::FeatureIndexType;
+  using FeatureOffsetType = typename Superclass::FeatureOffsetType;
 
-  typedef typename Superclass::ScalarValueType  ScalarValueType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::TimeStepType     TimeStepType;
-  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::VectorType       VectorType;
+  using ScalarValueType = typename Superclass::ScalarValueType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using RadiusType = typename Superclass::RadiusType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using GlobalDataStruct = typename Superclass::GlobalDataStruct;
+  using PixelType = typename Superclass::PixelType;
+  using VectorType = typename Superclass::VectorType;
 
-  typedef typename Superclass::SharedDataType    SharedDataType;
-  typedef typename Superclass::SharedDataPointer SharedDataPointer;
+  using SharedDataType = typename Superclass::SharedDataType;
+  using SharedDataPointer = typename Superclass::SharedDataPointer;
 
-  typedef typename Superclass::ImageIteratorType        ImageIteratorType;
-  typedef typename Superclass::ConstImageIteratorType   ConstImageIteratorType;
-  typedef typename Superclass::FeatureImageIteratorType FeatureImageIteratorType;
-  typedef typename Superclass::ConstFeatureIteratorType ConstFeatureIteratorType;
+  using ImageIteratorType = typename Superclass::ImageIteratorType;
+  using ConstImageIteratorType = typename Superclass::ConstImageIteratorType;
+  using FeatureImageIteratorType = typename Superclass::FeatureImageIteratorType;
+  using ConstFeatureIteratorType = typename Superclass::ConstFeatureIteratorType;
 
-  typedef typename Superclass::ListPixelType          ListPixelType;
-  typedef typename Superclass::ListPixelConstIterator ListPixelConstIterator;
-  typedef typename Superclass::ListPixelIterator      ListPixelIterator;
-  typedef typename Superclass::ListImageType          ListImageType;
+  using ListPixelType = typename Superclass::ListPixelType;
+  using ListPixelConstIterator = typename Superclass::ListPixelConstIterator;
+  using ListPixelIterator = typename Superclass::ListPixelIterator;
+  using ListImageType = typename Superclass::ListImageType;
 
 protected:
   ScalarChanAndVeseLevelSetFunction():Superclass() {}

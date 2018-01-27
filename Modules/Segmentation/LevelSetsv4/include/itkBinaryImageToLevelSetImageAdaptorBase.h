@@ -31,27 +31,26 @@ template< typename TInputImage, typename TLevelSet >
 class BinaryImageToLevelSetImageAdaptorBase : public Object
 {
 public:
-  typedef BinaryImageToLevelSetImageAdaptorBase Self;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
-  typedef Object                                Superclass;
+  using Self = BinaryImageToLevelSetImageAdaptorBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = Object;
 
   /** Run-time type information */
   itkTypeMacro( BinaryImageToLevelSetImageAdaptorBase, Object );
 
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
-  typedef typename InputImageType::IndexType    InputImageIndexType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename NumericTraits< InputImagePixelType >::RealType
-                                                InputPixelRealType;
+  using InputImageType = TInputImage;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using InputImageIndexType = typename InputImageType::IndexType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputPixelRealType = typename NumericTraits<InputImagePixelType>::RealType;
 
   itkStaticConstMacro ( ImageDimension, unsigned int,
                        InputImageType::ImageDimension );
 
-  typedef TLevelSet                       LevelSetType;
-  typedef typename LevelSetType::Pointer  LevelSetPointer;
+  using LevelSetType = TLevelSet;
+  using LevelSetPointer = typename LevelSetType::Pointer;
 
   /**
    * Input is a binary image m_InputImage

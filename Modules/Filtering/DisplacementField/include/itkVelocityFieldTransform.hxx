@@ -43,7 +43,7 @@ VelocityFieldTransform<TParametersValueType, NDimensions>
   this->m_NumberOfIntegrationSteps = 10;
 
   // Setup and assign default interpolator
-  typedef VectorLinearInterpolateImageFunction<VelocityFieldType, ScalarType> DefaultInterpolatorType;
+  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<VelocityFieldType, ScalarType>;
   typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();
   this->m_VelocityFieldInterpolator = interpolator;
 

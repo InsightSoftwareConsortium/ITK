@@ -44,19 +44,19 @@ template< typename TInputImage, typename TInputImageConverter >
 class ITK_TEMPLATE_EXPORT VTKVisualizeImageLevelSet: public LightObject
 {
 public:
-  typedef VTKVisualizeImageLevelSet  Self;
-  typedef LightObject                Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = VTKVisualizeImageLevelSet;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( VTKVisualizeImageLevelSet, LightObject );
 
   /** Type of the input image the level set evolves on. */
-  typedef TInputImage     InputImageType;
+  using InputImageType = TInputImage;
 
   /** Type of the ITK filter to convert the input image to a VTK object. */
-  typedef TInputImageConverter InputImageConverterType;
+  using InputImageConverterType = TInputImageConverter;
 
   /** Set the input image the level set is being evolved over. */
   virtual void SetInputImage( const InputImageType * inputImage );

@@ -69,19 +69,19 @@ namespace itk
 class ITKIOMesh_EXPORT MeshIOBase:public LightProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef MeshIOBase                 Self;
-  typedef LightProcessObject         Superclass;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef SmartPointer< Self >       Pointer;
+  /** Standard class type aliases. */
+  using Self = MeshIOBase;
+  using Superclass = LightProcessObject;
+  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer< Self >;
 
   /** Type for the list of strings to be used for extensions.  */
-  typedef  std::vector< std::string > ArrayOfExtensionsType;
+  using ArrayOfExtensionsType = std::vector< std::string >;
 
   /** Type for representing size of bytes, and or positions along a file */
-  typedef std::streamoff StreamOffsetType;
+  using StreamOffsetType = std::streamoff;
 
-  typedef IdentifierType SizeValueType;
+  using SizeValueType = IdentifierType;
 
   /**
     * \class UnknownType

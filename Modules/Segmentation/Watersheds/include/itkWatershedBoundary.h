@@ -64,10 +64,10 @@ public:
    * The IndexType.first is the dimension of the face and IndexType.second is a
    * binary value 0 or 1 indicating the LOW face or the HIGH face,
    * respectively.    */
-  typedef std::pair< unsigned, unsigned >     IndexType;
-  typedef Image< IdentifierType, TDimension > ImageType;
-  typedef typename ImageType::IndexType       ImageIndexType;
-  typedef TScalar                             ScalarType;
+  using IndexType = std::pair< unsigned, unsigned >;
+  using ImageType = Image< IdentifierType, TDimension >;
+  using ImageIndexType = typename ImageType::IndexType;
+  using ScalarType = TScalar;
 
   /** Data type stored at each pixel in a face.   */
   struct face_pixel_t {
@@ -112,24 +112,24 @@ public:
 
   /** The face data structure.  This is just an Image of face pixel
       types. */
-  typedef Image< face_pixel_t, TDimension > face_t;
+  using face_t = Image< face_pixel_t, TDimension >;
 
   /** A hash table holding flat region data structures.   */
-  typedef itksys::hash_map< IdentifierType, flat_region_t,
-                            itksys::hash< IdentifierType > > flat_hash_t;
-  typedef typename flat_hash_t::value_type                   FlatHashValueType;
+  using flat_hash_t = itksys::hash_map< IdentifierType, flat_region_t,
+                            itksys::hash< IdentifierType > >;
+  using FlatHashValueType = typename flat_hash_t::value_type;
 
-  /** Itk typedefs and macros defining smart pointer and type identification.
+  /** Itk type alias and macros defining smart pointer and type identification.
    */
-  typedef Boundary                   Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = Boundary;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
   itkNewMacro(Self);
   itkTypeMacro(WatershedBoundary, DataObject);
 
   /** The following averts an internal compiler error on microsoft compilers */
-  typedef typename face_t::Pointer FacePointer;
+  using FacePointer = typename face_t::Pointer;
 
   /** Returns the face at the specified index  */
   FacePointer GetFace(const IndexType & idx)

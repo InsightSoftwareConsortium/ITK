@@ -31,12 +31,12 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned short, 2> InputImageType;
-  typedef itk::Image<unsigned char, 2 > OutputImageType;
+  using InputImageType = itk::Image<unsigned short, 2>;
+  using OutputImageType = itk::Image<unsigned char, 2 >;
   // We need the internal type to be either float or double since
   // the correlation image contains values between -1 and 1.
-  typedef itk::Image<double, 2> RealImageType;
-  typedef itk::FFTNormalizedCorrelationImageFilter< InputImageType, RealImageType > FilterType;
+  using RealImageType = itk::Image<double, 2>;
+  using FilterType = itk::FFTNormalizedCorrelationImageFilter< InputImageType, RealImageType >;
 
   char * fixedImageFileName = argv[1];
   char * movingImageFileName = argv[2];
@@ -48,7 +48,7 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
     requiredFractionOfOverlappingPixels = atof(argv[4]);
     }
 
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   ReaderType::Pointer fixedImageReader = ReaderType::New();
   fixedImageReader->SetFileName( fixedImageFileName );
 
@@ -75,13 +75,13 @@ int itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[] )
   // But because of precision issues, numbers that are very close to 0 will get
   // mapped to 127 or 128, depending on whether they are slightly negative or positive.
   // Therefore, we truncate instead so that all values near 0 get mapped to 127.
-  typedef itk::ShiftScaleImageFilter<RealImageType,OutputImageType> RescaleType;
+  using RescaleType = itk::ShiftScaleImageFilter<RealImageType,OutputImageType>;
   RescaleType::Pointer rescaler = RescaleType::New();
   rescaler->SetInput( filter->GetOutput() );
   rescaler->SetShift(1);
   rescaler->SetScale(255.0/2.0);
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( outputImageFileName );
   writer->SetInput( rescaler->GetOutput() );

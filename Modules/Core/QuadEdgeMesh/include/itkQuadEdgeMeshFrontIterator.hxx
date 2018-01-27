@@ -89,7 +89,7 @@ QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::operator++()
   QEType *          edge = fit->m_Edge;
 
   // Traverse the Onext ring in search of an unvisited Origin:
-  typedef typename QEType::IteratorGeom QEIterator;
+  using QEIterator = typename QEType::IteratorGeom;
   for ( QEIterator qit  = edge->BeginGeomOnext();
         qit != edge->EndGeomOnext();
         qit++ )
@@ -141,7 +141,7 @@ QuadEdgeMeshFrontBaseIterator< TMesh, TQE >::FindDefaultSeed()
     {
     return edge;
     }
-  typedef typename QEType::DualType QEDual;
+  using QEDual = typename QEType::DualType;
   if ( QEDual * edge = dynamic_cast< QEDual * >( m_Mesh->GetEdge() ) )
     {
     return edge->GetRot();

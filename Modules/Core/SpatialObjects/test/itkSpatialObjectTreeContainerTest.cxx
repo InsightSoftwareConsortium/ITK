@@ -27,8 +27,8 @@
 int itkSpatialObjectTreeContainerTest(int, char* [])
 {
 
-  typedef itk::GroupSpatialObject<2>         NodeType;
-  typedef itk::SpatialObjectTreeContainer<2> TreeType;
+  using NodeType = itk::GroupSpatialObject<2>;
+  using TreeType = itk::SpatialObjectTreeContainer<2>;
 
   NodeType::Pointer object0 = NodeType::New();
   object0->SetId(0);

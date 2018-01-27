@@ -29,7 +29,7 @@ template <int VDimension>
 class ImagePattern
 {
 public:
-  typedef itk::Index<VDimension> IndexType;
+  using IndexType = itk::Index<VDimension>;
 
   ImagePattern()
     {
@@ -71,11 +71,11 @@ public:
 
 int itkVectorExpandImageFilterTest(int, char* [] )
 {
-  typedef float ValueType;
+  using ValueType = float;
   enum { VectorDimension = 3 };
-  typedef itk::Vector<ValueType,VectorDimension> PixelType;
+  using PixelType = itk::Vector<ValueType,VectorDimension>;
   enum { ImageDimension = 2 };
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
 
   bool testPassed = true;
 
@@ -102,7 +102,7 @@ int itkVectorExpandImageFilterTest(int, char* [] )
 
   double vectorCoeff[VectorDimension] = { 1.0, 4.0, 6.0 };
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator inIter( input, region );
 
   for(; !inIter.IsAtEnd(); ++inIter )
@@ -122,12 +122,12 @@ int itkVectorExpandImageFilterTest(int, char* [] )
 
   std::cout << "Run ExpandImageFilter in standalone mode with progress.";
   std::cout << std::endl;
-  typedef itk::VectorExpandImageFilter<ImageType,ImageType> ExpanderType;
+  using ExpanderType = itk::VectorExpandImageFilter<ImageType,ImageType>;
   ExpanderType::Pointer expander = ExpanderType::New();
 
   expander->SetInput( input );
 
-  typedef itk::VectorNearestNeighborInterpolateImageFunction<ImageType,double> InterpolatorType;
+  using InterpolatorType = itk::VectorNearestNeighborInterpolateImageFunction<ImageType,double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   expander->SetInterpolator( interpolator );
@@ -138,8 +138,8 @@ int itkVectorExpandImageFilterTest(int, char* [] )
   unsigned int factors[ImageDimension] = {2,3};
   expander->SetExpandFactors( factors );
 
-  typedef ImageType::PixelType PixelType;
-  typedef PixelType::ValueType ValueType;
+  using PixelType = ImageType::PixelType;
+  using ValueType = PixelType::ValueType;
   ValueType padValueArray[VectorDimension] = {2.0, 7.0, 9.0};
   ImageType::PixelType padValue( padValueArray );
 //TEST_RMV20100728   expander->SetEdgePaddingValue( padValue );
@@ -218,7 +218,7 @@ int itkVectorExpandImageFilterTest(int, char* [] )
   std::cout << "Run ExpandImageFilter with streamer";
   std::cout << std::endl;
 
-  typedef itk::VectorCastImageFilter<ImageType,ImageType> CasterType;
+  using CasterType = itk::VectorCastImageFilter<ImageType,ImageType>;
   CasterType::Pointer caster = CasterType::New();
 
   caster->SetInput( expander->GetInput() );
@@ -230,7 +230,7 @@ int itkVectorExpandImageFilterTest(int, char* [] )
 //TEST_RMV20100728   expander2->SetEdgePaddingValue( expander->GetEdgePaddingValue() );
   expander2->SetInterpolator( expander->GetModifiableInterpolator() );
 
-  typedef itk::StreamingImageFilter<ImageType,ImageType> StreamerType;
+  using StreamerType = itk::StreamingImageFilter<ImageType,ImageType>;
   StreamerType::Pointer streamer = StreamerType::New();
   streamer->SetInput( expander2->GetOutput() );
   streamer->SetNumberOfStreamDivisions( 3 );

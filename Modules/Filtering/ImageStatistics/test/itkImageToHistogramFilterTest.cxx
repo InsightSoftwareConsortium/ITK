@@ -27,13 +27,13 @@ int itkImageToHistogramFilterTest( int , char * [] )
 {
 
 
-  typedef unsigned char                         PixelComponentType;
+  using PixelComponentType = unsigned char;
 
-  typedef itk::RGBPixel< PixelComponentType >   RGBPixelType;
+  using RGBPixelType = itk::RGBPixel< PixelComponentType >;
 
   const unsigned int                            Dimension = 3;
 
-  typedef itk::Image< RGBPixelType, Dimension > RGBImageType;
+  using RGBImageType = itk::Image< RGBPixelType, Dimension >;
 
   const unsigned int MeasurementVectorSize = 3; // RGB
 
@@ -75,12 +75,12 @@ int itkImageToHistogramFilterTest( int , char * [] )
     ++it;
     }
 
-  typedef itk::Statistics::ImageToHistogramFilter< RGBImageType >         HistogramFilterType;
-  typedef HistogramFilterType::HistogramMeasurementVectorType             HistogramMeasurementVectorType;
-  typedef HistogramFilterType::InputHistogramMeasurementVectorObjectType  InputHistogramMeasurementVectorObjectType;
-  typedef HistogramFilterType::InputBooleanObjectType                     InputBooleanObjectType;
-  typedef HistogramFilterType::HistogramSizeType                          HistogramSizeType;
-  typedef HistogramFilterType::HistogramType                              HistogramType;
+  using HistogramFilterType = itk::Statistics::ImageToHistogramFilter< RGBImageType >;
+  using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
+  using InputHistogramMeasurementVectorObjectType = HistogramFilterType::InputHistogramMeasurementVectorObjectType;
+  using InputBooleanObjectType = HistogramFilterType::InputBooleanObjectType;
+  using HistogramSizeType = HistogramFilterType::HistogramSizeType;
+  using HistogramType = HistogramFilterType::HistogramType;
 
   HistogramFilterType::Pointer filter = HistogramFilterType::New();
   itk::SimpleFilterWatcher watcher(filter, "filter");

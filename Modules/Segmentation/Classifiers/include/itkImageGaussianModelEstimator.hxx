@@ -98,7 +98,7 @@ ImageGaussianModelEstimator< TInputImage, TMembershipFunction, TTrainingImage >
 
   TrainingImageConstPointer trainingImage = this->GetTrainingImage();
 
-  typedef InputImageSizeType TrainingImageSizeType;
+  using TrainingImageSizeType = InputImageSizeType;
   TrainingImageSizeType trainingImageSize = trainingImage->GetBufferedRegion().GetSize();
 
   // Check if size of the two inputs are the same

@@ -42,16 +42,16 @@ int main( int argc, char * argv[] )
     }
 
 
-  typedef float                            InputPixelType;
-  typedef float                            OutputPixelType;
-  typedef itk::Image< InputPixelType,  2 > InputImageType;
-  typedef itk::Image< OutputPixelType, 2 > OutputImageType;
+  using InputPixelType = float;
+  using OutputPixelType = float;
+  using InputImageType = itk::Image< InputPixelType,  2 >;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
 
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef itk::LaplacianRecursiveGaussianImageFilter<
-                        InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::LaplacianRecursiveGaussianImageFilter<
+                        InputImageType, OutputImageType >;
 
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -64,7 +64,7 @@ int main( int argc, char * argv[] )
   laplacian->SetInput( reader->GetOutput() );
 
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

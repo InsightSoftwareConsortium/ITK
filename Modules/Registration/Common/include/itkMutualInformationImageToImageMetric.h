@@ -96,11 +96,11 @@ class ITK_TEMPLATE_EXPORT MutualInformationImageToImageMetric:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef MutualInformationImageToImageMetric             Self;
-  typedef ImageToImageMetric< TFixedImage, TMovingImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MutualInformationImageToImageMetric;
+  using Superclass = ImageToImageMetric< TFixedImage, TMovingImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -109,26 +109,26 @@ public:
   itkTypeMacro(MutualInformationImageToImageMetric, ImageToImageMetric);
 
   /** Types inherited from Superclass. */
-  typedef typename Superclass::TransformType           TransformType;
-  typedef typename Superclass::TransformPointer        TransformPointer;
-  typedef typename Superclass::TransformJacobianType   TransformJacobianType;
-  typedef typename Superclass::InterpolatorType        InterpolatorType;
-  typedef typename Superclass::MeasureType             MeasureType;
-  typedef typename Superclass::DerivativeType          DerivativeType;
-  typedef typename Superclass::ParametersType          ParametersType;
-  typedef typename Superclass::FixedImageType          FixedImageType;
-  typedef typename Superclass::MovingImageType         MovingImageType;
-  typedef typename Superclass::FixedImageConstPointer  FixedImageConstPointer;
-  typedef typename Superclass::MovingImageConstPointer MovingImageCosntPointer;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformJacobianType = typename Superclass::TransformJacobianType;
+  using InterpolatorType = typename Superclass::InterpolatorType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using ParametersType = typename Superclass::ParametersType;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using FixedImageConstPointer = typename Superclass::FixedImageConstPointer;
+  using MovingImageCosntPointer = typename Superclass::MovingImageConstPointer;
 
-  /** Index and Point typedef support. */
-  typedef typename FixedImageType::IndexType           FixedImageIndexType;
-  typedef typename FixedImageIndexType::IndexValueType FixedImageIndexValueType;
-  typedef typename MovingImageType::IndexType          MovingImageIndexType;
-  typedef typename TransformType::InputPointType       FixedImagePointType;
-  typedef typename TransformType::OutputPointType      MovingImagePointType;
+  /** Index and Point type alias support */
+  using FixedImageIndexType = typename FixedImageType::IndexType;
+  using FixedImageIndexValueType = typename FixedImageIndexType::IndexValueType;
+  using MovingImageIndexType = typename MovingImageType::IndexType;
+  using FixedImagePointType = typename TransformType::InputPointType;
+  using MovingImagePointType = typename TransformType::OutputPointType;
 
-  typedef KernelFunctionBase<double>                       KernelFunctionType;
+  using KernelFunctionType = KernelFunctionBase<double>;
 
   /** Enum of the moving image dimension. */
   itkStaticConstMacro(MovingImageDimension, unsigned int,
@@ -204,8 +204,8 @@ public:
     double              MovingImageValue;
   };
 
-  /** SpatialSampleContainer typedef support. */
-  typedef std::vector< SpatialSample > SpatialSampleContainer;
+  /** SpatialSampleContainer type alias support */
+  using SpatialSampleContainer = std::vector< SpatialSample >;
 
   /** Container to store sample set  A - used to approximate the probability
    * density function (pdf). */
@@ -234,10 +234,9 @@ public:
    */
   void CalculateDerivatives(const FixedImagePointType &, DerivativeType &, TransformJacobianType &) const;
 
-  typedef typename Superclass::CoordinateRepresentationType
-  CoordinateRepresentationType;
-  typedef CentralDifferenceImageFunction< MovingImageType,
-                                          CoordinateRepresentationType > DerivativeFunctionType;
+  using CoordinateRepresentationType = typename Superclass::CoordinateRepresentationType;
+  using DerivativeFunctionType = CentralDifferenceImageFunction< MovingImageType,
+                                          CoordinateRepresentationType >;
 
   typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
 

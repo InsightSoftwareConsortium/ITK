@@ -55,29 +55,29 @@ class ITK_TEMPLATE_EXPORT ShapeLabelMapFilter:
   InPlaceLabelMapFilter< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ShapeLabelMapFilter             Self;
-  typedef InPlaceLabelMapFilter< TImage > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ShapeLabelMapFilter;
+  using Superclass = InPlaceLabelMapFilter< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TImage                               ImageType;
-  typedef typename ImageType::Pointer          ImagePointer;
-  typedef typename ImageType::ConstPointer     ImageConstPointer;
-  typedef typename ImageType::PixelType        PixelType;
-  typedef typename ImageType::IndexType        IndexType;
-  typedef typename ImageType::SizeType         SizeType;
-  typedef typename ImageType::RegionType       RegionType;
-  typedef typename ImageType::OffsetType       OffsetType;
-  typedef typename ImageType::LabelObjectType  LabelObjectType;
-  typedef typename LabelObjectType::MatrixType MatrixType;
-  typedef typename LabelObjectType::VectorType VectorType;
+  /** Some convenient type alias. */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using IndexType = typename ImageType::IndexType;
+  using SizeType = typename ImageType::SizeType;
+  using RegionType = typename ImageType::RegionType;
+  using OffsetType = typename ImageType::OffsetType;
+  using LabelObjectType = typename ImageType::LabelObjectType;
+  using MatrixType = typename LabelObjectType::MatrixType;
+  using VectorType = typename LabelObjectType::VectorType;
 
-  typedef TLabelImage                           LabelImageType;
-  typedef typename LabelImageType::Pointer      LabelImagePointer;
-  typedef typename LabelImageType::ConstPointer LabelImageConstPointer;
-  typedef typename LabelImageType::PixelType    LabelPixelType;
+  using LabelImageType = TLabelImage;
+  using LabelImagePointer = typename LabelImageType::Pointer;
+  using LabelImageConstPointer = typename LabelImageType::ConstPointer;
+  using LabelPixelType = typename LabelImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
@@ -154,12 +154,12 @@ private:
   void ComputePerimeter(LabelObjectType *labelObject);
   void ComputeOrientedBoundingBox(LabelObjectType *labelObject);
 
-  typedef itk::Offset<2>                                                          Offset2Type;
-  typedef itk::Offset<3>                                                          Offset3Type;
-  typedef itk::Vector<double, 2>                                                  Spacing2Type;
-  typedef itk::Vector<double, 3>                                                  Spacing3Type;
-  typedef std::map<Offset2Type, SizeValueType, Offset2Type::LexicographicCompare> MapIntercept2Type;
-  typedef std::map<Offset3Type, SizeValueType, Offset3Type::LexicographicCompare> MapIntercept3Type;
+  using Offset2Type = itk::Offset<2>;
+  using Offset3Type = itk::Offset<3>;
+  using Spacing2Type = itk::Vector<double, 2>;
+  using Spacing3Type = itk::Vector<double, 3>;
+  using MapIntercept2Type = std::map<Offset2Type, SizeValueType, Offset2Type::LexicographicCompare>;
+  using MapIntercept3Type = std::map<Offset3Type, SizeValueType, Offset3Type::LexicographicCompare>;
 
   // it seems impossible to specialize a method without specializing the whole class, but we
   // can use simple overloading

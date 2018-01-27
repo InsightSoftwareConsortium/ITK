@@ -99,7 +99,7 @@ ExponentialDisplacementFieldImageFilter< TInputImage, TOutputImage >
         }
       }
 
-    typedef ImageRegionConstIterator< InputImageType > InputConstIterator;
+    using InputConstIterator = ImageRegionConstIterator< InputImageType >;
     InputConstIterator InputIt = InputConstIterator(
       inputPtr, inputPtr->GetRequestedRegion() );
 

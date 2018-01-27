@@ -83,17 +83,17 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef  itk::SmartPointer<Self>  Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef   itk::RegularStepGradientDescentOptimizer  OptimizerType;
-  typedef   const OptimizerType *                     OptimizerPointer;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
+  using OptimizerPointer = const OptimizerType *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
@@ -142,63 +142,59 @@ int main( int argc, char * argv [] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char MaskPixelType;
+  using MaskPixelType = unsigned char;
 
-  typedef itk::Image< MaskPixelType, Dimension > MaskImageType;
-
-
-  typedef itk::BoxSpatialObject< Dimension >    SpatialObjectType;
-
-  typedef itk::SpatialObjectToImageFilter<
-                              SpatialObjectType,
-                              MaskImageType
-                                >   SpatialObjectToImageFilterType;
-
-  typedef itk::PointSet< float, Dimension >       FixedPointSetType;
+  using MaskImageType = itk::Image< MaskPixelType, Dimension >;
 
 
-  typedef itk::BinaryMaskToNarrowBandPointSetFilter<
-                                    MaskImageType,
-                                    FixedPointSetType
-                                            >  NarrowBandFilterType;
+  using SpatialObjectType = itk::BoxSpatialObject< Dimension >;
 
-  typedef  signed short   PixelType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+                              SpatialObjectType, MaskImageType >;
 
-  typedef itk::Image< PixelType, Dimension >  ImageType;
-
-  typedef  unsigned char       MaskPixelType;
-
-  typedef itk::Image< MaskPixelType, Dimension >  MaskImageType;
+  using FixedPointSetType = itk::PointSet< float, Dimension >;
 
 
-  typedef itk::Rigid2DTransform< double  > TransformType;
+  using NarrowBandFilterType = itk::BinaryMaskToNarrowBandPointSetFilter<
+                                    MaskImageType, FixedPointSetType >;
 
-  typedef TransformType::ParametersType          ParametersType;
+  using PixelType = signed short;
+
+  using ImageType = itk::Image< PixelType, Dimension >;
+
+  using MaskPixelType = unsigned char;
+
+  using MaskImageType = itk::Image< MaskPixelType, Dimension >;
 
 
-  typedef itk::RegularStepGradientDescentOptimizer    OptimizerType;
+  using TransformType = itk::Rigid2DTransform< double  >;
 
-  typedef itk::LinearInterpolateImageFunction<
+  using ParametersType = TransformType::ParametersType;
+
+
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
+
+  using LinearInterpolatorType = itk::LinearInterpolateImageFunction<
                                     ImageType,
-                                    double     > LinearInterpolatorType;
+                                    double     >;
 
 
-  typedef itk::NormalizedCorrelationPointSetToImageMetric<
+  using MetricType = itk::NormalizedCorrelationPointSetToImageMetric<
                                     FixedPointSetType,
-                                    ImageType  >   MetricType;
+                                    ImageType  >;
 
 
-  typedef OptimizerType::ScalesType       OptimizerScalesType;
+  using OptimizerScalesType = OptimizerType::ScalesType;
 
 
-  typedef itk::PointSetToImageRegistrationMethod<
+  using RegistrationType = itk::PointSetToImageRegistrationMethod<
                                     FixedPointSetType,
-                                    ImageType  >   RegistrationType;
+                                    ImageType  >;
 
 
-  typedef CommandIterationUpdate    IterationObserverType;
+  using IterationObserverType = CommandIterationUpdate;
 
-  typedef itk::ImageFileReader< ImageType >      ImageReaderType;
+  using ImageReaderType = itk::ImageFileReader< ImageType >;
 
   SpatialObjectType::Pointer            spatialObject;
   TransformType::Pointer                transform;
@@ -286,7 +282,7 @@ int main( int argc, char * argv [] )
 
   if( argc > 4 )
     {
-    typedef itk::ImageFileWriter< MaskImageType > MaskWriterType;
+    using MaskWriterType = itk::ImageFileWriter< MaskImageType >;
     MaskWriterType::Pointer maskWriter = MaskWriterType::New();
     maskWriter->SetInput( rasterizationFilter->GetOutput() );
     maskWriter->SetFileName( argv[4] );

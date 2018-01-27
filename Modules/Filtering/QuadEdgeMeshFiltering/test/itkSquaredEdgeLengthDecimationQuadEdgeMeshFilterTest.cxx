@@ -36,12 +36,12 @@ int itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest( int argc, char* argv[]
     }
 
 // ** TYPEDEF **
-  typedef double                              CoordType;
+  using CoordType = double;
   const unsigned int                          Dimension = 3;
 
-  typedef itk::QuadEdgeMesh< CoordType, Dimension >    MeshType;
-  typedef itk::MeshFileReader< MeshType >              ReaderType;
-  typedef itk::MeshFileWriter< MeshType >              WriterType;
+  using MeshType = itk::QuadEdgeMesh< CoordType, Dimension >;
+  using ReaderType = itk::MeshFileReader< MeshType >;
+  using WriterType = itk::MeshFileWriter< MeshType >;
 
   // ** READ THE FILE IN **
   ReaderType::Pointer reader = ReaderType::New( );
@@ -59,10 +59,10 @@ int itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest( int argc, char* argv[]
 
   MeshType::Pointer mesh = reader->GetOutput( );
 
-  typedef itk::NumberOfFacesCriterion< MeshType > CriterionType;
+  using CriterionType = itk::NumberOfFacesCriterion< MeshType >;
 
-  typedef itk::SquaredEdgeLengthDecimationQuadEdgeMeshFilter<
-    MeshType, MeshType, CriterionType > DecimationType;
+  using DecimationType = itk::SquaredEdgeLengthDecimationQuadEdgeMeshFilter<
+    MeshType, MeshType, CriterionType >;
 
   long N;
   std::stringstream ssout( argv[2] );

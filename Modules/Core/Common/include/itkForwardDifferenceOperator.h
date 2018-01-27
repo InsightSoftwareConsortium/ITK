@@ -46,11 +46,11 @@ class ITK_TEMPLATE_EXPORT ForwardDifferenceOperator:
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ForwardDifferenceOperator                              Self;
-  typedef NeighborhoodOperator< TPixel, VDimension, TAllocator > Superclass;
+  /** Standard class type aliases. */
+  using Self = ForwardDifferenceOperator;
+  using Superclass = NeighborhoodOperator< TPixel, VDimension, TAllocator >;
 
-  typedef typename Superclass::PixelType PixelType;
+  using PixelType = typename Superclass::PixelType;
 
   /** Constructor. */
   ForwardDifferenceOperator() {}
@@ -68,7 +68,7 @@ public:
 
 protected:
   /** Necessary to work around VC++ compiler bug. */
-  typedef typename Superclass::CoefficientVector CoefficientVector;
+  using CoefficientVector = typename Superclass::CoefficientVector;
 
   /** Calculates operator coefficients. */
   CoefficientVector GenerateCoefficients() override;

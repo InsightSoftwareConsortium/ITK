@@ -44,7 +44,7 @@ class HistogramIntensityFunction
 public:
 
   //Intensity function returns pixels of SizeValueType.
-  typedef TOutput OutputPixelType;
+  using OutputPixelType = TOutput;
 
   HistogramIntensityFunction():
     m_TotalFrequency(1) {}
@@ -78,17 +78,16 @@ class HistogramToIntensityImageFilter:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef HistogramToIntensityImageFilter Self;
+  /** Standard class type aliases. */
+  using Self = HistogramToIntensityImageFilter;
 
-  /** Standard "Superclass" typedef. */
-  typedef HistogramToImageFilter< THistogram, TImage,
-                                 Function::HistogramIntensityFunction< SizeValueType, typename TImage::PixelType > >
-  Superclass;
+  /** Standard "Superclass" type alias. */
+  using Superclass = HistogramToImageFilter< THistogram, TImage,
+                                 Function::HistogramIntensityFunction< SizeValueType, typename TImage::PixelType > >;
 
-  //typedef typename Function::HistogramIntensityFunction  FunctorType;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  //using FunctorType = typename Function::HistogramIntensityFunction;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(HistogramToIntensityImageFilter, HistogramToImageFilter);

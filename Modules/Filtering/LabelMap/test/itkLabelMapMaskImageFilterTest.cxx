@@ -36,20 +36,20 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
   const unsigned int Dimension = 3;
 
   // Declare the pixel type
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
   // Declare the input image type
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // And the label object type to use. The input image is a label image, so the
   // type of the label can be the same type than the pixel type. itk::LabelObject is
   // chosen, because only the mask feature is tested here, so we don't need any
   // attribute.
-  typedef itk::LabelObject< PixelType, Dimension >  LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >          LabelMapType;
+  using LabelObjectType = itk::LabelObject< PixelType, Dimension >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
   // Read the label image and the input image to be masked.
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -57,7 +57,7 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
   reader2->SetFileName( argv[2] );
 
   // Convert the label image to a label collection image.
-  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
   //i2l->SetUseBackground( true );
@@ -72,7 +72,7 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
   // calling both SetCrop() and SetCropBorder(). The crop border defaults to 0, and the
   // image is not cropped by default.
 
-  typedef itk::LabelMapMaskImageFilter< LabelMapType, ImageType > MaskFilterType;
+  using MaskFilterType = itk::LabelMapMaskImageFilter< LabelMapType, ImageType >;
   MaskFilterType::Pointer maskFilter = MaskFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( maskFilter, LabelMapMaskImageFilter,
@@ -126,7 +126,7 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
   itk::SimpleFilterWatcher watcher( maskFilter, "LabelMapMaskImageFilter" );
 
   // Finally, save the output image.
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( maskFilter->GetOutput() );
   writer->SetFileName( argv[3] );

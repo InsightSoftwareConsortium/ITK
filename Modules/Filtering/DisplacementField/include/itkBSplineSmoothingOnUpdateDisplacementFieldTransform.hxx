@@ -92,7 +92,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimens
   const typename DisplacementFieldType::RegionType & bufferedRegion = displacementField->GetBufferedRegion();
   const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
-  typedef ImportImageFilter<DisplacementVectorType, Dimension> ImporterType;
+  using ImporterType = ImportImageFilter<DisplacementVectorType, Dimension>;
   const bool importFilterWillReleaseMemory = false;
 
   //

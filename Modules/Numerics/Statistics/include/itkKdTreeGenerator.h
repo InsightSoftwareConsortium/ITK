@@ -70,11 +70,11 @@ template< typename TSample >
 class ITK_TEMPLATE_EXPORT KdTreeGenerator:public Object
 {
 public:
-  /** Standard class typedefs */
-  typedef KdTreeGenerator            Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = KdTreeGenerator;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(KdTreeGenerator, Object);
@@ -82,30 +82,30 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** typedef alias for the source data container */
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
-  typedef typename TSample::MeasurementType       MeasurementType;
+  /** type alias alias for the source data container */
+  using MeasurementVectorType = typename TSample::MeasurementVectorType;
+  using MeasurementType = typename TSample::MeasurementType;
 
   /** Typedef for the length of each measurement vector */
-  typedef unsigned int MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = unsigned int;
 
   /** Typedef for the k-d tree */
-  typedef KdTree< TSample > KdTreeType;
+  using KdTreeType = KdTree< TSample >;
 
   /** Type alias for the k-d tree type */
-  typedef KdTreeType OutputType;
+  using OutputType = KdTreeType;
 
   /** Typedef for the smart pointer to the k-d tree */
-  typedef typename KdTreeType::Pointer OutputPointer;
+  using OutputPointer = typename KdTreeType::Pointer;
 
   /** Typedef for the k-d tree node type */
-  typedef typename KdTreeType::KdTreeNodeType KdTreeNodeType;
+  using KdTreeNodeType = typename KdTreeType::KdTreeNodeType;
 
   /** Typedef for the internal Subsample */
-  typedef Subsample< TSample > SubsampleType;
+  using SubsampleType = Subsample< TSample >;
 
   /** Typedef for the smart pointer to the Subsample */
-  typedef typename SubsampleType::Pointer SubsamplePointer;
+  using SubsamplePointer = typename SubsampleType::Pointer;
 
   /** Sets the input sample that provides the measurement vectors. */
   void SetSample(TSample *sample);

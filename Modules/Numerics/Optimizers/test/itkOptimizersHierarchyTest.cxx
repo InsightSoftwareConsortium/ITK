@@ -41,7 +41,7 @@ int itkOptimizersHierarchyTest(int, char* [] )
 {
   bool pass = true;
 
-  typedef itk::Optimizer              OptimizerType;
+  using OptimizerType = itk::Optimizer;
   OptimizerType::Pointer genericOptimizer = OptimizerType::New();
 
   unsigned int spaceDimension = 10;
@@ -88,7 +88,7 @@ int itkOptimizersHierarchyTest(int, char* [] )
       }
   }
 
-  typedef itk::NonLinearOptimizer     NonLinearOptimizerType;
+  using NonLinearOptimizerType = itk::NonLinearOptimizer;
   NonLinearOptimizerType::Pointer nonLinearOptimizer =
                                     NonLinearOptimizerType::New();
   if(nonLinearOptimizer.IsNull())
@@ -96,8 +96,7 @@ int itkOptimizersHierarchyTest(int, char* [] )
     pass=false;
     }
 
-  typedef itk::SingleValuedNonLinearOptimizer
-                                SingleValuedNonLinearOptimizerType;
+  using SingleValuedNonLinearOptimizerType = itk::SingleValuedNonLinearOptimizer;
   SingleValuedNonLinearOptimizerType::Pointer singleValuedOptimizer =
                                 SingleValuedNonLinearOptimizerType::New();
   if(singleValuedOptimizer.IsNull())
@@ -105,14 +104,14 @@ int itkOptimizersHierarchyTest(int, char* [] )
     pass=false;
     }
 
-  typedef itk::AmoebaOptimizer    AmoebaOptimizerType;
+  using AmoebaOptimizerType = itk::AmoebaOptimizer;
   AmoebaOptimizerType::Pointer   amoeba = AmoebaOptimizerType::New();
   if(amoeba.IsNull())
     {
     pass=false;
     }
 
-  typedef itk::ConjugateGradientOptimizer    ConjugateGradientOptimizerType;
+  using ConjugateGradientOptimizerType = itk::ConjugateGradientOptimizer;
   ConjugateGradientOptimizerType::Pointer  conjugate
                                     = ConjugateGradientOptimizerType::New();
   if(conjugate.IsNull())
@@ -120,7 +119,7 @@ int itkOptimizersHierarchyTest(int, char* [] )
     pass=false;
     }
 
-  typedef itk::LBFGSOptimizer    LBFGSOptimizerType;
+  using LBFGSOptimizerType = itk::LBFGSOptimizer;
   LBFGSOptimizerType::Pointer   lbfgs = LBFGSOptimizerType::New();
   if(lbfgs.IsNull())
     {
@@ -128,21 +127,21 @@ int itkOptimizersHierarchyTest(int, char* [] )
     }
 
   // Note that a "Versor" is a Unit Quaternion
-  typedef itk::VersorTransformOptimizer    VersorOptimizerType;
+  using VersorOptimizerType = itk::VersorTransformOptimizer;
   VersorOptimizerType::Pointer   versoropt = VersorOptimizerType::New();
   if(versoropt.IsNull())
     {
     pass=false;
     }
 
-  typedef itk::QuaternionRigidTransformGradientDescentOptimizer    QuaternionOptimizerType;
+  using QuaternionOptimizerType = itk::QuaternionRigidTransformGradientDescentOptimizer;
   QuaternionOptimizerType::Pointer   quaternionopt = QuaternionOptimizerType::New();
   if(quaternionopt.IsNull())
     {
     pass=false;
     }
 
-  typedef itk::OnePlusOneEvolutionaryOptimizer OnePlusOneEvolutionaryOptimizerType;
+  using OnePlusOneEvolutionaryOptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
   OnePlusOneEvolutionaryOptimizerType::Pointer onePlusOne =
                                           OnePlusOneEvolutionaryOptimizerType::New();
   if(onePlusOne.IsNull())
@@ -150,14 +149,14 @@ int itkOptimizersHierarchyTest(int, char* [] )
     pass=false;
     }
 
-  typedef itk::CumulativeGaussianOptimizer CumulativeGaussianOptimizerType;
+  using CumulativeGaussianOptimizerType = itk::CumulativeGaussianOptimizer;
   CumulativeGaussianOptimizerType::Pointer   cumgaussopt = CumulativeGaussianOptimizerType::New();
   if(cumgaussopt.IsNull())
     {
     pass=false;
     }
 
-  typedef itk::CumulativeGaussianCostFunction CumulativeGaussianCostFunctionType;
+  using CumulativeGaussianCostFunctionType = itk::CumulativeGaussianCostFunction;
   CumulativeGaussianCostFunctionType::Pointer   cumgausstype = CumulativeGaussianCostFunctionType::New();
   if(cumgausstype.IsNull())
     {

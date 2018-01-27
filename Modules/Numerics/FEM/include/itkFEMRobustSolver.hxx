@@ -470,7 +470,7 @@ RobustSolver<VDimension>
     return;
     }
 
-  typedef std::vector<Load::Pointer> LoadVectorType;
+  using LoadVectorType = std::vector<Load::Pointer>;
 
   LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
@@ -498,7 +498,7 @@ RobustSolver<VDimension>
     return;
     }
 
-  typedef std::vector<Load::Pointer> LoadVectorType;
+  using LoadVectorType = std::vector<Load::Pointer>;
 
   LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
@@ -534,7 +534,7 @@ RobustSolver<VDimension>
     return;
     }
 
-  typedef std::vector<Load::Pointer> LoadVectorType;
+  using LoadVectorType = std::vector<Load::Pointer>;
 
   LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
@@ -558,9 +558,9 @@ void
 RobustSolver<VDimension>
 ::DeleteLandmarksOutOfMesh()
 {
-  typedef typename FEMObjectType::LoadIdentifier LoadIdentifier;
+  using LoadIdentifier = typename FEMObjectType::LoadIdentifier;
 
-  typedef itk::VectorContainer< LoadIdentifier, Load::Pointer> VectorContainerType;
+  using VectorContainerType = itk::VectorContainer< LoadIdentifier, Load::Pointer>;
   typename VectorContainerType::Pointer newLoadContainer = VectorContainerType::New();
 
   LoadIdentifier numToRemoveLoads = NumericTraits< LoadIdentifier >::ZeroValue();
@@ -1039,7 +1039,7 @@ RobustSolver<VDimension>
     InterpolationGridIndexType vi1;
     InterpolationGridIndexType vi2;
 
-    typedef Point<Float, FEMDimension> PointType;
+    using PointType = Point<Float, FEMDimension>;
     PointType vp1;
     PointType vp2;
     PointType pt;

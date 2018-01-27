@@ -23,8 +23,8 @@ int itkVectorCentralDifferenceImageFunctionTest(int, char* [] )
 {
   const unsigned int ImageDimension = 2;
   const unsigned int VectorDimension = 3;
-  typedef itk::Vector<short,VectorDimension>   PixelType;
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  using PixelType = itk::Vector<short,VectorDimension>;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size;
@@ -35,7 +35,7 @@ int itkVectorCentralDifferenceImageFunctionTest(int, char* [] )
   image->Allocate();
 
   // make a test image
-  typedef itk::ImageRegionIterator<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIterator<ImageType>;
   Iterator iter( image, region );
   iter.GoToBegin();
   unsigned int counter = 0;
@@ -47,8 +47,8 @@ int itkVectorCentralDifferenceImageFunctionTest(int, char* [] )
     }
 
   // set up central difference calculator
-  typedef float CoordRepType;
-  typedef itk::VectorCentralDifferenceImageFunction<ImageType,CoordRepType> FunctionType;
+  using CoordRepType = float;
+  using FunctionType = itk::VectorCentralDifferenceImageFunction<ImageType,CoordRepType>;
   FunctionType::Pointer function = FunctionType::New();
 
   function->SetInputImage( image );

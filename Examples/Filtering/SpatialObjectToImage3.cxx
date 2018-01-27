@@ -61,10 +61,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int    Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >       ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -76,7 +76,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::PolygonSpatialObject< Dimension >  PolygonType;
+  using PolygonType = itk::PolygonSpatialObject< Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -88,8 +88,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::SpatialObjectToImageFilter<
-    PolygonType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    PolygonType, ImageType >;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -189,7 +189,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< ImageType >     WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[1] );

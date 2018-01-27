@@ -61,11 +61,11 @@ namespace NeighborhoodAlgorithm
 */
 template< typename TImage >
 struct ImageBoundaryFacesCalculator {
-  typedef typename NeighborhoodIterator< TImage >::RadiusType RadiusType;
-  typedef typename TImage::RegionType                         RegionType;
-  typedef typename TImage::IndexType                          IndexType;
-  typedef typename TImage::SizeType                           SizeType;
-  typedef std::list< RegionType >                             FaceListType;
+  using RadiusType = typename NeighborhoodIterator< TImage >::RadiusType;
+  using RegionType = typename TImage::RegionType;
+  using IndexType = typename TImage::IndexType;
+  using SizeType = typename TImage::SizeType;
+  using FaceListType = std::list< RegionType >;
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   FaceListType operator()(const TImage *, RegionType, RadiusType);
@@ -82,7 +82,7 @@ struct ImageBoundaryFacesCalculator {
  */
 template< typename TImage >
 struct CalculateOutputWrapOffsetModifiers {
-  typedef Offset< TImage::ImageDimension > OffsetType;
+  using OffsetType = Offset< TImage::ImageDimension >;
   OffsetType operator()(TImage *, TImage *) const;
 };
 } // end namespace NeighborhoodAlgorithm

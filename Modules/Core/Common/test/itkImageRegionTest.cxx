@@ -25,18 +25,15 @@ int itkImageRegionTest(int, char* [] )
 
   const unsigned int dimension = 3;
 
-  typedef double                         TCoordRepType;
-  typedef itk::ImageRegion< dimension >  RegionType;
-  typedef RegionType::IndexType          IndexType;
-  typedef RegionType::SizeType           SizeType;
-  typedef RegionType::SliceRegion        SliceRegionType;
-  typedef itk::ContinuousIndex< TCoordRepType, dimension >
-                                         ContinuousIndexType;
+  using TCoordRepType = double;
+  using RegionType = itk::ImageRegion< dimension >;
+  using IndexType = RegionType::IndexType;
+  using SizeType = RegionType::SizeType;
+  using SliceRegionType = RegionType::SliceRegion;
+  using ContinuousIndexType = itk::ContinuousIndex< TCoordRepType, dimension >;
 
-  typedef itk::NumericTraits<IndexType::IndexValueType>
-                                         IndexNumericTraits;
-  typedef itk::NumericTraits<ContinuousIndexType::ValueType>
-                                         ContinuousIndexNumericTraits;
+  using IndexNumericTraits = itk::NumericTraits<IndexType::IndexValueType>;
+  using ContinuousIndexNumericTraits = itk::NumericTraits<ContinuousIndexType::ValueType>;
 
   bool passed = true;
 

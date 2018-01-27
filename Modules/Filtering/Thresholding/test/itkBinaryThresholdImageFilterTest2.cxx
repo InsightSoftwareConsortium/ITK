@@ -38,24 +38,24 @@ int itkBinaryThresholdImageFilterTest2(int ac, char* av[] )
   const unsigned int ImageDimension = 2;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned char, ImageDimension> ImageType;
-  typedef itk::Image<double, ImageDimension>        FloatImageType;
+  using ImageType = itk::Image<unsigned char, ImageDimension>;
+  using FloatImageType = itk::Image<double, ImageDimension>;
 
   // File reader and writer
-  typedef itk::ImageFileReader<FloatImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<FloatImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( av[1] );
 
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( av[2] );
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( av[3] );
 
   // Declare the filter types
-  typedef itk::StatisticsImageFilter<FloatImageType>  StatisticsType;
-  typedef itk::BinaryThresholdImageFilter<FloatImageType, ImageType>  ThresholdType;
+  using StatisticsType = itk::StatisticsImageFilter<FloatImageType>;
+  using ThresholdType = itk::BinaryThresholdImageFilter<FloatImageType, ImageType>;
 
   // Create the filters
   StatisticsType::Pointer statistics = StatisticsType::New();

@@ -35,10 +35,10 @@ int itkVectorImageReadWriteTest(int argc, char * argv [])
   const unsigned int Dimension = 2;
 
   // Create image of vector pixels
-  typedef itk::Vector< double, 4 >           PixelType;
-  typedef itk::Image < PixelType, Dimension> ImageType;
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using PixelType = itk::Vector< double, 4 >;
+  using ImageType = itk::Image < PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ImageType::Pointer   inputImage  = ImageType::New();
   ReaderType::Pointer  reader      = ReaderType::New();
@@ -56,7 +56,7 @@ int itkVectorImageReadWriteTest(int argc, char * argv [])
   vector1[2] =  3.0;
   vector1[3] =  4.0;
 
-  typedef itk::ImageLinearConstIteratorWithIndex< ImageType > ConstIteratorType;
+  using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex< ImageType >;
 
   //Create the 9x9 input image
   ImageType::SizeType size;

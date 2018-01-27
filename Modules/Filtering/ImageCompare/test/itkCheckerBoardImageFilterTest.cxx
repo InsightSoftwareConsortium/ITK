@@ -35,29 +35,27 @@ int itkCheckerBoardImageFilterTest( int argc, char* argv[] )
   const unsigned int Dimension = 3;
 
   // Declare the pixel types of the images
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // Declare the type of the index to access images
-  typedef itk::Index< Dimension >         IndexType;
+  using IndexType = itk::Index< Dimension >;
 
   // Declare the type of the size
-  typedef itk::Size< Dimension >          SizeType;
+  using SizeType = itk::Size< Dimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< Dimension >   RegionType;
+  using RegionType = itk::ImageRegion< Dimension >;
 
 
   // Declare the type for the filter
-  typedef itk::CheckerBoardImageFilter< ImageType >
-    CheckerBoardImageFilterType;
+  using CheckerBoardImageFilterType = itk::CheckerBoardImageFilter<ImageType>;
 
   // Declare the type of the arrays that define how many
   // checkers to have along every dimension.
-  typedef CheckerBoardImageFilterType::PatternArrayType
-    CheckerBoardPatternArrayType;
+  using CheckerBoardPatternArrayType = CheckerBoardImageFilterType::PatternArrayType;
 
   // Create the input images
   ImageType::Pointer inputImageA = ImageType::New();
@@ -92,7 +90,7 @@ int itkCheckerBoardImageFilterTest( int argc, char* argv[] )
 
 
   // Declare appropriate Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
 
   // Create one iterator for Image A (this is a light object)
   IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
@@ -142,7 +140,7 @@ int itkCheckerBoardImageFilterTest( int argc, char* argv[] )
   ImageType::Pointer outputImage = checkerBoard->GetOutput();
 
   // Write the result image
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

@@ -32,8 +32,8 @@ int itkBSplineExponentialDiffeomorphicTransformTest(int ,char *[] )
 {
 
   const unsigned int dimensions = 2;
-  typedef itk::BSplineExponentialDiffeomorphicTransform<double, dimensions>
-                                                    DisplacementTransformType;
+  using DisplacementTransformType =
+      itk::BSplineExponentialDiffeomorphicTransform<double, dimensions>;
 
   /* Create a displacement field transform */
   DisplacementTransformType::Pointer displacementTransform =
@@ -43,7 +43,7 @@ int itkBSplineExponentialDiffeomorphicTransformTest(int ,char *[] )
 
   displacementTransform->Print( std::cout, 3 );
 
-  typedef DisplacementTransformType::DisplacementFieldType FieldType;
+  using FieldType = DisplacementTransformType::DisplacementFieldType;
   FieldType::Pointer field = FieldType::New(); //This is based on itk::Image
 
   FieldType::SizeType size;

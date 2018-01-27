@@ -44,10 +44,10 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::SurfaceSpatialObject<3>        SurfaceType;
-  typedef SurfaceType::Pointer                SurfacePointer;
-  typedef itk::SurfaceSpatialObjectPoint<3>   SurfacePointType;
-  typedef itk::CovariantVector<double,3>      VectorType;
+  using SurfaceType = itk::SurfaceSpatialObject<3>;
+  using SurfacePointer = SurfaceType::Pointer;
+  using SurfacePointType = itk::SurfaceSpatialObjectPoint<3>;
+  using VectorType = itk::CovariantVector<double,3>;
 
   SurfacePointer Surface = SurfaceType::New();
 // Software Guide : EndCodeSnippet

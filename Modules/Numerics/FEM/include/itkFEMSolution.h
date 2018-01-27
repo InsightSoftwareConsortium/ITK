@@ -39,17 +39,17 @@ class ITKFEM_EXPORT Solution
 {
 public:
 
-  /** Standard "Self" typedef. */
-  typedef Solution Self;
-  /** Standard "Superclass" typedef. */
-  typedef Solution Superclass;
+  /** Standard "Self" type alias. */
+  using Self = Solution;
+  /** Standard "Superclass" type alias. */
+  using Superclass = Solution;
   /**  Pointer to an object. */
-  typedef Self *Pointer;
+  using Pointer = Self *;
   /**  Const pointer to an object. */
-  typedef const Self *ConstPointer;
+  using ConstPointer = const Self *;
 
   /** Floating point storage type used within a class */
-  typedef double Float;
+  using Float = double;
 
   /**
    * Returns value of i-th element in a solution vector. This value

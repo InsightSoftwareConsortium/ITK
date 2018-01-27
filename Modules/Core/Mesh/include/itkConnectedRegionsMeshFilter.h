@@ -52,20 +52,20 @@ class ITK_TEMPLATE_EXPORT ConnectedRegionsMeshFilter:
 {
 public:
   /**
-   * Standard class typedefs.
+   * Standard class type aliases.
    */
-  typedef ConnectedRegionsMeshFilter Self;
+  using Self = ConnectedRegionsMeshFilter;
 
   /**
-   * Standard "Superclass" typedef.
+   * Standard "Superclass" type alias.
    */
-  typedef MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
+  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
 
   /**
-   * Smart pointer typedef support
+   * Smart pointer type alias support
    */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**
    * Method for creation through the object factory.
@@ -73,33 +73,33 @@ public:
   itkNewMacro(Self);
 
   /**
-   * Convenient typedefs for this filter.
+   * Convenient type alias for this filter.
    */
-  typedef TInputMesh                        InputMeshType;
-  typedef TOutputMesh                       OutputMeshType;
-  typedef typename TInputMesh::ConstPointer InputMeshConstPointer;
-  typedef typename TOutputMesh::Pointer     OutputMeshPointer;
+  using InputMeshType = TInputMesh;
+  using OutputMeshType = TOutputMesh;
+  using InputMeshConstPointer = typename TInputMesh::ConstPointer;
+  using OutputMeshPointer = typename TOutputMesh::Pointer;
 
   itkStaticConstMacro(PointDimension, unsigned int,
                       TInputMesh::PointDimension);
 
-  typedef typename TInputMesh::PointType                           InputMeshPointType;
-  typedef typename TInputMesh::PointIdentifier                     InputMeshPointIdentifier;
-  typedef typename TInputMesh::PointsContainerConstPointer         InputMeshPointsContainerConstPointer;
-  typedef typename TInputMesh::CellsContainer                      InputMeshCellsContainer;
-  typedef typename TInputMesh::CellsContainerPointer               InputMeshCellsContainerPointer;
-  typedef typename TInputMesh::CellsContainerConstPointer          InputMeshCellsContainerConstPointer;
-  typedef typename TInputMesh::CellDataContainer                   InputMeshCellDataContainer;
-  typedef typename TInputMesh::CellDataContainerPointer            InputMeshCellDataContainerPointer;
-  typedef typename TInputMesh::CellDataContainerConstPointer       InputMeshCellDataContainerConstPointer;
-  typedef typename InputMeshType::PointsContainer::ConstIterator   PointsContainerConstIterator;
-  typedef typename InputMeshType::CellsContainer::ConstIterator    CellsContainerConstIterator;
-  typedef typename InputMeshType::CellDataContainer::ConstIterator CellDataContainerConstIterator;
-  typedef typename TInputMesh::CellAutoPointer                     InputMeshCellPointer;
-  typedef typename TInputMesh::CellTraits::PointIdConstIterator    InputMeshPointIdConstIterator;
-  typedef typename TInputMesh::CellLinksContainerConstPointer      InputMeshCellLinksContainerConstPointer;
-  typedef typename TInputMesh::PointCellLinksContainer             InputMeshCellLinksContainer;
-  typedef typename TInputMesh::CellIdentifier                      InputMeshCellIdentifier;
+  using InputMeshPointType = typename TInputMesh::PointType;
+  using InputMeshPointIdentifier = typename TInputMesh::PointIdentifier;
+  using InputMeshPointsContainerConstPointer = typename TInputMesh::PointsContainerConstPointer;
+  using InputMeshCellsContainer = typename TInputMesh::CellsContainer;
+  using InputMeshCellsContainerPointer = typename TInputMesh::CellsContainerPointer;
+  using InputMeshCellsContainerConstPointer = typename TInputMesh::CellsContainerConstPointer;
+  using InputMeshCellDataContainer = typename TInputMesh::CellDataContainer;
+  using InputMeshCellDataContainerPointer = typename TInputMesh::CellDataContainerPointer;
+  using InputMeshCellDataContainerConstPointer = typename TInputMesh::CellDataContainerConstPointer;
+  using PointsContainerConstIterator = typename InputMeshType::PointsContainer::ConstIterator;
+  using CellsContainerConstIterator = typename InputMeshType::CellsContainer::ConstIterator;
+  using CellDataContainerConstIterator = typename InputMeshType::CellDataContainer::ConstIterator;
+  using InputMeshCellPointer = typename TInputMesh::CellAutoPointer;
+  using InputMeshPointIdConstIterator = typename TInputMesh::CellTraits::PointIdConstIterator;
+  using InputMeshCellLinksContainerConstPointer = typename TInputMesh::CellLinksContainerConstPointer;
+  using InputMeshCellLinksContainer = typename TInputMesh::PointCellLinksContainer;
+  using InputMeshCellIdentifier = typename TInputMesh::CellIdentifier;
 
   /**
    * Different modes of operation. Use these to specify

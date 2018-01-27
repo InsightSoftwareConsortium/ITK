@@ -104,7 +104,7 @@ CalculateOrientedImage(
   // Set up the transform.  Here the center of rotation is the
   // centroid of the object, the rotation matrix is specified by the
   // eigenvectors, and there is no translation.
-  typedef itk::AffineTransform< double, Dimension > TransformType;
+  using TransformType = itk::AffineTransform< double, Dimension >;
   typename TransformType::Pointer transform = TransformType::New();
   typename TransformType::MatrixType rotationMatrix(vnl_RotationMatrix);
   typename TransformType::CenterType center;
@@ -120,7 +120,7 @@ CalculateOrientedImage(
   transform->SetTranslation(translation);
   transform->SetMatrix(rotationMatrix);
 
-  typedef itk::ResampleImageFilter< TInputImage, TIntensityImage > ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter< TInputImage, TIntensityImage >;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 
   // The m_OrientedBoundingBoxSize is specified to float precision.
@@ -145,7 +145,7 @@ CalculateOrientedImage(
     {
     // Set up the interpolator.
     // Use a nearest neighbor interpolator since these are labeled images.
-    typedef itk::NearestNeighborInterpolateImageFunction< TInputImage, double > InterpolatorType;
+    using InterpolatorType = itk::NearestNeighborInterpolateImageFunction< TInputImage, double >;
     typename InterpolatorType::Pointer interpolator  = InterpolatorType::New();
     resampler->SetInterpolator(interpolator);
     }
@@ -153,7 +153,7 @@ CalculateOrientedImage(
     {
     // Set up the interpolator.
     // Use a linear interpolator since these are intensity images.
-    typedef itk::LinearInterpolateImageFunction< TInputImage, double > InterpolatorType;
+    using InterpolatorType = itk::LinearInterpolateImageFunction< TInputImage, double >;
     typename InterpolatorType::Pointer interpolator  = InterpolatorType::New();
     resampler->SetInterpolator(interpolator);
     }
@@ -187,7 +187,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   ImageRegionConstIterator< TLabelImage > labelIt ( this->GetInput(),
                                                     this->GetInput()->GetBufferedRegion() );
 
-  typedef ImageRegionConstIteratorWithIndex< TLabelImage > ImageIteratorWithIndexType;
+  using ImageIteratorWithIndexType = ImageRegionConstIteratorWithIndex< TLabelImage >;
 
   // Iterator over the mapping from labels to geometry values.
   MapIterator mapIt;
@@ -207,7 +207,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
     // If not, create a new geometry object.
     if ( mapIt == m_LabelGeometryMapper.end() )
       {
-      typedef typename MapType::value_type MapValueType;
+      using MapValueType = typename MapType::value_type;
 
       // map insert is defined as: pair<iterator, bool> insert(const value_type&
       // x)
@@ -278,7 +278,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
     RealType value;
 
     // Iterator over the intensity image.
-    typedef ImageRegionConstIteratorWithIndex< TIntensityImage > IntensityImageIteratorType;
+    using IntensityImageIteratorType = ImageRegionConstIteratorWithIndex< TIntensityImage >;
 
     IntensityImageIteratorType it( intensityImage, intensityImage->GetBufferedRegion() );
 
@@ -1078,7 +1078,7 @@ LabelGeometryImageFilter< TImage, TLabelImage >
   MapConstIterator mapIt;
   for ( mapIt = m_LabelGeometryMapper.begin(); mapIt != m_LabelGeometryMapper.end(); mapIt++ )
     {
-    typedef typename NumericTraits< LabelPixelType >::PrintType  LabelPrintType;
+    using LabelPrintType = typename NumericTraits< LabelPixelType >::PrintType;
     os << indent << "Label[" << (LabelPrintType)( ( *mapIt ).second.m_Label ) << "]: ";
     os << "\t Volume: " << ( *mapIt ).second.m_ZeroOrderMoment;
     os << "\t Integrated Intensity: " << ( *mapIt ).second.m_Sum;

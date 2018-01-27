@@ -42,11 +42,11 @@ class ITK_TEMPLATE_EXPORT FiniteCylinderSpatialFunction:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef FiniteCylinderSpatialFunction                         Self;
-  typedef InteriorExteriorSpatialFunction< VDimension, TInput > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FiniteCylinderSpatialFunction;
+  using Superclass = InteriorExteriorSpatialFunction< VDimension, TInput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FiniteCylinderSpatialFunction, InteriorExteriorSpatialFunction);
@@ -55,10 +55,10 @@ public:
   itkNewMacro(Self);
 
   /** Input type for the function */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Set/Get and set the center of the cylinder. */
   itkGetConstMacro(Center, InputType);

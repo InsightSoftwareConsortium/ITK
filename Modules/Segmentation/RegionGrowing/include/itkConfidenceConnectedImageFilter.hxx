@@ -138,11 +138,11 @@ void
 ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  typedef BinaryThresholdImageFunction< InputImageType, double >  FunctionType;
-  typedef BinaryThresholdImageFunction< OutputImageType, double > SecondFunctionType;
+  using FunctionType = BinaryThresholdImageFunction< InputImageType, double >;
+  using SecondFunctionType = BinaryThresholdImageFunction< OutputImageType, double >;
 
-  typedef FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType >           IteratorType;
-  typedef FloodFilledImageFunctionConditionalConstIterator< InputImageType, SecondFunctionType > SecondIteratorType;
+  using IteratorType = FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType >;
+  using SecondIteratorType = FloodFilledImageFunctionConditionalConstIterator< InputImageType, SecondFunctionType >;
 
   unsigned int loop;
 
@@ -156,11 +156,11 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
 
   // Compute the statistics of the seed point
-  typedef MeanImageFunction< InputImageType,
-                             double > MeanImageFunctionType;
+  using MeanImageFunctionType = MeanImageFunction< InputImageType,
+                             double >;
 
-  typedef SumOfSquaresImageFunction< InputImageType,
-                                     double > SumOfSquaresImageFunctionType;
+  using SumOfSquaresImageFunctionType = SumOfSquaresImageFunction< InputImageType,
+                                     double >;
 
   typename MeanImageFunctionType::Pointer meanFunction =
     MeanImageFunctionType::New();

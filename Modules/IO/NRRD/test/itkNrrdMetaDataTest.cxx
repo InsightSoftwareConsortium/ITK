@@ -40,7 +40,7 @@ itkNrrdMetaDataTest( int ac, char* av[] )
     }
 
   // Image type
-  typedef itk::Image<unsigned char,3> ImageType;
+  using ImageType = itk::Image<unsigned char,3>;
   // create dummy image
   ImageType::Pointer image1 = ImageType::New();
   ImageType::SizeType size = { {2,2,2} };
@@ -54,8 +54,8 @@ itkNrrdMetaDataTest( int ac, char* av[] )
   itk::EncapsulateMetaData<std::string>(dict,metaDataObjectName,metaDataObjectValue);
 
   // write the file then read it back in.
-  typedef itk::ImageFileWriter<ImageType> ImageWriterType;
-  typedef itk::ImageFileReader<ImageType> ImageReaderType;
+  using ImageWriterType = itk::ImageFileWriter<ImageType>;
+  using ImageReaderType = itk::ImageFileReader<ImageType>;
 
   // test uses 1st arg to specify where to drop data
   std::string fname = av[1];

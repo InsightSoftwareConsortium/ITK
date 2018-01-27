@@ -31,24 +31,24 @@ int itkSignedDanielssonDistanceMapImageFilterTest2( int argc, char * argv[] )
     }
 
   const   unsigned int    ImageDimension = 2;
-  typedef unsigned char   InputPixelType;
-  typedef unsigned char   OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image<InputPixelType,  ImageDimension>  InputImageType;
-  typedef itk::Image<OutputPixelType, ImageDimension>  OutputImageType;
+  using InputImageType = itk::Image<InputPixelType,  ImageDimension>;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  typedef itk::ImageFileReader<InputImageType>    ReaderType;
-  typedef itk::ImageFileWriter<OutputImageType>   WriterType;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
-  typedef itk::ConnectedComponentImageFilter<InputImageType,InputImageType> ConnectedType;
+  using ConnectedType = itk::ConnectedComponentImageFilter<InputImageType,InputImageType>;
   ConnectedType::Pointer connectedComponents = ConnectedType::New();
   connectedComponents->SetInput( reader->GetOutput() );
 
-  typedef itk::SignedDanielssonDistanceMapImageFilter <InputImageType, OutputImageType>  FilterType;
+  using FilterType = itk::SignedDanielssonDistanceMapImageFilter <InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( connectedComponents->GetOutput() );
   filter->Update();
@@ -56,7 +56,7 @@ int itkSignedDanielssonDistanceMapImageFilterTest2( int argc, char * argv[] )
 
   // Extract the Voronoi map from the distance map filter, rescale it,
   // and write it out.
-  typedef itk::RescaleIntensityImageFilter<InputImageType,OutputImageType> RescaleType;
+  using RescaleType = itk::RescaleIntensityImageFilter<InputImageType,OutputImageType>;
   RescaleType::Pointer rescaler = RescaleType::New();
   rescaler->SetInput( filter->GetVoronoiMap() );
   rescaler->SetOutputMinimum( 0 );

@@ -34,13 +34,12 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
     }
 
 
-  typedef float InputPixelType;
+  using InputPixelType = float;
   static constexpr int ImageDimension = 2;
 
-  typedef itk::Image< InputPixelType,  ImageDimension >   InputImageType;
-  typedef itk::ImageFileReader< InputImageType >          ReaderType;
-  typedef itk::AdaptiveHistogramEqualizationImageFilter<
-               InputImageType >                           FilterType;
+  using InputImageType = itk::Image< InputPixelType,  ImageDimension >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using FilterType = itk::AdaptiveHistogramEqualizationImageFilter<InputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
@@ -72,12 +71,12 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
   //  execution of both filters.
   //
 
-  typedef unsigned char WritePixelType;
+  using WritePixelType = unsigned char;
 
-  typedef itk::Image< WritePixelType, ImageDimension > WriteImageType;
+  using WriteImageType = itk::Image< WritePixelType, ImageDimension >;
 
-  typedef itk::RescaleIntensityImageFilter<
-               InputImageType, WriteImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
+               InputImageType, WriteImageType >;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
   rescaler->SetOutputMinimum(   0 );
@@ -85,7 +84,7 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
   rescaler->SetInput( filter->GetOutput() );
 
 
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );

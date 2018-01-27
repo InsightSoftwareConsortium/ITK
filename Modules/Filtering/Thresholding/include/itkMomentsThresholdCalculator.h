@@ -48,11 +48,11 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT MomentsThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef MomentsThresholdCalculator                        Self;
-  typedef HistogramThresholdCalculator<THistogram, TOutput> Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MomentsThresholdCalculator;
+  using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,8 +61,8 @@ public:
   itkTypeMacro(MomentsThresholdCalculator, HistogramThresholdCalculator);
 
   /** Type definition for the input image. */
-  typedef THistogram  HistogramType;
-  typedef TOutput     OutputType;
+  using HistogramType = THistogram;
+  using OutputType = TOutput;
 
 protected:
   MomentsThresholdCalculator() {};

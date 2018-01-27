@@ -36,17 +36,17 @@ int itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest( int argc, 
     }
 
   const unsigned int Dimension = 3;
-  typedef double                                    CoordType;
-  typedef itk::QuadEdgeMesh< CoordType, Dimension > MeshType;
+  using CoordType = double;
+  using MeshType = itk::QuadEdgeMesh< CoordType, Dimension >;
 
-  typedef itk::MeshFileReader< MeshType > ReaderType;
+  using ReaderType = itk::MeshFileReader< MeshType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();
 
-  typedef VNLSparseLUSolverTraits< CoordType > SolverType;
+  using SolverType = VNLSparseLUSolverTraits< CoordType >;
 
-  typedef itk::LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints< MeshType, MeshType, SolverType > FilterType;
+  using FilterType = itk::LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints< MeshType, MeshType, SolverType >;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetOrder( 1 );
@@ -61,7 +61,7 @@ int itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest( int argc, 
     }
 
 
-  typedef itk::ConformalMatrixCoefficients< MeshType > CoefficientType;
+  using CoefficientType = itk::ConformalMatrixCoefficients< MeshType >;
   CoefficientType coeff;
   filter->SetCoefficientsMethod( &coeff );
 
@@ -108,7 +108,7 @@ int itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest( int argc, 
     return EXIT_FAILURE;
     }
 
-  typedef itk::MeshFileWriter< MeshType > WriterType;
+  using WriterType = itk::MeshFileWriter< MeshType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );

@@ -24,19 +24,19 @@
 
 int itkAccumulateImageFilterTest(int argc, char *argv[] )
 {
-  typedef short PixelType;
+  using PixelType = short;
   static constexpr int ImageDimension = 3;
 
-  typedef itk::Image<PixelType,ImageDimension>     InputImageType;
-  typedef itk::Image<PixelType,ImageDimension>     OutputImageType;
-  typedef itk::Image<unsigned char,ImageDimension> WriteImageType;
-  typedef itk::ImageSeriesReader< InputImageType > ReaderType;
-  typedef itk::AccumulateImageFilter<InputImageType,OutputImageType>
-                                                   AccumulaterType;
-  typedef itk::ImageSeriesWriter<OutputImageType,WriteImageType>
-                                                   WriterType;
-  typedef itk::GDCMSeriesFileNames                 SeriesFileNames;
-  typedef itk::GDCMImageIO                         ImageIOType;
+  using InputImageType = itk::Image<PixelType,ImageDimension>;
+  using OutputImageType = itk::Image<PixelType,ImageDimension>;
+  using WriteImageType = itk::Image<unsigned char,ImageDimension>;
+  using ReaderType = itk::ImageSeriesReader< InputImageType >;
+  using AccumulaterType =
+      itk::AccumulateImageFilter<InputImageType,OutputImageType>;
+  using WriterType =
+      itk::ImageSeriesWriter<OutputImageType,WriteImageType>;
+  using SeriesFileNames = itk::GDCMSeriesFileNames;
+  using ImageIOType = itk::GDCMImageIO;
 
   if (argc < 3)
     {

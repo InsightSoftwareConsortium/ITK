@@ -42,9 +42,9 @@ int itkFastMarchingTest2(int, char* [] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   // create a fastmarching object
-  typedef float                                               PixelType;
-  typedef itk::Image<PixelType,2>                             FloatImage;
-  typedef itk::FastMarchingImageFilter<FloatImage,FloatImage> FloatFMType;
+  using PixelType = float;
+  using FloatImage = itk::Image<PixelType,2>;
+  using FloatFMType = itk::FastMarchingImageFilter<FloatImage,FloatImage>;
 
   FloatFMType::Pointer marcher = FloatFMType::New();
 
@@ -55,8 +55,8 @@ int itkFastMarchingTest2(int, char* [] )
                                &ShowProgressObject::ShowProgress);
   marcher->AddObserver( itk::ProgressEvent(), command);
 
-  typedef FloatFMType::NodeType       NodeType;
-  typedef FloatFMType::NodeContainer  NodeContainer;
+  using NodeType = FloatFMType::NodeType;
+  using NodeContainer = FloatFMType::NodeContainer;
 
   // setup alive points
   NodeContainer::Pointer alivePoints = NodeContainer::New();

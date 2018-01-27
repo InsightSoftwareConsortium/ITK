@@ -33,15 +33,15 @@
  */
 int itkSphereSignedDistanceFunctionTest( int, char *[])
 {
-  typedef double CoordRep;
+  using CoordRep = double;
   const unsigned int Dimension = 2;
 
-  typedef itk::ShapeSignedDistanceFunction<CoordRep,Dimension>
-                                       FunctionType;
-  typedef itk::SphereSignedDistanceFunction<CoordRep,Dimension>
-                                       SphereFunctionType;
-  typedef FunctionType::PointType      PointType;
-  typedef FunctionType::ParametersType ParametersType;
+  using FunctionType =
+      itk::ShapeSignedDistanceFunction<CoordRep,Dimension>;
+  using SphereFunctionType =
+      itk::SphereSignedDistanceFunction<CoordRep,Dimension>;
+  using PointType = FunctionType::PointType;
+  using ParametersType = FunctionType::ParametersType;
 
   SphereFunctionType::Pointer sphere = SphereFunctionType::New();
 

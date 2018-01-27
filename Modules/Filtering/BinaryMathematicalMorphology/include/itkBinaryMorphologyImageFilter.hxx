@@ -113,7 +113,7 @@ BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
   // Detect all the connected components of the SE.
   // ----------------------------------------------
   // To do this we convert the SE into a temp image
-  typedef Image< bool, TInputImage::ImageDimension > BoolImageType;
+  using BoolImageType = Image< bool, TInputImage::ImageDimension >;
   typename BoolImageType::Pointer tmpSEImage = BoolImageType::New();
   tmpSEImage->SetRegions( this->GetKernel().GetSize() );
 

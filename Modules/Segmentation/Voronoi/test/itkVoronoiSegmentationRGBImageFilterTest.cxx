@@ -22,14 +22,13 @@
 #include <iostream>
 #include "itkMath.h"
 
-// typedefs for all functions
-typedef itk::RGBPixel<unsigned char>    PixelType;
-typedef itk::Image<PixelType,2>         ImageType;
-typedef itk::Image<unsigned char,2>     SegmentationType;
-typedef itk::ImageFileReader<ImageType> ReaderType;
-typedef itk::VoronoiSegmentationRGBImageFilter<ImageType, SegmentationType>
-                                        FilterType;
-typedef FilterType::BinaryObjectImage   BinaryObjectImage;
+// type alias for all functions
+using PixelType = itk::RGBPixel<unsigned char>;
+using ImageType = itk::Image<PixelType,2>;
+using SegmentationType = itk::Image<unsigned char,2>;
+using ReaderType = itk::ImageFileReader<ImageType>;
+using FilterType = itk::VoronoiSegmentationRGBImageFilter<ImageType, SegmentationType>;
+using BinaryObjectImage = FilterType::BinaryObjectImage;
 
 namespace VoronoiSegRGBTest
 {

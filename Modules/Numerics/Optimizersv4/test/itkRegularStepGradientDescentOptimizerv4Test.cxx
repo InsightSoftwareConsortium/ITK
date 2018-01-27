@@ -41,18 +41,18 @@ class RSGv4TestMetric : public itk::ObjectToObjectMetricBase
 {
 public:
 
-  typedef RSGv4TestMetric               Self;
-  typedef itk::ObjectToObjectMetricBase Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = RSGv4TestMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
 
   enum { SpaceDimension = 2 };
 
-  typedef Superclass::ParametersType      ParametersType;
-  typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::ParametersValueType ParametersValueType;
-  typedef Superclass::MeasureType         MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using ParametersValueType = Superclass::ParametersValueType;
+  using MeasureType = Superclass::MeasureType;
 
 
   RSGv4TestMetric()
@@ -151,7 +151,7 @@ int RegularStepGradientDescentOptimizerv4TestHelper(
   typename OptimizerType::InternalComputationValueType gradientMagnitudeTolerance,
   typename OptimizerType::MeasureType currentLearningRateRelaxation )
 {
-  typedef typename OptimizerType::ScalesType ScalesType;
+  using ScalesType = typename OptimizerType::ScalesType;
 
   typename OptimizerType::Pointer optimizer = OptimizerType::New();
 
@@ -160,7 +160,7 @@ int RegularStepGradientDescentOptimizerv4TestHelper(
 
   optimizer->SetMetric( metric );
 
-  typedef RSGv4TestMetric::ParametersType ParametersType;
+  using ParametersType = RSGv4TestMetric::ParametersType;
 
   const unsigned int spaceDimension =
     metric->GetNumberOfParameters();
@@ -262,7 +262,7 @@ int itkRegularStepGradientDescentOptimizerv4Test( int, char* [] )
   std::cout << "RegularStepGradientDescentOptimizerv4 Test ";
   std::cout << std::endl << std::endl;
 
-  typedef itk::RegularStepGradientDescentOptimizerv4< double > OptimizerType;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizerv4< double >;
 
   OptimizerType::Pointer itkOptimizer = OptimizerType::New();
 

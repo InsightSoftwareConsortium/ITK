@@ -54,30 +54,30 @@ public:
   /** Dimension underlying input image. */
   itkStaticConstMacro(Dimension, unsigned int, 2);
 
-  /** Standard class typedefs. */
-  typedef ChainCodePath2D    Self;
-  typedef ChainCodePath< 2 > Superclass;
+  /** Standard class type aliases. */
+  using Self = ChainCodePath2D;
+  using Superclass = ChainCodePath< 2 >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChainCodePath2D, ChainCodePath);
 
-  /** OutputType typedef support. */
-  typedef Superclass::OutputType OutputType;
-  typedef Superclass::InputType  InputType;
+  /** OutputType type alias support */
+  using OutputType = Superclass::OutputType;
+  using InputType = Superclass::InputType;
 
   /** The output type of this function is an Index */
-  typedef OutputType OffsetType;
-  typedef Index< 2 > IndexType;
+  using OffsetType = OutputType;
+  using IndexType = Index< 2 >;
 
   /** ChainCodeType is a usless relic of the parent class */
-  typedef Superclass::ChainCodeType     ChainCodeType;
-  typedef Superclass::ChainCodeSizeType ChainCodeSizeType;
+  using ChainCodeType = Superclass::ChainCodeType;
+  using ChainCodeSizeType = Superclass::ChainCodeSizeType;
 
   /** ChainCodePath2D stores its data as a Freeman-encoded chain code */
-  typedef std::vector< int > ChainCode2DType;
+  using ChainCode2DType = std::vector< int >;
 
   // Functions inherited from Path
 

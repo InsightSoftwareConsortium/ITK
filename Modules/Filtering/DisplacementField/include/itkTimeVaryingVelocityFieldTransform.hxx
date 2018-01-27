@@ -50,8 +50,8 @@ TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 {
   if( this->GetVelocityField() )
     {
-    typedef TimeVaryingVelocityFieldIntegrationImageFilter
-      <VelocityFieldType, DisplacementFieldType> IntegratorType;
+    using IntegratorType = TimeVaryingVelocityFieldIntegrationImageFilter
+      <VelocityFieldType, DisplacementFieldType>;
 
     typename IntegratorType::Pointer integrator = IntegratorType::New();
     integrator->SetInput( this->GetVelocityField() );

@@ -41,13 +41,13 @@ template< typename TLabel, unsigned int VImageDimension >
 class StatisticsLabelObject:public ShapeLabelObject< TLabel, VImageDimension >
 {
 public:
-  /** Standard class typedefs */
-  typedef StatisticsLabelObject                       Self;
-  typedef ShapeLabelObject< TLabel, VImageDimension > Superclass;
-  typedef typename Superclass::LabelObjectType        LabelObjectType;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
-  typedef WeakPointer< const Self >                   ConstWeakPointer;
+  /** Standard class type aliases */
+  using Self = StatisticsLabelObject;
+  using Superclass = ShapeLabelObject< TLabel, VImageDimension >;
+  using LabelObjectType = typename Superclass::LabelObjectType;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,27 +55,27 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(StatisticsLabelObject, LabelObject);
 
-  typedef LabelMap< Self > LabelMapType;
+  using LabelMapType = LabelMap< Self >;
 
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  typedef typename Superclass::IndexType IndexType;
+  using IndexType = typename Superclass::IndexType;
 
-  typedef Point< double, itkGetStaticConstMacro(ImageDimension) > PointType;
+  using PointType = Point< double, itkGetStaticConstMacro(ImageDimension) >;
 
-  typedef TLabel LabelType;
+  using LabelType = TLabel;
 
-  typedef typename Superclass::LineType LineType;
+  using LineType = typename Superclass::LineType;
 
-  typedef typename Superclass::LengthType LengthType;
+  using LengthType = typename Superclass::LengthType;
 
-  typedef Matrix< double, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension) > MatrixType;
+  using MatrixType = Matrix< double, itkGetStaticConstMacro(ImageDimension), itkGetStaticConstMacro(ImageDimension) >;
 
-  typedef Vector< double, itkGetStaticConstMacro(ImageDimension) > VectorType;
+  using VectorType = Vector< double, itkGetStaticConstMacro(ImageDimension) >;
 
-  typedef Statistics::Histogram< double > HistogramType;
+  using HistogramType = Statistics::Histogram< double >;
 
-  typedef typename Superclass::AttributeType AttributeType;
+  using AttributeType = typename Superclass::AttributeType;
   itkStaticConstMacro(MINIMUM, AttributeType, 200);
   itkStaticConstMacro(MAXIMUM, AttributeType, 201);
   itkStaticConstMacro(MEAN, AttributeType, 202);
@@ -238,9 +238,9 @@ public:
     return Superclass::GetNameFromAttribute(a);
   }
 
-  typedef ImageRegion< itkGetStaticConstMacro(ImageDimension) > RegionType;
+  using RegionType = ImageRegion< itkGetStaticConstMacro(ImageDimension) >;
 
-  typedef typename Superclass::CentroidType CentroidType;
+  using CentroidType = typename Superclass::CentroidType;
 
   template< typename TSourceLabelObject >
   void CopyAttributesFrom( const TSourceLabelObject * src )
@@ -458,8 +458,8 @@ public:
 
   // some helper methods - not really required, but really useful!
   /** Affine transform for mapping to and from principal axis */
-  typedef AffineTransform< double, itkGetStaticConstMacro(ImageDimension) > AffineTransformType;
-  typedef typename AffineTransformType::Pointer                             AffineTransformPointer;
+  using AffineTransformType = AffineTransform< double, itkGetStaticConstMacro(ImageDimension) >;
+  using AffineTransformPointer = typename AffineTransformType::Pointer;
 
   /** Get the affine transform from principal axes to physical axes
    * This method returns an affine transform which transforms from

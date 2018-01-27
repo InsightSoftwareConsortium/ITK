@@ -42,13 +42,13 @@ class AcosPixelAccessor
 {
 public:
 
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
    * that this class will exhibit. */
-  typedef TExternalType ExternalType;
+  using ExternalType = TExternalType;
 
-  /** Internal typedef. It defines the internal real
+  /** Internal type alias. It defines the internal real
    * representation of data. */
-  typedef TInternalType InternalType;
+  using InternalType = TInternalType;
 
   static inline void Set(TInternalType & output, const TExternalType & input)
   { output = (TInternalType)std::acos( (double)input ); }
@@ -74,14 +74,14 @@ class AcosImageAdaptor:public
                   TOutputPixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef AcosImageAdaptor Self;
-  typedef ImageAdaptor< TImage, Accessor::AcosPixelAccessor<
+  /** Standard class type aliases. */
+  using Self = AcosImageAdaptor;
+  using Superclass = ImageAdaptor< TImage, Accessor::AcosPixelAccessor<
                           typename TImage::PixelType,
-                          TOutputPixelType > >             Superclass;
+                          TOutputPixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

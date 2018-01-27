@@ -68,17 +68,17 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float                 ComponentType;
+  using ComponentType = float;
   const   unsigned int          Dimension = 2;
 
-  typedef itk::CovariantVector< ComponentType,
-                                    Dimension  >      InputPixelType;
+  using InputPixelType = itk::CovariantVector< ComponentType,
+                                    Dimension  >;
 
-  typedef unsigned short                              OutputPixelType;
+  using OutputPixelType = unsigned short;
 
-  typedef itk::Image< InputPixelType,      Dimension >    InputImageType;
-  typedef itk::Image< ComponentType,       Dimension >    ComponentImageType;
-  typedef itk::Image< OutputPixelType,     Dimension >    OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,      Dimension >;
+  using ComponentImageType = itk::Image< ComponentType,       Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType,     Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -90,8 +90,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -108,9 +108,9 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::VectorIndexSelectionCastImageFilter<
+  using FilterType = itk::VectorIndexSelectionCastImageFilter<
                                           InputImageType,
-                                          ComponentImageType    > FilterType;
+                                          ComponentImageType    >;
 
   FilterType::Pointer componentExtractor = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -153,9 +153,9 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typedef itk::RescaleIntensityImageFilter<
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
                                   ComponentImageType,
-                                  OutputImageType >      RescaleFilterType;
+                                  OutputImageType >;
 
   RescaleFilterType::Pointer  rescaler = RescaleFilterType::New();
   //  Software Guide : EndCodeSnippet
@@ -261,7 +261,7 @@ int main( int argc, char ** argv )
   // Here We add another writer that will produce the non-normalized output
   // file
   //
-  typedef itk::ImageFileWriter< ComponentImageType >  ComponentWriterType;
+  using ComponentWriterType = itk::ImageFileWriter< ComponentImageType >;
   ComponentWriterType::Pointer componentWriter = ComponentWriterType::New();
   componentWriter->SetInput( componentExtractor->GetOutput() );
   componentWriter->SetFileName( argv[2] );

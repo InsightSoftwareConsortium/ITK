@@ -28,7 +28,7 @@ template< typename TDerived >
 int
 dynamic_castDownCast( const char * type, const char * instanceSource, itk::Object const * base )
 {
-  typedef TDerived DerivedType;
+  using DerivedType = TDerived;
 
   const static int passed = 0;
   const static int failed = 1;
@@ -52,7 +52,7 @@ ITKObjectProducer
 ::ITKObjectProducer()
 {
   m_EquivalencyTable = itk::EquivalencyTable::New();
-  typedef itk::Image< float, 3 > ImageType;
+  using ImageType = itk::Image< float, 3 >;
   m_Image = ImageType::New();
 }
 
@@ -78,7 +78,7 @@ ITKObjectProducer
 int
 dynamic_castDownCastEquivalencyTable( const char * type, const char * instanceSource, itk::Object const * base )
 {
-  typedef itk::EquivalencyTable EquivalencyTableType;
+  using EquivalencyTableType = itk::EquivalencyTable;
   return dynamic_castDownCast< EquivalencyTableType >( type, instanceSource, base );
 }
 
@@ -86,7 +86,7 @@ dynamic_castDownCastEquivalencyTable( const char * type, const char * instanceSo
 int
 dynamic_castDownCastImage( const char * type, const char * instanceSource, itk::Object const * base )
 {
-  typedef itk::Image< float, 3 > ImageType;
+  using ImageType = itk::Image< float, 3 >;
   return dynamic_castDownCast< ImageType >( type, instanceSource, base );
 }
 

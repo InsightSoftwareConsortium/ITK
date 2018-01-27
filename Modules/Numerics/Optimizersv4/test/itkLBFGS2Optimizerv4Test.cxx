@@ -44,19 +44,19 @@ class itkLBFGS2Optimizerv4TestMetric : public itk::ObjectToObjectMetricBase
 {
 public:
 
-  typedef itkLBFGS2Optimizerv4TestMetric    Self;
-  typedef itk::ObjectToObjectMetricBase     Superclass;
-  typedef itk::SmartPointer<Self>           Pointer;
-  typedef itk::SmartPointer<const Self>     ConstPointer;
+  using Self = itkLBFGS2Optimizerv4TestMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
 
   itkTypeMacro( itkLBFGS2Optimizerv4TestMetric, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::DerivativeType              DerivativeType;
-  typedef Superclass::MeasureType                 MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
   itkLBFGS2Optimizerv4TestMetric()
   {
@@ -148,7 +148,7 @@ int itkLBFGS2Optimizerv4Test(int, char* [] )
 {
   std::cout << "LBFGS2 Optimizerv4 Test \n \n";
 
-  typedef  itk::LBFGS2Optimizerv4                OptimizerType;
+  using OptimizerType = itk::LBFGS2Optimizerv4;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();

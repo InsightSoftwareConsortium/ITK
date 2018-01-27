@@ -47,11 +47,11 @@ class ITK_TEMPLATE_EXPORT VectorContainerToListSampleAdaptor:
   public ListSample< typename TVectorContainer::Element >
 {
 public:
-  /** Standard class typedefs */
-  typedef VectorContainerToListSampleAdaptor                   Self;
-  typedef ListSample<typename TVectorContainer::Element>       Superclass;
-  typedef SmartPointer< Self >                                 Pointer;
-  typedef SmartPointer< const Self >                           ConstPointer;
+  /** Standard class type aliases */
+  using Self = VectorContainerToListSampleAdaptor;
+  using Superclass = ListSample<typename TVectorContainer::Element>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( VectorContainerToListSampleAdaptor, ListSample );
@@ -63,23 +63,23 @@ public:
   itkStaticConstMacro( MeasurementVectorSize, unsigned int,
                        TVectorContainer::Element::Dimension );
 
-  /** VectorContainer typedefs */
-  typedef TVectorContainer                          VectorContainerType;
-  typedef typename TVectorContainer::Pointer        VectorContainerPointer;
-  typedef typename TVectorContainer::ConstPointer   VectorContainerConstPointer;
-  typedef typename TVectorContainer::Iterator       VectorContainerIterator;
-  typedef typename TVectorContainer::ConstIterator  VectorContainerConstIterator;
+  /** VectorContainer type alias */
+  using VectorContainerType = TVectorContainer;
+  using VectorContainerPointer = typename TVectorContainer::Pointer;
+  using VectorContainerConstPointer = typename TVectorContainer::ConstPointer;
+  using VectorContainerIterator = typename TVectorContainer::Iterator;
+  using VectorContainerConstIterator = typename TVectorContainer::ConstIterator;
 
-  /** Superclass typedefs for Measurement vector, measurement,
+  /** Superclass type alias for Measurement vector, measurement,
    * Instance Identifier, frequency, size, size element value */
-  typedef typename Superclass::MeasurementType            MeasurementType;
-  typedef typename Superclass::MeasurementVectorType      MeasurementVectorType;
-  typedef typename Superclass::AbsoluteFrequencyType      AbsoluteFrequencyType;
-  typedef typename Superclass::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
-  typedef typename Superclass::MeasurementVectorSizeType  MeasurementVectorSizeType;
-  typedef typename Superclass::InstanceIdentifier         InstanceIdentifier;
+  using MeasurementType = typename Superclass::MeasurementType;
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using AbsoluteFrequencyType = typename Superclass::AbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename Superclass::TotalAbsoluteFrequencyType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
 
-  typedef MeasurementVectorType ValueType;
+  using ValueType = MeasurementVectorType;
 
   /** Get/Set Method for the point set */
   itkSetObjectMacro( VectorContainer, VectorContainerType );

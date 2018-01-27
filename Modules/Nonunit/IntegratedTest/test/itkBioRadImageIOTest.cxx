@@ -30,10 +30,10 @@ int itkBioRadImageIOTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char                          InputPixelType;
-  typedef itk::Image< InputPixelType, 2 >        InputImageType;
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
-  typedef itk::BioRadImageIO                     ImageIOType;
+  using InputPixelType = unsigned char;
+  using InputImageType = itk::Image< InputPixelType, 2 >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ImageIOType = itk::BioRadImageIO;
 
   const char *filename = argv[1];
   const char *outfilename = argv[2];
@@ -57,7 +57,7 @@ int itkBioRadImageIOTest(int argc, char* argv[])
     }
 
   //
-  typedef itk::ImageFileWriter< InputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< InputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetImageIO( bioradImageIO );
   writer->SetFileName( outfilename );

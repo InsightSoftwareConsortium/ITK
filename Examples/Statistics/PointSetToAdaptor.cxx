@@ -64,7 +64,7 @@ int main()
   // Software Guide :EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::PointSet<float,2> FloatPointSet2DType;
+  using FloatPointSet2DType = itk::PointSet<float,2>;
 
   itk::RandomPointSetSource<FloatPointSet2DType>::Pointer random;
   random = itk::RandomPointSetSource<FloatPointSet2DType>::New();
@@ -93,10 +93,10 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::FixedArray< float, 1 >               MeasurementVectorType;
-  typedef itk::PointSet< MeasurementVectorType, 2 > ArrayPointSetType;
-  typedef itk::ScalarToArrayCastPointSetFilter< FloatPointSet2DType,
-                             ArrayPointSetType >    CasterType;
+  using MeasurementVectorType = itk::FixedArray< float, 1 >;
+  using ArrayPointSetType = itk::PointSet< MeasurementVectorType, 2 >;
+  using CasterType = itk::ScalarToArrayCastPointSetFilter< FloatPointSet2DType,
+                             ArrayPointSetType >;
 
   CasterType::Pointer caster = CasterType::New();
   caster->SetInput( random->GetOutput() );
@@ -113,8 +113,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::PointSetToListSampleAdaptor<
-                                               ArrayPointSetType > SampleType;
+  using SampleType = itk::Statistics::PointSetToListSampleAdaptor<
+                                               ArrayPointSetType >;
   SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 

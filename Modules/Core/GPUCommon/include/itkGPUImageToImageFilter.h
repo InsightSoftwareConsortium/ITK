@@ -40,28 +40,28 @@ template< typename TInputImage, typename TOutputImage, typename TParentImageFilt
 class ITK_TEMPLATE_EXPORT GPUImageToImageFilter : public TParentImageFilter
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUImageToImageFilter      Self;
-  typedef TParentImageFilter         Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUImageToImageFilter;
+  using Superclass = TParentImageFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GPUImageToImageFilter, TParentImageFilter);
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::DataObjectIdentifierType DataObjectIdentifierType;
-  typedef typename Superclass::OutputImageRegionType    OutputImageRegionType;
-  typedef typename Superclass::OutputImagePixelType     OutputImagePixelType;
+  /** Superclass type alias. */
+  using DataObjectIdentifierType = typename Superclass::DataObjectIdentifierType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);

@@ -125,8 +125,8 @@ RealTimeClock::GetRealTimeStamp() const
   TimeStampType seconds = static_cast< TimeStampType >( static_cast<__int64>( tick.QuadPart ) ) / this->m_Frequency;
   seconds += this->m_Origin;
 
-  typedef RealTimeStamp::SecondsCounterType       SecondsCounterType;
-  typedef RealTimeStamp::MicroSecondsCounterType  MicroSecondsCounterType;
+  using SecondsCounterType = RealTimeStamp::SecondsCounterType;
+  using MicroSecondsCounterType = RealTimeStamp::MicroSecondsCounterType;
 
   SecondsCounterType iseconds = std::floor( seconds );
   MicroSecondsCounterType useconds = std::floor( ( seconds - iseconds ) * 1e6 );

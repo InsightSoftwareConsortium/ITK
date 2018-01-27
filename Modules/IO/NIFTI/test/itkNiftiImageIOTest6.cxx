@@ -31,7 +31,7 @@ int itkNiftiImageIOTest6(int ac, char *av[])
     }
   int success(EXIT_SUCCESS);
 
-  typedef itk::VectorImage<double,3> VectorImageType;
+  using VectorImageType = itk::VectorImage<double,3>;
   VectorImageType::RegionType imageRegion;
   VectorImageType::SizeType size;
   VectorImageType::IndexType index;

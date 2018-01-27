@@ -28,9 +28,9 @@ int itkImageFileWriterTest2(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned char,2>       ImageNDType;
-  typedef itk::ImageFileWriter<ImageNDType> WriterType;
-  typedef itk::ImageFileReader<ImageNDType> ReaderType;
+  using ImageNDType = itk::Image<unsigned char,2>;
+  using WriterType = itk::ImageFileWriter<ImageNDType>;
+  using ReaderType = itk::ImageFileReader<ImageNDType>;
 
   ImageNDType::Pointer image = ImageNDType::New();
   ImageNDType::RegionType region;

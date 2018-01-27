@@ -33,7 +33,7 @@ template< typename TInput, typename  TOutput >
 class ITK_TEMPLATE_EXPORT InvertIntensityTransform
 {
 public:
-  typedef typename NumericTraits< TInput >::RealType RealType;
+  using RealType = typename NumericTraits< TInput >::RealType;
   InvertIntensityTransform() { m_Maximum = NumericTraits< TInput >::max(); }
   ~InvertIntensityTransform() {}
 
@@ -94,18 +94,18 @@ class ITK_TEMPLATE_EXPORT InvertIntensityImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef InvertIntensityImageFilter Self;
-  typedef UnaryFunctorImageFilter< TInputImage, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = InvertIntensityImageFilter;
+  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
                                    Functor::InvertIntensityTransform<
                                      typename TInputImage::PixelType,
-                                     typename TOutputImage::PixelType > > Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                                     typename TOutputImage::PixelType > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TOutputImage::PixelType                   OutputPixelType;
-  typedef typename TInputImage::PixelType                    InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType RealType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< InputPixelType >::RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

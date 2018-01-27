@@ -24,13 +24,13 @@ int itkThreadedImageRegionPartitionerTest(int , char* [])
 {
   const unsigned int Dimension = 2;
 
-  typedef itk::ThreadedImageRegionPartitioner< Dimension > ThreadedImageRegionPartitionerType;
+  using ThreadedImageRegionPartitionerType = itk::ThreadedImageRegionPartitioner< Dimension >;
   ThreadedImageRegionPartitionerType::Pointer threadedImageRegionPartitioner = ThreadedImageRegionPartitionerType::New();
 
-  typedef ThreadedImageRegionPartitionerType::DomainType ImageRegionType;
+  using ImageRegionType = ThreadedImageRegionPartitionerType::DomainType;
 
-  typedef ImageRegionType::SizeType   SizeType;
-  typedef ImageRegionType::IndexType  IndexType;
+  using SizeType = ImageRegionType::SizeType;
+  using IndexType = ImageRegionType::IndexType;
 
   SizeType size;
   IndexType index;

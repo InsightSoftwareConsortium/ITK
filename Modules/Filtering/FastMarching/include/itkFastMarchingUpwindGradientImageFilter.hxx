@@ -83,13 +83,13 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
   // set all gradient vectors to zero
   if ( m_GenerateGradientImage )
     {
-    typedef ImageRegionIterator< GradientImageType > GradientIterator;
+    using GradientIterator = ImageRegionIterator< GradientImageType >;
 
     GradientIterator gradientIt( m_GradientImage,
                                  m_GradientImage->GetBufferedRegion() );
 
     GradientPixelType zeroGradient;
-    typedef typename GradientPixelType::ValueType GradientPixelValueType;
+    using GradientPixelValueType = typename GradientPixelType::ValueType;
     zeroGradient.Fill(NumericTraits< GradientPixelValueType >::ZeroValue());
     for ( gradientIt.GoToBegin(); !gradientIt.IsAtEnd(); ++gradientIt )
       {
@@ -247,7 +247,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
 {
   IndexType neighIndex = index;
 
-  typedef typename TLevelSet::PixelType LevelSetPixelType;
+  using LevelSetPixelType = typename TLevelSet::PixelType;
   LevelSetPixelType centerPixel;
   LevelSetPixelType dx_forward;
   LevelSetPixelType dx_backward;

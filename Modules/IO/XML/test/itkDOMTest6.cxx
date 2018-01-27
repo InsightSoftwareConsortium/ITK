@@ -70,7 +70,7 @@ void testStringToolsWithBasicType()
 {
   // for unsigned char
     {
-    typedef unsigned char DataType;
+    using DataType = unsigned char;
 
     std::string s;
 
@@ -93,7 +93,7 @@ void testStringToolsWithBasicType()
 
   // for short
     {
-    typedef short DataType;
+    using DataType = short;
 
     std::string s;
 
@@ -116,7 +116,7 @@ void testStringToolsWithBasicType()
 
   // for double
     {
-    typedef double DataType;
+    using DataType = double;
 
     std::string s;
 
@@ -229,7 +229,7 @@ void testStringToolsWithStdVector()
 // test for itk::Array<T>
 void testStringToolsWithItkArray()
 {
-  typedef itk::Array<double> DataType;
+  using DataType = itk::Array<double>;
 
   std::string svalue;
   std::string s;

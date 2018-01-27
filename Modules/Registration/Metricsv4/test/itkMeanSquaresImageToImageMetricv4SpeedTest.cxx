@@ -35,7 +35,7 @@ int itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char *argv[] )
   std::cout << "image dim: " << imageSize << ", reps: " << numberOfReps << std::endl;
 
   const unsigned int imageDimensionality = 3;
-  typedef itk::Image< double, imageDimensionality >              ImageType;
+  using ImageType = itk::Image< double, imageDimensionality >;
 
   ImageType::SizeType       size;
   size.Fill( imageSize );
@@ -90,8 +90,8 @@ int itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char *argv[] )
     }
 
   /* Transforms */
-  typedef itk::TranslationTransform<double,imageDimensionality> FixedTransformType;
-  typedef itk::TranslationTransform<double,imageDimensionality> MovingTransformType;
+  using FixedTransformType = itk::TranslationTransform<double,imageDimensionality>;
+  using MovingTransformType = itk::TranslationTransform<double,imageDimensionality>;
 
   FixedTransformType::Pointer fixedTransform = FixedTransformType::New();
   MovingTransformType::Pointer movingTransform = MovingTransformType::New();
@@ -100,7 +100,7 @@ int itkMeanSquaresImageToImageMetricv4SpeedTest(int argc, char *argv[] )
   movingTransform->SetIdentity();
 
   /* The metric */
-  typedef itk::MeanSquaresImageToImageMetricv4< ImageType, ImageType, ImageType > MetricType;
+  using MetricType = itk::MeanSquaresImageToImageMetricv4< ImageType, ImageType, ImageType >;
 
   MetricType::Pointer metric = MetricType::New();
 

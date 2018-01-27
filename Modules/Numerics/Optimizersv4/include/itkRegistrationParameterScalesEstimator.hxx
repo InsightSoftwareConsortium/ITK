@@ -170,7 +170,7 @@ RegistrationParameterScalesEstimator< TMetric >
     {
     if( this->m_TransformForward )
       {
-      typedef CompositeTransform<FloatType, MovingDimension> CompositeTransformType;
+      using CompositeTransformType = CompositeTransform<FloatType, MovingDimension>;
       typename CompositeTransformType::Pointer compositeTransform = dynamic_cast<CompositeTransformType *>( const_cast<MovingTransformType *>( this->m_Metric->GetMovingTransform() ) );
 
       if( compositeTransform )
@@ -189,7 +189,7 @@ RegistrationParameterScalesEstimator< TMetric >
       }
     else // !this->m_TransformForward
       {
-      typedef CompositeTransform<FloatType, FixedDimension> CompositeTransformType;
+      using CompositeTransformType = CompositeTransform<FloatType, FixedDimension>;
       typename CompositeTransformType::Pointer compositeTransform = dynamic_cast<CompositeTransformType *>( const_cast<FixedTransformType *>( this->m_Metric->GetFixedTransform() ) );
 
       if( compositeTransform )
@@ -460,11 +460,11 @@ bool
 RegistrationParameterScalesEstimator< TMetric >
 ::CheckGeneralAffineTransformTemplated()
 {
-  typedef typename TTransform::ScalarType ScalarType;
+  using ScalarType = typename TTransform::ScalarType;
   const SizeValueType InputSpaceDimension = TTransform::InputSpaceDimension;
   const SizeValueType OutputSpaceDimension = TTransform::OutputSpaceDimension;
 
-  typedef Transform<ScalarType, InputSpaceDimension, OutputSpaceDimension> TransformBaseType;
+  using TransformBaseType = Transform<ScalarType, InputSpaceDimension, OutputSpaceDimension>;
 
   const TransformBaseType *transform = dynamic_cast< const TransformBaseType * >( this->GetTransform() );
 
@@ -561,7 +561,7 @@ RegistrationParameterScalesEstimator< TMetric >
   this->m_SamplePoints.resize(total);
 
   /* Set up an iterator within the user specified virtual image region. */
-  typedef ImageRegionConstIteratorWithIndex<VirtualImageType> RegionIterator;
+  using RegionIterator = ImageRegionConstIteratorWithIndex<VirtualImageType>;
   RegionIterator regionIter( image, region );
 
   VirtualPointType point;
@@ -645,7 +645,7 @@ RegistrationParameterScalesEstimator< TMetric >
   this->m_SamplePoints.resize(m_NumberOfRandomSamples);
 
   // Set up a random iterator within the user specified virtual image region.
-  typedef ImageRandomConstIteratorWithIndex<VirtualImageType> RandomIterator;
+  using RandomIterator = ImageRandomConstIteratorWithIndex<VirtualImageType>;
   RandomIterator randIter( image, this->m_Metric->GetVirtualRegion() );
 
   VirtualPointType point;

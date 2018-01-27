@@ -36,46 +36,45 @@
 int itkOrthogonalSwath2DPathFilterTest( int, char*[] )
 {
   const unsigned int Dimension = 2;
-  typedef unsigned char UCharPixelType;
-  typedef double        DoublePixelType;
+  using UCharPixelType = unsigned char;
+  using DoublePixelType = double;
 
-  typedef itk::Image< UCharPixelType, Dimension >     UCharImageType;
-  typedef itk::Image< DoublePixelType, Dimension >    DoubleImageType;
-  typedef itk::PolyLineParametricPath< Dimension >    PolyLineParametricPathType;
-  typedef itk::ChainCodePath<2>                       ChainCodePathType;
-  typedef itk::FourierSeriesPath<2>                   FourierSeriesPathType;
+  using UCharImageType = itk::Image< UCharPixelType, Dimension >;
+  using DoubleImageType = itk::Image< DoublePixelType, Dimension >;
+  using PolyLineParametricPathType = itk::PolyLineParametricPath< Dimension >;
+  using ChainCodePathType = itk::ChainCodePath<2>;
+  using FourierSeriesPathType = itk::FourierSeriesPath<2>;
 
-  typedef PolyLineParametricPathType::VertexType      VertexType;
+  using VertexType = PolyLineParametricPathType::VertexType;
 
-  typedef UCharImageType::IndexType                   IndexType;
+  using IndexType = UCharImageType::IndexType;
 
-  typedef itk::OrthogonallyCorrected2DParametricPath  OutputPathType;
+  using OutputPathType = itk::OrthogonallyCorrected2DParametricPath;
 
-  // Image pre-processing filter typedefs
-  typedef itk::RescaleIntensityImageFilter< UCharImageType, DoubleImageType >
-    CastFilterType;
-  typedef itk::DiscreteGaussianImageFilter< DoubleImageType, DoubleImageType >
-    SmoothFilterType;
-  typedef itk::ExtractOrthogonalSwath2DImageFilter< DoubleImageType >
-    SwathFilterType;
-  typedef itk::DerivativeImageFilter< DoubleImageType, DoubleImageType >
-    MeritFilterType;
+  // Image pre-processing filter type alias
+  using CastFilterType =
+      itk::RescaleIntensityImageFilter< UCharImageType, DoubleImageType >;
+  using SmoothFilterType =
+      itk::DiscreteGaussianImageFilter< DoubleImageType, DoubleImageType >;
+  using SwathFilterType = itk::ExtractOrthogonalSwath2DImageFilter<DoubleImageType>;
+  using MeritFilterType =
+      itk::DerivativeImageFilter< DoubleImageType, DoubleImageType >;
 
-  // Path pre-processing filter typedefs
-  typedef itk::PathToChainCodePathFilter< PolyLineParametricPathType, ChainCodePathType >
-    PathToChainCodePathFilterType;
-  typedef itk::ChainCodeToFourierSeriesPathFilter< ChainCodePathType, FourierSeriesPathType>
-    ChainCodeToFourierSeriesPathFilterType;
-  typedef itk::OrthogonalSwath2DPathFilter< FourierSeriesPathType, DoubleImageType >
-    OrthogonalSwath2DPathFilterType;
+  // Path pre-processing filter type alias
+  using PathToChainCodePathFilterType =
+      itk::PathToChainCodePathFilter< PolyLineParametricPathType, ChainCodePathType >;
+  using ChainCodeToFourierSeriesPathFilterType =
+      itk::ChainCodeToFourierSeriesPathFilter< ChainCodePathType, FourierSeriesPathType>;
+  using OrthogonalSwath2DPathFilterType =
+      itk::OrthogonalSwath2DPathFilter< FourierSeriesPathType, DoubleImageType >;
 
-  // Filter typedefs for saving results
-  typedef itk::PathToImageFilter< FourierSeriesPathType, UCharImageType >
-    FourierSeriesPathToImageFilterType;
-  typedef itk::PathToImageFilter< OutputPathType, UCharImageType >
-    OrthogonallyCorrected2DParametricPathToImageFilterType;
-  typedef itk::RescaleIntensityImageFilter< DoubleImageType, UCharImageType >
-    RescaleIntensityImageFilterType;
+  // Filter type alias for saving results
+  using FourierSeriesPathToImageFilterType =
+      itk::PathToImageFilter< FourierSeriesPathType, UCharImageType >;
+  using OrthogonallyCorrected2DParametricPathToImageFilterType =
+      itk::PathToImageFilter< OutputPathType, UCharImageType >;
+  using RescaleIntensityImageFilterType =
+      itk::RescaleIntensityImageFilter< DoubleImageType, UCharImageType >;
 
   // Set up the path
   std::cout << "Making a square Path with v0 at (24,24) -> (24,104) -> (104,104) -> (104,24)" << std::endl;
@@ -126,7 +125,7 @@ int itkOrthogonalSwath2DPathFilterTest( int, char*[] )
 
   inputImage->Allocate();
 
-  typedef itk::ImageRegionIterator< UCharImageType > ImageRegionIteratorType;
+  using ImageRegionIteratorType = itk::ImageRegionIterator< UCharImageType >;
   ImageRegionIteratorType it( inputImage, inputImage->GetRequestedRegion() );
   it.GoToBegin();
   IndexType pixelIndex;

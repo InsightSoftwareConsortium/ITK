@@ -61,35 +61,34 @@ template< typename TMeasurementVector >
 class Sample:public DataObject
 {
 public:
-  /** Standard class typedefs */
-  typedef Sample                     Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = Sample;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(Sample, DataObject);
 
-  /** MeasurementVector typedef support */
-  typedef TMeasurementVector MeasurementVectorType;
+  /** MeasurementVector type alias support */
+  using MeasurementVectorType = TMeasurementVector;
 
   /** ValueType of a measurement (ValueType of a component of the
    * MeasurementVector */
-  typedef typename MeasurementVectorTraitsTypes<
-    MeasurementVectorType >::ValueType MeasurementType;
+  using MeasurementType = typename MeasurementVectorTraitsTypes<MeasurementVectorType>::ValueType;
 
   /** Frequency value type */
-  typedef MeasurementVectorTraits::AbsoluteFrequencyType AbsoluteFrequencyType;
+  using AbsoluteFrequencyType = MeasurementVectorTraits::AbsoluteFrequencyType;
 
   /** Total frequency type */
-  typedef NumericTraits< AbsoluteFrequencyType >::AccumulateType TotalAbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = NumericTraits< AbsoluteFrequencyType >::AccumulateType;
 
-  /** InstanceIdentifier typedef. This identifier is a unique
+  /** InstanceIdentifier type alias. This identifier is a unique
    * sequential id for each measurement vector in a Sample subclass. */
-  typedef typename MeasurementVectorTraits::InstanceIdentifier InstanceIdentifier;
+  using InstanceIdentifier = typename MeasurementVectorTraits::InstanceIdentifier;
 
   /** Type of the length of each measurement vector */
-  typedef unsigned int MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = unsigned int;
 
   /** Get the size of the sample (number of measurements) */
   virtual InstanceIdentifier Size() const = 0;

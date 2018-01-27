@@ -25,12 +25,12 @@
 int itkPathToChainCodePathFilterTest( int, char* [] )
 {
   const unsigned int Dimension = 2;
-  typedef itk::PolyLineParametricPath< Dimension >  InPathType;
-  typedef itk::ChainCodePath2D                      ChainPathType;
+  using InPathType = itk::PolyLineParametricPath< Dimension >;
+  using ChainPathType = itk::ChainCodePath2D;
 
-  typedef InPathType::VertexType               VertexType;
+  using VertexType = InPathType::VertexType;
 
-  typedef itk::PathToChainCodePathFilter< InPathType, ChainPathType > FilterType;
+  using FilterType = itk::PathToChainCodePathFilter< InPathType, ChainPathType >;
 
   bool passed = true;
 

@@ -52,12 +52,12 @@ static void TagExtender(TIFF *tiff)
 }
 }
 
-typedef KWIML_INT_int32_t  Int32_t;
-typedef KWIML_INT_uint32_t UInt32_t;
+using Int32_t = ::int32_t;
+using UInt32_t = ::uint32_t;
 
-typedef float       Float32_t;
-typedef double      Float64_t;
-typedef long double Float96_t;
+using Float32_t = float;
+using Float64_t = double;
+using Float96_t = long double;
 
 typedef struct {
   UInt32_t U32MagicNumber;

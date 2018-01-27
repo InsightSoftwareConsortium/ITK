@@ -45,15 +45,15 @@ class ITK_TEMPLATE_EXPORT GaussianBlurImageFunction:
 {
 public:
 
-  /**Standard "Self" typedef */
-  typedef GaussianBlurImageFunction Self;
+  /**Standard "Self" type alias */
+  using Self = GaussianBlurImageFunction;
 
-  /** Standard "Superclass" typedef */
-  typedef ImageFunction< TInputImage, TOutput > Superclass;
+  /** Standard "Superclass" type alias */
+  using Superclass = ImageFunction< TInputImage, TOutput >;
 
-  /** Smart pointer typedef support. */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,39 +61,39 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianBlurImageFunction, ImageFunction);
 
-  /** InputImageType typedef support. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::PixelType       InputPixelType;
-  typedef typename Superclass::IndexType           IndexType;
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** InputImageType type alias support */
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using IndexType = typename Superclass::IndexType;
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   /** Dimension of the underlying image. */
   itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
 
-  typedef GaussianOperator<
-    TOutput, itkGetStaticConstMacro(ImageDimension) >                            GaussianOperatorType;
-  typedef Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension) >        NeighborhoodType;
-  typedef FixedArray< NeighborhoodType, itkGetStaticConstMacro(ImageDimension) > OperatorArrayType;
+  using GaussianOperatorType = GaussianOperator<
+    TOutput, itkGetStaticConstMacro(ImageDimension) >;
+  using NeighborhoodType = Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension) >;
+  using OperatorArrayType = FixedArray< NeighborhoodType, itkGetStaticConstMacro(ImageDimension) >;
 
-  typedef GaussianSpatialFunction< TOutput, 1 >                        GaussianFunctionType;
-  typedef typename GaussianFunctionType::Pointer                       GaussianFunctionPointer;
-  typedef typename NumericTraits< InputPixelType >::RealType           InputPixelRealType;
-  typedef itk::Image<
-    InputPixelRealType, itkGetStaticConstMacro(ImageDimension) >       InternalImageType;
-  typedef typename InternalImageType::Pointer                          InternalImagePointer;
+  using GaussianFunctionType = GaussianSpatialFunction< TOutput, 1 >;
+  using GaussianFunctionPointer = typename GaussianFunctionType::Pointer;
+  using InputPixelRealType = typename NumericTraits< InputPixelType >::RealType;
+  using InternalImageType = itk::Image<
+    InputPixelRealType, itkGetStaticConstMacro(ImageDimension) >;
+  using InternalImagePointer = typename InternalImageType::Pointer;
 
-  typedef NeighborhoodOperatorImageFunction< InputImageType, TOutput >    OperatorImageFunctionType;
-  typedef typename OperatorImageFunctionType::Pointer                     OperatorImageFunctionPointer;
+  using OperatorImageFunctionType = NeighborhoodOperatorImageFunction< InputImageType, TOutput >;
+  using OperatorImageFunctionPointer = typename OperatorImageFunctionType::Pointer;
 
-  typedef NeighborhoodOperatorImageFunction< InternalImageType, TOutput > OperatorInternalImageFunctionType;
-  typedef typename OperatorInternalImageFunctionType::Pointer             OperatorInternalImageFunctionPointer;
+  using OperatorInternalImageFunctionType = NeighborhoodOperatorImageFunction< InternalImageType, TOutput >;
+  using OperatorInternalImageFunctionPointer = typename OperatorInternalImageFunctionType::Pointer;
 
-  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ErrorArrayType;
-  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ExtentArrayType;
-  typedef itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) > SigmaArrayType;
+  using ErrorArrayType = itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
+  using ExtentArrayType = itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
+  using SigmaArrayType = itk::FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support */
+  using PointType = typename Superclass::PointType;
 
   /** Evalutate the  in the given dimension at specified point */
   TOutput Evaluate(const PointType & point) const override;

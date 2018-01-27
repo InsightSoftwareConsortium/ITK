@@ -38,11 +38,11 @@ class ITK_TEMPLATE_EXPORT FixedCenterOfRotationAffineTransform:
   public ScalableAffineTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard typedefs   */
-  typedef FixedCenterOfRotationAffineTransform                         Self;
-  typedef ScalableAffineTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                         Pointer;
-  typedef SmartPointer<const Self>                                   ConstPointer;
+  /** Standard type alias   */
+  using Self = FixedCenterOfRotationAffineTransform;
+  using Superclass = ScalableAffineTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(FixedCenterOfRotationAffineTransform, ScalableAffineTransform);
@@ -58,23 +58,23 @@ public:
                        NDimensions * ( NDimensions + 2 ) );
 
   /** Types taken from the Superclass */
-  typedef typename Superclass::ParametersType            ParametersType;
-  typedef typename Superclass::FixedParametersType       FixedParametersType;
-  typedef typename Superclass::JacobianType              JacobianType;
-  typedef typename Superclass::ScalarType                ScalarType;
-  typedef typename Superclass::InputVectorType           InputVectorType;
-  typedef typename Superclass::OutputVectorType          OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
-  typedef typename Superclass::InputVnlVectorType        InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType       OutputVnlVectorType;
-  typedef typename Superclass::InputPointType            InputPointType;
-  typedef typename Superclass::OutputPointType           OutputPointType;
-  typedef typename Superclass::MatrixType                MatrixType;
-  typedef typename Superclass::InverseMatrixType         InverseMatrixType;
-  typedef typename Superclass::CenterType                CenterType;
-  typedef typename Superclass::TranslationType           TranslationType;
-  typedef typename Superclass::OffsetType                OffsetType;
+  using ParametersType = typename Superclass::ParametersType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using JacobianType = typename Superclass::JacobianType;
+  using ScalarType = typename Superclass::ScalarType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using MatrixType = typename Superclass::MatrixType;
+  using InverseMatrixType = typename Superclass::InverseMatrixType;
+  using CenterType = typename Superclass::CenterType;
+  using TranslationType = typename Superclass::TranslationType;
+  using OffsetType = typename Superclass::OffsetType;
 
   /** Set and Get the center of rotation */
   void SetCenterOfRotationComponent(const InputPointType & cor)

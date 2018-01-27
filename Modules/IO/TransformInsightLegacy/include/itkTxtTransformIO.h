@@ -32,20 +32,19 @@ template<typename TParametersValueType>
 class ITK_TEMPLATE_EXPORT TxtTransformIOTemplate:public TransformIOBaseTemplate<TParametersValueType>
 {
 public:
-  typedef TxtTransformIOTemplate                        Self;
-  typedef TransformIOBaseTemplate<TParametersValueType> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef typename Superclass::TransformType            TransformType;
-  typedef typename Superclass::TransformPointer         TransformPointer;
-  typedef typename Superclass::TransformListType        TransformListType;
-  typedef typename TransformIOBaseTemplate<
-                      TParametersValueType>::ConstTransformListType
-                                                        ConstTransformListType;
+  using Self = TxtTransformIOTemplate;
+  using Superclass = TransformIOBaseTemplate<TParametersValueType>;
+  using Pointer = SmartPointer<Self>;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformListType = typename Superclass::TransformListType;
+  using ConstTransformListType = typename TransformIOBaseTemplate<
+                      TParametersValueType>::ConstTransformListType;
 
-  typedef typename TransformType::ParametersType           ParametersType;
-  typedef typename TransformType::ParametersValueType      ParametersValueType;
-  typedef typename TransformType::FixedParametersType      FixedParametersType;
-  typedef typename TransformType::FixedParametersValueType FixedParametersValueType;
+  using ParametersType = typename TransformType::ParametersType;
+  using ParametersValueType = typename TransformType::ParametersValueType;
+  using FixedParametersType = typename TransformType::FixedParametersType;
+  using FixedParametersValueType = typename TransformType::FixedParametersValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TxtTransformIOTemplate, Superclass);
@@ -80,7 +79,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef TxtTransformIOTemplate<double> TxtTransformIO;
+using TxtTransformIO = TxtTransformIOTemplate<double>;
 
 }
 

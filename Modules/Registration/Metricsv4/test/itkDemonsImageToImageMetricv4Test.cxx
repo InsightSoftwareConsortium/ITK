@@ -33,7 +33,7 @@ int itkDemonsImageToImageMetricv4Test(int, char ** const)
 
   const unsigned int imageSize = 5;
   const unsigned int imageDimensionality = 3;
-  typedef itk::Image< double, imageDimensionality >              ImageType;
+  using ImageType = itk::Image< double, imageDimensionality >;
 
   ImageType::SizeType       size;
   size.Fill( imageSize );
@@ -88,14 +88,14 @@ int itkDemonsImageToImageMetricv4Test(int, char ** const)
     }
 
   /* Transforms */
-  typedef itk::TranslationTransform<double,imageDimensionality> TranslationTransformType;
-  typedef itk::GaussianSmoothingOnUpdateDisplacementFieldTransform< double, imageDimensionality> DisplacementTransformType;
+  using TranslationTransformType = itk::TranslationTransform<double,imageDimensionality>;
+  using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform< double, imageDimensionality>;
 
   TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
   translationTransform->SetIdentity();
 
   DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
-  typedef DisplacementTransformType::DisplacementFieldType DisplacementFieldType;
+  using DisplacementFieldType = DisplacementTransformType::DisplacementFieldType;
   DisplacementFieldType::Pointer field = DisplacementFieldType::New();
   field->SetRegions( fixedImage->GetLargestPossibleRegion() );
   field->CopyInformation( fixedImage );
@@ -108,7 +108,7 @@ int itkDemonsImageToImageMetricv4Test(int, char ** const)
   displacementTransform->SetGaussianSmoothingVarianceForTheTotalField( 6 );
 
   /* The metric */
-  typedef itk::DemonsImageToImageMetricv4< ImageType, ImageType, ImageType > MetricType;
+  using MetricType = itk::DemonsImageToImageMetricv4< ImageType, ImageType, ImageType >;
 
   MetricType::Pointer metric = MetricType::New();
 

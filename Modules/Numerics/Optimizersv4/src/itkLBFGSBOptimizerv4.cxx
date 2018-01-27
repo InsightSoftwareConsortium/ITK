@@ -29,8 +29,8 @@ class ITKOptimizersv4_EXPORT LBFGSBOptimizerHelperv4:
 public LBFGSOptimizerBaseHelperv4<vnl_lbfgsb>
 {
   public:
-  typedef LBFGSBOptimizerHelperv4                  Self;
-  typedef LBFGSOptimizerBaseHelperv4<vnl_lbfgsb>   Superclass;
+  using Self = LBFGSBOptimizerHelperv4;
+  using Superclass = LBFGSOptimizerBaseHelperv4<vnl_lbfgsb>;
 
   /** Create with a reference to the ITK object */
   LBFGSBOptimizerHelperv4(vnl_cost_function & f,

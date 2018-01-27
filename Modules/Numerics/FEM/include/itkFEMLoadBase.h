@@ -40,17 +40,17 @@ namespace fem
 class ITKFEM_EXPORT Load : public FEMLightObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef Load                     Self;
-  typedef FEMLightObject           Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Load;
+  using Superclass = FEMLightObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Load, FEMLightObject);
 
   /** Array class that holds special pointers to the load objects */
-  typedef FEMPArray<Self> ArrayType;
+  using ArrayType = FEMPArray<Self>;
 
   /**
    * Sets the pointer to solution vector. This function is automatically

@@ -35,22 +35,21 @@ int itkExtractOrthogonalSwath2DImageFilterTest( int argc, char* argv[] )
     }
 
   const unsigned int Dimension = 2;
-  typedef unsigned char                             PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension >        ImageType;
-  typedef itk::PolyLineParametricPath< Dimension >  PolyLineParametricPathType;
-  typedef itk::ChainCodePath< Dimension >           ChainCodePathType;
-  typedef itk::FourierSeriesPath< Dimension >       FourierSeriesPathType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using PolyLineParametricPathType = itk::PolyLineParametricPath< Dimension >;
+  using ChainCodePathType = itk::ChainCodePath< Dimension >;
+  using FourierSeriesPathType = itk::FourierSeriesPath< Dimension >;
 
-  typedef PolyLineParametricPathType::VertexType    VertexType;
-  typedef ImageType::IndexType                      IndexType;
+  using VertexType = PolyLineParametricPathType::VertexType;
+  using IndexType = ImageType::IndexType;
 
-  typedef itk::PathToChainCodePathFilter< PolyLineParametricPathType, ChainCodePathType >
-    PathToChainCodePathFilterType;
-  typedef itk::ChainCodeToFourierSeriesPathFilter< ChainCodePathType, FourierSeriesPathType >
-    ChainCodeToFourierSeriesPathFilterType;
-  typedef itk::ExtractOrthogonalSwath2DImageFilter< ImageType >
-    ExtractOrthogonalSwath2DImageFilterType;
+  using PathToChainCodePathFilterType =
+      itk::PathToChainCodePathFilter< PolyLineParametricPathType, ChainCodePathType >;
+  using ChainCodeToFourierSeriesPathFilterType =
+      itk::ChainCodeToFourierSeriesPathFilter< ChainCodePathType, FourierSeriesPathType >;
+  using ExtractOrthogonalSwath2DImageFilterType = itk::ExtractOrthogonalSwath2DImageFilter<ImageType>;
 
 
   // Set up the image
@@ -73,7 +72,7 @@ int itkExtractOrthogonalSwath2DImageFilterTest( int argc, char* argv[] )
 
   inputImage->Allocate();
 
-  typedef itk::ImageRegionIterator< ImageType > ImageRegionIteratorType;
+  using ImageRegionIteratorType = itk::ImageRegionIterator< ImageType >;
   ImageRegionIteratorType it( inputImage, inputImage->GetRequestedRegion() );
   it.GoToBegin();
   IndexType pixelIndex;

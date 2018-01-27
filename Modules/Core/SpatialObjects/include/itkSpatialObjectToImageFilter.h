@@ -40,19 +40,19 @@ template< typename TInputSpatialObject, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT SpatialObjectToImageFilter:public ImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SpatialObjectToImageFilter  Self;
-  typedef ImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SpatialObjectToImageFilter;
+  using Superclass = ImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TOutputImage                            OutputImageType;
-  typedef typename OutputImageType::SizeType      SizeType;
-  typedef typename OutputImageType::PointType     PointType;
-  typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename OutputImageType::ValueType     ValueType;
-  typedef typename OutputImageType::SpacingType   SpacingType;
-  typedef typename OutputImageType::DirectionType DirectionType;
+  using OutputImageType = TOutputImage;
+  using SizeType = typename OutputImageType::SizeType;
+  using PointType = typename OutputImageType::PointType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using ValueType = typename OutputImageType::ValueType;
+  using SpacingType = typename OutputImageType::SpacingType;
+  using DirectionType = typename OutputImageType::DirectionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -60,14 +60,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpatialObjectToImageFilter, ImageSource);
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  /** Some convenient typedefs. */
-  typedef TInputSpatialObject                            InputSpatialObjectType;
-  typedef typename InputSpatialObjectType::Pointer       InputSpatialObjectPointer;
-  typedef typename InputSpatialObjectType::ConstPointer  InputSpatialObjectConstPointer;
-  typedef typename TInputSpatialObject::ChildrenListType ChildrenListType;
+  /** Some convenient type alias. */
+  using InputSpatialObjectType = TInputSpatialObject;
+  using InputSpatialObjectPointer = typename InputSpatialObjectType::Pointer;
+  using InputSpatialObjectConstPointer = typename InputSpatialObjectType::ConstPointer;
+  using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ObjectDimension, unsigned int,

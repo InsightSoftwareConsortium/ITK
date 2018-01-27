@@ -30,7 +30,7 @@ template <typename TPixelType, unsigned int VImageDimension>
 typename itk::Image<TPixelType, VImageDimension>::Pointer
 itkNrrdImageIOTestGenerateRandomImage(unsigned int size)
 {
-  typedef itk::Image<TPixelType, VImageDimension> ImageType;
+  using ImageType = itk::Image<TPixelType, VImageDimension>;
 
   typename itk::RandomImageSource<ImageType>::Pointer source
     = itk::RandomImageSource<ImageType>::New();
@@ -58,7 +58,7 @@ template<typename TPixelType, unsigned int VImageDimension>
 int itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size,
                                     std::string inputFile, bool compression=false)
 {
-  typedef itk::Image<TPixelType, VImageDimension> ImageType;
+  using ImageType = itk::Image<TPixelType, VImageDimension>;
 
   typename itk::ImageFileReader<ImageType>::Pointer reader
     = itk::ImageFileReader<ImageType>::New();

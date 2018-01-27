@@ -55,11 +55,11 @@ template< typename TSample, typename THistogram >
 class ITK_TEMPLATE_EXPORT SampleToHistogramFilter:public ProcessObject
 {
 public:
-  /** Standard class typedefs */
-  typedef SampleToHistogramFilter    Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = SampleToHistogramFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(SampleToHistogramFilter, ProcessObject);
@@ -67,17 +67,17 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** MeasurementVector typedef support */
-  typedef TSample                                       SampleType;
-  typedef THistogram                                    HistogramType;
-  typedef typename SampleType::MeasurementVectorType    MeasurementVectorType;
-  typedef typename MeasurementVectorType::ValueType     MeasurementType;
-  typedef typename HistogramType::SizeType              HistogramSizeType;
-  typedef typename HistogramType::MeasurementType       HistogramMeasurementType;
-  typedef typename HistogramType::MeasurementVectorType HistogramMeasurementVectorType;
+  /** MeasurementVector type alias support */
+  using SampleType = TSample;
+  using HistogramType = THistogram;
+  using MeasurementVectorType = typename SampleType::MeasurementVectorType;
+  using MeasurementType = typename MeasurementVectorType::ValueType;
+  using HistogramSizeType = typename HistogramType::SizeType;
+  using HistogramMeasurementType = typename HistogramType::MeasurementType;
+  using HistogramMeasurementVectorType = typename HistogramType::MeasurementVectorType;
 
   /** Type for the data object output */
-  typedef typename Superclass::DataObjectPointer DataObjectPointer;
+  using DataObjectPointer = typename Superclass::DataObjectPointer;
 
   using Superclass::SetInput;
 
@@ -90,20 +90,17 @@ public:
   const HistogramType  * GetOutput() const;
 
   /** Type of DataObjects to use for Size inputs */
-  typedef SimpleDataObjectDecorator<
-    HistogramSizeType > InputHistogramSizeObjectType;
+  using InputHistogramSizeObjectType = SimpleDataObjectDecorator<HistogramSizeType>;
 
   /** Type of DataObjects to use for Marginal Scale inputs */
-  typedef SimpleDataObjectDecorator<
-    HistogramMeasurementType > InputHistogramMeasurementObjectType;
+  using InputHistogramMeasurementObjectType = SimpleDataObjectDecorator<HistogramMeasurementType>;
 
   /** Type of DataObjects to use for Minimum and Maximums values of the
    * histogram bins. */
-  typedef SimpleDataObjectDecorator<
-    HistogramMeasurementVectorType > InputHistogramMeasurementVectorObjectType;
+  using InputHistogramMeasurementVectorObjectType = SimpleDataObjectDecorator<HistogramMeasurementVectorType>;
 
   /** Type of DataObjects to use for AutoMinimumMaximum input */
-  typedef SimpleDataObjectDecorator< bool > InputBooleanObjectType;
+  using InputBooleanObjectType = SimpleDataObjectDecorator< bool >;
 
   /** Methods for setting and getting the histogram size.  The histogram size
    * is encapsulated inside a decorator class. For this reason, it is possible
@@ -146,7 +143,7 @@ protected:
    * called.
    * \sa ProcessObject
    */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

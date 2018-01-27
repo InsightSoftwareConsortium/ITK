@@ -141,8 +141,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< double, 1 > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Vector< double, 1 >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize( 1 );
   // Software Guide : EndCodeSnippet
@@ -175,7 +175,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
+  using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
 
   normalGenerator->Initialize( 101 );
@@ -208,8 +208,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >
-    TreeGeneratorType;
+  using TreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
   treeGenerator->SetSample( sample );
@@ -246,9 +245,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef TreeGeneratorType::KdTreeType TreeType;
-  typedef itk::Statistics::KdTreeBasedKmeansEstimator< TreeType >
-                                        EstimatorType;
+  using TreeType = TreeGeneratorType::KdTreeType;
+  using EstimatorType = itk::Statistics::KdTreeBasedKmeansEstimator<TreeType>;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
   EstimatorType::ParametersType initialMeans(2);
@@ -301,22 +299,20 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction<
-                                MeasurementVectorType > MembershipFunctionType;
-  typedef itk::Statistics::MinimumDecisionRule          DecisionRuleType;
+  using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction<MeasurementVectorType>;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
-  typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;
+  using ClassifierType = itk::Statistics::SampleClassifierFilter< SampleType >;
   ClassifierType::Pointer classifier = ClassifierType::New();
 
   classifier->SetDecisionRule( decisionRule );
   classifier->SetInput( sample );
   classifier->SetNumberOfClasses( 2 );
 
-  typedef ClassifierType::ClassLabelVectorObjectType
-                                               ClassLabelVectorObjectType;
-  typedef ClassifierType::ClassLabelVectorType ClassLabelVectorType;
-  typedef ClassifierType::ClassLabelType       ClassLabelType;
+  using ClassLabelVectorObjectType = ClassifierType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
+  using ClassLabelType = ClassifierType::ClassLabelType;
 
   ClassLabelVectorObjectType::Pointer classLabelsObject =
     ClassLabelVectorObjectType::New();
@@ -348,10 +344,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
 
-  typedef ClassifierType::MembershipFunctionVectorObjectType
-    MembershipFunctionVectorObjectType;
-  typedef ClassifierType::MembershipFunctionVectorType
-    MembershipFunctionVectorType;
+  using MembershipFunctionVectorObjectType = ClassifierType::MembershipFunctionVectorObjectType;
+  using MembershipFunctionVectorType = ClassifierType::MembershipFunctionVectorType;
 
   MembershipFunctionVectorObjectType::Pointer membershipFunctionVectorObject =
     MembershipFunctionVectorObjectType::New();

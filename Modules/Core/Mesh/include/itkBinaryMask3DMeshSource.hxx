@@ -2403,8 +2403,8 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
       {
       m_PointFound = 1;
 
-      typedef typename OPointType::ValueType    PointValueType;
-      typedef ContinuousIndex<PointValueType,3> ContinuousIndexType;
+      using PointValueType = typename OPointType::ValueType;
+      using ContinuousIndexType = ContinuousIndex<PointValueType,3>;
 
       ContinuousIndexType indTemp;
       indTemp[0] = m_LocationOffset[nodesid[i]][0]

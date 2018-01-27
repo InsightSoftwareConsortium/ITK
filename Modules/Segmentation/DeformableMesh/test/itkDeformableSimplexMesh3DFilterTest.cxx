@@ -32,38 +32,38 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
 {
   // Declare the type of the input and output mesh
 
-  typedef itk::DefaultDynamicMeshTraits<double, 3, 3,double,double>  TriangleMeshTraits;
-  typedef itk::DefaultDynamicMeshTraits<double, 3, 3, double,double> SimplexMeshTraits;
-  typedef itk::Mesh<double,3, TriangleMeshTraits>                    TriangleMeshType;
-  typedef itk::SimplexMesh<double,3, SimplexMeshTraits>              SimplexMeshType;
+  using TriangleMeshTraits = itk::DefaultDynamicMeshTraits<double, 3, 3,double,double>;
+  using SimplexMeshTraits = itk::DefaultDynamicMeshTraits<double, 3, 3, double,double>;
+  using TriangleMeshType = itk::Mesh<double,3, TriangleMeshTraits>;
+  using SimplexMeshType = itk::SimplexMesh<double,3, SimplexMeshTraits>;
 
   // declare the image class
-  typedef itk::Image<float,3>                       OriginalImageType;
-  typedef OriginalImageType::IndexType              IndexType;
-  typedef OriginalImageType::SizeType               ImageSizeType;
+  using OriginalImageType = itk::Image<float,3>;
+  using IndexType = OriginalImageType::IndexType;
+  using ImageSizeType = OriginalImageType::SizeType;
 
   // decale the deformation class
-  typedef itk::DeformableSimplexMesh3DFilter<SimplexMeshType,SimplexMeshType> DeformFilterType;
-  typedef DeformFilterType::GradientImageType                                 GradientImageType;
+  using DeformFilterType = itk::DeformableSimplexMesh3DFilter<SimplexMeshType,SimplexMeshType>;
+  using GradientImageType = DeformFilterType::GradientImageType;
 
   // declare all the filters for filtering the image
-  typedef itk::GradientAnisotropicDiffusionImageFilter < OriginalImageType, OriginalImageType >  GradientAnisotropicImageType;
-  typedef itk::GradientMagnitudeRecursiveGaussianImageFilter < OriginalImageType, OriginalImageType >  GradientMagnitudeType;
-  typedef itk::SigmoidImageFilter< OriginalImageType, OriginalImageType > SigmoidImageType;
-  typedef itk::GradientRecursiveGaussianImageFilter<OriginalImageType,GradientImageType> GradientFilterType;
+  using GradientAnisotropicImageType = itk::GradientAnisotropicDiffusionImageFilter < OriginalImageType, OriginalImageType >;
+  using GradientMagnitudeType = itk::GradientMagnitudeRecursiveGaussianImageFilter < OriginalImageType, OriginalImageType >;
+  using SigmoidImageType = itk::SigmoidImageFilter< OriginalImageType, OriginalImageType >;
+  using GradientFilterType = itk::GradientRecursiveGaussianImageFilter<OriginalImageType,GradientImageType>;
 
 
   // declare triangle mesh source
-  typedef itk::RegularSphereMeshSource<TriangleMeshType> SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType                PointType;
-  typedef SphereMeshSourceType::VectorType               VectorType;
+  using SphereMeshSourceType = itk::RegularSphereMeshSource<TriangleMeshType>;
+  using PointType = SphereMeshSourceType::PointType;
+  using VectorType = SphereMeshSourceType::VectorType;
 
    // declare the triangle to simplex mesh filter
-  typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType> SimplexFilterType;
+  using SimplexFilterType = itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>;
 
 
   // decalre the simplex mesh volume calculator
-  typedef itk::SimplexMeshVolumeCalculator<SimplexMeshType> SimplexVolumeType;
+  using SimplexVolumeType = itk::SimplexMeshVolumeCalculator<SimplexMeshType>;
 
   // create the actual mesh, sphere
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();

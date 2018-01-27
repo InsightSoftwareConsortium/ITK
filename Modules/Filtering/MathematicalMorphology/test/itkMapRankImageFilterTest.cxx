@@ -34,20 +34,20 @@ int itkMapRankImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
-  typedef itk::Image<unsigned short, 2> ImageType;
+  using ImageType = itk::Image<unsigned short, 2>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer input  = ReaderType::New();
   input->SetFileName(av[1]);
 
   // Create a filter
-  typedef itk::FlatStructuringElement<2>                      SEType;
-  typedef itk::RankImageFilter<ImageType,ImageType,SEType>    FilterType;
+  using SEType = itk::FlatStructuringElement<2>;
+  using FilterType = itk::RankImageFilter<ImageType,ImageType,SEType>;
 
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher filterWatch(filter);
 
-  typedef FilterType::RadiusType RadiusType;
+  using RadiusType = FilterType::RadiusType;
 
   // test default values
   RadiusType r1;
@@ -103,7 +103,7 @@ int itkMapRankImageFilterTest(int ac, char* av[] )
     }
 
   // Generate test image
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( av[2] );

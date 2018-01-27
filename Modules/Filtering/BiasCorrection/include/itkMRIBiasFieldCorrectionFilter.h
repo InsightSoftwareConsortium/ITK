@@ -47,11 +47,11 @@ template< typename TImage, typename TImageMask, typename TBiasField >
 class ITK_TEMPLATE_EXPORT MRIBiasEnergyFunction : public SingleValuedCostFunction
 {
 public:
-  /** Standard class typedefs. */
-  typedef MRIBiasEnergyFunction      Self;
-  typedef SingleValuedCostFunction   Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MRIBiasEnergyFunction;
+  using Superclass = SingleValuedCostFunction;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MRIBiasEnergyFunction, SingleValuedCostFunction);
@@ -60,32 +60,32 @@ public:
   itkNewMacro(Self);
 
   /** Image related type definitions. */
-  typedef TImage                         ImageType;
-  typedef typename ImageType::Pointer    ImagePointer;
-  typedef typename ImageType::PixelType  ImageElementType;
-  typedef typename ImageType::IndexType  ImageIndexType;
-  typedef typename ImageType::RegionType ImageRegionType;
-  typedef TImageMask                     MaskType;
-  typedef typename MaskType::Pointer     MaskPointer;
-  typedef typename MaskType::PixelType   MaskElementType;
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageElementType = typename ImageType::PixelType;
+  using ImageIndexType = typename ImageType::IndexType;
+  using ImageRegionType = typename ImageType::RegionType;
+  using MaskType = TImageMask;
+  using MaskPointer = typename MaskType::Pointer;
+  using MaskElementType = typename MaskType::PixelType;
 
   /** Bias field type definition. */
-  typedef TBiasField BiasFieldType;
+  using BiasFieldType = TBiasField;
 
   /** Parameters type for optimizier (coefficients type for bias
    * field estimate). */
-  typedef typename Superclass::ParametersType ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Not used, but expected by SingleValuedNonLinearOptimizer class. */
-  typedef Superclass::DerivativeType DerivativeType;
+  using DerivativeType = Superclass::DerivativeType;
 
   /** The cost value type. */
-  typedef Superclass::MeasureType MeasureType;
+  using MeasureType = Superclass::MeasureType;
 
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
 
   /** The type of the internal energy function. */
-  typedef CompositeValleyFunction InternalEnergyFunction;
+  using InternalEnergyFunction = CompositeValleyFunction;
 
   /** The type of the sampling factors. */
   typedef unsigned int SamplingFactorType[SpaceDimension];
@@ -223,11 +223,11 @@ class ITK_TEMPLATE_EXPORT MRIBiasFieldCorrectionFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MRIBiasFieldCorrectionFilter                    Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MRIBiasFieldCorrectionFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -240,53 +240,53 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Input and output image related type definitions. */
-  typedef TOutputImage                      OutputImageType;
-  typedef typename TOutputImage::Pointer    OutputImagePointer;
-  typedef typename TOutputImage::IndexType  OutputImageIndexType;
-  typedef typename TOutputImage::PixelType  OutputImagePixelType;
-  typedef typename TOutputImage::SizeType   OutputImageSizeType;
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename TOutputImage::Pointer;
+  using OutputImageIndexType = typename TOutputImage::IndexType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
+  using OutputImageSizeType = typename TOutputImage::SizeType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
-  typedef TInputImage                      InputImageType;
-  typedef typename TInputImage::Pointer    InputImagePointer;
-  typedef typename TInputImage::IndexType  InputImageIndexType;
-  typedef typename TInputImage::PixelType  InputImagePixelType;
-  typedef typename TInputImage::SizeType   InputImageSizeType;
-  typedef typename TInputImage::RegionType InputImageRegionType;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageIndexType = typename TInputImage::IndexType;
+  using InputImagePixelType = typename TInputImage::PixelType;
+  using InputImageSizeType = typename TInputImage::SizeType;
+  using InputImageRegionType = typename TInputImage::RegionType;
 
   /** Mask image related type definitions. */
-  typedef TMaskImage                         ImageMaskType;
-  typedef typename ImageMaskType::Pointer    ImageMaskPointer;
-  typedef typename ImageMaskType::RegionType ImageMaskRegionType;
+  using ImageMaskType = TMaskImage;
+  using ImageMaskPointer = typename ImageMaskType::Pointer;
+  using ImageMaskRegionType = typename ImageMaskType::RegionType;
 
   /** Internal (temporary) image related type definitions. */
-  typedef Image< float, itkGetStaticConstMacro(ImageDimension) > InternalImageType;
-  typedef typename InternalImageType::PixelType                  InternalImagePixelType;
-  typedef typename InternalImageType::Pointer                    InternalImagePointer;
-  typedef typename InternalImageType::RegionType                 InternalImageRegionType;
+  using InternalImageType = Image< float, itkGetStaticConstMacro(ImageDimension) >;
+  using InternalImagePixelType = typename InternalImageType::PixelType;
+  using InternalImagePointer = typename InternalImageType::Pointer;
+  using InternalImageRegionType = typename InternalImageType::RegionType;
 
   /** Regions of the MRI slab identifier return. */
-  typedef MRASlabIdentifier< InputImageType >                  MRASlabIdentifierType;
-  typedef typename MRASlabIdentifierType::SlabRegionVectorType SlabRegionVectorType;
-  typedef typename SlabRegionVectorType::iterator              SlabRegionVectorIteratorType;
+  using MRASlabIdentifierType = MRASlabIdentifier< InputImageType >;
+  using SlabRegionVectorType = typename MRASlabIdentifierType::SlabRegionVectorType;
+  using SlabRegionVectorIteratorType = typename SlabRegionVectorType::iterator;
 
   /** Bias field object type definition. */
-  typedef MultivariateLegendrePolynomial BiasFieldType;
+  using BiasFieldType = MultivariateLegendrePolynomial;
 
   /** Energy function type definition. */
-  typedef MRIBiasEnergyFunction< InternalImageType,
+  using EnergyFunctionType = MRIBiasEnergyFunction< InternalImageType,
                                  ImageMaskType,
-                                 BiasFieldType >            EnergyFunctionType;
-  typedef typename EnergyFunctionType::Pointer EnergyFunctionPointer;
+                                 BiasFieldType >;
+  using EnergyFunctionPointer = typename EnergyFunctionType::Pointer;
 
   /** Normal variate Generator Type */
-  typedef Statistics::NormalVariateGenerator NormalVariateGeneratorType;
+  using NormalVariateGeneratorType = Statistics::NormalVariateGenerator;
 
   /** Optimizer type definition. */
-  typedef OnePlusOneEvolutionaryOptimizer OptimizerType;
+  using OptimizerType = OnePlusOneEvolutionaryOptimizer;
 
-  /** ScheduleType typedef support. */
-  typedef Array2D< unsigned int > ScheduleType;
+  /** ScheduleType type alias support */
+  using ScheduleType = Array2D< unsigned int >;
 
   /** Set/Get the input mask image pointer.
    * Without this mask, this filter calculates the energy value using
@@ -503,9 +503,9 @@ protected:
                            TTarget *target,
                            typename TTarget::RegionType requestedRegion)
   {
-    typedef ImageRegionConstIterator< TSource > SourceIterator;
-    typedef ImageRegionIterator< TTarget >      TargetIterator;
-    typedef typename TTarget::PixelType         TargetPixelType;
+    using SourceIterator = ImageRegionConstIterator< TSource >;
+    using TargetIterator = ImageRegionIterator< TTarget >;
+    using TargetPixelType = typename TTarget::PixelType;
 
     SourceIterator s_iter(source, requestedRegion);
     TargetIterator t_iter(target, requestedRegion);

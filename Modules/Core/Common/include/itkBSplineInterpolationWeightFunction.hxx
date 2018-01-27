@@ -43,12 +43,12 @@ BSplineInterpolationWeightFunction< TCoordRep, VSpaceDimension, VSplineOrder >
   // Initialize offset to index lookup table
   m_OffsetToIndexTable.set_size(m_NumberOfWeights, SpaceDimension);
 
-  typedef Image< char, SpaceDimension > CharImageType;
+  using CharImageType = Image< char, SpaceDimension >;
   typename CharImageType::Pointer tempImage = CharImageType::New();
   tempImage->SetRegions(m_SupportSize);
   tempImage->Allocate(true); // initialize buffer to zero
 
-  typedef ImageRegionConstIteratorWithIndex< CharImageType > IteratorType;
+  using IteratorType = ImageRegionConstIteratorWithIndex< CharImageType >;
   IteratorType iterator( tempImage, tempImage->GetBufferedRegion() );
   unsigned int counter = 0;
 

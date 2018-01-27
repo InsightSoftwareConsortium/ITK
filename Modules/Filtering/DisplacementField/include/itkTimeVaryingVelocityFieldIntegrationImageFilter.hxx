@@ -46,16 +46,16 @@ TimeVaryingVelocityFieldIntegrationImageFilter
       << "dimensionality of 1 greater than the deformation field (output). " );
     }
 
-  typedef VectorLinearInterpolateImageFunction<TimeVaryingVelocityFieldType,
-    ScalarType> DefaultVelocityFieldInterpolatorType;
+  using DefaultVelocityFieldInterpolatorType = VectorLinearInterpolateImageFunction<TimeVaryingVelocityFieldType,
+    ScalarType>;
 
   typename DefaultVelocityFieldInterpolatorType::Pointer
     velocityFieldInterpolator = DefaultVelocityFieldInterpolatorType::New();
 
   this->m_VelocityFieldInterpolator = velocityFieldInterpolator;
 
-  typedef VectorLinearInterpolateImageFunction<DisplacementFieldType,
-    ScalarType> DefaultDisplacementFieldInterpolatorType;
+  using DefaultDisplacementFieldInterpolatorType = VectorLinearInterpolateImageFunction<DisplacementFieldType,
+    ScalarType>;
 
   typename DefaultDisplacementFieldInterpolatorType::Pointer
     deformationFieldInterpolator = DefaultDisplacementFieldInterpolatorType::New();
@@ -89,21 +89,21 @@ TimeVaryingVelocityFieldIntegrationImageFilter
   // because these two images have different dimensions. Therefore
   // the individual elements must be copied for the common dimensions.
   //
-  typedef typename DisplacementFieldType::SizeType      SizeType;
-  typedef typename DisplacementFieldType::SpacingType   SpacingType;
-  typedef typename DisplacementFieldType::PointType     OriginType;
-  typedef typename DisplacementFieldType::DirectionType DirectionType;
+  using SizeType = typename DisplacementFieldType::SizeType;
+  using SpacingType = typename DisplacementFieldType::SpacingType;
+  using OriginType = typename DisplacementFieldType::PointType;
+  using DirectionType = typename DisplacementFieldType::DirectionType;
 
   SizeType size;
   SpacingType spacing;
   OriginType origin;
   DirectionType direction;
 
-  typedef typename TimeVaryingVelocityFieldType::SizeType       InputSizeType;
-  typedef typename TimeVaryingVelocityFieldType::SpacingType    InputSpacingType;
-  typedef typename TimeVaryingVelocityFieldType::PointType      InputOriginType;
-  typedef typename TimeVaryingVelocityFieldType::DirectionType  InputDirectionType;
-  typedef typename TimeVaryingVelocityFieldType::RegionType     InputRegionType;
+  using InputSizeType = typename TimeVaryingVelocityFieldType::SizeType;
+  using InputSpacingType = typename TimeVaryingVelocityFieldType::SpacingType;
+  using InputOriginType = typename TimeVaryingVelocityFieldType::PointType;
+  using InputDirectionType = typename TimeVaryingVelocityFieldType::DirectionType;
+  using InputRegionType = typename TimeVaryingVelocityFieldType::RegionType;
 
   const InputSpacingType & inputSpacing = input->GetSpacing();
   const InputOriginType & inputOrigin = input->GetOrigin();
@@ -206,7 +206,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter
 
   typename TimeVaryingVelocityFieldType::PointType spaceTimeOrigin = inputField->GetOrigin();
 
-  typedef typename TimeVaryingVelocityFieldType::RegionType  RegionType;
+  using RegionType = typename TimeVaryingVelocityFieldType::RegionType;
 
   RegionType region = inputField->GetLargestPossibleRegion();
 

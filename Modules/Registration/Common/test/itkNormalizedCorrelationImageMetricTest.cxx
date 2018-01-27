@@ -46,17 +46,17 @@ int itkNormalizedCorrelationImageMetricTest(int, char* [] )
 
   const unsigned int ImageDimension = 2;
 
-  typedef double                   PixelType;
+  using PixelType = double;
 
-  typedef double                   CoordinateRepresentationType;
+  using CoordinateRepresentationType = double;
 
   //Allocate Images
-  typedef itk::Image<PixelType,ImageDimension>         MovingImageType;
-  typedef itk::Image<PixelType,ImageDimension>         FixedImageType;
+  using MovingImageType = itk::Image<PixelType,ImageDimension>;
+  using FixedImageType = itk::Image<PixelType,ImageDimension>;
 
   // Declare Gaussian Sources
-  typedef itk::GaussianImageSource< MovingImageType >  MovingImageSourceType;
-  typedef itk::GaussianImageSource< FixedImageType  >  FixedImageSourceType;
+  using MovingImageSourceType = itk::GaussianImageSource< MovingImageType >;
+  using FixedImageSourceType = itk::GaussianImageSource< FixedImageType  >;
 
   // Note: the following declarations are classical arrays
   FixedImageType::SizeValueType fixedImageSize[]     = {  100,  100 };
@@ -93,13 +93,12 @@ int itkNormalizedCorrelationImageMetricTest(int, char* [] )
 //-----------------------------------------------------------
 // Set up  the Metric
 //-----------------------------------------------------------
-  typedef itk::NormalizedCorrelationImageToImageMetric<
+  using MetricType = itk::NormalizedCorrelationImageToImageMetric<
                                        FixedImageType,
-                                       MovingImageType >
-                                                    MetricType;
+                                       MovingImageType >;
 
-  typedef MetricType::TransformType                 TransformBaseType;
-  typedef TransformBaseType::ParametersType         ParametersType;
+  using TransformBaseType = MetricType::TransformType;
+  using ParametersType = TransformBaseType::ParametersType;
 
   MetricType::Pointer  metric = MetricType::New();
 
@@ -114,9 +113,9 @@ int itkNormalizedCorrelationImageMetricTest(int, char* [] )
 // Set up a Transform
 //-----------------------------------------------------------
 
-  typedef itk::TranslationTransform<
+  using TransformType = itk::TranslationTransform<
                         CoordinateRepresentationType,
-                        ImageDimension >         TransformType;
+                        ImageDimension >;
 
   TransformType::Pointer transform = TransformType::New();
 
@@ -126,9 +125,9 @@ int itkNormalizedCorrelationImageMetricTest(int, char* [] )
 //------------------------------------------------------------
 // Set up an Interpolator
 //------------------------------------------------------------
-  typedef itk::LinearInterpolateImageFunction<
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
                     MovingImageType,
-                    double > InterpolatorType;
+                    double >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 

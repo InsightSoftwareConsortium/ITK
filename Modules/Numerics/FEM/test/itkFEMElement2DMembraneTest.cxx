@@ -24,10 +24,10 @@
 int itkFEMElement2DMembraneTest(int, char *[])
 {
 
-  typedef itk::fem::Element ElementType;
-  typedef ElementType::Node NodeType;
+  using ElementType = itk::fem::Element;
+  using NodeType = ElementType::Node;
 
-  typedef itk::fem::MaterialLinearElasticity ElasticityType;
+  using ElasticityType = itk::fem::MaterialLinearElasticity;
 
   NodeType::Pointer       n0, n1, n2, n3;
   ElementType::VectorType pt(2);
@@ -59,7 +59,7 @@ int itkFEMElement2DMembraneTest(int, char *[])
   m->SetCrossSectionalArea(0.02);
   m->SetMomentOfInertia(0.004);
 
-  typedef itk::fem::Element2DC0LinearQuadrilateralMembrane MembraneElementType;
+  using MembraneElementType = itk::fem::Element2DC0LinearQuadrilateralMembrane;
   MembraneElementType::Pointer e0 = MembraneElementType::New();
 
   e0->SetGlobalNumber(0);

@@ -32,8 +32,8 @@ template< typename TStructureType >
 class ITK_TEMPLATE_EXPORT CorrespondenceDataStructureIterator
 {
 public:
-  /** Standard class typedefs. */
-  typedef CorrespondenceDataStructureIterator Self;
+  /** Standard class type aliases. */
+  using Self = CorrespondenceDataStructureIterator;
 
   /** Get the dimension (size) of the index. */
   static unsigned int GetIteratorDimension()
@@ -66,14 +66,14 @@ public:
   /** Destructor */
   virtual ~CorrespondenceDataStructureIterator();
 
-  typedef typename TStructureType::CorrespondingListType CorrespondingListType;
-  typedef typename TStructureType::ItemType              ItemType;
-  typedef typename TStructureType::SecondaryNodeListType SecondaryNodeListType;
-  typedef typename TStructureType::NodeListType          NodeListType;
+  using CorrespondingListType = typename TStructureType::CorrespondingListType;
+  using ItemType = typename TStructureType::ItemType;
+  using SecondaryNodeListType = typename TStructureType::SecondaryNodeListType;
+  using NodeListType = typename TStructureType::NodeListType;
 
-  typedef typename CorrespondingListType::iterator CorrespondingListIterator;
-  typedef typename SecondaryNodeListType::iterator SecondaryNodeListIterator;
-  typedef typename NodeListType::iterator          NodeListIterator;
+  using CorrespondingListIterator = typename CorrespondingListType::iterator;
+  using SecondaryNodeListIterator = typename SecondaryNodeListType::iterator;
+  using NodeListIterator = typename NodeListType::iterator;
 
   /** Get m_CorrespondingListPointer.  */
   CorrespondingListType * GetCorrespondingListPointer()

@@ -609,7 +609,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
                InputImageRegionType region)
 {
   itkDebugMacro(<< "Correcting the image ");
-  typedef InternalImagePixelType Pixel;
+  using Pixel = InternalImagePixelType;
   ImageRegionIterator< InternalImageType > iIter(m_InternalInput.GetPointer(),
                                                  region);
   BiasFieldType::SimpleForwardIterator bIter(&bias);

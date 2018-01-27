@@ -66,11 +66,11 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
 {
 
   const unsigned int ImageDimension = 2;
-  typedef float PixelType;
+  using PixelType = float;
 
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef ImageType::IndexType                 IndexType;
-  typedef itk::Point<double,ImageDimension>    PointType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using IndexType = ImageType::IndexType;
+  using PointType = itk::Point<double,ImageDimension>;
 
   // Fill an input image with simple signed distance function
   ImageType::Pointer image = ImageType::New();
@@ -81,7 +81,7 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
   image->SetRegions( region );
   image->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter( image, region );
   iter.GoToBegin();
 
@@ -94,14 +94,14 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
     }
 
   // Squash up the level sets by mulitplying with a scalar
-  typedef itk::ShiftScaleImageFilter<ImageType,ImageType> MultiplierType;
+  using MultiplierType = itk::ShiftScaleImageFilter<ImageType,ImageType>;
   MultiplierType::Pointer multiplier = MultiplierType::New();
   multiplier->SetInput( image );
   multiplier->SetScale( 0.5 );
   //multiplier->SetShift( 0.0 );
 
   // Set up reinitialize level set image filter
-  typedef itk::ReinitializeLevelSetImageFilter<ImageType> ReinitializerType;
+  using ReinitializerType = itk::ReinitializeLevelSetImageFilter<ImageType>;
   ReinitializerType::Pointer reinitializer = ReinitializerType::New();
   reinitializer->SetInput( multiplier->GetOutput() );
 
@@ -115,14 +115,14 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
   // For debugging
 /*
   {
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( image );
   writer->SetFileName( "input.mhd" );
   writer->Write();
   }
   {
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( reinitializer->GetOutput() );
   writer->SetFileName( "output.mhd" );
@@ -131,13 +131,13 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
 */
 
   // Check the output signed distance map is within threshold
-  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DifferenceType;
+  using DifferenceType = itk::Testing::ComparisonImageFilter<ImageType,ImageType>;
   DifferenceType::Pointer difference = DifferenceType::New();
   difference->SetTestInput( image );
   difference->SetValidInput( reinitializer->GetOutput() );
   difference->Update();
 
-  typedef itk::MinimumMaximumImageCalculator<ImageType> CalculatorType;
+  using CalculatorType = itk::MinimumMaximumImageCalculator<ImageType>;
   CalculatorType::Pointer calculator = CalculatorType::New();
   calculator->SetImage( difference->GetOutput() );
   calculator->Compute();
@@ -156,7 +156,7 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
     }
 
   // Check if inside/outside points remain the same after reinitialization
-  typedef itk::MultiplyImageFilter<ImageType,ImageType,ImageType> CheckerType;
+  using CheckerType = itk::MultiplyImageFilter<ImageType,ImageType,ImageType>;
   CheckerType::Pointer checker = CheckerType::New();
   checker->SetInput1( image );
   checker->SetInput2( reinitializer->GetOutput() );
@@ -188,7 +188,7 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
   reinitializer->SetNarrowBandwidth( 8 );
   reinitializer->Update();
 
-  typedef ReinitializerType::NodeContainerPointer NodeContainerPointer;
+  using NodeContainerPointer = ReinitializerType::NodeContainerPointer;
   NodeContainerPointer nodes = reinitializer->GetOutputNarrowBand();
 
   std::cout << "Level set value = " << reinitializer->GetLevelSetValue() << std::endl;
@@ -201,9 +201,9 @@ int itkReinitializeLevelSetImageFilterTest(int, char* [] )
   reinitializer->Update();
 
   // Check if inside/outside points remain the same after reinitialization
-  typedef ReinitializerType::NodeContainerPointer NodeContainerPointer;
-  typedef ReinitializerType::NodeContainer        NodeContainerType;
-  typedef NodeContainerType::ConstIterator        ContainerIterator;
+  using NodeContainerPointer = ReinitializerType::NodeContainerPointer;
+  using NodeContainerType = ReinitializerType::NodeContainer;
+  using ContainerIterator = NodeContainerType::ConstIterator;
 
   NodeContainerPointer nodes2  = reinitializer->GetOutputNarrowBand();
   ContainerIterator nodeIter = nodes2->Begin();

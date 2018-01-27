@@ -50,8 +50,8 @@ int main( int , char *[] )
   unsigned int i;
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::DTITubeSpatialObject<3>            DTITubeType;
-  typedef itk::DTITubeSpatialObjectPoint<3>       DTITubePointType;
+  using DTITubeType = itk::DTITubeSpatialObject<3>;
+  using DTITubePointType = itk::DTITubeSpatialObjectPoint<3>;
 
   DTITubeType::Pointer dtiTube = DTITubeType::New();
 // Software Guide : EndCodeSnippet

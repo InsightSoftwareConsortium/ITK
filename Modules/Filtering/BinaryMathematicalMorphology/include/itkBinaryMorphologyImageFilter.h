@@ -114,15 +114,15 @@ public:
   itkStaticConstMacro(KernelDimension, unsigned int,
                       TKernel::NeighborhoodDimension);
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
-  /** Standard class typedefs. */
-  typedef BinaryMorphologyImageFilter                                   Self;
-  typedef KernelImageFilter< InputImageType, OutputImageType, TKernel > Superclass;
-  typedef SmartPointer< Self >                                          Pointer;
-  typedef SmartPointer< const Self >                                    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BinaryMorphologyImageFilter;
+  using Superclass = KernelImageFilter< InputImageType, OutputImageType, TKernel >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -130,24 +130,24 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryMorphologyImageFilter, ImageToImageFilter);
 
-  /** Kernel typedef. */
-  typedef TKernel KernelType;
+  /** Kernel type alias. */
+  using KernelType = TKernel;
 
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator KernelIteratorType;
+  using KernelIteratorType = typename KernelType::ConstIterator;
 
-  /** Image typedef support. */
-  typedef typename InputImageType::PixelType                 InputPixelType;
-  typedef typename OutputImageType::PixelType                OutputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType InputRealType;
-  typedef typename InputImageType::OffsetType                OffsetType;
-  typedef typename InputImageType::IndexType                 IndexType;
-  typedef typename InputImageType::IndexValueType            IndexValueType;
+  /** Image type alias support */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using InputRealType = typename NumericTraits< InputPixelType >::RealType;
+  using OffsetType = typename InputImageType::OffsetType;
+  using IndexType = typename InputImageType::IndexType;
+  using IndexValueType = typename InputImageType::IndexValueType;
 
-  typedef typename InputImageType::RegionType    InputImageRegionType;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename InputImageType::SizeType      InputSizeType;
-  typedef typename InputImageType::SizeValueType InputSizeValueType;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using InputSizeValueType = typename InputImageType::SizeValueType;
 
   /** Input and output images must be the same dimension. */
   itkConceptMacro( ImageDimensionCheck,
@@ -194,17 +194,16 @@ protected:
   void AnalyzeKernel();
 
   /** Type definition of container of neighbourhood index */
-  typedef std::vector< OffsetType > NeighborIndexContainer;
+  using NeighborIndexContainer = std::vector< OffsetType >;
 
   /** Type definition of container of container of neighbourhood index */
-  typedef std::vector< NeighborIndexContainer > NeighborIndexContainerContainer;
+  using NeighborIndexContainerContainer = std::vector< NeighborIndexContainer >;
 
   /** Type definition of the container for indices */
-  typedef std::vector< OffsetType > ComponentVectorType;
+  using ComponentVectorType = std::vector< OffsetType >;
 
   /** Iterator for ComponentVectorType */
-  typedef typename ComponentVectorType::const_iterator
-  ComponentVectorConstIterator;
+  using ComponentVectorConstIterator = typename ComponentVectorType::const_iterator;
 
   /**
    * Get the difference set for a particular offset */

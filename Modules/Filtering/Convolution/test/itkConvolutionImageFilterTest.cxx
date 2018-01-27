@@ -33,9 +33,9 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
 
   const int ImageDimension = 2;
 
-  typedef float                                  PixelType;
-  typedef itk::Image<PixelType, ImageDimension>  ImageType;
-  typedef itk::ImageFileReader<ImageType>        ReaderType;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   reader1->SetFileName( argv[1] );
@@ -45,7 +45,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
   reader2->SetFileName( argv[2] );
   reader2->Update();
 
-  typedef itk::ConvolutionImageFilter<ImageType> ConvolutionFilterType;
+  using ConvolutionFilterType = itk::ConvolutionImageFilter<ImageType>;
   ConvolutionFilterType::Pointer convoluter
     = ConvolutionFilterType::New();
   convoluter->SetInput( reader1->GetOutput() );
@@ -58,7 +58,7 @@ int itkConvolutionImageFilterTest(int argc, char * argv[])
     convoluter->SetNormalize( static_cast<bool>( atoi( argv[4] ) ) );
     }
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( convoluter->GetOutput() );

@@ -53,11 +53,11 @@ template< typename TFixedPointSet, typename TMovingSpatialObject >
 class ITK_TEMPLATE_EXPORT PointSetToSpatialObjectDemonsRegistration:public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef PointSetToSpatialObjectDemonsRegistration Self;
-  typedef ProcessObject                             Superclass;
-  typedef SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PointSetToSpatialObjectDemonsRegistration;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,12 +66,12 @@ public:
   itkTypeMacro(PointSetToSpatialObjectDemonsRegistration, ProcessObject);
 
   /**  Type of the Fixed PointSet. */
-  typedef          TFixedPointSet                  FixedPointSetType;
-  typedef typename FixedPointSetType::ConstPointer FixedPointSetConstPointer;
+  using FixedPointSetType = TFixedPointSet;
+  using FixedPointSetConstPointer = typename FixedPointSetType::ConstPointer;
 
   /**  Type of the Moving image. */
-  typedef          TMovingSpatialObject                  MovingSpatialObjectType;
-  typedef typename MovingSpatialObjectType::ConstPointer MovingSpatialObjectConstPointer;
+  using MovingSpatialObjectType = TMovingSpatialObject;
+  using MovingSpatialObjectConstPointer = typename MovingSpatialObjectType::ConstPointer;
 
   /** Set/Get the Fixed image. */
   itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);

@@ -41,9 +41,9 @@ struct OpenCVBasicTypeBridge
 template< typename TPoint >
 struct OpenCVBasicTypeBridge< TPoint, cv::Point_< typename TPoint::CoordRepType > >
 {
-  typedef TPoint                        ITKDataType;
-  typedef typename TPoint::CoordRepType CoordinateType;
-  typedef cv::Point_< CoordinateType >  OpenCVDataType;
+  using ITKDataType = TPoint;
+  using CoordinateType = typename TPoint::CoordRepType;
+  using OpenCVDataType = cv::Point_< CoordinateType >;
 
   static ITKDataType FromOpenCVToITK( const OpenCVDataType& iP )
     {
@@ -70,9 +70,9 @@ struct OpenCVBasicTypeBridge< TPoint, cv::Point_< typename TPoint::CoordRepType 
 template< typename TPoint >
 struct OpenCVBasicTypeBridge< TPoint, cv::Point3_< typename TPoint::CoordRepType > >
 {
-  typedef TPoint                        ITKDataType;
-  typedef typename TPoint::CoordRepType CoordinateType;
-  typedef cv::Point3_< CoordinateType > OpenCVDataType;
+  using ITKDataType = TPoint;
+  using CoordinateType = typename TPoint::CoordRepType;
+  using OpenCVDataType = cv::Point3_< CoordinateType >;
 
   static ITKDataType FromOpenCVToITK( const OpenCVDataType& iP )
     {
@@ -99,8 +99,8 @@ struct OpenCVBasicTypeBridge< TPoint, cv::Point3_< typename TPoint::CoordRepType
 template<>
 struct OpenCVBasicTypeBridge< itk::Index< 2 >, cv::Point >
 {
-  typedef itk::Index< 2 >  ITKDataType;
-  typedef cv::Point        OpenCVDataType;
+  using ITKDataType = itk::Index< 2 >;
+  using OpenCVDataType = cv::Point;
 
   static ITKDataType FromOpenCVToITK( const OpenCVDataType& iP )
     {
@@ -120,8 +120,8 @@ struct OpenCVBasicTypeBridge< itk::Index< 2 >, cv::Point >
 template<>
 struct OpenCVBasicTypeBridge< itk::Index< 3 >, cv::Point3i >
 {
-  typedef itk::Index< 3 >  ITKDataType;
-  typedef cv::Point3i      OpenCVDataType;
+  using ITKDataType = itk::Index< 3 >;
+  using OpenCVDataType = cv::Point3i;
 
   static ITKDataType FromOpenCVToITK( const OpenCVDataType& iP )
     {
@@ -142,8 +142,8 @@ struct OpenCVBasicTypeBridge< itk::Index< 3 >, cv::Point3i >
 template<>
 struct OpenCVBasicTypeBridge< itk::Size< 2 >, cv::Size >
 {
-  typedef itk::Size< 2 >    ITKDataType;
-  typedef cv::Size          OpenCVDataType;
+  using ITKDataType = itk::Size< 2 >;
+  using OpenCVDataType = cv::Size;
 
   static ITKDataType FromOpenCVToITK( const OpenCVDataType& iP )
     {
@@ -163,8 +163,8 @@ struct OpenCVBasicTypeBridge< itk::Size< 2 >, cv::Size >
 template< typename T, unsigned int NRows, unsigned int NColumns >
 struct OpenCVBasicTypeBridge< itk::Matrix< T, NRows, NColumns >, cv::Matx< T, NRows, NColumns > >
 {
-  typedef itk::Matrix< T, NRows, NColumns > ITKDataType;
-  typedef cv::Matx< T, NRows, NColumns >    OpenCVDataType;
+  using ITKDataType = itk::Matrix< T, NRows, NColumns >;
+  using OpenCVDataType = cv::Matx< T, NRows, NColumns >;
 
   static ITKDataType FromOpenCVToITK( const OpenCVDataType& iP )
     {
@@ -183,9 +183,9 @@ struct OpenCVBasicTypeBridge< itk::Matrix< T, NRows, NColumns >, cv::Matx< T, NR
 template< typename TVector >
 struct OpenCVBasicTypeBridge< TVector, cv::Vec< typename TVector::ValueType, TVector::Dimension > >
 {
-  typedef TVector                                   ITKDataType;
-  typedef typename TVector::ValueType               ValueType;
-  typedef cv::Vec< ValueType, TVector::Dimension >  OpenCVDataType;
+  using ITKDataType = TVector;
+  using ValueType = typename TVector::ValueType;
+  using OpenCVDataType = cv::Vec< ValueType, TVector::Dimension >;
 
   static ITKDataType FromOpenCVToITK( const OpenCVDataType& iP )
     {

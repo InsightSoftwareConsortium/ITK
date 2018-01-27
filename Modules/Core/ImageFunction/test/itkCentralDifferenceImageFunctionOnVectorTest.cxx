@@ -46,8 +46,8 @@ int itkCentralDifferenceImageFunctionOnVectorTestRun( )
   int result = EXIT_SUCCESS;
 
   const unsigned int                            ImageDimension = 2;
-  typedef itk::Vector<float,VectorLength>       PixelType;
-  typedef itk::Image<PixelType,ImageDimension>  ImageType;
+  using PixelType = itk::Vector<float,VectorLength>;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
 
   typename ImageType::Pointer image = ImageType::New();
   typename ImageType::SizeType size;
@@ -58,7 +58,7 @@ int itkCentralDifferenceImageFunctionOnVectorTestRun( )
   image->Allocate();
 
   // make a test image
-  typedef itk::ImageRegionIterator<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIterator<ImageType>;
   Iterator iter( image, region );
   iter.GoToBegin();
   unsigned int counter = 0;
@@ -77,12 +77,12 @@ int itkCentralDifferenceImageFunctionOnVectorTestRun( )
     }
 
   // set up central difference calculator
-  typedef float                                           CoordRepType;
-  typedef itk::Matrix<double,VectorLength,ImageDimension> DerivativeType;
+  using CoordRepType = float;
+  using DerivativeType = itk::Matrix<double,VectorLength,ImageDimension>;
 
-  typedef itk::CentralDifferenceImageFunction<ImageType,CoordRepType,DerivativeType>  FunctionType;
-  typedef typename FunctionType::OutputType                                           OutputType;
-  typedef typename FunctionType::OutputValueType                                      OutputValueType;
+  using FunctionType = itk::CentralDifferenceImageFunction<ImageType,CoordRepType,DerivativeType>;
+  using OutputType = typename FunctionType::OutputType;
+  using OutputValueType = typename FunctionType::OutputValueType;
 
   typename FunctionType::Pointer function = FunctionType::New();
 
@@ -346,9 +346,9 @@ int itkCentralDifferenceImageFunctionOnVectorTestRun( )
     }
 
   // Test with incorrectly-sized output type
-  typedef itk::Matrix<double,10,ImageDimension> BadDerivativeType;
+  using BadDerivativeType = itk::Matrix<double,10,ImageDimension>;
 
-  typedef itk::CentralDifferenceImageFunction<ImageType,CoordRepType,BadDerivativeType>  BadFunctionType;
+  using BadFunctionType = itk::CentralDifferenceImageFunction<ImageType,CoordRepType,BadDerivativeType>;
 
   typename BadFunctionType::Pointer badFunction = BadFunctionType::New();
   TRY_EXPECT_EXCEPTION( badFunction->SetInputImage( image ) );

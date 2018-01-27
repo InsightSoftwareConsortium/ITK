@@ -38,15 +38,14 @@
  */
 
 const unsigned int ObjectToObjectMultiMetricv4TestDimension = 2;
-typedef itk::ObjectToObjectMultiMetricv4<ObjectToObjectMultiMetricv4TestDimension,ObjectToObjectMultiMetricv4TestDimension>
-                                                                                    ObjectToObjectMultiMetricv4TestMultiMetricType;
+using ObjectToObjectMultiMetricv4TestMultiMetricType = itk::ObjectToObjectMultiMetricv4<ObjectToObjectMultiMetricv4TestDimension,ObjectToObjectMultiMetricv4TestDimension>;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int itkObjectToObjectMultiMetricv4TestEvaluate( ObjectToObjectMultiMetricv4TestMultiMetricType::Pointer & multiVariateMetric, bool useDisplacementTransform )
 {
   int testStatus = EXIT_SUCCESS;
-  typedef ObjectToObjectMultiMetricv4TestMultiMetricType    MultiMetricType;
+  using MultiMetricType = ObjectToObjectMultiMetricv4TestMultiMetricType;
 
   // Setup weights
   MultiMetricType::WeightsArrayType origMetricWeights( multiVariateMetric->GetNumberOfMetrics() );
@@ -63,7 +62,7 @@ int itkObjectToObjectMultiMetricv4TestEvaluate( ObjectToObjectMultiMetricv4TestM
   multiVariateMetric->Initialize();
 
   // Print out metric value and derivative.
-  typedef MultiMetricType::MeasureType MeasureType;
+  using MeasureType = MultiMetricType::MeasureType;
   MeasureType measure = 0;
   MultiMetricType::DerivativeType DerivResultOfGetValueAndDerivative;
   std::cout << "GetValueAndDerivative" << std::endl;
@@ -193,15 +192,15 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
 {
   // Create two simple images
   const unsigned int Dimension = ObjectToObjectMultiMetricv4TestDimension;
-  typedef double PixelType;
-  typedef double CoordinateRepresentationType;
+  using PixelType = double;
+  using CoordinateRepresentationType = double;
 
   // Allocate Images
-  typedef itk::Image<PixelType,Dimension> FixedImageType;
-  typedef itk::Image<PixelType,Dimension> MovingImageType;
+  using FixedImageType = itk::Image<PixelType,Dimension>;
+  using MovingImageType = itk::Image<PixelType,Dimension>;
 
    // Declare Gaussian Sources
-  typedef itk::GaussianImageSource< FixedImageType  >  FixedImageSourceType;
+  using FixedImageSourceType = itk::GaussianImageSource< FixedImageType  >;
 
   // Note: the following declarations are classical arrays
   FixedImageType::SizeValueType     fixedImageSize[]     = {  100,  100 };
@@ -217,7 +216,7 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   fixedImageSource->Update();   // Force the filter to run
   FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
 
-  typedef itk::ShiftScaleImageFilter<FixedImageType, MovingImageType> ShiftScaleFilterType;
+  using ShiftScaleFilterType = itk::ShiftScaleImageFilter<FixedImageType, MovingImageType>;
   ShiftScaleFilterType::Pointer shiftFilter = ShiftScaleFilterType::New();
   shiftFilter->SetInput( fixedImage );
   shiftFilter->SetShift( 2.0 );
@@ -225,14 +224,14 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   MovingImageType::Pointer movingImage = shiftFilter->GetOutput();
 
   // Set up the metric.
-  typedef ObjectToObjectMultiMetricv4TestMultiMetricType  MultiMetricType;
+  using MultiMetricType = ObjectToObjectMultiMetricv4TestMultiMetricType;
   MultiMetricType::Pointer multiVariateMetric = MultiMetricType::New();
 
   // Instantiate and Add metrics to the queue
-  typedef itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType,MovingImageType> JointHistorgramMetrictype;
-  typedef itk::MeanSquaresImageToImageMetricv4<FixedImageType,MovingImageType>                     MeanSquaresMetricType;
-  typedef itk::MattesMutualInformationImageToImageMetricv4 <FixedImageType,MovingImageType>        MattesMutualInformationMetricType;
-  typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType,MovingImageType>     ANTSNCMetricType;
+  using JointHistorgramMetrictype = itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType,MovingImageType>;
+  using MeanSquaresMetricType = itk::MeanSquaresImageToImageMetricv4<FixedImageType,MovingImageType>;
+  using MattesMutualInformationMetricType = itk::MattesMutualInformationImageToImageMetricv4 <FixedImageType,MovingImageType>;
+  using ANTSNCMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType,MovingImageType>;
 
   MeanSquaresMetricType::Pointer              m1 = MeanSquaresMetricType::New();
   MattesMutualInformationMetricType::Pointer  m2 = MattesMutualInformationMetricType::New();
@@ -240,15 +239,15 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   ANTSNCMetricType::Pointer                   m4 = ANTSNCMetricType::New();
 
   // Set up a transform
-  typedef itk::Transform<CoordinateRepresentationType, Dimension, Dimension>  TransformType;
-  typedef itk::DisplacementFieldTransform<double, Dimension>                  DisplacementTransformType;
-  typedef itk::TranslationTransform<CoordinateRepresentationType,Dimension>   TranslationTransformType;
+  using TransformType = itk::Transform<CoordinateRepresentationType, Dimension, Dimension>;
+  using DisplacementTransformType = itk::DisplacementFieldTransform<double, Dimension>;
+  using TranslationTransformType = itk::TranslationTransform<CoordinateRepresentationType,Dimension>;
   TransformType::Pointer transform;
 
   if( useDisplacementTransform )
     {
-    typedef DisplacementTransformType::DisplacementFieldType    FieldType;
-    typedef itk::Vector<double, Dimension>                      VectorType;
+    using FieldType = DisplacementTransformType::DisplacementFieldType;
+    using VectorType = itk::Vector<double, Dimension>;
 
     VectorType zero;
     zero.Fill(0.0);
@@ -353,7 +352,7 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   m4->SetMovingTransform( transform );
 
   std::cout << "*** Test with proper CompositeTransform ***" << std::endl;
-  typedef itk::CompositeTransform<CoordinateRepresentationType,Dimension> CompositeTransformType;
+  using CompositeTransformType = itk::CompositeTransform<CoordinateRepresentationType,Dimension>;
   CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
   compositeTransform->AddTransform( transform2 );
   compositeTransform->AddTransform( transform );
@@ -380,7 +379,7 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   //
   // Test with adding point set metrics
   //
-  typedef itk::PointSet<float, Dimension> PointSetType;
+  using PointSetType = itk::PointSet<float, Dimension>;
   PointSetType::Pointer fixedPoints = PointSetType::New();
   PointSetType::Pointer movingPoints = PointSetType::New();
   fixedPoints->Initialize();
@@ -397,8 +396,8 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
     movingPoints->SetPoint( n, point );
     }
 
-  typedef itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType> ExpectationPointSetMetricType;
-  typedef itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType> EuclideanPointSetMetricType;
+  using ExpectationPointSetMetricType = itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType>;
+  using EuclideanPointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   ExpectationPointSetMetricType::Pointer expectationPointSetMetric = ExpectationPointSetMetricType::New();
   EuclideanPointSetMetricType::Pointer   euclideanPointSetMetric = EuclideanPointSetMetricType::New();
 
@@ -430,7 +429,7 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   //
   // Exercise basic operation with a scales estimator
   //
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< MultiMetricType > ScalesEstimatorMultiType;
+  using ScalesEstimatorMultiType = itk::RegistrationParameterScalesFromPhysicalShift< MultiMetricType >;
   ScalesEstimatorMultiType::Pointer shiftScaleEstimator = ScalesEstimatorMultiType::New();
   shiftScaleEstimator->SetMetric(multiVariateMetric);
   // Have to assign virtual domain sampling points when using a point set with scales estimator
@@ -456,7 +455,7 @@ int itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform )
   step.SetSize( m1->GetNumberOfParameters() );
   step.Fill( itk::NumericTraits<ScalesEstimatorMultiType::ParametersType::ValueType>::OneValue() );
 
-  typedef itk::RegistrationParameterScalesFromPhysicalShift<MeanSquaresMetricType> ScalesEstimatorMeanSquaresType;
+  using ScalesEstimatorMeanSquaresType = itk::RegistrationParameterScalesFromPhysicalShift<MeanSquaresMetricType>;
   ScalesEstimatorMeanSquaresType::Pointer singleShiftScaleEstimator = ScalesEstimatorMeanSquaresType::New();
   singleShiftScaleEstimator->SetMetric(m1);
   m1->Initialize();

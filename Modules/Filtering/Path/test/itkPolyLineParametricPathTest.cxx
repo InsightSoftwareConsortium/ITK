@@ -24,10 +24,10 @@ int itkPolyLineParametricPathTest( int, char* [] )
 {
   const unsigned int Dimension = 2;
 
-  typedef itk::PolyLineParametricPath< Dimension >  PathType;
-  typedef PathType::InputType                       InputType;
-  typedef PathType::OffsetType                      OffsetType;
-  typedef PathType::VertexType                      VertexType;
+  using PathType = itk::PolyLineParametricPath< Dimension >;
+  using InputType = PathType::InputType;
+  using OffsetType = PathType::OffsetType;
+  using VertexType = PathType::VertexType;
 
   bool passed = true;
 

@@ -25,12 +25,12 @@ class FastMarchingStoppingCriterionBaseHelperTest :
 public FastMarchingStoppingCriterionBase< TInput, TOutput >
 {
 public:
-  typedef FastMarchingStoppingCriterionBaseHelperTest           Self;
-  typedef FastMarchingStoppingCriterionBase< TInput, TOutput >  Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  using Self = FastMarchingStoppingCriterionBaseHelperTest;
+  using Superclass = FastMarchingStoppingCriterionBase< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::NodeType NodeType;
+  using NodeType = typename Superclass::NodeType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,10 +58,10 @@ private:
 
 int itkFastMarchingStoppingCriterionBaseTest( int , char *[] )
 {
-  typedef itk::Image< float, 2> ImageType;
+  using ImageType = itk::Image< float, 2>;
 
-  typedef itk::FastMarchingStoppingCriterionBaseHelperTest< ImageType, ImageType >
-    ImageStoppingCriterionType;
+  using ImageStoppingCriterionType =
+      itk::FastMarchingStoppingCriterionBaseHelperTest< ImageType, ImageType >;
 
   ImageStoppingCriterionType::Pointer image_criterion = ImageStoppingCriterionType::New();
   if( image_criterion.IsNull() )
@@ -69,10 +69,10 @@ int itkFastMarchingStoppingCriterionBaseTest( int , char *[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadEdgeMesh< float, 3 > MeshType;
+  using MeshType = itk::QuadEdgeMesh< float, 3 >;
 
-  typedef itk::FastMarchingStoppingCriterionBaseHelperTest< MeshType, MeshType >
-      MeshStoppingCriterionType;
+  using MeshStoppingCriterionType =
+      itk::FastMarchingStoppingCriterionBaseHelperTest< MeshType, MeshType >;
 
   MeshStoppingCriterionType::Pointer mesh_criterion = MeshStoppingCriterionType::New();
   if( mesh_criterion.IsNull() )

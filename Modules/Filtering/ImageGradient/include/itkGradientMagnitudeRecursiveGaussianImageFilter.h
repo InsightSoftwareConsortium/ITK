@@ -51,68 +51,61 @@ class ITK_TEMPLATE_EXPORT GradientMagnitudeRecursiveGaussianImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GradientMagnitudeRecursiveGaussianImageFilter   Self;
-  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GradientMagnitudeRecursiveGaussianImageFilter;
+  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Pixel Type of the input image */
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType PixelType;
+  using InputImageType = TInputImage;
+  using PixelType = typename InputImageType::PixelType;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef typename NumericTraits< PixelType >::RealType RealType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
 
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
 
-  typedef float InternalRealType;
-  typedef Image< InternalRealType,
-                 itkGetStaticConstMacro(ImageDimension) >   RealImageType;
+  using InternalRealType = float;
+  using RealImageType = Image< InternalRealType,
+                 itkGetStaticConstMacro(ImageDimension) >;
 
   /**  Smoothing filter type */
-  typedef RecursiveGaussianImageFilter<
-    RealImageType,
-    RealImageType
-    >    GaussianFilterType;
+  using GaussianFilterType = RecursiveGaussianImageFilter<
+    RealImageType, RealImageType >;
 
   /**  Derivative filter type, it will be the first in the pipeline  */
-  typedef RecursiveGaussianImageFilter<
-    InputImageType,
-    RealImageType
-    >    DerivativeFilterType;
+  using DerivativeFilterType = RecursiveGaussianImageFilter<
+    InputImageType, RealImageType >;
 
   /**  Smoothing filter type */
-  typedef SqrtImageFilter<
-    RealImageType,
-    TOutputImage
-    >    SqrtFilterType;
+  using SqrtFilterType = SqrtImageFilter< RealImageType, TOutputImage >;
 
   /**  Pointer to a gaussian filter.  */
-  typedef typename GaussianFilterType::Pointer GaussianFilterPointer;
+  using GaussianFilterPointer = typename GaussianFilterType::Pointer;
 
   /**  Pointer to a derivative filter.  */
-  typedef typename DerivativeFilterType::Pointer DerivativeFilterPointer;
+  using DerivativeFilterPointer = typename DerivativeFilterType::Pointer;
 
-  typedef typename SqrtFilterType::Pointer SqrtFilterPointer;
+  using SqrtFilterPointer = typename SqrtFilterType::Pointer;
 
   /**  Pointer to the Output Image */
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** Type of the output Image */
-  typedef TOutputImage                        OutputImageType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
   /**  Auxiliary image for holding the values of the squared gradient components
     */
-  typedef Image< InternalRealType,
-                 itkGetStaticConstMacro(ImageDimension) >      CumulativeImageType;
-  typedef typename CumulativeImageType::Pointer CumulativeImagePointer;
+  using CumulativeImageType = Image< InternalRealType,
+                 itkGetStaticConstMacro(ImageDimension) >;
+  using CumulativeImagePointer = typename CumulativeImageType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -187,8 +180,8 @@ private:
     double m_Spacing;
   };
 
-  typedef BinaryFunctorImageFilter< RealImageType, RealImageType, RealImageType, SqrSpacing > SqrSpacingFilterType;
-  typedef typename SqrSpacingFilterType::Pointer                                              SqrSpacingFilterPointer;
+  using SqrSpacingFilterType = BinaryFunctorImageFilter< RealImageType, RealImageType, RealImageType, SqrSpacing >;
+  using SqrSpacingFilterPointer = typename SqrSpacingFilterType::Pointer;
 
   GaussianFilterPointer   m_SmoothingFilters[ImageDimension - 1];
   DerivativeFilterPointer m_DerivativeFilter;

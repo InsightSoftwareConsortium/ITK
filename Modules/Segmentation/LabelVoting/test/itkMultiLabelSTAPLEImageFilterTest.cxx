@@ -24,7 +24,7 @@ int itkMultiLabelSTAPLEImageFilterTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned int, myDimension>  myImageType;
+  using myImageType = itk::Image<unsigned int, myDimension>;
 
   // Input data arrays for test images
   const unsigned int dataImageA[8] = { 0, 1, 3, 3, 4, 6, 6, 0 };
@@ -37,23 +37,23 @@ int itkMultiLabelSTAPLEImageFilterTest(int, char* [] )
   const unsigned int combinationABundecided255[8] = { 8, 1, 8, 8, 4, 8, 8, 8 };
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>                  myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>                   mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>            myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
   // Declare Iterator type appropriate for image
-  typedef itk::ImageRegionIterator<myImageType>    myIteratorType;
+  using myIteratorType = itk::ImageRegionIterator<myImageType>;
 
   // Declare the type for the ADD filter
-  typedef itk::MultiLabelSTAPLEImageFilter<myImageType> myFilterType;
-  typedef myFilterType::Pointer                         myFilterTypePointer;
+  using myFilterType = itk::MultiLabelSTAPLEImageFilter<myImageType>;
+  using myFilterTypePointer = myFilterType::Pointer;
 
   // Declare the pointers to images
-  typedef myImageType::Pointer   myImageTypePointer;
+  using myImageTypePointer = myImageType::Pointer;
 
   // Create two images
   myImageTypePointer inputImageA = myImageType::New();

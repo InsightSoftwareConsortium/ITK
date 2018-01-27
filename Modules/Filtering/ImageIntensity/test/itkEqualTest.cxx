@@ -26,8 +26,8 @@ namespace
 class Bogus
 {
 public:
-  // typedef Bogus Self;
-  // typedef SmartPointer<Self> Pointer;
+  // using Self = Bogus;
+  // using Pointer = SmartPointer<Self>;
   // itkNewMacro(Self);
   //     static Bogus* New() { return new Bogus(); };
   //     void Register() {};
@@ -49,33 +49,33 @@ int itkEqualTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>  myImageType1;
-  typedef itk::Image<float, myDimension>  myImageType2;
-  typedef itk::Image<float, myDimension>  myImageType3;
-  typedef myImageType1::PixelType         PixelType;
+  using myImageType1 = itk::Image<float, myDimension>;
+  using myImageType2 = itk::Image<float, myDimension>;
+  using myImageType3 = itk::Image<float, myDimension>;
+  using PixelType = myImageType1::PixelType;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>    myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
-  typedef itk::BinaryFunctorImageFilter<
+  using myFilterType = itk::BinaryFunctorImageFilter<
     myImageType1,
     myImageType2,
     myImageType3,
     itk::Functor::Equal<myImageType1::PixelType,
                         myImageType2::PixelType,
-                        myImageType3::PixelType> > myFilterType;
+                        myImageType3::PixelType> >;
 
 // Declare the pointers to images
-  typedef myImageType1::Pointer   myImageType1Pointer;
-  typedef myImageType2::Pointer   myImageType2Pointer;
-  typedef myImageType3::Pointer   myImageType3Pointer;
-  typedef myFilterType::Pointer   myFilterTypePointer;
+  using myImageType1Pointer = myImageType1::Pointer;
+  using myImageType2Pointer = myImageType2::Pointer;
+  using myImageType3Pointer = myImageType3::Pointer;
+  using myFilterTypePointer = myFilterType::Pointer;
 
 // Create two images
   myImageType1Pointer inputImageA  = myImageType1::New();
@@ -110,8 +110,8 @@ int itkEqualTest(int, char* [] )
 
 
 // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType2>  myIteratorType2;
+  using myIteratorType1 = itk::ImageRegionIteratorWithIndex<myImageType1>;
+  using myIteratorType2 = itk::ImageRegionIteratorWithIndex<myImageType2>;
 
 // Create one iterator for Image A (this is a light object)
   myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
@@ -236,7 +236,7 @@ int itkEqualTest(int, char* [] )
 
   {
   // BinaryImageFilter
-  typedef itk::BinaryFunctorImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double>, Bogus > iFIB;
+  using iFIB = itk::BinaryFunctorImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double>, Bogus >;
   iFIB::Pointer FIB = iFIB::New();
   if(FIB.IsNull())
     {

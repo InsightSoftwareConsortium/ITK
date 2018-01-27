@@ -24,14 +24,13 @@ int itkDenseFrequencyContainer2Test(int, char* [] )
   std::cout << "DenseFrequencyContainer2 Test \n \n";
 
 
-  typedef  itk::Statistics::DenseFrequencyContainer2
-                                            DenseFrequencyContainer2Type;
+  using DenseFrequencyContainer2Type = itk::Statistics::DenseFrequencyContainer2;
 
 
   DenseFrequencyContainer2Type::Pointer container =
                                             DenseFrequencyContainer2Type::New();
 
-  typedef  DenseFrequencyContainer2Type::AbsoluteFrequencyType     AbsoluteFrequencyType;
+  using AbsoluteFrequencyType = DenseFrequencyContainer2Type::AbsoluteFrequencyType;
 
   const unsigned int numberOfBins = 1250;
 

@@ -29,7 +29,7 @@ int itkCoxDeBoorBSplineKernelFunctionTest( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::CoxDeBoorBSplineKernelFunction<3> KernelType;
+  using KernelType = itk::CoxDeBoorBSplineKernelFunction<3>;
   KernelType::Pointer kernel = KernelType::New();
   KernelType::MatrixType coefficients;
 

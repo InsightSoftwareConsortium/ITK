@@ -52,11 +52,11 @@ class ITKOptimizers_EXPORT CumulativeGaussianCostFunction:public MultipleValuedC
 {
 public:
 
-  /** Standard typedefs. */
-  typedef CumulativeGaussianCostFunction Self;
-  typedef MultipleValuedCostFunction     Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  /** Standard type alias. */
+  using Self = CumulativeGaussianCostFunction;
+  using Superclass = MultipleValuedCostFunction;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(CumulativeGaussianCostFunction, MultipleValuedCostFunction);
@@ -65,9 +65,9 @@ public:
   itkNewMacro(Self);
 
   /** Array Typedefs. */
-  typedef Superclass::ParametersType ParametersType;
-  typedef Superclass::MeasureType    MeasureType;
-  typedef Superclass::DerivativeType DerivativeType;
+  using ParametersType = Superclass::ParametersType;
+  using MeasureType = Superclass::MeasureType;
+  using DerivativeType = Superclass::DerivativeType;
 
   /** The dimensions of parameter space; mean, standard deviation, lower and
     upper asymptotes. */

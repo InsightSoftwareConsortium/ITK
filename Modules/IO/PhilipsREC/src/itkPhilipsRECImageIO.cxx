@@ -771,7 +771,7 @@ void PhilipsRECImageIO::ReadImageInformation()
   EncapsulateMetaData< std::string >( thisDic, ITK_FileNotes,
                                       std::string(par.series_type) );
 
-  typedef Matrix< double, 4, 4 > AffineMatrix;
+  using AffineMatrix = Matrix< double, 4, 4 >;
   AffineMatrix spacing;
   spacing.SetIdentity();
 
@@ -809,7 +809,7 @@ void PhilipsRECImageIO::ReadImageInformation()
       spacing[2][2] = par.vox[1];
     }
 
-  typedef SpatialOrientationAdapter OrientAdapterType;
+  using OrientAdapterType = SpatialOrientationAdapter;
   SpatialOrientationAdapter::DirectionType dir =
     OrientAdapterType().ToDirectionCosines(coord_orient);
 
@@ -863,7 +863,7 @@ void PhilipsRECImageIO::ReadImageInformation()
 #ifdef DEBUG_ORIENTATION
   std::cout << "Final transformation = " << final << std::endl;
 #endif
-  typedef Vector< double, 4 > PointVector;
+  using PointVector = Vector< double, 4 >;
   PointVector center;
   center[0] = (par.dim[0]-1)/2.0;
   center[1] = (par.dim[0]-1)/2.0;
@@ -1056,8 +1056,7 @@ void PhilipsRECImageIO::ReadImageInformation()
                              par.num_scanning_sequences);
   EncapsulateMetaData< ScanningSequencesType >( thisDic, PAR_ScanningSequences,
                                                 ScanningSequencesType(par.scanning_sequences) );
-  typedef ScanningSequenceImageTypeRescaleValuesContainerType::Pointer
-  ScanningSequenceImageTypeRescaleValuesContainerTypePtr;
+  using ScanningSequenceImageTypeRescaleValuesContainerTypePtr = ScanningSequenceImageTypeRescaleValuesContainerType::Pointer;
   EncapsulateMetaData< ScanningSequenceImageTypeRescaleValuesContainerTypePtr >(
     thisDic, PAR_ScanningSequenceImageTypeRescaleValues,
     scanningSequenceImageTypeRescaleVector);

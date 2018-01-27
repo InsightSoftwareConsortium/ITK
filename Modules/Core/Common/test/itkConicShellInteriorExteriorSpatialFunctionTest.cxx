@@ -30,14 +30,13 @@ int itkConicShellInteriorExteriorSpatialFunctionTest( int, char *[] )
   const unsigned int PointDimension = 3;
 
   // Define the point coordinate representation type
-  typedef float PointCoordRepType;
+  using PointCoordRepType = float;
 
   // Define the point type
-  typedef itk::Point< PointCoordRepType, PointDimension > PointType;
+  using PointType = itk::Point< PointCoordRepType, PointDimension >;
 
   // Define the type for the conic spatial function
-  typedef itk::ConicShellInteriorExteriorSpatialFunction< PointDimension, PointType >
-    ConicShellInteriorExteriorSpatialFunctionType;
+  using ConicShellInteriorExteriorSpatialFunctionType = itk::ConicShellInteriorExteriorSpatialFunction< PointDimension, PointType >;
 
 
   // Create the conic shell function

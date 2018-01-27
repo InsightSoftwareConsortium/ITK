@@ -53,20 +53,20 @@ class ITK_TEMPLATE_EXPORT ProjectedLandweberDeconvolutionImageFilter :
     public ProjectedIterativeDeconvolutionImageFilter< LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision > >
 {
 public:
-    /** Standard typedefs. */
-  typedef ProjectedLandweberDeconvolutionImageFilter                  Self;
-  typedef ProjectedIterativeDeconvolutionImageFilter<
+    /** Standard type alias. */
+  using Self = ProjectedLandweberDeconvolutionImageFilter;
+  using Superclass = ProjectedIterativeDeconvolutionImageFilter<
             LandweberDeconvolutionImageFilter< TInputImage,
                                                TKernelImage,
                                                TOutputImage,
-                                               TInternalPrecision > > Superclass;
-  typedef SmartPointer< Self >                                        Pointer;
-  typedef SmartPointer< const Self >                                  ConstPointer;
+                                               TInternalPrecision > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Other useful typedefs. */
-  typedef TInputImage  InputImageType;
-  typedef TKernelImage KernelImageType;
-  typedef TOutputImage OutputImageType;
+  /** Other useful type alias. */
+  using InputImageType = TInputImage;
+  using KernelImageType = TKernelImage;
+  using OutputImageType = TOutputImage;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

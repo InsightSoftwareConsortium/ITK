@@ -207,7 +207,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     // Note: A future version of ITK should do Gaussian blurring here.
 
     // Apply each Gaussian kernel to a subset of the image
-    typedef typename OutputType::RealValueType OutputRealValueType;
+    using OutputRealValueType = typename OutputType::RealValueType;
 
     m_OperatorImageFunction->SetOperator(m_OperatorArray[direction]);
     const OutputRealValueType value = m_OperatorImageFunction->EvaluateAtIndex(index);

@@ -48,11 +48,11 @@ class ITK_TEMPLATE_EXPORT MeanReciprocalSquareDifferenceImageToImageMetric:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef MeanReciprocalSquareDifferenceImageToImageMetric Self;
-  typedef ImageToImageMetric< TFixedImage, TMovingImage >  Superclass;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MeanReciprocalSquareDifferenceImageToImageMetric;
+  using Superclass = ImageToImageMetric< TFixedImage, TMovingImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,19 +61,19 @@ public:
   itkTypeMacro(MeanReciprocalSquareDifferenceImageToImageMetric, ImageToImageMetric);
 
   /** Types transferred from the base class */
-  typedef typename Superclass::TransformType           TransformType;
-  typedef typename Superclass::TransformPointer        TransformPointer;
-  typedef typename Superclass::TransformParametersType TransformParametersType;
-  typedef typename Superclass::TransformJacobianType   TransformJacobianType;
-  typedef typename Superclass::InputPointType          InputPointType;
-  typedef typename Superclass::OutputPointType         OutputPointType;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformParametersType = typename Superclass::TransformParametersType;
+  using TransformJacobianType = typename Superclass::TransformJacobianType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
 
-  typedef typename Superclass::MeasureType             MeasureType;
-  typedef typename Superclass::DerivativeType          DerivativeType;
-  typedef typename Superclass::FixedImageType          FixedImageType;
-  typedef typename Superclass::MovingImageType         MovingImageType;
-  typedef typename Superclass::FixedImageConstPointer  FixedImageConstPointer;
-  typedef typename Superclass::MovingImageConstPointer MovingImageConstPointer;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using FixedImageConstPointer = typename Superclass::FixedImageConstPointer;
+  using MovingImageConstPointer = typename Superclass::MovingImageConstPointer;
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,

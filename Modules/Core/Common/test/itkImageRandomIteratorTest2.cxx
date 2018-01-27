@@ -37,10 +37,10 @@ int itkImageRandomIteratorTest2( int argc, char * argv [] )
 
   const unsigned int ImageDimension = 2;
 
-  typedef unsigned long  PixelType;
+  using PixelType = unsigned long;
 
-  typedef itk::Image< PixelType, ImageDimension >  ImageType;
-  typedef itk::ImageFileWriter< ImageType >        WriterType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ImageType::Pointer image = ImageType::New();
 
@@ -63,7 +63,7 @@ int itkImageRandomIteratorTest2( int argc, char * argv [] )
   image->SetRegions( region );
   image->Allocate(true); // initialize buffer to zero
 
-  typedef itk::ImageRandomIteratorWithIndex< ImageType >      RandomIteratorType;
+  using RandomIteratorType = itk::ImageRandomIteratorWithIndex< ImageType >;
 
   RandomIteratorType it( image, region );
 
@@ -90,17 +90,17 @@ int itkImageRandomIteratorTest2( int argc, char * argv [] )
   if( argc > 4 )
     {
 
-    typedef itk::ImageFileReader< ImageType > ReaderType;
+    using ReaderType = itk::ImageFileReader< ImageType >;
 
     ReaderType::Pointer reader = ReaderType::New();
 
     reader->SetFileName( argv[2] );
 
-    typedef signed long    DifferencePixelType;
-    typedef itk::Image< DifferencePixelType, ImageDimension > DifferenceImageType;
+    using DifferencePixelType = signed long;
+    using DifferenceImageType = itk::Image< DifferencePixelType, ImageDimension >;
 
-    typedef itk::Testing::ComparisonImageFilter<
-      ImageType, DifferenceImageType > DifferenceFilterType;
+    using DifferenceFilterType = itk::Testing::ComparisonImageFilter<
+      ImageType, DifferenceImageType >;
 
     DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
@@ -109,7 +109,7 @@ int itkImageRandomIteratorTest2( int argc, char * argv [] )
     difference->SetToleranceRadius( 0 );
     difference->SetDifferenceThreshold( 0 );
 
-    typedef itk::ImageFileWriter< DifferenceImageType >  DifferenceWriterType;
+    using DifferenceWriterType = itk::ImageFileWriter< DifferenceImageType >;
     DifferenceWriterType::Pointer writer2 = DifferenceWriterType::New();
 
     writer2->SetInput( difference->GetOutput() );

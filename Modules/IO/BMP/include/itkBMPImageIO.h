@@ -38,13 +38,13 @@ namespace itk
 class ITKIOBMP_EXPORT BMPImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef BMPImageIO                Self;
-  typedef ImageIOBase               Superclass;
-  typedef SmartPointer< Self >      Pointer;
+  /** Standard class type aliases. */
+  using Self = BMPImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
-  typedef RGBPixel< unsigned char >   RGBPixelType; //Palette is only unsigned char in BMP files
-  typedef std::vector< RGBPixelType > PaletteType;
+  using RGBPixelType = RGBPixel< unsigned char >; //Palette is only unsigned char in BMP files
+  using PaletteType = std::vector< RGBPixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

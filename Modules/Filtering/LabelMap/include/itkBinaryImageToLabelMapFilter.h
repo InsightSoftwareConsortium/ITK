@@ -67,10 +67,10 @@ public:
   /**
    * Standard "Self" & Superclass typedef.
    */
-  typedef BinaryImageToLabelMapFilter                     Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  using Self = BinaryImageToLabelMapFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**
    * Method for creation through the object factory.
@@ -85,36 +85,36 @@ public:
   /**
    * Types from the Superclass
    */
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  using InputImagePointer = typename Superclass::InputImagePointer;
 
   /**
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType      OutputPixelType;
-  typedef typename TInputImage::PixelType       InputPixelType;
-  typedef typename TInputImage::SizeValueType   SizeValueType;
-  typedef typename TInputImage::OffsetValueType OffsetValueType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using SizeValueType = typename TInputImage::SizeValueType;
+  using OffsetValueType = typename TInputImage::OffsetValueType;
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
 
   /**
-   * Image typedef support
+   * Image type alias support
    */
-  typedef TInputImage                      InputImageType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::OffsetType OffsetType;
+  using InputImageType = TInputImage;
+  using IndexType = typename TInputImage::IndexType;
+  using SizeType = typename TInputImage::SizeType;
+  using OffsetType = typename TInputImage::OffsetType;
 
-  typedef TOutputImage                      OutputImageType;
-  typedef typename TOutputImage::RegionType RegionType;
-  typedef typename TOutputImage::IndexType  OutputIndexType;
-  typedef typename TOutputImage::SizeType   OutputSizeType;
-  typedef typename TOutputImage::OffsetType OutputOffsetType;
-  typedef typename TOutputImage::PixelType  OutputImagePixelType;
+  using OutputImageType = TOutputImage;
+  using RegionType = typename TOutputImage::RegionType;
+  using OutputIndexType = typename TOutputImage::IndexType;
+  using OutputSizeType = typename TOutputImage::SizeType;
+  using OutputOffsetType = typename TOutputImage::OffsetType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
 
-  typedef std::list< IndexType > ListType;
+  using ListType = std::list< IndexType >;
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -155,7 +155,7 @@ protected:
   ~BinaryImageToLabelMapFilter() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef SizeValueType InternalLabelType;
+  using InternalLabelType = SizeValueType;
 
   /**
    * Standard pipeline method.
@@ -186,7 +186,7 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLabelMapFilter);
 
   // some additional types
-  typedef typename TOutputImage::RegionType::SizeType OutSizeType;
+  using OutSizeType = typename TOutputImage::RegionType::SizeType;
 
   // types to support the run length encoding of lines
   class runLength
@@ -198,18 +198,18 @@ private:
     InternalLabelType label;                  // the initial label of the run
   };
 
-  typedef std::vector< runLength > lineEncoding;
+  using lineEncoding = std::vector< runLength >;
 
   // the map storing lines
-  typedef std::vector< lineEncoding > LineMapType;
+  using LineMapType = std::vector< lineEncoding >;
 
-  typedef std::vector< OffsetValueType > OffsetVectorType;
+  using OffsetVectorType = std::vector< OffsetValueType >;
 
   // the types to support union-find operations
-  typedef std::vector< InternalLabelType > UnionFindType;
+  using UnionFindType = std::vector< InternalLabelType >;
   UnionFindType m_UnionFind;
 
-  typedef std::vector< OutputPixelType > ConsecutiveVectorType;
+  using ConsecutiveVectorType = std::vector< OutputPixelType >;
   ConsecutiveVectorType m_Consecutive;
 
   // functions to support union-find operations

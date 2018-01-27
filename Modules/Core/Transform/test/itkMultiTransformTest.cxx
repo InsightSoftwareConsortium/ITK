@@ -94,11 +94,11 @@ class MultiTransformTestTransform :
   public itk::MultiTransform<TScalar, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultiTransformTestTransform                             Self;
-  typedef itk::MultiTransform<TScalar, NDimensions, NDimensions>  Superclass;
-  typedef itk::SmartPointer<Self>                                 Pointer;
-  typedef itk::SmartPointer<const Self>                           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MultiTransformTestTransform;
+  using Superclass = itk::MultiTransform<TScalar, NDimensions, NDimensions>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( MultiTransformTestTransform, MultiTransform );
@@ -107,12 +107,12 @@ public:
   itkNewMacro( Self );
 
   /** Sub transform type **/
-  typedef typename Superclass::TransformType                TransformType;
-  typedef typename Superclass::TransformTypePointer         TransformTypePointer;
+  using TransformType = typename Superclass::TransformType;
+  using TransformTypePointer = typename Superclass::TransformTypePointer;
   /** InverseTransform type. */
-  typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
-  typedef typename Superclass::InputPointType              InputPointType;
-  typedef typename Superclass::JacobianType                JacobianType;
+  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
+  using InputPointType = typename Superclass::InputPointType;
+  using JacobianType = typename Superclass::JacobianType;
 
   typename Superclass::OutputPointType TransformPoint( const InputPointType & point ) const override
   {
@@ -141,15 +141,15 @@ int itkMultiTransformTest(int, char *[] )
   const unsigned int NDimensions = itkMultiTransformTestNDimensions;
 
   /* Create multi-transform */
-  typedef MultiTransformTestTransform<double, NDimensions>  MultiTransformType;
-  typedef MultiTransformType::Superclass                    Superclass;
-  typedef Superclass::ScalarType                            ScalarType;
+  using MultiTransformType = MultiTransformTestTransform<double, NDimensions>;
+  using Superclass = MultiTransformType::Superclass;
+  using ScalarType = Superclass::ScalarType;
 
   MultiTransformType::Pointer multiTransform = MultiTransformType::New();
 
   /* Test obects */
-  typedef  itk::Matrix<ScalarType, NDimensions, NDimensions> Matrix2Type;
-  typedef  itk::Vector<ScalarType, NDimensions>              Vector2Type;
+  using Matrix2Type = itk::Matrix<ScalarType, NDimensions, NDimensions>;
+  using Vector2Type = itk::Vector<ScalarType, NDimensions>;
 
   /* Test that we have an empty the queue */
   if( multiTransform->GetNumberOfTransforms() != 0 )
@@ -165,7 +165,7 @@ int itkMultiTransformTest(int, char *[] )
     }
 
   /* Add an affine transform */
-  typedef itk::AffineTransform<ScalarType, NDimensions> AffineType;
+  using AffineType = itk::AffineTransform<ScalarType, NDimensions>;
   AffineType::Pointer affine = AffineType::New();
   Matrix2Type         matrix2;
   Vector2Type         vector2;
@@ -329,9 +329,9 @@ int itkMultiTransformTest(int, char *[] )
    */
 
   /* Create a displacement field transform */
-  typedef itk::DisplacementFieldTransform<double, NDimensions> DisplacementTransformType;
+  using DisplacementTransformType = itk::DisplacementFieldTransform<double, NDimensions>;
   DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
-  typedef DisplacementTransformType::DisplacementFieldType FieldType;
+  using FieldType = DisplacementTransformType::DisplacementFieldType;
   FieldType::Pointer field = FieldType::New(); // This is based on itk::Image
 
   FieldType::SizeType   size;

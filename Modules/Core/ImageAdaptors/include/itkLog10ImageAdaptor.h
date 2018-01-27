@@ -41,13 +41,13 @@ template< typename TInternalType, typename TExternalType >
 class Log10PixelAccessor
 {
 public:
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
    * that this class will exhibit. */
-  typedef TExternalType ExternalType;
+  using ExternalType = TExternalType;
 
-  /** Internal typedef. It defines the internal real
+  /** Internal type alias. It defines the internal real
    * representation of data. */
-  typedef TInternalType InternalType;
+  using InternalType = TInternalType;
 
   static inline void Set(TInternalType & output, const TExternalType & input)
   { output = (TInternalType)std::log10( (double)input ); }
@@ -73,14 +73,14 @@ class Log10ImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef Log10ImageAdaptor Self;
-  typedef ImageAdaptor< TImage, Accessor::Log10PixelAccessor<
+  /** Standard class type aliases. */
+  using Self = Log10ImageAdaptor;
+  using Superclass = ImageAdaptor< TImage, Accessor::Log10PixelAccessor<
                           typename TImage::PixelType,
-                          TOutputPixelType > > Superclass;
+                          TOutputPixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

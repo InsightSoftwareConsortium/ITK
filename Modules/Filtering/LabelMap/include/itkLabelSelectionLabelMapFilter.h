@@ -54,24 +54,24 @@ class LabelSelectionLabelMapFilter :
     public AttributeSelectionLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelSelectionLabelMapFilter Self;
-  typedef AttributeSelectionLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >
-                                       Superclass;
-  typedef SmartPointer<Self>           Pointer;
-  typedef SmartPointer<const Self>     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LabelSelectionLabelMapFilter;
+  using Superclass =
+      AttributeSelectionLabelMapFilter<TImage, typename Functor::LabelLabelObjectAccessor< typename TImage::LabelObjectType > >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  /** Some convenient typedefs. */
-  typedef TImage                              ImageType;
-  typedef typename ImageType::Pointer         ImagePointer;
-  typedef typename ImageType::ConstPointer    ImageConstPointer;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::IndexType       IndexType;
+  /** Some convenient type alias. */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using IndexType = typename ImageType::IndexType;
 
-  typedef typename Superclass::AttributeAccessorType AttributeAccessorType;
-  typedef typename Superclass::AttributeValueType    AttributeValueType;
+  using AttributeAccessorType = typename Superclass::AttributeAccessorType;
+  using AttributeValueType = typename Superclass::AttributeValueType;
 
-  typedef typename Superclass::AttributeSetType AttributeSetType;
+  using AttributeSetType = typename Superclass::AttributeSetType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int,

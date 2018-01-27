@@ -39,13 +39,13 @@ template<typename TransformType>
 static int ReadWriteTest(const char * const fileName)
 {
   const double epsilon = 1e-12;
-  typedef typename TransformType::ScalarType ParametersValueType;
+  using ParametersValueType = typename TransformType::ScalarType;
 
   // Create transform
   typename TransformType::Pointer     transform       = TransformType::New();
-  typedef typename TransformType::InputPointType PointType;
-  typedef typename TransformType::PointsIterator PointsIteratorType;
-  typedef typename TransformType::PointSetType   PointSetType;
+  using PointType = typename TransformType::InputPointType;
+  using PointsIteratorType = typename TransformType::PointsIterator;
+  using PointSetType = typename TransformType::PointSetType;
 
   PointType sourcePoint;
   PointType targetPoint;
@@ -103,14 +103,14 @@ static int ReadWriteTest(const char * const fileName)
     }
 
   // Write transform to file
-  typedef typename itk::TransformFileWriterTemplate<ParametersValueType>      TransformWriterType;
+  using TransformWriterType = typename itk::TransformFileWriterTemplate<ParametersValueType>;
   typename TransformWriterType::Pointer transformWriter = TransformWriterType::New();
   transformWriter->SetFileName( fileName );
   transformWriter->AddTransform( transform );
   TRY_EXPECT_NO_EXCEPTION( transformWriter->Update() );
 
   // Read transform file
-  typedef typename itk::TransformFileReaderTemplate<ParametersValueType>      TransformReaderType;
+  using TransformReaderType = typename itk::TransformFileReaderTemplate<ParametersValueType>;
   typename TransformReaderType::Pointer transformReader = TransformReaderType::New();
   transformReader->SetFileName(fileName);
   TRY_EXPECT_NO_EXCEPTION( transformReader->Update() );
@@ -154,11 +154,11 @@ int itkThinPlateTransformWriteReadTest( int argc, char *argv[] )
 
   itksys::SystemTools::ChangeDirectory(argv[1]);
 
-  typedef itk::ElasticBodySplineKernelTransform<double, 2>           EBSTransform2DType;
-  typedef itk::ElasticBodyReciprocalSplineKernelTransform<double, 2> EBRSTransform2DType;
-  typedef itk::ThinPlateSplineKernelTransform<double, 2>             TPSTransform2DType;
-  typedef itk::ThinPlateR2LogRSplineKernelTransform<double, 2>       TPR2LRSTransform2DType;
-  typedef itk::VolumeSplineKernelTransform<double, 2>                VSTransform2DType;
+  using EBSTransform2DType = itk::ElasticBodySplineKernelTransform<double, 2>;
+  using EBRSTransform2DType = itk::ElasticBodyReciprocalSplineKernelTransform<double, 2>;
+  using TPSTransform2DType = itk::ThinPlateSplineKernelTransform<double, 2>;
+  using TPR2LRSTransform2DType = itk::ThinPlateR2LogRSplineKernelTransform<double, 2>;
+  using VSTransform2DType = itk::VolumeSplineKernelTransform<double, 2>;
 
   // Registers all transforms that are tested
   itk::TransformFactory<EBSTransform2DType>::RegisterTransform();

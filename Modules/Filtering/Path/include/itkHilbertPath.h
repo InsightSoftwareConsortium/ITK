@@ -55,11 +55,11 @@ class ITK_TEMPLATE_EXPORT HilbertPath
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef HilbertPath<TIndexValue, VDimension>               Self;
-  typedef Path<unsigned int, Index<VDimension>, VDimension>  Superclass;
-  typedef SmartPointer<Self>                                 Pointer;
-  typedef SmartPointer<const Self>                           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = HilbertPath<TIndexValue, VDimension>;
+  using Superclass = Path<unsigned int, Index<VDimension>, VDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( HilbertPath, Path );
@@ -70,17 +70,17 @@ public:
   /** Dimension underlying input image. */
   itkStaticConstMacro( Dimension, unsigned int, VDimension );
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
-  typedef typename Superclass::InputType  InputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
+  using InputType = typename Superclass::InputType;
 
-  /** The input/output typedefs*/
-  typedef InputType                             PathIndexType;
-  typedef OutputType                            IndexType;
-  typedef unsigned int                          HilbertOrderType;
-  typedef std::vector<IndexType>                HilbertPathType;
-  typedef typename HilbertPathType::size_type   HilbertPathSizeType;
-  typedef typename Superclass::OffsetType       OffsetType;
+  /** The input/output type alias*/
+  using PathIndexType = InputType;
+  using IndexType = OutputType;
+  using HilbertOrderType = unsigned int;
+  using HilbertPathType = std::vector<IndexType>;
+  using HilbertPathSizeType = typename HilbertPathType::size_type;
+  using OffsetType = typename Superclass::OffsetType;
 
   // Functions inherited from Path
 

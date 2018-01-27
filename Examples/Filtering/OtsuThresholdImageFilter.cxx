@@ -54,8 +54,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char  InputPixelType;
-  typedef  unsigned char  OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
   const unsigned int      Dimension = 2;
   // Software Guide : EndCodeSnippet
 
@@ -68,8 +68,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -81,8 +81,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::OtsuThresholdImageFilter<
-               InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::OtsuThresholdImageFilter<
+               InputImageType, OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -96,7 +96,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -109,7 +109,7 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 

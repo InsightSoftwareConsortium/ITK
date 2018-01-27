@@ -66,15 +66,15 @@ class ITKOptimizersv4_EXPORT LBFGSBOptimizerv4:
   public LBFGSOptimizerBasev4< vnl_lbfgsb >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef LBFGSBOptimizerv4                 Self;
-  typedef LBFGSOptimizerBasev4<vnl_lbfgsb>  Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = LBFGSBOptimizerv4;
+  using Superclass = LBFGSOptimizerBasev4<vnl_lbfgsb>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef Superclass::MetricType     MetricType;
-  typedef Superclass::ParametersType ParametersType;
-  typedef Superclass::ScalesType     ScalesType;
+  using MetricType = Superclass::MetricType;
+  using ParametersType = Superclass::ParametersType;
+  using ScalesType = Superclass::ScalesType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -92,12 +92,12 @@ public:
   /**  BoundValue type.
    *  Use for defining the lower and upper bounds on the variables.
    */
-  typedef Array< double > BoundValueType;
+  using BoundValueType = Array< double >;
 
   /** BoundSelection type
    * Use for defining the boundary condition for each variables.
    */
-  typedef Array< long > BoundSelectionType;
+  using BoundSelectionType = Array< long >;
 
   /**  Set the position to initialize the optimization. */
   void SetInitialPosition(const ParametersType & param);
@@ -161,10 +161,10 @@ protected:
   ~LBFGSBOptimizerv4() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
+  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
   /** Internal optimizer type. */
-  typedef   LBFGSBOptimizerHelperv4   InternalOptimizerType;
+  using InternalOptimizerType = LBFGSBOptimizerHelperv4;
 
   friend class LBFGSBOptimizerHelperv4;
 

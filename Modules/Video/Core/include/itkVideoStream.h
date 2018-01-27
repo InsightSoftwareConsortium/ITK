@@ -42,31 +42,31 @@ class ITK_TEMPLATE_EXPORT VideoStream : public TemporalDataObject
 {
 public:
 
-  /** Standard class typedefs */
-  typedef VideoStream                       Self;
-  typedef TemporalDataObject                Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
-  typedef WeakPointer< const Self >         ConstWeakPointer;
+  /** Standard class type aliases */
+  using Self = VideoStream;
+  using Superclass = TemporalDataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
-  typedef TFrameType                        FrameType;
-  typedef typename FrameType::Pointer       FramePointer;
-  typedef typename FrameType::ConstPointer  FrameConstPointer;
-  typedef typename Superclass::BufferType   BufferType;
+  using FrameType = TFrameType;
+  using FramePointer = typename FrameType::Pointer;
+  using FrameConstPointer = typename FrameType::ConstPointer;
+  using BufferType = typename Superclass::BufferType;
 
-  typedef typename FrameType::RegionType    SpatialRegionType;
-  typedef typename FrameType::IndexType     IndexType;
-  typedef typename FrameType::PixelType     PixelType;
-  typedef typename FrameType::PointType     PointType;
-  typedef typename FrameType::SpacingType   SpacingType;
-  typedef typename FrameType::SizeType      SizeType;
-  typedef typename FrameType::DirectionType DirectionType;
+  using SpatialRegionType = typename FrameType::RegionType;
+  using IndexType = typename FrameType::IndexType;
+  using PixelType = typename FrameType::PixelType;
+  using PointType = typename FrameType::PointType;
+  using SpacingType = typename FrameType::SpacingType;
+  using SizeType = typename FrameType::SizeType;
+  using DirectionType = typename FrameType::DirectionType;
 
   /** Types used to store map between frame numbers and frame meta data */
-  typedef typename std::map<SizeValueType, SpatialRegionType> SpatialRegionMapType;
-  typedef typename std::map<SizeValueType, PointType>         PointMapType;
-  typedef typename std::map<SizeValueType, DirectionType>     DirectionMapType;
-  typedef typename std::map<SizeValueType, SpacingType>       SpacingMapType;
+  using SpatialRegionMapType = typename std::map<SizeValueType, SpatialRegionType>;
+  using PointMapType = typename std::map<SizeValueType, PointType>;
+  using DirectionMapType = typename std::map<SizeValueType, DirectionType>;
+  using SpacingMapType = typename std::map<SizeValueType, SpacingType>;
 
   /** Access the spacial dimensionality of the frames */
   itkStaticConstMacro(FrameDimension, unsigned int, FrameType::ImageDimension);

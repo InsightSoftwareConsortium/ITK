@@ -40,54 +40,54 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshLineCell:
   public TCellInterface, public TCellInterface::CellTraits::QuadEdgeType
 {
 public:
-  /** Standard class typedefs. */
+  /** Standard class type aliases. */
   // itkCellCommonTypedefs
-  typedef QuadEdgeMeshLineCell      Self;
-  typedef AutoPointer< const Self > ConstSelfAutoPointer;
-  typedef AutoPointer< Self >       SelfAutoPointer;
-  typedef Self *                    RawPointer;
-  typedef const Self *              ConstRawPointer;
+  using Self = QuadEdgeMeshLineCell;
+  using ConstSelfAutoPointer = AutoPointer< const Self >;
+  using SelfAutoPointer = AutoPointer< Self >;
+  using RawPointer = Self *;
+  using ConstRawPointer = const Self *;
 
   // itkCellInheritedTypedefs
-  typedef TCellInterface                                Superclass;
-  typedef typename Superclass::PixelType                PixelType;
-  typedef typename Superclass::CellType                 CellType;
-  typedef typename Superclass::CellAutoPointer          CellAutoPointer;
-  typedef typename Superclass::CellConstAutoPointer     CellConstAutoPointer;
-  typedef typename Superclass::CellRawPointer           CellRawPointer;
-  typedef typename Superclass::CellConstRawPointer      CellConstRawPointer;
-  typedef typename Superclass::CellTraits               CellTraits;
-  typedef typename Superclass::CoordRepType             CoordRepType;
-  typedef typename Superclass::InterpolationWeightType  InterpolationWeightType;
-  typedef typename Superclass::PointIdentifier          PointIdentifier;
-  typedef typename Superclass::CellIdentifier           CellIdentifier;
-  typedef typename Superclass::CellFeatureIdentifier    CellFeatureIdentifier;
-  typedef typename Superclass::CellFeatureIdentifier    CellFeatureCount;
-  typedef typename Superclass::PointType                PointType;
-  typedef typename Superclass::PointsContainer          PointsContainer;
-  typedef typename Superclass::UsingCellsContainer      UsingCellsContainer;
-  typedef typename Superclass::CellGeometry             CellGeometry;
-  typedef typename Superclass::ParametricCoordArrayType ParametricCoordArrayType;
-  typedef typename Superclass::ShapeFunctionsArrayType  ShapeFunctionsArrayType;
+  using Superclass = TCellInterface;
+  using PixelType = typename Superclass::PixelType;
+  using CellType = typename Superclass::CellType;
+  using CellAutoPointer = typename Superclass::CellAutoPointer;
+  using CellConstAutoPointer = typename Superclass::CellConstAutoPointer;
+  using CellRawPointer = typename Superclass::CellRawPointer;
+  using CellConstRawPointer = typename Superclass::CellConstRawPointer;
+  using CellTraits = typename Superclass::CellTraits;
+  using CoordRepType = typename Superclass::CoordRepType;
+  using InterpolationWeightType = typename Superclass::InterpolationWeightType;
+  using PointIdentifier = typename Superclass::PointIdentifier;
+  using CellIdentifier = typename Superclass::CellIdentifier;
+  using CellFeatureIdentifier = typename Superclass::CellFeatureIdentifier;
+  using CellFeatureCount = typename Superclass::CellFeatureIdentifier;
+  using PointType = typename Superclass::PointType;
+  using PointsContainer = typename Superclass::PointsContainer;
+  using UsingCellsContainer = typename Superclass::UsingCellsContainer;
+  using CellGeometry = typename Superclass::CellGeometry;
+  using ParametricCoordArrayType = typename Superclass::ParametricCoordArrayType;
+  using ShapeFunctionsArrayType = typename Superclass::ShapeFunctionsArrayType;
   itkStaticConstMacro(PointDimension, unsigned int, Superclass::PointDimension);
   itkStaticConstMacro(CellDimension, unsigned int, 2);
 
   /** Multivisitor type. */
-  typedef typename CellType::MultiVisitor MultiVisitor;
+  using MultiVisitor = typename CellType::MultiVisitor;
 
   //** */
-  typedef typename CellTraits::PointIdIterator              PointIdIterator;
-  typedef typename CellTraits::PointIdConstIterator         PointIdConstIterator;
-  typedef typename CellTraits::PointIdInternalIterator      PointIdInternalIterator;
-  typedef typename CellTraits::PointIdInternalConstIterator PointIdInternalConstIterator;
+  using PointIdIterator = typename CellTraits::PointIdIterator;
+  using PointIdConstIterator = typename CellTraits::PointIdConstIterator;
+  using PointIdInternalIterator = typename CellTraits::PointIdInternalIterator;
+  using PointIdInternalConstIterator = typename CellTraits::PointIdInternalConstIterator;
 
   /** QE types. */
-  typedef typename CellTraits::QuadEdgeType  QEType;
-  typedef typename QEType::OriginRefType     VertexRefType;
-  typedef typename QEType::DualOriginRefType FaceRefType;
-  typedef typename QEType::PrimalDataType    PrimalDataType;
-  typedef typename QEType::DualDataType      DualDataType;
-  typedef typename QEType::DualType          QEDual;
+  using QEType = typename CellTraits::QuadEdgeType;
+  using VertexRefType = typename QEType::OriginRefType;
+  using FaceRefType = typename QEType::DualOriginRefType;
+  using PrimalDataType = typename QEType::PrimalDataType;
+  using DualDataType = typename QEType::DualDataType;
+  using QEDual = typename QEType::DualType;
 
 public:
   /** Standard part of every itk Object. */

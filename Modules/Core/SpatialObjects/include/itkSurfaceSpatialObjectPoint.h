@@ -40,10 +40,10 @@ class ITK_TEMPLATE_EXPORT SurfaceSpatialObjectPoint:
 {
 public:
 
-  typedef SurfaceSpatialObjectPoint                  Self;
-  typedef SpatialObjectPoint< TPointDimension >      Superclass;
-  typedef Point< double, TPointDimension >           PointType;
-  typedef CovariantVector< double, TPointDimension > VectorType;
+  using Self = SurfaceSpatialObjectPoint;
+  using Superclass = SpatialObjectPoint< TPointDimension >;
+  using PointType = Point< double, TPointDimension >;
+  using VectorType = CovariantVector< double, TPointDimension >;
 
   /** Constructor */
   SurfaceSpatialObjectPoint();

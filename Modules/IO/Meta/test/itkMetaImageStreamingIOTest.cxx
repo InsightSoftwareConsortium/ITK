@@ -26,22 +26,22 @@
 int itkMetaImageStreamingIOTest(int ac, char* av[])
 {
   //  Image types are defined below.
-  typedef unsigned char       InputPixelType;
-  typedef unsigned char       OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
   const   unsigned int        Dimension = 3;
 
-  typedef itk::Image< InputPixelType,  Dimension >    InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-  typedef itk::MetaImageIO                         IOType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using IOType = itk::MetaImageIO;
 
-  typedef itk::MedianImageFilter< OutputImageType,
-                                            OutputImageType > FilterType;
+  using FilterType = itk::MedianImageFilter< OutputImageType,
+                                            OutputImageType >;
 
-  typedef itk::StreamingImageFilter< OutputImageType,
-                                            OutputImageType > StreamingFilterType;
+  using StreamingFilterType = itk::StreamingImageFilter< OutputImageType,
+                                            OutputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 

@@ -52,10 +52,10 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
 
   const   unsigned int ImageDimension = 2;
 
-  typedef unsigned char                             PixelType;
-  typedef itk::Image< PixelType, ImageDimension >   FixedImageType;
+  using PixelType = unsigned char;
+  using FixedImageType = itk::Image< PixelType, ImageDimension >;
 
-  typedef itk::ImageFileReader< FixedImageType > FixedReaderType;
+  using FixedReaderType = itk::ImageFileReader< FixedImageType >;
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName( argv[1] );
 
@@ -77,15 +77,15 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
 
   const unsigned int SpaceDimension = ImageDimension;
   const unsigned int SplineOrder = 3;
-  typedef double CoordinateRepType;
+  using CoordinateRepType = double;
 
-  typedef itk::BSplineTransform< CoordinateRepType, SpaceDimension,
-    SplineOrder > TransformType;
+  using TransformType = itk::BSplineTransform< CoordinateRepType, SpaceDimension,
+    SplineOrder >;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
 
-  typedef itk::BSplineTransformInitializer< TransformType, FixedImageType >
-    InitializerType;
+  using InitializerType =
+      itk::BSplineTransformInitializer< TransformType, FixedImageType >;
 
   InitializerType::Pointer transformInitializer = InitializerType::New();
 
@@ -112,7 +112,7 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
 
   std::vector<FixedImageType::PointType> controlPointLocations;
 
-  typedef TransformType::ImageType CoefficientImageType;
+  using CoefficientImageType = TransformType::ImageType;
   itk::ImageRegionIteratorWithIndex<CoefficientImageType> it(
     coefficientImages[0], coefficientImages[0]->GetLargestPossibleRegion() );
   for( it.GoToBegin(); !it.IsAtEnd(); ++it )
@@ -128,7 +128,7 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
   // physical space precisely the same way, the two sets of control points should
   // be the same.
 
-  typedef itk::PermuteAxesImageFilter<FixedImageType> PermuterType;
+  using PermuterType = itk::PermuteAxesImageFilter<FixedImageType>;
   PermuterType::Pointer permuter = PermuterType::New();
   PermuterType::PermuteOrderArrayType array;
 

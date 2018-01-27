@@ -266,8 +266,8 @@ ExtractSliceImageFilter< TInputImage, TOutputImage >
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
   // Define the iterators.
-  typedef ImageRegionIterator< TOutputImage >     OutputIterator;
-  typedef ImageRegionConstIterator< TInputImage > InputIterator;
+  using OutputIterator = ImageRegionIterator< TOutputImage >;
+  using InputIterator = ImageRegionConstIterator< TInputImage >;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
   InputIterator  inIt(inputPtr, inputRegionForThread);

@@ -113,7 +113,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   // Create a temporary image used while processing the image
   // Processing with doubles eliminates possible rounding artifacts which may
   // accumulate over repeated integer division
-  typedef Image< double, NDimensions > TTempImage;
+  using TTempImage = Image< double, NDimensions >;
   typename TTempImage::Pointer tempPtr = TTempImage::New();
 
   typename TTempImage::RegionType tempRegion;
@@ -129,10 +129,10 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
   typename TInputImage::IndexType startIndex = inputPtr->GetRequestedRegion().GetIndex();
 
   // Iterator Typedefs for this routine
-  typedef ImageRegionIterator< TTempImage >        TempIterator;
-  typedef ImageRegionReverseIterator< TTempImage > TempReverseIterator;
-  typedef ImageRegionConstIterator< TInputImage >  InputIterator;
-  typedef ImageRegionIterator< TOutputImage >      OutputIterator;
+  using TempIterator = ImageRegionIterator< TTempImage >;
+  using TempReverseIterator = ImageRegionReverseIterator< TTempImage >;
+  using InputIterator = ImageRegionConstIterator< TInputImage >;
+  using OutputIterator = ImageRegionIterator< TOutputImage >;
 
   // Create a progress reporter
   ProgressReporter progress(this, 0,
@@ -255,7 +255,7 @@ BinomialBlurImageFilter< TInputImage, TOutputImage >
 
   // Now, copy the temporary image to the output image. Note that the temp
   // buffer iterator walks a region defined by the output
-  typedef ImageRegionIterator< TOutputImage > OutputIterator;
+  using OutputIterator = ImageRegionIterator< TOutputImage >;
 
   OutputIterator outIt = OutputIterator( outputPtr,
                                          outputPtr->GetRequestedRegion() );

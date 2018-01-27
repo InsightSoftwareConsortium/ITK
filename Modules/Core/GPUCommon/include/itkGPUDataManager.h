@@ -47,15 +47,15 @@ class GPUDataManager : public Object   //DataObject//
 
 public:
 
-  typedef GPUDataManager           Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Self = GPUDataManager;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
   itkTypeMacro(GPUDataManager, Object);
 
-  typedef MutexLockHolder<SimpleFastMutexLock> MutexHolderType;
+  using MutexHolderType = MutexLockHolder<SimpleFastMutexLock>;
 
   /** total buffer size in bytes */
   void SetBufferSize( unsigned int num );

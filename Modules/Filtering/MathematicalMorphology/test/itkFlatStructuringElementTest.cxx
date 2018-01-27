@@ -29,7 +29,7 @@ int itkFlatStructuringElementTest(int, char *[])
   int scalarThickness = 2;
   bool radiusIsParametric = true;
 
-  typedef itk::FlatStructuringElement< 2 > SE2Type;
+  using SE2Type = itk::FlatStructuringElement< 2 >;
   SE2Type::RadiusType r2;
   r2.Fill( scalarRadius );
 
@@ -74,7 +74,7 @@ int itkFlatStructuringElementTest(int, char *[])
   k2.Print(std::cout);
   k2 = SE2Type::Polygon( r2, 5 );
 
-  typedef itk::FlatStructuringElement< 3 > SE3Type;
+  using SE3Type = itk::FlatStructuringElement< 3 >;
   SE3Type::RadiusType r3;
 
   SE3Type::Self result3 = SE3Type::Self();
@@ -136,7 +136,7 @@ int itkFlatStructuringElementTest(int, char *[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::FlatStructuringElement< 4 > SE4Type;
+  using SE4Type = itk::FlatStructuringElement< 4 >;
   SE4Type::RadiusType r4;
 
   SE4Type::Self result4 = SE4Type::Self();

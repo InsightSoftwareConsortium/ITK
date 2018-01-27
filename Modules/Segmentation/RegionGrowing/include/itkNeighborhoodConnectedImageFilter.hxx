@@ -125,8 +125,8 @@ NeighborhoodConnectedImageFilter< TInputImage, TOutputImage >
   outputImage->Allocate();
   outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
 
-  typedef NeighborhoodBinaryThresholdImageFunction< InputImageType >                   FunctionType;
-  typedef FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType > IteratorType;
+  using FunctionType = NeighborhoodBinaryThresholdImageFunction< InputImageType >;
+  using IteratorType = FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType >;
 
   typename FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage (inputImage);

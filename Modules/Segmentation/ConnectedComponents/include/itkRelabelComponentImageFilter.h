@@ -85,41 +85,41 @@ public:
   /**
    * Standard "Self" & Superclass typedef.
    */
-  typedef RelabelComponentImageFilter                     Self;
-  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
+  using Self = RelabelComponentImageFilter;
+  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
 
   /**
    * Types from the Superclass
    */
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  using InputImagePointer = typename Superclass::InputImagePointer;
 
   /**
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType          InputPixelType;
-  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /**
-   * Image typedef support
+   * Image type alias support
    */
-  typedef TInputImage                         InputImageType;
-  typedef TOutputImage                        OutputImageType;
-  typedef   typename TInputImage::IndexType   IndexType;
-  typedef   typename TInputImage::SizeType    SizeType;
-  typedef   typename TOutputImage::RegionType RegionType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using IndexType = typename TInputImage::IndexType;
+  using SizeType = typename TInputImage::SizeType;
+  using RegionType = typename TOutputImage::RegionType;
 
   /**
-   * Smart pointer typedef support
+   * Smart pointer type alias support
    */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**
    * Run-time type information (and related methods)
@@ -132,17 +132,17 @@ public:
   itkNewMacro(Self);
 
   /** Type used as identifier for the different component lables. */
-  typedef IdentifierType LabelType;
+  using LabelType = IdentifierType;
 
   /** Type used to count number of pixels in objects. */
-  typedef SizeValueType ObjectSizeType;
+  using ObjectSizeType = SizeValueType;
 
   /** Get the number of objects in the image. This information is only
    * valid after the filter has executed. */
   itkGetConstMacro(NumberOfObjects, LabelType);
 
-  typedef std::vector< ObjectSizeType >   ObjectSizeInPixelsContainerType;
-  typedef std::vector< float >            ObjectSizeInPhysicalUnitsContainerType;
+  using ObjectSizeInPixelsContainerType = std::vector< ObjectSizeType >;
+  using ObjectSizeInPhysicalUnitsContainerType = std::vector< float >;
 
   /** Get the original number of objects in the image before small
    * objects were discarded. This information is only valid after

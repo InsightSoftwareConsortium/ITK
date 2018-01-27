@@ -36,7 +36,7 @@ typename TOutputImageType::Pointer
 OpenCVImageBridge::IplImageToITKImage(const IplImage* in)
 {
   // Typedefs
-  typedef TOutputImageType                           ImageType;
+  using ImageType = TOutputImageType;
 
   //
   // Make sure input isn't null and output type is 2D or 1D
@@ -114,9 +114,9 @@ IplImage*
 OpenCVImageBridge::ITKImageToIplImage(const TInputImageType* in, bool force3Channels)
 {
   // Typedefs
-  typedef TInputImageType                                        ImageType;
-  typedef typename ImageType::PixelType                          InputPixelType;
-  typedef typename itk::NumericTraits<InputPixelType>::ValueType ValueType;
+  using ImageType = TInputImageType;
+  using InputPixelType = typename ImageType::PixelType;
+  using ValueType = typename itk::NumericTraits<InputPixelType>::ValueType;
 
   //
   // Make sure input isn't null, is 2D or 1D, and is scalar or RGB

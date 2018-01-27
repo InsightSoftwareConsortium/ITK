@@ -56,11 +56,11 @@ class ITK_TEMPLATE_EXPORT ImageToListSampleFilter:
   public ProcessObject
 {
 public:
-  /** Standard class typedefs */
-  typedef ImageToListSampleFilter    Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = ImageToListSampleFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToListSampleFilter, ProcessObject);
@@ -68,22 +68,21 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Image typedefs */
-  typedef TImage                           ImageType;
-  typedef typename ImageType::Pointer      ImagePointer;
-  typedef typename ImageType::ConstPointer ImageConstPointer;
-  typedef typename ImageType::PixelType    PixelType;
-  typedef typename MeasurementVectorPixelTraits<
-    PixelType >::MeasurementVectorType MeasurementVectorType;
+  /** Image type alias */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using MeasurementVectorType = typename MeasurementVectorPixelTraits<PixelType>::MeasurementVectorType;
 
-  /** Mask Image typedefs */
-  typedef TMaskImage                           MaskImageType;
-  typedef typename MaskImageType::Pointer      MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer MaskImageConstPointer;
-  typedef typename MaskImageType::PixelType    MaskPixelType;
+  /** Mask Image type alias */
+  using MaskImageType = TMaskImage;
+  using MaskImagePointer = typename MaskImageType::Pointer;
+  using MaskImageConstPointer = typename MaskImageType::ConstPointer;
+  using MaskPixelType = typename MaskImageType::PixelType;
 
   /** Type of the output list sample */
-  typedef ListSample< MeasurementVectorType > ListSampleType;
+  using ListSampleType = ListSample< MeasurementVectorType >;
 
   /** return the number of components of the input image */
   unsigned int GetMeasurementVectorSize() const;
@@ -117,8 +116,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Standard itk::ProcessObject subclass method. */
-  typedef DataObject::Pointer                           DataObjectPointer;
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointer = DataObject::Pointer;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

@@ -44,7 +44,7 @@ int itkVNLRoundProfileTest1( int, char *[] )
 {
   itk::TimeProbesCollectorBase  chronometer;
 
-  typedef std::vector< double >   ArrayType;
+  using ArrayType = std::vector< double >;
 
   ArrayType input;
   ArrayType output1;

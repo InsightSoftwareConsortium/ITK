@@ -189,16 +189,16 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
   const OffsetListType *addedList = &this->m_AddedOffsets[offset];
   const OffsetListType *removedList = &this->m_RemovedOffsets[offset];
 
-  typedef ImageLinearConstIteratorWithIndex< InputImageType > InputLineIteratorType;
+  using InputLineIteratorType = ImageLinearConstIteratorWithIndex< InputImageType >;
   InputLineIteratorType InLineIt(inputImage, outputRegionForThread);
   InLineIt.SetDirection(BestDirection);
   InLineIt.GoToBegin();
   IndexType LineStart;
   InLineIt.GoToBegin();
 
-  typedef typename std::vector< HistogramType > HistVecType;
+  using HistVecType = typename std::vector< HistogramType >;
   HistVecType HistVec(ImageDimension);
-  typedef typename std::vector< IndexType > IndexVecType;
+  using IndexVecType = typename std::vector< IndexType >;
   IndexVecType PrevLineStartVec(ImageDimension);
 
   // Steps is used to keep track of the order in which the line

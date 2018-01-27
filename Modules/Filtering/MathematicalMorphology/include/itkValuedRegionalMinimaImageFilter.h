@@ -60,17 +60,17 @@ class ValuedRegionalMinimaImageFilter:
                                     >
 {
 public:
-  typedef ValuedRegionalMinimaImageFilter Self;
+  using Self = ValuedRegionalMinimaImageFilter;
 
-  typedef ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
+  using Superclass = ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
                                             std::less< typename TInputImage::PixelType >,
-                                            std::less< typename TOutputImage::PixelType >  > Superclass;
+                                            std::less< typename TOutputImage::PixelType >  >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType InputImagePixelType;
+  using InputImageType = TInputImage;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

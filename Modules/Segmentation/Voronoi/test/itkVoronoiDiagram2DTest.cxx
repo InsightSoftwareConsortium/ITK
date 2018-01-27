@@ -34,14 +34,14 @@ int itkVoronoiDiagram2DTest( int argc, char* argv[] )
   const double width = 400;
   const unsigned int numberOfSeeds = 20;
 
-  typedef itk::VoronoiDiagram2D< double >          VoronoiDiagram;
-  typedef itk::VoronoiDiagram2DGenerator< double > VoronoiDiagramGenerator;
+  using VoronoiDiagram = itk::VoronoiDiagram2D< double >;
+  using VoronoiDiagramGenerator = itk::VoronoiDiagram2DGenerator< double >;
 
-  typedef VoronoiDiagram::PointType            PointType;
-  typedef VoronoiDiagram::CellType             CellType;
-  typedef VoronoiDiagram::CellAutoPointer      CellAutoPointer;
-  typedef CellType::PointIdIterator            PointIdIterator;
-  typedef VoronoiDiagram::NeighborIdIterator   NeighborIdIterator;
+  using PointType = VoronoiDiagram::PointType;
+  using CellType = VoronoiDiagram::CellType;
+  using CellAutoPointer = VoronoiDiagram::CellAutoPointer;
+  using PointIdIterator = CellType::PointIdIterator;
+  using NeighborIdIterator = VoronoiDiagram::NeighborIdIterator;
 
   VoronoiDiagram::Pointer voronoiDiagram = VoronoiDiagram::New();
 
@@ -96,7 +96,7 @@ int itkVoronoiDiagram2DTest( int argc, char* argv[] )
       << allVerts.Value()[1] << ")" << std::endl;
     }
 
-  typedef itk::MeshFileWriter< VoronoiDiagram > WriterType;
+  using WriterType = itk::MeshFileWriter< VoronoiDiagram >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( voronoiDiagram );
   writer->SetFileName( argv[1] );

@@ -360,18 +360,17 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
   m_TempField->SetBufferedRegion( field->GetBufferedRegion() );
   m_TempField->Allocate();
 
-  typedef typename DisplacementFieldType::PixelType      VectorType;
-  typedef typename VectorType::ValueType                 ScalarType;
-  typedef GaussianOperator< ScalarType, ImageDimension > OperatorType;
-  typedef VectorNeighborhoodOperatorImageFilter<
+  using VectorType = typename DisplacementFieldType::PixelType;
+  using ScalarType = typename VectorType::ValueType;
+  using OperatorType = GaussianOperator< ScalarType, ImageDimension >;
+  using SmootherType = VectorNeighborhoodOperatorImageFilter<
     DisplacementFieldType,
-    DisplacementFieldType >                              SmootherType;
+    DisplacementFieldType >;
 
   OperatorType *oper = new OperatorType;
   typename SmootherType::Pointer smoother = SmootherType::New();
 
-  typedef typename DisplacementFieldType::PixelContainerPointer
-  PixelContainerPointer;
+  using PixelContainerPointer = typename DisplacementFieldType::PixelContainerPointer;
   PixelContainerPointer swapPtr;
 
   // graft the output field onto the mini-pipeline
@@ -420,12 +419,12 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
   // The update buffer will be overwritten with new data.
   DisplacementFieldPointer field = this->GetUpdateBuffer();
 
-  typedef typename DisplacementFieldType::PixelType       VectorType;
-  typedef typename VectorType::ValueType                  ScalarType;
-  typedef GaussianOperator< ScalarType, ImageDimension >  OperatorType;
-  typedef VectorNeighborhoodOperatorImageFilter<
+  using VectorType = typename DisplacementFieldType::PixelType;
+  using ScalarType = typename VectorType::ValueType;
+  using OperatorType = GaussianOperator< ScalarType, ImageDimension >;
+  using SmootherType = VectorNeighborhoodOperatorImageFilter<
     DisplacementFieldType,
-    DisplacementFieldType >                               SmootherType;
+    DisplacementFieldType >;
 
   OperatorType opers[ImageDimension];
   typename SmootherType::Pointer smoothers[ImageDimension];

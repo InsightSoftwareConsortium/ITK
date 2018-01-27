@@ -25,10 +25,10 @@ int itkTriangleHelperTest( int argc, char* argv[] )
   (void) argv;
 
   const unsigned int Dimension = 3;
-  typedef double                                CoordRepType;
-  typedef itk::Point< CoordRepType, Dimension > PointType;
-  typedef PointType::VectorType                 VectorType;
-  typedef itk::TriangleHelper< PointType >      TriangleHelperType;
+  using CoordRepType = double;
+  using PointType = itk::Point< CoordRepType, Dimension >;
+  using VectorType = PointType::VectorType;
+  using TriangleHelperType = itk::TriangleHelper< PointType >;
 
   PointType Org;
   Org.Fill( 0. );

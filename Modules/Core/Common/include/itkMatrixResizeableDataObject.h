@@ -38,11 +38,11 @@ class ITK_TEMPLATE_EXPORT MatrixResizeableDataObject:public DataObject, public v
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef MatrixResizeableDataObject Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MatrixResizeableDataObject;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

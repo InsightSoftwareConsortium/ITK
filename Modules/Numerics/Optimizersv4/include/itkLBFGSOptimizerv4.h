@@ -86,15 +86,15 @@ class ITKOptimizersv4_EXPORT LBFGSOptimizerv4:
     public LBFGSOptimizerBasev4< vnl_lbfgs >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef LBFGSOptimizerv4                  Self;
-  typedef LBFGSOptimizerBasev4<vnl_lbfgs>   Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = LBFGSOptimizerv4;
+  using Superclass = LBFGSOptimizerBasev4<vnl_lbfgs>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef Superclass::MetricType     MetricType;
-  typedef Superclass::ParametersType ParametersType;
-  typedef Superclass::ScalesType     ScalesType;
+  using MetricType = Superclass::MetricType;
+  using ParametersType = Superclass::ParametersType;
+  using ScalesType = Superclass::ScalesType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -134,11 +134,11 @@ protected:
   ~LBFGSOptimizerv4() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** InternalParameters typedef. */
-  typedef vnl_vector< double >  InternalParametersType;
+  /** InternalParameters type alias. */
+  using InternalParametersType = vnl_vector< double >;
 
   /** Internal optimizer type. */
-  typedef   vnl_lbfgs           InternalOptimizerType;
+  using InternalOptimizerType = vnl_lbfgs;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizerv4);

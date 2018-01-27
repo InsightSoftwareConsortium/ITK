@@ -38,39 +38,39 @@ class ITK_TEMPLATE_EXPORT GPUFiniteDifferenceImageFilter :
   public GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUFiniteDifferenceImageFilter                                         Self;
-  typedef GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter > GPUSuperclass;
-  typedef TParentImageFilter                                                     CPUSuperclass;
-  typedef SmartPointer< Self >                                                   Pointer;
-  typedef SmartPointer< const Self >                                             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUFiniteDifferenceImageFilter;
+  using GPUSuperclass = GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
+  using CPUSuperclass = TParentImageFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(GPUFiniteDifferenceImageFilter, GPUInPlaceImageFilter);
 
   /** Input and output image types. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int, OutputImageType::ImageDimension);
 
   /** The pixel type of the output image will be used in computations. */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType  InputPixelType;
-  typedef OutputPixelType                  PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using PixelType = OutputPixelType;
 
   /** Extract value type in case the pixel is of vector type */
-  typedef typename NumericTraits< OutputPixelType >::ValueType OutputPixelValueType;
-  typedef typename NumericTraits< InputPixelType >::ValueType  InputPixelValueType;
+  using OutputPixelValueType = typename NumericTraits< OutputPixelType >::ValueType;
+  using InputPixelValueType = typename NumericTraits< InputPixelType >::ValueType;
 
   /** The value type of the time step.  This is distinct from PixelType
    * because PixelType may often be a vector value, while the TimeStep is
    * a scalar value. */
-  typedef typename GPUFiniteDifferenceFunction< TOutputImage >::DifferenceFunctionType FiniteDifferenceFunctionType;
-  typedef typename FiniteDifferenceFunctionType::TimeStepType           TimeStepType;
-  typedef typename FiniteDifferenceFunctionType::RadiusType             RadiusType;
-  typedef typename FiniteDifferenceFunctionType::NeighborhoodScalesType NeighborhoodScalesType;
+  using FiniteDifferenceFunctionType = typename GPUFiniteDifferenceFunction< TOutputImage >::DifferenceFunctionType;
+  using TimeStepType = typename FiniteDifferenceFunctionType::TimeStepType;
+  using RadiusType = typename FiniteDifferenceFunctionType::RadiusType;
+  using NeighborhoodScalesType = typename FiniteDifferenceFunctionType::NeighborhoodScalesType;
 
 /** This method returns a pointer to a FiniteDifferenceFunction object that
   * will be used by the filter to calculate updates at image pixels.

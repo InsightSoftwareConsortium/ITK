@@ -72,21 +72,21 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TInputImage;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
 
-  typedef TOutputImage                          OutputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** Standard class typedefs. */
-  typedef SignedMaurerDistanceMapImageFilter  Self;
-  typedef ImageToImageFilter<
+  /** Standard class type aliases. */
+  using Self = SignedMaurerDistanceMapImageFilter;
+  using Superclass = ImageToImageFilter<
     InputImageType,
-    OutputImageType >                         Superclass;
+    OutputImageType >;
 
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -95,26 +95,26 @@ public:
   itkTypeMacro(SignedMaurerDistanceMapImageFilter,
                ImageToImageFilter);
 
-  typedef typename InputImageType::RegionType   InputRegionType;
-  typedef typename OutputImageType::RegionType  OutputRegionType;
+  using InputRegionType = typename InputImageType::RegionType;
+  using OutputRegionType = typename OutputImageType::RegionType;
 
-  /** Image typedef support. */
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  /** Image type alias support */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-  typedef typename InputImageType::SizeType       InputSizeType;
-  typedef typename InputImageType::SizeValueType  InputSizeValueType;
-  typedef typename OutputImageType::SizeType      OutputSizeType;
-  typedef typename OutputImageType::SizeValueType OutputSizeValueType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using InputSizeValueType = typename InputImageType::SizeValueType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using OutputSizeValueType = typename OutputImageType::SizeValueType;
 
-  typedef typename InputImageType::IndexType        InputIndexType;
-  typedef typename InputImageType::IndexValueType   InputIndexValueType;
-  typedef typename OutputImageType::IndexType       OutputIndexType;
-  typedef typename OutputImageType::IndexValueType  OutputIndexValueType;
+  using InputIndexType = typename InputImageType::IndexType;
+  using InputIndexValueType = typename InputImageType::IndexValueType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using OutputIndexValueType = typename OutputImageType::IndexValueType;
 
-  typedef typename InputImageType::SpacingType  InputSpacingType;
-  typedef typename OutputImageType::SpacingType OutputSpacingType;
-  typedef typename OutputImageType::RegionType  OutputImageRegionType;
+  using InputSpacingType = typename InputImageType::SpacingType;
+  using OutputSpacingType = typename OutputImageType::SpacingType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Set if the distance should be squared. */
   itkSetMacro(SquaredDistance, bool);

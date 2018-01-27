@@ -35,27 +35,27 @@ class ITKOptimizers_EXPORT SingleValuedCostFunction:
   public CostFunction
 {
 public:
-  /** Standard class typedefs. */
-  typedef SingleValuedCostFunction   Self;
-  typedef CostFunction               Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SingleValuedCostFunction;
+  using Superclass = CostFunction;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SingleValuedCostFunction, CostFunction);
 
-  /**  MeasureType typedef.
+  /**  MeasureType type alias.
    *  It defines a type used to return the cost function value. */
-  typedef double MeasureType;
+  using MeasureType = double;
 
-  /**  ParametersType typedef.
+  /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  typedef Superclass::ParametersType      ParametersType;
-  typedef Superclass::ParametersValueType ParametersValueType;
+  using ParametersType = Superclass::ParametersType;
+  using ParametersValueType = Superclass::ParametersValueType;
 
-  /** DerivativeType typedef.
+  /** DerivativeType type alias.
    *  It defines a type used to return the cost function derivative.  */
-  typedef Array< ParametersValueType > DerivativeType;
+  using DerivativeType = Array< ParametersValueType >;
 
   /** This method returns the value of the cost function corresponding
     * to the specified parameters.    */

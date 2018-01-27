@@ -35,21 +35,21 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   const unsigned int Dimension = 3;
 
   // Fixed Image Type
-  typedef itk::Image<unsigned char, Dimension>      FixedImageType;
+  using FixedImageType = itk::Image<unsigned char, Dimension>;
 
   // Moving Image Type
-  typedef itk::Image<unsigned char, Dimension>       MovingImageType;
+  using MovingImageType = itk::Image<unsigned char, Dimension>;
 
   // Size Type
-  typedef FixedImageType::SizeType                 SizeType;
-  typedef FixedImageType::SpacingType              SpacingType;
-  typedef FixedImageType::PointType                PointType;
-  typedef FixedImageType::IndexType                IndexType;
-  typedef FixedImageType::RegionType               RegionType;
+  using SizeType = FixedImageType::SizeType;
+  using SpacingType = FixedImageType::SpacingType;
+  using PointType = FixedImageType::PointType;
+  using IndexType = FixedImageType::IndexType;
+  using RegionType = FixedImageType::RegionType;
 
 
   // Transform Type
-  typedef itk::VersorRigid3DTransform< double >     TransformType;
+  using TransformType = itk::VersorRigid3DTransform< double >;
 
   SizeType size;
   size[0] = 100;
@@ -112,7 +112,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   internalRegion.SetSize(  internalSize  );
   internalRegion.SetIndex( internalIndex );
 
-  typedef itk::ImageRegionIterator< FixedImageType > FixedIterator;
+  using FixedIterator = itk::ImageRegionIterator< FixedImageType >;
   FixedIterator fi( fixedImage, internalRegion );
 
   fi.GoToBegin();
@@ -136,7 +136,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   internalRegion.SetIndex( internalIndex );
 
 
-  typedef itk::ImageRegionIterator< MovingImageType > MovingIterator;
+  using MovingIterator = itk::ImageRegionIterator< MovingImageType >;
   MovingIterator mi( movingImage, internalRegion );
 
   mi.GoToBegin();
@@ -150,10 +150,9 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
   transform->SetIdentity();
 
 
-  typedef itk::CenteredVersorTransformInitializer<
+  using InitializerType = itk::CenteredVersorTransformInitializer<
                                   FixedImageType,
-                                  MovingImageType >
-                                            InitializerType;
+                                  MovingImageType >;
 
   InitializerType::Pointer initializer = InitializerType::New();
 

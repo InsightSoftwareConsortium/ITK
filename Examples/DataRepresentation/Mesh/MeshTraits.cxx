@@ -106,17 +106,17 @@ int main(int, char *[])
   const unsigned int PointDimension = 3;
   const unsigned int MaxTopologicalDimension = 2;
 
-  typedef itk::Vector<double,4>                  PixelType;
-  typedef itk::Matrix<double,4,3>                CellDataType;
+  using PixelType = itk::Vector<double,4>;
+  using CellDataType = itk::Matrix<double,4,3>;
 
-  typedef double CoordinateType;
-  typedef double InterpolationWeightType;
+  using CoordinateType = double;
+  using InterpolationWeightType = double;
 
-  typedef itk::DefaultStaticMeshTraits<
+  using MeshTraits = itk::DefaultStaticMeshTraits<
             PixelType, PointDimension, MaxTopologicalDimension,
-            CoordinateType, InterpolationWeightType, CellDataType > MeshTraits;
+            CoordinateType, InterpolationWeightType, CellDataType >;
 
-  typedef itk::Mesh< PixelType, PointDimension, MeshTraits > MeshType;
+  using MeshType = itk::Mesh< PixelType, PointDimension, MeshTraits >;
   // Software Guide : EndCodeSnippet
 
 
@@ -130,8 +130,8 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::CellType                CellType;
-  typedef itk::LineCell< CellType >         LineType;
+  using CellType = MeshType::CellType;
+  using LineType = itk::LineCell< CellType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -152,7 +152,7 @@ int main(int, char *[])
   // Software Guide : BeginCodeSnippet
   MeshType::Pointer  mesh = MeshType::New();
 
-  typedef MeshType::PointType PointType;
+  using PointType = MeshType::PointType;
   PointType point;
 
   const unsigned int numberOfPoints = 10;
@@ -249,7 +249,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::CellDataContainer::ConstIterator CellDataIterator;
+  using CellDataIterator = MeshType::CellDataContainer::ConstIterator;
   // Software Guide : EndCodeSnippet
 
 

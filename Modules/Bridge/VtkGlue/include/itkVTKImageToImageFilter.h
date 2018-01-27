@@ -47,11 +47,11 @@ template <typename TOutputImage >
 class ITK_TEMPLATE_EXPORT VTKImageToImageFilter : public VTKImageImport< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VTKImageToImageFilter             Self;
-  typedef VTKImageImport< TOutputImage >    Superclass;
-  typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VTKImageToImageFilter;
+  using Superclass = VTKImageImport< TOutputImage >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,9 +59,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageToImageFilter, VTKImageImport);
 
-  /** Some typedefs. */
-  typedef TOutputImage                              OutputImageType;
-  typedef typename    OutputImageType::ConstPointer OutputImagePointer;
+  /** Some type alias. */
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename    OutputImageType::ConstPointer;
 
   /** Set the input in the form of a vtkImageData */
   void SetInput( vtkImageData * );
@@ -85,7 +85,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageToImageFilter);
 
-  typedef vtkSmartPointer<vtkImageExport> ImageExportPointer;
+  using ImageExportPointer = vtkSmartPointer<vtkImageExport>;
   ImageExportPointer m_Exporter;
 
 };

@@ -35,11 +35,11 @@ int itkDCMTKRGBImageIOTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::RGBPixel<unsigned char>            PixelType;
-  typedef itk::Image< PixelType, 2 >              InputImageType;
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using PixelType = itk::RGBPixel<unsigned char>;
+  using InputImageType = itk::Image< PixelType, 2 >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef itk::DCMTKImageIO                       ImageIOType;
+  using ImageIOType = itk::DCMTKImageIO;
   ImageIOType::Pointer dcmtkImageIO = ImageIOType::New();
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -57,8 +57,8 @@ int itkDCMTKRGBImageIOTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< PixelType, 2 >              WriteImageType;
-  typedef itk::ImageFileWriter< WriteImageType >  Writer2Type;
+  using WriteImageType = itk::Image< PixelType, 2 >;
+  using Writer2Type = itk::ImageFileWriter< WriteImageType >;
   Writer2Type::Pointer writer2 = Writer2Type::New();
   writer2->SetFileName( av[2] );
   writer2->SetInput( reader->GetOutput() );

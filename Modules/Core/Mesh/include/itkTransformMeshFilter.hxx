@@ -56,11 +56,11 @@ void
 TransformMeshFilter< TInputMesh, TOutputMesh, TTransform >
 ::GenerateData(void)
 {
-  typedef typename TInputMesh::PointsContainer  InputPointsContainer;
-  typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
+  using InputPointsContainer = typename TInputMesh::PointsContainer;
+  using OutputPointsContainer = typename TOutputMesh::PointsContainer;
 
-  typedef typename TInputMesh::PointsContainerConstPointer InputPointsContainerConstPointer;
-  typedef typename TOutputMesh::PointsContainerPointer     OutputPointsContainerPointer;
+  using InputPointsContainerConstPointer = typename TInputMesh::PointsContainerConstPointer;
+  using OutputPointsContainerPointer = typename TOutputMesh::PointsContainerPointer;
 
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();

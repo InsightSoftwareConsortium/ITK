@@ -82,25 +82,25 @@ class ITK_TEMPLATE_EXPORT MorphologicalWatershedFromMarkersImageFilter:
   public ImageToImageFilter< TInputImage, TLabelImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MorphologicalWatershedFromMarkersImageFilter   Self;
-  typedef ImageToImageFilter< TInputImage, TLabelImage > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MorphologicalWatershedFromMarkersImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TLabelImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                           InputImageType;
-  typedef TLabelImage                           LabelImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
-  typedef typename LabelImageType::Pointer      LabelImagePointer;
-  typedef typename LabelImageType::ConstPointer LabelImageConstPointer;
-  typedef typename LabelImageType::RegionType   LabelImageRegionType;
-  typedef typename LabelImageType::PixelType    LabelImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using LabelImageType = TLabelImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using LabelImagePointer = typename LabelImageType::Pointer;
+  using LabelImageConstPointer = typename LabelImageType::ConstPointer;
+  using LabelImageRegionType = typename LabelImageType::RegionType;
+  using LabelImagePixelType = typename LabelImageType::PixelType;
 
-  typedef typename LabelImageType::IndexType IndexType;
+  using IndexType = typename LabelImageType::IndexType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int,

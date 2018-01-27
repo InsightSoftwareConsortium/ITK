@@ -66,14 +66,14 @@ template< typename T >
 class ITK_TEMPLATE_EXPORT SimpleDataObjectDecorator:public DataObject
 {
 public:
-  /** Standard typedefs. */
-  typedef SimpleDataObjectDecorator  Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard type alias. */
+  using Self = SimpleDataObjectDecorator;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Typedef for the component type (object being decorated) */
-  typedef T ComponentType;
+  using ComponentType = T;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

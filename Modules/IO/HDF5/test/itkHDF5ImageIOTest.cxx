@@ -28,7 +28,7 @@ int HDF5ReadWriteTest(const char *fileName)
 {
   std::cout << fileName << std::endl;
   int success(EXIT_SUCCESS);
-  typedef typename itk::Image<TPixel,3> ImageType;
+  using ImageType = typename itk::Image<TPixel,3>;
   typename ImageType::RegionType imageRegion;
   typename ImageType::SizeType size;
   typename ImageType::IndexType index;

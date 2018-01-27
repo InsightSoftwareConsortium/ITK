@@ -29,9 +29,9 @@ void GPUImageDataManager< ImageType >::SetImagePointer( typename ImageType::Poin
 {
   m_Image = img.GetPointer();
 
-  typedef typename ImageType::RegionType RegionType;
-  typedef typename ImageType::IndexType  IndexType;
-  typedef typename ImageType::SizeType   SizeType;
+  using RegionType = typename ImageType::RegionType;
+  using IndexType = typename ImageType::IndexType;
+  using SizeType = typename ImageType::SizeType;
 
   RegionType region = m_Image->GetBufferedRegion();
   IndexType  index  = region.GetIndex();

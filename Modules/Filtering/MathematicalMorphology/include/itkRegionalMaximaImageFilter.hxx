@@ -119,7 +119,7 @@ RegionalMaximaImageFilter< TInputImage, TOutputImage >
     }
   else
     {
-    typedef BinaryThresholdImageFilter< InputImageType, OutputImageType > ThresholdType;
+    using ThresholdType = BinaryThresholdImageFilter< InputImageType, OutputImageType >;
     typename ThresholdType::Pointer thresholder = ThresholdType::New();
     thresholder->SetInput( regionalMax->GetOutput() );
     thresholder->SetUpperThreshold( regionalMax->GetMarkerValue() );

@@ -212,7 +212,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
        outputRegionForThread);
     it.GoToBegin();
 
-    typedef ImageRegionConstIterator< GradientImageType > GradientIteratorType;
+    using GradientIteratorType = ImageRegionConstIterator< GradientImageType >;
     std::vector< GradientIteratorType * > gradientItContainer;
 
     for ( unsigned int i = 1; i <= m_NumberOfGradientDirections; i++ )
@@ -318,10 +318,8 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
   // The gradients are specified in a single multi-component image
   else if ( m_GradientImageTypeEnumeration == GradientIsInASingleImage )
     {
-    typedef ImageRegionConstIteratorWithIndex< GradientImagesType >
-      GradientIteratorType;
-    typedef typename GradientImagesType::PixelType
-      GradientVectorType;
+    using GradientIteratorType = ImageRegionConstIteratorWithIndex<GradientImagesType>;
+    using GradientVectorType = typename GradientImagesType::PixelType;
     typename GradientImagesType::Pointer gradientImagePointer = nullptr;
 
     // Would have liked a dynamic_cast here, but seems SGI doesn't like it

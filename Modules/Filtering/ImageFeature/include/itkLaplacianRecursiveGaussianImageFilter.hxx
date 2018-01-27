@@ -173,12 +173,12 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   //outputImage->Allocate(); let the CasterImageFilter allocate the image
 
   //  Auxiliary image for accumulating the second-order derivatives
-  typedef Image< InternalRealType, itkGetStaticConstMacro(ImageDimension) > CumulativeImageType;
-  typedef typename CumulativeImageType::Pointer CumulativeImagePointer;
+  using CumulativeImageType = Image< InternalRealType, itkGetStaticConstMacro(ImageDimension) >;
+  using CumulativeImagePointer = typename CumulativeImageType::Pointer;
 
   // The CastImageFilter is used because it is multithreaded and
   // it may perform no operation if the two images types are the same
-  typedef itk::CastImageFilter< CumulativeImageType, OutputImageType > CastFilterType;
+  using CastFilterType = itk::CastImageFilter< CumulativeImageType, OutputImageType >;
   typename CastFilterType::Pointer caster = CastFilterType::New();
     caster->SetNumberOfThreads(this->GetNumberOfThreads());
 
@@ -200,7 +200,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 
   // allocate the add and scale image filter just for the scope of
   // this function!
-  typedef itk::BinaryFunctorImageFilter< CumulativeImageType, RealImageType, CumulativeImageType, AddMultConstFunctor > AddFilterType;
+  using AddFilterType = itk::BinaryFunctorImageFilter< CumulativeImageType, RealImageType, CumulativeImageType, AddMultConstFunctor >;
   typename AddFilterType::Pointer addFilter = AddFilterType::New();
   addFilter->SetNumberOfThreads(this->GetNumberOfThreads());
 

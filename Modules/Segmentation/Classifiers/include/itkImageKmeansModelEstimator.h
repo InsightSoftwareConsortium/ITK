@@ -132,13 +132,13 @@ class ITK_TEMPLATE_EXPORT ImageKmeansModelEstimator:
   public ImageModelEstimatorBase< TInputImage, TMembershipFunction >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageKmeansModelEstimator Self;
-  typedef ImageModelEstimatorBase< TInputImage, TMembershipFunction >
-  Superclass;
+  /** Standard class type aliases. */
+  using Self = ImageKmeansModelEstimator;
+  using Superclass =
+      ImageModelEstimatorBase< TInputImage, TMembershipFunction >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -147,30 +147,30 @@ public:
   itkTypeMacro(ImageKmeansModelEstimator, ImageModelEstimatorBase);
 
   /** Type definition for the input image. */
-  typedef TInputImage                        InputImageType;
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
   /** Type definition for the vector associated with
    * input image pixel type. */
-  typedef typename TInputImage::PixelType::VectorType InputImageVectorType;
+  using InputImageVectorType = typename TInputImage::PixelType::VectorType;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType InputImagePixelType;
+  using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Type definition for the input image iterator type. */
-  typedef ImageRegionIterator< TInputImage > InputImageIterator;
+  using InputImageIterator = ImageRegionIterator< TInputImage >;
 
-  typedef ImageRegionConstIterator< TInputImage > InputImageConstIterator;
+  using InputImageConstIterator = ImageRegionConstIterator< TInputImage >;
 
   /** Type definitions for the membership function . */
-  typedef typename TMembershipFunction::Pointer MembershipFunctionPointer;
+  using MembershipFunctionPointer = typename TMembershipFunction::Pointer;
 
   /** Type definition for a double matrix. */
-  typedef vnl_matrix< double > CodebookMatrixOfDoubleType;
+  using CodebookMatrixOfDoubleType = vnl_matrix< double >;
 
   /** Type definition for an integer vector. */
-  typedef vnl_matrix< int > CodebookMatrixOfIntegerType;
+  using CodebookMatrixOfIntegerType = vnl_matrix< int >;
 
   /** Set the cluster centers. */
   void SetCodebook(CodebookMatrixOfDoubleType InCodebook);
@@ -235,10 +235,10 @@ private:
 
   void EstimateKmeansModelParameters();
 
-  typedef typename TInputImage::SizeType ImageSizeType;
+  using ImageSizeType = typename TInputImage::SizeType;
 
   /** Set up the vector to store the image  data. */
-  typedef typename TInputImage::PixelType::VectorType InputPixelVectorType;
+  using InputPixelVectorType = typename TInputImage::PixelType::VectorType;
 
   void Reallocate(int oldSize, int newSize);
 

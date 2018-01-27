@@ -36,23 +36,22 @@ int itkTobogganImageFilterTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                                 PixelType;
-  typedef float                                         FloatPixelType;
-  typedef itk::Image< PixelType, Dimension >            InputImageType;
-  typedef itk::Image< FloatPixelType, Dimension >       FloatImageType;
-  typedef itk::Image< PixelType, Dimension >            OutputImageType;
-  typedef itk::Image< itk::IdentifierType, Dimension >  LongImageType;
+  using PixelType = unsigned char;
+  using FloatPixelType = float;
+  using InputImageType = itk::Image< PixelType, Dimension >;
+  using FloatImageType = itk::Image< FloatPixelType, Dimension >;
+  using OutputImageType = itk::Image< PixelType, Dimension >;
+  using LongImageType = itk::Image< itk::IdentifierType, Dimension >;
 
 
   // Create a pipeline
-  typedef itk::CastImageFilter< InputImageType, FloatImageType >
-                                           InputCastFilterType;
-  typedef itk::TobogganImageFilter< FloatImageType >
-                                           FilterType;
-  typedef itk::CastImageFilter< LongImageType, OutputImageType >
-                                           OutputCastFilterType;
-  typedef itk::GradientMagnitudeRecursiveGaussianImageFilter< FloatImageType, FloatImageType >
-                                           GMGaussianType;
+  using InputCastFilterType =
+      itk::CastImageFilter< InputImageType, FloatImageType >;
+  using FilterType = itk::TobogganImageFilter<FloatImageType>;
+  using OutputCastFilterType =
+      itk::CastImageFilter< LongImageType, OutputImageType >;
+  using GMGaussianType =
+      itk::GradientMagnitudeRecursiveGaussianImageFilter< FloatImageType, FloatImageType >;
 
 
   itk::ImageFileReader< InputImageType >::Pointer reader =
@@ -88,7 +87,7 @@ int itkTobogganImageFilterTest( int argc, char* argv[] )
   TRY_EXPECT_NO_EXCEPTION( outputCaster->Update() );
 
   // Write the output
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( outputCaster->GetOutput() );
   writer->SetFileName( argv[2] );

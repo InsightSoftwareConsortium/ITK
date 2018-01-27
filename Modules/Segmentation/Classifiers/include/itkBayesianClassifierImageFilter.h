@@ -84,14 +84,14 @@ class ITK_TEMPLATE_EXPORT BayesianClassifierImageFilter:
                                TInputVectorImage ::ImageDimension > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BayesianClassifierImageFilter Self;
-  typedef ImageToImageFilter<
+  /** Standard class type aliases. */
+  using Self = BayesianClassifierImageFilter;
+  using Superclass = ImageToImageFilter<
     TInputVectorImage,
-    Image< TLabelsType, TInputVectorImage::ImageDimension > > Superclass;
+    Image< TLabelsType, TInputVectorImage::ImageDimension > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -100,70 +100,70 @@ public:
   itkTypeMacro(BayesianClassifierImageFilter, ImageToImageFilter);
 
   /** Input and Output image types. */
-  typedef typename Superclass::InputImageType InputImageType;
+  using InputImageType = typename Superclass::InputImageType;
 
   /** Dimension of the input image. */
   itkStaticConstMacro(Dimension, unsigned int,
                        InputImageType ::ImageDimension);
 
-  typedef Image< TLabelsType,
-                 itkGetStaticConstMacro(Dimension) >        OutputImageType;
-  typedef typename InputImageType::ConstPointer InputImagePointer;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename InputImageType::RegionType   ImageRegionType;
+  using OutputImageType = Image< TLabelsType,
+                 itkGetStaticConstMacro(Dimension) >;
+  using InputImagePointer = typename InputImageType::ConstPointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using ImageRegionType = typename InputImageType::RegionType;
 
   /** Input and Output image iterators. */
-  typedef ImageRegionConstIterator< InputImageType > InputImageIteratorType;
-  typedef ImageRegionIterator< OutputImageType >     OutputImageIteratorType;
+  using InputImageIteratorType = ImageRegionConstIterator< InputImageType >;
+  using OutputImageIteratorType = ImageRegionIterator< OutputImageType >;
 
   /** Pixel types. */
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
   /** Image Type and Pixel type for the images representing the Prior
    * probability of a pixel belonging to  a particular class. This image has
    * arrays as pixels, the number of elements in the array is the same as the
    * number of classes to be used. */
-  typedef VectorImage< TPriorsPrecisionType,
-                       itkGetStaticConstMacro(Dimension) >                  PriorsImageType;
-  typedef typename PriorsImageType::PixelType         PriorsPixelType;
-  typedef typename PriorsImageType::Pointer           PriorsImagePointer;
-  typedef ImageRegionConstIterator< PriorsImageType > PriorsImageIteratorType;
+  using PriorsImageType = VectorImage< TPriorsPrecisionType,
+                       itkGetStaticConstMacro(Dimension) >;
+  using PriorsPixelType = typename PriorsImageType::PixelType;
+  using PriorsImagePointer = typename PriorsImageType::Pointer;
+  using PriorsImageIteratorType = ImageRegionConstIterator< PriorsImageType >;
 
   /** Image Type and Pixel type for the images representing the membership of a
    *  pixel to a particular class. This image has arrays as pixels, the number of
    *  elements in the array is the same as the number of classes to be used. */
-  typedef TInputVectorImage                               MembershipImageType;
-  typedef typename MembershipImageType::PixelType         MembershipPixelType;
-  typedef typename MembershipImageType::Pointer           MembershipImagePointer;
-  typedef ImageRegionConstIterator< MembershipImageType > MembershipImageIteratorType;
+  using MembershipImageType = TInputVectorImage;
+  using MembershipPixelType = typename MembershipImageType::PixelType;
+  using MembershipImagePointer = typename MembershipImageType::Pointer;
+  using MembershipImageIteratorType = ImageRegionConstIterator< MembershipImageType >;
 
   /** Image Type and Pixel type for the images representing the Posterior
    * probability of a pixel belonging to a particular class. This image has
    * arrays as pixels, the number of elements in the array is the same as the
    * number of classes to be used. */
-  typedef VectorImage< TPosteriorsPrecisionType,
-                       itkGetStaticConstMacro(Dimension) >                  PosteriorsImageType;
-  typedef typename PosteriorsImageType::PixelType    PosteriorsPixelType;
-  typedef typename PosteriorsImageType::Pointer      PosteriorsImagePointer;
-  typedef ImageRegionIterator< PosteriorsImageType > PosteriorsImageIteratorType;
+  using PosteriorsImageType = VectorImage< TPosteriorsPrecisionType,
+                       itkGetStaticConstMacro(Dimension) >;
+  using PosteriorsPixelType = typename PosteriorsImageType::PixelType;
+  using PosteriorsImagePointer = typename PosteriorsImageType::Pointer;
+  using PosteriorsImageIteratorType = ImageRegionIterator< PosteriorsImageType >;
 
   /** Decision rule to use for defining the label. */
-  typedef Statistics::MaximumDecisionRule DecisionRuleType;
-  typedef DecisionRuleType::Pointer       DecisionRulePointer;
+  using DecisionRuleType = Statistics::MaximumDecisionRule;
+  using DecisionRulePointer = DecisionRuleType::Pointer;
 
-  typedef typename Superclass::DataObjectPointer DataObjectPointer;
+  using DataObjectPointer = typename Superclass::DataObjectPointer;
 
   /** An image from a single component of the Posterior. */
-  typedef itk::Image< TPosteriorsPrecisionType,
-                      itkGetStaticConstMacro(Dimension) >                ExtractedComponentImageType;
+  using ExtractedComponentImageType = itk::Image< TPosteriorsPrecisionType,
+                      itkGetStaticConstMacro(Dimension) >;
 
   /** Optional Smoothing filter that will be applied to the Posteriors. */
-  typedef ImageToImageFilter<
+  using SmoothingFilterType = ImageToImageFilter<
     ExtractedComponentImageType,
-    ExtractedComponentImageType  >         SmoothingFilterType;
+    ExtractedComponentImageType  >;
 
-  typedef typename SmoothingFilterType::Pointer SmoothingFilterPointer;
+  using SmoothingFilterPointer = typename SmoothingFilterType::Pointer;
 
   /** Set/Get the smoothing filter that may optionally be applied to the
    *  posterior image. */
@@ -178,7 +178,7 @@ public:
   itkGetConstMacro(NumberOfSmoothingIterations, unsigned int);
 
   /** This is overloaded to create the Posteriors output image. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

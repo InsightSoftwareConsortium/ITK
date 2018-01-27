@@ -34,9 +34,9 @@ template<typename TOptimizer>
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate                                          Self;
-  typedef itk::Command                                                    Superclass;
-  typedef itk::SmartPointer<Self>                                         Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -79,11 +79,11 @@ int ImageRegistration( int itkNotUsed( argc ), char *argv[] )
   const unsigned int ImageDimension = TDimension;
 
 
-  typedef float                                 PixelType;
-  typedef itk::Image<PixelType, ImageDimension> FixedImageType;
-  typedef itk::Image<PixelType, ImageDimension> MovingImageType;
+  using PixelType = float;
+  using FixedImageType = itk::Image<PixelType, ImageDimension>;
+  using MovingImageType = itk::Image<PixelType, ImageDimension>;
 
-  typedef itk::ImageFileReader<FixedImageType> ImageReaderType;
+  using ImageReaderType = itk::ImageFileReader<FixedImageType>;
 
   typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName( argv[2] );
@@ -100,14 +100,14 @@ int ImageRegistration( int itkNotUsed( argc ), char *argv[] )
   movingImage->DisconnectPipeline();
 
   // Set up the centered transform initializer
-  typedef itk::Euler2DTransform<double> TransformType;
+  using TransformType = itk::Euler2DTransform<double>;
   typename TransformType::Pointer initialTransform = TransformType::New();
 
 
-  typedef itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType> MetricType;
+  using MetricType = itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType>;
   typename MetricType::Pointer metric = MetricType::New();
 
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType> RegistrationType;
+  using RegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
   typename RegistrationType::Pointer registration = RegistrationType::New();
 
   registration->SetFixedImage( fixedImage );
@@ -116,7 +116,7 @@ int ImageRegistration( int itkNotUsed( argc ), char *argv[] )
   registration->SetMovingInitialTransform( initialTransform );
   registration->SetNumberOfLevels(1);
 
-  typedef itk::ConjugateGradientLineSearchOptimizerv4 Optimizerv4Type;
+  using Optimizerv4Type = itk::ConjugateGradientLineSearchOptimizerv4;
   typename Optimizerv4Type::Pointer optimizer = Optimizerv4Type::New();
 
   optimizer->SetLearningRate( 1.0 );
@@ -130,7 +130,7 @@ int ImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   registration->SetOptimizer(optimizer);
 
-  typedef CommandIterationUpdate<Optimizerv4Type> CommandType;
+  using CommandType = CommandIterationUpdate<Optimizerv4Type>;
   typename CommandType::Pointer observer = CommandType::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 

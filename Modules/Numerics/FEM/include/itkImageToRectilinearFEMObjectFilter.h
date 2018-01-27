@@ -43,11 +43,11 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT ImageToRectilinearFEMObjectFilter : public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToRectilinearFEMObjectFilter Self;
-  typedef ProcessObject                     Superclass;
-  typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageToRectilinearFEMObjectFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,27 +58,27 @@ public:
   itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
 
   /** Typedefs for Input Image */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      ImagePointer;
-  typedef typename InputImageType::ConstPointer ImageConstPointer;
-  typedef typename InputImageType::RegionType   ImageRegionType;
-  typedef typename InputImageType::SizeType     ImageSizeType;
-  typedef typename InputImageType::PointType    ImagePointType;
-  typedef typename InputImageType::IndexType    ImageIndexType;
+  using InputImageType = TInputImage;
+  using ImagePointer = typename InputImageType::Pointer;
+  using ImageConstPointer = typename InputImageType::ConstPointer;
+  using ImageRegionType = typename InputImageType::RegionType;
+  using ImageSizeType = typename InputImageType::SizeType;
+  using ImagePointType = typename InputImageType::PointType;
+  using ImageIndexType = typename InputImageType::IndexType;
 
   /** Typedefs for Output FEMObject */
-  typedef typename itk::fem::FEMObject<NDimensions> FEMObjectType;
-  typedef typename FEMObjectType::Pointer           FEMObjectPointer;
-  typedef typename FEMObjectType::ConstPointer      FEMObjectConstPointer;
-  typedef typename DataObject::Pointer              DataObjectPointer;
+  using FEMObjectType = typename itk::fem::FEMObject<NDimensions>;
+  using FEMObjectPointer = typename FEMObjectType::Pointer;
+  using FEMObjectConstPointer = typename FEMObjectType::ConstPointer;
+  using DataObjectPointer = typename DataObject::Pointer;
 
-  /** Some convenient typedefs. */
-  typedef itk::fem::MaterialLinearElasticity MaterialType;
-  typedef MaterialType::Pointer              MaterialPointerType;
-  // typedef itk::fem::Element2DC0LinearQuadrilateral  QuadElementBaseType;
-  // typedef itk::fem::Element3DC0LinearHexahedron     HexElementBaseType;
-  typedef itk::fem::Element               ElementBaseType;
-  typedef itk::fem::Element::ConstPointer ElementBasePointerType;
+  /** Some convenient type alias. */
+  using MaterialType = itk::fem::MaterialLinearElasticity;
+  using MaterialPointerType = MaterialType::Pointer;
+  // using QuadElementBaseType = itk::fem::Element2DC0LinearQuadrilateral;
+  // using HexElementBaseType = itk::fem::Element3DC0LinearHexahedron;
+  using ElementBaseType = itk::fem::Element;
+  using ElementBasePointerType = itk::fem::Element::ConstPointer;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -120,7 +120,7 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

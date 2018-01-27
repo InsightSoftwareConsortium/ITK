@@ -58,20 +58,20 @@ class ITK_TEMPLATE_EXPORT MembershipFunctionBase:
   public FunctionBase< TVector, double >
 {
 public:
-  /** Standard class typedefs */
-  typedef MembershipFunctionBase          Self;
-  typedef FunctionBase< TVector, double > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard class type aliases */
+  using Self = MembershipFunctionBase;
+  using Superclass = FunctionBase< TVector, double >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(MembershipFunctionBase, FunctionBase);
 
-  /** MeasurementVector typedef support */
-  typedef TVector MeasurementVectorType;
+  /** MeasurementVector type alias support */
+  using MeasurementVectorType = TVector;
 
   /** Typedef for the length of each measurement vector */
-  typedef unsigned int MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = unsigned int;
 
   /** Method to get membership score (discriminant score) of an entity
    * or measurement. Evaluate() maps from a vector measurement type

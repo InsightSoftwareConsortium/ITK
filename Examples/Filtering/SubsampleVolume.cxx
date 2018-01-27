@@ -74,18 +74,18 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginCodeSnippet
   const     unsigned int    Dimension = 3;
 
-  typedef   unsigned char   InputPixelType;
+  using InputPixelType = unsigned char;
 
-  typedef   float           InternalPixelType;
-  typedef   unsigned char   OutputPixelType;
+  using InternalPixelType = float;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,    Dimension >   InputImageType;
-  typedef itk::Image< InternalPixelType, Dimension >   InternalImageType;
-  typedef itk::Image< OutputPixelType,   Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,    Dimension >;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType,   Dimension >;
 // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -128,8 +128,8 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::CastImageFilter< InputImageType,
-                                InternalImageType >   CastFilterType;
+  using CastFilterType = itk::CastImageFilter< InputImageType,
+                                InternalImageType >;
 
   CastFilterType::Pointer caster = CastFilterType::New();
 
@@ -146,9 +146,9 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::RecursiveGaussianImageFilter<
+  using GaussianFilterType = itk::RecursiveGaussianImageFilter<
                                   InternalImageType,
-                                  InternalImageType > GaussianFilterType;
+                                  InternalImageType >;
 
   GaussianFilterType::Pointer smootherX = GaussianFilterType::New();
   GaussianFilterType::Pointer smootherY = GaussianFilterType::New();
@@ -217,8 +217,8 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ResampleImageFilter<
-                  InternalImageType, OutputImageType >  ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter<
+                  InternalImageType, OutputImageType >;
 
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 // Software Guide : EndCodeSnippet
@@ -233,7 +233,7 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::IdentityTransform< double, Dimension >  TransformType;
+  using TransformType = itk::IdentityTransform< double, Dimension >;
 
   TransformType::Pointer transform = TransformType::New();
   transform->SetIdentity();
@@ -252,8 +252,8 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::LinearInterpolateImageFunction<
-                           InternalImageType, double > InterpolatorType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
+                           InternalImageType, double >;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   resampler->SetInterpolator( interpolator );
 // Software Guide : EndCodeSnippet
@@ -304,7 +304,7 @@ int main( int argc, char * argv[] )
   InputImageType::SizeType   inputSize =
               inputImage->GetLargestPossibleRegion().GetSize();
 
-  typedef InputImageType::SizeType::SizeValueType SizeValueType;
+  using SizeValueType = InputImageType::SizeType::SizeValueType;
 
   InputImageType::SizeType   size;
 
@@ -337,7 +337,7 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

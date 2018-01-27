@@ -266,7 +266,7 @@ MultiScaleHessianBasedMeasureImageFilter
     ohit.GoToBegin();
     }
 
-  typedef typename HessianToMeasureFilterType::OutputImageType HessianToMeasureOutputImageType;
+  using HessianToMeasureOutputImageType = typename HessianToMeasureFilterType::OutputImageType;
 
   ImageRegionIterator< HessianToMeasureOutputImageType > it(m_HessianToMeasureFilter->GetOutput(), outputRegion);
   ImageRegionIterator< HessianImageType >                hit(m_HessianFilter->GetOutput(), outputRegion);

@@ -33,7 +33,7 @@ int itkGaussianExponentialDiffeomorphicTransformTest(int ,char *[] )
 {
   const unsigned int dimensions = 2;
 
-  typedef itk::GaussianExponentialDiffeomorphicTransform<double, dimensions> DisplacementTransformType;
+  using DisplacementTransformType = itk::GaussianExponentialDiffeomorphicTransform<double, dimensions>;
 
   /* Create a displacement field transform */
   DisplacementTransformType::Pointer displacementTransform =
@@ -43,7 +43,7 @@ int itkGaussianExponentialDiffeomorphicTransformTest(int ,char *[] )
 
   displacementTransform->Print( std::cout, 3 );
 
-  typedef DisplacementTransformType::DisplacementFieldType FieldType;
+  using FieldType = DisplacementTransformType::DisplacementFieldType;
   FieldType::Pointer field = FieldType::New(); //This is based on itk::Image
 
   FieldType::SizeType size;
@@ -67,7 +67,7 @@ int itkGaussianExponentialDiffeomorphicTransformTest(int ,char *[] )
   /* Test SmoothDisplacementFieldGauss */
   std::cout << "Test SmoothDisplacementFieldGauss" << std::endl;
   DisplacementTransformType::ParametersType params;
-  typedef DisplacementTransformType::ParametersValueType ParametersValueType;
+  using ParametersValueType = DisplacementTransformType::ParametersValueType;
   ParametersValueType paramsZero = itk::NumericTraits< itk::NumericTraits < ParametersValueType >::ValueType >::ZeroValue();
   DisplacementTransformType::ParametersType
                   paramsFill( displacementTransform->GetNumberOfParameters() );

@@ -25,9 +25,9 @@
 template<unsigned int Dimension>
 int itkExpectationBasedPointSetMetricTestRun()
 {
-  typedef itk::PointSet<unsigned char, Dimension> PointSetType;
+  using PointSetType = itk::PointSet<unsigned char, Dimension>;
 
-  typedef typename PointSetType::PointType PointType;
+  using PointType = typename PointSetType::PointType;
 
   typename PointSetType::Pointer fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
@@ -67,12 +67,12 @@ int itkExpectationBasedPointSetMetricTestRun()
     }
 
   // Simple translation transform for moving point set
-  typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
+  using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
   typename TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
   translationTransform->SetIdentity();
 
   // Instantiate the metric
-  typedef itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetMetricType = itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType>;
   typename PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetFixedPointSet( fixedPoints );
   metric->SetMovingPointSet( movingPoints );

@@ -45,11 +45,11 @@ class ITK_TEMPLATE_EXPORT MetaFEMObjectConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
-  /** Standard class typedefs */
-  typedef MetaFEMObjectConverter           Self;
-  typedef MetaConverterBase< NDimensions > Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard class type aliases */
+  using Self = MetaFEMObjectConverter;
+  using Superclass = MetaConverterBase< NDimensions >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,15 +57,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaFEMObjectConverter, MetaConverterBase);
 
-  typedef typename Superclass::SpatialObjectType SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
-  typedef typename Superclass::MetaObjectType    MetaObjectType;
+  using SpatialObjectType = typename Superclass::SpatialObjectType;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using MetaObjectType = typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  typedef FEMObjectSpatialObject<NDimensions>               FEMObjectSpatialObjectType;
-  typedef typename FEMObjectSpatialObjectType::Pointer      FEMObjectSpatialObjectPointer;
-  typedef typename FEMObjectSpatialObjectType::ConstPointer FEMObjectSpatialObjectConstPointer;
-  typedef MetaFEMObject                                     FEMObjectMetaObjectType;
+  using FEMObjectSpatialObjectType = FEMObjectSpatialObject<NDimensions>;
+  using FEMObjectSpatialObjectPointer = typename FEMObjectSpatialObjectType::Pointer;
+  using FEMObjectSpatialObjectConstPointer = typename FEMObjectSpatialObjectType::ConstPointer;
+  using FEMObjectMetaObjectType = MetaFEMObject;
 
   /** Convert the MetaObject to Spatial Object */
   SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;

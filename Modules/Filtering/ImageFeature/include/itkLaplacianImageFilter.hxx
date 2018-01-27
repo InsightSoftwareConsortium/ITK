@@ -116,7 +116,7 @@ LaplacianImageFilter< TInputImage, TOutputImage >
   oper.SetDerivativeScalings(s);
   oper.CreateOperator();
 
-  typedef NeighborhoodOperatorImageFilter< InputImageType, OutputImageType > NOIF;
+  using NOIF = NeighborhoodOperatorImageFilter< InputImageType, OutputImageType >;
   typename NOIF::Pointer filter = NOIF::New();
 
   filter->OverrideBoundaryCondition(&nbc);

@@ -22,17 +22,17 @@
 
 enum{ VectorDimension = 3 };
 enum{ ImageDimension = 3 };
-typedef itk::Vector<unsigned short,VectorDimension> PixelType;
-typedef itk::Image<PixelType,ImageDimension>        ImageType;
-typedef double                                      CoordRepType;
+using PixelType = itk::Vector<unsigned short,VectorDimension>;
+using ImageType = itk::Image<PixelType,ImageDimension>;
+using CoordRepType = double;
 
-typedef itk::VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<
-  ImageType,CoordRepType> InterpolatorType;
+using InterpolatorType = itk::VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<
+  ImageType,CoordRepType>;
 
-typedef InterpolatorType::IndexType           IndexType;
-typedef InterpolatorType::PointType           PointType;
-typedef InterpolatorType::ContinuousIndexType ContinuousIndexType;
-typedef InterpolatorType::OutputType          OutputType;
+using IndexType = InterpolatorType::IndexType;
+using PointType = InterpolatorType::PointType;
+using ContinuousIndexType = InterpolatorType::ContinuousIndexType;
+using OutputType = InterpolatorType::OutputType;
 
 
 /**
@@ -177,7 +177,7 @@ int itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, c
   image->SetSpacing( spacing );
 
   // Write in a simple linear pattern
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter( image, region );
 
   IndexType index;
@@ -208,7 +208,7 @@ int itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, c
   interp->SetInputImage( image );
   interp->Print( std::cout );
 
-  typedef InterpolatorType::Superclass GenericInterpolatorType;
+  using GenericInterpolatorType = InterpolatorType::Superclass;
   std::cout << interp->GenericInterpolatorType::GetNameOfClass() << std::endl;
   std::cout << interp->GetNameOfClass() << std::endl;
 

@@ -108,24 +108,24 @@ class ITK_TEMPLATE_EXPORT AntiAliasBinaryImageFilter:
   public SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs */
-  typedef AntiAliasBinaryImageFilter                                  Self;
-  typedef SparseFieldLevelSetImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                        Pointer;
-  typedef SmartPointer< const Self >                                  ConstPointer;
+  /** Standard class type aliases */
+  using Self = AntiAliasBinaryImageFilter;
+  using Superclass = SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType       ValueType;
-  typedef typename Superclass::IndexType       IndexType;
-  typedef typename Superclass::TimeStepType    TimeStepType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename Superclass::InputImageType  InputImageType;
+  /** Inherited type alias from the superclass. */
+  using ValueType = typename Superclass::ValueType;
+  using IndexType = typename Superclass::IndexType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using InputImageType = typename Superclass::InputImageType;
 
   /** The function type which will calculate the curvature flow */
-  typedef CurvatureFlowFunction< OutputImageType > CurvatureFunctionType;
+  using CurvatureFunctionType = CurvatureFlowFunction< OutputImageType >;
 
   /** ValueType of the input binary image */
-  typedef typename TInputImage::ValueType BinaryValueType;
+  using BinaryValueType = typename TInputImage::ValueType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -55,11 +55,11 @@ class ITK_TEMPLATE_EXPORT DoubleThresholdImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef DoubleThresholdImageFilter                      Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DoubleThresholdImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,12 +68,12 @@ public:
   itkTypeMacro(DoubleThresholdImageFilter, ImageToImageFilter);
 
   /** Types from the superclass */
-  typedef typename Superclass::InputImagePointer InputImagePointer;
-  typedef typename Superclass::InputImageType    InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputImageType = typename Superclass::InputImageType;
 
   /** Pixel types. */
-  typedef typename TInputImage::PixelType  InputPixelType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
   /** Set the "outside" pixel value. The default value
    * NumericTraits<OutputPixelType>::ZeroValue(). */

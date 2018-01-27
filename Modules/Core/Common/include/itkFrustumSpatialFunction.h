@@ -42,11 +42,11 @@ class ITK_TEMPLATE_EXPORT FrustumSpatialFunction:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef FrustumSpatialFunction< VDimension, TInput >          Self;
-  typedef InteriorExteriorSpatialFunction< VDimension, TInput > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FrustumSpatialFunction< VDimension, TInput >;
+  using Superclass = InteriorExteriorSpatialFunction< VDimension, TInput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FrustumSpatialFunction, InteriorExteriorSpatialFunction);
@@ -55,10 +55,10 @@ public:
   itkNewMacro(Self);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Rotate the frustum in the XZ or the YZ plane. */
   typedef enum {

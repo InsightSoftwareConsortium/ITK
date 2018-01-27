@@ -147,7 +147,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
     itkExceptionMacro( "Output (B-spline) domain is undefined." )
     }
 
-  typedef ContinuousIndex<typename InputFieldPointType::CoordRepType, ImageDimension> ContinuousIndexType;
+  using ContinuousIndexType = ContinuousIndex<typename InputFieldPointType::CoordRepType, ImageDimension>;
 
   // Create an output field based on the b-spline domain to determine boundary
   // points and whether or not specified points are inside or outside the domain.

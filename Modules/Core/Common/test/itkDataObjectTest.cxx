@@ -24,11 +24,11 @@ namespace itk {
 class DataObjectTestHelper : public DataObject
 {
 public:
-  /** Standard typedefs. */
-  typedef DataObjectTestHelper       Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard type alias. */
+  using Self = DataObjectTestHelper;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

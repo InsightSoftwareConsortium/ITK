@@ -58,8 +58,8 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float                             PixelType;
-  typedef itk::Mesh< PixelType, 2 >         MeshType;
+  using PixelType = float;
+  using MeshType = itk::Mesh< PixelType, 2 >;
   // Software Guide : EndCodeSnippet
 
 
@@ -73,8 +73,8 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::CellType                CellType;
-  typedef itk::LineCell< CellType >         LineType;
+  using CellType = MeshType::CellType;
+  using LineType = itk::LineCell< CellType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -98,7 +98,7 @@ int main(int, char *[])
   // Software Guide : BeginCodeSnippet
   MeshType::Pointer  mesh = MeshType::New();
 
-  typedef MeshType::PointType PointType;
+  using PointType = MeshType::PointType;
   PointType point;
 
   const unsigned int numberOfPoints = 10;
@@ -193,7 +193,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::CellDataContainer::ConstIterator CellDataIterator;
+  using CellDataIterator = MeshType::CellDataContainer::ConstIterator;
   // Software Guide : EndCodeSnippet
 
 

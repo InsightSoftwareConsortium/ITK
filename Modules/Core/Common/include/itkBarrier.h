@@ -42,11 +42,11 @@ class ITKCommon_EXPORT Barrier
   : public LightObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef Barrier                    Self;
-  typedef LightObject                Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Barrier;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

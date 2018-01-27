@@ -29,21 +29,21 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   const unsigned int Dimension = 3;
 
   // Declare the pixel types of the images
-  typedef float                PixelType;
+  using PixelType = float;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension> InputImageType1;
-  typedef itk::Image< PixelType, Dimension> InputImageType2;
-  typedef itk::Image< PixelType, Dimension> OutputImageType;
+  using InputImageType1 = itk::Image< PixelType, Dimension>;
+  using InputImageType2 = itk::Image< PixelType, Dimension>;
+  using OutputImageType = itk::Image< PixelType, Dimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index< Dimension >         IndexType;
+  using IndexType = itk::Index< Dimension >;
 
   // Declare the type of the size
-  typedef itk::Size< Dimension >          SizeType;
+  using SizeType = itk::Size< Dimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< Dimension >   RegionType;
+  using RegionType = itk::ImageRegion< Dimension >;
 
   // Create the input images
   InputImageType1::Pointer inputImageA = InputImageType1::New();
@@ -77,12 +77,9 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   inputImageB->Allocate();
 
   // Declare appropriate Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType1 >
-    InputImage1IteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType2 >
-    InputImage2IteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType >
-    OutputImageIteratorType;
+  using InputImage1IteratorType = itk::ImageRegionIteratorWithIndex<InputImageType1>;
+  using InputImage2IteratorType = itk::ImageRegionIteratorWithIndex<InputImageType2>;
+  using OutputImageIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Create one iterator for Image A (this is a light object)
   InputImage1IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
@@ -111,10 +108,10 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
 
 
   // Declare the type for the BinaryMagnitudeImageFilter
-  typedef itk::BinaryMagnitudeImageFilter<
+  using FilterType = itk::BinaryMagnitudeImageFilter<
                                 InputImageType1,
                                 InputImageType2,
-                                OutputImageType > FilterType;
+                                OutputImageType >;
 
   // Create the BinaryMagnitudeImageFilter
   FilterType::Pointer filter = FilterType::New();

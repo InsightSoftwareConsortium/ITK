@@ -35,7 +35,7 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
   Superclass::PrintSelf( os, indent );
   os << indent << "HasLabelForUndecidedPixels = "
      << this->m_HasLabelForUndecidedPixels << std::endl;
-  typedef typename NumericTraits< OutputPixelType >::PrintType OutputPixelPrintType;
+  using OutputPixelPrintType = typename NumericTraits< OutputPixelType >::PrintType;
   os << indent << "LabelForUndecidedPixels = "
      << static_cast<OutputPixelPrintType>(this->m_LabelForUndecidedPixels) << std::endl;
   os << indent << "HasPriorProbabilities = "
@@ -132,8 +132,8 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
 {
   const unsigned int numberOfInputs = static_cast<const unsigned int>( this->GetNumberOfInputs() );
 
-  typedef LabelVotingImageFilter<TInputImage, TOutputImage> LabelVotingFilterType;
-  typedef typename LabelVotingFilterType::Pointer           LabelVotingFilterPointer;
+  using LabelVotingFilterType = LabelVotingImageFilter<TInputImage, TOutputImage>;
+  using LabelVotingFilterPointer = typename LabelVotingFilterType::Pointer;
 
   typename OutputImageType::Pointer votingOutput;
 

@@ -100,16 +100,16 @@ class ITK_TEMPLATE_EXPORT GPUBinaryThresholdImageFilter :
                               BinaryThresholdImageFilter<TInputImage, TOutputImage> >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUBinaryThresholdImageFilter Self;
-  typedef GPUUnaryFunctorImageFilter< TInputImage, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = GPUBinaryThresholdImageFilter;
+  using GPUSuperclass = gPUUnaryFunctorImageFilter< TInputImage, TOutputImage,
                                       Functor::GPUBinaryThreshold<
                                         typename TInputImage::PixelType,
                                         typename TOutputImage::PixelType >,
-                                      BinaryThresholdImageFilter<TInputImage, TOutputImage> > GPUSuperclass;
-  typedef BinaryThresholdImageFilter<TInputImage, TOutputImage> CPUSuperclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+                                      BinaryThresholdImageFilter<TInputImage, TOutputImage> >;
+  using CPUSuperclass = BinaryThresholdImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -118,11 +118,11 @@ public:
   itkTypeMacro(GPUBinaryThresholdImageFilter, GPUUnaryFunctorImageFilter);
 
   /** Pixel types. */
-  typedef typename TInputImage::PixelType  InputPixelType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
   /** Type of DataObjects to use for scalar inputs */
-  typedef SimpleDataObjectDecorator< InputPixelType > InputPixelObjectType;
+  using InputPixelObjectType = SimpleDataObjectDecorator< InputPixelType >;
 
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUBinaryThresholdImageFilterKernel);
@@ -153,10 +153,10 @@ private:
 class GPUBinaryThresholdImageFilterFactory : public ObjectFactoryBase
 {
 public:
-  typedef GPUBinaryThresholdImageFilterFactory Self;
-  typedef ObjectFactoryBase                    Superclass;
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
+  using Self = GPUBinaryThresholdImageFilterFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
   const char* GetITKSourceVersion() const override
@@ -187,8 +187,8 @@ private:
 
 #define OverrideThresholdFilterTypeMacro(ipt,opt,dm) \
     { \
-    typedef itk::Image<ipt,dm> InputImageType; \
-    typedef itk::Image<opt,dm> OutputImageType; \
+    using InputImageType = itk::Image<ipt,dm>; \
+    using OutputImageType = itk::Image<opt,dm>; \
     this->RegisterOverride( \
       typeid(itk::BinaryThresholdImageFilter<InputImageType,OutputImageType>).name(), \
       typeid(itk::GPUBinaryThresholdImageFilter<InputImageType,OutputImageType>).name(), \

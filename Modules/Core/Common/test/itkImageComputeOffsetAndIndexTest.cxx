@@ -114,8 +114,8 @@ int itkImageComputeOffsetAndIndexTest(int, char* [] )
 
 #define TRY_FAST_INDEX(dim) \
   { \
-  typedef char                        PixelType; \
-  typedef itk::Image< PixelType, dim> ImageType; \
+  using PixelType = char; \
+  using ImageType = itk::Image< PixelType, dim>; \
   ImageType::Pointer myImage = ImageType::New(); \
   ImageType::SizeType   size; \
   ImageType::IndexType  index; \
@@ -140,8 +140,8 @@ int itkImageComputeOffsetAndIndexTest(int, char* [] )
   }
 #define TRY_INDEX(dim) \
   { \
-  typedef char                        PixelType; \
-  typedef itk::Image< PixelType, dim> ImageType; \
+  using PixelType = char; \
+  using ImageType = itk::Image< PixelType, dim>; \
   ImageType::Pointer myImage = ImageType::New(); \
   ImageType::SizeType   size; \
   ImageType::IndexType  index; \
@@ -167,8 +167,8 @@ int itkImageComputeOffsetAndIndexTest(int, char* [] )
 
 #define TRY_FAST_OFFSET(dim) \
   { \
-  typedef char                        PixelType; \
-  typedef itk::Image< PixelType, dim> ImageType; \
+  using PixelType = char; \
+  using ImageType = itk::Image< PixelType, dim>; \
   ImageType::Pointer myImage = ImageType::New(); \
   ImageType::SizeType   size; \
   ImageType::IndexType  index; \
@@ -191,8 +191,8 @@ int itkImageComputeOffsetAndIndexTest(int, char* [] )
   }
 #define TRY_OFFSET(dim) \
   { \
-  typedef char                        PixelType; \
-  typedef itk::Image< PixelType, dim> ImageType; \
+  using PixelType = char; \
+  using ImageType = itk::Image< PixelType, dim>; \
   ImageType::Pointer myImage = ImageType::New(); \
   ImageType::SizeType   size; \
   ImageType::IndexType  index; \

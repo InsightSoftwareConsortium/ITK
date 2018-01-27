@@ -30,10 +30,10 @@ int itkNrrdDiffusionTensor3DImageReadTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::DiffusionTensor3D<float> PixelType;
-  typedef itk::Image<PixelType, 3>      myImage;
+  using PixelType = itk::DiffusionTensor3D<float>;
+  using myImage = itk::Image<PixelType, 3>;
 
-  typedef itk::ImageFileReader<myImage>  ReaderType;
+  using ReaderType = itk::ImageFileReader<myImage>;
 
   ReaderType::Pointer reader = ReaderType::New();
 

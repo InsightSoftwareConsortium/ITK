@@ -54,11 +54,11 @@ template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT AccumulateImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef AccumulateImageFilter                           Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = AccumulateImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,16 +66,16 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(AccumulateImageFilter, ImageToImageFilter);
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                            InputImageType;
-  typedef typename    InputImageType::Pointer    InputImagePointer;
-  typedef typename    InputImageType::RegionType InputImageRegionType;
-  typedef typename    InputImageType::PixelType  InputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename    InputImageType::Pointer;
+  using InputImageRegionType = typename    InputImageType::RegionType;
+  using InputImagePixelType = typename    InputImageType::PixelType;
 
-  typedef TOutputImage                             OutputImageType;
-  typedef typename     OutputImageType::Pointer    OutputImagePointer;
-  typedef typename     OutputImageType::RegionType OutputImageRegionType;
-  typedef typename     OutputImageType::PixelType  OutputImagePixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename     OutputImageType::Pointer;
+  using OutputImageRegionType = typename     OutputImageType::RegionType;
+  using OutputImagePixelType = typename     OutputImageType::PixelType;
 
   /** ImageDimension enumeration */
   itkStaticConstMacro(InputImageDimension, unsigned int,

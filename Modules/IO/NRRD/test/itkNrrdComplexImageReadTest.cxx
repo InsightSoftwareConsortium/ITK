@@ -30,10 +30,10 @@ int itkNrrdComplexImageReadTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  typedef std::complex<float>      PixelType;
-  typedef itk::Image<PixelType, 2> myImage;
+  using PixelType = std::complex<float>;
+  using myImage = itk::Image<PixelType, 2>;
 
-  typedef itk::ImageFileReader<myImage>  ReaderType;
+  using ReaderType = itk::ImageFileReader<myImage>;
 
   ReaderType::Pointer reader = ReaderType::New();
 

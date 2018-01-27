@@ -128,17 +128,16 @@ int main( int argc, char *argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef itk::RGBPixel< unsigned char >        RGBPixelType;
-  typedef itk::Image< RGBPixelType, Dimension > ImageType;
+  using RGBPixelType = itk::RGBPixel< unsigned char >;
+  using ImageType = itk::Image< RGBPixelType, Dimension >;
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageLinearIteratorWithIndex< ImageType >      IteratorType;
-  typedef itk::ImageLinearConstIteratorWithIndex<
-                                             ImageType > ConstIteratorType;
+  using IteratorType = itk::ImageLinearIteratorWithIndex< ImageType >;
+  using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex<ImageType>;
 // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ImageType::ConstPointer inputImage;
   ReaderType::Pointer reader = ReaderType::New();

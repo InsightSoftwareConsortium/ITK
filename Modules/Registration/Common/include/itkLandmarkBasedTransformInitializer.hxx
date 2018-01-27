@@ -97,12 +97,12 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
   // Instantiating B-spline filter and creating B-spline domain
   //
-  typedef Vector< double, ImageDimension >                                         VectorType;
-  typedef Image< VectorType, ImageDimension >                                      VectorImageType;
-  typedef PointSet< typename VectorImageType::PixelType, ImageDimension >          PointSetType;
-  typedef BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType> FilterType;
+  using VectorType = Vector< double, ImageDimension >;
+  using VectorImageType = Image< VectorType, ImageDimension >;
+  using PointSetType = PointSet< typename VectorImageType::PixelType, ImageDimension >;
+  using FilterType = BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType>;
 
-  typedef typename FilterType::WeightsContainerType WeightsContainerType;
+  using WeightsContainerType = typename FilterType::WeightsContainerType;
   typename WeightsContainerType::Pointer weights = WeightsContainerType::New();
   weights->Reserve( numberOfLandMarks );
 
@@ -174,12 +174,12 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
   //Set the BSpline transform
   //
-  typedef typename BSplineTransformType::ImageType CoefficientImageType;
+  using CoefficientImageType = typename BSplineTransformType::ImageType;
 
   typename BSplineTransformType::CoefficientImageArray coefficientImages;
   for( unsigned int j = 0; j < ImageDimension; ++j )
     {
-    typedef VectorIndexSelectionCastImageFilter<VectorImageType, CoefficientImageType> SelectorType;
+    using SelectorType = VectorIndexSelectionCastImageFilter<VectorImageType, CoefficientImageType>;
     typename SelectorType::Pointer selector = SelectorType::New();
     selector->SetInput( filter->GetPhiLattice() );
     selector->SetIndex( j );
@@ -396,8 +396,8 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   //
   //----------------------------------------------------------------------------
 
-  typedef typename VersorRigid3DTransformType::OutputVectorType VectorType;
-  typedef typename VersorRigid3DTransformType::OutputPointType  PointType;
+  using VectorType = typename VersorRigid3DTransformType::OutputVectorType;
+  using PointType = typename VersorRigid3DTransformType::OutputPointType;
 
   // Compute the centroids
   PointType fixedCentroid;
@@ -433,7 +433,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   itkDebugMacro(<< "fixed centroid  = " <<  fixedCentroid);
   itkDebugMacro(<< "moving centroid  = " << movingCentroid);
 
-  typedef typename VersorRigid3DTransformType::VersorType VersorType;
+  using VersorType = typename VersorRigid3DTransformType::VersorType;
 
   VersorType versor;
 
@@ -505,10 +505,10 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     vnl_matrix< ParametersValueType > eigenVectors(4, 4);
     vnl_vector< ParametersValueType > eigenValues(4);
 
-    typedef itk::SymmetricEigenAnalysis<
+    using SymmetricEigenAnalysisType = itk::SymmetricEigenAnalysis<
       itk::Matrix< ParametersValueType, 4, 4 >,
       vnl_vector< ParametersValueType >,
-      vnl_matrix< ParametersValueType > > SymmetricEigenAnalysisType;
+      vnl_matrix< ParametersValueType > >;
     SymmetricEigenAnalysisType symmetricEigenSystem(4);
 
     symmetricEigenSystem.ComputeEigenValuesAndVectors(N, eigenValues, eigenVectors);
@@ -574,8 +574,8 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     }
 
   const double PI = 4.0 * std::atan(1.0);
-  typedef typename Rigid2DTransformType::OutputVectorType VectorType;
-  typedef typename Rigid2DTransformType::OutputPointType  PointType;
+  using VectorType = typename Rigid2DTransformType::OutputVectorType;
+  using PointType = typename Rigid2DTransformType::OutputPointType;
 
   //Initialize the transform to identity
   transform->SetIdentity();

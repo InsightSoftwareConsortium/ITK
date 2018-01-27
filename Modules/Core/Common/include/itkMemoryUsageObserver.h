@@ -28,7 +28,7 @@
   #include <windows.h>
   #define SUPPORT_TOOLHELP32
   #if defined( SUPPORT_TOOLHELP32 )
-typedef LONG NTSTATUS;
+using NTSTATUS = LONG;
   #endif
 #endif
 
@@ -47,7 +47,7 @@ class ITKCommon_EXPORT MemoryUsageObserverBase
 {
 public:
   /** Define the type for the memory usage */
-  typedef SizeValueType MemoryLoadType;
+  using MemoryLoadType = SizeValueType;
 
   /** destructor */
   virtual ~MemoryUsageObserverBase();

@@ -85,7 +85,7 @@ BinaryFillholeImageFilter<TInputImage>
   // Allocate the output
   this->AllocateOutputs();
 
-  typedef BinaryNotImageFilter< InputImageType > NotType;
+  using NotType = BinaryNotImageFilter< InputImageType >;
   typename NotType::Pointer notInput = NotType::New();
   notInput->SetInput( this->GetInput() );
   notInput->SetForegroundValue( m_ForegroundValue );
@@ -94,7 +94,7 @@ BinaryFillholeImageFilter<TInputImage>
   notInput->SetReleaseDataFlag( true );
   progress->RegisterInternalFilter(notInput, .2f);
 
-  typedef typename itk::BinaryImageToShapeLabelMapFilter< InputImageType > LabelizerType;
+  using LabelizerType = typename itk::BinaryImageToShapeLabelMapFilter< InputImageType >;
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
   labelizer->SetInput( notInput->GetOutput() );
   labelizer->SetInputForegroundValue( m_ForegroundValue );
@@ -103,8 +103,8 @@ BinaryFillholeImageFilter<TInputImage>
   labelizer->SetNumberOfThreads( this->GetNumberOfThreads() );
   progress->RegisterInternalFilter(labelizer, .5f);
 
-  typedef typename LabelizerType::OutputImageType                  LabelMapType;
-  typedef typename itk::ShapeOpeningLabelMapFilter< LabelMapType > OpeningType;
+  using LabelMapType = typename LabelizerType::OutputImageType;
+  using OpeningType = typename itk::ShapeOpeningLabelMapFilter< LabelMapType >;
   typename OpeningType::Pointer opening = OpeningType::New();
   opening->SetInput( labelizer->GetOutput() );
   opening->SetAttribute( LabelMapType::LabelObjectType::NUMBER_OF_PIXELS_ON_BORDER );
@@ -113,7 +113,7 @@ BinaryFillholeImageFilter<TInputImage>
   progress->RegisterInternalFilter(opening, .1f);
 
   // invert the image during the binarization
-  typedef typename itk::LabelMapMaskImageFilter< LabelMapType, OutputImageType > BinarizerType;
+  using BinarizerType = typename itk::LabelMapMaskImageFilter< LabelMapType, OutputImageType >;
   typename BinarizerType::Pointer binarizer = BinarizerType::New();
   binarizer->SetInput( opening->GetOutput() );
   binarizer->SetLabel( backgroundValue );

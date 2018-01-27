@@ -31,7 +31,7 @@ template< typename TInput, typename  TOutput >
 class ITK_TEMPLATE_EXPORT IntensityLinearTransform
 {
 public:
-  typedef typename NumericTraits< TInput >::RealType RealType;
+  using RealType = typename NumericTraits< TInput >::RealType;
   IntensityLinearTransform()
   {
     m_Factor = 1.0;
@@ -141,20 +141,20 @@ class ITK_TEMPLATE_EXPORT RescaleIntensityImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RescaleIntensityImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = RescaleIntensityImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::IntensityLinearTransform<
       typename TInputImage::PixelType,
-      typename TOutputImage::PixelType > >  Superclass;
+      typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TOutputImage::PixelType                   OutputPixelType;
-  typedef typename TInputImage::PixelType                    InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType RealType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< InputPixelType >::RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

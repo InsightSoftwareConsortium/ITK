@@ -112,7 +112,7 @@ template< typename TCellInterface >
 void QuadEdgeMeshPolygonCell< TCellInterface >
 ::Accept(CellIdentifier cellId, MultiVisitor *mv)
 {
-  typedef CellInterfaceVisitor< PixelType, CellTraits > IntVis;
+  using IntVis = CellInterfaceVisitor< PixelType, CellTraits >;
   typename IntVis::Pointer v = mv->GetVisitor( this->GetType() );
   if ( v )
     {

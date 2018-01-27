@@ -57,14 +57,14 @@ class ITK_TEMPLATE_EXPORT TransformToDisplacementFieldFilter:
   public ImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TransformToDisplacementFieldFilter Self;
-  typedef ImageSource< TOutputImage >        Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TransformToDisplacementFieldFilter;
+  using Superclass = ImageSource< TOutputImage >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef TOutputImage                           OutputImageType;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  using OutputImageType = TOutputImage;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,22 +76,22 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
   /** Typedefs for transform. */
-  typedef Transform<TParametersValueType, ImageDimension, ImageDimension> TransformType;
-  typedef DataObjectDecorator< TransformType >                            TransformInputType;
+  using TransformType = Transform<TParametersValueType, ImageDimension, ImageDimension>;
+  using TransformInputType = DataObjectDecorator< TransformType >;
 
   /** Typedefs for output image. */
-  typedef typename OutputImageType::PixelType     PixelType;
-  typedef typename PixelType::ValueType           PixelValueType;
-  typedef typename OutputImageType::RegionType    RegionType;
-  typedef typename RegionType::SizeType           SizeType;
-  typedef typename OutputImageType::IndexType     IndexType;
-  typedef typename OutputImageType::PointType     PointType;
-  typedef typename OutputImageType::SpacingType   SpacingType;
-  typedef typename OutputImageType::PointType     OriginType;
-  typedef typename OutputImageType::DirectionType DirectionType;
+  using PixelType = typename OutputImageType::PixelType;
+  using PixelValueType = typename PixelType::ValueType;
+  using RegionType = typename OutputImageType::RegionType;
+  using SizeType = typename RegionType::SizeType;
+  using IndexType = typename OutputImageType::IndexType;
+  using PointType = typename OutputImageType::PointType;
+  using SpacingType = typename OutputImageType::SpacingType;
+  using OriginType = typename OutputImageType::PointType;
+  using DirectionType = typename OutputImageType::DirectionType;
 
   /** Typedef the reference image ImageBase. */
-  typedef ImageBase< ImageDimension > ReferenceImageBaseType;
+  using ReferenceImageBaseType = ImageBase< ImageDimension >;
 
   /** Get/Set the coordinate transformation.
    * Set the coordinate transform to use for resampling.  Note that this must

@@ -30,10 +30,10 @@ int itkLSMImageIOTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::RGBPixel< unsigned char >         InputPixelType;
-  typedef itk::Image< InputPixelType, 2 >        InputImageType;
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
-  typedef itk::LSMImageIO                        ImageIOType;
+  using InputPixelType = itk::RGBPixel< unsigned char >;
+  using InputImageType = itk::Image< InputPixelType, 2 >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ImageIOType = itk::LSMImageIO;
 
   const char *filename = argv[1];
   const char *outfilename = argv[2];
@@ -56,7 +56,7 @@ int itkLSMImageIOTest(int argc, char* argv[])
     }
 
   //
-  typedef itk::ImageFileWriter< InputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< InputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( outfilename );
   writer->SetInput( reader->GetOutput() );

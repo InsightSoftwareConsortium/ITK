@@ -27,9 +27,9 @@ int itkImageRandomIteratorTest(int, char* [] )
 
   const unsigned int ImageDimension = 3;
 
-  typedef itk::Index< ImageDimension >             PixelType;
+  using PixelType = itk::Index< ImageDimension >;
 
-  typedef itk::Image< PixelType, ImageDimension >  ImageType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
   ImageType::Pointer myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage.GetPointer();
@@ -54,11 +54,11 @@ int itkImageRandomIteratorTest(int, char* [] )
   myImage->SetRequestedRegion( region0 );
   myImage->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex< ImageType >            IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
 
-  typedef itk::ImageRandomIteratorWithIndex< ImageType >      RandomIteratorType;
+  using RandomIteratorType = itk::ImageRandomIteratorWithIndex< ImageType >;
 
-  typedef itk::ImageRandomConstIteratorWithIndex< ImageType > RandomConstIteratorType;
+  using RandomConstIteratorType = itk::ImageRandomConstIteratorWithIndex< ImageType >;
 
   IteratorType it( myImage, region0 );
 

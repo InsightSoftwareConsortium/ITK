@@ -47,9 +47,9 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< float, 2 > MeasurementVectorType;
+  using MeasurementVectorType = itk::Vector< float, 2 >;
 
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize( 2 );
 
@@ -87,15 +87,14 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::KdTreeGenerator< SampleType > TreeGeneratorType;
+  using TreeGeneratorType = itk::Statistics::KdTreeGenerator< SampleType >;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
   treeGenerator->SetSample( sample );
   treeGenerator->SetBucketSize( 16 );
   treeGenerator->Update();
 
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >
-    CentroidTreeGeneratorType;
+  using CentroidTreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
 
   CentroidTreeGeneratorType::Pointer centroidTreeGenerator =
                                          CentroidTreeGeneratorType::New();
@@ -121,8 +120,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef TreeGeneratorType::KdTreeType TreeType;
-  typedef TreeType::KdTreeNodeType      NodeType;
+  using TreeType = TreeGeneratorType::KdTreeType;
+  using NodeType = TreeType::KdTreeNodeType;
 
   TreeType::Pointer tree = treeGenerator->GetOutput();
   TreeType::Pointer centroidTree = centroidTreeGenerator->GetOutput();
@@ -191,8 +190,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType >
-    DistanceMetricType;
+  using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
 
   DistanceMetricType::OriginType origin( 2 );

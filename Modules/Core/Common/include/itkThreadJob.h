@@ -58,11 +58,11 @@ struct ThreadJob
 public:
 
 #if defined(ITK_USE_PTHREADS) && defined(__APPLE__)
-  typedef semaphore_t Semaphore;
+  using Semaphore = semaphore_t;
 #elif defined(ITK_USE_WIN32_THREADS)
-  typedef HANDLE Semaphore;
+  using Semaphore = HANDLE;
 #elif defined(ITK_USE_PTHREADS)
-  typedef sem_t Semaphore;
+  using Semaphore = sem_t;
 #else
 #error Unknown thread system!
 #endif

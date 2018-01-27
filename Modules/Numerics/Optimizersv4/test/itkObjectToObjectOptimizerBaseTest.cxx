@@ -25,16 +25,16 @@ class ObjectToObjectOptimizerBaseTestMetric:
   public itk::ObjectToObjectMetricBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef ObjectToObjectOptimizerBaseTestMetric     Self;
-  typedef itk::ObjectToObjectMetricBase             Superclass;
-  typedef itk::SmartPointer< Self >                 Pointer;
-  typedef itk::SmartPointer< const Self >           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ObjectToObjectOptimizerBaseTestMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
-  typedef typename Superclass::MeasureType          MeasureType;
-  typedef typename Superclass::DerivativeType       DerivativeType;
-  typedef typename Superclass::ParametersType       ParametersType;
-  typedef typename Superclass::ParametersValueType  ParametersValueType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
 
   itkTypeMacro(ObjectToObjectOptimizerBaseTestMetric, ObjectToObjectMetricBase);
 
@@ -91,11 +91,11 @@ class ObjectToObjectOptimizerBaseTestOptimizer
   : public itk::ObjectToObjectOptimizerBase
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef ObjectToObjectOptimizerBaseTestOptimizer Self;
-  typedef itk::ObjectToObjectOptimizerBase         Superclass;
-  typedef itk::SmartPointer< Self >                Pointer;
-  typedef itk::SmartPointer< const Self >          ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = ObjectToObjectOptimizerBaseTestOptimizer;
+  using Superclass = itk::ObjectToObjectOptimizerBase;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -123,9 +123,9 @@ public:
 int itkObjectToObjectOptimizerBaseTest(int , char* [])
 {
   const int ImageDimension = 2;
-  typedef itk::Image<double, ImageDimension>                    ImageType;
+  using ImageType = itk::Image<double, ImageDimension>;
 
-  typedef ObjectToObjectOptimizerBaseTestMetric<ImageType,ImageType> MetricType;
+  using MetricType = ObjectToObjectOptimizerBaseTestMetric<ImageType,ImageType>;
 
   MetricType::Pointer metric = MetricType::New();
   ObjectToObjectOptimizerBaseTestOptimizer::Pointer optimizer = ObjectToObjectOptimizerBaseTestOptimizer::New();
@@ -147,7 +147,7 @@ int itkObjectToObjectOptimizerBaseTest(int , char* [])
 
   /* Test set/get of scales */
   ObjectToObjectOptimizerBaseTestOptimizer::NumberOfParametersType scalesSize = metric->GetNumberOfLocalParameters();
-  typedef ObjectToObjectOptimizerBaseTestOptimizer::ScalesType ScalesType;
+  using ScalesType = ObjectToObjectOptimizerBaseTestOptimizer::ScalesType;
   ScalesType scales(scalesSize);
   scales.Fill(3.19);
   optimizer->SetScales( scales );

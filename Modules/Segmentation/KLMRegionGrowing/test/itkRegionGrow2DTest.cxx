@@ -104,7 +104,7 @@ unsigned int test_RegionGrowKLMExceptionHandling()
 
   int sizeLen  = 3;
 
-  typedef itk::Image<itk::Vector<double, NUMBANDS2>, NUMDIM5D> ImageType5D;
+  using ImageType5D = itk::Image<itk::Vector<double, NUMBANDS2>, NUMDIM5D>;
   ImageType5D::Pointer image5D  = ImageType5D::New();
 
   ImageType5D::SizeType imageSize5D;
@@ -126,8 +126,8 @@ unsigned int test_RegionGrowKLMExceptionHandling()
 
   // Set the filter with valid inputs
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType5D, ImageType5D>
-  KLMRegionGrowImageFilterType5D;
+  using KLMRegionGrowImageFilterType5D =
+      itk::KLMRegionGrowImageFilter<ImageType5D, ImageType5D>;
 
   KLMRegionGrowImageFilterType5D::Pointer
     exceptionTestingFilter5D = KLMRegionGrowImageFilterType5D::New();
@@ -217,8 +217,8 @@ unsigned int test_regiongrowKLM1D()
 
   // Manually create an image
 
-  typedef itk::Image<itk::Vector<unsigned char, NUMBANDS3>, NUMDIM1D> ImageType;
-  typedef itk::Image<itk::Vector<double, NUMBANDS3>, NUMDIM1D>        OutputImageType;
+  using ImageType = itk::Image<itk::Vector<unsigned char, NUMBANDS3>, NUMDIM1D>;
+  using OutputImageType = itk::Image<itk::Vector<double, NUMBANDS3>, NUMDIM1D>;
 
   ImageType::Pointer image  = ImageType::New();
 
@@ -238,10 +238,10 @@ unsigned int test_regiongrowKLM1D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef itk::ImageRegionIterator< ImageType > ImageIterator;
+  using ImageIterator = itk::ImageRegionIterator< ImageType >;
   ImageIterator inIt( image, image->GetBufferedRegion() );
 
-  typedef ImageType::PixelType::VectorType ImageData;
+  using ImageData = ImageType::PixelType::VectorType;
   ImageData    pixelData;
   unsigned int k = 0;
   while( !inIt.IsAtEnd() )
@@ -267,8 +267,8 @@ unsigned int test_regiongrowKLM1D()
 
   // Set up the filter
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>
-  KLMRegionGrowImageFilterType;
+  using KLMRegionGrowImageFilterType =
+      itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>;
 
   KLMRegionGrowImageFilterType::Pointer KLMFilter =
     KLMRegionGrowImageFilterType::New();
@@ -324,18 +324,18 @@ unsigned int test_regiongrowKLM1D()
   // The region labels should be consecutive integers beginning with 1.
 
   OutputImageType::Pointer outImage = KLMFilter->GetOutput();
-  typedef itk::ImageRegionIterator<OutputImageType> OutputImageIterator;
+  using OutputImageIterator = itk::ImageRegionIterator<OutputImageType>;
   OutputImageIterator outIt( outImage, outImage->GetBufferedRegion() );
 
-  typedef KLMRegionGrowImageFilterType::RegionLabelType LabelType;
-  typedef itk::Image<LabelType, NUMDIM1D>               LabelledImageType;
+  using LabelType = KLMRegionGrowImageFilterType::RegionLabelType;
+  using LabelledImageType = itk::Image<LabelType, NUMDIM1D>;
   LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
 
-  typedef OutputImageType::PixelType::VectorType OutputImageData;
+  using OutputImageData = OutputImageType::PixelType::VectorType;
   ImageData       pixelIn;
   OutputImageData pixelOut;
 
-  typedef itk::ImageRegionIterator< LabelledImageType > LabelImageIterator;
+  using LabelImageIterator = itk::ImageRegionIterator< LabelledImageType >;
   LabelImageIterator
             labelIt( labelledImage, labelledImage->GetBufferedRegion() );
   LabelType pixelLabel;
@@ -836,8 +836,8 @@ unsigned int test_regiongrowKLM2D()
 
   // Manually create an image
 
-  typedef itk::Image<itk::Vector<int, NUMBANDS2>, NUMDIM2D>    ImageType;
-  typedef itk::Image<itk::Vector<double, NUMBANDS2>, NUMDIM2D> OutputImageType;
+  using ImageType = itk::Image<itk::Vector<int, NUMBANDS2>, NUMDIM2D>;
+  using OutputImageType = itk::Image<itk::Vector<double, NUMBANDS2>, NUMDIM2D>;
 
   ImageType::Pointer image  = ImageType::New();
 
@@ -857,7 +857,7 @@ unsigned int test_regiongrowKLM2D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef itk::ImageRegionIterator< ImageType > ImageIterator;
+  using ImageIterator = itk::ImageRegionIterator< ImageType >;
   ImageIterator inIt( image, image->GetBufferedRegion() );
 
   /* the key test for merging with duplicate borders will
@@ -904,8 +904,8 @@ unsigned int test_regiongrowKLM2D()
 
   // Set up the filter
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>
-  KLMRegionGrowImageFilterType;
+  using KLMRegionGrowImageFilterType =
+      itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>;
 
   KLMRegionGrowImageFilterType::Pointer KLMFilter =
     KLMRegionGrowImageFilterType::New();
@@ -917,7 +917,7 @@ unsigned int test_regiongrowKLM2D()
   KLMFilter->SetMaximumNumberOfRegions( 2 );
   KLMFilter->SetGridSize(gridSize);
 
-  typedef KLMRegionGrowImageFilterType::RegionLabelType LabelType;
+  using LabelType = KLMRegionGrowImageFilterType::RegionLabelType;
 
   LabelType labelVals[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                             1, 2, 2, 2, 2, 2, 2, 2, 2, 1,
@@ -961,7 +961,7 @@ unsigned int test_regiongrowKLM2D()
                             1.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 1.0,
                             1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1 };
 
-  typedef ImageType::PixelType::VectorType ImageData;
+  using ImageData = ImageType::PixelType::VectorType;
   ImageData pixelData;
   int       k = 0;
   while( !inIt.IsAtEnd() )
@@ -1007,12 +1007,12 @@ unsigned int test_regiongrowKLM2D()
 
   OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
-  typedef itk::ImageRegionIterator<OutputImageType> OutputImageIterator;
+  using OutputImageIterator = itk::ImageRegionIterator<OutputImageType>;
 
   inIt.GoToBegin();
   OutputImageIterator outIt( outImage, outImage->GetBufferedRegion() );
 
-  typedef OutputImageType::PixelType::VectorType OutputImageData;
+  using OutputImageData = OutputImageType::PixelType::VectorType;
   ImageData       pixelIn;
   OutputImageData pixelOut;
   itk::NumericTraits< OutputImageData >::ValueType pixelOutZero = itk::NumericTraits< itk::NumericTraits< OutputImageData>::ValueType >::ZeroValue();
@@ -1052,7 +1052,7 @@ unsigned int test_regiongrowKLM2D()
 
   std::cout << "Extracting and checking label image" << std::endl;
 
-  typedef itk::Image<LabelType, NUMDIM2D> LabelledImageType;
+  using LabelledImageType = itk::Image<LabelType, NUMDIM2D>;
   LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
 
   // Loop through the approximation image and check if they match the
@@ -1060,7 +1060,7 @@ unsigned int test_regiongrowKLM2D()
 
   // setup the iterators
 
-  typedef itk::ImageRegionIterator<LabelledImageType> LabelImageIterator;
+  using LabelImageIterator = itk::ImageRegionIterator<LabelledImageType>;
 
   LabelImageIterator
   labelIt( labelledImage, labelledImage->GetBufferedRegion() );
@@ -1270,8 +1270,7 @@ unsigned int test_regiongrowKLM2D()
 
   std::cout << "Extracting and checking label image" << std::endl;
 
-  typedef itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>
-  HistogramGeneratorType;
+  using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>;
 
   HistogramGeneratorType::Pointer histogramGenerator =
     HistogramGeneratorType::New();
@@ -1281,7 +1280,7 @@ unsigned int test_regiongrowKLM2D()
   histogramGenerator->SetMarginalScale( 1.0 );
   histogramGenerator->Compute();
 
-  typedef HistogramGeneratorType::HistogramType HistogramType;
+  using HistogramType = HistogramGeneratorType::HistogramType;
 
   const HistogramType * histogram = histogramGenerator->GetOutput();
 
@@ -1341,8 +1340,8 @@ unsigned int test_regiongrowKLM3D()
 
   // Manually create an image
 
-  typedef itk::Image<itk::Vector<short int,NUMBANDS2>,NUMDIM3D> ImageType;
-  typedef itk::Image<itk::Vector<float,NUMBANDS2>,NUMDIM3D>     OutputImageType;
+  using ImageType = itk::Image<itk::Vector<short int,NUMBANDS2>,NUMDIM3D>;
+  using OutputImageType = itk::Image<itk::Vector<float,NUMBANDS2>,NUMDIM3D>;
 
   ImageType::Pointer image  = ImageType::New();
 
@@ -1363,7 +1362,7 @@ unsigned int test_regiongrowKLM3D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef itk::ImageRegionIterator< ImageType > ImageIterator;
+  using ImageIterator = itk::ImageRegionIterator< ImageType >;
   ImageIterator inIt( image, image->GetBufferedRegion() );
 
   /* the key test for merging with duplicate borders will
@@ -1455,8 +1454,8 @@ unsigned int test_regiongrowKLM3D()
 
   // Set up the filter
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>
-  KLMRegionGrowImageFilterType;
+  using KLMRegionGrowImageFilterType =
+      itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>;
 
   KLMRegionGrowImageFilterType::Pointer KLMFilter =
     KLMRegionGrowImageFilterType::New();
@@ -1468,7 +1467,7 @@ unsigned int test_regiongrowKLM3D()
   KLMFilter->SetMaximumNumberOfRegions( 2 );
   KLMFilter->SetGridSize(gridSize);
 
-  typedef KLMRegionGrowImageFilterType::RegionLabelType LabelType;
+  using LabelType = KLMRegionGrowImageFilterType::RegionLabelType;
 
   LabelType labelVals[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                             1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -1599,7 +1598,7 @@ unsigned int test_regiongrowKLM3D()
     1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0
     };
 
-  typedef ImageType::PixelType::VectorType ImageData;
+  using ImageData = ImageType::PixelType::VectorType;
   ImageData pixelData;
   int       k = 0;
   while( !inIt.IsAtEnd() )
@@ -1646,12 +1645,12 @@ unsigned int test_regiongrowKLM3D()
 
   OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
-  typedef itk::ImageRegionIterator<OutputImageType> OutputImageIterator;
+  using OutputImageIterator = itk::ImageRegionIterator<OutputImageType>;
 
   inIt.GoToBegin();
   OutputImageIterator outIt( outImage, outImage->GetBufferedRegion() );
 
-  typedef OutputImageType::PixelType::VectorType OutputImageData;
+  using OutputImageData = OutputImageType::PixelType::VectorType;
   ImageData       pixelIn;
   OutputImageData pixelOut;
   itk::NumericTraits< OutputImageData >::ValueType pixelOutZero = itk::NumericTraits< itk::NumericTraits< OutputImageData>::ValueType >::ZeroValue();
@@ -1693,7 +1692,7 @@ unsigned int test_regiongrowKLM3D()
 
   std::cout << "Extracting and checking label image" << std::endl;
 
-  typedef itk::Image<LabelType, NUMDIM3D> LabelledImageType;
+  using LabelledImageType = itk::Image<LabelType, NUMDIM3D>;
   LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
 
   // Loop through the approximation image and check if they match the
@@ -1701,7 +1700,7 @@ unsigned int test_regiongrowKLM3D()
 
   // setup the iterators
 
-  typedef itk::ImageRegionIterator<LabelledImageType> LabelImageIterator;
+  using LabelImageIterator = itk::ImageRegionIterator<LabelledImageType>;
 
   LabelImageIterator
   labelIt( labelledImage, labelledImage->GetBufferedRegion() );
@@ -1909,8 +1908,7 @@ unsigned int test_regiongrowKLM3D()
 
   std::cout << "Extracting and checking label image" << std::endl;
 
-  typedef itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>
-  HistogramGeneratorType;
+  using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>;
 
   HistogramGeneratorType::Pointer histogramGenerator =
     HistogramGeneratorType::New();
@@ -1920,7 +1918,7 @@ unsigned int test_regiongrowKLM3D()
   histogramGenerator->SetMarginalScale( 1.0 );
   histogramGenerator->Compute();
 
-  typedef HistogramGeneratorType::HistogramType HistogramType;
+  using HistogramType = HistogramGeneratorType::HistogramType;
 
   const HistogramType * histogram = histogramGenerator->GetOutput();
 
@@ -1981,8 +1979,8 @@ unsigned int test_regiongrowKLM4D()
 
   // Manually create an image
 
-  typedef itk::Image<itk::Vector<short int,NUMBANDS1>,NUMDIM4D> ImageType;
-  typedef itk::Image<itk::Vector<float,NUMBANDS1>,NUMDIM4D>     OutputImageType;
+  using ImageType = itk::Image<itk::Vector<short int,NUMBANDS1>,NUMDIM4D>;
+  using OutputImageType = itk::Image<itk::Vector<float,NUMBANDS1>,NUMDIM4D>;
 
   ImageType::Pointer image  = ImageType::New();
 
@@ -2005,13 +2003,13 @@ unsigned int test_regiongrowKLM4D()
   image->SetBufferedRegion( region );
   image->Allocate();
 
-  typedef itk::ImageRegionIterator< ImageType > ImageIterator;
+  using ImageIterator = itk::ImageRegionIterator< ImageType >;
   ImageIterator inIt( image, image->GetBufferedRegion() );
 
   // Set up the filter
 
-  typedef itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>
-  KLMRegionGrowImageFilterType;
+  using KLMRegionGrowImageFilterType =
+      itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>;
 
   KLMRegionGrowImageFilterType::Pointer KLMFilter =
     KLMRegionGrowImageFilterType::New();
@@ -2025,9 +2023,9 @@ unsigned int test_regiongrowKLM4D()
   KLMFilter->SetInput( image );
   KLMFilter->SetGridSize( gridSize );
 
-  typedef KLMRegionGrowImageFilterType::RegionLabelType LabelType;
+  using LabelType = KLMRegionGrowImageFilterType::RegionLabelType;
 
-  typedef ImageType::PixelType::VectorType ImageData;
+  using ImageData = ImageType::PixelType::VectorType;
   ImageData pixelData;
   int       k = 0;
   while( !inIt.IsAtEnd() )
@@ -2084,12 +2082,12 @@ unsigned int test_regiongrowKLM4D()
 
   OutputImageType::Pointer outImage = KLMFilter->GetOutput();
 
-  typedef itk::ImageRegionIterator<OutputImageType> OutputImageIterator;
+  using OutputImageIterator = itk::ImageRegionIterator<OutputImageType>;
 
   inIt.GoToBegin();
   OutputImageIterator outIt( outImage, outImage->GetBufferedRegion() );
 
-  typedef OutputImageType::PixelType::VectorType OutputImageData;
+  using OutputImageData = OutputImageType::PixelType::VectorType;
   ImageData       pixelIn;
   OutputImageData pixelOut;
   itk::NumericTraits< OutputImageData >::ValueType pixelOutZero = itk::NumericTraits< itk::NumericTraits< OutputImageData>::ValueType >::ZeroValue();
@@ -2119,7 +2117,7 @@ unsigned int test_regiongrowKLM4D()
 
   std::cout << "Extracting and checking label image" << std::endl;
 
-  typedef itk::Image<LabelType, NUMDIM4D> LabelledImageType;
+  using LabelledImageType = itk::Image<LabelType, NUMDIM4D>;
   LabelledImageType::Pointer labelledImage = KLMFilter->GetLabelledImage();
 
   // Loop through the approximation image and check if they match the
@@ -2127,7 +2125,7 @@ unsigned int test_regiongrowKLM4D()
 
   // setup the iterators
 
-  typedef itk::ImageRegionIterator<LabelledImageType> LabelImageIterator;
+  using LabelImageIterator = itk::ImageRegionIterator<LabelledImageType>;
 
   LabelImageIterator
   labelIt( labelledImage, labelledImage->GetBufferedRegion() );
@@ -2316,8 +2314,7 @@ unsigned int test_regiongrowKLM4D()
 
   std::cout << "Extracting and checking label image" << std::endl;
 
-  typedef itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>
-  HistogramGeneratorType;
+  using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>;
 
   HistogramGeneratorType::Pointer histogramGenerator =
     HistogramGeneratorType::New();
@@ -2327,7 +2324,7 @@ unsigned int test_regiongrowKLM4D()
   histogramGenerator->SetMarginalScale( 1.0 );
   histogramGenerator->Compute();
 
-  typedef HistogramGeneratorType::HistogramType HistogramType;
+  using HistogramType = HistogramGeneratorType::HistogramType;
 
   const HistogramType * histogram = histogramGenerator->GetOutput();
 

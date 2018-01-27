@@ -50,11 +50,11 @@ class ITK_TEMPLATE_EXPORT NormalizeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard Self typedef */
-  typedef NormalizeImageFilter                            Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard Self type alias */
+  using Self = NormalizeImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -62,9 +62,9 @@ public:
   /** Runtime information support. */
   itkTypeMacro(NormalizeImageFilter, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef typename TInputImage::Pointer  InputImagePointer;
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  /** Image related type alias. */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** NormalizeImageFilter must call modified on its internal filters */
   void Modified() const override;

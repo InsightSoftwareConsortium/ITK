@@ -96,11 +96,11 @@ class N4BiasFieldCorrectionImageFilter :
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef N4BiasFieldCorrectionImageFilter              Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = N4BiasFieldCorrectionImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Runtime information support. */
   itkTypeMacro( N4BiasFieldCorrectionImageFilter, ImageToImageFilter );
@@ -112,29 +112,29 @@ public:
   itkStaticConstMacro( ImageDimension, unsigned int,
                        TInputImage::ImageDimension );
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                       InputImageType;
-  typedef TOutputImage                      OutputImageType;
-  typedef TMaskImage                        MaskImageType;
-  typedef typename MaskImageType::PixelType MaskPixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using MaskImageType = TMaskImage;
+  using MaskPixelType = typename MaskImageType::PixelType;
 
-  typedef float                           RealType;
-  typedef Image<RealType, ImageDimension> RealImageType;
-  typedef typename RealImageType::Pointer RealImagePointer;
-  typedef Array<unsigned int>             VariableSizeArrayType;
+  using RealType = float;
+  using RealImageType = Image<RealType, ImageDimension>;
+  using RealImagePointer = typename RealImageType::Pointer;
+  using VariableSizeArrayType = Array<unsigned int>;
 
-  /** B-spline smoothing filter argument typedefs */
-  typedef Vector<RealType, 1>                                             ScalarType;
-  typedef PointSet<ScalarType, itkGetStaticConstMacro( ImageDimension )>  PointSetType;
-  typedef Image<ScalarType, itkGetStaticConstMacro( ImageDimension )>     ScalarImageType;
-  typedef typename PointSetType::Pointer                                  PointSetPointer;
-  typedef typename PointSetType::PointType                                PointType;
+  /** B-spline smoothing filter argument type alias */
+  using ScalarType = Vector<RealType, 1>;
+  using PointSetType = PointSet<ScalarType, itkGetStaticConstMacro( ImageDimension )>;
+  using ScalarImageType = Image<ScalarType, itkGetStaticConstMacro( ImageDimension )>;
+  using PointSetPointer = typename PointSetType::Pointer;
+  using PointType = typename PointSetType::PointType;
 
-  /** B-sline filter typedefs */
-  typedef BSplineScatteredDataPointSetToImageFilter<
-    PointSetType, ScalarImageType>                          BSplineFilterType;
-  typedef typename BSplineFilterType::PointDataImageType    BiasFieldControlPointLatticeType;
-  typedef typename BSplineFilterType::ArrayType             ArrayType;
+  /** B-sline filter type alias */
+  using BSplineFilterType = BSplineScatteredDataPointSetToImageFilter<
+    PointSetType, ScalarImageType>;
+  using BiasFieldControlPointLatticeType = typename BSplineFilterType::PointDataImageType;
+  using ArrayType = typename BSplineFilterType::ArrayType;
 
   /**
    * The image expected for input for bias correction.

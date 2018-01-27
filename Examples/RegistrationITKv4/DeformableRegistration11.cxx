@@ -29,14 +29,14 @@
 
 
 const unsigned int Dimension = 3;
-typedef itk::Image<unsigned char, Dimension>            FileImageType;
-typedef itk::Image<float, Dimension>                    ImageType;
+using FileImageType = itk::Image<unsigned char, Dimension>;
+using ImageType = itk::Image<float, Dimension>;
 
-typedef itk::fem::Element3DC0LinearHexahedronMembrane   ElementType;
-typedef itk::fem::Element3DC0LinearTetrahedronMembrane  ElementType2;
-typedef itk::fem::FEMObject<Dimension>                  FEMObjectType;
+using ElementType = itk::fem::Element3DC0LinearHexahedronMembrane;
+using ElementType2 = itk::fem::Element3DC0LinearTetrahedronMembrane;
+using FEMObjectType = itk::fem::FEMObject<Dimension>;
 
-typedef itk::fem::FEMRegistrationFilter<ImageType,ImageType,FEMObjectType> RegistrationType;
+using RegistrationType = itk::fem::FEMRegistrationFilter<ImageType,ImageType,FEMObjectType>;
 
 
 int main(int argc, char *argv[])
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
   registrationFilter->SetUseLandmarks(false);
 
   // Read the image files
-  typedef itk::ImageFileReader< FileImageType > FileSourceType;
+  using FileSourceType = itk::ImageFileReader< FileImageType >;
   FileSourceType::Pointer movingfilter = FileSourceType::New();
   movingfilter->SetFileName( movingImageName );
   FileSourceType::Pointer fixedfilter = FileSourceType::New();
@@ -113,8 +113,8 @@ int main(int argc, char *argv[])
 
 
   // Rescale the image intensities so that they fall between 0 and 255
-  typedef itk::RescaleIntensityImageFilter<
-                        FileImageType, ImageType > FilterType;
+  using FilterType = itk::RescaleIntensityImageFilter<
+                        FileImageType, ImageType >;
 
   FilterType::Pointer movingrescalefilter = FilterType::New();
   FilterType::Pointer fixedrescalefilter = FilterType::New();
@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
 
 
   // Histogram match the images
-  typedef itk::HistogramMatchingImageFilter<ImageType,ImageType> HEFilterType;
+  using HEFilterType = itk::HistogramMatchingImageFilter<ImageType,ImageType>;
   HEFilterType::Pointer IntensityEqualizeFilter = HEFilterType::New();
 
   IntensityEqualizeFilter->SetReferenceImage( fixedrescalefilter->GetOutput() );
@@ -196,7 +196,7 @@ int main(int argc, char *argv[])
   }
 
   // output the displacement field
-  typedef itk::ImageFileWriter<RegistrationType::FieldType> DispWriterType;
+  using DispWriterType = itk::ImageFileWriter<RegistrationType::FieldType>;
   DispWriterType::Pointer dispWriter = DispWriterType::New();
   dispWriter->SetInput( registrationFilter->GetDisplacementField() );
   dispWriter->SetFileName("displacement.mha");

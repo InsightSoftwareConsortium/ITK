@@ -173,86 +173,86 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetricv4
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef ImageToImageMetricv4                                                                                                     Self;
-  typedef ObjectToObjectMetric<TFixedImage::ImageDimension, TMovingImage::ImageDimension, TVirtualImage, TInternalComputationValueType>  Superclass;
-  typedef SmartPointer<Self>                                                                                                       Pointer;
-  typedef SmartPointer<const Self>                                                                                                 ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageToImageMetricv4;
+  using Superclass = ObjectToObjectMetric<TFixedImage::ImageDimension, TMovingImage::ImageDimension, TVirtualImage, TInternalComputationValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToImageMetricv4, ObjectToObjectMetric);
 
   /** Type used internally for computations */
   /** It should be possible to derive the internal computation type from the class object. */
-  typedef TInternalComputationValueType                     InternalComputationValueType;
+  using InternalComputationValueType = TInternalComputationValueType;
 
   /** Type used for representing parameter values  */
-  typedef typename Superclass::CoordinateRepresentationType CoordinateRepresentationType;
+  using CoordinateRepresentationType = typename Superclass::CoordinateRepresentationType;
 
   /**  Type of the parameters. */
-  typedef typename Superclass::ParametersType       ParametersType;
-  typedef typename Superclass::ParametersValueType  ParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
 
   /** Gradient source type */
-  typedef typename Superclass::GradientSourceType GradientSourceType;
+  using GradientSourceType = typename Superclass::GradientSourceType;
 
   /** Dimension type */
-  typedef typename Superclass::DimensionType      DimensionType;
-  typedef typename Superclass::DimensionType      ImageDimensionType;
+  using DimensionType = typename Superclass::DimensionType;
+  using ImageDimensionType = typename Superclass::DimensionType;
 
   /** Transform types from Superclass*/
-  typedef typename Superclass::FixedTransformType            FixedTransformType;
-  typedef typename Superclass::FixedTransformPointer         FixedTransformPointer;
-  typedef typename Superclass::FixedInputPointType           FixedInputPointType;
-  typedef typename Superclass::FixedOutputPointType          FixedOutputPointType;
-  typedef typename Superclass::FixedTransformParametersType  FixedTransformParametersType;
+  using FixedTransformType = typename Superclass::FixedTransformType;
+  using FixedTransformPointer = typename Superclass::FixedTransformPointer;
+  using FixedInputPointType = typename Superclass::FixedInputPointType;
+  using FixedOutputPointType = typename Superclass::FixedOutputPointType;
+  using FixedTransformParametersType = typename Superclass::FixedTransformParametersType;
 
-  typedef typename Superclass::MovingTransformType            MovingTransformType;
-  typedef typename Superclass::MovingTransformPointer         MovingTransformPointer;
-  typedef typename Superclass::MovingInputPointType           MovingInputPointType;
-  typedef typename Superclass::MovingOutputPointType          MovingOutputPointType;
-  typedef typename Superclass::MovingTransformParametersType  MovingTransformParametersType;
+  using MovingTransformType = typename Superclass::MovingTransformType;
+  using MovingTransformPointer = typename Superclass::MovingTransformPointer;
+  using MovingInputPointType = typename Superclass::MovingInputPointType;
+  using MovingOutputPointType = typename Superclass::MovingOutputPointType;
+  using MovingTransformParametersType = typename Superclass::MovingTransformParametersType;
 
-  typedef typename Superclass::JacobianType                   JacobianType;
-  typedef typename Superclass::FixedTransformJacobianType     FixedTransformJacobianType;
-  typedef typename Superclass::MovingTransformJacobianType    MovingTransformJacobianType;
+  using JacobianType = typename Superclass::JacobianType;
+  using FixedTransformJacobianType = typename Superclass::FixedTransformJacobianType;
+  using MovingTransformJacobianType = typename Superclass::MovingTransformJacobianType;
 
-  typedef typename Superclass::ObjectType                     ObjectType;
+  using ObjectType = typename Superclass::ObjectType;
 
-  /** Image-accessor typedefs */
-  typedef TFixedImage                             FixedImageType;
-  typedef typename FixedImageType::PixelType      FixedImagePixelType;
-  typedef FixedImagePixelType                     FixedPixelType;
-  typedef typename FixedImageType::Pointer        FixedImagePointer;
-  typedef typename FixedImageType::ConstPointer   FixedImageConstPointer;
-  typedef typename FixedImageType::PointType      FixedImagePointType;
-  typedef typename FixedImageType::IndexType      FixedImageIndexType;
-  typedef TMovingImage                            MovingImageType;
-  typedef typename MovingImageType::PixelType     MovingImagePixelType;
-  typedef MovingImagePixelType                    MovingPixelType;
-  typedef typename MovingImageType::Pointer       MovingImagePointer;
-  typedef typename MovingImageType::ConstPointer  MovingImageConstPointer;
-  typedef typename MovingImageType::PointType     MovingImagePointType;
-  typedef typename MovingImageType::RegionType    MovingImageRegionType;
-  typedef typename MovingImageType::IndexType     MovingImageIndexType;
+  /** Image-accessor type alias */
+  using FixedImageType = TFixedImage;
+  using FixedImagePixelType = typename FixedImageType::PixelType;
+  using FixedPixelType = FixedImagePixelType;
+  using FixedImagePointer = typename FixedImageType::Pointer;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
+  using FixedImagePointType = typename FixedImageType::PointType;
+  using FixedImageIndexType = typename FixedImageType::IndexType;
+  using MovingImageType = TMovingImage;
+  using MovingImagePixelType = typename MovingImageType::PixelType;
+  using MovingPixelType = MovingImagePixelType;
+  using MovingImagePointer = typename MovingImageType::Pointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
+  using MovingImagePointType = typename MovingImageType::PointType;
+  using MovingImageRegionType = typename MovingImageType::RegionType;
+  using MovingImageIndexType = typename MovingImageType::IndexType;
 
   /** Types for the virtual domain */
-  typedef typename Superclass::VirtualImageType       VirtualImageType;
-  typedef typename Superclass::VirtualImagePointer    VirtualImagePointer;
-  typedef typename Superclass::VirtualPixelType       VirtualPixelType;
-  typedef typename Superclass::VirtualRegionType      VirtualRegionType;
-  typedef typename Superclass::VirtualSizeType        VirtualSizeType;
-  typedef typename Superclass::VirtualSpacingType     VirtualSpacingType;
-  typedef typename Superclass::VirtualPointType       VirtualOriginType;
-  typedef typename Superclass::VirtualPointType       VirtualPointType;
-  typedef typename Superclass::VirtualDirectionType   VirtualDirectionType;
-  typedef typename Superclass::VirtualSizeType        VirtualRadiusType;
-  typedef typename Superclass::VirtualIndexType       VirtualIndexType;
-  typedef typename Superclass::VirtualPointSetType    VirtualPointSetType;
-  typedef typename Superclass::VirtualPointSetPointer VirtualPointSetPointer;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualImagePointer = typename Superclass::VirtualImagePointer;
+  using VirtualPixelType = typename Superclass::VirtualPixelType;
+  using VirtualRegionType = typename Superclass::VirtualRegionType;
+  using VirtualSizeType = typename Superclass::VirtualSizeType;
+  using VirtualSpacingType = typename Superclass::VirtualSpacingType;
+  using VirtualOriginType = typename Superclass::VirtualPointType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualDirectionType = typename Superclass::VirtualDirectionType;
+  using VirtualRadiusType = typename Superclass::VirtualSizeType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using VirtualPointSetType = typename Superclass::VirtualPointSetType;
+  using VirtualPointSetPointer = typename Superclass::VirtualPointSetPointer;
 
   /** Typedef for traits class */
-  typedef TMetricTraits MetricTraits;
+  using MetricTraits = TMetricTraits;
 
   /* Image dimension accessors */
   itkStaticConstMacro(FixedImageDimension, DimensionType, Superclass::FixedDimension);
@@ -261,103 +261,95 @@ public:
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject< itkGetStaticConstMacro(FixedImageDimension) >  FixedImageMaskType;
-  typedef typename FixedImageMaskType::Pointer                          FixedImageMaskPointer;
-  typedef typename FixedImageMaskType::ConstPointer                     FixedImageMaskConstPointer;
+  using FixedImageMaskType = SpatialObject< itkGetStaticConstMacro(FixedImageDimension) >;
+  using FixedImageMaskPointer = typename FixedImageMaskType::Pointer;
+  using FixedImageMaskConstPointer = typename FixedImageMaskType::ConstPointer;
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject< itkGetStaticConstMacro(MovingImageDimension) > MovingImageMaskType;
-  typedef typename MovingImageMaskType::Pointer                         MovingImageMaskPointer;
-  typedef typename MovingImageMaskType::ConstPointer                    MovingImageMaskConstPointer;
+  using MovingImageMaskType = SpatialObject< itkGetStaticConstMacro(MovingImageDimension) >;
+  using MovingImageMaskPointer = typename MovingImageMaskType::Pointer;
+  using MovingImageMaskConstPointer = typename MovingImageMaskType::ConstPointer;
 
   /** Type of the point set used for sparse sampling. */
-  typedef PointSet<typename FixedImageType::PixelType, itkGetStaticConstMacro(FixedImageDimension)>
-                                                                        FixedSampledPointSetType;
-  typedef typename FixedSampledPointSetType::Pointer                    FixedSampledPointSetPointer;
-  typedef typename FixedSampledPointSetType::ConstPointer               FixedSampledPointSetConstPointer;
+  using FixedSampledPointSetType =
+      PointSet<typename FixedImageType::PixelType, itkGetStaticConstMacro(FixedImageDimension)>;
+  using FixedSampledPointSetPointer = typename FixedSampledPointSetType::Pointer;
+  using FixedSampledPointSetConstPointer = typename FixedSampledPointSetType::ConstPointer;
 
   /**  Type of the Interpolator Base class */
-  typedef InterpolateImageFunction< FixedImageType,
-                                    CoordinateRepresentationType >
-                                                      FixedInterpolatorType;
-  typedef InterpolateImageFunction< MovingImageType,
-                                    CoordinateRepresentationType >
-                                                      MovingInterpolatorType;
-  typedef typename FixedInterpolatorType::Pointer     FixedInterpolatorPointer;
-  typedef typename MovingInterpolatorType::Pointer    MovingInterpolatorPointer;
+  using FixedInterpolatorType = InterpolateImageFunction< FixedImageType,
+                                    CoordinateRepresentationType >;
+  using MovingInterpolatorType = InterpolateImageFunction< MovingImageType,
+                                    CoordinateRepresentationType >;
+  using FixedInterpolatorPointer = typename FixedInterpolatorType::Pointer;
+  using MovingInterpolatorPointer = typename MovingInterpolatorType::Pointer;
 
   /** Image derivatives types */
-  typedef typename MetricTraits::FixedImageGradientType    FixedImageGradientType;
-  typedef typename MetricTraits::MovingImageGradientType   MovingImageGradientType;
-  typedef typename MetricTraits::VirtualImageGradientType  VirtualImageGradientType;
+  using FixedImageGradientType = typename MetricTraits::FixedImageGradientType;
+  using MovingImageGradientType = typename MetricTraits::MovingImageGradientType;
+  using VirtualImageGradientType = typename MetricTraits::VirtualImageGradientType;
 
-  typedef CovariantVector<typename FixedImageGradientType::ValueType, FixedImageDimension>
-    FixedImageComponentGradientType;
+  using FixedImageComponentGradientType =
+      CovariantVector<typename FixedImageGradientType::ValueType, FixedImageDimension>;
 
-  typedef CovariantVector<typename MovingImageGradientType::ValueType, MovingImageDimension>
-    MovingImageComponentGradientType;
+  using MovingImageComponentGradientType =
+      CovariantVector<typename MovingImageGradientType::ValueType, MovingImageDimension>;
 
-  typedef CovariantVector<typename VirtualImageGradientType::ValueType, VirtualImageDimension>
-    VirtualImageComponentGradientType;
+  using VirtualImageComponentGradientType =
+      CovariantVector<typename VirtualImageGradientType::ValueType, VirtualImageDimension>;
 
   /** Type of the filter used to calculate the gradients.
    * Note that RealType is always double (or long double for
    * long double pixel-type).*/
-  typedef typename MetricTraits::FixedRealType  FixedRealType;
-  typedef typename MetricTraits::MovingRealType MovingRealType;
+  using FixedRealType = typename MetricTraits::FixedRealType;
+  using MovingRealType = typename MetricTraits::MovingRealType;
 
-  typedef typename NumericTraits<FixedRealType>::ScalarRealType  FixedScalarRealType;
-  typedef typename NumericTraits<MovingRealType>::ScalarRealType MovingScalarRealType;
+  using FixedScalarRealType = typename NumericTraits<FixedRealType>::ScalarRealType;
+  using MovingScalarRealType = typename NumericTraits<MovingRealType>::ScalarRealType;
 
-  typedef typename MetricTraits::FixedGradientPixelType  FixedGradientPixelType;
-  typedef typename MetricTraits::MovingGradientPixelType MovingGradientPixelType;
+  using FixedGradientPixelType = typename MetricTraits::FixedGradientPixelType;
+  using MovingGradientPixelType = typename MetricTraits::MovingGradientPixelType;
 
-  typedef typename MetricTraits::FixedImageGradientImageType  FixedImageGradientImageType;
-  typedef typename MetricTraits::MovingImageGradientImageType MovingImageGradientImageType;
+  using FixedImageGradientImageType = typename MetricTraits::FixedImageGradientImageType;
+  using MovingImageGradientImageType = typename MetricTraits::MovingImageGradientImageType;
 
-  typedef typename FixedImageGradientImageType::Pointer  FixedImageGradientImagePointer;
-  typedef typename MovingImageGradientImageType::Pointer MovingImageGradientImagePointer;
+  using FixedImageGradientImagePointer = typename FixedImageGradientImageType::Pointer;
+  using MovingImageGradientImagePointer = typename MovingImageGradientImageType::Pointer;
 
-  typedef typename MetricTraits::FixedImageGradientFilterType  FixedImageGradientFilterType;
-  typedef typename MetricTraits::MovingImageGradientFilterType MovingImageGradientFilterType;
+  using FixedImageGradientFilterType = typename MetricTraits::FixedImageGradientFilterType;
+  using MovingImageGradientFilterType = typename MetricTraits::MovingImageGradientFilterType;
 
-  typedef typename FixedImageGradientFilterType::Pointer
-                                              FixedImageGradientFilterPointer;
-  typedef typename MovingImageGradientFilterType::Pointer
-                                              MovingImageGradientFilterPointer;
+  using FixedImageGradientFilterPointer = typename FixedImageGradientFilterType::Pointer;
+  using MovingImageGradientFilterPointer = typename MovingImageGradientFilterType::Pointer;
 
 
   /** Default image gradient filter types */
-  typedef typename MetricTraits::DefaultFixedImageGradientFilter  DefaultFixedImageGradientFilter;
-  typedef typename MetricTraits::DefaultMovingImageGradientFilter DefaultMovingImageGradientFilter;
+  using DefaultFixedImageGradientFilter = typename MetricTraits::DefaultFixedImageGradientFilter;
+  using DefaultMovingImageGradientFilter = typename MetricTraits::DefaultMovingImageGradientFilter;
 
   /** Image gradient calculator types. The TOutput template parameter
    * is chosen to match that of CentralDiffererenceImageFunction. */
-  typedef typename MetricTraits::FixedImageGradientCalculatorType
-                                            FixedImageGradientCalculatorType;
-  typedef typename MetricTraits::MovingImageGradientCalculatorType
-                                            MovingImageGradientCalculatorType;
+  using FixedImageGradientCalculatorType = typename MetricTraits::FixedImageGradientCalculatorType;
+  using MovingImageGradientCalculatorType = typename MetricTraits::MovingImageGradientCalculatorType;
 
-  typedef typename FixedImageGradientCalculatorType::Pointer
-                                            FixedImageGradientCalculatorPointer;
-  typedef typename MovingImageGradientCalculatorType::Pointer
-                                            MovingImageGradientCalculatorPointer;
+  using FixedImageGradientCalculatorPointer = typename FixedImageGradientCalculatorType::Pointer;
+  using MovingImageGradientCalculatorPointer = typename MovingImageGradientCalculatorType::Pointer;
 
   /** Default image gradient calculator types */
-  typedef typename MetricTraits::DefaultFixedImageGradientCalculator  DefaultFixedImageGradientCalculator;
-  typedef typename MetricTraits::DefaultMovingImageGradientCalculator DefaultMovingImageGradientCalculator;
+  using DefaultFixedImageGradientCalculator = typename MetricTraits::DefaultFixedImageGradientCalculator;
+  using DefaultMovingImageGradientCalculator = typename MetricTraits::DefaultMovingImageGradientCalculator;
 
   /**  Type of the measure. */
-  typedef typename Superclass::MeasureType    MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
   /**  Type of the metric derivative. */
-  typedef typename Superclass::DerivativeType DerivativeType;
-  typedef typename DerivativeType::ValueType  DerivativeValueType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
 
   /** Type to represent the number of parameters that are being optimized at
    * any given iteration of the optimizer. */
-  typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Set fixed image*/
   void SetFixedObject( const ObjectType *object ) override
@@ -546,7 +538,7 @@ public:
     return true;
   }
 
-  typedef typename Superclass::MetricCategoryType   MetricCategoryType;
+  using MetricCategoryType = typename Superclass::MetricCategoryType;
 
   /** Get metric category */
   MetricCategoryType GetMetricCategory() const override
@@ -556,12 +548,10 @@ public:
 
 protected:
   /* Interpolators for image gradient filters. */
-  typedef LinearInterpolateImageFunction< FixedImageGradientImageType,
-                                          CoordinateRepresentationType >
-                                                  FixedImageGradientInterpolatorType;
-  typedef LinearInterpolateImageFunction< MovingImageGradientImageType,
-                                          CoordinateRepresentationType >
-                                                  MovingImageGradientInterpolatorType;
+  using FixedImageGradientInterpolatorType = LinearInterpolateImageFunction< FixedImageGradientImageType,
+                                          CoordinateRepresentationType >;
+  using MovingImageGradientInterpolatorType = LinearInterpolateImageFunction< MovingImageGradientImageType,
+                                          CoordinateRepresentationType >;
 
   friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< VirtualImageDimension >, Self >;
   friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, Self >;
@@ -765,8 +755,8 @@ private:
   /** Only floating-point images are currently supported. To support integer images,
    * several small changes must be made */
   #ifdef ITK_USE_CONCEPT_CHECKING
-  typedef typename PixelTraits<FixedImagePixelType>::ValueType  FixedImagePixelValueType;
-  typedef typename PixelTraits<MovingImagePixelType>::ValueType MovingImagePixelValueType;
+  using FixedImagePixelValueType = typename PixelTraits<FixedImagePixelType>::ValueType;
+  using MovingImagePixelValueType = typename PixelTraits<MovingImagePixelType>::ValueType;
   itkConceptMacro( OnlyDefinedForFloatingPointTypes0, ( itk::Concept::IsFloatingPoint<FixedImagePixelValueType> ) );
   itkConceptMacro( OnlyDefinedForFloatingPointTypes1, ( itk::Concept::IsFloatingPoint<MovingImagePixelValueType> ) );
   #endif // ITK_USE_CONCEPT_CHECKING

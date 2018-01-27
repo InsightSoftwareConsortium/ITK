@@ -45,20 +45,20 @@ class ITK_TEMPLATE_EXPORT LineSpatialObject:
 {
 public:
 
-  typedef LineSpatialObject                            Self;
-  typedef PointBasedSpatialObject< TDimension >        Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
-  typedef double                                       ScalarType;
-  typedef LineSpatialObjectPoint< TDimension >         LinePointType;
-  typedef std::vector< LinePointType >                 PointListType;
-  typedef const PointListType                          ConstPointListType;
-  typedef typename Superclass::SpatialObjectPointType  SpatialObjectPointType;
-  typedef typename Superclass::PointType               PointType;
-  typedef typename Superclass::TransformType           TransformType;
-  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
-  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >           PointContainerPointer;
+  using Self = LineSpatialObject;
+  using Superclass = PointBasedSpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ScalarType = double;
+  using LinePointType = LineSpatialObjectPoint< TDimension >;
+  using PointListType = std::vector< LinePointType >;
+  using ConstPointListType = const PointListType;
+  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
+  using PointType = typename Superclass::PointType;
+  using TransformType = typename Superclass::TransformType;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointContainerPointer = SmartPointer< PointContainerType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

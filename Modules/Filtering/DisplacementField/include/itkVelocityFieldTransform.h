@@ -37,11 +37,11 @@ class ITK_TEMPLATE_EXPORT VelocityFieldTransform :
   public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef VelocityFieldTransform                                        Self;
-  typedef DisplacementFieldTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                            Pointer;
-  typedef SmartPointer<const Self>                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VelocityFieldTransform;
+  using Superclass = DisplacementFieldTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( VelocityFieldTransform, DisplacementFieldTransform );
@@ -50,36 +50,36 @@ public:
   itkNewMacro( Self );
 
   /** InverseTransform type. */
-  typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
+  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Type of the input parameters. */
-  typedef typename Superclass::FixedParametersType       FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType  FixedParametersValueType;
-  typedef typename Superclass::ParametersType            ParametersType;
-  typedef typename Superclass::ParametersValueType       ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
 
   /** Transform category type. */
-  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+  using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** The number of parameters defininig this transform. */
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType OutputPointType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
 
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType  InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
 
-  typedef typename Superclass::InputVectorPixelType  InputVectorPixelType;
-  typedef typename Superclass::OutputVectorPixelType OutputVectorPixelType;
+  using InputVectorPixelType = typename Superclass::InputVectorPixelType;
+  using OutputVectorPixelType = typename Superclass::OutputVectorPixelType;
 
   /** Derivative type */
-  typedef typename Superclass::DerivativeType DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
   /** Dimension of the velocity field . */
   itkStaticConstMacro( VelocityFieldDimension, unsigned int, NDimensions + 1 );
@@ -88,28 +88,28 @@ public:
   itkStaticConstMacro( Dimension, unsigned int, NDimensions );
 
   /** Define the displacement field type and corresponding interpolator type. */
-  typedef typename Superclass::DisplacementFieldType   DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer      DisplacementFieldPointer;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** Define the displacement field type and corresponding interpolator type. */
-  typedef Image<OutputVectorType, VelocityFieldDimension>       VelocityFieldType;
-  typedef typename VelocityFieldType::Pointer                   VelocityFieldPointer;
+  using VelocityFieldType = Image<OutputVectorType, VelocityFieldDimension>;
+  using VelocityFieldPointer = typename VelocityFieldType::Pointer;
 
   /** Standard types for the velocity Field */
-  typedef typename VelocityFieldType::IndexType      IndexType;
-  typedef typename VelocityFieldType::RegionType     RegionType;
-  typedef typename VelocityFieldType::SizeType       SizeType;
-  typedef typename VelocityFieldType::SpacingType    SpacingType;
-  typedef typename VelocityFieldType::DirectionType  DirectionType;
-  typedef typename VelocityFieldType::PointType      PointType;
-  typedef typename VelocityFieldType::PixelType      PixelType;
+  using IndexType = typename VelocityFieldType::IndexType;
+  using RegionType = typename VelocityFieldType::RegionType;
+  using SizeType = typename VelocityFieldType::SizeType;
+  using SpacingType = typename VelocityFieldType::SpacingType;
+  using DirectionType = typename VelocityFieldType::DirectionType;
+  using PointType = typename VelocityFieldType::PointType;
+  using PixelType = typename VelocityFieldType::PixelType;
 
-  typedef VectorInterpolateImageFunction<VelocityFieldType, ScalarType> VelocityFieldInterpolatorType;
-  typedef typename VelocityFieldInterpolatorType::Pointer               VelocityFieldInterpolatorPointer;
+  using VelocityFieldInterpolatorType = VectorInterpolateImageFunction<VelocityFieldType, ScalarType>;
+  using VelocityFieldInterpolatorPointer = typename VelocityFieldInterpolatorType::Pointer;
 
   /** Define the internal parameter helper used to access the field */
-  typedef ImageVectorOptimizerParametersHelper<ScalarType, Dimension, VelocityFieldDimension>
-    OptimizerParametersHelperType;
+  using OptimizerParametersHelperType =
+      ImageVectorOptimizerParametersHelper<ScalarType, Dimension, VelocityFieldDimension>;
 
   /** Get/Set the velocity field.
    * Set the displacement field. Create special set accessor to update

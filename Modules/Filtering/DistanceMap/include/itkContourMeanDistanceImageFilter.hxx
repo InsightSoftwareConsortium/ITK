@@ -123,8 +123,8 @@ ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  typedef ContourDirectedMeanDistanceImageFilter< InputImage1Type, InputImage2Type >
-  Filter12Type;
+  using Filter12Type =
+      ContourDirectedMeanDistanceImageFilter< InputImage1Type, InputImage2Type >;
 
   typename Filter12Type::Pointer filter12 = Filter12Type::New();
 
@@ -133,8 +133,8 @@ ContourMeanDistanceImageFilter< TInputImage1, TInputImage2 >
 
  filter12->SetUseImageSpacing( m_UseImageSpacing );
 
-  typedef ContourDirectedMeanDistanceImageFilter< InputImage2Type, InputImage1Type >
-  Filter21Type;
+  using Filter21Type =
+      ContourDirectedMeanDistanceImageFilter< InputImage2Type, InputImage1Type >;
 
   typename Filter21Type::Pointer filter21 = Filter21Type::New();
 

@@ -43,8 +43,8 @@ template< typename TPixel, unsigned int VImageDimensions,
 int
 test_fft(unsigned int *SizeOfDimensions)
 {
-  typedef itk::Image< TPixel, VImageDimensions >                  RealImageType;
-  typedef itk::Image< std::complex< TPixel >, VImageDimensions >  ComplexImageType;
+  using RealImageType = itk::Image< TPixel, VImageDimensions >;
+  using ComplexImageType = itk::Image< std::complex< TPixel >, VImageDimensions >;
   unsigned int counter = 0;
   typename RealImageType::SizeType  imageSize;
   typename RealImageType::IndexType imageIndex;
@@ -235,8 +235,8 @@ template< typename TPixel, unsigned int VImageDimensions,
 int
 test_fft_rtc(unsigned int *SizeOfDimensions)
 {
-  typedef itk::Image< TPixel, VImageDimensions >                  RealImageType;
-  typedef itk::Image< std::complex< TPixel >, VImageDimensions >  ComplexImageType;
+  using RealImageType = itk::Image< TPixel, VImageDimensions >;
+  using ComplexImageType = itk::Image< std::complex< TPixel >, VImageDimensions >;
   unsigned int counter = 0;
   typename RealImageType::SizeType  imageSize;
   typename RealImageType::IndexType imageIndex;

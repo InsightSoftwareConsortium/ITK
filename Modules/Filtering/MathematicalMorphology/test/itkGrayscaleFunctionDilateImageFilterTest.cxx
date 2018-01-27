@@ -33,16 +33,16 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
   const unsigned short bgValue = 0;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned short, myDimension>  myImageType;
+  using myImageType = itk::Image<unsigned short, myDimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create an image
   myImageType::Pointer inputImage  = myImageType::New();
@@ -65,7 +65,7 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
   inputImage->Allocate();
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIterator<myImageType>  myIteratorType;
+  using myIteratorType = itk::ImageRegionIterator<myImageType>;
 
   // Create one iterator for image (this is a light object)
   myIteratorType it( inputImage, inputImage->GetBufferedRegion() );
@@ -112,12 +112,12 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
     }
 
   // Declare the type for the structuring element
-  typedef itk::BinaryBallStructuringElement<unsigned short, myDimension>
-    myKernelType;
+  using myKernelType =
+      itk::BinaryBallStructuringElement<unsigned short, myDimension>;
 
   // Declare the type for the morphology Filter
-  typedef itk::GrayscaleFunctionDilateImageFilter<myImageType, myImageType, myKernelType>
-    myFilterType;
+  using myFilterType =
+      itk::GrayscaleFunctionDilateImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
   myFilterType::Pointer filter = myFilterType::New();
@@ -172,7 +172,7 @@ int itkGrayscaleFunctionDilateImageFilterTest(int argc, char *argv[] )
   //  into the file. This enables regression testing of the filter.
   if (argc == 2)
     {
-    typedef  itk::ImageFileWriter<  myImageType  > WriterType;
+    using WriterType = itk::ImageFileWriter<  myImageType  >;
     WriterType::Pointer writer = WriterType::New();
     writer->SetFileName( argv[1] );
     writer->SetInput( filter->GetOutput() );

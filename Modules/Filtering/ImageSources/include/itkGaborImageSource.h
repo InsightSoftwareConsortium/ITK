@@ -49,21 +49,21 @@ class ITK_TEMPLATE_EXPORT GaborImageSource:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef GaborImageSource                    Self;
-  typedef GenerateImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GaborImageSource;
+  using Superclass = GenerateImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Output image typedefs */
-  typedef TOutputImage                            OutputImageType;
-  typedef typename OutputImageType::PixelType     PixelType;
-  typedef typename OutputImageType::RegionType    RegionType;
-  typedef typename OutputImageType::SpacingType   SpacingType;
-  typedef typename OutputImageType::PointType     PointType;
-  typedef typename OutputImageType::DirectionType DirectionType;
+  /** Output image type alias */
+  using OutputImageType = TOutputImage;
+  using PixelType = typename OutputImageType::PixelType;
+  using RegionType = typename OutputImageType::RegionType;
+  using SpacingType = typename OutputImageType::SpacingType;
+  using PointType = typename OutputImageType::PointType;
+  using DirectionType = typename OutputImageType::DirectionType;
 
-  typedef typename RegionType::SizeType SizeType;
+  using SizeType = typename RegionType::SizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaborImageSource, GenerateImageSource);
@@ -76,8 +76,8 @@ public:
                       OutputImageType::ImageDimension);
 
   /** Type used to store gabor parameters. */
-  typedef FixedArray< double,
-                      itkGetStaticConstMacro(ImageDimension) >    ArrayType;
+  using ArrayType = FixedArray< double,
+                      itkGetStaticConstMacro(ImageDimension) >;
 
   /** Set/Get the the standard deviation in each direction. */
   itkSetMacro(Sigma, ArrayType);

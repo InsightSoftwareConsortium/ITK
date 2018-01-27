@@ -44,15 +44,15 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef float                                                   InputPixelType;
-  typedef float                                                   OutputPixelType;
-  typedef itk::Image< InputPixelType,Dimension >                  InputImageType;
-  typedef itk::Image< std::complex<OutputPixelType>,Dimension >   OutputImageType;
-  typedef itk::ImageFileReader< InputImageType >                  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >                 WriterType;
+  using InputPixelType = float;
+  using OutputPixelType = float;
+  using InputImageType = itk::Image< InputPixelType,Dimension >;
+  using OutputImageType = itk::Image< std::complex<OutputPixelType>,Dimension >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
-  typedef itk::ComposeImageFilter <
-    InputImageType, OutputImageType >  RealAndImaginary2ComplexFilterType;
+  using RealAndImaginary2ComplexFilterType = itk::ComposeImageFilter <
+    InputImageType, OutputImageType >;
 
   ReaderType::Pointer readerReal = ReaderType::New();
   ReaderType::Pointer readerImag = ReaderType::New();
@@ -85,7 +85,7 @@ int itkImageReadRealAndImaginaryWriteComplexTest( int argc, char * argv[] )
     }
 
   // check that the default template parameters work
-  typedef itk::ComposeImageFilter < InputImageType > DefaultParametersFilterType;
+  using DefaultParametersFilterType = itk::ComposeImageFilter < InputImageType >;
   DefaultParametersFilterType::Pointer temp = DefaultParametersFilterType::New();
   if( temp.IsNull() )
     {

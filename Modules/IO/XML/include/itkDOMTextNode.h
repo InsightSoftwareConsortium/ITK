@@ -40,11 +40,11 @@ namespace itk
 class DOMTextNode : public DOMNode
 {
 public:
-  /** Standard class typedefs. */
-  typedef DOMTextNode                 Self;
-  typedef DOMNode                     Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DOMTextNode;
+  using Superclass = DOMNode;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

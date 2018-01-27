@@ -37,24 +37,24 @@ class ITK_TEMPLATE_EXPORT DiscreteLevelSetImage :
   public LevelSetImage< Index< VDimension >, VDimension, TOutput >
 {
 public:
-  typedef Index< VDimension >             IndexType;
+  using IndexType = Index< VDimension >;
 
-  typedef DiscreteLevelSetImage                           Self;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
-  typedef LevelSetImage< IndexType, VDimension, TOutput > Superclass;
+  using Self = DiscreteLevelSetImage;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LevelSetImage< IndexType, VDimension, TOutput >;
 
   /** Run-time type information */
   itkTypeMacro ( DiscreteLevelSetImage, LevelSetImage );
 
   itkStaticConstMacro ( Dimension, unsigned int, Superclass::Dimension );
 
-  typedef typename Superclass::InputType        InputType;
-  typedef typename Superclass::OutputType       OutputType;
-  typedef typename Superclass::OutputRealType   OutputRealType;
-  typedef typename Superclass::GradientType     GradientType;
-  typedef typename Superclass::HessianType      HessianType;
-  typedef typename Superclass::LevelSetDataType LevelSetDataType;
+  using InputType = typename Superclass::InputType;
+  using OutputType = typename Superclass::OutputType;
+  using OutputRealType = typename Superclass::OutputRealType;
+  using GradientType = typename Superclass::GradientType;
+  using HessianType = typename Superclass::HessianType;
+  using LevelSetDataType = typename Superclass::LevelSetDataType;
 
   /** Returns the gradient of the level set function at a given location inputIndex */
   OutputType  Evaluate( const InputType& inputIndex ) const override = 0;

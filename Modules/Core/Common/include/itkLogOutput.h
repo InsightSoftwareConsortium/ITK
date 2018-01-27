@@ -40,10 +40,10 @@ class ITKCommon_EXPORT LogOutput:public Object
 {
 public:
 
-  typedef LogOutput                  Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = LogOutput;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** flush a buffer */
   virtual void Flush() = 0;

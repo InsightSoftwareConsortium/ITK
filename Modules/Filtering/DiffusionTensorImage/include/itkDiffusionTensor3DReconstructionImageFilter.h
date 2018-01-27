@@ -129,12 +129,11 @@ class ITK_TEMPLATE_EXPORT DiffusionTensor3DReconstructionImageFilter:
 {
 public:
 
-  typedef DiffusionTensor3DReconstructionImageFilter Self;
-  typedef SmartPointer< Self >                       Pointer;
-  typedef SmartPointer< const Self >                 ConstPointer;
-  typedef ImageToImageFilter< Image< TReferenceImagePixelType, 3 >,
-                              Image< DiffusionTensor3D< TTensorPixelType >, 3 > >
-  Superclass;
+  using Self = DiffusionTensor3DReconstructionImageFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter< Image< TReferenceImagePixelType, 3 >,
+                              Image< DiffusionTensor3D< TTensorPixelType >, 3 > >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -143,49 +142,48 @@ public:
   itkTypeMacro(DiffusionTensor3DReconstructionImageFilter,
                ImageToImageFilter);
 
-  typedef TReferenceImagePixelType ReferencePixelType;
+  using ReferencePixelType = TReferenceImagePixelType;
 
-  typedef TGradientImagePixelType GradientPixelType;
+  using GradientPixelType = TGradientImagePixelType;
 
-  typedef DiffusionTensor3D< TTensorPixelType > TensorPixelType;
+  using TensorPixelType = DiffusionTensor3D< TTensorPixelType >;
 
   /** Reference image data,  This image is acquired in the absence
    * of a diffusion sensitizing field gradient */
-  typedef typename Superclass::InputImageType ReferenceImageType;
+  using ReferenceImageType = typename Superclass::InputImageType;
 
-  typedef Image< TensorPixelType, 3 > TensorImageType;
+  using TensorImageType = Image< TensorPixelType, 3 >;
 
-  typedef TensorImageType OutputImageType;
+  using OutputImageType = TensorImageType;
 
-  typedef typename Superclass::OutputImageRegionType
-  OutputImageRegionType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Typedef defining one (of the many) gradient images.  */
-  typedef Image< GradientPixelType, 3 > GradientImageType;
+  using GradientImageType = Image< GradientPixelType, 3 >;
 
-  /** An alternative typedef defining one (of the many) gradient images.
+  /** An alternative type alias defining one (of the many) gradient images.
    * It will be assumed that the vectorImage has the same dimension as the
    * Reference image and a vector length parameter of \c n (number of
    * gradient directions) */
-  typedef VectorImage< GradientPixelType, 3 > GradientImagesType;
+  using GradientImagesType = VectorImage< GradientPixelType, 3 >;
 
   /** The type for the optional SpatialObject for masking*/
-  typedef SpatialObject<3> MaskSpatialObjectType;
+  using MaskSpatialObjectType = SpatialObject<3>;
 
   /** The type for the optional mask image */
-  typedef TMaskImageType MaskImageType;
+  using MaskImageType = TMaskImageType;
 
   /** Holds the tensor basis coefficients G_k */
-  typedef vnl_matrix_fixed< double, 6, 6 > TensorBasisMatrixType;
+  using TensorBasisMatrixType = vnl_matrix_fixed< double, 6, 6 >;
 
-  typedef vnl_matrix< double > CoefficientMatrixType;
+  using CoefficientMatrixType = vnl_matrix< double >;
 
   /** Holds each magnetic field gradient used to acquire one DWImage */
-  typedef vnl_vector_fixed< double, 3 > GradientDirectionType;
+  using GradientDirectionType = vnl_vector_fixed< double, 3 >;
 
   /** Container to hold gradient directions of the 'n' DW measurements */
-  typedef VectorContainer< unsigned int,
-                           GradientDirectionType >                  GradientDirectionContainerType;
+  using GradientDirectionContainerType = VectorContainer< unsigned int,
+                           GradientDirectionType >;
 
   /** Set method to add a gradient direction and its corresponding image. */
   void AddGradientImage(const GradientDirectionType &, const GradientImageType *image);

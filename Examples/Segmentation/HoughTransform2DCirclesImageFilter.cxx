@@ -69,12 +69,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char   PixelType;
-  typedef   float           AccumulatorPixelType;
+  using PixelType = unsigned char;
+  using AccumulatorPixelType = float;
   const     unsigned int    Dimension = 2;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
   ImageType::IndexType localIndex;
-  typedef itk::Image< AccumulatorPixelType, Dimension > AccumulatorImageType;
+  using AccumulatorImageType = itk::Image< AccumulatorPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -83,7 +83,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef  itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   try
@@ -111,8 +111,8 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   std::cout << "Computing Hough Map" << std::endl;
 
-  typedef itk::HoughTransform2DCirclesImageFilter<PixelType,
-               AccumulatorPixelType> HoughTransformFilterType;
+  using HoughTransformFilterType = itk::HoughTransform2DCirclesImageFilter<PixelType,
+               AccumulatorPixelType>;
   HoughTransformFilterType::Pointer houghFilter
                                             = HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -188,8 +188,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char                            OutputPixelType;
-  typedef  itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
   OutputImageType::Pointer  localOutputImage = OutputImageType::New();
 
@@ -209,7 +209,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef HoughTransformFilterType::CirclesListType CirclesListType;
+  using CirclesListType = HoughTransformFilterType::CirclesListType;
   CirclesListType::const_iterator itCircles = circles.begin();
 
   while( itCircles != circles.end() )
@@ -231,10 +231,8 @@ int main( int argc, char *argv[] )
          angle <= itk::Math::twopi;
          angle += itk::Math::pi/60.0 )
       {
-      typedef HoughTransformFilterType::CircleType::TransformType
-        TransformType;
-      typedef TransformType::OutputVectorType
-        OffsetType;
+      using TransformType = HoughTransformFilterType::CircleType::TransformType;
+      using OffsetType = TransformType::OutputVectorType;
       const OffsetType offset =
         (*itCircles)->GetObjectToParentTransform()->GetOffset();
       localIndex[0] =
@@ -262,7 +260,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::ImageFileWriter< ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType  >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[2] );

@@ -87,22 +87,22 @@ class ITK_TEMPLATE_EXPORT ThresholdSegmentationLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:
-  /** Standard class typedefs */
-  typedef ThresholdSegmentationLevelSetImageFilter Self;
-  typedef  SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = ThresholdSegmentationLevelSetImageFilter;
+  using Superclass =
+      SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType        ValueType;
-  typedef typename Superclass::OutputImageType  OutputImageType;
-  typedef typename Superclass::FeatureImageType FeatureImageType;
+  /** Inherited type alias from the superclass. */
+  using ValueType = typename Superclass::ValueType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using FeatureImageType = typename Superclass::FeatureImageType;
 
   /** Type of the segmentation function */
-  typedef ThresholdSegmentationLevelSetFunction< OutputImageType,
-                                                 FeatureImageType > ThresholdFunctionType;
-  typedef typename ThresholdFunctionType::Pointer ThresholdFunctionPointer;
+  using ThresholdFunctionType = ThresholdSegmentationLevelSetFunction< OutputImageType,
+                                                 FeatureImageType >;
+  using ThresholdFunctionPointer = typename ThresholdFunctionType::Pointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThresholdSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);

@@ -22,29 +22,29 @@
 int itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int, char * [] )
 {
   const unsigned int SpaceDimension = 3;
-  typedef double CoordinateRepType;
-  typedef itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<CoordinateRepType, SpaceDimension> TransformType;
+  using CoordinateRepType = double;
+  using TransformType = itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<CoordinateRepType, SpaceDimension>;
 
   /**
    * Define the transformation domain
    */
-  typedef TransformType::PointType PointType;
+  using PointType = TransformType::PointType;
   PointType origin;
   origin.Fill( -5.0 );
 
-  typedef TransformType::SizeType SizeType;
+  using SizeType = TransformType::SizeType;
   SizeType size;
   size.Fill( 65 );
 
-  typedef TransformType::SpacingType SpacingType;
+  using SpacingType = TransformType::SpacingType;
   SpacingType spacing;
   spacing.Fill( 1.2 );
 
-  typedef TransformType::DirectionType DirectionType;
+  using DirectionType = TransformType::DirectionType;
   DirectionType direction;
   direction.SetIdentity();
 
-  typedef TransformType::DisplacementFieldType DisplacementFieldType;
+  using DisplacementFieldType = TransformType::DisplacementFieldType;
   DisplacementFieldType::Pointer displacementField = DisplacementFieldType::New();
   displacementField->SetOrigin( origin );
   displacementField->SetSpacing( spacing );
@@ -96,7 +96,7 @@ int itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(i
       ( ( spacing[d] * ( size[d] - 1 ) / requiredSpacing[d] ) + 1 );
     }
 
-  typedef itk::BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TransformType> AdaptorType;
+  using AdaptorType = itk::BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TransformType>;
   AdaptorType::Pointer adaptor = AdaptorType::New();
   adaptor->SetTransform( transform );
   adaptor->SetRequiredSize( requiredSize );

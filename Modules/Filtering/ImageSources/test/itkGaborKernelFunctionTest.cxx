@@ -22,7 +22,7 @@
 
 int itkGaborKernelFunctionTest( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
-  typedef itk::GaborKernelFunction< double > KernelFunctionType;
+  using KernelFunctionType = itk::GaborKernelFunction< double >;
   KernelFunctionType::Pointer gabor = KernelFunctionType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( gabor, GaborKernelFunction,

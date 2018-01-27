@@ -35,26 +35,20 @@ int itkNormalQuadEdgeMeshFilterTest( int argc, char* argv[] )
     }
 
   const unsigned int    Dimension = 3;
-  typedef double        CoordType;
+  using CoordType = double;
 
-  typedef itk::QuadEdgeMesh< CoordType, Dimension > InputMeshType;
+  using InputMeshType = itk::QuadEdgeMesh< CoordType, Dimension >;
 
-  typedef itk::Vector< CoordType, Dimension > VectorType;
+  using VectorType = itk::Vector< CoordType, Dimension >;
 
-  typedef itk::QuadEdgeMeshExtendedTraits <
-    VectorType,
-    Dimension,
-    2,
-    CoordType,
-    CoordType,
-    VectorType,
-    bool,
-    bool > Traits;
+  using Traits = itk::QuadEdgeMeshExtendedTraits <
+    VectorType, Dimension, 2,
+    CoordType, CoordType, VectorType, bool, bool >;
 
-  typedef itk::QuadEdgeMesh < VectorType, Dimension, Traits > OutputMeshType;
+  using OutputMeshType = itk::QuadEdgeMesh < VectorType, Dimension, Traits >;
 
-  typedef itk::MeshFileReader< InputMeshType > ReaderType;
-  typedef itk::NormalQuadEdgeMeshFilter< InputMeshType, OutputMeshType > NormalFilterType;
+  using ReaderType = itk::MeshFileReader< InputMeshType >;
+  using NormalFilterType = itk::NormalQuadEdgeMeshFilter< InputMeshType, OutputMeshType >;
   NormalFilterType::WeightType weight_type;
 
   int param = atoi( argv[2] );

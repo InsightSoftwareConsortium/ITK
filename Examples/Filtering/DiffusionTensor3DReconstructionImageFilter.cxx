@@ -78,8 +78,8 @@ int main( int argc, char *argv[] )
   bool readb0 = false;
   double b0 = 0;
 
-  typedef unsigned short                      PixelType;
-  typedef itk::VectorImage<unsigned short, 3> ImageType;
+  using PixelType = unsigned short;
+  using ImageType = itk::VectorImage<unsigned short, 3>;
 
   itk::ImageFileReader<ImageType>::Pointer reader
     = itk::ImageFileReader<ImageType>::New();
@@ -109,8 +109,8 @@ int main( int argc, char *argv[] )
   // sensitizing gradients), 'n' Gradient images and their directions and produces
   // as output an image of tensors with pixel-type DiffusionTensor3D.
   //
-  typedef itk::DiffusionTensor3DReconstructionImageFilter<
-    PixelType, PixelType, double > TensorReconstructionImageFilterType;
+  using TensorReconstructionImageFilterType = itk::DiffusionTensor3DReconstructionImageFilter<
+    PixelType, PixelType, double >;
 
 
   // -------------------------------------------------------------------------
@@ -192,8 +192,8 @@ int main( int argc, char *argv[] )
   // gradient and reference images in separate images and writing them out to
   // files, so they can be fired up in you favourite volume viewer.
   //
-  typedef itk::Image< PixelType, Dimension > ReferenceImageType;
-  typedef ReferenceImageType                 GradientImageType;
+  using ReferenceImageType = itk::Image< PixelType, Dimension >;
+  using GradientImageType = ReferenceImageType;
 
   // A container of smart pointers to images. This container will hold
   // the 'numberOfGradientImages' gradient images and the reference image.
@@ -201,9 +201,9 @@ int main( int argc, char *argv[] )
   std::vector< GradientImageType::Pointer > imageContainer;
 
   // iterator to iterate over the DWI Vector image just read in.
-  typedef itk::ImageRegionConstIterator< ImageType >         DWIIteratorType;
+  using DWIIteratorType = itk::ImageRegionConstIterator< ImageType >;
   DWIIteratorType dwiit( img, img->GetBufferedRegion() );
-  typedef itk::ImageRegionIterator< GradientImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIterator< GradientImageType >;
 
   // In this for loop, we will extract the 'n' gradient images + 1 reference
   // image from the DWI Vector image.
@@ -235,7 +235,7 @@ int main( int argc, char *argv[] )
   if( (argc > 4) && (atoi(argv[6])) )
     {
     unsigned int referenceImageIndex = 0;
-    typedef itk::ImageFileWriter< GradientImageType > GradientWriterType;
+    using GradientWriterType = itk::ImageFileWriter< GradientImageType >;
     for( unsigned int i = 0; i<numberOfImages; i++ )
       {
       GradientWriterType::Pointer gradientWriter = GradientWriterType::New();
@@ -294,8 +294,7 @@ int main( int argc, char *argv[] )
   // Write out the image of tensors. This code snippet goes to show that you
   // can use itk::ImageFileWriter to write an image of tensors.
   //
-  typedef itk::ImageFileWriter<
-    TensorReconstructionImageFilterType::OutputImageType > TensorWriterType;
+  using TensorWriterType = itk::ImageFileWriter<TensorReconstructionImageFilterType::OutputImageType>;
   TensorWriterType::Pointer tensorWriter = TensorWriterType::New();
   tensorWriter->SetFileName( argv[3] );
   tensorWriter->SetInput( tensorReconstructionFilter->GetOutput() );
@@ -307,19 +306,18 @@ int main( int argc, char *argv[] )
   // filters in ITK. Below, we use the TensorFractionalAnisotropyImageFilter to
   // compute the FA.
   //
-  typedef TensorReconstructionImageFilterType::TensorPixelType TensorPixelType;
-  typedef TensorPixelType::RealValueType                       RealValueType;
-  typedef itk::Image< RealValueType, Dimension >               FAImageType;
-  typedef itk::TensorFractionalAnisotropyImageFilter<
-      TensorReconstructionImageFilterType::OutputImageType, FAImageType >
-                                                               FAFilterType;
+  using TensorPixelType = TensorReconstructionImageFilterType::TensorPixelType;
+  using RealValueType = TensorPixelType::RealValueType;
+  using FAImageType = itk::Image< RealValueType, Dimension >;
+  using FAFilterType = itk::TensorFractionalAnisotropyImageFilter<
+      TensorReconstructionImageFilterType::OutputImageType, FAImageType >;
 
   FAFilterType::Pointer fractionalAnisotropyFilter = FAFilterType::New();
   fractionalAnisotropyFilter->SetInput( tensorReconstructionFilter->GetOutput() );
 
   // Write the FA image
   //
-  typedef itk::ImageFileWriter< FAFilterType::OutputImageType >  FAWriterType;
+  using FAWriterType = itk::ImageFileWriter< FAFilterType::OutputImageType >;
   FAWriterType::Pointer faWriter = FAWriterType::New();
   faWriter->SetInput( fractionalAnisotropyFilter->GetOutput() );
   faWriter->SetFileName(argv[4]);
@@ -327,17 +325,16 @@ int main( int argc, char *argv[] )
 
   // Compute and write the Relative Anisotropy
   //
-  typedef TensorReconstructionImageFilterType::TensorPixelType TensorPixelType;
-  typedef TensorPixelType::RealValueType                       RealValueType;
-  typedef itk::Image< RealValueType, Dimension >               RAImageType;
-  typedef itk::TensorRelativeAnisotropyImageFilter<
-      TensorReconstructionImageFilterType::OutputImageType, RAImageType >
-                                                               RAFilterType;
+  using TensorPixelType = TensorReconstructionImageFilterType::TensorPixelType;
+  using RealValueType = TensorPixelType::RealValueType;
+  using RAImageType = itk::Image< RealValueType, Dimension >;
+  using RAFilterType = itk::TensorRelativeAnisotropyImageFilter<
+      TensorReconstructionImageFilterType::OutputImageType, RAImageType >;
 
   RAFilterType::Pointer relativeAnisotropyFilter = RAFilterType::New();
   relativeAnisotropyFilter->SetInput( tensorReconstructionFilter->GetOutput() );
 
-  typedef itk::ImageFileWriter< RAFilterType::OutputImageType >  RAWriterType;
+  using RAWriterType = itk::ImageFileWriter< RAFilterType::OutputImageType >;
   RAWriterType::Pointer raWriter = RAWriterType::New();
   raWriter->SetInput( relativeAnisotropyFilter->GetOutput() );
   raWriter->SetFileName(argv[5]);

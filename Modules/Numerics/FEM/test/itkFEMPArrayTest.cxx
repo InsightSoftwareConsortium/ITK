@@ -29,10 +29,10 @@ int itkFEMPArrayTest(int, char *[])
   //the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  typedef itk::fem::Element        ElementType;
-  typedef ElementType::Node        NodeType;
-  typedef NodeType::ArrayType      ArrayType;
-  typedef itk::fem::FEMP<NodeType> FEMPointer;
+  using ElementType = itk::fem::Element;
+  using NodeType = ElementType::Node;
+  using ArrayType = NodeType::ArrayType;
+  using FEMPointer = itk::fem::FEMP<NodeType>;
 
   ArrayType array;
 

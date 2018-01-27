@@ -57,14 +57,14 @@ int main(int argc, char *argv[])
   std::string visibleHumanPath = argv[1];
   std::string outputImageFile = argv[2];
 
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
-  typedef unsigned char                PixelType;
-  typedef itk::Image<PixelType, 3>     ImageType;
-  typedef itk::Image<RGBPixelType, 3>  RGB3DImageType;
-  typedef itk::Image<RGBPixelType, 2>  RGB2DImageType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType, 3>;
+  using RGB3DImageType = itk::Image<RGBPixelType, 3>;
+  using RGB2DImageType = itk::Image<RGBPixelType, 2>;
 
   // genderate the names of the decompressed Visible Male images
-  typedef itk::NumericSeriesFileNames    NameGeneratorType;
+  using NameGeneratorType = itk::NumericSeriesFileNames;
   NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
   nameGenerator->SetSeriesFormat( visibleHumanPath+"a_vm%04d.raw" );
   nameGenerator->SetStartIndex( 1001 );
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
   nameGenerator->SetIncrementIndex( 1 );
 
 // create a ImageIO for the red channel
-  typedef itk::RawImageIO<PixelType, 2> ImageIOType;
+  using ImageIOType = itk::RawImageIO<PixelType, 2>;
   ImageIOType::Pointer rimageio = ImageIOType::New();
   rimageio->SetDimensions( 0, 2048 );
   rimageio->SetDimensions( 1, 1216 );
@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
   bimageio->SetSpacing( 1, .33 );
   bimageio->SetHeaderSize(bimageio->GetImageSizeInPixels()*2);
 
-  typedef itk::ImageSeriesReader< ImageType > SeriesReaderType;
+  using SeriesReaderType = itk::ImageSeriesReader< ImageType >;
   SeriesReaderType::Pointer rreader = SeriesReaderType::New();
   rreader->SetFileNames ( nameGenerator->GetFileNames() );
   rreader->SetImageIO( rimageio );
@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
   breader->SetFileNames ( nameGenerator->GetFileNames() );
   breader->SetImageIO( bimageio );
 
-  typedef itk::ComposeImageFilter< ImageType, RGB3DImageType > ComposeRGBFilterType;
+  using ComposeRGBFilterType = itk::ComposeImageFilter< ImageType, RGB3DImageType >;
   ComposeRGBFilterType::Pointer composeRGB = ComposeRGBFilterType::New();
   composeRGB->SetInput1( rreader->GetOutput() );
   composeRGB->SetInput2( greader->GetOutput() );
@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 
 // this filter is needed if square pixels are needed
 //   const int xyShrinkFactor = 3;
-//   typedef itk::ShrinkImageFilter<  RGB3DImageType, RGB3DImageType > ShrinkImageFilterType;
+//   using ShrinkImageFilterType = itk::ShrinkImageFilter<  RGB3DImageType, RGB3DImageType >;
 //   ShrinkImageFilterType::Pointer shrinker = ShrinkImageFilterType::New();
 //   shrinker->SetInput( composeRGB->GetOutput() );
 //   shrinker->SetShrinkFactors(  xyShrinkFactor );
@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 //   sagittalSlice.SetSize( 0, 0 );
 
 // create a 2D coronal slice from the volume
-  typedef itk::ExtractImageFilter< RGB3DImageType, RGB2DImageType > ExtractFilterType;
+  using ExtractFilterType = itk::ExtractImageFilter< RGB3DImageType, RGB2DImageType >;
   ExtractFilterType::Pointer extract = ExtractFilterType::New();
   // Note on direction cosines: Because our plane is in the xz-plane,
   // the default submatrix would be invalid, so we must use the identity
@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
   extract->SetExtractionRegion(coronalSlice);
 
 
-  typedef itk::ImageFileWriter< RGB2DImageType > ImageWriterType;
+  using ImageWriterType = itk::ImageFileWriter< RGB2DImageType >;
   ImageWriterType::Pointer writer = ImageWriterType::New();
   writer->SetFileName( outputImageFile );
 

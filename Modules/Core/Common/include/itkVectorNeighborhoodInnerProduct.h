@@ -45,26 +45,25 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT VectorNeighborhoodInnerProduct
 {
 public:
-  /** Standard typedefs */
-  typedef VectorNeighborhoodInnerProduct Self;
+  /** Standard type alias */
+  using Self = VectorNeighborhoodInnerProduct;
 
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   /** Extract the pixel type and scalar type from the image template parameter.
     */
-  typedef typename TImage::PixelType    PixelType;
-  typedef typename PixelType::ValueType ScalarValueType;
-  typedef Neighborhood< PixelType, itkGetStaticConstMacro(ImageDimension) >
-  NeighborhoodType;
+  using PixelType = typename TImage::PixelType;
+  using ScalarValueType = typename PixelType::ValueType;
+  using NeighborhoodType = Neighborhood< PixelType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Extract the image and vector dimension from the image template parameter.
     */
   itkStaticConstMacro(VectorDimension, unsigned int,
                       PixelType::Dimension);
 
-  /** Operator typedef */
-  typedef Neighborhood< ScalarValueType,
-                        itkGetStaticConstMacro(ImageDimension) > OperatorType;
+  /** Operator type alias */
+  using OperatorType = Neighborhood< ScalarValueType,
+                        itkGetStaticConstMacro(ImageDimension) >;
 
   /** Conversion operator. */
   PixelType operator()(const std::slice & s,

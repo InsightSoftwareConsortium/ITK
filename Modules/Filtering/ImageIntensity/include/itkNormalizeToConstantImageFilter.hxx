@@ -65,16 +65,16 @@ NormalizeToConstantImageFilter< TInputImage, TOutputImage >
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  typedef typename itk::StatisticsImageFilter< InputImageType > StatType;
+  using StatType = typename itk::StatisticsImageFilter< InputImageType >;
   typename StatType::Pointer stat = StatType::New();
   stat->SetInput( input0 );
   progress->RegisterInternalFilter( stat, 0.5f );
   stat->SetNumberOfThreads( this->GetNumberOfThreads() );
   stat->Update();
 
-  typedef typename itk::DivideImageFilter< InputImageType,
+  using DivType = typename itk::DivideImageFilter< InputImageType,
                                            OutputImageType,
-                                           OutputImageType > DivType;
+                                           OutputImageType >;
   typename DivType::Pointer div = DivType::New();
   div->SetInput( input0 );
   div->SetConstant2( static_cast< RealType >( stat->GetSum() ) / m_Constant );

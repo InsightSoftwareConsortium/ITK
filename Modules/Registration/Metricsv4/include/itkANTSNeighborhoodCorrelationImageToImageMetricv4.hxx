@@ -29,7 +29,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4<TFixedImage, TMovingImage, TVirt
 ::ANTSNeighborhoodCorrelationImageToImageMetricv4()
 {
   // initialize radius. note that a radius of 1 can be unstable
-  typedef typename RadiusType::SizeValueType RadiusValueType;
+  using RadiusValueType = typename RadiusType::SizeValueType;
   this->m_Radius.Fill( static_cast<RadiusValueType>(2) );
   // We have our own GetValueAndDerivativeThreader's that we want
   // ImageToImageMetricv4 to use.

@@ -116,7 +116,7 @@ FFTWComplexToComplexFFTImageFilter< TImage >
   //
   if ( this->GetTransformDirection() == Superclass::INVERSE )
     {
-    typedef ImageRegionIterator< OutputImageType >   IteratorType;
+    using IteratorType = ImageRegionIterator< OutputImageType >;
     SizeValueType totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
     IteratorType it(this->GetOutput(), outputRegionForThread);
     while( !it.IsAtEnd() )

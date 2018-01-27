@@ -33,8 +33,8 @@ int itkImageSeriesWriterTest(int ac, char* av[])
     return EXIT_FAILURE;
   }
 
-  typedef itk::Image<short,3>                 ImageNDType;
-  typedef itk::ImageSeriesReader<ImageNDType> ReaderType;
+  using ImageNDType = itk::Image<short,3>;
+  using ReaderType = itk::ImageSeriesReader<ImageNDType>;
 
   itk::GDCMImageIO::Pointer io = itk::GDCMImageIO::New();
 
@@ -42,7 +42,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
   itk::GDCMSeriesFileNames::Pointer nameGenerator = itk::GDCMSeriesFileNames::New();
   nameGenerator->SetDirectory(av[1]);
 
-  typedef std::vector< std::string >    SeriesIdContainer;
+  using SeriesIdContainer = std::vector< std::string >;
   const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
   std::string seriesIdentifier = seriesUID.begin()->c_str();
 
@@ -63,12 +63,12 @@ int itkImageSeriesWriterTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char                   WritePixelType;
-  typedef itk::Image< WritePixelType, 3 > RescaleImageType;
-  typedef itk::Image< WritePixelType, 2 > OutputImageType;
+  using WritePixelType = unsigned char;
+  using RescaleImageType = itk::Image< WritePixelType, 3 >;
+  using OutputImageType = itk::Image< WritePixelType, 2 >;
 
-  typedef itk::RescaleIntensityImageFilter<
-               ImageNDType, RescaleImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
+               ImageNDType, RescaleImageType >;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
     rescaler->SetInput(reader->GetOutput());
     rescaler->SetOutputMinimum(   0 );
@@ -78,7 +78,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
 
   { // This API is being deprecated. Please use NumericSeriesFileNames in the future
     // for generating the list of filenames.  This API will be removed after ITK 1.8
-  typedef  itk::ImageSeriesWriter<RescaleImageType,OutputImageType> WriterType;
+  using WriterType = itk::ImageSeriesWriter<RescaleImageType,OutputImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 
@@ -120,7 +120,7 @@ int itkImageSeriesWriterTest(int ac, char* av[])
   { // This is the new API, using the NumericSeriesFileNames (or any other filename generator).
   itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
 
-  typedef  itk::ImageSeriesWriter<RescaleImageType,OutputImageType> WriterType;
+  using WriterType = itk::ImageSeriesWriter<RescaleImageType,OutputImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 

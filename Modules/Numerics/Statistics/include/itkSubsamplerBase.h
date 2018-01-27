@@ -46,12 +46,12 @@ template < typename TSample >
 class ITK_TEMPLATE_EXPORT SubsamplerBase : public Object
 {
 public:
-  /** Standard class typedefs */
-  typedef SubsamplerBase                        Self;
-  typedef Object                                Superclass;
-  typedef Self                                  Baseclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  /** Standard class type aliases */
+  using Self = SubsamplerBase;
+  using Superclass = Object;
+  using Baseclass = Self;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(SubsamplerBase, Object);
@@ -59,17 +59,17 @@ public:
   /** implement type-specific clone method */
   itkCloneMacro(Self);
 
-  /** typedef alias for the source data container */
-  typedef TSample                                          SampleType;
-  typedef typename SampleType::ConstPointer                SampleConstPointer;
-  typedef typename TSample::MeasurementVectorType          MeasurementVectorType;
-  typedef typename TSample::InstanceIdentifier             InstanceIdentifier;
+  /** type alias alias for the source data container */
+  using SampleType = TSample;
+  using SampleConstPointer = typename SampleType::ConstPointer;
+  using MeasurementVectorType = typename TSample::MeasurementVectorType;
+  using InstanceIdentifier = typename TSample::InstanceIdentifier;
 
-  typedef Subsample<TSample>                               SubsampleType;
-  typedef typename SubsampleType::Pointer                  SubsamplePointer;
-  typedef typename SubsampleType::ConstIterator            SubsampleConstIterator;
-  typedef typename SubsampleType::InstanceIdentifierHolder InstanceIdentifierHolder;
-  typedef unsigned int                                     SeedType;
+  using SubsampleType = Subsample<TSample>;
+  using SubsamplePointer = typename SubsampleType::Pointer;
+  using SubsampleConstIterator = typename SubsampleType::ConstIterator;
+  using InstanceIdentifierHolder = typename SubsampleType::InstanceIdentifierHolder;
+  using SeedType = unsigned int;
 
   /** Plug in the actual sample data */
   itkSetConstObjectMacro(Sample, SampleType);

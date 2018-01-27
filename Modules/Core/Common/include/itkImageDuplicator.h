@@ -33,7 +33,7 @@ namespace itk
  * \code
  *     medianFilter->Update();
  *     ImageType::Pointer image = medianFilter->GetOutput();
- *     typedef itk::ImageDuplicator< ImageType > DuplicatorType;
+ *     using DuplicatorType = itk::ImageDuplicator< ImageType >;
  *     DuplicatorType::Pointer duplicator = DuplicatorType::New();
  *     duplicator->SetInputImage(image);
  *     duplicator->Update();
@@ -54,11 +54,11 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT ImageDuplicator:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageDuplicator            Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageDuplicator;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,11 +67,11 @@ public:
   itkTypeMacro(ImageDuplicator, Object);
 
   /** Type definitions for the input image. */
-  typedef TInputImage                        ImageType;
-  typedef typename TInputImage::Pointer      ImagePointer;
-  typedef typename TInputImage::ConstPointer ImageConstPointer;
-  typedef typename TInputImage::PixelType    PixelType;
-  typedef typename TInputImage::IndexType    IndexType;
+  using ImageType = TInputImage;
+  using ImagePointer = typename TInputImage::Pointer;
+  using ImageConstPointer = typename TInputImage::ConstPointer;
+  using PixelType = typename TInputImage::PixelType;
+  using IndexType = typename TInputImage::IndexType;
 
   itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
 

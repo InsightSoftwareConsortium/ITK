@@ -81,11 +81,11 @@ class ITK_TEMPLATE_EXPORT InterpolateImagePointsFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef InterpolateImagePointsFilter                    Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = InterpolateImagePointsFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(InterpolateImagePointsFilter, ImageToImageFilter);
@@ -97,28 +97,28 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
   /** Typedefs from the Superclass */
-  typedef typename Superclass::InputImageType    InputImageType;
-  typedef typename Superclass::OutputImageType   OutputImageType;
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
 
   /** Typedefs to describe and access output image. */
-  typedef typename TOutputImage::Pointer        OutputImagePointer;
-  typedef ImageRegionIterator< InputImageType > OutputImageIterator;
-  typedef typename OutputImageType::RegionType  OutputImageRegionType;
+  using OutputImagePointer = typename TOutputImage::Pointer;
+  using OutputImageIterator = ImageRegionIterator< InputImageType >;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
-  /** Image pixel value typedef. */
-  typedef typename TOutputImage::PixelType PixelType;
+  /** Image pixel value type alias. */
+  using PixelType = typename TOutputImage::PixelType;
 
   /** Typedefs to describe and access Interpolator */
-  typedef typename InterpolatorType::Pointer             InterpolatorPointer;
-  typedef typename InterpolatorType::ContinuousIndexType ContinuousIndexType;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
+  using ContinuousIndexType = typename InterpolatorType::ContinuousIndexType;
 
   /** Typedefs to describe and access coordinate images */
-  typedef Image< TCoordType, itkGetStaticConstMacro(ImageDimension) > CoordImageType;
+  using CoordImageType = Image< TCoordType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Typedef for region copier */
-  typedef ImageToImageFilterDetail::ImageRegionCopier< itkGetStaticConstMacro(ImageDimension),
-                                                       itkGetStaticConstMacro(ImageDimension) > RegionCopierType;
+  using RegionCopierType = ImageToImageFilterDetail::ImageRegionCopier< itkGetStaticConstMacro(ImageDimension),
+                                                       itkGetStaticConstMacro(ImageDimension) >;
 
   /** SetInputImage is used to set the image to be interpolated.
     * Note that this should be used instead of the direct setInput
@@ -180,9 +180,9 @@ protected:
 private:
 
   /** Typedefs to describe and access coordinate images */
-  typedef typename CoordImageType::Pointer           CoordImageTypePointer;
-  typedef ImageRegionConstIterator< CoordImageType > CoordImageIterator;
-  typedef typename CoordImageType::RegionType        CoordImageRegionType;
+  using CoordImageTypePointer = typename CoordImageType::Pointer;
+  using CoordImageIterator = ImageRegionConstIterator< CoordImageType >;
+  using CoordImageRegionType = typename CoordImageType::RegionType;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(InterpolateImagePointsFilter);
 

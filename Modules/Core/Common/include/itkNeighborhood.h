@@ -55,11 +55,11 @@ template< typename TPixel, unsigned int VDimension = 2,
 class ITK_TEMPLATE_EXPORT Neighborhood
 {
 public:
-  /** Standard class typedefs. */
-  typedef Neighborhood Self;
+  /** Standard class type aliases. */
+  using Self = Neighborhood;
 
   /** External support for allocator type. */
-  typedef TAllocator AllocatorType;
+  using AllocatorType = TAllocator;
 
   /** External support for dimensionality. */
   itkStaticConstMacro(NeighborhoodDimension, unsigned int, VDimension);
@@ -68,33 +68,33 @@ public:
   itkTypeMacroNoParent(Neighborhood);
 
   /** External support for pixel type. */
-  typedef TPixel PixelType;
+  using PixelType = TPixel;
 
-  /** Iterator typedef support. Note the naming is intentional, i.e.,
+  /** Iterator type alias support Note the naming is intentional, i.e.,
   * AllocatorType::iterator and AllocatorType::const_iterator, because the
   * allocator may be a vnl object or other type, which uses this form. */
-  typedef typename AllocatorType::iterator       Iterator;
-  typedef typename AllocatorType::const_iterator ConstIterator;
+  using Iterator = typename AllocatorType::iterator;
+  using ConstIterator = typename AllocatorType::const_iterator;
 
-  /** Size and value typedef support. */
-  typedef::itk::Size< VDimension >         SizeType;
-  typedef typename SizeType::SizeValueType SizeValueType;
+  /** Size and value type alias support */
+  using SizeType = ::itk::Size<VDimension>;
+  using SizeValueType = typename SizeType::SizeValueType;
 
-  /** Radius typedef support. */
-  typedef::itk::Size< VDimension > RadiusType;
+  /** Radius type alias support */
+  using RadiusType = ::itk::Size<VDimension>;
 
   /** Offset type used to reference neighbor locations */
-  typedef Offset< VDimension > OffsetType;
+  using OffsetType = Offset< VDimension >;
 
-  /** External slice iterator type typedef support. */
-  typedef SliceIterator< TPixel, Self > SliceIteratorType;
+  /** External slice iterator type type alias support */
+  using SliceIteratorType = SliceIterator< TPixel, Self >;
 
   /** Type used to refer to space dimensions */
-  typedef unsigned int                  DimensionValueType;
+  using DimensionValueType = unsigned int;
 
   /** Type used to refer to the elements of the pixel list
    * that are part of the neighborhood. */
-  typedef SizeValueType                 NeighborIndexType;
+  using NeighborIndexType = SizeValueType;
 
   /** Default constructor. */
   Neighborhood()

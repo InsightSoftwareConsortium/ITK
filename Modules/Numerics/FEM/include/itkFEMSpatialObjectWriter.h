@@ -36,9 +36,9 @@ template< unsigned int NDimensions = 3,
 class FEMSpatialObjectWriter : public SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>
 {
 public:
-  typedef FEMSpatialObjectWriter                                 Self;
-  typedef SpatialObjectWriter<NDimensions,PixelType,TMeshTraits> Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
+  using Self = FEMSpatialObjectWriter;
+  using Superclass = SpatialObjectWriter<NDimensions,PixelType,TMeshTraits>;
+  using Pointer = SmartPointer< Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Superclass, Self);

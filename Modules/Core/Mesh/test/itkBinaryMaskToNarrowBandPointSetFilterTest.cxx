@@ -26,11 +26,11 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char  BinaryMaskPixelType;
+  using BinaryMaskPixelType = unsigned char;
 
-  typedef itk::Image<
+  using BinaryMaskImageType = itk::Image<
                         BinaryMaskPixelType,
-                        Dimension  >           BinaryMaskImageType;
+                        Dimension  >;
 
 
   //
@@ -75,12 +75,12 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
   //
   //  Set up the filter
   //
-  typedef itk::PointSet< float, Dimension >    PointSetType;
+  using PointSetType = itk::PointSet< float, Dimension >;
 
-  typedef itk::BinaryMaskToNarrowBandPointSetFilter<
+  using GeneratorType = itk::BinaryMaskToNarrowBandPointSetFilter<
                                 BinaryMaskImageType,
                                 PointSetType
-                                            >  GeneratorType;
+                                            >;
 
   GeneratorType::Pointer narrowBandGenerator = GeneratorType::New();
 
@@ -100,15 +100,15 @@ int itkBinaryMaskToNarrowBandPointSetFilterTest(int , char *[] )
   //
   //  Checking the output
   //
-  typedef PointSetType::PointType           PointType;
+  using PointType = PointSetType::PointType;
 
-  typedef PointSetType::PointsContainer     PointsContainer;
-  typedef PointsContainer::Pointer          PointsContainerPointer;
-  typedef PointsContainer::ConstIterator    PointsIterator;
+  using PointsContainer = PointSetType::PointsContainer;
+  using PointsContainerPointer = PointsContainer::Pointer;
+  using PointsIterator = PointsContainer::ConstIterator;
 
-  typedef PointSetType::PointDataContainer  PointDataContainer;
-  typedef PointDataContainer::Pointer       PointDataContainerPointer;
-  typedef PointDataContainer::ConstIterator PointDataIterator;
+  using PointDataContainer = PointSetType::PointDataContainer;
+  using PointDataContainerPointer = PointDataContainer::Pointer;
+  using PointDataIterator = PointDataContainer::ConstIterator;
 
   PointSetType::Pointer                     pointSet  = narrowBandGenerator->GetOutput();
 

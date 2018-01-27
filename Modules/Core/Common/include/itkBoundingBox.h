@@ -77,11 +77,11 @@ template<
 class ITK_TEMPLATE_EXPORT BoundingBox:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef BoundingBox                Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BoundingBox;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(BoundingBox, Object);
@@ -90,21 +90,21 @@ public:
   itkNewMacro(Self);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TPointIdentifier                       PointIdentifier;
-  typedef TCoordRep                              CoordRepType;
-  typedef TPointsContainer                       PointsContainer;
-  typedef typename PointsContainer::Pointer      PointsContainerPointer;
-  typedef typename PointsContainer::ConstPointer PointsContainerConstPointer;
+  using PointIdentifier = TPointIdentifier;
+  using CoordRepType = TCoordRep;
+  using PointsContainer = TPointsContainer;
+  using PointsContainerPointer = typename PointsContainer::Pointer;
+  using PointsContainerConstPointer = typename PointsContainer::ConstPointer;
 
-  typedef Point< CoordRepType, VPointDimension >         PointType;
-  typedef FixedArray< CoordRepType, VPointDimension *2 > BoundsArrayType;
+  using PointType = Point< CoordRepType, VPointDimension >;
+  using BoundsArrayType = FixedArray< CoordRepType, VPointDimension *2 >;
 
   /** Hold on to the dimensions specified by the template parameters. */
   itkStaticConstMacro(PointDimension, unsigned int,  VPointDimension);
 
-  /** Convenient typedefs. */
-  typedef typename PointsContainer::ConstIterator PointsContainerConstIterator;
-  typedef typename PointsContainer::Iterator      PointsContainerIterator;
+  /** Convenient type alias. */
+  using PointsContainerConstIterator = typename PointsContainer::ConstIterator;
+  using PointsContainerIterator = typename PointsContainer::Iterator;
 
   /** Set/Get the points from which the bounding box should be computed. The
    * bounding box is cached and is not recomputed if the points are not
@@ -157,7 +157,7 @@ public:
   /** Get the length squared of the diagonal of the bounding box.
    * Returns zero if bounding box cannot be computed. Note that the
    * Accumulate type is used to represent the length. */
-  typedef typename NumericTraits< CoordRepType >::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits< CoordRepType >::AccumulateType;
   AccumulateType GetDiagonalLength2() const;
 
   /** Method that checks if a point is inside the bounding box. */
@@ -174,7 +174,7 @@ protected:
   ~BoundingBox() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef typename PointsContainer::ConstIterator ConstIterator;
+  using ConstIterator = typename PointsContainer::ConstIterator;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoundingBox);

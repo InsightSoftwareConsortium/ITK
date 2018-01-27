@@ -56,11 +56,11 @@ class ITK_TEMPLATE_EXPORT BinaryMorphologicalOpeningImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryMorphologicalOpeningImageFilter                   Self;
-  typedef KernelImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
-  typedef SmartPointer< Self >                                    Pointer;
-  typedef SmartPointer< const Self >                              ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BinaryMorphologicalOpeningImageFilter;
+  using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -69,16 +69,16 @@ public:
   itkTypeMacro(BinaryMorphologicalOpeningImageFilter,
                KernelImageFilter);
 
-  typedef TInputImage                          InputImageType;
-  typedef TOutputImage                         OutputImageType;
-  typedef typename InputImageType::Pointer     InputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Declaration of pixel type. */
-  typedef typename TInputImage::PixelType PixelType;
+  using PixelType = typename TInputImage::PixelType;
 
-  /** Kernel typedef. */
-  typedef TKernel KernelType;
+  /** Kernel type alias. */
+  using KernelType = TKernel;
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. */

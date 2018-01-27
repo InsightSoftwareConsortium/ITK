@@ -24,14 +24,14 @@
 int itkTestingExtractSliceImageFilterTest(int, char* [] )
 {
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int    InputDimension = 3;
   const unsigned int    OutputDimension = 2;
 
-  typedef itk::Image< PixelType, InputDimension >    InputImageType;
-  typedef itk::Image< PixelType, OutputDimension >   OutputImageType;
+  using InputImageType = itk::Image< PixelType, InputDimension >;
+  using OutputImageType = itk::Image< PixelType, OutputDimension >;
 
-  typedef itk::Testing::ExtractSliceImageFilter< InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::Testing::ExtractSliceImageFilter< InputImageType, OutputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 

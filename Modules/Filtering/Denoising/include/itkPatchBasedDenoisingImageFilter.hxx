@@ -410,8 +410,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   if( m_Sampler.IsNull() )
     {
-    typedef itk::Statistics::SpatialNeighborSubsampler< PatchSampleType, InputImageRegionType >
-    SamplerType;
+    using SamplerType =
+        itk::Statistics::SpatialNeighborSubsampler< PatchSampleType, InputImageRegionType >;
     typename SamplerType::Pointer defaultSampler = SamplerType::New();
 
     defaultSampler->SetRadius( 25 );
@@ -493,8 +493,8 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::InitializePatchWeightsSmoothDisc()
 {
-  typedef itk::Image<float, ImageDimension> WeightsImageType;
-  typedef float                             DistanceType;
+  using WeightsImageType = itk::Image<float, ImageDimension>;
+  using DistanceType = float;
 
   const unsigned int patchRadius = this->GetPatchRadius();
 
@@ -575,12 +575,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   // Take the patch weights in physical space and
   // resample to get patch weights in voxel space
-  typedef itk::ResampleImageFilter<
-      WeightsImageType, WeightsImageType > ResampleFilterType;
-  typedef itk::IdentityTransform<
-      double, ImageDimension >             TransformType;
-  typedef itk::LinearInterpolateImageFunction<
-      WeightsImageType, double >           InterpolatorType;
+  using ResampleFilterType = itk::ResampleImageFilter<
+      WeightsImageType, WeightsImageType >;
+  using TransformType = itk::IdentityTransform<
+      double, ImageDimension >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
+      WeightsImageType, double >;
 
   typename ResampleFilterType::Pointer  resampler = ResampleFilterType::New();
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -644,7 +644,7 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::DispatchedMinMax(const TInputImageType* img)
 {
-  typedef MinimumMaximumImageFilter<TInputImageType> MinMaxFilter;
+  using MinMaxFilter = MinimumMaximumImageFilter<TInputImageType>;
   typename MinMaxFilter::Pointer minmax = MinMaxFilter::New();
   minmax->SetInput(img);
   minmax->Modified();
@@ -660,8 +660,8 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::DispatchedArrayMinMax(const TInputImageType* img)
 {
-  typedef NthElementImageAdaptor<TInputImageType, PixelValueType> AdaptorType;
-  typedef MinimumMaximumImageFilter<AdaptorType>                  MinMaxFilter;
+  using AdaptorType = NthElementImageAdaptor<TInputImageType, PixelValueType>;
+  using MinMaxFilter = MinimumMaximumImageFilter<AdaptorType>;
 
   typename AdaptorType::Pointer adaptor = AdaptorType::New();
   adaptor->SetImage( const_cast<InputImageType*>(img) );
@@ -741,10 +741,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 {
   // Compute the min and max norm of the length of the log map
   // with respect to identity
-  typedef typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>
-    FaceCalculatorType;
-  typedef typename FaceCalculatorType::FaceListType
-    FaceListType;
+  using FaceCalculatorType = typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
+  using FaceListType = typename FaceCalculatorType::FaceListType;
 
   typename InputImageType::SizeType radius;
   radius.Fill(1);
@@ -894,7 +892,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // Analytical computation of the eigenvalues and eigenvectors in DT-MRI.
   // J Magn Reson 2001; 152: 41-47.
 
-  typedef typename NumericTraits<TensorValueT>::RealType RealTensorValueT;
+  using RealTensorValueT = typename NumericTraits<TensorValueT>::RealType;
 
   // Precompute some commonly used values
   // D = spdMatrix ( to avoid pointer math)
@@ -1042,8 +1040,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                                                     EigenVectorsCacheType& eigenVecsCache,
                                                     RealType& symMatrixLogMap, RealArrayType& geodesicDist)
 {
-  typedef typename RealType::EigenValuesArrayType   RealEigenValuesArrayType;
-  typedef typename RealType::EigenVectorsMatrixType RealEigenVectorsMatrixType;
+  using RealEigenValuesArrayType = typename RealType::EigenValuesArrayType;
+  using RealEigenVectorsMatrixType = typename RealType::EigenVectorsMatrixType;
   EigenValuesArrayType       eigenVals;
   EigenVectorsMatrixType     eigenVecs;
   RealEigenValuesArrayType   YEigenVals;
@@ -1220,8 +1218,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::AddExponentialMapUpdate(const DiffusionTensor3D<RealValueType>& spdMatrix,
                           const DiffusionTensor3D<RealValueType>& symMatrix)
 {
-  typedef typename RealType::EigenValuesArrayType   RealEigenValuesArrayType;
-  typedef typename RealType::EigenVectorsMatrixType RealEigenVectorsMatrixType;
+  using RealEigenValuesArrayType = typename RealType::EigenValuesArrayType;
+  using RealEigenVectorsMatrixType = typename RealType::EigenVectorsMatrixType;
   RealEigenValuesArrayType   eigenVals;
   RealEigenVectorsMatrixType eigenVecs;
   RealEigenValuesArrayType   YEigenVals;
@@ -1600,14 +1598,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // patch
   //     compute entropy derivatives using this difference
   //
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>
-    FaceCalculatorType;
-  typedef typename FaceCalculatorType::FaceListType
-    FaceListType;
-  typedef typename ListAdaptorType::ConstIterator
-    SampleIteratorType;
-  typedef typename OutputImageType::IndexType
-    IndexType;
+  using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>;
+  using FaceListType = typename FaceCalculatorType::FaceListType;
+  using SampleIteratorType = typename ListAdaptorType::ConstIterator;
+  using IndexType = typename OutputImageType::IndexType;
 
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
 
@@ -2062,14 +2056,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // patch
   //     calculate the gradient of the joint entropy using this difference
   //
-  typedef typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>
-    FaceCalculatorType;
-  typedef typename FaceCalculatorType::FaceListType
-    FaceListType;
+  using FaceCalculatorType = typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>;
+  using FaceListType = typename FaceCalculatorType::FaceListType;
 
-  typedef typename ListAdaptorType::ConstIterator SampleIteratorType;
-  typedef GaussianOperator<RealValueType,
-                           OutputImageType::ImageDimension> GaussianOperatorType;
+  using SampleIteratorType = typename ListAdaptorType::ConstIterator;
+  using GaussianOperatorType = GaussianOperator<RealValueType,
+                           OutputImageType::ImageDimension>;
 
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
 
@@ -2246,7 +2238,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
                               BaseSamplerPointer& sampler,
                               ThreadDataStruct& threadData)
 {
-  typedef typename OutputImageType::IndexType IndexType;
+  using IndexType = typename OutputImageType::IndexType;
 
   const InputImagePatchIterator currentPatch = inList->GetMeasurementVector(id)[0];
   const typename OutputImageType::IndexType nIndex = currentPatch.GetIndex();

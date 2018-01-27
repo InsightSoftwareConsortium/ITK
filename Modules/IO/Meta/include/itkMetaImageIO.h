@@ -40,10 +40,10 @@ namespace itk
 class ITKIOMeta_EXPORT MetaImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef MetaImageIO          Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = MetaImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

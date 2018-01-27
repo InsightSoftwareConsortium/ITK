@@ -151,18 +151,18 @@ public:
    * out how to make it a template parameter and set the required
    * define so lbfgs.h uses the corrcet version
    **/
-  typedef double PrecisionType;
+  using PrecisionType = double;
 
 
-  /** Standard "Self" typedef. */
-  typedef LBFGS2Optimizerv4                           Self;
-  typedef ObjectToObjectOptimizerBaseTemplate<double> Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = LBFGS2Optimizerv4;
+  using Superclass = ObjectToObjectOptimizerBaseTemplate<double>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef Superclass::MetricType     MetricType;
-  typedef Superclass::ParametersType ParametersType;
-  typedef Superclass::ScalesType     ScalesType;
+  using MetricType = Superclass::MetricType;
+  using ParametersType = Superclass::ParametersType;
+  using ScalesType = Superclass::ScalesType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

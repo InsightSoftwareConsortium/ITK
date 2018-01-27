@@ -25,8 +25,8 @@ int itkStreamingImageFilterTest(int, char* [] )
 {
   const unsigned int numberOfStreamDivisions = 4;
 
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   ShortImage;
+  // type alias to simplify the syntax
+  using ShortImage = itk::Image<short, 2>;
 
   // Test the creation of an image with native type
   ShortImage::Pointer if2 = ShortImage::New();

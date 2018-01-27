@@ -59,10 +59,10 @@ namespace itk
 class ITKCommon_EXPORT TimeStamp
 {
 public:
-  /** Standard class typedefs. */
-  typedef TimeStamp Self;
+  /** Standard class type aliases. */
+  using Self = TimeStamp;
 
-  typedef AtomicInt< ModifiedTimeType > GlobalTimeStampType;
+  using GlobalTimeStampType = AtomicInt< ModifiedTimeType >;
 
   /** Create an instance of this class. We don't want to use reference
    * counting. */

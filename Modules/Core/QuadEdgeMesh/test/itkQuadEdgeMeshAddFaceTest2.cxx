@@ -21,10 +21,10 @@
 
 int itkQuadEdgeMeshAddFaceTest2(int , char *[])
 {
-  typedef itk::QuadEdgeMesh< double, 3 >            MeshType;
-  typedef MeshType::Pointer                         MeshPointer;
-  typedef MeshType::CellType                        CellType;
-  typedef itk::QuadEdgeMeshPolygonCell< CellType >  QEPolygonCellType;
+  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshPointer = MeshType::Pointer;
+  using CellType = MeshType::CellType;
+  using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell< CellType >;
 
   int numPts = 7;
   int numCells = 4;
@@ -90,7 +90,7 @@ int itkQuadEdgeMeshAddFaceTest2(int , char *[])
 
   std::cout << "Test whether the fourth face was rejected" << std::endl;
 
-  typedef itk::QuadEdgeMeshTopologyChecker< MeshType >  TopologyCheckerType;
+  using TopologyCheckerType = itk::QuadEdgeMeshTopologyChecker< MeshType >;
   TopologyCheckerType::Pointer checker = TopologyCheckerType::New();
 
   checker->SetMesh( mesh );

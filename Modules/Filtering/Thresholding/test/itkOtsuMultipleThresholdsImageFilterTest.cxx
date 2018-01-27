@@ -36,18 +36,18 @@ int itkOtsuMultipleThresholdsImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  short          InputPixelType;
-  typedef  unsigned short InternalPixelType;
-  typedef  unsigned char  OutputPixelType;
+  using InputPixelType = short;
+  using InternalPixelType = unsigned short;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< InternalPixelType, 2>  InternalImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  2 >;
+  using InternalImageType = itk::Image< InternalPixelType, 2>;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
-  typedef itk::OtsuMultipleThresholdsImageFilter< InputImageType, InternalImageType >  FilterType;
-  typedef itk::RescaleIntensityImageFilter< InternalImageType, OutputImageType > RescaleType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using FilterType = itk::OtsuMultipleThresholdsImageFilter< InputImageType, InternalImageType >;
+  using RescaleType = itk::RescaleIntensityImageFilter< InternalImageType, OutputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   FilterType::Pointer filter = FilterType::New();

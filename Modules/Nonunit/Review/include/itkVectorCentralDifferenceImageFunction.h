@@ -53,7 +53,7 @@ class ITK_TEMPLATE_EXPORT VectorCentralDifferenceImageFunction:
                         TCoordRep >
 {
 public:
-  typedef typename TInputImage::PixelType InputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
 
   /** Extract the vector dimension from the pixel template parameter. */
   itkStaticConstMacro(Dimension, unsigned int,
@@ -63,14 +63,14 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef VectorCentralDifferenceImageFunction Self;
-  typedef ImageFunction< TInputImage,
+  /** Standard class type aliases. */
+  using Self = VectorCentralDifferenceImageFunction;
+  using Superclass = ImageFunction< TInputImage,
                          Matrix< double, itkGetStaticConstMacro(Dimension),
                                  itkGetStaticConstMacro(ImageDimension) >,
-                         TCoordRep >       Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                         TCoordRep >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorCentralDifferenceImageFunction, ImageFunction);
@@ -78,20 +78,20 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** InputImageType typedef support. */
-  typedef TInputImage InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = TInputImage;
 
   /** OutputType typdef support. */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support */
+  using PointType = typename Superclass::PointType;
 
   /** Evalulate the image derivative by central differencing at specified index.
    *

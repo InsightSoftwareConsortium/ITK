@@ -39,10 +39,10 @@ int itkVTKImageIO2Test2(int argc, char* argv[])
 
   std::string outputFileName = argv[1];
 
-  typedef itk::SymmetricSecondRankTensor<double, 3> PixelType;
-  typedef itk::Image< PixelType, 3 >                ImageType;
-  typedef itk::ImageFileReader< ImageType >         ReaderType;
-  typedef itk::ImageFileWriter< ImageType >         WriterType;
+  using PixelType = itk::SymmetricSecondRankTensor<double, 3>;
+  using ImageType = itk::Image< PixelType, 3 >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   // write a 10^3 image
 
@@ -76,7 +76,7 @@ int itkVTKImageIO2Test2(int argc, char* argv[])
     ++i;
     }
 
-  typedef itk::VTKImageIO IOType;
+  using IOType = itk::VTKImageIO;
   IOType::Pointer vtkIO = IOType::New();
 
   WriterType::Pointer writer = WriterType::New();
@@ -88,20 +88,20 @@ int itkVTKImageIO2Test2(int argc, char* argv[])
 
   // check that a request to stream is not
   {
-  typedef itk::VTKImageIO IOType;
+  using IOType = itk::VTKImageIO;
   IOType::Pointer vtkIO = IOType::New();
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( outputFileName.c_str() );
   reader->SetImageIO( vtkIO );
 
-  typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
+  using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
   const unsigned int numberOfDataPieces = 10;
 
 
-  typedef itk::StreamingImageFilter<ImageType, ImageType> StreamingFilter;
+  using StreamingFilter = itk::StreamingImageFilter<ImageType, ImageType>;
   StreamingFilter::Pointer streamer = StreamingFilter::New();
   streamer->SetInput(monitor->GetOutput());
   streamer->SetNumberOfStreamDivisions(numberOfDataPieces);
@@ -126,7 +126,7 @@ int itkVTKImageIO2Test2(int argc, char* argv[])
   // request to stream write but is should be denied
   {
 
-  typedef itk::VTKImageIO IOType;
+  using IOType = itk::VTKImageIO;
   IOType::Pointer vtkIO = IOType::New();
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -135,7 +135,7 @@ int itkVTKImageIO2Test2(int argc, char* argv[])
   reader->UpdateLargestPossibleRegion();
 
 
-  typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
+  using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
   const unsigned int numberOfDataPieces = 10;

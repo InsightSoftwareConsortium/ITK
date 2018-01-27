@@ -75,7 +75,7 @@ MergeLabelMapFilter< TImage >
 {
   ImageType *output = this->GetOutput();
 
-  typedef std::deque< LabelObjectPointer > VectorType;
+  using VectorType = std::deque< LabelObjectPointer >;
   VectorType labelObjects;
 
   ProgressReporter progress(this, 0, 1);

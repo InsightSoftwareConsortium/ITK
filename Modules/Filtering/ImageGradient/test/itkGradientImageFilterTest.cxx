@@ -34,9 +34,9 @@ int itkGradientImageFilterTest(int , char * [] )
 {
   try
     {
-    typedef itk::Image<unsigned short, 2>                     ImageType;
-    typedef itk::GradientImageFilter<ImageType, float, float> FilterType;
-    typedef FilterType::OutputImageType                       OutputImageType;
+    using ImageType = itk::Image<unsigned short, 2>;
+    using FilterType = itk::GradientImageFilter<ImageType, float, float>;
+    using OutputImageType = FilterType::OutputImageType;
 
 
     // Set up filter
@@ -62,14 +62,14 @@ int itkGradientImageFilterTest(int , char * [] )
   // Verify that we can run with VectorImages
   try
     {
-    typedef itk::Image< float, 3 >     InputImageType;
-    typedef itk::VectorImage<float, 3> OutputImageType;
+    using InputImageType = itk::Image< float, 3 >;
+    using OutputImageType = itk::VectorImage<float, 3>;
 
-    typedef itk::GradientImageFilter< InputImageType, float, float, OutputImageType> FilterType;
+    using FilterType = itk::GradientImageFilter< InputImageType, float, float, OutputImageType>;
 
     FilterType::Pointer filter = FilterType::New();
 
-    typedef itk::PeriodicBoundaryCondition<InputImageType> PeriodicBoundaryType;
+    using PeriodicBoundaryType = itk::PeriodicBoundaryCondition<InputImageType>;
     //Test the OverrideBoundaryCondition setting;
     filter->OverrideBoundaryCondition( new PeriodicBoundaryType );
 

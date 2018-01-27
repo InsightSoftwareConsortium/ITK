@@ -57,15 +57,15 @@ class ITK_TEMPLATE_EXPORT VotingBinaryIterativeHoleFillingImageFilter:
 {
 public:
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TImage InputImageType;
-  typedef TImage OutputImageType;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TImage;
+  using OutputImageType = TImage;
 
-  /** Standard class typedefs. */
-  typedef VotingBinaryIterativeHoleFillingImageFilter           Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VotingBinaryIterativeHoleFillingImageFilter;
+  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,19 +75,17 @@ public:
 
   /** Type of the internal Voting filter that is going to be executed
     iteratively */
-  typedef VotingBinaryHoleFillingImageFilter<
-    InputImageType,
-    OutputImageType
-    > VotingFilterType;
+  using VotingFilterType = VotingBinaryHoleFillingImageFilter<
+    InputImageType, OutputImageType >;
 
-  /** Image typedef support. */
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  /** Image type alias support */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-  typedef typename InputImageType::RegionType  InputImageRegionType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
-  typedef typename InputImageType::SizeType InputSizeType;
+  using InputSizeType = typename InputImageType::SizeType;
 
   /** Maximum number of iterations. This filter is executed iteratively as
    * long as at least one pixel has changed in a previous iteration, or until

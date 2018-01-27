@@ -32,7 +32,7 @@ int itkReadVesselTubeSpatialObjectTest( int argc, char * argv[] )
 
   const unsigned int Dimension = 3;
 
-  typedef itk::SpatialObjectReader< Dimension > ReaderType;
+  using ReaderType = itk::SpatialObjectReader< Dimension >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputVessel );

@@ -126,15 +126,15 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   float           InternalPixelType;
+  using InternalPixelType = float;
   const     unsigned int    Dimension = 2;
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
-  typedef unsigned char                            OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>
-                                                   ThresholdingFilterType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using ThresholdingFilterType =
+      itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>;
 
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
 
@@ -144,8 +144,8 @@ int main( int argc, char *argv[] )
   thresholder->SetOutsideValue(  0  );
   thresholder->SetInsideValue(  255 );
 
-  typedef  itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
+  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -158,8 +158,8 @@ int main( int argc, char *argv[] )
   //  will be used to generate the initial level set in the form of a distance
   //  map.
   //
-  typedef  itk::FastMarchingImageFilter< InternalImageType, InternalImageType >
-    FastMarchingFilterType;
+  using FastMarchingFilterType =
+      itk::FastMarchingImageFilter< InternalImageType, InternalImageType >;
 
   FastMarchingFilterType::Pointer  fastMarching = FastMarchingFilterType::New();
 
@@ -171,8 +171,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::ThresholdSegmentationLevelSetImageFilter< InternalImageType,
-    InternalImageType > ThresholdSegmentationLevelSetImageFilterType;
+  using ThresholdSegmentationLevelSetImageFilterType = itk::ThresholdSegmentationLevelSetImageFilter< InternalImageType,
+    InternalImageType >;
   ThresholdSegmentationLevelSetImageFilterType::Pointer thresholdSegmentation =
     ThresholdSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -265,8 +265,8 @@ int main( int argc, char *argv[] )
   //  container is defined as \code{NodeContainer} among the
   //  FastMarchingImageFilter traits.
   //
-  typedef FastMarchingFilterType::NodeContainer           NodeContainer;
-  typedef FastMarchingFilterType::NodeType                NodeType;
+  using NodeContainer = FastMarchingFilterType::NodeContainer;
+  using NodeType = FastMarchingFilterType::NodeType;
 
   NodeContainer::Pointer seeds = NodeContainer::New();
 
@@ -364,7 +364,7 @@ int main( int argc, char *argv[] )
   // We write out some intermediate images for debugging.  These images can
   // help tune parameters.
   //
-  typedef itk::ImageFileWriter< InternalImageType > InternalWriterType;
+  using InternalWriterType = itk::ImageFileWriter< InternalImageType >;
 
   InternalWriterType::Pointer mapWriter = InternalWriterType::New();
   mapWriter->SetInput( fastMarching->GetOutput() );

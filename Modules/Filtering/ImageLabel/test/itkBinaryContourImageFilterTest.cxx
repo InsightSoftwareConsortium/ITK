@@ -36,14 +36,14 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
 
   const unsigned int dim = 3;
 
-  typedef unsigned char            PType;
-  typedef itk::Image< PType, dim > IType;
+  using PType = unsigned char;
+  using IType = itk::Image< PType, dim >;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  using ReaderType = itk::ImageFileReader< IType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::BinaryContourImageFilter< IType, IType > FilterType;
+  using FilterType = itk::BinaryContourImageFilter< IType, IType >;
   FilterType::Pointer filter = FilterType::New();
 
   // test default values
@@ -120,7 +120,7 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  using WriterType = itk::ImageFileWriter< IType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );

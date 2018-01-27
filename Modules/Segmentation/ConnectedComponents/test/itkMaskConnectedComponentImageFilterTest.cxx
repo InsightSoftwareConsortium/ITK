@@ -34,24 +34,24 @@ int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef   unsigned short  InternalPixelType;
-  typedef   bool            MaskPixelType;
+  using InternalPixelType = unsigned short;
+  using MaskPixelType = bool;
   const     unsigned int    Dimension = 2;
 
-  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
-  typedef itk::Image< MaskPixelType, Dimension >     MaskImageType;
-  typedef itk::Image<unsigned short,Dimension>       OutputImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using MaskImageType = itk::Image< MaskPixelType, Dimension >;
+  using OutputImageType = itk::Image<unsigned short,Dimension>;
 
-  typedef itk::RGBPixel<unsigned char>        RGBPixelType;
-  typedef itk::Image<RGBPixelType, Dimension> RGBImageType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType, Dimension>;
 
-  typedef itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef itk::ImageFileWriter<  RGBImageType  >    WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
+  using WriterType = itk::ImageFileWriter<  RGBImageType  >;
 
 
-  typedef itk::BinaryThresholdImageFilter< InternalImageType, InternalImageType > ThresholdFilterType;
-  typedef itk::ConnectedComponentImageFilter< InternalImageType, OutputImageType, MaskImageType > FilterType;
-  typedef itk::RelabelComponentImageFilter< OutputImageType, OutputImageType > RelabelType;
+  using ThresholdFilterType = itk::BinaryThresholdImageFilter< InternalImageType, InternalImageType >;
+  using FilterType = itk::ConnectedComponentImageFilter< InternalImageType, OutputImageType, MaskImageType >;
+  using RelabelType = itk::RelabelComponentImageFilter< OutputImageType, OutputImageType >;
 
 
   ReaderType::Pointer reader = ReaderType::New();

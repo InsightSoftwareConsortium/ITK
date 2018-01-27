@@ -52,17 +52,17 @@ int itkImageFileWriterStreamingTest1(int argc, char* argv[])
     }
 
 
-  typedef unsigned char             PixelType;
-  typedef itk::Image<PixelType,3>   ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType,3>;
 
-  typedef itk::ImageFileReader<ImageType>   ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->SetUseStreaming( true );
 
-  typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
+  using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 

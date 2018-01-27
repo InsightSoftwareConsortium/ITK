@@ -81,9 +81,9 @@ public:
 
   ~SymmetricEigenAnalysis() {}
 
-  typedef TMatrix      MatrixType;
-  typedef TEigenMatrix EigenMatrixType;
-  typedef TVector      VectorType;
+  using MatrixType = TMatrix;
+  using EigenMatrixType = TEigenMatrix;
+  using VectorType = TVector;
 
   /** Compute Eigen values of A
    * A is any type that overloads the [][] operator and contains the

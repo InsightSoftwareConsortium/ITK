@@ -35,8 +35,8 @@ template< typename TComplexType >
 class ComplexConjugatePixelAccessor
 {
 public:
-  typedef TComplexType ExternalType;
-  typedef TComplexType InternalType;
+  using ExternalType = TComplexType;
+  using InternalType = TComplexType;
 
   static inline void Set(TComplexType & output, const TComplexType & input)
   {
@@ -62,13 +62,13 @@ class ComplexConjugateImageAdaptor:public
                 Accessor::ComplexConjugatePixelAccessor< typename TImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ComplexConjugateImageAdaptor Self;
-  typedef ImageAdaptor< TImage, Accessor::ComplexConjugatePixelAccessor<
-                          typename TImage::PixelType > >  Superclass;
+  /** Standard class type aliases. */
+  using Self = ComplexConjugateImageAdaptor;
+  using Superclass = ImageAdaptor< TImage, Accessor::ComplexConjugatePixelAccessor<
+                          typename TImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

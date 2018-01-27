@@ -22,9 +22,9 @@ int itkDisplacementFieldToBSplineImageFilterTest( int, char * [] )
 {
   const unsigned int   ImageDimension = 2;
 
-  typedef itk::Vector<float, ImageDimension>         VectorType;
-  typedef itk::Image<VectorType, ImageDimension>     DisplacementFieldType;
-  typedef itk::PointSet<VectorType, ImageDimension>  PointSetType;
+  using VectorType = itk::Vector<float, ImageDimension>;
+  using DisplacementFieldType = itk::Image<VectorType, ImageDimension>;
+  using PointSetType = itk::PointSet<VectorType, ImageDimension>;
 
   // Create a displacement field
   DisplacementFieldType::PointType     origin;
@@ -47,9 +47,9 @@ int itkDisplacementFieldToBSplineImageFilterTest( int, char * [] )
   field->Allocate();
   field->FillBuffer( ones );
 
-  typedef itk::DisplacementFieldToBSplineImageFilter
-    <DisplacementFieldType, PointSetType>                   BSplineFilterType;
-  typedef BSplineFilterType::RealImageType                  RealImageType;
+  using BSplineFilterType = itk::DisplacementFieldToBSplineImageFilter
+    <DisplacementFieldType, PointSetType>;
+  using RealImageType = BSplineFilterType::RealImageType;
 
   RealImageType::Pointer confidenceImage = RealImageType::New();
   confidenceImage->CopyInformation( field );

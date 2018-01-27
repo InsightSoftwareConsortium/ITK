@@ -39,39 +39,39 @@ int itkMultiLevelSetMalcolmImageSubset2DTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned short                                      InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension >             InputImageType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType > InputIteratorType;
+  using InputPixelType = unsigned short;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
 
-  typedef float                                               PixelType;
-  typedef itk::MalcolmSparseLevelSetImage< Dimension >        LevelSetType;
+  using PixelType = float;
+  using LevelSetType = itk::MalcolmSparseLevelSetImage< Dimension >;
 
-  typedef LevelSetType::OutputRealType                   LevelSetOutputRealType;
+  using LevelSetOutputRealType = LevelSetType::OutputRealType;
 
-  typedef itk::IdentifierType                                     IdentifierType;
-  typedef itk::LevelSetContainer< IdentifierType, LevelSetType >  LevelSetContainerType;
+  using IdentifierType = itk::IdentifierType;
+  using LevelSetContainerType = itk::LevelSetContainer< IdentifierType, LevelSetType >;
 
-  typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >
-                                                                      ChanAndVeseInternalTermType;
-  typedef itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >
-                                                                      ChanAndVeseExternalTermType;
-  typedef itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >
-                                                                      TermContainerType;
+  using ChanAndVeseInternalTermType =
+      itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >;
+  using ChanAndVeseExternalTermType =
+      itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >;
+  using TermContainerType =
+      itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >;
 
-  typedef itk::LevelSetEquationContainer< TermContainerType >           EquationContainerType;
-  typedef itk::LevelSetEvolution< EquationContainerType, LevelSetType > LevelSetEvolutionType;
+  using EquationContainerType = itk::LevelSetEquationContainer< TermContainerType >;
+  using LevelSetEvolutionType = itk::LevelSetEvolution< EquationContainerType, LevelSetType >;
 
-  typedef itk::AtanRegularizedHeavisideStepFunction<
-      LevelSetOutputRealType, LevelSetOutputRealType >          HeavisideFunctionBaseType;
+  using HeavisideFunctionBaseType = itk::AtanRegularizedHeavisideStepFunction<
+      LevelSetOutputRealType, LevelSetOutputRealType >;
 
-  typedef itk::BinaryImageToLevelSetImageAdaptor< InputImageType, LevelSetType > BinaryImageToLevelSetType;
+  using BinaryImageToLevelSetType = itk::BinaryImageToLevelSetImageAdaptor< InputImageType, LevelSetType >;
 
-  typedef std::list< IdentifierType >                          IdListType;
-  typedef itk::Image< IdListType, Dimension >                  IdListImageType;
-  typedef itk::Image< short, Dimension >                       CacheImageType;
-  typedef itk::ImageRegionIteratorWithIndex< IdListImageType > IdIteratorType;
-  typedef itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >
-                                                               DomainMapImageFilterType;
+  using IdListType = std::list< IdentifierType >;
+  using IdListImageType = itk::Image< IdListType, Dimension >;
+  using CacheImageType = itk::Image< short, Dimension >;
+  using IdIteratorType = itk::ImageRegionIteratorWithIndex< IdListImageType >;
+  using DomainMapImageFilterType =
+      itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >;
 
   // load binary input
   InputImageType::SizeType size;
@@ -227,8 +227,7 @@ int itkMultiLevelSetMalcolmImageSubset2DTest( int argc, char* argv[] )
   equationContainer->AddEquation( 0, termContainer0 );
   std::cout << "Equation container created" << std::endl;
 
-  typedef itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >
-      StoppingCriterionType;
+  using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations( 5000 );
   std::cout << "Stopping criterion created" << std::endl;

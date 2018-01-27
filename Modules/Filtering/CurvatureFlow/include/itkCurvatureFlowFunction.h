@@ -44,11 +44,11 @@ class ITK_TEMPLATE_EXPORT CurvatureFlowFunction:
   public FiniteDifferenceFunction< TImage >
 {
 public:
-  /**  Standard class typedefs. */
-  typedef CurvatureFlowFunction              Self;
-  typedef FiniteDifferenceFunction< TImage > Superclass;
-  typedef SmartPointer< Self >               Pointer;
-  typedef SmartPointer< const Self >         ConstPointer;
+  /**  Standard class type aliases. */
+  using Self = CurvatureFlowFunction;
+  using Superclass = FiniteDifferenceFunction< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,15 +58,15 @@ public:
                FiniteDifferenceFunction);
 
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::ImageType              ImageType;
-  typedef typename Superclass::PixelType              PixelType;
-  typedef typename Superclass::RadiusType             RadiusType;
-  typedef PixelType                                   ScalarValueType;
-  typedef typename Superclass::PixelRealType          PixelRealType;
-  typedef typename Superclass::NeighborhoodType       NeighborhoodType;
-  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
-  typedef typename Superclass::FloatOffsetType        FloatOffsetType;
-  typedef typename Superclass::TimeStepType           TimeStepType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelType = typename Superclass::PixelType;
+  using RadiusType = typename Superclass::RadiusType;
+  using ScalarValueType = PixelType;
+  using PixelRealType = typename Superclass::PixelRealType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** Extract superclass dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);

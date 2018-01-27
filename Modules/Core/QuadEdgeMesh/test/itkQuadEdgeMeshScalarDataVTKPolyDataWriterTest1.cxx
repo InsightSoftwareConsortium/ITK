@@ -32,14 +32,14 @@ int itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadEdgeMesh<float, 3>   MeshType;
+  using MeshType = itk::QuadEdgeMesh<float, 3>;
 
-  typedef itk::RegularSphereMeshSource< MeshType >  SphereMeshSourceType;
+  using SphereMeshSourceType = itk::RegularSphereMeshSource< MeshType >;
 
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
 
-  typedef SphereMeshSourceType::PointType   PointType;
-  typedef SphereMeshSourceType::VectorType  VectorType;
+  using PointType = SphereMeshSourceType::PointType;
+  using VectorType = SphereMeshSourceType::VectorType;
 
   PointType center;
   center.Fill( 0.0 );
@@ -81,8 +81,8 @@ int itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1( int argc, char * argv [] )
     std::cout << "Point[" << i << "]: " << pt << std::endl;
     }
 
-  typedef MeshType::CellsContainerPointer  CellsContainerPointer;
-  typedef MeshType::CellType               CellType;
+  using CellsContainerPointer = MeshType::CellsContainerPointer;
+  using CellType = MeshType::CellType;
 
   CellsContainerPointer cells = myMesh->GetCells();
 
@@ -102,7 +102,7 @@ int itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1( int argc, char * argv [] )
 
   std::cout << "Test End "<< std::endl;
 
-  typedef itk::QuadEdgeMeshScalarDataVTKPolyDataWriter< MeshType >   WriterType;
+  using WriterType = itk::QuadEdgeMeshScalarDataVTKPolyDataWriter< MeshType >;
 
   WriterType::Pointer writer = WriterType::New();
 

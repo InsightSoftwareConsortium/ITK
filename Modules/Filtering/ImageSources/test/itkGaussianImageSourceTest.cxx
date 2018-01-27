@@ -32,12 +32,12 @@ int itkGaussianImageSourceTest( int argc, char* argv[] )
     }
 
   const unsigned int    Dimension = 3;
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // Create a Gaussian image source
-  typedef itk::GaussianImageSource< ImageType > GaussianSourceType;
+  using GaussianSourceType = itk::GaussianImageSource< ImageType >;
   GaussianSourceType::Pointer gaussianImage = GaussianSourceType::New();
 
   ImageType::SpacingValueType spacing[] = { 1.2f, 1.3f, 1.4f };
@@ -190,7 +190,7 @@ int itkGaussianImageSourceTest( int argc, char* argv[] )
   ImageType::Pointer outputImage = gaussianImage->GetOutput();
 
   // Write the result image
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

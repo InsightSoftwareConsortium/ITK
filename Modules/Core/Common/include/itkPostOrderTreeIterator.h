@@ -28,12 +28,12 @@ class PostOrderTreeIterator:public TreeIteratorBase< TTreeType >
 public:
 
   /** Typedefs */
-  typedef PostOrderTreeIterator             Self;
-  typedef TreeIteratorBase< TTreeType >     Superclass;
-  typedef TTreeType                         TreeType;
-  typedef typename TTreeType::ValueType     ValueType;
-  typedef typename Superclass::TreeNodeType TreeNodeType;
-  typedef typename Superclass::NodeType     NodeType;
+  using Self = PostOrderTreeIterator;
+  using Superclass = TreeIteratorBase< TTreeType >;
+  using TreeType = TTreeType;
+  using ValueType = typename TTreeType::ValueType;
+  using TreeNodeType = typename Superclass::TreeNodeType;
+  using NodeType = typename Superclass::NodeType;
 
   /** Constructor */
   PostOrderTreeIterator(TreeType *tree);

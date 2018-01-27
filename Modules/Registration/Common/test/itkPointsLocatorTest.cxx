@@ -27,13 +27,13 @@ int testPointsLocatorTest()
    */
   const unsigned int PointDimension = 3;
 
-  typedef itk::Point<float, PointDimension> PointType;
+  using PointType = itk::Point<float, PointDimension>;
 
-  typedef TPointsContainer PointsContainerType;
+  using PointsContainerType = TPointsContainer;
   typename PointsContainerType::Pointer points = PointsContainerType::New();
   points->Initialize();
 
-  typedef itk::PointsLocator<PointsContainerType> PointsLocatorType;
+  using PointsLocatorType = itk::PointsLocator<PointsContainerType>;
   typename PointsLocatorType::Pointer pointsLocator = PointsLocatorType::New();
 
   /**
@@ -116,10 +116,10 @@ int testPointsLocatorTest()
 int itkPointsLocatorTest( int, char* [] )
 {
   const unsigned int PointDimension = 3;
-  typedef itk::Point<float, PointDimension> PointType;
+  using PointType = itk::Point<float, PointDimension>;
 
-  typedef itk::VectorContainer<unsigned int, PointType> VectorContainerType;
-  typedef itk::MapContainer< unsigned int, PointType >  MapContainerType;
+  using VectorContainerType = itk::VectorContainer<unsigned int, PointType>;
+  using MapContainerType = itk::MapContainer< unsigned int, PointType >;
 
   std::cout << "VectorContainerType" << std::endl;
   if( testPointsLocatorTest< VectorContainerType >() == EXIT_FAILURE )

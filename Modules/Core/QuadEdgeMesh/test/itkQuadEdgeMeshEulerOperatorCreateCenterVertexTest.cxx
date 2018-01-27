@@ -22,12 +22,12 @@
 int itkQuadEdgeMeshEulerOperatorCreateCenterVertexTest( int, char * [] )
 {
 
-  typedef itk::QuadEdgeMesh< double, 3 >                      MeshType;
-  typedef MeshType::Pointer                                   MeshPointer;
-  typedef MeshType::QEType                                    QEType;
+  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshPointer = MeshType::Pointer;
+  using QEType = MeshType::QEType;
 
-  typedef itk::QuadEdgeMeshEulerOperatorCreateCenterVertexFunction< MeshType,
-    QEType> CreateCenterVertex;
+  using CreateCenterVertex = itk::QuadEdgeMeshEulerOperatorCreateCenterVertexFunction< MeshType,
+    QEType>;
 
   /////////////////////////////////////////
   //

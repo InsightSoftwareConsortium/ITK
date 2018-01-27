@@ -51,7 +51,7 @@ void
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
 ::SetWindowLevel(const InputPixelType & window, const InputPixelType & level)
 {
-  typedef typename NumericTraits< InputPixelType >::RealType InputRealType;
+  using InputRealType = typename NumericTraits< InputPixelType >::RealType;
   InputRealType tmp1, tmp2;
 
   tmp1 = static_cast< InputRealType >( level )

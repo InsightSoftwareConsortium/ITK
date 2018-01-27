@@ -47,27 +47,27 @@ class ITK_TEMPLATE_EXPORT MahalanobisDistanceMetric:
   public DistanceMetric< TVector >
 {
 public:
-  /** Standard class typedefs */
-  typedef MahalanobisDistanceMetric  Self;
-  typedef DistanceMetric< TVector >  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = MahalanobisDistanceMetric;
+  using Superclass = DistanceMetric< TVector >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Strandard macros */
   itkTypeMacro(MahalanobisDistanceMetric, DistanceMetric);
   itkNewMacro(Self);
 
   /** Typedef to represent the measurement vector type */
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
 
   /** Typedef to represent the length of measurement vectors */
-  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
 
   /** Type used for representing the mean vector */
-  typedef typename Superclass::OriginType MeanVectorType;
+  using MeanVectorType = typename Superclass::OriginType;
 
   /** Type used for representing the covariance matrix */
-  typedef vnl_matrix< double > CovarianceMatrixType;
+  using CovarianceMatrixType = vnl_matrix< double >;
 
   /**  Set the length of each measurement vector. */
   void SetMeasurementVectorSize(MeasurementVectorSizeType) override;

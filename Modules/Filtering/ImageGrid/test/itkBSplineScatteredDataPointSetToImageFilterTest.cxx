@@ -40,17 +40,17 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
   const unsigned int ParametricDimension = 2;
   const unsigned int DataDimension = 1;
 
-  typedef int                                           PixelType;
-  typedef itk::Image<PixelType, ParametricDimension>    InputImageType;
-  typedef float                                         RealType;
-  typedef itk::Vector<RealType, DataDimension>          VectorType;
-  typedef itk::Image<VectorType, ParametricDimension>   VectorImageType;
-  typedef itk::PointSet <VectorImageType::PixelType,
-    ParametricDimension>                                PointSetType;
+  using PixelType = int;
+  using InputImageType = itk::Image<PixelType, ParametricDimension>;
+  using RealType = float;
+  using VectorType = itk::Vector<RealType, DataDimension>;
+  using VectorImageType = itk::Image<VectorType, ParametricDimension>;
+  using PointSetType = itk::PointSet <VectorImageType::PixelType,
+    ParametricDimension>;
 
   PointSetType::Pointer pointSet = PointSetType::New();
 
-  typedef itk::ImageFileReader<InputImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();
@@ -82,8 +82,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
     }
 
   // Instantiate the B-spline filter and set the desired parameters.
-  typedef itk::BSplineScatteredDataPointSetToImageFilter
-    <PointSetType, VectorImageType> FilterType;
+  using FilterType = itk::BSplineScatteredDataPointSetToImageFilter
+    <PointSetType, VectorImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -153,7 +153,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
   VectorImageType *outputImage = filter->GetOutput();
 
   // Write the output to an image.
-  typedef itk::Image<RealType, ParametricDimension> RealImageType;
+  using RealImageType = itk::Image<RealType, ParametricDimension>;
   RealImageType::Pointer image = RealImageType::New();
   image->SetRegions( reader->GetOutput()->GetLargestPossibleRegion() );
   image->Allocate();
@@ -165,7 +165,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
     Itt.Set( outputImage->GetPixel( Itt.GetIndex() )[0] );
     }
 
-  typedef itk::ImageFileWriter<RealImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<RealImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( image );
   writer->SetFileName( argv[2] );

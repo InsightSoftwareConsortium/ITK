@@ -115,10 +115,10 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
   // have to perform N convolutions for each point we calculate but
   // only one.
 
-  typedef itk::Image< TOutput, itkGetStaticConstMacro(ImageDimension2) > KernelImageType;
+  using KernelImageType = itk::Image< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
   typename KernelImageType::Pointer kernelImage = KernelImageType::New();
 
-  typedef typename KernelImageType::RegionType RegionType;
+  using RegionType = typename KernelImageType::RegionType;
   RegionType region;
 
   typename RegionType::SizeType size;
@@ -142,12 +142,12 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
   kernelRegion.SetIndex(origin);
 
   // Now create an image filter to perform successive convolutions
-  typedef itk::NeighborhoodOperatorImageFilter< KernelImageType, KernelImageType >
-  NeighborhoodFilterType;
+  using NeighborhoodFilterType =
+      itk::NeighborhoodOperatorImageFilter< KernelImageType, KernelImageType >;
   typename NeighborhoodFilterType::Pointer convolutionFilter = NeighborhoodFilterType::New();
 
   // Array that stores the current order for each direction
-  typedef FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension2) > OrderArrayType;
+  using OrderArrayType = FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension2) >;
   OrderArrayType orderArray;
 
   // Precalculate compound derivative kernels (n-dimensional)
@@ -248,7 +248,7 @@ DiscreteHessianGaussianImageFunction< TInputImage, TOutput >
     }
   else
     {
-    typedef unsigned int NumberOfNeighborsType;
+    using NumberOfNeighborsType = unsigned int;
 
     unsigned int  dim; // index over dimension
     NumberOfNeighborsType neighbors = 1 << ImageDimension2;

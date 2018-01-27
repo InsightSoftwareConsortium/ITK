@@ -51,37 +51,37 @@ class ITK_TEMPLATE_EXPORT LabelImageToShapeLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelImageToShapeLabelMapFilter                 Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LabelImageToShapeLabelMapFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
-  typedef TOutputImage                              OutputImageType;
-  typedef typename OutputImageType::Pointer         OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer    OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType      OutputImageRegionType;
-  typedef typename OutputImageType::PixelType       OutputImagePixelType;
-  typedef typename OutputImageType::LabelObjectType LabelObjectType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using LabelObjectType = typename OutputImageType::LabelObjectType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  typedef LabelImageToLabelMapFilter< InputImageType, OutputImageType >
-  LabelizerType;
-  typedef Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension) >
-  ShapeLabelFilterOutput;
-  typedef ShapeLabelMapFilter< TOutputImage, ShapeLabelFilterOutput >
-  LabelObjectValuatorType;
+  using LabelizerType =
+      LabelImageToLabelMapFilter< InputImageType, OutputImageType >;
+  using ShapeLabelFilterOutput =
+      Image< typename OutputImageType::PixelType, itkGetStaticConstMacro(OutputImageDimension) >;
+  using LabelObjectValuatorType =
+      ShapeLabelMapFilter< TOutputImage, ShapeLabelFilterOutput >;
 
   /** Standard New method. */
   itkNewMacro(Self);

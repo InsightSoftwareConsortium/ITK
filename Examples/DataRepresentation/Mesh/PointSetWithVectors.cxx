@@ -64,7 +64,7 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 3;
-  typedef itk::Vector< float, Dimension >    PixelType;
+  using PixelType = itk::Vector< float, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -76,7 +76,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::PointSet< PixelType, Dimension > PointSetType;
+  using PointSetType = itk::PointSet< PixelType, Dimension >;
   PointSetType::Pointer  pointSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 
@@ -130,11 +130,11 @@ int main(int, char *[])
 
 
   // Software Guide : BeginCodeSnippet
-  typedef  PointSetType::PointDataContainer::ConstIterator PointDataIterator;
+  using PointDataIterator = PointSetType::PointDataContainer::ConstIterator;
   PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
   PointDataIterator pixelEnd      = pointSet->GetPointData()->End();
 
-  typedef  PointSetType::PointsContainer::Iterator     PointIterator;
+  using PointIterator = PointSetType::PointsContainer::Iterator;
   PointIterator pointIterator = pointSet->GetPoints()->Begin();
   PointIterator pointEnd      = pointSet->GetPoints()->End();
 

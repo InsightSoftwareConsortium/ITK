@@ -29,15 +29,15 @@ int itkImageSeriesReaderDimensionsTest(int ac, char* av[])
   }
 
 
-  typedef itk::Image<short, 2> Image2DType;
-  typedef itk::Image<short, 3> Image3DType;
-  typedef itk::Image<short, 4> Image4DType;
-  typedef itk::Image<short, 5> Image5DType;
+  using Image2DType = itk::Image<short, 2>;
+  using Image3DType = itk::Image<short, 3>;
+  using Image4DType = itk::Image<short, 4>;
+  using Image5DType = itk::Image<short, 5>;
 
-  typedef itk::ImageSeriesReader<Image2DType> Reader2DType;
-  typedef itk::ImageSeriesReader<Image3DType> Reader3DType;
-  typedef itk::ImageSeriesReader<Image4DType> Reader4DType;
-  typedef itk::ImageSeriesReader<Image5DType> Reader5DType;
+  using Reader2DType = itk::ImageSeriesReader<Image2DType>;
+  using Reader3DType = itk::ImageSeriesReader<Image3DType>;
+  using Reader4DType = itk::ImageSeriesReader<Image4DType>;
+  using Reader5DType = itk::ImageSeriesReader<Image5DType>;
 
   Reader2DType::FileNamesContainer fname;
   fname.push_back(av[1]);

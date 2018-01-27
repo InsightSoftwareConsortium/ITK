@@ -32,14 +32,14 @@ int itkSampleClassifierFilterTest1( int, char * [] )
 {
 
   const unsigned int numberOfComponents = 3;
-  typedef float      MeasurementType;
+  using MeasurementType = float;
 
   const unsigned int numberOfClasses = 3;
 
-  typedef itk::Array< MeasurementType > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Array< MeasurementType >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-  typedef itk::Statistics::SampleClassifierFilter< SampleType > FilterType;
+  using FilterType = itk::Statistics::SampleClassifierFilter< SampleType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -96,15 +96,14 @@ int itkSampleClassifierFilterTest1( int, char * [] )
     return EXIT_FAILURE;
     }
 
-  typedef FilterType::ClassLabelVectorObjectType               ClassLabelVectorObjectType;
-  typedef FilterType::ClassLabelVectorType                     ClassLabelVectorType;
-  typedef FilterType::MembershipFunctionVectorObjectType       MembershipFunctionVectorObjectType;
-  typedef FilterType::MembershipFunctionVectorType             MembershipFunctionVectorType;
+  using ClassLabelVectorObjectType = FilterType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = FilterType::ClassLabelVectorType;
+  using MembershipFunctionVectorObjectType = FilterType::MembershipFunctionVectorObjectType;
+  using MembershipFunctionVectorType = FilterType::MembershipFunctionVectorType;
 
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >
-                                                               MembershipFunctionType;
+  using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction<MeasurementVectorType>;
 
-  typedef MembershipFunctionType::Pointer                      MembershipFunctionPointer;
+  using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
   ClassLabelVectorObjectType::Pointer  classLabelsObject = ClassLabelVectorObjectType::New();
   filter->SetClassLabels( classLabelsObject );
@@ -174,7 +173,7 @@ int itkSampleClassifierFilterTest1( int, char * [] )
   // Add three class labels and rerun the filter
   ClassLabelVectorType & classLabelVector  = classLabelsObject->Get();
 
-  typedef FilterType::ClassLabelType        ClassLabelType;
+  using ClassLabelType = FilterType::ClassLabelType;
 
   ClassLabelType  class1 = 0;
   classLabelVector.push_back( class1 );
@@ -201,7 +200,7 @@ int itkSampleClassifierFilterTest1( int, char * [] )
     }
 
   //Set a decision rule type
-  typedef itk::Statistics::MaximumDecisionRule  DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
 
   DecisionRuleType::Pointer    decisionRule = DecisionRuleType::New();
   filter->SetDecisionRule( decisionRule );

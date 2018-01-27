@@ -52,11 +52,11 @@ WienerDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TIntern
 
   this->PrepareInputs( localInput, kernelImage, input, kernel, progress, 0.7 );
 
-  typedef Functor::WienerDeconvolutionFunctor< InternalComplexType > FunctorType;
-  typedef BinaryFunctorImageFilter< InternalComplexImageType,
+  using FunctorType = Functor::WienerDeconvolutionFunctor< InternalComplexType >;
+  using WienerFilterType = BinaryFunctorImageFilter< InternalComplexImageType,
                                     InternalComplexImageType,
                                     InternalComplexImageType,
-                                    FunctorType > WienerFilterType;
+                                    FunctorType >;
   typename WienerFilterType::Pointer wienerFilter = WienerFilterType::New();
   wienerFilter->SetInput( 0, input );
   wienerFilter->SetInput( 1, kernel );

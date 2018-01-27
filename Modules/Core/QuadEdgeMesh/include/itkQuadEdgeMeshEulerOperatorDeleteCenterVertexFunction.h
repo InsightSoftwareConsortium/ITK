@@ -35,24 +35,24 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction:
   public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
-  /** Standard class typedefs. */
-  typedef QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction Self;
-  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType * >        Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction;
+  using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro(Self);
   /** Run-time type information (and related methods). */
   itkTypeMacro(QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction, QuadEdgeMeshFunctionBase);
 
   /** Type of QuadEdge with which to apply slicing. */
-  typedef TQEType QEType;
+  using QEType = TQEType;
 
-  typedef typename Superclass::MeshType   MeshType;
-  typedef typename Superclass::OutputType OutputType;
+  using MeshType = typename Superclass::MeshType;
+  using OutputType = typename Superclass::OutputType;
 
-  typedef typename MeshType::PointIdentifier PointIdentifier;
-  typedef typename MeshType::FaceRefType     FaceRefType;
+  using PointIdentifier = typename MeshType::PointIdentifier;
+  using FaceRefType = typename MeshType::FaceRefType;
 
   /** Evaluate at the specified input position */
   virtual OutputType Evaluate(QEType *e);

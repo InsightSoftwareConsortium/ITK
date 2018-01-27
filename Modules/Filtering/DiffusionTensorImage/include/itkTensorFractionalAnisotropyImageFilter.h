@@ -31,7 +31,7 @@ template< typename TInput >
 class TensorFractionalAnisotropyFunction
 {
 public:
-  typedef typename TInput::RealValueType RealValueType;
+  using RealValueType = typename TInput::RealValueType;
   TensorFractionalAnisotropyFunction() {}
   ~TensorFractionalAnisotropyFunction() {}
   bool operator!=(const TensorFractionalAnisotropyFunction &) const
@@ -77,20 +77,20 @@ class TensorFractionalAnisotropyImageFilter:
                              typename TInputImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TensorFractionalAnisotropyImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = TensorFractionalAnisotropyImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::TensorFractionalAnisotropyFunction<
-      typename TInputImage::PixelType > >         Superclass;
+      typename TInputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename TOutputImage::PixelType     OutputPixelType;
-  typedef typename TInputImage::PixelType      InputPixelType;
-  typedef typename InputPixelType::ValueType   InputValueType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputValueType = typename InputPixelType::ValueType;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(TensorFractionalAnisotropyImageFilter, UnaryFunctorImageFilter);

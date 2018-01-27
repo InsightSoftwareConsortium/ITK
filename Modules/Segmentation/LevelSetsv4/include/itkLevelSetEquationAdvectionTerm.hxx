@@ -86,8 +86,8 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 
   if ( Math::NotAlmostEquals( m_DerivativeSigma, NumericTraits< LevelSetOutputRealType >::ZeroValue() ) )
     {
-    typedef GradientRecursiveGaussianImageFilter< InputImageType, AdvectionImageType >
-    DerivativeFilterType;
+    using DerivativeFilterType =
+        GradientRecursiveGaussianImageFilter< InputImageType, AdvectionImageType >;
 
     typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
     derivative->SetInput( this->m_Input );
@@ -98,15 +98,15 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
     }
   else
     {
-    typedef GradientImageFilter< InputImageType > DerivativeFilterType;
+    using DerivativeFilterType = GradientImageFilter< InputImageType >;
 
     typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
     derivative->SetInput( this->m_Input );
     derivative->SetUseImageSpacingOn();
     derivative->Update();
 
-    typedef typename DerivativeFilterType::OutputImageType                          DerivativeOutputImageType;
-    typedef VectorCastImageFilter< DerivativeOutputImageType, AdvectionImageType >  GradientCasterType;
+    using DerivativeOutputImageType = typename DerivativeFilterType::OutputImageType;
+    using GradientCasterType = VectorCastImageFilter< DerivativeOutputImageType, AdvectionImageType >;
 
     typename GradientCasterType::Pointer caster = GradientCasterType::New();
     caster->SetInput( derivative->GetOutput() );

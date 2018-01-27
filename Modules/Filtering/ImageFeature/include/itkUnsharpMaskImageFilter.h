@@ -57,39 +57,39 @@ class ITK_TEMPLATE_EXPORT UnsharpMaskImageFilter:
 {
 public:
   /**
-   * Standard "Self" & Superclass typedef.
+   * Standard "Self" & Superclass type alias.
    */
-  typedef UnsharpMaskImageFilter                          Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  using Self = UnsharpMaskImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
 
   /**
    * Extract some information from the image types.
    */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType          InputPixelType;
-  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
-  typedef typename TOutputImage::RegionType        OutputImageRegionType;
-  typedef typename TInputImage::RegionType         InputImageRegionType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
+  using InputImageRegionType = typename TInputImage::RegionType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /**
-   * Image typedef support
+   * Image type alias support
    */
-  typedef TInputImage                      InputImageType;
-  typedef TOutputImage                     OutputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
 
-  typedef TInternalPrecision               InternalPrecisionType;
+  using InternalPrecisionType = TInternalPrecision;
 
   /**
-   * Smart pointer typedef support
+   * Smart pointer type alias support
    */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**
    * Run-time type information (and related methods)
@@ -110,10 +110,10 @@ public:
     ( Concept::IsFloatingPoint< TInternalPrecision > ) );
 #endif
 
-  typedef SmoothingRecursiveGaussianImageFilter<
-    TInputImage, Image<TInternalPrecision, TOutputImage::ImageDimension> > GaussianType;
+  using GaussianType = SmoothingRecursiveGaussianImageFilter<
+    TInputImage, Image<TInternalPrecision, TOutputImage::ImageDimension> >;
 
-  typedef typename GaussianType::SigmaArrayType SigmaArrayType;
+  using SigmaArrayType = typename GaussianType::SigmaArrayType;
 
   /** Set/Get Sigma values measured in the units of image spacing. Default: 1.0. */
   itkSetMacro(Sigmas, SigmaArrayType);

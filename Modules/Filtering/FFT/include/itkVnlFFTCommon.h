@@ -46,7 +46,7 @@ struct VnlFFTCommon
   struct VnlFFTTransform:
     public vnl_fft_base< TImage::ImageDimension, typename TImage::PixelType >
   {
-    typedef vnl_fft_base< TImage::ImageDimension, typename TImage::PixelType > Base;
+    using Base = vnl_fft_base< TImage::ImageDimension, typename TImage::PixelType >;
 
     //: constructor takes size of signal.
     VnlFFTTransform(const typename TImage::SizeType & s);

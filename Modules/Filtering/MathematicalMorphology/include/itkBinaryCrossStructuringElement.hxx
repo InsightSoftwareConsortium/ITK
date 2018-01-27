@@ -30,7 +30,7 @@ BinaryCrossStructuringElement< TPixel, VDimension, TAllocator >
 ::CreateStructuringElement()
 {
   // Carry out all of the computations using the FlatStructuringElement.
-  typedef FlatStructuringElement<VDimension> SEType;
+  using SEType = FlatStructuringElement<VDimension>;
   SEType flatKernel = SEType::Cross( this->GetRadius() );
 
   // Copy the cross into the kernel

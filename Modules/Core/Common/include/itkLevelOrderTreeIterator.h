@@ -36,12 +36,12 @@ class ITK_TEMPLATE_EXPORT LevelOrderTreeIterator:public TreeIteratorBase< TTreeT
 public:
 
   /** Typedefs */
-  typedef LevelOrderTreeIterator            Self;
-  typedef TreeIteratorBase< TTreeType >     Superclass;
-  typedef TTreeType                         TreeType;
-  typedef typename TTreeType::ValueType     ValueType;
-  typedef typename Superclass::TreeNodeType TreeNodeType;
-  typedef typename Superclass::NodeType     NodeType;
+  using Self = LevelOrderTreeIterator;
+  using Superclass = TreeIteratorBase< TTreeType >;
+  using TreeType = TTreeType;
+  using ValueType = typename TTreeType::ValueType;
+  using TreeNodeType = typename Superclass::TreeNodeType;
+  using NodeType = typename Superclass::NodeType;
 
   /** Constructor with end level specification */
   LevelOrderTreeIterator(TreeType *tree, int endLevel = INT_MAX, const TreeNodeType *start = nullptr);

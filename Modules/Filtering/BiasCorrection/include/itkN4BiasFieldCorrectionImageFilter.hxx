@@ -73,7 +73,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   this->AllocateOutputs();
 
   const InputImageType * inputImage = this->GetInput();
-  typedef typename InputImageType::RegionType RegionType;
+  using RegionType = typename InputImageType::RegionType;
   const RegionType inputRegion = inputImage->GetBufferedRegion();
 
   // Calculate the log of the input image.
@@ -120,7 +120,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   // Duplicate logInputImage since we reuse the original at each iteration.
 
-  typedef ImageDuplicator<RealImageType> DuplicatorType;
+  using DuplicatorType = ImageDuplicator<RealImageType>;
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
   duplicator->SetInputImage( logInputImage );
   duplicator->Update();
@@ -165,8 +165,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
       RealImagePointer logSharpenedImage = this->SharpenImage( logUncorrectedImage );
 
-      typedef SubtractImageFilter<RealImageType, RealImageType, RealImageType>
-      SubtracterType;
+      using SubtracterType =
+          SubtractImageFilter<RealImageType, RealImageType, RealImageType>;
       typename SubtracterType::Pointer subtracter1 = SubtracterType::New();
       subtracter1->SetInput1( logUncorrectedImage );
       subtracter1->SetInput2( logSharpenedImage );
@@ -193,8 +193,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       reporter.CompletedStep();
       }
 
-    typedef BSplineControlPointImageFilter<BiasFieldControlPointLatticeType, ScalarImageType>
-      BSplineReconstructerType;
+    using BSplineReconstructerType =
+        BSplineControlPointImageFilter<BiasFieldControlPointLatticeType, ScalarImageType>;
     typename BSplineReconstructerType::Pointer reconstructer = BSplineReconstructerType::New();
     reconstructer->SetInput( this->m_LogBiasFieldControlPointLattice );
     reconstructer->SetOrigin( logBiasField->GetOrigin() );
@@ -218,15 +218,15 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
       RefineControlPointLattice( numberOfLevels );
     }
 
-  typedef ExpImageFilter<RealImageType, RealImageType> ExpImageFilterType;
+  using ExpImageFilterType = ExpImageFilter<RealImageType, RealImageType>;
   typename ExpImageFilterType::Pointer expFilter = ExpImageFilterType::New();
   expFilter->SetInput( logBiasField );
   expFilter->Update();
 
   // Divide the input image by the bias field to get the final image.
 
-  typedef DivideImageFilter<InputImageType, RealImageType, OutputImageType>
-  DividerType;
+  using DividerType =
+      DivideImageFilter<InputImageType, RealImageType, OutputImageType>;
   typename DividerType::Pointer divider = DividerType::New();
   divider->SetInput1( inputImage );
   divider->SetInput2( expFilter->GetOutput() );
@@ -325,8 +325,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   unsigned int histogramOffset = static_cast<unsigned int>( 0.5 *
     ( paddedHistogramSize - this->m_NumberOfHistogramBins ) );
 
-  typedef double                           FFTComputationType;
-  typedef std::complex<FFTComputationType> FFTComplexType;
+  using FFTComputationType = double;
+  using FFTComplexType = std::complex<FFTComputationType>;
 
   vnl_vector< FFTComplexType > V( paddedHistogramSize,
                                          FFTComplexType( 0.0, 0.0 ) );
@@ -500,7 +500,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
   const bool filterHandlesMemory = false;
 
-  typedef ImportImageFilter<RealType, ImageDimension> ImporterType;
+  using ImporterType = ImportImageFilter<RealType, ImageDimension>;
   typename ImporterType::Pointer importer = ImporterType::New();
   importer->SetImportPointer( fieldEstimate->GetBufferPointer(), numberOfPixels, filterHandlesMemory );
   importer->SetRegion( fieldEstimate->GetBufferedRegion() );
@@ -608,10 +608,9 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
     // bias field are specified later in this function in the reconstructer.
     phiLattice->CopyInformation( this->m_LogBiasFieldControlPointLattice );
 
-    typedef AddImageFilter<BiasFieldControlPointLatticeType,
+    using AdderType = AddImageFilter<BiasFieldControlPointLatticeType,
                            BiasFieldControlPointLatticeType,
-                           BiasFieldControlPointLatticeType>
-      AdderType;
+                           BiasFieldControlPointLatticeType>;
     typename AdderType::Pointer adder = AdderType::New();
     adder->SetInput1( this->m_LogBiasFieldControlPointLattice );
     adder->SetInput2( phiLattice );
@@ -633,8 +632,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 {
   const InputImageType * inputImage = this->GetInput();
 
-  typedef BSplineControlPointImageFilter
-    <BiasFieldControlPointLatticeType, ScalarImageType> BSplineReconstructerType;
+  using BSplineReconstructerType = BSplineControlPointImageFilter
+    <BiasFieldControlPointLatticeType, ScalarImageType>;
   typename BSplineReconstructerType::Pointer reconstructer =
     BSplineReconstructerType::New();
   reconstructer->SetInput( controlPointLattice );
@@ -647,8 +646,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   typename ScalarImageType::Pointer biasFieldBsplineImage = reconstructer->GetOutput();
   biasFieldBsplineImage->Update();
 
-  typedef VectorIndexSelectionCastImageFilter<ScalarImageType, RealImageType>
-    SelectorType;
+  using SelectorType =
+      VectorIndexSelectionCastImageFilter<ScalarImageType, RealImageType>;
   typename SelectorType::Pointer selector = SelectorType::New();
   selector->SetInput( biasFieldBsplineImage );
   selector->SetIndex( 0 );
@@ -669,8 +668,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::CalculateConvergenceMeasurement( const RealImageType *fieldEstimate1,
                                    const RealImageType *fieldEstimate2 ) const
 {
-  typedef SubtractImageFilter<RealImageType, RealImageType, RealImageType>
-    SubtracterType;
+  using SubtracterType =
+      SubtractImageFilter<RealImageType, RealImageType, RealImageType>;
   typename SubtracterType::Pointer subtracter = SubtracterType::New();
   subtracter->SetInput1( fieldEstimate1 );
   subtracter->SetInput2( fieldEstimate2 );

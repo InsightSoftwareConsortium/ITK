@@ -33,20 +33,20 @@ int itkMeanProjectionImageFilterTest(int argc, char * argv[])
 
   const int dim = 3;
 
-  typedef unsigned char                PixelType;
-  typedef itk::Image< PixelType, dim > ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, dim >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::MeanProjectionImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::MeanProjectionImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );

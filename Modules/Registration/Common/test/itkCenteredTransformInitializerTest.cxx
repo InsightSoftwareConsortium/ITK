@@ -33,19 +33,19 @@ bool RunTest(
   itk::SmartPointer< TMovingImage > movingImage
   )
   {
-  typedef TFixedImage  FixedImageType;
-  typedef TMovingImage MovingImageType;
+  using FixedImageType = TFixedImage;
+  using MovingImageType = TMovingImage;
 
   bool pass = true;
 
   // Transform Type
-  typedef itk::VersorRigid3DTransform< double >     TransformType;
+  using TransformType = itk::VersorRigid3DTransform< double >;
 
   // calculate image centers
   TransformType::InputPointType   fixedCenter;
   TransformType::InputPointType   movingCenter;
 
-  typedef itk::ContinuousIndex< double, Dimension > ContinuousIndexType;
+  using ContinuousIndexType = itk::ContinuousIndex< double, Dimension >;
 
   const typename FixedImageType::RegionType & fixedRegion = fixedImage->GetLargestPossibleRegion();
   const typename FixedImageType::SizeType &   fixedSize   = fixedRegion.GetSize();
@@ -76,11 +76,10 @@ bool RunTest(
 
   TransformType::Pointer transform = TransformType::New();
 
-  typedef itk::CenteredTransformInitializer<
+  using InitializerType = itk::CenteredTransformInitializer<
                                   TransformType,
                                   FixedImageType,
-                                  MovingImageType >
-                                            InitializerType;
+                                  MovingImageType >;
 
   typename InitializerType::Pointer initializer = InitializerType::New();
 
@@ -181,10 +180,10 @@ void PopulateImage( itk::SmartPointer< TImage > image )
   image->Allocate();
   image->FillBuffer( 0 );
 
-  typedef TImage                         ImageType;
-  typedef typename ImageType::RegionType RegionType;
-  typedef typename ImageType::SizeType   SizeType;
-  typedef typename ImageType::IndexType  IndexType;
+  using ImageType = TImage;
+  using RegionType = typename ImageType::RegionType;
+  using SizeType = typename ImageType::SizeType;
+  using IndexType = typename ImageType::IndexType;
 
   const RegionType & region = image->GetLargestPossibleRegion();
   const SizeType &   size   = region.GetSize();
@@ -212,7 +211,7 @@ void PopulateImage( itk::SmartPointer< TImage > image )
   internalRegion.SetSize(  internalSize  );
   internalRegion.SetIndex( internalIndex );
 
-  typedef itk::ImageRegionIterator< ImageType > Iterator;
+  using Iterator = itk::ImageRegionIterator< ImageType >;
   Iterator it( image, internalRegion );
 
   it.GoToBegin();
@@ -242,14 +241,14 @@ int itkCenteredTransformInitializerTest(int , char* [] )
   {
   // Create Images
 
-  typedef itk::Image<unsigned char, Dimension>     FixedImageType;
-  typedef itk::Image<unsigned char, Dimension>     MovingImageType;
+  using FixedImageType = itk::Image<unsigned char, Dimension>;
+  using MovingImageType = itk::Image<unsigned char, Dimension>;
 
-  typedef FixedImageType::SizeType                 SizeType;
-  typedef FixedImageType::SpacingType              SpacingType;
-  typedef FixedImageType::PointType                PointType;
-  typedef FixedImageType::IndexType                IndexType;
-  typedef FixedImageType::RegionType               RegionType;
+  using SizeType = FixedImageType::SizeType;
+  using SpacingType = FixedImageType::SpacingType;
+  using PointType = FixedImageType::PointType;
+  using IndexType = FixedImageType::IndexType;
+  using RegionType = FixedImageType::RegionType;
 
   SizeType size;
   size[0] = 100;
@@ -303,15 +302,15 @@ int itkCenteredTransformInitializerTest(int , char* [] )
   {
   // Create Images
 
-  typedef itk::Image<unsigned char, Dimension>     FixedImageType;
-  typedef itk::Image<unsigned char, Dimension>     MovingImageType;
+  using FixedImageType = itk::Image<unsigned char, Dimension>;
+  using MovingImageType = itk::Image<unsigned char, Dimension>;
 
-  typedef FixedImageType::SizeType                 SizeType;
-  typedef FixedImageType::SpacingType              SpacingType;
-  typedef FixedImageType::PointType                PointType;
-  typedef FixedImageType::IndexType                IndexType;
-  typedef FixedImageType::RegionType               RegionType;
-  typedef FixedImageType::DirectionType            DirectionType;
+  using SizeType = FixedImageType::SizeType;
+  using SpacingType = FixedImageType::SpacingType;
+  using PointType = FixedImageType::PointType;
+  using IndexType = FixedImageType::IndexType;
+  using RegionType = FixedImageType::RegionType;
+  using DirectionType = FixedImageType::DirectionType;
 
   SizeType size;
   size[0] = 100;
@@ -351,7 +350,7 @@ int itkCenteredTransformInitializerTest(int , char* [] )
   movingRegion.SetSize( size );
   movingRegion.SetIndex( movingIndex );
 
-  typedef itk::Versor< itk::SpacePrecisionType > VersorType;
+  using VersorType = itk::Versor< itk::SpacePrecisionType >;
   VersorType x; x.SetRotationAroundX( 0.5 );
   VersorType y; y.SetRotationAroundY( 1.0 );
   VersorType z; z.SetRotationAroundZ( 1.5 );

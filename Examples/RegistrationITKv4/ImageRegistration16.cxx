@@ -46,9 +46,9 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>   Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -58,8 +58,8 @@ protected:
     }
 
 public:
-  typedef itk::AmoebaOptimizer         OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  using OptimizerType = itk::AmoebaOptimizer;
+  using OptimizerPointer = const OptimizerType   *;
 
   void Execute(itk::Object *caller,
                const itk::EventObject & event) override
@@ -98,25 +98,25 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned char   PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::TranslationTransform< double, Dimension > TransformType;
+  using TransformType = itk::TranslationTransform< double, Dimension >;
 
-  typedef itk::AmoebaOptimizer                           OptimizerType;
-  typedef itk::LinearInterpolateImageFunction<
+  using OptimizerType = itk::AmoebaOptimizer;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
                                     MovingImageType,
-                                    double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod<
+                                    double             >;
+  using RegistrationType = itk::ImageRegistrationMethod<
                                     FixedImageType,
-                                    MovingImageType    > RegistrationType;
+                                    MovingImageType    >;
 
 
-  typedef itk::MattesMutualInformationImageToImageMetric<
+  using MetricType = itk::MattesMutualInformationImageToImageMetric<
                                           FixedImageType,
-                                          MovingImageType >    MetricType;
+                                          MovingImageType >;
 
 
   TransformType::Pointer      transform     = TransformType::New();
@@ -172,8 +172,8 @@ int main( int argc, char *argv[] )
   const unsigned int numberOfParameters = transform->GetNumberOfParameters();
 
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
@@ -194,7 +194,7 @@ int main( int argc, char *argv[] )
 
   transform->SetIdentity();
 
-  typedef RegistrationType::ParametersType ParametersType;
+  using ParametersType = RegistrationType::ParametersType;
 
   ParametersType initialParameters =  transform->GetParameters();
 
@@ -300,9 +300,9 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
 
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+                            FixedImageType >;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
@@ -322,9 +322,9 @@ int main( int argc, char *argv[] )
   resample->SetDefaultPixelValue( 100 );
 
 
-  typedef itk::Image< PixelType, Dimension > OutputImageType;
+  using OutputImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer      writer =  WriterType::New();
 

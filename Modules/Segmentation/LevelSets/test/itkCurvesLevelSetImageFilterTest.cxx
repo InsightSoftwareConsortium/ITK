@@ -35,11 +35,11 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
 {
 
   const   unsigned int    ImageDimension = 2;
-  typedef unsigned char   PixelType;
-  typedef float           InternalPixelType;
+  using PixelType = unsigned char;
+  using InternalPixelType = float;
 
-  typedef itk::Image<PixelType,ImageDimension>         ImageType;
-  typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using InternalImageType = itk::Image<InternalPixelType,ImageDimension>;
 
   ImageType::SizeType imageSize;
   imageSize[0] = 128;
@@ -68,7 +68,7 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   squareRegion.SetIndex( squareStart );
   squareRegion.SetSize( squareSize );
 
-  typedef itk::ImageRegionIterator<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIterator<ImageType>;
   Iterator it( inputImage, squareRegion );
   it.GoToBegin();
   while( !it.IsAtEnd() )
@@ -82,19 +82,19 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
    * First compute the image gradient magnitude using a derivative of gaussian filter.
    * Then apply a sigmoid function to the gradient magnitude.
    */
-  typedef itk::CastImageFilter< ImageType, InternalImageType > CastFilterType;
+  using CastFilterType = itk::CastImageFilter< ImageType, InternalImageType >;
   CastFilterType::Pointer caster = CastFilterType::New();
   caster->SetInput( inputImage );
 
-  typedef itk::GradientMagnitudeRecursiveGaussianImageFilter< InternalImageType,
-    InternalImageType > GradientImageType;
+  using GradientImageType = itk::GradientMagnitudeRecursiveGaussianImageFilter< InternalImageType,
+    InternalImageType >;
 
   GradientImageType::Pointer gradMagnitude = GradientImageType::New();
   gradMagnitude->SetInput( caster->GetOutput() );
   gradMagnitude->SetSigma( 1.0 );
 
-  typedef itk::SigmoidImageFilter< InternalImageType, InternalImageType >
-    SigmoidFilterType;
+  using SigmoidFilterType =
+      itk::SigmoidImageFilter< InternalImageType, InternalImageType >;
   SigmoidFilterType::Pointer sigmoid = SigmoidFilterType::New();
   sigmoid->SetOutputMinimum( 0.0 );
   sigmoid->SetOutputMaximum( 1.0 );
@@ -106,11 +106,11 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
    * Create an initial level.
    * Use fast marching to create an signed distance from a seed point.
    */
-  typedef itk::FastMarchingImageFilter<InternalImageType> FastMarchingFilterType;
+  using FastMarchingFilterType = itk::FastMarchingImageFilter<InternalImageType>;
   FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
 
-  typedef FastMarchingFilterType::NodeContainer NodeContainer;
-  typedef FastMarchingFilterType::NodeType      NodeType;
+  using NodeContainer = FastMarchingFilterType::NodeContainer;
+  using NodeType = FastMarchingFilterType::NodeType;
 
   NodeContainer::Pointer seeds = NodeContainer::New();
 
@@ -133,8 +133,8 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   /**
    * Set up and run the shape detection filter
    */
-  typedef itk::CurvesLevelSetImageFilter<
-    InternalImageType, InternalImageType > CurvesFilterType;
+  using CurvesFilterType = itk::CurvesLevelSetImageFilter<
+    InternalImageType, InternalImageType >;
 
   CurvesFilterType::Pointer curvesFilter = CurvesFilterType::New();
 
@@ -156,8 +156,8 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   /**
    * Threshold the output level set to display the final contour.
    */
-  typedef itk::BinaryThresholdImageFilter< InternalImageType, ImageType >
-    ThresholdFilterType;
+  using ThresholdFilterType =
+      itk::BinaryThresholdImageFilter< InternalImageType, ImageType >;
   ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();
 
   thresholder->SetInput( curvesFilter->GetOutput() );
@@ -169,8 +169,8 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
   /**
    * Compute overlap between the true shape and the segmented shape
    */
-  typedef itk::SimilarityIndexImageFilter< ImageType, ImageType >
-    OverlapCalculatorType;
+  using OverlapCalculatorType =
+      itk::SimilarityIndexImageFilter< ImageType, ImageType >;
   OverlapCalculatorType::Pointer overlap = OverlapCalculatorType::New();
 
   overlap->SetInput1( inputImage );
@@ -188,11 +188,11 @@ int itkCurvesLevelSetImageFilterTest(int, char* [] )
    * Define the symbol WRITING_OUT_IMAGES to write out image files.
    */
 #ifdef WRITING_OUT_IMAGES
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
-  typedef itk::RescaleIntensityImageFilter< InternalImageType,
-    ImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< InternalImageType,
+    ImageType >;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
   writer->SetFileName( "inputImage.png" );

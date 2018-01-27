@@ -24,12 +24,12 @@ int itkPhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
 {
   bool passed = true;
 
-  typedef itk::PhasedArray3DSpecialCoordinatesImage<float>  Image;
-  typedef Image::RegionType                                 RegionType;
-  typedef Image::SizeType                                   SizeType;
-  typedef Image::PointType                                  PointType;
-  typedef Image::IndexType                                  IndexType;
-  typedef itk::ContinuousIndex<itk::SpacePrecisionType,3>   ContinuousIndexType;
+  using Image = itk::PhasedArray3DSpecialCoordinatesImage<float>;
+  using RegionType = Image::RegionType;
+  using SizeType = Image::SizeType;
+  using PointType = Image::PointType;
+  using IndexType = Image::IndexType;
+  using ContinuousIndexType = itk::ContinuousIndex<itk::SpacePrecisionType,3>;
 
   Image::Pointer image = Image::New();
   //image->DebugOn();
@@ -93,7 +93,7 @@ int itkPhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
     passed = false;
   }
 
-  typedef itk::WindowedSincInterpolateImageFunction< Image, 3 > WindowedSincInterpolatorType;
+  using WindowedSincInterpolatorType = itk::WindowedSincInterpolateImageFunction< Image, 3 >;
   WindowedSincInterpolatorType::Pointer interpolator = WindowedSincInterpolatorType::New();
   interpolator->SetInputImage( image );
 

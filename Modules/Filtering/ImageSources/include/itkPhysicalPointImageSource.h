@@ -39,21 +39,21 @@ class ITK_TEMPLATE_EXPORT PhysicalPointImageSource
   : public GenerateImageSource< TOutputImage >
 {
 public:
-  typedef PhysicalPointImageSource            Self;
-  typedef GenerateImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self>           ConstPointer;
+  using Self = PhysicalPointImageSource;
+  using Superclass = GenerateImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self>;
 
-  /** Output image typedefs */
-  typedef TOutputImage                            OutputImageType;
-  typedef typename OutputImageType::PixelType     PixelType;
-  typedef typename OutputImageType::RegionType    RegionType;
-  typedef typename OutputImageType::SpacingType   SpacingType;
-  typedef typename OutputImageType::PointType     PointType;
-  typedef typename OutputImageType::DirectionType DirectionType;
+  /** Output image type alias */
+  using OutputImageType = TOutputImage;
+  using PixelType = typename OutputImageType::PixelType;
+  using RegionType = typename OutputImageType::RegionType;
+  using SpacingType = typename OutputImageType::SpacingType;
+  using PointType = typename OutputImageType::PointType;
+  using DirectionType = typename OutputImageType::DirectionType;
 
 
-  typedef typename RegionType::SizeType SizeType;
+  using SizeType = typename RegionType::SizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PhysicalPointImageSource, GenerateImageSource);

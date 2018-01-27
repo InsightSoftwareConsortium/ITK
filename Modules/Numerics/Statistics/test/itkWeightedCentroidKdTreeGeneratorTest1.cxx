@@ -32,13 +32,13 @@ int itkWeightedCentroidKdTreeGeneratorTest1(int argc , char * argv [] )
     }
 
   // Random number generator
-  typedef itk::Statistics::MersenneTwisterRandomVariateGenerator NumberGeneratorType;
+  using NumberGeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
 
   NumberGeneratorType::Pointer randomNumberGenerator = NumberGeneratorType::GetInstance();
   randomNumberGenerator->Initialize();
 
-  typedef itk::Array< double > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Array< double >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
   const SampleType::MeasurementVectorSizeType measurementVectorSize = 2;
 
@@ -57,7 +57,7 @@ int itkWeightedCentroidKdTreeGeneratorTest1(int argc , char * argv [] )
     sample->PushBack( mv );
     }
 
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType > TreeGeneratorType;
+  using TreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
   std::cout << treeGenerator->GetNameOfClass() << std::endl;
   treeGenerator->Print( std::cout );
@@ -68,7 +68,7 @@ int itkWeightedCentroidKdTreeGeneratorTest1(int argc , char * argv [] )
   treeGenerator->SetBucketSize( bucketSize );
   treeGenerator->Update();
 
-  typedef TreeGeneratorType::KdTreeType TreeType;
+  using TreeType = TreeGeneratorType::KdTreeType;
 
   TreeType::Pointer tree = treeGenerator->GetOutput();
 
@@ -89,7 +89,7 @@ int itkWeightedCentroidKdTreeGeneratorTest1(int argc , char * argv [] )
   //
   //  Check that for every point in the sample, its closest point is itself.
   //
-  typedef itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType > DistanceMetricType;
+  using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType >;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
   bool testFailed = false;
 

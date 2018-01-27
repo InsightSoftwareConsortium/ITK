@@ -65,9 +65,9 @@ MetaSurfaceConverter< NDimensions >
   surfaceSO->GetProperty()->SetBlue(surfaceMO->Color()[2]);
   surfaceSO->GetProperty()->SetAlpha(surfaceMO->Color()[3]);
 
-  typedef typename SurfaceSpatialObjectType::SurfacePointType SurfacePointType;
+  using SurfacePointType = typename SurfaceSpatialObjectType::SurfacePointType;
 
-  typedef SurfaceMetaObjectType::PointListType ListType;
+  using ListType = SurfaceMetaObjectType::PointListType;
 
   ListType::const_iterator it2 = surfaceMO->GetPoints().begin();
 
@@ -75,9 +75,9 @@ MetaSurfaceConverter< NDimensions >
     {
     SurfacePointType pnt;
 
-    typedef typename SurfacePointType::PointType PointType;
+    using PointType = typename SurfacePointType::PointType;
     PointType point;
-    typedef typename SurfacePointType::VectorType VectorType;
+    using VectorType = typename SurfacePointType::VectorType;
     VectorType normal;
 
     for ( unsigned int ii = 0; ii < ndims; ii++ )

@@ -39,12 +39,12 @@ int itkVotingBinaryHoleFillingImageFilterTest( int argc, char* argv[] )
   const unsigned int Dimension = 2;
 
   // Declare the pixel types of the images
-  typedef unsigned short                            InputPixelType;
-  typedef unsigned char                             OutputPixelType;
-  typedef itk::Image< InputPixelType, Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
-  typedef itk::ImageFileReader< InputImageType >    ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >   WriterType;
+  using InputPixelType = unsigned short;
+  using OutputPixelType = unsigned char;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
@@ -64,8 +64,8 @@ int itkVotingBinaryHoleFillingImageFilterTest( int argc, char* argv[] )
   thresholder->SetOutsideValue( background );
 
   // Define the voting binary hole filling filter
-  typedef itk::VotingBinaryHoleFillingImageFilter< InputImageType, OutputImageType >
-    VotingBinaryHoleFillingImageFilterType;
+  using VotingBinaryHoleFillingImageFilterType =
+      itk::VotingBinaryHoleFillingImageFilter< InputImageType, OutputImageType >;
 
   VotingBinaryHoleFillingImageFilterType::Pointer voting =
     VotingBinaryHoleFillingImageFilterType::New();

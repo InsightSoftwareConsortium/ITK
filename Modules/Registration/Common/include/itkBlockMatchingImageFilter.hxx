@@ -164,22 +164,22 @@ BlockMatchingImageFilter< TFixedImage, TMovingImage, TFeatures, TDisplacements, 
 
     DisplacementsPointer displacements = this->GetDisplacements();
 
-    typedef typename DisplacementsType::PointsContainerPointer  DisplacementsPointsContainerPointerType;
-    typedef typename DisplacementsType::PointsContainer         DisplacementsPointsContainerType;
+    using DisplacementsPointsContainerPointerType = typename DisplacementsType::PointsContainerPointer;
+    using DisplacementsPointsContainerType = typename DisplacementsType::PointsContainer;
     DisplacementsPointsContainerPointerType displacementsPoints = DisplacementsPointsContainerType::New();
 
-    typedef typename DisplacementsType::PointDataContainerPointer  DisplacementsPointDataContainerPointerType;
-    typedef typename DisplacementsType::PointDataContainer         DisplacementsPointDataContainerType;
+    using DisplacementsPointDataContainerPointerType = typename DisplacementsType::PointDataContainerPointer;
+    using DisplacementsPointDataContainerType = typename DisplacementsType::PointDataContainer;
     DisplacementsPointDataContainerPointerType displacementsData = DisplacementsPointDataContainerType::New();
 
     SimilaritiesPointer similarities = this->GetSimilarities();
 
-    typedef typename SimilaritiesType::PointsContainerPointer  SimilaritiesPointsContainerPointerType;
-    typedef typename SimilaritiesType::PointsContainer         SimilaritiesPointsContainerType;
+    using SimilaritiesPointsContainerPointerType = typename SimilaritiesType::PointsContainerPointer;
+    using SimilaritiesPointsContainerType = typename SimilaritiesType::PointsContainer;
     SimilaritiesPointsContainerPointerType similaritiesPoints = SimilaritiesPointsContainerType::New();
 
-    typedef typename SimilaritiesType::PointDataContainerPointer  SimilaritiesPointDataContainerPointerType;
-    typedef typename SimilaritiesType::PointDataContainer         SimilaritiesPointDataContainerType;
+    using SimilaritiesPointDataContainerPointerType = typename SimilaritiesType::PointDataContainerPointer;
+    using SimilaritiesPointDataContainerType = typename SimilaritiesType::PointDataContainer;
     SimilaritiesPointDataContainerPointerType similaritiesData = SimilaritiesPointDataContainerType::New();
 
     // insert displacements and similarities

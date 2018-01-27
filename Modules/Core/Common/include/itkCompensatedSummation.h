@@ -51,7 +51,7 @@ namespace itk
  * do
  *
  * \code
- *   typedef CompensatedSummation<double> CompensatedSummationType;
+ *   using CompensatedSummationType = CompensatedSummation<double>;
  *   CompensatedSummationType compensatedSummation;
  *   for( unsigned int i = 0; i < array.Size(); ++i )
  *     {
@@ -67,13 +67,13 @@ class ITK_TEMPLATE_EXPORT CompensatedSummation
 {
 public:
   /** Type of the input elements. */
-  typedef TFloat FloatType;
+  using FloatType = TFloat;
 
   /** Type used for the sum and compensation. */
-  typedef typename NumericTraits< FloatType >::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits< FloatType >::AccumulateType;
 
-  /** Standard class typedefs. */
-  typedef CompensatedSummation Self;
+  /** Standard class type aliases. */
+  using Self = CompensatedSummation;
 
   /** Constructor. */
   CompensatedSummation();

@@ -299,13 +299,13 @@ public:
 
 
   /** The element type stored at each location in the Array. */
-  typedef TValue                                        ValueType;
-  typedef TValue                                        ComponentType;
-  typedef typename NumericTraits< ValueType >::RealType RealValueType;
-  typedef VariableLengthVector                          Self;
+  using ValueType = TValue;
+  using ComponentType = TValue;
+  using RealValueType = typename NumericTraits< ValueType >::RealType;
+  using Self = VariableLengthVector;
 
   /** Typedef used to indicate the number of elements in the vector */
-  typedef unsigned int ElementIdentifier;
+  using ElementIdentifier = unsigned int;
 
   /** Default constructor. It is created with an empty array
    *  it has to be allocated later by assignment, \c SetSize() or \c Reserve().
@@ -962,7 +962,7 @@ namespace Details
  */
 template <typename TExpr> struct GetType
   {
-  typedef TExpr Type;
+  using Type = TExpr;
   /** Fetches the i-th element from an array (expression).
    * \note the default unspecialized behaviour returns the input number \c v.
    */
@@ -1028,14 +1028,14 @@ GetSize(TExpr1 const& itkNotUsed(lhs), TExpr2 const& rhs)
 template <typename T>
 struct GetType<VariableLengthVector<T> >
   {
-  typedef T Type;
+  using Type = T;
   static Type Load(VariableLengthVector<T> const& v, unsigned int idx)
     { return v[idx]; }
   };
 template <typename TExpr1, typename TExpr2, typename TBinaryOp>
 struct GetType<VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> >
   {
-  typedef typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::ResType Type;
+  using Type = typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::ResType;
   static Type Load(VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> const& v, unsigned int idx)
     { return v[idx]; }
   };
@@ -1142,11 +1142,11 @@ struct VariableLengthVectorExpression
   unsigned int Size() const{ return Details::GetSize(m_lhs, m_rhs); }
 
   /// Vector type of the Result Expression
-  typedef typename mpl::PromoteType<
+  using ResType = typename mpl::PromoteType<
     typename Details::GetType<TExpr1>::Type,
-    typename Details::GetType<TExpr2>::Type>::Type     ResType;
+    typename Details::GetType<TExpr2>::Type>::Type;
   /// Real type of the elements
-  typedef typename NumericTraits< ResType > ::RealType RealValueType;
+  using RealValueType = typename NumericTraits< ResType > ::RealType;
 
   /** Element access operator.
    * \pre `idx < Size()`
@@ -1276,7 +1276,7 @@ inline
 typename mpl::EnableIf<mpl::IsArray<TExpr>, typename TExpr::RealValueType>::Type
 GetSquaredNorm(TExpr const& v)
 {
-  typedef typename TExpr::RealValueType RealValueType;
+  using RealValueType = typename TExpr::RealValueType;
   RealValueType sum = 0.0;
   for ( unsigned int i = 0, N=v.Size(); i < N; ++i )
     {

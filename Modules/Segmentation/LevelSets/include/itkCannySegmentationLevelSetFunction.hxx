@@ -44,8 +44,8 @@ void CannySegmentationLevelSetFunction< TImageType, TFeatureImageType >
   typename GradientImageFilter< ImageType, ScalarValueType, ScalarValueType >::Pointer
   gradient = GradientImageFilter< ImageType, ScalarValueType, ScalarValueType >::New();
 
-  typedef typename GradientImageFilter< ImageType, ScalarValueType,
-                                        ScalarValueType >::OutputImageType CovariantVectorImageType;
+  using CovariantVectorImageType = typename GradientImageFilter< ImageType, ScalarValueType,
+                                        ScalarValueType >::OutputImageType;
 
   typename MultiplyImageFilter< CovariantVectorImageType, ImageType,
                                 CovariantVectorImageType >::Pointer multiply =

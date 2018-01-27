@@ -124,7 +124,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   const SizeValueType nbOfThreads = static_cast<const SizeValueType>( this->m_NumberOfLabels.size() );
 
   // create a line iterator
-  typedef itk::ImageLinearConstIteratorWithIndex< InputImageType > InputLineIteratorType;
+  using InputLineIteratorType = itk::ImageLinearConstIteratorWithIndex< InputImageType >;
   InputLineIteratorType inLineIt(input, outputRegionForThread);
   inLineIt.SetDirection(0);
 
@@ -359,7 +359,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   for ( SizeValueType thisIdx = 0; thisIdx < linecount; thisIdx++ )
     {
     // now fill the labelled sections
-    typedef typename lineEncoding::const_iterator LineIterator;
+    using LineIterator = typename lineEncoding::const_iterator;
 
     LineIterator cIt = m_LineMap[thisIdx].begin();
     const LineIterator cEnd = m_LineMap[thisIdx].end();
@@ -391,10 +391,10 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   // offset for us. All this messing around produces an array of
   // offsets that will be used to index the map
   typename TOutputImage::Pointer output = this->GetOutput();
-  typedef Image< OffsetValueType, TOutputImage::ImageDimension - 1 >      PretendImageType;
-  typedef typename PretendImageType::RegionType::SizeType                 PretendSizeType;
-  typedef typename PretendImageType::RegionType::IndexType                PretendIndexType;
-  typedef ConstShapedNeighborhoodIterator< PretendImageType >             LineNeighborhoodType;
+  using PretendImageType = Image< OffsetValueType, TOutputImage::ImageDimension - 1 >;
+  using PretendSizeType = typename PretendImageType::RegionType::SizeType;
+  using PretendIndexType = typename PretendImageType::RegionType::IndexType;
+  using LineNeighborhoodType = ConstShapedNeighborhoodIterator< PretendImageType >;
 
   typename PretendImageType::Pointer fakeImage;
   fakeImage = PretendImageType::New();

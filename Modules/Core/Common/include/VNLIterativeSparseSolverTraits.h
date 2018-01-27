@@ -43,10 +43,10 @@ template< typename T = double >
 class VNLIterativeSparseSolverTraits
 {
 public:
-  typedef T                               ValueType;
-  typedef vnl_sparse_matrix< ValueType >  MatrixType;
-  typedef vnl_vector< ValueType >         VectorType;
-  typedef vnl_lsqr                        SolverType;
+  using ValueType = T;
+  using MatrixType = vnl_sparse_matrix< ValueType >;
+  using VectorType = vnl_vector< ValueType >;
+  using SolverType = vnl_lsqr;
 
   /** \return false (it is not a direct solver, it is an iterative solver) */
   static bool IsDirectSolver()
@@ -87,7 +87,7 @@ public:
   /** \brief Solve the linear system \f$ iA \cdot oX = iB \f$ */
   static bool Solve(const MatrixType & iA, const VectorType & iB, VectorType & oX)
   {
-    typedef vnl_sparse_matrix_linear_system< ValueType > SparseLinearSystemType;
+    using SparseLinearSystemType = vnl_sparse_matrix_linear_system< ValueType >;
     SparseLinearSystemType system(iA, iB);
 
     SolverType solver(system);
@@ -123,7 +123,7 @@ public:
              const long & iNbIter,
              VectorType & oX)
   {
-    typedef vnl_sparse_matrix_linear_system< ValueType > SparseLinearSystemType;
+    using SparseLinearSystemType = vnl_sparse_matrix_linear_system< ValueType >;
     SparseLinearSystemType system(iA, iB);
 
     SolverType solver(system);

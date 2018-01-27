@@ -25,37 +25,37 @@
 int itkReadWriteSpatialObjectTest(int argc, char* argv[])
 {
 
-  typedef itk::TubeSpatialObject<3>        TubeType;
-  typedef TubeType::Pointer                TubePointer;
-  typedef itk::EllipseSpatialObject<3>     EllipseType;
-  typedef EllipseType::Pointer             EllipsePointer;
-  typedef itk::BlobSpatialObject<3>        BlobType;
-  typedef BlobType::Pointer                BlobPointer;
-  typedef itk::SurfaceSpatialObject<3>     SurfaceType;
-  typedef SurfaceType::Pointer             SurfacePointer;
-  typedef itk::LineSpatialObject<3>        LineType;
-  typedef LineType::Pointer                LinePointer;
-  typedef itk::GroupSpatialObject<3>       GroupType;
-  typedef GroupType::Pointer               GroupPointer;
-  typedef itk::LandmarkSpatialObject<3>    LandmarkType;
-  typedef LandmarkType::Pointer            LandmarkPointer;
-  typedef itk::VesselTubeSpatialObject<3>  VesselTubeType;
-  typedef itk::DTITubeSpatialObject<3>     DTITubeType;
-  typedef itk::ContourSpatialObject<3>     ContourType;
+  using TubeType = itk::TubeSpatialObject<3>;
+  using TubePointer = TubeType::Pointer;
+  using EllipseType = itk::EllipseSpatialObject<3>;
+  using EllipsePointer = EllipseType::Pointer;
+  using BlobType = itk::BlobSpatialObject<3>;
+  using BlobPointer = BlobType::Pointer;
+  using SurfaceType = itk::SurfaceSpatialObject<3>;
+  using SurfacePointer = SurfaceType::Pointer;
+  using LineType = itk::LineSpatialObject<3>;
+  using LinePointer = LineType::Pointer;
+  using GroupType = itk::GroupSpatialObject<3>;
+  using GroupPointer = GroupType::Pointer;
+  using LandmarkType = itk::LandmarkSpatialObject<3>;
+  using LandmarkPointer = LandmarkType::Pointer;
+  using VesselTubeType = itk::VesselTubeSpatialObject<3>;
+  using DTITubeType = itk::DTITubeSpatialObject<3>;
+  using ContourType = itk::ContourSpatialObject<3>;
 
 
-  typedef itk::ImageSpatialObject<3,unsigned short>  ImageType;
-  typedef itk::ImageMaskSpatialObject<3>             ImageMaskType;
+  using ImageType = itk::ImageSpatialObject<3,unsigned short>;
+  using ImageMaskType = itk::ImageMaskSpatialObject<3>;
 
-  typedef itk::SpatialObjectWriter<3,unsigned short> WriterType;
-  typedef itk::SpatialObjectReader<3,unsigned short> ReaderType;
+  using WriterType = itk::SpatialObjectWriter<3,unsigned short>;
+  using ReaderType = itk::SpatialObjectReader<3,unsigned short>;
 
-  typedef itk::TubeSpatialObjectPoint<3>        TubePointType;
-  typedef itk::VesselTubeSpatialObjectPoint<3>  VesselTubePointType;
-  typedef itk::DTITubeSpatialObjectPoint<3>     DTITubePointType;
-  typedef itk::SpatialObjectPoint<3>            BlobPointType;
-  typedef itk::SurfaceSpatialObjectPoint<3>     SurfacePointType;
-  typedef itk::LineSpatialObjectPoint<3>        LinePointType;
+  using TubePointType = itk::TubeSpatialObjectPoint<3>;
+  using VesselTubePointType = itk::VesselTubeSpatialObjectPoint<3>;
+  using DTITubePointType = itk::DTITubeSpatialObjectPoint<3>;
+  using BlobPointType = itk::SpatialObjectPoint<3>;
+  using SurfacePointType = itk::SurfaceSpatialObjectPoint<3>;
+  using LinePointType = itk::LineSpatialObjectPoint<3>;
 
   // Tubes
   std::cout << " --- Testing Read-Write SpatialObject ---" << std::endl;
@@ -245,10 +245,10 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   landmark->SetPoints(list7);
   landmark->GetProperty()->SetName("Landmark 1");
 
-  typedef ImageType::ImageType      itkImageType;
-  typedef itkImageType::Pointer     ImagePointer;
-  typedef itkImageType::SizeType    SizeType;
-  typedef itkImageType::RegionType  RegionType;
+  using itkImageType = ImageType::ImageType;
+  using ImagePointer = itkImageType::Pointer;
+  using SizeType = itkImageType::SizeType;
+  using RegionType = itkImageType::RegionType;
 
   ImagePointer itkImage = itkImageType::New();
 
@@ -287,8 +287,8 @@ int itkReadWriteSpatialObjectTest(int argc, char* argv[])
   tubeN2->AddSpatialObject( image );
 
   // Create Mask Image
-  typedef ImageMaskType::ImageType   itkImageMaskType;
-  typedef itkImageMaskType::Pointer  ImageMaskPointer;
+  using itkImageMaskType = ImageMaskType::ImageType;
+  using ImageMaskPointer = itkImageMaskType::Pointer;
 
   ImageMaskPointer itkImageMask = itkImageMaskType::New();
 

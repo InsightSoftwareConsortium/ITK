@@ -79,10 +79,10 @@ WindowConvergenceMonitoringFunction<TScalar>
     return NumericTraits<RealType>::max();
     }
 
-  typedef Vector<RealType, 1>                     ProfilePointDataType;
-  typedef Image<ProfilePointDataType, 1>          CurveType;
-  typedef PointSet<ProfilePointDataType, 1>       EnergyProfileType;
-  typedef typename EnergyProfileType::PointType   ProfilePointType;
+  using ProfilePointDataType = Vector<RealType, 1>;
+  using CurveType = Image<ProfilePointDataType, 1>;
+  using EnergyProfileType = PointSet<ProfilePointDataType, 1>;
+  using ProfilePointType = typename EnergyProfileType::PointType;
 
   typename CurveType::PointType    origin;
   typename CurveType::SizeType     size;
@@ -92,7 +92,7 @@ WindowConvergenceMonitoringFunction<TScalar>
   size[0] = 11;
   spacing[0] = 0.1;
 
-  typedef BSplineScatteredDataPointSetToImageFilter<EnergyProfileType, CurveType> BSplinerType;
+  using BSplinerType = BSplineScatteredDataPointSetToImageFilter<EnergyProfileType, CurveType>;
   typename BSplinerType::Pointer bspliner = BSplinerType::New();
   bspliner->SetOrigin( origin );
   bspliner->SetSpacing( spacing );
@@ -118,7 +118,7 @@ WindowConvergenceMonitoringFunction<TScalar>
   bspliner->SetInput( energyProfileWindow );
   bspliner->Update();
 
-  typedef BSplineControlPointImageFunction<CurveType> BSplinerFunctionType;
+  using BSplinerFunctionType = BSplineControlPointImageFunction<CurveType>;
   typename BSplinerFunctionType::Pointer bsplinerFunction = BSplinerFunctionType::New();
   bsplinerFunction->SetOrigin( origin );
   bsplinerFunction->SetSpacing( spacing );

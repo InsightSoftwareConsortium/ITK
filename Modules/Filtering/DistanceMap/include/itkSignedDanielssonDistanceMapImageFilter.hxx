@@ -123,8 +123,8 @@ void SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoi
   typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  typedef DanielssonDistanceMapImageFilter<
-    InputImageType, OutputImageType, VoronoiImageType >  FilterType;
+  using FilterType = DanielssonDistanceMapImageFilter<
+    InputImageType, OutputImageType, VoronoiImageType >;
   typename FilterType::Pointer filter1 = FilterType::New();
   typename FilterType::Pointer filter2 = FilterType::New();
 
@@ -134,11 +134,11 @@ void SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoi
   filter2->SetSquaredDistance(m_SquaredDistance);
 
   //Invert input image for second Danielsson filter
-  typedef typename InputImageType::PixelType                InputPixelType;
-  typedef Functor::InvertIntensityFunctor< InputPixelType > FunctorType;
-  typedef UnaryFunctorImageFilter< InputImageType,
+  using InputPixelType = typename InputImageType::PixelType;
+  using FunctorType = Functor::InvertIntensityFunctor< InputPixelType >;
+  using InverterType = UnaryFunctorImageFilter< InputImageType,
                                    InputImageType,
-                                   FunctorType >             InverterType;
+                                   FunctorType >;
 
   typename InverterType::Pointer inverter = InverterType::New();
 
@@ -147,14 +147,14 @@ void SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoi
   //Dilate the inverted image by 1 pixel to give it the same boundary
   //as the uninverted input.
 
-  typedef BinaryBallStructuringElement<
+  using StructuringElementType = BinaryBallStructuringElement<
     InputPixelType,
-    InputImageDimension  > StructuringElementType;
+    InputImageDimension  >;
 
-  typedef BinaryDilateImageFilter<
+  using DilatorType = BinaryDilateImageFilter<
     InputImageType,
     InputImageType,
-    StructuringElementType >     DilatorType;
+    StructuringElementType >;
 
   typename DilatorType::Pointer dilator = DilatorType::New();
 
@@ -169,8 +169,8 @@ void SignedDanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoi
   filter2->SetInput( dilator->GetOutput() );
 
   //Subtract Distance maps results of the two Danielsson filters
-  typedef SubtractImageFilter< OutputImageType, OutputImageType,
-                               OutputImageType > SubtracterType;
+  using SubtracterType = SubtractImageFilter< OutputImageType, OutputImageType,
+                               OutputImageType >;
 
   typename SubtracterType::Pointer subtracter = SubtracterType::New();
 

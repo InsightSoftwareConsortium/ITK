@@ -38,11 +38,11 @@ namespace itk
 class ITKVideoIO_EXPORT VideoIOFactory : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef VideoIOFactory             Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VideoIOFactory;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Mode in which the VideoIO is intended to be used */
   typedef enum { ReadFileMode, ReadCameraMode, WriteMode } IOModeType;

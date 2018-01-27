@@ -37,11 +37,11 @@ class ITK_TEMPLATE_EXPORT ScaleLogarithmicTransform :
   public ScaleTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs.   */
-  typedef ScaleLogarithmicTransform                         Self;
-  typedef ScaleTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  /** Standard class type aliases.   */
+  using Self = ScaleLogarithmicTransform;
+  using Superclass = ScaleTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a smart pointer. */
   itkNewMacro(Self);
@@ -54,36 +54,36 @@ public:
   itkStaticConstMacro(ParametersDimension, unsigned int, NDimensions);
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename ParametersType::ValueType       ParametersValueType;
-  typedef typename Superclass::FixedParametersType FixedParametersType;
-  typedef typename FixedParametersType::ValueType  FixedParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename ParametersType::ValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename FixedParametersType::ValueType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Standard vector type for this class. */
-  typedef typename Superclass::ScaleType ScaleType;
-  typedef typename ScaleType::ValueType  ScalesValueType;
+  using ScaleType = typename Superclass::ScaleType;
+  using ScalesValueType = typename ScaleType::ValueType;
 
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType  InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType OutputPointType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
 
   /** Set parameters.
    * This method sets the parameters for the transform

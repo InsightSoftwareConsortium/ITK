@@ -63,11 +63,11 @@ SimpleSignedDistance( const TPoint & p )
 int itkIsoContourDistanceImageFilterTest(int, char* [] )
 {
   const unsigned int ImageDimension = 2;
-  typedef float PixelType;
+  using PixelType = float;
 
-  typedef itk::Image<PixelType,ImageDimension>      ImageType;
-  typedef itk::Image<unsigned char,ImageDimension>  OutputImageType;
-  typedef itk::Point<double,ImageDimension>         PointType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using OutputImageType = itk::Image<unsigned char,ImageDimension>;
+  using PointType = itk::Point<double,ImageDimension>;
 
   // Fill an input image with simple signed distance function
   ImageType::Pointer image = ImageType::New();
@@ -78,7 +78,7 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   image->SetRegions( region );
   image->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter( image, region );
   iter.GoToBegin();
 
@@ -91,14 +91,14 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
     }
 
   // Squash up the level sets by mulitplying with a scalar
-  typedef itk::ShiftScaleImageFilter<ImageType,ImageType> MultiplierType;
+  using MultiplierType = itk::ShiftScaleImageFilter<ImageType,ImageType>;
   MultiplierType::Pointer multiplier = MultiplierType::New();
   multiplier->SetInput( image );
   multiplier->SetScale( 0.5 );
   //multiplier->SetShift( 0.0 );
 
   // Set up  image filter
-  typedef itk::IsoContourDistanceImageFilter<ImageType,ImageType> IsoContourType;
+  using IsoContourType = itk::IsoContourDistanceImageFilter<ImageType,ImageType>;
   IsoContourType::Pointer isocontour = IsoContourType::New();
   isocontour->SetInput( multiplier->GetOutput() );
   isocontour->SetFarValue(10);
@@ -118,9 +118,9 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
   isocontour->AddObserver( itk::ProgressEvent(), command);
 
   // For debugging
-  typedef itk::RescaleIntensityImageFilter<
+  using CastFilterType = itk::RescaleIntensityImageFilter<
                                 ImageType,
-                                OutputImageType >   CastFilterType;
+                                OutputImageType >;
   CastFilterType::Pointer caster = CastFilterType::New();
   caster->SetInput(isocontour->GetOutput());
 
@@ -135,8 +135,8 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
     }
 
   // Create narrowband
-  typedef IsoContourType::BandNodeType    BandNodeType;
-  typedef IsoContourType::NarrowBandType  NarrowBandType;
+  using BandNodeType = IsoContourType::BandNodeType;
+  using NarrowBandType = IsoContourType::NarrowBandType;
 
   NarrowBandType::Pointer band = NarrowBandType::New();
   // Create nodes
@@ -169,13 +169,13 @@ int itkIsoContourDistanceImageFilterTest(int, char* [] )
     }
 
   // Check if inside/outside points remain the same after reinitialization
-  typedef itk::MultiplyImageFilter<ImageType,ImageType,ImageType> CheckerType;
+  using CheckerType = itk::MultiplyImageFilter<ImageType,ImageType,ImageType>;
   CheckerType::Pointer checker = CheckerType::New();
   checker->SetInput1( image );
   checker->SetInput2( isocontour->GetOutput() );
   checker->Update();
 
-  typedef itk::MinimumMaximumImageCalculator<ImageType> CalculatorType;
+  using CalculatorType = itk::MinimumMaximumImageCalculator<ImageType>;
   CalculatorType::Pointer calculator = CalculatorType::New();
   calculator->SetImage( checker->GetOutput() );
   calculator->Compute();

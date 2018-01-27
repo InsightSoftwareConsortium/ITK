@@ -42,14 +42,14 @@ int itkHMinimaImageFilterTest( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
 
-  typedef short         InputPixelType;
-  typedef unsigned char OutputPixelType;
+  using InputPixelType = short;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType, Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
   // Read the input image
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -57,9 +57,9 @@ int itkHMinimaImageFilterTest( int argc, char * argv[] )
 
 
   // Define the itk::HMinimaImageFilter filter type
-  typedef itk::HMinimaImageFilter<
+  using HMinimaFilterType = itk::HMinimaImageFilter<
                             InputImageType,
-                            OutputImageType > HMinimaFilterType;
+                            OutputImageType >;
 
   // Create the filter
   HMinimaFilterType::Pointer hMinimaFilter = HMinimaFilterType::New();
@@ -87,7 +87,7 @@ int itkHMinimaImageFilterTest( int argc, char * argv[] )
 
 
   // Write the output
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( hMinimaFilter->GetOutput() );

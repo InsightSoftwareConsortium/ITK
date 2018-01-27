@@ -53,7 +53,7 @@ template<typename T>void RandomPoint(vnl_random &randgen,itk::Point<T,3> &pix,
 
 static int check_linear(const char *linear_transform)
 {
-  typedef itk::AffineTransform<double,3>  AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<double,3>;
   const double tolerance = 1e-5;
 
   AffineTransformType::Pointer        affine = AffineTransformType::New();
@@ -161,8 +161,8 @@ static int check_nonlinear_double(const char *nonlinear_transform)
 {
   const double tolerance = 1e-5;
 
-  typedef itk::DisplacementFieldTransform<double,3>         DisplacementFieldTransform;
-  typedef DisplacementFieldTransform::DisplacementFieldType DisplacementFieldType;
+  using DisplacementFieldTransform = itk::DisplacementFieldTransform<double,3>;
+  using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
 
   DisplacementFieldTransform::Pointer disp = DisplacementFieldTransform::New();
   DisplacementFieldType::Pointer field=DisplacementFieldType::New();
@@ -299,11 +299,11 @@ static int check_nonlinear_float(const char *nonlinear_transform)
 {
   double tolerance=1e-5;
 
-  typedef itk::TransformFileWriterTemplate<float> TransformFileWriterFloat;
-  typedef itk::TransformFileReaderTemplate<float> TransformFileReaderFloat;
+  using TransformFileWriterFloat = itk::TransformFileWriterTemplate<float>;
+  using TransformFileReaderFloat = itk::TransformFileReaderTemplate<float>;
 
-  typedef itk::DisplacementFieldTransform<float,3>         DisplacementFieldTransform;
-  typedef DisplacementFieldTransform::DisplacementFieldType DisplacementFieldType;
+  using DisplacementFieldTransform = itk::DisplacementFieldTransform<float,3>;
+  using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
 
   DisplacementFieldTransform::Pointer disp = DisplacementFieldTransform::New();
   DisplacementFieldType::Pointer field=DisplacementFieldType::New();

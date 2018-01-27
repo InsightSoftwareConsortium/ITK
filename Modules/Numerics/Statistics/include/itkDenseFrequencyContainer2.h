@@ -43,11 +43,11 @@ class ITKStatistics_EXPORT DenseFrequencyContainer2:
   public Object
 {
 public:
-  /** Standard class typedefs */
-  typedef DenseFrequencyContainer2   Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = DenseFrequencyContainer2;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DenseFrequencyContainer2, Object);
@@ -56,25 +56,25 @@ public:
   itkNewMacro(Self);
 
   /** InstanceIdenfitifer type alias */
-  typedef MeasurementVectorTraits::InstanceIdentifier InstanceIdentifier;
+  using InstanceIdentifier = MeasurementVectorTraits::InstanceIdentifier;
 
   /** Absoluate Frequency type alias */
-  typedef MeasurementVectorTraits::AbsoluteFrequencyType AbsoluteFrequencyType;
+  using AbsoluteFrequencyType = MeasurementVectorTraits::AbsoluteFrequencyType;
 
   /** Absolute Total frequency type */
-  typedef MeasurementVectorTraits::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = MeasurementVectorTraits::TotalAbsoluteFrequencyType;
 
   /** Relative Frequency type alias */
-  typedef MeasurementVectorTraits::RelativeFrequencyType RelativeFrequencyType;
+  using RelativeFrequencyType = MeasurementVectorTraits::RelativeFrequencyType;
 
   /** Relative Total frequency type */
-  typedef MeasurementVectorTraits::TotalRelativeFrequencyType TotalRelativeFrequencyType;
+  using TotalRelativeFrequencyType = MeasurementVectorTraits::TotalRelativeFrequencyType;
 
-  /** Internal storage class typedefs */
-  typedef ValarrayImageContainer< InstanceIdentifier, AbsoluteFrequencyType >
-  FrequencyContainerType;
+  /** Internal storage class type alias */
+  using FrequencyContainerType =
+      ValarrayImageContainer< InstanceIdentifier, AbsoluteFrequencyType >;
 
-  typedef FrequencyContainerType::Pointer FrequencyContainerPointer;
+  using FrequencyContainerPointer = FrequencyContainerType::Pointer;
 
   /** Calls the Initialize method of superclass to generate the offset table
    * and prepare the frequency container */

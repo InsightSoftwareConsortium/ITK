@@ -30,10 +30,10 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char InputPixelType;
+  using InputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType, Dimension > InputImageType;
-  typedef itk::ImageFileReader< InputImageType >  InputReaderType;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using InputReaderType = itk::ImageFileReader< InputImageType >;
 
   InputReaderType::Pointer reader = InputReaderType::New();
   reader->SetFileName( argv[1] );
@@ -49,9 +49,9 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
   InputImageType::Pointer input = reader->GetOutput();
   std::cout << "Input image read" << std::endl;
 
-  typedef itk::MalcolmSparseLevelSetImage< Dimension >  LevelSetType;
-  typedef itk::BinaryImageToLevelSetImageAdaptor<
-      InputImageType, LevelSetType >                    BinaryToSparseAdaptorType;
+  using LevelSetType = itk::MalcolmSparseLevelSetImage< Dimension >;
+  using BinaryToSparseAdaptorType = itk::BinaryImageToLevelSetImageAdaptor<
+      InputImageType, LevelSetType >;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage( input );
@@ -60,14 +60,14 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
 
   LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
-  typedef itk::Image< signed char, Dimension > StatusImageType;
+  using StatusImageType = itk::Image< signed char, Dimension >;
   StatusImageType::Pointer statusImage = StatusImageType::New();
   statusImage->SetRegions( input->GetLargestPossibleRegion() );
   statusImage->CopyInformation( input );
   statusImage->Allocate();
   statusImage->FillBuffer( 0 );
 
-  typedef itk::ImageRegionIteratorWithIndex< StatusImageType > StatusIteratorType;
+  using StatusIteratorType = itk::ImageRegionIteratorWithIndex< StatusImageType >;
   StatusIteratorType sIt( statusImage, statusImage->GetLargestPossibleRegion() );
   sIt.GoToBegin();
 
@@ -81,7 +81,7 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
     ++sIt;
     }
 
-  typedef itk::ImageFileWriter< StatusImageType >     StatusWriterType;
+  using StatusWriterType = itk::ImageFileWriter< StatusImageType >;
   StatusWriterType::Pointer writer = StatusWriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( statusImage );
@@ -105,8 +105,8 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
     ++lIt;
     }
 
-  typedef itk::LabelObject< unsigned long, 2 >  LabelObjectType;
-  typedef LabelObjectType::Pointer              LabelObjectPointer;
+  using LabelObjectType = itk::LabelObject< unsigned long, 2 >;
+  using LabelObjectPointer = LabelObjectType::Pointer;
 
   LabelObjectPointer labelObject = LabelObjectType::New();
   LabelObjectPointer labelObjectSrc = sparseLevelSet->GetAsLabelObject<unsigned long>();

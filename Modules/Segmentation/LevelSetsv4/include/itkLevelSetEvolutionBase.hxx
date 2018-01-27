@@ -154,7 +154,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
   if( this->m_LevelSetContainer->HasDomainMap() )
     {
     typename DomainMapImageFilterType::ConstPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
-    typedef typename DomainMapImageFilterType::DomainMapType DomainMapType;
+    using DomainMapType = typename DomainMapImageFilterType::DomainMapType;
     const DomainMapType domainMap = domainMapFilter->GetDomainMap();
     typename DomainMapType::const_iterator mapIt   = domainMap.begin();
     typename DomainMapType::const_iterator mapEnd  = domainMap.end();
@@ -162,7 +162,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
     while( mapIt != mapEnd )
       {
       // Iterator over the region for the current levelset overlap identifier.
-      typedef typename DomainMapImageFilterType::LevelSetDomain LevelSetListImageDomainType;
+      using LevelSetListImageDomainType = typename DomainMapImageFilterType::LevelSetDomain;
       const LevelSetListImageDomainType & levelSetListImageDomain = mapIt->second;
       ImageRegionConstIteratorWithIndex< InputImageType > it( inputImage, *(levelSetListImageDomain.GetRegion()) );
       it.GoToBegin();

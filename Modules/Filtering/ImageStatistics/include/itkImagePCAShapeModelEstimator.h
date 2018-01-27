@@ -78,11 +78,11 @@ class ITK_TEMPLATE_EXPORT ImagePCAShapeModelEstimator:
   public ImageShapeModelEstimatorBase< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImagePCAShapeModelEstimator                               Self;
-  typedef ImageShapeModelEstimatorBase< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                      Pointer;
-  typedef SmartPointer< const Self >                                ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImagePCAShapeModelEstimator;
+  using Superclass = ImageShapeModelEstimatorBase< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -91,36 +91,36 @@ public:
   itkTypeMacro(ImagePCAShapeModelEstimator, ImageShapeModelEstimatorBase);
 
   /** Type definition for the input image. */
-  typedef TInputImage                        InputImageType;
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType InputImagePixelType;
+  using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Type definition for the input image iterator type. */
-  typedef ImageRegionIterator< TInputImage >      InputImageIterator;
-  typedef ImageRegionConstIterator< TInputImage > InputImageConstIterator;
+  using InputImageIterator = ImageRegionIterator< TInputImage >;
+  using InputImageConstIterator = ImageRegionConstIterator< TInputImage >;
 
   /** Input Image dimension */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /** Type definition for the output image */
-  typedef TOutputImage                   OutputImageType;
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** Type definition for the input image iterator type. */
-  typedef ImageRegionIterator< TOutputImage > OutputImageIterator;
+  using OutputImageIterator = ImageRegionIterator< TOutputImage >;
 
   /** Type definition for a double matrix. */
-  typedef vnl_matrix< double > MatrixOfDoubleType;
+  using MatrixOfDoubleType = vnl_matrix< double >;
 
   /** Type definition for an integer vector. */
-  typedef vnl_matrix< int > MatrixOfIntegerType;
+  using MatrixOfIntegerType = vnl_matrix< int >;
 
   /** Type definition for a double vector. */
-  typedef vnl_vector< double > VectorOfDoubleType;
+  using VectorOfDoubleType = vnl_vector< double >;
 
   /** Set/Get the number of required largest principal components. The
    * filter produces the required number of principal components plus
@@ -161,14 +161,14 @@ private:
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ImagePCAShapeModelEstimator);
 
-  /** Local variable typedefs */
-  typedef std::vector< InputImageConstPointer >  InputImagePointerArray;
-  typedef std::vector< InputImageConstIterator > InputImageIteratorArray;
+  /** Local variable type alias */
+  using InputImagePointerArray = std::vector< InputImageConstPointer >;
+  using InputImageIteratorArray = std::vector< InputImageConstIterator >;
 
-  typedef typename TInputImage::SizeType ImageSizeType;
+  using ImageSizeType = typename TInputImage::SizeType;
 
   /** Set up the vector to store the image  data. */
-  typedef typename TInputImage::PixelType InputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
 
   /** Local functions */
 

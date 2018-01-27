@@ -49,7 +49,7 @@ namespace itk
  * ImageType::IndexType m_Index;
  * unsigned char m_Data;
  * };
- * typedef itk::SparseImage<NodeType, 2> SparseImageType;
+ * using SparseImageType = itk::SparseImage<NodeType, 2>;
  * \endcode
  *
  * \par
@@ -67,12 +67,12 @@ template< typename TNode, unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT SparseImage:public Image< TNode *, VImageDimension >
 {
 public:
-  /** Standard typedefs. */
-  typedef SparseImage                       Self;
-  typedef Image< TNode *, VImageDimension > Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
-  typedef WeakPointer< const Self >         ConstWeakPointer;
+  /** Standard type alias. */
+  using Self = SparseImage;
+  using Superclass = Image< TNode *, VImageDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -85,21 +85,20 @@ public:
                       Superclass::ImageDimension);
 
   /** The actual sparse pixel type. */
-  typedef TNode NodeType;
+  using NodeType = TNode;
 
   /** Types derived from the Superclass */
-  typedef typename Superclass::IndexType IndexType;
+  using IndexType = typename Superclass::IndexType;
 
   /** Tyepdef for the functor used to access a neighborhood of pixel
    * pointers. */
-  typedef NeighborhoodAccessorFunctor< Self >
-  NeighborhoodAccessorFunctorType;
+  using NeighborhoodAccessorFunctorType = NeighborhoodAccessorFunctor<Self>;
 
-  typedef typename Superclass::IOPixelType IOPixelType;
+  using IOPixelType = typename Superclass::IOPixelType;
 
   /** The list types for storing the active pixels. */
-  typedef SparseFieldLayer< NodeType > NodeListType;
-  typedef ObjectStore< NodeType >      NodeStoreType;
+  using NodeListType = SparseFieldLayer< NodeType >;
+  using NodeStoreType = ObjectStore< NodeType >;
 
   /** Return the NeighborhoodAccessor functor. This method is called by the
    * neighborhood iterators. */

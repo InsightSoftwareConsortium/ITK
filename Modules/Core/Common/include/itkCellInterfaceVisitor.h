@@ -50,12 +50,12 @@ template<
 class ITK_TEMPLATE_EXPORT CellInterfaceVisitor:public LightObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef CellInterfaceVisitor                  Self;
-  typedef LightObject                           Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
-  typedef typename TCellTraits::CellIdentifier  CellIdentifier;
+  /** Standard class type aliases. */
+  using Self = CellInterfaceVisitor;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using CellIdentifier = typename TCellTraits::CellIdentifier;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CellInterfaceVisitor, LightObject);
@@ -111,10 +111,10 @@ class CellInterfaceVisitorImplementation:
   public CellInterfaceVisitor< TPixelType, TCellTraits >, public UserVisitor
 {
 public:
-  /** Standard class typedefs. */
-  typedef CellInterfaceVisitorImplementation    Self;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef typename TCellTraits::CellIdentifier  CellIdentifier;
+  /** Standard class type aliases. */
+  using Self = CellInterfaceVisitorImplementation;
+  using Pointer = SmartPointer< Self >;
+  using CellIdentifier = typename TCellTraits::CellIdentifier;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

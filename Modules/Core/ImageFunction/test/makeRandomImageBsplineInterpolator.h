@@ -24,14 +24,14 @@
 template<typename BSplineInterpolatorFunctionType>
 typename BSplineInterpolatorFunctionType::Pointer makeRandomImageInterpolator(const int SplineOrder)
 {
-  typedef typename BSplineInterpolatorFunctionType::InputImageType ImageType;
+  using ImageType = typename BSplineInterpolatorFunctionType::InputImageType;
 
   /** Generate a random input image and connect to BSpline decomposition filter */
 
-  typedef itk::RandomImageSource<ImageType> SourceType;
+  using SourceType = itk::RandomImageSource<ImageType>;
   typename SourceType::Pointer source = SourceType::New();
     {
-    typedef typename ImageType::DirectionType DirectionType;
+    using DirectionType = typename ImageType::DirectionType;
     DirectionType  nonTrivialDirection;
 
     nonTrivialDirection[0][0] = 0;
@@ -42,19 +42,19 @@ typename BSplineInterpolatorFunctionType::Pointer makeRandomImageInterpolator(co
     source->SetDirection( nonTrivialDirection );
     }
     {
-    typedef typename ImageType::SpacingType   SpacingType;
+    using SpacingType = typename ImageType::SpacingType;
     SpacingType    spacing;
     spacing.Fill( 2.0 );
     source->SetSpacing( spacing );
     }
     {
-    typedef typename ImageType::PointType     PointType;
+    using PointType = typename ImageType::PointType;
     PointType      origin;
     origin.Fill ( 10.0 );
     source->SetOrigin( origin );
     }
     {
-    typedef typename ImageType::SizeType      SizeType;
+    using SizeType = typename ImageType::SizeType;
     SizeType       size;
     size.Fill( 32 );
     source->SetSize( size );

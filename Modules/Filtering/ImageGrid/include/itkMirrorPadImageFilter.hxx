@@ -746,8 +746,8 @@ MirrorPadImageFilter< TInputImage, TOutputImage >
 
   // Define/declare iterators that will walk the input and output regions
   // for this thread.
-  typedef ImageRegionIterator< TOutputImage >     OutputIterator;
-  typedef ImageRegionConstIterator< TInputImage > InputIterator;
+  using OutputIterator = ImageRegionIterator< TOutputImage >;
+  using InputIterator = ImageRegionConstIterator< TInputImage >;
 
   int                  oddRegionArray[ImageDimension];
   OutputImageIndexType currentOutputIndex;

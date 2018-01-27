@@ -93,24 +93,24 @@ class MagnitudeAndPhaseToComplexImageFilter:
 
 {
 public:
-  /** Standard class typedefs. */
-  typedef MagnitudeAndPhaseToComplexImageFilter Self;
+  /** Standard class type aliases. */
+  using Self = MagnitudeAndPhaseToComplexImageFilter;
 
-  typedef BinaryFunctorImageFilter<
+  using Superclass = BinaryFunctorImageFilter<
     TInputImage1,
     TInputImage2,
     TOutputImage,
     Functor::MagnitudeAndPhaseToComplex<
       typename TInputImage1::PixelType,
       typename TInputImage2::PixelType,
-      typename TOutputImage::PixelType::value_type > > Superclass;
+      typename TOutputImage::PixelType::value_type > >;
 
-  typedef typename TInputImage1::PixelType InputPixel1Type;
-  typedef typename TInputImage2::PixelType InputPixel2Type;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using InputPixel1Type = typename TInputImage1::PixelType;
+  using InputPixel2Type = typename TInputImage2::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -27,9 +27,9 @@
 int itkLineIteratorTest(int argc, char*argv[])
 {
   const int Dimension = 2;
-  typedef unsigned char                    PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
-  typedef ImageType::RegionType::IndexType IndexType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using IndexType = ImageType::RegionType::IndexType;
 
  if (argc < 2)
     {
@@ -63,7 +63,7 @@ int itkLineIteratorTest(int argc, char*argv[])
   endIndex[0] = 11;
   endIndex[1] = 13;
 
-  typedef itk::LineIterator<ImageType> LineIteratorType;
+  using LineIteratorType = itk::LineIterator<ImageType>;
   LineIteratorType across(output, startIndex, endIndex);
 
   // First test: currentIndex initialization

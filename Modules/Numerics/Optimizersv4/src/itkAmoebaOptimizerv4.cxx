@@ -98,8 +98,8 @@ AmoebaOptimizerv4
     public  SingleValuedVnlCostFunctionAdaptorv4
     {
     public:
-      typedef SingleValuedVnlCostFunctionAdaptorv4 Superclass;
-      typedef AmoebaOptimizerv4                    ITKOptimizerType;
+      using Superclass = SingleValuedVnlCostFunctionAdaptorv4;
+      using ITKOptimizerType = AmoebaOptimizerv4;
 
       AmoebaCostFunctionAdaptorv4(unsigned int spaceDimension, ITKOptimizerType *itkObj)
         : SingleValuedVnlCostFunctionAdaptorv4(spaceDimension),

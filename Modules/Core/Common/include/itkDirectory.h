@@ -39,11 +39,11 @@ namespace itk
 class ITKCommon_EXPORT Directory:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef Directory                  Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Directory;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   static Pointer New()

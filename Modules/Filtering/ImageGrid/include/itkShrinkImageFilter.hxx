@@ -167,7 +167,7 @@ ShrinkImageFilter< TInputImage, TOutputImage >
 
   // Define/declare an iterator that will walk the output region for this
   // thread.
-  typedef ImageRegionIteratorWithIndex< TOutputImage > OutputIterator;
+  using OutputIterator = ImageRegionIteratorWithIndex< TOutputImage >;
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   while ( !outIt.IsAtEnd() )

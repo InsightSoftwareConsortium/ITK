@@ -59,13 +59,13 @@ MetaFEMObjectConverter<NDimensions>
 
   FEMObjectSpatialObjectPointer FEMSO = FEMObjectSpatialObjectType::New();
 
-  typedef fem::FEMObject<NDimensions>     FEMObjectType;
-  typedef typename FEMObjectType::Pointer FEMObjectPointer;
+  using FEMObjectType = fem::FEMObject<NDimensions>;
+  using FEMObjectPointer = typename FEMObjectType::Pointer;
 
   FEMObjectPointer myFEMObject = FEMObjectType::New();
 
   // copy all the node information
-  typedef typename MetaFEMObject::NodeListType NodeListType;
+  using NodeListType = typename MetaFEMObject::NodeListType;
   const NodeListType nodelist = FEMmo->GetNodeList();
 
   typename NodeListType::const_iterator it_nodes = nodelist.begin();
@@ -92,7 +92,7 @@ MetaFEMObjectConverter<NDimensions>
    // as of now linear elastic material property is the only
    // material property type. other types could be added in the
    // future.
-  typedef typename MetaFEMObject::MaterialListType MaterialListType;
+  using MaterialListType = typename MetaFEMObject::MaterialListType;
   const MaterialListType materiallist = FEMmo->GetMaterialList();
 
   typename MaterialListType::const_iterator it_material = materiallist.begin();
@@ -115,7 +115,7 @@ MetaFEMObjectConverter<NDimensions>
   }
 
     // copy all the Element information
-  typedef typename MetaFEMObject::ElementListType ElementListType;
+  using ElementListType = typename MetaFEMObject::ElementListType;
   const ElementListType elementlist = FEMmo->GetElementList();
 
   typename ElementListType::const_iterator it_elements = elementlist.begin();
@@ -140,7 +140,7 @@ MetaFEMObjectConverter<NDimensions>
   }
 
     // copy all the load and boundary condition information
-  typedef typename MetaFEMObject::LoadListType LoadListType;
+  using LoadListType = typename MetaFEMObject::LoadListType;
   const LoadListType loadlist = FEMmo->GetLoadList();
 
   typename LoadListType::const_iterator it_load = loadlist.begin();
@@ -340,8 +340,8 @@ MetaFEMObjectConverter<NDimensions>
     itkExceptionMacro(<< "Can't downcast SpatialObject to FEMObjectSpatialObject");
     }
 
-  typedef fem::FEMObject<NDimensions>          FEMObjectType;
-  typedef typename FEMObjectType::ConstPointer FEMObjectConstPointer;
+  using FEMObjectType = fem::FEMObject<NDimensions>;
+  using FEMObjectConstPointer = typename FEMObjectType::ConstPointer;
 
   FEMObjectConstPointer curFEMObject = FEMSO->GetFEMObject();
 

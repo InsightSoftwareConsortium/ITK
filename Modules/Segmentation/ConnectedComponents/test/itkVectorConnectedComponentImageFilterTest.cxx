@@ -37,13 +37,13 @@ int itkVectorConnectedComponentImageFilterTest(int argc, char* argv[] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
   const unsigned int Dimension = 2;
-  typedef itk::Vector<float,Dimension> PixelType;
-  typedef unsigned long                OutputPixelType;
-  typedef unsigned char                LabelPixelType;
+  using PixelType = itk::Vector<float,Dimension>;
+  using OutputPixelType = unsigned long;
+  using LabelPixelType = unsigned char;
 
-  typedef itk::Image<PixelType, Dimension>       ImageType;
-  typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
-  typedef itk::Image<LabelPixelType, Dimension>  LabelImageType;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+  using LabelImageType = itk::Image<LabelPixelType, Dimension>;
 
   // create an image of vectors
   ImageType::Pointer image = ImageType::New();
@@ -155,18 +155,18 @@ int itkVectorConnectedComponentImageFilterTest(int argc, char* argv[] )
     }
   }
 
-  typedef itk::VectorConnectedComponentImageFilter<
+  using VectorFilterType = itk::VectorConnectedComponentImageFilter<
                             ImageType,
-                            OutputImageType >  VectorFilterType;
+                            OutputImageType >;
 
   VectorFilterType::Pointer filter = VectorFilterType::New();
   filter->SetInput( image );
   filter->SetDistanceThreshold(.01);
-  typedef itk::RelabelComponentImageFilter< OutputImageType, LabelImageType > RelabelComponentType;
+  using RelabelComponentType = itk::RelabelComponentImageFilter< OutputImageType, LabelImageType >;
   RelabelComponentType::Pointer relabel = RelabelComponentType::New();
   relabel->SetInput( filter->GetOutput() );
 
-  typedef itk::ImageFileWriter<  LabelImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  LabelImageType  >;
   WriterType::Pointer writer = WriterType::New();
 
   try
@@ -185,10 +185,10 @@ int itkVectorConnectedComponentImageFilterTest(int argc, char* argv[] )
 
   // The following just ensures that this filter can be intantiated
   // with VectorImages
-  typedef itk::VectorImage<float, 2> VectorImageType;
-  typedef itk::VectorConnectedComponentImageFilter< VectorImageType,
+  using VectorImageType = itk::VectorImage<float, 2>;
+  using VectorImageFilterType = itk::VectorConnectedComponentImageFilter< VectorImageType,
                                                      OutputImageType,
-                                                     LabelImageType> VectorImageFilterType;
+                                                     LabelImageType>;
   VectorImageFilterType::Pointer vfilter = VectorImageFilterType::New();
 
   return EXIT_SUCCESS;

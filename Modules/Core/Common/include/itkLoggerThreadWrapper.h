@@ -41,10 +41,10 @@ class ITK_TEMPLATE_EXPORT LoggerThreadWrapper:public SimpleLoggerType
 {
 public:
 
-  typedef LoggerThreadWrapper        Self;
-  typedef SimpleLoggerType           Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = LoggerThreadWrapper;
+  using Superclass = SimpleLoggerType;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoggerThreadWrapper, SimpleLoggerType);
@@ -52,9 +52,9 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
-  typedef  typename SimpleLoggerType::OutputType        OutputType;
-  typedef  typename SimpleLoggerType::PriorityLevelType PriorityLevelType;
-  typedef  unsigned int                                 DelayType;
+  using OutputType = typename SimpleLoggerType::OutputType;
+  using PriorityLevelType = typename SimpleLoggerType::PriorityLevelType;
+  using DelayType = unsigned int;
 
   /** Definition of types of operations for LoggerThreadWrapper. */
   typedef enum {
@@ -110,13 +110,13 @@ protected:
 
 private:
 
-  typedef std::queue< OperationType > OperationContainerType;
+  using OperationContainerType = std::queue< OperationType >;
 
-  typedef std::queue< std::string > MessageContainerType;
+  using MessageContainerType = std::queue< std::string >;
 
-  typedef std::queue< PriorityLevelType > LevelContainerType;
+  using LevelContainerType = std::queue< PriorityLevelType >;
 
-  typedef std::queue< typename OutputType::Pointer > OutputContainerType;
+  using OutputContainerType = std::queue< typename OutputType::Pointer >;
 
   MultiThreader::Pointer m_Threader;
 

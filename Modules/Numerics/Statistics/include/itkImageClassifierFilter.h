@@ -49,73 +49,68 @@ class ITK_TEMPLATE_EXPORT ImageClassifierFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedef */
-  typedef ImageClassifierFilter                           Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type alias */
+  using Self = ImageClassifierFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(ImageClassifierFilter, ImageToImagefilter);
   itkNewMacro(Self);
 
-  /** Image pixel value typedef. */
-  typedef           TInputImage            InputImageType;
-  typedef           TOutputImage           OutputImageType;
-  typedef typename TInputImage::PixelType  InputPixelType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  /** Image pixel value type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  /** Image related typedefs. */
-  typedef typename TInputImage::Pointer  InputImagePointer;
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  /** Image related type alias. */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using OutputImagePointer = typename TOutputImage::Pointer;
 
-  typedef typename TInputImage::SizeType    InputSizeType;
-  typedef typename TInputImage::IndexType   InputIndexType;
-  typedef typename TInputImage::RegionType  InputImageRegionType;
-  typedef typename TOutputImage::SizeType   OutputSizeType;
-  typedef typename TOutputImage::IndexType  OutputIndexType;
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using InputSizeType = typename TInputImage::SizeType;
+  using InputIndexType = typename TInputImage::IndexType;
+  using InputImageRegionType = typename TInputImage::RegionType;
+  using OutputSizeType = typename TOutputImage::SizeType;
+  using OutputIndexType = typename TOutputImage::IndexType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
   /** Type of the input Sample */
-  typedef TSample SampleType;
+  using SampleType = TSample;
 
-  /** typedefs from SampleType object */
-  typedef typename SampleType::MeasurementType       MeasurementType;
-  typedef typename SampleType::MeasurementVectorType MeasurementVectorType;
+  /** type alias from SampleType object */
+  using MeasurementType = typename SampleType::MeasurementType;
+  using MeasurementVectorType = typename SampleType::MeasurementVectorType;
 
-  /** typedef for the MembershipFunction */
-  typedef MembershipFunctionBase< MeasurementVectorType > MembershipFunctionType;
-  typedef typename MembershipFunctionType::ConstPointer   MembershipFunctionPointer;
-  typedef std::vector< MembershipFunctionPointer >        MembershipFunctionVectorType;
-  typedef SimpleDataObjectDecorator<
-    MembershipFunctionVectorType >                        MembershipFunctionVectorObjectType;
-  typedef typename
-  MembershipFunctionVectorObjectType::Pointer MembershipFunctionVectorObjectPointer;
+  /** type alias for the MembershipFunction */
+  using MembershipFunctionType = MembershipFunctionBase< MeasurementVectorType >;
+  using MembershipFunctionPointer = typename MembershipFunctionType::ConstPointer;
+  using MembershipFunctionVectorType = std::vector< MembershipFunctionPointer >;
+  using MembershipFunctionVectorObjectType = SimpleDataObjectDecorator<MembershipFunctionVectorType>;
+  using MembershipFunctionVectorObjectPointer = typename MembershipFunctionVectorObjectType::Pointer;
 
-  /** typedef for membership functions weight proprtion */
-  typedef Array< double > MembershipFunctionsWeightsArrayType;
+  /** type alias for membership functions weight proprtion */
+  using MembershipFunctionsWeightsArrayType = Array< double >;
 
-  typedef SimpleDataObjectDecorator<
-    MembershipFunctionsWeightsArrayType >                 MembershipFunctionsWeightsArrayObjectType;
-  typedef typename
-  MembershipFunctionsWeightsArrayObjectType::Pointer MembershipFunctionsWeightsArrayPointer;
+  using MembershipFunctionsWeightsArrayObjectType = SimpleDataObjectDecorator<MembershipFunctionsWeightsArrayType>;
+  using MembershipFunctionsWeightsArrayPointer = typename MembershipFunctionsWeightsArrayObjectType::Pointer;
 
-  /** typedef for class label type */
-  typedef IdentifierType                ClassLabelType;
-  typedef std::vector< ClassLabelType > ClassLabelVectorType;
-  typedef SimpleDataObjectDecorator<
-    ClassLabelVectorType >                            ClassLabelVectorObjectType;
-  typedef ClassLabelVectorObjectType::Pointer ClassLabelVectorObjectPointer;
+  /** type alias for class label type */
+  using ClassLabelType = IdentifierType;
+  using ClassLabelVectorType = std::vector< ClassLabelType >;
+  using ClassLabelVectorObjectType = SimpleDataObjectDecorator<ClassLabelVectorType>;
+  using ClassLabelVectorObjectPointer = ClassLabelVectorObjectType::Pointer;
 
   /** type of the decision rule */
-  typedef DecisionRule                   DecisionRuleType;
-  typedef DecisionRuleType::ConstPointer DecisionRulePointer;
+  using DecisionRuleType = DecisionRule;
+  using DecisionRulePointer = DecisionRuleType::ConstPointer;
 
   /** Sets the input image */
   void SetImage(const InputImageType *image);

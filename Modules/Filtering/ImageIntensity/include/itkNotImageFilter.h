@@ -62,17 +62,16 @@ class NotImageFilter:
 
 {
 public:
-  /** Standard class typedefs. */
-  typedef NotImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = NotImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::NOT<
       typename TInputImage::PixelType,
-      typename TOutputImage::PixelType >
-    >                               Superclass;
+      typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

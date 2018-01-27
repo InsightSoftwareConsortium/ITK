@@ -435,7 +435,7 @@ struct AlmostEqualsPlainOldEquals
 template<bool TInput1IsIntger, bool TInput1IsSigned, bool TInput2IsInteger, bool TInput2IsSigned>
 struct AlmostEqualsFunctionSelector
 { // default case
-  typedef AlmostEqualsPlainOldEquals SelectedVersion;
+  using SelectedVersion = AlmostEqualsPlainOldEquals;
 };
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
@@ -443,63 +443,63 @@ template<>
 struct AlmostEqualsFunctionSelector < false, true, false, true>
 // floating type v floating type
 {
-  typedef AlmostEqualsFloatVsFloat SelectedVersion;
+  using SelectedVersion = AlmostEqualsFloatVsFloat;
 };
 
 template<>
 struct AlmostEqualsFunctionSelector <false, true, true, true>
 // float vs signed int
 {
-  typedef AlmostEqualsFloatVsInteger SelectedVersion;
+  using SelectedVersion = AlmostEqualsFloatVsInteger;
 };
 
 template<>
 struct AlmostEqualsFunctionSelector <false, true, true,false>
 // float vs unsigned int
 {
-  typedef AlmostEqualsFloatVsInteger SelectedVersion;
+  using SelectedVersion = AlmostEqualsFloatVsInteger;
 };
 
 template<>
 struct AlmostEqualsFunctionSelector <true, false, false, true>
 // unsigned int vs float
 {
-  typedef AlmostEqualsIntegerVsFloat SelectedVersion;
+  using SelectedVersion = AlmostEqualsIntegerVsFloat;
 };
 
 template<>
 struct AlmostEqualsFunctionSelector <true, true, false, true>
 // signed int vs float
 {
-  typedef AlmostEqualsIntegerVsFloat SelectedVersion;
+  using SelectedVersion = AlmostEqualsIntegerVsFloat;
 };
 
 template<>
 struct AlmostEqualsFunctionSelector<true, true, true, false>
 // signed vs unsigned
 {
-  typedef AlmostEqualsSignedVsUnsigned SelectedVersion;
+  using SelectedVersion = AlmostEqualsSignedVsUnsigned;
 };
 
 template<>
 struct AlmostEqualsFunctionSelector<true, false, true, true>
 // unsigned vs signed
 {
-  typedef AlmostEqualsUnsignedVsSigned SelectedVersion;
+  using SelectedVersion = AlmostEqualsUnsignedVsSigned;
 };
 
 template<>
 struct AlmostEqualsFunctionSelector<true, true, true, true>
 //   signed vs signed
 {
-  typedef AlmostEqualsPlainOldEquals SelectedVersion;
+  using SelectedVersion = AlmostEqualsPlainOldEquals;
 };
 
 template<>
 struct AlmostEqualsFunctionSelector<true, false, true, false>
 // unsigned vs unsigned
 {
-  typedef AlmostEqualsPlainOldEquals SelectedVersion;
+  using SelectedVersion = AlmostEqualsPlainOldEquals;
 };
 // end of AlmostEqualsFunctionSelector structs
 
@@ -512,8 +512,8 @@ struct AlmostEqualsScalarImplementer
   static constexpr bool TInputType2IsInteger = itk::NumericTraits<TInputType2>::IsInteger;
   static constexpr bool TInputType2IsSigned  = itk::NumericTraits<TInputType2>::IsSigned;
 
-  typedef typename AlmostEqualsFunctionSelector< TInputType1IsInteger, TInputType1IsSigned,
-                                                 TInputType2IsInteger, TInputType2IsSigned >::SelectedVersion SelectedVersion;
+  using SelectedVersion = typename AlmostEqualsFunctionSelector< TInputType1IsInteger, TInputType1IsSigned,
+                                              TInputType2IsInteger, TInputType2IsSigned >::SelectedVersion;
 };
 
 // The AlmostEqualsScalarComparer returns the result of an
@@ -585,25 +585,25 @@ struct AlmostEqualsComplexVsScalar
 template < bool T1IsComplex, bool T2IsComplex > //Default is false, false
 struct AlmostEqualsComplexChooser
 {
-  typedef AlmostEqualsScalarVsScalar ChosenVersion;
+  using ChosenVersion = AlmostEqualsScalarVsScalar;
 };
 
 template <>
 struct AlmostEqualsComplexChooser< true, true >
 {
-  typedef AlmostEqualsComplexVsComplex ChosenVersion;
+  using ChosenVersion = AlmostEqualsComplexVsComplex;
 };
 
 template <>
 struct AlmostEqualsComplexChooser< false, true >
 {
-  typedef AlmostEqualsScalarVsComplex ChosenVersion;
+  using ChosenVersion = AlmostEqualsScalarVsComplex;
 };
 
 template <>
 struct AlmostEqualsComplexChooser< true, false>
 {
-  typedef AlmostEqualsComplexVsScalar ChosenVersion;
+  using ChosenVersion = AlmostEqualsComplexVsScalar;
 };
 // End of AlmostEqualsComplexChooser structs.
 
@@ -617,7 +617,7 @@ struct AlmostEqualsComplexImplementer
   static constexpr bool T1IsComplex = NumericTraits< T1 >::IsComplex;
   static constexpr bool T2IsComplex = NumericTraits< T2 >::IsComplex;
 
-  typedef typename AlmostEqualsComplexChooser< T1IsComplex, T2IsComplex >::ChosenVersion ChosenVersion;
+  using ChosenVersion = typename AlmostEqualsComplexChooser< T1IsComplex, T2IsComplex >::ChosenVersion;
 };
 /// \endcond
 

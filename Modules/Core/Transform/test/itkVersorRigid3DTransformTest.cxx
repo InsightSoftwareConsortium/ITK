@@ -37,27 +37,27 @@
 int itkVersorRigid3DTransformTest(int, char * [] )
 {
 
-  typedef   double ValueType;
+  using ValueType = double;
 
   const ValueType epsilon = 1e-12;
 
   //  Versor Transform type
-  typedef    itk::VersorRigid3DTransform<ValueType> TransformType;
+  using TransformType = itk::VersorRigid3DTransform<ValueType>;
 
   //  Versor type
-  typedef    TransformType::VersorType VersorType;
+  using VersorType = TransformType::VersorType;
 
   //  Vector type
-  typedef    TransformType::InputVectorType VectorType;
+  using VectorType = TransformType::InputVectorType;
 
   //  Parameters type
-  typedef    TransformType::ParametersType ParametersType;
+  using ParametersType = TransformType::ParametersType;
 
   //  Jacobian type
-  typedef    TransformType::JacobianType JacobianType;
+  using JacobianType = TransformType::JacobianType;
 
   //  Rotation Matrix type
-  typedef    TransformType::MatrixType MatrixType;
+  using MatrixType = TransformType::MatrixType;
 
     {
     std::cout << "Test default constructor... ";

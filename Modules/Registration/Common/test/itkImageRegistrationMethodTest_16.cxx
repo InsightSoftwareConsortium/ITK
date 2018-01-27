@@ -39,50 +39,49 @@ bool DoRegistration ()
   const unsigned int dimension = 2;
 
   // Fixed Image Type
-  typedef itk::Image<DataType,dimension>               FixedImageType;
+  using FixedImageType = itk::Image<DataType,dimension>;
 
   // Moving Image Type
-  typedef itk::Image<DataType,dimension>               MovingImageType;
+  using MovingImageType = itk::Image<DataType,dimension>;
 
   // Size Type
-  typedef typename MovingImageType::SizeType                 SizeType;
+  using SizeType = typename MovingImageType::SizeType;
 
   // Transform Type
-  typedef itk::AffineTransform< double, dimension > TransformType;
-  typedef typename TransformType::ParametersType    ParametersType;
+  using TransformType = itk::AffineTransform< double, dimension >;
+  using ParametersType = typename TransformType::ParametersType;
 
-  typedef typename FixedImageType::PixelType     FixedImagePixelType;
-  typedef typename MovingImageType::PixelType    MovingImagePixelType;
+  using FixedImagePixelType = typename FixedImageType::PixelType;
+  using MovingImagePixelType = typename MovingImageType::PixelType;
 
   // ImageSource
-  typedef itk::testhelper::ImageRegistrationMethodImageSource<
+  using ImageSourceType = itk::testhelper::ImageRegistrationMethodImageSource<
                                   FixedImagePixelType,
                                   MovingImagePixelType,
-                                  dimension >       ImageSourceType;
+                                  dimension >;
   // Transform Type
-  typedef itk::AffineTransform< double, dimension > TransformType;
-  typedef typename TransformType::ParametersType    ParametersType;
+  using TransformType = itk::AffineTransform< double, dimension >;
+  using ParametersType = typename TransformType::ParametersType;
 
   // Optimizer Type
-  typedef itk::GradientDescentOptimizer             OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizer;
 
   // Metric Type
-  typedef itk::MeanSquaresImageToImageMetric<
+  using MetricType = itk::MeanSquaresImageToImageMetric<
                                     FixedImageType,
-                                    MovingImageType >    MetricType;
+                                    MovingImageType >;
 
   // Interpolation technique
-  typedef itk:: LinearInterpolateImageFunction<
+  using InterpolatorType = itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
-                                    double >             InterpolatorType;
+                                    double >;
 
   // Registration Method
-  typedef itk::ImageRegistrationMethod<
+  using RegistrationType = itk::ImageRegistrationMethod<
                                     FixedImageType,
-                                    MovingImageType >    RegistrationType;
+                                    MovingImageType >;
 
-  typedef itk::CommandIterationUpdate<
-                                  OptimizerType >    CommandIterationType;
+  using CommandIterationType = itk::CommandIterationUpdate<OptimizerType>;
 
 
   typename MetricType::Pointer         metric        = MetricType::New();

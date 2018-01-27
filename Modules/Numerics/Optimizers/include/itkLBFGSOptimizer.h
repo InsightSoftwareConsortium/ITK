@@ -86,11 +86,11 @@ class ITKOptimizers_EXPORT LBFGSOptimizer:
   public SingleValuedNonLinearVnlOptimizer
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef LBFGSOptimizer                    Self;
-  typedef SingleValuedNonLinearVnlOptimizer Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = LBFGSOptimizer;
+  using Superclass = SingleValuedNonLinearVnlOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -98,11 +98,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LBFGSOptimizer, SingleValuedNonLinearVnlOptimizer);
 
-  /** InternalParameters typedef. */
-  typedef   vnl_vector< double > InternalParametersType;
+  /** InternalParameters type alias. */
+  using InternalParametersType = vnl_vector< double >;
 
   /** Internal optimizer type. */
-  typedef   vnl_lbfgs InternalOptimizerType;
+  using InternalOptimizerType = vnl_lbfgs;
 
   /** Method for getting access to the internal optimizer. */
   vnl_lbfgs * GetOptimizer();
@@ -164,7 +164,7 @@ protected:
   ~LBFGSOptimizer() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
+  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizer);

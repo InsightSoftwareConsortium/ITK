@@ -38,14 +38,14 @@ int itkStreamingImageFilterTest3(int argc, char*argv [] )
    const std::string outputFilename = argv[2];
    unsigned int numberOfStreamDivisions = atoi(argv[3]);
 
-  typedef unsigned char              PixelType;
-  typedef itk::Image< PixelType, 2 > ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, 2 >;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFilename );
 
-  typedef itk::ShiftScaleImageFilter<ImageType, ImageType> SomeFilter;
+  using SomeFilter = itk::ShiftScaleImageFilter<ImageType, ImageType>;
   SomeFilter::Pointer filter = SomeFilter::New();
   filter->SetInput( reader->GetOutput() );
 
@@ -64,7 +64,7 @@ int itkStreamingImageFilterTest3(int argc, char*argv [] )
   streamer->SetRegionSplitter( splitter );
 
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( outputFilename );
   writer->SetInput( streamer->GetOutput() );

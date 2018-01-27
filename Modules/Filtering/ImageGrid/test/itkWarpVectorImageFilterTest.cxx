@@ -27,8 +27,8 @@ template <int VDimension>
 class ImagePattern
 {
 public:
-  typedef itk::Index<VDimension> IndexType;
-  typedef itk::Size<VDimension>  SizeType;
+  using IndexType = itk::Index<VDimension>;
+  using SizeType = itk::Size<VDimension>;
 
   ImagePattern()
   {
@@ -93,13 +93,13 @@ int itkWarpVectorImageFilterTest(int, char* [] )
 {
   const unsigned int ImageDimension = 2;
 
-  typedef itk::Vector<float,ImageDimension>     VectorType;
-  typedef itk::Image<VectorType,ImageDimension> FieldType;
+  using VectorType = itk::Vector<float,ImageDimension>;
+  using FieldType = itk::Image<VectorType,ImageDimension>;
 
   // In this case, the image to be warped is also a vector field.
-  typedef FieldType             ImageType;
-  typedef ImageType::PixelType  PixelType;
-  typedef ImageType::IndexType  IndexType;
+  using ImageType = FieldType;
+  using PixelType = ImageType::PixelType;
+  using IndexType = ImageType::IndexType;
 
   bool testPassed = true;
 
@@ -125,7 +125,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
     pattern.m_Coeff[j] = 1.0;
     }
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
 
   float padValue = 4.0;
 
@@ -153,7 +153,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   field->SetBufferedRegion( fieldRegion );
   field->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex<FieldType> FieldIterator;
+  using FieldIterator = itk::ImageRegionIteratorWithIndex<FieldType>;
 
   for( FieldIterator fieldIter( field, fieldRegion ); !fieldIter.IsAtEnd(); ++fieldIter )
     {
@@ -170,7 +170,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
 
   std::cout << "Run WarpVectorImageFilter in standalone mode with progress.";
   std::cout << std::endl;
-  typedef itk::WarpVectorImageFilter<ImageType,ImageType,FieldType> WarperType;
+  using WarperType = itk::WarpVectorImageFilter<ImageType,ImageType,FieldType>;
   WarperType::Pointer warper = WarperType::New();
 
   warper->SetInput( input );
@@ -298,7 +298,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   std::cout << "Run ExpandImageFilter with streamer";
   std::cout << std::endl;
 
-  typedef itk::VectorCastImageFilter<FieldType,FieldType> VectorCasterType;
+  using VectorCasterType = itk::VectorCastImageFilter<FieldType,FieldType>;
   VectorCasterType::Pointer vcaster = VectorCasterType::New();
 
   vcaster->SetInput( warper->GetDisplacementField() );
@@ -309,7 +309,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
   warper2->SetDisplacementField( vcaster->GetOutput() );
   warper2->SetEdgePaddingValue( warper->GetEdgePaddingValue() );
 
-  typedef itk::StreamingImageFilter<ImageType,ImageType> StreamerType;
+  using StreamerType = itk::StreamingImageFilter<ImageType,ImageType>;
   StreamerType::Pointer streamer = StreamerType::New();
   streamer->SetInput( warper2->GetOutput() );
   streamer->SetNumberOfStreamDivisions( 3 );
@@ -343,7 +343,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
 
   // Exercise error handling
 
-  typedef WarperType::InterpolatorType InterpolatorType;
+  using InterpolatorType = WarperType::InterpolatorType;
   InterpolatorType::Pointer interp = warper->GetModifiableInterpolator();
 
   try

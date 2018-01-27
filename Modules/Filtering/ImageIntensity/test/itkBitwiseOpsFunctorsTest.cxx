@@ -22,7 +22,7 @@
 
 TEST(BitwiseOpsTest,DivFloor)
 {
-  typedef itk::Functor::BitwiseNot<unsigned char,unsigned char> OpType;
+  using OpType = itk::Functor::BitwiseNot<unsigned char,unsigned char>;
 
   OpType op1;
   OpType op2;

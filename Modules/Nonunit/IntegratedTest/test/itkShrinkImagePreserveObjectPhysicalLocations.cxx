@@ -34,14 +34,14 @@
 #include "itkImageMomentsCalculator.h"
 #include "itkMultiResolutionPyramidImageFilter.h"
 
-//typedef itk::Image<signed short, 2> TImageType;
-typedef itk::Image<signed short, 2> WImageType;
-//typedef itk::Image<signed short, 2> TImageType;
-typedef itk::Image<float, 2> TImageType;
-//typedef itk::Image<double, 2> TImageType;
+//using TImageType = itk::Image<signed short, 2>;
+using WImageType = itk::Image<signed short, 2>;
+//using TImageType = itk::Image<signed short, 2>;
+using TImageType = itk::Image<float, 2>;
+//using TImageType = itk::Image<double, 2>;
 
 //Need to use a Pyramid filter here instead of just downsampling to a 32x32 image
-typedef itk::MultiResolutionPyramidImageFilter<TImageType,TImageType> PyramidFilterType;
+using PyramidFilterType = itk::MultiResolutionPyramidImageFilter<TImageType,TImageType>;
 
 PyramidFilterType::Pointer MakeTwoLevelPyramid(TImageType::Pointer refImage)
 {
@@ -89,7 +89,7 @@ TImageType::PointType GetCenterOfMass(TImageType::Pointer volume)
 {
   TImageType::PointType CenterOfMass;
     {
-    typedef itk::ImageMomentsCalculator<TImageType> momentsCalculatorType;
+    using momentsCalculatorType = itk::ImageMomentsCalculator<TImageType>;
     momentsCalculatorType::Pointer moments=momentsCalculatorType::New();
     moments->SetImage(volume);
     moments->Compute();
@@ -205,7 +205,7 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
 
 //#define __WRITE_DEBUG_IMAGING__
 #ifdef __WRITE_DEBUG_IMAGING__
-  typedef itk::ImageFileWriter< WImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< WImageType >;
   WriterType::Pointer writer = WriterType::New();
   itk::CastImageFilter<TImageType, WImageType>::Pointer castFilter=itk::CastImageFilter<TImageType, WImageType>::New();
 

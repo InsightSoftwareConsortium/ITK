@@ -145,13 +145,13 @@ ImageToListSampleFilter< TImage, TMaskImage >
 
   output->Clear();
 
-  typedef ImageRegionConstIterator< ImageType > IteratorType;
+  using IteratorType = ImageRegionConstIterator< ImageType >;
   IteratorType it( input, input->GetBufferedRegion() );
   it.GoToBegin();
 
   if ( maskImage ) // mask specified
     {
-    typedef ImageRegionConstIterator< MaskImageType > MaskIteratorType;
+    using MaskIteratorType = ImageRegionConstIterator< MaskImageType >;
     MaskIteratorType mit( maskImage, maskImage->GetBufferedRegion() );
     mit.GoToBegin();
     while ( !it.IsAtEnd() )

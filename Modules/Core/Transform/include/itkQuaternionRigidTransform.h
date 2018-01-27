@@ -49,11 +49,11 @@ class ITK_TEMPLATE_EXPORT QuaternionRigidTransform :
   public Rigid3DTransform<TParametersValueType>
 {
 public:
-  /** Standard class typedefs.   */
-  typedef QuaternionRigidTransform               Self;
-  typedef Rigid3DTransform<TParametersValueType> Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+  /** Standard class type aliases.   */
+  using Self = QuaternionRigidTransform;
+  using Superclass = Rigid3DTransform<TParametersValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
@@ -68,29 +68,29 @@ public:
   itkStaticConstMacro(ParametersDimension, unsigned int, 7);
 
   /** Parameters Type   */
-  typedef typename Superclass::ParametersType            ParametersType;
-  typedef typename Superclass::ParametersValueType       ParametersValueType;
-  typedef typename Superclass::FixedParametersType       FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType  FixedParametersValueType;
-  typedef typename Superclass::JacobianType              JacobianType;
-  typedef typename Superclass::ScalarType                ScalarType;
-  typedef typename Superclass::InputPointType            InputPointType;
-  typedef typename Superclass::OutputPointType           OutputPointType;
-  typedef typename Superclass::InputVectorType           InputVectorType;
-  typedef typename Superclass::OutputVectorType          OutputVectorType;
-  typedef typename Superclass::OutputVectorValueType     OutputVectorValueType;
-  typedef typename Superclass::InputVnlVectorType        InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType       OutputVnlVectorType;
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
-  typedef typename Superclass::MatrixType                MatrixType;
-  typedef typename Superclass::InverseMatrixType         InverseMatrixType;
-  typedef typename Superclass::CenterType                CenterType;
-  typedef typename Superclass::OffsetType                OffsetType;
-  typedef typename Superclass::TranslationType           TranslationType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using JacobianType = typename Superclass::JacobianType;
+  using ScalarType = typename Superclass::ScalarType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using OutputVectorValueType = typename Superclass::OutputVectorValueType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
+  using MatrixType = typename Superclass::MatrixType;
+  using InverseMatrixType = typename Superclass::InverseMatrixType;
+  using CenterType = typename Superclass::CenterType;
+  using OffsetType = typename Superclass::OffsetType;
+  using TranslationType = typename Superclass::TranslationType;
 
   /** VnlQuaternion type.  */
-  typedef vnl_quaternion<TParametersValueType> VnlQuaternionType;
+  using VnlQuaternionType = vnl_quaternion<TParametersValueType>;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   /** Set the rotation of the rigid transform.

@@ -70,9 +70,9 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
 //------------------------------------------------------------
 
   // Allocate Images
-  typedef signed short             PixelType;
-  typedef itk::Image<PixelType,3>  InputImageType;
-  typedef itk::Image<float,3>      OutputImageType;
+  using PixelType = signed short;
+  using InputImageType = itk::Image<PixelType,3>;
+  using OutputImageType = itk::Image<float,3>;
   enum { ImageDimension = InputImageType::ImageDimension };
   bool useShrinkFilter(false);
   if(argc > 1)
@@ -104,7 +104,7 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
 
   // Fill images with a 3D gaussian with some directional pattern
   // in the background
-  typedef  itk::ImageRegionIterator<InputImageType> Iterator;
+  using Iterator = itk::ImageRegionIterator<InputImageType>;
 
   itk::Point<double,3> center;
   center[0] = (double)region.GetSize()[0]/2.0;
@@ -143,9 +143,9 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
  /**
   * Setup a multi-resolution pyramid
   */
-  typedef itk::RecursiveMultiResolutionPyramidImageFilter<InputImageType,OutputImageType>
-                                    PyramidType;
-  typedef PyramidType::ScheduleType ScheduleType;
+  using PyramidType =
+      itk::RecursiveMultiResolutionPyramidImageFilter<InputImageType,OutputImageType>;
+  using ScheduleType = PyramidType::ScheduleType;
   PyramidType::Pointer pyramid = PyramidType::New();
   pyramid->SetUseShrinkImageFilter(useShrinkFilter);
 
@@ -294,7 +294,7 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
   std::cout << "Run ImagePyramid with streamer";
   std::cout << std::endl;
 
-  typedef itk::CastImageFilter<InputImageType,InputImageType> CasterType;
+  using CasterType = itk::CastImageFilter<InputImageType,InputImageType>;
   CasterType::Pointer caster = CasterType::New();
 
   caster->SetInput( pyramid->GetInput() );
@@ -305,15 +305,15 @@ int itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
   pyramid2->SetNumberOfLevels( pyramid->GetNumberOfLevels() );
   pyramid2->SetSchedule( pyramid->GetSchedule() );
 
-  typedef itk::StreamingImageFilter<OutputImageType,OutputImageType>
-    StreamerType;
+  using StreamerType =
+      itk::StreamingImageFilter<OutputImageType,OutputImageType>;
   StreamerType::Pointer streamer = StreamerType::New();
   streamer->SetInput( pyramid2->GetOutput( testLevel ) );
   streamer->SetNumberOfStreamDivisions( 3 );
   streamer->Update();
 
   std::cout << "Compare standalone and streamed outputs" << std::endl;
-  typedef itk::ImageRegionIterator<OutputImageType> OutputIterator;
+  using OutputIterator = itk::ImageRegionIterator<OutputImageType>;
   OutputIterator iter1( pyramid->GetOutput( testLevel ),
     pyramid->GetOutput( testLevel )->GetBufferedRegion() );
   OutputIterator iter2( streamer->GetOutput(),

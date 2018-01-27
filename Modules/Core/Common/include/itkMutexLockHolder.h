@@ -44,8 +44,8 @@ template< typename TMutex >
 class MutexLockHolder
 {
 public:
-  typedef MutexLockHolder Self;
-  typedef TMutex          MutexType;
+  using Self = MutexLockHolder;
+  using MutexType = TMutex;
 
   MutexLockHolder(MutexType & mutex, const bool noblock=false)
    :m_Mutex(mutex),

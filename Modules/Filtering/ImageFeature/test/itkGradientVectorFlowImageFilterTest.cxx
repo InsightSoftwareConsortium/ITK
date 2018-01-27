@@ -27,30 +27,30 @@ int itkGradientVectorFlowImageFilterTest(int , char *[])
   const unsigned int myDimension = 2;
 
   // Declare gradient type
-  typedef itk::CovariantVector<double, myDimension> myGradientType;
+  using myGradientType = itk::CovariantVector<double, myDimension>;
 
   // Declare the types of the images
-  typedef itk::Image<double, myDimension>           myImageType;
-  typedef itk::Image<myGradientType, myDimension>   myGradientImageType;
+  using myImageType = itk::Image<double, myDimension>;
+  using myGradientImageType = itk::Image<myGradientType, myDimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>             myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>              mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>       myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
-  typedef itk::LaplacianImageFilter<myImageType, myImageType> myLaplacianFilterType;
-  typedef itk::GradientVectorFlowImageFilter<myGradientImageType, myGradientImageType>
-                                              myGVFFilterType;
+  using myLaplacianFilterType = itk::LaplacianImageFilter<myImageType, myImageType>;
+  using myGVFFilterType =
+      itk::GradientVectorFlowImageFilter<myGradientImageType, myGradientImageType>;
 
-  typedef itk::GradientImageFilter<myImageType, double, double>
-                                              myGFilterType;
+  using myGFilterType =
+      itk::GradientImageFilter<myImageType, double, double>;
 
-  typedef itk::VectorMagnitudeImageFilter<myGradientImageType, myImageType>
-                                              myVectorMagnitudeFilterType;
+  using myVectorMagnitudeFilterType =
+      itk::VectorMagnitudeImageFilter<myGradientImageType, myImageType>;
   // Create the image
   myImageType::Pointer inputImage  = myImageType::New();
   myImageType::Pointer interImage  = myImageType::New();
@@ -86,10 +86,9 @@ int itkGradientVectorFlowImageFilterTest(int , char *[])
   inter1Image->Allocate();
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
+  using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
-  typedef itk::ImageRegionIteratorWithIndex<
-                                 myGradientImageType>  myOutputIteratorType;
+  using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myGradientImageType>;
 
   // Create one iterator for the Input Image A (this is a light object)
   myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
@@ -122,11 +121,8 @@ int itkGradientVectorFlowImageFilterTest(int , char *[])
   }
 
   // Declare the type for the
-  typedef itk::GradientRecursiveGaussianImageFilter<
-                                            myImageType,
-                                            myGradientImageType
-                                                  >  myFilterType;
-
+  using myFilterType = itk::GradientRecursiveGaussianImageFilter<
+                            myImageType, myGradientImageType >;
 
   // Create a  Filter
   myFilterType::Pointer filter = myFilterType::New();

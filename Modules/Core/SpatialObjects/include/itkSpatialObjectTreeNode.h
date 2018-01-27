@@ -37,16 +37,16 @@ class ITK_TEMPLATE_EXPORT SpatialObjectTreeNode:public TreeNode< SpatialObject< 
 {
 public:
 
-  /** Standard typedefs */
-  typedef SpatialObject< TDimension >                   SpatialObjectType;
-  typedef TreeNode< SpatialObject< TDimension > * >     Superclass;
-  typedef SpatialObjectTreeNode< TDimension >           Self;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
-  typedef ScalableAffineTransform< double, TDimension > TransformType;
-  typedef typename TransformType::Pointer               TransformPointer;
-  typedef const TransformType *                         TransformConstPointer;
-  typedef typename Superclass::ChildrenListType         ChildrenListType;
+  /** Standard type alias */
+  using SpatialObjectType = SpatialObject< TDimension >;
+  using Superclass = TreeNode< SpatialObject< TDimension > * >;
+  using Self = SpatialObjectTreeNode< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using TransformType = ScalableAffineTransform< double, TDimension >;
+  using TransformPointer = typename TransformType::Pointer;
+  using TransformConstPointer = const TransformType *;
+  using ChildrenListType = typename Superclass::ChildrenListType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

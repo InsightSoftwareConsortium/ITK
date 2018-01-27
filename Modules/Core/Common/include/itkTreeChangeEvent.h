@@ -35,8 +35,8 @@ class ITK_TEMPLATE_EXPORT TreeChangeEvent:public ModifiedEvent
 public:
 
   /** Typedefs */
-  typedef TreeChangeEvent Self;
-  typedef ModifiedEvent   Superclass;
+  using Self = TreeChangeEvent;
+  using Superclass = ModifiedEvent;
 
   /** Constructor */
   TreeChangeEvent():
@@ -81,8 +81,8 @@ template< typename TTreeType >
 class TreeNodeChangeEvent:public TreeChangeEvent< TTreeType >
 {
 public:
-  typedef TreeNodeChangeEvent          Self;
-  typedef TreeChangeEvent< TTreeType > Superclass;
+  using Self = TreeNodeChangeEvent;
+  using Superclass = TreeChangeEvent< TTreeType >;
 
   TreeNodeChangeEvent() {}
 
@@ -111,8 +111,8 @@ class ITK_TEMPLATE_EXPORT TreeAddEvent:public TreeChangeEvent< TTreeType >
 public:
 
   /** Typedefs */
-  typedef TreeAddEvent                 Self;
-  typedef TreeChangeEvent< TTreeType > Superclass;
+  using Self = TreeAddEvent;
+  using Superclass = TreeChangeEvent< TTreeType >;
 
   /** Constructor */
   TreeAddEvent() {}
@@ -146,8 +146,8 @@ class ITK_TEMPLATE_EXPORT TreeRemoveEvent:public TreeChangeEvent< TTreeType >
 public:
 
   /** Typedefs */
-  typedef TreeRemoveEvent              Self;
-  typedef TreeChangeEvent< TTreeType > Superclass;
+  using Self = TreeRemoveEvent;
+  using Superclass = TreeChangeEvent< TTreeType >;
 
   /** Constructor */
   TreeRemoveEvent(){}
@@ -180,8 +180,8 @@ template< typename TTreeType >
 class ITK_TEMPLATE_EXPORT TreePruneEvent:public TreeRemoveEvent< TTreeType >
 {
 public:
-  typedef TreePruneEvent               Self;
-  typedef TreeRemoveEvent< TTreeType > Superclass;
+  using Self = TreePruneEvent;
+  using Superclass = TreeRemoveEvent< TTreeType >;
 
   TreePruneEvent(){}
 

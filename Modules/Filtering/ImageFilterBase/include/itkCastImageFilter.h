@@ -98,16 +98,16 @@ class ITK_TEMPLATE_EXPORT CastImageFilter:
     public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef CastImageFilter Self;
+  /** Standard class type aliases. */
+  using Self = CastImageFilter;
 
-  typedef InPlaceImageFilter< TInputImage, TOutputImage >  Superclass;
+  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
 
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

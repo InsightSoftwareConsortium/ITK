@@ -73,7 +73,7 @@ StandardDeviationPerComponentSampleFilter< TSample >
 {
   if ( index == 0 )
     {
-    typedef typename MeasurementVectorTraitsTypes< MeasurementVectorType >::ValueType ValueType;
+    using ValueType = typename MeasurementVectorTraitsTypes< MeasurementVectorType >::ValueType;
     MeasurementVectorType standardDeviation;
     NumericTraits<MeasurementVectorType>::SetLength( standardDeviation,
       this->GetMeasurementVectorSize() );
@@ -86,7 +86,7 @@ StandardDeviationPerComponentSampleFilter< TSample >
 
   if ( index == 1 )
     {
-    typedef typename MeasurementVectorTraitsTypes< MeasurementVectorType >::ValueType ValueType;
+    using ValueType = typename MeasurementVectorTraitsTypes< MeasurementVectorType >::ValueType;
     MeasurementVectorType mean;
     NumericTraits<MeasurementVectorType>::SetLength(mean, this->GetMeasurementVectorSize());
     mean.Fill(NumericTraits< ValueType >::ZeroValue());
@@ -160,7 +160,7 @@ StandardDeviationPerComponentSampleFilter< TSample >
 
   typename TSample::AbsoluteFrequencyType frequency;
 
-  typedef typename TSample::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename TSample::TotalAbsoluteFrequencyType;
   TotalAbsoluteFrequencyType totalFrequency =
     itk::NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue();
 

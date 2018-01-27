@@ -34,11 +34,11 @@ int itkDelaunayConformingQuadEdgeMeshFilterTest( int argc, char* argv[] )
     }
 
   // ** TYPEDEF **
-  typedef double Coord;
+  using Coord = double;
 
-  typedef itk::QuadEdgeMesh< Coord, 3 >                      MeshType;
-  typedef itk::MeshFileReader< MeshType >                    ReaderType;
-  typedef itk::MeshFileWriter< MeshType >                    WriterType;
+  using MeshType = itk::QuadEdgeMesh< Coord, 3 >;
+  using ReaderType = itk::MeshFileReader< MeshType >;
+  using WriterType = itk::MeshFileWriter< MeshType >;
 
   // ** READ THE FILE IN **
   ReaderType::Pointer reader = ReaderType::New( );
@@ -56,8 +56,8 @@ int itkDelaunayConformingQuadEdgeMeshFilterTest( int argc, char* argv[] )
 
   MeshType::Pointer mesh = reader->GetOutput( );
 
-  typedef itk::DelaunayConformingQuadEdgeMeshFilter< MeshType, MeshType >
-  DelaunayConformFilterType;
+  using DelaunayConformFilterType =
+      itk::DelaunayConformingQuadEdgeMeshFilter< MeshType, MeshType >;
   DelaunayConformFilterType::Pointer filter = DelaunayConformFilterType::New( );
   filter->SetInput( mesh );
   filter->Update( );

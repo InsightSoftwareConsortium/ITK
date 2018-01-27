@@ -21,11 +21,11 @@
 int itkRegularSphereMeshSourceTest2(int, char* [] )
 {
   const unsigned int Dimension = 3;
-  typedef float PixelType;
+  using PixelType = float;
 
-  typedef itk::Mesh< PixelType, Dimension > MeshType;
+  using MeshType = itk::Mesh< PixelType, Dimension >;
 
-  typedef itk::RegularSphereMeshSource< MeshType >  SphereMeshSourceType;
+  using SphereMeshSourceType = itk::RegularSphereMeshSource< MeshType >;
   SphereMeshSourceType::VectorType scale;
   scale[0] = 1.;
   scale[1] = 2.;

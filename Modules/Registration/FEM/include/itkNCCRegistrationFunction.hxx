@@ -139,7 +139,7 @@ NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
         }
 
       // Get moving image related information
-      typedef typename TDisplacementField::PixelType DeformationPixelType;
+      using DeformationPixelType = typename TDisplacementField::PixelType;
       const DeformationPixelType vec = this->GetDisplacementField()->GetPixel(index);
       PointType mappedPoint;
       this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);

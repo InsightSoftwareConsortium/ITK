@@ -88,7 +88,7 @@ namespace itk
  * spline through the (ordered) 2D points (5,6) and (7,8), you should use:
  *
  * \code
- * typedef itk::Vector< float, 2 > DataType;
+ * using DataType = itk::Vector< float, 2 >;
  * PointSetType::PointType param0;
  * param0[0] = 0.0;
  * DataType p0;
@@ -130,11 +130,11 @@ class ITK_TEMPLATE_EXPORT BSplineScatteredDataPointSetToImageFilter:
   public PointSetToImageFilter< TInputPointSet, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineScatteredDataPointSetToImageFilter             Self;
-  typedef PointSetToImageFilter<TInputPointSet, TOutputImage>   Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineScatteredDataPointSetToImageFilter;
+  using Superclass = PointSetToImageFilter<TInputPointSet, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -147,43 +147,43 @@ public:
   itkStaticConstMacro( ImageDimension, unsigned int,
     TOutputImage::ImageDimension );
 
-  typedef TOutputImage                              ImageType;
-  typedef TInputPointSet                            PointSetType;
+  using ImageType = TOutputImage;
+  using PointSetType = TInputPointSet;
 
-  /** Image typedef support. */
-  typedef typename ImageType::PixelType             PixelType;
-  typedef typename ImageType::RegionType            RegionType;
-  typedef typename ImageType::SizeType              SizeType;
-  typedef typename ImageType::IndexType             IndexType;
+  /** Image type alias support */
+  using PixelType = typename ImageType::PixelType;
+  using RegionType = typename ImageType::RegionType;
+  using SizeType = typename ImageType::SizeType;
+  using IndexType = typename ImageType::IndexType;
 
-  /** PointSet typedef support. */
-  typedef typename PointSetType::PointType          PointType;
-  typedef typename PointSetType::Pointer            PointSetPointer;
-  typedef typename PointSetType::PixelType          PointDataType;
-  typedef typename PointSetType::PointDataContainer PointDataContainerType;
+  /** PointSet type alias support */
+  using PointType = typename PointSetType::PointType;
+  using PointSetPointer = typename PointSetType::Pointer;
+  using PointDataType = typename PointSetType::PixelType;
+  using PointDataContainerType = typename PointSetType::PointDataContainer;
 
-  /** Other typedefs. */
-  typedef float                                     RealType;
-  typedef VectorContainer<unsigned, RealType>       WeightsContainerType;
+  /** Other type alias. */
+  using RealType = float;
+  using WeightsContainerType = VectorContainer<unsigned, RealType>;
 
   /** Image types. */
-  typedef Image<PointDataType,
-    itkGetStaticConstMacro( ImageDimension )>       PointDataImageType;
-  typedef Image<RealType,
-    itkGetStaticConstMacro( ImageDimension )>       RealImageType;
-  typedef typename RealImageType::Pointer           RealImagePointer;
-  typedef typename PointDataImageType::Pointer      PointDataImagePointer;
-  typedef FixedArray<unsigned,
-    itkGetStaticConstMacro( ImageDimension )>       ArrayType;
-  typedef FixedArray<RealType,
-    itkGetStaticConstMacro( ImageDimension )>       RealArrayType;
+  using PointDataImageType = Image<PointDataType,
+    itkGetStaticConstMacro( ImageDimension )>;
+  using RealImageType = Image<RealType,
+    itkGetStaticConstMacro( ImageDimension )>;
+  using RealImagePointer = typename RealImageType::Pointer;
+  using PointDataImagePointer = typename PointDataImageType::Pointer;
+  using ArrayType = FixedArray<unsigned,
+    itkGetStaticConstMacro( ImageDimension )>;
+  using RealArrayType = FixedArray<RealType,
+    itkGetStaticConstMacro( ImageDimension )>;
 
   /** Interpolation kernel type (default spline order = 3). */
-  typedef CoxDeBoorBSplineKernelFunction<3>         KernelType;
-  typedef BSplineKernelFunction<0>                  KernelOrder0Type;
-  typedef BSplineKernelFunction<1>                  KernelOrder1Type;
-  typedef BSplineKernelFunction<2>                  KernelOrder2Type;
-  typedef BSplineKernelFunction<3>                  KernelOrder3Type;
+  using KernelType = CoxDeBoorBSplineKernelFunction<3>;
+  using KernelOrder0Type = BSplineKernelFunction<0>;
+  using KernelOrder1Type = BSplineKernelFunction<1>;
+  using KernelOrder2Type = BSplineKernelFunction<2>;
+  using KernelOrder3Type = BSplineKernelFunction<3>;
 
 
   /** Set the spline order assuming it is the same in all parametric dimensions.

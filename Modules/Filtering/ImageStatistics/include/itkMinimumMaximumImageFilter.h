@@ -51,22 +51,22 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef MinimumMaximumImageFilter                      Self;
-  typedef ImageToImageFilter< TInputImage, TInputImage > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MinimumMaximumImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Image related typedefs. */
-  typedef typename TInputImage::Pointer InputImagePointer;
+  /** Image related type alias. */
+  using InputImagePointer = typename TInputImage::Pointer;
 
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::PixelType  PixelType;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
 
   /** Smart Pointer type to a DataObject. */
-  typedef typename DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = typename DataObject::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,11 +74,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MinimumMaximumImageFilter, ImageToImageFilter);
 
-  /** Image typedef support. */
-  typedef TInputImage InputImageType;
+  /** Image type alias support */
+  using InputImageType = TInputImage;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef SimpleDataObjectDecorator< PixelType > PixelObjectType;
+  using PixelObjectType = SimpleDataObjectDecorator< PixelType >;
 
   /** Return the computed Minimum. */
   PixelType GetMinimum() const
@@ -96,7 +96,7 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

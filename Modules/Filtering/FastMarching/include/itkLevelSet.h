@@ -40,29 +40,29 @@ template< typename TLevelSet >
 class LevelSetTypeDefault
 {
 public:
-  /** LevelSetType typedef support. */
-  typedef LevelSetTypeDefault Self;
-  typedef TLevelSet           LevelSetImageType;
+  /** LevelSetType type alias support */
+  using Self = LevelSetTypeDefault;
+  using LevelSetImageType = TLevelSet;
 
   /** SetDimension enumeration. */
   itkStaticConstMacro(SetDimension, unsigned int, TLevelSet::ImageDimension);
 
-  /** LevelSetPointer typedef support. */
-  typedef typename TLevelSet::Pointer      LevelSetPointer;
-  typedef typename TLevelSet::ConstPointer LevelSetConstPointer;
+  /** LevelSetPointer type alias support */
+  using LevelSetPointer = typename TLevelSet::Pointer;
+  using LevelSetConstPointer = typename TLevelSet::ConstPointer;
 
-  /** PixelType typedef support. */
-  typedef typename TLevelSet::PixelType PixelType;
+  /** PixelType type alias support */
+  using PixelType = typename TLevelSet::PixelType;
 
-  /** Node typdef support. */
-  typedef
-  LevelSetNode< PixelType, itkGetStaticConstMacro(SetDimension) > NodeType;
+  /** Node type alias support. */
+  using NodeType =
+  LevelSetNode< PixelType, itkGetStaticConstMacro(SetDimension) >;
 
-  /** NodeContainer typedef support. */
-  typedef VectorContainer< unsigned int, NodeType > NodeContainer;
+  /** NodeContainer type alias support */
+  using NodeContainer = VectorContainer< unsigned int, NodeType >;
 
-  /** NodeContainerPointer typedef support. */
-  typedef typename NodeContainer::Pointer NodeContainerPointer;
+  /** NodeContainerPointer type alias support */
+  using NodeContainerPointer = typename NodeContainer::Pointer;
 };
 
 /** \class AuxVarTypeDefault
@@ -89,11 +89,11 @@ template<
 class AuxVarTypeDefault
 {
 public:
-  /** Standard typedefs */
-  typedef AuxVarTypeDefault Self;
+  /** Standard type alias */
+  using Self = AuxVarTypeDefault;
 
-  /** PixelType typedef support. */
-  typedef TPixel AuxValueType;
+  /** PixelType type alias support */
+  using AuxValueType = TPixel;
 
   /** Auxiliary variable dimension. */
   itkStaticConstMacro(AuxDimension, unsigned int, VAuxDimension);
@@ -101,18 +101,18 @@ public:
   /** Level set dimension. */
   itkStaticConstMacro(SetDimension, unsigned int, VSetDimension);
 
-  /** AuxVector typedef support. */
-  typedef Vector< TPixel, VAuxDimension > AuxValueVectorType;
+  /** AuxVector type alias support */
+  using AuxValueVectorType = Vector< TPixel, VAuxDimension >;
 
   /** AuxContainer typdef support. */
-  typedef VectorContainer< unsigned int, AuxValueVectorType > AuxValueContainer;
+  using AuxValueContainer = VectorContainer< unsigned int, AuxValueVectorType >;
 
   /** AuxImage typdef support. */
-  typedef Image< AuxValueType, VSetDimension > AuxImageType;
+  using AuxImageType = Image< AuxValueType, VSetDimension >;
 
-  /** AuxImagePointer typedef support. */
-  typedef typename AuxImageType::Pointer      AuxImagePointer;
-  typedef typename AuxImageType::ConstPointer AuxImageConstPointer;
+  /** AuxImagePointer type alias support */
+  using AuxImagePointer = typename AuxImageType::Pointer;
+  using AuxImageConstPointer = typename AuxImageType::ConstPointer;
 };
 } // end namespace itk
 

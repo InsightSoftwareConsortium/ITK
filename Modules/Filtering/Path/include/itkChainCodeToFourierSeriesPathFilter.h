@@ -42,13 +42,13 @@ class ITK_TEMPLATE_EXPORT ChainCodeToFourierSeriesPathFilter:public
   PathToPathFilter< TInputChainCodePath, TOutputFourierSeriesPath >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ChainCodeToFourierSeriesPathFilter Self;
-  typedef PathToPathFilter< TInputChainCodePath,
-                            TOutputFourierSeriesPath >  Superclass;
+  /** Standard class type aliases. */
+  using Self = ChainCodeToFourierSeriesPathFilter;
+  using Superclass = PathToPathFilter< TInputChainCodePath,
+                            TOutputFourierSeriesPath >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,16 +56,16 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChainCodeToFourierSeriesPathFilter, PathToPathFilter);
 
-  /** Some convenient typedefs. */
-  typedef TInputChainCodePath                 InputPathType;
-  typedef typename InputPathType::Pointer     InputPathPointer;
-  typedef typename InputPathType::InputType   InputPathInputType;
-  typedef TOutputFourierSeriesPath            OutputPathType;
-  typedef typename OutputPathType::Pointer    OutputPathPointer;
-  typedef typename OutputPathType::InputType  OutputPathInputType;
-  typedef typename InputPathType::IndexType   IndexType;
-  typedef typename InputPathType::OffsetType  OffsetType;
-  typedef typename OutputPathType::VectorType VectorType;
+  /** Some convenient type alias. */
+  using InputPathType = TInputChainCodePath;
+  using InputPathPointer = typename InputPathType::Pointer;
+  using InputPathInputType = typename InputPathType::InputType;
+  using OutputPathType = TOutputFourierSeriesPath;
+  using OutputPathPointer = typename OutputPathType::Pointer;
+  using OutputPathInputType = typename OutputPathType::InputType;
+  using IndexType = typename InputPathType::IndexType;
+  using OffsetType = typename InputPathType::OffsetType;
+  using VectorType = typename OutputPathType::VectorType;
 
   /** Set the number of harmonics to try to compute.  By default, the first 8
    * harmonics (frequency coefficients, which include the "DC" term) are

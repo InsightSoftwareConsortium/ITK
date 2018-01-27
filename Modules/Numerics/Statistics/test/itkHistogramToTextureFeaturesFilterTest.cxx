@@ -28,8 +28,8 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   // Create a simple test histogram. The histogram must be
   // symmetric and normalized.
   //------------------------------------------------------
-  typedef float                                         MeasurementType;
-  typedef itk::Statistics::Histogram< MeasurementType > HistogramType;
+  using MeasurementType = float;
+  using HistogramType = itk::Statistics::Histogram< MeasurementType >;
   HistogramType::Pointer histogram = HistogramType::New();
 
   const unsigned int measurementVectorSize = 2;
@@ -98,8 +98,7 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   identifier = histogram->GetInstanceIdentifier ( index );
   histogram->SetFrequency(identifier, frequency);
 
-  typedef itk::Statistics::HistogramToTextureFeaturesFilter<
-    HistogramType > HistogramToTextureFeaturesFilterType;
+  using HistogramToTextureFeaturesFilterType = itk::Statistics::HistogramToTextureFeaturesFilter<HistogramType>;
 
   HistogramToTextureFeaturesFilterType::Pointer filter =
                       HistogramToTextureFeaturesFilterType::New();

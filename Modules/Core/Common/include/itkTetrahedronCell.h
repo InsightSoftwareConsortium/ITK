@@ -37,7 +37,7 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT TetrahedronCell:public TCellInterface, private TetrahedronCellTopology
 {
 public:
-  /** Standard class typedefa. */
+  /** Standard class type aliasa. */
   itkCellCommonTypedefs(TetrahedronCell);
   itkCellInheritedTypedefs(TCellInterface);
 
@@ -45,16 +45,16 @@ public:
   itkTypeMacro(TetrahedronCell, CellInterface);
 
   /** The type of boundary for this triangle's vertices. */
-  typedef VertexCell< TCellInterface >         VertexType;
-  typedef typename VertexType::SelfAutoPointer VertexAutoPointer;
+  using VertexType = VertexCell< TCellInterface >;
+  using VertexAutoPointer = typename VertexType::SelfAutoPointer;
 
   /** The type of boundary for this triangle's edges. */
-  typedef LineCell< TCellInterface >         EdgeType;
-  typedef typename EdgeType::SelfAutoPointer EdgeAutoPointer;
+  using EdgeType = LineCell< TCellInterface >;
+  using EdgeAutoPointer = typename EdgeType::SelfAutoPointer;
 
   /** The type of boundary for this hexahedron's faces. */
-  typedef TriangleCell< TCellInterface >     FaceType;
-  typedef typename FaceType::SelfAutoPointer FaceAutoPointer;
+  using FaceType = TriangleCell< TCellInterface >;
+  using FaceAutoPointer = typename FaceType::SelfAutoPointer;
 
   /** Tetrahedron-specific topology numbers. */
   itkStaticConstMacro(NumberOfPoints, unsigned int, 4);

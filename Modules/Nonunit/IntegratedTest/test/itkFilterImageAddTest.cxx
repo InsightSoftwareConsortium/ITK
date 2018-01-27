@@ -25,18 +25,18 @@ int itkFilterImageAddTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>  myImageType1;
-  typedef itk::Image<float, myDimension>  myImageType2;
-  typedef itk::Image<float, myDimension>  myImageType3;
+  using myImageType1 = itk::Image<float, myDimension>;
+  using myImageType2 = itk::Image<float, myDimension>;
+  using myImageType3 = itk::Image<float, myDimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create two images
   myImageType1::Pointer inputImageA  = myImageType1::New();
@@ -71,9 +71,9 @@ int itkFilterImageAddTest(int, char* [] )
 
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType2>  myIteratorType2;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType3>  myIteratorType3;
+  using myIteratorType1 = itk::ImageRegionIteratorWithIndex<myImageType1>;
+  using myIteratorType2 = itk::ImageRegionIteratorWithIndex<myImageType2>;
+  using myIteratorType3 = itk::ImageRegionIteratorWithIndex<myImageType3>;
 
   // Create one iterator for Image A (this is a light object)
   myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
@@ -100,10 +100,10 @@ int itkFilterImageAddTest(int, char* [] )
   }
 
   // Declare the type for the ADD filter
-  typedef itk::AddImageFilter<
+  using myFilterType = itk::AddImageFilter<
                                 myImageType1,
                                 myImageType2,
-                                myImageType3  >       myFilterType;
+                                myImageType3  >;
 
 
   // Create an ADD Filter

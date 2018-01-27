@@ -53,35 +53,35 @@ class ITK_TEMPLATE_EXPORT RecursiveSeparableImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RecursiveSeparableImageFilter                   Self;
-  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RecursiveSeparableImageFilter;
+  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Type macro that defines a name for this class. */
   itkTypeMacro(RecursiveSeparableImageFilter, InPlaceImageFilter);
 
-  /** Smart pointer typedef support.  */
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  /** Smart pointer type alias support  */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
   /** Real type to be used in internal computations. RealType in general is
    * templated over the pixel type. (For example for vector or tensor pixels,
    * RealType is a vector or a tensor of doubles.) ScalarRealType is a type
    * meant for scalars.
    */
-  typedef typename TInputImage::PixelType                          InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType       RealType;
-  typedef typename NumericTraits< InputPixelType >::ScalarRealType ScalarRealType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< InputPixelType >::RealType;
+  using ScalarRealType = typename NumericTraits< InputPixelType >::ScalarRealType;
 
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Type of the input image */
-  typedef TInputImage InputImageType;
+  using InputImageType = TInputImage;
 
   /** Type of the output image */
-  typedef TOutputImage OutputImageType;
+  using OutputImageType = TOutputImage;
 
   /** Get the direction in which the filter is to be applied. */
   itkGetConstMacro(Direction, unsigned int);

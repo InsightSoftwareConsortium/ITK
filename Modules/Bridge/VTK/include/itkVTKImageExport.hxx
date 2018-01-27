@@ -41,8 +41,8 @@ namespace itk
 template< typename TInputImage >
 VTKImageExport< TInputImage >::VTKImageExport()
 {
-  typedef typename TInputImage::PixelType              PixelType;
-  typedef typename PixelTraits< PixelType >::ValueType ScalarType;
+  using PixelType = typename TInputImage::PixelType;
+  using ScalarType = typename PixelTraits< PixelType >::ValueType;
 
   if ( typeid( ScalarType ) == typeid( double ) )
     {
@@ -285,7 +285,7 @@ const char *VTKImageExport< TInputImage >::ScalarTypeCallback()
 template< typename TInputImage >
 int VTKImageExport< TInputImage >::NumberOfComponentsCallback()
 {
-  typedef typename TInputImage::PixelType PixelType;
+  using PixelType = typename TInputImage::PixelType;
   return static_cast< int >( NumericTraits< PixelType >::GetLength() );
 }
 

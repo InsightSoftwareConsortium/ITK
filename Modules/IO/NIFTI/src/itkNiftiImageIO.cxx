@@ -1732,7 +1732,7 @@ void Normalize(std::vector< double > & x)
 void
 NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 {
-  typedef SpatialOrientationAdapter OrientAdapterType;
+  using OrientAdapterType = SpatialOrientationAdapter;
 
   //
   // in the case of an Analyze75 file, use old analyze orient method.
@@ -1898,7 +1898,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   //
   //The type here must be float, because that matches the signature
   //of the nifti_make_orthog_mat44() method below.
-  typedef float DirectionMatrixComponentType;
+  using DirectionMatrixComponentType = float;
   int                                         mindims(dims < 3 ? 3 : dims);
   std::vector< DirectionMatrixComponentType > dirx(mindims, 0.0f);
   unsigned int                                i;

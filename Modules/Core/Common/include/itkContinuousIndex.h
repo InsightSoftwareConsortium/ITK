@@ -45,25 +45,25 @@ template< typename TCoordRep = double, unsigned int VIndexDimension = 2 >
 class ContinuousIndex:public Point< TCoordRep, VIndexDimension >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ContinuousIndex                     Self;
-  typedef Point< TCoordRep, VIndexDimension > Superclass;
+  /** Standard class type aliases. */
+  using Self = ContinuousIndex;
+  using Superclass = Point< TCoordRep, VIndexDimension >;
 
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */
-  typedef TCoordRep ValueType;
-  typedef TCoordRep CoordRepType;
+  using ValueType = TCoordRep;
+  using CoordRepType = TCoordRep;
 
   /** Dimension of the Space */
   itkStaticConstMacro(IndexDimension, unsigned int, VIndexDimension);
 
   /** Corresponding discrete index type */
-  typedef Index< VIndexDimension > IndexType;
+  using IndexType = Index< VIndexDimension >;
 
   /** The Array type from which this Vector is derived. */
-  typedef typename Superclass::BaseArray    BaseArray;
-  typedef typename BaseArray::Iterator      Iterator;
-  typedef typename BaseArray::ConstIterator ConstIterator;
+  using BaseArray = typename Superclass::BaseArray;
+  using Iterator = typename BaseArray::Iterator;
+  using ConstIterator = typename BaseArray::ConstIterator;
 
   /** Default constructor has nothing to do. */
   ContinuousIndex() {}

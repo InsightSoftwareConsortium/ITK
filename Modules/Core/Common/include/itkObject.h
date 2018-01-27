@@ -59,11 +59,11 @@ class ITK_FORWARD_EXPORT Command;
 class ITKCommon_EXPORT Object:public LightObject
 {
 public:
-  /** Smart pointer typedef support. */
-  typedef Object                     Self;
-  typedef LightObject                Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using Self = Object;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   static Pointer New();

@@ -27,11 +27,11 @@ class LevelSetDomainPartitionBaseHelper
   : public LevelSetDomainPartitionBase< TDomain >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LevelSetDomainPartitionBaseHelper      Self;
-  typedef LevelSetDomainPartitionBase< TDomain > Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LevelSetDomainPartitionBaseHelper;
+  using Superclass = LevelSetDomainPartitionBase< TDomain >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro( LevelSetDomainPartitionBaseHelper, LevelSetDomainPartitionBase );
@@ -50,10 +50,9 @@ int itkLevelSetDomainPartitionBaseTest( int, char* [] )
 {
   const unsigned int Dimension = 3;
 
-  typedef itk::Image< double, Dimension >         ImageType;
+  using ImageType = itk::Image< double, Dimension >;
 
-  typedef itk::LevelSetDomainPartitionBaseHelper< ImageType >
-    DomainPartitionBaseHelperType;
+  using DomainPartitionBaseHelperType = itk::LevelSetDomainPartitionBaseHelper<ImageType>;
 
   itk::IdentifierType count = 2;
 

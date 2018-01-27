@@ -33,14 +33,13 @@ int itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
 {
 
   const unsigned int dimensions = 2;
-  typedef itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<
-                                                  double, dimensions>
-                                                    DisplacementTransformType;
+  using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<
+                                                  double, dimensions>;
 
   /* Create a displacement field transform */
   DisplacementTransformType::Pointer displacementTransform =
       DisplacementTransformType::New();
-  typedef DisplacementTransformType::DisplacementFieldType FieldType;
+  using FieldType = DisplacementTransformType::DisplacementFieldType;
   FieldType::Pointer field = FieldType::New(); //This is based on itk::Image
 
   FieldType::SizeType size;
@@ -62,7 +61,7 @@ int itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
 
   /* Test SmoothDisplacementFieldGauss */
   std::cout << "Test SmoothDisplacementFieldGauss" << std::endl;
-  typedef DisplacementTransformType::ParametersValueType ParametersValueType;
+  using ParametersValueType = DisplacementTransformType::ParametersValueType;
   ParametersValueType paramsZero = itk::NumericTraits< itk::NumericTraits< ParametersValueType >::ValueType >::ZeroValue();
   DisplacementTransformType::ParametersType params;
   DisplacementTransformType::ParametersType

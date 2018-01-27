@@ -69,10 +69,10 @@ int itkLevelSetDenseImageTest( int , char* [] )
 {
   const unsigned int Dimension = 2;
 
-  typedef float PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< PixelType, Dimension >   ImageType;
-  typedef itk::LevelSetDenseImage< ImageType > LevelSetType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using LevelSetType = itk::LevelSetDenseImage< ImageType >;
 
   ImageType::IndexType index;
   index[0] = 0;
@@ -111,7 +111,7 @@ int itkLevelSetDenseImageTest( int , char* [] )
   ImageType::IndexType idx;
   ImageType::PointType pt;
 
-  typedef itk::LevelSetTestFunction< PixelType > TestFunctionType;
+  using TestFunctionType = itk::LevelSetTestFunction< PixelType >;
   TestFunctionType::Pointer testFunction = TestFunctionType::New();
 
   while( !it.IsAtEnd() )

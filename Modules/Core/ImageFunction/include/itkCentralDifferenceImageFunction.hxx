@@ -33,8 +33,8 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
   this->m_UseImageDirection = true;
 
   /* Interpolator. Default to linear. */
-  typedef LinearInterpolateImageFunction< TInputImage, TCoordRep >
-                                                  LinearInterpolatorType;
+  using LinearInterpolatorType =
+      LinearInterpolateImageFunction< TInputImage, TCoordRep >;
   this->m_Interpolator = LinearInterpolatorType::New();
 }
 
@@ -193,7 +193,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
   const typename InputImageType::SizeType & size     = region.GetSize();
   const typename InputImageType::IndexType & start   = region.GetIndex();
 
-  typedef typename InputImageType::PixelType PixelType;
+  using PixelType = typename InputImageType::PixelType;
   const PixelType * neighPixels[Self::ImageDimension][2];
   const PixelType zeroPixel = NumericTraits<PixelType>::ZeroValue();
   const unsigned int MaxDims = Self::ImageDimension;
@@ -284,8 +284,8 @@ void
 CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
 ::EvaluateSpecialized(const PointType & point, OutputType & orientedDerivative, OutputTypeSpecializationStructType<OutputType>) const
 {
-  typedef typename PointType::ValueType           PointValueType;
-  typedef typename OutputType::ValueType          DerivativeValueType;
+  using PointValueType = typename PointType::ValueType;
+  using DerivativeValueType = typename OutputType::ValueType;
 
   PointType neighPoint1 = point;
   PointType neighPoint2 = point;
@@ -352,7 +352,7 @@ void
 CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
 ::EvaluateSpecialized(const PointType & point, OutputType & derivative, OutputTypeSpecializationStructType<Type>) const
 {
-  typedef typename PointType::ValueType           PointValueType;
+  using PointValueType = typename PointType::ValueType;
 
   const InputImageType *inputImage = this->GetInputImage();
   const unsigned int numberComponents = inputImage->GetNumberOfComponentsPerPixel();
@@ -362,7 +362,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
 
   const SpacingType & spacing = inputImage->GetSpacing();
 
-  typedef typename InputImageType::PixelType PixelType;
+  using PixelType = typename InputImageType::PixelType;
   PixelType neighPixels[Self::ImageDimension][2];
   bool  dimOutOfBounds[Self::ImageDimension];
   const unsigned int MaxDims = Self::ImageDimension;
@@ -480,8 +480,8 @@ void
 CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
 ::EvaluateAtContinuousIndexSpecialized(const ContinuousIndexType & cindex, OutputType & orientedDerivative, OutputTypeSpecializationStructType<OutputType>) const
 {
-  typedef typename OutputType::ValueType          DerivativeValueType;
-  typedef typename ContinuousIndexType::ValueType ContinuousIndexValueType;
+  using DerivativeValueType = typename OutputType::ValueType;
+  using ContinuousIndexValueType = typename ContinuousIndexType::ValueType;
 
   OutputType derivative;
 
@@ -536,8 +536,8 @@ void
 CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
 ::EvaluateAtContinuousIndexSpecialized(const ContinuousIndexType & cindex, OutputType & derivative, OutputTypeSpecializationStructType<Type>) const
 {
-  typedef typename OutputType::ValueType          DerivativeValueType;
-  typedef typename ContinuousIndexType::ValueType ContinuousIndexValueType;
+  using DerivativeValueType = typename OutputType::ValueType;
+  using ContinuousIndexValueType = typename ContinuousIndexType::ValueType;
 
   const InputImageType *inputImage = this->GetInputImage();
   const unsigned int numberComponents = inputImage->GetNumberOfComponentsPerPixel();
@@ -548,7 +548,7 @@ CentralDifferenceImageFunction< TInputImage, TCoordRep, TOutputType >
   const typename InputImageType::SizeType & size   = region.GetSize();
   const typename InputImageType::IndexType & start = region.GetIndex();
 
-  typedef typename InputImageType::PixelType PixelType;
+  using PixelType = typename InputImageType::PixelType;
   PixelType neighPixels[Self::ImageDimension][2];
   bool  dimOutOfBounds[Self::ImageDimension];
   const unsigned int MaxDims = Self::ImageDimension;

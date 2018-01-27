@@ -35,7 +35,7 @@ void BoundaryResolver< TPixelType, TDimension >
   //       See itkWatershedSegmenter for details. City-block style connectivity
   //       is assumed (ie 4-, 6- for 2d, 3d). jc 11/14/01
   //
-  typedef typename BoundaryType::face_t FaceType;
+  using FaceType = typename BoundaryType::face_t;
   typename BoundaryType::IndexType idxA;
   typename BoundaryType::IndexType idxB;
 

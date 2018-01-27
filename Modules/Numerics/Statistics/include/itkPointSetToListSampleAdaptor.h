@@ -47,11 +47,11 @@ class ITK_TEMPLATE_EXPORT PointSetToListSampleAdaptor:
   public ListSample< typename TPointSet::PointType >
 {
 public:
-  /** Standard class typedefs */
-  typedef PointSetToListSampleAdaptor                 Self;
-  typedef ListSample< typename TPointSet::PointType > Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  /** Standard class type aliases */
+  using Self = PointSetToListSampleAdaptor;
+  using Superclass = ListSample< typename TPointSet::PointType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PointSetToListSampleAdaptor, ListSample);
@@ -59,27 +59,27 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** PointSet typedefs */
-  typedef TPointSet                                        PointSetType;
-  typedef typename TPointSet::Pointer                      PointSetPointer;
-  typedef typename TPointSet::ConstPointer                 PointSetConstPointer;
-  typedef typename TPointSet::PointsContainer              PointsContainer;
-  typedef typename TPointSet::PointsContainerPointer       PointsContainerPointer;
-  typedef typename TPointSet::PointsContainerConstPointer  PointsContainerConstPointer;
-  typedef typename TPointSet::PointsContainerIterator      PointsContainerIteratorType;
-  typedef typename TPointSet::PointsContainerConstIterator PointsContainerConstIteratorType;
-  typedef typename TPointSet::PointType                    PointType;
+  /** PointSet type alias */
+  using PointSetType = TPointSet;
+  using PointSetPointer = typename TPointSet::Pointer;
+  using PointSetConstPointer = typename TPointSet::ConstPointer;
+  using PointsContainer = typename TPointSet::PointsContainer;
+  using PointsContainerPointer = typename TPointSet::PointsContainerPointer;
+  using PointsContainerConstPointer = typename TPointSet::PointsContainerConstPointer;
+  using PointsContainerIteratorType = typename TPointSet::PointsContainerIterator;
+  using PointsContainerConstIteratorType = typename TPointSet::PointsContainerConstIterator;
+  using PointType = typename TPointSet::PointType;
 
-  /** Superclass typedefs for Measurement vector, measurement,
+  /** Superclass type alias for Measurement vector, measurement,
    * Instance Identifier, frequency, size, size element value */
-  typedef typename Superclass::MeasurementType            MeasurementType;
-  typedef typename Superclass::MeasurementVectorType      MeasurementVectorType;
-  typedef typename Superclass::AbsoluteFrequencyType      AbsoluteFrequencyType;
-  typedef typename Superclass::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
-  typedef typename Superclass::MeasurementVectorSizeType  MeasurementVectorSizeType;
-  typedef typename Superclass::InstanceIdentifier         InstanceIdentifier;
+  using MeasurementType = typename Superclass::MeasurementType;
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using AbsoluteFrequencyType = typename Superclass::AbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename Superclass::TotalAbsoluteFrequencyType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
 
-  typedef MeasurementVectorType ValueType;
+  using ValueType = MeasurementVectorType;
 
   /** Method to set the point set */
   void SetPointSet(const TPointSet *pointSet);

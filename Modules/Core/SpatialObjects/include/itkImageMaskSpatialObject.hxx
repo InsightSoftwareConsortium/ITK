@@ -73,7 +73,7 @@ ImageMaskSpatialObject< TDimension >
     return false;
     }
 
-  typedef typename InterpolatorType::OutputType InterpolatorOutputType;
+  using InterpolatorOutputType = typename InterpolatorType::OutputType;
   const bool insideMask = (
     Math::NotExactlyEquals( DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(this->m_Interpolator->EvaluateAtContinuousIndex(index)),
     NumericTraits<PixelType>::ZeroValue() ) );
@@ -205,7 +205,7 @@ ImageMaskSpatialObject< TDimension >
   else
     {
     //itkExceptionMacro( << "ImageDimension must be 3!" );
-    typedef ImageRegionConstIteratorWithIndex< ImageType > IteratorType;
+    using IteratorType = ImageRegionConstIteratorWithIndex< ImageType >;
     IteratorType it( image, image->GetRequestedRegion() );
     it.GoToBegin();
 
@@ -267,8 +267,8 @@ ImageMaskSpatialObject< TDimension >
     const typename RegionType::SizeType  size = boundingRegion.GetSize();
 
     //Now find the corners (by index)
-    typedef VectorContainer< unsigned int, typename RegionType::IndexType >
-                                                         IndexContainerType;
+    using IndexContainerType =
+        VectorContainer< unsigned int, typename RegionType::IndexType >;
 
     typename IndexContainerType::Pointer cornerInds = IndexContainerType::New();
 
@@ -286,7 +286,7 @@ ImageMaskSpatialObject< TDimension >
       }
 
     // Next Transform the corners of the bounding box
-    typedef typename BoundingBoxType::PointsContainer PointsContainer;
+    using PointsContainer = typename BoundingBoxType::PointsContainer;
     typename PointsContainer::Pointer transformedCorners = PointsContainer::New();
     transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>( cornerInds->size() ) );
 

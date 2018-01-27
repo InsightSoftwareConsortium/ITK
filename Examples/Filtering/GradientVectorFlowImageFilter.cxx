@@ -74,10 +74,10 @@ int main( int argc, char * argv[] )
 
   // Software Guide : BeginCodeSnippet
   const unsigned int                                Dimension = 3;
-  typedef float                                     InputValueType;
-  typedef float                                     OutputValueType;
-  typedef itk::Vector< InputValueType,  Dimension > InputPixelType;
-  typedef itk::Vector< OutputValueType, Dimension > OutputPixelType;
+  using InputValueType = float;
+  using OutputValueType = float;
+  using InputPixelType = itk::Vector< InputValueType,  Dimension >;
+  using OutputPixelType = itk::Vector< OutputValueType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -88,12 +88,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
 
   //  Software Guide : BeginLatex
@@ -106,8 +106,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GradientVectorFlowImageFilter<
-               InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::GradientVectorFlowImageFilter<
+               InputImageType, OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -187,7 +187,7 @@ int main( int argc, char * argv[] )
   //  have been used after the curvature flow filter.
   //
   //  Software Guide : EndLatex
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
 

@@ -30,7 +30,7 @@ BinaryBallStructuringElement< TPixel, VDimension, TAllocator >
 ::CreateStructuringElement()
 {
   // Carry out all of the computations using the FlatStructuringElement.
-  typedef FlatStructuringElement<VDimension> SEType;
+  using SEType = FlatStructuringElement<VDimension>;
   SEType flatKernel = SEType::Ball( this->GetRadius() );
 
   // Copy the ellipsoid into the kernel

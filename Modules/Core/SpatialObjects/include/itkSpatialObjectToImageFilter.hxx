@@ -362,7 +362,7 @@ SpatialObjectToImageFilter< TInputSpatialObject, TOutputImage >
   OutputImage->SetDirection(m_Direction);
   OutputImage->Allocate();   // allocate the image
 
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType > myIteratorType;
+  using myIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
 
   myIteratorType it(OutputImage, region);
 

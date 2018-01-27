@@ -34,18 +34,16 @@ int main( int argc, char *argv[] )
     }
 
   const unsigned int Dimension       = 3;
-  typedef double     InputPixelType;
-  typedef float      OutputPixelType;
+  using InputPixelType = double;
+  using OutputPixelType = float;
 
-  typedef itk::Image< InputPixelType, Dimension >  InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::HessianRecursiveGaussianImageFilter<
-                                    InputImageType >     HessianFilterType;
-  typedef itk::Hessian3DToVesselnessMeasureImageFilter<
-                                       OutputPixelType > VesselnessMeasureFilterType;
-  typedef itk::ImageFileReader< InputImageType >         ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >        WriterType;
+  using HessianFilterType = itk::HessianRecursiveGaussianImageFilter<InputImageType>;
+  using VesselnessMeasureFilterType = itk::Hessian3DToVesselnessMeasureImageFilter<OutputPixelType>;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   HessianFilterType::Pointer hessianFilter = HessianFilterType::New();
   VesselnessMeasureFilterType::Pointer vesselnessFilter =

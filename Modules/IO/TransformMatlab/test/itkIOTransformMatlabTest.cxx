@@ -31,12 +31,12 @@ template<typename TParametersValueType>
 static int oneTest(const char *goodname,const char *badname)
 {
   unsigned int i;
-  typedef itk::AffineTransform<TParametersValueType,4>  AffineTransformType;
-  typedef itk::AffineTransform<TParametersValueType,10> AffineTransformTypeNotRegistered;
+  using AffineTransformType = itk::AffineTransform<TParametersValueType,4>;
+  using AffineTransformTypeNotRegistered = itk::AffineTransform<TParametersValueType,10>;
   typename AffineTransformType::Pointer        affine = AffineTransformType::New();
   typename AffineTransformType::InputPointType cor;
-  typedef itk::TransformFileWriterTemplate<TParametersValueType> TransformWriterType;
-  typedef itk::TransformFileReaderTemplate<TParametersValueType> TransformReaderType;
+  using TransformWriterType = itk::TransformFileWriterTemplate<TParametersValueType>;
+  using TransformReaderType = itk::TransformFileReaderTemplate<TParametersValueType>;
 
   itk::ObjectFactoryBase::RegisterFactory(itk::MatlabTransformIOFactory::New() );
 
@@ -199,7 +199,7 @@ int secondTest()
      << "FixedParameters: 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18";
   fb.close();
 
-  typedef itk::TransformFileReaderTemplate<TParametersValueType> TransformReaderType;
+  using TransformReaderType = itk::TransformFileReaderTemplate<TParametersValueType>;
   typename TransformReaderType::Pointer reader = TransformReaderType::New();
   reader->SetFileName("IllegalTransform.txt");
   try

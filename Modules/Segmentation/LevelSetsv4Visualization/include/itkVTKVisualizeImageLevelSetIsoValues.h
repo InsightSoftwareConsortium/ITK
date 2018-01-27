@@ -60,11 +60,11 @@ class ITK_TEMPLATE_EXPORT VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel
       ImageToVTKImageFilter< Image< TInputPixel, 2 > > >
 {
 public:
-  typedef VTKVisualizeImageLevelSetIsoValues                                             Self;
-  typedef VTKVisualizeImageLevelSet<  Image< TInputPixel, 2 >,
-                                      ImageToVTKImageFilter< Image< TInputPixel, 2 > > > Superclass;
-  typedef SmartPointer< Self >                                                           Pointer;
-  typedef SmartPointer< const Self >                                                     ConstPointer;
+  using Self = VTKVisualizeImageLevelSetIsoValues;
+  using Superclass = VTKVisualizeImageLevelSet<  Image< TInputPixel, 2 >,
+                                      ImageToVTKImageFilter< Image< TInputPixel, 2 > > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,9 +72,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKVisualizeImageLevelSetIsoValues, VTKVisualizeImageLevelSet);
 
-  typedef typename Superclass::InputImageType     InputImageType;
+  using InputImageType = typename Superclass::InputImageType;
 
-  typedef TLevelSet LevelSetType;
+  using LevelSetType = TLevelSet;
 
   void SetLevelSet( LevelSetType * levelSet );
 
@@ -102,8 +102,8 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualizeImageLevelSetIsoValues);
 
-  typedef LevelSetTovtkImageData< LevelSetType >  LevelSetConverterType;
-  typedef typename LevelSetConverterType::Pointer LevelSetConverterPointer;
+  using LevelSetConverterType = LevelSetTovtkImageData< LevelSetType >;
+  using LevelSetConverterPointer = typename LevelSetConverterType::Pointer;
 
   LevelSetConverterPointer  m_LevelSetConverter;
 
@@ -131,11 +131,11 @@ class ITK_TEMPLATE_EXPORT VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel
       ImageToVTKImageFilter< Image< TInputPixel, 3 > > >
 {
 public:
-  typedef VTKVisualizeImageLevelSetIsoValues                                             Self;
-  typedef VTKVisualizeImageLevelSet<  Image< TInputPixel, 3 >,
-                                      ImageToVTKImageFilter< Image< TInputPixel, 3 > > > Superclass;
-  typedef SmartPointer< Self >                                                           Pointer;
-  typedef SmartPointer< const Self >                                                     ConstPointer;
+  using Self = VTKVisualizeImageLevelSetIsoValues;
+  using Superclass = VTKVisualizeImageLevelSet<  Image< TInputPixel, 3 >,
+                                      ImageToVTKImageFilter< Image< TInputPixel, 3 > > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -143,9 +143,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKVisualizeImageLevelSetIsoValues, VTKVisualizeImageLevelSet);
 
-  typedef typename Superclass::InputImageType     InputImageType;
+  using InputImageType = typename Superclass::InputImageType;
 
-  typedef TLevelSet LevelSetType;
+  using LevelSetType = TLevelSet;
 
   void SetInputImage( const InputImageType * iImage ) override;
   void SetLevelSet( LevelSetType * levelSet );
@@ -174,8 +174,8 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualizeImageLevelSetIsoValues);
 
-  typedef LevelSetTovtkImageData< LevelSetType >  LevelSetConverterType;
-  typedef typename LevelSetConverterType::Pointer LevelSetConverterPointer;
+  using LevelSetConverterType = LevelSetTovtkImageData< LevelSetType >;
+  using LevelSetConverterPointer = typename LevelSetConverterType::Pointer;
 
   LevelSetConverterPointer  m_LevelSetConverter;
 

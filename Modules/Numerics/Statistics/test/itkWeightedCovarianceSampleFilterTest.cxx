@@ -22,8 +22,8 @@
 const unsigned int                  MeasurementVectorSize = 3;
 unsigned int                        counter = 0;
 
-typedef itk::FixedArray<
-  float, MeasurementVectorSize >             MeasurementVectorType;
+using MeasurementVectorType = itk::FixedArray<
+  float, MeasurementVectorSize >;
 
 namespace itk {
 namespace Statistics {
@@ -31,13 +31,13 @@ template < typename TSample >
 class MyWeightedCovarianceSampleFilter : public WeightedCovarianceSampleFilter< TSample >
 {
 public:
-  typedef MyWeightedCovarianceSampleFilter           Self;
+  using Self = MyWeightedCovarianceSampleFilter;
 
-  typedef WeightedCovarianceSampleFilter<TSample>     Superclass;
+  using Superclass = WeightedCovarianceSampleFilter<TSample>;
 
-  typedef SmartPointer<Self>                   Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
-  typedef TSample                              SampleType;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using SampleType = TSample;
 
   itkNewMacro(Self);
 
@@ -59,24 +59,24 @@ class WeightedCovarianceTestFunction :
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef WeightedCovarianceTestFunction Self;
+  /** Standard class type aliases. */
+  using Self = WeightedCovarianceTestFunction;
 
-  typedef itk::FunctionBase< MeasurementVectorType, double > Superclass;
+  using Superclass = itk::FunctionBase< MeasurementVectorType, double >;
 
-  typedef itk::SmartPointer<Self> Pointer;
+  using Pointer = itk::SmartPointer<Self>;
 
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Standard macros. */
   itkTypeMacro(WeightedCovarianceTestFunction, FunctionBase);
   itkNewMacro(Self);
 
   /** Input type */
-  typedef MeasurementVectorType InputType;
+  using InputType = MeasurementVectorType;
 
   /** Output type */
-  typedef double OutputType;
+  using OutputType = double;
 
   /**Evaluate at the specified input position */
   OutputType Evaluate( const InputType & itkNotUsed( input ) ) const override
@@ -97,13 +97,12 @@ int itkWeightedCovarianceSampleFilterTest(int, char* [] )
 {
   std::cout << "WeightedCovarianceSampleFilter test \n \n";
 
- typedef itk::Statistics::ListSample<
-    MeasurementVectorType >                    SampleType;
+ using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  typedef itk::Statistics::MyWeightedCovarianceSampleFilter< SampleType > FilterType;
+  using FilterType = itk::Statistics::MyWeightedCovarianceSampleFilter< SampleType >;
 
-  typedef FilterType::MeasurementVectorRealType  MeasurementVectorRealType;
-  typedef FilterType::MatrixType                 CovarianceMatrixType;
+  using MeasurementVectorRealType = FilterType::MeasurementVectorRealType;
+  using CovarianceMatrixType = FilterType::MatrixType;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -239,7 +238,7 @@ int itkWeightedCovarianceSampleFilterTest(int, char* [] )
     }
 
   //Specify weight
-  typedef FilterType::WeightArrayType  WeightArrayType;
+  using WeightArrayType = FilterType::WeightArrayType;
   WeightArrayType weightArray(sample->Size());
   weightArray.Fill(1.0);
 

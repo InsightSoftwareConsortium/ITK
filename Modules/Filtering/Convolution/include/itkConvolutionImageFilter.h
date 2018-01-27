@@ -66,10 +66,10 @@ class ITK_TEMPLATE_EXPORT ConvolutionImageFilter :
   public ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 {
 public:
-  typedef ConvolutionImageFilter                                  Self;
-  typedef ConvolutionImageFilterBase< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                    Pointer;
-  typedef SmartPointer< const Self >                              ConstPointer;
+  using Self = ConvolutionImageFilter;
+  using Superclass = ConvolutionImageFilterBase< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,21 +81,21 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef TInputImage                          InputImageType;
-  typedef TOutputImage                         OutputImageType;
-  typedef TKernelImage                         KernelImageType;
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename KernelImageType::PixelType  KernelPixelType;
-  typedef typename InputImageType::IndexType   InputIndexType;
-  typedef typename OutputImageType::IndexType  OutputIndexType;
-  typedef typename KernelImageType::IndexType  KernelIndexType;
-  typedef typename InputImageType::SizeType    InputSizeType;
-  typedef typename OutputImageType::SizeType   OutputSizeType;
-  typedef typename KernelImageType::SizeType   KernelSizeType;
-  typedef typename InputImageType::RegionType  InputRegionType;
-  typedef typename OutputImageType::RegionType OutputRegionType;
-  typedef typename KernelImageType::RegionType KernelRegionType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using KernelImageType = TKernelImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using KernelPixelType = typename KernelImageType::PixelType;
+  using InputIndexType = typename InputImageType::IndexType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using KernelIndexType = typename KernelImageType::IndexType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using KernelSizeType = typename KernelImageType::SizeType;
+  using InputRegionType = typename InputImageType::RegionType;
+  using OutputRegionType = typename OutputImageType::RegionType;
+  using KernelRegionType = typename KernelImageType::RegionType;
 
 protected:
   ConvolutionImageFilter();

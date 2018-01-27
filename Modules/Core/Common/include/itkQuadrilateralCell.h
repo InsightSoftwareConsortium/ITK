@@ -39,7 +39,7 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT QuadrilateralCell:public TCellInterface, private QuadrilateralCellTopology
 {
 public:
-  /** Standard class typedefs. */
+  /** Standard class type aliases. */
   itkCellCommonTypedefs(QuadrilateralCell);
   itkCellInheritedTypedefs(TCellInterface);
 
@@ -47,12 +47,12 @@ public:
   itkTypeMacro(QuadrilateralCell, CellInterface);
 
   /** The type of boundary for this triangle's vertices. */
-  typedef VertexCell< TCellInterface >         VertexType;
-  typedef typename VertexType::SelfAutoPointer VertexAutoPointer;
+  using VertexType = VertexCell< TCellInterface >;
+  using VertexAutoPointer = typename VertexType::SelfAutoPointer;
 
   /** The type of boundary for this triangle's edges. */
-  typedef LineCell< TCellInterface >         EdgeType;
-  typedef typename EdgeType::SelfAutoPointer EdgeAutoPointer;
+  using EdgeType = LineCell< TCellInterface >;
+  using EdgeAutoPointer = typename EdgeType::SelfAutoPointer;
 
   /** Quadrilateral-specific topology numbers. */
   itkStaticConstMacro(NumberOfPoints, unsigned int, 4);

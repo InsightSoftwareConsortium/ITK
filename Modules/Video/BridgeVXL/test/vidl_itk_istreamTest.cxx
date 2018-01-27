@@ -29,10 +29,10 @@
 template<typename TPixelType>
 bool TestFormat(vidl_pixel_format expectedFormat)
 {
-  typedef TPixelType                        PixelType;
-  typedef itk::Image<PixelType, 2>          FrameType;
-  typedef itk::VideoStream<FrameType>       VideoType;
-  typedef itk::vidl_itk_istream<VideoType>  StreamType;
+  using PixelType = TPixelType;
+  using FrameType = itk::Image<PixelType, 2>;
+  using VideoType = itk::VideoStream<FrameType>;
+  using StreamType = itk::vidl_itk_istream<VideoType>;
 
   StreamType* stream = new StreamType();
   bool out = (stream->format() == expectedFormat);
@@ -54,12 +54,12 @@ bool TestFormat(vidl_pixel_format expectedFormat)
 template<typename TPixelType>
 int vidl_itk_istreamTestWithPixelType(char* argv[], vidl_pixel_format expectedFormat)
 {
-  // typedefs
-  typedef TPixelType                        PixelType;
-  typedef itk::Image<PixelType, 2>          FrameType;
-  typedef itk::VideoStream<FrameType>       VideoType;
-  typedef itk::vidl_itk_istream<VideoType>  StreamType;
-  typedef itk::VideoFileReader<VideoType>   ReaderType;
+  // type alias
+  using PixelType = TPixelType;
+  using FrameType = itk::Image<PixelType, 2>;
+  using VideoType = itk::VideoStream<FrameType>;
+  using StreamType = itk::vidl_itk_istream<VideoType>;
+  using ReaderType = itk::VideoFileReader<VideoType>;
 
   // Test the pixel format
   if (!TestFormat<PixelType>(expectedFormat))

@@ -33,21 +33,21 @@ class QuadEdgeMeshDecimationQuadricElementHelper
 {
 public:
 
-  typedef QuadEdgeMeshDecimationQuadricElementHelper Self;
-  typedef TPoint                                     PointType;
-  typedef typename PointType::CoordRepType           CoordType;
+  using Self = QuadEdgeMeshDecimationQuadricElementHelper;
+  using PointType = TPoint;
+  using CoordType = typename PointType::CoordRepType;
 
   itkStaticConstMacro(PointDimension, unsigned int, PointType::PointDimension);
   itkStaticConstMacro(NumberOfCoefficients, unsigned int,
                       PointDimension * ( PointDimension + 1 ) / 2 + PointDimension + 1);
 
-  typedef typename PointType::VectorType VectorType;
-  typedef vnl_matrix< CoordType >        VNLMatrixType;
-  typedef vnl_vector_fixed< CoordType,
-                            itkGetStaticConstMacro(PointDimension) >            VNLVectorType;
-  typedef vnl_vector_fixed< CoordType,
-                            itkGetStaticConstMacro(NumberOfCoefficients) >      CoefficientVectorType;
-  typedef TriangleHelper< PointType > TriangleType;
+  using VectorType = typename PointType::VectorType;
+  using VNLMatrixType = vnl_matrix< CoordType >;
+  using VNLVectorType = vnl_vector_fixed< CoordType,
+                            itkGetStaticConstMacro(PointDimension) >;
+  using CoefficientVectorType = vnl_vector_fixed< CoordType,
+                            itkGetStaticConstMacro(NumberOfCoefficients) >;
+  using TriangleType = TriangleHelper< PointType >;
 
   // *****************************************************************
   QuadEdgeMeshDecimationQuadricElementHelper():

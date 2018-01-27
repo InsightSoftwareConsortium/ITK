@@ -28,13 +28,13 @@ class ITK_TEMPLATE_EXPORT ChildTreeIterator:public TreeIteratorBase< TTreeType >
 public:
 
   /** Typedefs */
-  typedef ChildTreeIterator                       Self;
-  typedef TreeIteratorBase< TTreeType >           Superclass;
-  typedef TTreeType                               TreeType;
-  typedef typename TTreeType::ValueType           ValueType;
-  typedef typename Superclass::TreeNodeType       TreeNodeType;
-  typedef typename TreeNodeType::ChildIdentifier  ChildIdentifier;
-  typedef typename Superclass::NodeType           NodeType;
+  using Self = ChildTreeIterator;
+  using Superclass = TreeIteratorBase< TTreeType >;
+  using TreeType = TTreeType;
+  using ValueType = typename TTreeType::ValueType;
+  using TreeNodeType = typename Superclass::TreeNodeType;
+  using ChildIdentifier = typename TreeNodeType::ChildIdentifier;
+  using NodeType = typename Superclass::NodeType;
 
   /** Constructor */
   ChildTreeIterator(TreeType *tree, const TreeNodeType *start = nullptr);

@@ -26,7 +26,7 @@ int itkBinaryThresholdImageFunctionTest(int, char* [] )
 {
   std::cout << "itkBinaryThresholdImageFunctionTest Start" << std::endl;
 
-  typedef itk::Image<float,3> FloatImage;
+  using FloatImage = itk::Image<float,3>;
 
   FloatImage::Pointer    image  = FloatImage::New();
   FloatImage::RegionType region;
@@ -55,7 +55,7 @@ int itkBinaryThresholdImageFunctionTest(int, char* [] )
     }
 
   // Try the function inside and outside the region
-  typedef itk::BinaryThresholdImageFunction<FloatImage> ImageFunction;
+  using ImageFunction = itk::BinaryThresholdImageFunction<FloatImage>;
   ImageFunction::Pointer threshold = ImageFunction::New();
 
   ImageFunction::PointType  point;

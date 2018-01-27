@@ -42,27 +42,26 @@ class ITK_TEMPLATE_EXPORT ImageSpatialObject:
 {
 public:
 
-  typedef double                                       ScalarType;
-  typedef ImageSpatialObject< TDimension, TPixelType > Self;
-  typedef SpatialObject< TDimension >                  Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  using ScalarType = double;
+  using Self = ImageSpatialObject< TDimension, TPixelType >;
+  using Superclass = SpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TPixelType                            PixelType;
-  typedef Image< PixelType, TDimension >        ImageType;
-  typedef typename ImageType::ConstPointer      ImagePointer;
-  typedef typename ImageType::IndexType         IndexType;
-  typedef typename ImageType::RegionType        RegionType;
-  typedef typename Superclass::TransformType    TransformType;
-  typedef typename Superclass::PointType        PointType;
-  typedef typename Superclass::BoundingBoxType  BoundingBoxType;
-  typedef InterpolateImageFunction< ImageType > InterpolatorType;
+  using PixelType = TPixelType;
+  using ImageType = Image< PixelType, TDimension >;
+  using ImagePointer = typename ImageType::ConstPointer;
+  using IndexType = typename ImageType::IndexType;
+  using RegionType = typename ImageType::RegionType;
+  using TransformType = typename Superclass::TransformType;
+  using PointType = typename Superclass::PointType;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using InterpolatorType = InterpolateImageFunction< ImageType >;
 
-  typedef NearestNeighborInterpolateImageFunction< ImageType >
-  NNInterpolatorType;
+  using NNInterpolatorType = NearestNeighborInterpolateImageFunction<ImageType>;
 
-  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
-  typedef typename PointContainerType::Pointer         PointContainerPointer;
+  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointContainerPointer = typename PointContainerType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

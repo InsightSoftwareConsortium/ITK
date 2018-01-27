@@ -259,7 +259,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   outputImage->Allocate();
   outputImage->FillBuffer(NumericTraits< OutputImagePixelType >::ZeroValue());
 
-  typedef BinaryThresholdImageFunction< InputImageType, double > FunctionType;
+  using FunctionType = BinaryThresholdImageFunction< InputImageType, double >;
 
   typename FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage( inputImage );
@@ -269,7 +269,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 
   if ( this->m_Connectivity == FaceConnectivity )
     {
-    typedef FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType > IteratorType;
+    using IteratorType = FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType >;
     IteratorType it (outputImage, function, m_Seeds);
     it.GoToBegin();
 
@@ -287,7 +287,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
     // slower. Hence we use this "if" block to use the old iterator when
     // we don't need full connectivity.
 
-    typedef ShapedFloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType > IteratorType;
+    using IteratorType = ShapedFloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType >;
     IteratorType it (outputImage, function, m_Seeds);
     it.FullyConnectedOn();
     it.GoToBegin();

@@ -44,29 +44,29 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromShiftBase :
   public RegistrationParameterScalesEstimator< TMetric >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegistrationParameterScalesFromShiftBase        Self;
-  typedef RegistrationParameterScalesEstimator< TMetric > Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegistrationParameterScalesFromShiftBase;
+  using Superclass = RegistrationParameterScalesEstimator< TMetric >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( RegistrationParameterScalesFromShiftBase, RegistrationParameterScalesEstimator );
 
   /** Type of scales */
-  typedef typename Superclass::ScalesType                ScalesType;
+  using ScalesType = typename Superclass::ScalesType;
   /** Type of parameters of the optimizer */
-  typedef typename Superclass::ParametersType            ParametersType;
-  typedef typename ParametersType::ValueType             ParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename ParametersType::ValueType;
   /** Type of float */
-  typedef typename Superclass::FloatType                 FloatType;
+  using FloatType = typename Superclass::FloatType;
 
-  typedef typename Superclass::VirtualPointType          VirtualPointType;
-  typedef typename Superclass::VirtualIndexType          VirtualIndexType;
-  typedef typename Superclass::MovingTransformType       MovingTransformType;
-  typedef typename Superclass::FixedTransformType        FixedTransformType;
-  typedef typename Superclass::JacobianType              JacobianType;
-  typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using MovingTransformType = typename Superclass::MovingTransformType;
+  using FixedTransformType = typename Superclass::FixedTransformType;
+  using JacobianType = typename Superclass::JacobianType;
+  using VirtualImageConstPointer = typename Superclass::VirtualImageConstPointer;
 
   /** Estimate parameter scales */
   void EstimateScales(ScalesType &scales) override;

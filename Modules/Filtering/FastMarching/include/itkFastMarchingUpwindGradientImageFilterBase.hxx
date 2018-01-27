@@ -73,13 +73,13 @@ InitializeOutput(OutputImageType *output)
   GradientImage->SetBufferedRegion( output->GetBufferedRegion() );
   GradientImage->Allocate();
 
-  typedef ImageRegionIterator< GradientImageType > GradientIterator;
+  using GradientIterator = ImageRegionIterator< GradientImageType >;
 
   GradientIterator gradientIt( GradientImage,
                                GradientImage->GetBufferedRegion() );
 
   GradientPixelType zeroGradient;
-  typedef typename GradientPixelType::ValueType GradientPixelValueType;
+  using GradientPixelValueType = typename GradientPixelType::ValueType;
   zeroGradient.Fill(NumericTraits< GradientPixelValueType >::ZeroValue());
 
   gradientIt.GoToBegin();

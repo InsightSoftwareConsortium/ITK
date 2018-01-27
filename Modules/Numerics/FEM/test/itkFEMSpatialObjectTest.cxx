@@ -34,8 +34,8 @@ int itkFEMSpatialObjectTest(int argc, char *argv[])
 
 
   std::cout << "Read Spatial Object" << std::endl;
-  typedef itk::FEMSpatialObjectReader<2>      FEMSpatialObjectReaderType;
-  typedef FEMSpatialObjectReaderType::Pointer FEMSpatialObjectReaderPointer;
+  using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
+  using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
   SpatialReader->SetFileName( argv[1] );
   SpatialReader->Update();
@@ -44,8 +44,8 @@ int itkFEMSpatialObjectTest(int argc, char *argv[])
 /*
   FEMSpatialObjectReaderType::ScenePointer myScene = SpatialReader->GetScene();
 
-  typedef itk::FEMObjectSpatialObject<2>      FEMObjectSpatialObjectType;
-  typedef FEMObjectSpatialObjectType::Pointer FEMObjectSpatialObjectPointer;
+  using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
+  using FEMObjectSpatialObjectPointer = FEMObjectSpatialObjectType::Pointer;
   FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
 
   FEMObjectSpatialObjectType::Pointer femSO =

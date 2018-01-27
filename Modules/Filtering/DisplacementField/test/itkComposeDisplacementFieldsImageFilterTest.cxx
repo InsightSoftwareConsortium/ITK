@@ -23,8 +23,8 @@ int itkComposeDisplacementFieldsImageFilterTest( int, char * [] )
 {
   const unsigned int   ImageDimension = 2;
 
-  typedef itk::Vector<float, ImageDimension>       VectorType;
-  typedef itk::Image<VectorType, ImageDimension>   DisplacementFieldType;
+  using VectorType = itk::Vector<float, ImageDimension>;
+  using DisplacementFieldType = itk::Image<VectorType, ImageDimension>;
 
   // Create a displacement field
   DisplacementFieldType::PointType     origin;
@@ -47,7 +47,7 @@ int itkComposeDisplacementFieldsImageFilterTest( int, char * [] )
   field->Allocate();
   field->FillBuffer( ones );
 
-  typedef itk::ComposeDisplacementFieldsImageFilter<DisplacementFieldType> ComposerType;
+  using ComposerType = itk::ComposeDisplacementFieldsImageFilter<DisplacementFieldType>;
   ComposerType::Pointer composer = ComposerType::New();
   composer->SetDisplacementField( field );
   composer->SetWarpingField( field );

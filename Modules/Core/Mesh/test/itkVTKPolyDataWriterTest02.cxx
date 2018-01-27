@@ -30,14 +30,14 @@ int itkVTKPolyDataWriterTest02( int argc, char * argv [] )
     }
 
 
-  typedef itk::Mesh<float, 3>   MeshType;
+  using MeshType = itk::Mesh<float, 3>;
 
-  typedef itk::RegularSphereMeshSource< MeshType >  SphereMeshSourceType;
+  using SphereMeshSourceType = itk::RegularSphereMeshSource< MeshType >;
 
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
 
-  typedef SphereMeshSourceType::PointType   PointType;
-  typedef SphereMeshSourceType::VectorType  VectorType;
+  using PointType = SphereMeshSourceType::PointType;
+  using VectorType = SphereMeshSourceType::VectorType;
 
   PointType center;
   center.Fill( 7.4 );
@@ -90,8 +90,8 @@ int itkVTKPolyDataWriterTest02( int argc, char * argv [] )
       }
     }
 
-  typedef MeshType::CellsContainerPointer  CellsContainerPointer;
-  typedef MeshType::CellType               CellType;
+  using CellsContainerPointer = MeshType::CellsContainerPointer;
+  using CellType = MeshType::CellType;
 
   CellsContainerPointer cells = myMesh->GetCells();
 
@@ -122,7 +122,7 @@ int itkVTKPolyDataWriterTest02( int argc, char * argv [] )
     }
 
 
-  typedef itk::VTKPolyDataWriter<MeshType>   WriterType;
+  using WriterType = itk::VTKPolyDataWriter<MeshType>;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( myMesh  );

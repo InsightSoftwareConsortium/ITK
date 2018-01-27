@@ -35,11 +35,11 @@ class ITK_TEMPLATE_EXPORT MetaLandmarkConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
-  /** Standard class typedefs */
-  typedef MetaLandmarkConverter            Self;
-  typedef MetaConverterBase< NDimensions > Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard class type aliases */
+  using Self = MetaLandmarkConverter;
+  using Superclass = MetaConverterBase< NDimensions >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -47,15 +47,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaLandmarkConverter, MetaConverterBase);
 
-  typedef typename Superclass::SpatialObjectType SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
-  typedef typename Superclass::MetaObjectType    MetaObjectType;
+  using SpatialObjectType = typename Superclass::SpatialObjectType;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using MetaObjectType = typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  typedef LandmarkSpatialObject<NDimensions>               LandmarkSpatialObjectType;
-  typedef typename LandmarkSpatialObjectType::Pointer      LandmarkSpatialObjectPointer;
-  typedef typename LandmarkSpatialObjectType::ConstPointer LandmarkSpatialObjectConstPointer;
-  typedef MetaLandmark                                     LandmarkMetaObjectType;
+  using LandmarkSpatialObjectType = LandmarkSpatialObject<NDimensions>;
+  using LandmarkSpatialObjectPointer = typename LandmarkSpatialObjectType::Pointer;
+  using LandmarkSpatialObjectConstPointer = typename LandmarkSpatialObjectType::ConstPointer;
+  using LandmarkMetaObjectType = MetaLandmark;
 
   /** Convert the MetaObject to Spatial Object */
   SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;

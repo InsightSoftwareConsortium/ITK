@@ -66,7 +66,7 @@ MetaBlobConverter< NDimensions >
   blob->GetProperty()->SetBlue(Blob->Color()[2]);
   blob->GetProperty()->SetAlpha(Blob->Color()[3]);
 
-  typedef itk::SpatialObjectPoint< NDimensions > BlobPointType;
+  using BlobPointType = itk::SpatialObjectPoint< NDimensions >;
 
   MetaBlob::PointListType::const_iterator it2 = Blob->GetPoints().begin();
 
@@ -76,7 +76,7 @@ MetaBlobConverter< NDimensions >
     {
     BlobPointType pnt;
 
-    typedef typename BlobSpatialObjectType::PointType PointType;
+    using PointType = typename BlobSpatialObjectType::PointType;
     PointType point;
 
     for ( unsigned int ii = 0; ii < ndims; ii++ )

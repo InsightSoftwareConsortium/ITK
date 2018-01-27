@@ -36,14 +36,14 @@ int itkGDCMImageOrientationPatientTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<short,3>                 Image3DType;
-  typedef itk::Image<short,2>                 Image2DType;
-  typedef itk::ImageFileReader< Image3DType > ReaderType;
-  typedef itk::RandomImageSource<Image2DType> RandomImageSource2DType;
-  typedef itk::ImageFileWriter< Image2DType > Writer2DType;
-  typedef itk::GDCMImageIO                    ImageIOType;
+  using Image3DType = itk::Image<short,3>;
+  using Image2DType = itk::Image<short,2>;
+  using ReaderType = itk::ImageFileReader< Image3DType >;
+  using RandomImageSource2DType = itk::RandomImageSource<Image2DType>;
+  using Writer2DType = itk::ImageFileWriter< Image2DType >;
+  using ImageIOType = itk::GDCMImageIO;
 
-  typedef itk::MetaDataDictionary   DictionaryType;
+  using DictionaryType = itk::MetaDataDictionary;
   DictionaryType dict;
 
   // Create a 2D image

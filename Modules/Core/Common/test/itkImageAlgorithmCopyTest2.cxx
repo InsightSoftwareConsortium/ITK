@@ -32,7 +32,7 @@ namespace {
 template < typename TImageType >
 bool CheckBuffer( const TImageType* image, typename TImageType::PixelType p )
 {
-  typedef itk::ImageRegionConstIterator<TImageType> ImageIterator;
+  using ImageIterator = itk::ImageRegionConstIterator<TImageType>;
 
   ImageIterator iter( image, image->GetBufferedRegion() );
 
@@ -51,13 +51,13 @@ bool CheckBuffer( const TImageType* image, typename TImageType::PixelType p )
 int itkImageAlgorithmCopyTest2( int, char *[] )
 {
 
-  typedef itk::Image<float, 3> Float3DImageType;
-  typedef itk::Image<short, 3> Short3DImageType;
+  using Float3DImageType = itk::Image<float, 3>;
+  using Short3DImageType = itk::Image<short, 3>;
 
-  typedef itk::Image<std::vector<float>, 3>               STDVectorImageType;
-  typedef itk::AbsImageAdaptor< Float3DImageType, short > AbsImageType;
+  using STDVectorImageType = itk::Image<std::vector<float>, 3>;
+  using AbsImageType = itk::AbsImageAdaptor< Float3DImageType, short >;
 
-  typedef itk::ImageRegion<3> RegionType;
+  using RegionType = itk::ImageRegion<3>;
 
 
   RegionType::IndexType index;

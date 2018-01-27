@@ -48,19 +48,19 @@ class ITK_TEMPLATE_EXPORT BlobSpatialObject:
 {
 public:
 
-  typedef BlobSpatialObject                            Self;
-  typedef PointBasedSpatialObject< TDimension >        Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
-  typedef double                                       ScalarType;
-  typedef SpatialObjectPoint< TDimension >             BlobPointType;
-  typedef std::vector< BlobPointType >                 PointListType;
-  typedef typename Superclass::PointType               PointType;
-  typedef typename Superclass::SpatialObjectPointType  SpatialObjectPointType;
-  typedef typename Superclass::TransformType           TransformType;
-  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
-  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >           PointContainerPointer;
+  using Self = BlobSpatialObject;
+  using Superclass = PointBasedSpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ScalarType = double;
+  using BlobPointType = SpatialObjectPoint< TDimension >;
+  using PointListType = std::vector< BlobPointType >;
+  using PointType = typename Superclass::PointType;
+  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
+  using TransformType = typename Superclass::TransformType;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointContainerPointer = SmartPointer< PointContainerType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

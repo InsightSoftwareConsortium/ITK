@@ -49,7 +49,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   // get the min and max of the feature image, to use those value as the bounds
   // of our
   // histograms
-  typedef MinimumMaximumImageCalculator< FeatureImageType > MinMaxCalculatorType;
+  using MinMaxCalculatorType = MinimumMaximumImageCalculator< FeatureImageType >;
   typename MinMaxCalculatorType::Pointer minMax = MinMaxCalculatorType::New();
   minMax->SetImage( this->GetFeatureImage() );
   minMax->Compute();
@@ -68,7 +68,7 @@ StatisticsLabelMapFilter< TImage, TFeatureImage >
   ImageType *             output = this->GetOutput();
   const FeatureImageType *featureImage = this->GetFeatureImage();
 
-  typedef typename LabelObjectType::HistogramType HistogramType;
+  using HistogramType = typename LabelObjectType::HistogramType;
 
   typename HistogramType::IndexType             histogramIndex(1);
   typename HistogramType::MeasurementVectorType mv(1);

@@ -40,8 +40,8 @@ int itkMutualInformationMetricTest(int, char* [] )
 //------------------------------------------------------------
 
   //Allocate Images
-  typedef itk::Image<unsigned char,2>           MovingImageType;
-  typedef itk::Image<unsigned char,2>           FixedImageType;
+  using MovingImageType = itk::Image<unsigned char,2>;
+  using FixedImageType = itk::Image<unsigned char,2>;
   enum { ImageDimension = MovingImageType::ImageDimension };
 
   MovingImageType::SizeType size = {{100,100}};
@@ -63,10 +63,8 @@ int itkMutualInformationMetricTest(int, char* [] )
   imgFixed->Allocate();
 
   // Fill images with a 2D gaussian
-  typedef  itk::ImageRegionIterator<MovingImageType>
-    ReferenceIteratorType;
-  typedef  itk::ImageRegionIterator<FixedImageType>
-    TargetIteratorType;
+  using ReferenceIteratorType = itk::ImageRegionIterator<MovingImageType>;
+  using TargetIteratorType = itk::ImageRegionIterator<FixedImageType>;
 
   itk::Point<double,2> center;
   center[0] = (double)region.GetSize()[0]/2.0;
@@ -113,24 +111,24 @@ int itkMutualInformationMetricTest(int, char* [] )
 //-----------------------------------------------------------
 // Set up a transformer
 //-----------------------------------------------------------
-  typedef itk::AffineTransform< double, ImageDimension > TransformType;
-  typedef TransformType::ParametersType                  ParametersType;
+  using TransformType = itk::AffineTransform< double, ImageDimension >;
+  using ParametersType = TransformType::ParametersType;
 
   TransformType::Pointer transformer = TransformType::New();
 
 //------------------------------------------------------------
 // Set up a interpolator
 //------------------------------------------------------------
-  typedef itk::LinearInterpolateImageFunction< MovingImageType, double >
-    InterpolatorType;
+  using InterpolatorType =
+      itk::LinearInterpolateImageFunction< MovingImageType, double >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
 //------------------------------------------------------------
 // Set up the metric
 //------------------------------------------------------------
-  typedef itk::MutualInformationImageToImageMetric<
-    FixedImageType, MovingImageType > MetricType;
+  using MetricType = itk::MutualInformationImageToImageMetric<
+    FixedImageType, MovingImageType >;
 
   MetricType::Pointer metric = MetricType::New();
 

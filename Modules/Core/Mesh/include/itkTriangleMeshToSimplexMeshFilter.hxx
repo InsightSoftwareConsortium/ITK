@@ -288,7 +288,7 @@ TriangleMeshToSimplexMeshFilter< TInputMesh, TOutputMesh >
   TOutputMesh *                     outputMesh = this->GetOutput();
   PointIdentifier idx;
 
-  typedef itk::MapContainer< CellIdentifier, CellIdentifier > MapType;
+  using MapType = itk::MapContainer< CellIdentifier, CellIdentifier >;
 
   while ( points != pointsContainer->End() )
     {

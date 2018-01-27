@@ -53,18 +53,18 @@ template< typename TElementIdentifier, typename TElement >
 class ImageContainerInterface:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageContainerInterface    Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageContainerInterface;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard part of every itk Object. */
   itkTypeMacro(ImageContainerInterface, Object);
 
   /** Save the template parameters. */
-  typedef TElementIdentifier ElementIdentifier;
-  typedef TElement           Element;
+  using ElementIdentifier = TElementIdentifier;
+  using Element = TElement;
 
   /** Index operator. This version can be an lvalue. */
   virtual TElement & operator[](const ElementIdentifier) = 0;

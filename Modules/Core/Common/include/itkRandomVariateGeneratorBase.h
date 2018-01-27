@@ -33,11 +33,11 @@ namespace Statistics
 class ITKCommon_EXPORT RandomVariateGeneratorBase:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef RandomVariateGeneratorBase Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RandomVariateGeneratorBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RandomVariateGeneratorBase, Object);

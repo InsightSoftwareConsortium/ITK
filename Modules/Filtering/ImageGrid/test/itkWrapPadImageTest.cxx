@@ -43,10 +43,10 @@ int VerifyPixel(int row, int col, short val, float & expected)
 
 int itkWrapPadImageTest(int, char* [] )
 {
-  // typedefs to simplify the syntax
-  typedef itk::Image< short, 2 >       ShortImage;
-  typedef itk::Image< float, 2 >       FloatImage;
-  typedef itk::VectorImage< short, 2 > VectorImage;
+  // type alias to simplify the syntax
+  using ShortImage = itk::Image< short, 2 >;
+  using FloatImage = itk::Image< float, 2 >;
+  using VectorImage = itk::VectorImage< short, 2 >;
 
   // Test the creation of an image with native type
   ShortImage::Pointer    image = ShortImage::New();
@@ -75,7 +75,7 @@ int itkWrapPadImageTest(int, char* [] )
     }
 
   // Create a filter
-  typedef itk::WrapPadImageFilter< ShortImage, FloatImage > PadFilterType;
+  using PadFilterType = itk::WrapPadImageFilter< ShortImage, FloatImage >;
   PadFilterType::Pointer wrapPad = PadFilterType::New();
   wrapPad->SetInput( image );
 
@@ -245,7 +245,7 @@ int itkWrapPadImageTest(int, char* [] )
   vectorWrapPad->SetPadUpperBound( upperBound );
 
   // Create a stream
-  typedef itk::StreamingImageFilter< FloatImage, FloatImage > StreamingFilter;
+  using StreamingFilter = itk::StreamingImageFilter< FloatImage, FloatImage >;
   StreamingFilter::Pointer stream = StreamingFilter::New();
   stream->SetInput( wrapPad->GetOutput() );
   stream->SetNumberOfStreamDivisions( 3 );

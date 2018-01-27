@@ -49,12 +49,12 @@ class ITK_TEMPLATE_EXPORT EuclideanDistancePointMetric:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef EuclideanDistancePointMetric                                Self;
-  typedef PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet > Superclass;
+  /** Standard class type aliases. */
+  using Self = EuclideanDistancePointMetric;
+  using Superclass = PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,26 +63,26 @@ public:
   itkTypeMacro(EuclideanDistancePointMetric, Object);
 
   /** Types transferred from the base class. */
-  typedef typename Superclass::TransformType           TransformType;
-  typedef typename Superclass::TransformPointer        TransformPointer;
-  typedef typename Superclass::TransformParametersType TransformParametersType;
-  typedef typename Superclass::TransformJacobianType   TransformJacobianType;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformParametersType = typename Superclass::TransformParametersType;
+  using TransformJacobianType = typename Superclass::TransformJacobianType;
 
-  typedef typename Superclass::MeasureType                MeasureType;
-  typedef typename Superclass::DerivativeType             DerivativeType;
-  typedef typename Superclass::FixedPointSetType          FixedPointSetType;
-  typedef typename Superclass::MovingPointSetType         MovingPointSetType;
-  typedef typename Superclass::FixedPointSetConstPointer  FixedPointSetConstPointer;
-  typedef typename Superclass::MovingPointSetConstPointer MovingPointSetConstPointer;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using FixedPointSetType = typename Superclass::FixedPointSetType;
+  using MovingPointSetType = typename Superclass::MovingPointSetType;
+  using FixedPointSetConstPointer = typename Superclass::FixedPointSetConstPointer;
+  using MovingPointSetConstPointer = typename Superclass::MovingPointSetConstPointer;
 
-  typedef typename Superclass::FixedPointIterator     FixedPointIterator;
-  typedef typename Superclass::FixedPointDataIterator FixedPointDataIterator;
+  using FixedPointIterator = typename Superclass::FixedPointIterator;
+  using FixedPointDataIterator = typename Superclass::FixedPointDataIterator;
 
-  typedef typename Superclass::MovingPointIterator     MovingPointIterator;
-  typedef typename Superclass::MovingPointDataIterator MovingPointDataIterator;
+  using MovingPointIterator = typename Superclass::MovingPointIterator;
+  using MovingPointDataIterator = typename Superclass::MovingPointDataIterator;
 
-  typedef TDistanceMap                           DistanceMapType;
-  typedef typename DistanceMapType::ConstPointer DistanceMapPointer;
+  using DistanceMapType = TDistanceMap;
+  using DistanceMapPointer = typename DistanceMapType::ConstPointer;
 
   /** Get the number of values, i.e. the number of points in the moving set. */
   unsigned int GetNumberOfValues() const override;

@@ -82,11 +82,11 @@ template< typename TInputImage, typename TOutputImage >
 class ITKIOImageBase_HIDDEN ImageSeriesWriter:public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageSeriesWriter          Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageSeriesWriter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -94,19 +94,19 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageSeriesWriter, ProcessObject);
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                          InputImageType;
-  typedef typename InputImageType::RegionType  InputImageRegionType;
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef ImageFileWriter< TOutputImage >      WriterType;
-  typedef std::vector< std::string >           FileNamesContainer;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using OutputImageType = TOutputImage;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using WriterType = ImageFileWriter< TOutputImage >;
+  using FileNamesContainer = std::vector< std::string >;
 
   /** The pixel type of the output image. */
-  typedef MetaDataDictionary                  DictionaryType;
-  typedef MetaDataDictionary *                DictionaryRawPointer;
-  typedef std::vector< DictionaryRawPointer > DictionaryArrayType;
-  typedef const DictionaryArrayType *         DictionaryArrayRawPointer;
+  using DictionaryType = MetaDataDictionary;
+  using DictionaryRawPointer = MetaDataDictionary *;
+  using DictionaryArrayType = std::vector< DictionaryRawPointer >;
+  using DictionaryArrayRawPointer = const DictionaryArrayType *;
 
   /** Set/Get the image input of this writer.  */
   using Superclass::SetInput;

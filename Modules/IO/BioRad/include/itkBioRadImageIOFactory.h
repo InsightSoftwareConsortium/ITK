@@ -41,11 +41,11 @@ namespace itk
 class ITKIOBioRad_EXPORT BioRadImageIOFactory:public ObjectFactoryBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef BioRadImageIOFactory       Self;
-  typedef ObjectFactoryBase          Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BioRadImageIOFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Class Methods used to interface with the registered factories. */
   const char * GetITKSourceVersion() const override;

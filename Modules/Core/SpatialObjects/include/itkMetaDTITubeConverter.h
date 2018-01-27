@@ -35,11 +35,11 @@ class ITK_TEMPLATE_EXPORT MetaDTITubeConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
-  /** Standard class typedefs */
-  typedef MetaDTITubeConverter             Self;
-  typedef MetaConverterBase< NDimensions > Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard class type aliases */
+  using Self = MetaDTITubeConverter;
+  using Superclass = MetaConverterBase< NDimensions >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -47,15 +47,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaDTITubeConverter, MetaConverterBase);
 
-  typedef typename Superclass::SpatialObjectType SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
-  typedef typename Superclass::MetaObjectType    MetaObjectType;
+  using SpatialObjectType = typename Superclass::SpatialObjectType;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using MetaObjectType = typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  typedef DTITubeSpatialObject<NDimensions>               DTITubeSpatialObjectType;
-  typedef typename DTITubeSpatialObjectType::Pointer      DTITubeSpatialObjectPointer;
-  typedef typename DTITubeSpatialObjectType::ConstPointer DTITubeSpatialObjectConstPointer;
-  typedef MetaDTITube                                     DTITubeMetaObjectType;
+  using DTITubeSpatialObjectType = DTITubeSpatialObject<NDimensions>;
+  using DTITubeSpatialObjectPointer = typename DTITubeSpatialObjectType::Pointer;
+  using DTITubeSpatialObjectConstPointer = typename DTITubeSpatialObjectType::ConstPointer;
+  using DTITubeMetaObjectType = MetaDTITube;
 
   /** Convert the MetaObject to Spatial Object */
   SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;

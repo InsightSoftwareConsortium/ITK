@@ -31,14 +31,14 @@ class ITK_TEMPLATE_EXPORT PolygonSpatialObject:
   public BlobSpatialObject< TDimension >
 {
 public:
-  typedef PolygonSpatialObject< TDimension > Self;
-  typedef BlobSpatialObject< TDimension >    Superclass;
-  typedef SmartPointer< Self >               Pointer;
-  typedef SmartPointer< const Self >         ConstPointer;
-  typedef typename Superclass::PointType     PointType;
-  typedef typename Superclass::TransformType TransformType;
-  typedef typename Superclass::PointListType PointListType;
-  typedef typename Superclass::BlobPointType BlobPointType;
+  using Self = PolygonSpatialObject< TDimension >;
+  using Superclass = BlobSpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using PointType = typename Superclass::PointType;
+  using TransformType = typename Superclass::TransformType;
+  using PointListType = typename Superclass::PointListType;
+  using BlobPointType = typename Superclass::BlobPointType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

@@ -110,21 +110,21 @@ class ITK_TEMPLATE_EXPORT ShapeDetectionLevelSetImageFilter:
                                           TFeatureImage, TOutputPixelType >
 {
 public:
-  /** Standard class typedefs */
-  typedef ShapeDetectionLevelSetImageFilter                                               Self;
-  typedef SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType > Superclass;
-  typedef SmartPointer< Self >                                                            Pointer;
-  typedef SmartPointer< const Self >                                                      ConstPointer;
+  /** Standard class type aliases */
+  using Self = ShapeDetectionLevelSetImageFilter;
+  using Superclass = SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType        ValueType;
-  typedef typename Superclass::OutputImageType  OutputImageType;
-  typedef typename Superclass::FeatureImageType FeatureImageType;
+  /** Inherited type alias from the superclass. */
+  using ValueType = typename Superclass::ValueType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using FeatureImageType = typename Superclass::FeatureImageType;
 
   /** Type of the segmentation function */
-  typedef ShapeDetectionLevelSetFunction< OutputImageType,
-                                          FeatureImageType > ShapeDetectionFunctionType;
-  typedef typename ShapeDetectionFunctionType::Pointer ShapeDetectionFunctionPointer;
+  using ShapeDetectionFunctionType = ShapeDetectionLevelSetFunction< OutputImageType,
+                                          FeatureImageType >;
+  using ShapeDetectionFunctionPointer = typename ShapeDetectionFunctionType::Pointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapeDetectionLevelSetImageFilter, SegmentationLevelSetImageFilter);

@@ -106,8 +106,8 @@ GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilt
 {
   // GPU version of ApplyUpdate
   // Single threaded version : Apply entire update buffer to output image
-  typedef typename itk::GPUTraits< UpdateBufferType >::Type GPUBufferImage;
-  typedef typename itk::GPUTraits< TOutputImage >::Type     GPUOutputImage;
+  using GPUBufferImage = typename itk::GPUTraits< UpdateBufferType >::Type;
+  using GPUOutputImage = typename itk::GPUTraits< TOutputImage >::Type;
 
   typename GPUBufferImage::Pointer  bfPtr =  dynamic_cast< GPUBufferImage * >( GetUpdateBuffer() );
   typename GPUOutputImage::Pointer  otPtr =  dynamic_cast< GPUOutputImage * >( this->GetOutput() ); //this->ProcessObject::GetOutput(0)

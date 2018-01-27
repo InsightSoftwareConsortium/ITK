@@ -41,7 +41,7 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
   // The theoreical maximal value of the derivative, obtained at sigmaMax
   double expectedMax = std::pow( double(order), order *0.5 ) * std::exp( -0.5 * order );
 
-  typedef itk::Image< double, ImageDimension > ImageType;
+  using ImageType = itk::Image< double, ImageDimension >;
   ImageType::Pointer image = ImageType::New();
 
   ImageType::SizeType size;
@@ -69,8 +69,8 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
     ++iter;
     }
 
-  typedef itk::DiscreteGaussianDerivativeImageFilter< ImageType, ImageType >
-    GaussianFilterType;
+  using GaussianFilterType =
+      itk::DiscreteGaussianDerivativeImageFilter< ImageType, ImageType >;
   GaussianFilterType::Pointer filter = GaussianFilterType::New();
 
   filter->SetInput( image );

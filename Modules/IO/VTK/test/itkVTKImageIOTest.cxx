@@ -29,7 +29,7 @@
 template<typename TScalar, unsigned int TDimension>
 int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
 {
-  typedef itk::Image<TScalar,TDimension> ImageType;
+  using ImageType = itk::Image<TScalar,TDimension>;
 
   // Create a source object (in this case a random image generator).
   // The source object is templated on the output type.

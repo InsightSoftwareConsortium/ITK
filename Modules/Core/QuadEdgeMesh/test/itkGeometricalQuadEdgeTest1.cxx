@@ -21,17 +21,17 @@
 class itkGeometricalQuadEdgeTest1Helper
 {
 public:
-  typedef unsigned int PointIdentifier;
-  typedef unsigned int FaceIdentifier;
-  typedef float        PointData;
-  typedef std::string  FaceData;
+  using PointIdentifier = unsigned int;
+  using FaceIdentifier = unsigned int;
+  using PointData = float;
+  using FaceData = std::string;
 
-  typedef itk::GeometricalQuadEdge<
+  using PrimalQuadEdgeType = itk::GeometricalQuadEdge<
      PointIdentifier, FaceIdentifier,
-     PointData, FaceData, true >        PrimalQuadEdgeType;
+     PointData, FaceData, true >;
 
 
-  typedef PrimalQuadEdgeType::DualType  DualQuadEdgeType;
+  using DualQuadEdgeType = PrimalQuadEdgeType::DualType;
 
 
   static PrimalQuadEdgeType * MakeQuadEdges()
@@ -59,10 +59,10 @@ public:
 int itkGeometricalQuadEdgeTest1( int , char* [] )
 {
 
-  typedef itkGeometricalQuadEdgeTest1Helper  HelperType;
+  using HelperType = itkGeometricalQuadEdgeTest1Helper;
 
-  typedef HelperType::PrimalQuadEdgeType     PrimalQuadEdgeType;
-  typedef HelperType::DualQuadEdgeType       DualQuadEdgeType;
+  using PrimalQuadEdgeType = HelperType::PrimalQuadEdgeType;
+  using DualQuadEdgeType = HelperType::DualQuadEdgeType;
 
 
     { // Define a local scope for testing constructors

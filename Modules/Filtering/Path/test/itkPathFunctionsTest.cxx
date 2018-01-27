@@ -27,16 +27,16 @@ int itkPathFunctionsTest(int, char*[])
 {
 
   const unsigned int Dimension = 2;
-  typedef double PixelType;
+  using PixelType = double;
 
-  typedef itk::Image< PixelType, Dimension >                    ImageType;
-  typedef itk::PolyLineParametricPath< Dimension >              PolyLineParametricPathType;
-  typedef itk::ChainCodePath< Dimension >                       ChainPathType;
-  typedef itk::FourierSeriesPath< Dimension >                   FourierSeriesPathType;
-  typedef itk::PathIterator< ImageType, FourierSeriesPathType > PathIteratorType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using PolyLineParametricPathType = itk::PolyLineParametricPath< Dimension >;
+  using ChainPathType = itk::ChainCodePath< Dimension >;
+  using FourierSeriesPathType = itk::FourierSeriesPath< Dimension >;
+  using PathIteratorType = itk::PathIterator< ImageType, FourierSeriesPathType >;
 
-  typedef ImageType::IndexType                                  IndexType;
-  typedef PolyLineParametricPathType::VertexType                VertexType;
+  using IndexType = ImageType::IndexType;
+  using VertexType = PolyLineParametricPathType::VertexType;
 
   bool passed = true;
 
@@ -62,7 +62,7 @@ int itkPathFunctionsTest(int, char*[])
 
   image->Allocate();
 
-  typedef itk::ImageRegionIterator<ImageType> ImageRegionIteratorType;
+  using ImageRegionIteratorType = itk::ImageRegionIterator<ImageType>;
   ImageRegionIteratorType it( image, image->GetRequestedRegion() );
   it.GoToBegin();
   ImageType::PixelType storedValue;

@@ -37,8 +37,8 @@ namespace Details
  */
 struct SfinaeTypes
   {
-  typedef char                       TOne;
-  typedef struct  { char arr__[2]; } TTwo;
+  using TOne = char;
+  using TTwo = struct  { char arr__[2]; };
   };
 } // Details namespace
 

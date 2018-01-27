@@ -24,11 +24,11 @@
 template< int ImageDimension >
 int itkGaborImageSourceTestHelper( char* outputFilename, bool calculcateImaginaryPart )
 {
-  typedef float                                   PixelType;
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
   // Instantiate the filter
-  typedef itk::GaborImageSource< ImageType > GaborSourceType;
+  using GaborSourceType = itk::GaborImageSource< ImageType >;
   typename GaborSourceType::Pointer gaborImage = GaborSourceType::New();
 
   if( ImageDimension == 2 )
@@ -76,7 +76,7 @@ int itkGaborImageSourceTestHelper( char* outputFilename, bool calculcateImaginar
 
   TRY_EXPECT_NO_EXCEPTION( gaborImage->Update() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( outputFilename );
   writer->SetInput( gaborImage->GetOutput() );
@@ -96,12 +96,12 @@ int itkGaborImageSourceTest( int argc, char *argv[] )
 
 
   const unsigned int  ImageDimension = 2;
-  typedef float       PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
   // Instantiate the filter
-  typedef itk::GaborImageSource< ImageType > GaborSourceType;
+  using GaborSourceType = itk::GaborImageSource< ImageType >;
   GaborSourceType::Pointer gaborImage = GaborSourceType::New();
 
   // Exercise basic object methods

@@ -54,11 +54,11 @@ struct ImageAlgorithm
 {
 
 #if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
-    typedef ITK_STD_TR1_NAMESPACE::true_type  TrueType;
-    typedef ITK_STD_TR1_NAMESPACE::false_type FalseType;
+    using TrueType = ITK_STD_TR1_NAMESPACE::true_type;
+    using FalseType = ITK_STD_TR1_NAMESPACE::false_type;
 #else
-    typedef itk::TrueType  TrueType;
-    typedef itk::FalseType FalseType;
+    using TrueType = itk::TrueType;
+    using FalseType = itk::FalseType;
 #endif
 
 /**
@@ -97,8 +97,8 @@ struct ImageAlgorithm
                                const typename Image<TPixel1, VImageDimension>::RegionType &inRegion,
                                const typename Image<TPixel2, VImageDimension>::RegionType &outRegion )
   {
-    typedef Image<TPixel1, VImageDimension> _ImageType1;
-    typedef Image<TPixel2, VImageDimension> _ImageType2;
+    using _ImageType1 = Image<TPixel1, VImageDimension>;
+    using _ImageType2 = Image<TPixel2, VImageDimension>;
     ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion
 #if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
                                    , ITK_STD_TR1_NAMESPACE::is_convertible<typename _ImageType1::PixelType,
@@ -118,8 +118,8 @@ struct ImageAlgorithm
                                const typename VectorImage<TPixel1, VImageDimension>::RegionType &inRegion,
                                const typename VectorImage<TPixel2, VImageDimension>::RegionType &outRegion )
   {
-    typedef VectorImage<TPixel1, VImageDimension> _ImageType1;
-    typedef VectorImage<TPixel2, VImageDimension> _ImageType2;
+    using _ImageType1 = VectorImage<TPixel1, VImageDimension>;
+    using _ImageType2 = VectorImage<TPixel2, VImageDimension>;
     ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion
 #if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
                                    , ITK_STD_TR1_NAMESPACE::is_convertible<typename _ImageType1::PixelType,
@@ -178,7 +178,7 @@ private:
   template <typename TPixelType, unsigned int VImageDimension>
   struct PixelSize< VectorImage<TPixelType, VImageDimension> >
   {
-    typedef VectorImage<TPixelType, VImageDimension> ImageType;
+    using ImageType = VectorImage<TPixelType, VImageDimension>;
     static size_t Get( const  ImageType * i )
       {
       const size_t vectorLength = ImageType::AccessorFunctorType::GetVectorLength(i);

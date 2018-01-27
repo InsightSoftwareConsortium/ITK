@@ -32,11 +32,11 @@ template< typename TInputSpatialObject >
 class ITK_TEMPLATE_EXPORT SpatialObjectDuplicator:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef SpatialObjectDuplicator    Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SpatialObjectDuplicator;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -45,15 +45,15 @@ public:
   itkTypeMacro(SpatialObjectDuplicator, Object);
 
   /** Type definitions for the input SpatialObject. */
-  typedef TInputSpatialObject                        SpatialObjectType;
-  typedef typename TInputSpatialObject::Pointer      SpatialObjectPointer;
-  typedef typename TInputSpatialObject::ConstPointer SpatialObjectConstPointer;
+  using SpatialObjectType = TInputSpatialObject;
+  using SpatialObjectPointer = typename TInputSpatialObject::Pointer;
+  using SpatialObjectConstPointer = typename TInputSpatialObject::ConstPointer;
 
   itkStaticConstMacro(ObjectDimension, unsigned int,
                       SpatialObjectType::ObjectDimension);
 
-  typedef SpatialObject< itkGetStaticConstMacro(ObjectDimension) >
-  InternalSpatialObjectType;
+  using InternalSpatialObjectType =
+      SpatialObject< itkGetStaticConstMacro(ObjectDimension) >;
 
   /** Get/Set the input SpatialObject. */
   itkSetConstObjectMacro(Input, SpatialObjectType);

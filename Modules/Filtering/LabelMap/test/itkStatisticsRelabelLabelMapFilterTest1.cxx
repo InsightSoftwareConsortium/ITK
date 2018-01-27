@@ -37,15 +37,15 @@ int itkStatisticsRelabelLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 2;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  using ImageType = itk::Image< PixelType, dim >;
 
-  typedef itk::StatisticsLabelObject< PixelType, dim >           StatisticsLabelObjectType;
-  typedef itk::LabelMap< StatisticsLabelObjectType >             LabelMapType;
+  using StatisticsLabelObjectType = itk::StatisticsLabelObject< PixelType, dim >;
+  using LabelMapType = itk::LabelMap< StatisticsLabelObjectType >;
 
   //Reading Image File
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -53,12 +53,12 @@ int itkStatisticsRelabelLabelMapFilterTest1(int argc, char * argv[])
   reader2->SetFileName( argv[2] );
 
   //Converting LabelImage to StatisticsLabelMap
-  typedef itk::LabelImageToStatisticsLabelMapFilter< ImageType, ImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToStatisticsLabelMapFilter< ImageType, ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
   i2l->SetFeatureImage( reader2->GetOutput() );
 
-  typedef itk::StatisticsRelabelLabelMapFilter< LabelMapType > RelabelType;
+  using RelabelType = itk::StatisticsRelabelLabelMapFilter< LabelMapType >;
   RelabelType::Pointer relabel = RelabelType::New();
 
   //testing get and set macros for ReverseOrdering
@@ -85,11 +85,11 @@ int itkStatisticsRelabelLabelMapFilterTest1(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(relabel, "filter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2ImageType;
+  using L2ImageType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   L2ImageType::Pointer l2i = L2ImageType::New();
   l2i->SetInput( relabel->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );

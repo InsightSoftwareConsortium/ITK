@@ -71,9 +71,9 @@ MetaVesselTubeConverter< NDimensions >
   vesselTubeSO->GetProperty()->SetBlue(vesselTubeMO->Color()[2]);
   vesselTubeSO->GetProperty()->SetAlpha(vesselTubeMO->Color()[3]);
 
-  typedef itk::VesselTubeSpatialObjectPoint< NDimensions > VesselTubePointType;
+  using VesselTubePointType = itk::VesselTubeSpatialObjectPoint< NDimensions >;
 
-  typedef VesselTubeMetaObjectType::PointListType ListType;
+  using ListType = VesselTubeMetaObjectType::PointListType;
   ListType::const_iterator it2 = vesselTubeMO->GetPoints().begin();
 
   itk::CovariantVector< double, NDimensions > v;
@@ -83,7 +83,7 @@ MetaVesselTubeConverter< NDimensions >
     {
     VesselTubePointType pnt;
 
-    typedef typename VesselTubeSpatialObjectType::PointType SOPointType;
+    using SOPointType = typename VesselTubeSpatialObjectType::PointType;
     SOPointType point;
 
     for ( unsigned int ii = 0; ii < ndims; ii++ )

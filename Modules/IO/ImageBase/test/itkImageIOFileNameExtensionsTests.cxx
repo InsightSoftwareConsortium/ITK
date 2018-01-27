@@ -23,9 +23,9 @@
 
 int itkImageIOFileNameExtensionsTests( int , char * [] )
 {
-  typedef itk::ImageIOBase                        IOBaseType;
-  typedef std::list<itk::LightObject::Pointer>    ArrayOfImageIOType;
-  typedef IOBaseType::ArrayOfExtensionsType       ArrayOfExtensionsType;
+  using IOBaseType = itk::ImageIOBase;
+  using ArrayOfImageIOType = std::list<itk::LightObject::Pointer>;
+  using ArrayOfExtensionsType = IOBaseType::ArrayOfExtensionsType;
 
   ArrayOfImageIOType allobjects = itk::ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
 

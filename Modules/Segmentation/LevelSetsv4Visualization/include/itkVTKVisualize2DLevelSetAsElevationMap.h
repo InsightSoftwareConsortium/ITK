@@ -37,22 +37,22 @@ class ITK_TEMPLATE_EXPORT VTKVisualize2DLevelSetAsElevationMap :
     public VTKVisualizeImageLevelSet< TInputImage, ImageToVTKImageFilter< TInputImage > >
 {
 public:
-  typedef VTKVisualize2DLevelSetAsElevationMap                                           Self;
-  typedef VTKVisualizeImageLevelSet< TInputImage, ImageToVTKImageFilter< TInputImage > > Superclass;
-  typedef SmartPointer< Self >                                                           Pointer;
-  typedef SmartPointer< const Self >                                                     ConstPointer;
+  using Self = VTKVisualize2DLevelSetAsElevationMap;
+  using Superclass = VTKVisualizeImageLevelSet< TInputImage, ImageToVTKImageFilter< TInputImage > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro( Self );
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(itkVTKVisualize2DLevelSetAsElevationMap, VTKVisualizeImageLevelSet);
 
-  typedef typename Superclass::InputImageType     InputImageType;
-  typedef typename InputImageType::SizeType       InputImageSizeType;
-  typedef typename InputImageType::SizeValueType  InputImageSizeValueType;
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImageSizeType = typename InputImageType::SizeType;
+  using InputImageSizeValueType = typename InputImageType::SizeValueType;
 
-  typedef TLevelSet                         LevelSetType;
-  typedef typename LevelSetType::Pointer    LevelSetPointer;
+  using LevelSetType = TLevelSet;
+  using LevelSetPointer = typename LevelSetType::Pointer;
 
   void SetLevelSet( LevelSetType * levelSet );
 

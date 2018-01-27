@@ -41,11 +41,11 @@ class ITK_TEMPLATE_EXPORT MultiStartOptimizerv4Template
 : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultiStartOptimizerv4Template                                Self;
-  typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType> Superclass;
-  typedef SmartPointer< Self >                                         Pointer;
-  typedef SmartPointer< const Self >                                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MultiStartOptimizerv4Template;
+  using Superclass = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultiStartOptimizerv4Template, Superclass);
@@ -53,14 +53,14 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef typename Superclass::ParametersType                                 ParametersType;
-  typedef std::vector< ParametersType >                                       ParametersListType;
-  typedef typename ParametersListType::size_type                              ParameterListSizeType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersListType = std::vector< ParametersType >;
+  using ParameterListSizeType = typename ParametersListType::size_type;
 
-  typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>              OptimizerType;
-  typedef typename OptimizerType::Pointer                                           OptimizerPointer;
-  typedef typename itk::GradientDescentOptimizerv4Template<TInternalComputationValueType> LocalOptimizerType;
-  typedef typename LocalOptimizerType::Pointer                                      LocalOptimizerPointer;
+  using OptimizerType = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
+  using OptimizerPointer = typename OptimizerType::Pointer;
+  using LocalOptimizerType = typename itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>;
+  using LocalOptimizerPointer = typename LocalOptimizerType::Pointer;
 
   /** Codes of stopping conditions. */
   typedef enum {
@@ -73,25 +73,25 @@ public:
   } StopConditionType;
 
   /** Stop condition return string type */
-  typedef typename Superclass::StopConditionReturnStringType StopConditionReturnStringType;
+  using StopConditionReturnStringType = typename Superclass::StopConditionReturnStringType;
 
   /** Stop condition internal string type */
-  typedef typename Superclass::StopConditionDescriptionType  StopConditionDescriptionType;
+  using StopConditionDescriptionType = typename Superclass::StopConditionDescriptionType;
   /** Stop condition return string type */
 
   /** It should be possible to derive the internal computation type from the class object. */
-  typedef TInternalComputationValueType             InternalComputationValueType;
+  using InternalComputationValueType = TInternalComputationValueType;
 
   /** Metric type over which this class is templated */
-  typedef typename Superclass::MetricType           MetricType;
-  typedef typename MetricType::Pointer              MetricTypePointer;
+  using MetricType = typename Superclass::MetricType;
+  using MetricTypePointer = typename MetricType::Pointer;
 
   /** Derivative type */
-  typedef typename MetricType::DerivativeType       DerivativeType;
+  using DerivativeType = typename MetricType::DerivativeType;
 
   /** Measure type */
-  typedef typename Superclass::MeasureType          MeasureType;
-  typedef std::vector< MeasureType >                MetricValuesListType;
+  using MeasureType = typename Superclass::MeasureType;
+  using MetricValuesListType = std::vector< MeasureType >;
 
   /** Get stop condition enum */
   itkGetConstReferenceMacro(StopCondition, StopConditionType);
@@ -155,7 +155,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef MultiStartOptimizerv4Template<double> MultiStartOptimizerv4;
+using MultiStartOptimizerv4 = MultiStartOptimizerv4Template<double>;
 
 } // end namespace itk
 

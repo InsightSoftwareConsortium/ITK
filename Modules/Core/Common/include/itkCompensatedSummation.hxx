@@ -40,7 +40,7 @@ template <typename TFloat>
 /** A helper for the CompensatedSummation class. */
 void CompensatedSummationAddElement( TFloat& compensation, TFloat& sum, const TFloat& element, int=0)
 {
-  typedef typename NumericTraits< TFloat >::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits< TFloat >::AccumulateType;
   const AccumulateType compensatedInput = static_cast< AccumulateType >( element - compensation );
   const AccumulateType tempSum          = sum + compensatedInput;
   // Warning: watch out for the compiler optimizing this out!

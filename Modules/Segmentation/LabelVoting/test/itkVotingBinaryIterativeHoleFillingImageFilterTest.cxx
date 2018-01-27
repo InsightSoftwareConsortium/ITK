@@ -28,7 +28,7 @@ int itkVotingBinaryIterativeHoleFillingImageFilterTest(int, char* [] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
 
-  typedef itk::Image<unsigned short,2> ImageType;
+  using ImageType = itk::Image<unsigned short,2>;
 
   itk::RandomImageSource<ImageType>::Pointer random;
   random = itk::RandomImageSource<ImageType>::New();

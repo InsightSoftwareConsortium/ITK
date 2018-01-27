@@ -49,7 +49,7 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< TMesh, TQEType >::Evaluate(
   //one-ring
   std::vector< PointIdentifier > pList;
   QEType *                       g_sym = g->GetSym();
-  typedef typename QEType::IteratorGeom QEIterator;
+  using QEIterator = typename QEType::IteratorGeom;
   for (  QEIterator it = g_sym->BeginGeomOnext();
          it != g_sym->EndGeomOnext();
          it++ )

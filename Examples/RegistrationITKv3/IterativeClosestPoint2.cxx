@@ -48,14 +48,14 @@ int main(int argc, char * argv[] )
 // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 3;
 
-  typedef itk::PointSet< float, Dimension >   PointSetType;
+  using PointSetType = itk::PointSet< float, Dimension >;
 
   PointSetType::Pointer fixedPointSet  = PointSetType::New();
   PointSetType::Pointer movingPointSet = PointSetType::New();
 
-  typedef PointSetType::PointType     PointType;
+  using PointType = PointSetType::PointType;
 
-  typedef PointSetType::PointsContainer  PointsContainer;
+  using PointsContainer = PointSetType::PointsContainer;
 
   PointsContainer::Pointer fixedPointContainer  = PointsContainer::New();
   PointsContainer::Pointer movingPointContainer = PointsContainer::New();
@@ -130,10 +130,8 @@ int main(int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::EuclideanDistancePointMetric<
-                                    PointSetType,
-                                    PointSetType>
-                                                    MetricType;
+  using MetricType = itk::EuclideanDistancePointMetric<
+                          PointSetType, PointSetType>;
 
   MetricType::Pointer  metric = MetricType::New();
 // Software Guide : EndCodeSnippet
@@ -145,7 +143,7 @@ int main(int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::TranslationTransform< double, Dimension >      TransformType;
+  using TransformType = itk::TranslationTransform< double, Dimension >;
 
   TransformType::Pointer transform = TransformType::New();
 // Software Guide : EndCodeSnippet
@@ -158,16 +156,13 @@ int main(int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::LevenbergMarquardtOptimizer OptimizerType;
+  using OptimizerType = itk::LevenbergMarquardtOptimizer;
 
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
   optimizer->SetUseCostFunctionGradient(false);
 
-  typedef itk::PointSetToPointSetRegistrationMethod<
-                                            PointSetType,
-                                            PointSetType >
-                                                    RegistrationType;
-
+  using RegistrationType = itk::PointSetToPointSetRegistrationMethod<
+                                PointSetType, PointSetType >;
 
   RegistrationType::Pointer   registration  = RegistrationType::New();
 

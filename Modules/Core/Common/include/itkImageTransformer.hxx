@@ -172,7 +172,7 @@ ImageTransformer< TInputImage >
       // method since it returns the input as a pointer to a
       // DataObject as opposed to the subclass version which
       // static_casts the input to an TInputImage).
-      typedef ImageBase< InputImageDimension > ImageBaseType;
+      using ImageBaseType = ImageBase< InputImageDimension >;
       typename ImageBaseType::ConstPointer constInput =
         dynamic_cast< ImageBaseType const * >( this->ProcessObject::GetInput(idx) );
 

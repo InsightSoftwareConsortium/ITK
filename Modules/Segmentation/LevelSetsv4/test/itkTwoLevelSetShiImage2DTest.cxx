@@ -37,44 +37,42 @@ int itkTwoLevelSetShiImage2DTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned short                                    InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension >           InputImageType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType >
-                                                            InputIteratorType;
-  typedef itk::ImageFileReader< InputImageType >            ReaderType;
+  using InputPixelType = unsigned short;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef itk::ShiSparseLevelSetImage< Dimension >          SparseLevelSetType;
-  typedef itk::BinaryImageToLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
-                                                            BinaryToSparseAdaptorType;
+  using SparseLevelSetType = itk::ShiSparseLevelSetImage< Dimension >;
+  using BinaryToSparseAdaptorType =
+      itk::BinaryImageToLevelSetImageAdaptor< InputImageType, SparseLevelSetType >;
 
-  typedef itk::IdentifierType                               IdentifierType;
+  using IdentifierType = itk::IdentifierType;
 
-  typedef itk::LevelSetContainer< IdentifierType, SparseLevelSetType >
-                                                            LevelSetContainerType;
+  using LevelSetContainerType =
+      itk::LevelSetContainer< IdentifierType, SparseLevelSetType >;
 
-  typedef std::list< IdentifierType >                       IdListType;
-  typedef itk::Image< IdListType, Dimension >               IdListImageType;
-  typedef itk::Image< short, Dimension >                    CacheImageType;
-  typedef itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >
-                                                            DomainMapImageFilterType;
+  using IdListType = std::list< IdentifierType >;
+  using IdListImageType = itk::Image< IdListType, Dimension >;
+  using CacheImageType = itk::Image< short, Dimension >;
+  using DomainMapImageFilterType =
+      itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >;
 
-  typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >
-                                                            ChanAndVeseInternalTermType;
-  typedef itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >
-                                                            ChanAndVeseExternalTermType;
-  typedef itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >
-                                                            TermContainerType;
+  using ChanAndVeseInternalTermType =
+      itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >;
+  using ChanAndVeseExternalTermType =
+      itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >;
+  using TermContainerType =
+      itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >;
 
-  typedef itk::LevelSetEquationContainer< TermContainerType >
-                                                            EquationContainerType;
+  using EquationContainerType = itk::LevelSetEquationContainer<TermContainerType>;
 
-  typedef itk::LevelSetEvolution< EquationContainerType, SparseLevelSetType >
-                                                            LevelSetEvolutionType;
+  using LevelSetEvolutionType =
+      itk::LevelSetEvolution< EquationContainerType, SparseLevelSetType >;
 
-  typedef SparseLevelSetType::OutputRealType                      LevelSetOutputRealType;
-  typedef itk::SinRegularizedHeavisideStepFunction< LevelSetOutputRealType, LevelSetOutputRealType >
-                                                            HeavisideFunctionBaseType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType >     InputIteratorType;
+  using LevelSetOutputRealType = SparseLevelSetType::OutputRealType;
+  using HeavisideFunctionBaseType =
+      itk::SinRegularizedHeavisideStepFunction< LevelSetOutputRealType, LevelSetOutputRealType >;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
 
   // load binary input for segmentation
   ReaderType::Pointer reader = ReaderType::New();
@@ -216,8 +214,7 @@ int itkTwoLevelSetShiImage2DTest( int argc, char* argv[] )
   equationContainer->AddEquation( 0, termContainer0 );
   equationContainer->AddEquation( 1, termContainer1 );
 
-  typedef itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >
-      StoppingCriterionType;
+  using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations( atoi( argv[2]) );
 
@@ -236,14 +233,14 @@ int itkTwoLevelSetShiImage2DTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< signed char, Dimension > OutputImageType;
+  using OutputImageType = itk::Image< signed char, Dimension >;
   OutputImageType::Pointer outputImage = OutputImageType::New();
   outputImage->SetRegions( input->GetLargestPossibleRegion() );
   outputImage->CopyInformation( input );
   outputImage->Allocate();
   outputImage->FillBuffer( 0 );
 
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType > OutputIteratorType;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
   OutputIteratorType oIt( outputImage, outputImage->GetLargestPossibleRegion() );
   oIt.GoToBegin();
 
@@ -256,7 +253,7 @@ int itkTwoLevelSetShiImage2DTest( int argc, char* argv[] )
     ++oIt;
     }
 
-  typedef itk::ImageFileWriter< OutputImageType >     OutputWriterType;
+  using OutputWriterType = itk::ImageFileWriter< OutputImageType >;
   OutputWriterType::Pointer writer = OutputWriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( outputImage );

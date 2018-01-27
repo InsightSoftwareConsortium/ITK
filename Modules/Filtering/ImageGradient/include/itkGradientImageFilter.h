@@ -67,17 +67,17 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImageType::ImageDimension);
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage                       InputImageType;
-  typedef typename InputImageType::Pointer  InputImagePointer;
-  typedef TOutputImageType                  OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImageType = TOutputImageType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** Standard class typedefs. */
-  typedef GradientImageFilter                                   Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GradientImageFilter;
+  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -85,15 +85,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientImageFilter, ImageToImageFilter);
 
-  /** Image typedef support. */
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef TOperatorValueType                  OperatorValueType;
-  typedef TOutputValueType                    OutputValueType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
-  typedef CovariantVector<
-    OutputValueType, itkGetStaticConstMacro(OutputImageDimension) >
-  CovariantVectorType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  /** Image type alias support */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OperatorValueType = TOperatorValueType;
+  using OutputValueType = TOutputValueType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using CovariantVectorType = CovariantVector<
+    OutputValueType, itkGetStaticConstMacro(OutputImageDimension) >;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** GradientImageFilter needs a larger input requested region than
    * the output requested region.  As such, GradientImageFilter needs

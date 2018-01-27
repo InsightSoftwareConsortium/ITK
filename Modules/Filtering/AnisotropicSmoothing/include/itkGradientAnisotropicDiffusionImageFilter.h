@@ -51,12 +51,12 @@ class ITK_TEMPLATE_EXPORT GradientAnisotropicDiffusionImageFilter:
   public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GradientAnisotropicDiffusionImageFilter Self;
-  typedef AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GradientAnisotropicDiffusionImageFilter;
+  using Superclass =
+      AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard method for creation through object factory. */
   itkNewMacro(Self);
@@ -66,7 +66,7 @@ public:
                AnisotropicDiffusionImageFilter);
 
   /** Extract information from the superclass. */
-  typedef typename Superclass::UpdateBufferType UpdateBufferType;
+  using UpdateBufferType = typename Superclass::UpdateBufferType;
 
   /** Extract information from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);

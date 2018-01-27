@@ -259,12 +259,12 @@ class WindowedSincInterpolateImageFunction:
   public InterpolateImageFunction< TInputImage, TCoordRep >
 {
 public:
-  /** Standard class typedefs. */
-  typedef WindowedSincInterpolateImageFunction               Self;
-  typedef InterpolateImageFunction< TInputImage, TCoordRep > Superclass;
+  /** Standard class type aliases. */
+  using Self = WindowedSincInterpolateImageFunction;
+  using Superclass = InterpolateImageFunction< TInputImage, TCoordRep >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(WindowedSincInterpolateImageFunction,
@@ -273,27 +273,27 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = typename Superclass::InputImageType;
 
-  /** RealType typedef support. */
-  typedef typename Superclass::RealType RealType;
+  /** RealType type alias support */
+  using RealType = typename Superclass::RealType;
 
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType      IndexType;
-  typedef typename Superclass::IndexValueType IndexValueType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
+  using IndexValueType = typename Superclass::IndexValueType;
 
   /** Image type definition */
-  typedef TInputImage ImageType;
+  using ImageType = TInputImage;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   void SetInputImage(const ImageType *image) override;
 
@@ -314,9 +314,9 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WindowedSincInterpolateImageFunction);
 
-  // Internal typedefs
-  typedef ConstNeighborhoodIterator<
-    ImageType, TBoundaryCondition > IteratorType;
+  // Internal type alias
+  using IteratorType = ConstNeighborhoodIterator<
+    ImageType, TBoundaryCondition >;
 
   // Constant to store twice the radius
   static const unsigned int m_WindowSize;

@@ -117,11 +117,11 @@ class ITK_TEMPLATE_EXPORT DisplacementFieldJacobianDeterminantFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef DisplacementFieldJacobianDeterminantFilter      Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DisplacementFieldJacobianDeterminantFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -131,14 +131,14 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType  InputPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
 
-  /** Image typedef support */
-  typedef TInputImage                       InputImageType;
-  typedef TOutputImage                      OutputImageType;
-  typedef typename InputImageType::Pointer  InputImagePointer;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  /** Image type alias support */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** The dimensionality of the input and output images. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -149,19 +149,19 @@ public:
                       InputPixelType::Dimension);
 
   /** Define the data type and the vector of data type used in calculations. */
-  typedef TRealType RealType;
-  typedef Vector< TRealType, InputPixelType::Dimension >
-                    RealVectorType;
-  typedef Image< RealVectorType, TInputImage::ImageDimension >
-                    RealVectorImageType;
+  using RealType = TRealType;
+  using RealVectorType =
+      Vector< TRealType, InputPixelType::Dimension >;
+  using RealVectorImageType =
+      Image< RealVectorType, TInputImage::ImageDimension >;
 
   /** Type of the iterator that will be used to move through the image.  Also
       the type which will be passed to the evaluate function */
-  typedef ConstNeighborhoodIterator< RealVectorImageType >   ConstNeighborhoodIteratorType;
-  typedef typename ConstNeighborhoodIteratorType::RadiusType RadiusType;
+  using ConstNeighborhoodIteratorType = ConstNeighborhoodIterator< RealVectorImageType >;
+  using RadiusType = typename ConstNeighborhoodIteratorType::RadiusType;
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** DisplacementFieldJacobianDeterminantFilter needs a larger input requested
    * region than the output requested region (larger by the kernel
@@ -192,7 +192,7 @@ public:
 
   itkGetConstMacro(UseImageSpacing, bool);
 
-  typedef FixedArray< TRealType, ImageDimension > WeightsType;
+  using WeightsType = FixedArray< TRealType, ImageDimension >;
 
   /** Directly Set/Get the array of weights used in the gradient calculations.
       Note that calling UseImageSpacingOn will clobber these values. */
@@ -225,7 +225,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef typename InputImageType::Superclass ImageBaseType;
+  using ImageBaseType = typename InputImageType::Superclass;
 
   /** Get access to the input image casted as real pixel values */
   itkGetConstObjectMacro(RealValuedInputImage, ImageBaseType);

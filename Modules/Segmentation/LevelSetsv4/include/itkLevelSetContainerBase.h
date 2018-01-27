@@ -42,51 +42,51 @@ template< typename TIdentifier, typename TLevelSet >
 class ITK_TEMPLATE_EXPORT LevelSetContainerBase : public Object
 {
 public:
-  typedef LevelSetContainerBase      Self;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef Object                     Superclass;
+  using Self = LevelSetContainerBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = Object;
 
   /** Run-time type information */
   itkTypeMacro ( LevelSetContainerBase, Object );
 
-  /** typedefs related to the type of level set*/
-  typedef TLevelSet                               LevelSetType;
-  typedef typename LevelSetType::Pointer          LevelSetPointer;
-  typedef typename LevelSetType::InputType        InputIndexType;
-  typedef typename LevelSetType::OutputType       OutputType;
-  typedef typename LevelSetType::OutputRealType   OutputRealType;
-  typedef typename LevelSetType::GradientType     GradientType;
-  typedef typename LevelSetType::HessianType      HessianType;
-  typedef typename LevelSetType::LevelSetDataType LevelSetDataType;
+  /** type alias related to the type of level set*/
+  using LevelSetType = TLevelSet;
+  using LevelSetPointer = typename LevelSetType::Pointer;
+  using InputIndexType = typename LevelSetType::InputType;
+  using OutputType = typename LevelSetType::OutputType;
+  using OutputRealType = typename LevelSetType::OutputRealType;
+  using GradientType = typename LevelSetType::GradientType;
+  using HessianType = typename LevelSetType::HessianType;
+  using LevelSetDataType = typename LevelSetType::LevelSetDataType;
 
   /** IdentifierType */
-  typedef TIdentifier LevelSetIdentifierType;
+  using LevelSetIdentifierType = TIdentifier;
 
-  typedef std::map< LevelSetIdentifierType, LevelSetPointer > LevelSetContainerType;
-  typedef typename LevelSetContainerType::const_iterator      LevelSetContainerConstIteratorType;
-  typedef typename LevelSetContainerType::iterator            LevelSetContainerIteratorType;
+  using LevelSetContainerType = std::map< LevelSetIdentifierType, LevelSetPointer >;
+  using LevelSetContainerConstIteratorType = typename LevelSetContainerType::const_iterator;
+  using LevelSetContainerIteratorType = typename LevelSetContainerType::iterator;
 
-  typedef HeavisideStepFunctionBase< OutputRealType, OutputRealType > HeavisideType;
-  typedef typename HeavisideType::ConstPointer                        HeavisideConstPointer;
+  using HeavisideType = HeavisideStepFunctionBase< OutputRealType, OutputRealType >;
+  using HeavisideConstPointer = typename HeavisideType::ConstPointer;
 
   itkStaticConstMacro ( Dimension, unsigned int, LevelSetType::Dimension );
 
-  typedef std::list< LevelSetIdentifierType >           IdListType;
-  typedef typename IdListType::iterator                 IdListIterator;
-  typedef typename IdListType::const_iterator           IdListConstIterator;
-  typedef Image< IdListType, Dimension >                IdListImageType;
-  typedef Image< short, Dimension >                     CacheImageType;
+  using IdListType = std::list< LevelSetIdentifierType >;
+  using IdListIterator = typename IdListType::iterator;
+  using IdListConstIterator = typename IdListType::const_iterator;
+  using IdListImageType = Image< IdListType, Dimension >;
+  using CacheImageType = Image< short, Dimension >;
 
-  typedef LevelSetDomainMapImageFilter< IdListImageType, CacheImageType > DomainMapImageFilterType;
+  using DomainMapImageFilterType = LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >;
 
-  typedef std::pair< LevelSetIdentifierType, LevelSetPointer > LevelSetPairType;
+  using LevelSetPairType = std::pair< LevelSetIdentifierType, LevelSetPointer >;
 
-  typedef typename DomainMapImageFilterType::Pointer          DomainMapImageFilterPointer;
-  typedef typename DomainMapImageFilterType::LevelSetDomain   LevelSetDomainType;
+  using DomainMapImageFilterPointer = typename DomainMapImageFilterType::Pointer;
+  using LevelSetDomainType = typename DomainMapImageFilterType::LevelSetDomain;
 
-  typedef std::map< LevelSetIdentifierType, LevelSetDomainType >   DomainContainerType;
-  typedef typename DomainContainerType::iterator                   DomainIteratorType;
+  using DomainContainerType = std::map< LevelSetIdentifierType, LevelSetDomainType >;
+  using DomainIteratorType = typename DomainContainerType::iterator;
 
   /** Declare iterators to container. */
   class Iterator;

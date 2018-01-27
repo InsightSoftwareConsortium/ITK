@@ -57,7 +57,7 @@
 int main(int, char*[])
 {
   // Software Guide : BeginCodeSnippet
-  typedef itk::Array< float > MeasurementVectorType;
+  using MeasurementVectorType = itk::Array< float >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -68,8 +68,7 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType >
-    DistanceMetricType;
+  using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
   // Software Guide : EndCodeSnippet
 

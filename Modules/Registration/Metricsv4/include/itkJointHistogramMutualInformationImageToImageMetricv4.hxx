@@ -174,8 +174,8 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   this->m_MovingImageMarginalPDF = MarginalPDFType::New();
 
   // Instantiate a region, index, size
-  typedef typename MarginalPDFType::RegionType  MarginalPDFRegionType;
-  typedef typename MarginalPDFType::SizeType    MarginalPDFSizeType;
+  using MarginalPDFRegionType = typename MarginalPDFType::RegionType;
+  using MarginalPDFSizeType = typename MarginalPDFType::SizeType;
   MarginalPDFRegionType marginalPDFRegion;
   MarginalPDFIndexType  marginalPDFIndex;
   MarginalPDFSizeType   marginalPDFSize;
@@ -245,7 +245,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
   // Optionally smooth the joint pdf
   if (this->m_VarianceForJointPDFSmoothing > NumericTraits< JointPDFValueType >::ZeroValue() )
     {
-    typedef DiscreteGaussianImageFilter<JointPDFType,JointPDFType> DgType;
+    using DgType = DiscreteGaussianImageFilter<JointPDFType,JointPDFType>;
     typename DgType::Pointer dg = DgType::New();
     dg->SetInput(this->m_JointPDF);
     dg->SetVariance(this->m_VarianceForJointPDFSmoothing);
@@ -256,7 +256,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,TMovingImage,TVi
     }
 
   // Compute moving image marginal PDF by summing over fixed image bins.
-  typedef ImageLinearIteratorWithIndex<JointPDFType> JointPDFLinearIterator;
+  using JointPDFLinearIterator = ImageLinearIteratorWithIndex<JointPDFType>;
   JointPDFLinearIterator linearIter(m_JointPDF, m_JointPDF->GetBufferedRegion() );
   linearIter.SetDirection( 0 );
   linearIter.GoToBegin();

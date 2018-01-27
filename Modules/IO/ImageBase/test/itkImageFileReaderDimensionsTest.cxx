@@ -31,18 +31,18 @@ int itkImageFileReaderDimensionsTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<short, 2> Image2DType;
-  typedef itk::Image<short, 3> Image3DType;
-  typedef itk::Image<short, 4> Image4DType;
-  typedef itk::Image<char, 2>  CharImage2DType;
+  using Image2DType = itk::Image<short, 2>;
+  using Image3DType = itk::Image<short, 3>;
+  using Image4DType = itk::Image<short, 4>;
+  using CharImage2DType = itk::Image<char, 2>;
 
-  typedef itk::ImageFileReader<Image2DType>     Reader2DType;
-  typedef itk::ImageFileReader<Image3DType>     Reader3DType;
-  typedef itk::ImageFileReader<Image4DType>     Reader4DType;
-  typedef itk::ImageFileReader<CharImage2DType> CharReader2DType;
+  using Reader2DType = itk::ImageFileReader<Image2DType>;
+  using Reader3DType = itk::ImageFileReader<Image3DType>;
+  using Reader4DType = itk::ImageFileReader<Image4DType>;
+  using CharReader2DType = itk::ImageFileReader<CharImage2DType>;
 
-  typedef itk::ImageFileWriter<Image3DType> Writer3DType;
-  typedef itk::ImageFileWriter<Image4DType> Writer4DType;
+  using Writer3DType = itk::ImageFileWriter<Image3DType>;
+  using Writer4DType = itk::ImageFileWriter<Image4DType>;
 
 
   std::string tempFile1 = std::string( argv[2] ) + std::string( "/itkImageFileReaderDimensionsTest_1." ) + std::string( argv[3] );

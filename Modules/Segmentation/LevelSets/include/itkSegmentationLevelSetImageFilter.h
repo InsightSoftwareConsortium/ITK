@@ -148,35 +148,35 @@ class ITK_TEMPLATE_EXPORT SegmentationLevelSetImageFilter:
                                                              TInputImage::ImageDimension > >
 {
 public:
-  /** Inherited typedef from the superclass. Needs to be placed before the next macro. */
-  typedef SegmentationLevelSetImageFilter Self;
+  /** Inherited type alias from the superclass. Needs to be placed before the next macro. */
+  using Self = SegmentationLevelSetImageFilter;
 
   //itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  /** Output image type typedefs */
-  typedef Image< TOutputPixelType, itkGetStaticConstMacro(InputImageDimension) > OutputImageType;
+  /** Output image type type alias */
+  using OutputImageType = Image< TOutputPixelType, itkGetStaticConstMacro(InputImageDimension) >;
 
-  /** Standard class typedefs */
-  typedef SparseFieldLevelSetImageFilter< TInputImage, OutputImageType > Superclass;
-  typedef SmartPointer< Self >                                           Pointer;
-  typedef SmartPointer< const Self >                                     ConstPointer;
+  /** Standard class type aliases */
+  using Superclass = SparseFieldLevelSetImageFilter< TInputImage, OutputImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType      ValueType;
-  typedef typename Superclass::IndexType      IndexType;
-  typedef typename Superclass::TimeStepType   TimeStepType;
-  typedef typename Superclass::InputImageType InputImageType;
+  /** Inherited type alias from the superclass. */
+  using ValueType = typename Superclass::ValueType;
+  using IndexType = typename Superclass::IndexType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using InputImageType = typename Superclass::InputImageType;
 
-  /** Local image typedefs */
-  typedef TFeatureImage FeatureImageType;
+  /** Local image type alias */
+  using FeatureImageType = TFeatureImage;
 
   /** The generic level set function type */
-  typedef SegmentationLevelSetFunction< OutputImageType, FeatureImageType >
-  SegmentationFunctionType;
+  using SegmentationFunctionType =
+      SegmentationLevelSetFunction< OutputImageType, FeatureImageType >;
 
   /** The type used for the advection field */
-  typedef typename SegmentationFunctionType::VectorImageType VectorImageType;
-  typedef typename SegmentationFunctionType::ImageType       SpeedImageType;
+  using VectorImageType = typename SegmentationFunctionType::VectorImageType;
+  using SpeedImageType = typename SegmentationFunctionType::ImageType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SegmentationLevelSetImageFilter, SparseFieldLevelSetImageFilter);

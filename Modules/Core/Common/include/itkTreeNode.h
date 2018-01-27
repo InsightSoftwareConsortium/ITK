@@ -44,13 +44,13 @@ class ITK_TEMPLATE_EXPORT TreeNode:public Object
 {
 public:
 
-  /** Standard typedefs */
-  typedef Object                     Superclass;
-  typedef TreeNode< TValue >         Self;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef std::vector< Pointer >     ChildrenListType;
-  typedef ::itk::OffsetValueType     ChildIdentifier;
+  /** Standard type alias */
+  using Superclass = Object;
+  using Self = TreeNode< TValue >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ChildrenListType = std::vector< Pointer >;
+  using ChildIdentifier = ::itk::OffsetValueType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

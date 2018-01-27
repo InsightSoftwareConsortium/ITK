@@ -24,10 +24,10 @@
 template<unsigned int Dimension>
 int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 {
-  typedef itk::PointSet<unsigned char, Dimension> PointSetType;
+  using PointSetType = itk::PointSet<unsigned char, Dimension>;
 
-  typedef typename PointSetType::PointType PointType;
-  typedef typename PointType::VectorType   VectorType;
+  using PointType = typename PointSetType::PointType;
+  using VectorType = typename PointType::VectorType;
 
   typename PointSetType::Pointer fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
@@ -78,7 +78,7 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     }
 
   // Simple translation transform for moving point set
-  typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
+  using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
   typename TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
   translationTransform->SetIdentity();
 
@@ -95,7 +95,7 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     std::cout << "Alpha = " << alphaValues[i] << std::endl;
 
     // Instantiate the metric ( alpha = 1.0 )
-    typedef itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+    using PointSetMetricType = itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType>;
     typename PointSetMetricType::Pointer metric = PointSetMetricType::New();
     metric->SetFixedPointSet( fixedPoints );
     metric->SetMovingPointSet( movingPoints );

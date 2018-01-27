@@ -82,8 +82,8 @@ VectorNeighborhoodOperatorImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > BFC;
-  typedef typename BFC::FaceListType                                            FaceListType;
+  using BFC = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >;
+  using FaceListType = typename BFC::FaceListType;
 
   VectorNeighborhoodInnerProduct< InputImageType > smartInnerProduct;
   BFC                                              faceCalculator;

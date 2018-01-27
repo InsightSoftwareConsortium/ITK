@@ -25,10 +25,10 @@ namespace Statistics {
 class VariateGeneratorTestHelper : public RandomVariateGeneratorBase
 {
 public:
-  typedef VariateGeneratorTestHelper Self;
-  typedef RandomVariateGeneratorBase Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  using Self = VariateGeneratorTestHelper;
+  using Superclass = RandomVariateGeneratorBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkTypeMacro(VariateGeneratorTestHelper, RandomVariateGeneratorBase );
 
@@ -54,7 +54,7 @@ public:
 
 int itkRandomVariateGeneratorBaseTest( int , char* [] )
 {
-  typedef itk::Statistics::VariateGeneratorTestHelper GeneratorType;
+  using GeneratorType = itk::Statistics::VariateGeneratorTestHelper;
 
   GeneratorType::Pointer generator = GeneratorType::New();
 

@@ -140,7 +140,7 @@ int itkImageRegionIteratorTest(int, char* [] )
   // Iterate over a region, then change the region and iterate over the new region
   {
     // Create an image
-    typedef itk::Image<int, 2> TestImageType;
+    using TestImageType = itk::Image<int, 2>;
     TestImageType::IndexType imageCorner;
     imageCorner.Fill(0);
 

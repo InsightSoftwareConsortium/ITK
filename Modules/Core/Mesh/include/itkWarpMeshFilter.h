@@ -43,25 +43,25 @@ class ITK_TEMPLATE_EXPORT WarpMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  /** Standard class typedefs. */
-  typedef WarpMeshFilter                              Self;
-  typedef MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = WarpMeshFilter;
+  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TInputMesh                      InputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
+  using InputMeshType = TInputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
 
-  typedef TOutputMesh                      OutputMeshType;
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  using OutputMeshType = TOutputMesh;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
   /** Type for representing coordinates. */
-  typedef typename TInputMesh::CoordRepType CoordRepType;
+  using CoordRepType = typename TInputMesh::CoordRepType;
 
-  /** Deformation field typedef support. */
-  typedef TDisplacementField                           DisplacementFieldType;
-  typedef typename DisplacementFieldType::ConstPointer DisplacementFieldPointer;
-  typedef typename DisplacementFieldType::PixelType    DisplacementType;
+  /** Deformation field type alias support */
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::ConstPointer;
+  using DisplacementType = typename DisplacementFieldType::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

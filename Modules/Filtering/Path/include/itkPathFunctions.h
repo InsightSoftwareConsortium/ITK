@@ -33,9 +33,9 @@ void MakeChainCodeTracePath(TChainCodePath & chainPath,
                             const TPathInput & inPath,
                             bool restrictMovement = false)
 {
-  typedef typename TChainCodePath::OffsetType OffsetType;
-  typedef typename TChainCodePath::InputType  ChainInputType;
-  typedef typename TPathInput::InputType      InPathInputType;
+  using OffsetType = typename TChainCodePath::OffsetType;
+  using ChainInputType = typename TChainCodePath::InputType;
+  using InPathInputType = typename TPathInput::InputType;
 
   OffsetType      offset, tempOffset, zeroOffset;
   InPathInputType inPathInput;
@@ -79,12 +79,12 @@ void MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath & FSPath,
                                          const TChainCodePath & chainPath,
                                          unsigned int numHarmonics = 8)
 {
-  typedef typename TFourierSeriesPath::IndexType  IndexType;
-  typedef typename TFourierSeriesPath::OffsetType OffsetType;
-  typedef typename TFourierSeriesPath::VectorType VectorType;
+  using IndexType = typename TFourierSeriesPath::IndexType;
+  using OffsetType = typename TFourierSeriesPath::OffsetType;
+  using VectorType = typename TFourierSeriesPath::VectorType;
 
-  typedef typename TFourierSeriesPath::InputType  FSInputType;
-  typedef typename TChainCodePath::InputType      ChainInputType;
+  using FSInputType = typename TFourierSeriesPath::InputType;
+  using ChainInputType = typename TChainCodePath::InputType;
 
   IndexType   index;
   VectorType  indexVector;

@@ -59,11 +59,11 @@ class ITKStatistics_EXPORT ChiSquareDistribution:
   public ProbabilityDistribution
 {
 public:
-  /** Standard class typedefs */
-  typedef ChiSquareDistribution      Self;
-  typedef ProbabilityDistribution    Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = ChiSquareDistribution;
+  using Superclass = ProbabilityDistribution;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Strandard macros */
   itkTypeMacro(ChiSquareDistribution, ProbabilityDistribution);

@@ -62,7 +62,7 @@ class ITK_TEMPLATE_EXPORT SpatialObject:
 {
 public:
 
-  typedef double ScalarType;
+  using ScalarType = double;
 
   itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
 
@@ -70,54 +70,54 @@ public:
    * have.  This provides convenient access to a static constant. */
   unsigned int GetMaximumDepth() const { return MaximumDepth; }
 
-  typedef SpatialObject< VDimension > Self;
-  typedef DataObject                  Superclass;
+  using Self = SpatialObject< VDimension >;
+  using Superclass = DataObject;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef Point< ScalarType, VDimension > PointType;
-  // Spatial Function Iterator needs the following typedef
-  typedef Point< ScalarType, VDimension > InputType;
-  typedef PointType *                     PointPointer;
+  using PointType = Point< ScalarType, VDimension >;
+  // Spatial Function Iterator needs the following type alias
+  using InputType = Point< ScalarType, VDimension >;
+  using PointPointer = PointType *;
 
-  typedef Vector< ScalarType, VDimension >          VectorType;
-  typedef CovariantVector< ScalarType, VDimension > CovariantVectorType;
-  typedef VectorType *                              VectorPointer;
+  using VectorType = Vector< ScalarType, VDimension >;
+  using CovariantVectorType = CovariantVector< ScalarType, VDimension >;
+  using VectorPointer = VectorType *;
 
-  typedef double *SpacingType;
+  using SpacingType = double *;
 
-  typedef CovariantVector< double, VDimension > OutputVectorType;
-  typedef OutputVectorType *                    OutputVectorPointer;
+  using OutputVectorType = CovariantVector< double, VDimension >;
+  using OutputVectorPointer = OutputVectorType *;
 
-  typedef ScalableAffineTransform< double, VDimension > TransformType;
-  typedef typename TransformType::Pointer               TransformPointer;
-  typedef const TransformType *                         TransformConstPointer;
+  using TransformType = ScalableAffineTransform< double, VDimension >;
+  using TransformPointer = typename TransformType::Pointer;
+  using TransformConstPointer = const TransformType *;
 
-  typedef VectorContainer< IdentifierType, PointType >  VectorContainerType;
+  using VectorContainerType = VectorContainer< IdentifierType, PointType >;
 
-  typedef BoundingBox< IdentifierType, VDimension, ScalarType, VectorContainerType > BoundingBoxType;
-  typedef typename BoundingBoxType::Pointer                                          BoundingBoxPointer;
+  using BoundingBoxType = BoundingBox< IdentifierType, VDimension, ScalarType, VectorContainerType >;
+  using BoundingBoxPointer = typename BoundingBoxType::Pointer;
 
-  typedef AffineGeometryFrame< double, VDimension > AffineGeometryFrameType;
-  typedef typename AffineGeometryFrameType::Pointer AffineGeometryFramePointer;
+  using AffineGeometryFrameType = AffineGeometryFrame< double, VDimension >;
+  using AffineGeometryFramePointer = typename AffineGeometryFrameType::Pointer;
 
   /** Return type for the list of children */
-  typedef std::list< Pointer > ChildrenListType;
-  typedef ChildrenListType *   ChildrenListPointer;
+  using ChildrenListType = std::list< Pointer >;
+  using ChildrenListPointer = ChildrenListType *;
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef Index< VDimension >                IndexType;
+  /** Index type alias support An index is used to access pixel values. */
+  using IndexType = Index< VDimension >;
 
-  /** Offset typedef support. An offset represent relative position
+  /** Offset type alias support An offset represent relative position
    * between indices. */
-  typedef Offset< VDimension >                 OffsetType;
-  typedef ImageRegion< VDimension >            RegionType;
-  typedef Size< VDimension >                   SizeType;
-  typedef SpatialObjectProperty< float >       PropertyType;
-  typedef typename PropertyType::Pointer       PropertyPointer;
+  using OffsetType = Offset< VDimension >;
+  using RegionType = ImageRegion< VDimension >;
+  using SizeType = Size< VDimension >;
+  using PropertyType = SpatialObjectProperty< float >;
+  using PropertyPointer = typename PropertyType::Pointer;
 
-  typedef SpatialObjectTreeNode< VDimension > TreeNodeType;
+  using TreeNodeType = SpatialObjectTreeNode< VDimension >;
 
   /** Return true if the object has a parent object. Basically, only
    *  the root object , or some isolated objects should return false. */

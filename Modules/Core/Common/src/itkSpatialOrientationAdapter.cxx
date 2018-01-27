@@ -95,7 +95,7 @@ SpatialOrientationAdapter::DirectionType
 SpatialOrientationAdapter
 ::ToDirectionCosines(const OrientationType & Or)
 {
-  typedef SpatialOrientation::CoordinateTerms CoordinateTerms;
+  using CoordinateTerms = SpatialOrientation::CoordinateTerms;
 
   CoordinateTerms terms[3];
   terms[0] =

@@ -76,11 +76,11 @@ class ITK_TEMPLATE_EXPORT FastMarchingImageFilterBase :
     public FastMarchingBase< TInput, TOutput >
   {
 public:
-  typedef FastMarchingImageFilterBase          Self;
-  typedef FastMarchingBase< TInput, TOutput >  Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
-  typedef typename Superclass::Traits          Traits;
+  using Self = FastMarchingImageFilterBase;
+  using Superclass = FastMarchingBase< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Traits = typename Superclass::Traits;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -89,45 +89,44 @@ public:
   itkTypeMacro(FastMarchingImageFilterBase, FastMarchingBase);
 
 
-  typedef typename Superclass::InputDomainType     InputImageType;
-  typedef typename Superclass::InputDomainPointer  InputImagePointer;
-  typedef typename Superclass::InputPixelType      InputPixelType;
+  using InputImageType = typename Superclass::InputDomainType;
+  using InputImagePointer = typename Superclass::InputDomainPointer;
+  using InputPixelType = typename Superclass::InputPixelType;
 
-  typedef typename Superclass::OutputDomainType     OutputImageType;
-  typedef typename Superclass::OutputDomainPointer  OutputImagePointer;
-  typedef typename Superclass::OutputPixelType      OutputPixelType;
-  typedef typename OutputImageType::SpacingType     OutputSpacingType;
-  typedef typename OutputImageType::SizeType        OutputSizeType;
-  typedef typename OutputImageType::RegionType      OutputRegionType;
-  typedef typename OutputImageType::PointType       OutputPointType;
-  typedef typename OutputImageType::DirectionType   OutputDirectionType;
+  using OutputImageType = typename Superclass::OutputDomainType;
+  using OutputImagePointer = typename Superclass::OutputDomainPointer;
+  using OutputPixelType = typename Superclass::OutputPixelType;
+  using OutputSpacingType = typename OutputImageType::SpacingType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using OutputRegionType = typename OutputImageType::RegionType;
+  using OutputPointType = typename OutputImageType::PointType;
+  using OutputDirectionType = typename OutputImageType::DirectionType;
 
-  typedef typename Traits::NodeType                 NodeType;
-  typedef typename Traits::NodePairType             NodePairType;
-  typedef typename Traits::NodePairContainerType    NodePairContainerType;
-  typedef typename Traits::NodePairContainerPointer NodePairContainerPointer;
-  typedef typename Traits::NodePairContainerConstIterator
-    NodePairContainerConstIterator;
+  using NodeType = typename Traits::NodeType;
+  using NodePairType = typename Traits::NodePairType;
+  using NodePairContainerType = typename Traits::NodePairContainerType;
+  using NodePairContainerPointer = typename Traits::NodePairContainerPointer;
+  using NodePairContainerConstIterator = typename Traits::NodePairContainerConstIterator;
 
-  typedef typename Superclass::LabelType LabelType;
+  using LabelType = typename Superclass::LabelType;
 
   itkStaticConstMacro( ImageDimension, unsigned int, Traits::ImageDimension );
 
 
-  typedef Image< unsigned char, ImageDimension >  LabelImageType;
-  typedef typename LabelImageType::Pointer        LabelImagePointer;
+  using LabelImageType = Image< unsigned char, ImageDimension >;
+  using LabelImagePointer = typename LabelImageType::Pointer;
 
-  typedef Image< unsigned int, ImageDimension >
-    ConnectedComponentImageType;
-  typedef typename ConnectedComponentImageType::Pointer ConnectedComponentImagePointer;
+  using ConnectedComponentImageType =
+      Image< unsigned int, ImageDimension >;
+  using ConnectedComponentImagePointer = typename ConnectedComponentImageType::Pointer;
 
-  typedef NeighborhoodIterator<LabelImageType> NeighborhoodIteratorType;
-  typedef typename NeighborhoodIteratorType::RadiusType NeighborhoodRadiusType;
+  using NeighborhoodIteratorType = NeighborhoodIterator<LabelImageType>;
+  using NeighborhoodRadiusType = typename NeighborhoodIteratorType::RadiusType;
 
   class InternalNodeStructure;
 
 
-  typedef FixedArray< InternalNodeStructure, ImageDimension > InternalNodeStructureArray;
+  using InternalNodeStructureArray = FixedArray< InternalNodeStructure, ImageDimension >;
 
   itkGetModifiableObjectMacro(LabelImage, LabelImageType );
 

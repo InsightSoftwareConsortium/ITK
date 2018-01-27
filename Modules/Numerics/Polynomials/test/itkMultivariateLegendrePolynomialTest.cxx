@@ -30,7 +30,7 @@
 int itkMultivariateLegendrePolynomialTest(int , char* [] )
 {
 
-  typedef itk::MultivariateLegendrePolynomial PolynomialType;
+  using PolynomialType = itk::MultivariateLegendrePolynomial;
 
   const unsigned int dimension = 3;
   const unsigned int degree    = 3;

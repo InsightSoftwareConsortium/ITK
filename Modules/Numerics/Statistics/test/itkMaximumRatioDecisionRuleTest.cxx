@@ -27,7 +27,7 @@ int itkMaximumRatioDecisionRuleTest(int,char *[] )
   std::cout << "==================================" << std::endl;
   std::cout << "Testing MaximumRatioDecionRule " << std::endl << std::endl;
 
-  typedef itk::Statistics::MaximumRatioDecisionRule  DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MaximumRatioDecisionRule;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
   DecisionRuleType::MembershipVectorType discriminantScores;

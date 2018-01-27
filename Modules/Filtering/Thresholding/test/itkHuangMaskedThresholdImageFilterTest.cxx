@@ -33,19 +33,19 @@ int itkHuangMaskedThresholdImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  short          InputPixelType;
-  typedef  unsigned char  OutputPixelType;
+  using InputPixelType = short;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  2 >;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
 
-  typedef itk::HuangThresholdImageFilter<
-    InputImageType, OutputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::HuangThresholdImageFilter<
+    InputImageType, OutputImageType, OutputImageType >;
 
-  typedef itk::ImageFileReader< InputImageType >   ReaderType;
-  typedef itk::ImageFileReader< OutputImageType >  MaskReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using MaskReaderType = itk::ImageFileReader< OutputImageType >;
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   FilterType::Pointer filter = FilterType::New();

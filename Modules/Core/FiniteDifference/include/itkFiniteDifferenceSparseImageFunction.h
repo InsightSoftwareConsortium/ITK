@@ -48,11 +48,11 @@ class ITK_TEMPLATE_EXPORT FiniteDifferenceSparseImageFunction:
   public FiniteDifferenceFunction< TSparseImageType >
 {
 public:
-  /** Standard class typedef. */
-  typedef FiniteDifferenceSparseImageFunction          Self;
-  typedef FiniteDifferenceFunction< TSparseImageType > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  /** Standard class type alias. */
+  using Self = FiniteDifferenceSparseImageFunction;
+  using Superclass = FiniteDifferenceFunction< TSparseImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceSparseImageFunction, FiniteDifferenceFunction);
@@ -61,21 +61,21 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Typedefs from the superclass. */
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::TimeStepType     TimeStepType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
-  typedef typename Superclass::ImageType        SparseImageType;
+  using PixelType = typename Superclass::PixelType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using SparseImageType = typename Superclass::ImageType;
 
   /** The index type for the sparse image. */
-  typedef typename SparseImageType::IndexType IndexType;
+  using IndexType = typename SparseImageType::IndexType;
 
   /** The actual type of nodes stored the sparse image. */
-  typedef typename SparseImageType::NodeType NodeType;
+  using NodeType = typename SparseImageType::NodeType;
 
   /** The type for the variables of NodeType. Scalar or vector. */
-  typedef typename NodeType::NodeDataType NodeDataType;
+  using NodeDataType = typename NodeType::NodeDataType;
 
   /** This function is not called from the FiniteDifferenceSparseImageFilter
    *  class because we need to work with neighborhoods of pointers to data

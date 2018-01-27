@@ -95,11 +95,11 @@ class ITK_TEMPLATE_EXPORT ImageRegistrationMethodv4
 :public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageRegistrationMethodv4                 Self;
-  typedef ProcessObject                             Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageRegistrationMethodv4;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -110,85 +110,85 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( ImageRegistrationMethodv4, ProcessObject );
 
-  /** Input typedefs for the images and transforms. */
-  typedef TFixedImage                                                 FixedImageType;
-  typedef typename FixedImageType::Pointer                            FixedImagePointer;
-  typedef std::vector<FixedImagePointer>                              FixedImagesContainerType;
-  typedef TMovingImage                                                MovingImageType;
-  typedef typename MovingImageType::Pointer                           MovingImagePointer;
-  typedef std::vector<MovingImagePointer>                             MovingImagesContainerType;
+  /** Input type alias for the images and transforms. */
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::Pointer;
+  using FixedImagesContainerType = std::vector<FixedImagePointer>;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::Pointer;
+  using MovingImagesContainerType = std::vector<MovingImagePointer>;
 
-  typedef TPointSet                                                   PointSetType;
-  typedef typename PointSetType::ConstPointer                         PointSetConstPointer;
-  typedef std::vector<PointSetConstPointer>                           PointSetsContainerType;
+  using PointSetType = TPointSet;
+  using PointSetConstPointer = typename PointSetType::ConstPointer;
+  using PointSetsContainerType = std::vector<PointSetConstPointer>;
 
-  /** Metric and transform typedefs */
-  typedef TOutputTransform                                            OutputTransformType;
-  typedef typename OutputTransformType::Pointer                       OutputTransformPointer;
-  typedef typename OutputTransformType::ScalarType                    RealType;
-  typedef typename OutputTransformType::DerivativeType                DerivativeType;
-  typedef typename DerivativeType::ValueType                          DerivativeValueType;
+  /** Metric and transform type alias */
+  using OutputTransformType = TOutputTransform;
+  using OutputTransformPointer = typename OutputTransformType::Pointer;
+  using RealType = typename OutputTransformType::ScalarType;
+  using DerivativeType = typename OutputTransformType::DerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
 
-  typedef Transform<RealType, ImageDimension, ImageDimension>         InitialTransformType;
-  typedef typename InitialTransformType::Pointer                      InitialTransformPointer;
+  using InitialTransformType = Transform<RealType, ImageDimension, ImageDimension>;
+  using InitialTransformPointer = typename InitialTransformType::Pointer;
 
-  typedef CompositeTransform<RealType, ImageDimension>                CompositeTransformType;
-  typedef typename CompositeTransformType::Pointer                    CompositeTransformPointer;
+  using CompositeTransformType = CompositeTransform<RealType, ImageDimension>;
+  using CompositeTransformPointer = typename CompositeTransformType::Pointer;
 
-  typedef ObjectToObjectMetricBaseTemplate<RealType>                  MetricType;
-  typedef typename MetricType::Pointer                                MetricPointer;
+  using MetricType = ObjectToObjectMetricBaseTemplate<RealType>;
+  using MetricPointer = typename MetricType::Pointer;
 
-  typedef Vector<RealType, ImageDimension>                            VectorType;
+  using VectorType = Vector<RealType, ImageDimension>;
 
-  typedef TVirtualImage                                               VirtualImageType;
-  typedef typename VirtualImageType::Pointer                          VirtualImagePointer;
-  typedef ImageBase<ImageDimension>                                   VirtualImageBaseType;
-  typedef typename VirtualImageBaseType::ConstPointer                 VirtualImageBaseConstPointer;
+  using VirtualImageType = TVirtualImage;
+  using VirtualImagePointer = typename VirtualImageType::Pointer;
+  using VirtualImageBaseType = ImageBase<ImageDimension>;
+  using VirtualImageBaseConstPointer = typename VirtualImageBaseType::ConstPointer;
 
-  typedef ObjectToObjectMultiMetricv4<ImageDimension, ImageDimension, VirtualImageType, RealType>  MultiMetricType;
-  typedef ImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType>        ImageMetricType;
-  typedef PointSetToPointSetMetricv4<PointSetType, PointSetType, RealType>                         PointSetMetricType;
+  using MultiMetricType = ObjectToObjectMultiMetricv4<ImageDimension, ImageDimension, VirtualImageType, RealType>;
+  using ImageMetricType = ImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType>;
+  using PointSetMetricType = PointSetToPointSetMetricv4<PointSetType, PointSetType, RealType>;
 
-  typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
-  typedef typename FixedImageMaskType::ConstPointer                   FixedImageMaskConstPointer;
-  typedef std::vector<FixedImageMaskConstPointer>                     FixedImageMasksContainerType;
-  typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
-  typedef typename MovingImageMaskType::ConstPointer                  MovingImageMaskConstPointer;
-  typedef std::vector<MovingImageMaskConstPointer>                    MovingImageMasksContainerType;
+  using FixedImageMaskType = typename ImageMetricType::FixedImageMaskType;
+  using FixedImageMaskConstPointer = typename FixedImageMaskType::ConstPointer;
+  using FixedImageMasksContainerType = std::vector<FixedImageMaskConstPointer>;
+  using MovingImageMaskType = typename ImageMetricType::MovingImageMaskType;
+  using MovingImageMaskConstPointer = typename MovingImageMaskType::ConstPointer;
+  using MovingImageMasksContainerType = std::vector<MovingImageMaskConstPointer>;
 
   /**
    * Type for the output: Using Decorator pattern for enabling the transform to be
    * passed in the data pipeline
    */
-  typedef DataObjectDecorator<OutputTransformType>                    DecoratedOutputTransformType;
-  typedef typename DecoratedOutputTransformType::Pointer              DecoratedOutputTransformPointer;
-  typedef DataObjectDecorator<InitialTransformType>                   DecoratedInitialTransformType;
-  typedef typename DecoratedInitialTransformType::Pointer             DecoratedInitialTransformPointer;
+  using DecoratedOutputTransformType = DataObjectDecorator<OutputTransformType>;
+  using DecoratedOutputTransformPointer = typename DecoratedOutputTransformType::Pointer;
+  using DecoratedInitialTransformType = DataObjectDecorator<InitialTransformType>;
+  using DecoratedInitialTransformPointer = typename DecoratedInitialTransformType::Pointer;
 
-  typedef ShrinkImageFilter<FixedImageType, VirtualImageType>         ShrinkFilterType;
-  typedef typename ShrinkFilterType::ShrinkFactorsType                ShrinkFactorsPerDimensionContainerType;
+  using ShrinkFilterType = ShrinkImageFilter<FixedImageType, VirtualImageType>;
+  using ShrinkFactorsPerDimensionContainerType = typename ShrinkFilterType::ShrinkFactorsType;
 
-  typedef Array<SizeValueType>                                        ShrinkFactorsArrayType;
+  using ShrinkFactorsArrayType = Array<SizeValueType>;
 
-  typedef Array<RealType>                                             SmoothingSigmasArrayType;
-  typedef Array<RealType>                                             MetricSamplingPercentageArrayType;
+  using SmoothingSigmasArrayType = Array<RealType>;
+  using MetricSamplingPercentageArrayType = Array<RealType>;
 
-  /** Transform adaptor typedefs */
-  typedef TransformParametersAdaptorBase<InitialTransformType>        TransformParametersAdaptorType;
-  typedef typename TransformParametersAdaptorType::Pointer            TransformParametersAdaptorPointer;
-  typedef std::vector<TransformParametersAdaptorPointer>              TransformParametersAdaptorsContainerType;
+  /** Transform adaptor type alias */
+  using TransformParametersAdaptorType = TransformParametersAdaptorBase<InitialTransformType>;
+  using TransformParametersAdaptorPointer = typename TransformParametersAdaptorType::Pointer;
+  using TransformParametersAdaptorsContainerType = std::vector<TransformParametersAdaptorPointer>;
 
   /**  Type of the optimizer. */
-  typedef ObjectToObjectOptimizerBaseTemplate<RealType>               OptimizerType;
-  typedef typename OptimizerType::Pointer                             OptimizerPointer;
+  using OptimizerType = ObjectToObjectOptimizerBaseTemplate<RealType>;
+  using OptimizerPointer = typename OptimizerType::Pointer;
 
   /** Weights type for the optimizer. */
-  typedef typename OptimizerType::ScalesType                          OptimizerWeightsType;
+  using OptimizerWeightsType = typename OptimizerType::ScalesType;
 
   /** enum type for metric sampling strategy */
   enum MetricSamplingStrategyType { NONE, REGULAR, RANDOM };
 
-  typedef typename ImageMetricType::FixedSampledPointSetType          MetricSamplePointSetType;
+  using MetricSamplePointSetType = typename ImageMetricType::FixedSampledPointSetType;
 
   /** Set/get the fixed images. */
   virtual void SetFixedImage( const FixedImageType *image )
@@ -378,7 +378,7 @@ public:
   itkBooleanMacro( SmoothingSigmasAreSpecifiedInPhysicalUnits );
 
   /** Make a DataObject of the correct type to be used as the specified output. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput( DataObjectPointerArraySizeType ) override;
 

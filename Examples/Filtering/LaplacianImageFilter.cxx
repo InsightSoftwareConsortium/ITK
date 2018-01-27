@@ -35,29 +35,29 @@ int main(int argc, char* argv[])
   const char * inputFilename  = argv[1];
   const char * outputFilename = argv[2];
 
-  typedef unsigned char    CharPixelType;  //IO
-  typedef double          RealPixelType;  //Operations
+  using CharPixelType = unsigned char;  //IO
+  using RealPixelType = double;  //Operations
 
   const    unsigned int    Dimension = 2;
 
-  typedef itk::Image<CharPixelType, Dimension>    CharImageType;
-  typedef itk::Image<RealPixelType, Dimension>    RealImageType;
+  using CharImageType = itk::Image<CharPixelType, Dimension>;
+  using RealImageType = itk::Image<RealPixelType, Dimension>;
 
-  typedef itk::ImageFileReader< CharImageType >  ReaderType;
-  typedef itk::ImageFileWriter< CharImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< CharImageType >;
+  using WriterType = itk::ImageFileWriter< CharImageType >;
 
-  typedef itk::CastImageFilter<CharImageType, RealImageType> CastToRealFilterType;
-  typedef itk::CastImageFilter<RealImageType, CharImageType> CastToCharFilterType;
+  using CastToRealFilterType = itk::CastImageFilter<CharImageType, RealImageType>;
+  using CastToCharFilterType = itk::CastImageFilter<RealImageType, CharImageType>;
 
-  typedef itk::RescaleIntensityImageFilter<RealImageType, RealImageType> RescaleFilter;
+  using RescaleFilter = itk::RescaleIntensityImageFilter<RealImageType, RealImageType>;
 
-  typedef itk::LaplacianImageFilter<
+  using LaplacianFilter = itk::LaplacianImageFilter<
                               RealImageType,
-                              RealImageType >    LaplacianFilter;
+                              RealImageType >;
 
-  typedef itk::ZeroCrossingImageFilter<
+  using ZeroCrossingFilter = itk::ZeroCrossingImageFilter<
                               RealImageType,
-                              RealImageType>     ZeroCrossingFilter;
+                              RealImageType>;
 
   //Setting the IO
   ReaderType::Pointer reader = ReaderType::New();

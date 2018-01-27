@@ -53,11 +53,11 @@ public:
 
   /**-CONSTRUCTORS AND DESTRUCTOR--------------------------------------------*/
 
-  /** ITK stype typedefs */
-  typedef TVideoStream                        VideoStreamType;
-  typedef OpenCVVideoCapture<VideoStreamType> Self;
-  typedef typename VideoStreamType::FrameType FrameType;
-  typedef typename FrameType::PixelType       PixelType;
+  /** ITK stype type alias */
+  using VideoStreamType = TVideoStream;
+  using Self = OpenCVVideoCapture<VideoStreamType>;
+  using FrameType = typename VideoStreamType::FrameType;
+  using PixelType = typename FrameType::PixelType;
   static constexpr unsigned int Dimensions =        FrameType::ImageDimension;
   /** Constructor that initializes internal VideoStream to null */
   OpenCVVideoCapture();

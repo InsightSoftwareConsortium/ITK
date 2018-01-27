@@ -34,8 +34,8 @@ int itkNiftiImageIOTest2(int ac, char* av[])
   char *prefix = av[3];
   int test_success = 0;
 
-  typedef itk::Image<signed short, 3> ImageType;
-  typedef ImageType::Pointer          ImagePointer;
+  using ImageType = itk::Image<signed short, 3>;
+  using ImagePointer = ImageType::Pointer;
 
   if((strcmp(arg1, "true") == 0) && WriteNiftiTestFiles(prefix) == -1)
     {
@@ -45,7 +45,7 @@ int itkNiftiImageIOTest2(int ac, char* av[])
   ImagePointer input;
   try
     {
-    typedef itk::ImageFileReader<ImageType> ImageReaderType;
+    using ImageReaderType = itk::ImageFileReader<ImageType>;
     itk::NiftiImageIO::Pointer io = itk::NiftiImageIO::New();
     ImageReaderType::Pointer imageReader = ImageReaderType::New();
     imageReader->SetImageIO(io);

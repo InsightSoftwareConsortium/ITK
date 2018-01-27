@@ -34,23 +34,23 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshZipMeshFunction:
   public QuadEdgeMeshFunctionBase< TMesh, typename TQEType::OriginRefType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef QuadEdgeMeshZipMeshFunction Self;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = QuadEdgeMeshZipMeshFunction;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef QuadEdgeMeshFunctionBase< TMesh,
-                                    typename TQEType::OriginRefType >  Superclass;
+  using Superclass = QuadEdgeMeshFunctionBase< TMesh,
+                                    typename TQEType::OriginRefType >;
 
   itkNewMacro(Self);
   /** Run-time type information (and related methods). */
   itkTypeMacro(QuadEdgeMeshZipMeshFunction, QuadEdgeMeshFunctionBase);
 
   /** Type of QuadEdge with which to apply slicing. */
-  typedef TQEType QEType;
+  using QEType = TQEType;
 
-  typedef typename Superclass::MeshType   MeshType;
-  typedef typename Superclass::OutputType OutputType;
+  using MeshType = typename Superclass::MeshType;
+  using OutputType = typename Superclass::OutputType;
 
   /**
    * \return The OriginRefType of the point that will be removed during the

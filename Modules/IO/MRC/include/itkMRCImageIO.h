@@ -59,10 +59,10 @@ class ITKIOMRC_EXPORT MRCImageIO :
   public StreamingImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef MRCImageIO           Self;
-  typedef StreamingImageIOBase Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = MRCImageIO;
+  using Superclass = StreamingImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

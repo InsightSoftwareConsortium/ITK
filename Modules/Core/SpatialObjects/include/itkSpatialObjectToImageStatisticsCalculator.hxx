@@ -50,7 +50,7 @@ bool
 SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSampleDimension >
 ::ComputeStatistics()
 {
-  typedef itk::Statistics::MeanSampleFilter< SampleType > MeanAlgorithmType;
+  using MeanAlgorithmType = itk::Statistics::MeanSampleFilter< SampleType >;
   typename MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New();
   meanAlgorithm->SetInput(m_Sample);
   meanAlgorithm->Update();
@@ -62,7 +62,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
     m_Mean[i] = mean[i];
     }
 
-  typedef itk::Statistics::CovarianceSampleFilter< SampleType > CovarianceAlgorithmType;
+  using CovarianceAlgorithmType = itk::Statistics::CovarianceSampleFilter< SampleType >;
   typename CovarianceAlgorithmType::Pointer covarianceAlgorithm =
     CovarianceAlgorithmType::New();
 
@@ -114,8 +114,8 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
   // iterator
   if ( !strcmp(m_SpatialObject->GetTypeName(), "ImageMaskSpatialObject") )
     {
-    typedef Image< unsigned char, itkGetStaticConstMacro(ObjectDimension) >   MaskImageType;
-    typedef ImageMaskSpatialObject< itkGetStaticConstMacro(ObjectDimension) > MaskSOType;
+    using MaskImageType = Image< unsigned char, itkGetStaticConstMacro(ObjectDimension) >;
+    using MaskSOType = ImageMaskSpatialObject< itkGetStaticConstMacro(ObjectDimension) >;
 
     typename MaskSOType::Pointer maskSpatialObject = dynamic_cast< MaskSOType * >( m_SpatialObject.GetPointer() );
     if( maskSpatialObject.IsNull() )
@@ -125,7 +125,7 @@ SpatialObjectToImageStatisticsCalculator< TInputImage, TInputSpatialObject, TSam
 
     typename MaskImageType::ConstPointer maskImage =  maskSpatialObject->GetImage();
 
-    typedef ImageRegionConstIterator< MaskImageType > MaskIteratorType;
+    using MaskIteratorType = ImageRegionConstIterator< MaskImageType >;
     MaskIteratorType it( maskImage, maskImage->GetLargestPossibleRegion() );
     it.GoToBegin();
     while ( !it.IsAtEnd() )

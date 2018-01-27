@@ -24,15 +24,15 @@
 int itkImageToVectorImageFilterTest(int argc, char *argv[] )
 {
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image<PixelType,2>        ScalarImageType;
-  typedef itk::VectorImage<PixelType,2>  VectorImageType;
+  using ScalarImageType = itk::Image<PixelType,2>;
+  using VectorImageType = itk::VectorImage<PixelType,2>;
 
-  typedef itk::ImageFileReader<ScalarImageType>                ReaderType;
-  typedef itk::ImageFileWriter<VectorImageType>                WriterType;
+  using ReaderType = itk::ImageFileReader<ScalarImageType>;
+  using WriterType = itk::ImageFileWriter<VectorImageType>;
 
-  typedef itk::ComposeImageFilter<ScalarImageType> FilterType;
+  using FilterType = itk::ComposeImageFilter<ScalarImageType>;
 
   if (argc < 3)
     {

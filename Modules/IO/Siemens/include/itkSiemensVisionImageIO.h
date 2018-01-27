@@ -50,10 +50,10 @@ namespace itk
 class ITKIOSiemens_EXPORT SiemensVisionImageIO:public IPLCommonImageIO
 {
 public:
-  /** Standard class typedefs. */
-  typedef SiemensVisionImageIO Self;
-  typedef IPLCommonImageIO     Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = SiemensVisionImageIO;
+  using Superclass = IPLCommonImageIO;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

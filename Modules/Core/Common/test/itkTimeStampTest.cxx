@@ -31,7 +31,7 @@ typedef struct {
 
 ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
 {
-  typedef itk::MultiThreader::ThreadInfoStruct  ThreadInfoType;
+  using ThreadInfoType = itk::MultiThreader::ThreadInfoStruct;
 
   ThreadInfoType * infoStruct = static_cast< ThreadInfoType * >( ptr );
 

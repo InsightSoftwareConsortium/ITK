@@ -40,13 +40,13 @@ template< typename TPixel, unsigned int VImageDimensions,
 int
 test_fft(unsigned int *SizeOfDimensions)
 {
-  typedef itk::Image< TPixel, VImageDimensions >                  RealImageType;
-  typedef itk::Image< std::complex< TPixel >, VImageDimensions >  ComplexImageType;
+  using RealImageType = itk::Image< TPixel, VImageDimensions >;
+  using ComplexImageType = itk::Image< std::complex< TPixel >, VImageDimensions >;
   unsigned int counter = 0;
   typename RealImageType::SizeType  imageSize;
   typename RealImageType::IndexType imageIndex;
 
-  typedef typename RealImageType::IndexType::IndexValueType indexValueType;
+  using indexValueType = typename RealImageType::IndexType::IndexValueType;
 
   // We are testing the FFT for 1D, 2D, and 3D images. An array
   // (SizeOfDimensions) containing the sizes of each dimension is
@@ -284,8 +284,8 @@ template< typename TPixel, unsigned int VImageDimensions,
 int
 test_fft_rtc(unsigned int *SizeOfDimensions)
 {
-  typedef itk::Image< TPixel, VImageDimensions >                  RealImageType;
-  typedef itk::Image< std::complex< TPixel >, VImageDimensions >  ComplexImageType;
+  using RealImageType = itk::Image< TPixel, VImageDimensions >;
+  using ComplexImageType = itk::Image< std::complex< TPixel >, VImageDimensions >;
   unsigned int counter = 0;
   typename RealImageType::SizeType  imageSize;
   typename RealImageType::IndexType imageIndex;

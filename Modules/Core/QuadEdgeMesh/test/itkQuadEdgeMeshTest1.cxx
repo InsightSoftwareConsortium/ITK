@@ -22,14 +22,14 @@ int itkQuadEdgeMeshTest1( int , char* [] )
 {
   std::cout << "Testing points..." << std::endl;
 
-  typedef double PixelType;
+  using PixelType = double;
   const unsigned int Dimension = 3;
-  typedef itk::QuadEdgeMesh< PixelType, Dimension > MeshType;
-  typedef MeshType::CellTraits                      CellTraits;
-  typedef CellTraits::QuadEdgeType                  QEType;
-  typedef MeshType::CellType                        CellType;
-  typedef itk::QuadEdgeMeshPolygonCell< CellType >  QEPolygonCellType;
-  typedef itk::QuadEdgeMeshLineCell< CellType >     QELineCellType;
+  using MeshType = itk::QuadEdgeMesh< PixelType, Dimension >;
+  using CellTraits = MeshType::CellTraits;
+  using QEType = CellTraits::QuadEdgeType;
+  using CellType = MeshType::CellType;
+  using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell< CellType >;
+  using QELineCellType = itk::QuadEdgeMeshLineCell< CellType >;
 
   MeshType::Pointer  mesh = MeshType::New();
 
@@ -64,7 +64,7 @@ int itkQuadEdgeMeshTest1( int , char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef MeshType::PointsContainer::Iterator PointsIterator;
+  using PointsIterator = MeshType::PointsContainer::Iterator;
   PointsIterator  pointIterator = mesh->GetPoints()->Begin();
   PointsIterator end = mesh->GetPoints()->End();
 

@@ -51,7 +51,7 @@ namespace itk
 class ITKCommon_EXPORT ExceptionObject:public std::exception
 {
 public:
-  typedef std::exception Superclass;
+  using Superclass = std::exception;
   /** Various types of constructors.  Note that these functions will be
   * called when children are instantiated.  The default constructor and
   * the copy constructor of ExceptionObject never throw an exception. */

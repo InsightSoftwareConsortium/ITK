@@ -50,10 +50,10 @@ template< typename TRealValueType >
 class GaborKernelFunction : public KernelFunctionBase< TRealValueType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GaborKernelFunction                Self;
-  typedef KernelFunctionBase<TRealValueType> Superclass;
-  typedef SmartPointer< Self >               Pointer;
+  /** Standard class type aliases. */
+  using Self = GaborKernelFunction;
+  using Superclass = KernelFunctionBase<TRealValueType>;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

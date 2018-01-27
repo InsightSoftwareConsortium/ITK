@@ -42,7 +42,7 @@ class DefaultConvertPixelTraits
 {
 public:
   /** Determine the pixel data type. */
-  typedef typename PixelType::ComponentType ComponentType;
+  using ComponentType = typename PixelType::ComponentType;
 
   /** Return the number of components per pixel. */
   static unsigned int GetNumberOfComponents()
@@ -69,7 +69,7 @@ public:
   class DefaultConvertPixelTraits< type >                                  \
   {                                                                        \
 public:                                                                    \
-    typedef type ComponentType;                                            \
+    using ComponentType = type;                                            \
     static unsigned int GetNumberOfComponents()                            \
       {                                                                    \
       return 1;                                                            \
@@ -118,8 +118,8 @@ template<unsigned int VDimension>
 class DefaultConvertPixelTraits< Offset< VDimension > >
 {
 public:
-  typedef Offset< VDimension >                 TargetType;
-  typedef typename TargetType::OffsetValueType ComponentType;
+  using TargetType = Offset< VDimension >;
+  using ComponentType = typename TargetType::OffsetValueType;
   static unsigned int GetNumberOfComponents()
     {
       return VDimension;
@@ -143,8 +143,8 @@ public:
   class DefaultConvertPixelTraits< type< TComponentType, VDimension > > \
   {                                                                     \
   public:                                                               \
-    typedef type< TComponentType, VDimension > TargetType;              \
-    typedef TComponentType                     ComponentType;           \
+    using TargetType = type< TComponentType, VDimension >;              \
+    using ComponentType = TComponentType;           \
     static unsigned int GetNumberOfComponents()                         \
     {                                                                   \
       return VDimension;                                                \
@@ -185,8 +185,8 @@ template<typename VComponent>
 class DefaultConvertPixelTraits< VariableLengthVector< VComponent > >
 {
 public:
-  typedef VariableLengthVector< VComponent > TargetType;
-  typedef VComponent                         ComponentType;
+  using TargetType = VariableLengthVector< VComponent >;
+  using ComponentType = VComponent;
   static unsigned int GetNumberOfComponents()
   {
     return 0;
@@ -218,8 +218,8 @@ template<typename VComponent>
 class DefaultConvertPixelTraits< VariableSizeMatrix< VComponent > >
 {
 public:
-  typedef VariableSizeMatrix< VComponent >   TargetType;
-  typedef VComponent                         ComponentType;
+  using TargetType = VariableSizeMatrix< VComponent >;
+  using ComponentType = VComponent;
   static unsigned int GetNumberOfComponents()
   {
     return 0;
@@ -261,8 +261,8 @@ template<typename VComponent, unsigned VRows, unsigned VCols >
 class DefaultConvertPixelTraits< Matrix< VComponent, VRows, VCols > >
 {
 public:
-  typedef Matrix< VComponent, VRows, VCols > TargetType;
-  typedef VComponent                         ComponentType;
+  using TargetType = Matrix< VComponent, VRows, VCols >;
+  using ComponentType = VComponent;
   static unsigned int GetNumberOfComponents()
     {
       return VRows * VCols;
@@ -294,8 +294,8 @@ template<typename TComponent >
 class DefaultConvertPixelTraits< ::std::complex< TComponent > >
 {
 public:
-  typedef::std::complex< TComponent > TargetType;
-  typedef TComponent                  ComponentType;
+  using TargetType = ::std::complex<TComponent>;
+  using ComponentType = TComponent;
   static unsigned int GetNumberOfComponents()
     {
       return 2;

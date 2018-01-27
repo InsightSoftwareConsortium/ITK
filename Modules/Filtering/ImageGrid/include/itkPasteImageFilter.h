@@ -49,11 +49,11 @@ class ITK_TEMPLATE_EXPORT PasteImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PasteImageFilter                                Self;
-  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PasteImageFilter;
+  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -62,32 +62,32 @@ public:
   itkTypeMacro(PasteImageFilter, InPlaceImageFilter);
 
   /** Typedefs from Superclass */
-  typedef typename Superclass::InputImagePointer  InputImagePointer;
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
 
   /** Typedef to describe the output and input image region types. */
-  typedef TInputImage                          InputImageType;
-  typedef TOutputImage                         OutputImageType;
-  typedef TSourceImage                         SourceImageType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename InputImageType::RegionType  InputImageRegionType;
-  typedef typename SourceImageType::RegionType SourceImageRegionType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using SourceImageType = TSourceImage;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using SourceImageRegionType = typename SourceImageType::RegionType;
 
-  typedef typename SourceImageType::Pointer      SourceImagePointer;
-  typedef typename SourceImageType::ConstPointer SourceImageConstPointer;
+  using SourceImagePointer = typename SourceImageType::Pointer;
+  using SourceImageConstPointer = typename SourceImageType::ConstPointer;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
-  typedef typename InputImageType::PixelType  InputImagePixelType;
-  typedef typename SourceImageType::PixelType SourceImagePixelType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using SourceImagePixelType = typename SourceImageType::PixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  typedef typename OutputImageType::IndexType OutputImageIndexType;
-  typedef typename OutputImageType::SizeType  OutputImageSizeType;
-  typedef typename InputImageType::IndexType  InputImageIndexType;
-  typedef typename InputImageType::SizeType   InputImageSizeType;
-  typedef typename SourceImageType::IndexType SourceImageIndexType;
-  typedef typename SourceImageType::SizeType  SourceImageSizeType;
+  using OutputImageIndexType = typename OutputImageType::IndexType;
+  using OutputImageSizeType = typename OutputImageType::SizeType;
+  using InputImageIndexType = typename InputImageType::IndexType;
+  using InputImageSizeType = typename InputImageType::SizeType;
+  using SourceImageIndexType = typename SourceImageType::IndexType;
+  using SourceImageSizeType = typename SourceImageType::SizeType;
 
   /** ImageDimension enumeration */
   itkStaticConstMacro(InputImageDimension, unsigned int,

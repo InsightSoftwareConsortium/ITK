@@ -56,8 +56,8 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float                             PixelType;
-  typedef itk::Mesh< PixelType, 2 >         MeshType;
+  using PixelType = float;
+  using MeshType = itk::Mesh< PixelType, 2 >;
   // Software Guide : EndCodeSnippet
 
 
@@ -72,9 +72,9 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::CellType                CellType;
-  typedef itk::VertexCell< CellType >       VertexType;
-  typedef itk::LineCell< CellType >         LineType;
+  using CellType = MeshType::CellType;
+  using VertexType = itk::VertexCell< CellType >;
+  using LineType = itk::LineCell< CellType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -201,7 +201,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::PointsContainer::ConstIterator  PointIterator;
+  using PointIterator = MeshType::PointsContainer::ConstIterator;
   PointIterator pointIterator = mesh->GetPoints()->Begin();
   PointIterator pointEnd      = mesh->GetPoints()->End();
 
@@ -226,7 +226,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::CellsContainer::ConstIterator  CellIterator;
+  using CellIterator = MeshType::CellsContainer::ConstIterator;
 
   CellIterator cellIterator = mesh->GetCells()->Begin();
   CellIterator cellEnd      = mesh->GetCells()->End();
@@ -274,7 +274,7 @@ int main(int, char *[])
     std::cout << " points   " << std::endl;
 
     // Software Guide : BeginCodeSnippet
-    typedef CellType::PointIdIterator     PointIdIterator;
+    using PointIdIterator = CellType::PointIdIterator;
 
     PointIdIterator pointIditer = cell->PointIdsBegin();
     PointIdIterator pointIdend  = cell->PointIdsEnd();

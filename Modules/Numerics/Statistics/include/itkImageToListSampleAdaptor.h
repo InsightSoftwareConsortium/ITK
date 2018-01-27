@@ -54,15 +54,14 @@ class ITK_TEMPLATE_EXPORT ImageToListSampleAdaptor:
   public ListSample< typename MeasurementVectorPixelTraits< typename TImage::PixelType >::MeasurementVectorType >
 {
 public:
-  /** Standard class typedefs */
-  typedef ImageToListSampleAdaptor Self;
+  /** Standard class type aliases */
+  using Self = ImageToListSampleAdaptor;
 
-  typedef ListSample< typename MeasurementVectorPixelTraits<
-                        typename TImage::PixelType >::MeasurementVectorType >
-  Superclass;
+  using Superclass = ListSample< typename MeasurementVectorPixelTraits<
+                        typename TImage::PixelType >::MeasurementVectorType >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToListSampleAdaptor, ListSample);
@@ -70,34 +69,34 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Image typedefs */
-  typedef TImage                                         ImageType;
-  typedef typename ImageType::Pointer                    ImagePointer;
-  typedef typename ImageType::ConstPointer               ImageConstPointer;
-  typedef typename ImageType::IndexType                  IndexType;
-  typedef typename ImageType::PixelType                  PixelType;
-  typedef typename ImageType::PixelContainerConstPointer PixelContainerConstPointer;
+  /** Image type alias */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using IndexType = typename ImageType::IndexType;
+  using PixelType = typename ImageType::PixelType;
+  using PixelContainerConstPointer = typename ImageType::PixelContainerConstPointer;
 
-  /** Image Iterator typedef support */
-  typedef ImageRegionIterator< ImageType >          ImageIteratorType;
-  typedef ImageRegionConstIterator< ImageType >     ImageConstIteratorType;
-  typedef PixelTraits< typename TImage::PixelType > PixelTraitsType;
+  /** Image Iterator type alias support */
+  using ImageIteratorType = ImageRegionIterator< ImageType >;
+  using ImageConstIteratorType = ImageRegionConstIterator< ImageType >;
+  using PixelTraitsType = PixelTraits< typename TImage::PixelType >;
 
 
-  /** Superclass typedefs for Measurement vector, measurement,
+  /** Superclass type alias for Measurement vector, measurement,
    * Instance Identifier, frequency, size, size element value */
-  typedef MeasurementVectorPixelTraits< PixelType >                   MeasurementPixelTraitsType;
-  typedef typename MeasurementPixelTraitsType::MeasurementVectorType  MeasurementVectorType;
+  using MeasurementPixelTraitsType = MeasurementVectorPixelTraits< PixelType >;
+  using MeasurementVectorType = typename MeasurementPixelTraitsType::MeasurementVectorType;
 
-  typedef MeasurementVectorTraitsTypes< MeasurementVectorType > MeasurementVectorTraitsType;
-  typedef typename MeasurementVectorTraitsType::ValueType       MeasurementType;
+  using MeasurementVectorTraitsType = MeasurementVectorTraitsTypes< MeasurementVectorType >;
+  using MeasurementType = typename MeasurementVectorTraitsType::ValueType;
 
-  typedef typename Superclass::AbsoluteFrequencyType      AbsoluteFrequencyType;
-  typedef typename Superclass::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
-  typedef typename Superclass::MeasurementVectorSizeType  MeasurementVectorSizeType;
-  typedef typename Superclass::InstanceIdentifier         InstanceIdentifier;
+  using AbsoluteFrequencyType = typename Superclass::AbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename Superclass::TotalAbsoluteFrequencyType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
 
-  typedef MeasurementVectorType ValueType;
+  using ValueType = MeasurementVectorType;
 
   /** Method to set the image */
   void SetImage(const TImage *image);

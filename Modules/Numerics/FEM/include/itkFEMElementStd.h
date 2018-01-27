@@ -56,27 +56,27 @@ template< unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, 
 class ITK_TEMPLATE_EXPORT ElementStd : public TBaseClass
 {
 public:
-  /** Standard class typedefs. */
-  typedef ElementStd               Self;
-  typedef TBaseClass               Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ElementStd;
+  using Superclass = TBaseClass;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ElementStd, TBaseClass);
 
 // FIXME: Add concept cheking for TBaseClass, and TPointClass
 
-  // Repeat typedefs and enums from parent class
+  // Repeat type alias and enums from parent class
 
-  typedef typename Superclass::Float                 Float;
-  typedef typename Superclass::MatrixType            MatrixType;
-  typedef typename Superclass::VectorType            VectorType;
-  typedef typename Superclass::LoadType              LoadType;
-  typedef typename Superclass::LoadPointer           LoadPointer;
-  typedef typename Superclass::NodeIDType            NodeIDType;
-  typedef typename Superclass::DegreeOfFreedomIDType DegreeOfFreedomIDType;
-  typedef typename Superclass::Node                  Node;
+  using Float = typename Superclass::Float;
+  using MatrixType = typename Superclass::MatrixType;
+  using VectorType = typename Superclass::VectorType;
+  using LoadType = typename Superclass::LoadType;
+  using LoadPointer = typename Superclass::LoadPointer;
+  using NodeIDType = typename Superclass::NodeIDType;
+  using DegreeOfFreedomIDType = typename Superclass::DegreeOfFreedomIDType;
+  using Node = typename Superclass::Node;
   enum { InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID };
 
   /** Number of nodes that define the element. */

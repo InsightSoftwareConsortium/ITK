@@ -60,17 +60,17 @@ class ITK_TEMPLATE_EXPORT HeavisideStepFunction:
   public HeavisideStepFunctionBase< TInput, TOutput >
 {
 public:
-  typedef HeavisideStepFunction                        Self;
-  typedef HeavisideStepFunctionBase< TInput, TOutput > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  using Self = HeavisideStepFunction;
+  using Superclass = HeavisideStepFunctionBase< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro(Self);
 
   itkTypeMacro(HeavisideStepFunction, HeavisideStepFunctionBase);
 
-  typedef typename Superclass::InputType  InputType;
-  typedef typename Superclass::OutputType OutputType;
+  using InputType = typename Superclass::InputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Evaluate at the specified input position */
   OutputType Evaluate(const InputType & input) const override;

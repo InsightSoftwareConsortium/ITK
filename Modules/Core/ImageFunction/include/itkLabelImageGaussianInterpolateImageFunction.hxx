@@ -78,8 +78,8 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
   // inside the search region. This is not as efficient as having a
   // linear list of labels, but probably not a huge deal compared to
   // having to evaluate the erf function
-  typedef std::map<OutputType, RealType, TPixelCompare> WeightMapType;
-  typedef typename std::map<OutputType, RealType, TPixelCompare>::iterator WeightMapIteratorType;
+  using WeightMapType = std::map<OutputType, RealType, TPixelCompare>;
+  using WeightMapIteratorType = typename std::map<OutputType, RealType, TPixelCompare>::iterator;
   WeightMapType weightMap;
 
   ImageRegionConstIteratorWithIndex<InputImageType> It( this->GetInputImage(), region );

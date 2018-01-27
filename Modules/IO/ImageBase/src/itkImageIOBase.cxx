@@ -685,7 +685,7 @@ void WriteBuffer(std::ostream & os, const TComponent *buffer, ImageIOBase::SizeT
 {
   const TComponent *ptr = buffer;
 
-  typedef typename itk::NumericTraits< TComponent >::PrintType PrintType;
+  using PrintType = typename itk::NumericTraits< TComponent >::PrintType;
   for ( ImageIOBase::SizeType i = 0; i < num; i++ )
     {
     if ( !( i % 6 ) && i )
@@ -704,14 +704,14 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     {
     case UCHAR:
       {
-      typedef const unsigned char *Type;
+      using Type = const unsigned char *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
     case CHAR:
       {
-      typedef const char *Type;
+      using Type = const char *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -719,7 +719,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
 
     case USHORT:
       {
-      typedef const unsigned short *Type;
+      using Type = const unsigned short *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -727,7 +727,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
 
     case SHORT:
       {
-      typedef const short *Type;
+      using Type = const short *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -735,7 +735,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
 
     case UINT:
       {
-      typedef const unsigned int *Type;
+      using Type = const unsigned int *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -743,7 +743,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
 
     case INT:
       {
-      typedef const int *Type;
+      using Type = const int *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -751,7 +751,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
 
     case ULONG:
       {
-      typedef const unsigned long *Type;
+      using Type = const unsigned long *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -759,7 +759,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
 
     case LONG:
       {
-      typedef const long *Type;
+      using Type = const long *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -767,7 +767,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
 
     case ULONGLONG:
       {
-      typedef const unsigned long long *Type;
+      using Type = const unsigned long long *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -775,7 +775,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
 
     case LONGLONG:
       {
-      typedef const long long *Type;
+      using Type = const long long *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -783,7 +783,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
 
     case FLOAT:
       {
-      typedef const float *Type;
+      using Type = const float *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -791,7 +791,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
 
     case DOUBLE:
       {
-      typedef const double *Type;
+      using Type = const double *;
       Type buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
@@ -807,7 +807,7 @@ namespace
 template< typename TComponent >
 void ReadBuffer(std::istream & is, TComponent *buffer, ImageIOBase::SizeType num)
 {
-  typedef typename itk::NumericTraits< TComponent >::PrintType PrintType;
+  using PrintType = typename itk::NumericTraits< TComponent >::PrintType;
   PrintType   temp;
   TComponent *ptr = buffer;
   for ( ImageIOBase::SizeType i = 0; i < num; i++, ptr++ )

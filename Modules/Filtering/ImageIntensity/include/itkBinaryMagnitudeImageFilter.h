@@ -90,16 +90,15 @@ class BinaryMagnitudeImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryMagnitudeImageFilter Self;
-  typedef BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = BinaryMagnitudeImageFilter;
+  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                                     Functor::Modulus2<
                                       typename TInputImage1::PixelType,
                                       typename TInputImage2::PixelType,
-                                      typename TOutputImage::PixelType >
-                                    >                                   Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                                      typename TOutputImage::PixelType > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

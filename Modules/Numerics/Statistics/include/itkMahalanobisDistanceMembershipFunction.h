@@ -63,32 +63,32 @@ class ITK_TEMPLATE_EXPORT MahalanobisDistanceMembershipFunction:
   public MembershipFunctionBase< TVector >
 {
 public:
-  /** Standard class typedefs */
-  typedef MahalanobisDistanceMembershipFunction Self;
-  typedef MembershipFunctionBase< TVector >     Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  /** Standard class type aliases */
+  using Self = MahalanobisDistanceMembershipFunction;
+  using Superclass = MembershipFunctionBase< TVector >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Strandard macros */
   itkTypeMacro(MahalanobisDistanceMembershipFunction, MembershipFunctionBase);
   itkNewMacro(Self);
 
   /** SmartPointer class for superclass */
-  typedef typename Superclass::Pointer MembershipFunctionPointer;
+  using MembershipFunctionPointer = typename Superclass::Pointer;
 
   /** Typedef alias for the measurement vectors */
-  typedef TVector MeasurementVectorType;
+  using MeasurementVectorType = TVector;
 
   /** Typedef to represent the length of measurement vectors */
-  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
 
   /** Type of the mean vector. RealType on a vector-type is the same
    * vector-type but with a real element type.  */
-  typedef typename itk::NumericTraits< MeasurementVectorType >::RealType MeasurementVectorRealType;
-  typedef MeasurementVectorRealType  MeanVectorType;
+  using MeasurementVectorRealType = typename itk::NumericTraits< MeasurementVectorType >::RealType;
+  using MeanVectorType = MeasurementVectorRealType;
 
   /** Type of the covariance matrix */
-  typedef VariableSizeMatrix< double > CovarianceMatrixType;
+  using CovarianceMatrixType = VariableSizeMatrix< double >;
 
   /** Set the mean used in the Mahalanobis distance. Mean is a vector type
    * similar to the measurement type but with a real element type.  */

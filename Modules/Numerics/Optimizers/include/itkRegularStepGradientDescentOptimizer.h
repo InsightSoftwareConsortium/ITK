@@ -34,11 +34,11 @@ class ITKOptimizers_EXPORT RegularStepGradientDescentOptimizer:
   public RegularStepGradientDescentBaseOptimizer
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegularStepGradientDescentOptimizer     Self;
-  typedef RegularStepGradientDescentBaseOptimizer Superclass;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegularStepGradientDescentOptimizer;
+  using Superclass = RegularStepGradientDescentBaseOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -47,9 +47,9 @@ public:
   itkTypeMacro(RegularStepGradientDescentOptimizer,
                RegularStepGradientDescentBaseOptimizer);
 
-  /** Cost function typedefs. */
-  typedef Superclass::CostFunctionType CostFunctionType;
-  typedef CostFunctionType::Pointer    CostFunctionPointer;
+  /** Cost function type alias. */
+  using CostFunctionType = Superclass::CostFunctionType;
+  using CostFunctionPointer = CostFunctionType::Pointer;
 
 protected:
   RegularStepGradientDescentOptimizer() {}

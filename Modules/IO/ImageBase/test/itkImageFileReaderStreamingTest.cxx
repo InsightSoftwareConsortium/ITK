@@ -50,20 +50,20 @@ int itkImageFileReaderStreamingTest(int argc, char* argv[])
     }
 
 
-  typedef unsigned char             PixelType;
-  typedef itk::Image<PixelType,3>   ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType,3>;
 
-  typedef itk::ImageFileReader<ImageType>         ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->SetUseStreaming( true );
 
-  typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
+  using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 
 
-  typedef itk::StreamingImageFilter<ImageType, ImageType> StreamingFilter;
+  using StreamingFilter = itk::StreamingImageFilter<ImageType, ImageType>;
   StreamingFilter::Pointer streamer = StreamingFilter::New();
   streamer->SetInput(monitor->GetOutput());
   streamer->SetNumberOfStreamDivisions(numberOfDataPieces);

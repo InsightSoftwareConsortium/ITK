@@ -66,41 +66,41 @@ class ITK_TEMPLATE_EXPORT HoughTransform2DCirclesImageFilter:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef HoughTransform2DCirclesImageFilter                  Self;
-  typedef ImageToImageFilter< Image< TInputPixelType, 2 >,
-                              Image< TOutputPixelType, 2 > >  Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = HoughTransform2DCirclesImageFilter;
+  using Superclass = ImageToImageFilter< Image< TInputPixelType, 2 >,
+                              Image< TOutputPixelType, 2 > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Input Image typedefs. */
-  typedef Image< TInputPixelType, 2 >           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  /** Input Image type alias. */
+  using InputImageType = Image< TInputPixelType, 2 >;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
 
-  /** Output Image typedefs. */
-  typedef Image< TOutputPixelType, 2 >      OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  /** Output Image type alias. */
+  using OutputImageType = Image< TOutputPixelType, 2 >;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** Radius Image typedefs. */
-  typedef Image< TRadiusPixelType, 2 >      RadiusImageType;
-  typedef typename RadiusImageType::Pointer RadiusImagePointer;
+  /** Radius Image type alias. */
+  using RadiusImageType = Image< TRadiusPixelType, 2 >;
+  using RadiusImagePointer = typename RadiusImageType::Pointer;
 
-  /** Image index typedef. */
-  typedef typename InputImageType::IndexType IndexType;
+  /** Image index type alias. */
+  using IndexType = typename InputImageType::IndexType;
 
-  /** Image pixel value typedef. */
-  typedef typename InputImageType::PixelType PixelType;
+  /** Image pixel value type alias. */
+  using PixelType = typename InputImageType::PixelType;
 
   /** Typedef to describe the output image region type. */
-  typedef typename InputImageType::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename InputImageType::RegionType;
 
-  /** Circle typedefs. */
-  typedef EllipseSpatialObject< 2 >    CircleType;
-  typedef typename CircleType::Pointer CirclePointer;
-  typedef std::list< CirclePointer >   CirclesListType;
+  /** Circle type alias. */
+  using CircleType = EllipseSpatialObject< 2 >;
+  using CirclePointer = typename CircleType::Pointer;
+  using CirclesListType = std::list< CirclePointer >;
 
-  typedef typename CirclesListType::size_type CirclesListSizeType;
+  using CirclesListSizeType = typename CirclesListType::size_type;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(HoughTransform2DCirclesImageFilter, ImageToImageFilter);

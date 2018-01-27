@@ -41,14 +41,14 @@ template< typename TOutputPath >
 class ITK_TEMPLATE_EXPORT PathSource:public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef PathSource                 Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PathSource;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,13 +56,13 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PathSource, ProcessObject);
 
-  /** Some convenient typedefs. */
-  typedef TOutputPath                         OutputPathType;
-  typedef typename OutputPathType::Pointer    OutputPathPointer;
-  typedef typename OutputPathType::InputType  OutputPathInputType;
-  typedef typename OutputPathType::OutputType OutputPathOutputType;
-  typedef typename OutputPathType::IndexType  OutputPathIndexType;
-  typedef typename OutputPathType::OffsetType OutputPathOffsetType;
+  /** Some convenient type alias. */
+  using OutputPathType = TOutputPath;
+  using OutputPathPointer = typename OutputPathType::Pointer;
+  using OutputPathInputType = typename OutputPathType::InputType;
+  using OutputPathOutputType = typename OutputPathType::OutputType;
+  using OutputPathIndexType = typename OutputPathType::IndexType;
+  using OutputPathOffsetType = typename OutputPathType::OffsetType;
 
   /** Get the output data of this process object.  The output of this
    * function is not valid until an appropriate Update() method has
@@ -166,7 +166,7 @@ public:
    * SmartPointer to a DataObject. If a subclass of ImageSource has
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

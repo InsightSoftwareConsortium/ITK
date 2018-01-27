@@ -281,7 +281,7 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
       extractedComponentImage->SetRequestedRegion(
         this->GetPosteriorImage()->GetRequestedRegion() );
       extractedComponentImage->Allocate();
-      typedef itk::ImageRegionIterator< ExtractedComponentImageType > IteratorType;
+      using IteratorType = itk::ImageRegionIterator< ExtractedComponentImageType >;
 
       itrPosteriorImage.GoToBegin();
       IteratorType it( extractedComponentImage,

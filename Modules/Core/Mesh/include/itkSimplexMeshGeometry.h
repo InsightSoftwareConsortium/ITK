@@ -45,12 +45,12 @@ class ITKMesh_EXPORT SimplexMeshGeometry
 {
 public:
 
-  typedef itk::Point< double, 3 >               PointType;
-  typedef itk::Vector< double, 3 >              VectorType;
-  typedef itk::CovariantVector< double, 3 >     CovariantVectorType;
-  typedef itk::FixedArray< IdentifierType, 3 >  IndexArray;
-  typedef itk::FixedArray< PointType, 3 >       PointArray;
-  typedef std::set< IdentifierType >            NeighborSetType;
+  using PointType = itk::Point< double, 3 >;
+  using VectorType = itk::Vector< double, 3 >;
+  using CovariantVectorType = itk::CovariantVector< double, 3 >;
+  using IndexArray = itk::FixedArray< IdentifierType, 3 >;
+  using PointArray = itk::FixedArray< PointType, 3 >;
+  using NeighborSetType = std::set< IdentifierType >;
 
   SimplexMeshGeometry();
 

@@ -59,8 +59,8 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 
   this->m_UseInputImageExtremaForScaling = true;
 
-  typedef Function::GreyColormapFunction<
-    InputImagePixelType, OutputImagePixelType > DefaultColormapType;
+  using DefaultColormapType = Function::GreyColormapFunction<
+    InputImagePixelType, OutputImagePixelType >;
 
   typename DefaultColormapType::Pointer greyColormap = DefaultColormapType::New();
   this->SetColormap(greyColormap);
@@ -140,24 +140,24 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
     {
     case Red:
       {
-      typedef Function::RedColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::RedColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case Green:
       {
-      typedef Function::GreenColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::GreenColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case Blue:
       {
-      typedef Function::BlueColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::BlueColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
@@ -165,88 +165,88 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
     case Grey:
     default:
       {
-      typedef Function::GreyColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::GreyColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case Hot:
       {
-      typedef Function::HotColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::HotColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case Cool:
       {
-      typedef Function::CoolColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::CoolColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case Spring:
       {
-      typedef Function::SpringColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::SpringColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case Summer:
       {
-      typedef Function::SummerColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::SummerColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case Autumn:
       {
-      typedef Function::AutumnColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::AutumnColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case Winter:
       {
-      typedef Function::WinterColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::WinterColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case Copper:
       {
-      typedef Function::CopperColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::CopperColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case Jet:
       {
-      typedef Function::JetColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::JetColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case HSV:
       {
-      typedef Function::HSVColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::HSVColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;
       }
     case OverUnder:
       {
-      typedef Function::OverUnderColormapFunction<
-        InputImagePixelType, OutputImagePixelType > SpecificColormapType;
+      using SpecificColormapType = Function::OverUnderColormapFunction<
+        InputImagePixelType, OutputImagePixelType >;
       typename SpecificColormapType::Pointer colormap = SpecificColormapType::New();
       this->SetColormap(colormap);
       break;

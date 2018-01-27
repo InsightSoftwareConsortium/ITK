@@ -34,10 +34,10 @@ int itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
     return EXIT_FAILURE;
     }
 
-  typedef short                             PixelType;
-  typedef itk::Image< PixelType, 3 >        ImageType;
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::DCMTKImageIO                 ImageIOType;
+  using PixelType = short;
+  using ImageType = itk::Image< PixelType, 3 >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ImageIOType = itk::DCMTKImageIO;
 
   const PixelType rescaleSlope(2);
   const PixelType rescaleIntercept(-99);
@@ -70,7 +70,7 @@ int itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
   // image and apply the slope/intercept, and then subtract the first
   // from the second, then look for non-zero min/max/mean.  They
   // should be identical.
-  typedef itk::ImageRegionConstIterator<ImageType> ItType;
+  using ItType = itk::ImageRegionConstIterator<ImageType>;
   ItType it1(images[0],images[0]->GetLargestPossibleRegion());
   ItType it2(images[1],images[1]->GetLargestPossibleRegion());
   for(it1.GoToBegin(), it2.GoToBegin(); !it1.IsAtEnd() && !it2.IsAtEnd(); ++it1, ++it2)

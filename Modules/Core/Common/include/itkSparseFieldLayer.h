@@ -90,7 +90,7 @@ class ITK_TEMPLATE_EXPORT SparseFieldLayerIterator:
   public ConstSparseFieldLayerIterator< TNodeType >
 {
 public:
-  typedef ConstSparseFieldLayerIterator< TNodeType > Superclass;
+  using Superclass = ConstSparseFieldLayerIterator< TNodeType >;
 
   SparseFieldLayerIterator():Superclass()
   {}
@@ -153,11 +153,11 @@ class ITK_TEMPLATE_EXPORT SparseFieldLayer:
   public Object
 {
 public:
-  /** Standard typedefs. */
-  typedef SparseFieldLayer           Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard type alias. */
+  using Self = SparseFieldLayer;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -166,17 +166,17 @@ public:
   itkTypeMacro(SparseFieldLayer, Object);
 
   /** Type of node stored in the linked list. */
-  typedef TNodeType NodeType;
+  using NodeType = TNodeType;
 
   /** Alias for the type of value stored in the list. Conforms to Standard Template
    *  Library vocabulary. */
-  typedef NodeType ValueType;
+  using ValueType = NodeType;
 
   /** Iterator type for the list. */
-  typedef SparseFieldLayerIterator< NodeType > Iterator;
+  using Iterator = SparseFieldLayerIterator< NodeType >;
 
   /** Const iterator type for the list. */
-  typedef ConstSparseFieldLayerIterator< NodeType > ConstIterator;
+  using ConstIterator = ConstSparseFieldLayerIterator< NodeType >;
 
   /** Regions used for multithreading */
   struct RegionType {
@@ -184,7 +184,7 @@ public:
     ConstIterator last;  // this is one past the actual last element
   };
 
-  typedef std::vector< RegionType > RegionListType;
+  using RegionListType = std::vector< RegionType >;
 
   /** Returns a pointer to the first node in the list.  Constant
    * time. */

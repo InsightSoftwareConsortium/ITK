@@ -163,7 +163,7 @@ ImageSpatialObject< TDimension,  PixelType >
     PointType p = this->GetInternalInverseTransform()->TransformPoint(point);
 
     typename InterpolatorType::ContinuousIndexType index;
-    typedef typename InterpolatorType::OutputType InterpolatorOutputType;
+    using InterpolatorOutputType = typename InterpolatorType::OutputType;
     for ( unsigned int i = 0; i < TDimension; i++ )
       {
       index[i] = p[i];
@@ -218,7 +218,7 @@ ImageSpatialObject< TDimension,  PixelType >
     typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
     bb->SetMinimum(pointLow);
     bb->SetMaximum(pointHigh);
-    typedef typename BoundingBoxType::PointsContainer PointsContainerType;
+    using PointsContainerType = typename BoundingBoxType::PointsContainer;
     const PointsContainerType *corners = bb->GetCorners();
 
     typename PointsContainerType::const_iterator itC = corners->begin();

@@ -48,20 +48,20 @@ int itkMagnitudeAndPhaseToComplexImageFilterTest( int argc, char * argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef float                                    InputPixelType;
-  typedef std::complex< InputPixelType >           OutputPixelType;
+  using InputPixelType = float;
+  using OutputPixelType = std::complex< InputPixelType >;
 
-  typedef itk::Image< InputPixelType, Dimension >  InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   ReaderType::Pointer magnitudeReader = ReaderType::New();
   ReaderType::Pointer phaseReader = ReaderType::New();
   magnitudeReader->SetFileName( magnitudeImageFileName );
   phaseReader->SetFileName( phaseImageFileName );
 
-  typedef itk::MagnitudeAndPhaseToComplexImageFilter <
-    InputImageType, InputImageType, OutputImageType > MagnitudeAndPhaseToComplexFilterType;
+  using MagnitudeAndPhaseToComplexFilterType = itk::MagnitudeAndPhaseToComplexImageFilter <
+    InputImageType, InputImageType, OutputImageType >;
 
   MagnitudeAndPhaseToComplexFilterType::Pointer magnitudeAndPhaseToComplexFilter =
     MagnitudeAndPhaseToComplexFilterType::New();
@@ -72,7 +72,7 @@ int itkMagnitudeAndPhaseToComplexImageFilterTest( int argc, char * argv[] )
   magnitudeAndPhaseToComplexFilter->SetInput1( magnitudeReader->GetOutput() );
   magnitudeAndPhaseToComplexFilter->SetInput2( phaseReader->GetOutput() );
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( complexImageFileName );
   writer->SetInput( magnitudeAndPhaseToComplexFilter->GetOutput() );
@@ -80,7 +80,7 @@ int itkMagnitudeAndPhaseToComplexImageFilterTest( int argc, char * argv[] )
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // Check that the default template parameters work
-  typedef itk::MagnitudeAndPhaseToComplexImageFilter< InputImageType > DefaultParametersFilterType;
+  using DefaultParametersFilterType = itk::MagnitudeAndPhaseToComplexImageFilter< InputImageType >;
   DefaultParametersFilterType::Pointer temp = DefaultParametersFilterType::New();
   if( temp.IsNull() )
     {

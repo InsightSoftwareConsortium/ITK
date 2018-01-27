@@ -39,17 +39,17 @@ template< unsigned int VImageDimension >
 int runGPUDiscreteGaussianImageFilterTest(const std::string& inFile, const std::string& outFile)
 {
 
-  typedef float InputPixelType;
-  typedef float OutputPixelType;
+  using InputPixelType = float;
+  using OutputPixelType = float;
 
-  typedef itk::GPUImage< InputPixelType,  VImageDimension >   InputImageType;
-  typedef itk::GPUImage< OutputPixelType, VImageDimension >   OutputImageType;
+  using InputImageType = itk::GPUImage< InputPixelType,  VImageDimension >;
+  using OutputImageType = itk::GPUImage< OutputPixelType, VImageDimension >;
 
-  typedef itk::DiscreteGaussianImageFilter< InputImageType, OutputImageType> CPUFilterType;
-  typedef itk::GPUDiscreteGaussianImageFilter< InputImageType, OutputImageType> GPUFilterType;
+  using CPUFilterType = itk::DiscreteGaussianImageFilter< InputImageType, OutputImageType>;
+  using GPUFilterType = itk::GPUDiscreteGaussianImageFilter< InputImageType, OutputImageType>;
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   typename WriterType::Pointer writer = WriterType::New();

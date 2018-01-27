@@ -43,22 +43,22 @@ class ITK_TEMPLATE_EXPORT TransformMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TransformMeshFilter                         Self;
-  typedef MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TransformMeshFilter;
+  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TInputMesh                       InputMeshType;
-  typedef TOutputMesh                      OutputMeshType;
-  typedef typename InputMeshType::Pointer  InputMeshPointer;
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  using InputMeshType = TInputMesh;
+  using OutputMeshType = TOutputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
   /** Type for representing coordinates. */
-  typedef typename TInputMesh::CoordRepType CoordRepType;
+  using CoordRepType = typename TInputMesh::CoordRepType;
 
   /** Type of the transform. */
-  typedef TTransform TransformType;
+  using TransformType = TTransform;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -128,7 +128,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
     }
 
   /* Verify m_Scales. If m_Scales hasn't been set, initialize to all 1's. */
-  typedef typename ScalesType::ValueType     SValueType;
+  using SValueType = typename ScalesType::ValueType;
   if( this->GetScalesInitialized() )
     {
     if( this->m_Scales.Size() != this->m_Metric->GetNumberOfLocalParameters() )
@@ -140,7 +140,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
     /* Check that all values in m_Scales are > machine epsilon, to avoid
      * division by zero/epsilon.
      * Also check if scales are identity. */
-    typedef typename ScalesType::size_type     SizeType;
+    using SizeType = typename ScalesType::size_type;
     this->m_ScalesAreIdentity = true;
     for( SizeType i=0; i < this->m_Scales.Size(); i++ )
       {
@@ -169,7 +169,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
     }
 
   /* Verify m_Weights. */
-  typedef typename ScalesType::ValueType     SValueType;
+  using SValueType = typename ScalesType::ValueType;
   if( this->m_Weights.Size() > 0 )
     {
     if( this->m_Weights.Size() != this->m_Metric->GetNumberOfLocalParameters() )
@@ -178,7 +178,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
                         << ") must equal number of local parameters (" << this->m_Metric->GetNumberOfLocalParameters() << ").");
       }
     /* Check if they are identity within tolerance. */
-    typedef typename ScalesType::size_type     SizeType;
+    using SizeType = typename ScalesType::size_type;
     this->m_WeightsAreIdentity = true;
     for( SizeType i=0; i < this->m_Weights.Size(); i++ )
       {

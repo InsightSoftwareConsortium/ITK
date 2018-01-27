@@ -72,7 +72,7 @@ BinaryGrindPeakImageFilter<TInputImage>
   // Allocate the output
   this->AllocateOutputs();
 
-  typedef typename itk::BinaryImageToShapeLabelMapFilter< InputImageType > LabelizerType;
+  using LabelizerType = typename itk::BinaryImageToShapeLabelMapFilter< InputImageType >;
   typename LabelizerType::Pointer labelizer = LabelizerType::New();
   labelizer->SetInput( this->GetInput() );
   labelizer->SetInputForegroundValue( m_ForegroundValue );
@@ -81,8 +81,8 @@ BinaryGrindPeakImageFilter<TInputImage>
   labelizer->SetNumberOfThreads( this->GetNumberOfThreads() );
   progress->RegisterInternalFilter(labelizer, .65f);
 
-  typedef typename LabelizerType::OutputImageType                  LabelMapType;
-  typedef typename itk::ShapeOpeningLabelMapFilter< LabelMapType > OpeningType;
+  using LabelMapType = typename LabelizerType::OutputImageType;
+  using OpeningType = typename itk::ShapeOpeningLabelMapFilter< LabelMapType >;
   typename OpeningType::Pointer opening = OpeningType::New();
   opening->SetInput( labelizer->GetOutput() );
   opening->SetAttribute( LabelMapType::LabelObjectType::NUMBER_OF_PIXELS_ON_BORDER );
@@ -90,7 +90,7 @@ BinaryGrindPeakImageFilter<TInputImage>
   opening->SetNumberOfThreads( this->GetNumberOfThreads() );
   progress->RegisterInternalFilter(opening, .1f);
 
-  typedef typename itk::LabelMapToBinaryImageFilter< LabelMapType, OutputImageType > BinarizerType;
+  using BinarizerType = typename itk::LabelMapToBinaryImageFilter< LabelMapType, OutputImageType >;
   typename BinarizerType::Pointer binarizer = BinarizerType::New();
   binarizer->SetInput( opening->GetOutput() );
   binarizer->SetForegroundValue( m_ForegroundValue );

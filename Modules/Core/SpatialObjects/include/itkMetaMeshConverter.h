@@ -39,11 +39,11 @@ class ITK_TEMPLATE_EXPORT MetaMeshConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
-  /** Standard class typedefs */
-  typedef MetaMeshConverter                Self;
-  typedef MetaConverterBase< NDimensions > Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard class type aliases */
+  using Self = MetaMeshConverter;
+  using Superclass = MetaConverterBase< NDimensions >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -51,16 +51,16 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaMeshConverter, MetaConverterBase);
 
-  typedef typename Superclass::SpatialObjectType SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
-  typedef typename Superclass::MetaObjectType    MetaObjectType;
+  using SpatialObjectType = typename Superclass::SpatialObjectType;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using MetaObjectType = typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  typedef itk::Mesh< PixelType, NDimensions, TMeshTraits > MeshType;
-  typedef MeshSpatialObject<MeshType>                      MeshSpatialObjectType;
-  typedef typename MeshSpatialObjectType::Pointer          MeshSpatialObjectPointer;
-  typedef typename MeshSpatialObjectType::ConstPointer     MeshSpatialObjectConstPointer;
-  typedef MetaMesh                                         MeshMetaObjectType;
+  using MeshType = itk::Mesh< PixelType, NDimensions, TMeshTraits >;
+  using MeshSpatialObjectType = MeshSpatialObject<MeshType>;
+  using MeshSpatialObjectPointer = typename MeshSpatialObjectType::Pointer;
+  using MeshSpatialObjectConstPointer = typename MeshSpatialObjectType::ConstPointer;
+  using MeshMetaObjectType = MetaMesh;
 
   /** Convert the MetaObject to Spatial Object */
   SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;

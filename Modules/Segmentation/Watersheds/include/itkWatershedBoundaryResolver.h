@@ -65,22 +65,22 @@ class ITK_TEMPLATE_EXPORT BoundaryResolver:public ProcessObject
 {
 public:
   /** Set up smart pointer and object factory definitions.   */
-  typedef BoundaryResolver           Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = BoundaryResolver;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
   itkNewMacro(Self);
   itkTypeMacro(WatershedBoundaryResolver, ProcessObject);
 
   /** Expose the image dimension at run time. */
   itkStaticConstMacro(ImageDimension, unsigned int, TDimension);
 
-  /** Some convenient typedefs.   */
-  typedef TPixelType                                   PixelType;
-  typedef Boundary< PixelType, TDimension >            BoundaryType;
-  typedef EquivalencyTable                             EquivalencyTableType;
-  typedef Segmenter< Image< TPixelType, TDimension > > SegmenterType;
-  typedef DataObject::Pointer                          DataObjectPointer;
+  /** Some convenient type alias.   */
+  using PixelType = TPixelType;
+  using BoundaryType = Boundary< PixelType, TDimension >;
+  using EquivalencyTableType = EquivalencyTable;
+  using SegmenterType = Segmenter< Image< TPixelType, TDimension > >;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Set/Get the first of two boundaries that are to be resolved.   */
   void SetBoundaryA(BoundaryType *bd)
@@ -114,7 +114,7 @@ public:
   void GenerateData() override;
 
   /** Standard itk::ProcessObject subclass method. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

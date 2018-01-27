@@ -48,7 +48,7 @@ template <int N> struct Identity { typedef char Type[N]; };
  * \ingroup ITKCommon
  */
 #define ITK_ASSOCIATE(N, Typed)\
-  template <typename TA, typename TB> struct SizeToType<N,TA,TB> { typedef Typed Type; };
+  template <typename TA, typename TB> struct SizeToType<N,TA,TB> { using Type = Typed; };
 
   ITK_ASSOCIATE(1, TA);
   ITK_ASSOCIATE(2, TB);
@@ -79,7 +79,7 @@ template <int N> struct Identity { typedef char Type[N]; };
  namespace itk {
    template <typename TA, typename TB>
    struct PromoteType<std::complex<TA>, std::complex<TB> > {
-     typedef std::complex<typename PromoteType<TA,TB>::Type> Type;
+     using Type = std::complex<typename PromoteType<TA,TB>::Type>;
    };
  }
  \endcode
@@ -124,7 +124,7 @@ public:
    * Finally, \c Details::SizeToType<> returns the type that holds the result
    * of `a+b`.
    */
-  typedef typename Details::SizeToType<sizeof Check(a+b, 0), TA, TB>::Type Type;
+  using Type = typename Details::SizeToType<sizeof Check(a+b, 0), TA, TB>::Type;
 };
 } // end namespace mpl
 

@@ -31,8 +31,8 @@
 
 int itkTreeContainerTest(int, char* [])
 {
-  typedef int                          NodeType;
-  typedef itk::TreeContainer<NodeType> TreeType;
+  using NodeType = int;
+  using TreeType = itk::TreeContainer<NodeType>;
   TreeType::Pointer tree = TreeType::New();
   tree->SetRoot(0);
   tree->Add(1,0);
@@ -281,8 +281,8 @@ int itkTreeContainerTest(int, char* [])
 
 
   // Test the TreeIteratorClone
-  typedef itk::TreeIteratorBase<TreeType>      IteratorType;
-  typedef itk::TreeIteratorClone<IteratorType> MyIteratorClone;
+  using IteratorType = itk::TreeIteratorBase<TreeType>;
+  using MyIteratorClone = itk::TreeIteratorClone<IteratorType>;
   itk::PreOrderTreeIterator<TreeType> anIterator(tree);
   MyIteratorClone aClone = anIterator;
   ++aClone; // step forward in the cloned iterator, anIterator unchanged.

@@ -130,20 +130,20 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageRegionConstIteratorWithOnlyIndex:public ImageConstIteratorWithOnlyIndex< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageRegionConstIteratorWithOnlyIndex     Self;
-  typedef ImageConstIteratorWithOnlyIndex< TImage > Superclass;
+  /** Standard class type aliases. */
+  using Self = ImageRegionConstIteratorWithOnlyIndex;
+  using Superclass = ImageConstIteratorWithOnlyIndex< TImage >;
 
   /**
-   * Index typedef support. While these were already typdef'ed in the superclass
+   * Index type alias support While these were already typdef'ed in the superclass
    * they need to be redone here for this subclass to compile properly with gcc.
    */
   /** Types inherited from the Superclass */
-  typedef typename Superclass::IndexType             IndexType;
-  typedef typename Superclass::SizeType              SizeType;
-  typedef typename Superclass::OffsetType            OffsetType;
-  typedef typename Superclass::RegionType            RegionType;
-  typedef typename Superclass::ImageType             ImageType;
+  using IndexType = typename Superclass::IndexType;
+  using SizeType = typename Superclass::SizeType;
+  using OffsetType = typename Superclass::OffsetType;
+  using RegionType = typename Superclass::RegionType;
+  using ImageType = typename Superclass::ImageType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRegionConstIteratorWithOnlyIndex():ImageConstIteratorWithOnlyIndex< TImage >() {}

@@ -121,7 +121,7 @@ InPlaceImageFilter< TInputImage, TOutputImage >
     this->GraftOutput(inputAsOutput);
     this->m_RunningInPlace = true;
 
-    typedef ImageBase< OutputImageDimension > ImageBaseType;
+    using ImageBaseType = ImageBase< OutputImageDimension >;
 
     // If there are more than one outputs, allocate the remaining outputs
     for ( unsigned int i = 1; i < this->GetNumberOfIndexedOutputs(); i++ )

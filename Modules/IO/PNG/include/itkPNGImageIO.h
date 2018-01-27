@@ -35,13 +35,13 @@ namespace itk
 class ITKIOPNG_EXPORT PNGImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef PNGImageIO           Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = PNGImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
-  typedef RGBPixel< unsigned char >   RGBPixelType;
-  typedef std::vector< RGBPixelType > PaletteType;
+  using RGBPixelType = RGBPixel< unsigned char >;
+  using PaletteType = std::vector< RGBPixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

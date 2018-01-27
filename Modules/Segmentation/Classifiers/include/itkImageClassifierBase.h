@@ -72,11 +72,11 @@ class ITK_TEMPLATE_EXPORT ImageClassifierBase:
   public ClassifierBase< TInputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageClassifierBase           Self;
-  typedef ClassifierBase< TInputImage > Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer< const Self >    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageClassifierBase;
+  using Superclass = ClassifierBase< TInputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -85,29 +85,27 @@ public:
   itkTypeMacro(ImageClassifierBase, ClassifierBase);
 
   /** Type definition for the input image. */
-  typedef TInputImage                        InputImageType;
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
   /** Type definitions for the classified image pixel type. */
-  typedef typename TClassifiedImage::Pointer ClassifiedImagePointer;
+  using ClassifiedImagePointer = typename TClassifiedImage::Pointer;
 
   /** Type definitions from the Superclass */
 
   /**Set the decision rule */
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
 
   /** Typedefs for membership funciton */
-  typedef typename Superclass::MembershipFunctionType MembershipFunctionType;
+  using MembershipFunctionType = typename Superclass::MembershipFunctionType;
 
-  typedef typename Superclass::MembershipFunctionPointer
-  MembershipFunctionPointer;
+  using MembershipFunctionPointer = typename Superclass::MembershipFunctionPointer;
 
-  typedef typename Superclass::MembershipFunctionPointerVector
-  MembershipFunctionPointerVector;
+  using MembershipFunctionPointerVector = typename Superclass::MembershipFunctionPointerVector;
 
   /** Type alias for decision rule */
-  typedef typename Superclass::DecisionRuleType DecisionRuleType;
+  using DecisionRuleType = typename Superclass::DecisionRuleType;
 
   /** Get/Set the input image. */
   itkSetConstObjectMacro(InputImage, InputImageType);
@@ -121,17 +119,15 @@ public:
 
   /** Type definition for the vector associated with
     * input image pixel type. */
-  typedef typename TInputImage::PixelType InputImagePixelType;
+  using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Type definitions for the vector holding
    * training image pixel type. */
-  typedef typename TClassifiedImage::PixelType ClassifiedImagePixelType;
+  using ClassifiedImagePixelType = typename TClassifiedImage::PixelType;
 
   /** Type definition for the input image/training iterator */
-  typedef
-  ImageRegionConstIterator< TInputImage >    InputImageConstIterator;
-  typedef
-  ImageRegionIterator< TClassifiedImage >    ClassifiedImageIterator;
+  using InputImageConstIterator = ImageRegionConstIterator<TInputImage>;
+  using ClassifiedImageIterator = ImageRegionIterator<TClassifiedImage>;
 
   /** Method to get the membership of a given pixel to the different classes */
   std::vector< double >
@@ -151,7 +147,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageClassifierBase);
 
-  typedef typename TInputImage::SizeType InputImageSizeType;
+  using InputImageSizeType = typename TInputImage::SizeType;
 
   InputImageConstPointer m_InputImage;
   ClassifiedImagePointer m_ClassifiedImage;

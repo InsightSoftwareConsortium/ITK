@@ -31,27 +31,27 @@ int itkOpeningByReconstructionImageFilterTest2(int argc, char* argv [] )
   }
 
   const int Dimension = 2;
-  typedef unsigned char                      PixelType;
-  typedef itk::Image< PixelType, Dimension > InputImageType;
-  typedef itk::Image< PixelType, Dimension > OutputImageType;
-  typedef InputImageType::RegionType         RegionType;
-  typedef InputImageType::SizeType           SizeType;
-  typedef InputImageType::IndexType          IndexType;
-  typedef InputImageType::SpacingType        SpacingType;
-  typedef InputImageType::PointType          OriginType;
+  using PixelType = unsigned char;
+  using InputImageType = itk::Image< PixelType, Dimension >;
+  using OutputImageType = itk::Image< PixelType, Dimension >;
+  using RegionType = InputImageType::RegionType;
+  using SizeType = InputImageType::SizeType;
+  using IndexType = InputImageType::IndexType;
+  using SpacingType = InputImageType::SpacingType;
+  using OriginType = InputImageType::PointType;
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   // Declare the type of the Structuring element to be used
-  typedef itk::BinaryBallStructuringElement<
+  using StructuringElementType = itk::BinaryBallStructuringElement<
                             PixelType,
-                            Dimension>                  StructuringElementType;
+                            Dimension>;
 
   // Declare the type for the Morphology Filters to be Tested
-  typedef itk::OpeningByReconstructionImageFilter<
+  using MorphologicalFilterType = itk::OpeningByReconstructionImageFilter<
                                 InputImageType,
                                 OutputImageType,
-                                StructuringElementType >  MorphologicalFilterType;
+                                StructuringElementType >;
 
 
   WriterType::Pointer           writer = WriterType::New();

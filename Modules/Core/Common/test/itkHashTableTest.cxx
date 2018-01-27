@@ -64,7 +64,7 @@ int itkHashTableTest(int, char* [] )
   std::cout << "Z -> " << H2('Z') << std::endl;
 
   println("Testing itksys::hash_set");
-  typedef itksys::hash_set<const char*, itksys::hash<const char*>, eqstr> HashSetType;
+  using HashSetType = itksys::hash_set<const char*, itksys::hash<const char*>, eqstr>;
   HashSetType Set;
   Set.insert("kiwi");
   Set.insert("plum");
@@ -96,8 +96,7 @@ int itkHashTableTest(int, char* [] )
   SetCopy = Set;
 
   println("Testing itksys::hash_map");
-  typedef itksys::hash_map<const char*, int, itksys::hash<const char*>, eqstr>
-    HashMapType;
+  using HashMapType = itksys::hash_map<const char*, int, itksys::hash<const char*>, eqstr>;
 
   HashMapType months;
   months["january"] = 31;

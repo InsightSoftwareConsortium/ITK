@@ -36,7 +36,7 @@
 int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
 {
   unsigned int i;
-  typedef double CoordRep;
+  using CoordRep = double;
   const unsigned int Dimension    = 2;
   const unsigned int ImageWidth   = 3;
   const unsigned int ImageHeight  = 2;
@@ -44,20 +44,20 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
 
 
   // define a pca shape function
-  typedef itk::PCAShapeSignedDistanceFunction<CoordRep,Dimension> ShapeFunction;
+  using ShapeFunction = itk::PCAShapeSignedDistanceFunction<CoordRep,Dimension>;
   ShapeFunction::Pointer shape = ShapeFunction::New();
 //  shape->DebugOn();
   shape->SetNumberOfPrincipalComponents(NumberOfPCs);
 
 
   // set up the transform
-  typedef itk::Euler2DTransform<double> transformType;
+  using transformType = itk::Euler2DTransform<double>;
   transformType::Pointer transform = transformType::New();
   shape->SetTransform(transform);
 
 
   // prepare for image creation
-  typedef ShapeFunction::ImageType ImageType;
+  using ImageType = ShapeFunction::ImageType;
 
   ImageType::SizeType imageSize = {{ImageWidth, ImageHeight}};
 
@@ -79,7 +79,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
   meanImage->SetRegions(region);
   meanImage->Allocate();
 
-  typedef itk::ImageRegionIterator<ImageType> ImageIterator;
+  using ImageIterator = itk::ImageRegionIterator<ImageType>;
   ImageIterator meanImageIt(meanImage, meanImage->GetBufferedRegion());
 
   for(meanImageIt.GoToBegin(); !meanImageIt.IsAtEnd(); ++meanImageIt)
@@ -93,7 +93,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
 
   // set up the NumberOfPCs principal component images
   ShapeFunction::ImagePointerVector   pcImages(NumberOfPCs);
-  typedef std::vector<ImageIterator>  ImageIteratorVector;
+  using ImageIteratorVector = std::vector<ImageIterator>;
   ImageIteratorVector                 pcImageIts(NumberOfPCs);
 
   for(i=0; i<NumberOfPCs; i++)

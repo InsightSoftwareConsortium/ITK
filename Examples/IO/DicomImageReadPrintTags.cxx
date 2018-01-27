@@ -72,10 +72,10 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short       PixelType;
+  using PixelType = signed short;
   const unsigned int         Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >      ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -95,7 +95,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType >     ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
@@ -108,7 +108,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GDCMImageIO       ImageIOType;
+  using ImageIOType = itk::GDCMImageIO;
   ImageIOType::Pointer dicomIO = ImageIOType::New();
   // Software Guide : EndCodeSnippet
 
@@ -156,7 +156,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MetaDataDictionary   DictionaryType;
+  using DictionaryType = itk::MetaDataDictionary;
 
   const  DictionaryType & dictionary = dicomIO->GetMetaDataDictionary();
   // Software Guide : EndCodeSnippet
@@ -169,7 +169,7 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MetaDataObject< std::string > MetaDataStringType;
+  using MetaDataStringType = itk::MetaDataObject< std::string >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

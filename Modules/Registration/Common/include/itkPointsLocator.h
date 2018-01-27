@@ -44,11 +44,11 @@ template<
 class ITK_TEMPLATE_EXPORT PointsLocator : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef PointsLocator               Self;
-  typedef Object                      Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PointsLocator;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -57,30 +57,29 @@ public:
   itkTypeMacro( PointsLocator, Object );
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TPointsContainer                            PointsContainer;
-  typedef typename PointsContainer::Pointer           PointsContainerPointer;
-  typedef typename PointsContainer::ConstPointer      PointsContainerConstPointer;
-  typedef typename PointsContainer::ElementIdentifier PointIdentifier;
-  typedef typename PointsContainer::Element           PointType;
+  using PointsContainer = TPointsContainer;
+  using PointsContainerPointer = typename PointsContainer::Pointer;
+  using PointsContainerConstPointer = typename PointsContainer::ConstPointer;
+  using PointIdentifier = typename PointsContainer::ElementIdentifier;
+  using PointType = typename PointsContainer::Element;
 
   /** Hold on to the dimensions specified by the template parameters. */
   itkStaticConstMacro( PointDimension, unsigned int, PointType::PointDimension );
 
-  /** Convenient typedefs. */
-  typedef typename PointsContainer::ConstIterator PointsContainerConstIterator;
-  typedef typename PointsContainer::Iterator      PointsContainerIterator;
+  /** Convenient type alias. */
+  using PointsContainerConstIterator = typename PointsContainer::ConstIterator;
+  using PointsContainerIterator = typename PointsContainer::Iterator;
 
   /** Type of the PointsContainer to List Adaptor. */
-  typedef Statistics::VectorContainerToListSampleAdaptor
-    <PointsContainer>                                   SampleAdaptorType;
-  typedef typename SampleAdaptorType::Pointer           SampleAdaptorPointer;
+  using SampleAdaptorType = Statistics::VectorContainerToListSampleAdaptor<PointsContainer>;
+  using SampleAdaptorPointer = typename SampleAdaptorType::Pointer;
 
   /** Types fo the KdTreeGenerator */
-  typedef Statistics::KdTreeGenerator<SampleAdaptorType>    TreeGeneratorType;
-  typedef typename TreeGeneratorType::Pointer               TreeGeneratorPointer;
-  typedef typename TreeGeneratorType::KdTreeType            TreeType;
-  typedef typename TreeType::ConstPointer                   TreeConstPointer;
-  typedef typename TreeType::InstanceIdentifierVectorType   NeighborsIdentifierType;
+  using TreeGeneratorType = Statistics::KdTreeGenerator<SampleAdaptorType>;
+  using TreeGeneratorPointer = typename TreeGeneratorType::Pointer;
+  using TreeType = typename TreeGeneratorType::KdTreeType;
+  using TreeConstPointer = typename TreeType::ConstPointer;
+  using NeighborsIdentifierType = typename TreeType::InstanceIdentifierVectorType;
 
   /** Set/Get the points from which the bounding box should be computed. */
   itkSetObjectMacro( Points, PointsContainer );

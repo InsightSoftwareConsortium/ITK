@@ -20,7 +20,7 @@
 #include "itkVector.h"
 
 // Define floating point type to use for the test.
-typedef double Real;
+using Real = double;
 
 bool different(Real a, Real b)
 {
@@ -31,7 +31,7 @@ int itkVectorTest(int, char* [] )
 {
   bool passed = true;
 
-  typedef itk::Vector<Real, 2> RealVector;
+  using RealVector = itk::Vector<Real, 2>;
 
   RealVector s;
   RealVector t;
@@ -205,14 +205,14 @@ int itkVectorTest(int, char* [] )
     passed = false;
     }
 
-  typedef itk::Vector<float, 3> RealVector3;
+  using RealVector3 = itk::Vector<float, 3>;
   RealVector3 a, b, c;
   a[0] = 1.0; a[1] = 0.0; a[2] = 0.0;
   b[0] = 0.0; b[1] = 1.0; b[2] = 0.0;
   c = itk::CrossProduct(a,b);
   std::cout << "(" << a << ") cross (" << b << ") : (" << c << ")" << std::endl;
 
-  typedef itk::Vector<double, 3> DoubleVector3;
+  using DoubleVector3 = itk::Vector<double, 3>;
   DoubleVector3 aa, bb, cc;
   aa[0] = 1.0; aa[1] = 0.0; aa[2] = 0.0;
   bb[0] = 0.0; bb[1] = 1.0; bb[2] = 0.0;

@@ -35,7 +35,7 @@ namespace itk
 template<typename T>
 struct IdentityHelper
 {
-  typedef T MyType;
+  using MyType = T;
 };
 
 /** \class ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader
@@ -58,48 +58,48 @@ class ITK_TEMPLATE_EXPORT ANTSNeighborhoodCorrelationImageToImageMetricv4GetValu
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader Self;
-  typedef ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
-                                                                                                Superclass;
-  typedef SmartPointer< Self >                                                                  Pointer;
-  typedef SmartPointer< const Self >                                                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader;
+  using Superclass =
+      ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro( ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
 
   itkNewMacro( Self );
 
-  typedef typename Superclass::DomainType    DomainType;
-  typedef typename Superclass::AssociateType AssociateType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
 
-  typedef typename Superclass::VirtualImageType        VirtualImageType;
-  typedef typename Superclass::VirtualPointType        VirtualPointType;
-  typedef typename Superclass::VirtualIndexType        VirtualIndexType;
-  typedef typename Superclass::FixedImagePointType     FixedImagePointType;
-  typedef typename Superclass::FixedImagePixelType     FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType  FixedImageGradientType;
-  typedef typename Superclass::MovingImagePointType    MovingImagePointType;
-  typedef typename Superclass::MovingImagePixelType    MovingImagePixelType;
-  typedef typename Superclass::MovingImageGradientType MovingImageGradientType;
-  typedef typename Superclass::MeasureType             MeasureType;
-  typedef typename Superclass::DerivativeType          DerivativeType;
-  typedef typename Superclass::DerivativeValueType     DerivativeValueType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using FixedImagePointType = typename Superclass::FixedImagePointType;
+  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
+  using FixedImageGradientType = typename Superclass::FixedImageGradientType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
+  using MovingImageGradientType = typename Superclass::MovingImageGradientType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename Superclass::DerivativeValueType;
 
-  typedef TNeighborhoodCorrelationMetric                                 NeighborhoodCorrelationMetricType;
+  using NeighborhoodCorrelationMetricType = TNeighborhoodCorrelationMetric;
 
-  typedef typename NeighborhoodCorrelationMetricType::ImageRegionType               ImageRegionType;
-  typedef typename NeighborhoodCorrelationMetricType::InternalComputationValueType  InternalComputationValueType;
-  typedef typename NeighborhoodCorrelationMetricType::ImageDimensionType            ImageDimensionType;
-  typedef typename NeighborhoodCorrelationMetricType::JacobianType                  JacobianType;
-  typedef typename NeighborhoodCorrelationMetricType::NumberOfParametersType        NumberOfParametersType;
-  typedef typename NeighborhoodCorrelationMetricType::FixedImageType                FixedImageType;
-  typedef typename NeighborhoodCorrelationMetricType::MovingImageType               MovingImageType;
-  typedef typename NeighborhoodCorrelationMetricType::RadiusType                    RadiusType;
+  using ImageRegionType = typename NeighborhoodCorrelationMetricType::ImageRegionType;
+  using InternalComputationValueType = typename NeighborhoodCorrelationMetricType::InternalComputationValueType;
+  using ImageDimensionType = typename NeighborhoodCorrelationMetricType::ImageDimensionType;
+  using JacobianType = typename NeighborhoodCorrelationMetricType::JacobianType;
+  using NumberOfParametersType = typename NeighborhoodCorrelationMetricType::NumberOfParametersType;
+  using FixedImageType = typename NeighborhoodCorrelationMetricType::FixedImageType;
+  using MovingImageType = typename NeighborhoodCorrelationMetricType::MovingImageType;
+  using RadiusType = typename NeighborhoodCorrelationMetricType::RadiusType;
 
   // interested values here updated during scanning
-  typedef InternalComputationValueType                 QueueRealType;
-  typedef std::deque<QueueRealType>                    SumQueueType;
-  typedef ConstNeighborhoodIterator<VirtualImageType>  ScanIteratorType;
+  using QueueRealType = InternalComputationValueType;
+  using SumQueueType = std::deque<QueueRealType>;
+  using ScanIteratorType = ConstNeighborhoodIterator<VirtualImageType>;
 
   // one ScanMemType for each thread
   typedef struct ScanMemType {

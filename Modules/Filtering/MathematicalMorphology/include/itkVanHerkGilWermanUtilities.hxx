@@ -130,7 +130,7 @@ void DoFace(typename TImage::ConstPointer input,
   // to iterate
   // over all the indexes inside the region.
   //
-  // typedef ImageRegionConstIteratorWithIndex<TImage> ItType;
+  // using ItType = ImageRegionConstIteratorWithIndex<TImage>;
   // ItType it(input, face);
 
   typename TImage::Pointer dumbImg = TImage::New();

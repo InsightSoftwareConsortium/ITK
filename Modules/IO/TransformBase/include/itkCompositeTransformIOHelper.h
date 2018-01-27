@@ -48,11 +48,11 @@ template<typename TParametersValueType>
 class ITK_TEMPLATE_EXPORT CompositeTransformIOHelperTemplate
 {
 public:
-  typedef typename TransformIOBaseTemplate<TParametersValueType>::TransformType          TransformType;
-  typedef typename TransformIOBaseTemplate<TParametersValueType>::TransformPointer       TransformPointer;
-  typedef typename TransformIOBaseTemplate<TParametersValueType>::TransformListType      TransformListType;
-  typedef typename TransformIOBaseTemplate<TParametersValueType>::ConstTransformPointer  ConstTransformPointer;
-  typedef typename TransformIOBaseTemplate<TParametersValueType>::ConstTransformListType ConstTransformListType;
+  using TransformType = typename TransformIOBaseTemplate<TParametersValueType>::TransformType;
+  using TransformPointer = typename TransformIOBaseTemplate<TParametersValueType>::TransformPointer;
+  using TransformListType = typename TransformIOBaseTemplate<TParametersValueType>::TransformListType;
+  using ConstTransformPointer = typename TransformIOBaseTemplate<TParametersValueType>::ConstTransformPointer;
+  using ConstTransformListType = typename TransformIOBaseTemplate<TParametersValueType>::ConstTransformListType;
 
   /** from a composite transform, recover a
    * TransformIOBase::ConstTransformList.
@@ -90,7 +90,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef CompositeTransformIOHelperTemplate<double> CompositeTransformIOHelper;
+using CompositeTransformIOHelper = CompositeTransformIOHelperTemplate<double>;
 
 } // namespace itk
 

@@ -23,13 +23,13 @@
 int itkPowImageFilterTest(int, char* [] )
 {
 
-  typedef itk::Image<float, 1>  ImageType;
-  typedef itk::Image<short, 2>  myImageType1;
-  typedef itk::Image<int, 3>    myImageType2;
-  typedef itk::Image<float, 3>  myImageType3;
+  using ImageType = itk::Image<float, 1>;
+  using myImageType1 = itk::Image<short, 2>;
+  using myImageType2 = itk::Image<int, 3>;
+  using myImageType3 = itk::Image<float, 3>;
 
 
-  typedef itk::PowImageFilter<ImageType> FilterType;
+  using FilterType = itk::PowImageFilter<ImageType>;
 
   // The following is to ensure that the filter can be instantiated
   // with these types without warning
@@ -39,8 +39,8 @@ int itkPowImageFilterTest(int, char* [] )
   itk::PowImageFilter<myImageType2, myImageType3>::New();
 
 
-  typedef itk::Size<1>  SizeType;
-  typedef itk::Index<1> IndexType;
+  using SizeType = itk::Size<1>;
+  using IndexType = itk::Index<1>;
 
   ImageType::Pointer inputImageA = ImageType::New();
   ImageType::Pointer inputImageB = ImageType::New();
@@ -113,9 +113,9 @@ int itkPowImageFilterTest(int, char* [] )
   TEST_EXPECT_EQUAL( outputImage->GetPixel( idx1 ), 4.0 );
 
   {
-  typedef itk::PowImageFilter<itk::Image<float>,
+  using complexFloatFilterType = itk::PowImageFilter<itk::Image<float>,
                               itk::Image<std::complex<float> >,
-                              itk::Image<std::complex<float> > > complexFloatFilterType;
+                              itk::Image<std::complex<float> > >;
   complexFloatFilterType::Pointer tFilter = complexFloatFilterType::New();
   TEST_EXPECT_TRUE(!tFilter.IsNull());
   }

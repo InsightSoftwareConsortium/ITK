@@ -36,8 +36,8 @@ template< typename TInputPix, typename TCompare >
 class ITK_TEMPLATE_EXPORT AnchorOpenCloseLine
 {
 public:
-  /** Some convenient typedefs. */
-  typedef TInputPix InputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImagePixelType = TInputPix;
   AnchorOpenCloseLine();
   ~AnchorOpenCloseLine()
   {
@@ -57,7 +57,7 @@ public:
 private:
   unsigned int m_Size;
 
-  typedef Function::MorphologyHistogram< InputImagePixelType, TCompare > HistogramType;
+  using HistogramType = Function::MorphologyHistogram< InputImagePixelType, TCompare >;
 
   bool StartLine(std::vector<InputImagePixelType> & buffer,
                  InputImagePixelType & Extreme,

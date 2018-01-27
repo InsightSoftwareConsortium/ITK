@@ -23,8 +23,8 @@
 #include "itkImageToListSampleFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
-typedef itk::Image< unsigned int , 2 > ImageType;
-typedef itk::Image< unsigned char, 2 > MaskImageType;
+using ImageType = itk::Image< unsigned int , 2 >;
+using MaskImageType = itk::Image< unsigned char, 2 >;
 
 //------------------------------------------------------------------------
 // Creates a 10 x 10 image of unsigned chars with pixel at location
@@ -45,7 +45,7 @@ static ImageType::Pointer CreateImage()
   ImageType::RegionType region( start, size );
   image->SetRegions( region );
   image->Allocate();
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
   IteratorType it( image, region );
   it.GoToBegin();
   while( !it.IsAtEnd() )
@@ -83,7 +83,7 @@ static MaskImageType::Pointer CreateMaskImage()
   sizeMask[1] = 3;
 
   MaskImageType::RegionType regionMask( startMask, sizeMask);
-  typedef itk::ImageRegionIteratorWithIndex< MaskImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< MaskImageType >;
   IteratorType it( image, regionMask );
   it.GoToBegin();
   while (!it.IsAtEnd())
@@ -123,8 +123,8 @@ int itkImageToListSampleFilterTest(int, char* [] )
   MaskImageType::Pointer maskImage = CreateMaskImage();
 
   // Generate a list sample from "image" confined to the mask, "maskImage".
-  typedef itk::Statistics::ImageToListSampleFilter<
-    ImageType, MaskImageType > ImageToListSampleFilterType;
+  using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<
+    ImageType, MaskImageType >;
   ImageToListSampleFilterType::Pointer filter
                               = ImageToListSampleFilterType::New();
 
@@ -184,7 +184,7 @@ int itkImageToListSampleFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef ImageToListSampleFilterType::ListSampleType ListSampleType;
+  using ListSampleType = ImageToListSampleFilterType::ListSampleType;
   const ListSampleType * list = filter->GetOutput();
 
   // Check the sum of the pixels in the list sample. This should

@@ -21,13 +21,13 @@
 
 int itkWhitakerSparseLevelSetImageTest( int , char* [] )
 {
-  typedef double OutputType;
+  using OutputType = double;
   const unsigned int Dimension = 2;
-  typedef itk::WhitakerSparseLevelSetImage< OutputType, Dimension >
-      SparseLevelSetType;
+  using SparseLevelSetType =
+      itk::WhitakerSparseLevelSetImage< OutputType, Dimension >;
 
-  typedef SparseLevelSetType::LabelMapType LabelMapType;
-  typedef LabelMapType::IndexType          IndexType;
+  using LabelMapType = SparseLevelSetType::LabelMapType;
+  using IndexType = LabelMapType::IndexType;
 
   IndexType index;
   index.Fill( 3 );

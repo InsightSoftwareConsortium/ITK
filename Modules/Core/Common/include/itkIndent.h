@@ -49,8 +49,8 @@ namespace itk
 class ITKCommon_EXPORT Indent
 {
 public:
-  /** Standard class typedefs. */
-  typedef Indent Self;
+  /** Standard class type aliases. */
+  using Self = Indent;
 
   /** Method for creation through the object factory. */
   static Self * New();

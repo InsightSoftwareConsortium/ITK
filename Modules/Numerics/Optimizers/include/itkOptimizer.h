@@ -38,11 +38,11 @@ namespace itk
 class ITKOptimizers_EXPORT Optimizer:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef Optimizer                  Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Optimizer;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,7 +52,7 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  typedef OptimizerParameters< double > ParametersType;
+  using ParametersType = OptimizerParameters< double >;
 
   /**  Scale type.
    *  This array defines scale to be applied to parameters before
@@ -60,7 +60,7 @@ public:
    *  map to a more convenient space. In particular this is
    *  used to normalize parameter spaces in which some parameters
    *  have a different dynamic range.   */
-  typedef Array< double > ScalesType;
+  using ScalesType = Array< double >;
 
   /**  Set the position to initialize the optimization. */
   virtual void SetInitialPosition(const ParametersType & param);

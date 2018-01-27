@@ -42,10 +42,10 @@ namespace itk
 class ITKIONIFTI_EXPORT NiftiImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef NiftiImageIO         Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = NiftiImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

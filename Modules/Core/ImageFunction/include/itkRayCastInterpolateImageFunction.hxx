@@ -38,23 +38,23 @@ public:
    * Type of the Transform Base class
    * The fixed image should be a 3D image
    */
-  typedef itk::Transform< TCoordRep, 3, 3 > TransformType;
+  using TransformType = itk::Transform< TCoordRep, 3, 3 >;
 
-  typedef typename TransformType::Pointer         TransformPointer;
-  typedef typename TransformType::InputPointType  InputPointType;
-  typedef typename TransformType::OutputPointType OutputPointType;
-  typedef typename TransformType::ParametersType  TransformParametersType;
-  typedef typename TransformType::JacobianType    TransformJacobianType;
+  using TransformPointer = typename TransformType::Pointer;
+  using InputPointType = typename TransformType::InputPointType;
+  using OutputPointType = typename TransformType::OutputPointType;
+  using TransformParametersType = typename TransformType::ParametersType;
+  using TransformJacobianType = typename TransformType::JacobianType;
 
-  typedef typename TInputImage::SizeType SizeType;
-  typedef itk::Vector< TCoordRep, 3 >    DirectionType;
-  typedef itk::Point< TCoordRep, 3 >     PointType;
+  using SizeType = typename TInputImage::SizeType;
+  using DirectionType = itk::Vector< TCoordRep, 3 >;
+  using PointType = itk::Point< TCoordRep, 3 >;
 
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType PixelType;
-  typedef typename InputImageType::IndexType IndexType;
+  using InputImageType = TInputImage;
+  using PixelType = typename InputImageType::PixelType;
+  using IndexType = typename InputImageType::IndexType;
 
-  typedef itk::CompensatedSummation< double > CompensatedSummationType;
+  using CompensatedSummationType = itk::CompensatedSummation< double >;
 
   /**
    * Set the image class

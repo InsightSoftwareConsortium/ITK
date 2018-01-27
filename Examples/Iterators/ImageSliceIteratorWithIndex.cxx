@@ -127,9 +127,9 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned short              PixelType;
-  typedef itk::Image< PixelType, 2 >  ImageType2D;
-  typedef itk::Image< PixelType, 3 >  ImageType3D;
+  using PixelType = unsigned short;
+  using ImageType2D = itk::Image< PixelType, 2 >;
+  using ImageType3D = itk::Image< PixelType, 3 >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -139,13 +139,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageLinearIteratorWithIndex< ImageType2D > LinearIteratorType;
-  typedef itk::ImageSliceConstIteratorWithIndex< ImageType3D
-                                                          > SliceIteratorType;
+  using LinearIteratorType = itk::ImageLinearIteratorWithIndex< ImageType2D >;
+  using SliceIteratorType = itk::ImageSliceConstIteratorWithIndex<ImageType3D>;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< ImageType3D > ReaderType;
-  typedef itk::ImageFileWriter< ImageType2D > WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType3D >;
+  using WriterType = itk::ImageFileWriter< ImageType2D >;
 
   ImageType3D::ConstPointer inputImage;
   ReaderType::Pointer reader = ReaderType::New();

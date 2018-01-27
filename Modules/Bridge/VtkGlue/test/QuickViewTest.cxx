@@ -27,8 +27,8 @@ template<typename T> void View(const char *name, T,
                             const std::string & snapshotPath = "",
                             const std::string & ext = "png")
 {
-  typedef itk::Image<T, 2 >                ImageType;
-  typedef itk::ImageFileReader<ImageType>  SourceType;
+  using ImageType = itk::Image<T, 2 >;
+  using SourceType = itk::ImageFileReader<ImageType>;
 
   typename SourceType::Pointer source = SourceType::New();
   source->SetFileName(fileName);
@@ -76,9 +76,9 @@ template<typename T> void ViewRGB(const char *name,
                                const std::string & snapshotPath = "",
                                const std::string & ext = "png")
 {
-  typedef itk::RGBPixel<T>                      ColorPixelType;
-  typedef itk::Image<ColorPixelType, 2 >        ColorImageType;
-  typedef itk::ImageFileReader<ColorImageType>  SourceType;
+  using ColorPixelType = itk::RGBPixel<T>;
+  using ColorImageType = itk::Image<ColorPixelType, 2 >;
+  using SourceType = itk::ImageFileReader<ColorImageType>;
 
   typename SourceType::Pointer source = SourceType::New();
 

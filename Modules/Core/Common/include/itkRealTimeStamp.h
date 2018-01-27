@@ -46,7 +46,7 @@ class ITKCommon_EXPORT RealTimeStamp
 {
 public:
 
-  typedef  RealTimeStamp     Self;
+  using Self = RealTimeStamp;
 
   friend class RealTimeClock;
 
@@ -57,7 +57,7 @@ public:
   ~RealTimeStamp();
 
   /** Native type used to represent the time in different time units. */
-  typedef RealTimeInterval::TimeRepresentationType TimeRepresentationType;
+  using TimeRepresentationType = RealTimeInterval::TimeRepresentationType;
 
   /** Return time in multiple units. */
   TimeRepresentationType GetTimeInMicroSeconds() const;
@@ -87,14 +87,14 @@ public:
 
 private:
 
-  typedef   uint64_t   SecondsCounterType;
-  typedef   uint64_t   MicroSecondsCounterType;
+  using SecondsCounterType = uint64_t;
+  using MicroSecondsCounterType = uint64_t;
 
   /** Constructor with values. Intentionally made private */
   RealTimeStamp( SecondsCounterType, MicroSecondsCounterType );
 
-  typedef   RealTimeInterval::SecondsDifferenceType        SecondsDifferenceType;
-  typedef   RealTimeInterval::MicroSecondsDifferenceType   MicroSecondsDifferenceType;
+  using SecondsDifferenceType = RealTimeInterval::SecondsDifferenceType;
+  using MicroSecondsDifferenceType = RealTimeInterval::MicroSecondsDifferenceType;
 
   /** Number of Seconds and Microseconds since... */
   SecondsCounterType        m_Seconds;

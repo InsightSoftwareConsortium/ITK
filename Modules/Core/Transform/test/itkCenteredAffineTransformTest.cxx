@@ -21,8 +21,8 @@
 #include "itkCenteredAffineTransform.h"
 #include "itkImage.h"
 
-typedef  itk::Matrix<double, 2, 2> MatrixType;
-typedef  itk::Vector<double, 2>    VectorType;
+using MatrixType = itk::Matrix<double, 2, 2>;
+using VectorType = itk::Vector<double, 2>;
 
 namespace
 {
@@ -52,7 +52,7 @@ int itkCenteredAffineTransformTest(int, char *[])
      actually check that the results are correct. */
 
   /* Create a 2D identity transformation and show its parameters */
-  typedef itk::CenteredAffineTransform<double, 2> Affine2DType;
+  using Affine2DType = itk::CenteredAffineTransform<double, 2>;
   Affine2DType::Pointer id2 = Affine2DType::New();
   matrix2 = id2->GetMatrix();
   vector2 = id2->GetOffset();
@@ -208,7 +208,7 @@ int itkCenteredAffineTransformTest(int, char *[])
   // << v4[0] << " , " << v4[1] << std::endl;
 
   /* Create a 3D transform and rotate in 3D */
-  typedef itk::CenteredAffineTransform<double, 3> Affine3DType;
+  using Affine3DType = itk::CenteredAffineTransform<double, 3>;
   Affine3DType::Pointer  aff3 = Affine3DType::New();
   itk::Vector<double, 3> axis;
   axis[0] = .707;

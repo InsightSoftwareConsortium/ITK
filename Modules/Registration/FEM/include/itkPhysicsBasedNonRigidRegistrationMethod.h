@@ -61,10 +61,10 @@ template <typename TFixedImage, typename TMovingImage, typename TMaskImage, type
 class ITK_TEMPLATE_EXPORT PhysicsBasedNonRigidRegistrationMethod : public ImageToImageFilter<TMovingImage, TDeformationField>
 {
 public:
-  typedef PhysicsBasedNonRigidRegistrationMethod               Self;
-  typedef ImageToImageFilter<TMovingImage, TDeformationField>  Superclass;
-  typedef SmartPointer<Self>                                   Pointer;
-  typedef SmartPointer<const Self>                             ConstPointer;
+  using Self = PhysicsBasedNonRigidRegistrationMethod;
+  using Superclass = ImageToImageFilter<TMovingImage, TDeformationField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,29 +72,28 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro( PhysicsBasedNonRigidRegistrationMethod, ImageToImageFilter );
 
-  typedef TMovingImage                       MovingImageType;
-  typedef TFixedImage                        FixedImageType;
-  typedef TMaskImage                         MaskImageType;
-  typedef TMesh                              MeshType;
-  typedef TDeformationField                  DeformationFieldType;
+  using MovingImageType = TMovingImage;
+  using FixedImageType = TFixedImage;
+  using MaskImageType = TMaskImage;
+  using MeshType = TMesh;
+  using DeformationFieldType = TDeformationField;
 
   itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
 
-  /** Not input specific typedefs */
-  typedef ImageRegion< ImageDimension >  ImageRegionType;
-  typedef Size< ImageDimension >         ImageSizeType;
-  typedef Index< ImageDimension >        ImageIndexType;
+  /** Not input specific type alias */
+  using ImageRegionType = ImageRegion< ImageDimension >;
+  using ImageSizeType = Size< ImageDimension >;
+  using ImageIndexType = Index< ImageDimension >;
 
   /** Typedefs for the components filters. */
-  typedef MaskFeaturePointSelectionFilter< MovingImageType, MaskImageType >  FeatureSelectionFilterType;
-  typedef BlockMatchingImageFilter< FixedImageType, MovingImageType >        BlockMatchingFilterType;
-  typedef FEMScatteredDataPointSetToImageFilter<
+  using FeatureSelectionFilterType = MaskFeaturePointSelectionFilter< MovingImageType, MaskImageType >;
+  using BlockMatchingFilterType = BlockMatchingImageFilter< FixedImageType, MovingImageType >;
+  using FEMFilterType = FEMScatteredDataPointSetToImageFilter<
     typename BlockMatchingFilterType::DisplacementsType,
     MeshType,
     DeformationFieldType,
     typename BlockMatchingFilterType::SimilaritiesType,
-    typename FeatureSelectionFilterType::FeaturePointsType // tensors are optional pixel values of feature points pointset
-  >  FEMFilterType;
+    typename FeatureSelectionFilterType::FeaturePointsType >;// tensors are optional pixel values of feature points pointset
 
   /** set fraction of eligible points to select */
   itkSetMacro(SelectFraction, double);

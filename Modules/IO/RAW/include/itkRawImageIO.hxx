@@ -149,7 +149,7 @@ void RawImageIO< TPixel, VImageDimension >
 #define itkReadRawBytesAfterSwappingMacro(StrongType, WeakType)   \
   ( this->GetComponentType() == WeakType )                        \
     {                                                             \
-    typedef ByteSwapper< StrongType > InternalByteSwapperType;    \
+    using InternalByteSwapperType = ByteSwapper< StrongType >;    \
     if ( m_ByteOrder == LittleEndian )                            \
       {                                                           \
       InternalByteSwapperType::SwapRangeFromSystemToLittleEndian( \
@@ -217,7 +217,7 @@ void RawImageIO< TPixel, VImageDimension >
 #define itkWriteRawBytesAfterSwappingMacro(StrongType, WeakType)        \
   ( this->GetComponentType() == WeakType )                              \
     {                                                                   \
-    typedef ByteSwapper< StrongType > InternalByteSwapperType;          \
+    using InternalByteSwapperType = ByteSwapper< StrongType >;          \
     const SizeValueType numberOfPixels = numberOfBytes/(sizeof(StrongType)); \
     if ( m_ByteOrder == LittleEndian )                                  \
       {                                                                 \

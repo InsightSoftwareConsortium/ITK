@@ -31,11 +31,11 @@ namespace itk
 class ITKIOMeta_EXPORT MetaImageIOFactory:public ObjectFactoryBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef MetaImageIOFactory         Self;
-  typedef ObjectFactoryBase          Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MetaImageIOFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Class methods used to interface with the registered factories. */
   const char * GetITKSourceVersion() const override;

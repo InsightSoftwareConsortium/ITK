@@ -40,25 +40,24 @@ class ITK_TEMPLATE_EXPORT ImageMaskSpatialObject:
 {
 public:
 
-  typedef ImageMaskSpatialObject< TDimension > Self;
-  typedef ImageSpatialObject< TDimension >     Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  using Self = ImageMaskSpatialObject< TDimension >;
+  using Superclass = ImageSpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::ScalarType       ScalarType;
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::ImageType        ImageType;
-  typedef typename Superclass::ImagePointer     ImagePointer;
-  typedef typename Superclass::IndexType        IndexType;
-  typedef typename Superclass::RegionType       RegionType;
-  typedef typename Superclass::SizeType         SizeType;
-  typedef typename Superclass::TransformType    TransformType;
-  typedef typename Superclass::PointType        PointType;
-  typedef typename Superclass::BoundingBoxType  BoundingBoxType;
-  typedef typename Superclass::InterpolatorType InterpolatorType;
+  using ScalarType = typename Superclass::ScalarType;
+  using PixelType = typename Superclass::PixelType;
+  using ImageType = typename Superclass::ImageType;
+  using ImagePointer = typename Superclass::ImagePointer;
+  using IndexType = typename Superclass::IndexType;
+  using RegionType = typename Superclass::RegionType;
+  using SizeType = typename Superclass::SizeType;
+  using TransformType = typename Superclass::TransformType;
+  using PointType = typename Superclass::PointType;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using InterpolatorType = typename Superclass::InterpolatorType;
 
-  typedef itk::ImageSliceConstIteratorWithIndex< ImageType >
-  SliceIteratorType;
+  using SliceIteratorType = itk::ImageSliceConstIteratorWithIndex<ImageType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

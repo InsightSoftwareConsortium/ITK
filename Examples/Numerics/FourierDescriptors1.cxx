@@ -89,7 +89,7 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef vnl_fft_1d< double > FFTCalculator;
+  using FFTCalculator = vnl_fft_1d< double >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -100,9 +100,9 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Point< double, 2 >  PointType;
+  using PointType = itk::Point< double, 2 >;
 
-  typedef itk::VectorContainer< unsigned int, PointType >  PointsContainer;
+  using PointsContainer = itk::VectorContainer< unsigned int, PointType >;
 
   PointsContainer::Pointer points = PointsContainer::New();
   // Software Guide : EndCodeSnippet
@@ -127,7 +127,7 @@ int main(int argc, char * argv[] )
 
   points->Reserve( numberOfPoints );
 
-  typedef PointsContainer::Iterator PointIterator;
+  using PointIterator = PointsContainer::Iterator;
   PointIterator pointItr = points->Begin();
 
   PointType point;
@@ -149,8 +149,8 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef std::complex<double>              FFTCoefficientType;
-  typedef std::vector< FFTCoefficientType > FFTSpectrumType;
+  using FFTCoefficientType = std::complex<double>;
+  using FFTSpectrumType = std::vector< FFTCoefficientType >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

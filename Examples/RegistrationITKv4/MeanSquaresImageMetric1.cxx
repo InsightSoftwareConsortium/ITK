@@ -68,13 +68,13 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
   const     unsigned int   Dimension = 2;
-  typedef   float          PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< PixelType, Dimension >   ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer fixedReader  = ReaderType::New();
   ReaderType::Pointer movingReader = ReaderType::New();
@@ -102,8 +102,8 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::MeanSquaresImageToImageMetricv4<
-                            ImageType, ImageType >  MetricType;
+  using MetricType = itk::MeanSquaresImageToImageMetricv4<
+                            ImageType, ImageType >;
 
   MetricType::Pointer metric = MetricType::New();
 // Software Guide : EndCodeSnippet
@@ -117,13 +117,13 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::TranslationTransform< double, Dimension >  TransformType;
+  using TransformType = itk::TranslationTransform< double, Dimension >;
 
   TransformType::Pointer transform = TransformType::New();
 
 
-  typedef itk::NearestNeighborInterpolateImageFunction<
-                                    ImageType, double >  InterpolatorType;
+  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<
+                                    ImageType, double >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 // Software Guide : EndCodeSnippet

@@ -43,12 +43,12 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
   std::cout << std::endl;
 
 
-  typedef unsigned char  PixelType;
+  using PixelType = unsigned char;
   const unsigned int     Dimension = 2;
 
-  typedef itk::Image< PixelType > ImageType;
+  using ImageType = itk::Image< PixelType >;
 
-  typedef itk::ImageFileReader< ImageType  > ImageReaderType;
+  using ImageReaderType = itk::ImageFileReader< ImageType  >;
 
   ImageReaderType::Pointer fixedImageReader  = ImageReaderType::New();
   ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
@@ -74,14 +74,14 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
     return EXIT_FAILURE;
     }
 
-  typedef itk::NearestNeighborInterpolateImageFunction< ImageType > InterpolatorType;
+  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction< ImageType >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  typedef itk::MattesMutualInformationImageToImageMetric< ImageType, ImageType > MetricType;
+  using MetricType = itk::MattesMutualInformationImageToImageMetric< ImageType, ImageType >;
   MetricType::Pointer metric = MetricType::New();
 
-  typedef itk::TranslationTransform< double, Dimension >  TranformType;
+  using TranformType = itk::TranslationTransform< double, Dimension >;
   TranformType::Pointer transform = TranformType::New();
 
   unsigned int numberOfSamples = 100;
@@ -103,8 +103,8 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
   displacement[0] = 17;
   displacement[1] = 19;
 
-  typedef MetricType::MeasureType      MeasureType;
-  typedef MetricType::DerivativeType   DerivativeType;
+  using MeasureType = MetricType::MeasureType;
+  using DerivativeType = MetricType::DerivativeType;
 
   MeasureType value_combined;
   DerivativeType derivative_combined;

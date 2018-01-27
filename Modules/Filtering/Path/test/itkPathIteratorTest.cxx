@@ -25,14 +25,14 @@
 int itkPathIteratorTest( int, char*[] )
 {
   const unsigned int Dimension = 2;
-  typedef double PixelType;
+  using PixelType = double;
 
-  typedef itk::Image< PixelType, Dimension >        ImageType;
-  typedef itk::PolyLineParametricPath< Dimension >  PathType;
-  typedef itk::PathIterator< ImageType, PathType >  PathIteratorType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using PathType = itk::PolyLineParametricPath< Dimension >;
+  using PathIteratorType = itk::PathIterator< ImageType, PathType >;
 
-  typedef ImageType::IndexType                      IndexType;
-  typedef PathType::VertexType                      VertexType;
+  using IndexType = ImageType::IndexType;
+  using VertexType = PathType::VertexType;
 
   bool passed = true;
 
@@ -58,7 +58,7 @@ int itkPathIteratorTest( int, char*[] )
 
   image->Allocate();
 
-  typedef itk::ImageRegionIterator< ImageType > ImageRegionIteratorType;
+  using ImageRegionIteratorType = itk::ImageRegionIterator< ImageType >;
   ImageRegionIteratorType it( image, image->GetRequestedRegion() );
   it.GoToBegin();
   ImageType::PixelType storedValue;

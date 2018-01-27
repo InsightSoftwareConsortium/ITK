@@ -41,10 +41,10 @@ void test(int testIdx)
   itk::StdStreamStateSave coutState(std::cout);
 
   const unsigned int Dimension = 2;
-  typedef float      PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< unsigned char, Dimension >  myImageType2D1;
-  typedef itk::Image< PixelType, Dimension >      myImageType2D2;
+  using myImageType2D1 = itk::Image< unsigned char, Dimension >;
+  using myImageType2D2 = itk::Image< PixelType, Dimension >;
 
   /* TEST 1: For a point image, SignedDaniessonDistanceMapImageFilter should
    * give the same output as DaniessonDistanceMapImageFilter  */
@@ -66,7 +66,7 @@ void test(int testIdx)
   inputImage2D->SetRequestedRegion( region2D );
   inputImage2D->Allocate();
 
-  typedef  itk::ImageRegionIteratorWithIndex< myImageType2D1 > myIteratorType2D1;
+  using myIteratorType2D1 = itk::ImageRegionIteratorWithIndex< myImageType2D1 >;
 
   myIteratorType2D1 it2D1( inputImage2D, region2D );
 
@@ -118,16 +118,16 @@ void test(int testIdx)
    }
 
   /* Create Danielsson Distance Map filter */
-  typedef itk::SignedDanielssonDistanceMapImageFilter<
+  using myFilterType2D = itk::SignedDanielssonDistanceMapImageFilter<
                                             myImageType2D1,
-                                            myImageType2D2 > myFilterType2D;
+                                            myImageType2D2 >;
 
   myFilterType2D::Pointer filter2D = myFilterType2D::New();
 
   filter2D->SetInput( inputImage2D );
   myImageType2D2::Pointer outputDistance2D = filter2D->GetOutput();
 
-  typedef myFilterType2D::VoronoiImageType VoronoiImageType;
+  using VoronoiImageType = myFilterType2D::VoronoiImageType;
 
   VoronoiImageType::Pointer outputVoronoi2D  = filter2D->GetVoronoiMap();
 

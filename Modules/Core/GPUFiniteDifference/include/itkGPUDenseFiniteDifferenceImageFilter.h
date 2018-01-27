@@ -55,20 +55,20 @@ class ITK_TEMPLATE_EXPORT GPUDenseFiniteDifferenceImageFilter :
   public GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
-  /** Standard class typedefs */
-  typedef GPUDenseFiniteDifferenceImageFilter                                             Self;
-  typedef GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter > GPUSuperclass;
-  typedef TParentImageFilter                                                              CPUSuperclass;
-  typedef SmartPointer< Self >                                                            Pointer;
-  typedef SmartPointer< const Self >                                                      ConstPointer;
+  /** Standard class type aliases */
+  using Self = GPUDenseFiniteDifferenceImageFilter;
+  using GPUSuperclass = GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
+  using CPUSuperclass = TParentImageFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(GPUDenseFiniteDifferenceImageFilter, GPUFiniteDifferenceImageFilter);
 
-  /** Convenient typedefs */
-  typedef typename GPUSuperclass::InputImageType               InputImageType;
-  typedef typename GPUSuperclass::OutputImageType              OutputImageType;
-  typedef typename GPUSuperclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
+  /** Convenient type alias */
+  using InputImageType = typename GPUSuperclass::InputImageType;
+  using OutputImageType = typename GPUSuperclass::OutputImageType;
+  using FiniteDifferenceFunctionType = typename GPUSuperclass::FiniteDifferenceFunctionType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -76,13 +76,13 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  typedef typename GPUSuperclass::PixelType PixelType;
+  using PixelType = typename GPUSuperclass::PixelType;
 
   /** The value type of a time step.  Inherited from the superclass. */
-  typedef typename GPUSuperclass::TimeStepType TimeStepType;
+  using TimeStepType = typename GPUSuperclass::TimeStepType;
 
   /** The container type for the update buffer. */
-  typedef OutputImageType UpdateBufferType;
+  using UpdateBufferType = OutputImageType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

@@ -133,39 +133,39 @@ class ITK_TEMPLATE_EXPORT FiniteDifferenceImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef FiniteDifferenceImageFilter                     Self;
-  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FiniteDifferenceImageFilter;
+  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceImageFilter, InPlaceImageFilter);
 
   /** Input and output image types. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int, OutputImageType::ImageDimension);
 
   /** The pixel type of the output image will be used in computations. */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType  InputPixelType;
-  typedef OutputPixelType                  PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using PixelType = OutputPixelType;
 
   /** Extract value type in case the pixel is of vector type */
-  typedef typename NumericTraits< OutputPixelType >::ValueType OutputPixelValueType;
-  typedef typename NumericTraits< InputPixelType >::ValueType  InputPixelValueType;
+  using OutputPixelValueType = typename NumericTraits< OutputPixelType >::ValueType;
+  using InputPixelValueType = typename NumericTraits< InputPixelType >::ValueType;
 
   /** The value type of the time step.  This is distinct from PixelType
    * because PixelType may often be a vector value, while the TimeStep is
    * a scalar value. */
-  typedef FiniteDifferenceFunction< TOutputImage >            FiniteDifferenceFunctionType;
-  typedef typename FiniteDifferenceFunctionType::TimeStepType TimeStepType;
+  using FiniteDifferenceFunctionType = FiniteDifferenceFunction< TOutputImage >;
+  using TimeStepType = typename FiniteDifferenceFunctionType::TimeStepType;
 
-  typedef typename FiniteDifferenceFunctionType::RadiusType             RadiusType;
-  typedef typename FiniteDifferenceFunctionType::NeighborhoodScalesType NeighborhoodScalesType;
+  using RadiusType = typename FiniteDifferenceFunctionType::RadiusType;
+  using NeighborhoodScalesType = typename FiniteDifferenceFunctionType::NeighborhoodScalesType;
 
   /** Get the number of elapsed iterations of the filter. */
   itkGetConstReferenceMacro(ElapsedIterations, IdentifierType);

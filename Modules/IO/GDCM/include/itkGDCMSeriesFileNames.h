@@ -50,22 +50,22 @@ namespace itk
  * \ingroup ITKIOGDCM
  */
 /** \todo: remove these from the itk:: namespace */
-typedef std::vector< std::string > FilenamesContainer;
-typedef std::vector< std::string > SerieUIDContainer;
+using FilenamesContainer = std::vector< std::string >;
+using SerieUIDContainer = std::vector< std::string >;
 
 class ITKIOGDCM_EXPORT GDCMSeriesFileNames:public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef GDCMSeriesFileNames  Self;
-  typedef ProcessObject        Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = GDCMSeriesFileNames;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
 
   /** Type of the container that holds the file names in the series. */
-  typedef FilenamesContainer FileNamesContainerType;
+  using FileNamesContainerType = FilenamesContainer;
 
   /** Type of the container that holds the UID's for the series. */
-  typedef SerieUIDContainer SeriesUIDContainerType;
+  using SeriesUIDContainerType = SerieUIDContainer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

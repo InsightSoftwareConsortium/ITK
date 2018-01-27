@@ -25,8 +25,8 @@ template< typename TPixel, unsigned int VDimension = 2>
 class DerivativeOperatorTestHelper : public DerivativeOperator< TPixel, VDimension >
 {
 public:
-  typedef DerivativeOperator< TPixel, VDimension >  Superclass;
-  typedef typename Superclass::CoefficientVector    CoefficientVector;
+  using Superclass = DerivativeOperator< TPixel, VDimension >;
+  using CoefficientVector = typename Superclass::CoefficientVector;
 
   bool CheckCoefficients( const CoefficientVector & expected )
     {
@@ -58,9 +58,9 @@ public:
 int itkDerivativeOperatorTest(int, char* [] )
 {
   const unsigned int  Dimension = 1;
-  typedef float       PixelType;
+  using PixelType = float;
 
-  typedef itk::DerivativeOperatorTestHelper< PixelType, Dimension > OperatorType;
+  using OperatorType = itk::DerivativeOperatorTestHelper< PixelType, Dimension >;
 
   OperatorType op1;
 

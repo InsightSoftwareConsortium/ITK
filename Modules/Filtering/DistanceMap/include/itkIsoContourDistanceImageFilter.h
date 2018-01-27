@@ -59,11 +59,11 @@ class ITK_TEMPLATE_EXPORT IsoContourDistanceImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef IsoContourDistanceImageFilter                   Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = IsoContourDistanceImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,8 +72,8 @@ public:
   itkTypeMacro(IsoContourDistanceImageFilter, ImageToImageFilter);
 
   /**Typedefs from the superclass */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -84,27 +84,27 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  typedef typename OutputImageType::PixelType                 PixelType;
-  typedef typename InputImageType::PixelType                  InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType  PixelRealType;
+  using PixelType = typename OutputImageType::PixelType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using PixelRealType = typename NumericTraits< InputPixelType >::RealType;
 
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
-  typedef typename InputImageType::SizeType   InputSizeType;
-  typedef typename OutputImageType::SizeType  SizeType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using SizeType = typename OutputImageType::SizeType;
 
-  typedef typename InputImageType::IndexType  InputIndexType;
-  typedef typename OutputImageType::IndexType IndexType;
+  using InputIndexType = typename InputImageType::IndexType;
+  using IndexType = typename OutputImageType::IndexType;
 
-  typedef typename InputImageType::SpacingType InputSpacingType;
+  using InputSpacingType = typename InputImageType::SpacingType;
 
-  /** NarrowBand typedef support. */
-  typedef BandNode< IndexType, PixelType >       BandNodeType;
-  typedef NarrowBand< BandNodeType >             NarrowBandType;
-  typedef typename NarrowBandType::Pointer       NarrowBandPointer;
-  typedef typename NarrowBandType::RegionType    RegionType;
-  typedef typename NarrowBandType::ConstIterator ConstBandIterator;
-  typedef typename NarrowBandType::Iterator      BandIterator;
+  /** NarrowBand type alias support */
+  using BandNodeType = BandNode< IndexType, PixelType >;
+  using NarrowBandType = NarrowBand< BandNodeType >;
+  using NarrowBandPointer = typename NarrowBandType::Pointer;
+  using RegionType = typename NarrowBandType::RegionType;
+  using ConstBandIterator = typename NarrowBandType::ConstIterator;
+  using BandIterator = typename NarrowBandType::Iterator;
 
   /** Set/Get the value of the level set to be located. The default value is
     *  0. */
@@ -169,8 +169,8 @@ protected:
 
   void EnlargeOutputRequestedRegion(DataObject *) override;
 
-  typedef ConstNeighborhoodIterator< InputImageType > InputNeighbordIteratorType;
-  typedef NeighborhoodIterator< OutputImageType >     OutputNeighborhoodIteratorType;
+  using InputNeighbordIteratorType = ConstNeighborhoodIterator< InputImageType >;
+  using OutputNeighborhoodIteratorType = NeighborhoodIterator< OutputImageType >;
 
   void ComputeValue( const InputNeighbordIteratorType& inNeigIt,
                      OutputNeighborhoodIteratorType& outNeigIt,

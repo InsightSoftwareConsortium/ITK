@@ -31,12 +31,12 @@ class ITKIOMeta_EXPORT MetaArrayWriter : public LightProcessObject
 {
 public:
 
-  /** SmartPointer typedef support. */
-  typedef MetaArrayWriter             Self;
-  typedef LightProcessObject          Superclass;
+  /** SmartPointer type alias support */
+  using Self = MetaArrayWriter;
+  using Superclass = LightProcessObject;
 
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

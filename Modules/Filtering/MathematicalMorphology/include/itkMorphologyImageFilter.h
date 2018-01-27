@@ -73,44 +73,44 @@ class ITK_TEMPLATE_EXPORT MorphologyImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
-  /** Standard Self typedef */
-  typedef MorphologyImageFilter                                   Self;
-  typedef KernelImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
-  typedef SmartPointer< Self >                                    Pointer;
-  typedef SmartPointer< const Self >                              ConstPointer;
+  /** Standard Self type alias */
+  using Self = MorphologyImageFilter;
+  using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Runtime information support. */
   itkTypeMacro(MorphologyImageFilter, KernelImageFilter);
 
-  /** Image related typedefs. */
-  typedef TInputImage                                InputImageType;
-  typedef TOutputImage                               OutputImageType;
-  typedef typename TInputImage::RegionType           RegionType;
-  typedef typename TInputImage::SizeType             SizeType;
-  typedef typename TInputImage::IndexType            IndexType;
-  typedef typename TInputImage::PixelType            PixelType;
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Image related type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /** Typedef for boundary conditions. */
-  typedef ImageBoundaryCondition< InputImageType > *      ImageBoundaryConditionPointerType;
-  typedef ImageBoundaryCondition< InputImageType > const *ImageBoundaryConditionConstPointerType;
-  typedef ConstantBoundaryCondition< InputImageType >     DefaultBoundaryConditionType;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition< InputImageType > *;
+  using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<InputImageType> *;
+  using DefaultBoundaryConditionType = ConstantBoundaryCondition< InputImageType >;
 
 /** Neighborhood iterator type. */
-  typedef ConstNeighborhoodIterator< TInputImage > NeighborhoodIteratorType;
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator< TInputImage >;
 
-  /** Kernel typedef. */
-  typedef TKernel KernelType;
+  /** Kernel type alias. */
+  using KernelType = TKernel;
 
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator KernelIteratorType;
+  using KernelIteratorType = typename KernelType::ConstIterator;
 
   /** n-dimensional Kernel radius. */
-  typedef typename KernelType::SizeType RadiusType;
+  using RadiusType = typename KernelType::SizeType;
 
   /** Allows a user to override the internal boundary condition. Care should be
    * be taken to ensure that the overriding boundary condition is a persistent

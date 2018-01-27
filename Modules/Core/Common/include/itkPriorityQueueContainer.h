@@ -37,8 +37,8 @@ template< typename TElement,
 class ITK_TEMPLATE_EXPORT ElementWrapperInterface
 {
 public:
-  typedef TElement           ElementType;
-  typedef TElementIdentifier ElementIdentifierType;
+  using ElementType = TElement;
+  using ElementIdentifierType = TElementIdentifier;
 
   static const ElementIdentifierType m_ElementNotFound;
 
@@ -69,8 +69,8 @@ template< typename TElementWrapperPointer,
 class ITK_TEMPLATE_EXPORT ElementWrapperPointerInterface
 {
 public:
-  typedef TElementWrapperPointer ElementWrapperPointerType;
-  typedef TElementIdentifier     ElementIdentifierType;
+  using ElementWrapperPointerType = TElementWrapperPointer;
+  using ElementIdentifierType = TElementIdentifier;
 
   static const ElementIdentifierType m_ElementNotFound;
 
@@ -113,12 +113,11 @@ class ITK_TEMPLATE_EXPORT MinPriorityQueueElementWrapper:
     >
 {
 public:
-  typedef MinPriorityQueueElementWrapper< TElement,
-    TElementPriority,
-    TElementIdentifier >     Superclass;
-  typedef TElement           ElementType;
-  typedef TElementPriority   ElementPriorityType;
-  typedef TElementIdentifier ElementIdentifierType;
+  using Superclass = MinPriorityQueueElementWrapper< TElement,
+    TElementPriority, TElementIdentifier >;
+  using ElementType = TElement;
+  using ElementPriorityType = TElementPriority;
+  using ElementIdentifierType = TElementIdentifier;
 
   ElementType           m_Element;
   ElementPriorityType   m_Priority;
@@ -168,13 +167,13 @@ class ITK_TEMPLATE_EXPORT MaxPriorityQueueElementWrapper:
                                          TElementIdentifier >
 {
 public:
-  typedef TElement           ElementType;
-  typedef TElementPriority   ElementPriorityType;
-  typedef TElementIdentifier ElementIdentifierType;
+  using ElementType = TElement;
+  using ElementPriorityType = TElementPriority;
+  using ElementIdentifierType = TElementIdentifier;
 
-  typedef MinPriorityQueueElementWrapper< ElementType,
+  using Superclass = MinPriorityQueueElementWrapper< ElementType,
                                           ElementPriorityType,
-                                          ElementIdentifierType > Superclass;
+                                          ElementIdentifierType >;
   MaxPriorityQueueElementWrapper();
 
   MaxPriorityQueueElementWrapper(ElementType element,
@@ -211,14 +210,14 @@ class ITK_TEMPLATE_EXPORT PriorityQueueContainer:
   public VectorContainer< TElementIdentifier, TElementWrapper >
 {
 public:
-  typedef PriorityQueueContainer                                 Self;
-  typedef VectorContainer< TElementIdentifier, TElementWrapper > Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
-  typedef SmartPointer< const Self >                             ConstPointer;
+  using Self = PriorityQueueContainer;
+  using Superclass = VectorContainer< TElementIdentifier, TElementWrapper >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TElementIdentifier       ElementIdentifierType;
-  typedef TElementWrapper          ElementWrapperType;
-  typedef TElementWrapperInterface ElementInterfaceType;
+  using ElementIdentifierType = TElementIdentifier;
+  using ElementWrapperType = TElementWrapper;
+  using ElementInterfaceType = TElementWrapperInterface;
 
   static const ElementIdentifierType m_ElementNotFound;
 

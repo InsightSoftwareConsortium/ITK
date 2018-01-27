@@ -61,7 +61,7 @@ namespace Statistics
  * instantiate a histogram as below:
  *
  * \code
- * typedef Histogram< THistogramMeasurement, typename TFrequencyContainer > HistogramType;
+ * using HistogramType = Histogram< THistogramMeasurement, typename TFrequencyContainer >;
  * \endcode
  *
  * \sa Sample, DenseFrequencyContainer, SparseFrequencyContainer, VariableDimensionHistogram
@@ -80,13 +80,13 @@ class ITK_TEMPLATE_EXPORT Histogram:
 public:
 
   // This type serves as the indirect definition of MeasurementVectorType
-  typedef Array< TMeasurement > ArrayType;
+  using ArrayType = Array< TMeasurement >;
 
-  /** Standard typedefs */
-  typedef Histogram                  Self;
-  typedef Sample< ArrayType  >       Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard type alias */
+  using Self = Histogram;
+  using Superclass = Sample< ArrayType  >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Histogram, Sample);
@@ -95,38 +95,38 @@ public:
   itkNewMacro(Self);
 
   /** type of an element of a measurement vector */
-  typedef TMeasurement MeasurementType;
+  using MeasurementType = TMeasurement;
 
-  /** Common sample class typedefs */
-  typedef typename Superclass::MeasurementVectorType      MeasurementVectorType;
-  typedef typename Superclass::InstanceIdentifier         InstanceIdentifier;
-  typedef typename Superclass::MeasurementVectorSizeType  MeasurementVectorSizeType;
+  /** Common sample class type alias */
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
 
-  typedef MeasurementVectorType ValueType;
+  using ValueType = MeasurementVectorType;
 
-  /** frequency container typedef */
-  typedef TFrequencyContainer                      FrequencyContainerType;
-  typedef typename FrequencyContainerType::Pointer FrequencyContainerPointer;
+  /** frequency container type alias */
+  using FrequencyContainerType = TFrequencyContainer;
+  using FrequencyContainerPointer = typename FrequencyContainerType::Pointer;
 
   /** Frequency and TotalFrequency value type from superclass */
-  typedef typename FrequencyContainerType::AbsoluteFrequencyType      AbsoluteFrequencyType;
-  typedef typename FrequencyContainerType::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
-  typedef typename FrequencyContainerType::RelativeFrequencyType      RelativeFrequencyType;
-  typedef typename FrequencyContainerType::TotalRelativeFrequencyType TotalRelativeFrequencyType;
+  using AbsoluteFrequencyType = typename FrequencyContainerType::AbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename FrequencyContainerType::TotalAbsoluteFrequencyType;
+  using RelativeFrequencyType = typename FrequencyContainerType::RelativeFrequencyType;
+  using TotalRelativeFrequencyType = typename FrequencyContainerType::TotalRelativeFrequencyType;
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef Array< ::itk::IndexValueType > IndexType;
-  typedef typename IndexType::ValueType  IndexValueType;
+  /** Index type alias support An index is used to access pixel values. */
+  using IndexType = Array< ::itk::IndexValueType >;
+  using IndexValueType = typename IndexType::ValueType;
 
   /** size array type */
-  typedef Array< ::itk::SizeValueType > SizeType;
-  typedef typename SizeType::ValueType  SizeValueType;
+  using SizeType = Array< ::itk::SizeValueType >;
+  using SizeValueType = typename SizeType::ValueType;
 
   /** bin min max value storage types */
-  typedef std::vector< MeasurementType >  BinMinVectorType;
-  typedef std::vector< MeasurementType >  BinMaxVectorType;
-  typedef std::vector< BinMinVectorType > BinMinContainerType;
-  typedef std::vector< BinMaxVectorType > BinMaxContainerType;
+  using BinMinVectorType = std::vector< MeasurementType >;
+  using BinMaxVectorType = std::vector< MeasurementType >;
+  using BinMinContainerType = std::vector< BinMinVectorType >;
+  using BinMaxContainerType = std::vector< BinMaxVectorType >;
 
   /** Initialize the histogram, generating the offset table and
    * preparing the frequency container. Subclasses should call this
@@ -471,7 +471,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Histogram);
 
-  typedef std::vector< InstanceIdentifier > OffsetTableType;
+  using OffsetTableType = std::vector< InstanceIdentifier >;
   OffsetTableType           m_OffsetTable;
   FrequencyContainerPointer m_FrequencyContainer;
   unsigned int              m_NumberOfInstances;

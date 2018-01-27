@@ -64,26 +64,25 @@ class AreaOpeningImageFilter:
 
 {
 public:
-  typedef AreaOpeningImageFilter Self;
-  typedef AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute,
-                                              std::greater< typename TInputImage::PixelType > >
-  Superclass;
+  using Self = AreaOpeningImageFilter;
+  using Superclass = AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute,
+                                              std::greater< typename TInputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType          InputPixelType;
-  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
-  typedef typename TInputImage::IndexType          IndexType;
-  typedef typename TInputImage::OffsetType         OffsetType;
-  typedef typename TInputImage::SizeType           SizeType;
-  typedef TAttribute                               AttributeType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
+  using IndexType = typename TInputImage::IndexType;
+  using OffsetType = typename TInputImage::OffsetType;
+  using SizeType = typename TInputImage::SizeType;
+  using AttributeType = TAttribute;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);

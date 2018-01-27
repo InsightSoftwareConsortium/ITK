@@ -62,11 +62,11 @@ namespace fem
 class ITKFEM_EXPORT Element2DC0QuadraticTriangularStrain : public Element2DStrain<Element2DC0QuadraticTriangular>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element2DC0QuadraticTriangularStrain            Self;
-  typedef Element2DStrain<Element2DC0QuadraticTriangular> Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element2DC0QuadraticTriangularStrain;
+  using Superclass = Element2DStrain<Element2DC0QuadraticTriangular>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

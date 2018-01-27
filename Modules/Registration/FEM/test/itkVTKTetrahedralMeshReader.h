@@ -39,11 +39,11 @@ template <typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT VTKTetrahedralMeshReader : public MeshSource<TOutputMesh>
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef VTKTetrahedralMeshReader  Self;
-  typedef MeshSource<TOutputMesh>   Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = VTKTetrahedralMeshReader;
+  using Superclass = MeshSource<TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,31 +52,28 @@ public:
   itkTypeMacro(VTKTetrahedralMeshReader, MeshSource);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TOutputMesh                          OutputMeshType;
-  typedef typename OutputMeshType::MeshTraits  MeshTraits;
-  typedef typename OutputMeshType::PointType   PointType;
-  typedef typename MeshTraits::PixelType       PixelType;
+  using OutputMeshType = TOutputMesh;
+  using MeshTraits = typename OutputMeshType::MeshTraits;
+  using PointType = typename OutputMeshType::PointType;
+  using PixelType = typename MeshTraits::PixelType;
 
-  /** Some convenient typedefs. */
-  typedef typename OutputMeshType::Pointer         OutputMeshPointer;
-  typedef typename OutputMeshType::CellTraits      CellTraits;
-  typedef typename OutputMeshType::CellIdentifier  CellIdentifier;
-  typedef typename OutputMeshType::CellType        CellType;
-  typedef typename OutputMeshType::CellAutoPointer CellAutoPointer;
-  typedef typename OutputMeshType::PointIdentifier PointIdentifier;
-  typedef typename CellTraits::PointIdIterator     PointIdIterator;
+  /** Some convenient type alias. */
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using CellTraits = typename OutputMeshType::CellTraits;
+  using CellIdentifier = typename OutputMeshType::CellIdentifier;
+  using CellType = typename OutputMeshType::CellType;
+  using CellAutoPointer = typename OutputMeshType::CellAutoPointer;
+  using PointIdentifier = typename OutputMeshType::PointIdentifier;
+  using PointIdIterator = typename CellTraits::PointIdIterator;
 
-  typedef typename OutputMeshType::PointsContainerPointer
-    PointsContainerPointer;
+  using PointsContainerPointer = typename OutputMeshType::PointsContainerPointer;
 
-  typedef typename OutputMeshType::PointsContainer
-    PointsContainer;
+  using PointsContainer = typename OutputMeshType::PointsContainer;
 
   /** Define the tetrahedron cell types which form the volume  */
-  typedef TetrahedronCell<CellType>   TetrahedronCellType;
+  using TetrahedronCellType = TetrahedronCell<CellType>;
 
-  typedef typename TetrahedronCellType::SelfAutoPointer
-    TetrahedronCellAutoPointer;
+  using TetrahedronCellAutoPointer = typename TetrahedronCellType::SelfAutoPointer;
 
 
   /** Set the resolution level to be used for generating cells in the

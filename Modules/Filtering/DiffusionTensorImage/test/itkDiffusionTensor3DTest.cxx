@@ -27,8 +27,8 @@ int itkDiffusionTensor3DTest(int, char* [] )
   // Test it all
   float val[6] = {1.8f, 0.2f, 0.5f, 3.4f, 2.0f, 1.2f};
 
-  typedef itk::DiffusionTensor3D<float>         Float3DTensorType;
-  typedef itk::DiffusionTensor3D<unsigned char> Uchar3DTensorType;
+  using Float3DTensorType = itk::DiffusionTensor3D<float>;
+  using Uchar3DTensorType = itk::DiffusionTensor3D<unsigned char>;
 
   Float3DTensorType pixel(val);
 
@@ -146,8 +146,8 @@ int itkDiffusionTensor3DTest(int, char* [] )
   std::cout << "product by scalar = " << pc << std::endl;
 
   /** Create an Image of tensors  */
-  typedef Float3DTensorType           PixelType;
-  typedef itk::Image< PixelType, 3 >  ImageType;
+  using PixelType = Float3DTensorType;
+  using ImageType = itk::Image< PixelType, 3 >;
 
   ImageType::Pointer dti = ImageType::New();
 
@@ -193,7 +193,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
 
   dti->FillBuffer( tensor );
 
-  typedef itk::ImageRegionIterator< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIterator< ImageType >;
 
   IteratorType it( dti, region );
   it.GoToBegin();
@@ -206,7 +206,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
 
   // Test Eigen values computation
   {
-    typedef itk::DiffusionTensor3D<double>         Double3DTensorType;
+    using Double3DTensorType = itk::DiffusionTensor3D<double>;
 
     Double3DTensorType tensor2;
 
@@ -345,9 +345,9 @@ int itkDiffusionTensor3DTest(int, char* [] )
   // Test GetTrace() and GetFractionalAnisotropy methods
   {
 
-    typedef itk::DiffusionTensor3D<double>          Double3DTensorType;
-    typedef Double3DTensorType::AccumulateValueType AccumulateValueType;
-    typedef Double3DTensorType::RealValueType       RealValueType;
+    using Double3DTensorType = itk::DiffusionTensor3D<double>;
+    using AccumulateValueType = Double3DTensorType::AccumulateValueType;
+    using RealValueType = Double3DTensorType::RealValueType;
 
     Double3DTensorType tensor3;
 
@@ -421,7 +421,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
 
   //Test Numeric Traits
   {
-    typedef itk::DiffusionTensor3D<int>             TensorType;
+    using TensorType = itk::DiffusionTensor3D<int>;
 
     TensorType maxTensor = itk::NumericTraits<TensorType>::max();
     std::cout << maxTensor <<std::endl;
@@ -450,7 +450,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
 
   //Test casting constructors
   {
-    typedef itk::DiffusionTensor3D<int>     Int3DTensorType;
+    using Int3DTensorType = itk::DiffusionTensor3D<int>;
 
     Int3DTensorType intTensor;
     intTensor[0] =   1;

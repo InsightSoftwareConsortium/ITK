@@ -289,7 +289,7 @@ BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
   supportRegion.SetIndex( supportIndex );
   unsigned long counter = 0;
 
-  typedef ImageRegionIterator<ImageType> IteratorType;
+  using IteratorType = ImageRegionIterator<ImageType>;
 
   IteratorType coeffIterator = IteratorType(
       this->m_CoefficientImages[0], supportRegion );

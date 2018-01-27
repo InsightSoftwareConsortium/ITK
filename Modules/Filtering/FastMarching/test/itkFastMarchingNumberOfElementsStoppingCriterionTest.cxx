@@ -20,10 +20,10 @@
 
 int itkFastMarchingNumberOfElementsStoppingCriterionTest( int , char * [] )
 {
-  typedef itk::Image< float, 2> ImageType;
+  using ImageType = itk::Image< float, 2>;
 
-  typedef itk::FastMarchingNumberOfElementsStoppingCriterion<
-      ImageType, ImageType > ImageStoppingCriterionType;
+  using ImageStoppingCriterionType = itk::FastMarchingNumberOfElementsStoppingCriterion<
+      ImageType, ImageType >;
 
   ImageStoppingCriterionType::Pointer image_criterion = ImageStoppingCriterionType::New();
   if( image_criterion.IsNull() )
@@ -31,10 +31,10 @@ int itkFastMarchingNumberOfElementsStoppingCriterionTest( int , char * [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadEdgeMesh< float, 3 > MeshType;
+  using MeshType = itk::QuadEdgeMesh< float, 3 >;
 
-  typedef itk::FastMarchingNumberOfElementsStoppingCriterion< MeshType, MeshType >
-      MeshStoppingCriterionType;
+  using MeshStoppingCriterionType =
+      itk::FastMarchingNumberOfElementsStoppingCriterion< MeshType, MeshType >;
 
   MeshStoppingCriterionType::Pointer mesh_criterion = MeshStoppingCriterionType::New();
   if( mesh_criterion.IsNull() )

@@ -50,18 +50,18 @@ class ITKOptimizers_EXPORT CumulativeGaussianOptimizer:
 {
 public:
 
-  /** Standard typedefs. */
-  typedef CumulativeGaussianOptimizer      Self;
-  typedef MultipleValuedNonLinearOptimizer Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard type alias. */
+  using Self = CumulativeGaussianOptimizer;
+  using Superclass = MultipleValuedNonLinearOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Cost function typedef. NOTE: This optimizer is specific to fitting a
+  /** Cost function type alias. NOTE: This optimizer is specific to fitting a
     Cumulative Gaussian. */
-  typedef CumulativeGaussianCostFunction CostFunctionType;
+  using CostFunctionType = CumulativeGaussianCostFunction;
 
-  /** Data array typedef. */
-  typedef CostFunctionType::MeasureType MeasureType;
+  /** Data array type alias. */
+  using MeasureType = CostFunctionType::MeasureType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -44,11 +44,11 @@ namespace fem
 class ITKFEM_EXPORT Element2DC0LinearTriangularStress : public Element2DStress<Element2DC0LinearTriangular>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element2DC0LinearTriangularStress            Self;
-  typedef Element2DStress<Element2DC0LinearTriangular> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element2DC0LinearTriangularStress;
+  using Superclass = Element2DStress<Element2DC0LinearTriangular>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

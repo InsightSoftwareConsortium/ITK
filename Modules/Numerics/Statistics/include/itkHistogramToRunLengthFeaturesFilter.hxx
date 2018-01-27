@@ -103,7 +103,7 @@ GenerateData( void )
   vnl_vector<double> runLengthNonuniformityVector(
     inputHistogram->GetSize()[1], 0.0 );
 
-  typedef typename HistogramType::ConstIterator HistogramIterator;
+  using HistogramIterator = typename HistogramType::ConstIterator;
   for ( HistogramIterator hit = inputHistogram->Begin();
           hit != inputHistogram->End(); ++hit )
     {

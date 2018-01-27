@@ -23,11 +23,11 @@ int itkGaussianMembershipFunctionTest(int, char* [] )
 {
   const unsigned int MeasurementVectorSize = 1;
 
-  typedef itk::FixedArray<
-    float, MeasurementVectorSize >  MeasurementVectorType;
+  using MeasurementVectorType = itk::FixedArray<
+    float, MeasurementVectorSize >;
 
-  typedef itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >   MembershipFunctionType;
-  typedef MembershipFunctionType::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using MembershipFunctionType = itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >;
+  using MeasurementVectorSizeType = MembershipFunctionType::MeasurementVectorSizeType;
 
   MembershipFunctionType::Pointer function = MembershipFunctionType::New();
   std::cout << function->GetNameOfClass() << std::endl;

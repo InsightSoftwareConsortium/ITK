@@ -57,22 +57,22 @@ class TransformParametersAdaptorBase
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef TransformParametersAdaptorBase               Self;
-  typedef Object                                       Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TransformParametersAdaptorBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( TransformParametersAdaptorBase, Object );
 
   /** Typedefs associated with the transform */
-  typedef TTransform                                           TransformBaseType;
-  typedef typename TransformBaseType::Pointer                  TransformBasePointer;
-  typedef typename TransformBaseType::ParametersType           ParametersType;
-  typedef typename ParametersType::ValueType                   ParametersValueType;
-  typedef typename TransformBaseType::FixedParametersType      FixedParametersType;
-  typedef typename TransformBaseType::FixedParametersValueType FixedParametersValueType;
+  using TransformBaseType = TTransform;
+  using TransformBasePointer = typename TransformBaseType::Pointer;
+  using ParametersType = typename TransformBaseType::ParametersType;
+  using ParametersValueType = typename ParametersType::ValueType;
+  using FixedParametersType = typename TransformBaseType::FixedParametersType;
+  using FixedParametersValueType = typename TransformBaseType::FixedParametersValueType;
 
   // note: the void pointer is use to ensure this method has lower
   // overloaded priority and avoid an ambiguous overloaded method

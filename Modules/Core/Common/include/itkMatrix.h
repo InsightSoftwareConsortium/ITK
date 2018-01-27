@@ -53,24 +53,24 @@ template< typename T, unsigned int NRows = 3, unsigned int NColumns = 3 >
 class ITK_TEMPLATE_EXPORT Matrix
 {
 public:
-  /** Standard class typedefs. */
-  typedef Matrix Self;
+  /** Standard class type aliases. */
+  using Self = Matrix;
 
   /** Component value type */
-  typedef T ValueType;
-  typedef T ComponentType;
+  using ValueType = T;
+  using ComponentType = T;
 
   /** Number Of Columns and Rows. */
   itkStaticConstMacro(RowDimensions,    unsigned int, NRows);
   itkStaticConstMacro(ColumnDimensions, unsigned int, NColumns);
 
   /** Internal matrix type */
-  typedef vnl_matrix_fixed< T, NRows, NColumns > InternalMatrixType;
+  using InternalMatrixType = vnl_matrix_fixed< T, NRows, NColumns >;
 
   /** Compatible square matrix. This is currently used by operator* to help
    * with wrapping.  \todo In the future, the method should be templated to allow
    * multiplication by NColumns by XRows.*/
-  typedef Matrix<T, NColumns, NColumns> CompatibleSquareMatrixType;
+  using CompatibleSquareMatrixType = Matrix<T, NColumns, NColumns>;
 
   /** Matrix by Vector multiplication.  */
   Vector< T, NRows > operator *(const Vector< T, NColumns > & vector) const;

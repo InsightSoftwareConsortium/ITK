@@ -28,11 +28,11 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
 {
   const unsigned int Dimension = VDimension;
 
-  typedef float                               PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // Read input image
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -42,8 +42,8 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
 
 
   // Create the itk::DiscreteGradientMagnitudeGaussianImageFunction
-  typedef itk::DiscreteGradientMagnitudeGaussianImageFunction< ImageType, PixelType >
-    DiscreteGradientMagnitudeGaussianFunctionType;
+  using DiscreteGradientMagnitudeGaussianFunctionType =
+      itk::DiscreteGradientMagnitudeGaussianImageFunction< ImageType, PixelType >;
   typename DiscreteGradientMagnitudeGaussianFunctionType::Pointer function =
     DiscreteGradientMagnitudeGaussianFunctionType::New();
 
@@ -132,17 +132,17 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
 
 
   // Step over input and output images
-  typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
-  typedef itk::ImageRegionIterator< ImageType >      IteratorType;
+  using ConstIteratorType = itk::ImageRegionConstIterator< ImageType >;
+  using IteratorType = itk::ImageRegionIterator< ImageType >;
 
   ConstIteratorType it ( inputImage, inputImage->GetRequestedRegion() );
   it.GoToBegin();
   IteratorType out( output, output->GetRequestedRegion() );
   out.GoToBegin();
 
-  typedef typename DiscreteGradientMagnitudeGaussianFunctionType::PointType  PointType;
+  using PointType = typename DiscreteGradientMagnitudeGaussianFunctionType::PointType;
   PointType point;
-  typedef typename DiscreteGradientMagnitudeGaussianFunctionType::ContinuousIndexType ContinuousIndexType;
+  using ContinuousIndexType = typename DiscreteGradientMagnitudeGaussianFunctionType::ContinuousIndexType;
   ContinuousIndexType cindex;
   const unsigned long nop = inputImage->GetRequestedRegion().GetNumberOfPixels();
   unsigned long pixelNumber = 0;
@@ -170,16 +170,16 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
     }
 
   // Rescale output
-  typedef unsigned char                                                     OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension >                          OutputImageType;
-  typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType >    RescaleType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using RescaleType = itk::RescaleIntensityImageFilter< ImageType, OutputImageType >;
   typename RescaleType::Pointer rescaler = RescaleType::New();
   rescaler->SetInput( output );
   rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
   rescaler->SetOutputMaximum( itk::NumericTraits<OutputPixelType>::max() );
 
   // Write the output image
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( rescaler->GetOutput() );
@@ -215,11 +215,11 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTest( int argc, char* argv[
   // when calling overloaded base class functions.
   const unsigned int Dimension = 2;
 
-  typedef float                               PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::DiscreteGradientMagnitudeGaussianImageFunction< ImageType, PixelType >
-    DiscreteGradientMagnitudeGaussianFunctionType;
+  using DiscreteGradientMagnitudeGaussianFunctionType =
+      itk::DiscreteGradientMagnitudeGaussianImageFunction< ImageType, PixelType >;
   DiscreteGradientMagnitudeGaussianFunctionType::Pointer function =
     DiscreteGradientMagnitudeGaussianFunctionType::New();
 

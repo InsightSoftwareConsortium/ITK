@@ -35,12 +35,12 @@ namespace fem
 class ITKFEM_EXPORT Element2DC0LinearLine : public ElementStd<2, 2>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element2DC0LinearLine    Self;
-  typedef ElementStd<2, 2>         TemplatedParentClass;
-  typedef TemplatedParentClass     Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element2DC0LinearLine;
+  using TemplatedParentClass = ElementStd<2, 2>;
+  using Superclass = TemplatedParentClass;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element2DC0LinearLine, TemplatedParentClass);

@@ -29,8 +29,8 @@ int itkFloodFillIteratorTest(int, char* [] )
 {
   const unsigned int dim = 3;
 
-  // Image typedef
-  typedef itk::Image< int, dim > TImageType;
+  // Image type alias
+  using TImageType = itk::Image< int, dim >;
 
   //-----------------Create a new input image--------------------
   // Image size and spacing parameters
@@ -77,8 +77,8 @@ int itkFloodFillIteratorTest(int, char* [] )
 
   //---------Create and initialize a spatial function-----------
 
-  typedef itk::SphereSpatialFunction<dim> TFunctionType;
-  typedef TFunctionType::InputType        TFunctionPositionType;
+  using TFunctionType = itk::SphereSpatialFunction<dim>;
+  using TFunctionPositionType = TFunctionType::InputType;
 
   // Create and initialize a new sphere function
 
@@ -98,8 +98,8 @@ int itkFloodFillIteratorTest(int, char* [] )
   const TImageType::IndexValueType pos[] = {10,10,10};
   seedPos.SetIndex(pos);
 
-  typedef itk::FloodFilledSpatialFunctionConditionalIterator
-    <TImageType, TFunctionType> TItType;
+  using TItType = itk::FloodFilledSpatialFunctionConditionalIterator<
+                                    TImageType, TFunctionType>;
   TItType sfi = TItType(sourceImage, spatialFunc, seedPos);
 
   // Iterate through the entire image and set interior pixels to 255

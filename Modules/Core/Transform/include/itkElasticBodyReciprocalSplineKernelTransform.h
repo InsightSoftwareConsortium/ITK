@@ -40,13 +40,13 @@ class ITK_TEMPLATE_EXPORT ElasticBodyReciprocalSplineKernelTransform:
   public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ElasticBodyReciprocalSplineKernelTransform Self;
-  typedef KernelTransform<TParametersValueType,
-                           NDimensions> Superclass;
+  /** Standard class type aliases. */
+  using Self = ElasticBodyReciprocalSplineKernelTransform;
+  using Superclass = KernelTransform<TParametersValueType,
+                           NDimensions>;
 
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ElasticBodyReciprocalSplineKernelTransform, KernelTransform);
@@ -55,14 +55,14 @@ public:
   itkNewMacro(Self);
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::FixedParametersType FixedParametersType;
+  using ParametersType = typename Superclass::ParametersType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Dimension of the domain space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
@@ -75,19 +75,19 @@ public:
   /** Get alpha */
   itkGetConstMacro(Alpha, TParametersValueType);
 
-  typedef typename Superclass::InputPointType            InputPointType;
-  typedef typename Superclass::OutputPointType           OutputPointType;
-  typedef typename Superclass::InputVectorType           InputVectorType;
-  typedef typename Superclass::OutputVectorType          OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
 
 protected:
   ElasticBodyReciprocalSplineKernelTransform();
   ~ElasticBodyReciprocalSplineKernelTransform() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef typename Superclass::GMatrixType GMatrixType;
+  using GMatrixType = typename Superclass::GMatrixType;
   /** Compute G(x)
    * For the elastic body spline, this is:
    * G(x) = [alpha*r(x)*I - 3*x*x'/r(x)]

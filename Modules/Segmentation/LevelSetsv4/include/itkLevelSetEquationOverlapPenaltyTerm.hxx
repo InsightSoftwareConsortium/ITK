@@ -105,7 +105,7 @@ void LevelSetEquationOverlapPenaltyTerm< TInput, TLevelSetContainer >
       }
     const LevelSetIdentifierType idx = this->m_CacheImage->GetPixel( index );
 
-    typedef typename DomainMapImageFilterType::DomainMapType DomainMapType;
+    using DomainMapType = typename DomainMapImageFilterType::DomainMapType;
     const DomainMapType domainMap = this->m_DomainMapImageFilter->GetDomainMap();
     typename DomainMapType::const_iterator levelSetMapItr = domainMap.find( idx );
 

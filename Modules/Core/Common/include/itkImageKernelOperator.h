@@ -49,13 +49,13 @@ class ITK_TEMPLATE_EXPORT ImageKernelOperator :
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageKernelOperator                                    Self;
-  typedef NeighborhoodOperator< TPixel, VDimension, TAllocator > Superclass;
+  /** Standard class type aliases. */
+  using Self = ImageKernelOperator;
+  using Superclass = NeighborhoodOperator< TPixel, VDimension, TAllocator >;
 
-  typedef Image< TPixel, VDimension >            ImageType;
-  typedef typename Superclass::SizeType          SizeType;
-  typedef typename Superclass::CoefficientVector CoefficientVector;
+  using ImageType = Image< TPixel, VDimension >;
+  using SizeType = typename Superclass::SizeType;
+  using CoefficientVector = typename Superclass::CoefficientVector;
 
   itkTypeMacro(ImageKernelOperator, NeighborhoodOperator);
 

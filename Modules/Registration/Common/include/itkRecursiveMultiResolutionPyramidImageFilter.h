@@ -68,12 +68,12 @@ class ITK_TEMPLATE_EXPORT RecursiveMultiResolutionPyramidImageFilter:
   public MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RecursiveMultiResolutionPyramidImageFilter Self;
-  typedef MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RecursiveMultiResolutionPyramidImageFilter;
+  using Superclass =
+      MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -87,11 +87,11 @@ public:
                       Superclass::ImageDimension);
 
   /** Inherit types from the superclass.. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::OutputImageType        OutputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
 
   /** Given one output whose requested region has been set,
    * this method sets the requtested region for the remaining

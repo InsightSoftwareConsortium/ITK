@@ -68,9 +68,9 @@ class ITK_TEMPLATE_EXPORT GaussianOperator:
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GaussianOperator                                       Self;
-  typedef NeighborhoodOperator< TPixel, VDimension, TAllocator > Superclass;
+  /** Standard class type aliases. */
+  using Self = GaussianOperator;
+  using Superclass = NeighborhoodOperator< TPixel, VDimension, TAllocator >;
 
   itkTypeMacro(GaussianOperator, NeighborhoodOperator);
 
@@ -152,7 +152,7 @@ public:
   }
 
 protected:
-  typedef typename Superclass::CoefficientVector CoefficientVector;
+  using CoefficientVector = typename Superclass::CoefficientVector;
 
 public:
   /** Returns the value of the modified Bessel function I0(x) at a point x >= 0.

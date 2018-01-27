@@ -36,20 +36,20 @@ int itkNoiseImageFilterTest(int ac, char* av[] )
     }
 
   itk::Size<2> radius;
-  typedef itk::Image<unsigned short, 2> myImageIn;
-  typedef itk::Image<float, 2>          myImageOut;
-  typedef itk::Image<unsigned char, 2>  myImageChar;
+  using myImageIn = itk::Image<unsigned short, 2>;
+  using myImageOut = itk::Image<float, 2>;
+  using myImageChar = itk::Image<unsigned char, 2>;
   itk::ImageFileReader<myImageIn>::Pointer input
     = itk::ImageFileReader<myImageIn>::New();
   input->SetFileName(av[1]);
 
   // Create a filter
-  typedef itk::NoiseImageFilter<myImageIn,myImageOut> FilterType;
+  using FilterType = itk::NoiseImageFilter<myImageIn,myImageOut>;
 
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher filterWatch(filter);
 
-  typedef itk::RescaleIntensityImageFilter<myImageOut,myImageChar> RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<myImageOut,myImageChar>;
 
   RescaleFilterType::Pointer rescale = RescaleFilterType::New();
   rescale->SetOutputMinimum(0);

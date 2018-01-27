@@ -23,13 +23,13 @@
 
 int itkMatrixTest(int, char* [] )
 {
-  typedef   float                                 NumericType;
-  typedef   itk::Matrix<NumericType,3,3>          MatrixType;
-  typedef   itk::Vector<NumericType,3>            VectorType;
-  typedef   itk::Point<NumericType,3>             PointType;
-  typedef   itk::CovariantVector<NumericType,3>   CovariantVectorType;
+  using NumericType = float;
+  using MatrixType = itk::Matrix<NumericType,3,3>;
+  using VectorType = itk::Vector<NumericType,3>;
+  using PointType = itk::Point<NumericType,3>;
+  using CovariantVectorType = itk::CovariantVector<NumericType,3>;
 
-  typedef   vnl_vector_fixed<NumericType,3>       vnlVectorType;
+  using vnlVectorType = vnl_vector_fixed<NumericType,3>;
 
   MatrixType matrix;
   matrix.Fill( 0.0 );
@@ -199,7 +199,7 @@ int itkMatrixTest(int, char* [] )
     const unsigned int nc = 4;
     const unsigned int nr = 3;
 
-    typedef itk::Matrix<double, nr, nc>  AddSubtractMatrixType;
+    using AddSubtractMatrixType = itk::Matrix<double, nr, nc>;
 
     AddSubtractMatrixType m1;
     AddSubtractMatrixType m2;
@@ -332,7 +332,7 @@ int itkMatrixTest(int, char* [] )
 
   }
 
-  typedef   itk::Matrix<NumericType,7,7> LargeMatrixType;
+  using LargeMatrixType = itk::Matrix<NumericType,7,7>;
   LargeMatrixType matrixBad;
   matrixBad.Fill( 2.0);
   bool caught = false;

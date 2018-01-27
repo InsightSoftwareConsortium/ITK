@@ -51,27 +51,27 @@ class versorRigid3DCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef versorRigid3DCostFunction           Self;
-  typedef itk::SingleValuedCostFunction       Superclass;
-  typedef itk::SmartPointer<Self>             Pointer;
-  typedef itk::SmartPointer<const Self>       ConstPointer;
+  using Self = versorRigid3DCostFunction;
+  using Superclass = itk::SingleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
-  typedef itk::VersorRigid3DTransform<double>        TransformType;
+  using TransformType = itk::VersorRigid3DTransform<double>;
 
   itkNewMacro( Self );
   itkTypeMacro( versorRigid3DCostFunction, SingleValuedCostFunction );
 
   itkStaticConstMacro( SpaceDimension, unsigned int, 6 );
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::DerivativeType              DerivativeType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
 
-  typedef itk::Versor< double >                   VersorType;
-  typedef VersorType::VectorType                  AxisType;
-  typedef itk::Vector< double,  3 >               VectorType;
-  typedef itk::Point<  double,  3 >               PointType;
+  using VersorType = itk::Versor< double >;
+  using AxisType = VersorType::VectorType;
+  using VectorType = itk::Vector< double,  3 >;
+  using PointType = itk::Point<  double,  3 >;
 
-  typedef double MeasureType;
+  using MeasureType = double;
 
 
   versorRigid3DCostFunction()
@@ -227,9 +227,9 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   std::cout << "VersorRigid3DTransform Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::VersorRigid3DTransformOptimizer  OptimizerType;
+  using OptimizerType = itk::VersorRigid3DTransformOptimizer;
 
-  typedef  OptimizerType::ScalesType            ScalesType;
+  using ScalesType = OptimizerType::ScalesType;
 
 
   // Declaration of a itkOptimizer
@@ -243,8 +243,8 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   itkOptimizer->SetCostFunction( costFunction );
 
 
-  typedef versorRigid3DCostFunction::ParametersType ParametersType;
-  typedef itk::Versor< double >                     VersorType;
+  using ParametersType = versorRigid3DCostFunction::ParametersType;
+  using VersorType = itk::Versor< double >;
 
   // We start with a null rotation
   VersorType::VectorType axis;

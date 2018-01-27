@@ -41,13 +41,13 @@
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
-typedef itk::Image< itk::Vector<float, 3>,   2 > myVectorImageType;
-typedef itk::ImageRegionIteratorWithIndex< myVectorImageType >  myVectorIteratorType;
+using myVectorImageType = itk::Image< itk::Vector<float, 3>,   2 >;
+using myVectorIteratorType = itk::ImageRegionIteratorWithIndex< myVectorImageType >;
 
-typedef itk::NthElementPixelAccessor<float, itk::Vector<float, 3> > myAccessorType;
+using myAccessorType = itk::NthElementPixelAccessor<float, itk::Vector<float, 3> >;
 
-typedef itk::Image< float,   2 >                         myImageType;
-typedef itk::ImageRegionIteratorWithIndex< myImageType > myIteratorType;
+using myImageType = itk::Image< float,   2 >;
+using myIteratorType = itk::ImageRegionIteratorWithIndex< myImageType >;
 
 //-------------------------
 //
@@ -109,7 +109,7 @@ int itkAdaptImageFilterTest2(int, char* [] ) {
   bool passed = true;
 
   // Get the first element
-  typedef itk::AdaptImageFilter<myVectorImageType, myImageType, myAccessorType> AdaptFilterType;
+  using AdaptFilterType = itk::AdaptImageFilter<myVectorImageType, myImageType, myAccessorType>;
 
   AdaptFilterType::Pointer adaptImage = AdaptFilterType::New();
 

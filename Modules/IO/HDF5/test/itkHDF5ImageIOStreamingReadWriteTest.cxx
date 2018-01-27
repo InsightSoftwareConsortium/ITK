@@ -42,10 +42,10 @@ template< class TOutputImage >
 class DemoImageSource:public GenerateImageSource< TOutputImage >
 {
   public:
-    /** Standard class typedefs. */
-    typedef DemoImageSource                 Self;
-    typedef DemoImageSource< TOutputImage > Superclass;
-    typedef SmartPointer< Self >            Pointer;
+    /** Standard class type aliases. */
+    using Self = DemoImageSource;
+    using Superclass = DemoImageSource< TOutputImage >;
+    using Pointer = SmartPointer< Self >;
 
     /** Method for creation through the object factory. */
     itkNewMacro(Self);
@@ -89,7 +89,7 @@ template <typename TPixel>
 int HDF5ReadWriteTest2(const char *fileName)
 {
   // Define image type.
-  typedef typename itk::Image<TPixel,3> ImageType;
+  using ImageType = typename itk::Image<TPixel,3>;
 
   // Create a source object (in this case a constant image).
   typename ImageType::SizeType size;
@@ -101,9 +101,9 @@ int HDF5ReadWriteTest2(const char *fileName)
   imageSource->SetSize(size);
 
   // Write image with streaming.
-  typedef typename itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = typename itk::ImageFileWriter<ImageType>;
   typename WriterType::Pointer writer = WriterType::New();
-  typedef typename itk::PipelineMonitorImageFilter<ImageType> MonitorFilterType;
+  using MonitorFilterType = typename itk::PipelineMonitorImageFilter<ImageType>;
   typename MonitorFilterType::Pointer writerMonitor = MonitorFilterType::New();
   writerMonitor->SetInput(imageSource->GetOutput());
   writer->SetFileName(fileName);
@@ -147,13 +147,13 @@ int HDF5ReadWriteTest2(const char *fileName)
   writer = typename WriterType::Pointer();
 
   // Read image with streaming.
-  typedef typename itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = typename itk::ImageFileReader<ImageType>;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(fileName);
   reader->SetUseStreaming(true);
   typename MonitorFilterType::Pointer readerMonitor = MonitorFilterType::New();
   readerMonitor->SetInput(reader->GetOutput());
-  typedef typename itk::StreamingImageFilter<ImageType, ImageType> StreamingFilter;
+  using StreamingFilter = typename itk::StreamingImageFilter<ImageType, ImageType>;
   typename StreamingFilter::Pointer streamer = StreamingFilter::New();
   streamer->SetInput(readerMonitor->GetOutput());
   streamer->SetNumberOfStreamDivisions(5);

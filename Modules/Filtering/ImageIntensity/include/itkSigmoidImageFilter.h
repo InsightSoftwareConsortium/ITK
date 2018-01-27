@@ -144,17 +144,17 @@ class SigmoidImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SigmoidImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = SigmoidImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::Sigmoid< typename TInputImage::PixelType,
-                       typename TOutputImage::PixelType > >  Superclass;
+                       typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

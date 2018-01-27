@@ -489,8 +489,8 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 ::ConvertRGBToRGBA(InputPixelType *inputData,
                    OutputPixelType *outputData, size_t size)
 {
-  typedef itk::DefaultConvertPixelTraits< InputPixelType >  InputConvertTraits;
-  typedef typename InputConvertTraits::ComponentType        InputComponentType;
+  using InputConvertTraits = itk::DefaultConvertPixelTraits< InputPixelType >;
+  using InputComponentType = typename InputConvertTraits::ComponentType;
   InputPixelType *endInput = inputData + size * 3;
 
   while ( inputData != endInput )

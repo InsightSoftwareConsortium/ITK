@@ -53,11 +53,11 @@ template< typename TInput, typename TOutput, unsigned int VDimension >
 class ITK_TEMPLATE_EXPORT Path: public DataObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef Path                       Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Path;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Path dimension. The dimension of a path is fixed at construction. */
   itkStaticConstMacro(PathDimension, unsigned int, VDimension);
@@ -66,14 +66,14 @@ public:
   itkTypeMacro(Path, FunctionBase);
 
   /** Input type */
-  typedef TInput InputType;
+  using InputType = TInput;
 
   /** Output type */
-  typedef TOutput OutputType;
+  using OutputType = TOutput;
 
   /** All paths must be mapable to index space */
-  typedef Index<  VDimension > IndexType;
-  typedef Offset< VDimension > OffsetType;
+  using IndexType = Index<  VDimension >;
+  using OffsetType = Offset< VDimension >;
 
   /** Where does the path begin?  For most types of paths, the path will begin
    * at zero.  This value can be overridden in children, and is necessary for

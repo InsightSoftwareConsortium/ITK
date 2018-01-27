@@ -42,8 +42,8 @@
 
 int main(int, char *[])
 {
-  typedef float                             PixelType;
-  typedef itk::Mesh< PixelType, 3 >         MeshType;
+  using PixelType = float;
+  using MeshType = itk::Mesh< PixelType, 3 >;
 
   //  Software Guide : BeginLatex
   //
@@ -60,7 +60,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::CellType CellType;
+  using CellType = MeshType::CellType;
   // Software Guide : EndCodeSnippet
 
 
@@ -74,7 +74,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::LineCell< CellType >         LineType;
+  using LineType = itk::LineCell< CellType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -116,7 +116,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef CellType::CellAutoPointer CellAutoPointer;
+  using CellAutoPointer = CellType::CellAutoPointer;
   // Software Guide : EndCodeSnippet
 
 
@@ -263,7 +263,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::CellsContainer::Iterator  CellIterator;
+  using CellIterator = MeshType::CellsContainer::Iterator;
   // Software Guide : EndCodeSnippet
 
 

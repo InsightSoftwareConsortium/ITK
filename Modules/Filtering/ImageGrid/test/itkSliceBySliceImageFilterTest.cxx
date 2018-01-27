@@ -27,14 +27,14 @@
 
 void sliceCallBack(itk::Object* object, const itk::EventObject &, void*)
 {
-  // the same typedefs than in the main function - should be done in a nicer way
+  // the same type alias than in the main function - should be done in a nicer way
   const int                 Dimension = 3;
-  typedef unsigned char     PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension >                   ImageType;
-  typedef itk::SliceBySliceImageFilter< ImageType, ImageType > FilterType;
-  typedef itk::MedianImageFilter< FilterType::InternalInputImageType,
-    FilterType::InternalOutputImageType >                      MedianType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using FilterType = itk::SliceBySliceImageFilter< ImageType, ImageType >;
+  using MedianType = itk::MedianImageFilter< FilterType::InternalInputImageType,
+    FilterType::InternalOutputImageType >;
 
   // real stuff begins here
   // get the slice by slice filter and the median filter
@@ -59,29 +59,29 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
     }
 
   const int                 Dimension = 3;
-  typedef unsigned char     PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension >      ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType >       ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::SliceBySliceImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::SliceBySliceImageFilter< ImageType, ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
   filter->DebugOn();
 
   filter->SetInput( reader->GetOutput() );
 
-  typedef itk::MedianImageFilter< FilterType::InternalInputImageType,
-                                  FilterType::InternalOutputImageType > MedianType;
+  using MedianType = itk::MedianImageFilter< FilterType::InternalInputImageType,
+                                  FilterType::InternalOutputImageType >;
 
   MedianType::Pointer median = MedianType::New();
   filter->SetFilter( median );
 
-  typedef itk::PipelineMonitorImageFilter<FilterType::InternalOutputImageType> MonitorType;
+  using MonitorType = itk::PipelineMonitorImageFilter<FilterType::InternalOutputImageType>;
   MonitorType::Pointer monitor = MonitorType::New();
 
   itk::CStyleCommand::Pointer command = itk::CStyleCommand::New();
@@ -91,7 +91,7 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );

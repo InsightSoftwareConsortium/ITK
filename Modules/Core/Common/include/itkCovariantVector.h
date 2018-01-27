@@ -67,26 +67,26 @@ template< typename T, unsigned int NVectorDimension = 3 >
 class ITK_TEMPLATE_EXPORT CovariantVector:public FixedArray< T, NVectorDimension >
 {
 public:
-  /** Standard class typedefs. */
-  typedef CovariantVector                   Self;
-  typedef FixedArray< T, NVectorDimension > Superclass;
+  /** Standard class type aliases. */
+  using Self = CovariantVector;
+  using Superclass = FixedArray< T, NVectorDimension >;
 
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an CovariantVector.   */
-  typedef T                                             ValueType;
-  typedef typename NumericTraits< ValueType >::RealType RealValueType;
+  using ValueType = T;
+  using RealValueType = typename NumericTraits< ValueType >::RealType;
 
   /** Component value type */
-  typedef T ComponentType;
+  using ComponentType = T;
 
   /** Dimension of the Space */
   itkStaticConstMacro(Dimension, unsigned int, NVectorDimension);
 
   /** I am a covariant vector. */
-  typedef Self CovariantVectorType;
+  using CovariantVectorType = Self;
 
   /** The Array type from which this CovariantVector is derived. */
-  typedef FixedArray< T, NVectorDimension > BaseArray;
+  using BaseArray = FixedArray< T, NVectorDimension >;
 
   /** Get the dimension (size) of the vector. */
   static unsigned int GetCovariantVectorDimension()

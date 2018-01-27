@@ -91,11 +91,11 @@ class ITK_TEMPLATE_EXPORT ExtractImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ExtractImageFilter                              Self;
-  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ExtractImageFilter;
+  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -104,22 +104,22 @@ public:
   itkTypeMacro(ExtractImageFilter, InPlaceImageFilter);
 
   /** Image type information. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
   /** Typedef to describe the output and input image region types. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
-  typedef typename TInputImage::RegionType  InputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
+  using InputImageRegionType = typename TInputImage::RegionType;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
-  typedef typename TInputImage::PixelType  InputImagePixelType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
+  using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  typedef typename TOutputImage::IndexType OutputImageIndexType;
-  typedef typename TInputImage::IndexType  InputImageIndexType;
-  typedef typename TOutputImage::SizeType  OutputImageSizeType;
-  typedef typename TInputImage::SizeType   InputImageSizeType;
+  using OutputImageIndexType = typename TOutputImage::IndexType;
+  using InputImageIndexType = typename TInputImage::IndexType;
+  using OutputImageSizeType = typename TOutputImage::SizeType;
+  using InputImageSizeType = typename TInputImage::SizeType;
 
   typedef enum DirectionCollapseStrategyEnum {
     DIRECTIONCOLLAPSETOUNKOWN=0,
@@ -208,9 +208,9 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  typedef ImageToImageFilterDetail::ExtractImageFilterRegionCopier<
+  using ExtractImageFilterRegionCopierType = ImageToImageFilterDetail::ExtractImageFilterRegionCopier<
     itkGetStaticConstMacro(InputImageDimension),
-    itkGetStaticConstMacro(OutputImageDimension) > ExtractImageFilterRegionCopierType;
+    itkGetStaticConstMacro(OutputImageDimension) >;
 
   /** Set/Get the output image region.
    *  If any of the ExtractionRegion.Size = 0 for any particular dimension dim,

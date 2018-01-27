@@ -54,28 +54,28 @@ class ITK_TEMPLATE_EXPORT LaplacianSharpeningImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard "Self" & Superclass typedef.   */
-  typedef LaplacianSharpeningImageFilter                  Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  /** Standard "Self" & Superclass type alias.   */
+  using Self = LaplacianSharpeningImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType                    OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType            OutputInternalPixelType;
-  typedef typename NumericTraits< OutputPixelType >::RealType RealType;
-  typedef typename TInputImage::PixelType                     InputPixelType;
-  typedef typename TInputImage::InternalPixelType             InputInternalPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using RealType = typename NumericTraits< OutputPixelType >::RealType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Image typedef support. */
-  typedef TInputImage                      InputImageType;
-  typedef TOutputImage                     OutputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  /** Image type alias support */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
 
-  /** Smart pointer typedef support.   */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support   */
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods)  */
   itkTypeMacro(LaplacianSharpeningImageFilter, ImageToImageFilter);

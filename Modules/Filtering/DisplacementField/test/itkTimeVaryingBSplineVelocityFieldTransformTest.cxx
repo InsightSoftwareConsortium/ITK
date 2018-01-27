@@ -20,10 +20,10 @@
 
 int itkTimeVaryingBSplineVelocityFieldTransformTest( int, char* [] )
 {
-  typedef itk::Vector<double, 3>      VectorType;
-  typedef itk::Image<VectorType, 3>   DisplacementFieldType;
-  typedef itk::Image<VectorType, 4>   TimeVaryingVelocityFieldControlPointLatticeType;
-  typedef itk::Image<VectorType, 4>   TimeVaryingVelocityFieldType;
+  using VectorType = itk::Vector<double, 3>;
+  using DisplacementFieldType = itk::Image<VectorType, 3>;
+  using TimeVaryingVelocityFieldControlPointLatticeType = itk::Image<VectorType, 4>;
+  using TimeVaryingVelocityFieldType = itk::Image<VectorType, 4>;
 
   const unsigned int splineOrder = 3;
 
@@ -48,8 +48,8 @@ int itkTimeVaryingBSplineVelocityFieldTransformTest( int, char* [] )
   timeVaryingVelocityFieldControlPointLattice->Allocate();
   timeVaryingVelocityFieldControlPointLattice->FillBuffer( displacement1 );
 
-  typedef itk::TimeVaryingVelocityFieldIntegrationImageFilter
-    <TimeVaryingVelocityFieldControlPointLatticeType, DisplacementFieldType> IntegratorType;
+  using IntegratorType = itk::TimeVaryingVelocityFieldIntegrationImageFilter
+    <TimeVaryingVelocityFieldControlPointLatticeType, DisplacementFieldType>;
 
   IntegratorType::Pointer integrator = IntegratorType::New();
   integrator->SetInput( timeVaryingVelocityFieldControlPointLattice );
@@ -112,7 +112,7 @@ int itkTimeVaryingBSplineVelocityFieldTransformTest( int, char* [] )
     }
   timeVaryingVelocityFieldSize[3] = 5;
 
-  typedef itk::TimeVaryingBSplineVelocityFieldTransform<double, 3> TransformType;
+  using TransformType = itk::TimeVaryingBSplineVelocityFieldTransform<double, 3>;
   TransformType::Pointer transform = TransformType::New();
   transform->SetLowerTimeBound( 0.0 );
   transform->SetUpperTimeBound( 1.0 );
@@ -130,7 +130,7 @@ int itkTimeVaryingBSplineVelocityFieldTransformTest( int, char* [] )
   TransformType::InputPointType point;
   point.Fill( 1.3 );
 
-  typedef TransformType::OutputPointType OutputPointType;
+  using OutputPointType = TransformType::OutputPointType;
   OutputPointType transformedPoint = transform->TransformPoint( point );
 
   std::cout << point << ", " << transformedPoint << transform->TransformPoint( point ) << std::endl;
@@ -149,7 +149,7 @@ int itkTimeVaryingBSplineVelocityFieldTransformTest( int, char* [] )
   TransformType::InputPointType point2;
   point2.CastFrom( transformedPoint );
 
-  typedef TransformType::InverseTransformBasePointer InverseTransformBasePointer;
+  using InverseTransformBasePointer = TransformType::InverseTransformBasePointer;
   InverseTransformBasePointer inverseTransform = transform->GetInverseTransform();
 
   transformedPoint = inverseTransform->TransformPoint( point2 );

@@ -296,9 +296,9 @@ void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::CopyImageToImage()
 {
-  typedef ImageRegionConstIteratorWithIndex< TInputImage > InputIterator;
-  typedef ImageRegionIterator< TOutputImage >              OutputIterator;
-  typedef typename TOutputImage::PixelType                 OutputPixelType;
+  using InputIterator = ImageRegionConstIteratorWithIndex< TInputImage >;
+  using OutputIterator = ImageRegionIterator< TOutputImage >;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
   InputIterator  inIt( this->GetInput(), this->GetInput()->GetBufferedRegion() );
   OutputIterator outIt( this->GetOutput(), this->GetOutput()->GetBufferedRegion() );
@@ -319,7 +319,7 @@ void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::CopyScratchToCoefficients(OutputLinearIterator & Iter)
 {
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
   typename TOutputImage::SizeValueType j = 0;
   while ( !Iter.IsAtEndOfLine() )
     {

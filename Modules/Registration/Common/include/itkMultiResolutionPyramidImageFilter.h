@@ -113,11 +113,11 @@ class ITK_TEMPLATE_EXPORT MultiResolutionPyramidImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultiResolutionPyramidImageFilter               Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MultiResolutionPyramidImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -125,8 +125,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultiResolutionPyramidImageFilter, ImageToImageFilter);
 
-  /** ScheduleType typedef support. */
-  typedef Array2D< unsigned int > ScheduleType;
+  /** ScheduleType type alias support */
+  using ScheduleType = Array2D< unsigned int >;
 
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -135,11 +135,11 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Inherit types from Superclass. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::OutputImageType        OutputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
 
   /** Set the number of multi-resolution levels. The matrix containing the
    * schedule will be resized accordingly.  The schedule is populated with

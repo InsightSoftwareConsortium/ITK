@@ -37,10 +37,10 @@ template< typename TInput, typename TOutput >
 class SymmetricEigenAnalysisFunction
 {
 public:
-  typedef typename TInput::RealValueType RealValueType;
+  using RealValueType = typename TInput::RealValueType;
   SymmetricEigenAnalysisFunction() {}
   ~SymmetricEigenAnalysisFunction() {}
-  typedef SymmetricEigenAnalysis< TInput, TOutput > CalculatorType;
+  using CalculatorType = SymmetricEigenAnalysis< TInput, TOutput >;
   bool operator!=(const SymmetricEigenAnalysisFunction &) const
   {
     return false;
@@ -128,29 +128,29 @@ class SymmetricEigenAnalysisImageFilter:
                              typename TOutputImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SymmetricEigenAnalysisImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = SymmetricEigenAnalysisImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::SymmetricEigenAnalysisFunction<
       typename TInputImage::PixelType,
-      typename TOutputImage::PixelType > >   Superclass;
+      typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename TOutputImage::PixelType     OutputPixelType;
-  typedef typename TInputImage::PixelType      InputPixelType;
-  typedef typename InputPixelType::ValueType   InputValueType;
-  typedef typename Superclass::FunctorType     FunctorType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputValueType = typename InputPixelType::ValueType;
+  using FunctorType = typename Superclass::FunctorType;
 
   /** Typdedefs to order eigen values.
    * OrderByValue:      lambda_1 < lambda_2 < ....
    * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
    * DoNotOrder:        Default order of eigen values obtained after QL method
    */
-  typedef typename FunctorType::EigenValueOrderType EigenValueOrderType;
+  using EigenValueOrderType = typename FunctorType::EigenValueOrderType;
 
   /** Order eigen values. Default is to OrderByValue:  lambda_1 <
    * lambda_2 < .... */

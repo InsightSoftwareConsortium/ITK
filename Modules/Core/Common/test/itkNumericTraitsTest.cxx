@@ -59,7 +59,7 @@ template<>
 class NumericTraits< ForcedFailureTestCase > : public std::numeric_limits< ForcedFailureTestCase >
 {
   public:
-  typedef ForcedFailureTestCase ValueType;
+  using ValueType = ForcedFailureTestCase;
   static constexpr bool IsSigned = true;    //the default (for unknown classes) in std::numeric_limits is false, false.
   static constexpr bool IsInteger = true;   //so this should not match and the test should fail.
 };
@@ -68,7 +68,7 @@ template<>
 class NumericTraits< std::complex< ForcedFailureTestCase > >
 {
   public:
-  typedef ForcedFailureTestCase ValueType;
+  using ValueType = ForcedFailureTestCase;
   static constexpr bool IsSigned = false;  //Complex values are never integers, and their IsSigned property
   static constexpr bool IsInteger = true;  //should match that of their base type, so this should fail
 };
@@ -369,7 +369,7 @@ int itkNumericTraitsTest(int, char* [] )
 
   CheckTraits("size_t", static_cast<size_t>(0));
   CheckTraits("std::ptrdiff_t", static_cast<std::ptrdiff_t>(0));
-  typedef std::vector<int>::size_type VectorSizeType;
+  using VectorSizeType = std::vector<int>::size_type;
   CheckTraits("std::vector<int>::size_type", static_cast<VectorSizeType>(0));
 
 #ifndef __EMSCRIPTEN__

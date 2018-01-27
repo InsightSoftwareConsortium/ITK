@@ -36,11 +36,11 @@ template < class TInputImage >
 class ITK_TEMPLATE_EXPORT PeakSignalToNoiseRatioCalculator : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef PeakSignalToNoiseRatioCalculator Self;
-  typedef Object                           Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PeakSignalToNoiseRatioCalculator;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -53,12 +53,12 @@ public:
                       TInputImage::ImageDimension);
 
   /** Standard image type within this class. */
-  typedef TInputImage InputImageType;
+  using InputImageType = TInputImage;
 
   /** Standard image type pointer within this class. */
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::PixelType    InputPixelType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputPixelType = typename InputImageType::PixelType;
 
   /** Set the input image. */
   virtual void SetImage( const InputImageType * image )

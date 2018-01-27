@@ -65,23 +65,23 @@ class ITK_TEMPLATE_EXPORT FiniteDifferenceSparseImageFilter:
                                       TSparseOutputImageType >
 {
 public:
-  /** Standard class typedef */
-  typedef FiniteDifferenceSparseImageFilter Self;
-  typedef FiniteDifferenceImageFilter<
-    TInputImageType, TSparseOutputImageType >      Superclass;
+  /** Standard class type alias */
+  using Self = FiniteDifferenceSparseImageFilter;
+  using Superclass = FiniteDifferenceImageFilter<
+    TInputImageType, TSparseOutputImageType >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceSparseImageFilter, FiniteDifferenceImageFilter);
 
   /**Typedefs from the superclass */
-  typedef typename Superclass::InputImageType               InputImageType;
-  typedef typename Superclass::OutputImageType              SparseOutputImageType;
-  typedef typename Superclass::PixelType                    PixelType;
-  typedef typename Superclass::TimeStepType                 TimeStepType;
-  typedef typename Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
+  using InputImageType = typename Superclass::InputImageType;
+  using SparseOutputImageType = typename Superclass::OutputImageType;
+  using PixelType = typename Superclass::PixelType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
   // the PixelType is from output image; therefore, it is a pointer
 
   /** Dimensionality of input and output data is assumed to be the same.
@@ -89,22 +89,21 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Typedefs from the sparse output image type. */
-  typedef typename SparseOutputImageType::IndexType    IndexType;
-  typedef typename SparseOutputImageType::SizeType     SizeType;
-  typedef typename SparseOutputImageType::NodeType     OutputNodeType;
-  typedef typename SparseOutputImageType::NodeListType NodeListType;
+  using IndexType = typename SparseOutputImageType::IndexType;
+  using SizeType = typename SparseOutputImageType::SizeType;
+  using OutputNodeType = typename SparseOutputImageType::NodeType;
+  using NodeListType = typename SparseOutputImageType::NodeListType;
 
   /** The type for the data variable of OutputNodeType. */
-  typedef typename OutputNodeType::NodeDataType NodeDataType;
+  using NodeDataType = typename OutputNodeType::NodeDataType;
 
   /** The basic scalar variable type used in OutputNodeType. Expected to be
    * float or double. If NodeDataType is a scalar, then this is the same type as
    * that. */
-  typedef typename OutputNodeType::NodeValueType NodeValueType;
+  using NodeValueType = typename OutputNodeType::NodeValueType;
 
   /** The sparse image finite difference function type used in this class. */
-  typedef FiniteDifferenceSparseImageFunction< SparseOutputImageType >
-  SparseFunctionType;
+  using SparseFunctionType = FiniteDifferenceSparseImageFunction<SparseOutputImageType>;
 
   /** Sets the function object that will be called for computing updates. */
   void SetSparseFunction(SparseFunctionType *sf);

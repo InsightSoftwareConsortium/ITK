@@ -28,8 +28,8 @@ namespace itk
 namespace TemporalProcessObjectTest
 {
 
-typedef ::itk::SizeValueType       SizeValueType;
-typedef ::itk::OffsetValueType     OffsetValueType;
+using SizeValueType = ::itk::SizeValueType;
+using OffsetValueType = ::itk::OffsetValueType;
 /** \class CallRecord
  * Record of a start or end of a GenerateDataCall from a
  * DummyTemporalProcessObject instance
@@ -123,11 +123,11 @@ class DummyTemporalDataObject : public TemporalDataObject
 {
 public:
 
-  /** typedefs */
-  typedef DummyTemporalDataObject    Self;
-  typedef TemporalDataObject         Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** type alias */
+  using Self = DummyTemporalDataObject;
+  using Superclass = TemporalDataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Class macros */
   itkNewMacro(Self);
@@ -223,11 +223,11 @@ public:
 class DummyTemporalProcessObject : public TemporalProcessObject
 {
 public:
-  /** typedefs */
-  typedef DummyTemporalProcessObject Self;
-  typedef TemporalProcessObject      Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** type alias */
+  using Self = DummyTemporalProcessObject;
+  using Superclass = TemporalProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Class macros */
   itkNewMacro(Self);
@@ -438,14 +438,14 @@ int itkTemporalProcessObjectTest( int ,
                                   char* [] )
 {
 
-  typedef ::itk::SizeValueType       SizeValueType;
-  typedef ::itk::OffsetValueType     OffsetValueType;
+  using SizeValueType = ::itk::SizeValueType;
+  using OffsetValueType = ::itk::OffsetValueType;
   //////
   // Set up pipeline
   //////
 
   // Create 3 new DummyTemporalProcessObjects
-  typedef itk::TemporalProcessObjectTest::DummyTemporalProcessObject TPOType;
+  using TPOType = itk::TemporalProcessObjectTest::DummyTemporalProcessObject;
   TPOType::Pointer tpo1 = TPOType::New();
   tpo1->SetIdNumber(1);
   TPOType::Pointer tpo2 = TPOType::New();
@@ -476,7 +476,7 @@ int itkTemporalProcessObjectTest( int ,
                                              // of 2
 
   // Create a new TemporalDataObject to pass through the pipeline
-  typedef itk::TemporalProcessObjectTest::DummyTemporalDataObject TDOType;
+  using TDOType = itk::TemporalProcessObjectTest::DummyTemporalDataObject;
   TDOType::Pointer tdo = TDOType::New();
   tpo1->SetInput(tdo);
 
@@ -616,7 +616,7 @@ int itkTemporalProcessObjectTest( int ,
 
   // Create a list of CallRecord items representing the correct
   // stack trace
-  typedef itk::TemporalProcessObjectTest::CallRecord RecordType;
+  using RecordType = itk::TemporalProcessObjectTest::CallRecord;
   std::vector<RecordType> correctCallStack;
 
   // GenDat - START - obj 3

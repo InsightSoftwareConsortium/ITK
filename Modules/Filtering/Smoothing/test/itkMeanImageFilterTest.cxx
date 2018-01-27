@@ -27,9 +27,9 @@ int itkMeanImageFilterTest( int, char* [] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
   const unsigned int Dimension = 2;
-  typedef float PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< PixelType, Dimension > FloatImage2DType;
+  using FloatImage2DType = itk::Image< PixelType, Dimension >;
 
   itk::RandomImageSource<FloatImage2DType>::Pointer random;
   random = itk::RandomImageSource< FloatImage2DType >::New();

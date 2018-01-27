@@ -36,21 +36,21 @@ int itkJPEG2000ImageIORegionOfInterest( int argc, char * argv[] )
   itk::JPEG2000ImageIOFactory::RegisterOneFactory();
 
   //  Image types are defined below.
-  typedef unsigned char       InputPixelType;
-  typedef unsigned char       OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
   const   unsigned int        Dimension = 2;
 
-  typedef itk::Image< InputPixelType,  Dimension >    InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   //  The RegionOfInterestImageFilter type is instantiated using
   //  the input and output image types. A filter object is created with the
   //  New() method and assigned to a \doxygen{SmartPointer}.
-  typedef itk::RegionOfInterestImageFilter< InputImageType,
-                                            OutputImageType > FilterType;
+  using FilterType = itk::RegionOfInterestImageFilter< InputImageType,
+                                            OutputImageType >;
   FilterType::Pointer filter = FilterType::New();
 
   //  The RegionOfInterestImageFilter requires a region to be

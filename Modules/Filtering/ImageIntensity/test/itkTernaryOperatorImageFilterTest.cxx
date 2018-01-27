@@ -60,11 +60,11 @@ int itkTernaryOperatorImageFilterTest( int, char* [] )
   const unsigned int ImageDimension = 2;
 
   // Declare the pixel types of the images
-  typedef bool                MaskPixelType;
-  typedef short               GrayPixelType;
+  using MaskPixelType = bool;
+  using GrayPixelType = short;
 
-  typedef itk::Image< MaskPixelType, ImageDimension > MaskImageType;
-  typedef itk::Image< GrayPixelType, ImageDimension > GrayImageType;
+  using MaskImageType = itk::Image< MaskPixelType, ImageDimension >;
+  using GrayImageType = itk::Image< GrayPixelType, ImageDimension >;
 
   MaskImageType::IndexType origin;
   origin.Fill( 0 );
@@ -78,7 +78,7 @@ int itkTernaryOperatorImageFilterTest( int, char* [] )
   mask->FillBuffer( false );
 
   // Checkerboard the mask
-  typedef itk::ImageRegionIteratorWithIndex< MaskImageType > MaskItType;
+  using MaskItType = itk::ImageRegionIteratorWithIndex< MaskImageType >;
   MaskItType maskIt( mask, mask->GetLargestPossibleRegion() );
   for (maskIt.GoToBegin(); !maskIt.IsAtEnd(); ++maskIt)
     {
@@ -98,8 +98,8 @@ int itkTernaryOperatorImageFilterTest( int, char* [] )
   image2->Allocate();
   image2->FillBuffer( val2 );
 
-  typedef itk::TernaryOperatorImageFilter< MaskImageType, GrayImageType >
-    TernaryType;
+  using TernaryType =
+      itk::TernaryOperatorImageFilter< MaskImageType, GrayImageType >;
   TernaryType::Pointer tern = TernaryType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( tern, TernaryOperatorImageFilter,
@@ -115,7 +115,7 @@ int itkTernaryOperatorImageFilterTest( int, char* [] )
 
   // Even indices should be equal to val1 (the value of the second input)
   // Odd indices should be equal to val2 (the value of the third input)
-  typedef itk::ImageRegionIteratorWithIndex< GrayImageType > GrayItType;
+  using GrayItType = itk::ImageRegionIteratorWithIndex< GrayImageType >;
   GrayItType outIt( output, output->GetLargestPossibleRegion() );
   for( outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt )
     {

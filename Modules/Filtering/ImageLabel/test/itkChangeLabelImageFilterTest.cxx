@@ -27,20 +27,18 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned short, ImageDimension> InputImageType;
-  typedef itk::Image<unsigned char, ImageDimension>  OutputImageType;
-  typedef InputImageType::PixelType                  InputPixelType;
-  typedef OutputImageType::PixelType                 OutputPixelType;
+  using InputImageType = itk::Image<unsigned short, ImageDimension>;
+  using OutputImageType = itk::Image<unsigned char, ImageDimension>;
+  using InputPixelType = InputImageType::PixelType;
+  using OutputPixelType = OutputImageType::PixelType;
 
   // Declare iterator type
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType>  InputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType>  OutputIteratorType;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Use a random image source as input
-  typedef itk::RandomImageSource<InputImageType> SourceType;
+  using SourceType = itk::RandomImageSource<InputImageType>;
   SourceType::Pointer source = SourceType::New();
 
   InputImageType::SizeValueType sizeArray[ImageDimension] = { 3,3,3 };
@@ -52,8 +50,8 @@ int itkChangeLabelImageFilterTest(int, char* [] )
   source->SetSize( sizeArray );
 
   // Declare the type for the binary threshold filter
-  typedef itk::ChangeLabelImageFilter< InputImageType,
-                               OutputImageType  >  FilterType;
+  using FilterType = itk::ChangeLabelImageFilter< InputImageType,
+                               OutputImageType  >;
 
 
   // Create a filter

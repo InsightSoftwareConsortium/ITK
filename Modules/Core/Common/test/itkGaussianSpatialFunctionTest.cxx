@@ -30,13 +30,12 @@ int itkGaussianSpatialFunctionTest( int argc, char* argv[] )
     }
 
   const unsigned int Dimension = 3;
-  typedef double PixeltType;
+  using PixeltType = double;
 
-  typedef itk::GaussianSpatialFunction< PixeltType, Dimension >
-    GaussianSpatialFunctionType;
+  using GaussianSpatialFunctionType = itk::GaussianSpatialFunction< PixeltType, Dimension >;
 
-  typedef GaussianSpatialFunctionType::ArrayType ArrayType;
-  typedef GaussianSpatialFunctionType::InputType InputType;
+  using ArrayType = GaussianSpatialFunctionType::ArrayType;
+  using InputType = GaussianSpatialFunctionType::InputType;
 
   // Create and initialize the Spatial function
 

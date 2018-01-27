@@ -30,17 +30,17 @@ int itkImageDuplicatorTest2( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef float PixelType;
+  using PixelType = float;
   const unsigned int Dimension = 3;
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  typedef itk::ImageDuplicator<ImageType> DuplicatorType;
+  using DuplicatorType = itk::ImageDuplicator<ImageType>;
   DuplicatorType::Pointer dup = DuplicatorType::New();
-  typedef itk::AbsImageFilter<ImageType, ImageType> AbsType;
+  using AbsType = itk::AbsImageFilter<ImageType, ImageType>;
   AbsType::Pointer absF = AbsType::New();
 
   reader->SetFileName(argv[1]);

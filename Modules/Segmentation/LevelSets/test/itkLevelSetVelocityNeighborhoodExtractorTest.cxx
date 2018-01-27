@@ -22,12 +22,12 @@
 int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
 {
   const unsigned int ImageDimension = 2;
-  typedef float                                PixelType;
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef double                               AuxValueType;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using AuxValueType = double;
 
   // Create an input image using fastmarching
-  typedef itk::FastMarchingImageFilter<ImageType> SourceType;
+  using SourceType = itk::FastMarchingImageFilter<ImageType>;
   SourceType::Pointer source = SourceType::New();
 
   ImageType::SizeType size;
@@ -42,7 +42,7 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
   node.SetIndex( index );
   node.SetValue( -4.0 );
 
-  typedef SourceType::NodeContainer NodeContainerType;
+  using NodeContainerType = SourceType::NodeContainer;
   NodeContainerType::Pointer container = NodeContainerType::New();
 
   container->InsertElement( 0, node );
@@ -51,7 +51,7 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
   source->CollectPointsOn();
   source->Update();
 
-  typedef itk::LevelSetVelocityNeighborhoodExtractor<ImageType,AuxValueType,2> ExtractorType;
+  using ExtractorType = itk::LevelSetVelocityNeighborhoodExtractor<ImageType,AuxValueType,2>;
   ExtractorType::Pointer extractor = ExtractorType::New();
 
   extractor->SetInputLevelSet( source->GetOutput() );
@@ -59,7 +59,7 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
   extractor->NarrowBandingOff();
 
   // create some dummy auxiliary variable images
-  typedef ExtractorType::AuxImageType AuxImageType;
+  using AuxImageType = ExtractorType::AuxImageType;
 
   AuxImageType::Pointer aux0 = AuxImageType::New();
   aux0->SetRegions( source->GetOutput()->GetBufferedRegion() );
@@ -77,12 +77,12 @@ int itkLevelSetVelocityNeighborhoodExtractorTest(int, char* [] )
 
   extractor->Locate();
 
-  typedef NodeContainerType::ConstIterator Iterator;
+  using Iterator = NodeContainerType::ConstIterator;
   Iterator iter;
   Iterator iterEnd;
 
-  typedef ExtractorType::AuxValueContainer AuxValueContainer;
-  typedef AuxValueContainer::ConstIterator AuxIterator;
+  using AuxValueContainer = ExtractorType::AuxValueContainer;
+  using AuxIterator = AuxValueContainer::ConstIterator;
   AuxIterator aIter;
   AuxIterator aIterEnd;
 

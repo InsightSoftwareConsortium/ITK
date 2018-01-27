@@ -33,9 +33,9 @@ int itkHistogramToProbabilityImageFilterTest1( int argc, char * argv [] )
 
 
   const unsigned int                                  Dimension = 2;
-  typedef unsigned char                               PixelComponentType;
-  typedef itk::Image< PixelComponentType, Dimension > ScalarImageType;
-  typedef itk::ImageFileReader< ScalarImageType >     ReaderType;
+  using PixelComponentType = unsigned char;
+  using ScalarImageType = itk::Image< PixelComponentType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ScalarImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
@@ -59,8 +59,7 @@ int itkHistogramToProbabilityImageFilterTest1( int argc, char * argv [] )
   const ScalarImageType::PixelType imageMax = minmaxFilter->GetMaximum();
 
 
-  typedef itk::Statistics::ScalarImageToHistogramGenerator<ScalarImageType>
-    HistogramGeneratorType;
+  using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<ScalarImageType>;
   HistogramGeneratorType::Pointer histogramGenerator
     = HistogramGeneratorType::New();
   histogramGenerator->SetInput(reader->GetOutput());
@@ -76,18 +75,18 @@ int itkHistogramToProbabilityImageFilterTest1( int argc, char * argv [] )
   histogramGenerator->Compute();
 
 
-  typedef HistogramGeneratorType::HistogramType  HistogramType;
+  using HistogramType = HistogramGeneratorType::HistogramType;
   const HistogramType * histogram = histogramGenerator->GetOutput();
 
-  typedef itk::HistogramToProbabilityImageFilter< HistogramType > HistogramToImageFilterType;
+  using HistogramToImageFilterType = itk::HistogramToProbabilityImageFilter< HistogramType >;
 
   HistogramToImageFilterType::Pointer histogramToImageFilter = HistogramToImageFilterType::New();
 
   histogramToImageFilter->SetInput( histogram );
 
-  typedef HistogramToImageFilterType::OutputImageType OutputImageType;
+  using OutputImageType = HistogramToImageFilterType::OutputImageType;
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[2] );

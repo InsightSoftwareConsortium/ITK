@@ -44,40 +44,40 @@ class NumericTraits< RGBPixel< T > >
 {
 private:
 
-  typedef typename NumericTraits< T >::AbsType        ElementAbsType;
-  typedef typename NumericTraits< T >::AccumulateType ElementAccumulateType;
-  typedef typename NumericTraits< T >::FloatType      ElementFloatType;
-  typedef typename NumericTraits< T >::PrintType      ElementPrintType;
-  typedef typename NumericTraits< T >::RealType       ElementRealType;
+  using ElementAbsType = typename NumericTraits< T >::AbsType;
+  using ElementAccumulateType = typename NumericTraits< T >::AccumulateType;
+  using ElementFloatType = typename NumericTraits< T >::FloatType;
+  using ElementPrintType = typename NumericTraits< T >::PrintType;
+  using ElementRealType = typename NumericTraits< T >::RealType;
 
 public:
 
   /** Return the type of the native component type. */
-  typedef T ValueType;
+  using ValueType = T;
 
-  typedef RGBPixel< T > Self;
+  using Self = RGBPixel< T >;
 
   /** Unsigned component type */
-  typedef RGBPixel< ElementAbsType > AbsType;
+  using AbsType = RGBPixel< ElementAbsType >;
 
   /** Accumulation of addition and multiplication. */
-  typedef RGBPixel< ElementAccumulateType > AccumulateType;
+  using AccumulateType = RGBPixel< ElementAccumulateType >;
 
   /** Typedef for operations that use floating point instead of real precision
     */
-  typedef RGBPixel< ElementFloatType > FloatType;
+  using FloatType = RGBPixel< ElementFloatType >;
 
   /** Return the type that can be printed. */
-  typedef RGBPixel< ElementPrintType > PrintType;
+  using PrintType = RGBPixel< ElementPrintType >;
 
   /** Type for real-valued scalar operations. */
-  typedef RGBPixel< ElementRealType > RealType;
+  using RealType = RGBPixel< ElementRealType >;
 
   /** Type for real-valued scalar operations. */
-  typedef ElementRealType ScalarRealType;
+  using ScalarRealType = ElementRealType;
 
   /** Measurement vector type */
-  typedef Self MeasurementVectorType;
+  using MeasurementVectorType = Self;
 
   /** Component wise defined element
    *

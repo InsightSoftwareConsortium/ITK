@@ -34,14 +34,14 @@ int itkMetaImageIOTest(int ac, char* av[])
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
-  typedef unsigned short           PixelType;
-  typedef itk::Image<PixelType, 3> myImage;
+  using PixelType = unsigned short;
+  using myImage = itk::Image<PixelType, 3>;
 
   itk::ImageFileReader<myImage>::Pointer reader
     = itk::ImageFileReader<myImage>::New();
 
   // force use of MetaIO
-  typedef itk::MetaImageIO IOType;
+  using IOType = itk::MetaImageIO;
   IOType::Pointer metaIn = IOType::New();
   metaIn->SetDoublePrecision(8);  // Set manually for coverage
   reader->SetImageIO(metaIn);

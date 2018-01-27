@@ -35,10 +35,10 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionBase : public Object
 {
 public:
 
-  typedef LevelSetDomainPartitionBase           Self;
-  typedef Object                                Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  using Self = LevelSetDomainPartitionBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro(LevelSetDomainPartitionBase, LightObject);
 
@@ -58,9 +58,9 @@ protected:
 
   virtual void AllocateListDomain() = 0;
 
-  typedef std::list< IdentifierType >                 IdentifierListType;
-  typedef typename IdentifierListType::iterator       IdentifierListIterator;
-  typedef typename IdentifierListType::const_iterator IdentifierListConstIterator;
+  using IdentifierListType = std::list< IdentifierType >;
+  using IdentifierListIterator = typename IdentifierListType::iterator;
+  using IdentifierListConstIterator = typename IdentifierListType::const_iterator;
 
   IdentifierType m_NumberOfLevelSetFunctions;
 

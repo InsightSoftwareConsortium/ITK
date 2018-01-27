@@ -64,12 +64,12 @@ class VectorCurvatureAnisotropicDiffusionImageFilter:
   public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard itk typedefs */
-  typedef VectorCurvatureAnisotropicDiffusionImageFilter Self;
-  typedef AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard itk type alias */
+  using Self = VectorCurvatureAnisotropicDiffusionImageFilter;
+  using Superclass =
+      AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Instantiation through object factory. */
   itkNewMacro(Self);
@@ -78,8 +78,8 @@ public:
   itkTypeMacro(VectorCurvatureAnisotropicDiffusionImageFilter,
                AnisotropicDiffusionImageFilter);
 
-  /** Convenient typedef. */
-  typedef typename Superclass::UpdateBufferType UpdateBufferType;
+  /** Convenient type alias. */
+  using UpdateBufferType = typename Superclass::UpdateBufferType;
 
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,

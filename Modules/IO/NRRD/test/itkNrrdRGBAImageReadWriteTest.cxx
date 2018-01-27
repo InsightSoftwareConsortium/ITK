@@ -33,8 +33,8 @@ int itkNrrdRGBAImageReadWriteTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::RGBAPixel<unsigned char> PixelType;
-  typedef itk::Image<PixelType, 2>      myImage;
+  using PixelType = itk::RGBAPixel<unsigned char>;
+  using myImage = itk::Image<PixelType, 2>;
 
   itk::ImageFileReader<myImage>::Pointer reader
                                   = itk::ImageFileReader<myImage>::New();

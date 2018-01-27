@@ -52,15 +52,15 @@ template< typename T, typename TContainer >
 class NthElementPixelAccessor
 {
 public:
-  /** Standard class typedefs. */
-  typedef   NthElementPixelAccessor Self;
+  /** Standard class type aliases. */
+  using Self = NthElementPixelAccessor;
 
   /** that this class will exhibit */
-  typedef T ExternalType;
+  using ExternalType = T;
 
-  /** Internal typedef. It defines the internal real
+  /** Internal type alias. It defines the internal real
    * representation of data */
-  typedef   TContainer InternalType;
+  using InternalType = TContainer;
 
   /** Write access to the NthElement component */
   inline void Set(InternalType & output, const ExternalType & input) const
@@ -109,19 +109,19 @@ class NthElementPixelAccessor< TOutputPixelType, itk::VariableLengthVector<TPixe
   : private DefaultVectorPixelAccessor< TPixelType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef   NthElementPixelAccessor Self;
+  /** Standard class type aliases. */
+  using Self = NthElementPixelAccessor;
 
-  typedef unsigned int VectorLengthType;
+  using VectorLengthType = unsigned int;
 
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
    * that this class will exhibit. */
-  typedef  TOutputPixelType ExternalType;
+  using ExternalType = TOutputPixelType;
 
-  /** Internal typedef used by the ImageAdaptor for the buffer pointer */
-  typedef TPixelType InternalType;
+  /** Internal type alias used by the ImageAdaptor for the buffer pointer */
+  using InternalType = TPixelType;
 
-  typedef VariableLengthVector< TPixelType > ActualPixelType;
+  using ActualPixelType = VariableLengthVector< TPixelType >;
 
   inline void Set(ActualPixelType &output, const ExternalType & input) const
   {
@@ -191,7 +191,7 @@ public:
   }
 
 protected:
-  typedef DefaultVectorPixelAccessor< TPixelType > Superclass;
+  using Superclass = DefaultVectorPixelAccessor< TPixelType >;
 
 private:
   VectorLengthType m_ElementNumber;

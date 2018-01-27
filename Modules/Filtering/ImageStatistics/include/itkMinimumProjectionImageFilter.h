@@ -76,16 +76,16 @@ class MinimumProjectionImageFilter:public
                          Functor::MinimumAccumulator< typename TInputImage::PixelType > >
 {
 public:
-  typedef MinimumProjectionImageFilter Self;
-  typedef ProjectionImageFilter< TInputImage, TOutputImage,
+  using Self = MinimumProjectionImageFilter;
+  using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Functor::MinimumAccumulator<
-                                   typename TInputImage::PixelType > > Superclass;
+                                   typename TInputImage::PixelType > >;
 
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType InputPixelType;
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Runtime information support. */
   itkTypeMacro(MinimumProjectionImageFilter, ProjectionImageFilter);

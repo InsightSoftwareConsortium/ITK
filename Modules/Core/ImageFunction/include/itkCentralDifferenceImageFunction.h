@@ -85,13 +85,13 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef CentralDifferenceImageFunction   Self;
-  typedef ImageFunction< TInputImage,
+  /** Standard class type aliases. */
+  using Self = CentralDifferenceImageFunction;
+  using Superclass = ImageFunction< TInputImage,
                          TOutputType,
-                         TCoordRep >       Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+                         TCoordRep >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CentralDifferenceImageFunction, ImageFunction);
@@ -99,42 +99,42 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** InputImageType typedef support. */
-  typedef TInputImage InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = TInputImage;
 
-  /** InputPixelType typedef support */
-  typedef typename InputImageType::PixelType InputPixelType;
+  /** InputPixelType type alias support */
+  using InputPixelType = typename InputImageType::PixelType;
 
-  /** InputPixelConvert typedef support */
-  typedef DefaultConvertPixelTraits< InputPixelType > InputPixelConvertType;
+  /** InputPixelConvert type alias support */
+  using InputPixelConvertType = DefaultConvertPixelTraits< InputPixelType >;
 
   /** OutputType typdef support. */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
-  /** Output convert typedef support */
-  typedef DefaultConvertPixelTraits<OutputType> OutputConvertType;
+  /** Output convert type alias support */
+  using OutputConvertType = DefaultConvertPixelTraits<OutputType>;
 
-  /** Output value typedef support */
-  typedef typename OutputConvertType::ComponentType OutputValueType;
+  /** Output value type alias support */
+  using OutputValueType = typename OutputConvertType::ComponentType;
 
-  /** Scalar derivative typedef support */
-  typedef CovariantVector<OutputValueType, itkGetStaticConstMacro(ImageDimension) > ScalarDerivativeType;
+  /** Scalar derivative type alias support */
+  using ScalarDerivativeType = CovariantVector<OutputValueType, itkGetStaticConstMacro(ImageDimension) >;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support */
+  using PointType = typename Superclass::PointType;
 
-  /** Spacing typedef support. */
-  typedef typename TInputImage::SpacingType SpacingType;
+  /** Spacing type alias support */
+  using SpacingType = typename TInputImage::SpacingType;
 
-  /** Interpolator typedef support. */
-  typedef InterpolateImageFunction< TInputImage, TCoordRep > InterpolatorType;
-  typedef typename InterpolatorType::Pointer                 InterpolatorPointer;
+  /** Interpolator type alias support */
+  using InterpolatorType = InterpolateImageFunction< TInputImage, TCoordRep >;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
 
   /** Set the input image.  This must be set by the user. */
   void SetInputImage(const TInputImage *inputData) override;
@@ -217,7 +217,7 @@ private:
   template<typename T>
   struct OutputTypeSpecializationStructType
   {
-    typedef T Type;
+    using Type = T;
   };
 
   /** Specialized versions of EvaluteAtIndex() method to handle scalar or vector pixel types.*/

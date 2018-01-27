@@ -56,23 +56,23 @@ class ITK_TEMPLATE_EXPORT BinaryReconstructionByErosionImageFilter :
     public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryReconstructionByErosionImageFilter     Self;
-  typedef ImageToImageFilter<TInputImage, TInputImage> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BinaryReconstructionByErosionImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TInputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef TInputImage                              OutputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -82,13 +82,13 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef BinaryNotImageFilter< InputImageType >                             NotType;
-  typedef AttributeLabelObject< SizeValueType, ImageDimension, bool>         LabelObjectType;
-  typedef LabelMap< LabelObjectType >                                        LabelMapType;
-  typedef BinaryImageToLabelMapFilter< InputImageType, LabelMapType >        LabelizerType;
-  typedef BinaryReconstructionLabelMapFilter< LabelMapType, InputImageType > ReconstructionType;
-  typedef AttributeOpeningLabelMapFilter< LabelMapType >                     OpeningType;
-  typedef LabelMapMaskImageFilter< LabelMapType, OutputImageType >           BinarizerType;
+  using NotType = BinaryNotImageFilter< InputImageType >;
+  using LabelObjectType = AttributeLabelObject< SizeValueType, ImageDimension, bool>;
+  using LabelMapType = LabelMap< LabelObjectType >;
+  using LabelizerType = BinaryImageToLabelMapFilter< InputImageType, LabelMapType >;
+  using ReconstructionType = BinaryReconstructionLabelMapFilter< LabelMapType, InputImageType >;
+  using OpeningType = AttributeOpeningLabelMapFilter< LabelMapType >;
+  using BinarizerType = LabelMapMaskImageFilter< LabelMapType, OutputImageType >;
 
   /** Standard New method. */
   itkNewMacro(Self);

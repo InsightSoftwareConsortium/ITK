@@ -50,7 +50,7 @@ template< typename TInputPixel, typename TAccumulate >
 class StandardDeviationAccumulator
 {
 public:
-  typedef typename NumericTraits< TInputPixel >::RealType RealType;
+  using RealType = typename NumericTraits< TInputPixel >::RealType;
 
   StandardDeviationAccumulator( SizeValueType size )
   {
@@ -109,18 +109,18 @@ class StandardDeviationProjectionImageFilter:
                                                                 TInputImage::PixelType, TAccumulate > >
 {
 public:
-  typedef StandardDeviationProjectionImageFilter Self;
+  using Self = StandardDeviationProjectionImageFilter;
 
-  typedef ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Functor::StandardDeviationAccumulator< typename
-                                                                        TInputImage::PixelType,
-                                                                        TAccumulate > > Superclass;
+  using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
+                                 Functor::StandardDeviationAccumulator<
+                                         typename TInputImage::PixelType,
+                                         TAccumulate > >;
 
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType InputPixelType;
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Runtime information support. */
   itkTypeMacro(StandardDeviationProjectionImageFilter, ProjectionImageFilter);

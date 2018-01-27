@@ -40,12 +40,12 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   const unsigned int NDimensions = 3;
   int retval=EXIT_SUCCESS;
 
-  typedef itk::ImageMaskSpatialObject<NDimensions> ImageMaskSpatialObject;
-  typedef ImageMaskSpatialObject::PixelType        PixelType;
-  typedef itk::Image<PixelType,NDimensions>        ImageType;
-  typedef itk::Image<PixelType,NDimensions>        ImageType2;
-  typedef itk::ImageRegionIterator<ImageType>      Iterator;
-  typedef itk::ImageRegionIterator<ImageType2>     Iterator2;
+  using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<NDimensions>;
+  using PixelType = ImageMaskSpatialObject::PixelType;
+  using ImageType = itk::Image<PixelType,NDimensions>;
+  using ImageType2 = itk::Image<PixelType,NDimensions>;
+  using Iterator = itk::ImageRegionIterator<ImageType>;
+  using Iterator2 = itk::ImageRegionIterator<ImageType2>;
 
   // Direction was not taken into account in the image spatial object
   // explicitly test using images with directions set.

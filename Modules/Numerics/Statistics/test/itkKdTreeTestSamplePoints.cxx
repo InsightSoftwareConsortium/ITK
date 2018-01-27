@@ -22,8 +22,8 @@
 
 int itkKdTreeTestSamplePoints(int , char *[] )
 {
-  typedef itk::Array< double > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Array< double >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
   const SampleType::MeasurementVectorSizeType measurementVectorSize = 2;
 
@@ -56,7 +56,7 @@ int itkKdTreeTestSamplePoints(int , char *[] )
   mv5[1] = -2.7600;
   sample->PushBack( mv5 );
 
-  typedef itk::Statistics::KdTreeGenerator< SampleType > TreeGeneratorType;
+  using TreeGeneratorType = itk::Statistics::KdTreeGenerator< SampleType >;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
   const unsigned int bucketSize = 1;
@@ -65,7 +65,7 @@ int itkKdTreeTestSamplePoints(int , char *[] )
   treeGenerator->SetBucketSize( bucketSize );
   treeGenerator->Update();
 
-  typedef TreeGeneratorType::KdTreeType TreeType;
+  using TreeType = TreeGeneratorType::KdTreeType;
 
   TreeType::Pointer tree = treeGenerator->GetOutput();
 
@@ -81,8 +81,8 @@ int itkKdTreeTestSamplePoints(int , char *[] )
   //
   //  Check that for every point in the sample, its closest point is itself.
   //
-  typedef itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType > DistanceMetricType;
-  typedef DistanceMetricType::OriginType OriginType;
+  using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType >;
+  using OriginType = DistanceMetricType::OriginType;
 
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
 

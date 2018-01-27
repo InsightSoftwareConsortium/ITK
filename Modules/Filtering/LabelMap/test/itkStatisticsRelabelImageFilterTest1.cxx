@@ -36,16 +36,16 @@ int itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > IType;
+  using IType = itk::Image< unsigned char, dim >;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  using ReaderType = itk::ImageFileReader< IType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-  typedef itk::StatisticsRelabelImageFilter< IType, IType > RelabelType;
+  using RelabelType = itk::StatisticsRelabelImageFilter< IType, IType >;
   RelabelType::Pointer statisticsRelabel = RelabelType::New();
 
   statisticsRelabel->SetInput( reader->GetOutput() );
@@ -75,7 +75,7 @@ int itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(statisticsRelabel, "filter");
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  using WriterType = itk::ImageFileWriter< IType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( statisticsRelabel->GetOutput() );
   writer->SetFileName( argv[3] );

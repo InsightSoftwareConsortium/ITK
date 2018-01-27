@@ -38,19 +38,19 @@ class ITKOptimizers_EXPORT MultipleValuedNonLinearVnlOptimizer:
   public MultipleValuedNonLinearOptimizer
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultipleValuedNonLinearVnlOptimizer Self;
-  typedef MultipleValuedNonLinearOptimizer    Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MultipleValuedNonLinearVnlOptimizer;
+  using Superclass = MultipleValuedNonLinearOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultipleValuedNonLinearVnlOptimizer,
                MultipleValueNonLinearOptimizer);
 
-  /**  ParametersType typedef.
+  /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  typedef Superclass::ParametersType ParametersType;
+  using ParametersType = Superclass::ParametersType;
 
   /** Set the cost Function. This method has to be overloaded
    *  by derived classes because the CostFunctionAdaptor requires
@@ -93,7 +93,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef MultipleValuedVnlCostFunctionAdaptor CostFunctionAdaptorType;
+  using CostFunctionAdaptorType = MultipleValuedVnlCostFunctionAdaptor;
 
   void SetCostFunctionAdaptor(CostFunctionAdaptorType *adaptor);
 
@@ -109,7 +109,7 @@ protected:
    * adaptor in order to generate iteration events. This will allow to overcome
    * the limitation of VNL optimizers not offering callbacks for every
    * iteration */
-  typedef ReceptorMemberCommand< Self > CommandType;
+  using CommandType = ReceptorMemberCommand< Self >;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultipleValuedNonLinearVnlOptimizer);

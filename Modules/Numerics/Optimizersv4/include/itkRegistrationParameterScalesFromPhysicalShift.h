@@ -35,11 +35,11 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromPhysicalShift :
   public RegistrationParameterScalesFromShiftBase< TMetric >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegistrationParameterScalesFromPhysicalShift        Self;
-  typedef RegistrationParameterScalesFromShiftBase< TMetric > Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegistrationParameterScalesFromPhysicalShift;
+  using Superclass = RegistrationParameterScalesFromShiftBase< TMetric >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -48,18 +48,18 @@ public:
   itkTypeMacro( RegistrationParameterScalesFromPhysicalShift, RegistrationParameterScalesFromShiftBase );
 
   /** Type of scales */
-  typedef typename Superclass::ScalesType                ScalesType;
+  using ScalesType = typename Superclass::ScalesType;
   /** Type of parameters of the optimizer */
-  typedef typename Superclass::ParametersType            ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
   /** Type of float */
-  typedef typename Superclass::FloatType                 FloatType;
+  using FloatType = typename Superclass::FloatType;
 
-  typedef typename Superclass::VirtualPointType          VirtualPointType;
-  typedef typename Superclass::VirtualIndexType          VirtualIndexType;
-  typedef typename Superclass::MovingTransformType       MovingTransformType;
-  typedef typename Superclass::FixedTransformType        FixedTransformType;
-  typedef typename Superclass::JacobianType              JacobianType;
-  typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using MovingTransformType = typename Superclass::MovingTransformType;
+  using FixedTransformType = typename Superclass::FixedTransformType;
+  using JacobianType = typename Superclass::JacobianType;
+  using VirtualImageConstPointer = typename Superclass::VirtualImageConstPointer;
 
 protected:
   RegistrationParameterScalesFromPhysicalShift();

@@ -21,9 +21,9 @@
 
 int itkMaximumRatioDecisionRuleTest(int, char* [] )
 {
-  typedef itk::Statistics::MaximumRatioDecisionRule      MaximumRatioDecisionRuleType;
+  using MaximumRatioDecisionRuleType = itk::Statistics::MaximumRatioDecisionRule;
 
-  typedef MaximumRatioDecisionRuleType::MembershipVectorType MembershipVectorType;
+  using MembershipVectorType = MaximumRatioDecisionRuleType::MembershipVectorType;
 
   MaximumRatioDecisionRuleType::Pointer decisionRule = MaximumRatioDecisionRuleType::New();
 
@@ -66,8 +66,8 @@ int itkMaximumRatioDecisionRuleTest(int, char* [] )
     }
 
   //Set aprior probablity
-  typedef MaximumRatioDecisionRuleType::APrioriVectorType APrioriVectorType;
-  typedef MaximumRatioDecisionRuleType::APrioriValueType  APrioriValueType;
+  using APrioriVectorType = MaximumRatioDecisionRuleType::APrioriVectorType;
+  using APrioriValueType = MaximumRatioDecisionRuleType::APrioriValueType;
 
   APrioriVectorType aprioriProbabilityVector;
 

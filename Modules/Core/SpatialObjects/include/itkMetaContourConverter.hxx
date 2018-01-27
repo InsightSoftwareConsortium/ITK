@@ -72,7 +72,7 @@ MetaContourConverter< NDimensions >
   contourSO->SetDisplayOrientation( const_cast<ContourMetaObjectType *>(contourMO)->DisplayOrientation() );
 
   // First the control points
-  typedef typename ContourSpatialObjectType::ControlPointType ControlPointType;
+  using ControlPointType = typename ContourSpatialObjectType::ControlPointType;
 
   typename ContourMetaObjectType::ControlPointListType::const_iterator itCP =
     contourMO->GetControlPoints().begin();
@@ -81,11 +81,11 @@ MetaContourConverter< NDimensions >
     {
     ControlPointType pnt;
 
-    typedef typename ControlPointType::PointType PointType;
+    using PointType = typename ControlPointType::PointType;
     PointType point;
     PointType pickedPoint;
 
-    typedef typename ControlPointType::VectorType VectorType;
+    using VectorType = typename ControlPointType::VectorType;
     VectorType normal;
 
     for ( unsigned int i = 0; i < ndims; i++ )
@@ -118,7 +118,7 @@ MetaContourConverter< NDimensions >
     }
 
   // Then the interpolated points
-  typedef typename ContourSpatialObjectType::InterpolatedPointType  InterpolatedPointType;
+  using InterpolatedPointType = typename ContourSpatialObjectType::InterpolatedPointType;
   typename ContourMetaObjectType::InterpolatedPointListType::const_iterator
     itI = contourMO->GetInterpolatedPoints().begin();
 
@@ -126,10 +126,10 @@ MetaContourConverter< NDimensions >
     {
     InterpolatedPointType pnt;
 
-    typedef typename ControlPointType::PointType PointType;
+    using PointType = typename ControlPointType::PointType;
     PointType point;
 
-    typedef typename ControlPointType::VectorType VectorType;
+    using VectorType = typename ControlPointType::VectorType;
     VectorType normal;
 
     for ( unsigned int i = 0; i < ndims; i++ )

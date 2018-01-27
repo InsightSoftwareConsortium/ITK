@@ -41,7 +41,7 @@ class AdaptiveEqualizationHistogram
 {
 public:
 
-  typedef float RealType;
+  using RealType = float;
 
   AdaptiveEqualizationHistogram()
     : m_BoundaryCount(0)
@@ -122,9 +122,9 @@ private:
   }
 
 private:
-  typedef typename itksys::hash_map< TInputPixel,
+  using MapType = typename itksys::hash_map< TInputPixel,
                                      size_t,
-                                     StructHashFunction< TInputPixel > > MapType;
+                                     StructHashFunction< TInputPixel > >;
 
 
   MapType       m_Map;

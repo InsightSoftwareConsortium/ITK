@@ -163,10 +163,10 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
 {
   int kHd = m_NeighborhoodOperatorFilterGPUKernelHandle;
 
-  typedef typename itk::GPUTraits< TInputImage >::Type  GPUInputImage;
-  typedef typename itk::GPUTraits< TOutputImage >::Type GPUOutputImage;
-  typedef GPUImageDataManager<GPUInputImage>            GPUInputManagerType;
-  typedef GPUImageDataManager<GPUOutputImage>           GPUOutputManagerType;
+  using GPUInputImage = typename itk::GPUTraits< TInputImage >::Type;
+  using GPUOutputImage = typename itk::GPUTraits< TOutputImage >::Type;
+  using GPUInputManagerType = GPUImageDataManager<GPUInputImage>;
+  using GPUOutputManagerType = GPUImageDataManager<GPUOutputImage>;
 
   typename GPUInputImage::Pointer  inPtr =  dynamic_cast< GPUInputImage * >( this->ProcessObject::GetInput(0) );
   typename GPUOutputImage::Pointer otPtr =  dynamic_cast< GPUOutputImage * >( this->ProcessObject::GetOutput(0) );
@@ -221,10 +221,10 @@ GPUNeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueTyp
   this->m_GPUKernelManager->LaunchKernel(kHd, ImageDim, globalSize, localSize);
 
   /*
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >
-  BFC;
+  using BFC =
+      NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >;
 
-  typedef typename BFC::FaceListType FaceListType;
+  using FaceListType = typename BFC::FaceListType;
 
   NeighborhoodInnerProduct< InputImageType, OperatorValueType, ComputingPixelType > smartInnerProduct;
   BFC                                                           faceCalculator;

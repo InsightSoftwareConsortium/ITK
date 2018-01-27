@@ -32,16 +32,16 @@ int itkInverseDisplacementFieldImageFilterTest( int argc, char * argv[] )
     }
 
   const     unsigned int Dimension = 2;
-  typedef   float VectorComponentType;
+  using VectorComponentType = float;
 
-  typedef   itk::Vector< VectorComponentType, Dimension > VectorType;
+  using VectorType = itk::Vector< VectorComponentType, Dimension >;
 
-  typedef itk::Image< VectorType,  Dimension > DisplacementFieldType;
+  using DisplacementFieldType = itk::Image< VectorType,  Dimension >;
 
-  typedef itk::InverseDisplacementFieldImageFilter<
+  using FilterType = itk::InverseDisplacementFieldImageFilter<
     DisplacementFieldType,
     DisplacementFieldType
-    >  FilterType;
+    >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -119,7 +119,7 @@ int itkInverseDisplacementFieldImageFilterTest( int argc, char * argv[] )
     }
 
   // Write an image for regression testing
-  typedef itk::ImageFileWriter<  DisplacementFieldType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  DisplacementFieldType  >;
 
   WriterType::Pointer writer = WriterType::New();
 

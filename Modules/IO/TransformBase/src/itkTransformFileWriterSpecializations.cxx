@@ -33,11 +33,11 @@ namespace
 template< typename TInputTransformType, typename TOutputTransformType>
 struct TransformIOHelper
 {
-  typedef typename TOutputTransformType::Pointer                  OutputTransformPointer;
-  typedef typename TInputTransformType::ParametersValueType       InputParameterValueType;
-  typedef typename TInputTransformType::FixedParametersValueType  InputFixedParameterValueType;
-  typedef typename TOutputTransformType::ParametersValueType      OutputParameterValueType;
-  typedef typename TOutputTransformType::FixedParametersValueType OutputFixedParameterValueType;
+  using OutputTransformPointer = typename TOutputTransformType::Pointer;
+  using InputParameterValueType = typename TInputTransformType::ParametersValueType;
+  using InputFixedParameterValueType = typename TInputTransformType::FixedParametersValueType;
+  using OutputParameterValueType = typename TOutputTransformType::ParametersValueType;
+  using OutputFixedParameterValueType = typename TOutputTransformType::FixedParametersValueType;
 
   /*
    This function gets the type name of the input transform and creates
@@ -105,23 +105,23 @@ template<typename TInputTransformType,
 inline void AddToTransformList(typename TInputTransformType::ConstPointer &transform,
                                std::list< typename TOutputTransformType::ConstPointer > & transformList)
   {
-  typedef typename TInputTransformType::ParametersValueType       InputParameterValueType;
-  typedef typename TOutputTransformType::ParametersValueType      OutputParameterValueType;
+  using InputParameterValueType = typename TInputTransformType::ParametersValueType;
+  using OutputParameterValueType = typename TOutputTransformType::ParametersValueType;
 
   /* Pushes the converted transform to the input transform list */
-  typedef TransformBaseTemplate<InputParameterValueType>   InputTransformType;
-  typedef typename InputTransformType::ConstPointer        InputTransformConstPointer;
-  typedef std::list< InputTransformConstPointer >          InputConstTransformListType;
+  using InputTransformType = TransformBaseTemplate<InputParameterValueType>;
+  using InputTransformConstPointer = typename InputTransformType::ConstPointer;
+  using InputConstTransformListType = std::list< InputTransformConstPointer >;
 
-  typedef TransformBaseTemplate<OutputParameterValueType>  OutputTransformType;
-  typedef typename OutputTransformType::Pointer            OutputTransformPointer;
-  typedef typename OutputTransformType::ConstPointer       OutputTransformConstPointer;
-  typedef std::list<OutputTransformPointer>                OutputTransformListType;
+  using OutputTransformType = TransformBaseTemplate<OutputParameterValueType>;
+  using OutputTransformPointer = typename OutputTransformType::Pointer;
+  using OutputTransformConstPointer = typename OutputTransformType::ConstPointer;
+  using OutputTransformListType = std::list<OutputTransformPointer>;
 
   const std::string transformName = transform->GetTransformTypeAsString();
   OutputTransformPointer convertedTransform;
 
-  typedef TransformIOHelper<InputTransformType, OutputTransformType> IOhelper;
+  using IOhelper = TransformIOHelper<InputTransformType, OutputTransformType>;
 
   // Composite and DisplacementFieldTransform transforms should be treated differently.
   if( transformName.find("CompositeTransform") == std::string::npos )

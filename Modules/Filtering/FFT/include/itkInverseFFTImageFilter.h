@@ -46,16 +46,16 @@ class ITK_TEMPLATE_EXPORT InverseFFTImageFilter:
 
 {
 public:
-  /** Standard class typedefs. */
-  typedef TInputImage                          InputImageType;
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
+  /** Standard class type aliases. */
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-  typedef InverseFFTImageFilter                                 Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  using Self = InverseFFTImageFilter;
+  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);

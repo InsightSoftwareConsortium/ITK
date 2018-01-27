@@ -27,13 +27,13 @@ int itkVectorRescaleIntensityImageFilterTest( int, char* [] )
 {
   const unsigned int VectorDimension = 3;
 
-  typedef itk::Vector< int,   VectorDimension > InputPixelType;
-  typedef itk::Vector< float, VectorDimension > OutputPixelType;
+  using InputPixelType = itk::Vector< int,   VectorDimension >;
+  using OutputPixelType = itk::Vector< float, VectorDimension >;
 
   const unsigned int ImageDimension = 3;
 
-  typedef itk::Image< InputPixelType, ImageDimension > InputImageType;
-  typedef itk::Image< OutputPixelType,ImageDimension > OutputImageType;
+  using InputImageType = itk::Image< InputPixelType, ImageDimension >;
+  using OutputImageType = itk::Image< OutputPixelType,ImageDimension >;
 
   InputImageType::Pointer    inputImage  = InputImageType::New();
   InputImageType::RegionType region;
@@ -55,9 +55,9 @@ int itkVectorRescaleIntensityImageFilterTest( int, char* [] )
   inputImage->Allocate();
   inputImage->FillBuffer( pixelValue );
 
-  typedef itk::VectorRescaleIntensityImageFilter<
+  using FilterType = itk::VectorRescaleIntensityImageFilter<
                                      InputImageType,
-                                     OutputImageType> FilterType;
+                                     OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -90,7 +90,7 @@ int itkVectorRescaleIntensityImageFilterTest( int, char* [] )
 
   OutputImageType::ConstPointer outputImage = filter->GetOutput();
 
-  typedef itk::ImageRegionConstIterator< OutputImageType > IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator< OutputImageType >;
 
   IteratorType ot( outputImage, outputImage->GetBufferedRegion() );
 

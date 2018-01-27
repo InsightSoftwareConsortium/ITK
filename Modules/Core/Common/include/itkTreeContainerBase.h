@@ -35,12 +35,12 @@ class TreeContainerBase:public Object
 {
 public:
 
-  typedef Object                     Superclass;
-  typedef TreeContainerBase          Self;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Superclass = Object;
+  using Self = TreeContainerBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TValue ValueType;
+  using ValueType = TValue;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TreeContainerBase, Object);

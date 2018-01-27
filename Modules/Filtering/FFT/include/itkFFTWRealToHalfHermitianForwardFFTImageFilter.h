@@ -55,25 +55,25 @@ class ITK_TEMPLATE_EXPORT FFTWRealToHalfHermitianForwardFFTImageFilter:
   public RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TInputImage                          InputImageType;
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef typename InputImageType::SizeType    InputSizeType;
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename OutputImageType::SizeType   OutputSizeType;
+  /** Standard class type aliases. */
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputSizeType = typename OutputImageType::SizeType;
 
-  typedef FFTWRealToHalfHermitianForwardFFTImageFilter                          Self;
-  typedef RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                                Pointer;
-  typedef SmartPointer< const Self >                                          ConstPointer;
+  using Self = FFTWRealToHalfHermitianForwardFFTImageFilter;
+  using Superclass = RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** The proxy type is a wrapper for the FFTW API. Because the proxy
    * is defined only for double and float, trying to use any other
    * pixel type is unsupported, as is trying to use double if only the
    * float FFTW version is configured in, or float if only double is
    * configured. */
-  typedef typename fftw::Proxy< InputPixelType > FFTWProxyType;
+  using FFTWProxyType = typename fftw::Proxy< InputPixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

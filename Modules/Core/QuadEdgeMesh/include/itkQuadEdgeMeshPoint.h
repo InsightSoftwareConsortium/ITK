@@ -36,21 +36,21 @@ template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge =
 class ITK_TEMPLATE_EXPORT QuadEdgeMeshPoint:public Point< TCoordRep, VPointDimension >
 {
 public:
-  /** Standard typedefs. */
-  typedef QuadEdgeMeshPoint                   Self;
-  typedef Point< TCoordRep, VPointDimension > Superclass;
+  /** Standard type alias. */
+  using Self = QuadEdgeMeshPoint;
+  using Superclass = Point< TCoordRep, VPointDimension >;
 
   /** Types & values defined in superclass. */
   itkStaticConstMacro(PointDimension, unsigned int,
                       VPointDimension);
 
-  typedef typename Superclass::ValueType     ValueType;
-  typedef typename Superclass::CoordRepType  CoordRepType;
-  typedef typename Superclass::RealType      RealType;
-  typedef typename Superclass::BaseArray     BaseArray;
-  typedef typename Superclass::Iterator      Iterator;
-  typedef typename Superclass::ConstIterator ConstIterator;
-  typedef typename Superclass::VectorType    VectorType;
+  using ValueType = typename Superclass::ValueType;
+  using CoordRepType = typename Superclass::CoordRepType;
+  using RealType = typename Superclass::RealType;
+  using BaseArray = typename Superclass::BaseArray;
+  using Iterator = typename Superclass::Iterator;
+  using ConstIterator = typename Superclass::ConstIterator;
+  using VectorType = typename Superclass::VectorType;
 
   typedef ValueType ValueArrayType[itkGetStaticConstMacro(PointDimension)];
 

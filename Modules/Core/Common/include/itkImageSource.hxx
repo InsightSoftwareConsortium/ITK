@@ -202,7 +202,7 @@ void
 ImageSource< TOutputImage >
 ::AllocateOutputs()
 {
-  typedef ImageBase< OutputImageDimension > ImageBaseType;
+  using ImageBaseType = ImageBase< OutputImageDimension >;
   typename ImageBaseType::Pointer outputPtr;
 
   // Allocate the output memory

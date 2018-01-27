@@ -36,26 +36,26 @@ class ITKOptimizers_EXPORT MultipleValuedCostFunction:
   public CostFunction
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultipleValuedCostFunction Self;
-  typedef CostFunction               Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MultipleValuedCostFunction;
+  using Superclass = CostFunction;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultipleValuedCostFunction, CostFunction);
 
-  /**  ParametersType typedef.
+  /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  typedef Superclass::ParametersType ParametersType;
+  using ParametersType = Superclass::ParametersType;
 
-  /**  MeasureType typedef.
+  /**  MeasureType type alias.
    *  It defines a type used to return the cost function value. */
-  typedef Array< double > MeasureType;
+  using MeasureType = Array< double >;
 
-  /**  GradientType typedef.
+  /**  GradientType type alias.
    *  It defines a type used to return the cost function derivative.  */
-  typedef Array2D< double > DerivativeType;
+  using DerivativeType = Array2D< double >;
 
   /** This method returns the value of the cost function corresponding
     * to the specified parameters.

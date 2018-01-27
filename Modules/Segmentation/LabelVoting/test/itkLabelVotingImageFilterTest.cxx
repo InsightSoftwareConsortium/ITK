@@ -27,10 +27,10 @@ int itkLabelVotingImageFilterTest( int, char* [] )
   const unsigned int Dimension = 3;
 
   // Declare the pixel types of the images
-  typedef unsigned int PixelType;
+  using PixelType = unsigned int;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // Input data arrays for test images
   const unsigned int dataImageA[8] =
@@ -49,20 +49,19 @@ int itkLabelVotingImageFilterTest( int, char* [] )
     { 255, 1, 255, 255, 4, 255, 255, 255 };
 
   // Declare the type of the index to access images
-  typedef itk::Index< Dimension >                   IndexType;
+  using IndexType = itk::Index< Dimension >;
 
   // Declare the type of the size
-  typedef itk::Size< Dimension >                    SizeType;
+  using SizeType = itk::Size< Dimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< Dimension >             RegionType;
+  using RegionType = itk::ImageRegion< Dimension >;
 
   // Declare appropriate Iterator type for the images
-  typedef itk::ImageRegionIterator< ImageType >     IteratorType;
+  using IteratorType = itk::ImageRegionIterator< ImageType >;
 
   // Declare the type for the filter
-  typedef itk::LabelVotingImageFilter< ImageType >
-    LabelVotingImageFilterType;
+  using LabelVotingImageFilterType = itk::LabelVotingImageFilter<ImageType>;
 
   // Create the input images
   ImageType::Pointer inputImageA = ImageType::New();

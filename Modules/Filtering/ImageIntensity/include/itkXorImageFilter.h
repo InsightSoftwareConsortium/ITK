@@ -62,17 +62,17 @@ class XorImageFilter:
 
 {
 public:
-  /** Standard class typedefs. */
-  typedef XorImageFilter Self;
-  typedef BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = XorImageFilter;
+  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                                     Functor::XOR<
                                       typename TInputImage1::PixelType,
                                       typename TInputImage2::PixelType,
                                       typename TOutputImage::PixelType >
-                                    >                                 Superclass;
+                                    >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

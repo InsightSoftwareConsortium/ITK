@@ -42,8 +42,8 @@ int main( int , char *[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GroupSpatialObject< 2 >         NodeType;
-  typedef itk::SpatialObjectTreeContainer< 2 > TreeType;
+  using NodeType = itk::GroupSpatialObject< 2 >;
+  using TreeType = itk::SpatialObjectTreeContainer< 2 >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

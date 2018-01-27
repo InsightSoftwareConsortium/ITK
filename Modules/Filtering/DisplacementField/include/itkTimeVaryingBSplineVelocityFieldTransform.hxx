@@ -65,7 +65,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
     itkExceptionMacro( "The B-spline velocity field does not exist." );
     }
 
-  typedef BSplineControlPointImageFilter<VelocityFieldType, VelocityFieldType> BSplineFilterType;
+  using BSplineFilterType = BSplineControlPointImageFilter<VelocityFieldType, VelocityFieldType>;
 
   typename BSplineFilterType::ArrayType closeDimensions;
   closeDimensions.Fill( 0 );
@@ -87,7 +87,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
   typename VelocityFieldType::Pointer bsplinerOutput = bspliner->GetOutput();
   bsplinerOutput->DisconnectPipeline();
 
-  typedef TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType> IntegratorType;
+  using IntegratorType = TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType>;
 
   typename IntegratorType::Pointer integrator = IntegratorType::New();
   integrator->SetInput( bsplinerOutput );
@@ -149,7 +149,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
 
   DisplacementVectorType *updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( scaledUpdate.data_block() );
 
-  typedef ImportImageFilter<DisplacementVectorType, NDimensions+1> ImporterType;
+  using ImporterType = ImportImageFilter<DisplacementVectorType, NDimensions+1>;
   typename ImporterType::Pointer importer = ImporterType::New();
   importer->SetImportPointer( updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory );
   importer->SetRegion( this->GetTimeVaryingVelocityFieldControlPointLattice()->GetBufferedRegion() );
@@ -158,7 +158,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
   importer->SetDirection( this->GetTimeVaryingVelocityFieldControlPointLattice()->GetDirection() );
   importer->Update();
 
-  typedef AddImageFilter<VelocityFieldType, VelocityFieldType, VelocityFieldType> AdderType;
+  using AdderType = AddImageFilter<VelocityFieldType, VelocityFieldType, VelocityFieldType>;
   typename AdderType::Pointer adder = AdderType::New();
   adder->SetInput1( this->GetVelocityField() );
   adder->SetInput2( importer->GetOutput() );

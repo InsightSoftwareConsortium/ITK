@@ -22,9 +22,9 @@
 int itkConnectedComponentImageFilterTooManyObjectsTest(int itkNotUsed(argc), char*[] itkNotUsed(argv))
 {
 
-  typedef   unsigned char  PixelType;
+  using PixelType = unsigned char;
   const     unsigned int   Dimension = 2;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // create a test input image with more objects in it than what the output type
   // can handle - 255
@@ -45,7 +45,7 @@ int itkConnectedComponentImageFilterTooManyObjectsTest(int itkNotUsed(argc), cha
       }
     }
 
-  typedef itk::ConnectedComponentImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::ConnectedComponentImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( img );
   itk::SimpleFilterWatcher watcher(filter);

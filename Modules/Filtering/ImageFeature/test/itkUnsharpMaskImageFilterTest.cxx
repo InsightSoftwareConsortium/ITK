@@ -28,23 +28,23 @@ template< typename OutPixelType >
 int RunTest( int argc, char* argv[] )
 {
   const unsigned int Dimension = 2;
-  typedef unsigned char InputImagePixelType;
+  using InputImagePixelType = unsigned char;
 
-  typedef itk::Image< InputImagePixelType, Dimension >  InImageType;
-  typedef itk::ImageFileReader< InImageType >           ReaderType;
+  using InImageType = itk::Image< InputImagePixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< InImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
 
   TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
-  typedef itk::Image< OutPixelType, Dimension>    OutImageType;
-  typedef itk::ImageFileWriter< OutImageType >    WriterType;
+  using OutImageType = itk::Image< OutPixelType, Dimension>;
+  using WriterType = itk::ImageFileWriter< OutImageType >;
 
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
 
-  typedef itk::UnsharpMaskImageFilter< InImageType, OutImageType > FilterType;
+  using FilterType = itk::UnsharpMaskImageFilter< InImageType, OutImageType >;
   typename FilterType::Pointer filter = FilterType::New();
 
   //this does not work from within a templated method (GCC gives an error)

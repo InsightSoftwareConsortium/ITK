@@ -118,10 +118,10 @@ template <typename TMovingImage, typename TFixedImage, typename TFemObjectType>
 class ITK_TEMPLATE_EXPORT FEMRegistrationFilter : public ImageToImageFilter<TMovingImage, TFixedImage>
 {
 public:
-  typedef FEMRegistrationFilter                         Self;
-  typedef ImageToImageFilter<TMovingImage, TFixedImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  using Self = FEMRegistrationFilter;
+  using Superclass = ImageToImageFilter<TMovingImage, TFixedImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -129,63 +129,63 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(FEMRegistrationFilter, ImageToImageFilter );
 
-  typedef TMovingImage                       MovingImageType;
-  typedef TFixedImage                        FixedImageType;
-  typedef TFemObjectType                     FEMObjectType;
-  typedef typename FixedImageType::PixelType PixelType;
-  typedef typename FixedImageType::SizeType  ImageSizeType;
-  typedef typename FixedImageType::PointType PointType;
+  using MovingImageType = TMovingImage;
+  using FixedImageType = TFixedImage;
+  using FEMObjectType = TFemObjectType;
+  using PixelType = typename FixedImageType::PixelType;
+  using ImageSizeType = typename FixedImageType::SizeType;
+  using PointType = typename FixedImageType::PointType;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       FixedImageType::ImageDimension);
 
-  typedef Image<float, itkGetStaticConstMacro(ImageDimension)> FloatImageType;
-  typedef LinearSystemWrapperItpack                            LinearSystemSolverType;
-  typedef SolverCrankNicolson<ImageDimension>                  SolverType;
+  using FloatImageType = Image<float, itkGetStaticConstMacro(ImageDimension)>;
+  using LinearSystemSolverType = LinearSystemWrapperItpack;
+  using SolverType = SolverCrankNicolson<ImageDimension>;
 
   enum Sign { positive = 1, negative = -1 };
-  typedef double          Float;
-  typedef Load::ArrayType LoadArray;
+  using Float = double;
+  using LoadArray = Load::ArrayType;
 
-  typedef std::vector<typename LoadLandmark::Pointer>                      LandmarkArrayType;
-  typedef itk::Vector<float, itkGetStaticConstMacro(ImageDimension)>       VectorType;
-  typedef itk::Image<VectorType, itkGetStaticConstMacro(ImageDimension)>   FieldType;
-  typedef itk::WarpImageFilter<MovingImageType, FixedImageType, FieldType> WarperType;
+  using LandmarkArrayType = std::vector<typename LoadLandmark::Pointer>;
+  using VectorType = itk::Vector<float, itkGetStaticConstMacro(ImageDimension)>;
+  using FieldType = itk::Image<VectorType, itkGetStaticConstMacro(ImageDimension)>;
+  using WarperType = itk::WarpImageFilter<MovingImageType, FixedImageType, FieldType>;
 
-  typedef MaterialLinearElasticity                          MaterialType;
-  typedef itk::ImageRegionIteratorWithIndex<FixedImageType> ImageIterator;
-  typedef itk::ImageRegionIteratorWithIndex<FloatImageType> FloatImageIterator;
-  typedef itk::ImageRegionIteratorWithIndex<FieldType>      FieldIterator;
+  using MaterialType = MaterialLinearElasticity;
+  using ImageIterator = itk::ImageRegionIteratorWithIndex<FixedImageType>;
+  using FloatImageIterator = itk::ImageRegionIteratorWithIndex<FloatImageType>;
+  using FieldIterator = itk::ImageRegionIteratorWithIndex<FieldType>;
 
-  typedef itk::VectorIndexSelectionCastImageFilter<FieldType, FloatImageType> IndexSelectCasterType;
+  using IndexSelectCasterType = itk::VectorIndexSelectionCastImageFilter<FieldType, FloatImageType>;
 
   /** Typedef support for the interpolation function */
-  typedef double                                                  CoordRepType;
-  typedef VectorInterpolateImageFunction<FieldType, CoordRepType> InterpolatorType;
-  typedef typename InterpolatorType::Pointer                      InterpolatorPointer;
+  using CoordRepType = double;
+  using InterpolatorType = VectorInterpolateImageFunction<FieldType, CoordRepType>;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
 
-  typedef VectorLinearInterpolateImageFunction<FieldType, CoordRepType> DefaultInterpolatorType;
+  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<FieldType, CoordRepType>;
 
-  typedef typename itk::Image<Element::ConstPointer, ImageDimension> InterpolationGridType;
-  typedef typename InterpolationGridType::SizeType                   InterpolationGridSizeType;
-  typedef typename InterpolationGridType::PointType                  InterpolationGridPointType;
+  using InterpolationGridType = typename itk::Image<Element::ConstPointer, ImageDimension>;
+  using InterpolationGridSizeType = typename InterpolationGridType::SizeType;
+  using InterpolationGridPointType = typename InterpolationGridType::PointType;
 
-  typedef itk::fem::ImageToRectilinearFEMObjectFilter<TMovingImage> ImageToMeshType;
+  using ImageToMeshType = itk::fem::ImageToRectilinearFEMObjectFilter<TMovingImage>;
 
-  typedef itk::VectorExpandImageFilter<FieldType, FieldType> ExpanderType;
-  typedef typename ExpanderType::ExpandFactorsType           ExpandFactorsType;
+  using ExpanderType = itk::VectorExpandImageFilter<FieldType, FieldType>;
+  using ExpandFactorsType = typename ExpanderType::ExpandFactorsType;
 
-  typedef  typename FieldType::Pointer FieldPointer;
+  using FieldPointer = typename FieldType::Pointer;
 
   /** Instantiate the load class with the correct image type. */
-  typedef FiniteDifferenceFunctionLoad<MovingImageType, FixedImageType>
-  ImageMetricLoadType;
-  typedef PDEDeformableRegistrationFunction<FixedImageType, MovingImageType, FieldType>
-  MetricBaseType;
+  using ImageMetricLoadType =
+      FiniteDifferenceFunctionLoad<MovingImageType, FixedImageType>;
+  using MetricBaseType =
+      PDEDeformableRegistrationFunction<FixedImageType, MovingImageType, FieldType>;
 
-  typedef typename MetricBaseType::Pointer     MetricBaseTypePointer;
-  typedef FixedArray< double, ImageDimension > StandardDeviationsType;
+  using MetricBaseTypePointer = typename MetricBaseType::Pointer;
+  using StandardDeviationsType = FixedArray< double, ImageDimension >;
 
   /** Set the Moving image. */
   void SetMovingImage(MovingImageType* R);

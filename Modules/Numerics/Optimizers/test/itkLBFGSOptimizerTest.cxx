@@ -42,22 +42,22 @@ class LBFGSCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef LBFGSCostFunction                 Self;
-  typedef itk::SingleValuedCostFunction     Superclass;
-  typedef itk::SmartPointer<Self>           Pointer;
-  typedef itk::SmartPointer<const Self>     ConstPointer;
+  using Self = LBFGSCostFunction;
+  using Superclass = itk::SingleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( LBFCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::DerivativeType              DerivativeType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
 
-  typedef vnl_vector<double>                      VectorType;
-  typedef vnl_matrix<double>                      MatrixType;
+  using VectorType = vnl_vector<double>;
+  using MatrixType = vnl_matrix<double>;
 
-  typedef double MeasureType;
+  using MeasureType = double;
 
   LBFGSCostFunction()
   {
@@ -113,8 +113,8 @@ int itkLBFGSOptimizerTest(int, char* [] )
 {
   std::cout << "LBFGS Optimizer Test \n \n";
 
-  typedef  itk::LBFGSOptimizer                   OptimizerType;
-  typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
+  using OptimizerType = itk::LBFGSOptimizer;
+  using vnlOptimizerType = OptimizerType::InternalOptimizerType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();

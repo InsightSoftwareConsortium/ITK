@@ -75,8 +75,7 @@ class SimpleMultiResolutionImageRegistrationUI2 :
 {
 public:
 
-  typedef SimpleMultiResolutionImageRegistrationUI<TRegistration>
-    Superclass;
+  using Superclass = SimpleMultiResolutionImageRegistrationUI<itk::MultiResolutionImageRegistrationMethod<itk::Image<float, 3>, itk::Image<float, 3> > >;
 
   SimpleMultiResolutionImageRegistrationUI2( TRegistration * ptr ) :
     Superclass(ptr) {};

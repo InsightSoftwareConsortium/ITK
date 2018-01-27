@@ -76,11 +76,11 @@ class ITK_TEMPLATE_EXPORT BilateralImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BilateralImageFilter                            Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BilateralImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -89,19 +89,19 @@ public:
   itkTypeMacro(BilateralImageFilter, ImageToImageFilter);
 
   /** Image type information. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType                    OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType            OutputInternalPixelType;
-  typedef typename NumericTraits< OutputPixelType >::RealType OutputPixelRealType;
-  typedef typename TInputImage::PixelType                     InputPixelType;
-  typedef typename TInputImage::InternalPixelType             InputInternalPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using OutputPixelRealType = typename NumericTraits< OutputPixelType >::RealType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -109,24 +109,22 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Typedef of double containers */
-  typedef FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ArrayType;
+  using ArrayType = FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Neighborhood iterator types. */
-  typedef ConstNeighborhoodIterator< TInputImage > NeighborhoodIteratorType;
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator< TInputImage >;
 
-  /** Kernel typedef. */
-  typedef
-  Neighborhood< double, itkGetStaticConstMacro(ImageDimension) > KernelType;
-  typedef typename KernelType::SizeType      SizeType;
-  typedef typename KernelType::SizeValueType SizeValueType;
+  /** Kernel type alias. */
+  using KernelType = Neighborhood< double, itkGetStaticConstMacro(ImageDimension) >;
+  using SizeType = typename KernelType::SizeType;
+  using SizeValueType = typename KernelType::SizeValueType;
 
   /** Kernel iterator. */
-  typedef typename KernelType::Iterator      KernelIteratorType;
-  typedef typename KernelType::ConstIterator KernelConstIteratorType;
+  using KernelIteratorType = typename KernelType::Iterator;
+  using KernelConstIteratorType = typename KernelType::ConstIterator;
 
   /** Gaussian image type */
-  typedef
-  Image< double, itkGetStaticConstMacro(ImageDimension) > GaussianImageType;
+  using GaussianImageType = Image< double, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Standard get/set macros for filter parameters.
    * DomainSigma is specified in the same units as the Image spacing.

@@ -79,10 +79,10 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef float  PixelType;
+  using PixelType = float;
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -96,7 +96,7 @@ int main( int argc, char * argv [] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::VnlForwardFFTImageFilter< ImageType >  FFTFilterType;
+  using FFTFilterType = itk::VnlForwardFFTImageFilter< ImageType >;
 
   FFTFilterType::Pointer fftFilter = FFTFilterType::New();
 // Software Guide : EndCodeSnippet
@@ -108,7 +108,7 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -147,9 +147,9 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef FFTFilterType::OutputImageType    ComplexImageType;
+  using ComplexImageType = FFTFilterType::OutputImageType;
 
-  typedef itk::ImageFileWriter< ComplexImageType > ComplexWriterType;
+  using ComplexWriterType = itk::ImageFileWriter< ComplexImageType >;
 
   ComplexWriterType::Pointer complexWriter = ComplexWriterType::New();
   complexWriter->SetFileName( argv[4] );
@@ -196,8 +196,8 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ComplexToRealImageFilter<
-                 ComplexImageType, ImageType > RealFilterType;
+  using RealFilterType = itk::ComplexToRealImageFilter<
+                 ComplexImageType, ImageType >;
 
   RealFilterType::Pointer realFilter = RealFilterType::New();
 
@@ -205,8 +205,8 @@ int main( int argc, char * argv [] )
 // Software Guide : EndCodeSnippet
 
 
-  typedef unsigned char                           WritePixelType;
-  typedef itk::Image< WritePixelType, Dimension > WriteImageType;
+  using WritePixelType = unsigned char;
+  using WriteImageType = itk::Image< WritePixelType, Dimension >;
 
 
 // Software Guide : BeginLatex
@@ -222,9 +222,9 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::RescaleIntensityImageFilter<
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
                                 ImageType,
-                                WriteImageType > RescaleFilterType;
+                                WriteImageType >;
 
   RescaleFilterType::Pointer intensityRescaler = RescaleFilterType::New();
 
@@ -234,7 +234,7 @@ int main( int argc, char * argv [] )
   intensityRescaler->SetOutputMaximum( 255 );
 // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileWriter< WriteImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 
@@ -265,10 +265,10 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef FFTFilterType::OutputImageType    ComplexImageType;
+  using ComplexImageType = FFTFilterType::OutputImageType;
 
-  typedef itk::ComplexToImaginaryImageFilter<
-                       ComplexImageType, ImageType > ImaginaryFilterType;
+  using ImaginaryFilterType = itk::ComplexToImaginaryImageFilter<
+                       ComplexImageType, ImageType >;
 
   ImaginaryFilterType::Pointer imaginaryFilter = ImaginaryFilterType::New();
 
@@ -310,7 +310,7 @@ int main( int argc, char * argv [] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ComplexImageType > ComplexReaderType;
+  using ComplexReaderType = itk::ImageFileReader< ComplexImageType >;
 
   ComplexReaderType::Pointer complexReader = ComplexReaderType::New();
 

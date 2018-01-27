@@ -334,7 +334,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
 
         const unsigned int inputImageDimension = TInputImage::ImageDimension;
 
-        typedef Array< double > DoubleArrayType;
+        using DoubleArrayType = Array< double >;
 
         DoubleArrayType originArray(inputImageDimension);
         DoubleArrayType spacingArray(inputImageDimension);
@@ -350,7 +350,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
         EncapsulateMetaData<  unsigned int   >(dictionary, ITK_NumberOfDimensions, inputImageDimension);
 
         typename InputImageType::DirectionType direction2 = inputImage->GetDirection();
-        typedef Matrix< double, inputImageDimension, inputImageDimension> DoubleMatrixType;
+        using DoubleMatrixType = Matrix< double, inputImageDimension, inputImageDimension>;
         DoubleMatrixType directionMatrix;
         for( unsigned int i = 0; i < inputImageDimension; i++ )
           {

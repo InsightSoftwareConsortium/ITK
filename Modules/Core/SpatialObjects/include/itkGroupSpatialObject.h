@@ -41,13 +41,13 @@ class ITK_TEMPLATE_EXPORT GroupSpatialObject:
 {
 public:
 
-  typedef GroupSpatialObject                      Self;
-  typedef SpatialObject< TDimension >             Superclass;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
-  typedef double                                  ScalarType;
-  typedef typename Superclass::TreeNodeType       TreeNodeType;
-  typedef typename TreeNodeType::ChildrenListType TreeNodeChildrenListType;
+  using Self = GroupSpatialObject;
+  using Superclass = SpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ScalarType = double;
+  using TreeNodeType = typename Superclass::TreeNodeType;
+  using TreeNodeChildrenListType = typename TreeNodeType::ChildrenListType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

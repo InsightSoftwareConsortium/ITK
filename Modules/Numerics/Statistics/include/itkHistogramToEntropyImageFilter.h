@@ -60,7 +60,7 @@ public:
   //   Total Number of occurrences.
   //
   // Returns pixels of float..
-  typedef  TOutput OutputPixelType;
+  using OutputPixelType = TOutput;
 
   HistogramEntropyFunction():
     m_TotalFrequency(1) {}
@@ -105,16 +105,15 @@ class HistogramToEntropyImageFilter:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef HistogramToEntropyImageFilter Self;
+  /** Standard class type aliases. */
+  using Self = HistogramToEntropyImageFilter;
 
-  /** Standard "Superclass" typedef. */
-  typedef HistogramToImageFilter< THistogram, TImage,
-                                 Function::HistogramEntropyFunction< SizeValueType, typename TImage::PixelType > >
-  Superclass;
+  /** Standard "Superclass" type alias. */
+  using Superclass = HistogramToImageFilter< THistogram, TImage,
+                                 Function::HistogramEntropyFunction< SizeValueType, typename TImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(HistogramToEntropyImageFilter, HistogramToImageFilter);

@@ -32,14 +32,14 @@ template<typename ImagePointerType, typename DerivativeType>
 void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage(
     ImagePointerType image, DerivativeType &derivative, itk::SizeValueType vecdim){
 
-  typedef typename ImagePointerType::ObjectType ImageType;
+  using ImageType = typename ImagePointerType::ObjectType;
   typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
 
   // only display the first slice
   itk::SizeValueType dim0 = imageRegion.GetSize()[0];
   itk::SizeValueType dim1 = imageRegion.GetSize()[1];
 
-  typedef itk::ImageRegionConstIterator<ImageType> IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator<ImageType>;
   IteratorType it(image, imageRegion);
   it.GoToBegin();
   itk::SizeValueType cnt = 0;
@@ -64,7 +64,7 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVector
 template<typename ImageType>
 void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType *imageP) {
 
-  typedef typename ImageType::ConstPointer ImageConstPointerType;
+  using ImageConstPointerType = typename ImageType::ConstPointer;
   ImageConstPointerType image = imageP;
 
   typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
@@ -73,7 +73,7 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType *i
   itk::SizeValueType dim0 = imageRegion.GetSize()[0];
   itk::SizeValueType dim1 = imageRegion.GetSize()[1];
 
-  typedef itk::ImageRegionConstIterator<ImageType> IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator<ImageType>;
   IteratorType it(image, imageRegion);
   it.GoToBegin();
 
@@ -91,14 +91,14 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType *i
 template<typename ImagePointerType>
 void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImagePointerType &image) {
 
-  typedef typename ImagePointerType::ObjectType ImageType;
+  using ImageType = typename ImagePointerType::ObjectType;
   typename ImageType::RegionType imageRegion = image->GetBufferedRegion();
 
   // only display the first slice
   itk::SizeValueType dim0 = imageRegion.GetSize()[0];
   itk::SizeValueType dim1 = imageRegion.GetSize()[1];
 
-  typedef itk::ImageRegionConstIterator<ImageType> IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator<ImageType>;
   IteratorType it(image, imageRegion);
   it.GoToBegin();
 
@@ -117,14 +117,14 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
 {
   const itk::SizeValueType ImageDimension = 2;
 
-  typedef itk::Image<double, ImageDimension>  ImageType;
-  typedef itk::Vector<double, ImageDimension> VectorType;
+  using ImageType = itk::Image<double, ImageDimension>;
+  using VectorType = itk::Vector<double, ImageDimension>;
 
-  typedef itk::IdentityTransform<double, ImageDimension>          IdentityTransformType;
-  typedef itk::CompositeTransform<double, ImageDimension>         CompositeTransformType;
-  typedef itk::TranslationTransform<double, ImageDimension>       TranslationTransformType;
-  typedef itk::DisplacementFieldTransform<double, ImageDimension> DisplacementTransformType;
-  typedef DisplacementTransformType::DisplacementFieldType        FieldType;
+  using IdentityTransformType = itk::IdentityTransform<double, ImageDimension>;
+  using CompositeTransformType = itk::CompositeTransform<double, ImageDimension>;
+  using TranslationTransformType = itk::TranslationTransform<double, ImageDimension>;
+  using DisplacementTransformType = itk::DisplacementFieldTransform<double, ImageDimension>;
+  using FieldType = DisplacementTransformType::DisplacementFieldType;
 
   IdentityTransformType::Pointer transformFId = IdentityTransformType::New();
 
@@ -229,9 +229,9 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
   transformMComp->AddTransform(transformMtranslation);
   transformFComp->AddTransform(transformFId);
 
-  typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<ImageType, ImageType> MetricType;
+  using MetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<ImageType, ImageType>;
 
-  typedef MetricType::Pointer MetricTypePointer;
+  using MetricTypePointer = MetricType::Pointer;
   MetricTypePointer metric = MetricType::New();
 
   itk::Size<ImageDimension> neighborhood_radius;
@@ -328,8 +328,8 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
 
   /* Compare the derivative computed from sparse threader to the dense threader */
   /* Create a sample point set by sampling all points */
-  typedef MetricType::FixedSampledPointSetType  PointSetType;
-  typedef PointSetType::PointType               PointType;
+  using PointSetType = MetricType::FixedSampledPointSetType;
+  using PointType = PointSetType::PointType;
 
   std::cout << "Creating point set..." << std::endl;
 

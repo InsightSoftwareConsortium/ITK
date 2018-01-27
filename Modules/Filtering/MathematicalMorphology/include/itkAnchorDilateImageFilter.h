@@ -29,18 +29,18 @@ class AnchorDilateImageFilter:
 
 {
 public:
-  typedef AnchorDilateImageFilter Self;
-  typedef AnchorErodeDilateImageFilter< TImage, TKernel, std::less< typename TImage::PixelType > >
-                                  Superclass;
+  using Self = AnchorDilateImageFilter;
+  using Superclass =
+      AnchorErodeDilateImageFilter< TImage, TKernel, std::less< typename TImage::PixelType > >;
 
   /** Runtime information support. */
   itkTypeMacro(AnchorDilateImageFilter,
                AnchorErodeDilateImageFilter);
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

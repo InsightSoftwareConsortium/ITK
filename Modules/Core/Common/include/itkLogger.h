@@ -36,10 +36,10 @@ namespace itk
 class ITKCommon_EXPORT Logger:public LoggerBase
 {
 public:
-  typedef Logger                     Self;
-  typedef LoggerBase                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = Logger;
+  using Superclass = LoggerBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Logger, Object);

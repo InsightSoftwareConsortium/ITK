@@ -29,25 +29,25 @@ int itkDivideImageFilterTest2( int, char* [] )
   const unsigned int Dimension = 3;
 
   // Declare the pixel types of the images
-  typedef float ElementPixelType;
+  using ElementPixelType = float;
 
   // Declare the types of the images
-  typedef itk::VectorImage< ElementPixelType, Dimension >  InputImageType1;
-  typedef itk::Image< ElementPixelType, Dimension >        InputImageType2;
-  typedef itk::VectorImage< ElementPixelType, Dimension >  OutputImageType;
+  using InputImageType1 = itk::VectorImage< ElementPixelType, Dimension >;
+  using InputImageType2 = itk::Image< ElementPixelType, Dimension >;
+  using OutputImageType = itk::VectorImage< ElementPixelType, Dimension >;
 
   // Declare appropriate Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType > OutputImageIteratorType;
+  using OutputImageIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
 
 
   // Declare the type of the index to access images
-  typedef itk::Index< Dimension >         IndexType;
+  using IndexType = itk::Index< Dimension >;
 
   // Declare the type of the size
-  typedef itk::Size< Dimension >          SizeType;
+  using SizeType = itk::Size< Dimension >;
 
   // Declare the type of the region
-  typedef itk::ImageRegion< Dimension >   RegionType;
+  using RegionType = itk::ImageRegion< Dimension >;
 
   // Create two images
   InputImageType1::Pointer inputImageA = InputImageType1::New();
@@ -93,10 +93,10 @@ int itkDivideImageFilterTest2( int, char* [] )
 
 
   // Declare the type for the itk::DivideImageFilter
-  typedef itk::DivideImageFilter<
+  using FilterType = itk::DivideImageFilter<
                                 InputImageType1,
                                 InputImageType2,
-                                OutputImageType > FilterType;
+                                OutputImageType >;
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();

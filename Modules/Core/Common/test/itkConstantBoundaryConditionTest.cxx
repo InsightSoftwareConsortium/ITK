@@ -22,15 +22,15 @@
 #include "itkConstNeighborhoodIterator.h"
 #include "itkVectorImage.h"
 
-typedef itk::Image< int, 2 >                        ImageType;
-typedef ImageType::RegionType                       RegionType;
-typedef ImageType::IndexType                        IndexType;
-typedef ImageType::SizeType                         SizeType;
-typedef itk::ConstNeighborhoodIterator< ImageType > IteratorType;
-typedef IteratorType::RadiusType                    RadiusType;
+using ImageType = itk::Image< int, 2 >;
+using RegionType = ImageType::RegionType;
+using IndexType = ImageType::IndexType;
+using SizeType = ImageType::SizeType;
+using IteratorType = itk::ConstNeighborhoodIterator< ImageType >;
+using RadiusType = IteratorType::RadiusType;
 
-typedef itk::VectorImage< int, 2 >                        VectorImageType;
-typedef itk::ConstNeighborhoodIterator< VectorImageType > VectorIteratorType;
+using VectorImageType = itk::VectorImage< int, 2 >;
+using VectorIteratorType = itk::ConstNeighborhoodIterator< VectorImageType >;
 
 static bool TestPrintNeighborhood( IteratorType & p, VectorIteratorType & v )
 {

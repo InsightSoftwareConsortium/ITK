@@ -246,7 +246,7 @@ RandomImageSource< TOutputImage >
   // Support progress methods/callbacks
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
-  typedef typename TOutputImage::PixelType scalarType;
+  using scalarType = typename TOutputImage::PixelType;
   typename TOutputImage::Pointer image = this->GetOutput(0);
 
   ImageRegionIterator< TOutputImage > it(image, outputRegionForThread);

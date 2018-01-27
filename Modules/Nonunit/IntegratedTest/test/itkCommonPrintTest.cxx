@@ -100,25 +100,25 @@ struct TestObject
 
 int itkCommonPrintTest(int , char* [])
 {
-  typedef itk::Image<float,2>         InputType;
-  typedef itk::Image<float,2>         OutputType;
+  using InputType = itk::Image<float,2>;
+  using OutputType = itk::Image<float,2>;
 
-  typedef itk::Point<float,3>   Point3DType;
-  typedef itk::Point<float,2>   PointType;
-  typedef itk::Mesh<PointType>  MeshType;
+  using Point3DType = itk::Point<float,3>;
+  using PointType = itk::Point<float,2>;
+  using MeshType = itk::Mesh<PointType>;
 
-  typedef itk::Vector<float,2>      VectorType;
-  typedef itk::Image<VectorType, 2> VectorImageType;
+  using VectorType = itk::Vector<float,2>;
+  using VectorImageType = itk::Image<VectorType, 2>;
 
-  typedef itk::RGBPixel<unsigned short> RGBPixelType;
-  typedef itk::Image<RGBPixelType,2>    RGBImageType;
+  using RGBPixelType = itk::RGBPixel<unsigned short>;
+  using RGBImageType = itk::Image<RGBPixelType,2>;
 
   // Used for CenteredTransformInitializer
-  typedef itk::CenteredRigid2DTransform<float> TransformType;
+  using TransformType = itk::CenteredRigid2DTransform<float>;
 
 
   // Used for ImageAdaptor
-  typedef itk::RedPixelAccessor<float> RedAccessorType;
+  using RedAccessorType = itk::RedPixelAccessor<float>;
 
   itk::AcosImageAdaptor<InputType,InputType>::Pointer AcosImageAdaptorObj =
     itk::AcosImageAdaptor<InputType,InputType>::New();

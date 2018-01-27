@@ -66,11 +66,11 @@ class ITK_TEMPLATE_EXPORT DisplacementFieldTransformParametersAdaptor
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef DisplacementFieldTransformParametersAdaptor          Self;
-  typedef TransformParametersAdaptor<TTransform>               Superclass;
-  typedef SmartPointer<Self>                                   Pointer;
-  typedef SmartPointer<const Self>                             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DisplacementFieldTransformParametersAdaptor;
+  using Superclass = TransformParametersAdaptor<TTransform>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -79,18 +79,18 @@ public:
   itkTypeMacro( DisplacementFieldTransformParametersAdaptor, TransformParametersAdaptor );
 
   /** Typedefs associated with the transform */
-  typedef TTransform                                       TransformType;
-  typedef typename TransformType::Pointer                  TransformPointer;
-  typedef typename TransformType::FixedParametersType      FixedParametersType;
-  typedef typename TransformType::FixedParametersValueType FixedParametersValueType;
-  typedef typename TransformType::ParametersType           ParametersType;
-  typedef typename TransformType::ParametersValueType      ParametersValueType;
+  using TransformType = TTransform;
+  using TransformPointer = typename TransformType::Pointer;
+  using FixedParametersType = typename TransformType::FixedParametersType;
+  using FixedParametersValueType = typename TransformType::FixedParametersValueType;
+  using ParametersType = typename TransformType::ParametersType;
+  using ParametersValueType = typename TransformType::ParametersValueType;
 
-  typedef typename TransformType::DisplacementFieldType  DisplacementFieldType;
-  typedef typename DisplacementFieldType::PointType      PointType;
-  typedef typename DisplacementFieldType::SizeType       SizeType;
-  typedef typename DisplacementFieldType::DirectionType  DirectionType;
-  typedef typename DisplacementFieldType::SpacingType    SpacingType;
+  using DisplacementFieldType = typename TransformType::DisplacementFieldType;
+  using PointType = typename DisplacementFieldType::PointType;
+  using SizeType = typename DisplacementFieldType::SizeType;
+  using DirectionType = typename DisplacementFieldType::DirectionType;
+  using SpacingType = typename DisplacementFieldType::SpacingType;
 
   /** Dimension of parameters. */
   itkStaticConstMacro( SpaceDimension, unsigned int, TransformType::Dimension );

@@ -35,7 +35,7 @@ template< typename TInput, typename TMask, typename TOutput = TInput >
 class MaskNegatedInput
 {
 public:
-  typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
+  using AccumulatorType = typename NumericTraits< TInput >::AccumulateType;
 
   MaskNegatedInput()
     : m_OutsideValue(NumericTraits< TOutput >::ZeroValue())
@@ -138,17 +138,16 @@ class MaskNegatedImageFilter:
 
 {
 public:
-  /** Standard class typedefs. */
-  typedef MaskNegatedImageFilter Self;
-  typedef BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = MaskNegatedImageFilter;
+  using Superclass = BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,
                                     Functor::MaskNegatedInput<
                                       typename TInputImage::PixelType,
                                       typename TMaskImage::PixelType,
-                                      typename TOutputImage::PixelType >
-                                    >                                 Superclass;
+                                      typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -158,7 +157,7 @@ public:
                BinaryFunctorImageFilter);
 
   /** Typedefs **/
-  typedef TMaskImage MaskImageType;
+  using MaskImageType = TMaskImage;
 
   /** Method to explicitly set the outside value of the mask. Defaults to 0 */
   void SetOutsideValue(const typename TOutputImage::PixelType & outsideValue)

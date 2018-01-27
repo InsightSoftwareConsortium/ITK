@@ -23,11 +23,11 @@ int itkSparseLevelSetContainerTest( int , char* [] )
 {
   const unsigned int Dimension = 2;
 
-  typedef itk::WhitakerSparseLevelSetImage< float, Dimension > LevelSetType;
+  using LevelSetType = itk::WhitakerSparseLevelSetImage< float, Dimension >;
 
-  typedef std::string NameType;
-  typedef itk::LevelSetContainer< NameType, LevelSetType >
-      NamedLevelSetContainerType;
+  using NameType = std::string;
+  using NamedLevelSetContainerType =
+      itk::LevelSetContainer< NameType, LevelSetType >;
 
   NamedLevelSetContainerType::Pointer name_container =
       NamedLevelSetContainerType::New();
@@ -50,7 +50,7 @@ int itkSparseLevelSetContainerTest( int , char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::LevelSetContainer< unsigned int, LevelSetType > LevelSetContainerType;
+  using LevelSetContainerType = itk::LevelSetContainer< unsigned int, LevelSetType >;
   LevelSetContainerType::Pointer container = LevelSetContainerType::New();
 
   container->AddLevelSet( 1, LevelSetType::New() );

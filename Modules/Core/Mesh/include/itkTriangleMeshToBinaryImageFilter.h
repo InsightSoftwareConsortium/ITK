@@ -71,19 +71,19 @@ template< typename TInputMesh, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT TriangleMeshToBinaryImageFilter:public ImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TriangleMeshToBinaryImageFilter Self;
-  typedef ImageSource< TOutputImage >     Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TriangleMeshToBinaryImageFilter;
+  using Superclass = ImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TOutputImage::IndexType        IndexType;
-  typedef typename TOutputImage::SizeType         SizeType;
-  typedef TOutputImage                            OutputImageType;
-  typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename OutputImageType::ValueType     ValueType;
-  typedef typename OutputImageType::SpacingType   SpacingType;
-  typedef typename OutputImageType::DirectionType DirectionType;
+  using IndexType = typename TOutputImage::IndexType;
+  using SizeType = typename TOutputImage::SizeType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using ValueType = typename OutputImageType::ValueType;
+  using SpacingType = typename OutputImageType::SpacingType;
+  using DirectionType = typename OutputImageType::DirectionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -91,41 +91,41 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(TriangleMeshToBinaryImageFilter, ImageSource);
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  /** Some convenient typedefs. */
-  typedef TInputMesh                                     InputMeshType;
-  typedef typename InputMeshType::Pointer                InputMeshPointer;
-  typedef typename InputMeshType::PointType              InputPointType;
-  typedef typename InputMeshType::PixelType              InputPixelType;
-  typedef typename InputMeshType::MeshTraits::CellTraits InputCellTraitsType;
-  typedef typename InputMeshType::CellType               CellType;
-  typedef typename InputMeshType::CellsContainerPointer  CellsContainerPointer;
-  typedef typename InputMeshType::CellsContainerIterator CellsContainerIterator;
+  /** Some convenient type alias. */
+  using InputMeshType = TInputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using InputPointType = typename InputMeshType::PointType;
+  using InputPixelType = typename InputMeshType::PixelType;
+  using InputCellTraitsType = typename InputMeshType::MeshTraits::CellTraits;
+  using CellType = typename InputMeshType::CellType;
+  using CellsContainerPointer = typename InputMeshType::CellsContainerPointer;
+  using CellsContainerIterator = typename InputMeshType::CellsContainerIterator;
 
-  typedef typename InputMeshType::PointsContainer InputPointsContainer;
-  typedef typename InputPointsContainer::Pointer  InputPointsContainerPointer;
-  typedef typename InputPointsContainer::Iterator InputPointsContainerIterator;
+  using InputPointsContainer = typename InputMeshType::PointsContainer;
+  using InputPointsContainerPointer = typename InputPointsContainer::Pointer;
+  using InputPointsContainerIterator = typename InputPointsContainer::Iterator;
 
-  typedef itk::PointSet< double, 3 >             PointSetType;
-  typedef typename PointSetType::PointsContainer PointsContainer;
+  using PointSetType = itk::PointSet< double, 3 >;
+  using PointsContainer = typename PointSetType::PointsContainer;
 
-  typedef itk::Point< double, 3 > PointType;
-  typedef itk::Point< double, 2 > Point2DType;
+  using PointType = itk::Point< double, 3 >;
+  using Point2DType = itk::Point< double, 2 >;
 
-  typedef itk::Array< double > DoubleArrayType;
+  using DoubleArrayType = itk::Array< double >;
 
-  typedef std::vector< Point1D >                Point1DVector;
-  typedef std::vector< std::vector< Point1D > > Point1DArray;
+  using Point1DVector = std::vector< Point1D >;
+  using Point1DArray = std::vector< std::vector< Point1D > >;
 
-  typedef std::vector< Point2DType >                Point2DVector;
-  typedef std::vector< std::vector< Point2DType > > Point2DArray;
+  using Point2DVector = std::vector< Point2DType >;
+  using Point2DArray = std::vector< std::vector< Point2DType > >;
 
-  typedef std::vector< PointType >                PointVector;
-  typedef std::vector< std::vector< PointType > > PointArray;
+  using PointVector = std::vector< PointType >;
+  using PointArray = std::vector< std::vector< PointType > >;
 
-  typedef std::vector< int > StencilIndexVector;
+  using StencilIndexVector = std::vector< int >;
   /** Spacing (size of a pixel) of the output image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from

@@ -84,7 +84,7 @@ public:
     //Verify that Initialize has properly called
     //MultiThreadingInitialize() and a series of CreateAnother();
 
-    typedef typename MetricType::TransformPointer TransformPointer;
+    using TransformPointer = typename MetricType::TransformPointer;
     const TransformPointer *transformPtr= metric->GetThreaderTransform();
     if ((transformPtr==static_cast<const TransformPointer *>(nullptr))||
         (transformPtr[0].IsNull()))
@@ -102,8 +102,8 @@ template <typename FixedImageType, typename MovingImageType>
 class MeanSquaresMetricInitializer
 {
 public:
-  typedef itk::MeanSquaresImageToImageMetric< FixedImageType,
-                                              MovingImageType> MetricType;
+  using MetricType = itk::MeanSquaresImageToImageMetric< FixedImageType,
+                                              MovingImageType>;
 
 
   MeanSquaresMetricInitializer(MetricType* metric)
@@ -133,8 +133,8 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
                 TransformType* transform
                 )
 {
-  typedef typename FixedImageReaderType::OutputImageType    FixedImageType;
-  typedef typename MovingImageReaderType::OutputImageType   MovingImageType;
+  using FixedImageType = typename FixedImageReaderType::OutputImageType;
+  using MovingImageType = typename MovingImageReaderType::OutputImageType;
 
   fixedImageReader->Update();
   movingImageReader->Update();
@@ -143,7 +143,7 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
   typename MovingImageType::Pointer moving = movingImageReader->GetOutput();
 
   // Mean squares
-  typedef itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType > MetricType;
+  using MetricType = itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType >;
   typename MetricType::Pointer msMetric = MetricType::New();
   MeanSquaresMetricInitializer< FixedImageType, MovingImageType > msMetricInitializer( msMetric );
 
@@ -164,8 +164,8 @@ void TestAMetric(FixedImageReaderType* fixedImageReader,
                  MetricType* metric,
                  MetricInitializerType metricInitializer)
 {
-  typedef typename FixedImageReaderType::OutputImageType    FixedImageType;
-  typedef typename MovingImageReaderType::OutputImageType   MovingImageType;
+  using FixedImageType = typename FixedImageReaderType::OutputImageType;
+  using MovingImageType = typename MovingImageReaderType::OutputImageType;
 
   metric->SetFixedImageRegion( fixedImageReader->GetOutput()->GetBufferedRegion() );
 
@@ -184,11 +184,11 @@ template <typename FixedImageReaderType, typename MovingImageReaderType>
 void BSplineLinearTest( FixedImageReaderType* fixedImageReader,
                        MovingImageReaderType* movingImageReader)
 {
-  typedef typename MovingImageReaderType::OutputImageType MovingImageType;
-  typedef itk::LinearInterpolateImageFunction< MovingImageType, double > InterpolatorType;
+  using MovingImageType = typename MovingImageReaderType::OutputImageType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction< MovingImageType, double >;
 
-  typedef typename FixedImageReaderType::OutputImageType    FixedImageType;
-  typedef typename MovingImageReaderType::OutputImageType   MovingImageType;
+  using FixedImageType = typename FixedImageReaderType::OutputImageType;
+  using MovingImageType = typename MovingImageReaderType::OutputImageType;
 
   fixedImageReader->Update();
   movingImageReader->Update();
@@ -203,12 +203,12 @@ void BSplineLinearTest( FixedImageReaderType* fixedImageReader,
 
   const unsigned int SpaceDimension = 2;
   const unsigned int VSplineOrder = 3;
-  typedef double CoordinateRepType;
+  using CoordinateRepType = double;
 
-  typedef itk::BSplineTransform<
+  using TransformType = itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
-                            VSplineOrder >     TransformType;
+                            VSplineOrder >;
 
   typename TransformType::Pointer bsplineTransform = TransformType::New();
 
@@ -225,7 +225,7 @@ void BSplineLinearTest( FixedImageReaderType* fixedImageReader,
   bsplineTransform->SetTransformDomainPhysicalDimensions( physicalDimensions );
   bsplineTransform->SetTransformDomainMeshSize( meshSize );
 
-  typedef typename TransformType::ParametersType     ParametersType;
+  using ParametersType = typename TransformType::ParametersType;
 
   const unsigned int numberOfParameters =
     bsplineTransform->GetNumberOfParameters();

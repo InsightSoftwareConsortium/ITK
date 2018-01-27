@@ -25,7 +25,7 @@
 
 int itkArrowSpatialObjectTest(int, char* [])
 {
-  typedef itk::ArrowSpatialObject<3>   ArrowType;
+  using ArrowType = itk::ArrowSpatialObject<3>;
 
   ArrowType::Pointer myArrow = ArrowType::New();
 
@@ -95,7 +95,7 @@ int itkArrowSpatialObjectTest(int, char* [])
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Testing 2D Arrow:";
-  typedef itk::ArrowSpatialObject<2>   Arrow2DType;
+  using Arrow2DType = itk::ArrowSpatialObject<2>;
   Arrow2DType::Pointer myArrow2D = Arrow2DType::New();
   myArrow2D->Print(std::cout);
 

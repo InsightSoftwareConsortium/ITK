@@ -58,13 +58,13 @@ void
 InteriorExteriorMeshFilter< TInputMesh, TOutputMesh, TSpatialFunction >
 ::GenerateData(void)
 {
-  typedef typename TInputMesh::PointsContainer  InputPointsContainer;
+  using InputPointsContainer = typename TInputMesh::PointsContainer;
 
-  typedef typename TInputMesh::PointsContainerConstPointer InputPointsContainerConstPointer;
+  using InputPointsContainerConstPointer = typename TInputMesh::PointsContainerConstPointer;
 
-  typedef typename TInputMesh::PointDataContainer  InputPointDataContainer;
+  using InputPointDataContainer = typename TInputMesh::PointDataContainer;
 
-  typedef typename TInputMesh::PointDataContainerConstPointer InputPointDataContainerConstPointer;
+  using InputPointDataContainerConstPointer = typename TInputMesh::PointDataContainerConstPointer;
 
   const InputMeshType *inputMesh =  this->GetInput();
   OutputMeshPointer    outputMesh =  this->GetOutput();
@@ -107,9 +107,9 @@ InteriorExteriorMeshFilter< TInputMesh, TOutputMesh, TSpatialFunction >
   // support progress methods/callbacks
   ProgressReporter progress( this, 0, inPoints->Size() );
 
-  typedef typename TSpatialFunction::OutputType ValueType;
+  using ValueType = typename TSpatialFunction::OutputType;
 
-  typedef typename TOutputMesh::PointIdentifier PointIdType;
+  using PointIdType = typename TOutputMesh::PointIdentifier;
   PointIdType pointId = NumericTraits< PointIdType >::ZeroValue();
 
   while ( inputPoint != inPoints->End() )

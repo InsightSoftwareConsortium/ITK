@@ -110,7 +110,7 @@ std::vector< std::string >
 MetaDataDictionary
 ::GetKeys() const
 {
-  typedef std::vector< std::string > VectorType;
+  using VectorType = std::vector< std::string >;
   VectorType ans;
 
   for ( MetaDataDictionaryMapType::const_iterator it = m_Dictionary->begin();

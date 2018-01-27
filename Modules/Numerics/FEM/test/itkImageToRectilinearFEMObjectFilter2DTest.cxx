@@ -35,8 +35,8 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
   //the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  typedef itk::Image<unsigned char, 2>    ImageType;
-  typedef itk::ImageFileReader<ImageType> ImageFileReaderType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using ImageFileReaderType = itk::ImageFileReader<ImageType>;
   double tolerance = 0.0001;
 
   vnl_vector<unsigned int> pixelsPerElement;
@@ -53,7 +53,7 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
   reader->Update();
 
   /* Define the Material and Element Type to be used */
-  typedef itk::fem::MaterialLinearElasticity ElasticityType;
+  using ElasticityType = itk::fem::MaterialLinearElasticity;
   ElasticityType::Pointer m;
   m = ElasticityType::New();
   m->SetGlobalNumber(0);
@@ -61,14 +61,14 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
   m->SetCrossSectionalArea(0.02);
   m->SetMomentOfInertia(0.004);
 
-  typedef itk::fem::Element2DC0LinearQuadrilateralMembrane MembraneElementType;
+  using MembraneElementType = itk::fem::Element2DC0LinearQuadrilateralMembrane;
   MembraneElementType::Pointer e0 = MembraneElementType::New();
   e0->SetGlobalNumber(0);
   if ( dynamic_cast<ElasticityType *>( m.GetPointer() ))
     {
     e0->SetMaterial( dynamic_cast<ElasticityType *>( m.GetPointer() ) );
     }
-  typedef itk::fem::ImageToRectilinearFEMObjectFilter<ImageType> MeshFilterType;
+  using MeshFilterType = itk::fem::ImageToRectilinearFEMObjectFilter<ImageType>;
   MeshFilterType::Pointer meshFilter = MeshFilterType::New();
   meshFilter->SetInput( reader->GetOutput() );
   meshFilter->SetPixelsPerElement( pixelsPerElement );
@@ -76,7 +76,7 @@ int itkImageToRectilinearFEMObjectFilter2DTest(int argc, char *argv[])
   meshFilter->SetMaterial( m );
   meshFilter->Update();
 
-  typedef itk::fem::FEMObject<2> FEMObjectType;
+  using FEMObjectType = itk::fem::FEMObject<2>;
   FEMObjectType::Pointer femObject = meshFilter->GetOutput();
   std::cout << "FEM Object Generation Test:";
   if( !femObject )

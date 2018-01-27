@@ -109,33 +109,33 @@ struct node_type
 
 int itkBasicFiltersPrintTest2(int , char* [])
 {
-  typedef itk::Image<float,2>         InputType;
-  typedef itk::Image<float,2>         OutputType;
-  typedef itk::Image<unsigned char,2> CharType;
-  typedef itk::Image<unsigned char,3> CharType3D;
+  using InputType = itk::Image<float,2>;
+  using OutputType = itk::Image<float,2>;
+  using CharType = itk::Image<unsigned char,2>;
+  using CharType3D = itk::Image<unsigned char,3>;
 
-  typedef itk::Point<float,2>       MeshPixelType;
-  typedef itk::Mesh<MeshPixelType>  MeshType;
+  using MeshPixelType = itk::Point<float,2>;
+  using MeshType = itk::Mesh<MeshPixelType>;
 
-  typedef itk::Vector<float,2>     VectorType;
-  typedef itk::Image<VectorType,2> VectorImageType;
+  using VectorType = itk::Vector<float,2>;
+  using VectorImageType = itk::Image<VectorType,2>;
 
-  typedef itk::CovariantVector<float,2>     CovariantVectorType;
-  typedef itk::Image<CovariantVectorType,2> CovariantVectorImageType;
+  using CovariantVectorType = itk::CovariantVector<float,2>;
+  using CovariantVectorImageType = itk::Image<CovariantVectorType,2>;
 
   // Used for TransformMeshFilter
-  typedef itk::AffineTransform<float,3> AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<float,3>;
 
   // Used for InteriorExteriorMeshFilter
-  typedef itk::Point<float, 3> PointType;
-  typedef itk::SphereSpatialFunction< MeshType::PointDimension,
-    MeshType::PointType > SphereSpatialFunctionType;
+  using PointType = itk::Point<float, 3>;
+  using SphereSpatialFunctionType = itk::SphereSpatialFunction< MeshType::PointDimension,
+    MeshType::PointType >;
 
   // Used for SpatialFunctionImageEvaluator
-  typedef itk::GaussianSpatialFunction<char,2> GaussianSpatialFunctionType;
+  using GaussianSpatialFunctionType = itk::GaussianSpatialFunction<char,2>;
 
   // Used for MaskImageFilter
-  typedef itk::Image<unsigned char,2> MaskImageType;
+  using MaskImageType = itk::Image<unsigned char,2>;
 
   itk::ImageToParametricSpaceFilter<InputType,MeshType>::Pointer ImageToParametricSpaceFilterObj =
     itk::ImageToParametricSpaceFilter<InputType,MeshType>::New();

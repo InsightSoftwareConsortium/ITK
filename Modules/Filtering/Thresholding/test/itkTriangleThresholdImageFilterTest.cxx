@@ -33,18 +33,18 @@ int itkTriangleThresholdImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  short          InputPixelType;
-  typedef  unsigned char  OutputPixelType;
+  using InputPixelType = short;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  2 >;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
 
-  typedef itk::TriangleThresholdImageFilter<
-               InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::TriangleThresholdImageFilter<
+               InputImageType, OutputImageType >;
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   FilterType::Pointer filter = FilterType::New();

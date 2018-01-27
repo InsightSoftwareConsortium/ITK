@@ -403,7 +403,7 @@ template <typename TComponent>
 void ReadTensorBuffer( std::istream& is, TComponent *buffer,
   const ImageIOBase::SizeType num )
 {
-  typedef typename itk::NumericTraits<TComponent>::PrintType PrintType;
+  using PrintType = typename itk::NumericTraits<TComponent>::PrintType;
   PrintType temp;
   TComponent *ptr = buffer;
   ImageIOBase::SizeType i=0;
@@ -713,7 +713,7 @@ void WriteTensorBuffer(std::ostream & os, const TComponent * buffer, const Image
 {
   const TComponent * ptr = buffer;
 
-  typedef typename itk::NumericTraits<TComponent>::PrintType PrintType;
+  using PrintType = typename itk::NumericTraits<TComponent>::PrintType;
 
   ImageIOBase::SizeType i = 0;
   if( components == 3 )
@@ -781,7 +781,7 @@ void VTKImageIO::WriteBufferAsASCII( std::ostream & os, const void * buffer, IOC
       {
       case FLOAT :
         {
-        typedef const float * Type;
+        using Type = const float *;
         Type buf = reinterpret_cast<Type>(buffer);
         WriteTensorBuffer( os, buf, numComp, this->GetNumberOfComponents() );
         }
@@ -789,7 +789,7 @@ void VTKImageIO::WriteBufferAsASCII( std::ostream & os, const void * buffer, IOC
 
       case DOUBLE :
         {
-        typedef const double * Type;
+        using Type = const double *;
         Type buf = reinterpret_cast<Type>(buffer);
         WriteTensorBuffer( os, buf, numComp, this->GetNumberOfComponents() );
         }

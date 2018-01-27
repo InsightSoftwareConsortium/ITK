@@ -155,16 +155,16 @@ template < class TOptimizer >
 class IterationCallback : public itk::Command
 {
 public:
-  typedef IterationCallback             Self;
-  typedef itk::Command                  Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = IterationCallback;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   itkTypeMacro( IterationCallback, Superclass );
   itkNewMacro( Self );
 
   /** Type defining the optimizer. */
-  typedef    TOptimizer     OptimizerType;
+  using OptimizerType = TOptimizer;
 
   /** Method to specify the optimizer. */
   void SetOptimizer( OptimizerType * optimizer )
@@ -245,19 +245,19 @@ class SimpleImageToSpatialObjectMetric :
 //  Software Guide : EndCodeSnippet
 
 public:
-  /** Standard class typedefs. */
-  typedef SimpleImageToSpatialObjectMetric  Self;
-  typedef itk::ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>
-                                            Superclass;
-  typedef itk::SmartPointer<Self>           Pointer;
-  typedef itk::SmartPointer<const Self>     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SimpleImageToSpatialObjectMetric;
+  using Superclass =
+      itk::ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
-  typedef itk::Point<double,2>                PointType;
-  typedef std::list<PointType>                PointListType;
-  typedef TMovingSpatialObject                MovingSpatialObjectType;
-  typedef typename Superclass::ParametersType ParametersType;
-  typedef typename Superclass::DerivativeType DerivativeType;
-  typedef typename Superclass::MeasureType    MeasureType;
+  using PointType = itk::Point<double,2>;
+  using PointListType = std::list<PointType>;
+  using MovingSpatialObjectType = TMovingSpatialObject;
+  using ParametersType = typename Superclass::ParametersType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using MeasureType = typename Superclass::MeasureType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -277,7 +277,7 @@ public:
         }
       this->m_MovingSpatialObject = object;
       m_PointList.clear();
-      typedef itk::ImageRegionConstIteratorWithIndex<TFixedImage> myIteratorType;
+      using myIteratorType = itk::ImageRegionConstIteratorWithIndex<TFixedImage>;
 
       myIteratorType it(this->m_FixedImage,this->m_FixedImage->GetBufferedRegion());
 
@@ -383,8 +383,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typedef itk::GroupSpatialObject< 2 >     GroupType;
-  typedef itk::EllipseSpatialObject< 2 >   EllipseType;
+  using GroupType = itk::GroupSpatialObject< 2 >;
+  using EllipseType = itk::EllipseSpatialObject< 2 >;
   //  Software Guide : EndCodeSnippet
 
 
@@ -399,7 +399,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typedef itk::Image< float, 2 >      ImageType;
+  using ImageType = itk::Image< float, 2 >;
   //  Software Guide : EndCodeSnippet
 
 
@@ -519,8 +519,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typedef itk::SpatialObjectToImageFilter< GroupType, ImageType >
-    SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType =
+      itk::SpatialObjectToImageFilter< GroupType, ImageType >;
   //  Software Guide : EndCodeSnippet
 
 
@@ -596,8 +596,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typedef itk::DiscreteGaussianImageFilter< ImageType, ImageType >
-    GaussianFilterType;
+  using GaussianFilterType =
+      itk::DiscreteGaussianImageFilter< ImageType, ImageType >;
   GaussianFilterType::Pointer   gaussianFilter =   GaussianFilterType::New();
   //  Software Guide : EndCodeSnippet
 
@@ -645,8 +645,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageToSpatialObjectRegistrationMethod< ImageType, GroupType >
-    RegistrationType;
+  using RegistrationType =
+      itk::ImageToSpatialObjectRegistrationMethod< ImageType, GroupType >;
   RegistrationType::Pointer registration = RegistrationType::New();
   // Software Guide : EndCodeSnippet
 
@@ -662,7 +662,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef SimpleImageToSpatialObjectMetric< ImageType, GroupType > MetricType;
+  using MetricType = SimpleImageToSpatialObjectMetric< ImageType, GroupType >;
   MetricType::Pointer metric = MetricType::New();
   // Software Guide : EndCodeSnippet
 
@@ -675,8 +675,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::LinearInterpolateImageFunction< ImageType, double >
-    InterpolatorType;
+  using InterpolatorType =
+      itk::LinearInterpolateImageFunction< ImageType, double >;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   // Software Guide : EndCodeSnippet
 
@@ -690,7 +690,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::OnePlusOneEvolutionaryOptimizer  OptimizerType;
+  using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
   OptimizerType::Pointer optimizer  = OptimizerType::New();
   // Software Guide : EndCodeSnippet
 
@@ -704,7 +704,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Euler2DTransform<> TransformType;
+  using TransformType = itk::Euler2DTransform<>;
   TransformType::Pointer transform = TransformType::New();
   // Software Guide : EndCodeSnippet
 
@@ -790,7 +790,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef IterationCallback< OptimizerType >   IterationCallbackType;
+  using IterationCallbackType = IterationCallback< OptimizerType >;
   IterationCallbackType::Pointer callback = IterationCallbackType::New();
   callback->SetOptimizer( optimizer );
   // Software Guide : EndCodeSnippet

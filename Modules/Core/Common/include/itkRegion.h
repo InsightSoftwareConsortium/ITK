@@ -64,8 +64,8 @@ namespace itk
 class ITKCommon_EXPORT Region
 {
 public:
-  /** Standard class typedefs. */
-  typedef Region Self;
+  /** Standard class type aliases. */
+  using Self = Region;
 
   /** Enums used to describe the extent types. */
   enum RegionType { ITK_UNSTRUCTURED_REGION, ITK_STRUCTURED_REGION };

@@ -48,11 +48,11 @@ public:
 
   /** Type for counting how many times the probe has been started and stopped.
     */
-  typedef unsigned long CountType;
+  using CountType = unsigned long;
 
   /** Type for measuring time. See the RealTimeClock class for details on the
    * precision and units of this clock signal */
-  typedef RealTimeClock::TimeStampType TimeStampType;
+  using TimeStampType = RealTimeClock::TimeStampType;
 
 public:
 

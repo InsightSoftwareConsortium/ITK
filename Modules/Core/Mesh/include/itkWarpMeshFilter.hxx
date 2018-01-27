@@ -75,10 +75,10 @@ void
 WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 ::GenerateData(void)
 {
-  typedef typename TInputMesh::PointsContainer  InputPointsContainer;
-  typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
+  using InputPointsContainer = typename TInputMesh::PointsContainer;
+  using OutputPointsContainer = typename TOutputMesh::PointsContainer;
 
-  typedef typename TOutputMesh::PointsContainerPointer OutputPointsContainerPointer;
+  using OutputPointsContainerPointer = typename TOutputMesh::PointsContainerPointer;
 
   const InputMeshType *   inputMesh   =  this->GetInput();
   OutputMeshPointer       outputMesh     =  this->GetOutput();
@@ -106,9 +106,9 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
   typename InputPointsContainer::ConstIterator inputPoint  = inPoints->Begin();
   typename OutputPointsContainer::Iterator outputPoint = outPoints->Begin();
 
-  typedef typename InputMeshType::PointType         InputPointType;
-  typedef typename OutputMeshType::PointType        OutputPointType;
-  typedef typename DisplacementFieldType::IndexType IndexType;
+  using InputPointType = typename InputMeshType::PointType;
+  using OutputPointType = typename OutputMeshType::PointType;
+  using IndexType = typename DisplacementFieldType::IndexType;
   IndexType index;
 
   OutputPointType displacedPoint;

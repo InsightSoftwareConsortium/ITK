@@ -25,11 +25,11 @@ int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )
 {
 
   const unsigned int Dimension = 3;
-  typedef float                                   PixelType;
-  typedef itk::Image< PixelType, Dimension >      ImageType;
-  typedef itk::GaussianOperator<PixelType,3>      NeighborhoodOperatorType;
-  typedef itk::NeighborhoodOperatorImageFunction< ImageType,PixelType>
-                                                  FunctionType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using NeighborhoodOperatorType = itk::GaussianOperator<PixelType,3>;
+  using FunctionType =
+      itk::NeighborhoodOperatorImageFunction< ImageType,PixelType>;
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();

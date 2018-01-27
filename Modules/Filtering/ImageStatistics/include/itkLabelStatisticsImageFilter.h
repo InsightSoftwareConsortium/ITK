@@ -61,11 +61,11 @@ class ITK_TEMPLATE_EXPORT LabelStatisticsImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
-  /** Standard Self typedef */
-  typedef LabelStatisticsImageFilter                     Self;
-  typedef ImageToImageFilter< TInputImage, TInputImage > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  /** Standard Self type alias */
+  using Self = LabelStatisticsImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,40 +73,40 @@ public:
   /** Runtime information support. */
   itkTypeMacro(LabelStatisticsImageFilter, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef typename TInputImage::Pointer    InputImagePointer;
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::PixelType  PixelType;
+  /** Image related type alias. */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
 
-  /** Label image related typedefs. */
-  typedef TLabelImage                      LabelImageType;
-  typedef typename TLabelImage::Pointer    LabelImagePointer;
-  typedef typename TLabelImage::RegionType LabelRegionType;
-  typedef typename TLabelImage::SizeType   LabelSizeType;
-  typedef typename TLabelImage::IndexType  LabelIndexType;
-  typedef typename TLabelImage::PixelType  LabelPixelType;
+  /** Label image related type alias. */
+  using LabelImageType = TLabelImage;
+  using LabelImagePointer = typename TLabelImage::Pointer;
+  using LabelRegionType = typename TLabelImage::RegionType;
+  using LabelSizeType = typename TLabelImage::SizeType;
+  using LabelIndexType = typename TLabelImage::IndexType;
+  using LabelPixelType = typename TLabelImage::PixelType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /** Type to use for computations. */
-  typedef typename NumericTraits< PixelType >::RealType RealType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
 
   /** Smart Pointer type to a DataObject. */
-  typedef typename DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = typename DataObject::Pointer;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef SimpleDataObjectDecorator< RealType > RealObjectType;
+  using RealObjectType = SimpleDataObjectDecorator< RealType >;
 
-  /** Bounding Box-related typedefs */
-  typedef std::vector< IndexValueType > BoundingBoxType;
+  /** Bounding Box-related type alias */
+  using BoundingBoxType = std::vector< IndexValueType >;
 
-  /** Histogram-related typedefs */
-  typedef itk::Statistics::Histogram< RealType > HistogramType;
-  typedef typename HistogramType::Pointer        HistogramPointer;
+  /** Histogram-related type alias */
+  using HistogramType = itk::Statistics::Histogram< RealType >;
+  using HistogramPointer = typename HistogramType::Pointer;
 
   /** \class LabelStatistics
    * \brief Statistics stored per label
@@ -230,13 +230,13 @@ public:
   };
 
   /** Type of the map used to store data per label */
-  typedef itksys::hash_map< LabelPixelType, LabelStatistics >                          MapType;
-  typedef typename itksys::hash_map< LabelPixelType, LabelStatistics >::iterator       MapIterator;
-  typedef typename itksys::hash_map< LabelPixelType, LabelStatistics >::const_iterator MapConstIterator;
-  typedef IdentifierType                                                               MapSizeType;
+  using MapType = itksys::hash_map< LabelPixelType, LabelStatistics >;
+  using MapIterator = typename itksys::hash_map< LabelPixelType, LabelStatistics >::iterator;
+  using MapConstIterator = typename itksys::hash_map< LabelPixelType, LabelStatistics >::const_iterator;
+  using MapSizeType = IdentifierType;
 
   /** Type of the container used to store valid label values */
-  typedef std::vector<LabelPixelType> ValidLabelValuesContainerType;
+  using ValidLabelValuesContainerType = std::vector<LabelPixelType>;
 
   // macros for Histogram enables
   itkSetMacro(UseHistograms, bool);

@@ -31,7 +31,7 @@ template< typename TInput, typename  TOutput >
 class ITK_TEMPLATE_EXPORT VectorMagnitudeLinearTransform
 {
 public:
-  typedef typename NumericTraits< typename TInput::ValueType >::RealType RealType;
+  using RealType = typename NumericTraits< typename TInput::ValueType >::RealType;
   VectorMagnitudeLinearTransform() : m_Factor(0.0) {}
   ~VectorMagnitudeLinearTransform() {}
   void SetFactor(RealType a) { m_Factor = a; }
@@ -98,26 +98,26 @@ class ITK_TEMPLATE_EXPORT VectorRescaleIntensityImageFilter:
                              typename TOutputImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorRescaleIntensityImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = VectorRescaleIntensityImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::VectorMagnitudeLinearTransform<
       typename TInputImage::PixelType,
-      typename TOutputImage::PixelType > >    Superclass;
+      typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TOutputImage::PixelType                    OutputPixelType;
-  typedef typename TInputImage::PixelType                     InputPixelType;
-  typedef typename InputPixelType::ValueType                  InputValueType;
-  typedef typename OutputPixelType::ValueType                 OutputValueType;
-  typedef typename NumericTraits< InputValueType >::RealType  InputRealType;
-  typedef typename NumericTraits< OutputValueType >::RealType OutputRealType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputValueType = typename InputPixelType::ValueType;
+  using OutputValueType = typename OutputPixelType::ValueType;
+  using InputRealType = typename NumericTraits< InputValueType >::RealType;
+  using OutputRealType = typename NumericTraits< OutputValueType >::RealType;
 
-  typedef typename Superclass::InputImageType    InputImageType;
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorRescaleIntensityImageFilter, UnaryFunctorImageFilter);

@@ -53,33 +53,33 @@ public:
   /**
    * Standard class typedef's
    */
-  typedef HardConnectedComponentImageFilter               Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  using Self = HardConnectedComponentImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType          InputPixelType;
-  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
   /**
-   * Image typedef support
+   * Image type alias support
    */
-  typedef TInputImage                       InputImageType;
-  typedef TOutputImage                      OutputImageType;
-  typedef typename TInputImage::IndexType   IndexType;
-  typedef typename TInputImage::SizeType    SizeType;
-  typedef typename TOutputImage::RegionType RegionType;
-  typedef std::list< IndexType >            ListType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using IndexType = typename TInputImage::IndexType;
+  using SizeType = typename TInputImage::SizeType;
+  using RegionType = typename TOutputImage::RegionType;
+  using ListType = std::list< IndexType >;
 
   /**
    * Run-time type information (and related methods)

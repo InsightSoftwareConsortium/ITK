@@ -47,14 +47,14 @@ public:
   itkStaticConstMacro(SpaceDimension, unsigned int, 3);
   itkStaticConstMacro(ParametersDimension, unsigned int, 6);
 
-  /** Standard class typedefs. */
-  typedef Rigid3DPerspectiveTransform Self;
-  typedef Transform<TParametersValueType,
+  /** Standard class type aliases. */
+  using Self = Rigid3DPerspectiveTransform;
+  using Superclass = Transform<TParametersValueType,
                     itkGetStaticConstMacro(InputSpaceDimension),
-                    itkGetStaticConstMacro(OutputSpaceDimension)> Superclass;
+                    itkGetStaticConstMacro(OutputSpaceDimension)>;
 
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Rigid3DPerspectiveTransform, Transform);
@@ -63,49 +63,49 @@ public:
   itkNewMacro(Self);
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::FixedParametersType FixedParametersType;
-  typedef typename FixedParametersType::ValueType  FixedParametersValueType;
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename ParametersType::ValueType       ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename FixedParametersType::ValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename ParametersType::ValueType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Standard matrix type for this class. */
-  typedef Matrix<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension),
-                 itkGetStaticConstMacro(InputSpaceDimension)> MatrixType;
+  using MatrixType = Matrix<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension),
+                 itkGetStaticConstMacro(InputSpaceDimension)>;
 
   /** Standard vector type for this class. */
-  typedef Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)> OffsetType;
-  typedef typename OffsetType::ValueType                                   OffsetValueType;
+  using OffsetType = Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OffsetValueType = typename OffsetType::ValueType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
-  typedef Vector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
+  using InputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OutputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)>;
 
   /** Standard covariant vector type for this class */
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>  InputPointType;
-  typedef Point<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
+  using InputPointType = Point<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OutputPointType = Point<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)>;
 
   /** Standard vnl_quaternion type. */
-  typedef vnl_quaternion<TParametersValueType> VnlQuaternionType;
+  using VnlQuaternionType = vnl_quaternion<TParametersValueType>;
 
   /** Standard vnl_vector type for this class. */
-  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
 
   /** Versor type. */
-  typedef Versor<TParametersValueType>    VersorType;
-  typedef typename VersorType::VectorType AxisType;
-  typedef typename VersorType::ValueType  AngleType;
-  typedef typename AxisType::ValueType    AxisValueType;
+  using VersorType = Versor<TParametersValueType>;
+  using AxisType = typename VersorType::VectorType;
+  using AngleType = typename VersorType::ValueType;
+  using AxisValueType = typename AxisType::ValueType;
 
   /** Get offset of an Rigid3DPerspectiveTransform
    * This method returns the value of the offset of the

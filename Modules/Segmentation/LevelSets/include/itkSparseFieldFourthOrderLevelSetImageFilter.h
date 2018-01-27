@@ -39,18 +39,17 @@ class ITK_TEMPLATE_EXPORT NormalBandNode
 {
 public:
   /** The scalar image type. */
-  typedef TImageType LevelSetImageType;
+  using LevelSetImageType = TImageType;
 
   /** The pixel type of the scalar image. Expected to be float or double. */
-  typedef typename LevelSetImageType::PixelType NodeValueType;
+  using NodeValueType = typename LevelSetImageType::PixelType;
 
   /** The index type for the scalar image. */
-  typedef typename LevelSetImageType::IndexType IndexType;
+  using IndexType = typename LevelSetImageType::IndexType;
 
   /** The definition for the normal vector type of the scalar image. */
-  typedef Vector< NodeValueType,
-                   TImageType ::ImageDimension >
-  NodeDataType;
+  using NodeDataType = Vector< NodeValueType,
+                   TImageType ::ImageDimension >;
 
   /** Container for output data (normal vectors). */
   NodeDataType m_Data;
@@ -157,11 +156,11 @@ class ITK_TEMPLATE_EXPORT SparseFieldFourthOrderLevelSetImageFilter:
   public SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs */
-  typedef SparseFieldFourthOrderLevelSetImageFilter                   Self;
-  typedef SparseFieldLevelSetImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                        Pointer;
-  typedef SmartPointer< const Self >                                  ConstPointer;
+  /** Standard class type aliases */
+  using Self = SparseFieldFourthOrderLevelSetImageFilter;
+  using Superclass = SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(SparseFieldFourthOrderLevelSetImageFilter,
@@ -171,41 +170,40 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Typedefs derived from the superclass. */
-  typedef typename Superclass::OutputImageType        OutputImageType;
-  typedef typename Superclass::ValueType              ValueType;
-  typedef typename Superclass::IndexType              IndexType;
-  typedef typename Superclass::LayerType              LayerType;
-  typedef typename Superclass::RadiusType             RadiusType;
-  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using ValueType = typename Superclass::ValueType;
+  using IndexType = typename Superclass::IndexType;
+  using LayerType = typename Superclass::LayerType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
 
   /** The storage class used as the node type for the sparse normal vector
       image. */
-  typedef NormalBandNode< OutputImageType > NodeType;
+  using NodeType = NormalBandNode< OutputImageType >;
 
   /** The sparse image type used for processing the normal vectors. */
-  typedef SparseImage< NodeType,
-                       itkGetStaticConstMacro(ImageDimension) > SparseImageType;
+  using SparseImageType = SparseImage< NodeType,
+                       itkGetStaticConstMacro(ImageDimension) >;
 
   /** The normal vector type. */
-  typedef typename NodeType::NodeDataType NormalVectorType;
+  using NormalVectorType = typename NodeType::NodeDataType;
 
   /** The iterator type for the sparse image. */
-  typedef NeighborhoodIterator< SparseImageType > SparseImageIteratorType;
+  using SparseImageIteratorType = NeighborhoodIterator< SparseImageType >;
 
   /** The filter type for processing the normal vectors of the level set. */
-  typedef ImplicitManifoldNormalVectorFilter< OutputImageType, SparseImageType >
-  NormalVectorFilterType;
+  using NormalVectorFilterType =
+      ImplicitManifoldNormalVectorFilter< OutputImageType, SparseImageType >;
 
   /** The function type for processing the normal vector neighborhood. */
-  typedef NormalVectorDiffusionFunction< SparseImageType >
-  NormalVectorFunctionType;
+  using NormalVectorFunctionType = NormalVectorDiffusionFunction<SparseImageType>;
 
   /** The radius type derived from the normal vector function. */
-  //typedef typename NormalVectorFunctionType::RadiusType RadiusType;
+  //using RadiusType = typename NormalVectorFunctionType::RadiusType;
 
   /** The level set function with refitting term type. */
-  typedef LevelSetFunctionWithRefitTerm< OutputImageType,
-                                         SparseImageType > LevelSetFunctionType;
+  using LevelSetFunctionType = LevelSetFunctionWithRefitTerm< OutputImageType,
+                                         SparseImageType >;
 
   itkGetConstReferenceMacro(MaxRefitIteration, unsigned int);
   itkSetMacro(MaxRefitIteration, unsigned int);

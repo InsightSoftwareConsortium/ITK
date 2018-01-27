@@ -35,18 +35,18 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
     }
 
   const unsigned int dim = 2;
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  using ImageType = itk::Image< PixelType, dim >;
 
-  typedef itk::LabelObject< PixelType, dim >      LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >        LabelMapType;
+  using LabelObjectType = itk::LabelObject< PixelType, dim >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
@@ -63,14 +63,14 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
   i2l2->SetBackgroundValue( background2 );
   TEST_SET_GET_VALUE( background2, i2l2->GetBackgroundValue() );
 
-  typedef itk::MergeLabelMapFilter< LabelMapType > ChangeType;
+  using ChangeType = itk::MergeLabelMapFilter< LabelMapType >;
   ChangeType::Pointer change = ChangeType::New();
   change->SetInput( i2l->GetOutput() );
   change->SetInput( 1, i2l2->GetOutput() );
   std::cout << "======" << change->GetInputNames()[0] << std::endl;
   std::cout << "======" << change->GetInputNames()[1] << std::endl;
 
-  typedef ChangeType::MethodChoice MethodChoice;
+  using MethodChoice = ChangeType::MethodChoice;
   MethodChoice method = static_cast<MethodChoice>( atoi( argv[6] ) );
 
   change->SetMethod( ChangeType::STRICT );
@@ -82,11 +82,11 @@ int itkMergeLabelMapFilterTest1( int argc, char * argv[] )
   change->SetMethod( method );
   itk::SimpleFilterWatcher watcher6(change, "filter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
+  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
   l2i->SetInput( change->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );
   writer->SetFileName( argv[3] );

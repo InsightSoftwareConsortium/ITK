@@ -39,14 +39,14 @@
 
 namespace itk
 {
-  /** Platform specific typedefs for simple types
+  /** Platform specific type alias for simple types
    */
 #if defined(ITK_USE_PTHREADS)
 #define ITK_MAX_THREADS              128
-  typedef pthread_mutex_t MutexType;
-  typedef pthread_mutex_t FastMutexType;
-  typedef void *( * ThreadFunctionType )(void *);
-  typedef pthread_t ThreadProcessIdType;
+  using MutexType = pthread_mutex_t;
+  using FastMutexType = pthread_mutex_t;
+  using ThreadFunctionType = void *(*)(void *);
+  using ThreadProcessIdType = pthread_t;
 #define ITK_DEFAULT_THREAD_ID    0
 #define ITK_THREAD_RETURN_VALUE  NULL /* This is from a c library, and always needs to be NULL, not nullptr */
 #define ITK_THREAD_RETURN_TYPE   void *
@@ -54,10 +54,10 @@ namespace itk
 #elif defined(ITK_USE_WIN32_THREADS)
 
 #define ITK_MAX_THREADS              128
-  typedef HANDLE                 MutexType;
-  typedef CRITICAL_SECTION       FastMutexType;
+  using MutexType = HANDLE;
+  using FastMutexType = CRITICAL_SECTION;
   typedef unsigned(__stdcall * ThreadFunctionType)(void *);
-  typedef HANDLE                 ThreadProcessIdType;
+  using ThreadProcessIdType = HANDLE;
 #define ITK_DEFAULT_THREAD_ID   INVALID_HANDLE_VALUE
 #define ITK_THREAD_RETURN_VALUE 0
 #define ITK_THREAD_RETURN_TYPE unsigned __stdcall
@@ -65,17 +65,17 @@ namespace itk
 #else
 
 #define ITK_MAX_THREADS              1
-  typedef int     MutexType;
-  typedef int     FastMutexType;
+  using MutexType = int;
+  using FastMutexType = int;
   typedef void ( *ThreadFunctionType )(void *);
-  typedef int     ThreadProcessIdType;
+  using ThreadProcessIdType = int;
 #define ITK_DEFAULT_THREAD_ID    0
 #define ITK_THREAD_RETURN_VALUE
 #define ITK_THREAD_RETURN_TYPE void
 
 #endif
 
-  /** Platform specific Conditional Variable typedef
+  /** Platform specific Conditional Variable type alias
    */
 #if defined(ITK_USE_PTHREADS)
   typedef struct {
@@ -98,7 +98,7 @@ namespace itk
                                            // we were broadcasting or signaling
   } ConditionVariableType;
 #else
-  typedef struct { } ConditionVariableType;
+  using ConditionVariableType = struct { };
 #endif
 
 

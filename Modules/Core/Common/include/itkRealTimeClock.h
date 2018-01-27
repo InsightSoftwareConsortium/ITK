@@ -39,10 +39,10 @@ namespace itk
 class ITKCommon_EXPORT RealTimeClock:public Object
 {
 public:
-  typedef RealTimeClock              Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = RealTimeClock;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for defining the name of the class */
   itkTypeMacro(RealTimeClock, Object);
@@ -51,10 +51,10 @@ public:
   itkNewMacro(Self);
 
   /** Define the type for the timestap */
-  typedef double TimeStampType;
+  using TimeStampType = double;
 
   /** Define the type for the frequency of the clock */
-  typedef double FrequencyType;
+  using FrequencyType = double;
 
   /** Returns a timestamp in seconds, e.g. 52.341243 seconds */
   TimeStampType GetTimeInSeconds() const;

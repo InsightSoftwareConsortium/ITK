@@ -39,18 +39,18 @@ int itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int Dimension = 3;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::AttributeLabelObject< PixelType, Dimension, int > LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >                       LabelMapType;
+  using LabelObjectType = itk::AttributeLabelObject< PixelType, Dimension, int >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> ImageToLabelType;
+  using ImageToLabelType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType>;
   ImageToLabelType::Pointer imageToLabel = ImageToLabelType::New();
   imageToLabel->SetInput( reader->GetOutput() );
 
@@ -70,7 +70,7 @@ int itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
     }
 
 
-  typedef itk::AttributeOpeningLabelMapFilter< LabelMapType > LabelOpeningType;
+  using LabelOpeningType = itk::AttributeOpeningLabelMapFilter< LabelMapType >;
   LabelOpeningType::Pointer opening = LabelOpeningType::New();
 
   //testing get and set macros for Lambda
@@ -95,11 +95,11 @@ int itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> LabelToImageType;
+  using LabelToImageType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   LabelToImageType::Pointer labelToImage = LabelToImageType::New();
   labelToImage->SetInput( opening->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( labelToImage->GetOutput() );

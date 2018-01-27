@@ -39,22 +39,21 @@ class ITK_TEMPLATE_EXPORT PeriodicBoundaryCondition:
     public ImageBoundaryCondition< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PeriodicBoundaryCondition                           Self;
-  typedef ImageBoundaryCondition< TInputImage, TOutputImage > Superclass;
+  /** Standard class type aliases. */
+  using Self = PeriodicBoundaryCondition;
+  using Superclass = ImageBoundaryCondition< TInputImage, TOutputImage >;
 
   /** Extract information from the image type. */
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::PixelPointerType PixelPointerType;
-  typedef typename Superclass::OutputPixelType  OutputPixelType;
-  typedef typename Superclass::RegionType       RegionType;
-  typedef typename Superclass::IndexType        IndexType;
-  typedef typename Superclass::SizeType         SizeType;
-  typedef typename Superclass::OffsetType       OffsetType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  using PixelType = typename Superclass::PixelType;
+  using PixelPointerType = typename Superclass::PixelPointerType;
+  using OutputPixelType = typename Superclass::OutputPixelType;
+  using RegionType = typename Superclass::RegionType;
+  using IndexType = typename Superclass::IndexType;
+  using SizeType = typename Superclass::SizeType;
+  using OffsetType = typename Superclass::OffsetType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
 
-  typedef typename Superclass::NeighborhoodAccessorFunctorType
-  NeighborhoodAccessorFunctorType;
+  using NeighborhoodAccessorFunctorType = typename Superclass::NeighborhoodAccessorFunctorType;
 
   /** Extract information from the image type. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);

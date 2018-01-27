@@ -38,22 +38,22 @@ template< typename TInternalComputationValueType=double >
 class OptimizerParameterScalesEstimatorTemplate : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef OptimizerParameterScalesEstimatorTemplate     Self;
-  typedef Object                                        Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = OptimizerParameterScalesEstimatorTemplate;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( OptimizerParameterScalesEstimatorTemplate, Object );
 
   /** Type of scales */
-  typedef OptimizerParameters<TInternalComputationValueType> ScalesType;
+  using ScalesType = OptimizerParameters<TInternalComputationValueType>;
   /** Type of parameters of the optimizer */
-  typedef OptimizerParameters<TInternalComputationValueType> ParametersType;
+  using ParametersType = OptimizerParameters<TInternalComputationValueType>;
 
   /** Type of float */
-  typedef TInternalComputationValueType FloatType;
+  using FloatType = TInternalComputationValueType;
 
   /** Estimate parameter scales. */
   virtual void EstimateScales(ScalesType &scales) = 0;
@@ -83,7 +83,7 @@ private:
 }; //class OptimizerParameterScalesEstimatorTemplate
 
 /** This helps to meet backward compatibility */
-typedef OptimizerParameterScalesEstimatorTemplate<double> OptimizerParameterScalesEstimator;
+using OptimizerParameterScalesEstimator = OptimizerParameterScalesEstimatorTemplate<double>;
 
 }  // namespace itk
 

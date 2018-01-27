@@ -237,7 +237,7 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
   ProgressReporter progress( this, threadId,
                              outputRegionForThread.GetNumberOfPixels() );
 
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
   // get some values, just to be easier to manipulate
   typename Superclass::InputImageConstPointer inputImage = this->GetInput();
@@ -302,7 +302,7 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
   SizeValueType projectionSize = inputSize[m_ProjectionDimension];
 
   // create the iterators for input and output image
-  typedef ImageLinearConstIteratorWithIndex< TInputImage > InputIteratorType;
+  using InputIteratorType = ImageLinearConstIteratorWithIndex< TInputImage >;
   InputIteratorType iIt(inputImage, inputRegionForThread);
   iIt.SetDirection(m_ProjectionDimension);
   iIt.GoToBegin();

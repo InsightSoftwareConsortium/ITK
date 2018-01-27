@@ -108,25 +108,25 @@ class ITK_TEMPLATE_EXPORT ImageToImageFilter:public ImageSource< TOutputImage >,
   private ImageToImageFilterCommon
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToImageFilter          Self;
-  typedef ImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageToImageFilter;
+  using Superclass = ImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToImageFilter, ImageSource);
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename Superclass::OutputImagePixelType  OutputImagePixelType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -262,15 +262,15 @@ protected:
 
   /** Typedef for the region copier function object that converts an
    * input region to an output region. */
-  typedef ImageToImageFilterDetail::ImageRegionCopier< itkGetStaticConstMacro(OutputImageDimension),
-                                                       itkGetStaticConstMacro(InputImageDimension) >
-  InputToOutputRegionCopierType;
+  using InputToOutputRegionCopierType = ImageToImageFilterDetail::ImageRegionCopier<
+                                                       itkGetStaticConstMacro(OutputImageDimension),
+                                                       itkGetStaticConstMacro(InputImageDimension) >;
 
   /** Typedef for the region copier function object that converts an
    * output region to an input region. */
-  typedef ImageToImageFilterDetail::ImageRegionCopier< itkGetStaticConstMacro(InputImageDimension),
-                                                       itkGetStaticConstMacro(OutputImageDimension) >
-  OutputToInputRegionCopierType;
+  using OutputToInputRegionCopierType = ImageToImageFilterDetail::ImageRegionCopier<
+                                                       itkGetStaticConstMacro(InputImageDimension),
+                                                       itkGetStaticConstMacro(OutputImageDimension) >;
 
   /** This function calls the actual region copier to do the mapping
    * from output image space to input image space.  It uses a Function

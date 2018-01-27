@@ -58,10 +58,10 @@ namespace Statistics
 class ITKStatistics_EXPORT MaximumRatioDecisionRule : public DecisionRule
 {
 public:
-  /** Standard class typedefs */
-  typedef MaximumRatioDecisionRule  Self;
-  typedef DecisionRule              Superclass;
-  typedef SmartPointer< Self >      Pointer;
+  /** Standard class type aliases */
+  using Self = MaximumRatioDecisionRule;
+  using Superclass = DecisionRule;
+  using Pointer = SmartPointer< Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(MaximumRatioDecisionRule, DecisionRule);
@@ -70,16 +70,16 @@ public:
   itkNewMacro(Self);
 
   /** Types for discriminant values and vectors. */
-  typedef Superclass::MembershipValueType  MembershipValueType;
-  typedef Superclass::MembershipVectorType MembershipVectorType;
+  using MembershipValueType = Superclass::MembershipValueType;
+  using MembershipVectorType = Superclass::MembershipVectorType;
 
   /** Types for class identifiers. */
-  typedef Superclass::ClassIdentifierType ClassIdentifierType;
+  using ClassIdentifierType = Superclass::ClassIdentifierType;
 
   /** Types for priors and values */
-  typedef MembershipValueType                      PriorProbabilityValueType;
-  typedef std::vector< PriorProbabilityValueType > PriorProbabilityVectorType;
-  typedef PriorProbabilityVectorType::size_type    PriorProbabilityVectorSizeType;
+  using PriorProbabilityValueType = MembershipValueType;
+  using PriorProbabilityVectorType = std::vector< PriorProbabilityValueType >;
+  using PriorProbabilityVectorSizeType = PriorProbabilityVectorType::size_type;
 
   /**
    * Evaluate the decision rule \f$p(x|i) p(i) > p(x|j) p(j)\f$. Prior

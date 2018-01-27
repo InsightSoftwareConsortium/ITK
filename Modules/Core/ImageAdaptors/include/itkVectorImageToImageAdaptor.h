@@ -49,16 +49,16 @@ class VectorImageToImagePixelAccessor
 {
 public:
 
-  typedef unsigned int VectorLengthType;
+  using VectorLengthType = unsigned int;
 
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
    * that this class will exhibit. */
-  typedef  TType ExternalType;
+  using ExternalType = TType;
 
-  /** Internal typedef used by the ImageAdaptor for the buffer pointer */
-  typedef TType InternalType;
+  /** Internal type alias used by the ImageAdaptor for the buffer pointer */
+  using InternalType = TType;
 
-  typedef VariableLengthVector< TType > ActualPixelType;
+  using ActualPixelType = VariableLengthVector< TType >;
 
   inline void Set(ActualPixelType output, const ExternalType & input) const
   {
@@ -110,7 +110,7 @@ public:
     }
 
 protected:
-  typedef DefaultVectorPixelAccessor< TType > Superclass;
+  using Superclass = DefaultVectorPixelAccessor< TType >;
 
 private:
   VectorLengthType m_ComponentIdx;
@@ -144,14 +144,14 @@ class VectorImageToImageAdaptor:public
                 Accessor::VectorImageToImagePixelAccessor< TPixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorImageToImageAdaptor            Self;
-  typedef VectorImage< TPixelType, Dimension > VectorImageType;
-  typedef ImageAdaptor< VectorImageType,
-                        Accessor::VectorImageToImagePixelAccessor< TPixelType >  > Superclass;
+  /** Standard class type aliases. */
+  using Self = VectorImageToImageAdaptor;
+  using VectorImageType = VectorImage< TPixelType, Dimension >;
+  using Superclass = ImageAdaptor< VectorImageType,
+                        Accessor::VectorImageToImagePixelAccessor< TPixelType >  >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -159,15 +159,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorImageToImageAdaptor, ImageAdaptor);
 
-  /** PixelContainer typedef support. Used to construct a container for
+  /** PixelContainer type alias support Used to construct a container for
    * the pixel data. */
-  typedef typename Superclass::PixelContainer             PixelContainer;
-  typedef typename Superclass::PixelContainerPointer      PixelContainerPointer;
-  typedef typename Superclass::PixelContainerConstPointer PixelContainerConstPointer;
-  typedef typename Superclass::IOPixelType                IOPixelType;
+  using PixelContainer = typename Superclass::PixelContainer;
+  using PixelContainerPointer = typename Superclass::PixelContainerPointer;
+  using PixelContainerConstPointer = typename Superclass::PixelContainerConstPointer;
+  using IOPixelType = typename Superclass::IOPixelType;
 
   /** Typedef for the length of vectors in the VectorImage. */
-  typedef typename VectorImageType::VectorLengthType VectorLengthType;
+  using VectorLengthType = typename VectorImageType::VectorLengthType;
 
   // Set/GetMethods to set the component to be extracted.
   void SetExtractComponentIndex(VectorLengthType componentIdx)

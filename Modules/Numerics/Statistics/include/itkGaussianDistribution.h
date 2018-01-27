@@ -62,11 +62,11 @@ class ITKStatistics_EXPORT GaussianDistribution:
   public ProbabilityDistribution
 {
 public:
-  /** Standard class typedefs */
-  typedef GaussianDistribution       Self;
-  typedef ProbabilityDistribution    Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = GaussianDistribution;
+  using Superclass = ProbabilityDistribution;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Strandard macros */
   itkTypeMacro(GaussianDistribution, ProbabilityDistribution);

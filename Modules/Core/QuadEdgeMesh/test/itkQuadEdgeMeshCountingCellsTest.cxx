@@ -22,8 +22,8 @@ int itkQuadEdgeMeshCountingCellsTest(int argc, char * argv[])
   (void)argc;
   (void)argv;
 
-  typedef itk::QuadEdgeMesh< double, 3 >                      MeshType;
-  typedef MeshType::Pointer                                   MeshPointer;
+  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshPointer = MeshType::Pointer;
 
   MeshPointer  mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>( mesh );

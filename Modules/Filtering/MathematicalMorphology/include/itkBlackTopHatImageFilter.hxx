@@ -49,7 +49,7 @@ BlackTopHatImageFilter< TInputImage, TOutputImage, TKernel >
   this->AllocateOutputs();
 
   // Delegate to a closing filter.
-  typedef GrayscaleMorphologicalClosingImageFilter< TInputImage, TInputImage, TKernel > ClosingFilterType;
+  using ClosingFilterType = GrayscaleMorphologicalClosingImageFilter< TInputImage, TInputImage, TKernel >;
   typename ClosingFilterType::Pointer close = ClosingFilterType::New();
 
   close->SetInput( this->GetInput() );

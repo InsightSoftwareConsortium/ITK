@@ -24,8 +24,8 @@
 int itkFEMElement3DMembraneTest(int, char *[])
 {
 
-  typedef itk::fem::Element ElementType;
-  typedef ElementType::Node NodeType;
+  using ElementType = itk::fem::Element;
+  using NodeType = ElementType::Node;
 
   NodeType::Pointer       n0, n1, n2, n3, n4, n5, n6, n7;
   ElementType::VectorType pt(3);
@@ -78,7 +78,7 @@ int itkFEMElement3DMembraneTest(int, char *[])
   pt[2] = 1.;
   n7->SetCoordinates(pt);
 
-  typedef itk::fem::MaterialLinearElasticity ElasticityType;
+  using ElasticityType = itk::fem::MaterialLinearElasticity;
   ElasticityType::Pointer m = ElasticityType::New();
   m->SetGlobalNumber(0);
   m->SetYoungsModulus(10000.0);
@@ -86,7 +86,7 @@ int itkFEMElement3DMembraneTest(int, char *[])
   m->SetMomentOfInertia(.004);
   m->SetPoissonsRatio(0.4);
 
-  typedef itk::fem::Element3DC0LinearHexahedronMembrane ElementMembraneType;
+  using ElementMembraneType = itk::fem::Element3DC0LinearHexahedronMembrane;
   ElementMembraneType::Pointer e0 = ElementMembraneType::New();
 
   e0->SetGlobalNumber(0);

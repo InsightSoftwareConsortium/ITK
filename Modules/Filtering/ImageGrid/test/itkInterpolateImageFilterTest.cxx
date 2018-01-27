@@ -23,13 +23,13 @@
 int itkInterpolateImageFilterTest(int, char* [] )
 {
   enum { ImageDimension = 2 };
-  typedef unsigned long                              InputPixelType;
-  typedef unsigned long                              OutputPixelType;
-  typedef itk::Image<InputPixelType,ImageDimension>  InputImageType;
-  typedef itk::Image<OutputPixelType,ImageDimension> OutputImageType;
+  using InputPixelType = unsigned long;
+  using OutputPixelType = unsigned long;
+  using InputImageType = itk::Image<InputPixelType,ImageDimension>;
+  using OutputImageType = itk::Image<OutputPixelType,ImageDimension>;
 
   // fill images
-  typedef InputImageType::SizeType SizeType;
+  using SizeType = InputImageType::SizeType;
   SizeType size;
   size.Fill( 5 );
 
@@ -54,7 +54,7 @@ int itkInterpolateImageFilterTest(int, char* [] )
     ++inIter2;
     }
 
-  typedef itk::InterpolateImageFilter<InputImageType,OutputImageType> FilterType;
+  using FilterType = itk::InterpolateImageFilter<InputImageType,OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput1( image1 );

@@ -97,10 +97,10 @@ int main( int argc, char *argv[] )
 
   int status = EXIT_SUCCESS;
   {
-  typedef itk::Image<unsigned char,2> ImageNDType;
+  using ImageNDType = itk::Image<unsigned char,2>;
 
-  typedef itk::ImageFileReader<ImageNDType> ReaderType;
-  typedef itk::ImageFileWriter<ImageNDType> WriterType;
+  using ReaderType = itk::ImageFileReader<ImageNDType>;
+  using WriterType = itk::ImageFileWriter<ImageNDType>;
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 

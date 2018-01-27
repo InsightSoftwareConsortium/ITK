@@ -46,11 +46,11 @@ class ITK_TEMPLATE_EXPORT TranslationTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef TranslationTransform                                      Self;
-  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TranslationTransform;
+  using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through the object factory. */
   itkNewMacro(Self);
@@ -63,41 +63,41 @@ public:
   itkStaticConstMacro(ParametersDimension, unsigned int, NDimensions);
 
   /** Standard scalar type for this class. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Standard parameters container. */
-  typedef typename Superclass::FixedParametersType FixedParametersType;
-  typedef typename Superclass::ParametersType      ParametersType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Standard Jacobian container. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** The number of parameters defininig this transform. */
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TParametersValueType, NDimensions> InputVectorType;
-  typedef Vector<TParametersValueType, NDimensions> OutputVectorType;
+  using InputVectorType = Vector<TParametersValueType, NDimensions>;
+  using OutputVectorType = Vector<TParametersValueType, NDimensions>;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TParametersValueType, NDimensions> InputCovariantVectorType;
-  typedef CovariantVector<TParametersValueType, NDimensions> OutputCovariantVectorType;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, NDimensions>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, NDimensions>;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TParametersValueType, NDimensions> InputVnlVectorType;
-  typedef vnl_vector_fixed<TParametersValueType, NDimensions> OutputVnlVectorType;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, NDimensions>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, NDimensions>;
 
   /** Standard coordinate point type for this class. */
-  typedef Point<TParametersValueType, NDimensions> InputPointType;
-  typedef Point<TParametersValueType, NDimensions> OutputPointType;
+  using InputPointType = Point<TParametersValueType, NDimensions>;
+  using OutputPointType = Point<TParametersValueType, NDimensions>;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/
-  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
-  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+  using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
+  using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /** Transform category type. */
-  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+  using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** This method returns the value of the offset of the
    * TranslationTransform. */

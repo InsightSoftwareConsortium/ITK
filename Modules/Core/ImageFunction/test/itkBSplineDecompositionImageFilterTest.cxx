@@ -84,17 +84,17 @@ int itkBSplineDecompositionImageFilterTest( int argc, char* argv[] )
     }
 
   const unsigned int ImageDimension = 2;
-  typedef float                                   PixelType;
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
-  typedef itk::BSplineInterpolateImageFunction< ImageType, double, double >
-    BSplineInterpolatorFunctionType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using BSplineInterpolatorFunctionType =
+      itk::BSplineInterpolateImageFunction< ImageType, double, double >;
 
   unsigned int splineOrder = atoi( argv[1] );
   BSplineInterpolatorFunctionType::Pointer interpolator =
     makeRandomImageInterpolator< BSplineInterpolatorFunctionType >( splineOrder );
   ImageType::ConstPointer randImage = interpolator->GetInputImage();
 
-  typedef itk::BSplineDecompositionImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::BSplineDecompositionImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineDecompositionImageFilter,
@@ -147,7 +147,7 @@ int itkBSplineDecompositionImageFilterTest( int argc, char* argv[] )
 
 
   // Set up a BSplineResampleImageFunction.
-  typedef itk::BSplineResampleImageFunction<ImageType,double> ResampleFunctionType;
+  using ResampleFunctionType = itk::BSplineResampleImageFunction<ImageType,double>;
   ResampleFunctionType::Pointer resample = ResampleFunctionType::New();
 
   resample->SetSplineOrder( interpolator->GetSplineOrder());
@@ -190,10 +190,10 @@ int itkBSplineDecompositionImageFilterTest( int argc, char* argv[] )
     }
 
   // Instantiation test with a std::complex pixel
-  typedef std::complex< PixelType >                       ComplexPixelType;
-  typedef itk::Image< ComplexPixelType, ImageDimension >  ComplexImageType;
-  typedef itk::BSplineDecompositionImageFilter< ComplexImageType, ComplexImageType >
-    ComplexFilterType;
+  using ComplexPixelType = std::complex< PixelType >;
+  using ComplexImageType = itk::Image< ComplexPixelType, ImageDimension >;
+  using ComplexFilterType =
+      itk::BSplineDecompositionImageFilter< ComplexImageType, ComplexImageType >;
   ComplexFilterType::Pointer complexFilter = ComplexFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineDecompositionImageFilter,

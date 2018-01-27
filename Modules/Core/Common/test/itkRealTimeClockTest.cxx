@@ -65,7 +65,7 @@ int itkRealTimeClockTest( int, char * [] )
     itk::RealTimeStamp realStamp2 = clock->GetRealTimeStamp();
     std::cout << "Current Time " << realStamp2 << std::endl;
 
-    typedef itk::RealTimeStamp::TimeRepresentationType TimeRepresentationType;
+    using TimeRepresentationType = itk::RealTimeStamp::TimeRepresentationType;
 
     TimeRepresentationType tolerance = 1e6;
 

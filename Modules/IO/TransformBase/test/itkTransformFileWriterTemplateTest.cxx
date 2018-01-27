@@ -28,7 +28,7 @@ int itkTransformFileWriterTemplateTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::TransformFileWriterTemplate<double>      TransformWriterType;
+  using TransformWriterType = itk::TransformFileWriterTemplate<double>;
 
 
   TransformWriterType::Pointer transformWriter = TransformWriterType::New();

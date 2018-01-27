@@ -49,13 +49,13 @@ int itkImageFilterToVideoFilterWrapperTest( int argc, char* argv[] )
     }
 
   // Typedefs
-  typedef unsigned char                                                   PixelType;
-  typedef itk::Image<PixelType, 2>                                        FrameType;
-  typedef itk::VideoStream< FrameType >                                   VideoType;
-  typedef itk::RecursiveGaussianImageFilter< FrameType, FrameType >       GaussianImageFilterType;
-  typedef itk::ImageFilterToVideoFilterWrapper< GaussianImageFilterType > GaussianVideoFilterType;
-  typedef itk::VideoFileReader< VideoType >                               VideoReaderType;
-  typedef itk::VideoFileWriter< VideoType >                               VideoWriterType;
+  using PixelType = unsigned char;
+  using FrameType = itk::Image<PixelType, 2>;
+  using VideoType = itk::VideoStream< FrameType >;
+  using GaussianImageFilterType = itk::RecursiveGaussianImageFilter< FrameType, FrameType >;
+  using GaussianVideoFilterType = itk::ImageFilterToVideoFilterWrapper< GaussianImageFilterType >;
+  using VideoReaderType = itk::VideoFileReader< VideoType >;
+  using VideoWriterType = itk::VideoFileWriter< VideoType >;
 
   // Register FileListIO with the factory -- shouldn't have to do this. Needs fixing
   itk::ObjectFactoryBase::RegisterFactory( itk::FileListVideoIOFactory::New() );
@@ -84,8 +84,8 @@ int itkImageFilterToVideoFilterWrapperTest( int argc, char* argv[] )
   //
   // Check output
   //
-  typedef itk::ImageFileReader< FrameType > ImageReaderType;
-  typedef itk::Testing::ComparisonImageFilter< FrameType, FrameType > DifferenceFilterType;
+  using ImageReaderType = itk::ImageFileReader< FrameType >;
+  using DifferenceFilterType = itk::Testing::ComparisonImageFilter< FrameType, FrameType >;
   ImageReaderType::Pointer imReader1 = ImageReaderType::New();
   ImageReaderType::Pointer imReader2 = ImageReaderType::New();
   DifferenceFilterType::Pointer differ = DifferenceFilterType::New();

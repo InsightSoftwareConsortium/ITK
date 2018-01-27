@@ -28,10 +28,10 @@ int itkCropImageFilterTest( int, char* [] )
   const unsigned int ImageDimension = 2;
 
   // Declare the pixel types of the images
-  typedef short                                   PixelType;
+  using PixelType = short;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
   ImageType::Pointer inputImage = ImageType::New();
 

@@ -47,10 +47,10 @@ namespace itk
 class ITKIOLSM_EXPORT LSMImageIO:public TIFFImageIO
 {
 public:
-  /** Standard class typedefs. */
-  typedef LSMImageIO           Self;
-  typedef TIFFImageIO          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = LSMImageIO;
+  using Superclass = TIFFImageIO;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

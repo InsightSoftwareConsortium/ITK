@@ -128,15 +128,15 @@ class ITK_TEMPLATE_EXPORT BinaryThresholdImageFilter:
                              typename TOutputImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryThresholdImageFilter Self;
-  typedef UnaryFunctorImageFilter< TInputImage, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = BinaryThresholdImageFilter;
+  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
                                    Functor::BinaryThreshold<
                                      typename TInputImage::PixelType,
                                      typename TOutputImage::PixelType >
-                                   >                                   Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                                   >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -145,11 +145,11 @@ public:
   itkTypeMacro(BinaryThresholdImageFilter, UnaryFunctorImageFilter);
 
   /** Pixel types. */
-  typedef typename TInputImage::PixelType  InputPixelType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
   /** Type of DataObjects to use for scalar inputs */
-  typedef SimpleDataObjectDecorator< InputPixelType > InputPixelObjectType;
+  using InputPixelObjectType = SimpleDataObjectDecorator< InputPixelType >;
 
   /** Set the "outside" pixel value. The default value
    * NumericTraits<OutputPixelType>::ZeroValue(). */

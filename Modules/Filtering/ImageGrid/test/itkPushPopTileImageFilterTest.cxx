@@ -23,15 +23,15 @@
 int itkPushPopTileImageFilterTest(int argc, char *argv[] )
 {
 
-  typedef itk::RGBPixel<unsigned char> PixelType;
+  using PixelType = itk::RGBPixel<unsigned char>;
   enum { InputImageDimension = 2 };
   enum { OutputImageDimension = 2 };
 
-  typedef itk::Image<PixelType,InputImageDimension>            InputImageType;
-  typedef itk::Image<PixelType,OutputImageDimension>           OutputImageType;
-  typedef itk::ImageFileReader< InputImageType >               ImageReaderType;
-  typedef itk::TileImageFilter<InputImageType,OutputImageType> TilerType;
-  typedef itk::ImageFileWriter<OutputImageType>                WriterType;
+  using InputImageType = itk::Image<PixelType,InputImageDimension>;
+  using OutputImageType = itk::Image<PixelType,OutputImageDimension>;
+  using ImageReaderType = itk::ImageFileReader< InputImageType >;
+  using TilerType = itk::TileImageFilter<InputImageType,OutputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   if (argc != 6)
     {

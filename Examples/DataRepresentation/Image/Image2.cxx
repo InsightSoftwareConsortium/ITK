@@ -39,10 +39,10 @@ int main( int , char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char          PixelType;
+  using PixelType = unsigned char;
   const unsigned int             Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >   ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -64,7 +64,7 @@ int main( int , char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

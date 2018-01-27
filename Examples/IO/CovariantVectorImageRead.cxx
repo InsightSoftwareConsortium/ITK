@@ -75,18 +75,18 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float                 ComponentType;
+  using ComponentType = float;
   const   unsigned int          Dimension = 2;
 
-  typedef itk::CovariantVector< ComponentType,
-                                    Dimension  >      InputPixelType;
+  using InputPixelType = itk::CovariantVector< ComponentType,
+                                    Dimension  >;
 
-  typedef float                                       MagnitudePixelType;
-  typedef unsigned short                              OutputPixelType;
+  using MagnitudePixelType = float;
+  using OutputPixelType = unsigned short;
 
-  typedef itk::Image< InputPixelType,      Dimension >    InputImageType;
-  typedef itk::Image< MagnitudePixelType,  Dimension >    MagnitudeImageType;
-  typedef itk::Image< OutputPixelType,     Dimension >    OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,      Dimension >;
+  using MagnitudeImageType = itk::Image< MagnitudePixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType,     Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -98,8 +98,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -116,9 +116,9 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::VectorMagnitudeImageFilter<
+  using FilterType = itk::VectorMagnitudeImageFilter<
                                           InputImageType,
-                                          MagnitudeImageType    > FilterType;
+                                          MagnitudeImageType    >;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -135,9 +135,9 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typedef itk::RescaleIntensityImageFilter<
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
                                   MagnitudeImageType,
-                                  OutputImageType >      RescaleFilterType;
+                                  OutputImageType >;
 
   RescaleFilterType::Pointer  rescaler = RescaleFilterType::New();
   //  Software Guide : EndCodeSnippet

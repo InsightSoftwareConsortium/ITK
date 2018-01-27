@@ -89,37 +89,37 @@ template< unsigned int VDimension >
 class ITK_TEMPLATE_EXPORT FlatStructuringElement:public Neighborhood< bool, VDimension >
 {
 public:
-  /** Standard class typedefs. */
-  typedef FlatStructuringElement< VDimension > Self;
-  typedef Neighborhood< bool, VDimension >     Superclass;
+  /** Standard class type aliases. */
+  using Self = FlatStructuringElement< VDimension >;
+  using Superclass = Neighborhood< bool, VDimension >;
 
   /** External support for pixel type. */
-  typedef typename Superclass::PixelType PixelType;
+  using PixelType = typename Superclass::PixelType;
 
-  /** Iterator typedef support. Note the naming is intentional, i.e.,
+  /** Iterator type alias support Note the naming is intentional, i.e.,
   * AllocatorType::iterator and AllocatorType::const_iterator, because the
   * allocator may be a vnl object or other type, which uses this form. */
-  typedef typename Superclass::Iterator      Iterator;
-  typedef typename Superclass::ConstIterator ConstIterator;
+  using Iterator = typename Superclass::Iterator;
+  using ConstIterator = typename Superclass::ConstIterator;
 
-  /** Size and value typedef support. */
-  typedef typename Superclass::SizeType      SizeType;
-  typedef typename Superclass::OffsetType    OffsetType;
+  /** Size and value type alias support */
+  using SizeType = typename Superclass::SizeType;
+  using OffsetType = typename Superclass::OffsetType;
 
-  /** Radius typedef support. */
-  typedef typename Superclass::RadiusType RadiusType;
+  /** Radius type alias support */
+  using RadiusType = typename Superclass::RadiusType;
 
-  /** External slice iterator type typedef support. */
-  typedef typename Superclass::SliceIteratorType SliceIteratorType;
+  /** External slice iterator type type alias support */
+  using SliceIteratorType = typename Superclass::SliceIteratorType;
 
   /** External support for dimensionality. */
   itkStaticConstMacro(NeighborhoodDimension, unsigned int, VDimension);
 
-  typedef Vector< float, VDimension > LType;
-  typedef std::vector< LType >        DecompType;
+  using LType = Vector< float, VDimension >;
+  using DecompType = std::vector< LType >;
 
   /** ImageType used in constructors */
-  typedef typename itk::Image< PixelType, VDimension > ImageType;
+  using ImageType = typename itk::Image< PixelType, VDimension >;
 
   /** Default destructor. */
   ~FlatStructuringElement() override {}
@@ -222,17 +222,17 @@ private:
   struct StructuringElementFacet {
     Vector< float, VDimension3 > P1, P2, P3;
   };
-  typedef StructuringElementFacet< VDimension > FacetType;
+  using FacetType = StructuringElementFacet< VDimension >;
 
   template<typename TStructuringElement, typename TRadius>
   static void GeneratePolygon(TStructuringElement & res,            TRadius      radius, unsigned lines);
   static void GeneratePolygon(itk::FlatStructuringElement<2> & res, itk::Size<2> radius, unsigned lines);
   static void GeneratePolygon(itk::FlatStructuringElement<3> & res, itk::Size<3> radius, unsigned lines);
 
-  typedef Vector< float, 2 >           LType2;
+  using LType2 = Vector< float, 2 >;
 
-  typedef Vector< float, 3 >           LType3;
-  typedef StructuringElementFacet< 3 > FacetType3;
+  using LType3 = Vector< float, 3 >;
+  using FacetType3 = StructuringElementFacet< 3 >;
 
   bool m_RadiusIsParametric;
 

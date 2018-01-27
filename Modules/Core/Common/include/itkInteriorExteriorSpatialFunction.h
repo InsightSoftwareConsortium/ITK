@@ -50,20 +50,20 @@ class ITK_TEMPLATE_EXPORT InteriorExteriorSpatialFunction:public
   SpatialFunction< bool, VDimension, TInput >
 {
 public:
-  /** Standard class typedefs. */
-  typedef InteriorExteriorSpatialFunction             Self;
-  typedef SpatialFunction< bool, VDimension, TInput > Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = InteriorExteriorSpatialFunction;
+  using Superclass = SpatialFunction< bool, VDimension, TInput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(InteriorExteriorSpatialFunction, SpatialFunction);
 
   /** Input type for the function */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Evaluate the function at a given position.
    * A return of 1 means inside or on the surface of the function,

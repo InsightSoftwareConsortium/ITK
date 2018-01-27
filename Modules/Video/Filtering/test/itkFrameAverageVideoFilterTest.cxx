@@ -23,15 +23,15 @@
 #include "itkFileListVideoIOFactory.h"
 
 
-// Set up typedefs for test
+// Set up type alias for test
 const unsigned int Dimension =                   2;
-typedef unsigned char                            InputPixelType;
-typedef itk::Image< InputPixelType, Dimension >  InputFrameType;
-typedef itk::VideoStream< InputFrameType >       InputVideoType;
-typedef double                                   OutputPixelType;
-typedef itk::Image< OutputPixelType, Dimension > OutputFrameType;
-typedef itk::VideoStream< OutputFrameType >      OutputVideoType;
-typedef itk::SizeValueType                       SizeValueType;
+using InputPixelType = unsigned char;
+using InputFrameType = itk::Image< InputPixelType, Dimension >;
+using InputVideoType = itk::VideoStream< InputFrameType >;
+using OutputPixelType = double;
+using OutputFrameType = itk::Image< OutputPixelType, Dimension >;
+using OutputVideoType = itk::VideoStream< OutputFrameType >;
+using SizeValueType = itk::SizeValueType;
 
 
 /**
@@ -92,7 +92,7 @@ int itkFrameAverageVideoFilterTest( int argc, char* argv[] )
     }
 
   // Instantiate the filter
-  typedef itk::FrameAverageVideoFilter< InputVideoType, OutputVideoType > FilterType;
+  using FilterType = itk::FrameAverageVideoFilter< InputVideoType, OutputVideoType >;
   FilterType::Pointer filter = FilterType::New();
 
   // Set up an input VideoStream
@@ -215,15 +215,15 @@ int itkFrameAverageVideoFilterTest( int argc, char* argv[] )
   itk::ObjectFactoryBase::RegisterFactory( itk::FileListVideoIOFactory::New() );
 
   // Set up reader and writer
-  typedef itk::VideoFileReader<InputVideoType> VideoReaderType;
-  typedef itk::VideoFileWriter<InputVideoType> VideoWriterType;
+  using VideoReaderType = itk::VideoFileReader<InputVideoType>;
+  using VideoWriterType = itk::VideoFileWriter<InputVideoType>;
   VideoReaderType::Pointer reader = VideoReaderType::New();
   VideoWriterType::Pointer writer = VideoWriterType::New();
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
 
   // Set up pipeline with 2 average filters each over 2 frames
-  typedef itk::FrameAverageVideoFilter<InputVideoType, InputVideoType> FilterType2;
+  using FilterType2 = itk::FrameAverageVideoFilter<InputVideoType, InputVideoType>;
   FilterType2::Pointer avg1 = FilterType2::New();
   FilterType2::Pointer avg2 = FilterType2::New();
   avg1->SetNumberOfFrames(2);

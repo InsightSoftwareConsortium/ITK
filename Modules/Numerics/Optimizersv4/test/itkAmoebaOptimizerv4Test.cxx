@@ -47,22 +47,22 @@ class itkAmoebaOptimizerv4TestMetric1 : public itk::ObjectToObjectMetricBase
 {
 public:
 
-  typedef itkAmoebaOptimizerv4TestMetric1   Self;
-  typedef itk::ObjectToObjectMetricBase     Superclass;
-  typedef itk::SmartPointer<Self>           Pointer;
-  typedef itk::SmartPointer<const Self>     ConstPointer;
+  using Self = itkAmoebaOptimizerv4TestMetric1;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
 
   itkTypeMacro( itkAmoebaOptimizerv4TestMetric1, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::DerivativeType              DerivativeType;
-  typedef Superclass::MeasureType                 MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
-  typedef vnl_vector<double>                      VectorType;
-  typedef vnl_matrix<double>                      MatrixType;
+  using VectorType = vnl_vector<double>;
+  using MatrixType = vnl_matrix<double>;
 
   itkAmoebaOptimizerv4TestMetric1()
   {
@@ -153,21 +153,21 @@ class itkAmoebaOptimizerv4TestMetric2 : public itk::ObjectToObjectMetricBase
 {
 public:
 
-  typedef itkAmoebaOptimizerv4TestMetric2   Self;
-  typedef itk::ObjectToObjectMetricBase     Superclass;
-  typedef itk::SmartPointer<Self>           Pointer;
-  typedef itk::SmartPointer<const Self>     ConstPointer;
+  using Self = itkAmoebaOptimizerv4TestMetric2;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( itkAmoebaOptimizerv4TestMetric2, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=1 };
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::DerivativeType              DerivativeType;
-  typedef Superclass::MeasureType                 MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
-  typedef vnl_vector<double>                      VectorType;
-  typedef vnl_matrix<double>                      MatrixType;
+  using VectorType = vnl_vector<double>;
+  using MatrixType = vnl_matrix<double>;
 
   itkAmoebaOptimizerv4TestMetric2()
     {
@@ -250,9 +250,9 @@ private:
 class CommandIterationUpdateAmoeba : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdateAmoeba   Self;
-  typedef  itk::Command                   Superclass;
-  typedef itk::SmartPointer<Self>         Pointer;
+  using Self = CommandIterationUpdateAmoeba;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
   void Reset() { m_IterationNumber = 0; }
@@ -316,7 +316,7 @@ int AmoebaTest1()
 
   std::cout << "Amoeba Optimizer Test 1\n \n";
 
-  typedef  itk::AmoebaOptimizerv4  OptimizerType;
+  using OptimizerType = itk::AmoebaOptimizerv4;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -418,7 +418,7 @@ int AmoebaTest2()
 {
   std::cout << "Amoeba Optimizer Test 2\n \n";
 
-  typedef  itk::AmoebaOptimizerv4  OptimizerType;
+  using OptimizerType = itk::AmoebaOptimizerv4;
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
          // set optimizer parameters

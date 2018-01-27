@@ -37,7 +37,7 @@ namespace itk
  *
  * With this class, arbitrary Python callable objects (e.g. functions)
  * can be associated with an instance to be used in AddObserver calls.
- * This is analogous to itk::TclCommand, but then a tad more flexible. ;)
+ * This is analogous to itk::TclCommand, but then a tad more flexible.;)
  *
  * This class was contributed by Charl P. Botha <cpbotha |AT| ieee.org>
  */
@@ -45,10 +45,10 @@ class PyCommand : public Command
 {
 public:
   ///! Standard "Self" typedef.
-  typedef PyCommand         Self;
+  using Self = PyCommand;
 
-  ///! Smart pointer typedef support.
-  typedef SmartPointer<Self>  Pointer;
+  ///! Smart pointer type alias support
+  using Pointer = SmartPointer<Self>;
 
   ///! Run-time type information (and related methods).
   itkTypeMacro(PyCommand,Command);

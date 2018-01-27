@@ -960,7 +960,7 @@ void Segmenter< TInputImage >
       {                     // So add it to the table.
       temp_segment.min = searchIt.GetPixel(hoodCenter);
       segments->Add(segment_label, temp_segment);
-      typedef typename edge_table_hash_t::value_type ValueType;
+      using ValueType = typename edge_table_hash_t::value_type;
       edgeHash.insert( ValueType(segment_label,
                                  tempEdgeTable) );
 
@@ -995,7 +995,7 @@ void Segmenter< TInputImage >
         edge_ptr = ( *edge_table_entry_ptr ).second.find( labelIt.GetPixel(nPos) );
         if ( edge_ptr == ( *edge_table_entry_ptr ).second.end() )
           {     // This edge has not been identified yet.
-          typedef typename edge_table_t::value_type ValueType;
+          using ValueType = typename edge_table_t::value_type;
           ( *edge_table_entry_ptr ).second.insert(
             ValueType(labelIt.GetPixel(nPos), lowest_edge) );
           }

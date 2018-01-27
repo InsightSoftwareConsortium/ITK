@@ -38,11 +38,11 @@ namespace Statistics
 class ITKStatistics_EXPORT MinimumDecisionRule:public DecisionRule
 {
 public:
-  /** Standard class typedefs */
-  typedef MinimumDecisionRule        Self;
-  typedef DecisionRule               Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = MinimumDecisionRule;
+  using Superclass = DecisionRule;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(MinimumDecisionRule, DecisionRule);
@@ -51,11 +51,11 @@ public:
   itkNewMacro(Self);
 
   /** Types for discriminant values and vectors. */
-  typedef Superclass::MembershipValueType  MembershipValueType;
-  typedef Superclass::MembershipVectorType MembershipVectorType;
+  using MembershipValueType = Superclass::MembershipValueType;
+  using MembershipVectorType = Superclass::MembershipVectorType;
 
   /** Types for class identifiers. */
-  typedef Superclass::ClassIdentifierType ClassIdentifierType;
+  using ClassIdentifierType = Superclass::ClassIdentifierType;
 
   /**
    * Evaluate the decision rule, returning the class label associated

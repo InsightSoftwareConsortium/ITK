@@ -67,18 +67,18 @@ MetaLineConverter< NDimensions >
   lineSO->GetProperty()->SetBlue(lineMO->Color()[2]);
   lineSO->GetProperty()->SetAlpha(lineMO->Color()[3]);
 
-  typedef itk::LineSpatialObjectPoint< NDimensions > LinePointType;
+  using LinePointType = itk::LineSpatialObjectPoint< NDimensions >;
 
-  typedef MetaLine::PointListType ListType;
+  using ListType = MetaLine::PointListType;
   ListType::const_iterator it2 = lineMO->GetPoints().begin();
 
   for ( unsigned int identifier = 0; identifier < lineMO->GetPoints().size(); identifier++ )
     {
     LinePointType pnt;
 
-    typedef typename LinePointType::PointType PointType;
+    using PointType = typename LinePointType::PointType;
     PointType point;
-    typedef typename LinePointType::VectorType NormalType;
+    using NormalType = typename LinePointType::VectorType;
 
     for ( unsigned int ii = 0; ii < ndims; ii++ )
       {

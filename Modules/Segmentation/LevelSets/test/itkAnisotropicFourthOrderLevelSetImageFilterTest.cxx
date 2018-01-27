@@ -21,8 +21,8 @@
 
 int itkAnisotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
 {
-  typedef itk::Image<float, 2> ImageType;
-  typedef ImageType::IndexType IndexType;
+  using ImageType = itk::Image<float, 2>;
+  using IndexType = ImageType::IndexType;
 
   ImageType::Pointer im_init = ImageType::New();
 
@@ -54,8 +54,8 @@ int itkAnisotropicFourthOrderLevelSetImageFilterTest(int, char* [] )
         }
       }
 
-  typedef itk::AnisotropicFourthOrderLevelSetImageFilter<ImageType,
-    ImageType> FilterType;
+  using FilterType = itk::AnisotropicFourthOrderLevelSetImageFilter<ImageType,
+    ImageType>;
   FilterType::Pointer filter = FilterType::New();
   filter->SetMaxFilterIteration (2);
   filter->SetMaxNormalIteration(5);

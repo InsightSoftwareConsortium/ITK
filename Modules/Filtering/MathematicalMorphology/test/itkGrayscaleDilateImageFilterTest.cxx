@@ -36,21 +36,21 @@ int itkGrayscaleDilateImageFilterTest(int ac, char* av[] )
     }
 
   unsigned int const dim = 2;
-  typedef itk::Image<unsigned char, dim> ImageType;
+  using ImageType = itk::Image<unsigned char, dim>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader  = ReaderType::New();
   reader->SetFileName(av[1]);
 
   // Create a filter
-  typedef itk::FlatStructuringElement<dim> SRType;
-  typedef itk::GrayscaleDilateImageFilter< ImageType, ImageType, SRType > FilterType;
+  using SRType = itk::FlatStructuringElement<dim>;
+  using FilterType = itk::GrayscaleDilateImageFilter< ImageType, ImageType, SRType >;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef FilterType::RadiusType RadiusType;
+  using RadiusType = FilterType::RadiusType;
 
   // test default values
   RadiusType r1;
@@ -71,7 +71,7 @@ int itkGrayscaleDilateImageFilterTest(int ac, char* av[] )
     {
     filter->SetRadius( 4 );
 
-    typedef itk::ImageFileWriter< ImageType > WriterType;
+    using WriterType = itk::ImageFileWriter< ImageType >;
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput( filter->GetOutput() );
 
@@ -98,7 +98,7 @@ int itkGrayscaleDilateImageFilterTest(int ac, char* av[] )
     }
 
   // Generate test image
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( av[2] );

@@ -29,7 +29,7 @@ int itkChiSquareDistributionTest(int, char* [] )
 
   std::cout << "itkChiSquareDistribution Test \n \n";
 
-  typedef itk::Statistics::ChiSquareDistribution DistributionType;
+  using DistributionType = itk::Statistics::ChiSquareDistribution;
 
   DistributionType::Pointer distributionFunction = DistributionType::New();
 

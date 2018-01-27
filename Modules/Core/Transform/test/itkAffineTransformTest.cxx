@@ -22,8 +22,8 @@
 #include "itkAffineTransform.h"
 #include "itkStdStreamStateSave.h"
 
-typedef  itk::Matrix<double, 2, 2> Matrix2Type;
-typedef  itk::Vector<double, 2>    Vector2Type;
+using Matrix2Type = itk::Matrix<double, 2, 2>;
+using Vector2Type = itk::Vector<double, 2>;
 
 namespace
 {
@@ -120,7 +120,7 @@ int itkAffineTransformTest(int, char *[])
   Vector2Type vector2, vector2Truth;
 
   /* Create a 2D identity transformation and show its parameters */
-  typedef itk::AffineTransform<double, 2> Affine2DType;
+  using Affine2DType = itk::AffineTransform<double, 2>;
   Affine2DType::Pointer id2 = Affine2DType::New();
   matrix2 = id2->GetMatrix();
   vector2 = id2->GetOffset();
@@ -492,7 +492,7 @@ int itkAffineTransformTest(int, char *[])
   // std::cout << "Back transform a vector :" << std::endl
   // << v4[0] << " , " << v4[1] << std::endl;
 
-  typedef itk::AffineTransform<double, 3> Affine3DType;
+  using Affine3DType = itk::AffineTransform<double, 3>;
   Affine3DType::MatrixType matrix3Truth;
 
   /* Create a 3D transform and rotate in 3D */
@@ -751,7 +751,7 @@ int itkAffineTransformTest(int, char *[])
 
     {
     // Test SetParameters and GetInverse
-    typedef itk::AffineTransform<double, 2> TransformType;
+    using TransformType = itk::AffineTransform<double, 2>;
     TransformType::Pointer transform = TransformType::New();
 
     TransformType::ParametersType parameters2;

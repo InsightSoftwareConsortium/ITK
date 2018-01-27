@@ -31,16 +31,16 @@ int itkNormalizedMutualInformationHistogramImageToImageMetricTest(int,
   try {
     // Create two simple images.
     const unsigned int ImageDimension = 2;
-    typedef double PixelType;
-    typedef double CoordinateRepresentationType;
+    using PixelType = double;
+    using CoordinateRepresentationType = double;
 
     //Allocate Images
-    typedef itk::Image<PixelType,ImageDimension> MovingImageType;
-    typedef itk::Image<PixelType,ImageDimension> FixedImageType;
+    using MovingImageType = itk::Image<PixelType,ImageDimension>;
+    using FixedImageType = itk::Image<PixelType,ImageDimension>;
 
     // Declare Gaussian Sources
-    typedef itk::GaussianImageSource<MovingImageType> MovingImageSourceType;
-    typedef itk::GaussianImageSource<FixedImageType>  FixedImageSourceType;
+    using MovingImageSourceType = itk::GaussianImageSource<MovingImageType>;
+    using FixedImageSourceType = itk::GaussianImageSource<FixedImageType>;
 
     // Note: the following declarations are classical arrays
     FixedImageType::SizeValueType fixedImageSize[] = {100,  100};
@@ -76,11 +76,11 @@ int itkNormalizedMutualInformationHistogramImageToImageMetricTest(int,
     FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
 
     // Set up the metric.
-    typedef itk::NormalizedMutualInformationHistogramImageToImageMetric<
-      FixedImageType, MovingImageType>        MetricType;
-    typedef MetricType::TransformType         TransformBaseType;
-    typedef MetricType::ScalesType            ScalesType;
-    typedef TransformBaseType::ParametersType ParametersType;
+    using MetricType = itk::NormalizedMutualInformationHistogramImageToImageMetric<
+      FixedImageType, MovingImageType>;
+    using TransformBaseType = MetricType::TransformType;
+    using ScalesType = MetricType::ScalesType;
+    using ParametersType = TransformBaseType::ParametersType;
 
     MetricType::Pointer metric = MetricType::New();
 
@@ -96,15 +96,15 @@ int itkNormalizedMutualInformationHistogramImageToImageMetricTest(int,
     metric->SetMovingImage(movingImage);
 
     // Set up a transform.
-    typedef itk::TranslationTransform<CoordinateRepresentationType,
-      ImageDimension> TransformType;
+    using TransformType = itk::TranslationTransform<CoordinateRepresentationType,
+      ImageDimension>;
 
     TransformType::Pointer transform = TransformType::New();
     metric->SetTransform(transform.GetPointer());
 
     // Set up an interpolator.
-    typedef itk::LinearInterpolateImageFunction<MovingImageType,
-      double> InterpolatorType;
+    using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType,
+      double>;
 
     InterpolatorType::Pointer interpolator = InterpolatorType::New();
     interpolator->SetInputImage(movingImage.GetPointer());

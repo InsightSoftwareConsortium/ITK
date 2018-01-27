@@ -45,29 +45,29 @@ class ITK_TEMPLATE_EXPORT VideoToVideoFilter : public VideoSource< TOutputVideoS
 {
 public:
 
-  /** Standard class typedefs */
-  typedef TInputVideoStream                           InputVideoStreamType;
-  typedef TOutputVideoStream                          OutputVideoStreamType;
-  typedef VideoToVideoFilter< InputVideoStreamType,
-                              OutputVideoStreamType > Self;
-  typedef VideoSource< OutputVideoStreamType >        Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
-  typedef WeakPointer< const Self >                   ConstWeakPointer;
+  /** Standard class type aliases */
+  using InputVideoStreamType = TInputVideoStream;
+  using OutputVideoStreamType = TOutputVideoStream;
+  using Self = VideoToVideoFilter< InputVideoStreamType,
+                              OutputVideoStreamType >;
+  using Superclass = VideoSource< OutputVideoStreamType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
-  /** Superclass typedefs */
-  typedef typename Superclass::OutputFrameType              OutputFrameType;
-  typedef typename Superclass::OutputFrameSpatialRegionType OutputFrameSpatialRegionType;
+  /** Superclass type alias */
+  using OutputFrameType = typename Superclass::OutputFrameType;
+  using OutputFrameSpatialRegionType = typename Superclass::OutputFrameSpatialRegionType;
 
-  /** Input typedefs */
-  typedef typename InputVideoStreamType::FrameType         InputFrameType;
-  typedef typename InputVideoStreamType::SpatialRegionType InputFrameSpatialRegionType;
-  typedef typename InputVideoStreamType::IndexType         InputFrameIndexType;
-  typedef typename InputVideoStreamType::PixelType         InputFramePixelType;
-  typedef typename InputVideoStreamType::PointType         InputFramePointType;
-  typedef typename InputVideoStreamType::SpacingType       InputFrameSpacingType;
-  typedef typename InputVideoStreamType::SizeType          InputFrameSizeType;
-  typedef typename InputVideoStreamType::DirectionType     InputFrameDirectionType;
+  /** Input type alias */
+  using InputFrameType = typename InputVideoStreamType::FrameType;
+  using InputFrameSpatialRegionType = typename InputVideoStreamType::SpatialRegionType;
+  using InputFrameIndexType = typename InputVideoStreamType::IndexType;
+  using InputFramePixelType = typename InputVideoStreamType::PixelType;
+  using InputFramePointType = typename InputVideoStreamType::PointType;
+  using InputFrameSpacingType = typename InputVideoStreamType::SpacingType;
+  using InputFrameSizeType = typename InputVideoStreamType::SizeType;
+  using InputFrameDirectionType = typename InputVideoStreamType::DirectionType;
 
   itkNewMacro(Self);
 

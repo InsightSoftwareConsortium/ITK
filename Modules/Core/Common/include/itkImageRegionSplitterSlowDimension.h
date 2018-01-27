@@ -47,11 +47,11 @@ class ITKCommon_EXPORT ImageRegionSplitterSlowDimension
   :public ImageRegionSplitterBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageRegionSplitterSlowDimension Self;
-  typedef ImageRegionSplitterBase          Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageRegionSplitterSlowDimension;
+  using Superclass = ImageRegionSplitterBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -80,13 +80,13 @@ class ITKOptimizers_EXPORT ExhaustiveOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef ExhaustiveOptimizer            Self;
-  typedef SingleValuedNonLinearOptimizer Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = ExhaustiveOptimizer;
+  using Superclass = SingleValuedNonLinearOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef Array< SizeValueType > StepsType;
+  using StepsType = Array< SizeValueType >;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

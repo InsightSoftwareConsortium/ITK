@@ -32,33 +32,32 @@ namespace itk
  class ITK_TEMPLATE_EXPORT LevelSetEvolutionStoppingCriterion : public StoppingCriterionBase
  {
  public:
-   typedef LevelSetEvolutionStoppingCriterion  Self;
-   typedef StoppingCriterionBase               Superclass;
-   typedef SmartPointer< Self >                Pointer;
-   typedef SmartPointer< const Self >          ConstPointer;
+   using Self = LevelSetEvolutionStoppingCriterion;
+   using Superclass = StoppingCriterionBase;
+   using Pointer = SmartPointer< Self >;
+   using ConstPointer = SmartPointer< const Self >;
 
    /** Run-time type information (and related methods). */
    itkTypeMacro(LevelSetEvolutionStoppingCriterion, StoppingCriterionBase);
 
-   typedef TLevelSetContainer                               LevelSetContainerType;
-   typedef typename LevelSetContainerType::Pointer          LevelSetContainerPointer;
+   using LevelSetContainerType = TLevelSetContainer;
+   using LevelSetContainerPointer = typename LevelSetContainerType::Pointer;
 
-   typedef typename LevelSetContainerType::LevelSetIdentifierType
-                                                            LevelSetIdentifierType;
+   using LevelSetIdentifierType = typename LevelSetContainerType::LevelSetIdentifierType;
 
-   typedef typename LevelSetContainerType::LevelSetType     LevelSetType;
-   typedef typename LevelSetContainerType::LevelSetPointer  LevelSetPointer;
+   using LevelSetType = typename LevelSetContainerType::LevelSetType;
+   using LevelSetPointer = typename LevelSetContainerType::LevelSetPointer;
 
-   typedef typename LevelSetContainerType::InputIndexType   InputIndexType;
-   typedef typename LevelSetContainerType::OutputType       OutputType;
-   typedef typename LevelSetContainerType::OutputRealType   OutputRealType;
-   typedef typename LevelSetContainerType::GradientType     GradientType;
-   typedef typename LevelSetContainerType::HessianType      HessianType;
+   using InputIndexType = typename LevelSetContainerType::InputIndexType;
+   using OutputType = typename LevelSetContainerType::OutputType;
+   using OutputRealType = typename LevelSetContainerType::OutputRealType;
+   using GradientType = typename LevelSetContainerType::GradientType;
+   using HessianType = typename LevelSetContainerType::HessianType;
 
-   typedef typename LevelSetContainerType::HeavisideType    HeavisideType;
-   typedef typename LevelSetContainerType::HeavisideType    HeavisidePointer;
+   using HeavisideType = typename LevelSetContainerType::HeavisideType;
+   using HeavisidePointer = typename LevelSetContainerType::HeavisideType;
 
-   typedef IdentifierType IterationIdType;
+   using IterationIdType = IdentifierType;
 
    itkSetObjectMacro( LevelSetContainer, LevelSetContainerType );
    itkGetModifiableObjectMacro(LevelSetContainer, LevelSetContainerType );

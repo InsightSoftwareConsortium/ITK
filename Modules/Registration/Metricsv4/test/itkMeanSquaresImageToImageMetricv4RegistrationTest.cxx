@@ -67,13 +67,13 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char *argv[])
     << " displacementIterations " << numberOfDisplacementIterations << std::endl;
 
   const unsigned int Dimension = 2;
-  typedef double PixelType; //I assume png is unsigned short
+  using PixelType = double; //I assume png is unsigned short
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   FixedImageReaderType::Pointer fixedImageReader   = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
@@ -88,28 +88,28 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
 
   /** define a resample filter that will ultimately be used to deform the image */
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+                            FixedImageType >;
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
 
   /** create a composite transform holder for other transforms  */
-  typedef itk::CompositeTransform<double, Dimension>    CompositeType;
+  using CompositeType = itk::CompositeTransform<double, Dimension>;
 
   CompositeType::Pointer compositeTransform = CompositeType::New();
 
   //create an affine transform
-  typedef itk::AffineTransform<double, Dimension>
-                                                    AffineTransformType;
+  using AffineTransformType =
+      itk::AffineTransform<double, Dimension>;
   AffineTransformType::Pointer affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
   std::cout <<" affineTransform params prior to optimization " << affineTransform->GetParameters() << std::endl;
 
-  typedef itk::GaussianSmoothingOnUpdateDisplacementFieldTransform< double, Dimension> DisplacementTransformType;
+  using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform< double, Dimension>;
   DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
 
-  typedef DisplacementTransformType::DisplacementFieldType DisplacementFieldType;
+  using DisplacementFieldType = DisplacementTransformType::DisplacementFieldType;
   DisplacementFieldType::Pointer field = DisplacementFieldType::New();
 
   // set the field to be the same as the fixed image region, which will
@@ -130,16 +130,16 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   displacementTransform->SetGaussianSmoothingVarianceForTheTotalField( 6 );
 
   //identity transform for fixed image
-  typedef itk::IdentityTransform<double, Dimension> IdentityTransformType;
+  using IdentityTransformType = itk::IdentityTransform<double, Dimension>;
   IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
   // The metric
-  typedef itk::MeanSquaresImageToImageMetricv4 < FixedImageType, MovingImageType >  MetricType;
-  typedef MetricType::FixedSampledPointSetType                                                              PointSetType;
+  using MetricType = itk::MeanSquaresImageToImageMetricv4 < FixedImageType, MovingImageType >;
+  using PointSetType = MetricType::FixedSampledPointSetType;
   MetricType::Pointer metric = MetricType::New();
 
-  typedef PointSetType::PointType     PointType;
+  using PointType = PointSetType::PointType;
   PointSetType::Pointer               pset(PointSetType::New());
   unsigned long ind=0,ct=0;
   itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion() );
@@ -174,12 +174,12 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric->SetUseFixedImageGradientFilter( gaussian );
   metric->Initialize();
 
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType > RegistrationParameterScalesFromShiftType;
+  using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift< MetricType >;
   RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
   std::cout << "First do an affine registration " << std::endl;
-  typedef itk::GradientDescentOptimizerv4  OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizerv4;
   OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
@@ -245,7 +245,7 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   resample->Update();
 
   //write out the displacement field
-  typedef itk::ImageFileWriter< DisplacementFieldType >  DisplacementWriterType;
+  using DisplacementWriterType = itk::ImageFileWriter< DisplacementFieldType >;
   DisplacementWriterType::Pointer      displacementwriter =  DisplacementWriterType::New();
   std::string outfilename( argv[3] );
   std::string  ext = itksys::SystemTools::GetFilenameExtension( outfilename );
@@ -257,12 +257,12 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   displacementwriter->Update();
 
   //write the warped image into a file
-  typedef double                                    OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
-  typedef itk::CastImageFilter<
+  using OutputPixelType = double;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using CastFilterType = itk::CastImageFilter<
                         MovingImageType,
-                        OutputImageType >           CastFilterType;
-  typedef itk::ImageFileWriter< OutputImageType >   WriterType;
+                        OutputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
   writer->SetFileName( argv[3] );

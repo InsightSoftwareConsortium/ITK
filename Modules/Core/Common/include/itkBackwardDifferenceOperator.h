@@ -47,19 +47,19 @@ class ITK_TEMPLATE_EXPORT BackwardDifferenceOperator:
   public NeighborhoodOperator< TPixel, TDimension, TAllocator >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BackwardDifferenceOperator                             Self;
-  typedef NeighborhoodOperator< TPixel, TDimension, TAllocator > Superclass;
+  /** Standard class type aliases. */
+  using Self = BackwardDifferenceOperator;
+  using Superclass = NeighborhoodOperator< TPixel, TDimension, TAllocator >;
 
   /** From Superclass */
-  typedef typename Superclass::PixelType PixelType;
+  using PixelType = typename Superclass::PixelType;
 
   /** Constructor. */
   BackwardDifferenceOperator() {}
 
 protected:
   /** Necessary to work around a compiler bug in VC++. */
-  typedef typename Superclass::CoefficientVector CoefficientVector;
+  using CoefficientVector = typename Superclass::CoefficientVector;
 
   /** Calculates operator coefficients. */
   CoefficientVector GenerateCoefficients() override;

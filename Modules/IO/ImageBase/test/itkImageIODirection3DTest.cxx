@@ -34,10 +34,10 @@ int itkImageIODirection3DTest( int ac, char * av[] )
     }
 
   const unsigned int Dimension = 3;
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image<PixelType, Dimension>    ImageType;
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -82,7 +82,7 @@ int itkImageIODirection3DTest( int ac, char * av[] )
 
   if( ac > 11 )
     {
-    typedef itk::ImageFileWriter< ImageType >   WriterType;
+    using WriterType = itk::ImageFileWriter< ImageType >;
     WriterType::Pointer writer = WriterType::New();
     writer->SetFileName( av[11] );
     writer->SetInput( reader->GetOutput() );

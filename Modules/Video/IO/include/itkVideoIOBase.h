@@ -49,19 +49,19 @@ namespace itk
 class ITKVideoIO_EXPORT VideoIOBase : public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef VideoIOBase          Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
-  typedef ::itk::SizeValueType SizeValueType;
+  /** Standard class type aliases. */
+  using Self = VideoIOBase;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
+  using SizeValueType = ::itk::SizeValueType;
 
-  /** Frame offset typedefs */
-  typedef double               TemporalOffsetType;
-  typedef SizeValueType        FrameOffsetType;
-  typedef double               TemporalRatioType;
+  /** Frame offset type alias */
+  using TemporalOffsetType = double;
+  using FrameOffsetType = SizeValueType;
+  using TemporalRatioType = double;
 
-  /** Video-specific typedefs */
-  typedef SizeValueType CameraIDType;
+  /** Video-specific type alias */
+  using CameraIDType = SizeValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VideoIOBase, Superclass);

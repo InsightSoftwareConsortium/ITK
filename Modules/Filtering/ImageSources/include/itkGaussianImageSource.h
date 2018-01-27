@@ -45,46 +45,46 @@ class ITK_TEMPLATE_EXPORT GaussianImageSource :
   public ParametricImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GaussianImageSource                   Self;
-  typedef ParametricImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GaussianImageSource;
+  using Superclass = ParametricImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Typedef for the output image type. */
-  typedef TOutputImage                     OutputImageType;
+  using OutputImageType = TOutputImage;
 
   /** Typedef for the output image PixelType. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
-  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
+  /** Spacing type alias support  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
-  typedef typename TOutputImage::SpacingType SpacingType;
+  using SpacingType = typename TOutputImage::SpacingType;
 
-  /** Origin typedef support.  The origin is the geometric coordinates
+  /** Origin type alias support  The origin is the geometric coordinates
    * of the index (0,0). */
-  typedef typename TOutputImage::PointType PointType;
+  using PointType = typename TOutputImage::PointType;
 
-  /** Direction typedef support.  The direction is the direction
+  /** Direction type alias support  The direction is the direction
    * cosines of the image. */
-  typedef typename TOutputImage::DirectionType DirectionType;
+  using DirectionType = typename TOutputImage::DirectionType;
 
   /** Dimensionality of the output image */
   itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);
 
   /** Type used to store Gaussian parameters. */
-  typedef FixedArray< double, itkGetStaticConstMacro(NDimensions) > ArrayType;
+  using ArrayType = FixedArray< double, itkGetStaticConstMacro(NDimensions) >;
 
   /** Size type matches that used for images */
-  typedef typename TOutputImage::SizeType      SizeType;
-  typedef typename TOutputImage::SizeValueType SizeValueType;
+  using SizeType = typename TOutputImage::SizeType;
+  using SizeValueType = typename TOutputImage::SizeValueType;
 
   /** Types for parameters. */
-  typedef typename Superclass::ParametersValueType ParametersValueType;
-  typedef typename Superclass::ParametersType      ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianImageSource, ParametricImageSource);

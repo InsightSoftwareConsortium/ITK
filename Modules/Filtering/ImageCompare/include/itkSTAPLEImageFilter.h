@@ -122,11 +122,11 @@ class ITK_TEMPLATE_EXPORT STAPLEImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef STAPLEImageFilter                               Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = STAPLEImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -136,23 +136,23 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType                   OutputPixelType;
-  typedef typename TInputImage::PixelType                    InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType RealType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< InputPixelType >::RealType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Image typedef support */
-  typedef TInputImage                       InputImageType;
-  typedef typename InputImageType::Pointer  InputImagePointer;
-  typedef TOutputImage                      OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  /** Image type alias support */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Set get the binary ON value of the input image. */
   itkSetMacro(ForegroundValue, InputPixelType);

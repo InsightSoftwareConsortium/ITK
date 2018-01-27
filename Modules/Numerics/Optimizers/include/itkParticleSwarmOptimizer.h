@@ -61,11 +61,11 @@ class ITKOptimizers_EXPORT ParticleSwarmOptimizer :
   public ParticleSwarmOptimizerBase
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef ParticleSwarmOptimizer              Self;
-  typedef ParticleSwarmOptimizerBase          Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = ParticleSwarmOptimizer;
+  using Superclass = ParticleSwarmOptimizerBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self )

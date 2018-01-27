@@ -57,7 +57,7 @@ typename TImage::PixelType foregnd,
 typename TImage::PixelType backgnd )
 {
 
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator it( image, image->GetBufferedRegion() );
   it.GoToBegin();
 
@@ -86,7 +86,7 @@ CopyImageBuffer(
 TImage *input,
 TImage *output )
 {
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator inIt( input, output->GetBufferedRegion() );
   Iterator outIt( output, output->GetBufferedRegion() );
   for(; !inIt.IsAtEnd(); ++inIt, ++outIt)
@@ -99,14 +99,14 @@ TImage *output )
 int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
 {
 
-  typedef unsigned char                         PixelType;
+  using PixelType = unsigned char;
   enum {ImageDimension = 2};
-  typedef itk::Image<PixelType,ImageDimension>  ImageType;
-  typedef itk::Vector<float,ImageDimension>     VectorType;
-  typedef itk::Image<VectorType,ImageDimension> FieldType;
-  typedef ImageType::IndexType                  IndexType;
-  typedef ImageType::SizeType                   SizeType;
-  typedef ImageType::RegionType                 RegionType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using VectorType = itk::Vector<float,ImageDimension>;
+  using FieldType = itk::Image<VectorType,ImageDimension>;
+  using IndexType = ImageType::IndexType;
+  using SizeType = ImageType::SizeType;
+  using RegionType = ImageType::RegionType;
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
@@ -157,7 +157,7 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   zeroVec.Fill( 0.0 );
   initField->FillBuffer( zeroVec );
 
-  typedef itk::VectorCastImageFilter<FieldType,FieldType> CasterType;
+  using CasterType = itk::VectorCastImageFilter<FieldType,FieldType>;
   CasterType::Pointer caster = CasterType::New();
   caster->SetInput( initField );
   caster->InPlaceOff();
@@ -165,8 +165,8 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
-  typedef itk::FastSymmetricForcesDemonsRegistrationFilter<ImageType,ImageType,FieldType>
-    RegistrationType;
+  using RegistrationType =
+      itk::FastSymmetricForcesDemonsRegistrationFilter<ImageType,ImageType,FieldType>;
   RegistrationType::Pointer registrator = RegistrationType::New();
 
   registrator->SetInitialDisplacementField( caster->GetOutput() );
@@ -181,7 +181,7 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   // turn on inplace execution
   registrator->InPlaceOn();
 
-  typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
+  using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
   FunctionType * fptr;
   fptr = dynamic_cast<FunctionType *>(
     registrator->GetDifferenceFunction().GetPointer() );
@@ -199,7 +199,7 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
     }
   registrator->SetStandardDeviations( v );
 
-  typedef ShowProgressObject<RegistrationType> ProgressType;
+  using ProgressType = ShowProgressObject<RegistrationType>;
   ProgressType progressWatch(registrator);
   itk::SimpleMemberCommand<ProgressType>::Pointer command;
   command = itk::SimpleMemberCommand<ProgressType>::New();
@@ -208,12 +208,12 @@ int itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char* [] )
   registrator->AddObserver( itk::ProgressEvent(), command);
 
   // warp moving image
-  typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
+  using WarperType = itk::WarpImageFilter<ImageType,ImageType,FieldType>;
   WarperType::Pointer warper = WarperType::New();
 
-  typedef WarperType::CoordRepType CoordRepType;
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
-    InterpolatorType;
+  using CoordRepType = WarperType::CoordRepType;
+  using InterpolatorType =
+      itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
 

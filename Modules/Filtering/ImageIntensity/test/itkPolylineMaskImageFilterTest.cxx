@@ -43,10 +43,10 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
   const unsigned int pDimension = 2;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned short, iDimension>     inputImageType;
-  typedef itk::Image<unsigned short, iDimension>     outputImageType;
-  typedef itk::Vector<double, iDimension>            inputVectorType;
-  typedef itk::PolyLineParametricPath<pDimension>    inputPolylineType;
+  using inputImageType = itk::Image<unsigned short, iDimension>;
+  using outputImageType = itk::Image<unsigned short, iDimension>;
+  using inputVectorType = itk::Vector<double, iDimension>;
+  using inputPolylineType = itk::PolyLineParametricPath<pDimension>;
 
   // Create up and viewing direction vectors
   inputVectorType inputUpVector, inputViewVector;
@@ -56,7 +56,7 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
   std::cout << "Generating the synthetic object..." << std::endl;
 
   // Generate a synthetic ellipse image
-  typedef itk::EllipseSpatialObject<2> EllipseType;
+  using EllipseType = itk::EllipseSpatialObject<2>;
   EllipseType::Pointer ellipse = EllipseType::New();
   EllipseType::TransformType::OffsetType offset;
   offset.Fill(20);
@@ -66,7 +66,7 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
 
   std::cout << "Generating the image of the object..." << std::endl;
 
-  typedef itk::SpatialObjectToImageFilter<EllipseType,inputImageType> SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<EllipseType,inputImageType>;
   SpatialObjectToImageFilterType::Pointer imageGenerationFilter = SpatialObjectToImageFilterType::New();
 
   inputImageType::SizeType size;
@@ -88,7 +88,7 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
   imageGenerationFilter->Update();
 
   // Write out the input image
-  /*typedef itk::ImageFileWriter< inputImageType > SpatialObjectImageWriterType;
+  /*using SpatialObjectImageWriterType = itk::ImageFileWriter< inputImageType >;
   SpatialObjectImageWriterType::Pointer spatialObjectImageWriter =
     SpatialObjectImageWriterType::New();
   spatialObjectImageWriter->SetFileName( argv[1] );
@@ -97,7 +97,7 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
 
   std::cout << "Generating the polyline contour..." << std::endl;
   //Initialize the polyline
-  typedef inputPolylineType::VertexType VertexType;
+  using VertexType = inputPolylineType::VertexType;
 
   // Add vertices to the polyline
   VertexType v;
@@ -130,13 +130,13 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
   inputUpVector[2] = 0;
 
   // Declare the type for the polyline mask image filter
-  typedef itk::PolylineMaskImageFilter<
+  using PolylineMaskImageFilterType = itk::PolylineMaskImageFilter<
                            inputImageType, inputPolylineType,
                            inputVectorType,
-                           outputImageType > PolylineMaskImageFilterType;
+                           outputImageType >;
 
-  typedef PolylineMaskImageFilterType::PointType          PointType;
-  typedef PolylineMaskImageFilterType::ProjPlanePointType ProjPlanePointType;
+  using PointType = PolylineMaskImageFilterType::PointType;
+  using ProjPlanePointType = PolylineMaskImageFilterType::ProjPlanePointType;
 
   std::cout << "Generating the filter..." << std::endl;
 
@@ -190,7 +190,7 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
   polylineMaskFilter->Update();
 
   // Write out the output image
-  typedef itk::ImageFileWriter< outputImageType > OutputWriterType;
+  using OutputWriterType = itk::ImageFileWriter< outputImageType >;
   OutputWriterType::Pointer outputWriter = OutputWriterType::New();
   outputWriter->SetFileName( argv[1] );
   outputWriter->SetInput( polylineMaskFilter->GetOutput() );

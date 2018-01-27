@@ -28,26 +28,24 @@ int itkSigmoidImageFilterTest( int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef float       InputPixelType;
-  typedef float       OutputPixelType;
+  using InputPixelType = float;
+  using OutputPixelType = float;
 
-  typedef itk::Image< InputPixelType,  ImageDimension >  InputImageType;
-  typedef itk::Image< OutputPixelType, ImageDimension >  OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  ImageDimension >;
+  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
 
   // Declare appropriate Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType>  InputIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType> OutputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Declare the type of the index to access images
-  typedef itk::Index< ImageDimension >         IndexType;
+  using IndexType = itk::Index< ImageDimension >;
 
   // Declare the type of the size
-  typedef itk::Size< ImageDimension >          SizeType;
+  using SizeType = itk::Size< ImageDimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< ImageDimension >   RegionType;
+  using RegionType = itk::ImageRegion< ImageDimension >;
 
   // Create the input images
   InputImageType::Pointer inputImage = InputImageType::New();
@@ -86,8 +84,8 @@ int itkSigmoidImageFilterTest( int, char* [] )
   }
 
   // Declare the type for the Sigmoid filter
-  typedef itk::SigmoidImageFilter< InputImageType,
-                               OutputImageType > FilterType;
+  using FilterType = itk::SigmoidImageFilter< InputImageType,
+                               OutputImageType >;
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();

@@ -43,11 +43,11 @@ int itkMRFImageFilterTest(int, char* [] )
   //depth 4 vectors each with each vector having data for
   //2 bands.
   //------------------------------------------------------
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION> VecImageType;
+  using VecImageType = itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION>;
 
   VecImageType::Pointer vecImage = VecImageType::New();
 
-  typedef VecImageType::PixelType VecImagePixelType;
+  using VecImagePixelType = VecImageType::PixelType;
 
   VecImageType::SizeType vecImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
 
@@ -64,12 +64,12 @@ int itkMRFImageFilterTest(int, char* [] )
   vecImage->Allocate();
 
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef itk::ImageRegionIterator< VecImageType > VecIterator;
+  using VecIterator = itk::ImageRegionIterator< VecImageType >;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
 
   //Set up the vector to store the image  data
-  typedef VecImageType::PixelType     DataVector;
+  using DataVector = VecImageType::PixelType;
   DataVector   dblVec;
 
   int i,k;
@@ -162,7 +162,7 @@ int itkMRFImageFilterTest(int, char* [] )
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
-  typedef itk::Image<unsigned short,NDIMENSION> ClassImageType;
+  using ClassImageType = itk::Image<unsigned short,NDIMENSION>;
   ClassImageType::Pointer classImage  = ClassImageType::New();
 
   ClassImageType::SizeType classImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
@@ -180,9 +180,9 @@ int itkMRFImageFilterTest(int, char* [] )
   classImage->Allocate();
 
   // setup the iterators
-  typedef ClassImageType::PixelType ClassImagePixelType;
+  using ClassImagePixelType = ClassImageType::PixelType;
 
-  typedef  itk::ImageRegionIterator<ClassImageType>  ClassImageIterator;
+  using ClassImageIterator = itk::ImageRegionIterator<ClassImageType>;
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
   //--------------------------------------------------------------------------
@@ -242,20 +242,16 @@ int itkMRFImageFilterTest(int, char* [] )
 
   namespace stat = itk::Statistics;
 
-  typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType >
-    MembershipFunctionType;
-  typedef MembershipFunctionType::Pointer
-    MembershipFunctionPointer;
+  using MembershipFunctionType = stat::MahalanobisDistanceMembershipFunction<VecImagePixelType>;
+  using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
-  typedef std::vector< MembershipFunctionPointer >
-    MembershipFunctionPointerVector;
+  using MembershipFunctionPointerVector = std::vector<MembershipFunctionPointer>;
 
   //----------------------------------------------------------------------
   // Set the image model estimator (train the class models)
   //----------------------------------------------------------------------
-  typedef itk::ImageGaussianModelEstimator<VecImageType,
-    MembershipFunctionType, ClassImageType>
-    ImageGaussianModelEstimatorType;
+  using ImageGaussianModelEstimatorType = itk::ImageGaussianModelEstimator<VecImageType,
+    MembershipFunctionType, ClassImageType>;
 
   ImageGaussianModelEstimatorType::Pointer
     applyEstimateModel = ImageGaussianModelEstimatorType::New();
@@ -274,7 +270,7 @@ int itkMRFImageFilterTest(int, char* [] )
   //----------------------------------------------------------------------
   //Set the decision rule
   //----------------------------------------------------------------------
-  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   DecisionRuleType::Pointer
     myDecisionRule = DecisionRuleType::New();
 
@@ -284,10 +280,10 @@ int itkMRFImageFilterTest(int, char* [] )
   // grabbed from the MRF application pipeline.
   //----------------------------------------------------------------------
   //---------------------------------------------------------------------
-  typedef itk::ImageClassifierBase< VecImageType,
-    ClassImageType > ClassifierType;
+  using ClassifierType = itk::ImageClassifierBase< VecImageType,
+    ClassImageType >;
 
-  typedef ClassifierType::Pointer ClassifierPointer;
+  using ClassifierPointer = ClassifierType::Pointer;
   ClassifierPointer myClassifier = ClassifierType::New();
   // Set the Classifier parameters
   myClassifier->SetNumberOfClasses(NUM_CLASSES);
@@ -307,7 +303,7 @@ int itkMRFImageFilterTest(int, char* [] )
   //----------------------------------------------------------------------
 
   //Set the MRF labeller
-  typedef itk::MRFImageFilter<VecImageType,ClassImageType> MRFImageFilterType;
+  using MRFImageFilterType = itk::MRFImageFilter<VecImageType,ClassImageType>;
   MRFImageFilterType::Pointer applyMRFImageFilter = MRFImageFilterType::New();
 
   // Set the MRF labeller parameters
@@ -366,19 +362,15 @@ int itkMRFImageFilterTest(int, char* [] )
   //Set up the nighborhood iterators
   // Labelled image neighborhood interator typedef
 
-  typedef itk::NeighborhoodIterator< ClassImageType >
-    OutImageNeighborhoodIterator;
+  using OutImageNeighborhoodIterator = itk::NeighborhoodIterator<ClassImageType>;
 
-  typedef OutImageNeighborhoodIterator::RadiusType
-    OutImageNeighborhoodRadiusType;
+  using OutImageNeighborhoodRadiusType = OutImageNeighborhoodIterator::RadiusType;
 
-  typedef
-    itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< ClassImageType >
-      OutImageFacesCalculator;
+  using OutImageFacesCalculator = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ClassImageType>;
 
-  typedef  OutImageFacesCalculator::FaceListType     OutImageFaceListType;
+  using OutImageFaceListType = OutImageFacesCalculator::FaceListType;
 
-  typedef  OutImageFaceListType::iterator            OutImageFaceListIterator;
+  using OutImageFaceListIterator = OutImageFaceListType::iterator;
 
   OutImageNeighborhoodRadiusType outImageNeighborhoodRadius;
   outImageNeighborhoodRadius.Fill( 1 );
@@ -405,7 +397,7 @@ int itkMRFImageFilterTest(int, char* [] )
                                *outImageFaceListIter );
 
   int sum = 0;
-  typedef ClassImageType::PixelType ClassImagePixelType;
+  using ClassImagePixelType = ClassImageType::PixelType;
   ClassImagePixelType *outLabel;
 
   //Loop through the labelled region and add the pixel labels

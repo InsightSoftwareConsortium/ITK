@@ -66,8 +66,8 @@ namespace itk
 class VectorPixelAccessor
 {
 public:
-  typedef itk::CovariantVector<float,2>   InternalType;
-  typedef                      float      ExternalType;
+  using InternalType = itk::CovariantVector<float,2>;
+  using ExternalType = float;
 
   VectorPixelAccessor() : m_Index(0) {}
 
@@ -130,13 +130,13 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef unsigned char  InputPixelType;
+  using InputPixelType = unsigned char;
   const   unsigned int   Dimension = 2;
-  typedef itk::Image< InputPixelType,  Dimension  >   InputImageType;
-  typedef itk::CovariantVector< float, Dimension  >   VectorPixelType;
-  typedef itk::Image< VectorPixelType, Dimension  >   VectorImageType;
-  typedef itk::GradientRecursiveGaussianImageFilter< InputImageType,
-                                        VectorImageType> GradientFilterType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension  >;
+  using VectorPixelType = itk::CovariantVector< float, Dimension  >;
+  using VectorImageType = itk::Image< VectorPixelType, Dimension  >;
+  using GradientFilterType = itk::GradientRecursiveGaussianImageFilter< InputImageType,
+                                        VectorImageType>;
 
   GradientFilterType::Pointer gradient = GradientFilterType::New();
 // Software Guide : EndCodeSnippet
@@ -151,8 +151,8 @@ int main( int argc, char *argv[] )
 //  Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageAdaptor<  VectorImageType,
-                              itk::VectorPixelAccessor > ImageAdaptorType;
+  using ImageAdaptorType = itk::ImageAdaptor<  VectorImageType,
+                              itk::VectorPixelAccessor >;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 // Software Guide : EndCodeSnippet
@@ -184,7 +184,7 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< InputImageType >   ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   gradient->SetInput( reader->GetOutput() );
 
@@ -207,11 +207,11 @@ int main( int argc, char *argv[] )
 // Software Guide : EndCodeSnippet
 
 
-  typedef itk::Image< unsigned char, Dimension >   OutputImageType;
-  typedef itk::RescaleIntensityImageFilter< ImageAdaptorType, OutputImageType>
-    RescalerType;
+  using OutputImageType = itk::Image< unsigned char, Dimension >;
+  using RescalerType = itk::RescaleIntensityImageFilter< ImageAdaptorType,
+                                                         OutputImageType>;
   RescalerType::Pointer rescaler = RescalerType::New();
-  typedef itk::ImageFileWriter< OutputImageType >   WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[2] );

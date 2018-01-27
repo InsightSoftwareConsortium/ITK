@@ -35,36 +35,36 @@ class FloodFilledImageFunctionConditionalIterator:public FloodFilledImageFunctio
     TImage, TFunction >
 {
 public:
-  /** Standard class typedefs. */
-  typedef FloodFilledImageFunctionConditionalIterator                           Self;
-  typedef FloodFilledImageFunctionConditionalConstIterator< TImage, TFunction > Superclass;
+  /** Standard class type aliases. */
+  using Self = FloodFilledImageFunctionConditionalIterator;
+  using Superclass = FloodFilledImageFunctionConditionalConstIterator< TImage, TFunction >;
 
   /** Type of function */
-  typedef typename Superclass::FunctionType FunctionType;
+  using FunctionType = typename Superclass::FunctionType;
 
   /** Type of vector used to store location info in the spatial function */
-  typedef typename Superclass::FunctionInputType FunctionInputType;
+  using FunctionInputType = typename Superclass::FunctionInputType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support. */
+  using IndexType = typename Superclass::IndexType;
 
   /** Index ContainerType. */
-  typedef typename Superclass::SeedsContainerType SeedsContainerType;
+  using SeedsContainerType = typename Superclass::SeedsContainerType;
 
-  /** Size typedef support. */
-  typedef typename Superclass::SizeType SizeType;
+  /** Size type alias support. */
+  using SizeType = typename Superclass::SizeType;
 
-  /** Region typedef support */
-  typedef typename Superclass::RegionType RegionType;
+  /** Region type alias support */
+  using RegionType = typename Superclass::RegionType;
 
-  /** Image typedef support. */
-  typedef typename Superclass::ImageType ImageType;
+  /** Image type alias support. */
+  using ImageType = typename Superclass::ImageType;
 
   /** Internal Pixel Type */
-  typedef typename Superclass::InternalPixelType InternalPixelType;
+  using InternalPixelType = typename Superclass::InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename Superclass::PixelType PixelType;
+  using PixelType = typename Superclass::PixelType;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to

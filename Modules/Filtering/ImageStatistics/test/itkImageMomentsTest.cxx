@@ -19,12 +19,12 @@
 #include "itkImageMomentsCalculator.h"
 
 
-typedef unsigned short                         PixelType;
-typedef itk::Vector<double,3>                  VectorType;
-typedef itk::Matrix<double,3>                  MatrixType;
-typedef itk::Image<PixelType, 3>               ImageType;
-typedef itk::ImageMomentsCalculator<ImageType> CalculatorType;
-typedef CalculatorType::AffineTransformType    AffineTransformType;
+using PixelType = unsigned short;
+using VectorType = itk::Vector<double,3>;
+using MatrixType = itk::Matrix<double,3>;
+using ImageType = itk::Image<PixelType, 3>;
+using CalculatorType = itk::ImageMomentsCalculator<ImageType>;
+using AffineTransformType = CalculatorType::AffineTransformType;
 
 
 int

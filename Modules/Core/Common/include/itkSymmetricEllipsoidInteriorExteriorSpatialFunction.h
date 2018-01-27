@@ -41,12 +41,12 @@ class ITK_TEMPLATE_EXPORT SymmetricEllipsoidInteriorExteriorSpatialFunction:
   public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SymmetricEllipsoidInteriorExteriorSpatialFunction Self;
-  typedef InteriorExteriorSpatialFunction< VDimension >     Superclass;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
-  typedef Vector< double, VDimension >                      VectorType;
+  /** Standard class type aliases. */
+  using Self = SymmetricEllipsoidInteriorExteriorSpatialFunction;
+  using Superclass = InteriorExteriorSpatialFunction< VDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using VectorType = Vector< double, VDimension >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,10 +55,10 @@ public:
   itkTypeMacro(SymmetricEllipsoidInteriorExteriorSpatialFunction, InteriorExteriorSpatialFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType & position) const override;

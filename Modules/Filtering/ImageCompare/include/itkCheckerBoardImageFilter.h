@@ -46,17 +46,17 @@ class ITK_TEMPLATE_EXPORT CheckerBoardImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef CheckerBoardImageFilter              Self;
-  typedef ImageToImageFilter< TImage, TImage > Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = CheckerBoardImageFilter;
+  using Superclass = ImageToImageFilter< TImage, TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TImage                                InputImageType;
-  typedef TImage                                OutputImageType;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename OutputImageType::RegionType  ImageRegionType;
+  using InputImageType = TImage;
+  using OutputImageType = TImage;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using ImageRegionType = typename OutputImageType::RegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,8 +69,8 @@ public:
                       TImage::ImageDimension);
 
   /** Type to hold the number of checker boxes per dimension. */
-  typedef FixedArray< unsigned int,
-                       TImage ::ImageDimension >  PatternArrayType;
+  using PatternArrayType = FixedArray< unsigned int,
+                       TImage ::ImageDimension >;
 
   /** Set the first operand for checker board. */
   void SetInput1(const TImage *image1);

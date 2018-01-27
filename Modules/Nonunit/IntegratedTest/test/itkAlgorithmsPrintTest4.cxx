@@ -38,25 +38,25 @@
 
 int main(int , char* [])
 {
-  typedef itk::Image<float,2>          InputType;
-  typedef itk::Image<float,2>          OutputType;
-  typedef itk::Image<unsigned short,2> UShortImageType;
-  typedef itk::Vector<float,2>         VectorType;
-  typedef itk::Image<VectorType, 2>    VectorImageType;
-  typedef itk::PointSet<float,2>       PointSetType;
+  using InputType = itk::Image<float,2>;
+  using OutputType = itk::Image<float,2>;
+  using UShortImageType = itk::Image<unsigned short,2>;
+  using VectorType = itk::Vector<float,2>;
+  using VectorImageType = itk::Image<VectorType, 2>;
+  using PointSetType = itk::PointSet<float,2>;
 
   // Used for GradientVectorFlowImageFilter
-  typedef itk::CovariantVector<double,2> GradientType;
-  typedef itk::Image<GradientType,2>     GradientImageType;
+  using GradientType = itk::CovariantVector<double,2>;
+  using GradientImageType = itk::Image<GradientType,2>;
 
   //Used for ImageKMeansModelEstimator
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction<VectorType> KMeansMemFuncType;
+  using KMeansMemFuncType = itk::Statistics::DistanceToCentroidMembershipFunction<VectorType>;
 
   // Used for ImageGaussianModelEstimator
-  typedef itk::Statistics::MahalanobisDistanceMembershipFunction<VectorType> GaussianMemFuncType;
+  using GaussianMemFuncType = itk::Statistics::MahalanobisDistanceMembershipFunction<VectorType>;
 
   // Used for ImageToSpatialObjectRegistrationMethod
-  typedef itk::GroupSpatialObject<2>   GroupType;
+  using GroupType = itk::GroupSpatialObject<2>;
 
   itk::GeodesicActiveContourLevelSetFunction<InputType>::Pointer GeodesicActiveContourLevelSetFunctionObj =
     itk::GeodesicActiveContourLevelSetFunction<InputType>::New();

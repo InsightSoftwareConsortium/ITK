@@ -44,11 +44,11 @@ class ITK_TEMPLATE_EXPORT SpatialFunctionImageEvaluatorFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SpatialFunctionImageEvaluatorFilter             Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SpatialFunctionImageEvaluatorFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -60,26 +60,26 @@ public:
   itkStaticConstMacro(NDimensions, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Image size typedef. */
-  typedef typename TInputImage::SizeType SizeType;
+  /** Image size type alias. */
+  using SizeType = typename TInputImage::SizeType;
 
-  /** Image index typedef. */
-  typedef typename TOutputImage::IndexType IndexType;
+  /** Image index type alias. */
+  using IndexType = typename TOutputImage::IndexType;
 
-  /** Image pixel value typedef. */
-  typedef typename TOutputImage::PixelType PixelType;
+  /** Image pixel value type alias. */
+  using PixelType = typename TOutputImage::PixelType;
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Type of function. */
-  typedef TSpatialFunction FunctionType;
+  using FunctionType = TSpatialFunction;
 
   /** Return type of function. */
-  typedef typename FunctionType::OutputType FunctionValueType;
+  using FunctionValueType = typename FunctionType::OutputType;
 
   /** Typedef describing vector info. */
-  typedef typename FunctionType::InputType PositionType;
+  using PositionType = typename FunctionType::InputType;
 
   /** Set the internal spatial function. */
   void SetFunction(FunctionType *PixelFunction)

@@ -34,9 +34,9 @@ int itkScalarImageToCooccurrenceMatrixFilterTest2(int, char* [] )
   //------------------------------------------------------
   //Create a simple test images
   //------------------------------------------------------
-  typedef itk::Image<unsigned char, NDIMENSION> InputImageType;
+  using InputImageType = itk::Image<unsigned char, NDIMENSION>;
 
-  typedef itk::ImageRegionIterator< InputImageType > InputImageIterator;
+  using InputImageIterator = itk::ImageRegionIterator< InputImageType >;
 
 
   InputImageType::Pointer image = InputImageType::New();
@@ -122,8 +122,7 @@ int itkScalarImageToCooccurrenceMatrixFilterTest2(int, char* [] )
   try
     {
 
-    typedef itk::Statistics::ScalarImageToCooccurrenceMatrixFilter<
-      InputImageType> FilterType;
+    using FilterType = itk::Statistics::ScalarImageToCooccurrenceMatrixFilter<InputImageType>;
 
     FilterType::Pointer filter = FilterType::New();
 
@@ -146,7 +145,7 @@ int itkScalarImageToCooccurrenceMatrixFilterTest2(int, char* [] )
     //--------------------------------------------------------------------------
     bool passed = true;
 
-    typedef FilterType::HistogramType::IndexType IndexType;
+    using IndexType = FilterType::HistogramType::IndexType;
     IndexType one_one( hist->GetMeasurementVectorSize() );
     IndexType one_two( hist->GetMeasurementVectorSize() );
     IndexType two_one( hist->GetMeasurementVectorSize() );

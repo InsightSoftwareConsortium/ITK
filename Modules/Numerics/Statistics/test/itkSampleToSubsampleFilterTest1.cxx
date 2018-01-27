@@ -28,11 +28,11 @@ template<typename TSample >
 class SubsamplerTester : public SampleToSubsampleFilter< TSample >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SubsamplerTester                    Self;
-  typedef SampleToSubsampleFilter<TSample>    Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SubsamplerTester;
+  using Superclass = SampleToSubsampleFilter<TSample>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(SubsamplerTester,SampleToSubsampleFilter);
@@ -67,12 +67,12 @@ int itkSampleToSubsampleFilterTest1(int, char* [] )
 
   const unsigned int MeasurementVectorSize = 17;
 
-  typedef itk::FixedArray<
-    float, MeasurementVectorSize >  MeasurementVectorType;
+  using MeasurementVectorType = itk::FixedArray<
+    float, MeasurementVectorSize >;
 
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-  typedef itk::Statistics::itkSampleToSubsampleFilter1Namespace::SubsamplerTester< SampleType > FilterType;
+  using FilterType = itk::Statistics::itkSampleToSubsampleFilter1Namespace::SubsamplerTester< SampleType >;
 
 
   SampleType::Pointer sample = SampleType::New();

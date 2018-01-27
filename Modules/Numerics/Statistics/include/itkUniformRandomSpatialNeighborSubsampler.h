@@ -46,12 +46,12 @@ template < typename TSample, typename TRegion >
   class ITK_TEMPLATE_EXPORT UniformRandomSpatialNeighborSubsampler : public SpatialNeighborSubsampler<TSample, TRegion>
 {
 public:
-  /** Standard class typedefs */
-  typedef UniformRandomSpatialNeighborSubsampler<TSample, TRegion>  Self;
-  typedef SpatialNeighborSubsampler<TSample, TRegion>               Superclass;
-  typedef typename Superclass::Baseclass                            Baseclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  /** Standard class type aliases */
+  using Self = UniformRandomSpatialNeighborSubsampler<TSample, TRegion>;
+  using Superclass = SpatialNeighborSubsampler<TSample, TRegion>;
+  using Baseclass = typename Superclass::Baseclass;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(UniformRandomSpatialNeighborSubsampler, SpatialNeighborSubsampler);
@@ -59,32 +59,32 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** typedef alias for the source data container */
-  typedef typename Superclass::SampleType                  SampleType;
-  typedef typename Superclass::SampleConstPointer          SampleConstPointer;
-  typedef typename Superclass::MeasurementVectorType       MeasurementVectorType;
-  typedef typename Superclass::InstanceIdentifier          InstanceIdentifier;
+  /** type alias alias for the source data container */
+  using SampleType = typename Superclass::SampleType;
+  using SampleConstPointer = typename Superclass::SampleConstPointer;
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
 
-  typedef typename Superclass::SubsampleType            SubsampleType;
-  typedef typename Superclass::SubsamplePointer         SubsamplePointer;
-  typedef typename Superclass::SubsampleConstIterator   SubsampleConstIterator;
-  typedef typename Superclass::InstanceIdentifierHolder InstanceIdentifierHolder;
-  typedef typename Baseclass::SeedType                  SeedType;
+  using SubsampleType = typename Superclass::SubsampleType;
+  using SubsamplePointer = typename Superclass::SubsamplePointer;
+  using SubsampleConstIterator = typename Superclass::SubsampleConstIterator;
+  using InstanceIdentifierHolder = typename Superclass::InstanceIdentifierHolder;
+  using SeedType = typename Baseclass::SeedType;
 
-  typedef unsigned long                       SearchSizeType;
-  typedef unsigned int                        RandomIntType;
+  using SearchSizeType = unsigned long;
+  using RandomIntType = unsigned int;
 
-  /** typedefs related to image region */
-  typedef typename Superclass::RadiusType      RadiusType;
-  typedef typename Superclass::RegionType      RegionType;
-  typedef typename Superclass::IndexType       IndexType;
-  typedef typename Superclass::IndexValueType  IndexValueType;
-  typedef typename Superclass::SizeType        SizeType;
-  typedef typename Superclass::ImageHelperType ImageHelperType;
+  /** type alias related to image region */
+  using RadiusType = typename Superclass::RadiusType;
+  using RegionType = typename Superclass::RegionType;
+  using IndexType = typename Superclass::IndexType;
+  using IndexValueType = typename Superclass::IndexValueType;
+  using SizeType = typename Superclass::SizeType;
+  using ImageHelperType = typename Superclass::ImageHelperType;
 
 
-  /** typedefs related to random variate generator */
-  typedef itk::Statistics::MersenneTwisterRandomVariateGenerator RandomGeneratorType;
+  /** type alias related to random variate generator */
+  using RandomGeneratorType = Statistics::MersenneTwisterRandomVariateGenerator;
 
   void SetSeed(const SeedType seed) override
   {

@@ -35,10 +35,10 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
 
   const unsigned int Dimension = 2;
 
-  typedef TPixel                             PixelType;
-  typedef itk::Image< bool, Dimension >      InputImageType;
-  typedef itk::Image< PixelType, Dimension > OutputImageType;
-  typedef InputImageType::IndexType          IndexType;
+  using PixelType = TPixel;
+  using InputImageType = itk::Image< bool, Dimension >;
+  using OutputImageType = itk::Image< PixelType, Dimension >;
+  using IndexType = InputImageType::IndexType;
 
   InputImageType::Pointer inputimg = InputImageType::New();
   IndexType index;
@@ -97,7 +97,7 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
     }
   //InputImageType::IndexType Seed = {10,2};
 
-  typedef itk::HardConnectedComponentImageFilter< InputImageType, OutputImageType > FilterType;
+  using FilterType = itk::HardConnectedComponentImageFilter< InputImageType, OutputImageType >;
   typename FilterType::Pointer filter = FilterType::New();
 
   FilterWatcher watcher(filter);
@@ -106,7 +106,7 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
   //filter->SetObjectSeed(Seed);
   filter->Update();
 
-  typedef itk::ImageRegionIterator<InputImageType> inputIterator;
+  using inputIterator = itk::ImageRegionIterator<InputImageType>;
   inputIterator it = inputIterator(inputimg, region);
 
   std::cout << "Input Image" << std::endl;
@@ -122,7 +122,7 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
     }
   std::cout << std::endl;
 
-  typedef itk::ImageRegionIterator<OutputImageType> outputIterator;
+  using outputIterator = itk::ImageRegionIterator<OutputImageType>;
   outputIterator ot = outputIterator(filter->GetOutput(), region);
 
   std::cout << std::endl << "Output Image" << std::endl;
@@ -139,7 +139,7 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
 
   std::cout << std::endl;
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( std::string( outputImageFileName ) + pixelType + ".png" );
   writer->SetInput( filter->GetOutput() );

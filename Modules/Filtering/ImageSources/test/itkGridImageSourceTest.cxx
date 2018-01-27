@@ -43,12 +43,12 @@ int itkGridImageSourceTest( int argc, char *argv[] )
 
 
   const unsigned int  ImageDimension = 3;
-  typedef float       PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
   // Instantiate the filter
-  typedef itk::GridImageSource< ImageType > GridSourceType;
+  using GridSourceType = itk::GridImageSource< ImageType >;
   GridSourceType::Pointer gridImage = GridSourceType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( gridImage, GridImageSource, GenerateImageSource );
@@ -145,13 +145,13 @@ int itkGridImageSourceTest( int argc, char *argv[] )
     // Specify B-Spline function
     if( bSplineOrder == 3 )
       {
-      typedef itk::BSplineKernelFunction< 3 > KernelType;
+      using KernelType = itk::BSplineKernelFunction< 3 >;
       KernelType::Pointer kernel = KernelType::New();
       gridImage->SetKernelFunction( kernel );
       }
     else
       {
-      typedef itk::BSplineKernelFunction< 0 > KernelType;
+      using KernelType = itk::BSplineKernelFunction< 0 >;
       KernelType::Pointer kernel = KernelType::New();
       gridImage->SetKernelFunction( kernel );
       }
@@ -162,7 +162,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
 
   TRY_EXPECT_NO_EXCEPTION( gridImage->Update() );
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[1] );
   writer->SetInput( gridImage->GetOutput() );

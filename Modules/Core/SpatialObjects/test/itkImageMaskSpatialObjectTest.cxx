@@ -34,10 +34,10 @@ int itkImageMaskSpatialObjectTest(int, char* [])
 {
   const unsigned int NDimensions = 3;
 
-  typedef itk::ImageMaskSpatialObject<NDimensions> ImageMaskSpatialObject;
-  typedef ImageMaskSpatialObject::PixelType        PixelType;
-  typedef ImageMaskSpatialObject::ImageType        ImageType;
-  typedef itk::ImageRegionIterator<ImageType>      Iterator;
+  using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<NDimensions>;
+  using PixelType = ImageMaskSpatialObject::PixelType;
+  using ImageType = ImageMaskSpatialObject::ImageType;
+  using Iterator = itk::ImageRegionIterator<ImageType>;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size = {{ 50, 50, 50 }};

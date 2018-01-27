@@ -28,7 +28,7 @@ int itkTransformFileReaderTemplateTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::TransformFileReaderTemplate<double>      TransformReaderType;
+  using TransformReaderType = itk::TransformFileReaderTemplate<double>;
 
   TransformReaderType::Pointer transformReader = TransformReaderType::New();
 

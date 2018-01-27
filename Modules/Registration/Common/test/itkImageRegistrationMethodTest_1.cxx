@@ -37,44 +37,43 @@ int itkImageRegistrationMethodTest_1(int argc, char* argv[] )
   const unsigned int dimension = 2;
 
   // Fixed Image Type
-  typedef itk::Image<float,dimension>               FixedImageType;
+  using FixedImageType = itk::Image<float,dimension>;
 
   // Moving Image Type
-  typedef itk::Image<float,dimension>               MovingImageType;
+  using MovingImageType = itk::Image<float,dimension>;
 
   // Size Type
-  typedef MovingImageType::SizeType                 SizeType;
+  using SizeType = MovingImageType::SizeType;
 
 
   // ImageSource
-  typedef itk::testhelper::ImageRegistrationMethodImageSource<
+  using ImageSourceType = itk::testhelper::ImageRegistrationMethodImageSource<
                                   FixedImageType::PixelType,
                                   MovingImageType::PixelType,
-                                  dimension >         ImageSourceType;
+                                  dimension >;
   // Transform Type
-  typedef itk::AffineTransform< double, dimension > TransformType;
-  typedef TransformType::ParametersType             ParametersType;
+  using TransformType = itk::AffineTransform< double, dimension >;
+  using ParametersType = TransformType::ParametersType;
 
   // Optimizer Type
-  typedef itk::GradientDescentOptimizer                  OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizer;
 
   // Metric Type
-  typedef itk::MeanSquaresImageToImageMetric<
+  using MetricType = itk::MeanSquaresImageToImageMetric<
                                     FixedImageType,
-                                    MovingImageType >    MetricType;
+                                    MovingImageType >;
 
   // Interpolation technique
-  typedef itk:: LinearInterpolateImageFunction<
+  using InterpolatorType = itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
-                                    double >             InterpolatorType;
+                                    double >;
 
   // Registration Method
-  typedef itk::ImageRegistrationMethod<
+  using RegistrationType = itk::ImageRegistrationMethod<
                                     FixedImageType,
-                                    MovingImageType >    RegistrationType;
+                                    MovingImageType >;
 
-  typedef itk::CommandIterationUpdate<
-                                  OptimizerType >    CommandIterationType;
+  using CommandIterationType = itk::CommandIterationUpdate<OptimizerType>;
 
 
   MetricType::Pointer         metric        = MetricType::New();

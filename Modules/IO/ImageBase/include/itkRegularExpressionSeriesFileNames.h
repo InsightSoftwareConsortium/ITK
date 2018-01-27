@@ -71,10 +71,10 @@ namespace itk
 class ITKIOImageBase_EXPORT RegularExpressionSeriesFileNames:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegularExpressionSeriesFileNames Self;
-  typedef Object                           Superclass;
-  typedef SmartPointer< Self >             Pointer;
+  /** Standard class type aliases. */
+  using Self = RegularExpressionSeriesFileNames;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

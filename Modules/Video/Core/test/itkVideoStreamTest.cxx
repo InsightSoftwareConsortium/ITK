@@ -18,12 +18,12 @@
 
 #include "itkVideoStream.h"
 
-// Set up typedefs
+// Set up type alias
 static constexpr unsigned int Dimension = 2;
-typedef unsigned char                      PixelType;
-typedef itk::Image< PixelType, Dimension > FrameType;
-typedef itk::VideoStream< FrameType >      VideoType;
-typedef itk::SizeValueType                 SizeValueType;
+using PixelType = unsigned char;
+using FrameType = itk::Image< PixelType, Dimension >;
+using VideoType = itk::VideoStream< FrameType >;
+using SizeValueType = itk::SizeValueType;
 
 /** Set up a spatial region with the given dimensions */
 FrameType::RegionType SetUpSpatialRegion(unsigned int x, unsigned int y)

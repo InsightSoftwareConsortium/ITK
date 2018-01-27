@@ -31,7 +31,7 @@ int itkThresholdImageFilterTest(int, char* [] )
   // Uncomment the following if you want to see each message independently
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
-  typedef itk::Image<float,2> FloatImage2DType;
+  using FloatImage2DType = itk::Image<float,2>;
 
   itk::RandomImageSource<FloatImage2DType>::Pointer random;
   random = itk::RandomImageSource<FloatImage2DType>::New();
@@ -140,7 +140,7 @@ int itkThresholdImageFilterTest(int, char* [] )
   // Test #4, threshold values
   itk::OutputWindow::GetInstance()->DisplayText( "Test #4: threshold values  -----------------" );
     {
-    typedef itk::Image<int,1> IntImage1DType;
+    using IntImage1DType = itk::Image<int,1>;
     IntImage1DType::Pointer input = IntImage1DType::New();
     IntImage1DType::SpacingValueType inputSpacing[1] = {0.7};
     input->SetSpacing( inputSpacing );

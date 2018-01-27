@@ -30,14 +30,12 @@ void PrintPoint( const TPoint & p )
 
 int itkAzimuthElevationToCartesianTransformTest(int, char *[])
 {
-  typedef  double                                     CoordinateRepresentationType;
-  typedef  itk::Point<CoordinateRepresentationType,3> PointType;
+  using CoordinateRepresentationType = double;
+  using PointType = itk::Point<CoordinateRepresentationType,3>;
 
   const CoordinateRepresentationType ACCEPTABLE_ERROR = 1E-10;
 
-  typedef itk::AzimuthElevationToCartesianTransform<
-    CoordinateRepresentationType
-    > AzimuthElevationToCartesianTransformType;
+  using AzimuthElevationToCartesianTransformType = itk::AzimuthElevationToCartesianTransform<CoordinateRepresentationType>;
 
   AzimuthElevationToCartesianTransformType::Pointer transform =
     AzimuthElevationToCartesianTransformType::New();

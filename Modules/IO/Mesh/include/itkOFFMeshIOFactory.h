@@ -31,11 +31,11 @@ namespace itk
 class ITKIOMesh_EXPORT OFFMeshIOFactory:public ObjectFactoryBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef OFFMeshIOFactory           Self;
-  typedef ObjectFactoryBase          Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = OFFMeshIOFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Class methods used to interface with the registered factories. */
   const char * GetITKSourceVersion(void) const override;

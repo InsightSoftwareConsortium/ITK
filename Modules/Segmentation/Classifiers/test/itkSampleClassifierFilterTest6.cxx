@@ -29,23 +29,23 @@ int itkSampleClassifierFilterTest6( int, char * [] )
 {
 
   const unsigned int numberOfComponents = 1;
-  typedef float      MeasurementType;
+  using MeasurementType = float;
 
   const unsigned int numberOfClasses = 2;
 
-  typedef std::vector< MeasurementType > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = std::vector< MeasurementType >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-  typedef itk::Statistics::SampleClassifierFilter< SampleType > FilterType;
+  using FilterType = itk::Statistics::SampleClassifierFilter< SampleType >;
 
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType > GeneratorType;
-  typedef itk::Statistics::KdTreeBasedKmeansEstimator< GeneratorType::KdTreeType > EstimatorType;
+  using GeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator< SampleType >;
+  using EstimatorType = itk::Statistics::KdTreeBasedKmeansEstimator< GeneratorType::KdTreeType >;
 
   //Generate a sample list
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize( numberOfComponents );
 
-  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
+  using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
   normalGenerator->Initialize( 101 );
 
@@ -86,8 +86,8 @@ int itkSampleClassifierFilterTest6( int, char * [] )
     }
 
 
-  typedef FilterType::ClassLabelVectorObjectType               ClassLabelVectorObjectType;
-  typedef FilterType::ClassLabelVectorType                     ClassLabelVectorType;
+  using ClassLabelVectorObjectType = FilterType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = FilterType::ClassLabelVectorType;
 
   ClassLabelVectorObjectType::Pointer  classLabelsObject = ClassLabelVectorObjectType::New();
 
@@ -115,7 +115,7 @@ int itkSampleClassifierFilterTest6( int, char * [] )
   // Add class labels
   ClassLabelVectorType & classLabelVector  = classLabelsObject->Get();
 
-  typedef FilterType::ClassLabelType        ClassLabelType;
+  using ClassLabelType = FilterType::ClassLabelType;
 
   ClassLabelType  class1 = 0;
   classLabelVector.push_back( class1 );
@@ -124,7 +124,7 @@ int itkSampleClassifierFilterTest6( int, char * [] )
   classLabelVector.push_back( class2 );
 
   //Set a decision rule type
-  typedef itk::Statistics::MinimumDecisionRule  DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
 
   DecisionRuleType::Pointer    decisionRule = DecisionRuleType::New();
 

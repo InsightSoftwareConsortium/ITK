@@ -102,12 +102,12 @@ class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
-  /** Standard class typedefs. */
-  typedef MattesMutualInformationImageToImageMetricv4                      Self;
-  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
-                             TInternalComputationValueType,TMetricTraits>  Superclass;
-  typedef SmartPointer<Self>                                               Pointer;
-  typedef SmartPointer<const Self>                                         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MattesMutualInformationImageToImageMetricv4;
+  using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
+                             TInternalComputationValueType,TMetricTraits>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -116,29 +116,29 @@ public:
   itkTypeMacro(MattesMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
 
   /** Superclass types */
-  typedef typename Superclass::MeasureType             MeasureType;
-  typedef typename Superclass::DerivativeType          DerivativeType;
-  typedef typename DerivativeType::ValueType           DerivativeValueType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
 
-  typedef typename Superclass::FixedImageType          FixedImageType;
-  typedef typename Superclass::FixedImagePointType     FixedImagePointType;
-  typedef typename Superclass::FixedImageIndexType     FixedImageIndexType;
-  typedef typename Superclass::FixedImagePixelType     FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType  FixedImageGradientType;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using FixedImagePointType = typename Superclass::FixedImagePointType;
+  using FixedImageIndexType = typename Superclass::FixedImageIndexType;
+  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
+  using FixedImageGradientType = typename Superclass::FixedImageGradientType;
 
-  typedef typename Superclass::MovingImagePointType    MovingImagePointType;
-  typedef typename Superclass::MovingImagePixelType    MovingImagePixelType;
-  typedef typename Superclass::MovingImageGradientType MovingImageGradientType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
+  using MovingImageGradientType = typename Superclass::MovingImageGradientType;
 
-  typedef typename Superclass::MovingTransformType     MovingTransformType;
-  typedef typename Superclass::JacobianType            JacobianType;
-  typedef typename Superclass::VirtualImageType        VirtualImageType;
-  typedef typename Superclass::VirtualIndexType        VirtualIndexType;
-  typedef typename Superclass::VirtualPointType        VirtualPointType;
-  typedef typename Superclass::VirtualPointSetType     VirtualPointSetType;
+  using MovingTransformType = typename Superclass::MovingTransformType;
+  using JacobianType = typename Superclass::JacobianType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualPointSetType = typename Superclass::VirtualPointSetType;
 
   /** Types inherited from Superclass. */
-  typedef typename Superclass::FixedSampledPointSetPointer    FixedSampledPointSetPointer;
+  using FixedSampledPointSetPointer = typename Superclass::FixedSampledPointSetPointer;
 
   /* Image dimension accessors */
   itkStaticConstMacro(VirtualImageDimension, typename TVirtualImage::ImageDimensionType, TVirtualImage::ImageDimension);
@@ -158,11 +158,11 @@ public:
   /** The marginal PDFs are stored as std::vector. */
   //NOTE:  floating point precision is not as stable.
   // Double precision proves faster and more robust in real-world testing.
-  typedef TInternalComputationValueType PDFValueType;
+  using PDFValueType = TInternalComputationValueType;
 
   /** Typedef for the joint PDF and PDF derivatives are stored as ITK Images. */
-  typedef Image<PDFValueType, 2> JointPDFType;
-  typedef Image<PDFValueType, 3> JointPDFDerivativesType;
+  using JointPDFType = Image<PDFValueType, 2>;
+  using JointPDFDerivativesType = Image<PDFValueType, 3>;
 
   /**
    * Get the internal JointPDF image that was used in
@@ -196,25 +196,25 @@ protected:
 
   friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
   friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
-  typedef MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >
-    MattesMutualInformationDenseGetValueAndDerivativeThreaderType;
-  typedef MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
-    MattesMutualInformationSparseGetValueAndDerivativeThreaderType;
+  using MattesMutualInformationDenseGetValueAndDerivativeThreaderType =
+      MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+  using MattesMutualInformationSparseGetValueAndDerivativeThreaderType =
+      MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
-  typedef typename JointPDFType::IndexType             JointPDFIndexType;
-  typedef typename JointPDFType::PixelType             JointPDFValueType;
-  typedef typename JointPDFType::RegionType            JointPDFRegionType;
-  typedef typename JointPDFType::SizeType              JointPDFSizeType;
-  typedef typename JointPDFDerivativesType::IndexType  JointPDFDerivativesIndexType;
-  typedef typename JointPDFDerivativesType::PixelType  JointPDFDerivativesValueType;
-  typedef typename JointPDFDerivativesType::RegionType JointPDFDerivativesRegionType;
-  typedef typename JointPDFDerivativesType::SizeType   JointPDFDerivativesSizeType;
+  using JointPDFIndexType = typename JointPDFType::IndexType;
+  using JointPDFValueType = typename JointPDFType::PixelType;
+  using JointPDFRegionType = typename JointPDFType::RegionType;
+  using JointPDFSizeType = typename JointPDFType::SizeType;
+  using JointPDFDerivativesIndexType = typename JointPDFDerivativesType::IndexType;
+  using JointPDFDerivativesValueType = typename JointPDFDerivativesType::PixelType;
+  using JointPDFDerivativesRegionType = typename JointPDFDerivativesType::RegionType;
+  using JointPDFDerivativesSizeType = typename JointPDFDerivativesType::SizeType;
 
   /** Typedefs for BSpline kernel and derivative functions. */
-  typedef BSplineKernelFunction<3,PDFValueType>           CubicBSplineFunctionType;
-  typedef BSplineDerivativeKernelFunction<3,PDFValueType> CubicBSplineDerivativeFunctionType;
+  using CubicBSplineFunctionType = BSplineKernelFunction<3,PDFValueType>;
+  using CubicBSplineDerivativeFunctionType = BSplineDerivativeKernelFunction<3,PDFValueType>;
 
   /** Post-processing code common to both GetValue
    * and GetValueAndDerivative. */
@@ -238,8 +238,8 @@ protected:
   typename CubicBSplineDerivativeFunctionType::Pointer m_CubicBSplineDerivativeKernel;
 
   /** Helper array for storing the values of the JointPDF ratios. */
-  typedef PDFValueType              PRatioType;
-  typedef std::vector<PRatioType>   PRatioArrayType;
+  using PRatioType = PDFValueType;
+  using PRatioArrayType = std::vector<PRatioType>;
 
   mutable PRatioArrayType           m_PRatioArray;
 
@@ -268,7 +268,7 @@ protected:
    */
   class DerivativeBufferManager
   {
-    typedef DerivativeBufferManager Self;
+    using Self = DerivativeBufferManager;
 public:
     /* All these methods are thread safe except ReduceBuffer */
 

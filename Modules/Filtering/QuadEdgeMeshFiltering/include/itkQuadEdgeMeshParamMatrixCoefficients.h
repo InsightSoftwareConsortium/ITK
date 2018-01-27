@@ -33,9 +33,9 @@ template< typename TInputMesh >
 class MatrixCoefficients
 {
 public:
-  typedef TInputMesh                           InputMeshType;
-  typedef typename InputMeshType::CoordRepType InputCoordRepType;
-  typedef typename InputMeshType::QEType       InputQEType;
+  using InputMeshType = TInputMesh;
+  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputQEType = typename InputMeshType::QEType;
 
   MatrixCoefficients(){}
   virtual ~MatrixCoefficients() {}
@@ -55,11 +55,11 @@ template< typename TInputMesh >
 class OnesMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
-  typedef MatrixCoefficients< TInputMesh > Superclass;
+  using Superclass = MatrixCoefficients< TInputMesh >;
 
-  typedef TInputMesh                           InputMeshType;
-  typedef typename InputMeshType::CoordRepType InputCoordRepType;
-  typedef typename InputMeshType::QEType       InputQEType;
+  using InputMeshType = TInputMesh;
+  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputQEType = typename InputMeshType::QEType;
 
   OnesMatrixCoefficients() {}
 
@@ -85,14 +85,14 @@ class InverseEuclideanDistanceMatrixCoefficients:
   public MatrixCoefficients< TInputMesh >
 {
 public:
-  typedef MatrixCoefficients< TInputMesh > Superclass;
+  using Superclass = MatrixCoefficients< TInputMesh >;
 
-  typedef TInputMesh                              InputMeshType;
-  typedef typename InputMeshType::CoordRepType    InputCoordRepType;
-  typedef typename InputMeshType::PointType       InputPointType;
-  typedef typename InputMeshType::PointIdentifier InputPointIdentifier;
-  typedef typename InputMeshType::QEType          InputQEType;
-  typedef typename InputMeshType::VectorType      InputVectorType;
+  using InputMeshType = TInputMesh;
+  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputPointType = typename InputMeshType::PointType;
+  using InputPointIdentifier = typename InputMeshType::PointIdentifier;
+  using InputQEType = typename InputMeshType::QEType;
+  using InputVectorType = typename InputMeshType::VectorType;
 
   InverseEuclideanDistanceMatrixCoefficients() {}
 
@@ -126,13 +126,13 @@ template< typename TInputMesh >
 class ConformalMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
-  typedef MatrixCoefficients< TInputMesh > Superclass;
+  using Superclass = MatrixCoefficients< TInputMesh >;
 
-  typedef TInputMesh                              InputMeshType;
-  typedef typename InputMeshType::CoordRepType    InputCoordRepType;
-  typedef typename InputMeshType::PointType       InputPointType;
-  typedef typename InputMeshType::PointIdentifier InputPointIdentifier;
-  typedef typename InputMeshType::QEType          InputQEType;
+  using InputMeshType = TInputMesh;
+  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputPointType = typename InputMeshType::PointType;
+  using InputPointIdentifier = typename InputMeshType::PointIdentifier;
+  using InputQEType = typename InputMeshType::QEType;
 
   ConformalMatrixCoefficients() {}
 
@@ -179,13 +179,13 @@ template< typename TInputMesh >
 class AuthalicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
-  typedef MatrixCoefficients< TInputMesh > Superclass;
+  using Superclass = MatrixCoefficients< TInputMesh >;
 
-  typedef TInputMesh                              InputMeshType;
-  typedef typename InputMeshType::CoordRepType    InputCoordRepType;
-  typedef typename InputMeshType::PointType       InputPointType;
-  typedef typename InputMeshType::PointIdentifier InputPointIdentifier;
-  typedef typename InputMeshType::QEType          InputQEType;
+  using InputMeshType = TInputMesh;
+  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputPointType = typename InputMeshType::PointType;
+  using InputPointIdentifier = typename InputMeshType::PointIdentifier;
+  using InputQEType = typename InputMeshType::QEType;
 
   AuthalicMatrixCoefficients() {}
 
@@ -235,11 +235,11 @@ template< typename TInputMesh >
 class IntrinsicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
-  typedef MatrixCoefficients< TInputMesh > Superclass;
+  using Superclass = MatrixCoefficients< TInputMesh >;
 
-  typedef TInputMesh                           InputMeshType;
-  typedef typename InputMeshType::CoordRepType InputCoordRepType;
-  typedef typename InputMeshType::QEType       InputQEType;
+  using InputMeshType = TInputMesh;
+  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputQEType = typename InputMeshType::QEType;
 
   InputCoordRepType m_Lambda;
 
@@ -271,14 +271,14 @@ template< typename TInputMesh >
 class HarmonicMatrixCoefficients:public MatrixCoefficients< TInputMesh >
 {
 public:
-  typedef MatrixCoefficients< TInputMesh > Superclass;
+  using Superclass = MatrixCoefficients< TInputMesh >;
 
-  typedef TInputMesh                              InputMeshType;
-  typedef typename InputMeshType::CoordRepType    InputCoordRepType;
-  typedef typename InputMeshType::PointType       InputPointType;
-  typedef typename InputPointType::VectorType     InputVectorType;
-  typedef typename InputMeshType::PointIdentifier InputPointIdentifier;
-  typedef typename InputMeshType::QEType          InputQEType;
+  using InputMeshType = TInputMesh;
+  using InputCoordRepType = typename InputMeshType::CoordRepType;
+  using InputPointType = typename InputMeshType::PointType;
+  using InputVectorType = typename InputPointType::VectorType;
+  using InputPointIdentifier = typename InputMeshType::PointIdentifier;
+  using InputQEType = typename InputMeshType::QEType;
 
   itkStaticConstMacro(PointDimension, unsigned int,
                       InputPointType::PointDimension);

@@ -46,8 +46,8 @@ int itkCyclicReferences(int, char* [] )
 
   // Begin by creating a simple pipeline. Use a scalar as a pixel.
   //
-  // Create a typedef to make the code more digestable
-  typedef itk::Image<float,2> FloatImage2DType;
+  // Create a type alias to make the code more digestable
+  using FloatImage2DType = itk::Image<float,2>;
 
   // Test the deletion of an image with native type.
   // (scope operators cause automatic smart pointer destruction)

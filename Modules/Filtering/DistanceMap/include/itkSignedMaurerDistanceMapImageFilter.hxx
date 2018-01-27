@@ -126,8 +126,8 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   // store the binary image in an image with a pixel type as small as possible
   // instead of keeping the native input pixel type to avoid using too much
   // memory.
-  typedef BinaryThresholdImageFilter< InputImageType,
-                                      OutputImageType > BinaryFilterType;
+  using BinaryFilterType = BinaryThresholdImageFilter< InputImageType,
+                                      OutputImageType >;
 
   ProgressAccumulator::Pointer progressAcc = ProgressAccumulator::New();
   progressAcc->SetMiniPipelineFilter(this);
@@ -149,8 +149,8 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 
   // Dilate the inverted image by 1 pixel to give it the same boundary
   // as the univerted inputPtr.
-  typedef BinaryContourImageFilter< OutputImageType,
-                                    OutputImageType > BorderFilterType;
+  using BorderFilterType = BinaryContourImageFilter< OutputImageType,
+                                    OutputImageType >;
   typename BorderFilterType::Pointer borderFilter = BorderFilterType::New();
   borderFilter->SetInput( binaryFilter->GetOutput() );
   borderFilter->SetForegroundValue( NumericTraits< OutputPixelType >::ZeroValue() );
@@ -266,8 +266,8 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
 
   if ( m_CurrentDimension == ImageDimension - 1 && !this->m_SquaredDistance )
     {
-    typedef ImageRegionIterator< OutputImageType >      OutputIterator;
-    typedef ImageRegionConstIterator< InputImageType  > InputIterator;
+    using OutputIterator = ImageRegionIterator< OutputImageType >;
+    using InputIterator = ImageRegionConstIterator< InputImageType  >;
 
     typename OutputImageType::RegionType outputRegion = outputRegionForThread;
 
@@ -282,7 +282,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
                                0.33f + static_cast< float >( ImageDimension * progressPerDimension ),
                                progressPerDimension);
 
-    typedef typename NumericTraits< OutputPixelType >::RealType OutputRealType;
+    using OutputRealType = typename NumericTraits< OutputPixelType >::RealType;
 
     while ( !Ot.IsAtEnd() )
       {

@@ -85,10 +85,10 @@ namespace itk
 class ITKIOHDF5_EXPORT HDF5ImageIO: public StreamingImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef HDF5ImageIO          Self;
-  typedef StreamingImageIOBase Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = HDF5ImageIO;
+  using Superclass = StreamingImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

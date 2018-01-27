@@ -26,11 +26,11 @@ int itkDiscreteGaussianImageFilterTest(int , char * [] )
   try
     {
       const unsigned int Dimension = 3;
-      typedef itk::Image<float, Dimension> ImageType;
+      using ImageType = itk::Image<float, Dimension>;
 
       // Set up filter
-      typedef itk::DiscreteGaussianImageFilter<ImageType, ImageType> FilterType;
-      typedef FilterType::ArrayType                                  ArrayType;
+      using FilterType = itk::DiscreteGaussianImageFilter<ImageType, ImageType>;
+      using ArrayType = FilterType::ArrayType;
 
       FilterType::Pointer filter = FilterType::New();
       FilterWatcher watcher( filter );

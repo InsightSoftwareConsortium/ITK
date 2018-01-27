@@ -35,18 +35,18 @@ int itkBinaryReconstructionByDilationImageFilterTest(int argc, char * argv[])
 
   const unsigned int dim = 3;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  using ImageType = itk::Image< PixelType, dim >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-  typedef itk::BinaryReconstructionByDilationImageFilter< ImageType > LabelReconstructionType;
+  using LabelReconstructionType = itk::BinaryReconstructionByDilationImageFilter< ImageType >;
   LabelReconstructionType::Pointer reconstruction = LabelReconstructionType::New();
 
   //testing get and set macros for Lambda
@@ -65,7 +65,7 @@ int itkBinaryReconstructionByDilationImageFilterTest(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(reconstruction, "filter");
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( reconstruction->GetOutput() );

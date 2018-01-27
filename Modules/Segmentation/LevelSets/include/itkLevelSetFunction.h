@@ -67,11 +67,11 @@ class ITK_TEMPLATE_EXPORT LevelSetFunction:
   public FiniteDifferenceFunction< TImageType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LevelSetFunction                       Self;
-  typedef FiniteDifferenceFunction< TImageType > Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LevelSetFunction;
+  using Superclass = FiniteDifferenceFunction< TImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -82,20 +82,20 @@ public:
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
-  /** Convenient typedefs. */
-  typedef double                                      TimeStepType;
-  typedef typename Superclass::ImageType              ImageType;
-  typedef typename Superclass::PixelType              PixelType;
-  typedef                      PixelType              ScalarValueType;
-  typedef typename Superclass::PixelRealType          PixelRealType;
-  typedef typename Superclass::RadiusType             RadiusType;
-  typedef typename Superclass::NeighborhoodType       NeighborhoodType;
-  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
-  typedef typename Superclass::FloatOffsetType        FloatOffsetType;
+  /** Convenient type alias. */
+  using TimeStepType = double;
+  using ImageType = typename Superclass::ImageType;
+  using PixelType = typename Superclass::PixelType;
+  using ScalarValueType = PixelType;
+  using PixelRealType = typename Superclass::PixelRealType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
 
   /** The vector type that will be used in the calculations. */
   //  typedef
-  typedef FixedArray< ScalarValueType, itkGetStaticConstMacro(ImageDimension) > VectorType;
+  using VectorType = FixedArray< ScalarValueType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** A global data type for this class of equations.  Used to store
    * values that are needed in calculating the time step and other intermediate

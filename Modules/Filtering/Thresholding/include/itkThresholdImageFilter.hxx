@@ -113,8 +113,8 @@ ThresholdImageFilter< TImage >
 
   // Define/declare an iterator that will walk the output region for this
   // thread.
-  typedef ImageScanlineConstIterator< TImage > InputIterator;
-  typedef ImageScanlineIterator< TImage >      OutputIterator;
+  using InputIterator = ImageScanlineConstIterator< TImage >;
+  using OutputIterator = ImageScanlineIterator< TImage >;
 
   InputIterator  inIt(inputPtr, outputRegionForThread);
   OutputIterator outIt(outputPtr, outputRegionForThread);

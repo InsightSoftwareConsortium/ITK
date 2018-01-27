@@ -49,8 +49,8 @@ void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
 
   if ( Math::NotAlmostEquals( m_DerivativeSigma, NumericTraits< float >::ZeroValue() ) )
     {
-    typedef GradientRecursiveGaussianImageFilter< FeatureImageType, VectorImageType >
-    DerivativeFilterType;
+    using DerivativeFilterType =
+        GradientRecursiveGaussianImageFilter< FeatureImageType, VectorImageType >;
 
     typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
     derivative->SetInput( this->GetFeatureImage() );
@@ -61,15 +61,15 @@ void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
     }
   else
     {
-    typedef GradientImageFilter< FeatureImageType > DerivativeFilterType;
+    using DerivativeFilterType = GradientImageFilter< FeatureImageType >;
 
     typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
     derivative->SetInput( this->GetFeatureImage() );
     derivative->SetUseImageSpacingOn();
     derivative->Update();
 
-    typedef typename DerivativeFilterType::OutputImageType                      DerivativeOutputImageType;
-    typedef VectorCastImageFilter< DerivativeOutputImageType, VectorImageType > GradientCasterType;
+    using DerivativeOutputImageType = typename DerivativeFilterType::OutputImageType;
+    using GradientCasterType = VectorCastImageFilter< DerivativeOutputImageType, VectorImageType >;
 
     typename GradientCasterType::Pointer caster = GradientCasterType::New();
     caster->SetInput( derivative->GetOutput() );

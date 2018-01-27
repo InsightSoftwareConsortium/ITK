@@ -37,11 +37,11 @@ class NonlinearAffineTransform:
   public itk::AffineTransform<TCoordRepType,NDimensions>
 {
 public:
-  /** Standard class typedefs.   */
-  typedef NonlinearAffineTransform                           Self;
-  typedef itk::AffineTransform< TCoordRepType, NDimensions > Superclass;
-  typedef itk::SmartPointer< Self >                          Pointer;
-  typedef itk::SmartPointer< const Self >                    ConstPointer;
+  /** Standard class type aliases.   */
+  using Self = NonlinearAffineTransform;
+  using Superclass = itk::AffineTransform< TCoordRepType, NDimensions >;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
   /** New macro for creation of through a smart pointer. */
   itkSimpleNewMacro(Self);
@@ -71,21 +71,21 @@ int itkResampleImageTest2(int argc, char * argv [] )
 
   const unsigned int NDimensions = 2;
 
-  typedef unsigned char                          PixelType;
-  typedef itk::Image<PixelType, NDimensions>     ImageType;
-  typedef double                                 CoordRepType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType, NDimensions>;
+  using CoordRepType = double;
 
-  typedef itk::AffineTransform<CoordRepType,NDimensions>
-                                                 AffineTransformType;
-  typedef NonlinearAffineTransform<CoordRepType,NDimensions>
-                                                 NonlinearAffineTransformType;
-  typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>
-                                                 InterpolatorType;
-  typedef itk::NearestNeighborExtrapolateImageFunction<ImageType,CoordRepType>
-                                                 ExtrapolatorType;
+  using AffineTransformType =
+      itk::AffineTransform<CoordRepType,NDimensions>;
+  using NonlinearAffineTransformType =
+      NonlinearAffineTransform<CoordRepType,NDimensions>;
+  using InterpolatorType =
+      itk::LinearInterpolateImageFunction<ImageType,CoordRepType>;
+  using ExtrapolatorType =
+      itk::NearestNeighborExtrapolateImageFunction<ImageType,CoordRepType>;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   ReaderType::Pointer reader2 = ReaderType::New();
@@ -118,7 +118,7 @@ int itkResampleImageTest2(int argc, char * argv [] )
   ExtrapolatorType::Pointer extrapolator = ExtrapolatorType::New();
 
   // Create and configure a resampling filter
-  typedef itk::ResampleImageFilter< ImageType, ImageType > ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter< ImageType, ImageType >;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 

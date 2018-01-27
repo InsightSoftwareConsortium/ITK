@@ -33,15 +33,15 @@ int itkFEMSolverTest2D(int argc, char *argv[])
   //the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  typedef itk::fem::Solver<2> Solver2DType;
+  using Solver2DType = itk::fem::Solver<2>;
   Solver2DType::Pointer solver = Solver2DType::New();
 
-  typedef itk::SpatialObject<2>      SpatialObjectType;
-  typedef SpatialObjectType::Pointer SpatialObjectPointer;
+  using SpatialObjectType = itk::SpatialObject<2>;
+  using SpatialObjectPointer = SpatialObjectType::Pointer;
   SpatialObjectPointer Spatial = SpatialObjectType::New();
 
-  typedef itk::FEMSpatialObjectReader<2>      FEMSpatialObjectReaderType;
-  typedef FEMSpatialObjectReaderType::Pointer FEMSpatialObjectReaderPointer;
+  using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
+  using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
   SpatialReader->SetFileName( argv[1] );
   SpatialReader->Update();
@@ -55,8 +55,8 @@ int itkFEMSolverTest2D(int argc, char *argv[])
   std::cout << " [PASSED]" << std::endl;
 
   // Testing the FE mesh validity
-  typedef itk::FEMObjectSpatialObject<2>      FEMObjectSpatialObjectType;
-  typedef FEMObjectSpatialObjectType::Pointer FEMObjectSpatialObjectPointer;
+  using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
+  using FEMObjectSpatialObjectPointer = FEMObjectSpatialObjectType::Pointer;
 
   FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
   if( strcmp( (*(children->begin() ) )->GetTypeName(), "FEMObjectSpatialObject") )
@@ -88,8 +88,8 @@ int itkFEMSolverTest2D(int argc, char *argv[])
     std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;
     }
 
-  typedef itk::FEMSpatialObjectWriter<2>      FEMSpatialObjectWriterType;
-  typedef FEMSpatialObjectWriterType::Pointer FEMSpatialObjectWriterPointer;
+  using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<2>;
+  using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
   FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
   SpatialWriter->SetInput(SpatialReader->GetScene() );
   SpatialWriter->SetFileName( argv[2] );

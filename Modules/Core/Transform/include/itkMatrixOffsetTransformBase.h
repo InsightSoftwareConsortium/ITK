@@ -100,14 +100,14 @@ class ITK_TEMPLATE_EXPORT MatrixOffsetTransformBase :
   public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 {
 public:
-  /** Standard typedefs   */
-  typedef MatrixOffsetTransformBase Self;
-  typedef Transform<TParametersValueType,
+  /** Standard type alias   */
+  using Self = MatrixOffsetTransformBase;
+  using Superclass = Transform<TParametersValueType,
                     NInputDimensions,
-                    NOutputDimensions>        Superclass;
+                    NOutputDimensions>;
 
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(MatrixOffsetTransformBase, Transform);
@@ -122,95 +122,83 @@ public:
                        NOutputDimensions * ( NInputDimensions + 1 ) );
 
   /** Parameters Type   */
-  typedef typename Superclass::FixedParametersType      FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
-  typedef typename Superclass::ParametersType           ParametersType;
-  typedef typename Superclass::ParametersValueType      ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
 
   /** Jacobian Type   */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Transform category type. */
-  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+  using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** Standard scalar type for this class */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Standard vector type for this class   */
-  typedef Vector<TParametersValueType,
-                 itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
-  typedef Vector<TParametersValueType,
-                 itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
-  typedef typename OutputVectorType::ValueType OutputVectorValueType;
+  using InputVectorType = Vector<TParametersValueType,
+                 itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OutputVectorType = Vector<TParametersValueType,
+                 itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using OutputVectorValueType = typename OutputVectorType::ValueType;
 
   /** Standard covariant vector type for this class   */
-  typedef CovariantVector<TParametersValueType,
-                          itkGetStaticConstMacro(InputSpaceDimension)>
-  InputCovariantVectorType;
-  typedef CovariantVector<TParametersValueType,
-                          itkGetStaticConstMacro(OutputSpaceDimension)>
-  OutputCovariantVectorType;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType,
+                          itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType,
+                          itkGetStaticConstMacro(OutputSpaceDimension)>;
 
-  typedef typename Superclass::InputVectorPixelType  InputVectorPixelType;
-  typedef typename Superclass::OutputVectorPixelType OutputVectorPixelType;
+  using InputVectorPixelType = typename Superclass::InputVectorPixelType;
+  using OutputVectorPixelType = typename Superclass::OutputVectorPixelType;
 
   /** Standard diffusion tensor type for this class */
-  typedef typename Superclass::InputDiffusionTensor3DType
-  InputDiffusionTensor3DType;
-  typedef typename Superclass::OutputDiffusionTensor3DType
-  OutputDiffusionTensor3DType;
+  using InputDiffusionTensor3DType = typename Superclass::InputDiffusionTensor3DType;
+  using OutputDiffusionTensor3DType = typename Superclass::OutputDiffusionTensor3DType;
 
   /** Standard tensor type for this class */
-  typedef typename Superclass::InputSymmetricSecondRankTensorType
-  InputSymmetricSecondRankTensorType;
-  typedef typename Superclass::OutputSymmetricSecondRankTensorType
-  OutputSymmetricSecondRankTensorType;
+  using InputSymmetricSecondRankTensorType = typename Superclass::InputSymmetricSecondRankTensorType;
+  using OutputSymmetricSecondRankTensorType = typename Superclass::OutputSymmetricSecondRankTensorType;
 
-  typedef CovariantVector<TParametersValueType, InputDiffusionTensor3DType::Dimension>
-  InputTensorEigenVectorType;
+  using InputTensorEigenVectorType =
+      CovariantVector<TParametersValueType, InputDiffusionTensor3DType::Dimension>;
 
   /** Standard vnl_vector type for this class   */
-  typedef vnl_vector_fixed<TParametersValueType,
-                           itkGetStaticConstMacro(InputSpaceDimension)>
-  InputVnlVectorType;
-  typedef vnl_vector_fixed<TParametersValueType,
-                           itkGetStaticConstMacro(OutputSpaceDimension)>
-  OutputVnlVectorType;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType,
+                           itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType,
+                           itkGetStaticConstMacro(OutputSpaceDimension)>;
 
   /** Standard coordinate point type for this class   */
-  typedef Point<TParametersValueType,
-                itkGetStaticConstMacro(InputSpaceDimension)>
-  InputPointType;
-  typedef typename InputPointType::ValueType InputPointValueType;
-  typedef Point<TParametersValueType,
-                itkGetStaticConstMacro(OutputSpaceDimension)>
-  OutputPointType;
-  typedef typename OutputPointType::ValueType OutputPointValueType;
+  using InputPointType = Point<TParametersValueType,
+                itkGetStaticConstMacro(InputSpaceDimension)>;
+  using InputPointValueType = typename InputPointType::ValueType;
+  using OutputPointType = Point<TParametersValueType,
+                itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using OutputPointValueType = typename OutputPointType::ValueType;
 
   /** Standard matrix type for this class   */
-  typedef Matrix<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension),
-                 itkGetStaticConstMacro(InputSpaceDimension)>
-  MatrixType;
-  typedef typename MatrixType::ValueType MatrixValueType;
+  using MatrixType = Matrix<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension),
+                 itkGetStaticConstMacro(InputSpaceDimension)>;
+  using MatrixValueType = typename MatrixType::ValueType;
 
   /** Standard inverse matrix type for this class   */
-  typedef Matrix<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension),
-                 itkGetStaticConstMacro(OutputSpaceDimension)>
-  InverseMatrixType;
+  using InverseMatrixType = Matrix<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension),
+                 itkGetStaticConstMacro(OutputSpaceDimension)>;
 
-  typedef InputPointType CenterType;
+  using CenterType = InputPointType;
 
-  typedef OutputVectorType               OffsetType;
-  typedef typename OffsetType::ValueType OffsetValueType;
+  using OffsetType = OutputVectorType;
+  using OffsetValueType = typename OffsetType::ValueType;
 
-  typedef OutputVectorType TranslationType;
+  using TranslationType = OutputVectorType;
 
-  typedef typename TranslationType::ValueType TranslationValueType;
+  using TranslationValueType = typename TranslationType::ValueType;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost. */
-  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
-  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+  using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
+  using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /** Set the transformation to an Identity
    *

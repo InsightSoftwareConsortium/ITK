@@ -65,71 +65,71 @@ class ITK_TEMPLATE_EXPORT MultiTransform :
   public Transform<TParametersValueType, NDimensions, NSubDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultiTransform                                               Self;
-  typedef Transform<TParametersValueType, NDimensions, NSubDimensions> Superclass;
-  typedef SmartPointer<Self>                                           Pointer;
-  typedef SmartPointer<const Self>                                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MultiTransform;
+  using Superclass = Transform<TParametersValueType, NDimensions, NSubDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( MultiTransform, Transform );
 
   /** Sub transform type **/
-  typedef Transform<TParametersValueType, NSubDimensions, NSubDimensions > TransformType;
-  typedef typename TransformType::Pointer                     TransformTypePointer;
+  using TransformType = Transform<TParametersValueType, NSubDimensions, NSubDimensions >;
+  using TransformTypePointer = typename TransformType::Pointer;
 
   /* Types common to both container and sub transforms */
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType           ParametersType;
-  typedef typename Superclass::ParametersValueType      ParametersValueType;
-  typedef typename Superclass::FixedParametersType      FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
-  typedef ParametersValueType                           ScalarType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using ScalarType = ParametersValueType;
   /** Derivative type */
-  typedef typename Superclass::DerivativeType           DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType             JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
   /** Transform category type. */
-  typedef typename Superclass::TransformCategoryType    TransformCategoryType;
+  using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /* Types relative to the container transform. */
 
   /** InverseTransform type. */
-  typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
+  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
 
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType             InputPointType;
-  typedef typename Superclass::OutputPointType            OutputPointType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType            InputVectorType;
-  typedef typename Superclass::OutputVectorType           OutputVectorType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
   /** Standard covariant vector type for this class */
-  typedef typename Superclass::InputCovariantVectorType   InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType  OutputCovariantVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
   /** Standard vnl_vector type for this class. */
-  typedef typename Superclass::InputVnlVectorType         InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType        OutputVnlVectorType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
   /** Standard Vectorpixel type for this class */
-  typedef typename Superclass::InputVectorPixelType       InputVectorPixelType;
-  typedef typename Superclass::OutputVectorPixelType      OutputVectorPixelType;
-  /** Standard DiffusionTensor3D typedef for this class */
-  typedef typename Superclass::InputDiffusionTensor3DType  InputDiffusionTensor3DType;
-  typedef typename Superclass::OutputDiffusionTensor3DType OutputDiffusionTensor3DType;
-  /** Standard SymmetricSecondRankTensor typedef for this class */
-  typedef typename Superclass::InputSymmetricSecondRankTensorType InputSymmetricSecondRankTensorType;
-  typedef typename Superclass::OutputSymmetricSecondRankTensorType  OutputSymmetricSecondRankTensorType;
+  using InputVectorPixelType = typename Superclass::InputVectorPixelType;
+  using OutputVectorPixelType = typename Superclass::OutputVectorPixelType;
+  /** Standard DiffusionTensor3D type alias for this class */
+  using InputDiffusionTensor3DType = typename Superclass::InputDiffusionTensor3DType;
+  using OutputDiffusionTensor3DType = typename Superclass::OutputDiffusionTensor3DType;
+  /** Standard SymmetricSecondRankTensor type alias for this class */
+  using InputSymmetricSecondRankTensorType = typename Superclass::InputSymmetricSecondRankTensorType;
+  using OutputSymmetricSecondRankTensorType = typename Superclass::OutputSymmetricSecondRankTensorType;
 
   /* Types relative to the sub transform type. */
 
   /** InverseTransform type. */
-  typedef typename TransformType::InverseTransformBasePointer    SubTransformInverseTransformBasePointer;
+  using SubTransformInverseTransformBasePointer = typename TransformType::InverseTransformBasePointer;
 
   /** Transform queue type */
-  typedef std::deque<TransformTypePointer>  TransformQueueType;
+  using TransformQueueType = std::deque<TransformTypePointer>;
 
   /** The number of parameters defininig this transform. */
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Dimension of the domain spaces. */
   itkStaticConstMacro( InputDimension, unsigned int, NDimensions );

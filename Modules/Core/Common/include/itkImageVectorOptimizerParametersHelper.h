@@ -42,18 +42,17 @@ class ITK_TEMPLATE_EXPORT ImageVectorOptimizerParametersHelper
 public:
 
   /** The element type stored at each location in the Array. */
-  typedef TValue                                ValueType;
-  typedef ImageVectorOptimizerParametersHelper  Self;
-  typedef OptimizerParametersHelper< TValue >   Superclass;
+  using ValueType = TValue;
+  using Self = ImageVectorOptimizerParametersHelper;
+  using Superclass = OptimizerParametersHelper< TValue >;
 
   /** Image type that this class expects. */
-  typedef Image< Vector<TValue, NVectorDimension>,
-                 VImageDimension >
-                                                ParameterImageType;
-  typedef typename ParameterImageType::Pointer  ParameterImagePointer;
+  using ParameterImageType = Image< Vector<TValue, NVectorDimension>,
+                 VImageDimension >;
+  using ParameterImagePointer = typename ParameterImageType::Pointer;
 
   /** Type of the common data object used in OptimizerParameters */
-  typedef typename Superclass::CommonContainerType CommonContainerType;
+  using CommonContainerType = typename Superclass::CommonContainerType;
 
   /** Default constructor. */
   ImageVectorOptimizerParametersHelper();

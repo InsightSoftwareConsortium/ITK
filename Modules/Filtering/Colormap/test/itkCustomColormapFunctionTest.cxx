@@ -35,15 +35,15 @@ template<typename TScalar, typename TRGBPixel>
 class CustomColormapFunctionHelper : public CustomColormapFunction< TScalar, TRGBPixel >
 {
 public:
-  typedef CustomColormapFunctionHelper                Self;
-  typedef CustomColormapFunction<TScalar, TRGBPixel>  Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  using Self = CustomColormapFunctionHelper;
+  using Superclass = CustomColormapFunction<TScalar, TRGBPixel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
 
-  typedef TScalar                                           ScalarType;
-  typedef TRGBPixel                                         RGBPixelType;
-  typedef typename NumericTraits< ScalarType >::RealType    RealType;
+  using ScalarType = TScalar;
+  using RGBPixelType = TRGBPixel;
+  using RealType = typename NumericTraits< ScalarType >::RealType;
 
   itkTypeMacro( CustomColormapFunctionHelper, CustomColormapFunction );
 
@@ -55,8 +55,8 @@ public:
     ScalarType val)
   {
 
-    typedef itk::Function::CustomColormapFunction<
-      ScalarType, RGBPixelType> ColormapType;
+    using ColormapType = itk::Function::CustomColormapFunction<
+      ScalarType, RGBPixelType>;
 
     typename ColormapType::Pointer colormap = ColormapType::New();
 
@@ -113,7 +113,7 @@ int itkCustomColormapFunctionTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::RGBPixel<unsigned char>    RGBPixelType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
 
   double value;
   std::vector<double> redChannel, greenChannel, blueChannel;

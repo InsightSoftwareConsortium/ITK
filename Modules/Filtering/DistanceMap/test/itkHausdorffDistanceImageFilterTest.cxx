@@ -22,12 +22,12 @@
 int itkHausdorffDistanceImageFilterTest(int, char* [] )
 {
 
-  typedef unsigned int Pixel1Type;
-  typedef float        Pixel2Type;
+  using Pixel1Type = unsigned int;
+  using Pixel2Type = float;
   enum { ImageDimension = 3 };
 
-  typedef itk::Image<Pixel1Type,ImageDimension> Image1Type;
-  typedef itk::Image<Pixel2Type,ImageDimension> Image2Type;
+  using Image1Type = itk::Image<Pixel1Type,ImageDimension>;
+  using Image2Type = itk::Image<Pixel2Type,ImageDimension>;
 
   Image1Type::Pointer image1 = Image1Type::New();
   Image2Type::Pointer image2 = Image2Type::New();
@@ -44,11 +44,11 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   image1->FillBuffer( itk::NumericTraits<Pixel1Type>::ZeroValue() );
   image2->FillBuffer( itk::NumericTraits<Pixel2Type>::ZeroValue() );
 
-  typedef Image1Type::RegionType RegionType;
+  using RegionType = Image1Type::RegionType;
   RegionType region1;
   RegionType region2;
 
-  typedef Image1Type::IndexType IndexType;
+  using IndexType = Image1Type::IndexType;
   IndexType index;
 
   size.Fill( 20 );
@@ -79,7 +79,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   int exit_status=EXIT_SUCCESS; //If no failures detected, then EXIT_SUCCESS
   // compute the directed Hausdorff distance h(image1,image2)
   {
-  typedef itk::DirectedHausdorffDistanceImageFilter<Image1Type,Image2Type> FilterType;
+  using FilterType = itk::DirectedHausdorffDistanceImageFilter<Image1Type,Image2Type>;
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher watcher(filter, "filter");
 
@@ -109,7 +109,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
 
   // compute the directed Hausdorff distance h(image2,image1)
   {
-  typedef itk::DirectedHausdorffDistanceImageFilter<Image2Type,Image1Type> FilterType;
+  using FilterType = itk::DirectedHausdorffDistanceImageFilter<Image2Type,Image1Type>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput1( image2 );
@@ -138,7 +138,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
 
   // compute the Hausdorff distance H(image1,image2)
   {
-  typedef itk::HausdorffDistanceImageFilter<Image1Type,Image2Type> FilterType;
+  using FilterType = itk::HausdorffDistanceImageFilter<Image1Type,Image2Type>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput1( image1 );
@@ -167,7 +167,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
 
   // compute the Hausdorff distance H(image2,image1)
   {
-  typedef itk::HausdorffDistanceImageFilter<Image2Type,Image1Type> FilterType;
+  using FilterType = itk::HausdorffDistanceImageFilter<Image2Type,Image1Type>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput1( image2 );
@@ -206,7 +206,7 @@ int itkHausdorffDistanceImageFilterTest(int, char* [] )
   spacing2[1]=spacing2[1]/2;
   spacing2[2]=spacing2[2]/2;
   image2->SetSpacing(spacing2);
-  typedef itk::HausdorffDistanceImageFilter<Image2Type,Image1Type> FilterType;
+  using FilterType = itk::HausdorffDistanceImageFilter<Image2Type,Image1Type>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput1( image2 );

@@ -73,17 +73,17 @@ class ITKStatistics_EXPORT ProbabilityDistribution:
   public Object
 {
 public:
-  /** Standard class typedefs */
-  typedef ProbabilityDistribution    Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = ProbabilityDistribution;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(ProbabilityDistribution, Object);
 
   /** Type of the parameter vector. */
-  typedef  Array< double > ParametersType;
+  using ParametersType = Array< double >;
 
   /** Return the number of parameters that describe the
    * distribution. For nonparametric distributions, this will be a

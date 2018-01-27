@@ -36,11 +36,11 @@ class ITK_TEMPLATE_EXPORT SphereSpatialFunction:
   public InteriorExteriorSpatialFunction< VImageDimension, TInput >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SphereSpatialFunction< VImageDimension, TInput >           Self;
-  typedef InteriorExteriorSpatialFunction< VImageDimension, TInput > Superclass;
-  typedef SmartPointer< Self >                                       Pointer;
-  typedef SmartPointer< const Self >                                 ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SphereSpatialFunction< VImageDimension, TInput >;
+  using Superclass = InteriorExteriorSpatialFunction< VImageDimension, TInput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -49,10 +49,10 @@ public:
   itkTypeMacro(SphereSpatialFunction, InteriorExteriorSpatialFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Evaluates the function at a given position */
   OutputType Evaluate(const InputType & position) const override;

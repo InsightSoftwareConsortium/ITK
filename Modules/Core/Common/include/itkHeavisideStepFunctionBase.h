@@ -54,17 +54,17 @@ template< typename TInput = float, typename TOutput = double >
 class HeavisideStepFunctionBase:public FunctionBase< TInput, TOutput >
 {
 public:
-  typedef HeavisideStepFunctionBase       Self;
-  typedef FunctionBase< TInput, TOutput > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  using Self = HeavisideStepFunctionBase;
+  using Superclass = FunctionBase< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information */
   itkTypeMacro ( HeavisideStepFunctionBase, FunctionBase );
 
 
-  typedef typename Superclass::InputType  InputType;
-  typedef typename Superclass::OutputType OutputType;
+  using InputType = typename Superclass::InputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Evaluate at the specified input position */
   OutputType Evaluate(const InputType & input) const override = 0;

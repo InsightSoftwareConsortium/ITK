@@ -77,24 +77,24 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
   // Tolerance for comparing the matrix of features for regression testing.
   double epsilon = 1e-3;
 
-  typedef unsigned short  LabelPixelType;
-  typedef unsigned char   IntensityPixelType;
+  using LabelPixelType = unsigned short;
+  using IntensityPixelType = unsigned char;
 
-  typedef itk::Image<LabelPixelType, NDimension>        LabelImageType;
-  typedef itk::Image<IntensityPixelType, NDimension>    IntensityImageType;
+  using LabelImageType = itk::Image<LabelPixelType, NDimension>;
+  using IntensityImageType = itk::Image<IntensityPixelType, NDimension>;
 
   // Read the label image.
-  typedef itk::ImageFileReader< LabelImageType >  LabelReaderType;
+  using LabelReaderType = itk::ImageFileReader< LabelImageType >;
   typename LabelReaderType::Pointer labelReader = LabelReaderType::New();
   labelReader->SetFileName( labelImageName );
 
   // Read the intensity image.
-  typedef itk::ImageFileReader< IntensityImageType > IntensityReaderType;
+  using IntensityReaderType = itk::ImageFileReader< IntensityImageType >;
   typename IntensityReaderType::Pointer intensityReader = IntensityReaderType::New();
   intensityReader->SetFileName( intensityImageName );
 
   // First test the filter without any intensity image.
-  typedef itk::LabelGeometryImageFilter< LabelImageType, IntensityImageType > LabelGeometryType;
+  using LabelGeometryType = itk::LabelGeometryImageFilter< LabelImageType, IntensityImageType >;
   typename LabelGeometryType::Pointer labelGeometryFilter = LabelGeometryType::New();
   labelGeometryFilter->SetInput( labelReader->GetOutput() );
   labelGeometryFilter->SetIntensityInput( intensityReader->GetOutput() );
@@ -116,7 +116,7 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
 
   // Write out the oriented image of the first object.
   typename LabelGeometryType::LabelPixelType labelValue = 1;
-  typedef itk::ImageFileWriter< IntensityImageType > IntensityWriterType;
+  using IntensityWriterType = itk::ImageFileWriter< IntensityImageType >;
   typename IntensityWriterType::Pointer intensityWriter = IntensityWriterType::New();
   intensityWriter->SetFileName( outputImageName );
   intensityWriter->SetInput( labelGeometryFilter->GetOrientedIntensityImage(labelValue) );
@@ -132,8 +132,8 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
   // Write all of the object features out to a csv file.
   int numberOfLabels = labelGeometryFilter->GetNumberOfLabels();
   int numberOfColumns = 14;
-  typedef itk::CSVNumericObjectFileWriter<double, 1, 1>   WriterType;
-  typedef WriterType::vnlMatrixType                       MatrixType;
+  using WriterType = itk::CSVNumericObjectFileWriter<double, 1, 1>;
+  using MatrixType = WriterType::vnlMatrixType;
   MatrixType matrix(numberOfLabels,numberOfColumns);
 
   int rowIndex = 0;
@@ -223,7 +223,7 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
   {
     // Read the values we just wrote.
     // This is better than comparing against the values in memory because some truncation occurs when writing to file.
-    typedef itk::CSVArray2DFileReader<double > ReaderType;
+    using ReaderType = itk::CSVArray2DFileReader<double >;
     ReaderType::Pointer newReader = ReaderType::New();
     newReader->SetFileName( outputFileName );
     newReader->SetFieldDelimiterCharacter(',');
@@ -248,7 +248,7 @@ int LabelGeometryImageFilterTest(std::string labelImageName,std::string intensit
       return EXIT_FAILURE;
     }
 
-    typedef itk::CSVArray2DDataObject<double> DataFrameObjectType;
+    using DataFrameObjectType = itk::CSVArray2DDataObject<double>;
     DataFrameObjectType::Pointer newDFO = DataFrameObjectType::New();
     newDFO = newReader->GetOutput();
     MatrixType newMatrix = newDFO->GetMatrix();

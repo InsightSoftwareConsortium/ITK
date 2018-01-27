@@ -94,10 +94,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short  PixelType;
+  using PixelType = signed short;
   const unsigned int    Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >       ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -110,8 +110,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GaussianSpatialObject< Dimension >  MetaBallType;
-  typedef itk::GroupSpatialObject< Dimension >     GroupType;
+  using MetaBallType = itk::GaussianSpatialObject< Dimension >;
+  using GroupType = itk::GroupSpatialObject< Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -123,8 +123,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::SpatialObjectToImageFilter<
-    GroupType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    GroupType, ImageType >;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -199,7 +199,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef GroupType::TransformType                 TransformType;
+  using TransformType = GroupType::TransformType;
 
   TransformType::Pointer transform1 = TransformType::New();
   TransformType::Pointer transform2 = TransformType::New();
@@ -287,7 +287,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< ImageType >     WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[1] );

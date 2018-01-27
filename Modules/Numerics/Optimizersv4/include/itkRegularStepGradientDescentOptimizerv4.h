@@ -47,11 +47,11 @@ class ITK_TEMPLATE_EXPORT RegularStepGradientDescentOptimizerv4
 : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegularStepGradientDescentOptimizerv4                               Self;
-  typedef GradientDescentOptimizerv4Template<TInternalComputationValueType>   Superclass;
-  typedef SmartPointer< Self >                                                Pointer;
-  typedef SmartPointer< const Self >                                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegularStepGradientDescentOptimizerv4;
+  using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RegularStepGradientDescentOptimizerv4, GradientDescentOptimizerv4Template);
@@ -61,20 +61,20 @@ public:
 
 
   /** It should be possible to derive the internal computation type from the class object. */
-  typedef TInternalComputationValueType                     InternalComputationValueType;
+  using InternalComputationValueType = TInternalComputationValueType;
 
   /** Derivative type. */
-  typedef typename Superclass::DerivativeType               DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
   /** Metric type over which this class is templated. */
-  typedef typename Superclass::MeasureType                  MeasureType;
-  typedef typename Superclass::IndexRangeType               IndexRangeType;
-  typedef typename Superclass::ScalesType                   ScalesType;
-  typedef typename Superclass::ParametersType               ParametersType;
-  typedef typename Superclass::StopConditionType            StopConditionType;
+  using MeasureType = typename Superclass::MeasureType;
+  using IndexRangeType = typename Superclass::IndexRangeType;
+  using ScalesType = typename Superclass::ScalesType;
+  using ParametersType = typename Superclass::ParametersType;
+  using StopConditionType = typename Superclass::StopConditionType;
 
   /** Compensated summation type. */
-  typedef CompensatedSummation< InternalComputationValueType >   CompensatedSummationType;
+  using CompensatedSummationType = CompensatedSummation< InternalComputationValueType >;
 
   /** Minimum step length (learning rate) value for convergence checking.
    *  When the local minima is passed by taking a large step, the step

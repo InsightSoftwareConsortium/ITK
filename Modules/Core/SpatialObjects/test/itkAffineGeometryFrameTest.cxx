@@ -25,7 +25,7 @@
  */
 int itkAffineGeometryFrameTest(int, char* [])
 {
-  typedef itk::AffineGeometryFrame<> AffineGeometryFrameType;
+  using AffineGeometryFrameType = itk::AffineGeometryFrame<>;
 
   AffineGeometryFrameType::Pointer geometryFrame1 = AffineGeometryFrameType::New();
   std::cout << "Testing Print before initialization" << std::endl;

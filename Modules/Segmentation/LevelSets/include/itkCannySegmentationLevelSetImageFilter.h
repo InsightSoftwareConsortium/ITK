@@ -133,25 +133,25 @@ class ITK_TEMPLATE_EXPORT CannySegmentationLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:
-  /** Standard class typedefs */
-  typedef CannySegmentationLevelSetImageFilter Self;
-  typedef  SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = CannySegmentationLevelSetImageFilter;
+  using Superclass =
+      SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType        ValueType;
-  typedef typename Superclass::OutputImageType  OutputImageType;
-  typedef typename Superclass::FeatureImageType FeatureImageType;
-  typedef typename Superclass::VectorImageType  VectorImageType;
-  typedef typename Superclass::SpeedImageType   SpeedImageType;
+  /** Inherited type alias from the superclass. */
+  using ValueType = typename Superclass::ValueType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using FeatureImageType = typename Superclass::FeatureImageType;
+  using VectorImageType = typename Superclass::VectorImageType;
+  using SpeedImageType = typename Superclass::SpeedImageType;
 
   /** Type of the segmentation function */
   typedef::itk::CannySegmentationLevelSetFunction< OutputImageType,
                                                    FeatureImageType > CannyFunctionType;
 
-  typedef typename CannyFunctionType::ScalarValueType ScalarValueType;
+  using ScalarValueType = typename CannyFunctionType::ScalarValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CannySegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);

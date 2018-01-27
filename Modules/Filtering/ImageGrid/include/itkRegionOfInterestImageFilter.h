@@ -54,12 +54,12 @@ class ITK_TEMPLATE_EXPORT RegionOfInterestImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegionOfInterestImageFilter                     Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
-  typedef typename Superclass::InputImageRegionType       InputImageRegionType;
+  /** Standard class type aliases. */
+  using Self = RegionOfInterestImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using InputImageRegionType = typename Superclass::InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,13 +68,13 @@ public:
   itkTypeMacro(RegionOfInterestImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the input image region types. */
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::SizeType   SizeType;
+  using RegionType = typename TInputImage::RegionType;
+  using IndexType = typename TInputImage::IndexType;
+  using SizeType = typename TInputImage::SizeType;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
-  typedef typename TInputImage::PixelType  InputImagePixelType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
+  using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Set/Get the output image region. */
   itkSetMacro(RegionOfInterest, RegionType);

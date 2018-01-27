@@ -29,8 +29,7 @@ QuadEdgeMeshBoundaryEdgesMeshFunction< TMesh >::Evaluate(const InputType & mesh)
 const
 {
   // Push on a list all the non internal edges:
-  typedef typename MeshType::CellsContainerConstIterator
-  CellsContainerConstIterator;
+  using CellsContainerConstIterator = typename MeshType::CellsContainerConstIterator;
   std::set< QEPrimal* > boundaryList;
 
   CellsContainerConstIterator cellIterator = mesh.GetEdgeCells()->Begin();

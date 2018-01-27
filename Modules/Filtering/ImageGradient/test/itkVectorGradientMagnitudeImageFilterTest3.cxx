@@ -23,14 +23,14 @@
 
 int itkVectorGradientMagnitudeImageFilterTest3(int ac, char* av[] )
 {
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
-  typedef itk::Image<RGBPixelType, 3>  RGBImageType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType, 3>;
 
-  typedef itk::PipelineMonitorImageFilter<RGBImageType>                Monitor1Filter;
-  typedef itk::VectorGradientMagnitudeImageFilter<RGBImageType>        FilterType;
-  typedef itk::ImageFileReader<RGBImageType>                           ReaderType;
-  typedef itk::PipelineMonitorImageFilter<FilterType::OutputImageType> Monitor2Filter;
-  typedef itk::ImageFileWriter<FilterType::OutputImageType>            WriterType;
+  using Monitor1Filter = itk::PipelineMonitorImageFilter<RGBImageType>;
+  using FilterType = itk::VectorGradientMagnitudeImageFilter<RGBImageType>;
+  using ReaderType = itk::ImageFileReader<RGBImageType>;
+  using Monitor2Filter = itk::PipelineMonitorImageFilter<FilterType::OutputImageType>;
+  using WriterType = itk::ImageFileWriter<FilterType::OutputImageType>;
 
   if(ac < 4)
     {

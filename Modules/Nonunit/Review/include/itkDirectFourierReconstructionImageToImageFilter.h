@@ -52,42 +52,42 @@ class ITK_TEMPLATE_EXPORT DirectFourierReconstructionImageToImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard Self typedef */
-  typedef DirectFourierReconstructionImageToImageFilter Self;
+  /** Standard Self type alias */
+  using Self = DirectFourierReconstructionImageToImageFilter;
 
-  typedef TInputImage                          InputImageType;
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-  /** Standard Superclass typedef */
-  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
+  /** Standard Superclass type alias */
+  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
 
-  /** Standard Pointer typedef */
-  typedef SmartPointer< Self > Pointer;
-  /** Standard ConstPointer typedef */
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard Pointer type alias */
+  using Pointer = SmartPointer< Self >;
+  /** Standard ConstPointer type alias */
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro(Self);
   itkTypeMacro(DirectFourierReconstructionImageToImageFilter, ImageToImageFilter);
 
   /** Class RegionType */
-  typedef typename InputImageType::RegionType RegionType;
+  using RegionType = typename InputImageType::RegionType;
   /** Class IndexType */
-  typedef typename InputImageType::IndexType IndexType;
+  using IndexType = typename InputImageType::IndexType;
   /** Class SizeType */
-  typedef typename InputImageType::SizeType SizeType;
+  using SizeType = typename InputImageType::SizeType;
   /** Class PointType */
-  typedef typename InputImageType::PointType PointType;
+  using PointType = typename InputImageType::PointType;
   /** Class SpacingType */
-  typedef typename InputImageType::SpacingType SpacingType;
+  using SpacingType = typename InputImageType::SpacingType;
 
   /** Standard (const) InputImagePointer */
-  typedef typename InputImageType::ConstPointer ConstInputImagePointer;
+  using ConstInputImagePointer = typename InputImageType::ConstPointer;
   /** Special (non-const) InputImagePointer */
-  typedef typename InputImageType::Pointer InputImagePointer;
+  using InputImagePointer = typename InputImageType::Pointer;
   /** OutputImagePointer */
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
   itkSetMacro(ZeroPadding, unsigned short int);
   itkGetConstMacro(ZeroPadding, unsigned short int);
@@ -133,31 +133,31 @@ protected:
 
 private:
   /** Const slice iterator type of the input image */
-  typedef ImageSliceConstIteratorWithIndex< InputImageType > InputSliceIteratorType;
+  using InputSliceIteratorType = ImageSliceConstIteratorWithIndex< InputImageType >;
 
   /** 1D FFT filter type */
-  typedef Image< double, 1 >                                       LineImageType;
-  typedef VnlForwardFFTImageFilter< LineImageType > FFTLineFilterType;
+  using LineImageType = Image< double, 1 >;
+  using FFTLineFilterType = VnlForwardFFTImageFilter< LineImageType >;
   /** Derived 1D FFT image type */
-  typedef FFTLineFilterType::OutputImageType FFTLineType;
+  using FFTLineType = FFTLineFilterType::OutputImageType;
   /** Derived 1D input image type */
-  typedef FFTLineFilterType::InputImageType ProjectionLineType;
+  using ProjectionLineType = FFTLineFilterType::InputImageType;
   /** 1D FFT line iterator */
-  typedef ImageRegionIteratorWithIndex< FFTLineType > FFTLineIteratorType;
+  using FFTLineIteratorType = ImageRegionIteratorWithIndex< FFTLineType >;
   /** 1D FFT line B-Spline interpolator */
-  typedef ComplexBSplineInterpolateImageFunction< FFTLineType, double, double > FFTLineInterpolatorType;
+  using FFTLineInterpolatorType = ComplexBSplineInterpolateImageFunction< FFTLineType, double, double >;
 
   /** 2D inverse FFT filter type */
-  typedef Image< std::complex<double>, 2>                          IFFTImageType;
-  typedef VnlInverseFFTImageFilter< IFFTImageType > IFFTSliceFilterType;
+  using IFFTImageType = Image< std::complex<double>, 2>;
+  using IFFTSliceFilterType = VnlInverseFFTImageFilter< IFFTImageType >;
   /** Derived 2D FFT image type */
-  typedef IFFTSliceFilterType::InputImageType FFTSliceType;
+  using FFTSliceType = IFFTSliceFilterType::InputImageType;
   /** Derived 2D output slice type */
-  typedef IFFTSliceFilterType::OutputImageType OutputSliceType;
+  using OutputSliceType = IFFTSliceFilterType::OutputImageType;
   /** 2D FFT slice iterator */
-  typedef ImageRegionIteratorWithIndex< FFTSliceType > FFTSliceIteratorType;
+  using FFTSliceIteratorType = ImageRegionIteratorWithIndex< FFTSliceType >;
   /** 2D output slice iterator */
-  typedef ImageRegionIteratorWithIndex< OutputSliceType > OutputSliceIteratorType;
+  using OutputSliceIteratorType = ImageRegionIteratorWithIndex< OutputSliceType >;
 
   unsigned short int m_ZeroPadding;       /**< n-fold zero-padding */
   unsigned short int m_OverSampling;      /**< n-fold oversampling */

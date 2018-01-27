@@ -38,10 +38,10 @@ int itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > ImageType;
+  using ImageType = itk::Image< unsigned char, dim >;
 
   //reading image to file
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -50,7 +50,7 @@ int itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
 
   //converting Label image to Statistics label map
   // don't set the output type to test the default value of the template parameter
-  typedef itk::LabelImageToStatisticsLabelMapFilter< ImageType, ImageType > I2LType;
+  using I2LType = itk::LabelImageToStatisticsLabelMapFilter< ImageType, ImageType >;
   I2LType::Pointer i2l = I2LType::New();
   itk::SimpleFilterWatcher watcher1( i2l );
 
@@ -108,13 +108,13 @@ int itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   i2l->SetNumberOfBins( numberOfBins );
   TEST_SET_GET_VALUE( numberOfBins, i2l->GetNumberOfBins() );
 
-  typedef itk::LabelMapToLabelImageFilter< I2LType::OutputImageType, ImageType> L2IType;
+  using L2IType = itk::LabelMapToLabelImageFilter< I2LType::OutputImageType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
   itk::SimpleFilterWatcher watcher2( l2i );
 
   l2i->SetInput( i2l->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );
   writer->SetFileName( argv[3] );

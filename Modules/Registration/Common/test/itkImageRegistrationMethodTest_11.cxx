@@ -35,31 +35,31 @@ int itkImageRegistrationMethodTest_11(int, char* [] )
   const unsigned int dimension = 3;
 
   // Fixed Image Type
-  typedef itk::Image<float,dimension>                    FixedImageType;
+  using FixedImageType = itk::Image<float,dimension>;
 
   // Moving Image Type
-  typedef itk::Image<char,dimension>                     MovingImageType;
+  using MovingImageType = itk::Image<char,dimension>;
 
   // Transform Type
-  typedef itk::TranslationTransform< double,dimension >  TransformType;
+  using TransformType = itk::TranslationTransform< double,dimension >;
 
   // Optimizer Type
-  typedef itk::GradientDescentOptimizer                  OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizer;
 
   // Metric Type
-  typedef itk::MeanReciprocalSquareDifferenceImageToImageMetric<
+  using MetricType = itk::MeanReciprocalSquareDifferenceImageToImageMetric<
                                     FixedImageType,
-                                    MovingImageType >    MetricType;
+                                    MovingImageType >;
 
   // Interpolation technique
-  typedef itk:: LinearInterpolateImageFunction<
+  using InterpolatorType = itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
-                                    double          >    InterpolatorType;
+                                    double          >;
 
   // Registration Method
-  typedef itk::ImageRegistrationMethod<
+  using RegistrationType = itk::ImageRegistrationMethod<
                                     FixedImageType,
-                                    MovingImageType >    RegistrationType;
+                                    MovingImageType >;
 
 
   MetricType::Pointer         metric        = MetricType::New();

@@ -28,16 +28,16 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>           myImageType;
+  using myImageType = itk::Image<float, myDimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>             myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>              mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
   myImageType::Pointer inputImage  = myImageType::New();
@@ -63,7 +63,7 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
   inputImage->Allocate();
 
   // Declare Iterator type for the input image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
+  using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
   // Create one iterator for the Input Image A (this is a light object)
   myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
@@ -96,16 +96,16 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
     }
 
   // Declare the type for the tensor pixel and tensor image.
-  typedef itk::DiffusionTensor3D< double >              myTensorPixelType;
-  typedef itk::Image< myTensorPixelType, myDimension >  myDTIImageType;
-  typedef myTensorPixelType::RealValueType              myRealValueType;
+  using myTensorPixelType = itk::DiffusionTensor3D< double >;
+  using myDTIImageType = itk::Image< myTensorPixelType, myDimension >;
+  using myRealValueType = myTensorPixelType::RealValueType;
 
   // Declare the type for the image generator
-  typedef itk::HessianRecursiveGaussianImageFilter<
+  using myFilterType = itk::HessianRecursiveGaussianImageFilter<
                                             myImageType,
-                                            myDTIImageType >  myFilterType;
+                                            myDTIImageType >;
 
-  typedef itk::Image< myRealValueType, myDimension > myFaImageType;
+  using myFaImageType = itk::Image< myRealValueType, myDimension >;
 
 
   // Create a  Filter
@@ -119,10 +119,9 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
   filter->SetSigma( 8.0 );
 
 
-  typedef itk::TensorRelativeAnisotropyImageFilter<
+  using FAFilterType = itk::TensorRelativeAnisotropyImageFilter<
                                                   myDTIImageType,
-                                                  myFaImageType
-                                                        > FAFilterType;
+                                                  myFaImageType >;
 
   FAFilterType::Pointer relativeAnisotropyFilter = FAFilterType::New();
 
@@ -139,8 +138,7 @@ int itkTensorRelativeAnisotropyImageFilterTest(int, char* [] )
   myFaImageType::Pointer outputImage = relativeAnisotropyFilter->GetOutput();
 
   // Declare Iterator type for the output image
-  typedef itk::ImageRegionIteratorWithIndex<
-                                 myFaImageType>  myOutputIteratorType;
+  using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myFaImageType>;
 
   // Create an iterator for going through the output image
   myOutputIteratorType itg( outputImage,

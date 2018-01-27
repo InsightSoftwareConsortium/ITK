@@ -274,7 +274,7 @@ template <typename TPixel,int VDimension> int MINCReadWriteTest(const char *file
 {
   int success(EXIT_SUCCESS);
 
-  typedef typename itk::Image<TPixel,VDimension> ImageType;
+  using ImageType = typename itk::Image<TPixel,VDimension>;
 
   typename ImageType::SizeType size;
   typename ImageType::IndexType index;
@@ -534,8 +534,8 @@ template <typename TPixel,int VDimension> int MINCReadWriteTestVector(const char
 {
   int success(EXIT_SUCCESS);
 
-  typedef typename itk::VectorImage<TPixel,VDimension>            ImageType;
-  typedef typename itk::VectorImage<TPixel,VDimension>::PixelType InternalPixelType;
+  using ImageType = typename itk::VectorImage<TPixel,VDimension>;
+  using InternalPixelType = typename itk::VectorImage<TPixel,VDimension>::PixelType;
 
   typename ImageType::SizeType size;
   typename ImageType::IndexType index;

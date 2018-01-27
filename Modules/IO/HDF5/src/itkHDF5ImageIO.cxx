@@ -1140,7 +1140,7 @@ bool
 HDF5ImageIO
 ::WriteMetaArray(const std::string &name,MetaDataObjectBase *metaObjBase)
 {
-  typedef MetaDataObject< Array<TType> > MetaDataArrayObject;
+  using MetaDataArrayObject = MetaDataObject< Array<TType> >;
     MetaDataArrayObject *metaObj =
     dynamic_cast<MetaDataArrayObject  *>(metaObjBase);
   if(metaObj == nullptr)

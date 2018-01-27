@@ -39,16 +39,16 @@ class ITK_TEMPLATE_EXPORT PointBasedSpatialObject:
 {
 public:
 
-  typedef PointBasedSpatialObject                  Self;
-  typedef SpatialObject< TDimension >              Superclass;
-  typedef SmartPointer< Self >                     Pointer;
-  typedef SmartPointer< const Self >               ConstPointer;
-  typedef double                                   ScalarType;
-  typedef SpatialObjectPoint< TDimension >         SpatialObjectPointType;
-  typedef typename Superclass::PointType           PointType;
-  typedef typename Superclass::TransformType       TransformType;
-  typedef typename Superclass::VectorType          VectorType;
-  typedef typename Superclass::CovariantVectorType CovariantVectorType;
+  using Self = PointBasedSpatialObject;
+  using Superclass = SpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ScalarType = double;
+  using SpatialObjectPointType = SpatialObjectPoint< TDimension >;
+  using PointType = typename Superclass::PointType;
+  using TransformType = typename Superclass::TransformType;
+  using VectorType = typename Superclass::VectorType;
+  using CovariantVectorType = typename Superclass::CovariantVectorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

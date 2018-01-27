@@ -82,9 +82,9 @@ template< typename TQuadEdge >
 class QuadEdgeMeshBaseIterator
 {
 public:
-  // Hierarchy typedefs & values.
-  typedef QuadEdgeMeshBaseIterator Self;
-  typedef TQuadEdge                QuadEdgeType;
+  // Hierarchy type alias & values.
+  using Self = QuadEdgeMeshBaseIterator;
+  using QuadEdgeType = TQuadEdge;
 
   // Different types of iterators, one for each basic QE operation.
   enum {
@@ -246,10 +246,10 @@ class QuadEdgeMeshIterator:
   public QuadEdgeMeshBaseIterator< TQuadEdge >
 {
 public:
-  /** Hierarchy typedefs and values. */
-  typedef QuadEdgeMeshIterator                  Self;
-  typedef QuadEdgeMeshBaseIterator< TQuadEdge > Superclass;
-  typedef TQuadEdge                             QuadEdgeType;
+  /** Hierarchy type alias and values. */
+  using Self = QuadEdgeMeshIterator;
+  using Superclass = QuadEdgeMeshBaseIterator< TQuadEdge >;
+  using QuadEdgeType = TQuadEdge;
 
 public:
   /** Object creation methods. */
@@ -275,12 +275,12 @@ class QuadEdgeMeshIteratorGeom:
   public QuadEdgeMeshIterator< TGeometricalQuadEdge >
 {
 public:
-  /** Hierarchy typedefs and values. */
-  typedef QuadEdgeMeshIterator< TGeometricalQuadEdge > Superclass;
-  typedef TGeometricalQuadEdge                         QuadEdgeType;
+  /** Hierarchy type alias and values. */
+  using Superclass = QuadEdgeMeshIterator< TGeometricalQuadEdge >;
+  using QuadEdgeType = TGeometricalQuadEdge;
 
   /** Geometric value type. */
-  typedef typename QuadEdgeType::OriginRefType OriginRefType;
+  using OriginRefType = typename QuadEdgeType::OriginRefType;
 
 public:
   QuadEdgeMeshIteratorGeom(QuadEdgeType *e = (QuadEdgeType *)nullptr,
@@ -301,11 +301,11 @@ class QuadEdgeMeshConstIterator:
   public QuadEdgeMeshBaseIterator< TQuadEdge >
 {
 public:
-  /** Hierarchy typedefs & values. */
-  typedef QuadEdgeMeshConstIterator             Self;
-  typedef QuadEdgeMeshBaseIterator< TQuadEdge > Superclass;
-  typedef QuadEdgeMeshIterator< TQuadEdge >     NoConstType;
-  typedef TQuadEdge                             QuadEdgeType;
+  /** Hierarchy type alias & values. */
+  using Self = QuadEdgeMeshConstIterator;
+  using Superclass = QuadEdgeMeshBaseIterator< TQuadEdge >;
+  using NoConstType = QuadEdgeMeshIterator< TQuadEdge >;
+  using QuadEdgeType = TQuadEdge;
 
 public:
   /** Object creation methods. */
@@ -339,14 +339,14 @@ class QuadEdgeMeshConstIteratorGeom:
   public QuadEdgeMeshConstIterator< TGeometricalQuadEdge >
 {
 public:
-  /** Hierarchy typedefs and values. */
-  typedef QuadEdgeMeshConstIteratorGeom                     Self;
-  typedef QuadEdgeMeshConstIterator< TGeometricalQuadEdge > Superclass;
-  typedef QuadEdgeMeshIteratorGeom< TGeometricalQuadEdge >  NoConstType;
-  typedef TGeometricalQuadEdge                              QuadEdgeType;
+  /** Hierarchy type alias and values. */
+  using Self = QuadEdgeMeshConstIteratorGeom;
+  using Superclass = QuadEdgeMeshConstIterator< TGeometricalQuadEdge >;
+  using NoConstType = QuadEdgeMeshIteratorGeom< TGeometricalQuadEdge >;
+  using QuadEdgeType = TGeometricalQuadEdge;
 
   /** Geometric value type. */
-  typedef typename QuadEdgeType::OriginRefType OriginRefType;
+  using OriginRefType = typename QuadEdgeType::OriginRefType;
 
 public:
   QuadEdgeMeshConstIteratorGeom(const QuadEdgeType *e = (QuadEdgeType *)0,

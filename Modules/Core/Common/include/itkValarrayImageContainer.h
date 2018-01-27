@@ -53,19 +53,19 @@ class ITK_TEMPLATE_EXPORT ValarrayImageContainer:
   private std::valarray< TElement >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ValarrayImageContainer     Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ValarrayImageContainer;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Save the template parameters. */
-  typedef TElementIdentifier ElementIdentifier;
-  typedef TElement           Element;
+  using ElementIdentifier = TElementIdentifier;
+  using Element = TElement;
 
 private:
   /** Quick access to the STL valarray type that was inherited. */
-  typedef std::valarray< Element > ValarrayType;
+  using ValarrayType = std::valarray< Element >;
 
 protected:
   /** Provide pass-through constructors corresponding to all the STL

@@ -47,60 +47,60 @@ template< typename TPixelType, unsigned int VDimension = 3,
 class ITK_TEMPLATE_EXPORT SimplexMesh:public Mesh< TPixelType, VDimension, TMeshTraits >
 {
 public:
-  /** Standard typedefs. */
-  typedef SimplexMesh Self;
+  /** Standard type alias. */
+  using Self = SimplexMesh;
 
-  /** Standard typedefs. */
-  typedef Mesh< TPixelType, VDimension, TMeshTraits > Superclass;
+  /** Standard type alias. */
+  using Superclass = Mesh< TPixelType, VDimension, TMeshTraits >;
 
-  /** Standard typedefs. */
-  typedef SmartPointer< Self > Pointer;
+  /** Standard type alias. */
+  using Pointer = SmartPointer< Self >;
 
-  /** Standard typedefs. */
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard type alias. */
+  using ConstPointer = SmartPointer< const Self >;
 
   /** definition for array of indices. */
-  typedef typename SimplexMeshGeometry::IndexArray IndexArray;
+  using IndexArray = typename SimplexMeshGeometry::IndexArray;
 
   /** definition for a set of neighbor indices */
-  typedef std::set< SizeValueType > NeighborSetType;
+  using NeighborSetType = std::set< SizeValueType >;
 
   /** */
-  typedef typename NeighborSetType::iterator NeighborSetIterator;
+  using NeighborSetIterator = typename NeighborSetType::iterator;
 
   /** */
-  typedef std::vector< SizeValueType > NeighborListType;
+  using NeighborListType = std::vector< SizeValueType >;
 
   /** */
-  typedef typename TMeshTraits::PointType PointType;
+  using PointType = typename TMeshTraits::PointType;
 
   /** */
-  typedef typename TMeshTraits::PointIdentifier PointIdentifier;
+  using PointIdentifier = typename TMeshTraits::PointIdentifier;
 
   /** */
-  typedef typename PointType::VectorType VectorType;
+  using VectorType = typename PointType::VectorType;
 
   /** */
-  typedef CovariantVector< typename VectorType::ValueType, 3 > CovariantVectorType;
+  using CovariantVectorType = CovariantVector< typename VectorType::ValueType, 3 >;
 
   /** */
-  typedef typename Superclass::CellType CellType;
+  using CellType = typename Superclass::CellType;
 
   /** */
-  typedef typename CellType::CellAutoPointer CellAutoPointer;
+  using CellAutoPointer = typename CellType::CellAutoPointer;
   /** */
-  typedef itk::LineCell< CellType > LineType;
+  using LineType = itk::LineCell< CellType >;
 
   /** map containing a SimplexMeshGeometry data object for each mesh
    * point */
-  typedef itk::MapContainer< SizeValueType, SimplexMeshGeometry * > GeometryMapType;
+  using GeometryMapType = itk::MapContainer< SizeValueType, SimplexMeshGeometry * >;
 
   /** smartpointer def for the geometry map */
-  typedef typename GeometryMapType::Pointer GeometryMapPointer;
+  using GeometryMapPointer = typename GeometryMapType::Pointer;
 
   /** iterator definition for iterating over a geometry map */
-  typedef typename GeometryMapType::Iterator        GeometryMapIterator;
-  typedef typename GeometryMapType::ConstIterator   GeometryMapConstIterator;
+  using GeometryMapIterator = typename GeometryMapType::Iterator;
+  using GeometryMapConstIterator = typename GeometryMapType::ConstIterator;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -109,17 +109,17 @@ public:
   itkTypeMacro(SimplexMesh, Mesh);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TMeshTraits                                       MeshTraits;
-  typedef typename MeshTraits::PixelType                    PixelType;
-  typedef typename MeshTraits::PointsContainer              PointsContainer;
-  typedef typename Superclass::PointsContainerPointer       PointsContainerPointer;
-  typedef typename Superclass::PointsContainer::Iterator    PointsContainerIterator;
-  typedef typename Superclass::PointsContainerConstIterator PointsContainerConstIterator;
-  typedef typename Superclass::CellsContainerPointer        CellsContainerPointer;
-  typedef typename Superclass::CellsContainerConstPointer   CellsContainerConstPointer;
-  typedef typename Superclass::CellsContainerIterator       CellsContainerIterator;
-  typedef typename Superclass::CellsContainerConstIterator  CellsContainerConstIterator;
-  typedef typename Superclass::CellIdentifier               CellIdentifier;
+  using MeshTraits = TMeshTraits;
+  using PixelType = typename MeshTraits::PixelType;
+  using PointsContainer = typename MeshTraits::PointsContainer;
+  using PointsContainerPointer = typename Superclass::PointsContainerPointer;
+  using PointsContainerIterator = typename Superclass::PointsContainer::Iterator;
+  using PointsContainerConstIterator = typename Superclass::PointsContainerConstIterator;
+  using CellsContainerPointer = typename Superclass::CellsContainerPointer;
+  using CellsContainerConstPointer = typename Superclass::CellsContainerConstPointer;
+  using CellsContainerIterator = typename Superclass::CellsContainerIterator;
+  using CellsContainerConstIterator = typename Superclass::CellsContainerConstIterator;
+  using CellIdentifier = typename Superclass::CellIdentifier;
 
   /** set the map of geometrydata to the new pointer */
   itkSetMacro(GeometryData, GeometryMapPointer);

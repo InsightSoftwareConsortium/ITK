@@ -73,19 +73,19 @@ class ITK_TEMPLATE_EXPORT VectorExpandImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorExpandImageFilter                         Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VectorExpandImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Typedef to describe the output image region type. */
-  typedef typename TInputImage::Pointer     InputImagePointer;
-  typedef typename TOutputImage::Pointer    OutputImagePointer;
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using OutputImagePointer = typename TOutputImage::Pointer;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorExpandImageFilter, ImageToImageFilter);
@@ -95,27 +95,27 @@ public:
                       TInputImage::ImageDimension);
 
   /** Inherit some types from superclass */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
   /** Input/output vector types. */
-  typedef typename OutputImageType::PixelType OutputPixelType;
-  typedef typename OutputPixelType::ValueType OutputValueType;
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef typename InputPixelType::ValueType  InputValueType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputValueType = typename OutputPixelType::ValueType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using InputValueType = typename InputPixelType::ValueType;
 
   /** Determine the vector dimension. */
   enum { VectorDimension = InputPixelType::Dimension };
 
   /** The type of the expand factors representation */
-  typedef float                                           ExpandFactorsType;
-  typedef FixedArray< ExpandFactorsType, ImageDimension > ExpandFactorsArrayType;
+  using ExpandFactorsType = float;
+  using ExpandFactorsArrayType = FixedArray< ExpandFactorsType, ImageDimension >;
 
   /** Typedef support for the interpolation function */
-  typedef double                                                               CoordRepType;
-  typedef VectorInterpolateImageFunction< InputImageType, CoordRepType >       InterpolatorType;
-  typedef typename InterpolatorType::Pointer                                   InterpolatorPointer;
-  typedef VectorLinearInterpolateImageFunction< InputImageType, CoordRepType > DefaultInterpolatorType;
+  using CoordRepType = double;
+  using InterpolatorType = VectorInterpolateImageFunction< InputImageType, CoordRepType >;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
+  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction< InputImageType, CoordRepType >;
 
   /** Get/Set the interpolator function. */
   itkSetObjectMacro(Interpolator, InterpolatorType);

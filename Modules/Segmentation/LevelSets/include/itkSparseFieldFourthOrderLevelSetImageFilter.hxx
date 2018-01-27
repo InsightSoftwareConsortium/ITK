@@ -154,7 +154,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 ::ComputeCurvatureTarget(const OutputImageType *distanceImage,
                          SparseImageType *sparseImage) const
 {
-  typedef ImageRegionConstIterator< OutputImageType > DistanceImageIteratorType;
+  using DistanceImageIteratorType = ImageRegionConstIterator< OutputImageType >;
 
   DistanceImageIteratorType distanceImageIterator (
     distanceImage,

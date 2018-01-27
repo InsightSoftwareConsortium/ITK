@@ -34,10 +34,10 @@ int itkDCMTKImageIOOrthoDirTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  typedef short                                  InputPixelType;
-  typedef itk::Image< InputPixelType, 3 >        InputImageType;
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
-  typedef itk::DCMTKImageIO                      ImageIOType;
+  using InputPixelType = short;
+  using InputImageType = itk::Image< InputPixelType, 3 >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ImageIOType = itk::DCMTKImageIO;
 
   ImageIOType::Pointer dcmImageIO = ImageIOType::New();
 

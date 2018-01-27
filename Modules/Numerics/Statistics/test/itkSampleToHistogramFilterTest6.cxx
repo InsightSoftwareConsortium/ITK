@@ -32,21 +32,21 @@ int itkSampleToHistogramFilterTest6( int, char * [] )
   // value overflow in the computation of the upper limit of the
   // final histogram bins.
   //
-  typedef float  VMeasurementType;  // float type for the samples
-  typedef float  HMeasurementType;  // float type for the histogram
+  using VMeasurementType = float;  // float type for the samples
+  using HMeasurementType = float;  // float type for the histogram
 
 
-  typedef itk::Array< VMeasurementType > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Array< VMeasurementType >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-  typedef itk::Statistics::Histogram< HMeasurementType,
-          itk::Statistics::DenseFrequencyContainer2 > HistogramType;
+  using HistogramType = itk::Statistics::Histogram< HMeasurementType,
+          itk::Statistics::DenseFrequencyContainer2 >;
 
-  typedef itk::Statistics::SampleToHistogramFilter<
-    SampleType, HistogramType > FilterType;
+  using FilterType = itk::Statistics::SampleToHistogramFilter<
+    SampleType, HistogramType >;
 
-  typedef FilterType::HistogramSizeType              HistogramSizeType;
-  typedef FilterType::HistogramMeasurementVectorType HistogramMeasurementVectorType;
+  using HistogramSizeType = FilterType::HistogramSizeType;
+  using HistogramMeasurementVectorType = FilterType::HistogramMeasurementVectorType;
 
   FilterType::Pointer filter = FilterType::New();
   SampleType::Pointer sample = SampleType::New();

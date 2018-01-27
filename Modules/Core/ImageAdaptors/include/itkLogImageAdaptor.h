@@ -41,13 +41,13 @@ template< typename TInternalType, typename TExternalType >
 class LogPixelAccessor
 {
 public:
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
    * that this class will exhibit. */
-  typedef TExternalType ExternalType;
+  using ExternalType = TExternalType;
 
-  /** Internal typedef. It defines the internal real
+  /** Internal type alias. It defines the internal real
    * representation of data. */
-  typedef TInternalType InternalType;
+  using InternalType = TInternalType;
 
   static inline void Set(TInternalType & output, const TExternalType & input)
   { output = (TInternalType)std::log( (double)input ); }
@@ -74,15 +74,15 @@ class LogImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LogImageAdaptor Self;
-  typedef ImageAdaptor< TImage,
+  /** Standard class type aliases. */
+  using Self = LogImageAdaptor;
+  using Superclass = ImageAdaptor< TImage,
                         Accessor::LogPixelAccessor<
                           typename TImage::PixelType,
-                          TOutputPixelType > >  Superclass;
+                          TOutputPixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LogImageAdaptor, ImageAdaptor);

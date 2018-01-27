@@ -42,18 +42,18 @@ public:
 
   /**-TYPEDEFS---------------------------------------------------------------*/
 
-  /** Standard class typedefs */
-  typedef RingBuffer                    Self;
-  typedef Object                        Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer< const Self >    ConstPointer;
+  /** Standard class type aliases */
+  using Self = RingBuffer;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Contained type */
-  typedef TElement                      ElementType;
-  typedef typename ElementType::Pointer ElementPointer;
+  using ElementType = TElement;
+  using ElementPointer = typename ElementType::Pointer;
 
-  typedef ::itk::SizeValueType          SizeValueType;
-  typedef ::itk::OffsetValueType        OffsetValueType;
+  using SizeValueType = ::itk::SizeValueType;
+  using OffsetValueType = ::itk::OffsetValueType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

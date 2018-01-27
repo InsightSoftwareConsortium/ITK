@@ -28,11 +28,11 @@ int itkMembershipSampleTest2(int, char* [] )
 
   const unsigned int numberOfClasses1 = 2;
 
-  typedef itk::Array< float >  MeasurementVectorType;
+  using MeasurementVectorType = itk::Array< float >;
 
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-  typedef itk::Statistics::MembershipSample< SampleType >   MembershipSampleType;
+  using MembershipSampleType = itk::Statistics::MembershipSample< SampleType >;
 
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize( MeasurementVectorSize );
@@ -102,7 +102,7 @@ int itkMembershipSampleTest2(int, char* [] )
   std::cerr << "Iterators..." << std::endl;
   sampleCounter = 0;
     {
-    typedef MembershipSampleType::Iterator IteratorType;
+    using IteratorType = MembershipSampleType::Iterator;
 
     IteratorType s_iter = membershipSample->Begin();
 
@@ -180,7 +180,7 @@ int itkMembershipSampleTest2(int, char* [] )
     std::cerr << "Const Iterators..." << std::endl;
     {
     // forward iterator
-    typedef MembershipSampleType::ConstIterator  ConstIteratorType;
+    using ConstIteratorType = MembershipSampleType::ConstIterator;
     ConstIteratorType s_iter = membershipSample->Begin();
 
     // copy constructor

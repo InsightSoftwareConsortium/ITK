@@ -155,7 +155,7 @@ template<typename TParametersValueType, unsigned int NDimensions>
 void KernelTransform<TParametersValueType, NDimensions>
 ::ComputeWMatrix()
 {
-  typedef vnl_svd<TParametersValueType> SVDSolverType;
+  using SVDSolverType = vnl_svd<TParametersValueType>;
 
   this->ComputeL();
   this->ComputeY();
@@ -345,7 +345,7 @@ KernelTransform<TParametersValueType, NDimensions>
 {
   OutputPointType result;
 
-  typedef typename OutputPointType::ValueType ValueType;
+  using ValueType = typename OutputPointType::ValueType;
 
   result.Fill(NumericTraits<ValueType>::ZeroValue());
 

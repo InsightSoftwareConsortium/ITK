@@ -33,9 +33,9 @@ int itkScalarImageToRunLengthFeaturesFilterTest(int, char* [] )
   //------------------------------------------------------
   //Create a simple test images
   //------------------------------------------------------
-  typedef itk::Image<unsigned char, NDIMENSION> InputImageType;
+  using InputImageType = itk::Image<unsigned char, NDIMENSION>;
 
-  typedef itk::ImageRegionIterator< InputImageType > InputImageIterator;
+  using InputImageIterator = itk::ImageRegionIterator< InputImageType >;
 
 
   InputImageType::Pointer image = InputImageType::New();
@@ -100,8 +100,7 @@ int itkScalarImageToRunLengthFeaturesFilterTest(int, char* [] )
   try
     {
 
-    typedef itk::Statistics::ScalarImageToRunLengthFeaturesFilter<
-      InputImageType> RunLengthFilterType;
+    using RunLengthFilterType = itk::Statistics::ScalarImageToRunLengthFeaturesFilter<InputImageType>;
 
     // First test: just use the defaults.
     RunLengthFilterType::Pointer texFilter = RunLengthFilterType::New();
@@ -325,7 +324,7 @@ int itkScalarImageToRunLengthFeaturesFilterTest(int, char* [] )
       }
 
     //Test Set/Get Requested features
-    typedef RunLengthFilterType::RunLengthFeaturesFilterType   RunLengthFeaturesFilterType;
+    using RunLengthFeaturesFilterType = RunLengthFilterType::RunLengthFeaturesFilterType;
 
     RunLengthFilterType::FeatureNameVectorPointer requestedFeatures =
                                                 RunLengthFilterType::FeatureNameVector::New();

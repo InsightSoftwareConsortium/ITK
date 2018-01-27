@@ -53,7 +53,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
 {
   Superclass::InitializeRegistrationAtEachLevel( level );
 
-  typedef BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<OutputTransformType> BSplineDisplacementFieldTransformAdaptorType;
+  using BSplineDisplacementFieldTransformAdaptorType = BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<OutputTransformType>;
 
   if( level == 0 )
     {
@@ -89,7 +89,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
   InitialTransformType* fixedInitialTransform = const_cast<InitialTransformType*>( this->GetFixedInitialTransform() );
 
   // Monitor the convergence
-  typedef itk::Function::WindowConvergenceMonitoringFunction<RealType> ConvergenceMonitoringType;
+  using ConvergenceMonitoringType = itk::Function::WindowConvergenceMonitoringFunction<RealType>;
   typename ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
   convergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
 
@@ -140,7 +140,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
 
     // Add the update field to both displacement fields (from fixed/moving to middle image) and then smooth
 
-    typedef ComposeDisplacementFieldsImageFilter<DisplacementFieldType> ComposerType;
+    using ComposerType = ComposeDisplacementFieldsImageFilter<DisplacementFieldType>;
 
     typename ComposerType::Pointer fixedComposer = ComposerType::New();
     fixedComposer->SetDisplacementField( fixedToMiddleSmoothUpdateField );
@@ -285,7 +285,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
       {
       VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
 
-      typedef ResampleImageFilter<MaskImageType, WeightedMaskImageType, typename TOutputTransform::ScalarType> MaskResamplerType;
+      using MaskResamplerType = ResampleImageFilter<MaskImageType, WeightedMaskImageType, typename TOutputTransform::ScalarType>;
       typename MaskResamplerType::Pointer fixedMaskResampler = MaskResamplerType::New();
       fixedMaskResampler->SetTransform( fixedTransform );
       fixedMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[0].GetPointer() ) )->GetImage() );
@@ -312,7 +312,7 @@ BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, T
 ::BSplineSmoothDisplacementField( const DisplacementFieldType * field, const ArrayType & numberOfControlPoints,
   const WeightedMaskImageType * mask, const BSplinePointSetType * gradientPointSet )
 {
-  typedef ImageDuplicator<DisplacementFieldType> DuplicatorType;
+  using DuplicatorType = ImageDuplicator<DisplacementFieldType>;
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
   duplicator->SetInputImage( field );
   duplicator->Update();

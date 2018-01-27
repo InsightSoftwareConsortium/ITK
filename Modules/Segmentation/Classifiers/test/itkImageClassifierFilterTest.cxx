@@ -36,20 +36,20 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
   const unsigned int MeasurementVectorSize = 1;
-  typedef double MeasurementComponentType;
+  using MeasurementComponentType = double;
   const unsigned int numberOfClasses = 2;
-  typedef itk::FixedArray< MeasurementComponentType, MeasurementVectorSize > InputPixelType;
+  using InputPixelType = itk::FixedArray< MeasurementComponentType, MeasurementVectorSize >;
 
   const unsigned int ImageDimension = 2;
-  typedef itk::Image< InputPixelType, ImageDimension > InputImageType;
+  using InputImageType = itk::Image< InputPixelType, ImageDimension >;
 
-  typedef unsigned char OutputPixelType;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
+  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
 
   //Generate an image with pixel intensities generated from two normal
   //distributions
-  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
+  using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
   normalGenerator->Initialize( 101 );
 
@@ -105,20 +105,17 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
 
   //Instantiate an image to list sample adaptor to pass the sample list
   //to EM estimator
-  typedef  itk::Statistics::ImageToListSampleAdaptor< InputImageType >
-    ImageToListSampleAdaptorType;
+  using ImageToListSampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor<InputImageType>;
 
   ImageToListSampleAdaptorType::Pointer sample = ImageToListSampleAdaptorType::New();
   sample->SetImage( image );
 
   //Use EM estimator to estimate gaussian membership functions
-  typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator< ImageToListSampleAdaptorType >
-    EstimatorType;
-  typedef itk::Statistics::GaussianMixtureModelComponent< ImageToListSampleAdaptorType >
-    ComponentType;
+  using EstimatorType = itk::Statistics::ExpectationMaximizationMixtureModelEstimator<ImageToListSampleAdaptorType>;
+  using ComponentType = itk::Statistics::GaussianMixtureModelComponent<ImageToListSampleAdaptorType>;
 
   /* Preparing the gaussian mixture components */
-  typedef itk::Array < double > ParametersType;
+  using ParametersType = itk::Array < double >;
   std::vector< ParametersType > initialParameters(numberOfClasses);
   ParametersType params(2);
   params[0] = 8.0;
@@ -129,7 +126,7 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
   params[1] = 2.0;
   initialParameters[1] = params;
 
-  typedef ComponentType::Pointer ComponentPointer;
+  using ComponentPointer = ComponentType::Pointer;
   std::vector< ComponentPointer > components;
   for (unsigned int i = 0; i < numberOfClasses; i++ )
     {
@@ -169,20 +166,20 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
     }
 
 
-  typedef itk::Statistics::ImageClassifierFilter< ImageToListSampleAdaptorType,
-  InputImageType,OutputImageType > ImageClassifierFilterType;
+  using ImageClassifierFilterType = itk::Statistics::ImageClassifierFilter< ImageToListSampleAdaptorType,
+  InputImageType,OutputImageType >;
   ImageClassifierFilterType::Pointer filter
                               = ImageClassifierFilterType::New();
 
-  typedef ImageClassifierFilterType::ClassLabelVectorObjectType               ClassLabelVectorObjectType;
-  typedef ImageClassifierFilterType::ClassLabelVectorType                     ClassLabelVectorType;
+  using ClassLabelVectorObjectType = ImageClassifierFilterType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = ImageClassifierFilterType::ClassLabelVectorType;
 
   ClassLabelVectorObjectType::Pointer  classLabelsObject = ClassLabelVectorObjectType::New();
 
   // Add class labels
   ClassLabelVectorType & classLabelVector  = classLabelsObject->Get();
 
-  typedef ImageClassifierFilterType::ClassLabelType        ClassLabelType;
+  using ClassLabelType = ImageClassifierFilterType::ClassLabelType;
 
   ClassLabelType  class1 = 0;
   classLabelVector.push_back( class1 );
@@ -191,7 +188,7 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
   classLabelVector.push_back( class2 );
 
   //Set a decision rule type
-  typedef itk::Statistics::MaximumDecisionRule  DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
 
   DecisionRuleType::Pointer    decisionRule = DecisionRuleType::New();
 
@@ -288,7 +285,7 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
     }
 
   //Write out the classified image
-  typedef itk::ImageFileWriter< OutputImageType > OutputImageWriterType;
+  using OutputImageWriterType = itk::ImageFileWriter< OutputImageType >;
   OutputImageWriterType::Pointer outputImageWriter = OutputImageWriterType::New();
   outputImageWriter->SetFileName( argv[1] );
   outputImageWriter->SetInput( filter->GetOutput() );

@@ -45,25 +45,25 @@ template<typename TParametersValueType>
 class TransformBaseTemplate:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef TransformBaseTemplate    Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TransformBaseTemplate;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Type of the input parameters. */
 
-  typedef  TParametersValueType                          ParametersValueType;
-  typedef  OptimizerParameters<ParametersValueType>      ParametersType;
-  typedef  double                                        FixedParametersValueType;
-  typedef  OptimizerParameters<FixedParametersValueType> FixedParametersType;
+  using ParametersValueType = TParametersValueType;
+  using ParametersType = OptimizerParameters<ParametersValueType>;
+  using FixedParametersValueType = double;
+  using FixedParametersType = OptimizerParameters<FixedParametersValueType>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformBaseTemplate, Object);
 
   /** The number of parameters can potentially be very large,
    *  therefore we use here a large capacity integer. */
-  typedef IdentifierType      NumberOfParametersType;
+  using NumberOfParametersType = IdentifierType;
 
   /** Return the number of parameters that completely define the Transfom  */
   virtual NumberOfParametersType GetNumberOfParameters(void) const = 0;
@@ -133,7 +133,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef TransformBaseTemplate< double > TransformBase;
+using TransformBase = TransformBaseTemplate< double >;
 
 } // end namespace itk
 

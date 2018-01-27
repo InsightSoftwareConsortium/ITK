@@ -36,10 +36,10 @@ template< typename TPixel >
 class ITK_TEMPLATE_EXPORT LevelSetTestFunction: public LightObject
 {
 public:
-  typedef LevelSetTestFunction       Self;
-  typedef LightObject                Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = LevelSetTestFunction;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro( LevelSetTestFunction, LightObject );
 
@@ -47,15 +47,15 @@ public:
 
   itkStaticConstMacro(Dimension, unsigned int, 2);
 
-  typedef TPixel                                        PixelType;
+  using PixelType = TPixel;
 
-  typedef Image< PixelType, Dimension >                 ImageType;
-  typedef typename ImageType::IndexType                 IndexType;
-  typedef typename ImageType::PointType                 PointType;
+  using ImageType = Image< PixelType, Dimension >;
+  using IndexType = typename ImageType::IndexType;
+  using PointType = typename ImageType::PointType;
 
-  typedef typename NumericTraits< PixelType >::RealType OutputRealType;
-  typedef CovariantVector< OutputRealType, Dimension >  GradientType;
-  typedef Matrix< OutputRealType, Dimension >           HessianType;
+  using OutputRealType = typename NumericTraits< PixelType >::RealType;
+  using GradientType = CovariantVector< OutputRealType, Dimension >;
+  using HessianType = Matrix< OutputRealType, Dimension >;
 
   OutputRealType Evaluate( const PointType & point ) const;
 

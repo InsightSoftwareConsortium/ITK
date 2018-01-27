@@ -90,24 +90,23 @@ class ITK_TEMPLATE_EXPORT NarrowBandThresholdSegmentationLevelSetImageFilter:
                                                                  ImageDimension > >
 {
 public:
-  /** Standard class typedefs */
-  typedef NarrowBandThresholdSegmentationLevelSetImageFilter Self;
-  typedef  NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType,
+  /** Standard class type aliases */
+  using Self = NarrowBandThresholdSegmentationLevelSetImageFilter;
+  using Superclass = NarrowBandLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType,
                                           Image< TOutputPixelType,
-                                                 TInputImage::ImageDimension > >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                                                 TInputImage::ImageDimension > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType        ValueType;
-  typedef typename Superclass::OutputImageType  OutputImageType;
-  typedef typename Superclass::FeatureImageType FeatureImageType;
+  /** Inherited type alias from the superclass. */
+  using ValueType = typename Superclass::ValueType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using FeatureImageType = typename Superclass::FeatureImageType;
 
   /** Type of the segmentation function */
-  typedef ThresholdSegmentationLevelSetFunction< OutputImageType,
-                                                 FeatureImageType > ThresholdFunctionType;
-  typedef typename ThresholdFunctionType::Pointer ThresholdFunctionPointer;
+  using ThresholdFunctionType = ThresholdSegmentationLevelSetFunction< OutputImageType,
+                                                 FeatureImageType >;
+  using ThresholdFunctionPointer = typename ThresholdFunctionType::Pointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NarrowBandThresholdSegmentationLevelSetImageFilter, NarrowBandLevelSetImageFilter);

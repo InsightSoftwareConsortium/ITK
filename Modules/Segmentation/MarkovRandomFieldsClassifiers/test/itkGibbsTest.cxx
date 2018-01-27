@@ -80,12 +80,12 @@ int itkGibbsTest(int, char*[] )
   328,315,327,311,315,305,340,306,314,339,344,339,337,330,318,342,311,343,311,312
   };
 
-  typedef itk::Vector<unsigned short,NumberOfBands>  PixelType;
-  typedef itk::Image<PixelType,ImageDimension>       VecImageType;
+  using PixelType = itk::Vector<unsigned short,NumberOfBands>;
+  using VecImageType = itk::Image<PixelType,ImageDimension>;
 
   VecImageType::Pointer vecImage = VecImageType::New();
 
-  typedef VecImageType::PixelType VecImagePixelType;
+  using VecImagePixelType = VecImageType::PixelType;
 
   VecImageType::SizeType vecImgSize = { {IMGWIDTH , IMGHEIGHT, NFRAMES} };
 
@@ -102,13 +102,13 @@ int itkGibbsTest(int, char*[] )
   vecImage->Allocate();
 
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef itk::ImageRegionIterator< VecImageType > VecIterator;
+  using VecIterator = itk::ImageRegionIterator< VecImageType >;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
   outIt.GoToBegin();
 
   //Set up the vector to store the image  data
-  typedef VecImageType::PixelType     DataVector;
+  using DataVector = VecImageType::PixelType;
   DataVector   dblVec;
 
   //--------------------------------------------------------------------------
@@ -130,7 +130,7 @@ int itkGibbsTest(int, char*[] )
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
-  typedef itk::Image<unsigned short, ImageDimension > ClassImageType;
+  using ClassImageType = itk::Image<unsigned short, ImageDimension >;
   ClassImageType::Pointer classImage  = ClassImageType::New();
 
   ClassImageType::SizeType classImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES} };
@@ -147,7 +147,7 @@ int itkGibbsTest(int, char*[] )
   classImage->SetBufferedRegion( classregion );
   classImage->Allocate();
 
-  typedef  itk::ImageRegionIterator<ClassImageType>  ClassImageIterator;
+  using ClassImageIterator = itk::ImageRegionIterator<ClassImageType>;
 
   ClassImageIterator classoutIt( classImage, classImage->GetBufferedRegion() );
   classoutIt.GoToBegin();
@@ -196,21 +196,17 @@ int itkGibbsTest(int, char*[] )
 
   namespace stat = itk::Statistics;
 
-  typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType >
-    MembershipFunctionType;
-  typedef MembershipFunctionType::Pointer
-    MembershipFunctionPointer;
+  using MembershipFunctionType = stat::MahalanobisDistanceMembershipFunction<VecImagePixelType>;
+  using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
-  typedef std::vector< MembershipFunctionPointer >
-    MembershipFunctionPointerVector;
+  using MembershipFunctionPointerVector = std::vector<MembershipFunctionPointer>;
 
   //----------------------------------------------------------------------
   // Set the image model estimator (train the class models)
   //----------------------------------------------------------------------
 
-  typedef itk::ImageGaussianModelEstimator<VecImageType,
-    MembershipFunctionType, ClassImageType>
-    ImageGaussianModelEstimatorType;
+  using ImageGaussianModelEstimatorType = itk::ImageGaussianModelEstimator<VecImageType,
+    MembershipFunctionType, ClassImageType>;
 
   ImageGaussianModelEstimatorType::Pointer
     applyEstimateModel = ImageGaussianModelEstimatorType::New();
@@ -229,9 +225,9 @@ int itkGibbsTest(int, char*[] )
   //----------------------------------------------------------------------
   //Set the decision rule
   //----------------------------------------------------------------------
-  typedef itk::Statistics::DecisionRule::Pointer DecisionRuleBasePointer;
+  using DecisionRuleBasePointer = itk::Statistics::DecisionRule::Pointer;
 
-  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   DecisionRuleType::Pointer
     myDecisionRule = DecisionRuleType::New();
 
@@ -241,10 +237,10 @@ int itkGibbsTest(int, char*[] )
   // grabbed from the MRF application pipeline.
   //----------------------------------------------------------------------
   //---------------------------------------------------------------------
-  typedef itk::ImageClassifierBase< VecImageType,
-    ClassImageType > ClassifierType;
+  using ClassifierType = itk::ImageClassifierBase< VecImageType,
+    ClassImageType >;
 
-  typedef ClassifierType::Pointer ClassifierPointer;
+  using ClassifierPointer = ClassifierType::Pointer;
   ClassifierPointer myClassifier = ClassifierType::New();
   // Set the Classifier parameters
   myClassifier->SetNumberOfClasses(NUM_CLASSES);
@@ -260,7 +256,7 @@ int itkGibbsTest(int, char*[] )
     }
 
   //Set the Gibbs Prior labeller
-  typedef itk::RGBGibbsPriorFilter<VecImageType,ClassImageType> GibbsPriorFilterType;
+  using GibbsPriorFilterType = itk::RGBGibbsPriorFilter<VecImageType,ClassImageType>;
   GibbsPriorFilterType::Pointer applyGibbsImageFilter = GibbsPriorFilterType::New();
 
   // Set the MRF labeller parameters

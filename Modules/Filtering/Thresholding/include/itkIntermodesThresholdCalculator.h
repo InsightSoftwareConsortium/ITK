@@ -56,11 +56,11 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT IntermodesThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef IntermodesThresholdCalculator                     Self;
-  typedef HistogramThresholdCalculator<THistogram, TOutput> Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = IntermodesThresholdCalculator;
+  using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,10 +69,10 @@ public:
   itkTypeMacro(IntermodesThresholdCalculator, HistogramThresholdCalculator);
 
   /** Type definition for the input image. */
-  typedef THistogram  HistogramType;
-  typedef TOutput     OutputType;
+  using HistogramType = THistogram;
+  using OutputType = TOutput;
 
-  typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;
+  using InstanceIdentifier = typename HistogramType::InstanceIdentifier;
 
   itkSetMacro( MaximumSmoothingIterations, SizeValueType );
   itkGetConstMacro( MaximumSmoothingIterations, SizeValueType );
@@ -95,8 +95,8 @@ protected:
   void GenerateData(void) override;
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
-  typedef typename HistogramType::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
-  typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;
+  using AbsoluteFrequencyType = typename HistogramType::AbsoluteFrequencyType;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IntermodesThresholdCalculator);

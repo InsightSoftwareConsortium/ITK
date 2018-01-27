@@ -76,11 +76,11 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short        InputPixelType;
-  typedef signed short        OutputPixelType;
+  using InputPixelType = signed short;
+  using OutputPixelType = signed short;
 
-  typedef itk::Image< InputPixelType,  3 >    InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >    OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  3 >;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
   // Software Guide : EndCodeSnippet
 
 
@@ -92,8 +92,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -148,8 +148,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ExtractImageFilter< InputImageType,
-                                   OutputImageType > FilterType;
+  using FilterType = itk::ExtractImageFilter< InputImageType,
+                                   OutputImageType >;
   FilterType::Pointer filter = FilterType::New();
   filter->InPlaceOn();
   filter->SetDirectionCollapseToSubmatrix();

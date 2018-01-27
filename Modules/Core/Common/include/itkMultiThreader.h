@@ -52,11 +52,11 @@ namespace itk
 class ITKCommon_EXPORT MultiThreader : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultiThreader            Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MultiThreader;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -140,7 +140,7 @@ public:
   /** Get the UseThreadPool flag*/
   itkGetMacro(UseThreadPool,bool);
 
-  typedef ThreadPool::Semaphore JobSemaphoreType;
+  using JobSemaphoreType = ThreadPool::Semaphore;
 
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute, MultipleMethodExecute or

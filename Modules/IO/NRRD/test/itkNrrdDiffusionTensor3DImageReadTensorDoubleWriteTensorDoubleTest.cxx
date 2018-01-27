@@ -31,10 +31,10 @@ int itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest( int ac, 
     return EXIT_FAILURE;
     }
 
-  typedef itk::DiffusionTensor3D<double> InPixelType;
-  typedef itk::Image<InPixelType, 3>     InImage;
+  using InPixelType = itk::DiffusionTensor3D<double>;
+  using InImage = itk::Image<InPixelType, 3>;
 
-  typedef itk::ImageFileReader<InImage>  ReaderType;
+  using ReaderType = itk::ImageFileReader<InImage>;
 
   ReaderType::Pointer reader = ReaderType::New();
 

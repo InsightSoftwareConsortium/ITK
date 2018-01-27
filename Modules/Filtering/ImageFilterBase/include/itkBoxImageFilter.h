@@ -41,11 +41,11 @@ class ITK_TEMPLATE_EXPORT BoxImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BoxImageFilter                                  Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BoxImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -54,24 +54,24 @@ public:
   itkTypeMacro(BoxImageFilter,
                ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef TInputImage                      InputImageType;
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::OffsetType OffsetType;
+  /** Image related type alias. */
+  using InputImageType = TInputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using OffsetType = typename TInputImage::OffsetType;
 
-  typedef typename TInputImage::PixelType InputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
 
-  typedef TOutputImage                     OutputImageType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   /** n-dimensional Kernel radius. */
-  typedef typename TInputImage::SizeType      RadiusType;
-  typedef typename TInputImage::SizeValueType RadiusValueType;
+  using RadiusType = typename TInputImage::SizeType;
+  using RadiusValueType = typename TInputImage::SizeValueType;
 
   virtual void SetRadius(const RadiusType & radius);
 

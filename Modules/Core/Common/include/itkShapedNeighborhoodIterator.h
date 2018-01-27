@@ -47,7 +47,7 @@ namespace itk
  * you would do the following:
  *
  * \code
- * typedef Image<float, 3> ImageType;
+ * using ImageType = Image<float, 3>;
  * ShapedNeighborhoodIterator<ImageType> it(radius, image, region);
  * ShapedNeighborhoodIterator<ImageType>::OffsetType offset = {{0,0,0}};
  * it.ActivateOffset(offset);
@@ -74,7 +74,7 @@ namespace itk
  * demonstrates the use of these iterators.
  *
  * \code
- * typedef Image<float, 3> ImageType;
+ * using ImageType = Image<float, 3>;
  * ShapedNeighborhoodIterator<ImageType> it(radius, image, region);
  * .
  * .
@@ -154,32 +154,31 @@ class ITK_TEMPLATE_EXPORT ShapedNeighborhoodIterator:
 {
 public:
   /** Extract image type information. */
-  typedef typename TImage::InternalPixelType InternalPixelType;
-  typedef typename TImage::PixelType         PixelType;
+  using InternalPixelType = typename TImage::InternalPixelType;
+  using PixelType = typename TImage::PixelType;
 
   /** Save the image dimension. */
   itkStaticConstMacro(Dimension, unsigned int, TImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef ShapedNeighborhoodIterator Self;
-  typedef ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
-  Superclass;
+  /** Standard class type aliases. */
+  using Self = ShapedNeighborhoodIterator;
+  using Superclass = ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >;
 
-  /** Inherit typedefs from superclass */
-  typedef typename Superclass::OffsetType                        OffsetType;
-  typedef typename OffsetType::OffsetValueType                   OffsetValueType;
-  typedef typename Superclass::RadiusType                        RadiusType;
-  typedef typename Superclass::SizeType                          SizeType;
-  typedef typename Superclass::SizeValueType                     SizeValueType;
-  typedef typename Superclass::ConstIterator                     ConstIterator;
-  typedef typename Superclass::IndexListType                     IndexListType;
-  typedef typename Superclass::BoundaryConditionType             BoundaryConditionType;
-  typedef typename Superclass::ImageBoundaryConditionPointerType ImageBoundaryConditionPointerType;
-  typedef typename Superclass::NeighborhoodType                  NeighborhoodType;
-  typedef typename Superclass::IndexType                         IndexType;
-  typedef typename Superclass::ImageType                         ImageType;
-  typedef typename Superclass::RegionType                        RegionType;
-  typedef typename Superclass::IndexValueType                    IndexValueType;
+  /** Inherit type alias from superclass */
+  using OffsetType = typename Superclass::OffsetType;
+  using OffsetValueType = typename OffsetType::OffsetValueType;
+  using RadiusType = typename Superclass::RadiusType;
+  using SizeType = typename Superclass::SizeType;
+  using SizeValueType = typename Superclass::SizeValueType;
+  using ConstIterator = typename Superclass::ConstIterator;
+  using IndexListType = typename Superclass::IndexListType;
+  using BoundaryConditionType = typename Superclass::BoundaryConditionType;
+  using ImageBoundaryConditionPointerType = typename Superclass::ImageBoundaryConditionPointerType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using IndexType = typename Superclass::IndexType;
+  using ImageType = typename Superclass::ImageType;
+  using RegionType = typename Superclass::RegionType;
+  using IndexValueType = typename Superclass::IndexValueType;
 
   /** An  iterator for the ShapedNeighborhood classes. */
   struct Iterator:public ConstIterator {
@@ -264,7 +263,7 @@ protected:
   /** Copy constructor */
   ShapedNeighborhoodIterator(const ShapedNeighborhoodIterator & o) = delete;
 
-  typedef typename Superclass::NeighborIndexType NeighborIndexType;
+  using NeighborIndexType = typename Superclass::NeighborIndexType;
 
   void ActivateIndex(NeighborIndexType n) override
   {

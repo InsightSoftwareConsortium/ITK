@@ -57,30 +57,30 @@ class ITK_TEMPLATE_EXPORT PolyLineParametricPath:public
   ParametricPath< VDimension >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PolyLineParametricPath       Self;
-  typedef ParametricPath< VDimension > Superclass;
-  typedef SmartPointer< Self >         Pointer;
-  typedef SmartPointer< const Self >   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PolyLineParametricPath;
+  using Superclass = ParametricPath< VDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PolyLineParametricPath, ParametricPath);
 
   /** Input type */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Basic data-structure types used */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
-  typedef Index<  VDimension >                     IndexType;
-  typedef Offset< VDimension >                     OffsetType;
-  typedef Point< double, VDimension >              PointType;
-  typedef Vector< double, VDimension >             VectorType;
-  typedef ContinuousIndexType                      VertexType;
-  typedef VectorContainer< unsigned, VertexType >  VertexListType;
-  typedef typename VertexListType::Pointer         VertexListPointer;
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using IndexType = Index<  VDimension >;
+  using OffsetType = Offset< VDimension >;
+  using PointType = Point< double, VDimension >;
+  using VectorType = Vector< double, VDimension >;
+  using VertexType = ContinuousIndexType;
+  using VertexListType = VectorContainer< unsigned, VertexType >;
+  using VertexListPointer = typename VertexListType::Pointer;
 
   /** Return the location of the parametric path at the specified location. */
   OutputType Evaluate(const InputType & input) const override;

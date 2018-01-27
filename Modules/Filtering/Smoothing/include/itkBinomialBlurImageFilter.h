@@ -44,11 +44,11 @@ class ITK_TEMPLATE_EXPORT BinomialBlurImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinomialBlurImageFilter                         Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BinomialBlurImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,23 +61,23 @@ public:
   itkStaticConstMacro(NOutputDimensions, unsigned int, TOutputImage::ImageDimension);
 
   /** Typedef for images */
-  typedef TInputImage                           InputImageType;
-  typedef TOutputImage                          OutputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
 
-  /** Image size typedef */
-  typedef Size< itkGetStaticConstMacro(NDimensions) > SizeType;
+  /** Image size type alias */
+  using SizeType = Size< itkGetStaticConstMacro(NDimensions) >;
 
-  /** Image index typedef */
-  typedef typename TOutputImage::IndexType IndexType;
+  /** Image index type alias */
+  using IndexType = typename TOutputImage::IndexType;
 
-  /** Image pixel value typedef */
-  typedef typename TOutputImage::PixelType PixelType;
+  /** Image pixel value type alias */
+  using PixelType = typename TOutputImage::PixelType;
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Get and set the number of times to repeat the filter. */
   itkSetMacro(Repetitions, unsigned int);

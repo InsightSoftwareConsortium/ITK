@@ -45,10 +45,10 @@ template< unsigned int VDimension,
 class ITK_TEMPLATE_EXPORT UpdateWhitakerSparseLevelSet : public Object
 {
 public:
-  typedef UpdateWhitakerSparseLevelSet  Self;
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer< const Self >    ConstPointer;
-  typedef Object                        Superclass;
+  using Self = UpdateWhitakerSparseLevelSet;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = Object;
 
   /** Method for creation through object factory */
   itkNewMacro( Self );
@@ -58,43 +58,43 @@ public:
 
   itkStaticConstMacro( ImageDimension, unsigned int, VDimension );
 
-  typedef TLevelSetValueType  LevelSetOutputType;
+  using LevelSetOutputType = TLevelSetValueType;
 
-  typedef WhitakerSparseLevelSetImage< LevelSetOutputType, ImageDimension >
-                                                       LevelSetType;
-  typedef typename LevelSetType::Pointer               LevelSetPointer;
-  typedef typename LevelSetType::InputType             LevelSetInputType;
-  typedef typename LevelSetType::OffsetType            LevelSetOffsetType;
+  using LevelSetType =
+      WhitakerSparseLevelSetImage< LevelSetOutputType, ImageDimension >;
+  using LevelSetPointer = typename LevelSetType::Pointer;
+  using LevelSetInputType = typename LevelSetType::InputType;
+  using LevelSetOffsetType = typename LevelSetType::OffsetType;
 
-  typedef typename LevelSetType::LabelMapType          LevelSetLabelMapType;
-  typedef typename LevelSetType::LabelMapPointer       LevelSetLabelMapPointer;
+  using LevelSetLabelMapType = typename LevelSetType::LabelMapType;
+  using LevelSetLabelMapPointer = typename LevelSetType::LabelMapPointer;
 
-  typedef typename LevelSetType::LabelObjectType       LevelSetLabelObjectType;
-  typedef typename LevelSetType::LabelObjectPointer    LevelSetLabelObjectPointer;
-  typedef typename LevelSetType::LabelObjectLengthType LevelSetLabelObjectLengthType;
-  typedef typename LevelSetType::LabelObjectLineType   LevelSetLabelObjectLineType;
+  using LevelSetLabelObjectType = typename LevelSetType::LabelObjectType;
+  using LevelSetLabelObjectPointer = typename LevelSetType::LabelObjectPointer;
+  using LevelSetLabelObjectLengthType = typename LevelSetType::LabelObjectLengthType;
+  using LevelSetLabelObjectLineType = typename LevelSetType::LabelObjectLineType;
 
-  typedef typename LevelSetType::LayerIdType           LevelSetLayerIdType;
-  typedef typename LevelSetType::LayerType             LevelSetLayerType;
-  typedef typename LevelSetType::LayerIterator         LevelSetLayerIterator;
-  typedef typename LevelSetType::LayerConstIterator    LevelSetLayerConstIterator;
-  typedef typename LevelSetType::OutputRealType        LevelSetOutputRealType;
+  using LevelSetLayerIdType = typename LevelSetType::LayerIdType;
+  using LevelSetLayerType = typename LevelSetType::LayerType;
+  using LevelSetLayerIterator = typename LevelSetType::LayerIterator;
+  using LevelSetLayerConstIterator = typename LevelSetType::LayerConstIterator;
+  using LevelSetOutputRealType = typename LevelSetType::OutputRealType;
 
-  typedef typename LevelSetType::LayerMapType           LevelSetLayerMapType;
-  typedef typename LevelSetType::LayerMapIterator       LevelSetLayerMapIterator;
-  typedef typename LevelSetType::LayerMapConstIterator  LevelSetLayerMapConstIterator;
+  using LevelSetLayerMapType = typename LevelSetType::LayerMapType;
+  using LevelSetLayerMapIterator = typename LevelSetType::LayerMapIterator;
+  using LevelSetLayerMapConstIterator = typename LevelSetType::LayerMapConstIterator;
 
-  typedef TEquationContainer                      EquationContainerType;
-  typedef typename EquationContainerType::Pointer EquationContainerPointer;
+  using EquationContainerType = TEquationContainer;
+  using EquationContainerPointer = typename EquationContainerType::Pointer;
 
-  typedef typename EquationContainerType::TermContainerType     TermContainerType;
-  typedef typename EquationContainerType::TermContainerPointer  TermContainerPointer;
+  using TermContainerType = typename EquationContainerType::TermContainerType;
+  using TermContainerPointer = typename EquationContainerType::TermContainerPointer;
 
-  typedef Image< LevelSetLayerIdType, ImageDimension >  LabelImageType;
-  typedef typename LabelImageType::Pointer              LabelImagePointer;
+  using LabelImageType = Image< LevelSetLayerIdType, ImageDimension >;
+  using LabelImagePointer = typename LabelImageType::Pointer;
 
-  typedef LabelMapToLabelImageFilter< LevelSetLabelMapType, LabelImageType >  LabelMapToLabelImageFilterType;
-  typedef LabelImageToLabelMapFilter< LabelImageType, LevelSetLabelMapType >  LabelImageToLabelMapFilterType;
+  using LabelMapToLabelImageFilterType = LabelMapToLabelImageFilter< LevelSetLabelMapType, LabelImageType >;
+  using LabelImageToLabelMapFilterType = LabelImageToLabelMapFilter< LabelImageType, LevelSetLabelMapType >;
 
   itkGetModifiableObjectMacro(OutputLevelSet, LevelSetType );
 
@@ -180,9 +180,9 @@ private:
 
   LevelSetOffsetType m_Offset;
 
-  typedef ShapedNeighborhoodIterator< LabelImageType > NeighborhoodIteratorType;
+  using NeighborhoodIteratorType = ShapedNeighborhoodIterator< LabelImageType >;
 
-  typedef std::pair< LevelSetInputType, LevelSetOutputType > NodePairType;
+  using NodePairType = std::pair< LevelSetInputType, LevelSetOutputType >;
 };
 }
 

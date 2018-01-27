@@ -22,9 +22,9 @@
 
 int itkImageToVTKImageFilterTest(int, char *[])
 {
-  typedef itk::Image<float, 2 >                 ImageType;
-  typedef itk::RandomImageSource<ImageType>     SourceType;
-  typedef itk::ImageToVTKImageFilter<ImageType> ConnectorType;
+  using ImageType = itk::Image<float, 2 >;
+  using SourceType = itk::RandomImageSource<ImageType>;
+  using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
 
   ImageType::SizeType size;
   size.Fill(20);

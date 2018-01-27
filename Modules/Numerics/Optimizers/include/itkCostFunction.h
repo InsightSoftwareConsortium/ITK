@@ -36,19 +36,19 @@ template< typename TInternalComputationValueType >
 class ITK_TEMPLATE_EXPORT CostFunctionTemplate:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef CostFunctionTemplate       Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = CostFunctionTemplate;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CostFunctionTemplate, Object);
 
-  /**  ParametersType typedef.
+  /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  typedef TInternalComputationValueType                        ParametersValueType;
-  typedef OptimizerParameters< TInternalComputationValueType > ParametersType;
+  using ParametersValueType = TInternalComputationValueType;
+  using ParametersType = OptimizerParameters< TInternalComputationValueType >;
 
   /** Return the number of parameters required to compute
    *  this cost function.
@@ -65,7 +65,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef CostFunctionTemplate<double> CostFunction;
+using CostFunction = CostFunctionTemplate<double>;
 
 } // end namespace itk
 

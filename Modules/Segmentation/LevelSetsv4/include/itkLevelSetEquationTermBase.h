@@ -49,43 +49,39 @@ template< typename TInputImage, // Input image
 class ITK_TEMPLATE_EXPORT LevelSetEquationTermBase : public Object
 {
 public:
-  typedef LevelSetEquationTermBase   Self;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef Object                     Superclass;
+  using Self = LevelSetEquationTermBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = Object;
 
   /** Run-time type information */
   itkTypeMacro( LevelSetEquationTermBase, Object );
 
-  typedef TInputImage                                     InputImageType;
-  typedef typename InputImageType::Pointer                InputImagePointer;
-  typedef typename InputImageType::PixelType              InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType
-                                                          InputPixelRealType;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputPixelType = typename InputImageType::PixelType;
+  using InputPixelRealType = typename NumericTraits<InputPixelType>::RealType;
 
   /** Level-set function container type */
-  typedef TLevelSetContainer                              LevelSetContainerType;
-  typedef typename LevelSetContainerType::LevelSetIdentifierType
-                                                          LevelSetIdentifierType;
-  typedef typename LevelSetContainerType::Pointer         LevelSetContainerPointer;
-  typedef typename LevelSetContainerType::LevelSetType    LevelSetType;
-  typedef typename LevelSetContainerType::LevelSetPointer LevelSetPointer;
-  typedef typename LevelSetContainerType::OutputType      LevelSetOutputPixelType;
-  typedef typename LevelSetContainerType::OutputRealType  LevelSetOutputRealType;
-  typedef typename LevelSetContainerType::InputIndexType  LevelSetInputIndexType;
-  typedef typename LevelSetContainerType::GradientType    LevelSetGradientType;
-  typedef typename LevelSetContainerType::HessianType     LevelSetHessianType;
-  typedef typename LevelSetContainerType::LevelSetDataType
-                                                          LevelSetDataType;
+  using LevelSetContainerType = TLevelSetContainer;
+  using LevelSetIdentifierType = typename LevelSetContainerType::LevelSetIdentifierType;
+  using LevelSetContainerPointer = typename LevelSetContainerType::Pointer;
+  using LevelSetType = typename LevelSetContainerType::LevelSetType;
+  using LevelSetPointer = typename LevelSetContainerType::LevelSetPointer;
+  using LevelSetOutputPixelType = typename LevelSetContainerType::OutputType;
+  using LevelSetOutputRealType = typename LevelSetContainerType::OutputRealType;
+  using LevelSetInputIndexType = typename LevelSetContainerType::InputIndexType;
+  using LevelSetGradientType = typename LevelSetContainerType::GradientType;
+  using LevelSetHessianType = typename LevelSetContainerType::HessianType;
+  using LevelSetDataType = typename LevelSetContainerType::LevelSetDataType;
 
-  typedef typename LevelSetContainerType::DomainMapImageFilterType  DomainMapImageFilterType;
-  typedef typename LevelSetContainerType::CacheImageType            CacheImageType;
+  using DomainMapImageFilterType = typename LevelSetContainerType::DomainMapImageFilterType;
+  using CacheImageType = typename LevelSetContainerType::CacheImageType;
 
-  typedef HeavisideStepFunctionBase< LevelSetOutputRealType,
-                                     LevelSetOutputRealType >
-                                          HeavisideType;
-//  typedef typename HeavisideType::Pointer HeavisidePointer;
-  typedef typename HeavisideType::ConstPointer HeavisideConstPointer;
+  using HeavisideType = HeavisideStepFunctionBase< LevelSetOutputRealType,
+                                     LevelSetOutputRealType >;
+//  using HeavisidePointer = typename HeavisideType::Pointer;
+  using HeavisideConstPointer = typename HeavisideType::ConstPointer;
 
   /** Set/Get the image to be segmented */
   itkSetObjectMacro( Input, InputImageType );
@@ -131,7 +127,7 @@ public:
   /** Update the term parameter values at end of iteration */
   virtual void Update() = 0;
 
-  typedef itksys::hash_set< std::string > RequiredDataType;
+  using RequiredDataType = itksys::hash_set< std::string >;
 
   const RequiredDataType & GetRequiredData() const;
 

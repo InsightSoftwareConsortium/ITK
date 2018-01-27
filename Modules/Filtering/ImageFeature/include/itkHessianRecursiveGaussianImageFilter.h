@@ -50,16 +50,16 @@ class ITK_TEMPLATE_EXPORT HessianRecursiveGaussianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef HessianRecursiveGaussianImageFilter             Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = HessianRecursiveGaussianImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Pixel Type of the input image */
-  typedef TInputImage                                   InputImageType;
-  typedef typename TInputImage::PixelType               PixelType;
-  typedef typename NumericTraits< PixelType >::RealType RealType;
+  using InputImageType = TInputImage;
+  using PixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -73,51 +73,45 @@ public:
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
 
-  typedef float InternalRealType;
-  typedef Image<InternalRealType, TInputImage::ImageDimension >
-                RealImageType;
+  using InternalRealType = float;
+  using RealImageType =
+      Image<InternalRealType, TInputImage::ImageDimension >;
 
   /**  Output Image Nth Element Adaptor
    *  This adaptor allows to use conventional scalar
    *  smoothing filters to compute each one of the
    *  components of the gradient image pixels. */
-  typedef NthElementImageAdaptor< TOutputImage,
-                                  InternalRealType >  OutputImageAdaptorType;
+  using OutputImageAdaptorType = NthElementImageAdaptor< TOutputImage,
+                                  InternalRealType >;
 
-  typedef typename OutputImageAdaptorType::Pointer OutputImageAdaptorPointer;
+  using OutputImageAdaptorPointer = typename OutputImageAdaptorType::Pointer;
 
   /**  Smoothing filter type */
-  typedef RecursiveGaussianImageFilter<
-    RealImageType,
-    RealImageType
-    >    GaussianFilterType;
+  using GaussianFilterType = RecursiveGaussianImageFilter<
+    RealImageType, RealImageType >;
 
   /**  Derivative filter type, it will be the first in the pipeline  */
-  typedef RecursiveGaussianImageFilter<
-    InputImageType,
-    RealImageType
-    >    DerivativeFilterAType;
+  using DerivativeFilterAType = RecursiveGaussianImageFilter<
+    InputImageType, RealImageType >;
 
-  typedef RecursiveGaussianImageFilter<
-    RealImageType,
-    RealImageType
-    >    DerivativeFilterBType;
+  using DerivativeFilterBType = RecursiveGaussianImageFilter<
+    RealImageType, RealImageType >;
 
   /**  Pointer to a gaussian filter.  */
-  typedef typename GaussianFilterType::Pointer GaussianFilterPointer;
-  typedef std::vector< GaussianFilterPointer > GaussianFiltersArray;
+  using GaussianFilterPointer = typename GaussianFilterType::Pointer;
+  using GaussianFiltersArray = std::vector< GaussianFilterPointer >;
 
   /**  Pointer to a derivative filter.  */
-  typedef typename DerivativeFilterAType::Pointer DerivativeFilterAPointer;
-  typedef typename DerivativeFilterBType::Pointer DerivativeFilterBPointer;
+  using DerivativeFilterAPointer = typename DerivativeFilterAType::Pointer;
+  using DerivativeFilterBPointer = typename DerivativeFilterBType::Pointer;
 
   /**  Pointer to the Output Image */
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** Type of the output Image */
-  typedef TOutputImage                                       OutputImageType;
-  typedef typename          OutputImageType::PixelType       OutputPixelType;
-  typedef typename PixelTraits< OutputPixelType >::ValueType OutputComponentType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename          OutputImageType::PixelType;
+  using OutputComponentType = typename PixelTraits< OutputPixelType >::ValueType;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(HessianRecursiveGaussianImageFilter, ImageToImageFilter);

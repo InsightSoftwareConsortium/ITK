@@ -46,21 +46,21 @@ class LBFGSBOptimizerv4TestMetric : public itk::ObjectToObjectMetricBase
 {
 public:
 
-  typedef LBFGSBOptimizerv4TestMetric       Self;
-  typedef itk::ObjectToObjectMetricBase     Superclass;
-  typedef itk::SmartPointer<Self>           Pointer;
-  typedef itk::SmartPointer<const Self>     ConstPointer;
+  using Self = LBFGSBOptimizerv4TestMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( LBFGSBOptimizerv4TestMetric, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::DerivativeType              DerivativeType;
-  typedef Superclass::MeasureType                 MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
-  typedef vnl_vector<double>                      VectorType;
-  typedef vnl_matrix<double>                      MatrixType;
+  using VectorType = vnl_vector<double>;
+  using MatrixType = vnl_matrix<double>;
 
   LBFGSBOptimizerv4TestMetric():
   m_Parameters(0)
@@ -149,9 +149,9 @@ private:
 class EventChecker: public itk::Command
 {
 public:
-  typedef EventChecker            Self;
-  typedef itk::Command            Superclass;
-  typedef itk::SmartPointer<Self> Pointer;
+  using Self = EventChecker;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
 
   itkNewMacro( Self );
 
@@ -212,7 +212,7 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
 
   std::cout << "L-BFGS-B Optimizerv4 Test \n \n";
 
-  typedef  itk::LBFGSBOptimizerv4  OptimizerType;
+  using OptimizerType = itk::LBFGSBOptimizerv4;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();

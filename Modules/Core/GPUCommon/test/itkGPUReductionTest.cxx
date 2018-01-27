@@ -38,7 +38,7 @@ int itkGPUReductionTest(int argc, char *argv[])
   }
 
   // create input
-  typedef int ElementType;
+  using ElementType = int;
 
   itk::GPUReduction<ElementType>::Pointer summer = itk::GPUReduction<ElementType>::New();
   summer->InitializeKernel(numPixels);

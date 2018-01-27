@@ -79,11 +79,11 @@ class ITK_TEMPLATE_EXPORT LabelGeometryImageFilter:
   public ImageToImageFilter< TLabelImage, TIntensityImage >
 {
 public:
-  /** Standard Self typedef */
-  typedef LabelGeometryImageFilter                           Self;
-  typedef ImageToImageFilter< TLabelImage, TIntensityImage > Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
+  /** Standard Self type alias */
+  using Self = LabelGeometryImageFilter;
+  using Superclass = ImageToImageFilter< TLabelImage, TIntensityImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -91,65 +91,64 @@ public:
   /** Runtime information support. */
   itkTypeMacro(LabelGeometryImageFilter, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef TIntensityImage                      IntensityImageType;
-  typedef typename TIntensityImage::Pointer    InputImagePointer;
-  typedef typename TIntensityImage::RegionType RegionType;
-  typedef typename TIntensityImage::SizeType   SizeType;
-  typedef typename TIntensityImage::IndexType  IndexType;
-  typedef typename TIntensityImage::PixelType  PixelType;
+  /** Image related type alias. */
+  using IntensityImageType = TIntensityImage;
+  using InputImagePointer = typename TIntensityImage::Pointer;
+  using RegionType = typename TIntensityImage::RegionType;
+  using SizeType = typename TIntensityImage::SizeType;
+  using IndexType = typename TIntensityImage::IndexType;
+  using PixelType = typename TIntensityImage::PixelType;
 
-  /** Label image related typedefs. */
-  typedef TLabelImage                      LabelImageType;
-  typedef typename TLabelImage::Pointer    LabelImagePointer;
-  typedef typename TLabelImage::RegionType LabelRegionType;
-  typedef typename TLabelImage::SizeType   LabelSizeType;
-  typedef typename TLabelImage::IndexType  LabelIndexType;
-  typedef typename TLabelImage::PixelType  LabelPixelType;
-  typedef typename TLabelImage::PointType  LabelPointType;
+  /** Label image related type alias. */
+  using LabelImageType = TLabelImage;
+  using LabelImagePointer = typename TLabelImage::Pointer;
+  using LabelRegionType = typename TLabelImage::RegionType;
+  using LabelSizeType = typename TLabelImage::SizeType;
+  using LabelIndexType = typename TLabelImage::IndexType;
+  using LabelPixelType = typename TLabelImage::PixelType;
+  using LabelPointType = typename TLabelImage::PointType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TLabelImage::ImageDimension);
 
   /** Type to use for computations. */
-  typedef typename NumericTraits< PixelType >::RealType RealType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
 
   /** Smart Pointer type to a DataObject. */
-  typedef typename DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = typename DataObject::Pointer;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef SimpleDataObjectDecorator< RealType > RealObjectType;
+  using RealObjectType = SimpleDataObjectDecorator< RealType >;
 
-  /** Bounding Box-related typedefs */
-  typedef itk::FixedArray< typename LabelIndexType::IndexValueType,
-                           itkGetStaticConstMacro(ImageDimension) *2 > BoundingBoxType;
-  typedef itk::FixedArray< float,
-                           itkGetStaticConstMacro(ImageDimension) *2 > BoundingBoxFloatType;
+  /** Bounding Box-related type alias */
+  using BoundingBoxType = itk::FixedArray< typename LabelIndexType::IndexValueType,
+                           itkGetStaticConstMacro(ImageDimension) *2 >;
+  using BoundingBoxFloatType = itk::FixedArray< float,
+                           itkGetStaticConstMacro(ImageDimension) *2 >;
 
-  //typedef itk::FixedArray<
-  // LabelPointType,std::pow(2.0,itkGetStaticConstMacro(ImageDimension))>
-  // BoundingBoxVerticesType;
-  typedef std::vector< LabelPointType > BoundingBoxVerticesType;
+  // using BoundingBoxVerticesType = itk::FixedArray<
+  // LabelPointType,std::pow(2.0,itkGetStaticConstMacro(ImageDimension))>;
+  using BoundingBoxVerticesType = std::vector< LabelPointType >;
 
-  /** Axes Length-related typedefs */
-  typedef itk::FixedArray< RealType, itkGetStaticConstMacro(ImageDimension) > AxesLengthType;
+  /** Axes Length-related type alias */
+  using AxesLengthType = itk::FixedArray< RealType, itkGetStaticConstMacro(ImageDimension) >;
 
-  /** Index array typedefs */
-  typedef itk::FixedArray< typename LabelIndexType::IndexValueType,
-                           itkGetStaticConstMacro(ImageDimension) > IndexArrayType;
+  /** Index array type alias */
+  using IndexArrayType = itk::FixedArray< typename LabelIndexType::IndexValueType,
+                           itkGetStaticConstMacro(ImageDimension) >;
 
   /** vector of labels */
-  typedef std::vector< LabelPixelType > LabelsType;
+  using LabelsType = std::vector< LabelPixelType >;
 
   /** vector of indices */
-  typedef std::vector< LabelIndexType > LabelIndicesType;
+  using LabelIndicesType = std::vector< LabelIndexType >;
 
   /** Vector type */
-  typedef std::vector< double > VectorType;
+  using VectorType = std::vector< double >;
 
   /** Matrix type */
-  typedef vnl_matrix< double > MatrixType;
+  using MatrixType = vnl_matrix< double >;
 
   /** \class LabelGeometry
    * \brief Geometry stored per label
@@ -246,9 +245,9 @@ public:
 
   /** Type of the map used to store data per label */
   // Map from the label to the class storing all of the geometry information.
-  typedef itksys::hash_map< LabelPixelType, LabelGeometry >                          MapType;
-  typedef typename itksys::hash_map< LabelPixelType, LabelGeometry >::iterator       MapIterator;
-  typedef typename itksys::hash_map< LabelPixelType, LabelGeometry >::const_iterator MapConstIterator;
+  using MapType = itksys::hash_map< LabelPixelType, LabelGeometry >;
+  using MapIterator = typename itksys::hash_map< LabelPixelType, LabelGeometry >::iterator;
+  using MapConstIterator = typename itksys::hash_map< LabelPixelType, LabelGeometry >::const_iterator;
 
   // Macros for enabling the calculation of additional features.
   itkGetMacro(CalculatePixelIndices, bool);

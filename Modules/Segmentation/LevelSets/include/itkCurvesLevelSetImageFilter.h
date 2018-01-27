@@ -105,20 +105,20 @@ class ITK_TEMPLATE_EXPORT CurvesLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:
-  /** Standard class typedefs */
-  typedef CurvesLevelSetImageFilter                                                        Self;
-  typedef  SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType > Superclass;
-  typedef SmartPointer< Self >                                                             Pointer;
-  typedef SmartPointer< const Self >                                                       ConstPointer;
+  /** Standard class type aliases */
+  using Self = CurvesLevelSetImageFilter;
+  using Superclass = SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType        ValueType;
-  typedef typename Superclass::OutputImageType  OutputImageType;
-  typedef typename Superclass::FeatureImageType FeatureImageType;
+  /** Inherited type alias from the superclass. */
+  using ValueType = typename Superclass::ValueType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using FeatureImageType = typename Superclass::FeatureImageType;
 
   /** Type of the segmentation function */
-  typedef CurvesLevelSetFunction< OutputImageType, FeatureImageType > CurvesFunctionType;
-  typedef typename CurvesFunctionType::Pointer                        CurvesFunctionPointer;
+  using CurvesFunctionType = CurvesLevelSetFunction< OutputImageType, FeatureImageType >;
+  using CurvesFunctionPointer = typename CurvesFunctionType::Pointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CurvesLevelSetImageFilter, SegmentationLevelSetImageFilter);

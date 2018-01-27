@@ -82,9 +82,9 @@ int main(int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 3;
-  typedef unsigned char  PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension >   ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 // Software Guide : EndCodeSnippet
 
 
@@ -96,7 +96,7 @@ int main(int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType >    ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 // Software Guide : EndCodeSnippet
@@ -124,7 +124,7 @@ int main(int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::Mesh<double>                         MeshType;
+  using MeshType = itk::Mesh<double>;
 // Software Guide : EndCodeSnippet
 
 
@@ -138,7 +138,7 @@ int main(int argc, char * argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::BinaryMask3DMeshSource< ImageType, MeshType >   MeshSourceType;
+  using MeshSourceType = itk::BinaryMask3DMeshSource< ImageType, MeshType >;
 
   MeshSourceType::Pointer meshSource = MeshSourceType::New();
 // Software Guide : EndCodeSnippet

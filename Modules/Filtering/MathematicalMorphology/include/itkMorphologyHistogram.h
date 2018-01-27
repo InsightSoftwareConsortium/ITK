@@ -32,7 +32,7 @@ class MorphologyHistogram
 {
 public:
 
-  typedef typename std::map< TInputPixel, IdentifierType, TCompare > MapType;
+  using MapType = typename std::map< TInputPixel, IdentifierType, TCompare >;
 
   MorphologyHistogram(){}
 

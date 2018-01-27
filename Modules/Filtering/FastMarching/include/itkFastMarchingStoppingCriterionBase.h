@@ -35,17 +35,17 @@ template< typename TInput, typename TOutput >
 class FastMarchingStoppingCriterionBase : public StoppingCriterionBase
 {
 public:
-  typedef FastMarchingStoppingCriterionBase      Self;
-  typedef StoppingCriterionBase                  Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
-  typedef FastMarchingTraits< TInput, TOutput >  Traits;
+  using Self = FastMarchingStoppingCriterionBase;
+  using Superclass = StoppingCriterionBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Traits = FastMarchingTraits< TInput, TOutput >;
 
-  typedef typename Traits::NodeType            NodeType;
-  typedef typename Traits::OutputPixelType     OutputPixelType;
-  typedef typename Traits::NodePairType        NodePairType;
-  typedef typename Traits::OutputDomainType    OutputDomainType;
-  typedef typename Traits::OutputDomainPointer OutputDomainPointer;
+  using NodeType = typename Traits::NodeType;
+  using OutputPixelType = typename Traits::OutputPixelType;
+  using NodePairType = typename Traits::NodePairType;
+  using OutputDomainType = typename Traits::OutputDomainType;
+  using OutputDomainPointer = typename Traits::OutputDomainPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastMarchingStoppingCriterionBase, StoppingCriterionBase);

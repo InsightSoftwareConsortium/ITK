@@ -31,11 +31,11 @@ namespace itk
 class ITKIOGIPL_EXPORT GiplImageIOFactory:public ObjectFactoryBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef GiplImageIOFactory         Self;
-  typedef ObjectFactoryBase          Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GiplImageIOFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Class methods used to interface with the registered factories. */
   const char * GetITKSourceVersion(void) const override;

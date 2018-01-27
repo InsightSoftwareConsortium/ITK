@@ -28,8 +28,8 @@ int itkSpatialFunctionTest(int, char* [] )
 
   //---------Create and initialize a spatial function-----------
 
-  typedef itk::SphereSpatialFunction<dim> TFunctionType;
-  typedef TFunctionType::InputType        TFunctionPositionType;
+  using TFunctionType = itk::SphereSpatialFunction<dim>;
+  using TFunctionPositionType = TFunctionType::InputType;
 
   // Create and initialize a new sphere function
 

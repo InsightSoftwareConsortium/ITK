@@ -61,50 +61,45 @@ template< typename TSample >
 class ITK_TEMPLATE_EXPORT ExpectationMaximizationMixtureModelEstimator:public Object
 {
 public:
-  /** Standard class typedef */
-  typedef ExpectationMaximizationMixtureModelEstimator Self;
-  typedef Object                                       Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  /** Standard class type alias */
+  using Self = ExpectationMaximizationMixtureModelEstimator;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(ExpectationMaximizationMixtureModelEstimator,
                Object);
   itkNewMacro(Self);
 
-  /** TSample template argument related typedefs */
-  typedef TSample                                 SampleType;
-  typedef typename TSample::MeasurementType       MeasurementType;
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
+  /** TSample template argument related type alias */
+  using SampleType = TSample;
+  using MeasurementType = typename TSample::MeasurementType;
+  using MeasurementVectorType = typename TSample::MeasurementVectorType;
 
   /** Typedef requried to generate dataobject decorated output that can
     * be plugged into SampleClassifierFilter */
-  typedef GaussianMembershipFunction< MeasurementVectorType >
-  GaussianMembershipFunctionType;
+  using GaussianMembershipFunctionType = GaussianMembershipFunction<MeasurementVectorType>;
 
-  typedef typename GaussianMembershipFunctionType::Pointer
-  GaussianMembershipFunctionPointer;
+  using GaussianMembershipFunctionPointer = typename GaussianMembershipFunctionType::Pointer;
 
-  typedef MembershipFunctionBase< MeasurementVectorType > MembershipFunctionType;
-  typedef typename MembershipFunctionType::ConstPointer   MembershipFunctionPointer;
-  typedef std::vector< MembershipFunctionPointer >        MembershipFunctionVectorType;
-  typedef SimpleDataObjectDecorator<
-    MembershipFunctionVectorType >                        MembershipFunctionVectorObjectType;
-  typedef typename
-  MembershipFunctionVectorObjectType::Pointer MembershipFunctionVectorObjectPointer;
+  using MembershipFunctionType = MembershipFunctionBase< MeasurementVectorType >;
+  using MembershipFunctionPointer = typename MembershipFunctionType::ConstPointer;
+  using MembershipFunctionVectorType = std::vector< MembershipFunctionPointer >;
+  using MembershipFunctionVectorObjectType = SimpleDataObjectDecorator<MembershipFunctionVectorType>;
+  using MembershipFunctionVectorObjectPointer = typename MembershipFunctionVectorObjectType::Pointer;
 
   /** Type of the mixture model component base class */
-  typedef MixtureModelComponentBase< TSample > ComponentType;
+  using ComponentType = MixtureModelComponentBase< TSample >;
 
   /** Type of the component pointer storage */
-  typedef std::vector< ComponentType * > ComponentVectorType;
+  using ComponentVectorType = std::vector< ComponentType * >;
 
   /** Type of the membership function base class */
-  typedef MembershipFunctionBase< MeasurementVectorType >
-  ComponentMembershipFunctionType;
+  using ComponentMembershipFunctionType = MembershipFunctionBase<MeasurementVectorType>;
 
   /** Type of the array of the proportion values */
-  typedef Array< double > ProportionVectorType;
+  using ProportionVectorType = Array< double >;
 
   /** Sets the target data that will be classified by this */
   void SetSample(const TSample *sample);
@@ -121,11 +116,9 @@ public:
   /** Gets the result proportion values */
   const ProportionVectorType & GetProportions() const;
 
-  /** typedef for decorated array of proportion */
-  typedef SimpleDataObjectDecorator<
-    ProportionVectorType >                 MembershipFunctionsWeightsArrayObjectType;
-  typedef typename
-  MembershipFunctionsWeightsArrayObjectType::Pointer MembershipFunctionsWeightsArrayPointer;
+  /** type alias for decorated array of proportion */
+  using MembershipFunctionsWeightsArrayObjectType = SimpleDataObjectDecorator<ProportionVectorType>;
+  using MembershipFunctionsWeightsArrayPointer = typename MembershipFunctionsWeightsArrayObjectType::Pointer;
 
   /** Get method for data decorated Membership functions weights array */
   const MembershipFunctionsWeightsArrayObjectType * GetMembershipFunctionsWeightsArray() const;

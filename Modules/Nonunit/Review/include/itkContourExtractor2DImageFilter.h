@@ -107,15 +107,15 @@ public:
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage                 InputImageType;
-  typedef PolyLineParametricPath< 2 > OutputPathType;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TInputImage;
+  using OutputPathType = PolyLineParametricPath< 2 >;
 
-  /** Standard class typedefs. */
-  typedef ContourExtractor2DImageFilter                       Self;
-  typedef ImageToPathFilter< InputImageType, OutputPathType > Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ContourExtractor2DImageFilter;
+  using Superclass = ImageToPathFilter< InputImageType, OutputPathType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -123,21 +123,21 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ContourExtractor2DImageFilter, ImageToPathFilter);
 
-  /** Image and path typedef support. */
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::PixelType      InputPixelType;
-  typedef typename InputImageType::IndexType      InputIndexType;
-  typedef typename InputImageType::OffsetType     InputOffsetType;
-  typedef typename InputImageType::RegionType     InputRegionType;
-  typedef typename OutputPathType::Pointer        OutputPathPointer;
-  typedef typename OutputPathType::VertexType     VertexType;
-  typedef typename OutputPathType::VertexListType VertexListType;
+  /** Image and path type alias support */
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputPixelType = typename InputImageType::PixelType;
+  using InputIndexType = typename InputImageType::IndexType;
+  using InputOffsetType = typename InputImageType::OffsetType;
+  using InputRegionType = typename InputImageType::RegionType;
+  using OutputPathPointer = typename OutputPathType::Pointer;
+  using VertexType = typename OutputPathType::VertexType;
+  using VertexListType = typename OutputPathType::VertexListType;
 
   /** Real type associated to the input pixel type. */
-  typedef typename NumericTraits< InputPixelType >::RealType InputRealType;
+  using InputRealType = typename NumericTraits< InputPixelType >::RealType;
 
-  typedef typename VertexListType::ConstPointer
-  VertexListConstPointer;
+  using VertexListConstPointer = typename VertexListType::ConstPointer;
+
   /** Control the orientation of the contours with reference to the image
  * gradient. (See class documentation.) */
   itkSetMacro(ReverseContourOrientation, bool);
@@ -232,12 +232,12 @@ public:
   // Store all the growing contours in a list. We may need to delete contours
   // from anywhere in the sequence (when we merge them together), so we need to
   // use a list instead of a vector or similar.
-  typedef std::list< ContourType >            ContourContainer;
-  typedef typename ContourContainer::iterator ContourRef;
+  using ContourContainer = std::list< ContourType >;
+  using ContourRef = typename ContourContainer::iterator;
 
   // declare the hash function we are using for the hash_map.
   struct VertexHash {
-    typedef typename VertexType::CoordRepType CoordinateType;
+    using CoordinateType = typename VertexType::CoordRepType;
     inline SizeValueType operator()(const VertexType & k) const
     {
       // Xor the hashes of the vertices together, after multiplying the
@@ -279,9 +279,9 @@ public:
   // from our list when they have been merged into another. Thus, we store
   // an iterator pointing to the contour in the list.
 
-  typedef itksys::hash_map< VertexType, ContourRef, VertexHash > VertexToContourMap;
-  typedef typename VertexToContourMap::iterator                  VertexMapIterator;
-  typedef typename VertexToContourMap::value_type                VertexContourRefPair;
+  using VertexToContourMap = itksys::hash_map< VertexType, ContourRef, VertexHash >;
+  using VertexMapIterator = typename VertexToContourMap::iterator;
+  using VertexContourRefPair = typename VertexToContourMap::value_type;
 
   // The contours we find in the image are stored here
   ContourContainer m_Contours;

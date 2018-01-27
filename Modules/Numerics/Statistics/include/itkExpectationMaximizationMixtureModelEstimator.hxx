@@ -184,7 +184,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
   //       because itk::Array only supports 'unsigned int' number of elements.
   unsigned int componentIndex;
 
-  typedef typename TSample::AbsoluteFrequencyType FrequencyType;
+  using FrequencyType = typename TSample::AbsoluteFrequencyType;
   FrequencyType frequency;
   FrequencyType zeroFrequency = NumericTraits< FrequencyType >::ZeroValue();
   typename TSample::MeasurementVectorType mvector;

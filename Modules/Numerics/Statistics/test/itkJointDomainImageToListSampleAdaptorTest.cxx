@@ -25,11 +25,11 @@
 int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
 {
   const unsigned int MeasurementVectorSize = 8;
-  typedef unsigned long                                                      MeasurementComponentType;
-  typedef itk::FixedArray< MeasurementComponentType, MeasurementVectorSize > PixelType;
+  using MeasurementComponentType = unsigned long;
+  using PixelType = itk::FixedArray< MeasurementComponentType, MeasurementVectorSize >;
 
   const unsigned int ImageDimension = 3;
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
   ImageType::Pointer image = ImageType::New();
 
@@ -44,7 +44,7 @@ int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
   image->SetRegions( region );
   image->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > RegionIteratorType;
+  using RegionIteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
 
   RegionIteratorType it( image, region );
 
@@ -62,8 +62,7 @@ int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
     }
 
   //define an adaptor type
-  typedef itk::Statistics::JointDomainImageToListSampleAdaptor<
-    ImageType > JointDomainImageToListSampleAdaptorType;
+  using JointDomainImageToListSampleAdaptorType = itk::Statistics::JointDomainImageToListSampleAdaptor<ImageType>;
   JointDomainImageToListSampleAdaptorType::Pointer adaptor
                               = JointDomainImageToListSampleAdaptorType::New();
  //Test if the methods throw exceptions if invoked before setting the image
@@ -150,7 +149,7 @@ int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
   ImageType::PixelType pixel;
 
   JointDomainImageToListSampleAdaptorType::InstanceIdentifier    iid;
-  typedef JointDomainImageToListSampleAdaptorType::MeasurementVectorType MeasurementVectorType;
+  using MeasurementVectorType = JointDomainImageToListSampleAdaptorType::MeasurementVectorType;
   JointDomainImageToListSampleAdaptorType::PointType             tempPoint;
 
 
@@ -241,7 +240,7 @@ int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
   std::cerr << "Iterators..." << std::endl;
     {
     // forward iterator
-    typedef JointDomainImageToListSampleAdaptorType::Iterator IteratorType;
+    using IteratorType = JointDomainImageToListSampleAdaptorType::Iterator;
 
     IteratorType s_iter = adaptor->Begin();
 
@@ -305,7 +304,7 @@ int itkJointDomainImageToListSampleAdaptorTest(int, char* [] )
   std::cerr << "Const Iterators..." << std::endl;
     {
     // forward iterator
-    typedef JointDomainImageToListSampleAdaptorType::ConstIterator  ConstIteratorType;
+    using ConstIteratorType = JointDomainImageToListSampleAdaptorType::ConstIterator;
 
     ConstIteratorType s_iter = adaptor->Begin();
 

@@ -89,38 +89,38 @@ class ITK_TEMPLATE_EXPORT Segmenter:
   public ProcessObject
 {
 public:
-  /** Standard self typedefs */
-  typedef Segmenter Self;
+  /** Standard self type alias */
+  using Self = Segmenter;
 
   /** Define image types and dimensionality  */
-  typedef TInputImage InputImageType;
+  using InputImageType = TInputImage;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef Image< IdentifierType, itkGetStaticConstMacro(ImageDimension) >
-  OutputImageType;
-  typedef typename InputImageType::RegionType ImageRegionType;
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef Boundary< InputPixelType, itkGetStaticConstMacro(ImageDimension) >
-  BoundaryType;
-  typedef typename BoundaryType::IndexType         BoundaryIndexType;
-  typedef typename BoundaryType::FlatHashValueType BoundaryFlatHashValueType;
-  typedef SegmentTable< InputPixelType >           SegmentTableType;
-  typedef DataObject::Pointer                      DataObjectPointer;
+  using OutputImageType =
+      Image< IdentifierType, itkGetStaticConstMacro(ImageDimension) >;
+  using ImageRegionType = typename InputImageType::RegionType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using BoundaryType =
+      Boundary< InputPixelType, itkGetStaticConstMacro(ImageDimension) >;
+  using BoundaryIndexType = typename BoundaryType::IndexType;
+  using BoundaryFlatHashValueType = typename BoundaryType::FlatHashValueType;
+  using SegmentTableType = SegmentTable< InputPixelType >;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Methods to implement smart pointers and work with the itk object factory
    */
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmenter, ProcessObject);
 
   /** Typedefs necessary on microsoft VC++ to avoid internal compiler errors */
-  typedef typename InputImageType::Pointer   InputImageTypePointer;
-  typedef typename OutputImageType::Pointer  OutputImageTypePointer;
-  typedef typename SegmentTableType::Pointer SegmentTableTypePointer;
-  typedef typename BoundaryType::Pointer     BoundaryTypePointer;
+  using InputImageTypePointer = typename InputImageType::Pointer;
+  using OutputImageTypePointer = typename OutputImageType::Pointer;
+  using SegmentTableTypePointer = typename SegmentTableType::Pointer;
+  using BoundaryTypePointer = typename BoundaryType::Pointer;
 
   /** A constant used in the labeling algorithm.  */
   itkStaticConstMacro(NULL_LABEL, IdentifierType, 0);
@@ -197,7 +197,7 @@ public:
                            EquivalencyTable::Pointer);
 
   /** Standard itk::ProcessObject subclass method. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
@@ -245,8 +245,7 @@ protected:
   };
 
   /** Table for storing flat region information.  */
-  typedef itksys::hash_map< IdentifierType, flat_region_t, itksys::hash< IdentifierType > >
-  flat_region_table_t;
+  using flat_region_table_t = itksys::hash_map< IdentifierType, flat_region_t, itksys::hash< IdentifierType > >;
 
   struct connectivity_t {
     unsigned int size;
@@ -258,11 +257,9 @@ protected:
    * generating the segment table,  even though the edge tables
    * are stored as ordered lists.  An "edge" in this context
    * is synonymous with a segment "adjacency".   */
-  typedef itksys::hash_map< IdentifierType, InputPixelType, itksys::hash< IdentifierType >
-                            > edge_table_t;
+  using edge_table_t = itksys::hash_map< IdentifierType, InputPixelType, itksys::hash< IdentifierType > >;
 
-  typedef itksys::hash_map< IdentifierType, edge_table_t, itksys::hash< IdentifierType >
-                         > edge_table_hash_t;
+  using edge_table_hash_t = itksys::hash_map< IdentifierType, edge_table_t, itksys::hash< IdentifierType > >;
 
   Segmenter();
   Segmenter(const Self &) {}

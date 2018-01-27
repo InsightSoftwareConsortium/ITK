@@ -39,12 +39,12 @@ namespace fem
 class ITKFEM_EXPORT Element2DC1Beam : public ElementStd<2, 2>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element2DC1Beam          Self;
-  typedef ElementStd<2, 2>         TemplatedParentClass;
-  typedef TemplatedParentClass     Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element2DC1Beam;
+  using TemplatedParentClass = ElementStd<2, 2>;
+  using Superclass = TemplatedParentClass;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

@@ -63,17 +63,17 @@ public:
   itkStaticConstMacro(KernelDimension, unsigned int,
                       TKernel::NeighborhoodDimension);
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
-  typedef TKernel      KernelType;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using KernelType = TKernel;
 
-  /** Standard class typedefs. */
-  typedef FastIncrementalBinaryDilateImageFilter Self;
-  typedef BinaryDilateImageFilter< InputImageType, OutputImageType, KernelType >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FastIncrementalBinaryDilateImageFilter;
+  using Superclass =
+      BinaryDilateImageFilter< InputImageType, OutputImageType, KernelType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -144,7 +144,7 @@ FlatStructuringElement< VDimension >
       float    b = 1.0 / phi;
       float    c = 2.0 - phi;
       unsigned facets = 12;
-      typedef std::vector< FacetType3 > FacetArrayType;
+      using FacetArrayType = std::vector< FacetType3 >;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);
       // set up vectors normal to the faces - only put in 3 points for
@@ -313,7 +313,7 @@ FlatStructuringElement< VDimension >
       float    a = 0.5;
       float    b = 1.0 / ( 2.0 * phi );
       unsigned facets = 20;
-      typedef std::vector< FacetType3 > FacetArrayType;
+      using FacetArrayType = std::vector< FacetType3 >;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);
       // set up vectors normal to the faces - only put in 3 points for
@@ -513,7 +513,7 @@ FlatStructuringElement< VDimension >
       unsigned int facets = 8 * (int)std::pow( (double)4, iterations );
       double        sqrt2 = std::sqrt(2.0);
 
-      typedef std::vector< FacetType3 > FacetArrayType;
+      using FacetArrayType = std::vector< FacetType3 >;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);
 
@@ -705,7 +705,7 @@ FlatStructuringElement< VDimension > FlatStructuringElement< VDimension >
   //
 
   // Ellipsoid spatial function typedef
-  typedef EllipsoidInteriorExteriorSpatialFunction< VDimension > EllipsoidType;
+  using EllipsoidType = EllipsoidInteriorExteriorSpatialFunction< VDimension >;
 
   // Create an ellipsoid spatial function for the source image
   typename EllipsoidType::Pointer spatialFunction = EllipsoidType::New();
@@ -812,7 +812,7 @@ FlatStructuringElement< NDimension >
   //
 
   // Ellipsoid spatial function typedef
-  typedef EllipsoidInteriorExteriorSpatialFunction< NDimension > EllipsoidType;
+  using EllipsoidType = EllipsoidInteriorExteriorSpatialFunction< NDimension >;
 
   // Create an ellipsoid spatial function for the source image
   typename EllipsoidType::Pointer ellipsoidOuter = EllipsoidType::New();
@@ -863,8 +863,8 @@ FlatStructuringElement< NDimension >
     }
 
   // Define the iterators for each ellipsoid
-  typedef FloodFilledSpatialFunctionConditionalIterator< ImageType, EllipsoidType >
-  FloodIteratorType;
+  using FloodIteratorType =
+      FloodFilledSpatialFunctionConditionalIterator< ImageType, EllipsoidType >;
   FloodIteratorType itEllipsoidOuter =
     FloodIteratorType(kernelImage, ellipsoidOuter, seed);
   FloodIteratorType itEllipsoidInner =
@@ -986,7 +986,7 @@ FlatStructuringElement< VDimension >::ComputeBufferFromLines()
     }
 
   // dilate the pixel
-  typedef VanHerkGilWermanDilateImageFilter< ImageType, Self > DilateType;
+  using DilateType = VanHerkGilWermanDilateImageFilter< ImageType, Self >;
   typename DilateType::Pointer dilate = DilateType::New();
   // suspect that multithreading does odd things when images are
   // really tiny

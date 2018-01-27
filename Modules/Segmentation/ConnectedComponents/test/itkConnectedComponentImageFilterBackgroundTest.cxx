@@ -29,9 +29,9 @@ int itkConnectedComponentImageFilterBackgroundTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef   int                               PixelType;
+  using PixelType = int;
   const     unsigned int                      Dimension = 2;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   PixelType background = static_cast< PixelType >( atoi( argv[ 1 ] ) );
 
@@ -56,7 +56,7 @@ int itkConnectedComponentImageFilterBackgroundTest( int argc, char* argv[] )
   image->SetPixel( index2, 2 );
 
   // Instantiate and run the filter
-  typedef itk::ConnectedComponentImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::ConnectedComponentImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
   filter->SetBackgroundValue( background );
   filter->SetInput( image );
@@ -82,7 +82,7 @@ int itkConnectedComponentImageFilterBackgroundTest( int argc, char* argv[] )
   // Check results
   ImageType * output = filter->GetOutput();
 
-  typedef itk::ImageRegionConstIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionConstIteratorWithIndex< ImageType >;
   IteratorType iterator( output, output->GetLargestPossibleRegion() );
   while ( !iterator.IsAtEnd() )
     {

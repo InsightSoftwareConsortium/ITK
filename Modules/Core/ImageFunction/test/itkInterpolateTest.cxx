@@ -23,17 +23,15 @@
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 
-typedef itk::Size<3>                              SizeType;
-typedef itk::Image<unsigned short, 3>             ImageType;
-typedef double                                    CoordRepType;
-typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>
-                                                  InterpolatorType;
-typedef InterpolatorType::IndexType               IndexType;
-typedef InterpolatorType::PointType               PointType;
-typedef InterpolatorType::ContinuousIndexType     ContinuousIndexType;
+using SizeType = itk::Size<3>;
+using ImageType = itk::Image<unsigned short, 3>;
+using CoordRepType = double;
+using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType,CoordRepType>;
+using IndexType = InterpolatorType::IndexType;
+using PointType = InterpolatorType::PointType;
+using ContinuousIndexType = InterpolatorType::ContinuousIndexType;
 
-typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
-  NNInterpolatorType;
+using NNInterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>;
 namespace
 {
 

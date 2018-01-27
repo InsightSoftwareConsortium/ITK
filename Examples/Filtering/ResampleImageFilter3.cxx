@@ -100,15 +100,15 @@ int main( int argc, char * argv[] )
     }
 
   const     unsigned int   Dimension = 2;
-  typedef   unsigned char  InputPixelType;
-  typedef   unsigned char  OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -116,14 +116,14 @@ int main( int argc, char * argv[] )
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
 
-  typedef itk::ResampleImageFilter<
-                  InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::ResampleImageFilter<
+                  InputImageType, OutputImageType >;
   FilterType::Pointer filter = FilterType::New();
-  typedef itk::AffineTransform< double, Dimension >  TransformType;
+  using TransformType = itk::AffineTransform< double, Dimension >;
   TransformType::Pointer transform = TransformType::New();
 
-  typedef itk::NearestNeighborInterpolateImageFunction<
-                       InputImageType, double >  InterpolatorType;
+  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<
+                       InputImageType, double >;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   filter->SetInterpolator( interpolator );
 

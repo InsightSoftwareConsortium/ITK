@@ -27,19 +27,19 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
 {
 
   // Declare the type of the input and output mesh
-  typedef itk::DefaultDynamicMeshTraits<double, 3, 3, double, double, double> MeshTraits;
+  using MeshTraits = itk::DefaultDynamicMeshTraits<double, 3, 3, double, double, double>;
 
-  typedef itk::Mesh<double,3,MeshTraits>        TriangleMeshType;
-  typedef itk::SimplexMesh<double,3,MeshTraits> SimplexMeshType;
+  using TriangleMeshType = itk::Mesh<double,3,MeshTraits>;
+  using SimplexMeshType = itk::SimplexMesh<double,3,MeshTraits>;
 
 
   // declare triangle mesh source
-  typedef itk::RegularSphereMeshSource<TriangleMeshType>  SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType                 PointType;
-  typedef SphereMeshSourceType::VectorType                VectorType;
+  using SphereMeshSourceType = itk::RegularSphereMeshSource<TriangleMeshType>;
+  using PointType = SphereMeshSourceType::PointType;
+  using VectorType = SphereMeshSourceType::VectorType;
 
   // Declare the type of the gradient image
-  typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>  SimplexFilterType;
+  using SimplexFilterType = itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>;
 
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
   PointType center; center.Fill(0);
@@ -57,7 +57,7 @@ int itkTriangleMeshToSimplexMeshFilter2Test(int , char *[] )
   SimplexMeshType::Pointer simplexMesh = simplexFilter->GetOutput();
   simplexMesh->DisconnectPipeline();
 
-  typedef  SimplexMeshType::NeighborListType              NeighborsListType;
+  using NeighborsListType = SimplexMeshType::NeighborListType;
 
   for (int i=0; i < 7; i++)
     {

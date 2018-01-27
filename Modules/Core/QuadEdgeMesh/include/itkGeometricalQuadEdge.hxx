@@ -152,7 +152,7 @@ GeometricalQuadEdge< TVRef, TFRef, TPrimalData, TDualData, PrimalDual >
 
   while ( it != this->EndGeomOnext() )
     {
-    typedef typename ConstIteratorGeom::QuadEdgeType QuadEdgeType;
+    using QuadEdgeType = typename ConstIteratorGeom::QuadEdgeType;
     const QuadEdgeType *value = it.Value();
     if ( !value->IsInternal() ) { return false; }
     ++it;

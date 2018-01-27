@@ -30,8 +30,8 @@ int itkLabelObjectTest(int argc, char * argv[])
 
   const int dim = 3;
 
-  typedef itk::LabelObject< unsigned long, dim > LabelObjectType;
-  typedef LabelObjectType::IndexType             IndexType;
+  using LabelObjectType = itk::LabelObject< unsigned long, dim >;
+  using IndexType = LabelObjectType::IndexType;
 
   // testing AddLine(), GetNumberOfLines(), GetLineContainer() const and Optimize()
 
@@ -109,7 +109,7 @@ int itkLabelObjectTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  typedef LabelObjectType::ConstLineIterator IteratorType;
+  using IteratorType = LabelObjectType::ConstLineIterator;
 
   IteratorType it1;
   it1 = IteratorType( ref );

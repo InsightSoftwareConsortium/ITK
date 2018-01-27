@@ -24,23 +24,22 @@
 int itkImageToParametricSpaceFilterTest(int, char* [] )
 {
 
-  typedef float  ImagePixelType;
+  using ImagePixelType = float;
 
   // Declare the type for the images
-  typedef itk::Image<ImagePixelType,2>        ImageType;
-  typedef ImageType::Pointer                  ImagePointer;
+  using ImageType = itk::Image<ImagePixelType,2>;
+  using ImagePointer = ImageType::Pointer;
 
   // Make the Mesh PointData type be an Image Index.
-  typedef itk::Point<float,2>                 MeshPixelType;
+  using MeshPixelType = itk::Point<float,2>;
 
   // Declare the types of the Mesh
-  typedef itk::Mesh<MeshPixelType>  MeshType;
+  using MeshType = itk::Mesh<MeshPixelType>;
 
   // Declare the type for PointsContainerPointer
-  typedef MeshType::PointsContainerPointer
-                                        PointsContainerPointer;
+  using PointsContainerPointer = MeshType::PointsContainerPointer;
   // Declare the type for Points
-  typedef MeshType::PointType           PointType;
+  using PointType = MeshType::PointType;
 
   // Create an input Mesh
   MeshType::Pointer inputMesh  = MeshType::New();
@@ -50,14 +49,14 @@ int itkImageToParametricSpaceFilterTest(int, char* [] )
 
 
   // Declare the type for the images
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> ImageIteratorType;
+  using ImageIteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
   // Declare the type for the filter
-  typedef itk::ImageToParametricSpaceFilter<
+  using FilterType = itk::ImageToParametricSpaceFilter<
                                        ImageType,
-                                       MeshType   > FilterType;
+                                       MeshType   >;
 
-  typedef FilterType::Pointer                     FilterPointer;
+  using FilterPointer = FilterType::Pointer;
 
 
   ImagePointer imageX = ImageType::New();

@@ -28,23 +28,21 @@ int itkExpNegativeImageFilterAndAdaptorTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, ImageDimension>  InputImageType;
-  typedef itk::Image<float, ImageDimension>  OutputImageType;
+  using InputImageType = itk::Image<float, ImageDimension>;
+  using OutputImageType = itk::Image<float, ImageDimension>;
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType>  InputIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType> OutputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<ImageDimension>         IndexType;
+  using IndexType = itk::Index<ImageDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<ImageDimension>          SizeType;
+  using SizeType = itk::Size<ImageDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<ImageDimension>   RegionType;
+  using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
   InputImageType::Pointer inputImage  = InputImageType::New();
@@ -84,8 +82,8 @@ int itkExpNegativeImageFilterAndAdaptorTest(int, char* [] )
     }
 
   // Declare the type for the ExpNegative filter
-  typedef itk::ExpNegativeImageFilter< InputImageType,
-                               OutputImageType  >  FilterType;
+  using FilterType = itk::ExpNegativeImageFilter< InputImageType,
+                               OutputImageType  >;
 
 
   // Create an ADD Filter
@@ -135,17 +133,17 @@ int itkExpNegativeImageFilterAndAdaptorTest(int, char* [] )
   // This section tests for ExpNegativeImageAdaptor
   //---------------------------------------
 
-  typedef itk::ExpNegativeImageAdaptor<InputImageType,
-                          OutputImageType::PixelType>  AdaptorType;
+  using AdaptorType = itk::ExpNegativeImageAdaptor<InputImageType,
+                          OutputImageType::PixelType>;
 
   AdaptorType::Pointer expAdaptor = AdaptorType::New();
 
   expAdaptor->SetImage( inputImage );
 
-  typedef itk::SubtractImageFilter<
+  using DiffFilterType = itk::SubtractImageFilter<
                         OutputImageType,
                         AdaptorType,
-                        OutputImageType   > DiffFilterType;
+                        OutputImageType   >;
 
   DiffFilterType::Pointer diffFilter = DiffFilterType::New();
 

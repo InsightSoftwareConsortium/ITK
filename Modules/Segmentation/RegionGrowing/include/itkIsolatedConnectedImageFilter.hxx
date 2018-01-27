@@ -198,7 +198,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   InputImageConstPointer inputImage = this->GetInput();
   OutputImagePointer     outputImage = this->GetOutput();
 
-  typedef typename NumericTraits< InputImagePixelType >::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits< InputImagePixelType >::AccumulateType;
 
   if( m_Seeds1.empty() )
     {
@@ -216,8 +216,8 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   outputImage->Allocate();
   outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
 
-  typedef BinaryThresholdImageFunction< InputImageType >                               FunctionType;
-  typedef FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType > IteratorType;
+  using FunctionType = BinaryThresholdImageFunction< InputImageType >;
+  using IteratorType = FloodFilledImageFunctionConditionalIterator< OutputImageType, FunctionType >;
 
   typename FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage (inputImage);

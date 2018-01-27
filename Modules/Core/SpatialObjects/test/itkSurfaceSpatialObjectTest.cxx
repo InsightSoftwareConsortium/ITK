@@ -26,10 +26,10 @@
 
 int itkSurfaceSpatialObjectTest(int, char* [])
 {
-  typedef itk::SurfaceSpatialObject<3>      SurfaceType;
-  typedef SurfaceType::Pointer              SurfacePointer;
-  typedef itk::SurfaceSpatialObjectPoint<3> SurfacePointType;
-  typedef itk::CovariantVector<double,3>    VectorType;
+  using SurfaceType = itk::SurfaceSpatialObject<3>;
+  using SurfacePointer = SurfaceType::Pointer;
+  using SurfacePointType = itk::SurfaceSpatialObjectPoint<3>;
+  using VectorType = itk::CovariantVector<double,3>;
 
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing SurfaceSpatialObject:"<<std::endl<<std::endl;

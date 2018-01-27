@@ -35,25 +35,25 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char FixedImagePixelType;
-  typedef unsigned char MovingImagePixelType;
+  using FixedImagePixelType = unsigned char;
+  using MovingImagePixelType = unsigned char;
 
-  typedef double CoordRepPixelType;
+  using CoordRepPixelType = double;
 
-  typedef double GradientPixelType;
+  using GradientPixelType = double;
 
-  typedef itk::Image< FixedImagePixelType, Dimension >                              FixedImageType;
-  typedef itk::Image< MovingImagePixelType, Dimension >                             MovingImageType;
-  typedef itk::Image< GradientPixelType, Dimension >                                GradientImageType;
+  using FixedImageType = itk::Image< FixedImagePixelType, Dimension >;
+  using MovingImageType = itk::Image< MovingImagePixelType, Dimension >;
+  using GradientImageType = itk::Image< GradientPixelType, Dimension >;
 
-  typedef itk::KappaStatisticImageToImageMetric< FixedImageType, MovingImageType >  MetricType;
-  typedef itk::ImageRegionIteratorWithIndex< FixedImageType >                       FixedImageIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< MovingImageType >                      MovingImageIteratorType;
+  using MetricType = itk::KappaStatisticImageToImageMetric< FixedImageType, MovingImageType >;
+  using FixedImageIteratorType = itk::ImageRegionIteratorWithIndex< FixedImageType >;
+  using MovingImageIteratorType = itk::ImageRegionIteratorWithIndex< MovingImageType >;
 
-  typedef itk::ImageRegionIteratorWithIndex< GradientImageType >                    GradientImageIteratorType;
-  typedef itk::TranslationTransform< CoordRepPixelType, Dimension >                 TransformType;
-  typedef itk::NearestNeighborInterpolateImageFunction< MovingImageType, CoordRepPixelType >
-    InterpolatorType;
+  using GradientImageIteratorType = itk::ImageRegionIteratorWithIndex< GradientImageType >;
+  using TransformType = itk::TranslationTransform< CoordRepPixelType, Dimension >;
+  using InterpolatorType =
+      itk::NearestNeighborInterpolateImageFunction< MovingImageType, CoordRepPixelType >;
 
 
   double epsilon = 0.000001;
@@ -205,7 +205,7 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
     ++yGradIt;
     }
 
-  typedef itk::ImageRegionIteratorWithIndex< const MetricType::GradientImageType > GradIteratorType;
+  using GradIteratorType = itk::ImageRegionIteratorWithIndex< const MetricType::GradientImageType >;
   GradIteratorType gradIt( metric->GetGradientImage(), metric->GetGradientImage()->GetBufferedRegion() );
   gradIt.GoToBegin();
   xGradIt.GoToBegin();

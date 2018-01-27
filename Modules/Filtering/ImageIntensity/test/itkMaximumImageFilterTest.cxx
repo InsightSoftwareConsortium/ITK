@@ -27,23 +27,23 @@ int itkMaximumImageFilterTest( int, char*[] )
   // Define the dimension of the images
   const unsigned int Dimension = 3;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // Declare the type of the index to access images
-  typedef itk::Index< Dimension >             IndexType;
+  using IndexType = itk::Index< Dimension >;
 
   // Declare the type of the size
-  typedef itk::Size< Dimension >              SizeType;
+  using SizeType = itk::Size< Dimension >;
 
   // Declare the type of the region
-  typedef itk::ImageRegion< Dimension >       RegionType;
+  using RegionType = itk::ImageRegion< Dimension >;
 
   // Declare the type for the filter
-  typedef itk::MaximumImageFilter< ImageType, ImageType,
-    ImageType > MaximumImageFilterType;
+  using MaximumImageFilterType = itk::MaximumImageFilter< ImageType, ImageType,
+    ImageType >;
 
   // Create two images
   ImageType::Pointer inputImageA = ImageType::New();
@@ -81,7 +81,7 @@ int itkMaximumImageFilterTest( int, char*[] )
   PixelType smallPixelValue = 2;
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
 
   // Create one iterator for Image A (this is a light object)
   IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );

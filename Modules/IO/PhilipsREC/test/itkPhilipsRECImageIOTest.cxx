@@ -30,11 +30,11 @@ int itkPhilipsRECImageIOTest( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned short                      PixelType;
-  typedef itk::Image< PixelType, 2 >          ImageType;
+  using PixelType = unsigned short;
+  using ImageType = itk::Image< PixelType, 2 >;
 
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
-  typedef itk::ImageFileWriter< ImageType >   WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   itk::PhilipsRECImageIOFactory::RegisterOneFactory();
 

@@ -36,7 +36,7 @@ LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints< TInputMesh, TOutputMe
 
   typename OutputMeshType::PointsContainer* points = output->GetPoints();
 
-  typedef typename OutputMeshType::PointsContainerIterator PointsContainerIterator;
+  using PointsContainerIterator = typename OutputMeshType::PointsContainerIterator;
   PointsContainerIterator pIt = points->Begin();
   const PointsContainerIterator pEnd = points->End();
 

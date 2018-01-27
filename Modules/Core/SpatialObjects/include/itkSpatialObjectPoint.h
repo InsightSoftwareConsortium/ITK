@@ -45,11 +45,11 @@ public:
   /** Default destructor. */
   virtual ~SpatialObjectPoint();
 
-  typedef SpatialObjectPoint               Self;
-  typedef Point< double, TPointDimension > PointType;
-  typedef vnl_vector< double >             VectorType;
-  typedef RGBAPixel< float >               PixelType;
-  typedef PixelType                        ColorType;
+  using Self = SpatialObjectPoint;
+  using PointType = Point< double, TPointDimension >;
+  using VectorType = vnl_vector< double >;
+  using PixelType = RGBAPixel< float >;
+  using ColorType = PixelType;
 
   /** Get the SpatialObjectPoint Id. */
   int GetID() const;

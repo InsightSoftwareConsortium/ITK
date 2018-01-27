@@ -49,11 +49,11 @@ class GPUGradientAnisotropicDiffusionImageFilter :
   public GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUGradientAnisotropicDiffusionImageFilter                                          Self;
-  typedef GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter > GPUSuperclass;
-  typedef SmartPointer< Self >                                                                Pointer;
-  typedef SmartPointer< const Self >                                                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUGradientAnisotropicDiffusionImageFilter;
+  using GPUSuperclass = GPUAnisotropicDiffusionImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard method for creation through object factory. */
   itkNewMacro(Self);
@@ -63,7 +63,7 @@ public:
                GPUAnisotropicDiffusionImageFilter);
 
   /** Extract information from the superclass. */
-  typedef typename GPUSuperclass::UpdateBufferType UpdateBufferType;
+  using UpdateBufferType = typename GPUSuperclass::UpdateBufferType;
 
   /** Extract information from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int, GPUSuperclass::ImageDimension);
@@ -99,10 +99,10 @@ private:
 class GPUGradientAnisotropicDiffusionImageFilterFactory : public ObjectFactoryBase
 {
 public:
-  typedef GPUGradientAnisotropicDiffusionImageFilterFactory Self;
-  typedef ObjectFactoryBase                                 Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  using Self = GPUGradientAnisotropicDiffusionImageFilterFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
   const char* GetITKSourceVersion() const override {
@@ -135,8 +135,8 @@ private:
 
 #define GradientAnisotropicDiffusionImageFilterTypeMacro(ipt,opt,dm) \
     { \
-    typedef itk::Image<ipt,dm> InputImageType; \
-    typedef itk::Image<opt,dm> OutputImageType; \
+    using InputImageType = itk::Image<ipt,dm>; \
+    using OutputImageType = itk::Image<opt,dm>; \
     this->RegisterOverride( \
       typeid(itk::GradientAnisotropicDiffusionImageFilter<InputImageType,OutputImageType>).name(), \
       typeid(itk::GPUGradientAnisotropicDiffusionImageFilter<InputImageType,OutputImageType>).name(), \

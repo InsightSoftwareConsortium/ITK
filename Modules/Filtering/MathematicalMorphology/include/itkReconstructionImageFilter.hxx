@@ -126,7 +126,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
     }
 
   // create padded versions of the marker image and the mask image
-  typedef typename itk::ConstantPadImageFilter< InputImageType, InputImageType > PadType;
+  using PadType = typename itk::ConstantPadImageFilter< InputImageType, InputImageType >;
 
   MarkerImageConstPointer markerImageP;
   MaskImageConstPointer   maskImageP;
@@ -173,7 +173,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
     }
 
   // declare our queue type
-  typedef typename std::queue< OutputImageIndexType > FifoType;
+  using FifoType = typename std::queue< OutputImageIndexType >;
   FifoType IndexFifo;
 
   NOutputIterator   outNIt;
@@ -373,7 +373,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
 
   if ( m_UseInternalCopy )
     {
-    typedef typename itk::CropImageFilter< InputImageType, OutputImageType > CropType;
+    using CropType = typename itk::CropImageFilter< InputImageType, OutputImageType >;
     typename CropType::Pointer crop = CropType::New();
 
     crop->SetInput(markerImageP);

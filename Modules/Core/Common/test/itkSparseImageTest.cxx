@@ -27,8 +27,8 @@ template <typename TImageType>
 class NodeClass
 {
 public:
-  typedef TImageType                    ImageType;
-  typedef typename ImageType::IndexType IndexType;
+  using ImageType = TImageType;
+  using IndexType = typename ImageType::IndexType;
   int        m_Value;
   IndexType  m_Index;
   NodeClass *Next;
@@ -39,10 +39,10 @@ public:
 
 int itkSparseImageTest(int, char* [] )
 {
-  typedef itk::Image<int, 2>             DummyImageType;
-  typedef itk::NodeClass<DummyImageType> NodeType;
-  typedef itk::SparseImage<NodeType, 2>  SparseImageType;
-  typedef SparseImageType::Superclass    ImageType;
+  using DummyImageType = itk::Image<int, 2>;
+  using NodeType = itk::NodeClass<DummyImageType>;
+  using SparseImageType = itk::SparseImage<NodeType, 2>;
+  using ImageType = SparseImageType::Superclass;
 
   SparseImageType::Pointer im = SparseImageType::New();
   ImageType::RegionType r;
@@ -71,7 +71,7 @@ int itkSparseImageTest(int, char* [] )
         }
       }
 
-  typedef SparseImageType::NodeListType NodeListType;
+  using NodeListType = SparseImageType::NodeListType;
   NodeListType::Pointer nodelist = im->GetNodeList();
   nodelist->Print(std::cout);
   im->Print(std::cout);

@@ -77,11 +77,11 @@ class ITK_TEMPLATE_EXPORT BinaryMinMaxCurvatureFlowImageFilter:
   public MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryMinMaxCurvatureFlowImageFilter                        Self;
-  typedef MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                        Pointer;
-  typedef SmartPointer< const Self >                                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BinaryMinMaxCurvatureFlowImageFilter;
+  using Superclass = MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -89,12 +89,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryMinMaxCurvatureFlowImageFilter, MinMaxCurvatureFlowImageFilter);
 
-  /** Inherit typedefs from Superclass. */
-  typedef typename Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
-  typedef typename Superclass::OutputImageType              OutputImageType;
+  /** Inherit type alias from Superclass. */
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
   /** BinaryMinMaxCurvatureFlowFunction type. */
-  typedef BinaryMinMaxCurvatureFlowFunction< OutputImageType > BinaryMinMaxCurvatureFlowFunctionType;
+  using BinaryMinMaxCurvatureFlowFunctionType = BinaryMinMaxCurvatureFlowFunction< OutputImageType >;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */

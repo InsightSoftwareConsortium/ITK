@@ -39,17 +39,17 @@ class RSGCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef RSGCostFunction               Self;
-  typedef itk::SingleValuedCostFunction Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = RSGCostFunction;
+  using Superclass = itk::SingleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType      ParametersType;
-  typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
 
   RSGCostFunction()
@@ -105,9 +105,9 @@ int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
   std::cout << "RegularStepGradientDescentOptimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::RegularStepGradientDescentOptimizer  OptimizerType;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
 
-  typedef  OptimizerType::ScalesType            ScalesType;
+  using ScalesType = OptimizerType::ScalesType;
 
 
   // Declaration of a itkOptimizer
@@ -121,7 +121,7 @@ int itkRegularStepGradientDescentOptimizerTest(int, char* [] )
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
 
-  typedef RSGCostFunction::ParametersType    ParametersType;
+  using ParametersType = RSGCostFunction::ParametersType;
 
 
   const unsigned int spaceDimension =

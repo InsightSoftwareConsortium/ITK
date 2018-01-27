@@ -29,10 +29,9 @@ int itkMeanSampleFilterTest(int, char* [] )
   const unsigned int                  numberOfMeasurementVectors = 5;
   unsigned int                        counter;
 
-  typedef itk::FixedArray<
-    float, MeasurementVectorSize >             MeasurementVectorType;
-  typedef itk::Statistics::ListSample<
-    MeasurementVectorType >                    SampleType;
+  using MeasurementVectorType = itk::FixedArray<
+    float, MeasurementVectorSize >;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
   SampleType::Pointer sample = SampleType::New();
 
@@ -53,7 +52,7 @@ int itkMeanSampleFilterTest(int, char* [] )
     counter++;
     }
 
-  typedef itk::Statistics::MeanSampleFilter< SampleType > FilterType;
+  using FilterType = itk::Statistics::MeanSampleFilter< SampleType >;
 
   FilterType::Pointer filter = FilterType::New();
 

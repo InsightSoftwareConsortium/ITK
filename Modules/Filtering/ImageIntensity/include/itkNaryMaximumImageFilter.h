@@ -34,8 +34,8 @@ template< typename TInput, typename TOutput >
 class Maximum1
 {
 public:
-  typedef typename NumericTraits< TOutput >::ValueType OutputValueType;
-  // not sure if this typedef really makes things more clear... could just use
+  using OutputValueType = typename NumericTraits< TOutput >::ValueType;
+  // not sure if this type alias really makes things more clear... could just use
   // TOutput?
 
   Maximum1() {}
@@ -108,15 +108,15 @@ class NaryMaximumImageFilter:
                                               typename TInputImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef NaryMaximumImageFilter Self;
-  typedef NaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = NaryMaximumImageFilter;
+  using Superclass = NaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::Maximum1< typename TInputImage::PixelType,
-                       typename TInputImage::PixelType > > Superclass;
+                       typename TInputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

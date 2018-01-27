@@ -99,12 +99,12 @@ CenteredTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
     InputPointType centerFixedPoint;
 
-    typedef typename InputPointType::ValueType CoordRepType;
+    using CoordRepType = typename InputPointType::ValueType;
 
-    typedef ContinuousIndex< CoordRepType,
-                             InputSpaceDimension >  ContinuousIndexType;
+    using ContinuousIndexType = ContinuousIndex< CoordRepType,
+                             InputSpaceDimension >;
 
-    typedef typename ContinuousIndexType::ValueType ContinuousIndexValueType;
+    using ContinuousIndexValueType = typename ContinuousIndexType::ValueType;
 
     ContinuousIndexType centerFixedIndex;
 

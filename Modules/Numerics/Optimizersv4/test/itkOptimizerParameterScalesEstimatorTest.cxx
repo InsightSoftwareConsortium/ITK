@@ -25,11 +25,11 @@ class OptimizerParameterScalesEstimatorTest:
   public itk::OptimizerParameterScalesEstimator
 {
 public:
-  /** Standard class typedefs. */
-  typedef OptimizerParameterScalesEstimatorTest                   Self;
-  typedef itk::OptimizerParameterScalesEstimator                  Superclass;
-  typedef itk::SmartPointer< Self >                               Pointer;
-  typedef itk::SmartPointer< const Self >                         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = OptimizerParameterScalesEstimatorTest;
+  using Superclass = itk::OptimizerParameterScalesEstimator;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
   itkNewMacro(Self);
 

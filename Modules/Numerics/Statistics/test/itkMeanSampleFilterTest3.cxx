@@ -24,13 +24,13 @@ int itkMeanSampleFilterTest3(int, char* [] )
 {
   std::cout << "CovarianceSampleFilter test \n \n";
 
-  typedef double                      MeasurementType;
+  using MeasurementType = double;
   const unsigned int                  MeasurementVectorSize = 3;
 
-  typedef itk::Statistics::Histogram< MeasurementType,
-          itk::Statistics::DenseFrequencyContainer2 > HistogramType;
+  using HistogramType = itk::Statistics::Histogram< MeasurementType,
+          itk::Statistics::DenseFrequencyContainer2 >;
 
-  typedef HistogramType    SampleType;
+  using SampleType = HistogramType;
 
   HistogramType::Pointer histogram = HistogramType::New();
 
@@ -46,14 +46,13 @@ int itkMeanSampleFilterTest3(int, char* [] )
   histogram->Initialize( size, lowerBound, upperBound );
   histogram->SetToZero();
 
-  typedef itk::Statistics::MahalanobisDistanceMetric<
-    HistogramType::MeasurementVectorType >                    MembershipFunctionType;
+  using MembershipFunctionType = itk::Statistics::MahalanobisDistanceMetric<HistogramType::MeasurementVectorType>;
 
   MembershipFunctionType::Pointer memberFunction = MembershipFunctionType::New();
 
 
-  typedef MembershipFunctionType::MeanVectorType            MeanVectorType;
-  typedef MembershipFunctionType::CovarianceMatrixType      CovarianceMatrixType;
+  using MeanVectorType = MembershipFunctionType::MeanVectorType;
+  using CovarianceMatrixType = MembershipFunctionType::CovarianceMatrixType;
 
   MeanVectorType mean( MeasurementVectorSize );
   CovarianceMatrixType covariance( MeasurementVectorSize, MeasurementVectorSize );
@@ -85,7 +84,7 @@ int itkMeanSampleFilterTest3(int, char* [] )
   HistogramType::Iterator itr = histogram->Begin();
   HistogramType::Iterator end = histogram->End();
 
-  typedef HistogramType::AbsoluteFrequencyType  AbsoluteFrequencyType;
+  using AbsoluteFrequencyType = HistogramType::AbsoluteFrequencyType;
 
   while( itr != end )
     {
@@ -101,7 +100,7 @@ int itkMeanSampleFilterTest3(int, char* [] )
     }
 
 
-  typedef itk::Statistics::MeanSampleFilter< SampleType > FilterType;
+  using FilterType = itk::Statistics::MeanSampleFilter< SampleType >;
 
   FilterType::Pointer filter = FilterType::New();
 

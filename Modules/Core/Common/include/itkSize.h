@@ -52,12 +52,12 @@ template< unsigned int VDimension = 2 >
 class Size
 {
 public:
-  /** Standard class typedefs. */
-  typedef Size Self;
+  /** Standard class type aliases. */
+  using Self = Size;
 
-  /** Compatible Size and value typedef */
-  typedef   Size< VDimension > SizeType;
-  typedef   itk::SizeValueType SizeValueType;
+  /** Compatible Size and value type alias */
+  using SizeType = Size< VDimension >;
+  using SizeValueType = itk::SizeValueType;
 
   /** Dimension constant */
   itkStaticConstMacro(Dimension, unsigned int, VDimension);

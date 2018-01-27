@@ -36,10 +36,10 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 {
   const unsigned int PointSetDimension = 2;
 
-  typedef float PointSetPointType;
+  using PointSetPointType = float;
 
   // Fixed Point Set
-  typedef itk::PointSet< PointSetPointType, PointSetDimension > FixedPointSetType;
+  using FixedPointSetType = itk::PointSet< PointSetPointType, PointSetDimension >;
   FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
 
   const unsigned int numberOfPoints = 500;
@@ -66,7 +66,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
     }
 
   // Moving Point Set
-  typedef itk::PointSet< PointSetPointType, PointSetDimension > MovingPointSetType;
+  using MovingPointSetType = itk::PointSet< PointSetPointType, PointSetDimension >;
   MovingPointSetType::Pointer movingPointSet = MovingPointSetType::New();
 
   movingPointSet->SetPointData( MovingPointSetType::PointDataContainer::New() );
@@ -89,27 +89,27 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
     }
 
   // Set up the Metric
-  typedef itk::EuclideanDistancePointMetric< FixedPointSetType,
-    MovingPointSetType>  MetricType;
+  using MetricType = itk::EuclideanDistancePointMetric< FixedPointSetType,
+    MovingPointSetType>;
 
-  typedef MetricType::TransformType                 TransformBaseType;
-  typedef TransformBaseType::ParametersType         ParametersType;
+  using TransformBaseType = MetricType::TransformType;
+  using ParametersType = TransformBaseType::ParametersType;
 
   MetricType::Pointer  metric = MetricType::New();
 
   // Set up the Transform
-  typedef itk::TranslationTransform< double, PointSetDimension > TransformType;
+  using TransformType = itk::TranslationTransform< double, PointSetDimension >;
   TransformType::Pointer transform = TransformType::New();
 
   // Set up the Optimizer
-  typedef itk::LevenbergMarquardtOptimizer OptimizerType;
+  using OptimizerType = itk::LevenbergMarquardtOptimizer;
   OptimizerType::Pointer optimizer = OptimizerType::New();
 
   optimizer->SetUseCostFunctionGradient( false );
 
   // Set up the Registration method
-  typedef itk::PointSetToPointSetRegistrationMethod< FixedPointSetType,
-    MovingPointSetType >  RegistrationType;
+  using RegistrationType = itk::PointSetToPointSetRegistrationMethod< FixedPointSetType,
+    MovingPointSetType >;
   RegistrationType::Pointer registration = RegistrationType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( registration, PointSetToPointSetRegistrationMethod,
@@ -189,10 +189,10 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 
   const unsigned int ImageDimension = 2;
 
-  typedef itk::Image< unsigned char, ImageDimension >   BinaryImageType;
-  typedef itk::Image< unsigned short, ImageDimension >  ImageType;
+  using BinaryImageType = itk::Image< unsigned char, ImageDimension >;
+  using ImageType = itk::Image< unsigned short, ImageDimension >;
 
-  typedef itk::PointSetToImageFilter< FixedPointSetType, BinaryImageType > PSToImageFilterType;
+  using PSToImageFilterType = itk::PointSetToImageFilter< FixedPointSetType, BinaryImageType >;
   PSToImageFilterType::Pointer psToImageFilter = PSToImageFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( psToImageFilter, PointSetToImageFilter,
@@ -215,8 +215,8 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 
   BinaryImageType::Pointer binaryImage = psToImageFilter->GetOutput();
 
-  typedef itk::DanielssonDistanceMapImageFilter< BinaryImageType, ImageType >
-    DDFilterType;
+  using DDFilterType =
+      itk::DanielssonDistanceMapImageFilter< BinaryImageType, ImageType >;
   DDFilterType::Pointer ddFilter = DDFilterType::New();
 
   ddFilter->SetInput( binaryImage );

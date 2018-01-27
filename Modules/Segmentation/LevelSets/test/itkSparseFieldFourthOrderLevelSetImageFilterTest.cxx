@@ -83,19 +83,18 @@ class IsotropicDiffusionLevelSetFilter
   : public SparseFieldFourthOrderLevelSetImageFilter <TInputImage, TOutputImage>
 {
 public:
-  typedef IsotropicDiffusionLevelSetFilter Self;
-  typedef SparseFieldFourthOrderLevelSetImageFilter <TInputImage,
-                                                     TOutputImage>
-                                           Superclass;
-  typedef SmartPointer<Self>               Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  using Self = IsotropicDiffusionLevelSetFilter;
+  using Superclass = SparseFieldFourthOrderLevelSetImageFilter <TInputImage,
+                                                     TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkTypeMacro(IsotropicDiffusionLevelSetFilter,SparseFieldFourthOrderLevelSetImageFilter);
   itkNewMacro (Self);
 
-  typedef typename Superclass::SparseImageType SparseImageType;
-  typedef LevelSetFunctionWithRefitTerm <TOutputImage,SparseImageType> FunctionType;
-  typedef typename FunctionType::RadiusType RadiusType;
+  using SparseImageType = typename Superclass::SparseImageType;
+  using FunctionType = LevelSetFunctionWithRefitTerm <TOutputImage,SparseImageType>;
+  using RadiusType = typename FunctionType::RadiusType;
 
 protected:
   typename FunctionType::Pointer m_Function;
@@ -136,7 +135,7 @@ protected:
 
 int itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char* [] )
 {
-  typedef itk::Image<float, 2> ImageType;
+  using ImageType = itk::Image<float, 2>;
 
   ImageType::Pointer im_init = ImageType::New();
 
@@ -152,7 +151,7 @@ int itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char* [] )
   im_init->Allocate();
 
   SFFOLSIFT::evaluate_function(im_init, SFFOLSIFT::square);
-  typedef itk::IsotropicDiffusionLevelSetFilter<ImageType, ImageType> FilterType;
+  using FilterType = itk::IsotropicDiffusionLevelSetFilter<ImageType, ImageType>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(im_init);

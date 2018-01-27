@@ -30,26 +30,24 @@ int itkSqrtImageFilterAndAdaptorTest( int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the pixel types of the images
-  typedef float                PixelType;
+  using PixelType = float;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, ImageDimension > InputImageType;
-  typedef itk::Image< PixelType, ImageDimension > OutputImageType;
+  using InputImageType = itk::Image< PixelType, ImageDimension >;
+  using OutputImageType = itk::Image< PixelType, ImageDimension >;
 
   // Declare appropriate Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType >  InputIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType > OutputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Declare the type of the index to access images
-  typedef itk::Index< ImageDimension >         IndexType;
+  using IndexType = itk::Index< ImageDimension >;
 
   // Declare the type of the size
-  typedef itk::Size< ImageDimension >          SizeType;
+  using SizeType = itk::Size< ImageDimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< ImageDimension >   RegionType;
+  using RegionType = itk::ImageRegion< ImageDimension >;
 
   // Create the input image
   InputImageType::Pointer inputImage = InputImageType::New();
@@ -88,8 +86,8 @@ int itkSqrtImageFilterAndAdaptorTest( int, char* [] )
   }
 
   // Declare the type for the Sqrt filter
-  typedef itk::SqrtImageFilter< InputImageType,
-                               OutputImageType > FilterType;
+  using FilterType = itk::SqrtImageFilter< InputImageType,
+                               OutputImageType >;
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
@@ -137,8 +135,8 @@ int itkSqrtImageFilterAndAdaptorTest( int, char* [] )
   // Test the itk::SqrtImageAdaptor
   //
 
-  typedef itk::SqrtImageAdaptor< InputImageType,
-                          OutputImageType::PixelType > AdaptorType;
+  using AdaptorType = itk::SqrtImageAdaptor< InputImageType,
+                          OutputImageType::PixelType >;
 
   AdaptorType::Pointer sqrtAdaptor = AdaptorType::New();
 
@@ -147,10 +145,10 @@ int itkSqrtImageFilterAndAdaptorTest( int, char* [] )
 
   sqrtAdaptor->SetImage( inputImage );
 
-  typedef itk::SubtractImageFilter<
+  using DiffFilterType = itk::SubtractImageFilter<
                         OutputImageType,
                         AdaptorType,
-                        OutputImageType > DiffFilterType;
+                        OutputImageType >;
 
   DiffFilterType::Pointer diffFilter = DiffFilterType::New();
 

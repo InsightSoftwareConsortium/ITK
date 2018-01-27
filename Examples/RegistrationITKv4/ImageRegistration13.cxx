@@ -51,17 +51,17 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>   Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::RegularStepGradientDescentOptimizerv4<double>  OptimizerType;
-  typedef   const OptimizerType *                             OptimizerPointer;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
+  using OptimizerPointer = const OptimizerType *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
@@ -94,10 +94,10 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  float           PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
   // Software Guide : BeginLatex
   //
@@ -106,21 +106,21 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredRigid2DTransform< double >  TransformType;
+  using TransformType = itk::CenteredRigid2DTransform< double >;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::RegularStepGradientDescentOptimizerv4<double> OptimizerType;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
 
-  typedef itk::ImageRegistrationMethodv4<
+  using RegistrationType = itk::ImageRegistrationMethodv4<
                                     FixedImageType,
                                     MovingImageType,
-                                    TransformType >           RegistrationType;
+                                    TransformType >;
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MattesMutualInformationImageToImageMetricv4<
+  using MetricType = itk::MattesMutualInformationImageToImageMetricv4<
                                           FixedImageType,
-                                          MovingImageType >   MetricType;
+                                          MovingImageType >;
   // Software Guide : EndCodeSnippet
 
   TransformType::Pointer      transform     = TransformType::New();
@@ -147,8 +147,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
@@ -181,10 +181,10 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredTransformInitializer<
+  using TransformInitializerType = itk::CenteredTransformInitializer<
     TransformType,
     FixedImageType,
-    MovingImageType > TransformInitializerType;
+    MovingImageType >;
   TransformInitializerType::Pointer initializer
     = TransformInitializerType::New();
   initializer->SetTransform(   transform );
@@ -211,7 +211,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef OptimizerType::ScalesType       OptimizerScalesType;
+  using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   const double translationScale = 1.0 / 128.0;
@@ -266,7 +266,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef TransformType::ParametersType ParametersType;
+  using ParametersType = TransformType::ParametersType;
   ParametersType finalParameters = transform->GetParameters();
 
   const double finalAngle           = finalParameters[0];
@@ -295,9 +295,9 @@ int main( int argc, char *argv[] )
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
 
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+                            FixedImageType >;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -312,15 +312,15 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
-  typedef  unsigned char  OutputPixelType;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::CastImageFilter<
+  using CastFilterType = itk::CastImageFilter<
                         FixedImageType,
-                        OutputImageType > CastFilterType;
+                        OutputImageType >;
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();

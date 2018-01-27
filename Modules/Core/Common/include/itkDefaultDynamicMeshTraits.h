@@ -65,14 +65,14 @@ template<
 class DefaultDynamicMeshTraits
 {
 public:
-  /** Standard class typedefs. */
-  typedef DefaultDynamicMeshTraits Self;
+  /** Standard class type aliases. */
+  using Self = DefaultDynamicMeshTraits;
 
   /** Just save all the template parameters. */
-  typedef TPixelType           PixelType;
-  typedef TCellPixelType       CellPixelType;
-  typedef TCoordRep            CoordRepType;
-  typedef TInterpolationWeight InterpolationWeightType;
+  using PixelType = TPixelType;
+  using CellPixelType = TCellPixelType;
+  using CoordRepType = TCoordRep;
+  using InterpolationWeightType = TInterpolationWeight;
 
   /** Just save all the template parameters. */
   itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
@@ -81,62 +81,62 @@ public:
 
   /** The type to be used to identify a point.  This should be the index type
    * to the PointsContainer. */
-  typedef IdentifierType PointIdentifier;
+  using PointIdentifier = IdentifierType;
 
   /** The type to be used to identify a cell.  This should be the index type
    * to the CellsContainer. */
-  typedef IdentifierType CellIdentifier;
+  using CellIdentifier = IdentifierType;
 
   /** A type that can be used to identifiy individual boundary features on
    * the cells.  Since this will probably be an index into a static array,
    * this will probably never change from an integer setting. */
-  typedef IdentifierType CellFeatureIdentifier;
+  using CellFeatureIdentifier = IdentifierType;
 
   /** The type of point used by the mesh. */
-  typedef Point< CoordRepType, VPointDimension > PointType;
+  using PointType = Point< CoordRepType, VPointDimension >;
 
   /** The type of point used for hashing.  This should never change from
    * this setting, regardless of the mesh type. */
-  typedef Point< CoordRepType, VPointDimension > PointHashType;
+  using PointHashType = Point< CoordRepType, VPointDimension >;
 
   /** The container type for use in storing points.  It must conform to
    * the IndexedContainerInterface. */
-  typedef MapContainer< PointIdentifier, PointType > PointsContainer;
+  using PointsContainer = MapContainer< PointIdentifier, PointType >;
 
   /** The container type that will be used to store boundary links
    * back to cells.  This must conform to the STL "set" interface. */
-  typedef std::set< CellIdentifier > UsingCellsContainer;
+  using UsingCellsContainer = std::set< CellIdentifier >;
 
   /** The information needed for a cell type is now defined, so we can
    * define the cell type. */
-  typedef itkMakeCellTraitsMacro CellTraits;
+  using CellTraits = itkMakeCellTraitsMacro;
 
   /** The interface to cells to be used by the mesh.
    * This should not be changed. */
-  typedef CellInterface< CellPixelType, CellTraits > CellType;
-  typedef typename CellType::CellAutoPointer         CellAutoPointer;
+  using CellType = CellInterface< CellPixelType, CellTraits >;
+  using CellAutoPointer = typename CellType::CellAutoPointer;
 
   /** The container type for use in storing cells.  It must conform to
    * the IndexedContainerInterface. */
-  typedef MapContainer< CellIdentifier, CellType * > CellsContainer;
+  using CellsContainer = MapContainer< CellIdentifier, CellType * >;
 
   /** The CellLinks container should be a container of PointCellLinksContainer,
    * which should be a container conforming to the STL "set" interface. */
-  typedef std::set< CellIdentifier > PointCellLinksContainer;
+  using PointCellLinksContainer = std::set< CellIdentifier >;
 
   /** The container type for use in storing point links back to cells.]
    * It must conform to the IndexedContainerInterface. */
-  typedef MapContainer<
-    PointIdentifier, PointCellLinksContainer >        CellLinksContainer;
+  using CellLinksContainer = MapContainer<
+    PointIdentifier, PointCellLinksContainer >;
 
   /** The container type for use in storing point data.  It must conform to
    * the IndexedContainerInterface. */
-  typedef MapContainer< PointIdentifier, PixelType > PointDataContainer;
+  using PointDataContainer = MapContainer< PointIdentifier, PixelType >;
 
   /** The container type for use in storing cell data.  It must conform to
    * the IndexedContainerInterface. */
-  typedef MapContainer<
-    CellIdentifier, CellPixelType >                   CellDataContainer;
+  using CellDataContainer = MapContainer<
+    CellIdentifier, CellPixelType >;
 };
 } // end namespace itk
 

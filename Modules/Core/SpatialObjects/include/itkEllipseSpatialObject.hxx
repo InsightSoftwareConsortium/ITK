@@ -151,7 +151,7 @@ EllipseSpatialObject< TDimension >
 
     bb->ComputeBoundingBox();
 
-    typedef typename BoundingBoxType::PointsContainer PointsContainer;
+    using PointsContainer = typename BoundingBoxType::PointsContainer;
     const PointsContainer *corners = bb->GetCorners();
     typename BoundingBoxType::PointsContainer::const_iterator
     it = corners->begin();

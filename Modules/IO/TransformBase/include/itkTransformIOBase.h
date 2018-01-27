@@ -57,28 +57,28 @@ template<typename TParametersValueType>
 class ITKIOTransformBase_TEMPLATE_EXPORT TransformIOBaseTemplate:public LightProcessObject
 {
 public:
-  /** Standard class typedefs */
-  typedef TransformIOBaseTemplate Self;
-  typedef LightProcessObject      Superclass;
-  typedef SmartPointer<Self>      Pointer;
+  /** Standard class type aliases */
+  using Self = TransformIOBaseTemplate;
+  using Superclass = LightProcessObject;
+  using Pointer = SmartPointer<Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformIOBaseTemplate, Superclass);
 
   /** Transform types */
-  typedef TParametersValueType              ScalarType; //For backwards compatibility
-  typedef TParametersValueType              ParametersValueType;
-  typedef double                            FixedParametersValueType;
+  using ScalarType = TParametersValueType; //For backwards compatibility
+  using ParametersValueType = TParametersValueType;
+  using FixedParametersValueType = double;
 
-  typedef TransformBaseTemplate<ParametersValueType> TransformType;
+  using TransformType = TransformBaseTemplate<ParametersValueType>;
 
   /** For writing, a const transform list gets passed in, for
    * reading, a non-const transform list is created from the file.
    */
-  typedef typename TransformType::Pointer             TransformPointer;
-  typedef std::list< TransformPointer >               TransformListType;
-  typedef typename TransformType::ConstPointer        ConstTransformPointer;
-  typedef std::list< ConstTransformPointer >          ConstTransformListType;
+  using TransformPointer = typename TransformType::Pointer;
+  using TransformListType = std::list< TransformPointer >;
+  using ConstTransformPointer = typename TransformType::ConstPointer;
+  using ConstTransformListType = std::list< ConstTransformPointer >;
 
   /** Set/Get the name of the file to be read. */
   itkSetStringMacro(FileName);
@@ -190,7 +190,7 @@ TransformIOBaseTemplate<double>
 }
 
 /** This helps to meet backward compatibility */
-typedef itk::TransformIOBaseTemplate<double> TransformIOBase;
+using TransformIOBase = itk::TransformIOBaseTemplate<double>;
 
 } // end namespace itk
 

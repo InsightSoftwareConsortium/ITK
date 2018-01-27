@@ -31,27 +31,27 @@ template< typename TOutputImage >
 class ExampleImageSource : public GaussianImageSource< TOutputImage >
 {
 public:
-  /** Standard typedefs. */
-  typedef ExampleImageSource                   Self;
-  typedef GaussianImageSource< TOutputImage >  Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  /** Standard type alias. */
+  using Self = ExampleImageSource;
+  using Superclass = GaussianImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Output image typedefs */
-  typedef TOutputImage                            OutputImageType;
-  typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename OutputImageType::PixelType     OutputImagePixelType;
-  typedef typename OutputImageType::PixelType     PixelType;
-  typedef typename OutputImageType::RegionType    RegionType;
-  typedef typename OutputImageType::SpacingType   SpacingType;
-  typedef typename OutputImageType::PointType     PointType;
-  typedef typename OutputImageType::DirectionType DirectionType;
-  typedef typename OutputImageType::SizeType      SizeType;
-  typedef typename OutputImageType::SizeValueType SizeValueType;
+  /** Output image type alias */
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using PixelType = typename OutputImageType::PixelType;
+  using RegionType = typename OutputImageType::RegionType;
+  using SpacingType = typename OutputImageType::SpacingType;
+  using PointType = typename OutputImageType::PointType;
+  using DirectionType = typename OutputImageType::DirectionType;
+  using SizeType = typename OutputImageType::SizeType;
+  using SizeValueType = typename OutputImageType::SizeValueType;
 
-  typedef typename Superclass::ParametersValueType  ParametersValueType;
-  typedef typename Superclass::ParametersType       ParametersType;
-  typedef std::vector< bool >                       EnabledArrayType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using EnabledArrayType = std::vector< bool >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -118,11 +118,11 @@ int itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char* a
     return EXIT_FAILURE;
     }
 
-  typedef float                              PixelType;
+  using PixelType = float;
   const unsigned int                         Dimension = 2;
-  typedef itk::Image< PixelType, Dimension > ImageType;
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer inputReader = ReaderType::New();
   inputReader->SetFileName( argv[1] );
@@ -130,7 +130,7 @@ int itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char* a
 
   // Create a masked parametric image source so that we can optimize
   // for the sigma parameters only.
-  typedef itk::ExampleImageSource< ImageType > KernelSourceType;
+  using KernelSourceType = itk::ExampleImageSource< ImageType >;
   KernelSourceType::Pointer kernelSource = KernelSourceType::New();
   kernelSource->SetScale( 1.0 );
 
@@ -160,7 +160,7 @@ int itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char* a
   // Generate a convolution of the input image with a kernel computed
   // from a parametric image source. We'll try to recover those
   // parameters later.
-  typedef itk::FFTConvolutionImageFilter< ImageType > ConvolutionFilterType;
+  using ConvolutionFilterType = itk::FFTConvolutionImageFilter< ImageType >;
   ConvolutionFilterType::Pointer convolutionFilter = ConvolutionFilterType::New();
   convolutionFilter->SetInput( inputReader->GetOutput() );
   convolutionFilter->NormalizeOn();
@@ -171,8 +171,8 @@ int itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char* a
   convolutionFilter->SetSizeGreatestPrimeFactor( 5 );
 
   // Create an instance of the deconvolution filter
-  typedef itk::ParametricBlindLeastSquaresDeconvolutionImageFilter< ImageType, KernelSourceType >
-    DeconvolutionFilterType;
+  using DeconvolutionFilterType =
+      itk::ParametricBlindLeastSquaresDeconvolutionImageFilter< ImageType, KernelSourceType >;
   DeconvolutionFilterType::Pointer deconvolutionFilter = DeconvolutionFilterType::New();
   deconvolutionFilter->SetKernelSource( kernelSource );
   deconvolutionFilter->SetSizeGreatestPrimeFactor( 5 );

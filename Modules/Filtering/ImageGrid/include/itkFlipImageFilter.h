@@ -54,11 +54,11 @@ class ITK_TEMPLATE_EXPORT FlipImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef FlipImageFilter                      Self;
-  typedef ImageToImageFilter< TImage, TImage > Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FlipImageFilter;
+  using Superclass = ImageToImageFilter< TImage, TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,17 +70,17 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   /** Inherited types */
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
-  typedef typename Superclass::OutputImageRegionType  OutputImageRegionType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Index related types */
-  typedef typename TImage::IndexType         IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
+  using IndexType = typename TImage::IndexType;
+  using IndexValueType = typename IndexType::IndexValueType;
 
   /** FlipAxesArray type */
-  typedef FixedArray< bool, itkGetStaticConstMacro(ImageDimension) > FlipAxesArrayType;
+  using FlipAxesArrayType = FixedArray< bool, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Set/Get the axis to be flipped. The image is flipped along axes
    * for which array[i] is true. Default is false. */

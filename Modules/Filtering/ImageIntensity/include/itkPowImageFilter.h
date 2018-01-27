@@ -34,7 +34,7 @@ template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class Pow
 {
 public:
-  ;
+
   Pow() {}
   bool operator!=(const Pow &) const
   {
@@ -50,8 +50,8 @@ public:
   inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
   {
 
-    typedef typename NumericTraits< TInput1 >::RealType RealType1;
-    typedef typename NumericTraits< TInput2 >::RealType RealType2;
+    using RealType1 = typename NumericTraits< TInput1 >::RealType;
+    using RealType2 = typename NumericTraits< TInput2 >::RealType;
     return static_cast< TOutput >( std::pow(static_cast<RealType1>(A),static_cast<RealType2>(B)) );
   }
 };
@@ -99,16 +99,15 @@ class PowImageFilter:
 
 {
 public:
-  /** Standard class typedefs. */
-  typedef PowImageFilter Self;
-  typedef BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                                    Functor::Pow<
-                                      typename TInputImage1::PixelType,
+  /** Standard class type aliases. */
+  using Self = PowImageFilter;
+  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
+                        Functor::Pow< typename TInputImage1::PixelType,
                                       typename TInputImage2::PixelType,
-                                      typename TOutputImage::PixelType > > Superclass;
+                                      typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

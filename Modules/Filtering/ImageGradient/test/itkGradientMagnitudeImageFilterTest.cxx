@@ -30,7 +30,7 @@ int itkGradientMagnitudeImageFilterTest(int , char * [] )
 {
   try
     {
-      typedef itk::Image<float, 2> ImageType;
+      using ImageType = itk::Image<float, 2>;
 
       // Set up filter
       itk::GradientMagnitudeImageFilter<ImageType, ImageType>::Pointer

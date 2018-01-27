@@ -33,18 +33,18 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
 {
 
   { // Creating a local scope
-  typedef double CoordRepType;
+  using CoordRepType = double;
   const unsigned int SpaceDimension= 1;
   const unsigned int SplineOrder = 2;
 
   std::cout << "Testing SpaceDimension= " << SpaceDimension;
   std::cout << " and SplineOrder= " << SplineOrder << "  ";
 
-  typedef itk::BSplineInterpolationWeightFunction<CoordRepType,
-    SpaceDimension, SplineOrder>            FunctionType;
-  typedef FunctionType::ContinuousIndexType ContinuousIndexType;
-  typedef FunctionType::IndexType           IndexType;
-  typedef FunctionType::WeightsType         WeightsType;
+  using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType,
+    SpaceDimension, SplineOrder>;
+  using ContinuousIndexType = FunctionType::ContinuousIndexType;
+  using IndexType = FunctionType::IndexType;
+  using WeightsType = FunctionType::WeightsType;
 
   FunctionType::Pointer function = FunctionType::New();
 
@@ -124,18 +124,18 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
   std::cout << "Test passed. " << std::endl;
   }
   { // Creating a local scope
-  typedef double CoordRepType;
+  using CoordRepType = double;
   const unsigned int SpaceDimension= 1;
   const unsigned int SplineOrder = 3;
 
   std::cout << "Testing SpaceDimension= " << SpaceDimension;
   std::cout << " and SplineOrder= " << SplineOrder << "  ";
 
-  typedef itk::BSplineInterpolationWeightFunction<CoordRepType,
-    SpaceDimension, SplineOrder>            FunctionType;
-  typedef FunctionType::ContinuousIndexType ContinuousIndexType;
-  typedef FunctionType::IndexType           IndexType;
-  typedef FunctionType::WeightsType         WeightsType;
+  using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType,
+    SpaceDimension, SplineOrder>;
+  using ContinuousIndexType = FunctionType::ContinuousIndexType;
+  using IndexType = FunctionType::IndexType;
+  using WeightsType = FunctionType::WeightsType;
 
   FunctionType::Pointer function = FunctionType::New();
 
@@ -216,18 +216,18 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
   }
 
   { // Creating a local scope
-  typedef double CoordRepType;
+  using CoordRepType = double;
   const unsigned int SpaceDimension= 3;
   const unsigned int SplineOrder = 3;
   std::cout << "Testing SpaceDimension= " << SpaceDimension;
   std::cout << " and SplineOrder= " << SplineOrder << "  ";
 
-  typedef itk::BSplineInterpolationWeightFunction<CoordRepType,
-    SpaceDimension, SplineOrder>            FunctionType;
-  typedef FunctionType::ContinuousIndexType ContinuousIndexType;
-  typedef FunctionType::IndexType           IndexType;
-  typedef FunctionType::WeightsType         WeightsType;
-  typedef FunctionType::SizeType            SizeType;
+  using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType,
+    SpaceDimension, SplineOrder>;
+  using ContinuousIndexType = FunctionType::ContinuousIndexType;
+  using IndexType = FunctionType::IndexType;
+  using WeightsType = FunctionType::WeightsType;
+  using SizeType = FunctionType::SizeType;
 
   FunctionType::Pointer function = FunctionType::New();
   function->Print( std::cout );
@@ -254,10 +254,10 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
 
 
   // Check for accuracy
-  typedef itk::BSplineKernelFunction<SplineOrder> KernelType;
+  using KernelType = itk::BSplineKernelFunction<SplineOrder>;
   KernelType::Pointer kernel = KernelType::New();
 
-  typedef itk::Image<char,SpaceDimension> ImageType;
+  using ImageType = itk::Image<char,SpaceDimension>;
   ImageType::Pointer image = ImageType::New();
   ImageType::RegionType region;
   region.SetIndex( startIndex );
@@ -266,8 +266,7 @@ int itkBSplineInterpolationWeightFunctionTest(int, char* [] )
   image->SetRegions( region );
   image->Allocate(true); // initialize buffer to zero
 
-  typedef itk::ImageRegionConstIteratorWithIndex<ImageType>
-    IteratorType;
+  using IteratorType = itk::ImageRegionConstIteratorWithIndex<ImageType>;
   IteratorType iter( image, image->GetBufferedRegion() );
   unsigned long counter = 0;
 

@@ -114,10 +114,9 @@ MaskNeighborhoodOperatorImageFilter< TInputImage, TMaskImage, TOutputImage, TOpe
   // we pass in the input image and the OUTPUT requested region. We are
   // only concerned with centering the neighborhood operator at the
   // pixels that correspond to output pixels.
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >
-  BFC;
+  using BFC = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
 
-  typedef typename BFC::FaceListType FaceListType;
+  using FaceListType = typename BFC::FaceListType;
   BFC          faceCalculator;
   FaceListType faceList;
 

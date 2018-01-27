@@ -41,11 +41,11 @@ class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetric:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef MeanSquaresImageToImageMetric                   Self;
-  typedef ImageToImageMetric< TFixedImage, TMovingImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MeanSquaresImageToImageMetric;
+  using Superclass = ImageToImageMetric< TFixedImage, TMovingImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -54,26 +54,26 @@ public:
   itkTypeMacro(MeanSquaresImageToImageMetric, ImageToImageMetric);
 
   /** Types inherited from Superclass. */
-  typedef typename Superclass::TransformType                TransformType;
-  typedef typename Superclass::TransformPointer             TransformPointer;
-  typedef typename Superclass::TransformJacobianType        TransformJacobianType;
-  typedef typename Superclass::InterpolatorType             InterpolatorType;
-  typedef typename Superclass::MeasureType                  MeasureType;
-  typedef typename Superclass::DerivativeType               DerivativeType;
-  typedef typename Superclass::ParametersType               ParametersType;
-  typedef typename Superclass::FixedImageType               FixedImageType;
-  typedef typename Superclass::MovingImageType              MovingImageType;
-  typedef typename Superclass::MovingImagePointType         MovingImagePointType;
-  typedef typename Superclass::FixedImageConstPointer       FixedImageConstPointer;
-  typedef typename Superclass::MovingImageConstPointer      MovingImageConstPointer;
-  typedef typename Superclass::CoordinateRepresentationType CoordinateRepresentationType;
-  typedef typename Superclass::FixedImageSampleContainer    FixedImageSampleContainer;
-  typedef typename Superclass::ImageDerivativesType         ImageDerivativesType;
-  typedef typename Superclass::WeightsValueType             WeightsValueType;
-  typedef typename Superclass::IndexValueType               IndexValueType;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformJacobianType = typename Superclass::TransformJacobianType;
+  using InterpolatorType = typename Superclass::InterpolatorType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using ParametersType = typename Superclass::ParametersType;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using FixedImageConstPointer = typename Superclass::FixedImageConstPointer;
+  using MovingImageConstPointer = typename Superclass::MovingImageConstPointer;
+  using CoordinateRepresentationType = typename Superclass::CoordinateRepresentationType;
+  using FixedImageSampleContainer = typename Superclass::FixedImageSampleContainer;
+  using ImageDerivativesType = typename Superclass::ImageDerivativesType;
+  using WeightsValueType = typename Superclass::WeightsValueType;
+  using IndexValueType = typename Superclass::IndexValueType;
 
   // Needed for evaluation of Jacobian.
-  typedef typename Superclass::FixedImagePointType FixedImagePointType;
+  using FixedImagePointType = typename Superclass::FixedImagePointType;
 
   /** The moving image dimension. */
   itkStaticConstMacro(MovingImageDimension, unsigned int,

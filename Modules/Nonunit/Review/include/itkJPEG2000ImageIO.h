@@ -50,10 +50,10 @@ class JPEG2000ImageIOInternal;
 class JPEG2000ImageIO:public StreamingImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef JPEG2000ImageIO      Self;
-  typedef StreamingImageIOBase Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = JPEG2000ImageIO;
+  using Superclass = StreamingImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -117,8 +117,8 @@ private:
 
   std::unique_ptr< JPEG2000ImageIOInternal >  m_Internal;
 
-  typedef ImageIORegion::SizeValueType  SizeValueType;
-  typedef ImageIORegion::IndexValueType IndexValueType;
+  using SizeValueType = ImageIORegion::SizeValueType;
+  using IndexValueType = ImageIORegion::IndexValueType;
 
   void ComputeRegionInTileBoundaries(unsigned int dimension,
                                      SizeValueType tileSize, ImageIORegion & streamableRegion) const;

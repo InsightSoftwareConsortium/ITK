@@ -26,7 +26,7 @@
 #include "itkGPUContextManager.h"
 #include "itkGPUImageOps.h"
 
-typedef itk::GPUImage<float, 2> ItkImage1f;
+using ItkImage1f = itk::GPUImage<float, 2>;
 
 
 int itkGPUImageTest(int argc, char *argv[])

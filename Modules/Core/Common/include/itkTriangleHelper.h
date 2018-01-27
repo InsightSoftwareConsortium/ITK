@@ -31,11 +31,11 @@ template< typename TPoint >
 class ITK_TEMPLATE_EXPORT TriangleHelper
 {
 public:
-  typedef TriangleHelper                   Self;
-  typedef TPoint                           PointType;
-  typedef typename PointType::CoordRepType CoordRepType;
-  typedef typename PointType::VectorType   VectorType;
-  typedef CrossHelper< VectorType >        CrossVectorType;
+  using Self = TriangleHelper;
+  using PointType = TPoint;
+  using CoordRepType = typename PointType::CoordRepType;
+  using VectorType = typename PointType::VectorType;
+  using CrossVectorType = CrossHelper< VectorType >;
 
   itkStaticConstMacro(PointDimension, unsigned int, PointType::PointDimension);
 

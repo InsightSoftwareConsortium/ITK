@@ -45,10 +45,10 @@ class ITK_TEMPLATE_EXPORT DisplacementFieldToBSplineImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  typedef DisplacementFieldToBSplineImageFilter            Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>    Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
+  using Self = DisplacementFieldToBSplineImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -56,40 +56,40 @@ public:
   /** Extract dimension from input image. */
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 
-  typedef TInputImage                          InputFieldType;
-  typedef TInputPointSet                       InputPointSetType;
-  typedef TOutputImage                         OutputFieldType;
+  using InputFieldType = TInputImage;
+  using InputPointSetType = TInputPointSet;
+  using OutputFieldType = TOutputImage;
 
-  typedef InputFieldType                       DisplacementFieldType;
-  typedef OutputFieldType                      InverseDisplacementFieldType;
-  typedef typename InputFieldType::PointType   InputFieldPointType;
+  using DisplacementFieldType = InputFieldType;
+  using InverseDisplacementFieldType = OutputFieldType;
+  using InputFieldPointType = typename InputFieldType::PointType;
 
-  /** Image typedef support. */
-  typedef typename OutputFieldType::PixelType     PixelType;
-  typedef typename OutputFieldType::PixelType     VectorType;
-  typedef typename OutputFieldType::RegionType    RegionType;
-  typedef typename OutputFieldType::IndexType     IndexType;
+  /** Image type alias support */
+  using PixelType = typename OutputFieldType::PixelType;
+  using VectorType = typename OutputFieldType::PixelType;
+  using RegionType = typename OutputFieldType::RegionType;
+  using IndexType = typename OutputFieldType::IndexType;
 
-  typedef typename OutputFieldType::SpacingType   SpacingType;
-  typedef typename OutputFieldType::PointType     OriginType;
-  typedef typename OutputFieldType::SizeType      SizeType;
-  typedef typename OutputFieldType::DirectionType DirectionType;
+  using SpacingType = typename OutputFieldType::SpacingType;
+  using OriginType = typename OutputFieldType::PointType;
+  using SizeType = typename OutputFieldType::SizeType;
+  using DirectionType = typename OutputFieldType::DirectionType;
 
-  typedef typename VectorType::RealValueType      RealType;
-  typedef Image<RealType, ImageDimension>         RealImageType;
+  using RealType = typename VectorType::RealValueType;
+  using RealImageType = Image<RealType, ImageDimension>;
 
-  /** Point set typedef support. */
-  typedef typename InputPointSetType::PointType             PointType;
-  typedef typename InputPointSetType::PixelType             PointDataType;
-  typedef typename InputPointSetType::PointsContainer       PointsContainerType;
-  typedef typename InputPointSetType::PointDataContainer    PointDataContainerType;
+  /** Point set type alias support */
+  using PointType = typename InputPointSetType::PointType;
+  using PointDataType = typename InputPointSetType::PixelType;
+  using PointsContainerType = typename InputPointSetType::PointsContainer;
+  using PointDataContainerType = typename InputPointSetType::PointDataContainer;
 
-  /** B-sline filter typedefs */
-  typedef BSplineScatteredDataPointSetToImageFilter<
-    InputPointSetType, OutputFieldType>                     BSplineFilterType;
-  typedef typename BSplineFilterType::WeightsContainerType  WeightsContainerType;
-  typedef typename BSplineFilterType::PointDataImageType    DisplacementFieldControlPointLatticeType;
-  typedef typename BSplineFilterType::ArrayType             ArrayType;
+  /** B-sline filter type alias */
+  using BSplineFilterType = BSplineScatteredDataPointSetToImageFilter<
+    InputPointSetType, OutputFieldType>;
+  using WeightsContainerType = typename BSplineFilterType::WeightsContainerType;
+  using DisplacementFieldControlPointLatticeType = typename BSplineFilterType::PointDataImageType;
+  using ArrayType = typename BSplineFilterType::ArrayType;
 
   /** Set the displacement field */
   void SetDisplacementField( const InputFieldType * field )

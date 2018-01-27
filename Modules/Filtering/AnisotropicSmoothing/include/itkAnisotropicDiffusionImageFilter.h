@@ -74,20 +74,20 @@ class ITK_TEMPLATE_EXPORT AnisotropicDiffusionImageFilter:
   public DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef AnisotropicDiffusionImageFilter                               Self;
-  typedef DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                          Pointer;
-  typedef SmartPointer< const Self >                                    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = AnisotropicDiffusionImageFilter;
+  using Superclass = DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information. */
   itkTypeMacro(AnisotropicDiffusionImageFilter,
                DenseFiniteDifferenceImageFilter);
 
   /** Capture information from the superclass. */
-  typedef typename Superclass::InputImageType   InputImageType;
-  typedef typename Superclass::OutputImageType  OutputImageType;
-  typedef typename Superclass::UpdateBufferType UpdateBufferType;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using UpdateBufferType = typename Superclass::UpdateBufferType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -95,8 +95,8 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  typedef typename Superclass::PixelType    PixelType;
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using PixelType = typename Superclass::PixelType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** Set/Get the time step for each iteration */
   itkSetMacro(TimeStep, TimeStepType);

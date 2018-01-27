@@ -49,11 +49,11 @@ template< typename TInputImage, typename TPolyline,
 class ITK_TEMPLATE_EXPORT PolylineMask2DImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PolylineMask2DImageFilter                       Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PolylineMask2DImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,21 +67,21 @@ public:
   itkStaticConstMacro(NOutputDimensions, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Some convenient typedefs for input image */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  /** Some convenient type alias for input image */
+  using InputImageType = TInputImage;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
-  /* typedef for the polyline type */
-  typedef TPolyline PolylineType;
+  /* type alias for the polyline type */
+  using PolylineType = TPolyline;
 
-  /* typedef for the output image */
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType  OutputImagePixelType;
+  /* type alias for the output image */
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Read in image and polyline inputs */
   void SetInput1(const InputImageType *image);

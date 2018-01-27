@@ -49,15 +49,15 @@ class ITK_TEMPLATE_EXPORT DiscreteGradientMagnitudeGaussianImageFunction:
 {
 public:
 
-  /**Standard "Self" typedef */
-  typedef DiscreteGradientMagnitudeGaussianImageFunction Self;
+  /**Standard "Self" type alias */
+  using Self = DiscreteGradientMagnitudeGaussianImageFunction;
 
-  /** Standard "Superclass" typedef */
-  typedef ImageFunction< TInputImage, TOutput, TOutput > Superclass;
+  /** Standard "Superclass" type alias */
+  using Superclass = ImageFunction< TInputImage, TOutput, TOutput >;
 
-  /** Smart pointer typedef support */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -66,42 +66,42 @@ public:
   itkTypeMacro(DiscreteGradientMagnitudeGaussianImageFunction, ImageFunction);
 
   /** Image dependent types */
-  typedef typename Superclass::InputImageType      InputImageType;
-  typedef typename Superclass::InputPixelType      InputPixelType;
-  typedef typename Superclass::IndexType           IndexType;
-  typedef typename Superclass::IndexValueType      IndexValueType;
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
-  typedef typename Superclass::PointType           PointType;
+  using InputImageType = typename Superclass::InputImageType;
+  using InputPixelType = typename Superclass::InputPixelType;
+  using IndexType = typename Superclass::IndexType;
+  using IndexValueType = typename Superclass::IndexValueType;
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using PointType = typename Superclass::PointType;
 
   /** Dimension of the underlying image */
   itkStaticConstMacro(ImageDimension2, unsigned int,
                       InputImageType::ImageDimension);
 
   /** Output type */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Arrays for native types */
-  typedef FixedArray< double, itkGetStaticConstMacro(ImageDimension2) >       VarianceArrayType;
-  typedef FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension2) > OrderArrayType;
+  using VarianceArrayType = FixedArray< double, itkGetStaticConstMacro(ImageDimension2) >;
+  using OrderArrayType = FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension2) >;
 
-  typedef itk::GaussianDerivativeOperator< TOutput,
-                                           itkGetStaticConstMacro(ImageDimension2) >    GaussianDerivativeOperatorType;
+  using GaussianDerivativeOperatorType = itk::GaussianDerivativeOperator< TOutput,
+                                           itkGetStaticConstMacro(ImageDimension2) >;
 
   /** Array to store gaussian derivative operators one for each dimension */
-  typedef FixedArray< GaussianDerivativeOperatorType,
-                      2 *itkGetStaticConstMacro(ImageDimension2) >            GaussianDerivativeOperatorArrayType;
+  using GaussianDerivativeOperatorArrayType = FixedArray< GaussianDerivativeOperatorType,
+                      2 *itkGetStaticConstMacro(ImageDimension2) >;
 
   /** Precomputed N-dimensional derivative kernel */
-  typedef Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension2) > KernelType;
+  using KernelType = Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
 
   /** Array to store precomputed N-dimensional kernels for the gradient
     components */
-  typedef FixedArray< KernelType, itkGetStaticConstMacro(ImageDimension2) > KernelArrayType;
+  using KernelArrayType = FixedArray< KernelType, itkGetStaticConstMacro(ImageDimension2) >;
 
   /** Image function that performs convolution with the neighborhood operator */
-  typedef NeighborhoodOperatorImageFunction
-  < InputImageType, TOutput >                           OperatorImageFunctionType;
-  typedef typename OperatorImageFunctionType::Pointer OperatorImageFunctionPointer;
+  using OperatorImageFunctionType = NeighborhoodOperatorImageFunction
+  < InputImageType, TOutput >;
+  using OperatorImageFunctionPointer = typename OperatorImageFunctionType::Pointer;
 
   /** Interpolation modes */
   enum InterpolationModeType { NearestNeighbourInterpolation, LinearInterpolation };

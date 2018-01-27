@@ -81,20 +81,18 @@ BayesianClassifierInitializationImageFilter< TInputImage,
 ::InitializeMembershipFunctions()
 {
   // Typedefs for the KMeans filter, Covariance calculator...
-  typedef ScalarImageKmeansImageFilter< InputImageType > KMeansFilterType;
-  typedef typename KMeansFilterType::OutputImageType     KMeansOutputImageType;
-  typedef ImageRegionConstIterator<
-    KMeansOutputImageType >                ConstKMeansIteratorType;
+  using KMeansFilterType = ScalarImageKmeansImageFilter< InputImageType >;
+  using KMeansOutputImageType = typename KMeansFilterType::OutputImageType;
+  using ConstKMeansIteratorType = ImageRegionConstIterator<KMeansOutputImageType>;
 
-  typedef Array< double > CovarianceArrayType;
-  typedef Array< double > ClassCountArrayType;
+  using CovarianceArrayType = Array< double >;
+  using ClassCountArrayType = Array< double >;
 
-  typedef Statistics::GaussianMembershipFunction<
-    MeasurementVectorType >                        GaussianMembershipFunctionType;
-  typedef VectorContainer< unsigned short, typename
-                           GaussianMembershipFunctionType::MeanVectorType * >          MeanEstimatorsContainerType;
-  typedef VectorContainer< unsigned short, typename
-                           GaussianMembershipFunctionType::CovarianceMatrixType * >    CovarianceEstimatorsContainerType;
+  using GaussianMembershipFunctionType = Statistics::GaussianMembershipFunction<MeasurementVectorType>;
+  using MeanEstimatorsContainerType = VectorContainer< unsigned short, typename
+                           GaussianMembershipFunctionType::MeanVectorType * >;
+  using CovarianceEstimatorsContainerType = VectorContainer< unsigned short, typename
+                           GaussianMembershipFunctionType::CovarianceMatrixType * >;
 
   // Run k means to get the means from the input image
   typename KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();

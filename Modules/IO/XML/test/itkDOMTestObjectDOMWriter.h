@@ -29,11 +29,11 @@ namespace itk
 class DOMTestObjectDOMWriter : public DOMWriter<DOMTestObject>
 {
 public:
-  /** Standard class typedefs. */
-  typedef DOMTestObjectDOMWriter      Self;
-  typedef DOMWriter<DOMTestObject>    Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DOMTestObjectDOMWriter;
+  using Superclass = DOMWriter<DOMTestObject>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

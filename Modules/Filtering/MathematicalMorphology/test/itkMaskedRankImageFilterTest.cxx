@@ -34,9 +34,9 @@ int itkMaskedRankImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
-  typedef itk::Image<unsigned char, 2> ImageType;
+  using ImageType = itk::Image<unsigned char, 2>;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer input  = ReaderType::New();
   input->SetFileName(av[1]);
 
@@ -44,11 +44,11 @@ int itkMaskedRankImageFilterTest(int ac, char* av[] )
   input2->SetFileName(av[2]);
 
   // Create a filter
-  typedef itk::MaskedRankImageFilter<ImageType,ImageType,ImageType> FilterType;
+  using FilterType = itk::MaskedRankImageFilter<ImageType,ImageType,ImageType>;
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher filterWatch(filter);
 
-  typedef FilterType::RadiusType RadiusType;
+  using RadiusType = FilterType::RadiusType;
 
   // test default values
   RadiusType r1;
@@ -144,7 +144,7 @@ int itkMaskedRankImageFilterTest(int ac, char* av[] )
     }
 
   // Generate test image
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( av[3] );

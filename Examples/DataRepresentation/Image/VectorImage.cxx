@@ -62,8 +62,8 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< float, 3 >       PixelType;
-  typedef itk::Image< PixelType, 3 >    ImageType;
+  using PixelType = itk::Vector< float, 3 >;
+  using ImageType = itk::Image< PixelType, 3 >;
   // Software Guide : EndCodeSnippet
 
   // Then the image object can be created

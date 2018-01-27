@@ -153,10 +153,10 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
     }
 
   // Type of the pixel to use for intermediate results
-  typedef typename NumericTraits< OutputPixelType >::RealType RealOutputPixelType;
-  typedef Image< OutputPixelType, ImageDimension >            RealOutputImageType;
+  using RealOutputPixelType = typename NumericTraits< OutputPixelType >::RealType;
+  using RealOutputImageType = Image< OutputPixelType, ImageDimension >;
 
-  typedef typename NumericTraits<RealOutputPixelType>::ValueType RealOutputPixelValueType;
+  using RealOutputPixelValueType = typename NumericTraits<RealOutputPixelType>::ValueType;
 
   // Type definition for the internal neighborhood filter
   //
@@ -166,26 +166,26 @@ DiscreteGaussianImageFilter< TInputImage, TOutputImage >
   // Streaming filter forces the mini-pipeline to run in chunks
 
 
-  typedef NeighborhoodOperatorImageFilter< InputImageType,
-                                           RealOutputImageType, RealOutputPixelValueType > FirstFilterType;
-  typedef NeighborhoodOperatorImageFilter< RealOutputImageType,
-                                           RealOutputImageType, RealOutputPixelValueType > IntermediateFilterType;
-  typedef NeighborhoodOperatorImageFilter< RealOutputImageType,
-                                           OutputImageType, RealOutputPixelValueType > LastFilterType;
-  typedef NeighborhoodOperatorImageFilter< InputImageType,
-                                           OutputImageType, RealOutputPixelValueType > SingleFilterType;
+  using FirstFilterType = NeighborhoodOperatorImageFilter< InputImageType,
+                                           RealOutputImageType, RealOutputPixelValueType >;
+  using IntermediateFilterType = NeighborhoodOperatorImageFilter< RealOutputImageType,
+                                           RealOutputImageType, RealOutputPixelValueType >;
+  using LastFilterType = NeighborhoodOperatorImageFilter< RealOutputImageType,
+                                           OutputImageType, RealOutputPixelValueType >;
+  using SingleFilterType = NeighborhoodOperatorImageFilter< InputImageType,
+                                           OutputImageType, RealOutputPixelValueType >;
 
-  typedef StreamingImageFilter< OutputImageType, OutputImageType >
-  StreamingFilterType;
+  using StreamingFilterType =
+      StreamingImageFilter< OutputImageType, OutputImageType >;
 
-  typedef typename FirstFilterType::Pointer        FirstFilterPointer;
-  typedef typename IntermediateFilterType::Pointer IntermediateFilterPointer;
-  typedef typename LastFilterType::Pointer         LastFilterPointer;
-  typedef typename SingleFilterType::Pointer       SingleFilterPointer;
-  typedef typename StreamingFilterType::Pointer    StreamingFilterPointer;
+  using FirstFilterPointer = typename FirstFilterType::Pointer;
+  using IntermediateFilterPointer = typename IntermediateFilterType::Pointer;
+  using LastFilterPointer = typename LastFilterType::Pointer;
+  using SingleFilterPointer = typename SingleFilterType::Pointer;
+  using StreamingFilterPointer = typename StreamingFilterType::Pointer;
 
   // Create a series of operators
-  typedef GaussianOperator< RealOutputPixelValueType, ImageDimension > OperatorType;
+  using OperatorType = GaussianOperator< RealOutputPixelValueType, ImageDimension >;
 
   std::vector< OperatorType > oper;
   oper.resize(filterDimensionality);

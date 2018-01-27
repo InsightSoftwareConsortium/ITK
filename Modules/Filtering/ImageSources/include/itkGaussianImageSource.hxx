@@ -94,7 +94,7 @@ GaussianImageSource< TOutputImage >
   outputPtr->Allocate();
 
   // Create and initialize a new Gaussian function
-  typedef GaussianSpatialFunction< double, NDimensions > FunctionType;
+  using FunctionType = GaussianSpatialFunction< double, NDimensions >;
   typename FunctionType::Pointer gaussian = FunctionType::New();
 
   gaussian->SetSigma(m_Sigma);
@@ -103,7 +103,7 @@ GaussianImageSource< TOutputImage >
   gaussian->SetNormalized(m_Normalized);
 
   // Create an iterator that will walk the output region
-  typedef ImageRegionIterator< TOutputImage > OutputIterator;
+  using OutputIterator = ImageRegionIterator< TOutputImage >;
   OutputIterator outIt = OutputIterator( outputPtr,
                                          outputPtr->GetRequestedRegion() );
 

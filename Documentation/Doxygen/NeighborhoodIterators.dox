@@ -65,9 +65,9 @@ have been omitted for clarity. )
 
 
 \code
-1   typedef itk::Image<float, 2> ImageType;
-2   typedef itk::SmartNeighborhoodIterator<ImageType> NeighborhoodIterator;
-3   typedef itk::ImageRegionIterator<ImageType>       ImageIterator;
+1   using ImageType = itk::Image<float, 2>;
+2   using NeighborhoodIterator = itk::SmartNeighborhoodIterator<ImageType>;
+3   using ImageIterator = itk::ImageRegionIterator<ImageType>;
 4
 5   ImageType::Pointer input_image  = GetImageSomehow();
 6   ImageType::Pointer output_image = GetImageSomehow();
@@ -98,7 +98,7 @@ Note that the computational work is confined to lines 18-26. The code is also
 completely generalized for multiple dimensions.  For example, changing line 1
 to:
 \code
-1   typedef itk::Image<float, 5> ImageType;
+1   using ImageType = itk::Image<float, 5>;
 \endcode
 produces an averaging filter for five-dimensional images. 
 
@@ -185,7 +185,7 @@ Rewriting the inner product code using this approach looks like the following.
 omitting some template parameters for simplicity.)
 
 \code
-typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator RegionFinderType;
+using RegionFinderType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator;
 
 LaPlacianOperator<double, InputImageType::ImageDimension> OP;
 

@@ -58,7 +58,7 @@ int itkCenteredRigid2DTransformTest(int argc, char *argv[] )
   const unsigned int N = 2;
   bool               Ok = true;
 
-  typedef itk::CenteredRigid2DTransform<double> CenteredRigidTransformType;
+  using CenteredRigidTransformType = itk::CenteredRigid2DTransform<double>;
   CenteredRigidTransformType::Pointer transform = CenteredRigidTransformType::New();
 
   // 15 degrees in radians
@@ -222,7 +222,7 @@ int itkCenteredRigid2DTransformTest(int argc, char *argv[] )
 
     {
     // Test instantiation, inverse computation, back transform etc.
-    typedef CenteredRigidTransformType TransformType;
+    using TransformType = CenteredRigidTransformType;
     TransformType::Pointer t1 = TransformType::New();
 
     // Set parameters

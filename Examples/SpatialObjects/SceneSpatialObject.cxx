@@ -43,7 +43,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::SceneSpatialObject<3> SceneSpatialObjectType;
+  using SceneSpatialObjectType = itk::SceneSpatialObject<3>;
   SceneSpatialObjectType::Pointer scene = SceneSpatialObjectType::New();
 // Software Guide : EndCodeSnippet
 
@@ -54,7 +54,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::EllipseSpatialObject<3> EllipseType;
+  using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer ellipse1 = EllipseType::New();
   ellipse1->SetRadius(1);
   ellipse1->SetId(1);

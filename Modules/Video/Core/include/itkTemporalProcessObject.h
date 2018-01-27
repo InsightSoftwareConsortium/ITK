@@ -68,11 +68,11 @@ public:
 
   /*-TYPEDEFS----------------------------------------------------------------*/
 
-  /** Standard class typedefs */
-  typedef TemporalProcessObject      Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = TemporalProcessObject;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TemporalProcessObject, ProcessObject);

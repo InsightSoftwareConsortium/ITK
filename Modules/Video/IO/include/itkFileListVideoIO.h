@@ -39,11 +39,11 @@ namespace itk
 class ITKVideoIO_EXPORT FileListVideoIO : public VideoIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef FileListVideoIO             Self;
-  typedef VideoIOBase                 Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FileListVideoIO;
+  using Superclass = VideoIOBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

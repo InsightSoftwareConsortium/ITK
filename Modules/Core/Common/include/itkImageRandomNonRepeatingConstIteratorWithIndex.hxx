@@ -119,7 +119,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 {
   // should probably do error checking to be sure that the priority
   // image is the right size
-  typedef SizeValueType PositionValueType;
+  using PositionValueType = SizeValueType;
 
   for (PositionValueType pixel = 0; pixel < m_NumberOfPixelsInRegion; pixel++ )
     {
@@ -146,7 +146,7 @@ void
 ImageRandomNonRepeatingConstIteratorWithIndex< TImage >
 ::UpdatePosition()
 {
-  typedef IndexValueType PositionValueType;
+  using PositionValueType = IndexValueType;
 
   PositionValueType position = ( *( this->m_Permutation ) )[m_NumberOfSamplesDone % m_NumberOfSamplesRequested];
   for ( unsigned int dim = 0; dim < TImage::ImageDimension; dim++ )

@@ -25,7 +25,7 @@ void SEToFile( const TSEType &e, const std::string &fname)
 
   const unsigned int Dimension = TSEType::NeighborhoodDimension;
 
-  typedef itk::Image<unsigned char, Dimension> ImageType;
+  using ImageType = itk::Image<unsigned char, Dimension>;
 
   typename ImageType::Pointer img = ImageType::New();
 
@@ -52,7 +52,7 @@ void SEToFile( const TSEType &e, const std::string &fname)
     it.Set(*SEIt);
     }
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(fname);
   writer->SetInput(img);
@@ -80,7 +80,7 @@ int itkFlatStructuringElementTest3(int argc, char *argv[])
 
   if (dimension == 2)
     {
-    typedef itk::FlatStructuringElement< 2 > SE2Type;
+    using SE2Type = itk::FlatStructuringElement< 2 >;
 
     SE2Type::RadiusType r2;
     r2.Fill(radius);
@@ -90,7 +90,7 @@ int itkFlatStructuringElementTest3(int argc, char *argv[])
     }
   else if (dimension == 3)
     {
-    typedef itk::FlatStructuringElement< 3 > SE3Type;
+    using SE3Type = itk::FlatStructuringElement< 3 >;
 
     SE3Type::RadiusType r3;
     r3.Fill(radius);

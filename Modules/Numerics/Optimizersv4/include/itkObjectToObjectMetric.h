@@ -90,39 +90,39 @@ class ITK_TEMPLATE_EXPORT ObjectToObjectMetric:
   public ObjectToObjectMetricBaseTemplate<TParametersValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ObjectToObjectMetric                                   Self;
-  typedef ObjectToObjectMetricBaseTemplate<TParametersValueType> Superclass;
-  typedef SmartPointer<Self>                                     Pointer;
-  typedef SmartPointer<const Self>                               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ObjectToObjectMetric;
+  using Superclass = ObjectToObjectMetricBaseTemplate<TParametersValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ObjectToObjectMetric, ObjectToObjectMetricBaseTemplate);
 
   /** Type used for representing object components  */
-  typedef TParametersValueType            CoordinateRepresentationType;
+  using CoordinateRepresentationType = TParametersValueType;
 
   /** Type for internal computations */
-  typedef TParametersValueType            InternalComputationValueType;
+  using InternalComputationValueType = TParametersValueType;
 
   /**  Type of the measure. */
-  typedef typename Superclass::MeasureType            MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
   /**  Type of object. */
-  typedef typename Superclass::Object                 ObjectType;
+  using ObjectType = typename Superclass::Object;
 
   /**  Type of the derivative. */
-  typedef typename Superclass::DerivativeType         DerivativeType;
-  typedef typename Superclass::DerivativeValueType    DerivativeValueType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename Superclass::DerivativeValueType;
 
   /**  Type of the parameters. */
-  typedef typename Superclass::ParametersType         ParametersType;
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  using ParametersType = typename Superclass::ParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
-  typedef typename Superclass::GradientSourceType     GradientSourceType;
+  using GradientSourceType = typename Superclass::GradientSourceType;
 
   /** Dimension type */
-  typedef SizeValueType                               DimensionType;
+  using DimensionType = SizeValueType;
 
   /** Object dimension accessors */
   itkStaticConstMacro(FixedDimension, DimensionType, TFixedDimension);
@@ -130,48 +130,48 @@ public:
   itkStaticConstMacro(VirtualDimension, DimensionType, TVirtualImage::ImageDimension);
 
   /** Types for the virtual domain */
-  typedef TVirtualImage                             VirtualImageType;
-  typedef typename VirtualImageType::Pointer        VirtualImagePointer;
-  typedef typename VirtualImageType::ConstPointer   VirtualImageConstPointer;
-  typedef typename VirtualImageType::PixelType      VirtualPixelType;
-  typedef typename VirtualImageType::RegionType     VirtualRegionType;
-  typedef typename VirtualRegionType::SizeType      VirtualSizeType;
-  typedef typename VirtualImageType::SpacingType    VirtualSpacingType;
-  typedef typename VirtualImageType::PointType      VirtualOriginType;
-  typedef typename VirtualImageType::PointType      VirtualPointType;
-  typedef typename VirtualImageType::DirectionType  VirtualDirectionType;
-  typedef typename VirtualImageType::SizeType       VirtualRadiusType;
-  typedef typename VirtualImageType::IndexType      VirtualIndexType;
+  using VirtualImageType = TVirtualImage;
+  using VirtualImagePointer = typename VirtualImageType::Pointer;
+  using VirtualImageConstPointer = typename VirtualImageType::ConstPointer;
+  using VirtualPixelType = typename VirtualImageType::PixelType;
+  using VirtualRegionType = typename VirtualImageType::RegionType;
+  using VirtualSizeType = typename VirtualRegionType::SizeType;
+  using VirtualSpacingType = typename VirtualImageType::SpacingType;
+  using VirtualOriginType = typename VirtualImageType::PointType;
+  using VirtualPointType = typename VirtualImageType::PointType;
+  using VirtualDirectionType = typename VirtualImageType::DirectionType;
+  using VirtualRadiusType = typename VirtualImageType::SizeType;
+  using VirtualIndexType = typename VirtualImageType::IndexType;
 
   /** Point set in the virtual domain */
-  typedef PointSet<VirtualPixelType, itkGetStaticConstMacro(VirtualDimension)>  VirtualPointSetType;
-  typedef typename VirtualPointSetType::Pointer                                 VirtualPointSetPointer;
+  using VirtualPointSetType = PointSet<VirtualPixelType, itkGetStaticConstMacro(VirtualDimension)>;
+  using VirtualPointSetPointer = typename VirtualPointSetType::Pointer;
 
   /**  Type of the Transform Base classes */
-  typedef Transform<TParametersValueType,
+  using MovingTransformType = Transform<TParametersValueType,
                     TVirtualImage::ImageDimension,
-                    TMovingDimension>                  MovingTransformType;
-  typedef Transform<TParametersValueType,
+                    TMovingDimension>;
+  using FixedTransformType = Transform<TParametersValueType,
                     TVirtualImage::ImageDimension,
-                    TFixedDimension>                   FixedTransformType;
+                    TFixedDimension>;
 
-  typedef typename FixedTransformType::Pointer         FixedTransformPointer;
-  typedef typename FixedTransformType::InputPointType  FixedInputPointType;
-  typedef typename FixedTransformType::OutputPointType FixedOutputPointType;
-  typedef typename FixedTransformType::ParametersType  FixedTransformParametersType;
+  using FixedTransformPointer = typename FixedTransformType::Pointer;
+  using FixedInputPointType = typename FixedTransformType::InputPointType;
+  using FixedOutputPointType = typename FixedTransformType::OutputPointType;
+  using FixedTransformParametersType = typename FixedTransformType::ParametersType;
 
-  typedef typename MovingTransformType::Pointer         MovingTransformPointer;
-  typedef typename MovingTransformType::InputPointType  MovingInputPointType;
-  typedef typename MovingTransformType::OutputPointType MovingOutputPointType;
-  typedef typename MovingTransformType::ParametersType  MovingTransformParametersType;
+  using MovingTransformPointer = typename MovingTransformType::Pointer;
+  using MovingInputPointType = typename MovingTransformType::InputPointType;
+  using MovingOutputPointType = typename MovingTransformType::OutputPointType;
+  using MovingTransformParametersType = typename MovingTransformType::ParametersType;
 
   /** Jacobian type. This is the same for all transforms */
-  typedef typename FixedTransformType::JacobianType     JacobianType;
-  typedef typename FixedTransformType::JacobianType     FixedTransformJacobianType;
-  typedef typename MovingTransformType::JacobianType    MovingTransformJacobianType;
+  using JacobianType = typename FixedTransformType::JacobianType;
+  using FixedTransformJacobianType = typename FixedTransformType::JacobianType;
+  using MovingTransformJacobianType = typename MovingTransformType::JacobianType;
 
   /** DisplacementFieldTransform types for working with local-support transforms */
-  typedef DisplacementFieldTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >  MovingDisplacementFieldTransformType;
+  using MovingDisplacementFieldTransformType = DisplacementFieldTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >;
 
   void Initialize(void) override;
 
@@ -288,7 +288,7 @@ public:
   bool IsInsideVirtualDomain( const VirtualPointType & point ) const;
   bool IsInsideVirtualDomain( const VirtualIndexType & index ) const;
 
-  typedef typename Superclass::MetricCategoryType   MetricCategoryType;
+  using MetricCategoryType = typename Superclass::MetricCategoryType;
 
   /** Get metric category */
   MetricCategoryType GetMetricCategory() const override

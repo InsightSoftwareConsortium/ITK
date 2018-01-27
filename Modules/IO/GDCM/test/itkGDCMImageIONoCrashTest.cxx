@@ -34,11 +34,11 @@ int itkGDCMImageIONoCrashTest(int ac, char* av[])
     }
 
 
-  typedef unsigned char                           InputPixelType;
-  typedef itk::Image< InputPixelType, 2 >         InputImageType;
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using InputPixelType = unsigned char;
+  using InputImageType = itk::Image< InputPixelType, 2 >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef itk::GDCMImageIO                        ImageIOType;
+  using ImageIOType = itk::GDCMImageIO;
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
 
   ReaderType::Pointer reader = ReaderType::New();

@@ -36,24 +36,23 @@
 template< unsigned int TDimension >
 int RunTest( void )
 {
-  typedef float                                         PixelType;
+  using PixelType = float;
   const   unsigned int                                  Dimensions = TDimension;
 
-  typedef itk::Image<PixelType, TDimension>             ImageType;
-  typedef typename ImageType::RegionType                RegionType;
-  typedef typename RegionType::SizeType                 SizeType;
-  typedef typename ImageType::IndexType                 IndexType;
+  using ImageType = itk::Image<PixelType, TDimension>;
+  using RegionType = typename ImageType::RegionType;
+  using SizeType = typename RegionType::SizeType;
+  using IndexType = typename ImageType::IndexType;
 
-  typedef float                                         CoordRepType;
-  typedef typename itk::ContinuousIndex<CoordRepType, Dimensions>
-                                                        ContinuousIndexType;
-  typedef typename ContinuousIndexType::ValueType       AccumulatorType;
-  typedef typename itk::Point<CoordRepType, Dimensions> PointType;
+  using CoordRepType = float;
+  using ContinuousIndexType =
+      typename itk::ContinuousIndex<CoordRepType, Dimensions>;
+  using AccumulatorType = typename ContinuousIndexType::ValueType;
+  using PointType = typename itk::Point<CoordRepType, Dimensions>;
 
-  typedef typename itk::GaussianInterpolateImageFunction<
+  using InterpolatorType = typename itk::GaussianInterpolateImageFunction<
                                                       ImageType,
-                                                      CoordRepType >
-                                                      InterpolatorType;
+                                                      CoordRepType >;
 
   typename ImageType::Pointer image = ImageType::New();
 
@@ -213,14 +212,14 @@ int RunTest( void )
 
 int itkGaussianInterpolateImageFunctionTest( int, char*[] )
 {
-  typedef float                                         PixelType;
+  using PixelType = float;
   const   unsigned int                                  Dimension = 1;
 
-  typedef itk::Image< PixelType, Dimension >            ImageType;
-  typedef float                                         CoordRepType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using CoordRepType = float;
 
-  typedef itk::GaussianInterpolateImageFunction< ImageType,
-    CoordRepType > InterpolatorType;
+  using InterpolatorType = itk::GaussianInterpolateImageFunction< ImageType,
+    CoordRepType >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 

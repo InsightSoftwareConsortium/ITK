@@ -38,11 +38,11 @@ namespace itk
 class ParticleSwarmOptimizerDOMWriter : public DOMWriter<ParticleSwarmOptimizer>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ParticleSwarmOptimizerDOMWriter     Self;
-  typedef DOMWriter<ParticleSwarmOptimizer>   Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ParticleSwarmOptimizerDOMWriter;
+  using Superclass = DOMWriter<ParticleSwarmOptimizer>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

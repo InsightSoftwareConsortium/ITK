@@ -42,10 +42,10 @@ template< typename T = double >
 class VNLSparseLUSolverTraits
 {
 public:
-  typedef T                               ValueType;
-  typedef vnl_sparse_matrix< ValueType >  MatrixType;
-  typedef vnl_vector< ValueType >         VectorType;
-  typedef vnl_sparse_lu                   SolverType;
+  using ValueType = T;
+  using MatrixType = vnl_sparse_matrix< ValueType >;
+  using VectorType = vnl_vector< ValueType >;
+  using SolverType = vnl_sparse_lu;
 
   /** \return false (it is not a direct solver, it is an iterative solver) */
   static bool IsDirectSolver()

@@ -88,11 +88,11 @@ class ITK_TEMPLATE_EXPORT DisplacementFieldTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef DisplacementFieldTransform                                Self;
-  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DisplacementFieldTransform;
+  using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( DisplacementFieldTransform, Transform );
@@ -101,87 +101,82 @@ public:
   itkNewMacro( Self );
 
   /** InverseTransform type. */
-  typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
+  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Type of the input parameters. */
-  typedef typename Superclass::FixedParametersType      FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
-  typedef typename Superclass::ParametersType           ParametersType;
-  typedef typename Superclass::ParametersValueType      ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Transform category type. */
-  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+  using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** The number of parameters defininig this transform. */
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType OutputPointType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
 
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType  InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
 
-  typedef typename Superclass::InputVectorPixelType  InputVectorPixelType;
-  typedef typename Superclass::OutputVectorPixelType OutputVectorPixelType;
+  using InputVectorPixelType = typename Superclass::InputVectorPixelType;
+  using OutputVectorPixelType = typename Superclass::OutputVectorPixelType;
 
   /** Standard covariant vector type for this class */
-  typedef typename Superclass::InputCovariantVectorType
-  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType
-  OutputCovariantVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
 
   /** Standard diffusion tensor type for this class */
-  typedef typename Superclass::InputDiffusionTensor3DType
-  InputDiffusionTensor3DType;
-  typedef typename Superclass::OutputDiffusionTensor3DType
-  OutputDiffusionTensor3DType;
+  using InputDiffusionTensor3DType = typename Superclass::InputDiffusionTensor3DType;
+  using OutputDiffusionTensor3DType = typename Superclass::OutputDiffusionTensor3DType;
 
   /** Standard tensor type for this class */
-  typedef CovariantVector<ScalarType, InputDiffusionTensor3DType::Dimension>
-  InputTensorEigenVectorType;
-  typedef CovariantVector<ScalarType, OutputDiffusionTensor3DType::Dimension>
-  OutputTensorEigenVectorType;
+  using InputTensorEigenVectorType =
+      CovariantVector<ScalarType, InputDiffusionTensor3DType::Dimension>;
+  using OutputTensorEigenVectorType =
+      CovariantVector<ScalarType, OutputDiffusionTensor3DType::Dimension>;
   /** Derivative type */
-  typedef typename Superclass::DerivativeType DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
   /** Dimension of the domain spaces. */
   itkStaticConstMacro( Dimension, unsigned int, NDimensions );
 
   /** Define the displacement field type and corresponding interpolator type. */
-  typedef Image<OutputVectorType,  Dimension>          DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer      DisplacementFieldPointer;
-  typedef typename DisplacementFieldType::ConstPointer DisplacementFieldConstPointer;
+  using DisplacementFieldType = Image<OutputVectorType,  Dimension>;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
+  using DisplacementFieldConstPointer = typename DisplacementFieldType::ConstPointer;
 
-  typedef VectorInterpolateImageFunction
-    <DisplacementFieldType, ScalarType> InterpolatorType;
+  using InterpolatorType = VectorInterpolateImageFunction
+    <DisplacementFieldType, ScalarType>;
 
   /** Standard types for the displacement Field */
-  typedef typename DisplacementFieldType::IndexType      IndexType;
-  typedef typename DisplacementFieldType::RegionType     RegionType;
-  typedef typename DisplacementFieldType::SizeType       SizeType;
-  typedef typename DisplacementFieldType::SpacingType    SpacingType;
-  typedef typename DisplacementFieldType::DirectionType  DirectionType;
-  typedef typename DisplacementFieldType::PointType      PointType;
-  typedef typename DisplacementFieldType::PixelType      PixelType;
+  using IndexType = typename DisplacementFieldType::IndexType;
+  using RegionType = typename DisplacementFieldType::RegionType;
+  using SizeType = typename DisplacementFieldType::SizeType;
+  using SpacingType = typename DisplacementFieldType::SpacingType;
+  using DirectionType = typename DisplacementFieldType::DirectionType;
+  using PointType = typename DisplacementFieldType::PointType;
+  using PixelType = typename DisplacementFieldType::PixelType;
 
   /** Define the internal parameter helper used to access the field */
-  typedef ImageVectorOptimizerParametersHelper<
+  using OptimizerParametersHelperType = ImageVectorOptimizerParametersHelper<
     ScalarType,
     OutputVectorType::Dimension,
-    Dimension>
-  OptimizerParametersHelperType;
+    Dimension>;
 
   /** Get/Set the displacement field.
    * Set the displacement field. Create special set accessor to update

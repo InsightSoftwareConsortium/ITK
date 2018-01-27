@@ -29,12 +29,12 @@ int itkVTKPolyDataReaderTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Mesh<float, 3>                 MeshType;
-  typedef itk::VTKPolyDataReader< MeshType >  ReaderType;
+  using MeshType = itk::Mesh<float, 3>;
+  using ReaderType = itk::VTKPolyDataReader< MeshType >;
 
   ReaderType::Pointer  polyDataReader = ReaderType::New();
 
-  typedef ReaderType::PointType   PointType;
+  using PointType = ReaderType::PointType;
 
   polyDataReader->SetFileName(argv[1]);
 

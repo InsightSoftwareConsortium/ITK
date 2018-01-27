@@ -162,7 +162,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
   OutputImagePointer outputPtr = this->GetOutput();
 
   // Iterator for walking the output
-  typedef ImageRegionIteratorWithIndex< TOutputImage > OutputIterator;
+  using OutputIterator = ImageRegionIteratorWithIndex< TOutputImage >;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
@@ -171,7 +171,7 @@ VectorExpandImageFilter< TInputImage, TOutputImage >
   typename TOutputImage::IndexType outputIndex;
   typename InterpolatorType::ContinuousIndexType inputIndex;
 
-  typedef typename InterpolatorType::OutputType InterpolatedType;
+  using InterpolatedType = typename InterpolatorType::OutputType;
 
   OutputPixelType  outputValue;
   InterpolatedType interpolatedValue;

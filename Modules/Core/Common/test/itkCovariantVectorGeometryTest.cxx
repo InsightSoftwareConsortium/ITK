@@ -29,10 +29,10 @@ int itkCovariantVectorGeometryTest(int, char* [] )
 {
   // Dimension & Type
   const     unsigned int    N = 3;
-  typedef   double          ValueType;
+  using ValueType = double;
 
   //  Vector type
-  typedef    itk::CovariantVector< ValueType, N >    VectorType;
+  using VectorType = itk::CovariantVector< ValueType, N >;
 
 
   VectorType va;
@@ -139,8 +139,8 @@ int itkCovariantVectorGeometryTest(int, char* [] )
   const float tolerance = 1e-7;
 
   //  CovariantVector Classes
-  typedef    itk::CovariantVector<  double, N >    DoubleCovariantVectorType;
-  typedef    itk::CovariantVector<  float , N >    FloatCovariantVectorType;
+  using DoubleCovariantVectorType = itk::CovariantVector<  double, N >;
+  using FloatCovariantVectorType = itk::CovariantVector<  float , N >;
 
   DoubleCovariantVectorType dp;
   dp[0] = 1.0;
@@ -178,8 +178,8 @@ int itkCovariantVectorGeometryTest(int, char* [] )
 
   // Test the inner products
   {
-    typedef itk::Vector<double, 3>           ContravariantVectorType;
-    typedef itk::CovariantVector<double, 3>  CovariantVectorType;
+    using ContravariantVectorType = itk::Vector<double, 3>;
+    using CovariantVectorType = itk::CovariantVector<double, 3>;
 
     ContravariantVectorType contravariant;
     contravariant[0] = 1.0;
@@ -203,8 +203,8 @@ int itkCovariantVectorGeometryTest(int, char* [] )
 
   // Test the Cross products
   {
-    typedef itk::Vector<double, 3>           ContravariantVectorType;
-    typedef itk::CovariantVector<double, 3>  CovariantVectorType;
+    using ContravariantVectorType = itk::Vector<double, 3>;
+    using CovariantVectorType = itk::CovariantVector<double, 3>;
 
     ContravariantVectorType vaa;
     ContravariantVectorType vbb;
@@ -239,7 +239,7 @@ int itkCovariantVectorGeometryTest(int, char* [] )
   //
   // test that the ComponentType is present
   {
-  typedef itk::CovariantVector<double, 3>  CovariantVectorType;
+  using CovariantVectorType = itk::CovariantVector<double, 3>;
   CovariantVectorType::ComponentType comp(1.0);
   double x(1.0);
   if(sizeof(comp) != sizeof(double))

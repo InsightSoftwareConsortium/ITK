@@ -57,24 +57,24 @@ class TransformParametersAdaptor
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef TransformParametersAdaptor                     Self;
-  typedef TransformParametersAdaptorBase<Transform<typename TTransform::ScalarType, TTransform::InputSpaceDimension, TTransform::OutputSpaceDimension> >     Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TransformParametersAdaptor;
+  using Superclass = TransformParametersAdaptorBase<Transform<typename TTransform::ScalarType, TTransform::InputSpaceDimension, TTransform::OutputSpaceDimension> >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( TransformParametersAdaptor, TransformParametersAdaptorBase );
 
   /** Typedefs associated with the transform */
 
-  typedef typename Superclass::TransformBaseType        TransformBaseType;
-  typedef TTransform                                    TransformType;
-  typedef typename TransformType::Pointer               TransformPointer;
-  typedef typename Superclass::ParametersType           ParametersType;
-  typedef typename Superclass::ParametersValueType      ParametersValueType;
-  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
-  typedef typename Superclass::FixedParametersType      FixedParametersType;
+  using TransformBaseType = typename Superclass::TransformBaseType;
+  using TransformType = TTransform;
+  using TransformPointer = typename TransformType::Pointer;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
 
   /** Set the transform to be adapted */
   itkSetObjectMacro( Transform, TransformType );

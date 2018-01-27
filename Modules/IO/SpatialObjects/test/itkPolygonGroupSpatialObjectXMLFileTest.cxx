@@ -25,9 +25,9 @@ static float strandPoints[11][2] =
     {1,1},{1,2},{1.25,2},{1.25,1.25},{1.75,1.25},
     {1.75,1.5},{1.5,1.5},{1.5,2},{2,2},{2,1},{1,1}
   };
-typedef itk::PolygonSpatialObject<3>      Polygon3DType;
-typedef itk::PolygonGroupSpatialObject<3> PolygonGroup3DType;
-typedef PolygonGroup3DType::Pointer       PolygonGroup3DPointer;
+using Polygon3DType = itk::PolygonSpatialObject<3>;
+using PolygonGroup3DType = itk::PolygonGroupSpatialObject<3>;
+using PolygonGroup3DPointer = PolygonGroup3DType::Pointer;
 
 int
 buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)

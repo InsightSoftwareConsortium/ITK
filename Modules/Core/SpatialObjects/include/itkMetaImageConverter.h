@@ -40,11 +40,11 @@ class ITK_TEMPLATE_EXPORT MetaImageConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
-  /** Standard class typedefs */
-  typedef MetaImageConverter               Self;
-  typedef MetaConverterBase< NDimensions > Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard class type aliases */
+  using Self = MetaImageConverter;
+  using Superclass = MetaConverterBase< NDimensions >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,16 +52,16 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaImageConverter, MetaConverterBase);
 
-  typedef typename Superclass::SpatialObjectType SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
-  typedef typename Superclass::MetaObjectType    MetaObjectType;
+  using SpatialObjectType = typename Superclass::SpatialObjectType;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using MetaObjectType = typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  typedef TSpatialObjectType                            ImageSpatialObjectType;
-  typedef typename ImageSpatialObjectType::Pointer      ImageSpatialObjectPointer;
-  typedef typename ImageSpatialObjectType::ConstPointer ImageSpatialObjectConstPointer;
-  typedef MetaImage                                     ImageMetaObjectType;
-  typedef Image<TPixel,NDimensions>                     ImageType;
+  using ImageSpatialObjectType = TSpatialObjectType;
+  using ImageSpatialObjectPointer = typename ImageSpatialObjectType::Pointer;
+  using ImageSpatialObjectConstPointer = typename ImageSpatialObjectType::ConstPointer;
+  using ImageMetaObjectType = MetaImage;
+  using ImageType = Image<TPixel,NDimensions>;
   /** Convert the MetaObject to Spatial Object */
   SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;
 

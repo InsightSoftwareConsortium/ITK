@@ -26,8 +26,8 @@
 int itkSTLContainerAdaptorTest(int, char* [] )
 {
 
-  typedef unsigned long   IndexType;
-  typedef int             ElementType;
+  using IndexType = unsigned long;
+  using ElementType = int;
 
   unsigned int containerSize = 100;
 
@@ -36,11 +36,11 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     std::cout << "Testing the VectorContainer " << std::endl;
 
-    typedef itk::VectorContainer<IndexType, ElementType>  VectorContainerType;
+    using VectorContainerType = itk::VectorContainer<IndexType, ElementType>;
 
     VectorContainerType::Pointer vectorContainer = VectorContainerType::New();
 
-    typedef std::vector<ElementType> STLVectorType;
+    using STLVectorType = std::vector<ElementType>;
 
     STLVectorType  vectorSource;
 
@@ -51,8 +51,8 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     containerSize = static_cast<unsigned int>( vectorSource.size() );
 
-    typedef itk::STLContainerAdaptor<VectorContainerType> AdaptorType;
-    typedef AdaptorType::TargetType                       TargetType;
+    using AdaptorType = itk::STLContainerAdaptor<VectorContainerType>;
+    using TargetType = AdaptorType::TargetType;
 
     std::cout << "----- Testing non-const Adaptor " << std::endl;
 
@@ -102,8 +102,8 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     }
 
-    typedef itk::STLConstContainerAdaptor<VectorContainerType> ConstAdaptorType;
-    typedef ConstAdaptorType::TargetType                       ConstTargetType;
+    using ConstAdaptorType = itk::STLConstContainerAdaptor<VectorContainerType>;
+    using ConstTargetType = ConstAdaptorType::TargetType;
 
     std::cout << "----- Testing const Adaptor " << std::endl;
 
@@ -159,7 +159,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
   // Test with the MapContainer
 
-  typedef itk::MapContainer<IndexType, ElementType>  MapContainerType;
+  using MapContainerType = itk::MapContainer<IndexType, ElementType>;
 
   { // create a local scope
 
@@ -167,7 +167,7 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     MapContainerType::Pointer mapContainer = MapContainerType::New();
 
-    typedef std::map<int,ElementType>  STLMapType;
+    using STLMapType = std::map<int,ElementType>;
     STLMapType mapSource;
 
     for (unsigned int i = 0; i < containerSize; i++)
@@ -178,8 +178,8 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     containerSize = static_cast<unsigned int>( mapSource.size() );
 
-    typedef itk::STLContainerAdaptor<MapContainerType> AdaptorType;
-    typedef AdaptorType::TargetType                    TargetType;
+    using AdaptorType = itk::STLContainerAdaptor<MapContainerType>;
+    using TargetType = AdaptorType::TargetType;
 
     std::cout << "----- Testing non-const Adaptor " << std::endl;
 
@@ -231,8 +231,8 @@ int itkSTLContainerAdaptorTest(int, char* [] )
 
     }
 
-    typedef itk::STLConstContainerAdaptor<MapContainerType> ConstAdaptorType;
-    typedef ConstAdaptorType::TargetType                    ConstTargetType;
+    using ConstAdaptorType = itk::STLConstContainerAdaptor<MapContainerType>;
+    using ConstTargetType = ConstAdaptorType::TargetType;
 
     std::cout << "----- Testing const Adaptor " << std::endl;
 

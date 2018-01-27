@@ -461,8 +461,8 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 
   // the equation of the lines defining the unfolding region
   // [e.g. line 1 : {x ; <x,eq1>=0} ]
-  typedef Vector< OutputVectorRealType, 2 >     Vector2DType;
-  typedef Matrix< OutputVectorRealType, 2, 2 >  Matrix2DType;
+  using Vector2DType = Vector< OutputVectorRealType, 2 >;
+  using Matrix2DType = Matrix< OutputVectorRealType, 2, 2 >;
 
   Vector2DType v1;
   v1[0] = dot;

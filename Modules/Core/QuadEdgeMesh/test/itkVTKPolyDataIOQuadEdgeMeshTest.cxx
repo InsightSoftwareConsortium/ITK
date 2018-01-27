@@ -25,9 +25,9 @@
 int itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char* argv[] )
 {
 
-  typedef itk::QuadEdgeMesh<float, 3>         MeshType;
-  typedef itk::VTKPolyDataReader< MeshType >  ReaderType;
-  typedef itk::VTKPolyDataWriter< MeshType >  WriterType;
+  using MeshType = itk::QuadEdgeMesh<float, 3>;
+  using ReaderType = itk::VTKPolyDataReader< MeshType >;
+  using WriterType = itk::VTKPolyDataWriter< MeshType >;
 
   ReaderType::Pointer  polyDataReader = ReaderType::New();
   WriterType::Pointer  polyDataWriter = WriterType::New();

@@ -46,40 +46,40 @@ class ITK_TEMPLATE_EXPORT InterpolateImageFunction:
                         typename NumericTraits< typename TInputImage::PixelType >::RealType, TCoordRep >
 {
 public:
-  /** Standard class typedefs. */
-  typedef InterpolateImageFunction Self;
-  typedef ImageFunction< TInputImage,
+  /** Standard class type aliases. */
+  using Self = InterpolateImageFunction;
+  using Superclass = ImageFunction< TInputImage,
                          typename NumericTraits< typename TInputImage::PixelType >::RealType,
-                         TCoordRep >                         Superclass;
+                         TCoordRep >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(InterpolateImageFunction, ImageFunction);
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = typename Superclass::InputImageType;
 
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support */
+  using PointType = typename Superclass::PointType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType      IndexType;
-  typedef typename Superclass::IndexValueType IndexValueType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
+  using IndexValueType = typename Superclass::IndexValueType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
-  /** RealType typedef support. */
-  typedef typename NumericTraits< typename TInputImage::PixelType >::RealType RealType;
+  /** RealType type alias support */
+  using RealType = typename NumericTraits< typename TInputImage::PixelType >::RealType;
 
   /** Interpolate the image at a point position
    *

@@ -59,23 +59,23 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT ImageTransformer:public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageTransformer           Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageTransformer;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageTransformer, ProcessObject);
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                         InputImageType;
-  typedef typename InputImageType::Pointer    InputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType;
-  typedef typename InputImageType::PixelType  InputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   /** ImageDimension constant */
   itkStaticConstMacro(InputImageDimension, unsigned int,

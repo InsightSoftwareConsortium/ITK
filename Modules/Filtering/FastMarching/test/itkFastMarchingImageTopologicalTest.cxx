@@ -27,26 +27,26 @@
 template <unsigned int VDimension>
 int FastMarchingImageFilter( unsigned int argc, char *argv[] )
 {
-  typedef float InternalPixelType;
+  using InternalPixelType = float;
 
-  typedef itk::Image< InternalPixelType, VDimension > InternalImageType;
+  using InternalImageType = itk::Image< InternalPixelType, VDimension >;
 
-  typedef unsigned char OutputPixelType;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image<OutputPixelType, VDimension> OutputImageType;
+  using OutputImageType = itk::Image<OutputPixelType, VDimension>;
 
-  typedef itk::FastMarchingThresholdStoppingCriterion< InternalImageType, InternalImageType >
-      CriterionType;
+  using CriterionType =
+      itk::FastMarchingThresholdStoppingCriterion< InternalImageType, InternalImageType >;
 
-  typedef typename CriterionType::Pointer CriterionPointer;
+  using CriterionPointer = typename CriterionType::Pointer;
 
   InternalPixelType stoppingValue = atof( argv[5] );
 
   CriterionPointer criterion = CriterionType::New();
   criterion->SetThreshold( stoppingValue );
 
-  typedef itk::ImageFileReader< InternalImageType>  ReaderType;
-  typedef typename ReaderType::Pointer              ReaderPointer;
+  using ReaderType = itk::ImageFileReader< InternalImageType>;
+  using ReaderPointer = typename ReaderType::Pointer;
 
   ReaderPointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
@@ -61,18 +61,18 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::FastMarchingImageFilterBase< InternalImageType, InternalImageType > FastMarchingType;
-  typedef typename FastMarchingType::Pointer FastMarchingPointer;
+  using FastMarchingType = itk::FastMarchingImageFilterBase< InternalImageType, InternalImageType >;
+  using FastMarchingPointer = typename FastMarchingType::Pointer;
 
   FastMarchingPointer fastMarching = FastMarchingType::New();
   fastMarching->SetInput( reader->GetOutput() );
   fastMarching->SetStoppingCriterion( criterion );
 
-  typedef typename FastMarchingType::LabelImageType LabelImageType;
-  typedef typename LabelImageType::PixelType        LabelType;
+  using LabelImageType = typename FastMarchingType::LabelImageType;
+  using LabelType = typename LabelImageType::PixelType;
 
-  typedef itk::ImageFileReader<LabelImageType>    LabelImageReaderType;
-  typedef typename LabelImageReaderType::Pointer  LabelImageReaderPointer;
+  using LabelImageReaderType = itk::ImageFileReader<LabelImageType>;
+  using LabelImageReaderPointer = typename LabelImageReaderType::Pointer;
   LabelImageReaderPointer labelImageReader = LabelImageReaderType::New();
   labelImageReader->SetFileName( argv[4] );
 
@@ -89,8 +89,8 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
 
   LabelType label_zero = itk::NumericTraits<LabelType>::ZeroValue();
 
-  typedef itk::LabelContourImageFilter<LabelImageType,
-      LabelImageType> ContourFilterType;
+  using ContourFilterType = itk::LabelContourImageFilter<LabelImageType,
+      LabelImageType>;
   typename ContourFilterType::Pointer contour = ContourFilterType::New();
   contour->SetInput( labelImageReader->GetOutput() );
   contour->FullyConnectedOff();
@@ -107,8 +107,8 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef typename FastMarchingType::NodePairType           NodePairType;
-  typedef typename FastMarchingType::NodePairContainerType  NodePairContainerType;
+  using NodePairType = typename FastMarchingType::NodePairType;
+  using NodePairContainerType = typename FastMarchingType::NodePairContainerType;
 
 
   typename NodePairContainerType::Pointer AlivePoints = NodePairContainerType::New();
@@ -169,8 +169,8 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::BinaryThresholdImageFilter
-    <InternalImageType, OutputImageType> ThresholdingFilterType;
+  using ThresholdingFilterType = itk::BinaryThresholdImageFilter
+    <InternalImageType, OutputImageType>;
   typename ThresholdingFilterType::Pointer thresholder
     = ThresholdingFilterType::New();
 
@@ -192,7 +192,7 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
     }
 
 
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput( thresholder->GetOutput() );
   writer->SetFileName( argv[3] );
@@ -213,7 +213,7 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
       {
       std::string filename = std::string( argv[7] ) +
         std::string( "LevelSet.nii.gz" );
-      typedef itk::ImageFileWriter<InternalImageType> InternalWriterType;
+      using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
       typename InternalWriterType::Pointer internal_writer = InternalWriterType::New();
       internal_writer->SetInput( fastMarching->GetOutput() );
       internal_writer->SetFileName( filename.c_str() );
@@ -233,7 +233,7 @@ int FastMarchingImageFilter( unsigned int argc, char *argv[] )
       {
       std::string filename = std::string( argv[7] ) +
         std::string( "LabelMap.nii.gz" );
-      typedef itk::ImageFileWriter< LabelImageType > LabelImageWriterType;
+      using LabelImageWriterType = itk::ImageFileWriter< LabelImageType >;
       typename LabelImageWriterType::Pointer mapWriter = LabelImageWriterType::New();
       mapWriter->SetInput( fastMarching->GetLabelImage() );
       mapWriter->SetFileName( filename.c_str() );

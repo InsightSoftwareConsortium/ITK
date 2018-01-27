@@ -27,7 +27,7 @@ int itkMedianImageFilterTest(int, char* [] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
 
-  typedef itk::Image<float,2> FloatImage2DType;
+  using FloatImage2DType = itk::Image<float,2>;
 
   itk::RandomImageSource<FloatImage2DType>::Pointer random;
   random = itk::RandomImageSource<FloatImage2DType>::New();

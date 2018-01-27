@@ -118,7 +118,7 @@ BinaryThinningImageFilter< TInputImage, TOutputImage >
 
   // Create a set of offsets from the center.
   // This numbering follows that of Gonzalez and Woods.
-  typedef typename NeighborhoodIteratorType::OffsetType OffsetType;
+  using OffsetType = typename NeighborhoodIteratorType::OffsetType;
   OffsetType o2 = { { 0, -1 } };
   OffsetType o3 = { { 1, -1 } };
   OffsetType o4 = { { 1, 0 } };

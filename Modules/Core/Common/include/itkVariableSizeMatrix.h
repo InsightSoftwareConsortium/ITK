@@ -44,15 +44,15 @@ template< typename T >
 class ITK_TEMPLATE_EXPORT VariableSizeMatrix
 {
 public:
-  /** Standard class typedefs. */
-  typedef VariableSizeMatrix Self;
+  /** Standard class type aliases. */
+  using Self = VariableSizeMatrix;
 
   /** Component value type */
-  typedef T ValueType;
-  typedef T ComponentType;
+  using ValueType = T;
+  using ComponentType = T;
 
   /** Internal matrix type */
-  typedef vnl_matrix< T > InternalMatrixType;
+  using InternalMatrixType = vnl_matrix< T >;
 
   /** Matrix by Vector multiplication.  */
   Array< T > operator *(const Array< T > & vector) const;

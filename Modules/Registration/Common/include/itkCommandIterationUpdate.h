@@ -35,24 +35,24 @@ public:
   /**
    * Standard "Self" typedef.
    */
-  typedef CommandIterationUpdate   Self;
+  using Self = CommandIterationUpdate;
 
 
   /**
    * Standard "Superclass" typedef.
    */
-  typedef itk::Command  Superclass;
+  using Superclass = itk::Command;
 
 
   /**
-   * Smart pointer typedef support.
+   * Smart pointer type alias support
    */
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Pointer = itk::SmartPointer<Self>;
 
   /**
-   * ConstSmart pointer typedef support.
+   * ConstSmart pointer type alias support
    */
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /**
    * Execute method will print data at each iteration
@@ -106,7 +106,7 @@ public:
   /**
    * Type defining the optimizer
    */
-  typedef    TOptimizer     OptimizerType;
+  using OptimizerType = TOptimizer;
 
 
   /**

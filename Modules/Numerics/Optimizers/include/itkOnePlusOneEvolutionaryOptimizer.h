@@ -72,11 +72,11 @@ class ITKOptimizers_EXPORT OnePlusOneEvolutionaryOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef OnePlusOneEvolutionaryOptimizer Self;
-  typedef SingleValuedNonLinearOptimizer  Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = OnePlusOneEvolutionaryOptimizer;
+  using Superclass = SingleValuedNonLinearOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -85,11 +85,11 @@ public:
   itkTypeMacro(OnePlusOneEvolutionaryOptimizer, SingleValuedNonLinearOptimizer);
 
   /** Type of the Cost Function   */
-  typedef  SingleValuedCostFunction  CostFunctionType;
-  typedef  CostFunctionType::Pointer CostFunctionPointer;
+  using CostFunctionType = SingleValuedCostFunction;
+  using CostFunctionPointer = CostFunctionType::Pointer;
 
   /** Normal random variate generator type. */
-  typedef Statistics::RandomVariateGeneratorBase NormalVariateGeneratorType;
+  using NormalVariateGeneratorType = Statistics::RandomVariateGeneratorBase;
 
   /** Set if the Optimizer should Maximize the metric */
   itkSetMacro(Maximize, bool);

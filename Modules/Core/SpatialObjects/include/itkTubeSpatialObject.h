@@ -45,22 +45,22 @@ class ITK_TEMPLATE_EXPORT TubeSpatialObject:
 {
 public:
 
-  typedef TubeSpatialObject                             Self;
-  typedef PointBasedSpatialObject< TDimension >         Superclass;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
-  typedef double                                        ScalarType;
-  typedef TTubePointType                                TubePointType;
-  typedef std::vector< TubePointType >                  PointListType;
-  typedef PointListType *                               PointListPointer;
-  typedef typename Superclass::PointType                PointType;
-  typedef typename Superclass::TransformType            TransformType;
-  typedef typename Superclass::SpatialObjectPointType   SpatialObjectPointType;
-  typedef VectorContainer< IdentifierType, PointType >  PointContainerType;
-  typedef SmartPointer< PointContainerType >            PointContainerPointer;
-  typedef typename Superclass::VectorType               VectorType;
-  typedef typename Superclass::CovariantVectorType      CovariantVectorType;
-  typedef typename Superclass::BoundingBoxType          BoundingBoxType;
+  using Self = TubeSpatialObject;
+  using Superclass = PointBasedSpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ScalarType = double;
+  using TubePointType = TTubePointType;
+  using PointListType = std::vector< TubePointType >;
+  using PointListPointer = PointListType *;
+  using PointType = typename Superclass::PointType;
+  using TransformType = typename Superclass::TransformType;
+  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
+  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointContainerPointer = SmartPointer< PointContainerType >;
+  using VectorType = typename Superclass::VectorType;
+  using CovariantVectorType = typename Superclass::CovariantVectorType;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

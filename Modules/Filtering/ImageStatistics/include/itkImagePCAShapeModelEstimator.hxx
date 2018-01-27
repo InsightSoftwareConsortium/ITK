@@ -171,7 +171,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
 
   // Fill the output images.
   VectorOfDoubleType m_OneEigenVector;
-  typedef ImageRegionIterator< OutputImageType > OutputIterator;
+  using OutputIterator = ImageRegionIterator< OutputImageType >;
 
   //Fill the mean image first
 

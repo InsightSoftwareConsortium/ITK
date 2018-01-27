@@ -42,17 +42,17 @@ class VanHerkGilWermanErodeImageFilter:
 
 {
 public:
-  typedef VanHerkGilWermanErodeImageFilter Self;
-  typedef VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel,
-                                                  MinFunctor< typename TImage::PixelType > > Superclass;
+  using Self = VanHerkGilWermanErodeImageFilter;
+  using Superclass = VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel,
+                                                  MinFunctor< typename TImage::PixelType > >;
 
   /** Runtime information support. */
   itkTypeMacro(VanHerkGilWermanErodeImageFilter,
                VanHerkGilWermanErodeDilateImageFilter);
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef typename TImage::PixelType PixelType;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using PixelType = typename TImage::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

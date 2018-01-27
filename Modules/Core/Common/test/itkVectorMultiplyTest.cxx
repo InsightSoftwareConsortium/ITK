@@ -20,8 +20,8 @@
 
 int itkVectorMultiplyTest(int , char * [])
 {
-  typedef itk::VectorImage<double,3> VecImageType;
-  typedef itk::MultiplyImageFilter<VecImageType,VecImageType,VecImageType> MultFilterType;
+  using VecImageType = itk::VectorImage<double,3>;
+  using MultFilterType = itk::MultiplyImageFilter<VecImageType,VecImageType,VecImageType>;
 
   VecImageType::SizeType size;
   size[0] = size[1] = size[2] = 2;

@@ -243,7 +243,7 @@ void ImageSeriesReader< TOutputImage >
   // VectorLength before allocate
   if ( strcmp(output->GetNameOfClass(), "VectorImage") == 0 )
     {
-    typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
+    using AccessorFunctorType = typename TOutputImage::AccessorFunctorType;
     AccessorFunctorType::SetVectorLength( output, numberOfComponents );
     }
 }
@@ -381,7 +381,7 @@ void ImageSeriesReader< TOutputImage >
 
         const size_t  numberOfPixelsInSlice = sliceRegionToRequest.GetNumberOfPixels();
 
-        typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
+        using AccessorFunctorType = typename TOutputImage::AccessorFunctorType;
         const size_t      numberOfInternalComponentsPerPixel =  AccessorFunctorType::GetVectorLength( output );
 
 

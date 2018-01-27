@@ -31,28 +31,26 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest( int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the pixel types of the images
-  typedef itk::RGBPixel< float >                        InputPixelType;
-  typedef float                                         OutputPixelType;
+  using InputPixelType = itk::RGBPixel< float >;
+  using OutputPixelType = float;
 
   // Declare the types of the images
-  typedef itk::Image< InputPixelType,  ImageDimension > InputImageType;
-  typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  ImageDimension >;
+  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
 
   // Declare appropriate Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType >  InputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType > OutputIteratorType;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Declare the type of the index to access images
-  typedef itk::Index< ImageDimension >         IndexType;
+  using IndexType = itk::Index< ImageDimension >;
 
   // Declare the type of the size
-  typedef itk::Size< ImageDimension >          SizeType;
+  using SizeType = itk::Size< ImageDimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< ImageDimension >   RegionType;
+  using RegionType = itk::ImageRegion< ImageDimension >;
 
   // Create the input image
   InputImageType::Pointer inputImage = InputImageType::New();
@@ -95,8 +93,8 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest( int, char* [] )
   }
 
   // Declare the type for the RGBToLuminance filter
-  typedef itk::RGBToLuminanceImageFilter< InputImageType,
-                               OutputImageType > FilterType;
+  using FilterType = itk::RGBToLuminanceImageFilter< InputImageType,
+                               OutputImageType >;
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
@@ -146,8 +144,8 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest( int, char* [] )
   // Test the itk::RGBToLuminanceImageAdaptor
   //
 
-  typedef itk::RGBToLuminanceImageAdaptor< InputImageType,
-                          OutputPixelType> AdaptorType;
+  using AdaptorType = itk::RGBToLuminanceImageAdaptor< InputImageType,
+                          OutputPixelType>;
 
   AdaptorType::Pointer luminanceAdaptor = AdaptorType::New();
 
@@ -156,10 +154,10 @@ int itkRGBToLuminanceImageFilterAndAdaptorTest( int, char* [] )
 
   luminanceAdaptor->SetImage( inputImage );
 
-  typedef itk::SubtractImageFilter<
+  using DiffFilterType = itk::SubtractImageFilter<
                         OutputImageType,
                         AdaptorType,
-                        OutputImageType > DiffFilterType;
+                        OutputImageType >;
 
   DiffFilterType::Pointer diffFilter = DiffFilterType::New();
 

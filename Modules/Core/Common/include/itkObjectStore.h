@@ -63,11 +63,11 @@ template< typename TObjectType >
 class ITK_TEMPLATE_EXPORT ObjectStore:public Object
 {
 public:
-  /** Standard typedefs. */
-  typedef ObjectStore                Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard type alias. */
+  using Self = ObjectStore;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,10 +76,10 @@ public:
   itkTypeMacro(ObjectStore, Object);
 
   /** Type of the objects in storage. */
-  typedef TObjectType ObjectType;
+  using ObjectType = TObjectType;
 
   /** Type of list for storing pointers to free memory. */
-  typedef std::vector< ObjectType * > FreeListType;
+  using FreeListType = std::vector< ObjectType * >;
 
   /** Type of memory allocation strategy */
   typedef enum { LINEAR_GROWTH = 0, EXPONENTIAL_GROWTH = 1 } GrowthStrategyType;

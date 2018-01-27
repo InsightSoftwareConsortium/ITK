@@ -42,34 +42,32 @@ int itkImageAdaptorNthElementTest(int, char* [] )
   //                        Typedefs
   //-------------------------------------------------------------
 
-  // Float Image typedefs
-  typedef   float                            myFloatPixelType;
-  typedef   itk::Image<myFloatPixelType, 3>  myFloatImageType;
+  // Float Image type alias
+  using myFloatPixelType = float;
+  using myFloatImageType = itk::Image<myFloatPixelType, 3>;
 
-  typedef   myFloatImageType::SizeType       mySizeType;
-  typedef   myFloatImageType::IndexType      myIndexType;
-  typedef   myFloatImageType::RegionType     myRegionType;
-
-
-  // RGBPixel Image typedefs
-  typedef   itk::Vector<myFloatPixelType,3>     myContainerPixelType;
-  typedef   itk::Image<
-                       myContainerPixelType, 3> myContainerPixelImageType;
+  using mySizeType = myFloatImageType::SizeType;
+  using myIndexType = myFloatImageType::IndexType;
+  using myRegionType = myFloatImageType::RegionType;
 
 
-  typedef   itk::NthElementImageAdaptor< myContainerPixelImageType,
-                                         myFloatPixelType > myAdaptorType;
-  typedef itk::ImageRegionIteratorWithIndex<
-                                   myFloatImageType >       myFloatIteratorType;
+  // RGBPixel Image type alias
+  using myContainerPixelType = itk::Vector<myFloatPixelType,3>;
+  using myContainerPixelImageType = itk::Image<
+                       myContainerPixelType, 3>;
 
 
-  typedef itk::ImageRegionIteratorWithIndex<
-                         myContainerPixelImageType >   myContainerPixelIteratorType;
+  using myAdaptorType = itk::NthElementImageAdaptor< myContainerPixelImageType,
+                                         myFloatPixelType >;
+  using myFloatIteratorType = itk::ImageRegionIteratorWithIndex<myFloatImageType>;
 
 
-  typedef itk::AddImageFilter< myAdaptorType,
+  using myContainerPixelIteratorType = itk::ImageRegionIteratorWithIndex<myContainerPixelImageType>;
+
+
+  using myFilterType = itk::AddImageFilter< myAdaptorType,
                                myFloatImageType,
-                               myFloatImageType >       myFilterType;
+                               myFloatImageType >;
 
 
   //-------------------------------------------------------------

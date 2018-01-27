@@ -40,39 +40,39 @@ int itkAddImageFilterTest2(int argc, char* argv[] )
   // Define the dimension of the images
   const unsigned int Dimension = 2;
 
-  typedef float          FloatPixelType;
-  typedef unsigned short IntegerPixelType;
+  using FloatPixelType = float;
+  using IntegerPixelType = unsigned short;
 
-  typedef itk::Image< FloatPixelType, Dimension >   FloatImageType;
-  typedef itk::Image< IntegerPixelType, Dimension > IntegerImageType;
+  using FloatImageType = itk::Image< FloatPixelType, Dimension >;
+  using IntegerImageType = itk::Image< IntegerPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< FloatImageType > FloatReaderType;
+  using FloatReaderType = itk::ImageFileReader< FloatImageType >;
   FloatReaderType::Pointer floatReader = FloatReaderType::New();
   floatReader->SetFileName( inputImage );
   floatReader->SetUseStreaming( true );
 
-  typedef itk::ImageFileReader< IntegerImageType > IntegerReaderType;
+  using IntegerReaderType = itk::ImageFileReader< IntegerImageType >;
   IntegerReaderType::Pointer integerReader = IntegerReaderType::New();
   integerReader->SetFileName( inputImage );
   integerReader->SetUseStreaming( true );
 
   const unsigned int streams = 4;
 
-  typedef itk::PipelineMonitorImageFilter< IntegerImageType > IntegerMonitorFilterType;
+  using IntegerMonitorFilterType = itk::PipelineMonitorImageFilter< IntegerImageType >;
   IntegerMonitorFilterType::Pointer integerMonitorFilter = IntegerMonitorFilterType::New();
   integerMonitorFilter->SetInput( integerReader->GetOutput() );
 
   // Test with different input types.
-  typedef itk::AddImageFilter< FloatImageType, IntegerImageType, FloatImageType > AddFilterType;
+  using AddFilterType = itk::AddImageFilter< FloatImageType, IntegerImageType, FloatImageType >;
   AddFilterType::Pointer addFilter = AddFilterType::New();
   addFilter->SetInput1( floatReader->GetOutput() );
   addFilter->SetInput2( integerMonitorFilter->GetOutput() );
 
-  typedef itk::PipelineMonitorImageFilter< FloatImageType > MonitorFilterType;
+  using MonitorFilterType = itk::PipelineMonitorImageFilter< FloatImageType >;
   MonitorFilterType::Pointer monitorFilter = MonitorFilterType::New();
   monitorFilter->SetInput( addFilter->GetOutput() );
 
-  typedef itk::ImageFileWriter< FloatImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< FloatImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( monitorFilter->GetOutput() );
   writer->SetNumberOfStreamDivisions( streams );

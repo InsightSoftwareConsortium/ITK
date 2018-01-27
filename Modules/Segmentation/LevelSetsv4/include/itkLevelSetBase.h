@@ -41,25 +41,25 @@ template< typename TInput, unsigned int VDimension, typename TOutput, typename T
 class ITK_TEMPLATE_EXPORT LevelSetBase : public DataObject
 {
 public:
-  typedef LevelSetBase               Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = LevelSetBase;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information */
   itkTypeMacro ( LevelSetBase, DataObject );
 
   itkStaticConstMacro ( Dimension, unsigned int, VDimension );
 
-  typedef TInput                                           InputType;
-  typedef TOutput                                          OutputType;
-  typedef TDomain                                          DomainType;
-  typedef typename NumericTraits< OutputType >::RealType   OutputRealType;
-  typedef CovariantVector< OutputRealType, VDimension >    GradientType;
-  typedef Matrix< OutputRealType, VDimension, VDimension > HessianType;
+  using InputType = TInput;
+  using OutputType = TOutput;
+  using DomainType = TDomain;
+  using OutputRealType = typename NumericTraits< OutputType >::RealType;
+  using GradientType = CovariantVector< OutputRealType, VDimension >;
+  using HessianType = Matrix< OutputRealType, VDimension, VDimension >;
 
   /** Type used to define Regions */
-  typedef IdentifierType RegionType;
+  using RegionType = IdentifierType;
 
   /** Returns the value of the level set function at a given location iP */
   virtual OutputType    Evaluate( const InputType& iP ) const = 0;

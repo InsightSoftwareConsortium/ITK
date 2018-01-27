@@ -127,19 +127,19 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 
   FeaturePointsPointer pointSet = this->GetOutput();
 
-  typedef typename FeaturePointsType::PointsContainer PointsContainer;
-  typedef typename PointsContainer::Pointer           PointsContainerPointer;
+  using PointsContainer = typename FeaturePointsType::PointsContainer;
+  using PointsContainerPointer = typename PointsContainer::Pointer;
 
   PointsContainerPointer points = PointsContainer::New();
 
-  typedef typename FeaturePointsType::PointDataContainer  PointDataContainer;
-  typedef typename PointDataContainer::Pointer            PointDataContainerPointer;
+  using PointDataContainer = typename FeaturePointsType::PointDataContainer;
+  using PointDataContainerPointer = typename PointDataContainer::Pointer;
 
   PointDataContainerPointer pointData = PointDataContainer::New();
 
   // initialize selectionMap
-  typedef unsigned char                         MapPixelType;
-  typedef Image< MapPixelType, ImageDimension>  SelectionMapType;
+  using MapPixelType = unsigned char;
+  using SelectionMapType = Image< MapPixelType, ImageDimension>;
   typename SelectionMapType::Pointer selectionMap = SelectionMapType::New();
 
   // The selectionMap only needs to have the same pixel grid of the input image,
@@ -192,11 +192,11 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
   // iterators for variance computing loop
   ImageRegionIterator< SelectionMapType > mapItr( selectionMap, region );
   ConstNeighborhoodIterator< ImageType > imageItr( m_BlockRadius, image, region );
-  typedef typename ConstNeighborhoodIterator< ImageType >::NeighborIndexType NeighborSizeType;
+  using NeighborSizeType = typename ConstNeighborhoodIterator< ImageType >::NeighborIndexType;
   NeighborSizeType numPixelsInNeighborhood = imageItr.Size();
 
   // sorted container for feature points, stores pair(variance, index)
-  typedef std::multimap< double, IndexType > MultiMapType;
+  using MultiMapType = std::multimap< double, IndexType >;
   MultiMapType pointMap;
 
   // compute variance for eligible points
@@ -218,7 +218,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
       const double meanOfSquares = sumOfSquares.GetSum() / numPixelsInNeighborhood;
 
       const double variance = meanOfSquares - squaredMean;
-      typedef typename MultiMapType::value_type PairType;
+      using PairType = typename MultiMapType::value_type;
 
       // we only insert blocks with variance > 0
       if(itk::NumericTraits<double>::IsPositive(variance))
@@ -234,7 +234,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
   const double TRACE_EPSILON = 1e-8;
 
   // pick points with highest variance first (inverse iteration)
-  typedef typename MultiMapType::reverse_iterator MapReverseIterator;
+  using MapReverseIterator = typename MultiMapType::reverse_iterator;
   MapReverseIterator rit = pointMap.rbegin();
   while ( rit != pointMap.rend() && numberOfPointsInserted < maxNumberPointsToInserted)
     {

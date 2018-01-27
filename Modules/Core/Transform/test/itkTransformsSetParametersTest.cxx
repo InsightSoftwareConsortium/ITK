@@ -42,7 +42,7 @@ template<typename KernelType> int TestKernelTransform(const char *name, KernelTy
 {
   std::cout << name << std::flush;
 
-  typedef typename KernelType::PointSetType KernelPointSetType;
+  using KernelPointSetType = typename KernelType::PointSetType;
 
   typename KernelType::Pointer kernel = KernelType::New();
   typename KernelPointSetType::Pointer targetLandmarks =
@@ -109,7 +109,7 @@ int itkTransformsSetParametersTest( int , char *[] )
             << std::endl << std::endl;
 
   std::cout << "AffineTransform->SetParameters() - " << std::flush;
-  typedef itk::AffineTransform< double, 3 > Affine;
+  using Affine = itk::AffineTransform< double, 3 >;
   Affine::Pointer affine = Affine::New();
   beginMTime = affine->GetMTime();
   Affine::ParametersType affineParams = affine->GetParameters();
@@ -123,7 +123,7 @@ int itkTransformsSetParametersTest( int , char *[] )
 
 
   std::cout << "CenteredAffineTransform->SetParameters() - " << std::flush;
-  typedef itk::CenteredAffineTransform< double, 3 > CenteredAffine;
+  using CenteredAffine = itk::CenteredAffineTransform< double, 3 >;
   CenteredAffine::Pointer centeredAffine =
     CenteredAffine::New();
   beginMTime = centeredAffine->GetMTime();
@@ -138,7 +138,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "CenteredEuler3DTransform->SetParameters() - " << std::flush;
-  typedef itk::CenteredEuler3DTransform< double > CenteredEuler3D;
+  using CenteredEuler3D = itk::CenteredEuler3DTransform< double >;
   CenteredEuler3D::Pointer centeredEuler3D =
     CenteredEuler3D::New();
   beginMTime = centeredEuler3D->GetMTime();
@@ -153,7 +153,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "CenteredRigid2DTransform->SetParameters() - " << std::flush;
-  typedef itk::CenteredRigid2DTransform< double > CenteredRigid2D;
+  using CenteredRigid2D = itk::CenteredRigid2DTransform< double >;
   CenteredRigid2D::Pointer centeredRigid2D =
     CenteredRigid2D::New();
   beginMTime = centeredRigid2D->GetMTime();
@@ -168,7 +168,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "CenteredSimilarity2DTransform->SetParameters() - " << std::flush;
-  typedef itk::CenteredSimilarity2DTransform< double > CenteredSimilarity2D;
+  using CenteredSimilarity2D = itk::CenteredSimilarity2DTransform< double >;
   CenteredSimilarity2D::Pointer centeredSimilarity2D =
     CenteredSimilarity2D::New();
   beginMTime = centeredSimilarity2D->GetMTime();
@@ -183,7 +183,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "Euler2DTransform->SetParameters() - " << std::flush;
-  typedef itk::Euler2DTransform< double > Euler2D;
+  using Euler2D = itk::Euler2DTransform< double >;
   Euler2D::Pointer euler2D =
     Euler2D::New();
   beginMTime = euler2D->GetMTime();
@@ -198,7 +198,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "Euler3DTransform->SetParameters() - " << std::flush;
-  typedef itk::Euler3DTransform< double > Euler3D;
+  using Euler3D = itk::Euler3DTransform< double >;
   Euler3D::Pointer euler3D =
     Euler3D::New();
   beginMTime = euler3D->GetMTime();
@@ -213,7 +213,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "FixedCenteredAffineTransform->SetParameters() - " << std::flush;
-  typedef itk::FixedCenterOfRotationAffineTransform< double, 3 > FixedCenteredAffine;
+  using FixedCenteredAffine = itk::FixedCenterOfRotationAffineTransform< double, 3 >;
   FixedCenteredAffine::Pointer fixedCenteredAffine =
     FixedCenteredAffine::New();
   beginMTime = fixedCenteredAffine->GetMTime();
@@ -229,7 +229,7 @@ int itkTransformsSetParametersTest( int , char *[] )
 
 
   std::cout << "QuaternionRigidTransform->SetParameters() - " << std::flush;
-  typedef itk::QuaternionRigidTransform< double > QuaternionRigid;
+  using QuaternionRigid = itk::QuaternionRigidTransform< double >;
   QuaternionRigid::Pointer quaternionRigid =
     QuaternionRigid::New();
   beginMTime = quaternionRigid->GetMTime();
@@ -244,7 +244,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "Rigid2DTransform->SetParameters() - " << std::flush;
-  typedef itk::Rigid2DTransform< double > Rigid2D;
+  using Rigid2D = itk::Rigid2DTransform< double >;
   Rigid2D::Pointer rigid2D =
     Rigid2D::New();
   beginMTime = rigid2D->GetMTime();
@@ -260,7 +260,7 @@ int itkTransformsSetParametersTest( int , char *[] )
 
 
   std::cout << "Rigid3DPerspectiveTransform->SetParameters() - " << std::flush;
-  typedef itk::Rigid3DPerspectiveTransform< double > Rigid3DPerspective;
+  using Rigid3DPerspective = itk::Rigid3DPerspectiveTransform< double >;
   Rigid3DPerspective::Pointer rigid3DPerspective =
     Rigid3DPerspective::New();
   beginMTime = rigid3DPerspective->GetMTime();
@@ -275,7 +275,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "ScalableAffineTransform->SetParameters() - " << std::flush;
-  typedef itk::ScalableAffineTransform< double, 3 > ScalableAffine;
+  using ScalableAffine = itk::ScalableAffineTransform< double, 3 >;
   ScalableAffine::Pointer scalableAffine =
     ScalableAffine::New();
   beginMTime = scalableAffine->GetMTime();
@@ -290,7 +290,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "ScaleLogarithmicTransform->SetParameters() - " << std::flush;
-  typedef itk::ScaleLogarithmicTransform< double, 3 > ScaleLogarithmic;
+  using ScaleLogarithmic = itk::ScaleLogarithmicTransform< double, 3 >;
   ScaleLogarithmic::Pointer scaleLogarithmic =
     ScaleLogarithmic::New();
   beginMTime = scaleLogarithmic->GetMTime();
@@ -305,7 +305,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "ScaleSkewVersor3DTransform->SetParameters() - " << std::flush;
-  typedef itk::ScaleSkewVersor3DTransform< double > ScaleSkewVersor3D;
+  using ScaleSkewVersor3D = itk::ScaleSkewVersor3DTransform< double >;
   ScaleSkewVersor3D::Pointer scaleSkewVersor3D =
     ScaleSkewVersor3D::New();
   beginMTime = scaleSkewVersor3D->GetMTime();
@@ -320,7 +320,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "ScaleTransform->SetParameters() - " << std::flush;
-  typedef itk::ScaleTransform< double, 3 > Scale;
+  using Scale = itk::ScaleTransform< double, 3 >;
   Scale::Pointer scale =
     Scale::New();
   beginMTime = scale->GetMTime();
@@ -335,7 +335,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "Similarity2DTransform->SetParameters() - " << std::flush;
-  typedef itk::Similarity2DTransform< double > Similarity2D;
+  using Similarity2D = itk::Similarity2DTransform< double >;
   Similarity2D::Pointer similarity2D =
     Similarity2D::New();
   beginMTime = similarity2D->GetMTime();
@@ -350,7 +350,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "Similarity3DTransform->SetParameters() - " << std::flush;
-  typedef itk::Similarity3DTransform< double > Similarity3D;
+  using Similarity3D = itk::Similarity3DTransform< double >;
   Similarity3D::Pointer similarity3D =
     Similarity3D::New();
   beginMTime = similarity3D->GetMTime();
@@ -365,7 +365,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "TranslationTransform->SetParameters() - " << std::flush;
-  typedef itk::TranslationTransform< double, 3 > Translation;
+  using Translation = itk::TranslationTransform< double, 3 >;
   Translation::Pointer translation =
     Translation::New();
   beginMTime = translation->GetMTime();
@@ -380,7 +380,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "VersorTransform->SetParameters() - " << std::flush;
-  typedef itk::VersorTransform< double > Versor;
+  using Versor = itk::VersorTransform< double >;
   Versor::Pointer versor =
     Versor::New();
   beginMTime = versor->GetMTime();
@@ -396,8 +396,8 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "AzimuthElevationToCartesianTransform->SetParameters() - "
             << std::flush;
-  typedef itk::AzimuthElevationToCartesianTransform< double, 3 >
-    AzimuthElevationToCartesian;
+  using AzimuthElevationToCartesian =
+      itk::AzimuthElevationToCartesianTransform< double, 3 >;
   AzimuthElevationToCartesian::Pointer azimuthElevation =
     AzimuthElevationToCartesian::New();
   beginMTime = azimuthElevation->GetMTime();
@@ -412,7 +412,7 @@ int itkTransformsSetParametersTest( int , char *[] )
     std::cout << "FAIL" << std::endl;
 
   std::cout << "VersorRigid3DTransform->SetParameters() - " << std::flush;
-  typedef itk::VersorRigid3DTransform< double > VersorRigid3D;
+  using VersorRigid3D = itk::VersorRigid3DTransform< double >;
   VersorRigid3D::Pointer versorRigid3D =
     VersorRigid3D::New();
   beginMTime = versorRigid3D->GetMTime();
@@ -429,7 +429,7 @@ int itkTransformsSetParametersTest( int , char *[] )
 
   std::cout << "BSplineTransform->SetParameters() - Not Tested (manual check indicates PASS)"
             << std::endl;
-//    typedef itk::BSplineTransform< double > BSplineDeformable;
+//    using BSplineDeformable = itk::BSplineTransform< double >;
 //    BSplineDeformable::Pointer bSplineDeformable = BSplineDeformable::New();
 //    beginMTime = bSplineDeformable->GetMTime();
 //    bSplineDeformable->SetIdentity();

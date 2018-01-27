@@ -49,48 +49,48 @@ class ITK_TEMPLATE_EXPORT ShapePriorMAPCostFunctionBase:
   public SingleValuedCostFunction
 {
 public:
-  /** Standard class typedefs. */
-  typedef ShapePriorMAPCostFunctionBase Self;
-  typedef SingleValuedCostFunction      Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer< const Self >    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ShapePriorMAPCostFunctionBase;
+  using Superclass = SingleValuedCostFunction;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapePriorMAPCostFunctionBase, SingleValuedCostFunction);
 
-  /**  MeasureType typedef.
+  /**  MeasureType type alias.
    *  It defines a type used to return the cost function value. */
-  typedef typename Superclass::MeasureType MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
-  /** DerivativeType typedef.
+  /** DerivativeType type alias.
    *  It defines a type used to return the cost function derivative.  */
-  typedef typename Superclass::DerivativeType DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
-  /**  ParametersType typedef.
+  /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  typedef typename Superclass::ParametersType ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Type of the feature image representing the edge potential map. */
-  typedef TFeatureImage                           FeatureImageType;
-  typedef typename FeatureImageType::ConstPointer FeatureImagePointer;
+  using FeatureImageType = TFeatureImage;
+  using FeatureImagePointer = typename FeatureImageType::ConstPointer;
 
   /** Dimension constant. */
   itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
 
   /** Type of pixel used to represent the level set. */
-  typedef TOutputPixel PixelType;
+  using PixelType = TOutputPixel;
 
   /** Type of node used to represent the active region around the zero set. */
-  typedef LevelSetNode< PixelType, itkGetStaticConstMacro(ImageDimension) > NodeType;
+  using NodeType = LevelSetNode< PixelType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Type of container used to store the level set nodes. */
-  typedef VectorContainer< unsigned int, NodeType > NodeContainerType;
-  typedef typename NodeContainerType::ConstPointer  NodeContainerPointer;
+  using NodeContainerType = VectorContainer< unsigned int, NodeType >;
+  using NodeContainerPointer = typename NodeContainerType::ConstPointer;
 
   /** Type of the shape signed distance function. */
-  typedef ShapeSignedDistanceFunction< double,
-                                       itkGetStaticConstMacro(ImageDimension) > ShapeFunctionType;
-  typedef typename ShapeFunctionType::Pointer ShapeFunctionPointer;
+  using ShapeFunctionType = ShapeSignedDistanceFunction< double,
+                                       itkGetStaticConstMacro(ImageDimension) >;
+  using ShapeFunctionPointer = typename ShapeFunctionType::Pointer;
 
   /** Set/Get the shape distance function. */
   itkSetObjectMacro(ShapeFunction, ShapeFunctionType);

@@ -119,7 +119,7 @@ ThreadedGenerateData(const OutputFrameSpatialRegionType& outputRegionForThread,
     }
 
   // Get iterators for the input frames
-  typedef ImageRegionConstIterator<InputFrameType> IterType;
+  using IterType = ImageRegionConstIterator<InputFrameType>;
   std::vector< IterType > inputIters;
   for (SizeValueType i = inputStart; i < inputStart + numFrames; ++i)
     {
@@ -134,7 +134,7 @@ ThreadedGenerateData(const OutputFrameSpatialRegionType& outputRegionForThread,
   itk::ImageRegionIterator<OutputFrameType> outIter(outFrame, outputRegionForThread);
 
   // Average the input frames at each pixel of the output region
-  typedef typename NumericTraits<OutputPixelType>::RealType OutputPixelRealType;
+  using OutputPixelRealType = typename NumericTraits<OutputPixelType>::RealType;
   while(!outIter.IsAtEnd())
     {
     // Get values for each input frame

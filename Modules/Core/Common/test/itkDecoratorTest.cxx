@@ -40,7 +40,7 @@ int itkDecoratorTest(int, char* [] )
   std::cout << "----------------------------------------------------"
             << std::endl;
 
-  typedef itk::SimpleDataObjectDecorator<float> FloatObjectType;
+  using FloatObjectType = itk::SimpleDataObjectDecorator<float>;
 
   FloatObjectType::Pointer f = FloatObjectType::New();
   f->Set(5.0);
@@ -51,8 +51,8 @@ int itkDecoratorTest(int, char* [] )
   std::cout << "----------------------------------------------------"
             << std::endl;
 
-  typedef itk::AffineTransform<double, 3>         TransformType;
-  typedef itk::DataObjectDecorator<TransformType> TransformObjectType;
+  using TransformType = itk::AffineTransform<double, 3>;
+  using TransformObjectType = itk::DataObjectDecorator<TransformType>;
 
   TransformObjectType::Pointer decoratedTransform = TransformObjectType::New();
   TransformType::Pointer transformObject = TransformType::New();
@@ -80,8 +80,8 @@ int itkDecoratorTest(int, char* [] )
   decoratedTransform->Get()->Print(std::cout);
   std::cout << "TransformDataObject: " << decoratedTransform;
 
-  typedef itk::Transform<double, 3>                   TransformBaseType;
-  typedef itk::DataObjectDecorator<TransformBaseType> TransformBaseObjectType;
+  using TransformBaseType = itk::Transform<double, 3>;
+  using TransformBaseObjectType = itk::DataObjectDecorator<TransformBaseType>;
 
   TransformBaseObjectType::Pointer decoratedBaseTransform = TransformBaseObjectType::New();
   decoratedBaseTransform->Graft( decoratedTransform.GetPointer() );
@@ -106,10 +106,10 @@ int itkDecoratorTest(int, char* [] )
   std::cout << "----------------------------------------------------"
             << std::endl;
 
-  typedef std::vector<float>                              VectorType;
-  typedef VectorType*                                     VectorPointer;
-  typedef itk::SimpleDataObjectDecorator<VectorType>      VectorObjectType;
-  typedef itk::AutoPointerDataObjectDecorator<VectorType> VectorPointerObjectType;
+  using VectorType = std::vector<float>;
+  using VectorPointer = VectorType*;
+  using VectorObjectType = itk::SimpleDataObjectDecorator<VectorType>;
+  using VectorPointerObjectType = itk::AutoPointerDataObjectDecorator<VectorType>;
 
   VectorType v;
   v.resize(5);
@@ -141,7 +141,7 @@ int itkDecoratorTest(int, char* [] )
   // The following code block will cause a memory leak because the
   // decorator does not deallocate the memory that was passed in on a
   // pointer. The AutoPointerDataObjectDecorator does delete the memory.
-  //typedef itk::SimpleDataObjectDecorator<VectorPointer> VectorPointerObjectType2;
+  //using VectorPointerObjectType2 = itk::SimpleDataObjectDecorator<VectorPointer>;
   //{
   //VectorPointer vp2;
   //vp2 = new VectorType;

@@ -42,27 +42,27 @@ class GPUPDEDeformableRegistrationFunction :
   public GPUFiniteDifferenceFunction<TDisplacementField>
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUPDEDeformableRegistrationFunction            Self;
-  typedef GPUFiniteDifferenceFunction<TDisplacementField> Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUPDEDeformableRegistrationFunction;
+  using Superclass = GPUFiniteDifferenceFunction<TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(GPUPDEDeformableRegistrationFunction,
                GPUFiniteDifferenceFunction);
 
   /** MovingImage image type. */
-  typedef TMovingImage                           MovingImageType;
-  typedef typename MovingImageType::ConstPointer MovingImagePointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::ConstPointer;
 
   /** FixedImage image type. */
-  typedef TFixedImage                           FixedImageType;
-  typedef typename FixedImageType::ConstPointer FixedImagePointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::ConstPointer;
 
   /** Deformation field type. */
-  typedef TDisplacementField                      DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer DisplacementFieldTypePointer;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldTypePointer = typename DisplacementFieldType::Pointer;
 
   /** Set the moving image.  */
   void SetMovingImage(const MovingImageType *ptr)

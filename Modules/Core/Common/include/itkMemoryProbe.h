@@ -45,10 +45,10 @@ public:
   ~MemoryProbe() override;
 
   /** Type for measuring memory. */
-  typedef SizeValueType MemoryLoadType;
+  using MemoryLoadType = SizeValueType;
 
   /** Type for measuring the average memory. */
-  typedef double MeanMemoryLoadType;
+  using MeanMemoryLoadType = double;
 
 protected:
   MemoryLoadType GetInstantValue(void) const override;

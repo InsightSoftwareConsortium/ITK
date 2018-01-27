@@ -56,13 +56,12 @@ class ITK_TEMPLATE_EXPORT FFTConvolutionImageFilter :
 
 {
 public:
-  typedef FFTConvolutionImageFilter                       Self;
-  typedef ConvolutionImageFilterBase< TInputImage,
+  using Self = FFTConvolutionImageFilter;
+  using Superclass = ConvolutionImageFilterBase< TInputImage,
                                       TKernelImage,
-                                      TOutputImage >
-                                                          Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+                                      TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,33 +73,33 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef TInputImage                           InputImageType;
-  typedef TOutputImage                          OutputImageType;
-  typedef TKernelImage                          KernelImageType;
-  typedef typename InputImageType::PixelType    InputPixelType;
-  typedef typename OutputImageType::PixelType   OutputPixelType;
-  typedef typename KernelImageType::PixelType   KernelPixelType;
-  typedef typename InputImageType::IndexType    InputIndexType;
-  typedef typename OutputImageType::IndexType   OutputIndexType;
-  typedef typename KernelImageType::IndexType   KernelIndexType;
-  typedef typename InputImageType::SizeType     InputSizeType;
-  typedef typename OutputImageType::SizeType    OutputSizeType;
-  typedef typename KernelImageType::SizeType    KernelSizeType;
-  typedef typename InputSizeType::SizeValueType SizeValueType;
-  typedef typename InputImageType::RegionType   InputRegionType;
-  typedef typename OutputImageType::RegionType  OutputRegionType;
-  typedef typename KernelImageType::RegionType  KernelRegionType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using KernelImageType = TKernelImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using KernelPixelType = typename KernelImageType::PixelType;
+  using InputIndexType = typename InputImageType::IndexType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using KernelIndexType = typename KernelImageType::IndexType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using KernelSizeType = typename KernelImageType::SizeType;
+  using SizeValueType = typename InputSizeType::SizeValueType;
+  using InputRegionType = typename InputImageType::RegionType;
+  using OutputRegionType = typename OutputImageType::RegionType;
+  using KernelRegionType = typename KernelImageType::RegionType;
 
   /** Internal types used by the FFT filters. */
-  typedef Image< TInternalPrecision, TInputImage::ImageDimension >  InternalImageType;
-  typedef typename InternalImageType::Pointer                       InternalImagePointerType;
-  typedef std::complex< TInternalPrecision >                        InternalComplexType;
-  typedef Image< InternalComplexType, TInputImage::ImageDimension > InternalComplexImageType;
-  typedef typename InternalComplexImageType::Pointer                InternalComplexImagePointerType;
+  using InternalImageType = Image< TInternalPrecision, TInputImage::ImageDimension >;
+  using InternalImagePointerType = typename InternalImageType::Pointer;
+  using InternalComplexType = std::complex< TInternalPrecision >;
+  using InternalComplexImageType = Image< InternalComplexType, TInputImage::ImageDimension >;
+  using InternalComplexImagePointerType = typename InternalComplexImageType::Pointer;
 
   /** Typedef to describe the boundary condition. */
-  typedef typename Superclass::BoundaryConditionType        BoundaryConditionType;
-  typedef typename Superclass::BoundaryConditionPointerType BoundaryConditionPointerType;
+  using BoundaryConditionType = typename Superclass::BoundaryConditionType;
+  using BoundaryConditionPointerType = typename Superclass::BoundaryConditionPointerType;
 
   itkSetMacro(SizeGreatestPrimeFactor, SizeValueType);
   itkGetMacro(SizeGreatestPrimeFactor, SizeValueType);
@@ -111,12 +110,10 @@ protected:
 
   /** Because the inputs are real, we can use the specialized filters
    * for real-to-complex Fourier transforms. */
-  typedef RealToHalfHermitianForwardFFTImageFilter< InternalImageType,
-                                                    InternalComplexImageType >
-    FFTFilterType;
-  typedef HalfHermitianToRealInverseFFTImageFilter< InternalComplexImageType,
-                                                    InternalImageType >
-    IFFTFilterType;
+  using FFTFilterType = RealToHalfHermitianForwardFFTImageFilter< InternalImageType,
+                                                    InternalComplexImageType >;
+  using IFFTFilterType = HalfHermitianToRealInverseFFTImageFilter< InternalComplexImageType,
+                                                    InternalImageType >;
 
   /** FFTConvolutionImageFilter needs the entire image kernel, which in
    * general is going to be a different size than the output requested

@@ -123,8 +123,8 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
     }
 
   // FAH (in french: File d'Attente Hierarchique)
-  typedef std::queue< IndexType >                    QueueType;
-  typedef std::map< InputImagePixelType, QueueType > MapType;
+  using QueueType = std::queue< IndexType >;
+  using MapType = std::map< InputImagePixelType, QueueType >;
   MapType fah;
 
   // the radius which will be used for all the shaped iterators
@@ -132,7 +132,7 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
   radius.Fill(1);
 
   // iterator for the marker image
-  typedef ConstShapedNeighborhoodIterator< LabelImageType > MarkerIteratorType;
+  using MarkerIteratorType = ConstShapedNeighborhoodIterator< LabelImageType >;
   typename MarkerIteratorType::ConstIterator nmIt;
   MarkerIteratorType
   markerIt( radius, markerImage, markerImage->GetRequestedRegion() );
@@ -143,15 +143,15 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
   setConnectivity(&markerIt, m_FullyConnected);
 
   // iterator for the input image
-  typedef ConstShapedNeighborhoodIterator< InputImageType > InputIteratorType;
+  using InputIteratorType = ConstShapedNeighborhoodIterator< InputImageType >;
   InputIteratorType
   inputIt( radius, inputImage, inputImage->GetRequestedRegion() );
   typename InputIteratorType::ConstIterator niIt;
   setConnectivity(&inputIt, m_FullyConnected);
 
   // iterator for the output image
-  typedef ShapedNeighborhoodIterator< LabelImageType > OutputIteratorType;
-  typedef typename OutputIteratorType::OffsetType      OffsetType;
+  using OutputIteratorType = ShapedNeighborhoodIterator< LabelImageType >;
+  using OffsetType = typename OutputIteratorType::OffsetType;
   typename OutputIteratorType::Iterator noIt;
   OutputIteratorType
   outputIt( radius, outputImage, outputImage->GetRequestedRegion() );
@@ -176,13 +176,13 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
 
     // create a temporary image to store the state of each pixel (processed or
     // not)
-    typedef Image< bool, ImageDimension > StatusImageType;
+    using StatusImageType = Image< bool, ImageDimension >;
     typename StatusImageType::Pointer statusImage = StatusImageType::New();
     statusImage->SetRegions( markerImage->GetLargestPossibleRegion() );
     statusImage->Allocate();
 
     // iterator for the status image
-    typedef ShapedNeighborhoodIterator< StatusImageType > StatusIteratorType;
+    using StatusIteratorType = ShapedNeighborhoodIterator< StatusImageType >;
     typename StatusIteratorType::Iterator nsIt;
     StatusIteratorType
                                                  statusIt( radius, statusImage, outputImage->GetRequestedRegion() );

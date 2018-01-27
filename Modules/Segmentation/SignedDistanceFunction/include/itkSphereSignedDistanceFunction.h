@@ -45,11 +45,11 @@ class ITK_TEMPLATE_EXPORT SphereSignedDistanceFunction:
   public ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SphereSignedDistanceFunction                              Self;
-  typedef ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension > Superclass;
-  typedef SmartPointer< Self >                                      Pointer;
-  typedef SmartPointer< const Self >                                ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SphereSignedDistanceFunction;
+  using Superclass = ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SphereSignedDistanceFunction, ShapeSignedDistancFunction);
@@ -57,23 +57,23 @@ public:
   /** New macro for creation of through the object factory. */
   itkNewMacro(Self);
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
 
-  /** InputeType typedef support. */
-  typedef typename Superclass::InputType InputType;
+  /** InputeType type alias support */
+  using InputType = typename Superclass::InputType;
 
   /** Dimension underlying input image. */
   itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
 
-  /** CoordRep typedef support. */
-  typedef typename Superclass::CoordRepType CoordRepType;
+  /** CoordRep type alias support */
+  using CoordRepType = typename Superclass::CoordRepType;
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support */
+  using PointType = typename Superclass::PointType;
 
   /** Type of the shape parameters. */
-  typedef typename Superclass::ParametersType ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** A sphere is defined by a set of shape parameters. The first parameter
    * is the radius and the next SpaceDimension parameters represent the center. */
@@ -96,7 +96,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SphereSignedDistanceFunction);
 
-  typedef Vector< CoordRepType, itkGetStaticConstMacro(SpaceDimension) > VectorType;
+  using VectorType = Vector< CoordRepType, itkGetStaticConstMacro(SpaceDimension) >;
 
   VectorType m_Translation;
   double     m_Radius;

@@ -50,32 +50,32 @@ class ITK_TEMPLATE_EXPORT OtsuMultipleThresholdsCalculator:
   public HistogramAlgorithmBase< TInputHistogram >
 {
 public:
-  /**Standard class typedefs. */
-  typedef OtsuMultipleThresholdsCalculator          Self;
-  typedef HistogramAlgorithmBase< TInputHistogram > Superclass;
-  typedef SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                ConstPointer;
+  /**Standard class type aliases. */
+  using Self = OtsuMultipleThresholdsCalculator;
+  using Superclass = HistogramAlgorithmBase< TInputHistogram >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TInputHistogram::MeasurementType       MeasurementType;
-  typedef typename TInputHistogram::AbsoluteFrequencyType FrequencyType;
+  using MeasurementType = typename TInputHistogram::MeasurementType;
+  using FrequencyType = typename TInputHistogram::AbsoluteFrequencyType;
 
-  typedef typename NumericTraits< MeasurementType >::RealType MeanType;
-  typedef typename NumericTraits< MeasurementType >::RealType VarianceType;
-  typedef typename NumericTraits< MeasurementType >::RealType WeightType;
+  using MeanType = typename NumericTraits< MeasurementType >::RealType;
+  using VarianceType = typename NumericTraits< MeasurementType >::RealType;
+  using WeightType = typename NumericTraits< MeasurementType >::RealType;
 
-  typedef std::vector< MeanType >      MeanVectorType;
-  typedef std::vector< FrequencyType > FrequencyVectorType;
-  typedef std::vector< WeightType >    WeightVectorType;
+  using MeanVectorType = std::vector< MeanType >;
+  using FrequencyVectorType = std::vector< FrequencyType >;
+  using WeightVectorType = std::vector< WeightType >;
 
-  typedef typename TInputHistogram::InstanceIdentifier InstanceIdentifierType;
-  typedef std::vector< InstanceIdentifierType >        InstanceIdentifierVectorType;
+  using InstanceIdentifierType = typename TInputHistogram::InstanceIdentifier;
+  using InstanceIdentifierVectorType = std::vector< InstanceIdentifierType >;
 
   /**Standard Macros */
   itkTypeMacro(OtsuMultipleThresholdsCalculator, HistogramAlgorithmsBase);
   itkNewMacro(Self);
 
   /** Typedef for the thresholds output */
-  typedef std::vector< MeasurementType > OutputType;
+  using OutputType = std::vector< MeasurementType >;
 
   /** Returns the thresholds vector */
   const OutputType & GetOutput();

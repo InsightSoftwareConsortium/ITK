@@ -75,9 +75,9 @@ int main(int argc, char* argv[])
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef signed short InputPixelType;
+  using InputPixelType = signed short;
   const unsigned int   Dimension = 2;
-  typedef itk::Image< InputPixelType, Dimension > InputImageType;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 // Software Guide : EndCodeSnippet
@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::GDCMImageIO           ImageIOType;
+  using ImageIOType = itk::GDCMImageIO;
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
   reader->SetImageIO( gdcmImageIO );
 // Software Guide : EndCodeSnippet
@@ -140,7 +140,7 @@ int main(int argc, char* argv[])
 
 // Software Guide : BeginCodeSnippet
   InputImageType::Pointer inputImage = reader->GetOutput();
-  typedef itk::MetaDataDictionary   DictionaryType;
+  using DictionaryType = itk::MetaDataDictionary;
   DictionaryType & dictionary = inputImage->GetMetaDataDictionary();
 // Software Guide : EndCodeSnippet
 
@@ -178,7 +178,7 @@ int main(int argc, char* argv[])
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< InputImageType >  Writer1Type;
+  using Writer1Type = itk::ImageFileWriter< InputImageType >;
 
   Writer1Type::Pointer writer1 = Writer1Type::New();
 

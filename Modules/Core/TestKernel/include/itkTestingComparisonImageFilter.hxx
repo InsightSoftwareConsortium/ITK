@@ -110,13 +110,13 @@ void
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & threadRegion, ThreadIdType threadId)
 {
-  typedef ConstNeighborhoodIterator< InputImageType >                           SmartIterator;
-  typedef ImageRegionConstIterator< InputImageType >                            InputIterator;
-  typedef ImageRegionIterator< OutputImageType >                                OutputIterator;
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > FacesCalculator;
-  typedef typename FacesCalculator::RadiusType                                  RadiusType;
-  typedef typename FacesCalculator::FaceListType                                FaceListType;
-  typedef typename FaceListType::iterator                                       FaceListIterator;
+  using SmartIterator = ConstNeighborhoodIterator< InputImageType >;
+  using InputIterator = ImageRegionConstIterator< InputImageType >;
+  using OutputIterator = ImageRegionIterator< OutputImageType >;
+  using FacesCalculator = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >;
+  using RadiusType = typename FacesCalculator::RadiusType;
+  using FaceListType = typename FacesCalculator::FaceListType;
+  using FaceListIterator = typename FaceListType::iterator;
 
   // Prepare standard boundary condition.
   ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;

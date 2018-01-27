@@ -153,7 +153,7 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader< TDomainPartitioner
     }
 
   /* Use a pre-allocated jacobian object for efficiency */
-  typedef JacobianType & JacobianReferenceType;
+  using JacobianReferenceType = JacobianType &;
   JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian;
   JacobianReferenceType jacobianPositional = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobianPositional;
 

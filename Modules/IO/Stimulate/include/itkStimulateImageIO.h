@@ -62,10 +62,10 @@ namespace itk
 class ITKIOStimulate_EXPORT StimulateImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef StimulateImageIO     Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = StimulateImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -43,12 +43,12 @@ class ITK_TEMPLATE_EXPORT ExtractOrthogonalSwath2DImageFilter:public
   ImageAndPathToImageFilter< TImage, ParametricPath< 2 >, TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ExtractOrthogonalSwath2DImageFilter Self;
-  typedef ImageAndPathToImageFilter< TImage, ParametricPath< 2 >, TImage >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ExtractOrthogonalSwath2DImageFilter;
+  using Superclass =
+      ImageAndPathToImageFilter< TImage, ParametricPath< 2 >, TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,22 +56,22 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExtractOrthogonalSwath2DImageFilter, ImageAndPathToImageFilter);
 
-  /** Some convenient typedefs. */
-  typedef           TImage                        ImageType;
-  typedef typename  ImageType::Pointer            ImagePointer;
-  typedef typename  ImageType::ConstPointer       ImageConstPointer;
-  typedef typename  ImageType::RegionType         ImageRegionType;
-  typedef typename  ImageType::IndexType          ImageIndexType;
-  typedef typename  ImageType::PixelType          ImagePixelType;
-  typedef           ParametricPath< 2 >           PathType;
-  typedef typename  PathType::ConstPointer        PathConstPointer;
-  typedef typename  PathType::InputType           PathInputType;
-  typedef typename  PathType::OutputType          PathOutputType;
-  typedef typename  PathType::IndexType           PathIndexType;
-  typedef typename  PathType::ContinuousIndexType PathContinuousIndexType;
-  typedef typename  PathType::OffsetType          PathOffsetType;
-  typedef typename  PathType::VectorType          PathVectorType;
-  typedef typename  ImageType::SizeType           SizeType;
+  /** Some convenient type alias. */
+  using ImageType = TImage;
+  using ImagePointer = typename  ImageType::Pointer;
+  using ImageConstPointer = typename  ImageType::ConstPointer;
+  using ImageRegionType = typename  ImageType::RegionType;
+  using ImageIndexType = typename  ImageType::IndexType;
+  using ImagePixelType = typename  ImageType::PixelType;
+  using PathType = ParametricPath< 2 >;
+  using PathConstPointer = typename  PathType::ConstPointer;
+  using PathInputType = typename  PathType::InputType;
+  using PathOutputType = typename  PathType::OutputType;
+  using PathIndexType = typename  PathType::IndexType;
+  using PathContinuousIndexType = typename  PathType::ContinuousIndexType;
+  using PathOffsetType = typename  PathType::OffsetType;
+  using PathVectorType = typename  PathType::VectorType;
+  using SizeType = typename  ImageType::SizeType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(PathDimension, unsigned int,

@@ -35,11 +35,11 @@ int itkKdTreeTest2( int argc, char * argv [] )
     }
 
   const unsigned int Dimension = 2;
-  typedef float MeasurementValueType;
+  using MeasurementValueType = float;
 
-  typedef itk::Vector< MeasurementValueType, Dimension > MeasurementVectorType;
+  using MeasurementVectorType = itk::Vector< MeasurementValueType, Dimension >;
 
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize( Dimension );
 
@@ -61,7 +61,7 @@ int itkKdTreeTest2( int argc, char * argv [] )
 
   pntFile.close();
 
-  typedef itk::Statistics::KdTreeGenerator< SampleType > TreeGeneratorType;
+  using TreeGeneratorType = itk::Statistics::KdTreeGenerator< SampleType >;
   TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
 
   const unsigned int bucketSize = atoi( argv[2] );
@@ -70,14 +70,13 @@ int itkKdTreeTest2( int argc, char * argv [] )
   treeGenerator->SetBucketSize( bucketSize );
   treeGenerator->Update();
 
-  typedef TreeGeneratorType::KdTreeType TreeType;
+  using TreeType = TreeGeneratorType::KdTreeType;
 
   bool testFailed = false;
 
   TreeType::Pointer tree = treeGenerator->GetOutput();
 
-  typedef itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType >
-    DistanceMetricType;
+  using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
 
   DistanceMetricType::OriginType origin( Dimension );

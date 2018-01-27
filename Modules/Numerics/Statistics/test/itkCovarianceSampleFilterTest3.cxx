@@ -26,11 +26,11 @@ template < typename TSample >
 class MyCovarianceSampleFilter : public CovarianceSampleFilter< TSample >
 {
 public:
-  typedef MyCovarianceSampleFilter                Self;
-  typedef CovarianceSampleFilter<TSample>         Superclass;
-  typedef SmartPointer<Self>                      Pointer;
-  typedef SmartPointer<const Self>                ConstPointer;
-  typedef TSample                                 SampleType;
+  using Self = MyCovarianceSampleFilter;
+  using Superclass = CovarianceSampleFilter<TSample>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using SampleType = TSample;
 
   itkNewMacro(Self);
 
@@ -59,13 +59,13 @@ int itkCovarianceSampleFilterTest3(int, char* [] )
 {
   std::cout << "CovarianceSampleFilter test \n \n";
 
-  typedef double                      MeasurementType;
+  using MeasurementType = double;
   const unsigned int                  MeasurementVectorSize = 3;
 
-  typedef itk::Statistics::Histogram< MeasurementType,
-          itk::Statistics::DenseFrequencyContainer2 > HistogramType;
+  using HistogramType = itk::Statistics::Histogram< MeasurementType,
+          itk::Statistics::DenseFrequencyContainer2 >;
 
-  typedef HistogramType    SampleType;
+  using SampleType = HistogramType;
 
   HistogramType::Pointer histogram = HistogramType::New();
 
@@ -81,14 +81,13 @@ int itkCovarianceSampleFilterTest3(int, char* [] )
   histogram->Initialize( size, lowerBound, upperBound );
   histogram->SetToZero();
 
-  typedef itk::Statistics::MahalanobisDistanceMetric<
-    HistogramType::MeasurementVectorType >                    MembershipFunctionType;
+  using MembershipFunctionType = itk::Statistics::MahalanobisDistanceMetric<HistogramType::MeasurementVectorType>;
 
   MembershipFunctionType::Pointer memberFunction = MembershipFunctionType::New();
 
 
-  typedef MembershipFunctionType::MeanVectorType            MeanVectorType;
-  typedef MembershipFunctionType::CovarianceMatrixType      CovarianceMatrixType;
+  using MeanVectorType = MembershipFunctionType::MeanVectorType;
+  using CovarianceMatrixType = MembershipFunctionType::CovarianceMatrixType;
 
   MeanVectorType mean( MeasurementVectorSize );
   CovarianceMatrixType covariance( MeasurementVectorSize, MeasurementVectorSize );
@@ -120,7 +119,7 @@ int itkCovarianceSampleFilterTest3(int, char* [] )
   HistogramType::Iterator itr = histogram->Begin();
   HistogramType::Iterator end = histogram->End();
 
-  typedef HistogramType::AbsoluteFrequencyType  AbsoluteFrequencyType;
+  using AbsoluteFrequencyType = HistogramType::AbsoluteFrequencyType;
 
   while( itr != end )
     {
@@ -136,7 +135,7 @@ int itkCovarianceSampleFilterTest3(int, char* [] )
     }
 
 
-  typedef itk::Statistics::MyCovarianceSampleFilter< SampleType > FilterType;
+  using FilterType = itk::Statistics::MyCovarianceSampleFilter< SampleType >;
 
   FilterType::Pointer filter = FilterType::New();
 

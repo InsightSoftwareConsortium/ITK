@@ -48,9 +48,9 @@ namespace
 {
   bool Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero()
   {
-    typedef unsigned char PixelType;
+    using PixelType = unsigned char;
 
-    typedef itk::Image<PixelType> ImageType;
+    using ImageType = itk::Image<PixelType>;
 
     // Create an image that has at least one circle.
     const ImageType::Pointer image = ImageType::New();
@@ -61,7 +61,7 @@ namespace
     const double radius = 7.0;
     CreateCircle<ImageType>(image, center, radius);
 
-    typedef itk::HoughTransform2DCirclesImageFilter< PixelType, PixelType > FilterType;
+    using FilterType = itk::HoughTransform2DCirclesImageFilter< PixelType, PixelType >;
 
     const FilterType::Pointer filter = FilterType::New();
 
@@ -80,11 +80,11 @@ namespace
 
   bool Test_GetCircles_should_return_empty_list_when_input_image_is_uniform()
   {
-    typedef unsigned char PixelType;
+    using PixelType = unsigned char;
 
-    typedef itk::Image<PixelType> ImageType;
+    using ImageType = itk::Image<PixelType>;
 
-    typedef itk::HoughTransform2DCirclesImageFilter< PixelType, PixelType > FilterType;
+    using FilterType = itk::HoughTransform2DCirclesImageFilter< PixelType, PixelType >;
 
     const FilterType::Pointer filter = FilterType::New();
 
@@ -120,9 +120,9 @@ namespace
   // slightly affected.
   bool Test_RadiusImage_and_OutputImage_may_have_different_types()
   {
-    typedef unsigned char InputPixelType;
+    using InputPixelType = unsigned char;
 
-    typedef itk::Image<InputPixelType> InputImageType;
+    using InputImageType = itk::Image<InputPixelType>;
 
     // Create an image that has at least one circle.
     const InputImageType::Pointer inputImage = InputImageType::New();
@@ -134,12 +134,12 @@ namespace
     const double radius = 8.5;
     CreateCircle<InputImageType>(inputImage, center, radius);
 
-    typedef unsigned long OutputPixelType;
+    using OutputPixelType = unsigned long;
 
     // By default, the radius image has the same type as the output image (the accumulator image).
     // FilterType2 has 'double' as radius pixel type, allowing a slightly more accurate radius estimation.
-    typedef itk::HoughTransform2DCirclesImageFilter< InputPixelType, OutputPixelType >         FilterType1;
-    typedef itk::HoughTransform2DCirclesImageFilter< InputPixelType, OutputPixelType, double > FilterType2;
+    using FilterType1 = itk::HoughTransform2DCirclesImageFilter< InputPixelType, OutputPixelType >;
+    using FilterType2 = itk::HoughTransform2DCirclesImageFilter< InputPixelType, OutputPixelType, double >;
 
     const FilterType1::Pointer filter1 = FilterType1::New();
     const FilterType2::Pointer filter2 = FilterType2::New();
@@ -168,7 +168,7 @@ namespace
       return false;
     }
 
-    typedef FilterType1::CirclesListType CirclesListType;
+    using CirclesListType = FilterType1::CirclesListType;
 
     const CirclesListType& circles1 = filter1->GetCircles();
     const CirclesListType& circles2 = filter2->GetCircles();
@@ -187,7 +187,7 @@ namespace
       return false;
     }
 
-    typedef FilterType1::CircleType CircleType;
+    using CircleType = FilterType1::CircleType;
 
     const CircleType* const circle1 = circles1.front().GetPointer();
     const CircleType* const circle2 = circles2.front().GetPointer();
@@ -256,12 +256,12 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   bool success = true;
 
   // Declare the pixel types of the images
-  typedef unsigned char                           PixelType;
-  typedef double                                  HoughSpacePixelType;
+  using PixelType = unsigned char;
+  using HoughSpacePixelType = double;
 
   // Declare the types of the images
-  typedef itk::Image< HoughSpacePixelType, Dimension >      HoughImageType;
-  typedef itk::Image< PixelType, Dimension >                ImageType;
+  using HoughImageType = itk::Image< HoughSpacePixelType, Dimension >;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // Create a black image
   ImageType::Pointer image = ImageType::New();
@@ -309,14 +309,14 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   m_HoughSpaceImage->Allocate( true ); // initialize buffer to zero
 
   // Apply gradient filter to the input image
-  typedef itk::CastImageFilter< ImageType, HoughImageType > CastingFilterType;
+  using CastingFilterType = itk::CastImageFilter< ImageType, HoughImageType >;
 
   CastingFilterType::Pointer caster = CastingFilterType::New();
   caster->SetInput( image );
 
   // Define the HoughTransform filter
-  typedef itk::HoughTransform2DCirclesImageFilter< HoughSpacePixelType,
-    HoughSpacePixelType > HoughTransformFilterType;
+  using HoughTransformFilterType = itk::HoughTransform2DCirclesImageFilter< HoughSpacePixelType,
+    HoughSpacePixelType >;
 
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
 
@@ -405,8 +405,8 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   HoughImageType::ConstPointer radiusImage = houghFilter->GetRadiusImage();
 
   // Blur the accumulator in order to find the maximum
-  typedef itk::DiscreteGaussianImageFilter< HoughImageType, HoughImageType >
-    GaussianFilterType;
+  using GaussianFilterType =
+      itk::DiscreteGaussianImageFilter< HoughImageType, HoughImageType >;
 
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
   gaussianFilter->SetInput( accumulator );
@@ -420,7 +420,7 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
 
   HoughImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
-  typedef itk::MinimumMaximumImageCalculator< HoughImageType > MinMaxCalculatorType;
+  using MinMaxCalculatorType = itk::MinimumMaximumImageCalculator< HoughImageType >;
   MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
 
   itk::ImageRegionIterator< ImageType > it_output( m_HoughSpaceImage,

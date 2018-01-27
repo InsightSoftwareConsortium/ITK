@@ -36,52 +36,52 @@ class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetricv4GetValueAnd
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader                                      Self;
-  typedef ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric > Superclass;
-  typedef SmartPointer< Self >                                                                         Pointer;
-  typedef SmartPointer< const Self >                                                                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader;
+  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro( MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
 
   itkNewMacro( Self );
 
-  typedef typename Superclass::DomainType               DomainType;
-  typedef typename Superclass::AssociateType            AssociateType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
 
-  typedef typename Superclass::ImageToImageMetricv4Type ImageToImageMetricv4Type;
-  typedef typename Superclass::VirtualPointType         VirtualPointType;
-  typedef typename Superclass::VirtualIndexType         VirtualIndexType;
-  typedef typename Superclass::FixedImagePointType      FixedImagePointType;
-  typedef typename Superclass::FixedImageIndexType      FixedImageIndexType;
-  typedef typename Superclass::FixedImagePixelType      FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType   FixedImageGradientType;
-  typedef typename Superclass::MovingImagePointType     MovingImagePointType;
-  typedef typename Superclass::MovingImagePixelType     MovingImagePixelType;
-  typedef typename Superclass::MovingImageGradientType  MovingImageGradientType;
-  typedef typename Superclass::MeasureType              MeasureType;
-  typedef typename Superclass::DerivativeType           DerivativeType;
-  typedef typename Superclass::DerivativeValueType      DerivativeValueType;
-  typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
+  using ImageToImageMetricv4Type = typename Superclass::ImageToImageMetricv4Type;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using FixedImagePointType = typename Superclass::FixedImagePointType;
+  using FixedImageIndexType = typename Superclass::FixedImageIndexType;
+  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
+  using FixedImageGradientType = typename Superclass::FixedImageGradientType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
+  using MovingImageGradientType = typename Superclass::MovingImageGradientType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename Superclass::DerivativeValueType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
-  typedef typename ImageToImageMetricv4Type::MovingTransformType  MovingTransformType;
+  using MovingTransformType = typename ImageToImageMetricv4Type::MovingTransformType;
 
-  typedef typename TMattesMutualInformationMetric::PDFValueType                   PDFValueType;
-  typedef typename TMattesMutualInformationMetric::JointPDFType                   JointPDFType;
-  typedef typename TMattesMutualInformationMetric::JointPDFRegionType             JointPDFRegionType;
-  typedef typename TMattesMutualInformationMetric::JointPDFIndexType              JointPDFIndexType;
-  typedef typename TMattesMutualInformationMetric::JointPDFValueType              JointPDFValueType;
-  typedef typename TMattesMutualInformationMetric::JointPDFSizeType               JointPDFSizeType;
-  typedef typename TMattesMutualInformationMetric::JointPDFDerivativesType        JointPDFDerivativesType;
-  typedef typename TMattesMutualInformationMetric::JointPDFDerivativesIndexType   JointPDFDerivativesIndexType;
-  typedef typename TMattesMutualInformationMetric::JointPDFDerivativesValueType   JointPDFDerivativesValueType;
-  typedef typename TMattesMutualInformationMetric::JointPDFDerivativesRegionType  JointPDFDerivativesRegionType;
-  typedef typename TMattesMutualInformationMetric::JointPDFDerivativesSizeType    JointPDFDerivativesSizeType;
+  using PDFValueType = typename TMattesMutualInformationMetric::PDFValueType;
+  using JointPDFType = typename TMattesMutualInformationMetric::JointPDFType;
+  using JointPDFRegionType = typename TMattesMutualInformationMetric::JointPDFRegionType;
+  using JointPDFIndexType = typename TMattesMutualInformationMetric::JointPDFIndexType;
+  using JointPDFValueType = typename TMattesMutualInformationMetric::JointPDFValueType;
+  using JointPDFSizeType = typename TMattesMutualInformationMetric::JointPDFSizeType;
+  using JointPDFDerivativesType = typename TMattesMutualInformationMetric::JointPDFDerivativesType;
+  using JointPDFDerivativesIndexType = typename TMattesMutualInformationMetric::JointPDFDerivativesIndexType;
+  using JointPDFDerivativesValueType = typename TMattesMutualInformationMetric::JointPDFDerivativesValueType;
+  using JointPDFDerivativesRegionType = typename TMattesMutualInformationMetric::JointPDFDerivativesRegionType;
+  using JointPDFDerivativesSizeType = typename TMattesMutualInformationMetric::JointPDFDerivativesSizeType;
 
-  typedef typename TMattesMutualInformationMetric::CubicBSplineFunctionType            CubicBSplineFunctionType;
-  typedef typename TMattesMutualInformationMetric::CubicBSplineDerivativeFunctionType  CubicBSplineDerivativeFunctionType;
+  using CubicBSplineFunctionType = typename TMattesMutualInformationMetric::CubicBSplineFunctionType;
+  using CubicBSplineDerivativeFunctionType = typename TMattesMutualInformationMetric::CubicBSplineDerivativeFunctionType;
 
-  typedef typename TMattesMutualInformationMetric::JacobianType             JacobianType;
+  using JacobianType = typename TMattesMutualInformationMetric::JacobianType;
 
 protected:
   MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader() :

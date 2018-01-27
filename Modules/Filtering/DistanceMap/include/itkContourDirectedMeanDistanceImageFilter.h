@@ -64,11 +64,11 @@ class ITK_TEMPLATE_EXPORT ContourDirectedMeanDistanceImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:
-  /** Standard Self typedef */
-  typedef ContourDirectedMeanDistanceImageFilter           Self;
-  typedef ImageToImageFilter< TInputImage1, TInputImage1 > Superclass;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
+  /** Standard Self type alias */
+  using Self = ContourDirectedMeanDistanceImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage1, TInputImage1 >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,27 +76,27 @@ public:
   /** Runtime information support. */
   itkTypeMacro(ContourDirectedMeanDistanceImageFilter, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef TInputImage1                        InputImage1Type;
-  typedef TInputImage2                        InputImage2Type;
-  typedef typename TInputImage1::Pointer      InputImage1Pointer;
-  typedef typename TInputImage2::Pointer      InputImage2Pointer;
-  typedef typename TInputImage1::ConstPointer InputImage1ConstPointer;
-  typedef typename TInputImage2::ConstPointer InputImage2ConstPointer;
+  /** Image related type alias. */
+  using InputImage1Type = TInputImage1;
+  using InputImage2Type = TInputImage2;
+  using InputImage1Pointer = typename TInputImage1::Pointer;
+  using InputImage2Pointer = typename TInputImage2::Pointer;
+  using InputImage1ConstPointer = typename TInputImage1::ConstPointer;
+  using InputImage2ConstPointer = typename TInputImage2::ConstPointer;
 
-  typedef typename TInputImage1::RegionType RegionType;
-  typedef typename TInputImage1::SizeType   SizeType;
-  typedef typename TInputImage1::IndexType  IndexType;
+  using RegionType = typename TInputImage1::RegionType;
+  using SizeType = typename TInputImage1::SizeType;
+  using IndexType = typename TInputImage1::IndexType;
 
-  typedef typename TInputImage1::PixelType InputImage1PixelType;
-  typedef typename TInputImage2::PixelType InputImage2PixelType;
+  using InputImage1PixelType = typename TInputImage1::PixelType;
+  using InputImage2PixelType = typename TInputImage2::PixelType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage1::ImageDimension);
 
   /** Type to use form computations. */
-  typedef typename NumericTraits< InputImage1PixelType >::RealType RealType;
+  using RealType = typename NumericTraits< InputImage1PixelType >::RealType;
 
   /** Set the first input. */
   void SetInput1(const InputImage1Type *image);
@@ -154,7 +154,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ContourDirectedMeanDistanceImageFilter);
 
-  typedef Image< RealType, itkGetStaticConstMacro(ImageDimension) > DistanceMapType;
+  using DistanceMapType = Image< RealType, itkGetStaticConstMacro(ImageDimension) >;
 
   typename DistanceMapType::Pointer m_DistanceMap;
 

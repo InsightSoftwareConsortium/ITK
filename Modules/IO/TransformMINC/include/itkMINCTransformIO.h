@@ -43,21 +43,21 @@ template<typename TParametersValueType>
 class ITKIOTransformMINC_EXPORT MINCTransformIOTemplate: public TransformIOBaseTemplate<TParametersValueType>
 {
 public:
-  typedef MINCTransformIOTemplate                         Self;
-  typedef TransformIOBaseTemplate< TParametersValueType > Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  using Self = MINCTransformIOTemplate;
+  using Superclass = TransformIOBaseTemplate< TParametersValueType >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef typename Superclass::TransformType          TransformType;
-  typedef typename Superclass::TransformPointer       TransformPointer;
-  typedef typename Superclass::TransformListType      TransformListType;
-  typedef typename Superclass::ConstTransformListType ConstTransformListType;
-  typedef typename TransformType::ParametersType      ParametersType;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformListType = typename Superclass::TransformListType;
+  using ConstTransformListType = typename Superclass::ConstTransformListType;
+  using ParametersType = typename TransformType::ParametersType;
 
-  typedef MatrixOffsetTransformBase<TParametersValueType, 3, 3> MatrixOffsetTransformBaseType;
+  using MatrixOffsetTransformBaseType = MatrixOffsetTransformBase<TParametersValueType, 3, 3>;
 
-  typedef typename MatrixOffsetTransformBaseType::MatrixType    MatrixType;
-  typedef typename MatrixOffsetTransformBaseType::OffsetType    OffsetType;
+  using MatrixType = typename MatrixOffsetTransformBaseType::MatrixType;
+  using OffsetType = typename MatrixOffsetTransformBaseType::OffsetType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( MINCTransformIOTemplate, TransformIOBaseTemplate );
@@ -94,7 +94,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef MINCTransformIOTemplate<double> MINCTransformIO;
+using MINCTransformIO = MINCTransformIOTemplate<double>;
 
 } // end namespace itk
 

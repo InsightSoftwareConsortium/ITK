@@ -32,13 +32,13 @@ template< unsigned int VDimension >
 class ITK_TEMPLATE_EXPORT BresenhamLine
 {
 public:
-  typedef BresenhamLine Self;
+  using Self = BresenhamLine;
   // This defines the line direction
-  typedef Vector< float, VDimension > LType;
-  typedef Offset< VDimension >        OffsetType;
-  typedef Index< VDimension >         IndexType;
-  typedef std::vector< OffsetType >   OffsetArray;
-  typedef std::vector< IndexType >    IndexArray;
+  using LType = Vector< float, VDimension >;
+  using OffsetType = Offset< VDimension >;
+  using IndexType = Index< VDimension >;
+  using OffsetArray = std::vector< OffsetType >;
+  using IndexArray = std::vector< IndexType >;
 
   // constructurs
   BresenhamLine(){}

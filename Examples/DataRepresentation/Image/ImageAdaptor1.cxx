@@ -59,8 +59,8 @@
 class CastPixelAccessor
 {
 public:
-  typedef unsigned char InternalType;
-  typedef float         ExternalType;
+  using InternalType = unsigned char;
+  using ExternalType = float;
 
   static void Set(InternalType & output, const ExternalType & input)
     {
@@ -102,11 +102,11 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef unsigned char  InputPixelType;
+  using InputPixelType = unsigned char;
   const   unsigned int   Dimension = 2;
-  typedef itk::Image< InputPixelType, Dimension >   ImageType;
+  using ImageType = itk::Image< InputPixelType, Dimension >;
 
-  typedef itk::ImageAdaptor< ImageType, CastPixelAccessor > ImageAdaptorType;
+  using ImageAdaptorType = itk::ImageAdaptor< ImageType, CastPixelAccessor >;
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 // Software Guide : EndCodeSnippet
 
@@ -119,7 +119,7 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
 // Software Guide : EndCodeSnippet
 
@@ -151,7 +151,7 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType >  IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageAdaptorType >;
   IteratorType  it( adaptor, adaptor->GetBufferedRegion() );
 
   double sum = 0.0;

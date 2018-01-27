@@ -168,13 +168,13 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
 
   const unsigned int Dimensions = 2;
 
-  typedef double ParametersValueType;
+  using ParametersValueType = double;
 
-  typedef itk::DisplacementFieldTransform< ParametersValueType, Dimensions >
-                                                            DisplacementTransformType;
-  typedef DisplacementTransformType::ScalarType             ScalarType;
-  typedef DisplacementTransformType::DisplacementFieldType  FieldType;
-  typedef DisplacementTransformType::DisplacementFieldType  DisplacementFieldType;
+  using DisplacementTransformType =
+      itk::DisplacementFieldTransform< ParametersValueType, Dimensions >;
+  using ScalarType = DisplacementTransformType::ScalarType;
+  using FieldType = DisplacementTransformType::DisplacementFieldType;
+  using DisplacementFieldType = DisplacementTransformType::DisplacementFieldType;
 
 
   // Save the format stream variables for std::cout
@@ -201,9 +201,9 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
   TEST_SET_GET_VALUE( inverseDisplacementField,
     displacementTransform->GetInverseDisplacementField() );
 
-  typedef itk::VectorLinearInterpolateImageFunction<
+  using InterpolatorType = itk::VectorLinearInterpolateImageFunction<
     DisplacementTransformType::DisplacementFieldType,
-    DisplacementTransformType::ScalarType> InterpolatorType;
+    DisplacementTransformType::ScalarType>;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   displacementTransform->SetInterpolator( interpolator );
@@ -295,10 +295,10 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
 
 
   // Initialize Affine transform and use it to create the displacement field
-  typedef itk::CenteredAffineTransform< ParametersValueType, Dimensions >
-    AffineTransformType;
+  using AffineTransformType =
+      itk::CenteredAffineTransform< ParametersValueType, Dimensions >;
 
-  typedef AffineTransformType::MatrixType AffineMatrixType;
+  using AffineMatrixType = AffineTransformType::MatrixType;
   AffineMatrixType affineMatrix;
   affineMatrix( 0, 0 ) = 1.0;
   affineMatrix( 1, 0 ) = 0.01;

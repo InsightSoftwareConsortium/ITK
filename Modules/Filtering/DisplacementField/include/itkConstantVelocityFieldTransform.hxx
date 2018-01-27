@@ -47,7 +47,7 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
   this->m_NumberOfIntegrationSteps = 10;
 
   // Setup and assign default interpolator
-  typedef VectorLinearInterpolateImageFunction<ConstantVelocityFieldType, ScalarType> DefaultInterpolatorType;
+  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<ConstantVelocityFieldType, ScalarType>;
   typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();
   this->m_ConstantVelocityFieldInterpolator = interpolator;
 
@@ -263,8 +263,8 @@ void
 ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 ::IntegrateVelocityField()
 {
-  typedef ExponentialDisplacementFieldImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType>
-    ExponentiatorType;
+  using ExponentiatorType =
+      ExponentialDisplacementFieldImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType>;
 
   ConstantVelocityFieldPointer constantVelocityField = this->GetModifiableConstantVelocityField();
 

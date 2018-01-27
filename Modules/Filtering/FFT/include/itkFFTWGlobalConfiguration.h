@@ -167,12 +167,12 @@ class ITKFFT_EXPORT FFTWGlobalConfiguration
   : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef FFTWGlobalConfiguration    Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef SimpleFastMutexLock        MutexType;
+  /** Standard class type aliases. */
+  using Self = FFTWGlobalConfiguration;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using MutexType = SimpleFastMutexLock;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FFTWGlobalConfiguration, Object);

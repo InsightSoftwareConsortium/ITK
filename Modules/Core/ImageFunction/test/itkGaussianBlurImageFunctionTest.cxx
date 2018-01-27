@@ -22,9 +22,9 @@
 int itkGaussianBlurImageFunctionTest(int, char* [] )
 {
   const unsigned int Dimension = 2;
-  typedef float                                       PixelType;
-  typedef itk::Image< PixelType, Dimension >          ImageType;
-  typedef itk::GaussianBlurImageFunction< ImageType > GFunctionType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using GFunctionType = itk::GaussianBlurImageFunction< ImageType >;
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();

@@ -46,12 +46,12 @@ namespace fem
 class ITKFEM_EXPORT FEMLightObject : public itk::LightObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef FEMLightObject           Self;
-  typedef itk::LightObject         Superclass;
-  typedef Self                     Baseclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FEMLightObject;
+  using Superclass = itk::LightObject;
+  using Baseclass = Self;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FEMLightObject, itk::LightObject);

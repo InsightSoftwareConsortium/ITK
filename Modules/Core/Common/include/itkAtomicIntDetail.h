@@ -72,8 +72,8 @@ template <size_t VSize> struct BaseType;
 template <size_t VSize> class AtomicOps
 {
 public:
-  typedef typename BaseType<VSize>::Type AtomicType;
-  typedef typename BaseType<VSize>::Type ValueType;
+  using AtomicType = typename BaseType<VSize>::Type;
+  using ValueType = typename BaseType<VSize>::Type;
 };
 
 #elif defined ITK_HAVE_SYNC_BUILTINS
@@ -83,8 +83,8 @@ template <size_t VSize> struct BaseType;
 template <size_t VSize> class AtomicOps
 {
 public:
-  typedef typename BaseType<VSize>::Type AtomicType;
-  typedef typename BaseType<VSize>::Type ValueType;
+  using AtomicType = typename BaseType<VSize>::Type;
+  using ValueType = typename BaseType<VSize>::Type;
 
   static ValueType AddAndFetch(ValueType *ref, ValueType val)
   {
@@ -142,7 +142,7 @@ template <> class AtomicOps<8>
 {
 public:
   itkAlignedTypedef( 8, int64_t, AtomicType );
-  typedef int64_t ValueType;
+  using ValueType = int64_t;
 
   static int64_t AddAndFetch(int64_t *ref, int64_t val)
   {
@@ -207,7 +207,7 @@ public:
     ~AtomicType();
   };
 #endif
-  typedef int64_t ValueType;
+  using ValueType = int64_t;
 
   static int64_t AddAndFetch(AtomicType *ref, int64_t val);
   static int64_t SubAndFetch(AtomicType *ref, int64_t val);
@@ -232,7 +232,7 @@ template <> class AtomicOps<4>
 {
 public:
   itkAlignedTypedef( 4, int32_t, AtomicType );
-  typedef int32_t ValueType;
+  using ValueType = int32_t;
 
   static int32_t AddAndFetch(int32_t *ref, int32_t val)
   {
@@ -296,7 +296,7 @@ public:
     ~AtomicType();
   };
 #endif
-  typedef int32_t ValueType;
+  using ValueType = int32_t;
 
   static int32_t AddAndFetch(AtomicType *ref, int32_t val);
   static int32_t SubAndFetch(AtomicType *ref, int32_t val);
@@ -313,12 +313,12 @@ public:
 template <typename T>
 struct IsAtomicSupportedIntegralType
 {
-  typedef IsAtomicSupportedIntegralType Self;
+  using Self = IsAtomicSupportedIntegralType;
   struct Constraints {
-    typedef Concept::Detail::UniqueType_bool< true >                  TrueT;
-    typedef Concept::Detail::UniqueType_bool< NumericTraits<T>::is_specialized > SpecializedT;
-    typedef Concept::Detail::UniqueType_bool< NumericTraits<T>::is_integer >     IntegralT;
-    typedef Concept::Detail::UniqueType_bool <sizeof(T) == 4 || sizeof(T) == 8 >  SizeT;
+    using TrueT = Concept::Detail::UniqueType_bool< true >;
+    using SpecializedT = Concept::Detail::UniqueType_bool< NumericTraits<T>::is_specialized >;
+    using IntegralT = Concept::Detail::UniqueType_bool< NumericTraits<T>::is_integer >;
+    using SizeT = Concept::Detail::UniqueType_bool <sizeof(T) == 4 || sizeof(T) == 8 >;
     void constraints()
     {
       IntegralT a = TrueT();

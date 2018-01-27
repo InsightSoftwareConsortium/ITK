@@ -46,18 +46,18 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
     }
 
   const unsigned int Dimension = 2;
-  typedef unsigned char   PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::LabelObject< PixelType, Dimension > LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >         LabelMapType;
+  using LabelObjectType = itk::LabelObject< PixelType, Dimension >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType > ImageToLabelMapFilterType;
+  using ImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType >;
   ImageToLabelMapFilterType::Pointer imageToLabelMapFilter =
     ImageToLabelMapFilterType::New();
   imageToLabelMapFilter->SetInput( reader->GetOutput() );
@@ -66,7 +66,7 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
 
   imageToLabelMapFilter->SetBackgroundValue( backgroundValue );
 
-  typedef itk::AutoCropLabelMapFilter< LabelMapType > AutoCropLabelMapFilterType;
+  using AutoCropLabelMapFilterType = itk::AutoCropLabelMapFilter< LabelMapType >;
   AutoCropLabelMapFilterType::Pointer autoCropFilter = AutoCropLabelMapFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( autoCropFilter, AutoCropLabelMapFilter,
@@ -82,13 +82,13 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
 
   itk::SimpleFilterWatcher watcher(autoCropFilter, "AutoCropLabelMapFilter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>
-    LabelMapToLabelImageFilterType;
+  using LabelMapToLabelImageFilterType =
+      itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter =
     LabelMapToLabelImageFilterType::New();
   labelMapToLabelImageFilter->SetInput( autoCropFilter->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( labelMapToLabelImageFilter->GetOutput() );
   writer->SetFileName( argv[2] );

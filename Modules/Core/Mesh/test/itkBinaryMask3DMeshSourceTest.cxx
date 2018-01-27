@@ -24,14 +24,14 @@
 const unsigned int Dimension = 3;
 
 // Declare the types of the output images
-typedef itk::Image<unsigned short,   Dimension>   ImageType;
+using ImageType = itk::Image<unsigned short,   Dimension>;
 
 // Declare the type of the index,size and region to initialize images
-typedef ImageType::IndexType                     IndexType;
-typedef ImageType::SizeType                      SizeType;
-typedef ImageType::RegionType                    RegionType;
-typedef ImageType::PixelType                     PixelType;
-typedef ImageType::Pointer                       ImagePointerType;
+using IndexType = ImageType::IndexType;
+using SizeType = ImageType::SizeType;
+using RegionType = ImageType::RegionType;
+using PixelType = ImageType::PixelType;
+using ImagePointerType = ImageType::Pointer;
 
 void CreateCubeConfig(
                   ImagePointerType image,
@@ -60,8 +60,8 @@ void Create16CubeConfig(
 int itkBinaryMask3DMeshSourceTest(int argc, char *argv[] )
 {
   // Declare the type of the Mesh
-  typedef itk::Mesh<double>                                  MeshType;
-  typedef itk::BinaryMask3DMeshSource< ImageType, MeshType > MeshSourceType;
+  using MeshType = itk::Mesh<double>;
+  using MeshSourceType = itk::BinaryMask3DMeshSource< ImageType, MeshType >;
 
   const PixelType backgroundValue = 0;
   const PixelType internalValue   = 1;

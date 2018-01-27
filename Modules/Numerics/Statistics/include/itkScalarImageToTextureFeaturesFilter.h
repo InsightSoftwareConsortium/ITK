@@ -106,11 +106,11 @@ template< typename TImageType,
 class ITK_TEMPLATE_EXPORT ScalarImageToTextureFeaturesFilter:public ProcessObject
 {
 public:
-  /** Standard typedefs */
-  typedef ScalarImageToTextureFeaturesFilter Self;
-  typedef ProcessObject                      Superclass;
-  typedef SmartPointer< Self >               Pointer;
-  typedef SmartPointer< const Self >         ConstPointer;
+  /** Standard type alias */
+  using Self = ScalarImageToTextureFeaturesFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarImageToTextureFeaturesFilter, ProcessObject);
@@ -118,36 +118,35 @@ public:
   /** standard New() method support */
   itkNewMacro(Self);
 
-  typedef THistogramFrequencyContainer FrequencyContainerType;
-  typedef TImageType                   ImageType;
-  typedef typename ImageType::Pointer  ImagePointer;
+  using FrequencyContainerType = THistogramFrequencyContainer;
+  using ImageType = TImageType;
+  using ImagePointer = typename ImageType::Pointer;
 
-  typedef typename ImageType::PixelType                PixelType;
-  typedef typename ImageType::OffsetType               OffsetType;
-  typedef VectorContainer< unsigned char, OffsetType > OffsetVector;
-  typedef typename OffsetVector::Pointer               OffsetVectorPointer;
-  typedef typename OffsetVector::ConstPointer          OffsetVectorConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using OffsetType = typename ImageType::OffsetType;
+  using OffsetVector = VectorContainer< unsigned char, OffsetType >;
+  using OffsetVectorPointer = typename OffsetVector::Pointer;
+  using OffsetVectorConstPointer = typename OffsetVector::ConstPointer;
 
-  typedef ScalarImageToCooccurrenceMatrixFilter<
-    ImageType, FrequencyContainerType >               CooccurrenceMatrixFilterType;
+  using CooccurrenceMatrixFilterType = ScalarImageToCooccurrenceMatrixFilter<
+    ImageType, FrequencyContainerType >;
 
-  typedef typename CooccurrenceMatrixFilterType::HistogramType HistogramType;
-  typedef HistogramToTextureFeaturesFilter< HistogramType >    TextureFeaturesFilterType;
+  using HistogramType = typename CooccurrenceMatrixFilterType::HistogramType;
+  using TextureFeaturesFilterType = HistogramToTextureFeaturesFilter< HistogramType >;
 
-  typedef short                                                  TextureFeatureName;
-  typedef VectorContainer< unsigned char, TextureFeatureName >   FeatureNameVector;
+  using TextureFeatureName = short;
+  using FeatureNameVector = VectorContainer< unsigned char, TextureFeatureName >;
 
-  typedef typename FeatureNameVector::Pointer      FeatureNameVectorPointer;
-  typedef typename FeatureNameVector::ConstPointer FeatureNameVectorConstPointer;
-  typedef VectorContainer< unsigned char, double > FeatureValueVector;
-  typedef typename FeatureValueVector::Pointer     FeatureValueVectorPointer;
+  using FeatureNameVectorPointer = typename FeatureNameVector::Pointer;
+  using FeatureNameVectorConstPointer = typename FeatureNameVector::ConstPointer;
+  using FeatureValueVector = VectorContainer< unsigned char, double >;
+  using FeatureValueVectorPointer = typename FeatureValueVector::Pointer;
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef DataObjectDecorator< FeatureValueVector >
-  FeatureValueVectorDataObjectType;
+  using FeatureValueVectorDataObjectType = DataObjectDecorator<FeatureValueVector>;
 
   const FeatureValueVectorDataObjectType * GetFeatureMeansOutput() const;
 
@@ -208,7 +207,7 @@ protected:
   void GenerateData() override;
 
   /** Make a DataObject to be used for output output. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) override;
 

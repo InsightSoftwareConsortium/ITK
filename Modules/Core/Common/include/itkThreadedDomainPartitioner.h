@@ -47,17 +47,17 @@ template <typename TDomain >
 class ITK_TEMPLATE_EXPORT ThreadedDomainPartitioner : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ThreadedDomainPartitioner Self;
-  typedef Object                    Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ThreadedDomainPartitioner;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThreadedDomainPartitioner, Object);
 
   /** Type of the input object that's split for threading */
-  typedef TDomain                   DomainType;
+  using DomainType = TDomain;
 
   /** Split the domain \c completeDomain into up to \c requestedTotal
    * non-overlapping subdomains, setting subdomain number \c threadId as

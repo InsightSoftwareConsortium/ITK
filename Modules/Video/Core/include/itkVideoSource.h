@@ -46,22 +46,22 @@ public:
 
   /*-TYPEDEFS----------------------------------------------------------------*/
 
-  /** Standard class typedefs */
-  typedef VideoSource                Self;
-  typedef TemporalProcessObject      Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef WeakPointer< const Self >  ConstWeakPointer;
-  typedef TOutputVideoStream         OutputVideoStreamType;
+  /** Standard class type aliases */
+  using Self = VideoSource;
+  using Superclass = TemporalProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
+  using OutputVideoStreamType = TOutputVideoStream;
 
-  typedef typename OutputVideoStreamType::FrameType         OutputFrameType;
-  typedef typename OutputVideoStreamType::SpatialRegionType OutputFrameSpatialRegionType;
-  typedef typename OutputVideoStreamType::IndexType         OutputFrameIndexType;
-  typedef typename OutputVideoStreamType::PixelType         OutputFramePixelType;
-  typedef typename OutputVideoStreamType::PointType         OutputFramePointType;
-  typedef typename OutputVideoStreamType::SpacingType       OutputFrameSpacingType;
-  typedef typename OutputVideoStreamType::SizeType          OutputFrameSizeType;
-  typedef typename OutputVideoStreamType::DirectionType     OutputFrameDirectionType;
+  using OutputFrameType = typename OutputVideoStreamType::FrameType;
+  using OutputFrameSpatialRegionType = typename OutputVideoStreamType::SpatialRegionType;
+  using OutputFrameIndexType = typename OutputVideoStreamType::IndexType;
+  using OutputFramePixelType = typename OutputVideoStreamType::PixelType;
+  using OutputFramePointType = typename OutputVideoStreamType::PointType;
+  using OutputFrameSpacingType = typename OutputVideoStreamType::SpacingType;
+  using OutputFrameSizeType = typename OutputVideoStreamType::SizeType;
+  using OutputFrameDirectionType = typename OutputVideoStreamType::DirectionType;
 
   itkNewMacro(Self);
 
@@ -97,7 +97,7 @@ public:
   /** Make a DataObject of the correct type for the specified output port. The
    * default always creates an OutputVideoStreamType object, so subclasses with
    * multiple types of output must override this to return the proper type. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

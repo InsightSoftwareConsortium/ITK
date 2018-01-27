@@ -40,11 +40,11 @@ class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTrans
 : public TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform           Self;
-  typedef TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                                   Pointer;
-  typedef SmartPointer<const Self>                                             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform;
+  using Superclass = TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform,
@@ -57,16 +57,16 @@ public:
   itkStaticConstMacro( TimeVaryingVelocityFieldDimension, unsigned int, NDimensions+1 );
 
   /** Types from superclass */
-  typedef typename Superclass::ScalarType                         ScalarType;
-  typedef typename Superclass::DerivativeType                     DerivativeType;
-  typedef typename DerivativeType::ValueType                      DerivativeValueType;
-  typedef typename Superclass::VelocityFieldType                  VelocityFieldType;
+  using ScalarType = typename Superclass::ScalarType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
+  using VelocityFieldType = typename Superclass::VelocityFieldType;
 
-  typedef typename Superclass::TimeVaryingVelocityFieldType       TimeVaryingVelocityFieldType;
-  typedef typename Superclass::TimeVaryingVelocityFieldPointer    TimeVaryingVelocityFieldPointer;
+  using TimeVaryingVelocityFieldType = typename Superclass::TimeVaryingVelocityFieldType;
+  using TimeVaryingVelocityFieldPointer = typename Superclass::TimeVaryingVelocityFieldPointer;
 
-  typedef typename VelocityFieldType::PixelType                   DisplacementVectorType;
-  typedef typename DisplacementVectorType::ValueType              DisplacementVectorValueType;
+  using DisplacementVectorType = typename VelocityFieldType::PixelType;
+  using DisplacementVectorValueType = typename DisplacementVectorType::ValueType;
 
 
   /**

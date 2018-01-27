@@ -31,13 +31,13 @@ int itkLabelMapTest(int argc, char * argv[])
 
   const unsigned int dim = 3;
 
-  typedef itk::LabelObject< unsigned long, dim > LabelObjectType;
-  typedef LabelObjectType::IndexType             IndexType;
-  typedef itk::LabelMap< LabelObjectType >       LabelMapType;
-  typedef LabelMapType::RegionType               RegionType;
-  typedef LabelMapType::SizeType                 SizeType;
-  typedef LabelMapType::LabelObjectVectorType    LabelObjectVectorType;
-  typedef LabelMapType::LabelVectorType          LabelVectorType;
+  using LabelObjectType = itk::LabelObject< unsigned long, dim >;
+  using IndexType = LabelObjectType::IndexType;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using RegionType = LabelMapType::RegionType;
+  using SizeType = LabelMapType::SizeType;
+  using LabelObjectVectorType = LabelMapType::LabelObjectVectorType;
+  using LabelVectorType = LabelMapType::LabelVectorType;
 
   LabelMapType::Pointer map = LabelMapType::New();
 

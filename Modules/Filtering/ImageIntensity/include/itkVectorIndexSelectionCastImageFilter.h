@@ -89,15 +89,14 @@ class VectorIndexSelectionCastImageFilter:
                                                               typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorIndexSelectionCastImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = VectorIndexSelectionCastImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::VectorIndexSelectionCast< typename TInputImage::PixelType,
-                                       typename TOutputImage::PixelType > >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                                       typename TOutputImage::PixelType > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -140,13 +139,11 @@ protected:
     const unsigned int numberOfRunTimeComponents =
       image->GetNumberOfComponentsPerPixel();
 
-    typedef typename TInputImage::PixelType PixelType;
+    using PixelType = typename TInputImage::PixelType;
 
-    typedef typename NumericTraits< PixelType >::RealType
-    PixelRealType;
+    using PixelRealType = typename NumericTraits<PixelType>::RealType;
 
-    typedef typename NumericTraits< PixelType >::ScalarRealType
-    PixelScalarRealType;
+    using PixelScalarRealType = typename NumericTraits<PixelType>::ScalarRealType;
 
     const unsigned int numberOfCompileTimeComponents =
       sizeof( PixelRealType ) / sizeof( PixelScalarRealType );

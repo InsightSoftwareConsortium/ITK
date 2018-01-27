@@ -157,8 +157,8 @@ AccumulateImageFilter< TInputImage, TOutputImage >
       << "AccumulateImageFilter: invalid dimension to accumulate. AccumulateDimension = " << m_AccumulateDimension);
     }
 
-  typedef typename TOutputImage::PixelType                          OutputPixelType;
-  typedef typename NumericTraits< OutputPixelType >::AccumulateType AccumulateType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using AccumulateType = typename NumericTraits< OutputPixelType >::AccumulateType;
 
   typename Superclass::InputImageConstPointer inputImage = this->GetInput();
   typename TOutputImage::Pointer outputImage = this->GetOutput();
@@ -167,9 +167,9 @@ AccumulateImageFilter< TInputImage, TOutputImage >
 
 // Accumulate over the Nth dimension ( = m_AccumulateDimension)
 // and divide by the size of the accumulated dimension.
-  typedef ImageRegionIterator< TOutputImage > outputIterType;
+  using outputIterType = ImageRegionIterator< TOutputImage >;
   outputIterType outputIter( outputImage, outputImage->GetBufferedRegion() );
-  typedef ImageRegionConstIterator< TInputImage > inputIterType;
+  using inputIterType = ImageRegionConstIterator< TInputImage >;
 
   typename TInputImage::RegionType AccumulatedRegion;
   typename TInputImage::SizeType AccumulatedSize = inputImage->GetLargestPossibleRegion().GetSize();

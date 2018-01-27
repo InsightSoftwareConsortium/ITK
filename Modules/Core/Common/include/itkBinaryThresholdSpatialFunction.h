@@ -45,14 +45,14 @@ class ITK_TEMPLATE_EXPORT BinaryThresholdSpatialFunction:
                           typename TFunction::InputType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryThresholdSpatialFunction Self;
-  typedef SpatialFunction< bool,
+  /** Standard class type aliases. */
+  using Self = BinaryThresholdSpatialFunction;
+  using Superclass = SpatialFunction< bool,
                            TFunction::ImageDimension,
-                           typename TFunction::InputType > Superclass;
+                           typename TFunction::InputType >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryThresholdSpatialFunction, SpatialFunction);
@@ -60,17 +60,17 @@ public:
   /** New macro for creation of through the object factory. */
   itkNewMacro(Self);
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support. */
+  using OutputType = typename Superclass::OutputType;
 
-  /** InputType typedef support. */
-  typedef typename TFunction::InputType InputType;
+  /** InputType type alias support. */
+  using InputType = typename TFunction::InputType;
 
   /** Underlying function type. */
-  typedef TFunction FunctionType;
+  using FunctionType = TFunction;
 
   /** Underlying function output type. */
-  typedef typename TFunction::OutputType FunctionOutputType;
+  using FunctionOutputType = typename TFunction::OutputType;
 
   /** Set/Get the lower threshold. */
   itkSetMacro(LowerThreshold, FunctionOutputType);

@@ -26,11 +26,11 @@ int itkCovarianceSampleFilterTest(int, char* [] )
 
   // Now generate an image
   enum { MeasurementVectorSize = 3 };
-  typedef float MeasurementType;
+  using MeasurementType = float;
 
-  typedef itk::FixedArray< MeasurementType, MeasurementVectorSize > MeasurementVectorType;
-  typedef itk::Image< MeasurementVectorType, 3 >                    ImageType;
-  typedef itk::Image< unsigned char, 3 >                            MaskImageType;
+  using MeasurementVectorType = itk::FixedArray< MeasurementType, MeasurementVectorSize >;
+  using ImageType = itk::Image< MeasurementVectorType, 3 >;
+  using MaskImageType = itk::Image< unsigned char, 3 >;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::RegionType region;
@@ -45,7 +45,7 @@ int itkCovarianceSampleFilterTest(int, char* [] )
   image->SetBufferedRegion(region);
   image->Allocate();
 
-  typedef itk::ImageRegionIterator< ImageType > ImageIterator;
+  using ImageIterator = itk::ImageRegionIterator< ImageType >;
   ImageIterator iter(image, region);
 
   unsigned int count = 0;
@@ -62,7 +62,7 @@ int itkCovarianceSampleFilterTest(int, char* [] )
     }
 
   // creates an ImageToListSampleAdaptor object
-  typedef  itk::Statistics::ImageToListSampleFilter< ImageType, MaskImageType > ImageToListSampleFilterType;
+  using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter< ImageType, MaskImageType >;
 
   ImageToListSampleFilterType::Pointer sampleGeneratingFilter = ImageToListSampleFilterType::New();
 
@@ -78,8 +78,8 @@ int itkCovarianceSampleFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef ImageToListSampleFilterType::ListSampleType                 ListSampleType;
-  typedef itk::Statistics::CovarianceSampleFilter< ListSampleType >   CovarianceSampleFilterType;
+  using ListSampleType = ImageToListSampleFilterType::ListSampleType;
+  using CovarianceSampleFilterType = itk::Statistics::CovarianceSampleFilter< ListSampleType >;
 
   CovarianceSampleFilterType::Pointer covarianceFilter = CovarianceSampleFilterType::New();
 
@@ -146,7 +146,7 @@ int itkCovarianceSampleFilterTest(int, char* [] )
   std::cout << "Covariance matrix:   " << covarianceMatrix << std::endl;
 
 
-  typedef itk::Statistics::MeanSampleFilter< ListSampleType > MeanSampleFilterType;
+  using MeanSampleFilterType = itk::Statistics::MeanSampleFilter< ListSampleType >;
   MeanSampleFilterType::Pointer meanFilter = MeanSampleFilterType::New();
   meanFilter->SetInput( sampleGeneratingFilter->GetOutput());
 

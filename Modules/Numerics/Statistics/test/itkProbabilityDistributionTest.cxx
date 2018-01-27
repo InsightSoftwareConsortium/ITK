@@ -24,10 +24,10 @@ namespace Statistics {
 class ProbabilityDistributionTestingHelper : public ProbabilityDistribution
 {
 public:
-  typedef ProbabilityDistributionTestingHelper     Self;
-  typedef ProbabilityDistribution                  Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef SmartPointer<const Self>                 ConstPointer;
+  using Self = ProbabilityDistributionTestingHelper;
+  using Superclass = ProbabilityDistribution;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkTypeMacro(ProbabilityDistributionTestingHelper, ProbabilityDistribution);
 
@@ -59,7 +59,7 @@ int itkProbabilityDistributionTest(int, char* [] )
 {
   std::cout << "itkProbabilityDistributionTest Test \n \n";
 
-  typedef itk::Statistics::ProbabilityDistributionTestingHelper DistributionType;
+  using DistributionType = itk::Statistics::ProbabilityDistributionTestingHelper;
 
   DistributionType::Pointer distributionFunction = DistributionType::New();
 

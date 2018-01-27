@@ -40,12 +40,12 @@ int itkBorderQuadEdgeMeshFilterTest( int argc, char* argv[] )
 
 
   // ** TYPEDEF **
-  typedef double Coord;
+  using Coord = double;
 
-  typedef itk::QuadEdgeMesh< Coord, 3 >                        MeshType;
-  typedef itk::MeshFileReader< MeshType >                      ReaderType;
-  typedef itk::MeshFileWriter< MeshType >                      WriterType;
-  typedef itk::BorderQuadEdgeMeshFilter< MeshType, MeshType >  BorderTransformType;
+  using MeshType = itk::QuadEdgeMesh< Coord, 3 >;
+  using ReaderType = itk::MeshFileReader< MeshType >;
+  using WriterType = itk::MeshFileWriter< MeshType >;
+  using BorderTransformType = itk::BorderQuadEdgeMeshFilter< MeshType, MeshType >;
 
 
   // ** READ THE FILE IN **

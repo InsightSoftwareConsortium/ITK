@@ -44,11 +44,11 @@ template< typename TOutput = double,
 class ITK_TEMPLATE_EXPORT GaussianDerivativeSpatialFunction:public SpatialFunction< TOutput, VImageDimension, TInput >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GaussianDerivativeSpatialFunction                   Self;
-  typedef SpatialFunction< TOutput, VImageDimension, TInput > Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GaussianDerivativeSpatialFunction;
+  using Superclass = SpatialFunction< TOutput, VImageDimension, TInput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,16 +57,16 @@ public:
   itkTypeMacro(GaussianDerivativeSpatialFunction, SpatialFunction);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Type used to store derivatives parameters. */
-  typedef FixedArray< double, VImageDimension > ArrayType;
+  using ArrayType = FixedArray< double, VImageDimension >;
 
   /** Type used to return the derivatives in each direction */
-  typedef Vector< double, VImageDimension > VectorType;
+  using VectorType = Vector< double, VImageDimension >;
 
   /** Evaluate the function at a given position and return the
    *  value in the specific direction. SetDirection() should be used

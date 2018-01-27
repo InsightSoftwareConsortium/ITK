@@ -36,11 +36,11 @@ class ITK_TEMPLATE_EXPORT MetaContourConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
-  /** Standard class typedefs */
-  typedef MetaContourConverter             Self;
-  typedef MetaConverterBase< NDimensions > Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard class type aliases */
+  using Self = MetaContourConverter;
+  using Superclass = MetaConverterBase< NDimensions >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -48,15 +48,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaContourConverter, MetaConverterBase);
 
-  typedef typename Superclass::SpatialObjectType SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
-  typedef typename Superclass::MetaObjectType    MetaObjectType;
+  using SpatialObjectType = typename Superclass::SpatialObjectType;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using MetaObjectType = typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  typedef ContourSpatialObject<NDimensions>               ContourSpatialObjectType;
-  typedef typename ContourSpatialObjectType::Pointer      ContourSpatialObjectPointer;
-  typedef typename ContourSpatialObjectType::ConstPointer ContourSpatialObjectConstPointer;
-  typedef MetaContour                                     ContourMetaObjectType;
+  using ContourSpatialObjectType = ContourSpatialObject<NDimensions>;
+  using ContourSpatialObjectPointer = typename ContourSpatialObjectType::Pointer;
+  using ContourSpatialObjectConstPointer = typename ContourSpatialObjectType::ConstPointer;
+  using ContourMetaObjectType = MetaContour;
 
   /** Convert the MetaObject to Spatial Object */
   SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;

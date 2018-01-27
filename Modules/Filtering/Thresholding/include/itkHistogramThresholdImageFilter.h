@@ -62,11 +62,11 @@ class ITK_TEMPLATE_EXPORT HistogramThresholdImageFilter :
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard Self typedef */
-  typedef HistogramThresholdImageFilter                    Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>     Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
+  /** Standard Self type alias */
+  using Self = HistogramThresholdImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage,TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,43 +74,43 @@ public:
   /** Runtime information support. */
   itkTypeMacro(HistogramThresholdImageFilter, ImageToImageFilter);
 
-  typedef TInputImage                       InputImageType;
-  typedef TOutputImage                      OutputImageType;
-  typedef TMaskImage                        MaskImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using MaskImageType = TMaskImage;
 
-  /** Image pixel value typedef. */
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename MaskImageType::PixelType    MaskPixelType;
+  /** Image pixel value type alias. */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using MaskPixelType = typename MaskImageType::PixelType;
 
-  /** Image related typedefs. */
-  typedef typename InputImageType::Pointer  InputImagePointer;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef typename MaskImageType::Pointer   MaskImagePointer;
+  /** Image related type alias. */
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using MaskImagePointer = typename MaskImageType::Pointer;
 
-  typedef typename InputImageType::SizeType    InputSizeType;
-  typedef typename InputImageType::IndexType   InputIndexType;
-  typedef typename InputImageType::RegionType  InputImageRegionType;
-  typedef typename OutputImageType::SizeType   OutputSizeType;
-  typedef typename OutputImageType::IndexType  OutputIndexType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename MaskImageType::SizeType     MaskSizeType;
-  typedef typename MaskImageType::IndexType    MaskIndexType;
-  typedef typename MaskImageType::RegionType   MaskImageRegionType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using InputIndexType = typename InputImageType::IndexType;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using MaskSizeType = typename MaskImageType::SizeType;
+  using MaskIndexType = typename MaskImageType::IndexType;
+  using MaskImageRegionType = typename MaskImageType::RegionType;
 
-   typedef typename NumericTraits< InputPixelType >::ValueType ValueType;
-   typedef typename NumericTraits< ValueType >::RealType       ValueRealType;
-   typedef Statistics::Histogram< ValueRealType >              HistogramType;
-   typedef typename HistogramType::Pointer                     HistogramPointer;
-   typedef typename HistogramType::ConstPointer                HistogramConstPointer;
-   typedef typename HistogramType::SizeType                    HistogramSizeType;
-   typedef typename HistogramType::MeasurementType             HistogramMeasurementType;
-   typedef typename HistogramType::MeasurementVectorType       HistogramMeasurementVectorType;
-   typedef HistogramThresholdCalculator<HistogramType, InputPixelType>
-                                                               CalculatorType;
-   typedef typename CalculatorType::Pointer                    CalculatorPointer;
+   using ValueType = typename NumericTraits< InputPixelType >::ValueType;
+   using ValueRealType = typename NumericTraits< ValueType >::RealType;
+   using HistogramType = Statistics::Histogram< ValueRealType >;
+   using HistogramPointer = typename HistogramType::Pointer;
+   using HistogramConstPointer = typename HistogramType::ConstPointer;
+   using HistogramSizeType = typename HistogramType::SizeType;
+   using HistogramMeasurementType = typename HistogramType::MeasurementType;
+   using HistogramMeasurementVectorType = typename HistogramType::MeasurementVectorType;
+   using CalculatorType =
+       HistogramThresholdCalculator<HistogramType, InputPixelType>;
+   using CalculatorPointer = typename CalculatorType::Pointer;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       InputImageType::ImageDimension );
   itkStaticConstMacro(OutputImageDimension, unsigned int,

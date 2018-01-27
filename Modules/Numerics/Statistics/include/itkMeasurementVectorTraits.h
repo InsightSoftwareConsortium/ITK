@@ -48,15 +48,15 @@ public:
       precision). Using double type will also ultimately fall into the same problem.
       Hence in the new statistics framework, InstanceIdentifier/FrequencyTypes are
       set to the the largest possible integer on the machine */
-  typedef IdentifierType  InstanceIdentifier;
+  using InstanceIdentifier = IdentifierType;
 
   /** Type defined for representing the frequency of measurement vectors */
-  typedef InstanceIdentifier                                     AbsoluteFrequencyType;
-  typedef NumericTraits< AbsoluteFrequencyType >::RealType       RelativeFrequencyType;
-  typedef NumericTraits< AbsoluteFrequencyType >::AccumulateType TotalAbsoluteFrequencyType;
-  typedef NumericTraits< RelativeFrequencyType >::AccumulateType TotalRelativeFrequencyType;
+  using AbsoluteFrequencyType = InstanceIdentifier;
+  using RelativeFrequencyType = NumericTraits< AbsoluteFrequencyType >::RealType;
+  using TotalAbsoluteFrequencyType = NumericTraits< AbsoluteFrequencyType >::AccumulateType;
+  using TotalRelativeFrequencyType = NumericTraits< RelativeFrequencyType >::AccumulateType;
 
-  typedef unsigned int MeasurementVectorLength;
+  using MeasurementVectorLength = unsigned int;
 
   template< typename TVectorType >
   static bool IsResizable(const TVectorType &)
@@ -408,14 +408,14 @@ template< typename TMeasurementVector >
 class MeasurementVectorTraitsTypes
 {
 public:
-  typedef typename TMeasurementVector::ValueType ValueType;
+  using ValueType = typename TMeasurementVector::ValueType;
 };
 
 template< typename T >
 class MeasurementVectorTraitsTypes< std::vector< T > >
 {
 public:
-  typedef T ValueType;
+  using ValueType = T;
 };
 
 /** Traits for generating the MeasurementVectorType that best matches a
@@ -426,7 +426,7 @@ class MeasurementVectorPixelTraits
 {
 public:
   /* type of the vector that matches this pixel type */
-  typedef TPixelType MeasurementVectorType;
+  using MeasurementVectorType = TPixelType;
 };
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
@@ -438,91 +438,91 @@ template< >
 class MeasurementVectorPixelTraits< char >
 {
 public:
-  typedef FixedArray< char, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< char, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< unsigned char >
 {
 public:
-  typedef FixedArray< unsigned char, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< unsigned char, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< signed char >
 {
 public:
-  typedef FixedArray< signed char, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< signed char, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< unsigned short >
 {
 public:
-  typedef FixedArray< unsigned short, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< unsigned short, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< signed short >
 {
 public:
-  typedef FixedArray< signed short, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< signed short, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< unsigned int >
 {
 public:
-  typedef FixedArray< unsigned int, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< unsigned int, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< signed int >
 {
 public:
-  typedef FixedArray< signed int, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< signed int, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< unsigned long >
 {
 public:
-  typedef FixedArray< unsigned long, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< unsigned long, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< signed long >
 {
 public:
-  typedef FixedArray< signed long, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< signed long, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< unsigned long long >
 {
 public:
-  typedef FixedArray< unsigned long long, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< unsigned long long, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< signed long long >
 {
 public:
-  typedef FixedArray< signed long long, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< signed long long, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< float >
 {
 public:
-  typedef FixedArray< float, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< float, 1 >;
 };
 
 template< >
 class MeasurementVectorPixelTraits< double >
 {
 public:
-  typedef FixedArray< double, 1 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< double, 1 >;
 };
 
 /// \endcond

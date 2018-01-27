@@ -71,10 +71,10 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
 
   Superclass::AfterThreadedGenerateData();
 
-  typedef TImageType                                   ImageType;
-  typedef typename ImageType::PixelType                PixelType;
-  typedef typename NumericTraits<PixelType>::ValueType ValueType;
-  typedef itk::ByteSwapper<ValueType>                  Swapper;
+  using ImageType = TImageType;
+  using PixelType = typename ImageType::PixelType;
+  using ValueType = typename NumericTraits<PixelType>::ValueType;
+  using Swapper = itk::ByteSwapper<ValueType>;
 
   itksysMD5 *md5 = itksysMD5_New();
   itksysMD5_Initialize( md5 );

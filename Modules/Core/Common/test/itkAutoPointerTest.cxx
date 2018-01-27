@@ -23,9 +23,9 @@
 class TestObject
  {
   public:
-    typedef TestObject                   Self;
-    typedef itk::AutoPointer<Self>       AutoPointer;
-    typedef itk::AutoPointer<const Self> ConstAutoPointer;
+    using Self = TestObject;
+    using AutoPointer = itk::AutoPointer<Self>;
+    using ConstAutoPointer = itk::AutoPointer<const Self>;
     TestObject() { std::cout << "TestObject Contructed" << std::endl; }
     virtual ~TestObject() { std::cout << "TestObject Destructed" << std::endl; }
     const char * GetClassName(void) const { return "my Class name is TestObject"; }

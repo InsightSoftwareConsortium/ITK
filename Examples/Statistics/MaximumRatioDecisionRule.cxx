@@ -60,7 +60,7 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::MaximumRatioDecisionRule DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MaximumRatioDecisionRule;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 

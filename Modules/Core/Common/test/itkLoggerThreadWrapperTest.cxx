@@ -34,15 +34,15 @@ struct ThreadDataStruct
 {
   itk::LoggerBase* logger;
 };
-typedef std::vector<ThreadDataStruct> ThreadDataVec;
+using ThreadDataVec = std::vector<ThreadDataStruct>;
 
 class SimpleLogger : public itk::LoggerBase
 {
 public:
-  typedef SimpleLogger                  Self;
-  typedef itk::LoggerBase               Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = SimpleLogger;
+  using Superclass = itk::LoggerBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( SimpleLogger, Object );

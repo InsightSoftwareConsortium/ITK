@@ -35,22 +35,22 @@ int itkConstrainedValueAdditionImageFilterTest( int argc, char* argv[] )
   const unsigned int Dimension = 3;
 
   // Define the pixel types
-  typedef float           InputPixelType;
-  typedef unsigned short  OutputPixelType;
+  using InputPixelType = float;
+  using OutputPixelType = unsigned short;
 
   // Declare the types of the images
-  typedef itk::Image< InputPixelType, Dimension >   InputImageType1;
-  typedef itk::Image< InputPixelType, Dimension >   InputImageType2;
-  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
+  using InputImageType1 = itk::Image< InputPixelType, Dimension >;
+  using InputImageType2 = itk::Image< InputPixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
   // Declare the type of the index to access images
-  typedef itk::Index< Dimension >         IndexType;
+  using IndexType = itk::Index< Dimension >;
 
   // Declare the type of the size
-  typedef itk::Size< Dimension >          SizeType;
+  using SizeType = itk::Size< Dimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< Dimension >   RegionType;
+  using RegionType = itk::ImageRegion< Dimension >;
 
   // Create the input images
   InputImageType1::Pointer inputImageA = InputImageType1::New();
@@ -84,8 +84,8 @@ int itkConstrainedValueAdditionImageFilterTest( int argc, char* argv[] )
   inputImageB->Allocate();
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType1 > InputIteratorType1;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType2 > InputIteratorType2;
+  using InputIteratorType1 = itk::ImageRegionIteratorWithIndex< InputImageType1 >;
+  using InputIteratorType2 = itk::ImageRegionIteratorWithIndex< InputImageType2 >;
 
   // Create one iterator for Image A (this is a light object)
   InputIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
@@ -112,10 +112,10 @@ int itkConstrainedValueAdditionImageFilterTest( int argc, char* argv[] )
     }
 
   // Declare the type for the ADD filter
-  typedef itk::ConstrainedValueAdditionImageFilter<
+  using ConstrainedValueAdditionImageFilterType = itk::ConstrainedValueAdditionImageFilter<
     InputImageType1,
     InputImageType2,
-    OutputImageType > ConstrainedValueAdditionImageFilterType;
+    OutputImageType >;
 
   // Create the filter
   ConstrainedValueAdditionImageFilterType::Pointer filter =
@@ -135,7 +135,7 @@ int itkConstrainedValueAdditionImageFilterTest( int argc, char* argv[] )
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Write the result image
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

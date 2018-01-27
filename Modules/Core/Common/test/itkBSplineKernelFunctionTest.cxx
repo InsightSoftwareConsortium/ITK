@@ -92,7 +92,7 @@ const double b3[npoints] = {
  // Testing the output of BSplineKernelFunction
 #define TEST_BSPLINE_KERNEL(ORDERNUM) \
  { \
-  typedef itk::BSplineKernelFunction<ORDERNUM> FunctionType; \
+  using FunctionType = itk::BSplineKernelFunction<ORDERNUM>; \
   FunctionType::Pointer function = FunctionType::New(); \
   \
   function->Print( std::cout ); \
@@ -119,7 +119,7 @@ const double b3[npoints] = {
   // Testing derivative spline order = 0
  {
   const unsigned int SplineOrder = 0;
-  typedef itk::BSplineDerivativeKernelFunction<SplineOrder> DerivativeFunctionType;
+  using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
   DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
   derivFunction->Print( std::cout );
 
@@ -142,10 +142,10 @@ const double b3[npoints] = {
   // Testing derivative spline order = 1
  {
   const unsigned int SplineOrder = 1;
-  typedef itk::BSplineDerivativeKernelFunction<SplineOrder> DerivativeFunctionType;
+  using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
   DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
 
-  typedef itk::BSplineKernelFunction<SplineOrder - 1> FunctionType;
+  using FunctionType = itk::BSplineKernelFunction<SplineOrder - 1>;
   FunctionType::Pointer function = FunctionType::New();
 
   for( double xx = -3.0; xx <= 3.0; xx += 0.1 )
@@ -169,11 +169,11 @@ const double b3[npoints] = {
   // Testing derivative spline order = 2
  {
   const unsigned int SplineOrder = 2;
-  typedef itk::BSplineDerivativeKernelFunction<SplineOrder> DerivativeFunctionType;
+  using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
   DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
   derivFunction->Print( std::cout );
 
-  typedef itk::BSplineKernelFunction<SplineOrder - 1> FunctionType;
+  using FunctionType = itk::BSplineKernelFunction<SplineOrder - 1>;
   FunctionType::Pointer function = FunctionType::New();
 
   for( double xx = -3.0; xx <= 3.0; xx += 0.1 )
@@ -197,11 +197,11 @@ const double b3[npoints] = {
   // Testing derivative spline order = 3
  {
   const unsigned int SplineOrder = 3;
-  typedef itk::BSplineDerivativeKernelFunction<SplineOrder> DerivativeFunctionType;
+  using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
   DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
   derivFunction->Print( std::cout );
 
-  typedef itk::BSplineKernelFunction<SplineOrder - 1> FunctionType;
+  using FunctionType = itk::BSplineKernelFunction<SplineOrder - 1>;
   FunctionType::Pointer function = FunctionType::New();
 
   for( double xx = -3.0; xx <= 3.0; xx += 0.1 )
@@ -225,7 +225,7 @@ const double b3[npoints] = {
   // Testing case of unimplemented spline order
   {
 
-  typedef itk::BSplineKernelFunction<7> FunctionType;
+  using FunctionType = itk::BSplineKernelFunction<7>;
   FunctionType::Pointer function = FunctionType::New();
 
   bool pass = false;
@@ -252,7 +252,7 @@ const double b3[npoints] = {
   // Testing case of unimplemented spline order
   {
 
-  typedef itk::BSplineDerivativeKernelFunction<5> FunctionType;
+  using FunctionType = itk::BSplineDerivativeKernelFunction<5>;
   FunctionType::Pointer function = FunctionType::New();
 
   bool pass = false;

@@ -236,7 +236,7 @@ private:
 class ITKIODCMTK_EXPORT DCMTKFileReader
 {
 public:
-  typedef DCMTKFileReader Self;
+  using Self = DCMTKFileReader;
 
   DCMTKFileReader() : m_DFile(nullptr),
                       m_Dataset(nullptr),

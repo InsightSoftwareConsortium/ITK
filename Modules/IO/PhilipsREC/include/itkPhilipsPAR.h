@@ -212,10 +212,10 @@ struct par_parameter  //par_parameter
 class ITKIOPhilipsREC_EXPORT PhilipsPAR:public LightProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef PhilipsPAR           Self;
-  typedef LightProcessObject   Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = PhilipsPAR;
+  using Superclass = LightProcessObject;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -232,24 +232,24 @@ public:
   // Returns a vector of paired values, the first contains the slice index and
   // the
   // second is the image type for the PAR file "parFile".
-  typedef std::pair< int, int >                 PARSliceIndexImageType;
-  typedef std::vector< PARSliceIndexImageType > PARSliceIndexImageTypeVector;
+  using PARSliceIndexImageType = std::pair< int, int >;
+  using PARSliceIndexImageTypeVector = std::vector< PARSliceIndexImageType >;
   PARSliceIndexImageTypeVector GetRECSliceIndexImageTypes(
     std::string parFile);
 
   // Returns a vector of paired values, the first contains the slice index and
   // the
   // second is the scan sequence for the PAR file "parFile".
-  typedef std::pair< int, int >                    PARSliceIndexScanSequence;
-  typedef std::vector< PARSliceIndexScanSequence > PARSliceIndexScanSequenceVector;
+  using PARSliceIndexScanSequence = std::pair< int, int >;
+  using PARSliceIndexScanSequenceVector = std::vector< PARSliceIndexScanSequence >;
   PARSliceIndexScanSequenceVector GetRECSliceIndexScanningSequence(
     std::string parFile);
 
   // Returns a vector of paired values, the first contains the image type and
   // the
   // second is the scan sequence for that image type for the PAR file "parFile".
-  typedef std::pair< int, int >                   PARImageTypeScanSequence;
-  typedef std::vector< PARImageTypeScanSequence > PARImageTypeScanSequenceVector;
+  using PARImageTypeScanSequence = std::pair< int, int >;
+  using PARImageTypeScanSequenceVector = std::vector< PARImageTypeScanSequence >;
   PARImageTypeScanSequenceVector GetImageTypesScanningSequence(
     std::string parFile);
 
@@ -258,10 +258,10 @@ public:
   // scanning_sequences) for the PAR file "parFile".
   // Returns false if an error is encountered during reading, otherwise true is
   // returned.
-  typedef vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE >
-  PARRescaleValues;
-  typedef VectorContainer< unsigned int, PARRescaleValues >
-  PARRescaleValuesContainer;
+  using PARRescaleValues =
+      vnl_vector_fixed< double, PAR_RESCALE_VALUES_SIZE >;
+  using PARRescaleValuesContainer =
+      VectorContainer< unsigned int, PARRescaleValues >;
   bool GetRECRescaleValues(std::string parFile,
                            PARRescaleValuesContainer *rescaleValues, int scan_sequence);
 
@@ -274,18 +274,18 @@ public:
   // versions > 4.1
   // Returns false if an error is encountered during reading, otherwise true is
   // returned.
-  typedef vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE >
-  PARDiffusionValues;
-  typedef VectorContainer< unsigned int, PARDiffusionValues >
-  PARDiffusionValuesContainer;
-  typedef VectorContainer< unsigned int, double >
-  PARBValuesContainer;
+  using PARDiffusionValues =
+      vnl_vector_fixed< double, PAR_DIFFUSION_VALUES_SIZE >;
+  using PARDiffusionValuesContainer =
+      VectorContainer< unsigned int, PARDiffusionValues >;
+  using PARBValuesContainer =
+      VectorContainer< unsigned int, double >;
   bool GetDiffusionGradientOrientationAndBValues(std::string parFile,
                                                  PARDiffusionValuesContainer *gradientValues,
                                                  PARBValuesContainer *bValues);
 
   // Returns a vector of ASL label types for the PAR file "parFile".
-  typedef VectorContainer< unsigned int, int > PARLabelTypesASLContainer;
+  using PARLabelTypesASLContainer = VectorContainer< unsigned int, int >;
   bool GetLabelTypesASL(std::string parFile,
                         PARLabelTypesASLContainer *labelTypes);
 

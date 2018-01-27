@@ -51,10 +51,10 @@ class ITK_TEMPLATE_EXPORT FastMarchingImageToNodePairContainerAdaptor :
     public Object
   {
 public:
-  typedef FastMarchingImageToNodePairContainerAdaptor   Self;
-  typedef LightObject                                   Superclass;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
+  using Self = FastMarchingImageToNodePairContainerAdaptor;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
 
   /** Method for creation through the object factory. */
@@ -63,17 +63,17 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastMarchingImageToNodePairContainerAdaptor, LightObject);
 
-  typedef FastMarchingTraits< TInput, TOutput >     Traits;
-  typedef typename Traits::NodePairType             NodePairType;
-  typedef typename Traits::NodePairContainerType    NodePairContainerType;
-  typedef typename Traits::NodePairContainerPointer NodePairContainerPointer;
-  typedef typename Traits::LabelType                LabelType;
-  typedef typename Traits::OutputPixelType          OutputPixelType;
+  using Traits = FastMarchingTraits< TInput, TOutput >;
+  using NodePairType = typename Traits::NodePairType;
+  using NodePairContainerType = typename Traits::NodePairContainerType;
+  using NodePairContainerPointer = typename Traits::NodePairContainerPointer;
+  using LabelType = typename Traits::LabelType;
+  using OutputPixelType = typename Traits::OutputPixelType;
 
-  typedef TImage                            ImageType;
-  typedef typename ImageType::Pointer       ImagePointer;
-  typedef typename ImageType::ConstPointer  ImageConstPointer;
-  typedef typename ImageType::PixelType     ImagePixelType;
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using ImagePixelType = typename ImageType::PixelType;
 
   itkStaticConstMacro( ImageDimension, unsigned int,
                        Traits::ImageDimension );

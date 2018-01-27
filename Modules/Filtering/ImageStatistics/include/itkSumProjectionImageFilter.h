@@ -80,20 +80,20 @@ class SumProjectionImageFilter:
                            typename TInputImage::PixelType, typename TOutputImage::PixelType > >
 {
 public:
-  typedef SumProjectionImageFilter Self;
-  typedef ProjectionImageFilter< TInputImage, TOutputImage,
+  using Self = SumProjectionImageFilter;
+  using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Functor::SumAccumulator<
                                    typename TInputImage::PixelType,
-                                   typename TOutputImage::PixelType > > Superclass;
+                                   typename TOutputImage::PixelType > >;
 
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType InputPixelType;
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
 
-  typedef TOutputImage                        OutputImageType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Runtime information support. */
   itkTypeMacro(SumProjectionImageFilter, ProjectionImageFilter);

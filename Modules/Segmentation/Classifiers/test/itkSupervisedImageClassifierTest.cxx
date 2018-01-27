@@ -62,7 +62,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   //depth 4 vectors each with each vector having data for
   //2 bands.
   //------------------------------------------------------
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION> VecImageType;
+  using VecImageType = itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION>;
 
   VecImageType::Pointer vecImage = VecImageType::New();
 
@@ -80,11 +80,10 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   vecImage->Allocate();
 
   // setup the iterators
-  typedef VecImageType::PixelType VecImagePixelType;
+  using VecImagePixelType = VecImageType::PixelType;
 
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef
-    itk::ImageRegionIterator< VecImageType > VecIterator;
+  using VecIterator = itk::ImageRegionIterator<VecImageType>;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
 
@@ -135,7 +134,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   //---------------------------------------------------------------
   //Generate the training data
   //---------------------------------------------------------------
-  typedef itk::Image<unsigned short,NDIMENSION> ClassImageType;
+  using ClassImageType = itk::Image<unsigned short,NDIMENSION>;
   ClassImageType::Pointer classImage  = ClassImageType::New();
 
   ClassImageType::SizeType classImgSize = {{ IMGWIDTH , IMGHEIGHT, NFRAMES }};
@@ -153,10 +152,9 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   classImage->Allocate();
 
   // setup the iterators
-  typedef ClassImageType::PixelType ClassImagePixelType;
+  using ClassImagePixelType = ClassImageType::PixelType;
 
-  typedef
-    itk::ImageRegionIterator<ClassImageType> ClassImageIterator;
+  using ClassImageIterator = itk::ImageRegionIterator<ClassImageType>;
 
   ClassImageIterator
     classoutIt( classImage, classImage->GetBufferedRegion() );
@@ -254,19 +252,15 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   //----------------------------------------------------------------------
   namespace stat = itk::Statistics;
 
-  typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType >
-    MembershipFunctionType;
-  typedef MembershipFunctionType::Pointer
-    MembershipFunctionPointer;
-  typedef std::vector< MembershipFunctionPointer >
-    MembershipFunctionPointerVector;
+  using MembershipFunctionType = stat::MahalanobisDistanceMembershipFunction<VecImagePixelType>;
+  using MembershipFunctionPointer = MembershipFunctionType::Pointer;
+  using MembershipFunctionPointerVector = std::vector<MembershipFunctionPointer>;
 
   //----------------------------------------------------------------------
   //Set the image model estimator
   //----------------------------------------------------------------------
-  typedef itk::ImageGaussianModelEstimator<VecImageType,
-    MembershipFunctionType, ClassImageType>
-    ImageGaussianModelEstimatorType;
+  using ImageGaussianModelEstimatorType = itk::ImageGaussianModelEstimator<VecImageType,
+    MembershipFunctionType, ClassImageType>;
 
   ImageGaussianModelEstimatorType::Pointer
     applyEstimateModel = ImageGaussianModelEstimatorType::New();
@@ -285,9 +279,9 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   //----------------------------------------------------------------------
   //Set the decision rule
   //----------------------------------------------------------------------
-  typedef itk::Statistics::DecisionRule::Pointer DecisionRuleBasePointer;
+  using DecisionRuleBasePointer = itk::Statistics::DecisionRule::Pointer;
 
-  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   DecisionRuleType::Pointer
     myDecisionRule = DecisionRuleType::New();
 
@@ -299,13 +293,13 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   // Multiband data is now available in the right format
   //---------------------------------------------------------------------
 
-  typedef itk::ImageClassifierBase< VecImageType,
-    ClassImageType > SupervisedClassifierType;
+  using SupervisedClassifierType = itk::ImageClassifierBase< VecImageType,
+    ClassImageType >;
 
   SupervisedClassifierType::Pointer
     applyClassifier = SupervisedClassifierType::New();
 
-  typedef SupervisedImageClassifierTest::ShowProgressObject ProgressType;
+  using ProgressType = SupervisedImageClassifierTest::ShowProgressObject;
 
   ProgressType progressWatch(applyClassifier);
   itk::SimpleMemberCommand<ProgressType>::Pointer command;

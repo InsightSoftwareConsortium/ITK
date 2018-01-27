@@ -47,11 +47,11 @@ namespace itk
 class ITKKLMRegionGrowing_EXPORT SegmentationRegion:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef SegmentationRegion         Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SegmentationRegion;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -60,7 +60,7 @@ public:
   itkTypeMacro(SegmentationRegion, Object);
 
   /** Type definition for a segmentation region label. */
-  typedef unsigned int RegionLabelType;
+  using RegionLabelType = unsigned int;
 
   /** Define a virtual SegmentationRegion function that is meant to be
    * used in derived classes if some operation needs to be

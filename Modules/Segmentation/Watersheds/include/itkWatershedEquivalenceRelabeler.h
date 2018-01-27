@@ -57,18 +57,18 @@ public:
   /** Expose templated image dimension parameter at run time */
   itkStaticConstMacro(ImageDimension, unsigned int, TImageDimension);
 
-  /**  Some convenient typedefs.   */
-  typedef Image< IdentifierType, TImageDimension >          ImageType;
-  typedef EquivalenceRelabeler                              Self;
-  typedef ProcessObject                                     Superclass;
-  typedef TScalar                                           ScalarType;
-  typedef EquivalencyTable                                  EquivalencyTableType;
-  typedef Segmenter< Image< ScalarType, TImageDimension > > SegmenterType;
-  typedef DataObject::Pointer                               DataObjectPointer;
+  /**  Some convenient type alias.   */
+  using ImageType = Image< IdentifierType, TImageDimension >;
+  using Self = EquivalenceRelabeler;
+  using Superclass = ProcessObject;
+  using ScalarType = TScalar;
+  using EquivalencyTableType = EquivalencyTable;
+  using SegmenterType = Segmenter< Image< ScalarType, TImageDimension > >;
+  using DataObjectPointer = DataObject::Pointer;
 
   /**  Define smart pointers for this object.   */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
   itkNewMacro(Self);
   itkTypeMacro(WatershedEquivalenceRelabeler, ProcessObject);
 
@@ -109,7 +109,7 @@ public:
   void GenerateData() override;
 
   /** Standard itk::ProcessObject subclass method. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

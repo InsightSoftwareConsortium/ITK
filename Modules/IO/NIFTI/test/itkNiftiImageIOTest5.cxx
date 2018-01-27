@@ -95,7 +95,7 @@ SlopeInterceptTest()
   nifti_image_free(niftiImage);
   //
   // read the image back in
-  typedef typename itk::Image<float,3> ImageType;
+  using ImageType = typename itk::Image<float,3>;
   typename ImageType::Pointer image;
   try
     {
@@ -106,7 +106,7 @@ SlopeInterceptTest()
     itk::IOTestHelper::Remove(filename);
     return EXIT_FAILURE;
     }
-  typedef typename itk::ImageRegionIterator<ImageType> IteratorType;
+  using IteratorType = typename itk::ImageRegionIterator<ImageType>;
   IteratorType it(image,image->GetLargestPossibleRegion());
   it.GoToBegin();
   double maxerror = 0.0;

@@ -45,20 +45,20 @@ class ITKCommon_EXPORT EquivalencyTable:public DataObject
 {
 public:
   /** Standard smart pointer declarations */
-  typedef EquivalencyTable           Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = EquivalencyTable;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
   itkNewMacro(Self);
   itkTypeMacro(EquivalencyTable, DataObject);
 
   /** Define the container type for the table. */
-  typedef itksys::hash_map< unsigned long, unsigned long,
-    itksys::hash< unsigned long > > HashTableType;
+  using HashTableType = itksys::hash_map< unsigned long, unsigned long,
+    itksys::hash< unsigned long > >;
 
-  typedef HashTableType::iterator       Iterator;
-  typedef HashTableType::const_iterator ConstIterator;
-  typedef HashTableType::value_type     ValueType;
+  using Iterator = HashTableType::iterator;
+  using ConstIterator = HashTableType::const_iterator;
+  using ValueType = HashTableType::value_type;
 
   /** "Flattens" the equivalency table by eliminating all redundant
    * and recursive equivalencies.  I.e. the set { 2=1; 3=2; 4=3 } is

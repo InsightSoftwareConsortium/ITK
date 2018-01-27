@@ -43,19 +43,19 @@ class ITK_TEMPLATE_EXPORT VnlRealToHalfHermitianForwardFFTImageFilter:
   public RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TInputImage                            InputImageType;
-  typedef typename InputImageType::PixelType     InputPixelType;
-  typedef typename InputImageType::SizeType      InputSizeType;
-  typedef typename InputImageType::SizeValueType InputSizeValueType;
-  typedef TOutputImage                           OutputImageType;
-  typedef typename OutputImageType::PixelType    OutputPixelType;
-  typedef typename OutputImageType::SizeType     OutputSizeType;
+  /** Standard class type aliases. */
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using InputSizeValueType = typename InputImageType::SizeValueType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputSizeType = typename OutputImageType::SizeType;
 
-  typedef VnlRealToHalfHermitianForwardFFTImageFilter                           Self;
-  typedef RealToHalfHermitianForwardFFTImageFilter<  TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer< Self >                                                Pointer;
-  typedef SmartPointer< const Self >                                          ConstPointer;
+  using Self = VnlRealToHalfHermitianForwardFFTImageFilter;
+  using Superclass = RealToHalfHermitianForwardFFTImageFilter<  TInputImage, TOutputImage>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -91,7 +91,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VnlRealToHalfHermitianForwardFFTImageFilter);
 
-  typedef vnl_vector< std::complex< InputPixelType > > SignalVectorType;
+  using SignalVectorType = vnl_vector< std::complex< InputPixelType > >;
 };
 }
 

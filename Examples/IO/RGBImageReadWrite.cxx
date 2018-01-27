@@ -59,8 +59,8 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel< unsigned char >   PixelType;
-  typedef itk::Image< PixelType, 2 >       ImageType;
+  using PixelType = itk::RGBPixel< unsigned char >;
+  using ImageType = itk::Image< PixelType, 2 >;
   // Software Guide : EndCodeSnippet
 
 
@@ -75,8 +75,8 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();

@@ -68,11 +68,11 @@ class ITK_TEMPLATE_EXPORT TimeVaryingBSplineVelocityFieldTransformParametersAdap
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef TimeVaryingBSplineVelocityFieldTransformParametersAdaptor   Self;
-  typedef TransformParametersAdaptor<TTransform>                      Superclass;
-  typedef SmartPointer<Self>                                          Pointer;
-  typedef SmartPointer<const Self>                                    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TimeVaryingBSplineVelocityFieldTransformParametersAdaptor;
+  using Superclass = TransformParametersAdaptor<TTransform>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -81,24 +81,24 @@ public:
   itkTypeMacro( TimeVaryingBSplineVelocityFieldTransformParametersAdaptor, TransformParametersAdaptor );
 
   /** Typedefs associated with the transform */
-  typedef TTransform                                       TransformType;
-  typedef typename TransformType::Pointer                  TransformPointer;
-  typedef typename TransformType::ParametersType           ParametersType;
-  typedef typename TransformType::ParametersValueType      ParametersValueType;
-  typedef typename TransformType::FixedParametersType      FixedParametersType;
-  typedef typename TransformType::FixedParametersValueType FixedParametersValueType;
+  using TransformType = TTransform;
+  using TransformPointer = typename TransformType::Pointer;
+  using ParametersType = typename TransformType::ParametersType;
+  using ParametersValueType = typename TransformType::ParametersValueType;
+  using FixedParametersType = typename TransformType::FixedParametersType;
+  using FixedParametersValueType = typename TransformType::FixedParametersValueType;
 
-  typedef typename TransformType::TimeVaryingVelocityFieldControlPointLatticeType   TimeVaryingVelocityFieldControlPointLatticeType;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::Pointer         TimeVaryingVelocityFieldControlPointLatticePointer;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::RegionType      RegionType;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::IndexType       IndexType;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::PixelType       VectorType;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::PointType       OriginType;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType     SpacingType;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType        SizeType;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SizeValueType   SizeValueType;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType        MeshSizeType;
-  typedef typename TimeVaryingVelocityFieldControlPointLatticeType::DirectionType   DirectionType;
+  using TimeVaryingVelocityFieldControlPointLatticeType = typename TransformType::TimeVaryingVelocityFieldControlPointLatticeType;
+  using TimeVaryingVelocityFieldControlPointLatticePointer = typename TimeVaryingVelocityFieldControlPointLatticeType::Pointer;
+  using RegionType = typename TimeVaryingVelocityFieldControlPointLatticeType::RegionType;
+  using IndexType = typename TimeVaryingVelocityFieldControlPointLatticeType::IndexType;
+  using VectorType = typename TimeVaryingVelocityFieldControlPointLatticeType::PixelType;
+  using OriginType = typename TimeVaryingVelocityFieldControlPointLatticeType::PointType;
+  using SpacingType = typename TimeVaryingVelocityFieldControlPointLatticeType::SpacingType;
+  using SizeType = typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType;
+  using SizeValueType = typename TimeVaryingVelocityFieldControlPointLatticeType::SizeValueType;
+  using MeshSizeType = typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType;
+  using DirectionType = typename TimeVaryingVelocityFieldControlPointLatticeType::DirectionType;
 
   /** Dimension of parameters. */
   itkStaticConstMacro( TotalDimension, unsigned int, TransformType::Dimension + 1 );

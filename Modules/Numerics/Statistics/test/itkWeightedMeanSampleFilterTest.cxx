@@ -21,31 +21,31 @@
 
 const unsigned int                  MeasurementVectorSize = 2;
 
-typedef itk::FixedArray<
-    float, MeasurementVectorSize >             MeasurementVectorType;
+using MeasurementVectorType = itk::FixedArray<
+    float, MeasurementVectorSize >;
 
 class WeightedMeanTestFunction :
   public itk::FunctionBase< MeasurementVectorType, double >
 {
 public:
-  /** Standard class typedefs. */
-  typedef WeightedMeanTestFunction Self;
+  /** Standard class type aliases. */
+  using Self = WeightedMeanTestFunction;
 
-  typedef itk::FunctionBase< MeasurementVectorType, double > Superclass;
+  using Superclass = itk::FunctionBase< MeasurementVectorType, double >;
 
-  typedef itk::SmartPointer<Self> Pointer;
+  using Pointer = itk::SmartPointer<Self>;
 
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Standard macros. */
   itkTypeMacro(WeightedMeanTestFunction, FunctionBase);
   itkNewMacro(Self);
 
   /** Input type */
-  typedef MeasurementVectorType InputType;
+  using InputType = MeasurementVectorType;
 
   /** Output type */
-  typedef double OutputType;
+  using OutputType = double;
 
   /**Evaluate at the specified input position */
   OutputType Evaluate( const InputType& input ) const override
@@ -77,8 +77,7 @@ int itkWeightedMeanSampleFilterTest(int, char* [] )
   const unsigned int                  numberOfMeasurementVectors = 5;
   unsigned int                        counter;
 
-  typedef itk::Statistics::ListSample<
-    MeasurementVectorType >                    SampleType;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
   SampleType::Pointer sample = SampleType::New();
 
@@ -99,8 +98,7 @@ int itkWeightedMeanSampleFilterTest(int, char* [] )
     counter++;
     }
 
-  typedef itk::Statistics::WeightedMeanSampleFilter< SampleType >
-    FilterType;
+  using FilterType = itk::Statistics::WeightedMeanSampleFilter<SampleType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -161,7 +159,7 @@ int itkWeightedMeanSampleFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef FilterType::WeightArrayType  WeightArrayType;
+  using WeightArrayType = FilterType::WeightArrayType;
   WeightArrayType weightArray(sample->Size());
   weightArray.Fill(1.0);
 

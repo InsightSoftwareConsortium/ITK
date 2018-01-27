@@ -31,39 +31,39 @@ class NumericTraits< Array< T > >
 {
 private:
 
-  typedef  typename NumericTraits< T >::AbsType        ElementAbsType;
-  typedef  typename NumericTraits< T >::AccumulateType ElementAccumulateType;
-  typedef  typename NumericTraits< T >::FloatType      ElementFloatType;
-  typedef  typename NumericTraits< T >::PrintType      ElementPrintType;
-  typedef  typename NumericTraits< T >::RealType       ElementRealType;
+  using ElementAbsType = typename NumericTraits< T >::AbsType;
+  using ElementAccumulateType = typename NumericTraits< T >::AccumulateType;
+  using ElementFloatType = typename NumericTraits< T >::FloatType;
+  using ElementPrintType = typename NumericTraits< T >::PrintType;
+  using ElementRealType = typename NumericTraits< T >::RealType;
 
 public:
 
   /** Return the type of the native component type. */
-  typedef T              ValueType;
-  typedef Array< T >     Self;
+  using ValueType = T;
+  using Self = Array< T >;
 
   /** Unsigned component type */
-  typedef Array< ElementAbsType > AbsType;
+  using AbsType = Array< ElementAbsType >;
 
   /** Accumulation of addition and multiplication. */
-  typedef Array< ElementAccumulateType > AccumulateType;
+  using AccumulateType = Array< ElementAccumulateType >;
 
   /** Typedef for operations that use floating point instead of real precision
     */
-  typedef Array< ElementFloatType > FloatType;
+  using FloatType = Array< ElementFloatType >;
 
   /** Return the type that can be printed. */
-  typedef Array< ElementPrintType > PrintType;
+  using PrintType = Array< ElementPrintType >;
 
   /** Type for real-valued scalar operations. */
-  typedef Array< ElementRealType > RealType;
+  using RealType = Array< ElementRealType >;
 
   /** Type for real-valued scalar operations. */
-  typedef ElementRealType ScalarRealType;
+  using ScalarRealType = ElementRealType;
 
   /** Measurement vector type */
-  typedef Self MeasurementVectorType;
+  using MeasurementVectorType = Self;
 
   /** Component wise defined element
    *

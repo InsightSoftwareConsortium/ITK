@@ -28,7 +28,7 @@
 
 int itkStimulateImageIOTest(int argc, char* argv[] )
 {
-  typedef itk::Image<float,2> FloatImageType;
+  using FloatImageType = itk::Image<float,2>;
 
   if( argc < 3 )
     {

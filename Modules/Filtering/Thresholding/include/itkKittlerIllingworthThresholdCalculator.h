@@ -51,11 +51,11 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT KittlerIllingworthThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef KittlerIllingworthThresholdCalculator             Self;
-  typedef HistogramThresholdCalculator<THistogram, TOutput> Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = KittlerIllingworthThresholdCalculator;
+  using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,8 +64,8 @@ public:
   itkTypeMacro(KittlerIllingworthThresholdCalculator, HistogramThresholdCalculator);
 
   /** Type definition for the input image. */
-  typedef THistogram  HistogramType;
-  typedef TOutput     OutputType;
+  using HistogramType = THistogram;
+  using OutputType = TOutput;
 
 protected:
   KittlerIllingworthThresholdCalculator() {}
@@ -73,10 +73,10 @@ protected:
 
   void GenerateData(void) override;
 
-  typedef typename HistogramType::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
-  typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;
-  typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;
-  typedef typename HistogramType::SizeValueType               SizeValueType;
+  using TotalAbsoluteFrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;
+  using AbsoluteFrequencyType = typename HistogramType::AbsoluteFrequencyType;
+  using InstanceIdentifier = typename HistogramType::InstanceIdentifier;
+  using SizeValueType = typename HistogramType::SizeValueType;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(KittlerIllingworthThresholdCalculator);

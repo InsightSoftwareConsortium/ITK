@@ -50,8 +50,8 @@ int itkMathRoundProfileTest1( int, char *[] )
 {
   itk::TimeProbesCollectorBase  chronometer;
 
-  typedef std::vector< double >   ArrayType;
-  typedef std::vector< int >      IntArrayType;
+  using ArrayType = std::vector< double >;
+  using IntArrayType = std::vector< int >;
 
   ArrayType input;
   IntArrayType output1;

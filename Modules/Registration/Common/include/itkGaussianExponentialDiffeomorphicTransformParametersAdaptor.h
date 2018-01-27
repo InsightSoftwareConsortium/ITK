@@ -35,11 +35,11 @@ class ITK_TEMPLATE_EXPORT GaussianExponentialDiffeomorphicTransformParametersAda
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef GaussianExponentialDiffeomorphicTransformParametersAdaptor  Self;
-  typedef ConstantVelocityFieldTransformParametersAdaptor<TTransform> Superclass;
-  typedef SmartPointer<Self>                                          Pointer;
-  typedef SmartPointer<const Self>                                    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GaussianExponentialDiffeomorphicTransformParametersAdaptor;
+  using Superclass = ConstantVelocityFieldTransformParametersAdaptor<TTransform>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -48,8 +48,8 @@ public:
   itkTypeMacro( GaussianExponentialDiffeomorphicTransformParametersAdaptor,
    ConstantVelocityFieldTransformParametersAdaptor );
 
-  typedef TTransform                               TransformType;
-  typedef typename TransformType::ScalarType       ScalarType;
+  using TransformType = TTransform;
+  using ScalarType = typename TransformType::ScalarType;
 
   /**
    * Get/Set the Gaussian smoothing standard deviation for the velocity field.

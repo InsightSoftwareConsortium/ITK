@@ -26,11 +26,11 @@ int itkCollidingFrontsImageFilterTest(int argc, char* argv[] )
 {
 
   const   unsigned int    ImageDimension = 2;
-  typedef unsigned char   PixelType;
-  typedef float           InternalPixelType;
+  using PixelType = unsigned char;
+  using InternalPixelType = float;
 
-  typedef itk::Image<PixelType,ImageDimension>         ImageType;
-  typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using InternalImageType = itk::Image<InternalPixelType,ImageDimension>;
 
   //setup uniform image
 
@@ -48,15 +48,15 @@ int itkCollidingFrontsImageFilterTest(int argc, char* argv[] )
   inputImage->Allocate();
   inputImage->FillBuffer( background );
 
-  typedef itk::CastImageFilter< ImageType, InternalImageType > CastFilterType;
+  using CastFilterType = itk::CastImageFilter< ImageType, InternalImageType >;
   CastFilterType::Pointer caster = CastFilterType::New();
   caster->SetInput( inputImage );
 
-  typedef itk::CollidingFrontsImageFilter<InternalImageType,InternalImageType> CollidingFrontsFilterType;
+  using CollidingFrontsFilterType = itk::CollidingFrontsImageFilter<InternalImageType,InternalImageType>;
   CollidingFrontsFilterType::Pointer collidingFronts = CollidingFrontsFilterType::New();
 
-  typedef CollidingFrontsFilterType::NodeContainer NodeContainer;
-  typedef CollidingFrontsFilterType::NodeType      NodeType;
+  using NodeContainer = CollidingFrontsFilterType::NodeContainer;
+  using NodeType = CollidingFrontsFilterType::NodeType;
 
   //select seeds 20 pixels apart
 
@@ -147,11 +147,11 @@ int itkCollidingFrontsImageFilterTest(int argc, char* argv[] )
   // Optionally writing out the two images
   if( argc > 2 )
     {
-    typedef itk::ImageFileWriter< ImageType > WriterType;
+    using WriterType = itk::ImageFileWriter< ImageType >;
     WriterType::Pointer writer = WriterType::New();
 
-    typedef itk::RescaleIntensityImageFilter< InternalImageType,
-      ImageType > RescaleFilterType;
+    using RescaleFilterType = itk::RescaleIntensityImageFilter< InternalImageType,
+      ImageType >;
     RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
     writer->SetFileName( argv[1] );
@@ -185,8 +185,8 @@ int itkCollidingFrontsImageFilterTest(int argc, char* argv[] )
 
   std::cout << "Colliding Fronts test passed. " << std::endl;
 
-  typedef itk::Image<double,ImageDimension> DoubleImageType;
-  typedef itk::CollidingFrontsImageFilter<DoubleImageType,InternalImageType> CollidingFrontsFilterType2;
+  using DoubleImageType = itk::Image<double,ImageDimension>;
+  using CollidingFrontsFilterType2 = itk::CollidingFrontsImageFilter<DoubleImageType,InternalImageType>;
   CollidingFrontsFilterType2::Pointer collidingFronts2 = CollidingFrontsFilterType2::New();
 
   return EXIT_SUCCESS;

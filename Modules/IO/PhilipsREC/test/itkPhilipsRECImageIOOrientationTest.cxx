@@ -36,21 +36,21 @@ int itkPhilipsRECImageIOOrientationTest( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef short                                 PixelType;
-  typedef double                                ScalarType;
-  typedef itk::Image< PixelType, 3 >            ImageType;
-  typedef itk::PhilipsRECImageIO                PhilipsRECImageIOType;
+  using PixelType = short;
+  using ScalarType = double;
+  using ImageType = itk::Image< PixelType, 3 >;
+  using PhilipsRECImageIOType = itk::PhilipsRECImageIO;
 
-  typedef itk::ImageFileReader< ImageType >     ReaderType;
-  typedef itk::ImageFileWriter< ImageType >     WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
-  typedef itk::AffineTransform< ScalarType, 3 > AffineTransformType;
-  typedef itk::ResampleImageFilter< ImageType, ImageType, ScalarType >
-                                                ResampleImageFilterType;
-  typedef itk::SubtractImageFilter< ImageType, ImageType, ImageType >
-                                                SubtractImageFilterType;
-  typedef itk::NearestNeighborInterpolateImageFunction< ImageType, ScalarType >
-                                                NearestInterpType;
+  using AffineTransformType = itk::AffineTransform< ScalarType, 3 >;
+  using ResampleImageFilterType =
+      itk::ResampleImageFilter< ImageType, ImageType, ScalarType >;
+  using SubtractImageFilterType =
+      itk::SubtractImageFilter< ImageType, ImageType, ImageType >;
+  using NearestInterpType =
+      itk::NearestNeighborInterpolateImageFunction< ImageType, ScalarType >;
 
   ReaderType::Pointer referenceReader = ReaderType::New();
   referenceReader->SetImageIO(PhilipsRECImageIOType::New());

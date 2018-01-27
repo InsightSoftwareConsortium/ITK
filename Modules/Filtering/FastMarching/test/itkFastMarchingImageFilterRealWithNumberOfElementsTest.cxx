@@ -27,16 +27,16 @@
 int itkFastMarchingImageFilterRealWithNumberOfElementsTest(int , char* [] )
 {
   // create a fastmarching object
-  typedef float PixelType;
+  using PixelType = float;
   const unsigned Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension > FloatImageType;
+  using FloatImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::FastMarchingNumberOfElementsStoppingCriterion< FloatImageType, FloatImageType >
-      CriterionType;
+  using CriterionType =
+      itk::FastMarchingNumberOfElementsStoppingCriterion< FloatImageType, FloatImageType >;
 
-  typedef itk::FastMarchingImageFilterBase< FloatImageType, FloatImageType >
-    FastMarchingType;
+  using FastMarchingType =
+      itk::FastMarchingImageFilterBase< FloatImageType, FloatImageType >;
 
   CriterionType::Pointer criterion = CriterionType::New();
   criterion->SetTargetNumberOfElements( 100 );
@@ -44,9 +44,9 @@ int itkFastMarchingImageFilterRealWithNumberOfElementsTest(int , char* [] )
   FastMarchingType::Pointer marcher = FastMarchingType::New();
   marcher->SetStoppingCriterion( criterion );
 
-  typedef FastMarchingType::NodePairType  NodePairType;
-//  typedef FastMarchingType::NodeContainerType NodeContainerType;
-  typedef FastMarchingType::NodePairContainerType NodePairContainerType;
+  using NodePairType = FastMarchingType::NodePairType;
+//  using NodeContainerType = FastMarchingType::NodeContainerType;
+  using NodePairContainerType = FastMarchingType::NodePairContainerType;
 
   // setup alive points
   NodePairContainerType::Pointer alive = NodePairContainerType::New();
@@ -136,11 +136,11 @@ int itkFastMarchingImageFilterRealWithNumberOfElementsTest(int , char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef char OutputPixelType;
+  using OutputPixelType = char;
 
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::BinaryThresholdImageFilter<FloatImageType, OutputImageType> ThresholdingFilterType;
+  using ThresholdingFilterType = itk::BinaryThresholdImageFilter<FloatImageType, OutputImageType>;
 
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
 
@@ -163,7 +163,7 @@ int itkFastMarchingImageFilterRealWithNumberOfElementsTest(int , char* [] )
 
   OutputImageType::Pointer output = thresholder->GetOutput();
 
-  typedef itk::ImageRegionConstIterator< OutputImageType > OutputIteratorType;
+  using OutputIteratorType = itk::ImageRegionConstIterator< OutputImageType >;
 
   OutputIteratorType it( output, output->GetLargestPossibleRegion() );
   it.GoToBegin();

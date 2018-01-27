@@ -56,11 +56,11 @@ class ITK_TEMPLATE_EXPORT FastChamferDistanceImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef FastChamferDistanceImageFilter                  Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FastChamferDistanceImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -69,25 +69,25 @@ public:
   itkTypeMacro(FastChamferDistanceImageFilter, ImageToImageFilter);
 
   /** Type for input image. */
-  typedef   TInputImage InputImageType;
+  using InputImageType = TInputImage;
 
   /** Type for input image. */
-  typedef   TOutputImage OutputImageType;
+  using OutputImageType = TOutputImage;
 
   /** Type for the region of the input image. */
-  typedef typename InputImageType::RegionType RegionType;
+  using RegionType = typename InputImageType::RegionType;
 
   /** Type for the region of the input image. */
-  typedef typename InputImageType::PixelType PixelType;
+  using PixelType = typename InputImageType::PixelType;
 
   /** Type for the index of the input image. */
-  typedef typename RegionType::IndexType IndexType;
+  using IndexType = typename RegionType::IndexType;
 
   /** Type for the index of the input image. */
-  typedef typename InputImageType::OffsetType OffsetType;
+  using OffsetType = typename InputImageType::OffsetType;
 
   /** Type for the size of the input image. */
-  typedef typename RegionType::SizeType SizeType;
+  using SizeType = typename RegionType::SizeType;
 
   /** The dimension of the input and output images. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -96,14 +96,14 @@ public:
                       OutputImageType::ImageDimension);
 
   /** Pointer Type for input image. */
-  typedef typename InputImageType::ConstPointer InputImagePointer;
+  using InputImagePointer = typename InputImageType::ConstPointer;
 
   /** NarrowBand container */
-  typedef BandNode< IndexType, PixelType > BandNodeType;
-  typedef NarrowBand< BandNodeType >       NarrowBandType;
-  typedef typename NarrowBandType::Pointer NarrowBandPointer;
+  using BandNodeType = BandNode< IndexType, PixelType >;
+  using NarrowBandType = NarrowBand< BandNodeType >;
+  using NarrowBandPointer = typename NarrowBandType::Pointer;
 
-  typedef FixedArray< float, ImageDimension > WeightsType;
+  using WeightsType = FixedArray< float, ImageDimension >;
 
   /** coefficients of the Chamfer distance for each kind of neighbor. */
   itkSetMacro(Weights, WeightsType);

@@ -22,8 +22,8 @@
   class Bogus
   {
    public:
-    // typedef Bogus Self;
-    // typedef SmartPointer<Self> Pointer;
+    // using Self = Bogus;
+    // using Pointer =  SmartPointer<Self>;
     // itkNewMacro(Self);
 //     static Bogus* New() { return new Bogus(); };
 //     void Register() {};
@@ -59,12 +59,12 @@ int itkNewTest ( int , char* [] )
 
   // BackwardDifferenceOperator
   // Bad
-  // typedef itk::BackwardDifferenceOperator<double> iDHBO;
+  // using iDHBO = itk::BackwardDifferenceOperator<double>;
   // iDHBO::Pointer dhbo = iDHBO::New();
 
   // ForwardDifferenceOperator
   // Bad
-  // typedef itk::ForwardDifferenceOperator<double> iDHFO;
+  // using iDHFO = itk::ForwardDifferenceOperator<double>;
   // iDHFO::Pointer dhfo = iDHFO::New();
 
   return EXIT_SUCCESS;

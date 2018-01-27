@@ -24,15 +24,15 @@
 int itkTileImageFilterTest(int argc, char *argv[] )
 {
 
-  typedef itk::RGBPixel<unsigned char> PixelType;
+  using PixelType = itk::RGBPixel<unsigned char>;
   enum { InputImageDimension = 2 };
   enum { OutputImageDimension = 3 };
 
-  typedef itk::Image<PixelType,InputImageDimension>              InputImageType;
-  typedef itk::Image<PixelType,OutputImageDimension>             OutputImageType;
-  typedef itk::ImageFileReader< InputImageType >                 ImageReaderType;
-  typedef itk::TileImageFilter<InputImageType,OutputImageType>   TilerType;
-  typedef itk::ImageSeriesWriter<OutputImageType,InputImageType> WriterType;
+  using InputImageType = itk::Image<PixelType,InputImageDimension>;
+  using OutputImageType = itk::Image<PixelType,OutputImageDimension>;
+  using ImageReaderType = itk::ImageFileReader< InputImageType >;
+  using TilerType = itk::TileImageFilter<InputImageType,OutputImageType>;
+  using WriterType = itk::ImageSeriesWriter<OutputImageType,InputImageType>;
 
   if (argc < 6)
     {

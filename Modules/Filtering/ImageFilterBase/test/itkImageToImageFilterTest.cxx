@@ -27,10 +27,10 @@ template <typename TInputImage, typename TOutputImage>
 class ImageToImageFilterTestHelper : public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  typedef ImageToImageFilterTestHelper                  Self;
-  typedef ImageToImageFilter<TInputImage,TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  using Self = ImageToImageFilterTestHelper;
+  using Superclass = ImageToImageFilter<TInputImage,TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro( Self );
 };
@@ -41,13 +41,13 @@ int itkImageToImageFilterTest(int, char* [] )
 {
 
   const unsigned int      ImageDimension = 3;
-  typedef unsigned char   InputPixelType;
-  typedef signed short    OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = signed short;
 
-  typedef itk::Image< InputPixelType,  ImageDimension >  InputImageType;
-  typedef itk::Image< OutputPixelType, ImageDimension >  OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  ImageDimension >;
+  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
 
-  typedef itk::ImageToImageFilterTestHelper< InputImageType, OutputImageType > FilterType;
+  using FilterType = itk::ImageToImageFilterTestHelper< InputImageType, OutputImageType >;
 
   InputImageType::Pointer inputImage1 = InputImageType::New();
   InputImageType::Pointer inputImage2 = InputImageType::New();

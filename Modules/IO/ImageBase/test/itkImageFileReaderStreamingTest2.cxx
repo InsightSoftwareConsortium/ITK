@@ -24,9 +24,9 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itkExtractImageFilter.h"
 
-typedef unsigned char            PixelType;
-typedef itk::Image<PixelType,3>  ImageType;
-typedef ImageType::ConstPointer  ImageConstPointer;
+using PixelType = unsigned char;
+using ImageType = itk::Image<PixelType,3>;
+using ImageConstPointer = ImageType::ConstPointer;
 
 namespace { // local namespace
 
@@ -39,14 +39,14 @@ bool SameRegionImage( ImageConstPointer test, ImageConstPointer baseline )
   unsigned int radiusTolerance = 0;
   unsigned int numberOfPixelTolerance = 0;
 
-  typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilter;
+  using ExtractImageFilter = itk::ExtractImageFilter<ImageType, ImageType>;
   ExtractImageFilter::Pointer extractor = ExtractImageFilter::New();
   extractor->SetDirectionCollapseToSubmatrix();
   extractor->SetExtractionRegion( test->GetLargestPossibleRegion() );
   extractor->SetInput( baseline );
 
 
-  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
+  using DiffType = itk::Testing::ComparisonImageFilter<ImageType,ImageType>;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput( extractor->GetOutput());
   diff->SetTestInput(test);
@@ -72,7 +72,7 @@ int itkImageFileReaderStreamingTest2(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageFileReader<ImageType>      ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer baselineReader = ReaderType::New();
   baselineReader->SetFileName( argv[1] );
@@ -85,12 +85,12 @@ int itkImageFileReaderStreamingTest2(int argc, char* argv[])
   streamingReader->UseStreamingOn();
 
 
-  typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
+  using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
   monitor->SetInput( streamingReader->GetOutput());
 
 
-  typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilter;
+  using ExtractImageFilter = itk::ExtractImageFilter<ImageType, ImageType>;
   ExtractImageFilter::Pointer extractor = ExtractImageFilter::New();
   extractor->SetDirectionCollapseToSubmatrix();
   extractor->SetInput( monitor->GetOutput() );

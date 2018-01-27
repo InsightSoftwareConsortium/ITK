@@ -41,27 +41,27 @@ int itkRemoveBoundaryObjectsTest2( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
 
-  typedef unsigned char   InputPixelType;
-  typedef unsigned char   OutputPixelType;
-  typedef unsigned char   WritePixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
+  using WritePixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
-  typedef itk::Image< WritePixelType, Dimension >    WriteImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using WriteImageType = itk::Image< WritePixelType, Dimension >;
 
 
   // readers/writers
-  typedef itk::ImageFileReader< InputImageType  > ReaderType;
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
 
   // define the fillhole filter
-  typedef itk::GrayscaleGrindPeakImageFilter<
+  using GrindPeakFilterType = itk::GrayscaleGrindPeakImageFilter<
                             InputImageType,
-                            OutputImageType >  GrindPeakFilterType;
+                            OutputImageType >;
 
   // define the xor and not filters
-  typedef itk::XorImageFilter<InputImageType, InputImageType, OutputImageType>
-    XorFilterType;
+  using XorFilterType =
+      itk::XorImageFilter<InputImageType, InputImageType, OutputImageType>;
 
   // Creation of Reader and Writer filters
   ReaderType::Pointer reader = ReaderType::New();

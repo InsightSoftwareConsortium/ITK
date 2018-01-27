@@ -44,7 +44,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::GroupSpatialObject<3>   GroupType;
+  using GroupType = itk::GroupSpatialObject<3>;
   GroupType::Pointer myGroup = GroupType::New();
 // Software Guide : EndCodeSnippet
 
@@ -56,7 +56,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::EllipseSpatialObject<3>   EllipseType;
+  using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer myEllipse = EllipseType::New();
   myEllipse->SetRadius(2);
 

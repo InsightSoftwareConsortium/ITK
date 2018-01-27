@@ -43,15 +43,14 @@ class RGBToVectorImageAdaptor:public
                   > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RGBToVectorImageAdaptor Self;
-  typedef ImageAdaptor< TImage,
+  /** Standard class type aliases. */
+  using Self = RGBToVectorImageAdaptor;
+  using Superclass = ImageAdaptor< TImage,
                         Accessor::RGBToVectorPixelAccessor<
-                          typename TImage::PixelType::ComponentType
-                          >  > Superclass;
+                          typename TImage::PixelType::ComponentType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,11 +58,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(RGBToVectorImageAdaptor, ImageAdaptor);
 
-  /** PixelContainer typedef support. Used to construct a container for
+  /** PixelContainer type alias support Used to construct a container for
    * the pixel data. */
-  typedef typename Superclass::PixelContainer             PixelContainer;
-  typedef typename Superclass::PixelContainerPointer      PixelContainerPointer;
-  typedef typename Superclass::PixelContainerConstPointer PixelContainerConstPointer;
+  using PixelContainer = typename Superclass::PixelContainer;
+  using PixelContainerPointer = typename Superclass::PixelContainerPointer;
+  using PixelContainerConstPointer = typename Superclass::PixelContainerConstPointer;
 
 protected:
   RGBToVectorImageAdaptor() {}

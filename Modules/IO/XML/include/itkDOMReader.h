@@ -65,18 +65,18 @@ template< typename TOutput >
 class ITK_TEMPLATE_EXPORT DOMReader : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef DOMReader Self;
+  /** Standard class type aliases. */
+  using Self = DOMReader;
 
   itkTypeMacro(DOMReader, Object);
 
-  typedef TOutput                       OutputType;
+  using OutputType = TOutput;
 
-  typedef DOMNode                       DOMNodeType;
-  typedef typename DOMNodeType::Pointer DOMNodePointer;
+  using DOMNodeType = DOMNode;
+  using DOMNodePointer = typename DOMNodeType::Pointer;
 
-  typedef Logger                        LoggerType;
-  typedef typename LoggerType::Pointer  LoggerPointer;
+  using LoggerType = Logger;
+  using LoggerPointer = typename LoggerType::Pointer;
 
   /** Set the input XML filename. */
   itkSetStringMacro(FileName);

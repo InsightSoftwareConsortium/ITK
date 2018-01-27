@@ -37,8 +37,8 @@ namespace
 {
 int Test3dImageMask()
 {
-  typedef itk::BoxSpatialObject< 3 >                BoxType;
-  typedef BoxType::TransformType                    TransformType;
+  using BoxType = itk::BoxSpatialObject< 3 >;
+  using TransformType = BoxType::TransformType;
 
   //Box1 ---
   // bounding box of [0,1] x [0,1] x [0,1]
@@ -79,11 +79,11 @@ int Test3dImageMask()
 
   //Now generate an imageMaskSpatial Object from box1
   //Should have the same bounding box.
-  typedef itk::Image<unsigned char, 3>              ImageType;
-  typedef itk::ImageMaskSpatialObject<3>            ImageMaskSpatialObjectType;
+  using ImageType = itk::Image<unsigned char, 3>;
+  using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<3>;
 
-  typedef itk::SpatialObjectToImageFilter<
-    BoxType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    BoxType, ImageType >;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();
@@ -157,8 +157,8 @@ int Test3dImageMask()
 
 int Test2dImageMask()
 {
-  typedef itk::BoxSpatialObject< 2 >                BoxType;
-  typedef BoxType::TransformType                    TransformType;
+  using BoxType = itk::BoxSpatialObject< 2 >;
+  using TransformType = BoxType::TransformType;
 
   //Box1 ---
   // bounding box of [0,1] x [0,1]
@@ -197,11 +197,11 @@ int Test2dImageMask()
 
   //Now generate an imageMaskSpatial Object from box1
   //Should have the same bounding box. withing pixelation bounds
-  typedef itk::Image<unsigned char, 2>              ImageType;
-  typedef itk::ImageMaskSpatialObject<2>            ImageMaskSpatialObjectType;
+  using ImageType = itk::Image<unsigned char, 2>;
+  using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<2>;
 
-  typedef itk::SpatialObjectToImageFilter<
-    BoxType, ImageType >   SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<
+    BoxType, ImageType >;
 
   SpatialObjectToImageFilterType::Pointer imageFilter =
     SpatialObjectToImageFilterType::New();

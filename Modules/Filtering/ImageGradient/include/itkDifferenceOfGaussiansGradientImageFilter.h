@@ -41,18 +41,18 @@ public:
   /** Number of dimensions. */
   itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef DifferenceOfGaussiansGradientImageFilter Self;
+  /** Standard class type aliases. */
+  using Self = DifferenceOfGaussiansGradientImageFilter;
 
-  /** Output image typedef. The output image is always an n-dimensional
+  /** Output image type alias. The output image is always an n-dimensional
    * image of n-dimensional vectors of doubles. */
-  typedef Image< CovariantVector< TDataType, itkGetStaticConstMacro(NDimensions) >, itkGetStaticConstMacro(NDimensions) >
-  TOutputImage;
+  using TOutputImage =
+      Image< CovariantVector< TDataType, itkGetStaticConstMacro(NDimensions) >, itkGetStaticConstMacro(NDimensions) >;
 
-  /** Standard class typedefs. */
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -60,17 +60,17 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DifferenceOfGaussiansGradientImageFilter, ImageToImageFilter);
 
-  /** Image size typedef. */
-  typedef Size< itkGetStaticConstMacro(NDimensions) > SizeType;
+  /** Image size type alias. */
+  using SizeType = Size< itkGetStaticConstMacro(NDimensions) >;
 
-  /** Image index typedef. */
-  typedef typename TInputImage::IndexType IndexType;
+  /** Image index type alias. */
+  using IndexType = typename TInputImage::IndexType;
 
-  /** Image pixel value typedef. */
-  typedef typename TInputImage::PixelType PixelType;
+  /** Image pixel value type alias. */
+  using PixelType = typename TInputImage::PixelType;
 
   /** Typedef to describe the output image region type. */
-  typedef typename TInputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TInputImage::RegionType;
 
   /** Set/Get the member variables. */
   itkGetConstMacro(Width, unsigned int);

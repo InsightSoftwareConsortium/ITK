@@ -25,26 +25,26 @@ int itkWarpJacobianDeterminantFilterTest(int, char* [] )
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
 
-  typedef itk::Vector< double, ImageDimension >   DeformationPixelType;
-  typedef unsigned char                           OutputPixelType;
+  using DeformationPixelType = itk::Vector< double, ImageDimension >;
+  using OutputPixelType = unsigned char;
 
   // Declare the types of the images
-  typedef itk::Image<DeformationPixelType, ImageDimension>  DisplacementFieldType;
-  typedef itk::Image<OutputPixelType, ImageDimension>       OutputImageType;
+  using DisplacementFieldType = itk::Image<DeformationPixelType, ImageDimension>;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex< DisplacementFieldType >  DeformationIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType >  OutputIteratorType;
+  using DeformationIteratorType = itk::ImageRegionIteratorWithIndex< DisplacementFieldType >;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
 
 
   // Declare the type of the index to access images
-  typedef itk::Index<ImageDimension>         IndexType;
+  using IndexType = itk::Index<ImageDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<ImageDimension>          SizeType;
+  using SizeType = itk::Size<ImageDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<ImageDimension>   RegionType;
+  using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
   DisplacementFieldType ::Pointer inputDisplacementField  = DisplacementFieldType ::New();
@@ -86,8 +86,8 @@ int itkWarpJacobianDeterminantFilterTest(int, char* [] )
     }
 
   // Declare the type for the Log filter
-  typedef itk::DisplacementFieldJacobianDeterminantFilter<
-    DisplacementFieldType, float, OutputImageType  >   FilterType;
+  using FilterType = itk::DisplacementFieldJacobianDeterminantFilter<
+    DisplacementFieldType, float, OutputImageType  >;
 
 
   // Create one Filter

@@ -53,44 +53,44 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader< Thr
   : public ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToImageMetricv4GetValueAndDerivativeThreader      Self;
-  typedef ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >
-                                                                 Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
-  typedef SmartPointer< const Self >                             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageToImageMetricv4GetValueAndDerivativeThreader;
+  using Superclass =
+      ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< TImageToImageMetricv4::VirtualImageDimension >, TImageToImageMetricv4 >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro( ImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreaderBase );
 
   /** Superclass types. */
-  typedef typename Superclass::DomainType    DomainType;
-  typedef typename Superclass::AssociateType AssociateType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
 
   /** Types of the target class. */
-  typedef TImageToImageMetricv4                        ImageToImageMetricv4Type;
-  typedef typename Superclass::VirtualImageType        VirtualImageType;
-  typedef typename Superclass::VirtualIndexType        VirtualIndexType;
-  typedef typename Superclass::VirtualPointType        VirtualPointType;
-  typedef typename Superclass::FixedImagePointType     FixedImagePointType;
-  typedef typename Superclass::FixedImagePixelType     FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType  FixedImageGradientType;
-  typedef typename Superclass::MovingImagePointType    MovingImagePointType;
-  typedef typename Superclass::MovingImagePixelType    MovingImagePixelType;
-  typedef typename Superclass::MovingImageGradientType MovingImageGradientType;
+  using ImageToImageMetricv4Type = TImageToImageMetricv4;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using FixedImagePointType = typename Superclass::FixedImagePointType;
+  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
+  using FixedImageGradientType = typename Superclass::FixedImageGradientType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
+  using MovingImageGradientType = typename Superclass::MovingImageGradientType;
 
-  typedef typename Superclass::FixedTransformType      FixedTransformType;
-  typedef typename Superclass::FixedOutputPointType    FixedOutputPointType;
-  typedef typename Superclass::MovingTransformType     MovingTransformType;
-  typedef typename Superclass::MovingOutputPointType   MovingOutputPointType;
+  using FixedTransformType = typename Superclass::FixedTransformType;
+  using FixedOutputPointType = typename Superclass::FixedOutputPointType;
+  using MovingTransformType = typename Superclass::MovingTransformType;
+  using MovingOutputPointType = typename Superclass::MovingOutputPointType;
 
-  typedef typename Superclass::MeasureType             MeasureType;
-  typedef typename Superclass::DerivativeType          DerivativeType;
-  typedef typename Superclass::DerivativeValueType     DerivativeValueType;
-  typedef typename Superclass::JacobianType            JacobianType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename Superclass::DerivativeValueType;
+  using JacobianType = typename Superclass::JacobianType;
 
-  typedef typename Superclass::InternalComputationValueType InternalComputationValueType;
-  typedef typename Superclass::NumberOfParametersType       NumberOfParametersType;
-  typedef typename Superclass::ImageDimensionType           ImageDimensionType;
+  using InternalComputationValueType = typename Superclass::InternalComputationValueType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
+  using ImageDimensionType = typename Superclass::ImageDimensionType;
 
 protected:
   /** Constructor. */
@@ -126,43 +126,43 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader< Thr
   : public ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToImageMetricv4GetValueAndDerivativeThreader      Self;
-  typedef ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >
-                                                                 Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
-  typedef SmartPointer< const Self >                             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageToImageMetricv4GetValueAndDerivativeThreader;
+  using Superclass =
+      ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, TImageToImageMetricv4 >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro( ImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreaderBase );
 
   /** Superclass types. */
-  typedef typename Superclass::DomainType    DomainType;
-  typedef typename Superclass::AssociateType AssociateType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
 
   /** Types of the target class. */
-  typedef typename Superclass::ImageToImageMetricv4Type ImageToImageMetricv4Type;
-  typedef typename Superclass::VirtualImageType         VirtualImageType;
-  typedef typename Superclass::VirtualIndexType         VirtualIndexType;
-  typedef typename Superclass::VirtualPointType         VirtualPointType;
-  typedef typename Superclass::FixedImagePointType      FixedImagePointType;
-  typedef typename Superclass::FixedImagePixelType      FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType   FixedImageGradientType;
-  typedef typename Superclass::MovingImagePointType     MovingImagePointType;
-  typedef typename Superclass::MovingImagePixelType     MovingImagePixelType;
-  typedef typename Superclass::MovingImageGradientType  MovingImageGradientType;
+  using ImageToImageMetricv4Type = typename Superclass::ImageToImageMetricv4Type;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using FixedImagePointType = typename Superclass::FixedImagePointType;
+  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
+  using FixedImageGradientType = typename Superclass::FixedImageGradientType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
+  using MovingImageGradientType = typename Superclass::MovingImageGradientType;
 
-  typedef typename Superclass::FixedTransformType      FixedTransformType;
-  typedef typename Superclass::FixedOutputPointType    FixedOutputPointType;
-  typedef typename Superclass::MovingTransformType     MovingTransformType;
-  typedef typename Superclass::MovingOutputPointType   MovingOutputPointType;
+  using FixedTransformType = typename Superclass::FixedTransformType;
+  using FixedOutputPointType = typename Superclass::FixedOutputPointType;
+  using MovingTransformType = typename Superclass::MovingTransformType;
+  using MovingOutputPointType = typename Superclass::MovingOutputPointType;
 
-  typedef typename Superclass::MeasureType             MeasureType;
-  typedef typename Superclass::DerivativeType          DerivativeType;
-  typedef typename Superclass::DerivativeValueType     DerivativeValueType;
-  typedef typename Superclass::JacobianType            JacobianType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename Superclass::DerivativeValueType;
+  using JacobianType = typename Superclass::JacobianType;
 
-  typedef typename Superclass::InternalComputationValueType InternalComputationValueType;
-  typedef typename Superclass::NumberOfParametersType       NumberOfParametersType;
+  using InternalComputationValueType = typename Superclass::InternalComputationValueType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
 protected:
   /** Constructor. */

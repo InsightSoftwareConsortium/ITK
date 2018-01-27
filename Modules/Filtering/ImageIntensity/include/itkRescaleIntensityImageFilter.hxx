@@ -59,7 +59,7 @@ RescaleIntensityImageFilter< TInputImage, TOutputImage >
     return;
     }
 
-  typedef MinimumMaximumImageCalculator< TInputImage > CalculatorType;
+  using CalculatorType = MinimumMaximumImageCalculator< TInputImage >;
 
   typename CalculatorType::Pointer calculator = CalculatorType::New();
 

@@ -53,42 +53,42 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ReflectiveImageRegionConstIterator:public ImageConstIteratorWithIndex< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ReflectiveImageRegionConstIterator    Self;
-  typedef ImageConstIteratorWithIndex< TImage > Superclass;
+  /** Standard class type aliases. */
+  using Self = ReflectiveImageRegionConstIterator;
+  using Superclass = ImageConstIteratorWithIndex< TImage >;
 
-  /** Index typedef support. While this was already typdef'ed in the superclass
+  /** Index type alias support While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Index back to itk::Index to that is it not
    * confused with ImageIterator::Index. */
-  typedef typename TImage::IndexType IndexType;
+  using IndexType = typename TImage::IndexType;
 
-  /** Image typedef support. While this was already typdef'ed in the superclass
+  /** Image type alias support While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc.
    * Note that we have to rescope Image back to itk::Image to that is it not
    * confused with ImageIterator::Image. */
-  typedef TImage ImageType;
+  using ImageType = TImage;
 
-  /** PixelContainer typedef support. Used to refer to the container for
+  /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly
    * with gcc. */
-  typedef typename TImage::PixelContainer  PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  using PixelContainer = typename TImage::PixelContainer;
+  using PixelContainerPointer = typename PixelContainer::Pointer;
 
-  /** Region typedef support. While this was already typdef'ed in the
+  /** Region type alias support While this was already typdef'ed in the
    * superclass it needs to be redone here for this subclass to compile
    * properly with gcc.  Note that we have to rescope Region back to
    * itk::ImageRegion so that is it not confused with
    * ImageIterator::Index. */
-  typedef typename TImage::RegionType     RegionType;
-  typedef typename TImage::SizeType       SizeType;
-  typedef typename TImage::SizeValueType  SizeValueType;
+  using RegionType = typename TImage::RegionType;
+  using SizeType = typename TImage::SizeType;
+  using SizeValueType = typename TImage::SizeValueType;
 
-  /** Type of the Offset taken from the image.  These typedefs are
+  /** Type of the Offset taken from the image.  These type alias are
    * duplicated from the superclass for gcc support. */
-  typedef typename TImage::OffsetType          OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
+  using OffsetType = typename TImage::OffsetType;
+  using OffsetValueType = typename OffsetType::OffsetValueType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ReflectiveImageRegionConstIterator();

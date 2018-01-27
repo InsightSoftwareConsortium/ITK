@@ -42,8 +42,8 @@ int main(int, char * [] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned char, 2 >      ImageType;
-  typedef itk::RandomImageSource< ImageType > RandomImageSourceType;
+  using ImageType = itk::Image< unsigned char, 2 >;
+  using RandomImageSourceType = itk::RandomImageSource< ImageType >;
   RandomImageSourceType::Pointer randomImageSource
                                                = RandomImageSourceType::New();
   ImageType::SizeValueType size[2];
@@ -63,7 +63,7 @@ int main(int, char * [] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::EllipseSpatialObject<2> EllipseType;
+  using EllipseType = itk::EllipseSpatialObject<2>;
   EllipseType::Pointer ellipse = EllipseType::New();
   ellipse->SetRadius(2);
   EllipseType::VectorType offset;
@@ -79,8 +79,8 @@ int main(int, char * [] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::SpatialObjectToImageStatisticsCalculator<
-    ImageType, EllipseType > CalculatorType;
+  using CalculatorType = itk::SpatialObjectToImageStatisticsCalculator<
+    ImageType, EllipseType >;
   CalculatorType::Pointer calculator = CalculatorType::New();
 // Software Guide : EndCodeSnippet
 

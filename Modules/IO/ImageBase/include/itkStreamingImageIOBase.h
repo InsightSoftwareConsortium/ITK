@@ -52,10 +52,10 @@ namespace itk
 class ITKIOImageBase_EXPORT StreamingImageIOBase:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef StreamingImageIOBase Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = StreamingImageIOBase;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(StreamingImageIOBase, ImageIOBase);

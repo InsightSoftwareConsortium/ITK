@@ -47,11 +47,11 @@ template< typename TImageType >
 class DefaultPixelAccessorFunctor
 {
 public:
-  typedef TImageType                            ImageType;
-  typedef typename ImageType::InternalPixelType InternalPixelType;
-  typedef typename ImageType::PixelType         ExternalPixelType;
-  typedef typename ImageType::AccessorType      PixelAccessorType;
-  typedef unsigned int                          VectorLengthType;
+  using ImageType = TImageType;
+  using InternalPixelType = typename ImageType::InternalPixelType;
+  using ExternalPixelType = typename ImageType::PixelType;
+  using PixelAccessorType = typename ImageType::AccessorType;
+  using VectorLengthType = unsigned int;
 
   /**
    * example usage:
@@ -61,7 +61,7 @@ public:
   template <typename UImageType>
   struct Rebind
     {
-      typedef DefaultPixelAccessorFunctor<UImageType>  Type;
+      using Type = DefaultPixelAccessorFunctor<UImageType>;
     };
 
 

@@ -55,38 +55,38 @@ class NumericTraits< VariableLengthVector< T > >
 {
 public:
 
-  typedef typename NumericTraits< T >::AbsType        ElementAbsType;
-  typedef typename NumericTraits< T >::AccumulateType ElementAccumulateType;
-  typedef typename NumericTraits< T >::FloatType      ElementFloatType;
-  typedef typename NumericTraits< T >::PrintType      ElementPrintType;
-  typedef typename NumericTraits< T >::RealType       ElementRealType;
+  using ElementAbsType = typename NumericTraits< T >::AbsType;
+  using ElementAccumulateType = typename NumericTraits< T >::AccumulateType;
+  using ElementFloatType = typename NumericTraits< T >::FloatType;
+  using ElementPrintType = typename NumericTraits< T >::PrintType;
+  using ElementRealType = typename NumericTraits< T >::RealType;
 
   /** Return the type of the native component type. */
-  typedef T ValueType;
+  using ValueType = T;
 
-  typedef VariableLengthVector< T > Self;
+  using Self = VariableLengthVector< T >;
 
   /** Unsigned component type */
-  typedef VariableLengthVector< ElementAbsType > AbsType;
+  using AbsType = VariableLengthVector< ElementAbsType >;
 
   /** Accumulation of addition and multiplication. */
-  typedef VariableLengthVector< ElementAccumulateType > AccumulateType;
+  using AccumulateType = VariableLengthVector< ElementAccumulateType >;
 
   /** Typedef for operations that use floating point instead of real precision
     */
-  typedef VariableLengthVector< ElementFloatType > FloatType;
+  using FloatType = VariableLengthVector< ElementFloatType >;
 
   /** Return the type that can be printed. */
-  typedef VariableLengthVector< ElementPrintType > PrintType;
+  using PrintType = VariableLengthVector< ElementPrintType >;
 
   /** Type for real-valued scalar operations. */
-  typedef VariableLengthVector< ElementRealType > RealType;
+  using RealType = VariableLengthVector< ElementRealType >;
 
   /** Type for real-valued scalar operations. */
-  typedef ElementRealType ScalarRealType;
+  using ScalarRealType = ElementRealType;
 
   /** Measurement vector type */
-  typedef Self MeasurementVectorType;
+  using MeasurementVectorType = Self;
 
   /** Component wise defined element
    *

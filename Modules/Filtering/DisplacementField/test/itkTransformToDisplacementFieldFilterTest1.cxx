@@ -42,31 +42,30 @@ int itkTransformToDisplacementFieldFilterTest1( int argc, char *argv[] )
 
   /** Typedefs. */
   const unsigned int Dimension = 3;
-  typedef float  ScalarPixelType;
-  typedef double CoordRepresentationType;
+  using ScalarPixelType = float;
+  using CoordRepresentationType = double;
 
-  typedef itk::Image<
-    ScalarPixelType, Dimension>          ImageType;
-  typedef itk::Vector<
-    ScalarPixelType, Dimension>          VectorPixelType;
+  using ImageType = itk::Image<
+    ScalarPixelType, Dimension>;
+  using VectorPixelType = itk::Vector<
+    ScalarPixelType, Dimension>;
 
-  typedef itk::Image<
-    VectorPixelType, Dimension>          DisplacementFieldImageType;
+  using DisplacementFieldImageType = itk::Image<
+    VectorPixelType, Dimension>;
 
-  typedef itk::Euler3DTransform<
-    CoordRepresentationType>             TransformType;
+  using TransformType = itk::Euler3DTransform<CoordRepresentationType>;
 
-  typedef TransformType::ParametersType ParametersType;
+  using ParametersType = TransformType::ParametersType;
 
-  typedef itk::TransformToDisplacementFieldFilter< DisplacementFieldImageType, CoordRepresentationType> DisplacementFieldGeneratorType;
-  typedef itk::WarpImageFilter<ImageType, ImageType, DisplacementFieldImageType>                        WarpImageType;
+  using DisplacementFieldGeneratorType = itk::TransformToDisplacementFieldFilter< DisplacementFieldImageType, CoordRepresentationType>;
+  using WarpImageType = itk::WarpImageFilter<ImageType, ImageType, DisplacementFieldImageType>;
 
-  typedef ImageType::SizeType      SizeType;
-  typedef ImageType::SpacingType   SpacingType;
-  typedef ImageType::PointType     PointType;
-  typedef ImageType::IndexType     IndexType;
-  typedef ImageType::RegionType    RegionType;
-  typedef ImageType::DirectionType DirectionType;
+  using SizeType = ImageType::SizeType;
+  using SpacingType = ImageType::SpacingType;
+  using PointType = ImageType::PointType;
+  using IndexType = ImageType::IndexType;
+  using RegionType = ImageType::RegionType;
+  using DirectionType = ImageType::DirectionType;
 
 
   /** Create input image. */
@@ -174,8 +173,8 @@ int itkTransformToDisplacementFieldFilterTest1( int argc, char *argv[] )
     }
 
   /** Use ResampleImageFilter to get transformed image. */
-  typedef  itk::ResampleImageFilter<ImageType,
-    ImageType> ResampleImageFilter;
+  using ResampleImageFilter = itk::ResampleImageFilter<ImageType,
+    ImageType>;
   ResampleImageFilter::Pointer resample = ResampleImageFilter::New();
   resample->SetInput(image);
   resample->SetTransform(eulerTransform);
@@ -186,7 +185,7 @@ int itkTransformToDisplacementFieldFilterTest1( int argc, char *argv[] )
   resample->SetOutputDirection(outputDirection);
   resample->Update();
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer1 = WriterType::New();
   writer1->SetInput( resample->GetOutput() );
   writer1->SetFileName( resampledImageFileName );

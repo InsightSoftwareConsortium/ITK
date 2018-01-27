@@ -69,7 +69,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
   if( m_Lambda <= 0.0 )
     {
     // save some time - simply copy the input in the output
-    typedef CastImageFilter< TInputImage, TOutputImage> CastType;
+    using CastType = CastImageFilter< TInputImage, TOutputImage>;
     typename CastType::Pointer cast = CastType::New();
     cast->SetInput( this->GetInput() );
     cast->SetNumberOfThreads( this->GetNumberOfThreads() );
@@ -92,8 +92,8 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
 
   SizeType kernelRadius;
   kernelRadius.Fill(1);
-  typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >
-  FaceCalculatorType;
+  using FaceCalculatorType =
+      itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >;
   FaceCalculatorType faceCalculator;
   typename FaceCalculatorType::FaceListType faceList;
   faceList = faceCalculator(input, output->GetRequestedRegion(), kernelRadius);
@@ -112,7 +112,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
   m_AuxData = new AttributeType[buffsize];
 
   // copy the pixels to the sort buffer
-  typedef ImageRegionConstIteratorWithIndex< TInputImage > CRegionIteratorType;
+  using CRegionIteratorType = ImageRegionConstIteratorWithIndex< TInputImage >;
   CRegionIteratorType RegIt( input, output->GetRequestedRegion() );
   //IndexType Origin = RegIt.GetIndex();
   OffsetValueType pos = 0;
@@ -246,7 +246,7 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
 
   // resolving phase
   // copy pixels back
-  typedef ImageRegionIterator< TOutputImage > RegionIteratorType;
+  using RegionIteratorType = ImageRegionIterator< TOutputImage >;
   RegionIteratorType ORegIt( output, output->GetRequestedRegion() );
   ORegIt.GoToBegin();
 
@@ -307,7 +307,7 @@ void
 AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunction >
 ::SetupOffsetVec(OffsetDirectVecType & PosOffsets, OffsetVecType & Offsets)
 {
-  typedef ConstShapedNeighborhoodIterator< TOutputImage > NeighType;
+  using NeighType = ConstShapedNeighborhoodIterator< TOutputImage >;
   SizeType KernRad;
   KernRad.Fill(1);
   NeighType It( KernRad,

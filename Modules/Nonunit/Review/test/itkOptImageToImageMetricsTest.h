@@ -42,7 +42,7 @@ public:
                MetricType* metric,
                MetricInitializerType metricInitializer)
     {
-    typedef typename MetricType::ParametersType ParametersType;
+    using ParametersType = typename MetricType::ParametersType;
 
     std::cout << "-------------------------------------------------------------------" << std::endl;
     std::cout << "Testing" << std::endl;
@@ -134,8 +134,8 @@ template <typename FixedImageType, typename MovingImageType>
 class MeanSquaresMetricInitializer
 {
 public:
-  typedef itk::MeanSquaresImageToImageMetric< FixedImageType,
-                                              MovingImageType> MetricType;
+  using MetricType = itk::MeanSquaresImageToImageMetric< FixedImageType,
+                                              MovingImageType>;
 
 
   MeanSquaresMetricInitializer(MetricType* metric)
@@ -158,8 +158,8 @@ template <typename FixedImageType, typename MovingImageType>
 class MattesMIMetricInitializer
 {
 public:
-  typedef itk::MattesMutualInformationImageToImageMetric< FixedImageType,
-                                                          MovingImageType> MetricType;
+  using MetricType = itk::MattesMutualInformationImageToImageMetric< FixedImageType,
+                                                          MovingImageType>;
 
 
   MattesMIMetricInitializer(MetricType* metric)
@@ -183,8 +183,8 @@ template <typename FixedImageType, typename MovingImageType>
 class MIMetricInitializer
 {
 public:
-  typedef itk::MutualInformationImageToImageMetric< FixedImageType,
-                                                    MovingImageType> MetricType;
+  using MetricType = itk::MutualInformationImageToImageMetric< FixedImageType,
+                                                    MovingImageType>;
 
 
   MIMetricInitializer(MetricType* metric)
@@ -213,8 +213,8 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
                 TransformType* transform
                 )
 {
-  typedef typename FixedImageReaderType::OutputImageType    FixedImageType;
-  typedef typename MovingImageReaderType::OutputImageType   MovingImageType;
+  using FixedImageType = typename FixedImageReaderType::OutputImageType;
+  using MovingImageType = typename MovingImageReaderType::OutputImageType;
 
   fixedImageReader->Update();
   movingImageReader->Update();
@@ -223,14 +223,14 @@ void BasicTest( FixedImageReaderType* fixedImageReader,
   typename MovingImageType::Pointer moving = movingImageReader->GetOutput();
 
   // Mean squares
-  typedef itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType > MetricType;
+  using MetricType = itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType >;
   typename MetricType::Pointer msMetric = MetricType::New();
   MeanSquaresMetricInitializer< FixedImageType, MovingImageType > msMetricInitializer( msMetric );
 
   TestAMetric( fixedImageReader, movingImageReader, interpolator, transform, msMetric.GetPointer(), msMetricInitializer );
 
   // Mattes MI
-  typedef itk::MattesMutualInformationImageToImageMetric< FixedImageType, MovingImageType > MattesMetricType;
+  using MattesMetricType = itk::MattesMutualInformationImageToImageMetric< FixedImageType, MovingImageType >;
   typename MattesMetricType::Pointer mattesMetric = MattesMetricType::New();
   MattesMIMetricInitializer< FixedImageType, MovingImageType > mattesMetricInitializer( mattesMetric );
 
@@ -250,8 +250,8 @@ void TestAMetric(FixedImageReaderType* fixedImageReader,
                  MetricType* metric,
                  MetricInitializerType metricInitializer)
 {
-  typedef typename FixedImageReaderType::OutputImageType    FixedImageType;
-  typedef typename MovingImageReaderType::OutputImageType   MovingImageType;
+  using FixedImageType = typename FixedImageReaderType::OutputImageType;
+  using MovingImageType = typename MovingImageReaderType::OutputImageType;
 
   metric->SetFixedImageRegion( fixedImageReader->GetOutput()->GetBufferedRegion() );
 
@@ -269,9 +269,9 @@ template <typename FixedImageReaderType, typename MovingImageReaderType>
 void AffineLinearTest( FixedImageReaderType* fixedImageReader,
                        MovingImageReaderType* movingImageReader)
 {
-  typedef typename MovingImageReaderType::OutputImageType MovingImageType;
-  typedef itk::LinearInterpolateImageFunction< MovingImageType, double > InterpolatorType;
-  typedef itk::AffineTransform<double, 2> TransformType;
+  using MovingImageType = typename MovingImageReaderType::OutputImageType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction< MovingImageType, double >;
+  using TransformType = itk::AffineTransform<double, 2>;
 
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
   TransformType::Pointer transform = TransformType::New();
@@ -287,10 +287,10 @@ template <typename FixedImageReaderType, typename MovingImageReaderType>
 void RigidLinearTest( FixedImageReaderType* fixedImageReader,
                        MovingImageReaderType* movingImageReader)
 {
-  typedef typename MovingImageReaderType::OutputImageType MovingImageType;
+  using MovingImageType = typename MovingImageReaderType::OutputImageType;
 
-  typedef itk::LinearInterpolateImageFunction< MovingImageType, double > InterpolatorType;
-  typedef itk::Rigid2DTransform<double> TransformType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction< MovingImageType, double >;
+  using TransformType = itk::Rigid2DTransform<double>;
 
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
   TransformType::Pointer transform = TransformType::New();
@@ -305,10 +305,10 @@ template <typename FixedImageReaderType, typename MovingImageReaderType>
 void TranslationLinearTest( FixedImageReaderType* fixedImageReader,
                             MovingImageReaderType* movingImageReader)
 {
-  typedef typename MovingImageReaderType::OutputImageType MovingImageType;
+  using MovingImageType = typename MovingImageReaderType::OutputImageType;
 
-  typedef itk::LinearInterpolateImageFunction< MovingImageType, double > InterpolatorType;
-  typedef itk::TranslationTransform<double, 2> TransformType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction< MovingImageType, double >;
+  using TransformType = itk::TranslationTransform<double, 2>;
 
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
   TransformType::Pointer transform = TransformType::New();
@@ -324,16 +324,16 @@ template <typename FixedImageReaderType, typename MovingImageReaderType>
 void DoDebugTest( FixedImageReaderType* fixedImageReader,
                   MovingImageReaderType* movingImageReader)
 {
-  typedef typename MovingImageReaderType::OutputImageType MovingImageType;
+  using MovingImageType = typename MovingImageReaderType::OutputImageType;
 
-  typedef itk::LinearInterpolateImageFunction< MovingImageType, double > InterpolatorType;
-  typedef itk::Rigid2DTransform<double> TransformType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction< MovingImageType, double >;
+  using TransformType = itk::Rigid2DTransform<double>;
 
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
   TransformType::Pointer transform = TransformType::New();
 
-  typedef typename FixedImageReaderType::OutputImageType      FixedImageType;
-  typedef typename MovingImageReaderType::OutputImageType     MovingImageType;
+  using FixedImageType = typename FixedImageReaderType::OutputImageType;
+  using MovingImageType = typename MovingImageReaderType::OutputImageType;
 
   fixedImageReader->Update();
   movingImageReader->Update();
@@ -342,13 +342,13 @@ void DoDebugTest( FixedImageReaderType* fixedImageReader,
   typename MovingImageType::Pointer moving = movingImageReader->GetOutput();
 
   // Mean squares
-  typedef itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType > MetricType;
+  using MetricType = itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType >;
   typename MetricType::Pointer metric = MetricType::New();
   MeanSquaresMetricInitializer< FixedImageType, MovingImageType > metricInitializer( metric );
 
   metric->SetFixedImageRegion( fixedImageReader->GetOutput()->GetBufferedRegion() );
 
-  typedef typename MetricType::ParametersType ParametersType;
+  using ParametersType = typename MetricType::ParametersType;
 
   std::cout << "-------------------------------------------------------------------" << std::endl;
   std::cout << "Testing" << std::endl;

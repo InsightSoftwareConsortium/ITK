@@ -74,13 +74,13 @@ class AbsImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef AbsImageFilter Self;
-  typedef UnaryFunctorImageFilter< TInputImage, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = AbsImageFilter;
+  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
                                    Functor::Abs< typename TInputImage::PixelType,
-                                                 typename TOutputImage::PixelType > >  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                                                 typename TOutputImage::PixelType > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -89,8 +89,8 @@ public:
   itkTypeMacro(AbsImageFilter,
                UnaryFunctorImageFilter);
 
-  typedef typename TInputImage::PixelType     InputPixelType;
-  typedef typename TOutputImage::PixelType    OutputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

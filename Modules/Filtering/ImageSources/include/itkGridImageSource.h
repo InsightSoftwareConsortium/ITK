@@ -58,11 +58,11 @@ class ITK_TEMPLATE_EXPORT GridImageSource
    :public GenerateImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GridImageSource                     Self;
-  typedef GenerateImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GridImageSource;
+  using Superclass = GenerateImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GridImageSource, GenerateImageSource);
@@ -70,29 +70,29 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef double RealType;
+  using RealType = double;
 
   /** Dimensionality of the output image */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
   /** Typedef for the output image types. */
-  typedef TOutputImage                         ImageType;
-  typedef typename TOutputImage::RegionType    ImageRegionType;
-  typedef typename TOutputImage::PixelType     PixelType;
-  typedef typename TOutputImage::SpacingType   SpacingType;
-  typedef typename TOutputImage::PointType     OriginType;
-  typedef typename TOutputImage::DirectionType DirectionType;
-  typedef typename TOutputImage::SizeType      SizeType;
+  using ImageType = TOutputImage;
+  using ImageRegionType = typename TOutputImage::RegionType;
+  using PixelType = typename TOutputImage::PixelType;
+  using SpacingType = typename TOutputImage::SpacingType;
+  using OriginType = typename TOutputImage::PointType;
+  using DirectionType = typename TOutputImage::DirectionType;
+  using SizeType = typename TOutputImage::SizeType;
 
-  typedef KernelFunctionBase<double>           KernelFunctionType;
+  using KernelFunctionType = KernelFunctionBase<double>;
   /** Other convenient types. */
-  typedef FixedArray< RealType, itkGetStaticConstMacro(ImageDimension) >
-  ArrayType;
-  typedef FixedArray< bool, itkGetStaticConstMacro(ImageDimension) >
-  BoolArrayType;
-  typedef vnl_vector< RealType >                           PixelArrayType;
-  typedef VectorContainer< SizeValueType, PixelArrayType > PixelArrayContainerType;
+  using ArrayType =
+      FixedArray< RealType, itkGetStaticConstMacro(ImageDimension) >;
+  using BoolArrayType =
+      FixedArray< bool, itkGetStaticConstMacro(ImageDimension) >;
+  using PixelArrayType = vnl_vector< RealType >;
+  using PixelArrayContainerType = VectorContainer< SizeValueType, PixelArrayType >;
 
   /** Set/Get kernel function used to create the grid. */
   itkSetObjectMacro(KernelFunction, KernelFunctionType);

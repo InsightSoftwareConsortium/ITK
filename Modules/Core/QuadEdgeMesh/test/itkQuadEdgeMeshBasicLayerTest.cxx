@@ -23,8 +23,8 @@
 class itkQuadEdgeMeshBasicLayerTestHelper
 {
 public:
-  typedef itk::GeometricalQuadEdge< int, int, bool, bool >  PrimalType;
-  typedef PrimalType::DualType                              DualType;
+  using PrimalType = itk::GeometricalQuadEdge< int, int, bool, bool >;
+  using DualType = PrimalType::DualType;
 
   static PrimalType * MakeQuadEdges()
     {
@@ -49,7 +49,7 @@ public:
 
 int itkQuadEdgeMeshBasicLayerTest( int , char* [] )
 {
-  typedef itkQuadEdgeMeshBasicLayerTestHelper::PrimalType  PrimalType;
+  using PrimalType = itkQuadEdgeMeshBasicLayerTestHelper::PrimalType;
 
   PrimalType* e[5];
 
@@ -155,7 +155,7 @@ int itkQuadEdgeMeshBasicLayerTest( int , char* [] )
   std::cout << "Passed" << std::endl;
 
   //////////////////////////////////////////////////////////
-  typedef PrimalType::IteratorGeom IteratorGeom;
+  using IteratorGeom = PrimalType::IteratorGeom;
   std::cout  << "Testing Onext iterators... " << std::endl;
   int onextDestination[5][3] = { { 1, 2, 3 },
                                  { 2, 0, 0 },  // Last 0 is a dummy

@@ -44,16 +44,16 @@ template< typename TPixel >
 class AddPixelAccessor
 {
 public:
-  /** Standard class typedefs. */
-  typedef   AddPixelAccessor Self;
+  /** Standard class type aliases. */
+  using Self = AddPixelAccessor;
 
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
    * that this class will exhibit */
-  typedef     TPixel ExternalType;
+  using ExternalType = TPixel;
 
-  /** Internal typedef. It defines the internal real
+  /** Internal type alias. It defines the internal real
    * representation of data */
-  typedef     TPixel InternalType;
+  using InternalType = TPixel;
 
   /** Write access to the pixel */
   inline void Set(InternalType & output, const ExternalType & input) const

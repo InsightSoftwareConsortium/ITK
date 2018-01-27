@@ -115,16 +115,16 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   float           InternalPixelType;
+  using InternalPixelType = float;
   const     unsigned int    Dimension = 2;
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
-  typedef unsigned char                            OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::BinaryThresholdImageFilter<
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using ThresholdingFilterType = itk::BinaryThresholdImageFilter<
                         InternalImageType,
-                        OutputImageType    >       ThresholdingFilterType;
+                        OutputImageType    >;
 
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
 
@@ -134,8 +134,8 @@ int main( int argc, char *argv[] )
   thresholder->SetOutsideValue(  0  );
   thresholder->SetInsideValue(  255 );
 
-  typedef  itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
+  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   ReaderType::Pointer reader2 = ReaderType::New();
@@ -154,8 +154,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GradientAnisotropicDiffusionImageFilter< InternalImageType,
-    InternalImageType> DiffusionFilterType;
+  using DiffusionFilterType = itk::GradientAnisotropicDiffusionImageFilter< InternalImageType,
+    InternalImageType>;
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
   diffusion->SetNumberOfIterations(5);
   diffusion->SetTimeStep(0.125);
@@ -170,8 +170,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::CannySegmentationLevelSetImageFilter< InternalImageType,
-                InternalImageType > CannySegmentationLevelSetImageFilterType;
+  using CannySegmentationLevelSetImageFilterType = itk::CannySegmentationLevelSetImageFilter< InternalImageType,
+                InternalImageType >;
   CannySegmentationLevelSetImageFilterType::Pointer cannySegmentation =
                 CannySegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -350,9 +350,8 @@ int main( int argc, char *argv[] )
     //  Software Guide : BeginCodeSnippet
     cannySegmentation->GenerateSpeedImage();
 
-    typedef CannySegmentationLevelSetImageFilterType::SpeedImageType
-                                                             SpeedImageType;
-    typedef itk::ImageFileWriter<SpeedImageType>             SpeedWriterType;
+    using SpeedImageType = CannySegmentationLevelSetImageFilterType::SpeedImageType;
+    using SpeedWriterType = itk::ImageFileWriter<SpeedImageType>;
     SpeedWriterType::Pointer speedWriter = SpeedWriterType::New();
 
     speedWriter->SetInput( cannySegmentation->GetSpeedImage() );

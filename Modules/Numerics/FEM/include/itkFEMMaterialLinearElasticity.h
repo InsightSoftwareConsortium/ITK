@@ -38,11 +38,11 @@ namespace fem
 class ITKFEM_EXPORT MaterialLinearElasticity : public Material
 {
 public:
-  /** Standard class typedefs. */
-  typedef MaterialLinearElasticity Self;
-  typedef Material                 Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MaterialLinearElasticity;
+  using Superclass = Material;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

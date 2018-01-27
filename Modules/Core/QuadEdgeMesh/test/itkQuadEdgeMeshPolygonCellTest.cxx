@@ -29,32 +29,32 @@ int itkQuadEdgeMeshPolygonCellTest(int, char* [] )
    * Define a mesh type that stores a PixelType of "int".  Use the defaults for
    * the other template parameters.
    */
-  typedef itk::QuadEdgeMesh<int, 3>  MeshType;
-  typedef MeshType::CellTraits       CellTraits;
-  typedef MeshType::PointIdentifier  PointIdentifier;
+  using MeshType = itk::QuadEdgeMesh<int, 3>;
+  using CellTraits = MeshType::CellTraits;
+  using PointIdentifier = MeshType::PointIdentifier;
 
   /**
    * Define a few cell types which uses a PixelType of "int".  Again,
    * use the defaults for the other parameters.  Note that a cell's template
    * parameters must match those of the mesh into which it is inserted.
    */
-  typedef itk::CellInterface< int, CellTraits >           CellInterfaceType;
-  typedef itk::QuadEdgeMeshPolygonCell<CellInterfaceType> PolygonCellType;
+  using CellInterfaceType = itk::CellInterface< int, CellTraits >;
+  using PolygonCellType = itk::QuadEdgeMeshPolygonCell<CellInterfaceType>;
 
 
   /**
    * Typedef the generic cell type for the mesh.  It is an abstract class,
    * so we can only use information from it, like get its pointer type.
    */
-  typedef MeshType::CellType              CellType;
-  typedef CellType::CellAutoPointer       CellAutoPointer;
+  using CellType = MeshType::CellType;
+  using CellAutoPointer = CellType::CellAutoPointer;
 
   /**
    * The type of point stored in the mesh. Because mesh was instantiated
    * with defaults (itkDefaultStaticMeshTraits), the point dimension is 3 and
    * the coordinate representation is float.
    */
-  typedef MeshType::PointType  PointType;
+  using PointType = MeshType::PointType;
 
 
   /**

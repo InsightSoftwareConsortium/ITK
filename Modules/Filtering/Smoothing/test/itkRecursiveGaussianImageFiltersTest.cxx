@@ -36,16 +36,16 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>           myImageType;
+  using myImageType = itk::Image<float, myDimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>             myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>              mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
   myImageType::Pointer inputImage  = myImageType::New();
@@ -71,7 +71,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   inputImage->Allocate();
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
+  using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
 
   // Create one iterator for the Input Image A (this is a light object)
@@ -106,11 +106,8 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   }
 
   // Declare the type for the  Gaussian  filter
-  typedef itk::RecursiveGaussianImageFilter<
-                                              myImageType,
-                                              myImageType
-                                                        >  myGaussianFilterType;
-
+  using myGaussianFilterType = itk::RecursiveGaussianImageFilter<
+                                   myImageType, myImageType >;
 
   // Create a  Filter
   myGaussianFilterType::Pointer filter = myGaussianFilterType::New();
@@ -160,15 +157,15 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   { // Test normalizations factors using a 1D image
   std::cout << "Test normalizations factors using a 1-D image" << std::endl;
 
-  typedef float                         PixelType;
-  typedef itk::Image< PixelType, 1 >    ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, 1 >;
 
-  typedef ImageType::SizeType           SizeType;
-  typedef ImageType::IndexType          IndexType;
-  typedef ImageType::RegionType         RegionType;
-  typedef ImageType::SpacingType        SpacingType;
+  using SizeType = ImageType::SizeType;
+  using IndexType = ImageType::IndexType;
+  using RegionType = ImageType::RegionType;
+  using SpacingType = ImageType::SpacingType;
 
-  typedef itk::NumericTraits< PixelType >::RealType    PixelRealType;
+  using PixelRealType = itk::NumericTraits< PixelType >::RealType;
 
   SizeType size;
   size[0] = 21;
@@ -194,8 +191,8 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
   inputImage->SetPixel( index, static_cast< PixelType >( 1000.0 ) );
 
-  typedef itk::RecursiveGaussianImageFilter<
-                            ImageType, ImageType > FilterType;
+  using FilterType = itk::RecursiveGaussianImageFilter<
+                            ImageType, ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -253,7 +250,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     // the input is an impulse with a value of 1000
     // the resulting convolution should aproximatly sum to the same
 
-    typedef itk::ImageRegionConstIterator< ImageType > IteratorType;
+    using IteratorType = itk::ImageRegionConstIterator< ImageType >;
     IteratorType  it( filter->GetOutput(), filter->GetOutput()->GetBufferedRegion() );
 
     std::vector<double> values;
@@ -397,7 +394,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   filter->SetSigma( 2.0 );
 
   ImageType::ConstPointer outputImage = filter->GetOutput();
-  typedef itk::ImageRegionConstIterator< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator< ImageType >;
   IteratorType  it( outputImage, outputImage->GetBufferedRegion() );
 
   std::cout << std::endl << std::endl;
@@ -443,13 +440,13 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   {
   std::cout << "Test InPlace filtering using a 1-D image" << std::endl;
 
-  typedef float                         PixelType;
-  typedef itk::Image< PixelType, 1 >    ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, 1 >;
 
-  typedef ImageType::SizeType           SizeType;
-  typedef ImageType::IndexType          IndexType;
-  typedef ImageType::RegionType         RegionType;
-  typedef ImageType::SpacingType        SpacingType;
+  using SizeType = ImageType::SizeType;
+  using IndexType = ImageType::IndexType;
+  using RegionType = ImageType::RegionType;
+  using SpacingType = ImageType::SpacingType;
 
   SizeType size;
   size[0] = 21;
@@ -475,7 +472,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
   inputImage->SetPixel( index, static_cast< PixelType >( 1.0 ) );
 
-  typedef itk::RecursiveGaussianImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::RecursiveGaussianImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( inputImage );
   filter->SetSigma( 1 );
@@ -494,7 +491,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   filter->Update();
 
   ImageType::ConstPointer outputImage = filter->GetOutput();
-  typedef itk::ImageRegionConstIterator< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator< ImageType >;
   IteratorType  it( outputImage, outputImage->GetBufferedRegion() );
 
   it.GoToBegin();

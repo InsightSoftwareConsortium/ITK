@@ -33,15 +33,15 @@ template< typename TScalar = double, unsigned int NDimensions = 3 >
 class ITK_TEMPLATE_EXPORT AffineGeometryFrame:public Object
 {
 public:
-  typedef AffineGeometryFrame        Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = AffineGeometryFrame;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef ScalableAffineTransform< TScalar, NDimensions >     TransformType;
-  typedef BoundingBox< IdentifierType, NDimensions, TScalar > BoundingBoxType;
-  typedef typename BoundingBoxType::BoundsArrayType           BoundsArrayType;
-  typedef typename BoundingBoxType::Pointer                   BoundingBoxPointer;
+  using TransformType = ScalableAffineTransform< TScalar, NDimensions >;
+  using BoundingBoxType = BoundingBox< IdentifierType, NDimensions, TScalar >;
+  using BoundsArrayType = typename BoundingBoxType::BoundsArrayType;
+  using BoundingBoxPointer = typename BoundingBoxType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -129,7 +129,7 @@ KdTreeGenerator< TSample >
                           MeasurementVectorType & upperBound,
                           unsigned int level)
 {
-  typedef typename KdTreeType::KdTreeNodeType NodeType;
+  using NodeType = typename KdTreeType::KdTreeNodeType;
   MeasurementType dimensionLowerBound;
   MeasurementType dimensionUpperBound;
   MeasurementType partitionValue;
@@ -188,7 +188,7 @@ KdTreeGenerator< TSample >
   NodeType *         right = GenerateTreeLoop(beginRightIndex, endRightIndex, lowerBound, upperBound, level + 1);
   lowerBound[partitionDimension] = dimensionLowerBound;
 
-  typedef KdTreeNonterminalNode< TSample > KdTreeNonterminalNodeType;
+  using KdTreeNonterminalNodeType = KdTreeNonterminalNode< TSample >;
 
   KdTreeNonterminalNodeType *nonTerminalNode =
     new KdTreeNonterminalNodeType(partitionDimension,

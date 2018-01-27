@@ -31,11 +31,11 @@ class ITKIOMeta_EXPORT MetaArrayReader : public LightProcessObject
 {
 public:
 
-  /** SmartPointer typedef support */
-  typedef MetaArrayReader            Self;
-  typedef LightProcessObject         Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** SmartPointer type alias support */
+  using Self = MetaArrayReader;
+  using Superclass = LightProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

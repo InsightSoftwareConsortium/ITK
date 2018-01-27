@@ -65,12 +65,12 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef int MeasurementType;
+  using MeasurementType = int;
   const unsigned int MeasurementVectorLength = 2;
-  typedef itk::Vector< MeasurementType , MeasurementVectorLength >
-                                                        MeasurementVectorType;
+  using MeasurementVectorType =
+      itk::Vector< MeasurementType , MeasurementVectorLength >;
 
-  typedef itk::Statistics::ListSample< MeasurementVectorType > ListSampleType;
+  using ListSampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   ListSampleType::Pointer listSample = ListSampleType::New();
   listSample->SetMeasurementVectorSize( MeasurementVectorLength );
 
@@ -96,10 +96,9 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float HistogramMeasurementType;
+  using HistogramMeasurementType = float;
   const unsigned int numberOfComponents = 2;
-  typedef itk::Statistics::Histogram< HistogramMeasurementType >
-    HistogramType;
+  using HistogramType = itk::Statistics::Histogram<HistogramMeasurementType>;
 
   HistogramType::SizeType size( numberOfComponents );
   size.Fill(5);
@@ -127,8 +126,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::SampleToHistogramFilter< ListSampleType,
-                           HistogramType > FilterType;
+  using FilterType = itk::Statistics::SampleToHistogramFilter< ListSampleType,
+                           HistogramType >;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput( listSample );

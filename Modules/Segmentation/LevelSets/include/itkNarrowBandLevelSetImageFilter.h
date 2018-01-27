@@ -149,28 +149,28 @@ class ITK_TEMPLATE_EXPORT NarrowBandLevelSetImageFilter:
   public NarrowBandImageFilterBase< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs */
-  typedef NarrowBandLevelSetImageFilter                          Self;
-  typedef NarrowBandImageFilterBase< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
-  typedef SmartPointer< const Self >                             ConstPointer;
+  /** Standard class type aliases */
+  using Self = NarrowBandLevelSetImageFilter;
+  using Superclass = NarrowBandImageFilterBase< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType      ValueType;
-  typedef typename Superclass::IndexType      IndexType;
-  typedef typename Superclass::TimeStepType   TimeStepType;
-  typedef typename Superclass::InputImageType InputImageType;
+  /** Inherited type alias from the superclass. */
+  using ValueType = typename Superclass::ValueType;
+  using IndexType = typename Superclass::IndexType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using InputImageType = typename Superclass::InputImageType;
 
-  /** Local image typedefs */
-  typedef TOutputImage  OutputImageType;
-  typedef TFeatureImage FeatureImageType;
+  /** Local image type alias */
+  using OutputImageType = TOutputImage;
+  using FeatureImageType = TFeatureImage;
 
   /** The generic level set function type */
-  typedef SegmentationLevelSetFunction< OutputImageType, FeatureImageType >
-  SegmentationFunctionType;
+  using SegmentationFunctionType =
+      SegmentationLevelSetFunction< OutputImageType, FeatureImageType >;
 
   /** The type used for the advection field */
-  typedef typename SegmentationFunctionType::VectorImageType VectorImageType;
+  using VectorImageType = typename SegmentationFunctionType::VectorImageType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NarrowBandLevelSetImageFilter, NarrowBandImageFilterBase);
@@ -386,10 +386,10 @@ protected:
 
   /** Reinitialization filters **/
   /** Internal filter types used for reinitialization */
-  typedef IsoContourDistanceImageFilter< OutputImageType, OutputImageType >
-  IsoFilterType;
-  typedef FastChamferDistanceImageFilter< OutputImageType, OutputImageType >
-  ChamferFilterType;
+  using IsoFilterType =
+      IsoContourDistanceImageFilter< OutputImageType, OutputImageType >;
+  using ChamferFilterType =
+      FastChamferDistanceImageFilter< OutputImageType, OutputImageType >;
 
   typename IsoFilterType::Pointer m_IsoFilter;
 

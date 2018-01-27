@@ -35,10 +35,10 @@ int itkHistogramToEntropyImageFilterTest2( int argc, char * argv [] )
 
 
   const unsigned int                Dimension = 2;
-  typedef unsigned char             PixelComponentType;
+  using PixelComponentType = unsigned char;
 
-  typedef itk::Image< PixelComponentType, Dimension > ScalarImageType;
-  typedef itk::ImageFileReader< ScalarImageType >     ReaderType;
+  using ScalarImageType = itk::Image< PixelComponentType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ScalarImageType >;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   ReaderType::Pointer reader2 = ReaderType::New();
@@ -58,19 +58,18 @@ int itkHistogramToEntropyImageFilterTest2( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::JoinImageFilter< ScalarImageType, ScalarImageType > JoinFilterType;
+  using JoinFilterType = itk::JoinImageFilter< ScalarImageType, ScalarImageType >;
 
   JoinFilterType::Pointer joinFilter = JoinFilterType::New();
 
-  typedef JoinFilterType::OutputImageType     ArrayImageType;
+  using ArrayImageType = JoinFilterType::OutputImageType;
 
   joinFilter->SetInput1( reader1->GetOutput() );
   joinFilter->SetInput2( reader2->GetOutput() );
 
-  typedef itk::Statistics::ImageToHistogramFilter< ArrayImageType >
-    HistogramFilterType;
+  using HistogramFilterType = itk::Statistics::ImageToHistogramFilter<ArrayImageType>;
 
-  typedef HistogramFilterType::HistogramMeasurementVectorType  HistogramMeasurementVectorType;
+  using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
 
   const unsigned int NumberOfComponents = 2;
 
@@ -112,17 +111,17 @@ int itkHistogramToEntropyImageFilterTest2( int argc, char * argv [] )
   histogramFilter->Update();
 
 
-  typedef HistogramFilterType::HistogramType  HistogramType;
+  using HistogramType = HistogramFilterType::HistogramType;
   const HistogramType * histogram = histogramFilter->GetOutput();
 
-  typedef itk::HistogramToEntropyImageFilter< HistogramType > HistogramToImageFilterType;
+  using HistogramToImageFilterType = itk::HistogramToEntropyImageFilter< HistogramType >;
   HistogramToImageFilterType::Pointer histogramToImageFilter = HistogramToImageFilterType::New();
 
   histogramToImageFilter->SetInput( histogram );
 
-  typedef HistogramToImageFilterType::OutputImageType OutputImageType;
+  using OutputImageType = HistogramToImageFilterType::OutputImageType;
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[3] );

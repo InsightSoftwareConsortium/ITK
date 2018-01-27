@@ -46,8 +46,8 @@ int itkGDCMLoadImageSpacingTest(int argc, char *argv[])
   const double spacing0 = atof( argv[2] );
   const double spacing1 = atof( argv[3] );
 
-  typedef itk::Image<unsigned short, 2>   ImageType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ImageType = itk::Image<unsigned short, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   itk::GDCMImageIO::Pointer imageIO = itk::GDCMImageIO::New();
   ReaderType::Pointer reader = ReaderType::New();

@@ -47,18 +47,18 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
   //-------------------------------------
   //     Typedefs for convenience
   //-------------------------------------
-  typedef itk::RGBPixel< float >                  RGBPixelType;
-  typedef itk::Image< RGBPixelType,   2 >         RGBImageType;
+  using RGBPixelType = itk::RGBPixel< float >;
+  using RGBImageType = itk::Image< RGBPixelType,   2 >;
 
-  typedef itk::ImageRegionIteratorWithIndex< RGBImageType >  myRGBIteratorType;
+  using myRGBIteratorType = itk::ImageRegionIteratorWithIndex< RGBImageType >;
 
-  typedef itk::Accessor::RGBToVectorPixelAccessor<float>    AccessorType;
+  using AccessorType = itk::Accessor::RGBToVectorPixelAccessor<float>;
 
-  typedef AccessorType::ExternalType              VectorPixelType;
+  using VectorPixelType = AccessorType::ExternalType;
 
-  typedef itk::Image< VectorPixelType,   2 >      myImageType;
+  using myImageType = itk::Image< VectorPixelType,   2 >;
 
-  typedef itk::ImageRegionIteratorWithIndex< myImageType >  myVectorIteratorType;
+  using myVectorIteratorType = itk::ImageRegionIteratorWithIndex< myImageType >;
 
   RGBImageType::SizeType size;
   size[0] = 100;
@@ -97,9 +97,9 @@ int itkRGBToVectorAdaptImageFilterTest(int, char* [] ) {
   bool passed = true;
 
   // Convert to a Vector image
-  typedef itk::AdaptImageFilter< RGBImageType,
+  using AdaptFilterType = itk::AdaptImageFilter< RGBImageType,
                                  myImageType,
-                                 AccessorType   >  AdaptFilterType;
+                                 AccessorType   >;
 
   AdaptFilterType::Pointer  adaptImageToVector = AdaptFilterType::New();
 

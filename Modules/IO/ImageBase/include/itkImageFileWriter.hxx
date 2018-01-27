@@ -242,9 +242,9 @@ ImageFileWriter< TInputImage >
   // confiugure pixel type
   if ( strcmp(input->GetNameOfClass(), "VectorImage") == 0 )
     {
-    typedef typename InputImageType::InternalPixelType VectorImageScalarType;
+    using VectorImageScalarType = typename InputImageType::InternalPixelType;
     m_ImageIO->SetPixelTypeInfo(static_cast<const VectorImageScalarType *>(nullptr));
-    typedef typename InputImageType::AccessorFunctorType AccessorFunctorType;
+    using AccessorFunctorType = typename InputImageType::AccessorFunctorType;
     m_ImageIO->SetNumberOfComponents( AccessorFunctorType::GetVectorLength(input) );
     }
   else

@@ -25,27 +25,27 @@ namespace
   class IteratorRangeDomainThreaderAssociate
   {
   public:
-    typedef IteratorRangeDomainThreaderAssociate Self;
+    using Self = IteratorRangeDomainThreaderAssociate;
 
-    typedef itk::VectorContainer< unsigned int, int > DomainContainerType;
-    typedef DomainContainerType::Pointer              DomainContainerPointer;
-    typedef itk::ThreadedIteratorRangePartitioner< DomainContainerType::ConstIterator > ThreadedPartitionerType;
+    using DomainContainerType = itk::VectorContainer< unsigned int, int >;
+    using DomainContainerPointer = DomainContainerType::Pointer;
+    using ThreadedPartitionerType = itk::ThreadedIteratorRangePartitioner< DomainContainerType::ConstIterator >;
 
     class TestDomainThreader: public itk::DomainThreader< ThreadedPartitionerType, Self >
     {
     public:
-      typedef TestDomainThreader                                   Self;
-      typedef itk::DomainThreader< ThreadedPartitionerType, Self > Superclass;
-      typedef itk::SmartPointer< Self >                            Pointer;
-      typedef itk::SmartPointer< const Self >                      ConstPointer;
+      using Self = TestDomainThreader;
+      using Superclass = itk::DomainThreader< ThreadedPartitionerType, Self >;
+      using Pointer = itk::SmartPointer< Self >;
+      using ConstPointer = itk::SmartPointer< const Self >;
 
-      typedef Superclass::DomainPartitionerType     DomainPartitionerType;
-      typedef Superclass::DomainType                DomainType;
+      using DomainPartitionerType = Superclass::DomainPartitionerType;
+      using DomainType = Superclass::DomainType;
 
       itkSimpleNewMacro( Self );
 
-      typedef std::vector< int >              BorderValuesType;
-      typedef std::vector< BorderValuesType > DomainBorderValuesInThreadedExecutionType;
+      using BorderValuesType = std::vector< int >;
+      using DomainBorderValuesInThreadedExecutionType = std::vector< BorderValuesType >;
 
       const DomainBorderValuesInThreadedExecutionType & GetDomainInThreadedExecution() const
         {
@@ -124,7 +124,7 @@ namespace
   {
     std::cout << "Testing with " << numberOfThreads << " threads." << std::endl;
 
-    typedef IteratorRangeDomainThreaderAssociate::TestDomainThreader TestDomainThreaderType;
+    using TestDomainThreaderType = IteratorRangeDomainThreaderAssociate::TestDomainThreader;
     TestDomainThreaderType::Pointer domainThreader = enclosingClass.GetDomainThreader();
 
     // Exercise GetMultiThreader().
@@ -148,7 +148,7 @@ namespace
               << domainThreader->GetNumberOfThreadsUsed() << "\n\n" << std::endl;
 
     /* Check the results. */
-    typedef TestDomainThreaderType::BorderValuesType BorderValuesType;
+    using BorderValuesType = TestDomainThreaderType::BorderValuesType;
     int previousEndIndex = -1;
     const TestDomainThreaderType::DomainBorderValuesInThreadedExecutionType domainInThreadedExecution = domainThreader->GetDomainInThreadedExecution();
     for( itk::ThreadIdType i = 0; i < domainThreader->GetNumberOfThreadsUsed(); ++i )
@@ -171,7 +171,7 @@ namespace
           }
 
       /* Check that we got the end of the range */
-      typedef IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType DomainType;
+      using DomainType = IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType;
       DomainType::IteratorType fullIt = fullDomain.End();
       --fullIt;
       if( i == numberOfThreads-1 && subRange[1] != fullIt.Value() )
@@ -249,8 +249,8 @@ int itkThreadedIteratorRangePartitionerTest2(int, char* [])
     return EXIT_FAILURE;
     }
 
-  typedef IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType  DomainType;
-  typedef IteratorRangeDomainThreaderAssociate::DomainContainerType             DomainContainerType;
+  using DomainType = IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType;
+  using DomainContainerType = IteratorRangeDomainThreaderAssociate::DomainContainerType;
   DomainContainerType::Pointer container = DomainContainerType::New();
   container->Reserve( 256 );
 

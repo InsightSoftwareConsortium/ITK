@@ -62,13 +62,13 @@ class ITKCommon_EXPORT ThreadPool : public Object
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef ThreadPool               Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer< Self >     Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ThreadPool;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef ThreadJob::Semaphore Semaphore;
+  using Semaphore = ThreadJob::Semaphore;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThreadPool, Object);

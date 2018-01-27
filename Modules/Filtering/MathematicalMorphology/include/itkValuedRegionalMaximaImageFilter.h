@@ -63,17 +63,17 @@ class ValuedRegionalMaximaImageFilter:
                                     std::greater< typename TOutputImage::PixelType >  >
 {
 public:
-  typedef ValuedRegionalMaximaImageFilter Self;
+  using Self = ValuedRegionalMaximaImageFilter;
 
-  typedef ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
+  using Superclass = ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
                                             std::greater< typename TInputImage::PixelType >,
-                                            std::greater< typename TOutputImage::PixelType > > Superclass;
+                                            std::greater< typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType InputImagePixelType;
+  using InputImageType = TInputImage;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

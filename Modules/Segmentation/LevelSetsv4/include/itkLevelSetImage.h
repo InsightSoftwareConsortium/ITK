@@ -40,26 +40,26 @@ class ITK_TEMPLATE_EXPORT LevelSetImage :
   public LevelSetBase< TInput, VDimension, TOutput, ImageBase< VDimension > >
 {
 public:
-  typedef ImageBase< VDimension >                                    ImageBaseType;
+  using ImageBaseType = ImageBase< VDimension >;
 
-  typedef LevelSetImage                                              Self;
-  typedef SmartPointer< Self >                                       Pointer;
-  typedef SmartPointer< const Self >                                 ConstPointer;
-  typedef LevelSetBase< TInput, VDimension, TOutput, ImageBaseType > Superclass;
+  using Self = LevelSetImage;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LevelSetBase< TInput, VDimension, TOutput, ImageBaseType >;
 
   /** Run-time type information */
   itkTypeMacro ( LevelSetImage, LevelSetBase );
 
   itkStaticConstMacro ( Dimension, unsigned int, Superclass::Dimension );
 
-  typedef typename Superclass::InputType          InputType;
-  typedef typename Superclass::OutputType         OutputType;
-  typedef typename Superclass::OutputRealType     OutputRealType;
-  typedef typename Superclass::GradientType       GradientType;
-  typedef typename Superclass::HessianType        HessianType;
-  typedef typename Superclass::LevelSetDataType   LevelSetDataType;
-  typedef typename ImageBaseType::OffsetType      OffsetType;
-  typedef typename ImageBaseType::OffsetValueType OffsetValueType;
+  using InputType = typename Superclass::InputType;
+  using OutputType = typename Superclass::OutputType;
+  using OutputRealType = typename Superclass::OutputRealType;
+  using GradientType = typename Superclass::GradientType;
+  using HessianType = typename Superclass::HessianType;
+  using LevelSetDataType = typename Superclass::LevelSetDataType;
+  using OffsetType = typename ImageBaseType::OffsetType;
+  using OffsetValueType = typename ImageBaseType::OffsetValueType;
 
   /* Set/Get the domain offset from input domain */
   itkSetMacro( DomainOffset, OffsetType );
@@ -70,7 +70,7 @@ protected:
 
   ~LevelSetImage() override;
 
-  typedef GradientType ScalingType;
+  using ScalingType = GradientType;
   ScalingType m_NeighborhoodScales;
   OffsetType  m_DomainOffset;
 

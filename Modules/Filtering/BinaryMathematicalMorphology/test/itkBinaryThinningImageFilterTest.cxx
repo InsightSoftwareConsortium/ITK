@@ -31,16 +31,16 @@ int itkBinaryThinningImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  short          InputPixelType;
-  typedef  unsigned char  OutputPixelType;
+  using InputPixelType = short;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  2 >;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
-  typedef itk::BinaryThinningImageFilter< InputImageType, InputImageType >  ThinningType;
-  typedef itk::RescaleIntensityImageFilter< InputImageType, OutputImageType > RescaleType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using ThinningType = itk::BinaryThinningImageFilter< InputImageType, InputImageType >;
+  using RescaleType = itk::RescaleIntensityImageFilter< InputImageType, OutputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   ThinningType::Pointer thinning = ThinningType::New();

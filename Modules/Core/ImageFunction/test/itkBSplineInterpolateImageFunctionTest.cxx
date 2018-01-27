@@ -33,51 +33,51 @@
 #include "makeRandomImageBsplineInterpolator.h"
 
 
-  typedef double InputPixelType;
-  typedef double CoordRepType;
+  using InputPixelType = double;
+  using CoordRepType = double;
 
   // Set up for 1D Images
   enum { ImageDimension1D = 1 };
 
-  typedef itk::Image< InputPixelType, ImageDimension1D >                 ImageType1D;
-  typedef ImageType1D::Pointer                                           ImageTypePtr1D;
-  typedef ImageType1D::SizeType                                          SizeType1D;
-  typedef itk::BSplineInterpolateImageFunction<ImageType1D,CoordRepType> InterpolatorType1D;
-  //  typedef InterpolatorType1D::IndexType                 IndexType1D;
-  typedef InterpolatorType1D::PointType                                  PointType1D;
-  typedef InterpolatorType1D::ContinuousIndexType                        ContinuousIndexType1D;
+  using ImageType1D = itk::Image< InputPixelType, ImageDimension1D >;
+  using ImageTypePtr1D = ImageType1D::Pointer;
+  using SizeType1D = ImageType1D::SizeType;
+  using InterpolatorType1D = itk::BSplineInterpolateImageFunction<ImageType1D,CoordRepType>;
+  //  using IndexType1D = InterpolatorType1D::IndexType;
+  using PointType1D = InterpolatorType1D::PointType;
+  using ContinuousIndexType1D = InterpolatorType1D::ContinuousIndexType;
 
   void set1DInterpData(ImageType1D::Pointer);
 
   // Set up for 2D Images
   enum { ImageDimension2D = 2 };
 
-  typedef itk::Image< InputPixelType, ImageDimension2D >                 ImageType2D;
-  typedef ImageType2D::Pointer                                           ImageTypePtr2D;
-  typedef ImageType2D::SizeType                                          SizeType2D;
-  typedef itk::BSplineInterpolateImageFunction<ImageType2D,CoordRepType> InterpolatorType2D;
-  //  typedef InterpolatorType2D::IndexType                 IndexType2D;
-  typedef InterpolatorType2D::PointType                                  PointType2D;
-  typedef InterpolatorType2D::ContinuousIndexType                        ContinuousIndexType2D;
+  using ImageType2D = itk::Image< InputPixelType, ImageDimension2D >;
+  using ImageTypePtr2D = ImageType2D::Pointer;
+  using SizeType2D = ImageType2D::SizeType;
+  using InterpolatorType2D = itk::BSplineInterpolateImageFunction<ImageType2D,CoordRepType>;
+  //  using IndexType2D = InterpolatorType2D::IndexType;
+  using PointType2D = InterpolatorType2D::PointType;
+  using ContinuousIndexType2D = InterpolatorType2D::ContinuousIndexType;
 
   void set2DInterpData(ImageType2D::Pointer);
 
   // Set up for 3D Images
   enum { ImageDimension3D = 3 };
 
-  typedef itk::Image< InputPixelType, ImageDimension3D >                 ImageType3D;
-  typedef ImageType3D::Pointer                                           ImageTypePtr3D;
-  typedef ImageType3D::SizeType                                          SizeType3D;
-  typedef itk::BSplineInterpolateImageFunction<ImageType3D,CoordRepType> InterpolatorType3D;
-  typedef InterpolatorType3D::IndexType                                  IndexType3D;
-  typedef InterpolatorType3D::PointType                                  PointType3D;
-  typedef InterpolatorType3D::ContinuousIndexType                        ContinuousIndexType3D;
+  using ImageType3D = itk::Image< InputPixelType, ImageDimension3D >;
+  using ImageTypePtr3D = ImageType3D::Pointer;
+  using SizeType3D = ImageType3D::SizeType;
+  using InterpolatorType3D = itk::BSplineInterpolateImageFunction<ImageType3D,CoordRepType>;
+  using IndexType3D = InterpolatorType3D::IndexType;
+  using PointType3D = InterpolatorType3D::PointType;
+  using ContinuousIndexType3D = InterpolatorType3D::ContinuousIndexType;
 
-  typedef itk::Image< unsigned int, ImageDimension3D >                          ImageIntegerType3D;
-  typedef itk::BSplineInterpolateImageFunction<ImageIntegerType3D,CoordRepType> InterpolatorIntegerType3D;
-  typedef InterpolatorIntegerType3D::IndexType                                  IndexIntegerType3D;
-  typedef InterpolatorIntegerType3D::PointType                                  PointIntegerType3D;
-  typedef InterpolatorIntegerType3D::ContinuousIndexType                        ContinuousIntegerIndexType3D;
+  using ImageIntegerType3D = itk::Image< unsigned int, ImageDimension3D >;
+  using InterpolatorIntegerType3D = itk::BSplineInterpolateImageFunction<ImageIntegerType3D,CoordRepType>;
+  using IndexIntegerType3D = InterpolatorIntegerType3D::IndexType;
+  using PointIntegerType3D = InterpolatorIntegerType3D::PointType;
+  using ContinuousIntegerIndexType3D = InterpolatorIntegerType3D::ContinuousIndexType;
 
   void set3DDerivativeData(ImageType3D::Pointer);
 
@@ -563,20 +563,20 @@ int testInteger3DSpline()
 int testEvaluateValueAndDerivative(void)
 {
   const unsigned int ImageDimension = 2;
-  typedef float                                  PixelType;
-  typedef   itk::Image<PixelType,ImageDimension> ImageType;
-  typedef itk::BSplineInterpolateImageFunction<ImageType,double, double> BSplineInterpolatorFunctionType;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using BSplineInterpolatorFunctionType = itk::BSplineInterpolateImageFunction<ImageType,double, double>;
 
   const unsigned int SplineOrder = 3;
   BSplineInterpolatorFunctionType::Pointer interpolator = makeRandomImageInterpolator<BSplineInterpolatorFunctionType>(SplineOrder);
 
   /** Test the EvaluateDerivative and EvaluateValueAndDerivative functions **/
-  typedef BSplineInterpolatorFunctionType::ContinuousIndexType ContinuousIndexType;
+  using ContinuousIndexType = BSplineInterpolatorFunctionType::ContinuousIndexType;
   ContinuousIndexType x;
   x[0] = 15.1;
   x[1] = 15.2;
 
-  typedef BSplineInterpolatorFunctionType::CovariantVectorType CovariantVectorType;
+  using CovariantVectorType = BSplineInterpolatorFunctionType::CovariantVectorType;
   const CovariantVectorType dx_1 = interpolator->EvaluateDerivativeAtContinuousIndex( x );
   CovariantVectorType dx_2;
 
@@ -644,7 +644,7 @@ void set1DInterpData(ImageType1D::Pointer imgPtr)
   imgPtr->SetBufferedRegion( region );
   imgPtr->Allocate();
 
-  typedef itk::ImageRegionIterator<ImageType1D>    InputIterator;
+  using InputIterator = itk::ImageRegionIterator<ImageType1D>;
 
   InputIterator inIter( imgPtr, region );
 
@@ -679,7 +679,7 @@ void set2DInterpData(ImageType2D::Pointer imgPtr)
   imgPtr->SetRegions( region );
   imgPtr->Allocate();
 
-  typedef itk::ImageRegionIterator<ImageType2D>  InputIterator;
+  using InputIterator = itk::ImageRegionIterator<ImageType2D>;
 
   InputIterator inIter( imgPtr, region );
 

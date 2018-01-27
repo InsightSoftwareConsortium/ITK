@@ -23,26 +23,26 @@ namespace
   class IteratorRangeDomainThreaderAssociate
   {
   public:
-    typedef IteratorRangeDomainThreaderAssociate Self;
+    using Self = IteratorRangeDomainThreaderAssociate;
 
-    typedef std::vector< int > DomainContainerType;
-    typedef itk::ThreadedIteratorRangePartitioner< DomainContainerType::const_iterator > ThreadedPartitionerType;
+    using DomainContainerType = std::vector< int >;
+    using ThreadedPartitionerType = itk::ThreadedIteratorRangePartitioner< DomainContainerType::const_iterator >;
 
     class TestDomainThreader: public itk::DomainThreader< ThreadedPartitionerType, Self >
     {
     public:
-      typedef TestDomainThreader                                   Self;
-      typedef itk::DomainThreader< ThreadedPartitionerType, Self > Superclass;
-      typedef itk::SmartPointer< Self >                            Pointer;
-      typedef itk::SmartPointer< const Self >                      ConstPointer;
+      using Self = TestDomainThreader;
+      using Superclass = itk::DomainThreader< ThreadedPartitionerType, Self >;
+      using Pointer = itk::SmartPointer< Self >;
+      using ConstPointer = itk::SmartPointer< const Self >;
 
-      typedef Superclass::DomainPartitionerType     DomainPartitionerType;
-      typedef Superclass::DomainType                DomainType;
+      using DomainPartitionerType = Superclass::DomainPartitionerType;
+      using DomainType = Superclass::DomainType;
 
       itkSimpleNewMacro( Self );
 
-      typedef std::vector< int >              BorderValuesType;
-      typedef std::vector< BorderValuesType > DomainBorderValuesInThreadedExecutionType;
+      using BorderValuesType = std::vector< int >;
+      using DomainBorderValuesInThreadedExecutionType = std::vector< BorderValuesType >;
 
       const DomainBorderValuesInThreadedExecutionType & GetDomainInThreadedExecution() const
         {
@@ -144,7 +144,7 @@ namespace
               << domainThreader->GetNumberOfThreadsUsed() << "\n\n" << std::endl;
 
     /* Check the results. */
-    typedef IteratorRangeDomainThreaderAssociate::TestDomainThreader::BorderValuesType BorderValuesType;
+    using BorderValuesType = IteratorRangeDomainThreaderAssociate::TestDomainThreader::BorderValuesType;
     int previousEndIndex = -1;
     const IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainBorderValuesInThreadedExecutionType domainInThreadedExecution = domainThreader->GetDomainInThreadedExecution();
     for( itk::ThreadIdType i = 0; i < domainThreader->GetNumberOfThreadsUsed(); ++i )
@@ -235,7 +235,7 @@ int itkThreadedIteratorRangePartitionerTest(int, char* [])
   std::cout << "domainThreader->GetMultiThreader()->NumberOfThreads(): " << domainThreader->GetMultiThreader()->GetNumberOfThreads()
             << std::endl;
 
-  typedef IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType DomainType;
+  using DomainType = IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType;
   IteratorRangeDomainThreaderAssociate::DomainContainerType container( 256 );
   for( unsigned int i = 0; i < 256; ++i )
     {

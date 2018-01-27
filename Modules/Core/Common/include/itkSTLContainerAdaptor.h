@@ -44,10 +44,10 @@ class STLContainerAdaptor
 {
 public:
 
-  typedef TContainer AdapteeType;
+  using AdapteeType = TContainer;
 
-  typedef typename AdapteeType::Element          ElementType;
-  typedef typename AdapteeType::STLContainerType TargetType;
+  using ElementType = typename AdapteeType::Element;
+  using TargetType = typename AdapteeType::STLContainerType;
 
 private:
 

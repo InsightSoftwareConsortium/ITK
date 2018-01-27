@@ -30,21 +30,21 @@ int itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   const unsigned int Dimension = 3;
 
   // Declare the types of the output images
-  typedef itk::Image<unsigned short,   Dimension>   ImageType;
+  using ImageType = itk::Image<unsigned short,   Dimension>;
 
   // Declare the type of the index,size and region to initialize images
-  typedef itk::Index<Dimension>                     IndexType;
-  typedef itk::Size<Dimension>                      SizeType;
-  typedef itk::ImageRegion<Dimension>               RegionType;
-  typedef ImageType::PixelType                      PixelType;
+  using IndexType = itk::Index<Dimension>;
+  using SizeType = itk::Size<Dimension>;
+  using RegionType = itk::ImageRegion<Dimension>;
+  using PixelType = ImageType::PixelType;
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
   // Declare the type of the Mesh
-  typedef itk::QuadEdgeMesh<double, 3>              MeshType;
-  typedef MeshType::PointType                       PointType;
+  using MeshType = itk::QuadEdgeMesh<double, 3>;
+  using PointType = MeshType::PointType;
 
-  typedef itk::BinaryMask3DMeshSource< ImageType, MeshType >   MeshSourceType;
+  using MeshSourceType = itk::BinaryMask3DMeshSource< ImageType, MeshType >;
 
   const PixelType backgroundValue = 0;
   const PixelType internalValue   = 1;

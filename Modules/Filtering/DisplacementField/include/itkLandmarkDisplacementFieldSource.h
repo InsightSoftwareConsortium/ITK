@@ -50,15 +50,15 @@ class ITK_TEMPLATE_EXPORT LandmarkDisplacementFieldSource:
   public ImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LandmarkDisplacementFieldSource Self;
-  typedef ImageSource< TOutputImage >     Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LandmarkDisplacementFieldSource;
+  using Superclass = ImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,31 +70,31 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Transform typedef.
+  /** Transform type alias.
    *
    *  The KernelBased spline transform types are defined here.
    */
-  typedef KernelTransform< double, itkGetStaticConstMacro(ImageDimension) > KernelTransformType;
-  typedef typename KernelTransformType::PointSetType                        LandmarkPointSetType;
-  typedef typename LandmarkPointSetType::PointType                          LandmarkPointType;
-  typedef typename KernelTransformType::Pointer                             KernelTransformPointerType;
-  typedef typename KernelTransformType::PointsContainer                     LandmarkContainer;
-  typedef typename LandmarkContainer::ConstPointer                          LandmarkContainerPointer;
+  using KernelTransformType = KernelTransform< double, itkGetStaticConstMacro(ImageDimension) >;
+  using LandmarkPointSetType = typename KernelTransformType::PointSetType;
+  using LandmarkPointType = typename LandmarkPointSetType::PointType;
+  using KernelTransformPointerType = typename KernelTransformType::Pointer;
+  using LandmarkContainer = typename KernelTransformType::PointsContainer;
+  using LandmarkContainerPointer = typename LandmarkContainer::ConstPointer;
 
-  /** Image size typedef. */
-  typedef typename OutputImageType::SizeType OutputSizeType;
+  /** Image size type alias. */
+  using OutputSizeType = typename OutputImageType::SizeType;
 
-  /** Image index typedef. */
-  typedef typename OutputImageType::IndexType OutputIndexType;
+  /** Image index type alias. */
+  using OutputIndexType = typename OutputImageType::IndexType;
 
-  /** Image pixel value typedef. */
-  typedef typename TOutputImage::PixelType    OutputPixelType;
-  typedef typename OutputPixelType::ValueType OutputPixelComponentType;
+  /** Image pixel value type alias. */
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputPixelComponentType = typename OutputPixelType::ValueType;
 
-  /** Image spacing typedef */
-  typedef typename TOutputImage::SpacingType   SpacingType;
-  typedef typename TOutputImage::PointType     OriginPointType;
-  typedef typename TOutputImage::DirectionType DirectionType;
+  /** Image spacing type alias */
+  using SpacingType = typename TOutputImage::SpacingType;
+  using OriginPointType = typename TOutputImage::PointType;
+  using DirectionType = typename TOutputImage::DirectionType;
 
   /** Get/Set the coordinate transformation.
    * Set the KernelBase spline used for resampling the displacement grid.

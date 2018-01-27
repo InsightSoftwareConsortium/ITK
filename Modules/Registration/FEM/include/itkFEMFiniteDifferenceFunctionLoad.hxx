@@ -75,7 +75,7 @@ template <typename TMoving, typename TFixed>
 void
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::InitializeIteration()
 {
-  typedef MeanSquareRegistrationFunctionType defaultRegistrationFunctionType;
+  using defaultRegistrationFunctionType = MeanSquareRegistrationFunctionType;
 
   if( !m_DifferenceFunction )
     {
@@ -237,7 +237,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
       }
     }
 
-  typedef typename TMoving::IndexType::IndexValueType OIndexValueType;
+  using OIndexValueType = typename TMoving::IndexType::IndexValueType;
   typename TMoving::IndexType oindex;
   typename TMoving::PointType physicalPoint;
 

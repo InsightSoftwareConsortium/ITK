@@ -33,9 +33,9 @@ int itkPasteImageFilterTest( int argc, char* argv[] )
     }
 
   const unsigned int                Dimension = 2;
-  typedef unsigned char             PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   itk::ImageFileReader< ImageType >::Pointer dest =
     itk::ImageFileReader< ImageType >::New();
@@ -50,7 +50,7 @@ int itkPasteImageFilterTest( int argc, char* argv[] )
   TRY_EXPECT_NO_EXCEPTION( src->Update() );
 
   // Create the filter
-  typedef itk::PasteImageFilter< ImageType > FilterType;
+  using FilterType = itk::PasteImageFilter< ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -84,10 +84,10 @@ int itkPasteImageFilterTest( int argc, char* argv[] )
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // We'll tie this to a streamer to really exercise the paste code
-  typedef itk::ImageRegionSplitterMultidimensional SplitterType;
+  using SplitterType = itk::ImageRegionSplitterMultidimensional;
   SplitterType::Pointer splitter = SplitterType::New();
 
-  typedef itk::StreamingImageFilter< ImageType, ImageType > StreamerType;
+  using StreamerType = itk::StreamingImageFilter< ImageType, ImageType >;
   StreamerType::Pointer streamer = StreamerType::New();
   streamer->SetInput( filter->GetOutput() );
   streamer->SetNumberOfStreamDivisions( 25 );

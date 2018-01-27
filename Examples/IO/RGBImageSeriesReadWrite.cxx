@@ -64,10 +64,10 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel< unsigned char >        PixelType;
+  using PixelType = itk::RGBPixel< unsigned char >;
   const unsigned int Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >    ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -81,8 +81,8 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageSeriesReader< ImageType >  SeriesReaderType;
-  typedef itk::ImageFileWriter<   ImageType >  WriterType;
+  using SeriesReaderType = itk::ImageSeriesReader< ImageType >;
+  using WriterType = itk::ImageFileWriter<   ImageType >;
 
   SeriesReaderType::Pointer seriesReader = SeriesReaderType::New();
   WriterType::Pointer       writer       = WriterType::New();
@@ -103,7 +103,7 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::NumericSeriesFileNames    NameGeneratorType;
+  using NameGeneratorType = itk::NumericSeriesFileNames;
 
   NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
 
@@ -182,9 +182,9 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< PixelType, 2 >     Image2DType;
+  using Image2DType = itk::Image< PixelType, 2 >;
 
-  typedef itk::ImageSeriesWriter< ImageType, Image2DType > SeriesWriterType;
+  using SeriesWriterType = itk::ImageSeriesWriter< ImageType, Image2DType >;
 
   SeriesWriterType::Pointer seriesWriter = SeriesWriterType::New();
 

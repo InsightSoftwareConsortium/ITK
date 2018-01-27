@@ -47,9 +47,9 @@ class ITK_TEMPLATE_EXPORT Array2D: public vnl_matrix< TValue >
 public:
 
   /** The element type stored at each location in the Array2D. */
-  typedef TValue               ValueType;
-  typedef Array2D              Self;
-  typedef vnl_matrix< TValue > VnlMatrixType;
+  using ValueType = TValue;
+  using Self = Array2D;
+  using VnlMatrixType = vnl_matrix< TValue >;
 
   Array2D();
   Array2D(unsigned int rows, unsigned int cols);

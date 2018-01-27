@@ -113,12 +113,12 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short        PixelType;
+  using PixelType = signed short;
   const unsigned int          Dimension = 2;
 
-  typedef itk::Image<PixelType, Dimension > ImageType;
+  using ImageType = itk::Image<PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputImageFileName );
   // Software Guide : EndCodeSnippet
@@ -134,11 +134,11 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char       LabelPixelType;
+  using LabelPixelType = unsigned char;
 
-  typedef itk::Image<LabelPixelType, Dimension > LabelImageType;
+  using LabelImageType = itk::Image<LabelPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< LabelImageType > LabelReaderType;
+  using LabelReaderType = itk::ImageFileReader< LabelImageType >;
   LabelReaderType::Pointer labelReader = LabelReaderType::New();
   labelReader->SetFileName( inputLabelImageFileName );
   // Software Guide : EndCodeSnippet
@@ -157,12 +157,12 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::FixedArray<LabelPixelType,1>  ArrayPixelType;
+  using ArrayPixelType = itk::FixedArray<LabelPixelType,1>;
 
-  typedef itk::Image< ArrayPixelType, Dimension > ArrayImageType;
+  using ArrayImageType = itk::Image< ArrayPixelType, Dimension >;
 
-  typedef itk::ComposeImageFilter<
-                     ImageType, ArrayImageType > ScalarToArrayFilterType;
+  using ScalarToArrayFilterType = itk::ComposeImageFilter<
+                     ImageType, ArrayImageType >;
 
   ScalarToArrayFilterType::Pointer
     scalarToArrayFilter = ScalarToArrayFilterType::New();
@@ -180,7 +180,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MRFImageFilter< ArrayImageType, LabelImageType > MRFFilterType;
+  using MRFFilterType = itk::MRFImageFilter< ArrayImageType, LabelImageType >;
 
   MRFFilterType::Pointer mrfFilter = MRFFilterType::New();
 
@@ -231,9 +231,9 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageClassifierBase<
+  using SupervisedClassifierType = itk::ImageClassifierBase<
                               ArrayImageType,
-                              LabelImageType >   SupervisedClassifierType;
+                              LabelImageType >;
 
   SupervisedClassifierType::Pointer classifier =
                                          SupervisedClassifierType::New();
@@ -251,7 +251,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
 
   DecisionRuleType::Pointer  classifierDecisionRule = DecisionRuleType::New();
 
@@ -269,11 +269,9 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction<
-                                                    ArrayPixelType >
-                                                       MembershipFunctionType;
+  using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction<ArrayPixelType>;
 
-  typedef MembershipFunctionType::Pointer MembershipFunctionPointer;
+  using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
 
   double meanDistance = 0;
@@ -412,13 +410,13 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MRFFilterType::OutputImageType  OutputImageType;
+  using OutputImageType = MRFFilterType::OutputImageType;
   // Software Guide : EndCodeSnippet
 
   // Rescale outputs to the dynamic range of the display
-  typedef itk::Image< unsigned char, Dimension > RescaledOutputImageType;
-  typedef itk::RescaleIntensityImageFilter<
-             OutputImageType, RescaledOutputImageType >   RescalerType;
+  using RescaledOutputImageType = itk::Image< unsigned char, Dimension >;
+  using RescalerType = itk::RescaleIntensityImageFilter<
+             OutputImageType, RescaledOutputImageType >;
 
   RescalerType::Pointer intensityRescaler = RescalerType::New();
   intensityRescaler->SetOutputMinimum(   0 );
@@ -426,7 +424,7 @@ int main( int argc, char * argv [] )
   intensityRescaler->SetInput( mrfFilter->GetOutput() );
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

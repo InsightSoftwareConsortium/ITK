@@ -35,9 +35,9 @@ int itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
 
   const int ImageDimension = 2;
 
-  typedef float                                  PixelType;
-  typedef itk::Image<PixelType, ImageDimension>  ImageType;
-  typedef itk::ImageFileReader<ImageType>        ReaderType;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   reader1->SetFileName( argv[1] );
@@ -50,7 +50,7 @@ int itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
   itk::ConstantBoundaryCondition< ImageType > cbc;
   cbc.SetConstant( 0.0 );
 
-  typedef itk::FFTConvolutionImageFilter<ImageType> ConvolutionFilterType;
+  using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
   ConvolutionFilterType::Pointer convolutionFilter
     = ConvolutionFilterType::New();
   convolutionFilter->SetInput( reader1->GetOutput() );
@@ -69,7 +69,7 @@ int itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
 
   convolutionFilter->SetNormalize( normalize );
 
-  typedef itk::TikhonovDeconvolutionImageFilter<ImageType> DeconvolutionFilterType;
+  using DeconvolutionFilterType = itk::TikhonovDeconvolutionImageFilter<ImageType>;
   DeconvolutionFilterType::Pointer deconvolutionFilter = DeconvolutionFilterType::New();
 
   deconvolutionFilter->SetInput( convolutionFilter->GetOutput() );
@@ -85,7 +85,7 @@ int itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
   TEST_SET_GET_VALUE( regularizationConstant,
                       deconvolutionFilter->GetRegularizationConstant() );
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( deconvolutionFilter->GetOutput() );
@@ -103,14 +103,14 @@ int itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
   deconvolutionFilter->Print( std::cout );
 
   // Instantiate types with non-default template parameters
-  typedef itk::Image< float, ImageDimension >  FloatImageType;
-  typedef itk::Image< double, ImageDimension > DoubleImageType;
-  typedef itk::Image< int, ImageDimension >    IntImageType;
+  using FloatImageType = itk::Image< float, ImageDimension >;
+  using DoubleImageType = itk::Image< double, ImageDimension >;
+  using IntImageType = itk::Image< int, ImageDimension >;
 
-  typedef itk::TikhonovDeconvolutionImageFilter< FloatImageType,
+  using FilterType = itk::TikhonovDeconvolutionImageFilter< FloatImageType,
                                                  DoubleImageType,
                                                  IntImageType,
-                                                 float > FilterType;
+                                                 float >;
   FilterType::Pointer filter = FilterType::New();
   filter->Print( std::cout );
 

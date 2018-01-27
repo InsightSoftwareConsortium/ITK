@@ -44,22 +44,22 @@ class ITK_TEMPLATE_EXPORT ShapeUniqueLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ShapeUniqueLabelMapFilter       Self;
-  typedef InPlaceLabelMapFilter< TImage > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ShapeUniqueLabelMapFilter;
+  using Superclass = InPlaceLabelMapFilter< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TImage                              ImageType;
-  typedef typename ImageType::Pointer         ImagePointer;
-  typedef typename ImageType::ConstPointer    ImageConstPointer;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::IndexType       IndexType;
-  typedef typename ImageType::LabelObjectType LabelObjectType;
-  typedef typename LabelObjectType::LineType  LineType;
+  /** Some convenient type alias. */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using IndexType = typename ImageType::IndexType;
+  using LabelObjectType = typename ImageType::LabelObjectType;
+  using LineType = typename LabelObjectType::LineType;
 
-  typedef typename LabelObjectType::AttributeType AttributeType;
+  using AttributeType = typename LabelObjectType::AttributeType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -116,8 +116,8 @@ protected:
     this->AllocateOutputs();
 
     // the priority queue to store all the lines of all the objects sorted
-    typedef typename std::priority_queue< LineOfLabelObject, std::vector< LineOfLabelObject >,
-                                          LineOfLabelObjectComparator > PriorityQueueType;
+    using PriorityQueueType = typename std::priority_queue< LineOfLabelObject, std::vector< LineOfLabelObject >,
+                                          LineOfLabelObjectComparator >;
     PriorityQueueType priorityQueue;
 
     ProgressReporter progress(this, 0, 1);
@@ -152,7 +152,7 @@ protected:
       return;
       }
 
-    typedef typename std::deque< LineOfLabelObject > LinesType;
+    using LinesType = typename std::deque< LineOfLabelObject >;
     LinesType lines;
 
     lines.push_back( priorityQueue.top() );
@@ -322,7 +322,7 @@ private:
 
   bool m_ReverseOrdering;
   struct LineOfLabelObject {
-    typedef typename LabelObjectType::LineType LineType;
+    using LineType = typename LabelObjectType::LineType;
     LineOfLabelObject(const LineType _line, LabelObjectType *_lo)
     {
       this->line = _line;

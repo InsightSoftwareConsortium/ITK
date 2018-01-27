@@ -79,7 +79,7 @@ static itk::Image< unsigned short, 3 >::IndexType GetIndexFromMouseClick()
 int main(int, char *[])
 {
   const unsigned int Dimension=3;
-  typedef itk::Image< unsigned short, Dimension > ImageType;
+  using ImageType = itk::Image< unsigned short, Dimension >;
   ImageType::Pointer image = ImageType::New();
 
   const ImageType::SizeType  size  = {{ 200, 200, 200}}; //Size along {X,Y,Z}
@@ -255,7 +255,7 @@ int main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Point< double, ImageType::ImageDimension > PointType;
+  using PointType = itk::Point< double, ImageType::ImageDimension >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -383,7 +383,7 @@ int main(int, char *[])
   // SoftwareGuide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Matrix<double, Dimension, Dimension> MatrixType;
+  using MatrixType = itk::Matrix<double, Dimension, Dimension>;
   MatrixType SpacingMatrix;
   SpacingMatrix.Fill( 0.0F );
 
@@ -396,7 +396,7 @@ int main(int, char *[])
     image->GetDirection();
   const ImageType::PointType &ImageOrigin = image->GetOrigin();
 
-  typedef itk::Vector< double, Dimension > VectorType;
+  using VectorType = itk::Vector< double, Dimension >;
   VectorType LeftEyeIndexVector;
   LeftEyeIndexVector[0]= LeftEyeIndex[0];
   LeftEyeIndexVector[1]= LeftEyeIndex[1];

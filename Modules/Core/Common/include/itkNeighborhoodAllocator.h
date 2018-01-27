@@ -42,15 +42,15 @@ template< typename TPixel >
 class NeighborhoodAllocator
 {
 public:
-  /** Standard class typedefs. */
-  typedef NeighborhoodAllocator Self;
+  /** Standard class type aliases. */
+  using Self = NeighborhoodAllocator;
 
-  /** Iterator support. Note that the naming of the typedefs is on purpose.
+  /** Iterator support. Note that the naming of the type alias is on purpose.
   * itk::Neighborhood makes reference to the allocator, which because it may
   * be vnl or other type, uses the lower case/underscore forms iterator and
   * const_iterator. */
-  typedef TPixel *       iterator;
-  typedef const TPixel * const_iterator;
+  using iterator = TPixel *;
+  using const_iterator = const TPixel *;
 
   /** Default constructor */
   NeighborhoodAllocator():m_ElementCount(0), m_Data(nullptr)  {}

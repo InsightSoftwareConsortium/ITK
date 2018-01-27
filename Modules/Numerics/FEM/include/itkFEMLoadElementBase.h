@@ -45,11 +45,11 @@ namespace fem
 class ITKFEM_EXPORT LoadElement : public Load
 {
 public:
-  /** Standard class typedefs. */
-  typedef LoadElement              Self;
-  typedef Load                     Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LoadElement;
+  using Superclass = Load;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);
@@ -64,12 +64,12 @@ public:
   /**
    * Float type used in Element and derived classes
    */
-  typedef Element::Float Float;
+  using Float = Element::Float;
 
   /**
    * Type of array of pointers to element objects
    */
-  typedef std::vector<const Element *> ElementPointersVectorType;
+  using ElementPointersVectorType = std::vector<const Element *>;
 
   // FIXME: should clear vector, not zero it
   LoadElement() : m_Element(0)

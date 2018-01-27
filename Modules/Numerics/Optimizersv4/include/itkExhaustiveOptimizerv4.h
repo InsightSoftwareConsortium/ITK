@@ -79,11 +79,11 @@ class ITK_TEMPLATE_EXPORT ExhaustiveOptimizerv4:
   public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef ExhaustiveOptimizerv4                                               Self;
-  typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>  Superclass;
-  typedef SmartPointer< Self >                                                Pointer;
-  typedef SmartPointer< const Self >                                          ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = ExhaustiveOptimizerv4;
+  using Superclass = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -92,16 +92,16 @@ public:
   itkTypeMacro(ExhaustiveOptimizerv4, Superclass);
 
   /** Steps type */
-  typedef Array< SizeValueType >                StepsType;
+  using StepsType = Array< SizeValueType >;
 
   /** Measure type */
-  typedef typename Superclass::MeasureType      MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
   /** Parameters type */
-  typedef typename Superclass::ParametersType   ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Scales type */
-  typedef typename Superclass::ScalesType       ScalesType;
+  using ScalesType = typename Superclass::ScalesType;
 
   void StartOptimization(bool doOnlyInitialization = false) override;
 

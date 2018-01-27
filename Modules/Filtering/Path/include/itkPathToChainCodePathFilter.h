@@ -39,11 +39,11 @@ class ITK_TEMPLATE_EXPORT PathToChainCodePathFilter:public
   PathToPathFilter< TInputPath, TOutputChainCodePath >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PathToChainCodePathFilter                            Self;
-  typedef PathToPathFilter< TInputPath, TOutputChainCodePath > Superclass;
-  typedef SmartPointer< Self >                                 Pointer;
-  typedef SmartPointer< const Self >                           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PathToChainCodePathFilter;
+  using Superclass = PathToPathFilter< TInputPath, TOutputChainCodePath >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -51,15 +51,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PathToChainCodePathFilter, PathToPathFilter);
 
-  /** Some convenient typedefs. */
-  typedef TInputPath                         InputPathType;
-  typedef typename InputPathType::Pointer    InputPathPointer;
-  typedef typename InputPathType::InputType  InputPathInputType;
-  typedef TOutputChainCodePath               OutputPathType;
-  typedef typename OutputPathType::Pointer   OutputPathPointer;
-  typedef typename OutputPathType::InputType OutputPathInputType;
-  typedef typename InputPathType::IndexType  IndexType;
-  typedef typename InputPathType::OffsetType OffsetType;
+  /** Some convenient type alias. */
+  using InputPathType = TInputPath;
+  using InputPathPointer = typename InputPathType::Pointer;
+  using InputPathInputType = typename InputPathType::InputType;
+  using OutputPathType = TOutputChainCodePath;
+  using OutputPathPointer = typename OutputPathType::Pointer;
+  using OutputPathInputType = typename OutputPathType::InputType;
+  using IndexType = typename InputPathType::IndexType;
+  using OffsetType = typename InputPathType::OffsetType;
 
   /** Set/Get the direction in which to reflect the data. Default is "Off". */
   itkSetMacro(MaximallyConnected, bool)

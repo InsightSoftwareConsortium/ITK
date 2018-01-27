@@ -38,7 +38,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
 {
 
   // Instantiate an identity transform
-  typedef IdentityTransform<TParametersValueType, SpaceDimension> IdentityTransformType;
+  using IdentityTransformType = IdentityTransform<TParametersValueType, SpaceDimension>;
   typename IdentityTransformType::Pointer id = IdentityTransformType::New();
   this->m_BulkTransform = id;
 
@@ -469,7 +469,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
 
   if( inside && this->m_SplineOrderOdd )
     {
-    typedef typename ContinuousIndexType::ValueType ValueType;
+    using ValueType = typename ContinuousIndexType::ValueType;
     for( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       if( index[j] >= static_cast<ValueType>( this->m_ValidRegionLast[j] ) )
@@ -535,7 +535,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
 
   outputPoint.Fill( NumericTraits<ScalarType>::ZeroValue() );
 
-  typedef ImageScanlineConstIterator<ImageType> IteratorType;
+  using IteratorType = ImageScanlineConstIterator<ImageType>;
   IteratorType               coeffIterator[SpaceDimension];
   unsigned long              counter = 0;
   const ParametersValueType *basePointer =

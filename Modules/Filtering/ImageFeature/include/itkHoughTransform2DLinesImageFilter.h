@@ -66,41 +66,41 @@ class ITK_TEMPLATE_EXPORT HoughTransform2DLinesImageFilter:
 {
 public:
 
-  /** Standard "Self" typedef. */
-  typedef HoughTransform2DLinesImageFilter Self;
+  /** Standard "Self" type alias. */
+  using Self = HoughTransform2DLinesImageFilter;
 
-  /** Input Image typedef */
-  typedef Image< TInputPixelType, 2 >           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  /** Input Image type alias */
+  using InputImageType = Image< TInputPixelType, 2 >;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
 
-  /** Output Image typedef */
-  typedef Image< TOutputPixelType, 2 >      OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  /** Output Image type alias */
+  using OutputImageType = Image< TOutputPixelType, 2 >;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** Smart pointer typedef support. */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Line typedef */
-  typedef LineSpatialObject< 2 >     LineType;
-  typedef typename LineType::Pointer LinePointer;
-  typedef std::list< LinePointer >   LinesListType;
-  typedef LineType::LinePointType    LinePointType;
+  /** Line type alias */
+  using LineType = LineSpatialObject< 2 >;
+  using LinePointer = typename LineType::Pointer;
+  using LinesListType = std::list< LinePointer >;
+  using LinePointType = LineType::LinePointType;
 
-  typedef typename LinesListType::size_type LinesListSizeType;
+  using LinesListSizeType = typename LinesListType::size_type;
 
-  /** Standard "Superclass" typedef. */
-  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
+  /** Standard "Superclass" type alias. */
+  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
 
-  /** Image index typedef */
-  typedef typename InputImageType::IndexType IndexType;
+  /** Image index type alias */
+  using IndexType = typename InputImageType::IndexType;
 
-  /** Image pixel value typedef */
-  typedef typename InputImageType::PixelType PixelType;
+  /** Image pixel value type alias */
+  using PixelType = typename InputImageType::PixelType;
 
   /** Typedef to describe the output image region type. */
-  typedef typename InputImageType::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename InputImageType::RegionType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(HoughTransform2DLinesImageFilter, ImageToImageFilter);

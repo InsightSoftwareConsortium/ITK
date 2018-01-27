@@ -39,13 +39,13 @@ int itkGDCMImageIOTest(int argc, char* argv[])
   const char * rescaledOutputImageFileName = argv[5];
 
   const unsigned int Dimension = 2;
-  typedef short                                   InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension > InputImageType;
+  using InputPixelType = short;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
 
-  typedef itk::GDCMImageIO                        ImageIOType;
+  using ImageIOType = itk::GDCMImageIO;
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( dicomImageFileName );
   reader->SetImageIO( gdcmImageIO );
@@ -98,7 +98,7 @@ int itkGDCMImageIOTest(int argc, char* argv[])
     }
 
   // Rewrite the image in DICOM format
-  typedef itk::ImageFileWriter< InputImageType > DicomWriterType;
+  using DicomWriterType = itk::ImageFileWriter< InputImageType >;
   DicomWriterType::Pointer dicomWriter = DicomWriterType::New();
   dicomWriter->SetFileName( outputDicomFileName );
   dicomWriter->SetInput( reader->GetOutput() );
@@ -116,11 +116,11 @@ int itkGDCMImageIOTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageFileReader< InputImageType > GeneratedDicomReaderType;
+  using GeneratedDicomReaderType = itk::ImageFileReader< InputImageType >;
   GeneratedDicomReaderType::Pointer generatedDicomReader = GeneratedDicomReaderType::New();
   generatedDicomReader->SetFileName( outputDicomFileName );
 
-  typedef itk::ImageFileWriter< InputImageType > MetaWriterType;
+  using MetaWriterType = itk::ImageFileWriter< InputImageType >;
   MetaWriterType::Pointer metaWriter = MetaWriterType::New();
   metaWriter->SetFileName( outputImageFileName );
   metaWriter->SetInput( generatedDicomReader->GetOutput() );
@@ -138,10 +138,10 @@ int itkGDCMImageIOTest(int argc, char* argv[])
 
   // Rescale intensities and rewrite the image in another format
   //
-  typedef unsigned char                              RescaledPixelType;
-  typedef itk::Image< RescaledPixelType, Dimension > RescaledImageType;
-  typedef itk::RescaleIntensityImageFilter<
-    InputImageType, RescaledImageType >              RescaleFilterType;
+  using RescaledPixelType = unsigned char;
+  using RescaledImageType = itk::Image< RescaledPixelType, Dimension >;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
+    InputImageType, RescaledImageType >;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
   rescaler->SetOutputMinimum(   0 );
@@ -150,7 +150,7 @@ int itkGDCMImageIOTest(int argc, char* argv[])
 
   // Rewrite the image in DICOM format but using less bits per pixel
   //
-  typedef itk::ImageFileWriter< RescaledImageType > RescaledDicomWriterType;
+  using RescaledDicomWriterType = itk::ImageFileWriter< RescaledImageType >;
   RescaledDicomWriterType::Pointer rescaledDicomWriter = RescaledDicomWriterType::New();
   rescaledDicomWriter->SetFileName( rescaledDicomFileName );
   rescaledDicomWriter->SetInput( rescaler->GetOutput() );
@@ -178,11 +178,11 @@ int itkGDCMImageIOTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageFileReader< RescaledImageType > GeneratedRescaledDicomReaderType;
+  using GeneratedRescaledDicomReaderType = itk::ImageFileReader< RescaledImageType >;
   GeneratedRescaledDicomReaderType::Pointer rescaledDicomReader = GeneratedRescaledDicomReaderType::New();
   rescaledDicomReader->SetFileName( rescaledDicomFileName );
 
-  typedef itk::ImageFileWriter< RescaledImageType >  RescaledMetaWriterType;
+  using RescaledMetaWriterType = itk::ImageFileWriter< RescaledImageType >;
   RescaledMetaWriterType::Pointer rescaledMetaWriter = RescaledMetaWriterType::New();
   rescaledMetaWriter->SetFileName( rescaledOutputImageFileName );
   rescaledMetaWriter->SetInput( rescaledDicomReader->GetOutput() );

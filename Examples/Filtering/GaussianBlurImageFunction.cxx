@@ -30,10 +30,10 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
   }
 
-  typedef itk::Image< float, 2 >                     ImageType;
-  typedef itk::ImageFileReader< ImageType >          ReaderType;
-  typedef itk::ImageRegionIterator< ImageType >      IteratorType;
-  typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
+  using ImageType = itk::Image< float, 2 >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using IteratorType = itk::ImageRegionIterator< ImageType >;
+  using ConstIteratorType = itk::ImageRegionConstIterator< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
@@ -54,7 +54,7 @@ int main( int argc, char * argv[] )
 
   IteratorType out( output, region );
 
-  typedef itk::GaussianBlurImageFunction< ImageType > GFunctionType;
+  using GFunctionType = itk::GaussianBlurImageFunction< ImageType >;
   GFunctionType::Pointer gaussianFunction = GFunctionType::New();
   gaussianFunction->SetInputImage( inputImage );
 
@@ -74,7 +74,7 @@ int main( int argc, char * argv[] )
     ++out;
     }
 
-  typedef itk::ImageFileWriter < ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter < ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(output);

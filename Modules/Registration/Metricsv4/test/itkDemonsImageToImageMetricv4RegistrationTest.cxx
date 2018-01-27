@@ -48,10 +48,10 @@ template<typename TFilter>
 class itkDemonsImageToImageMetricv4RegistrationTestCommandIterationUpdate : public itk::Command
 {
 public:
-  typedef itkDemonsImageToImageMetricv4RegistrationTestCommandIterationUpdate   Self;
+  using Self = itkDemonsImageToImageMetricv4RegistrationTestCommandIterationUpdate;
 
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -114,13 +114,13 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   std::cout << " useImageGradientFilter " << useImageGradientFilter << std::endl;
 
   const unsigned int Dimension = 2;
-  typedef double PixelType; //I assume png is unsigned short
+  using PixelType = double; //I assume png is unsigned short
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   FixedImageReaderType::Pointer fixedImageReader   = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
@@ -135,7 +135,7 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
 
   // scale the images to [0,1]
-  typedef itk::RescaleIntensityImageFilter<FixedImageType, FixedImageType> FixedRescaleFilterType;
+  using FixedRescaleFilterType = itk::RescaleIntensityImageFilter<FixedImageType, FixedImageType>;
   FixedRescaleFilterType::Pointer fixedRescaleFilter = FixedRescaleFilterType::New();
   fixedRescaleFilter->SetInput( fixedImage );
   fixedRescaleFilter->SetOutputMinimum( itk::NumericTraits<PixelType>::ZeroValue() );
@@ -143,7 +143,7 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   fixedRescaleFilter->Update();
   fixedImage = fixedRescaleFilter->GetOutput();
 
-  typedef itk::RescaleIntensityImageFilter<MovingImageType, MovingImageType> MovingRescaleFilterType;
+  using MovingRescaleFilterType = itk::RescaleIntensityImageFilter<MovingImageType, MovingImageType>;
   MovingRescaleFilterType::Pointer movingRescaleFilter = MovingRescaleFilterType::New();
   movingRescaleFilter->SetInput( movingImage );
   movingRescaleFilter->SetOutputMinimum( itk::NumericTraits<PixelType>::ZeroValue() );
@@ -152,7 +152,7 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   movingImage = movingRescaleFilter->GetOutput();
 
   // histogram matching of values
-  typedef itk::HistogramMatchingImageFilter<FixedImageType, MovingImageType> MatchingFilterType;
+  using MatchingFilterType = itk::HistogramMatchingImageFilter<FixedImageType, MovingImageType>;
   MatchingFilterType::Pointer matchingFilter = MatchingFilterType::New();
   matchingFilter->SetInput( movingImage );
   matchingFilter->SetReferenceImage( fixedImage );
@@ -163,10 +163,10 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   movingImage = matchingFilter->GetOutput();
 
   /** Displacement field transform */
-  typedef itk::GaussianSmoothingOnUpdateDisplacementFieldTransform< double, Dimension> DisplacementTransformType;
+  using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform< double, Dimension>;
   DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
 
-  typedef DisplacementTransformType::DisplacementFieldType DisplacementFieldType;
+  using DisplacementFieldType = DisplacementTransformType::DisplacementFieldType;
   DisplacementFieldType::Pointer field = DisplacementFieldType::New();
 
   // set the field to be the same as the fixed image region, which will
@@ -187,8 +187,8 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   displacementTransform->SetGaussianSmoothingVarianceForTheTotalField( 6 );
 
   // The metric
-  typedef itk::DemonsImageToImageMetricv4 < FixedImageType, MovingImageType >  MetricType;
-  typedef MetricType::FixedSampledPointSetType                                 PointSetType;
+  using MetricType = itk::DemonsImageToImageMetricv4 < FixedImageType, MovingImageType >;
+  using PointSetType = MetricType::FixedSampledPointSetType;
   MetricType::Pointer metric = MetricType::New();
 
   // Assign images and transforms.
@@ -206,7 +206,7 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
     }
   else
     {
-    typedef PointSetType::PointType     PointType;
+    using PointType = PointSetType::PointType;
     PointSetType::Pointer               pset(PointSetType::New());
     unsigned long ind=0,ct=0;
     itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion() );
@@ -232,12 +232,12 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric->Initialize();
 
   // scales & step estimator
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType > RegistrationParameterScalesFromShiftType;
+  using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift< MetricType >;
   RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
   // Optimizer
-  typedef itk::GradientDescentOptimizerv4  OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizerv4;
   OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
@@ -270,7 +270,7 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   std::cout << "MaxStepSizeinPhysUnits: " << optimizer->GetMaximumStepSizeInPhysicalUnits() << std::endl;
 
   //warp the image with the displacement field
-  typedef itk::ResampleImageFilter< MovingImageType, FixedImageType >    ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter< MovingImageType, FixedImageType >;
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
   resample->SetTransform( displacementTransform );
@@ -283,7 +283,7 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   resample->Update();
 
   //write out the displacement field
-  typedef itk::ImageFileWriter< DisplacementFieldType >  DisplacementWriterType;
+  using DisplacementWriterType = itk::ImageFileWriter< DisplacementFieldType >;
   DisplacementWriterType::Pointer      displacementwriter =  DisplacementWriterType::New();
   std::string outfilename( argv[3] );
   std::string  ext = itksys::SystemTools::GetFilenameExtension( outfilename );
@@ -295,10 +295,10 @@ int itkDemonsImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   displacementwriter->Update();
 
   //write the warped image into a file
-  typedef double                                                    OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension >                  OutputImageType;
-  typedef itk::CastImageFilter< MovingImageType, OutputImageType >  CastFilterType;
-  typedef itk::ImageFileWriter< OutputImageType >                   WriterType;
+  using OutputPixelType = double;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using CastFilterType = itk::CastImageFilter< MovingImageType, OutputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();

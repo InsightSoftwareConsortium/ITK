@@ -217,7 +217,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
     collapsedPhiLattices[i]->SetRegions( size );
     collapsedPhiLattices[i]->Allocate();
     }
-  typedef ImageDuplicator<ControlPointLatticeType> ImageDuplicatorType;
+  using ImageDuplicatorType = ImageDuplicator<ControlPointLatticeType>;
   typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
   duplicator->SetInputImage( inputPtr );
   duplicator->Update();
@@ -419,7 +419,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>
 {
   this->SetNumberOfLevels( numberOfLevels );
 
-  typedef ImageDuplicator<ControlPointLatticeType> ImageDuplicatorType;
+  using ImageDuplicatorType = ImageDuplicator<ControlPointLatticeType>;
   typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
   duplicator->SetInputImage( this->GetInput() );
   duplicator->Update();

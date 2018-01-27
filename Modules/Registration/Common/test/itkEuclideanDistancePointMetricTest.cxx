@@ -33,13 +33,13 @@ double
 CompareMeshSources()
 {
 
-  typedef itk::RegularSphereMeshSource< TFixedMesh >  FixedSourceType;
-  typedef itk::RegularSphereMeshSource< TMovingMesh > MovingSourceType;
+  using FixedSourceType = itk::RegularSphereMeshSource< TFixedMesh >;
+  using MovingSourceType = itk::RegularSphereMeshSource< TMovingMesh >;
 
-  typedef itk::EuclideanDistancePointMetric< TFixedMesh,
-                                             TMovingMesh > MetricType;
+  using MetricType = itk::EuclideanDistancePointMetric< TFixedMesh,
+                                             TMovingMesh >;
 
-  typedef itk::IdentityTransform< double, 3 > IdentityType;
+  using IdentityType = itk::IdentityTransform< double, 3 >;
 
   typename FixedSourceType::Pointer fixed = FixedSourceType::New();
   fixed->Update();
@@ -71,11 +71,11 @@ int itkEuclideanDistancePointMetricTest(int, char* [] )
 {
 
   const unsigned int Dimension = 3;
-  typedef double ScalarType;
+  using ScalarType = double;
   const double Epsilon = 10e-6;
 
-  typedef itk::Mesh< ScalarType, Dimension >         MeshType;
-  typedef itk::QuadEdgeMesh< ScalarType, Dimension > QuadEdgeMeshType;
+  using MeshType = itk::Mesh< ScalarType, Dimension >;
+  using QuadEdgeMeshType = itk::QuadEdgeMesh< ScalarType, Dimension >;
 
   if ( CompareMeshSources< MeshType, MeshType >() > Epsilon )
     {

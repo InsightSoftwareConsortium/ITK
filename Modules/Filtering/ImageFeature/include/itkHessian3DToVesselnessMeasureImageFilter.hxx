@@ -52,8 +52,7 @@ Hessian3DToVesselnessMeasureImageFilter< TPixel >
 
   typename OutputImageType::Pointer output = this->GetOutput();
 
-  typedef typename EigenAnalysisFilterType::OutputImageType
-  EigenValueOutputImageType;
+  using EigenValueOutputImageType = typename EigenAnalysisFilterType::OutputImageType;
 
   m_SymmetricEigenValueFilter->Update();
 

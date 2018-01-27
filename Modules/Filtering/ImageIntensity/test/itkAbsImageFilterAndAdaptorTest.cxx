@@ -32,23 +32,21 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, ImageDimension> InputImageType;
-  typedef itk::Image<float, ImageDimension> OutputImageType;
+  using InputImageType = itk::Image<float, ImageDimension>;
+  using OutputImageType = itk::Image<float, ImageDimension>;
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType>  InputIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType> OutputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<ImageDimension>         IndexType;
+  using IndexType = itk::Index<ImageDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<ImageDimension>          SizeType;
+  using SizeType = itk::Size<ImageDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<ImageDimension>   RegionType;
+  using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
   InputImageType::Pointer inputImage = InputImageType::New();
@@ -89,8 +87,8 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   }
 
   // Declare the type for the Abs filter
-  typedef itk::AbsImageFilter< InputImageType,
-                               OutputImageType > FilterType;
+  using FilterType = itk::AbsImageFilter< InputImageType,
+                               OutputImageType >;
 
   // Create an Abs Filter
   FilterType::Pointer filter = FilterType::New();
@@ -140,8 +138,8 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   // Test AbsImageAdaptor
   //
 
-  typedef itk::AbsImageAdaptor< InputImageType,
-                          OutputImageType::PixelType > AdaptorType;
+  using AdaptorType = itk::AbsImageAdaptor< InputImageType,
+                          OutputImageType::PixelType >;
 
   AdaptorType::Pointer absAdaptor = AdaptorType::New();
 
@@ -149,10 +147,10 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
 
   absAdaptor->SetImage( inputImage );
 
-  typedef itk::SubtractImageFilter<
+  using DiffFilterType = itk::SubtractImageFilter<
                         OutputImageType,
                         AdaptorType,
-                        OutputImageType > DiffFilterType;
+                        OutputImageType >;
 
   DiffFilterType::Pointer diffFilter = DiffFilterType::New();
 

@@ -45,7 +45,7 @@ int itkCorrelationImageToImageMetricv4Test_WithSpecifiedThreads(TMetricPointer &
                                                                 TValue &value,
                                                                 TDerivativeType &derivative)
 {
-  typedef typename TMetricPointer::ObjectType MetricType;
+  using MetricType = typename TMetricPointer::ObjectType;
 
   /* Initialize. */
   try
@@ -122,7 +122,7 @@ int itkCorrelationImageToImageMetricv4Test(int, char ** const)
 
   const unsigned int imageSize = 20;
   const unsigned int imageDimensionality = 3;
-  typedef itk::Image< double, imageDimensionality >              ImageType;
+  using ImageType = itk::Image< double, imageDimensionality >;
 
   ImageType::SizeType       size;
   size.Fill( imageSize );
@@ -155,9 +155,9 @@ int itkCorrelationImageToImageMetricv4Test(int, char ** const)
 
   /* Fill images */
   itk::ImageRegionIterator<ImageType> itFixed( fixedImage, region );
-  typedef ImageType::IndexType IndexType;
+  using IndexType = ImageType::IndexType;
 
-  typedef ImageType::PointType PointType;
+  using PointType = ImageType::PointType;
   PointType p0;
   for(unsigned int i=0; i<imageDimensionality; i++) p0[i]=0;
 
@@ -190,8 +190,8 @@ int itkCorrelationImageToImageMetricv4Test(int, char ** const)
     }
 
   /* Transforms */
-  typedef itk::TranslationTransform<double,imageDimensionality> FixedTransformType;
-  typedef itk::TranslationTransform<double,imageDimensionality> MovingTransformType;
+  using FixedTransformType = itk::TranslationTransform<double,imageDimensionality>;
+  using MovingTransformType = itk::TranslationTransform<double,imageDimensionality>;
 
   FixedTransformType::Pointer fixedTransform = FixedTransformType::New();
   MovingTransformType::Pointer movingTransform = MovingTransformType::New();
@@ -200,7 +200,7 @@ int itkCorrelationImageToImageMetricv4Test(int, char ** const)
   movingTransform->SetIdentity();
 
   /* The metric */
-  typedef itk::CorrelationImageToImageMetricv4< ImageType, ImageType, ImageType > MetricType;
+  using MetricType = itk::CorrelationImageToImageMetricv4< ImageType, ImageType, ImageType >;
 
   MetricType::Pointer metric = MetricType::New();
 

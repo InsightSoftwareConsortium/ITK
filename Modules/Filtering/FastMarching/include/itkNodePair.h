@@ -33,11 +33,11 @@ template< typename TNode, typename TOutputPixel >
 class NodePair : private std::pair< TNode, TOutputPixel >
 {
 public:
-  typedef NodePair                         Self;
-  typedef std::pair< TNode, TOutputPixel > Superclass;
+  using Self = NodePair;
+  using Superclass = std::pair< TNode, TOutputPixel >;
 
-  typedef TNode         NodeType;
-  typedef TOutputPixel  OutputPixelType;
+  using NodeType = TNode;
+  using OutputPixelType = TOutputPixel;
 
   NodePair() : Superclass() {}
   NodePair( const TNode& iNode, const TOutputPixel& iValue ) :

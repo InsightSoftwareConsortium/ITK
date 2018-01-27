@@ -60,28 +60,28 @@ class ITK_TEMPLATE_EXPORT ParametricBlindLeastSquaresDeconvolutionImageFilter :
     public IterativeDeconvolutionImageFilter< TInputImage, typename TKernelSource::OutputImageType, TOutputImage >
 {
 public:
-  /** Standard typedefs. */
-  typedef ParametricBlindLeastSquaresDeconvolutionImageFilter Self;
-  typedef IterativeDeconvolutionImageFilter< TInputImage,
+  /** Standard type alias. */
+  using Self = ParametricBlindLeastSquaresDeconvolutionImageFilter;
+  using Superclass = IterativeDeconvolutionImageFilter< TInputImage,
                                              typename TKernelSource::OutputImageType,
-                                             TOutputImage >   Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+                                             TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Other useful typedefs. */
-  typedef TInputImage   InputImageType;
-  typedef TOutputImage  OutputImageType;
+  /** Other useful type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
   /** Internal types used by the FFT filters. */
-  typedef typename Superclass::InternalImageType               InternalImageType;
-  typedef typename Superclass::InternalImagePointerType        InternalImagePointerType;
-  typedef typename Superclass::InternalComplexType             InternalComplexType;
-  typedef typename Superclass::InternalComplexImageType        InternalComplexImageType;
-  typedef typename Superclass::InternalComplexImagePointerType InternalComplexImagePointerType;
+  using InternalImageType = typename Superclass::InternalImageType;
+  using InternalImagePointerType = typename Superclass::InternalImagePointerType;
+  using InternalComplexType = typename Superclass::InternalComplexType;
+  using InternalComplexImageType = typename Superclass::InternalComplexImageType;
+  using InternalComplexImagePointerType = typename Superclass::InternalComplexImagePointerType;
 
   /** Type for the parametric kernel source. */
-  typedef TKernelSource                      KernelSourceType;
-  typedef typename KernelSourceType::Pointer KernelSourcePointer;
+  using KernelSourceType = TKernelSource;
+  using KernelSourcePointer = typename KernelSourceType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -200,24 +200,20 @@ private:
 
   /** These are the internal filters that perform the updating of the
    * image estimate. */
-  typedef ParametricBlindLeastSquaresDeconvolutionDifference< InternalComplexType >
-    DifferenceFunctorType;
-  typedef TernaryFunctorImageFilter< InternalComplexImageType,
+  using DifferenceFunctorType = ParametricBlindLeastSquaresDeconvolutionDifference<InternalComplexType>;
+  using DifferenceFilterType = TernaryFunctorImageFilter< InternalComplexImageType,
     InternalComplexImageType,
     InternalComplexImageType,
     InternalComplexImageType,
-    DifferenceFunctorType >
-    DifferenceFilterType;
+    DifferenceFunctorType >;
   typename DifferenceFilterType::Pointer m_DifferenceFilter;
 
-  typedef ParametricBlindLeastSquaresDeconvolutionImageUpdate< InternalComplexType >
-    ImageUpdateFunctorType;
-  typedef TernaryFunctorImageFilter< InternalComplexImageType,
+  using ImageUpdateFunctorType = ParametricBlindLeastSquaresDeconvolutionImageUpdate<InternalComplexType>;
+  using ImageUpdateFilterType = TernaryFunctorImageFilter< InternalComplexImageType,
     InternalComplexImageType,
     InternalComplexImageType,
     InternalComplexImageType,
-    ImageUpdateFunctorType >
-    ImageUpdateFilterType;
+    ImageUpdateFunctorType >;
   typename ImageUpdateFilterType::Pointer m_ImageUpdateFilter;
 
 };

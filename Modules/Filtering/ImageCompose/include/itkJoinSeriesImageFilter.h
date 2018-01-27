@@ -51,11 +51,11 @@ class ITK_TEMPLATE_EXPORT JoinSeriesImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef JoinSeriesImageFilter                           Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = JoinSeriesImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,13 +63,13 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(JoinSeriesImageFilter, ImageToImageFilter);
 
-  /** Compiler can't inherit typedef? */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename InputImageType::Pointer     InputImagePointer;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename InputImageType::RegionType  InputImageRegionType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  /** Compiler can't inherit type alias? */
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Compiler can't inherit ImageDimension enumeration? */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -127,7 +127,7 @@ private:
 
   /** IndexValueType is used to switch among the inputs and
    * is used as the index value of the new dimension */
-  typedef unsigned int IndexValueType;
+  using IndexValueType = unsigned int;
 
   double m_Spacing;
   double m_Origin;

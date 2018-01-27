@@ -44,10 +44,10 @@ class ITK_TEMPLATE_EXPORT TreeIteratorBase
 public:
 
   /** Typedefs */
-  typedef TreeIteratorBase                       Self;
-  typedef typename TTreeType::ValueType          ValueType;
-  typedef typename TTreeType::TreeNodeType       TreeNodeType;
-  typedef typename TreeNodeType::ChildIdentifier ChildIdentifier;
+  using Self = TreeIteratorBase;
+  using ValueType = typename TTreeType::ValueType;
+  using TreeNodeType = typename TTreeType::TreeNodeType;
+  using ChildIdentifier = typename TreeNodeType::ChildIdentifier;
 
   /** Enumerations */
   typedef enum

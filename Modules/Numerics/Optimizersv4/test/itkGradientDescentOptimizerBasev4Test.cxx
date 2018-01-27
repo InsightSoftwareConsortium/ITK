@@ -25,16 +25,16 @@ class GradientDescentOptimizerBasev4TestMetric:
   public itk::ObjectToObjectMetricBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef GradientDescentOptimizerBasev4TestMetric      Self;
-  typedef itk::ObjectToObjectMetricBase                 Superclass;
-  typedef itk::SmartPointer< Self >                     Pointer;
-  typedef itk::SmartPointer< const Self >               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GradientDescentOptimizerBasev4TestMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
-  typedef typename Superclass::MeasureType          MeasureType;
-  typedef typename Superclass::DerivativeType       DerivativeType;
-  typedef typename Superclass::ParametersType       ParametersType;
-  typedef typename Superclass::ParametersValueType  ParametersValueType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
 
   itkTypeMacro(GradientDescentOptimizerBasev4TestMetric, ObjectToObjectMetricBase);
 
@@ -95,11 +95,11 @@ class GradientDescentOptimizerBasev4TestOptimizer
   : public itk::GradientDescentOptimizerBasev4
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef GradientDescentOptimizerBasev4TestOptimizer     Self;
-  typedef itk::GradientDescentOptimizerBasev4             Superclass;
-  typedef itk::SmartPointer< Self >                       Pointer;
-  typedef itk::SmartPointer< const Self >                 ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = GradientDescentOptimizerBasev4TestOptimizer;
+  using Superclass = itk::GradientDescentOptimizerBasev4;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -146,9 +146,9 @@ private:
 int itkGradientDescentOptimizerBasev4Test(int , char* [])
 {
   const int ImageDimension = 2;
-  typedef itk::Image<double, ImageDimension>                    ImageType;
+  using ImageType = itk::Image<double, ImageDimension>;
 
-  typedef GradientDescentOptimizerBasev4TestMetric<ImageType,ImageType> MetricType;
+  using MetricType = GradientDescentOptimizerBasev4TestMetric<ImageType,ImageType>;
 
   MetricType::Pointer metric = MetricType::New();
   GradientDescentOptimizerBasev4TestOptimizer::Pointer optimizer = GradientDescentOptimizerBasev4TestOptimizer::New();

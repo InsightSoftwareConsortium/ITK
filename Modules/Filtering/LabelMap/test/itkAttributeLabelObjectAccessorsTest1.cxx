@@ -34,18 +34,18 @@ int itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
 
   // declare the dimension used, and the type of the input image
   const int dim = 2;
-  typedef unsigned char            PType;
-  typedef itk::Image< PType, dim > IType;
+  using PType = unsigned char;
+  using IType = itk::Image< PType, dim >;
 
   // The AttributeLabelObject class take 3 template parameters: the 2 ones
   // from the LabelObject class, and the type of the attribute associated
   // with each node. Here we have chosen a double. We then declare the
   // type of the LabelMap with the type of the label object.
-  typedef itk::AttributeLabelObject< unsigned long, dim, double > LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >                        LabelMapType;
+  using LabelObjectType = itk::AttributeLabelObject< unsigned long, dim, double >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
   // We read the input image.
-  typedef itk::ImageFileReader< IType > ReaderType;
+  using ReaderType = itk::ImageFileReader< IType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -53,7 +53,7 @@ int itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
   reader2->SetFileName( argv[2] );
 
   // And convert it to a LabelMap
-  typedef itk::LabelImageToLabelMapFilter< IType, LabelMapType > I2LType;
+  using I2LType = itk::LabelImageToLabelMapFilter< IType, LabelMapType >;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
   // The next step is made outside the pipeline model, so we call Update() now.

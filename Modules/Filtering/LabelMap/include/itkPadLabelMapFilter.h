@@ -55,11 +55,11 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT PadLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PadLabelMapFilter                         Self;
-  typedef ChangeRegionLabelMapFilter< TInputImage > Superclass;
-  typedef SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PadLabelMapFilter;
+  using Superclass = ChangeRegionLabelMapFilter< TInputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PadLabelMapFilter, ChangeRegionLabelMapFilter);
@@ -67,26 +67,26 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageType       OutputImageType;
-  typedef typename Superclass::OutputImagePointer    OutputImagePointer;
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename Superclass::OutputImagePixelType  OutputImagePixelType;
+  /** Superclass type alias. */
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename InputImageType::LabelObjectType LabelObjectType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using LabelObjectType = typename InputImageType::LabelObjectType;
 
-  typedef typename InputImageType::PixelType  PixelType;
-  typedef typename InputImageType::IndexType  IndexType;
-  typedef typename InputImageType::SizeType   SizeType;
-  typedef typename InputImageType::RegionType RegionType;
+  using PixelType = typename InputImageType::PixelType;
+  using IndexType = typename InputImageType::IndexType;
+  using SizeType = typename InputImageType::SizeType;
+  using RegionType = typename InputImageType::RegionType;
 
-  typedef TInputImage TOutputImage;
+  using TOutputImage = TInputImage;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);

@@ -31,7 +31,7 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int argc, char *argv
   //the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  typedef itk::fem::FEMObject<2> FEMObjectType;
+  using FEMObjectType = itk::fem::FEMObject<2>;
   FEMObjectType::Pointer femObject = FEMObjectType::New();
 
   itk::fem::Node::Pointer n1;

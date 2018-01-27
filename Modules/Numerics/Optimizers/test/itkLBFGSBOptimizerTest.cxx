@@ -44,22 +44,22 @@ class LBFGSBCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef LBFGSBCostFunction                Self;
-  typedef itk::SingleValuedCostFunction     Superclass;
-  typedef itk::SmartPointer<Self>           Pointer;
-  typedef itk::SmartPointer<const Self>     ConstPointer;
+  using Self = LBFGSBCostFunction;
+  using Superclass = itk::SingleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( LBFGSBCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::DerivativeType              DerivativeType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
 
-  typedef vnl_vector<double>                      VectorType;
-  typedef vnl_matrix<double>                      MatrixType;
+  using VectorType = vnl_vector<double>;
+  using MatrixType = vnl_matrix<double>;
 
-  typedef double MeasureType;
+  using MeasureType = double;
 
   LBFGSBCostFunction()
   {
@@ -113,9 +113,9 @@ public:
 class EventChecker: public itk::Command
 {
 public:
-  typedef EventChecker            Self;
-  typedef itk::Command            Superclass;
-  typedef itk::SmartPointer<Self> Pointer;
+  using Self = EventChecker;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
 
   itkNewMacro( Self );
 
@@ -170,7 +170,7 @@ int itkLBFGSBOptimizerTest(int, char *[])
 
   std::cout << "LBFGSB Optimizer Test \n \n";
 
-  typedef  itk::LBFGSBOptimizer  OptimizerType;
+  using OptimizerType = itk::LBFGSBOptimizer;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();

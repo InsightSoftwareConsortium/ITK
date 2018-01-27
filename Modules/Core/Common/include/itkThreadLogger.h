@@ -41,10 +41,10 @@ class ITKCommon_EXPORT ThreadLogger:public Logger
 {
 public:
 
-  typedef ThreadLogger               Self;
-  typedef Logger                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = ThreadLogger;
+  using Superclass = Logger;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThreadLogger, Logger);
@@ -52,11 +52,11 @@ public:
   /** New macro for creation of a Smart Pointer */
   itkNewMacro(Self);
 
-  typedef  Logger::OutputType OutputType;
+  using OutputType = Logger::OutputType;
 
-  typedef  Logger::PriorityLevelType PriorityLevelType;
+  using PriorityLevelType = Logger::PriorityLevelType;
 
-  typedef  unsigned int DelayType;
+  using DelayType = unsigned int;
 
   /** Definition of types of operations for ThreadLogger. */
   typedef enum
@@ -117,13 +117,13 @@ private:
 
   void InternalFlush();
 
-  typedef std::queue< OperationType > OperationContainerType;
+  using OperationContainerType = std::queue< OperationType >;
 
-  typedef std::queue< std::string > MessageContainerType;
+  using MessageContainerType = std::queue< std::string >;
 
-  typedef std::queue< PriorityLevelType > LevelContainerType;
+  using LevelContainerType = std::queue< PriorityLevelType >;
 
-  typedef std::queue< OutputType::Pointer > OutputContainerType;
+  using OutputContainerType = std::queue< OutputType::Pointer >;
 
   MultiThreader::Pointer m_Threader;
 

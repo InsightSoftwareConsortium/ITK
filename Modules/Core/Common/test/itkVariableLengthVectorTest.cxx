@@ -32,8 +32,8 @@ CLANG_PRAGMA_POP                                                                
 
 int itkVariableLengthVectorTest(int, char*[])
 {
-  typedef itk::VariableLengthVector<float>   FloatVariableLengthVectorType;
-  typedef itk::VariableLengthVector<double>  DoubleVariableLengthVectorType;
+  using FloatVariableLengthVectorType = itk::VariableLengthVector<float>;
+  using DoubleVariableLengthVectorType = itk::VariableLengthVector<double>;
   int result = EXIT_SUCCESS;
 
   FloatVariableLengthVectorType f( 3 );

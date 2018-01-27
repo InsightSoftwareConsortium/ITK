@@ -135,31 +135,31 @@ namespace itk
 class ITKCommon_EXPORT ProcessObject:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ProcessObject              Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ProcessObject;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ProcessObject, Object);
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** STL array of const pointer to the data objects */
-  // typedef std::vector< const DataObject * > ConstDataObjectPointerArray;
+  // using ConstDataObjectPointerArray = std::vector< const DataObject * >;
 
   /** STL array of pointer to the data objects */
-  typedef std::vector< DataObjectPointer > DataObjectPointerArray;
+  using DataObjectPointerArray = std::vector< DataObjectPointer >;
 
-  typedef DataObject::DataObjectIdentifierType DataObjectIdentifierType;
+  using DataObjectIdentifierType = DataObject::DataObjectIdentifierType;
 
   /** STL array of data object names */
-  typedef std::vector< DataObjectIdentifierType >  NameArray;
+  using NameArray = std::vector< DataObjectIdentifierType >;
 
   //** Type of general multi-threader interface */
-  typedef MultiThreader MultiThreaderType;
+  using MultiThreaderType = MultiThreader;
 
   /** \brief Return an array with the names of the inputs defined.
    *
@@ -181,7 +181,7 @@ public:
   /** Return true if the input with this name is defined */
   bool HasInput( const DataObjectIdentifierType & key ) const;
 
-  typedef DataObjectPointerArray::size_type DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = DataObjectPointerArray::size_type;
 
   /** \brief Get the size of the input container.
    *
@@ -471,14 +471,14 @@ protected:
   class ProcessObjectDomainThreader: public DomainThreader< TDomainPartitioner, TAssociate >
   {
   public:
-    /** Standard class typedefs. */
-    typedef ProcessObjectDomainThreader                               Self;
-    typedef DomainThreader< TDomainPartitioner, ProcessObject::Self > Superclass;
-    typedef SmartPointer< Self >                                      Pointer;
-    typedef SmartPointer< const Self >                                ConstPointer;
+    /** Standard class type aliases. */
+    using Self = ProcessObjectDomainThreader;
+    using Superclass = DomainThreader< TDomainPartitioner, ProcessObject::Self >;
+    using Pointer = SmartPointer< Self >;
+    using ConstPointer = SmartPointer< const Self >;
 
-    typedef typename Superclass::DomainPartitionerType            DomainPartitionerType;
-    typedef typename Superclass::DomainType                       DomainType;
+    using DomainPartitionerType = typename Superclass::DomainPartitionerType;
+    using DomainType = typename Superclass::DomainType;
 
     /** Run-time type information (and related methods). */
     itkTypeMacro( ProcessObject::ProcessObjectDomainThreader, DomainThreader );
@@ -802,7 +802,7 @@ private:
   DataObjectPointerArraySizeType MakeIndexFromName( const DataObjectIdentifierType & ) const;
 
   /** STL map to store the named inputs and outputs */
-  typedef std::map< DataObjectIdentifierType, DataObjectPointer > DataObjectPointerMap;
+  using DataObjectPointerMap = std::map< DataObjectIdentifierType, DataObjectPointer >;
 
 
   /** Named input and outputs containers */
@@ -819,7 +819,7 @@ private:
   DataObjectPointerArraySizeType  m_NumberOfRequiredOutputs;
 
   /** STL map to store the named inputs and outputs */
-  typedef std::set< DataObjectIdentifierType > NameSet;
+  using NameSet = std::set< DataObjectIdentifierType >;
 
   /** The required inputs */
   NameSet m_RequiredInputNames;

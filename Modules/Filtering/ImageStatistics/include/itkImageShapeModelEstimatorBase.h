@@ -50,18 +50,18 @@ class ITK_TEMPLATE_EXPORT ImageShapeModelEstimatorBase:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageShapeModelEstimatorBase                    Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageShapeModelEstimatorBase;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageShapeModelEstimatorBase, ImageToImageFilter);
 
   /** Type definitions for the training image. */
-  typedef          TInputImage          InputImageType;
-  typedef typename TInputImage::Pointer InputImagePointer;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename TInputImage::Pointer;
 
 protected:
   ImageShapeModelEstimatorBase();

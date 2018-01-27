@@ -40,11 +40,11 @@ template< typename TPixel >
 class ITK_TEMPLATE_EXPORT ColorTable:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ColorTable                 Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ColorTable;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -111,8 +111,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  typedef std::vector< std::string >        ColorNameVectorType;
-  typedef std::vector< RGBPixel< TPixel > > ColorVectorType;
+  using ColorNameVectorType = std::vector< std::string >;
+  using ColorVectorType = std::vector< RGBPixel< TPixel > >;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ColorTable);
 

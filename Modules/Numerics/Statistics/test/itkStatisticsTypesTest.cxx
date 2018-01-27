@@ -19,7 +19,7 @@
 #include "itkMeasurementVectorTraits.h"
 
 #define declareType( _x ) \
-  typedef itk::Statistics::MeasurementVectorTraits::_x _x; \
+  using _x = itk::Statistics::MeasurementVectorTraits::_x; \
   std::cout << #_x << " = " << sizeof( _x ) << " bytes "; \
   if( itk::NumericTraits< _x >::is_integer ) \
     { \

@@ -49,7 +49,7 @@ namespace itk
  *
  * \code
  *
- * typedef itk::TernaryOperatorImageFilter< MaskType, ImageType > TernaryType;
+ * using TernaryType = itk::TernaryOperatorImageFilter< MaskType, ImageType >;
  * TernaryType::Pointer ternaryFilter = TernaryType::New();
  *
  * ternaryFilter->SetInput1( maskImage );
@@ -72,17 +72,17 @@ class TernaryOperatorImageFilter:
                                                        typename TImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TernaryOperatorImageFilter Self;
-  typedef TernaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = TernaryOperatorImageFilter;
+  using Superclass = TernaryFunctorImageFilter<
     TMask, TImage, TImage, TImage,
     Functor::TernaryOperator< typename TMask::PixelType,
                               typename TImage::PixelType,
                               typename TImage::PixelType,
-                              typename TImage::PixelType > > Superclass;
+                              typename TImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

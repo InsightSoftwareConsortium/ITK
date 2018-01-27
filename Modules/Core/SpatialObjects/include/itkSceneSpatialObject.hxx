@@ -112,8 +112,7 @@ SceneSpatialObject< TSpaceDimension >
       }
     if ( depth > 0 )
       {
-      typedef typename SpatialObject< TSpaceDimension >::ChildrenListType
-      ChildListType;
+      using ChildListType = typename SpatialObject<TSpaceDimension>::ChildrenListType;
       ChildListType *childList =
         dynamic_cast< SpatialObject< TSpaceDimension > * >( ( *it ).GetPointer() )->
         GetChildren(depth - 1, name);
@@ -211,7 +210,7 @@ SceneSpatialObject< TSpaceDimension >
   typename ObjectListType::iterator it = m_Objects.begin();
   typename ObjectListType::iterator itEnd = m_Objects.end();
 
-  typedef typename SpatialObjectType::ChildrenListType ChildListType;
+  using ChildListType = typename SpatialObjectType::ChildrenListType;
   ChildListType *cList;
   typename ChildListType::iterator cIt;
   typename ChildListType::iterator cItEnd;

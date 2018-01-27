@@ -56,28 +56,28 @@ class ITK_TEMPLATE_EXPORT NormalizeToConstantImageFilter :
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef NormalizeToConstantImageFilter Self;
+  /** Standard class type aliases. */
+  using Self = NormalizeToConstantImageFilter;
 
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
 
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  typedef typename InputImageType::RegionType      RegionType;
-  typedef typename InputImageType::IndexType       IndexType;
-  typedef typename InputImageType::SizeType        SizeType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using RegionType = typename InputImageType::RegionType;
+  using IndexType = typename InputImageType::IndexType;
+  using SizeType = typename InputImageType::SizeType;
 
-  typedef typename NumericTraits<InputImagePixelType>::RealType RealType;
+  using RealType = typename NumericTraits<InputImagePixelType>::RealType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,

@@ -48,11 +48,11 @@ class ITK_TEMPLATE_EXPORT MeanReciprocalSquareDifferencePointSetToImageMetric:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef  MeanReciprocalSquareDifferencePointSetToImageMetric  Self;
-  typedef PointSetToImageMetric< TFixedPointSet, TMovingImage > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MeanReciprocalSquareDifferencePointSetToImageMetric;
+  using Superclass = PointSetToImageMetric< TFixedPointSet, TMovingImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,24 +61,24 @@ public:
   itkTypeMacro(MeanReciprocalSquareDifferencePointSetToImageMetric, Object);
 
   /** Types transferred from the base class */
-  typedef typename Superclass::RealType                RealType;
-  typedef typename Superclass::TransformType           TransformType;
-  typedef typename Superclass::TransformPointer        TransformPointer;
-  typedef typename Superclass::TransformParametersType TransformParametersType;
-  typedef typename Superclass::TransformJacobianType   TransformJacobianType;
-  typedef typename Superclass::InputPointType          InputPointType;
-  typedef typename Superclass::OutputPointType         OutputPointType;
-  typedef typename Superclass::GradientPixelType       GradientPixelType;
+  using RealType = typename Superclass::RealType;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformParametersType = typename Superclass::TransformParametersType;
+  using TransformJacobianType = typename Superclass::TransformJacobianType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using GradientPixelType = typename Superclass::GradientPixelType;
 
-  typedef typename Superclass::MeasureType               MeasureType;
-  typedef typename Superclass::DerivativeType            DerivativeType;
-  typedef typename Superclass::FixedPointSetType         FixedPointSetType;
-  typedef typename Superclass::MovingImageType           MovingImageType;
-  typedef typename Superclass::FixedPointSetConstPointer FixedPointSetConstPointer;
-  typedef typename Superclass::MovingImageConstPointer   MovingImageConstPointer;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using FixedPointSetType = typename Superclass::FixedPointSetType;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using FixedPointSetConstPointer = typename Superclass::FixedPointSetConstPointer;
+  using MovingImageConstPointer = typename Superclass::MovingImageConstPointer;
 
-  typedef typename Superclass::PointIterator     PointIterator;
-  typedef typename Superclass::PointDataIterator PointDataIterator;
+  using PointIterator = typename Superclass::PointIterator;
+  using PointDataIterator = typename Superclass::PointDataIterator;
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,

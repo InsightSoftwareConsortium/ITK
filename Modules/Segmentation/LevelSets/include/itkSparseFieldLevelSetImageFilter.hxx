@@ -31,7 +31,7 @@ template< typename TNeighborhoodType >
 SparseFieldCityBlockNeighborList< TNeighborhoodType >
 ::SparseFieldCityBlockNeighborList()
 {
-  typedef typename NeighborhoodType::ImageType ImageType;
+  using ImageType = typename NeighborhoodType::ImageType;
   typename ImageType::Pointer dummy_image = ImageType::New();
 
   unsigned int i, nCenter;
@@ -503,7 +503,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // position of the zero level set.
 
   // First need to subtract the iso-surface value from the input image.
-  typedef ShiftScaleImageFilter< InputImageType, OutputImageType > ShiftScaleFilterType;
+  using ShiftScaleFilterType = ShiftScaleImageFilter< InputImageType, OutputImageType >;
   typename ShiftScaleFilterType::Pointer shiftScaleFilter = ShiftScaleFilterType::New();
   shiftScaleFilter->SetInput( this->GetInput() );
   shiftScaleFilter->SetShift(-m_IsoSurfaceValue);
@@ -561,8 +561,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // Initialize the boundary pixels in the status image to
   // m_StatusBoundaryPixel values.  Uses the face calculator to find all of the
   // region faces.
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< StatusImageType >
-  BFCType;
+  using BFCType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<StatusImageType>;
 
   BFCType faceCalculator;
   typename BFCType::FaceListType faceList;

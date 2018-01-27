@@ -20,11 +20,11 @@
 
 int itkQuadEdgeMeshTest3( int , char* [] )
 {
-  typedef double                                    PixelType;
-  typedef itk::QuadEdgeMesh< PixelType, 3 >         MeshType;
-  typedef MeshType::CellType                        CellType;
-  typedef itk::QuadEdgeMeshLineCell< CellType >     LineType;
-  typedef itk::QuadEdgeMeshPolygonCell< CellType >  QEPolygonCellType;
+  using PixelType = double;
+  using MeshType = itk::QuadEdgeMesh< PixelType, 3 >;
+  using CellType = MeshType::CellType;
+  using LineType = itk::QuadEdgeMeshLineCell< CellType >;
+  using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell< CellType >;
 
   MeshType::Pointer mesh = MeshType::New();
 
@@ -125,7 +125,7 @@ int itkQuadEdgeMeshTest3( int , char* [] )
   std::cout << "numPoints = " << mesh->GetNumberOfPoints() << std::endl;
   std::cout << "numCells  = " << mesh->GetNumberOfCells() << std::endl;
 
-  typedef MeshType::PointsContainer::ConstIterator  PointIterator;
+  using PointIterator = MeshType::PointsContainer::ConstIterator;
   PointIterator pointIterator = mesh->GetPoints()->Begin();
   PointIterator pointEnd      = mesh->GetPoints()->End();
 
@@ -135,7 +135,7 @@ int itkQuadEdgeMeshTest3( int , char* [] )
     pointIterator++;
     }
 
-  typedef MeshType::CellsContainer::ConstIterator CellIterator;
+  using CellIterator = MeshType::CellsContainer::ConstIterator;
 
   CellIterator cellIterator = mesh->GetCells()->Begin();
   CellIterator cellEnd      = mesh->GetCells()->End();
@@ -157,7 +157,7 @@ int itkQuadEdgeMeshTest3( int , char* [] )
     std::cout << "cell with " << cell->GetNumberOfPoints();
     std::cout << " points   : ";
 
-    typedef CellType::PointIdIterator PointIdIterator;
+    using PointIdIterator = CellType::PointIdIterator;
 
     PointIdIterator pointIditer = cell->PointIdsBegin();
     PointIdIterator pointIdend  = cell->PointIdsEnd();

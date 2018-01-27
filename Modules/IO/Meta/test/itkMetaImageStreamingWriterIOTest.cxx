@@ -32,13 +32,13 @@ int itkMetaImageStreamingWriterIOTest(int argc, char*  argv[])
   // We remove the output file
   itksys::SystemTools::RemoveFile( argv[2]);
 
-  typedef unsigned char           PixelType;
-  typedef itk::Image<PixelType,3> ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType,3>;
 
   itk::MetaImageIO::Pointer metaImageIO = itk::MetaImageIO::New();
 
-  typedef itk::ImageFileReader<ImageType>   ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetImageIO(metaImageIO);

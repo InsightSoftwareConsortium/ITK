@@ -27,10 +27,10 @@ template <typename TSample>
 class MixtureModelComponentBaseTestHelper : public MixtureModelComponentBase<TSample>
 {
 public:
-  typedef MixtureModelComponentBaseTestHelper   Self;
-  typedef MixtureModelComponentBase<TSample>    Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
+  using Self = MixtureModelComponentBaseTestHelper;
+  using Superclass = MixtureModelComponentBase<TSample>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkTypeMacro(MixtureModelComponentBaseTestHelper, MixtureModelComponentBase );
 
@@ -60,10 +60,10 @@ protected:
 
 int itkMixtureModelComponentBaseTest( int , char* [] )
 {
-  typedef itk::Array< double > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Array< double >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-  typedef itk::Statistics::MixtureModelComponentBaseTestHelper<SampleType>  ComponentType;
+  using ComponentType = itk::Statistics::MixtureModelComponentBaseTestHelper<SampleType>;
 
   ComponentType::Pointer component = ComponentType::New();
   std::cout << "component->GetWeights(): " << component->GetWeights() << std::endl;

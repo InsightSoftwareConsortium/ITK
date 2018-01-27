@@ -42,19 +42,19 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[]
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-  typedef itk::MorphologicalWatershedFromMarkersImageFilter< ImageType, ImageType >
-    FilterType;
+  using FilterType =
+      itk::MorphologicalWatershedFromMarkersImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter,
@@ -111,7 +111,7 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[]
 
 
   // Write output image
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[3] );
@@ -120,16 +120,16 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[]
 
   if( argc > 6 )
     {
-    typedef itk::RGBPixel< PixelType >            RGBPixelType;
-    typedef itk::Image< RGBPixelType, Dimension > RGBImageType;
+    using RGBPixelType = itk::RGBPixel< PixelType >;
+    using RGBImageType = itk::Image< RGBPixelType, Dimension >;
 
-    typedef itk::LabelOverlayImageFilter< ImageType, ImageType, RGBImageType>
-      OverlayType;
+    using OverlayType =
+        itk::LabelOverlayImageFilter< ImageType, ImageType, RGBImageType>;
     OverlayType::Pointer overlay = OverlayType::New();
     overlay->SetInput( reader->GetOutput() );
     overlay->SetLabelImage( filter->GetOutput() );
 
-    typedef itk::ImageFileWriter< RGBImageType > RGBWriterType;
+    using RGBWriterType = itk::ImageFileWriter< RGBImageType >;
     RGBWriterType::Pointer rgbwriter = RGBWriterType::New();
     rgbwriter->SetInput( overlay->GetOutput() );
     rgbwriter->SetFileName( argv[6] );

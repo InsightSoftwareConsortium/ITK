@@ -31,13 +31,11 @@ template< unsigned int VDimension >
 typename itk::Image< unsigned char, VDimension>::Pointer
 GetImage(const itk::FlatStructuringElement<VDimension> & flatElement)
 {
-  typedef typename      itk::Image< unsigned char, VDimension>
-                        ImageType;
-  typedef typename      FlatStructuringElement< VDimension >::RadiusType
-                        RadiusType;
-  typedef typename      FlatStructuringElement< VDimension >::ConstIterator
-                        ConstIterator;
-  typedef unsigned char PixelType;
+  using ImageType =
+      typename      itk::Image< unsigned char, VDimension>;
+  using RadiusType = typename FlatStructuringElement<2U>::RadiusType;
+  using ConstIterator = typename FlatStructuringElement<2U>::ConstIterator;
+  using PixelType = unsigned char;
 
   typename ImageType::Pointer image = ImageType::New();
   typename ImageType::RegionType region;
@@ -83,8 +81,8 @@ int itkFlatStructuringElementTest2(int argc, char * argv[])
   /**********************************************************/
   /*******Read test image as unsigned char********/
   /**********************************************************/
-  typedef itk::Image< unsigned char, Dimension > ImageUCType;
-  typedef itk::ImageFileReader< ImageUCType >    ReaderUCType;
+  using ImageUCType = itk::Image< unsigned char, Dimension >;
+  using ReaderUCType = itk::ImageFileReader< ImageUCType >;
   ReaderUCType::Pointer reader = ReaderUCType::New();
   reader->SetFileName( argv[1] );
   try
@@ -99,20 +97,20 @@ int itkFlatStructuringElementTest2(int argc, char * argv[])
     }
 
   ImageUCType::Pointer testImg = reader->GetOutput();
-  typedef itk::FlatStructuringElement< Dimension > FSEType;
+  using FSEType = itk::FlatStructuringElement< Dimension >;
 
   /**********************************************************/
   /*******Cast to Bool Image. Required by constructor *******/
   /**********************************************************/
-  typedef itk::Image< bool , Dimension> ImageBoolType;
+  using ImageBoolType = itk::Image< bool , Dimension>;
 
-  typedef itk::RescaleIntensityImageFilter< ImageUCType, ImageUCType > RescaleType;
+  using RescaleType = itk::RescaleIntensityImageFilter< ImageUCType, ImageUCType >;
   RescaleType::Pointer rescale = RescaleType::New();
   rescale->SetInput( testImg );
   rescale->SetOutputMinimum( itk::NumericTraits< bool >::ZeroValue()  );
   rescale->SetOutputMaximum( itk::NumericTraits< bool >::OneValue() );
 
-  typedef itk::CastImageFilter<ImageUCType, ImageBoolType> castFilterType;
+  using castFilterType = itk::CastImageFilter<ImageUCType, ImageBoolType>;
   castFilterType::Pointer cast = castFilterType::New();
   cast->SetInput(rescale->GetOutput());
   cast->Update();
@@ -125,7 +123,7 @@ int itkFlatStructuringElementTest2(int argc, char * argv[])
   /**Write result from GetImage for comparisson with input image ***/
   /*****************************************************************/
 
-  typedef itk::ImageFileWriter< ImageUCType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageUCType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput(imgFromStructure);
@@ -144,8 +142,8 @@ int itkFlatStructuringElementTest2(int argc, char * argv[])
   /****Even input image sizes generate exception ************/
   /**********************************************************/
   // Pad test image to even size
-  typedef itk::ConstantPadImageFilter<ImageBoolType,ImageBoolType>
-    ConstPadFilterType;
+  using ConstPadFilterType =
+      itk::ConstantPadImageFilter<ImageBoolType,ImageBoolType>;
   ConstPadFilterType::Pointer padFilter = ConstPadFilterType::New();
   padFilter->SetInput(testImgBool);
   ImageBoolType::SizeType lowerExtendRegion;

@@ -32,11 +32,11 @@ namespace itk
 class ITKIONIFTI_EXPORT NiftiImageIOFactory:public ObjectFactoryBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef NiftiImageIOFactory        Self;
-  typedef ObjectFactoryBase          Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = NiftiImageIOFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Class methods used to interface with the registered factories. */
   const char * GetITKSourceVersion(void) const override;

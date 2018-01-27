@@ -61,11 +61,11 @@ class ITKCommon_EXPORT ObjectFactoryBase:public Object
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef ObjectFactoryBase          Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ObjectFactoryBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ObjectFactoryBase, Object);

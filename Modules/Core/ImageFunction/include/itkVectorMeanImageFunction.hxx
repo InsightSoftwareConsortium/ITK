@@ -55,9 +55,9 @@ VectorMeanImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtIndex(const IndexType & index) const
 {
 
-  typedef  typename TInputImage::PixelType                        PixelType;
-  typedef  typename PixelType::ValueType                          PixelComponentType;
-  typedef  typename NumericTraits< PixelComponentType >::RealType PixelComponentRealType;
+  using PixelType = typename TInputImage::PixelType;
+  using PixelComponentType = typename PixelType::ValueType;
+  using PixelComponentRealType = typename NumericTraits< PixelComponentType >::RealType;
 
   if ( !this->GetInputImage() || !this->IsInsideBuffer(index) )
     {

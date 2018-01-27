@@ -24,9 +24,9 @@ template< typename TMetaData >
 int
 testMetaData( const TMetaData & value )
 {
-  typedef TMetaData MetaDataType;
+  using MetaDataType = TMetaData;
 
-  typedef itk::MetaDataObject< MetaDataType > MetaDataObjectType;
+  using MetaDataObjectType = itk::MetaDataObject< MetaDataType >;
 
   typename MetaDataObjectType::Pointer metaDataObject = MetaDataObjectType::New();
 
@@ -64,7 +64,7 @@ int itkMetaDataObjectTest( int , char * [] )
   result += testMetaData< double >( -24 );
   result += testMetaData< std::string >( "I T K" );
 
-  typedef itk::Image< unsigned short, 3 > ImageType;
+  using ImageType = itk::Image< unsigned short, 3 >;
   ImageType::Pointer image = nullptr;
   result += testMetaData< ImageType::Pointer >( image );
 

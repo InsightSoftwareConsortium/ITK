@@ -70,12 +70,12 @@ template< typename TLabelObject >
 class ITK_TEMPLATE_EXPORT LabelMap:public ImageBase< TLabelObject::ImageDimension >
 {
 public:
-  /** Standard class typedefs */
-  typedef LabelMap                                  Self;
-  typedef ImageBase< TLabelObject::ImageDimension > Superclass;
-  typedef SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                ConstPointer;
-  typedef WeakPointer< const Self >                 ConstWeakPointer;
+  /** Standard class type aliases */
+  using Self = LabelMap;
+  using Superclass = ImageBase< TLabelObject::ImageDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -83,12 +83,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LabelMap, ImageBase);
 
-  typedef TLabelObject LabelObjectType;
+  using LabelObjectType = TLabelObject;
 
-  typedef typename LabelObjectType::Pointer LabelObjectPointerType;
+  using LabelObjectPointerType = typename LabelObjectType::Pointer;
 
-  typedef typename Superclass::SizeValueType SizeValueType;
-  typedef SizeValueType                      LengthType;
+  using SizeValueType = typename Superclass::SizeValueType;
+  using LengthType = SizeValueType;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
@@ -96,40 +96,40 @@ public:
    * the image. */
   itkStaticConstMacro(ImageDimension, unsigned int, LabelObjectType::ImageDimension);
 
-  /** Label typedef support. */
-  typedef typename LabelObjectType::LabelType LabelType;
-  typedef LabelType                           PixelType;
+  /** Label type alias support */
+  using LabelType = typename LabelObjectType::LabelType;
+  using PixelType = LabelType;
 
   /** types used to expose labels only and label objects only */
-  typedef std::vector< LabelType >              LabelVectorType;
-  typedef std::vector< LabelObjectPointerType > LabelObjectVectorType;
+  using LabelVectorType = std::vector< LabelType >;
+  using LabelObjectVectorType = std::vector< LabelObjectPointerType >;
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support An index is used to access pixel values. */
+  using IndexType = typename Superclass::IndexType;
 
-  /** Offset typedef support. An offset is used to access pixel values. */
-  typedef typename Superclass::OffsetType OffsetType;
+  /** Offset type alias support An offset is used to access pixel values. */
+  using OffsetType = typename Superclass::OffsetType;
 
-  /** Size typedef support. A size is used to define region bounds. */
-  typedef typename Superclass::SizeType SizeType;
+  /** Size type alias support A size is used to define region bounds. */
+  using SizeType = typename Superclass::SizeType;
 
-  /** Direction typedef support. A matrix of direction cosines. */
-  typedef typename Superclass::DirectionType DirectionType;
+  /** Direction type alias support A matrix of direction cosines. */
+  using DirectionType = typename Superclass::DirectionType;
 
-  /** Region typedef support. A region is used to specify a subset of an image.
+  /** Region type alias support A region is used to specify a subset of an image.
     */
-  typedef typename Superclass::RegionType RegionType;
+  using RegionType = typename Superclass::RegionType;
 
-  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
+  /** Spacing type alias support  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
-  typedef typename Superclass::SpacingType SpacingType;
+  using SpacingType = typename Superclass::SpacingType;
 
-  /** Origin typedef support.  The origin is the geometric coordinates
+  /** Origin type alias support  The origin is the geometric coordinates
    * of the index (0,0). */
-  typedef typename Superclass::PointType PointType;
+  using PointType = typename Superclass::PointType;
 
-  /** Offset typedef (relative position between indices) */
-  typedef typename Superclass::OffsetValueType OffsetValueType;
+  /** Offset type alias (relative position between indices) */
+  using OffsetValueType = typename Superclass::OffsetValueType;
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */
@@ -355,7 +355,7 @@ public:
     }
 
   private:
-    typedef typename std::map< LabelType, LabelObjectPointerType >::const_iterator InternalIteratorType;
+    using InternalIteratorType = typename std::map< LabelType, LabelObjectPointerType >::const_iterator;
     InternalIteratorType m_Iterator;
     InternalIteratorType m_Begin;
     InternalIteratorType m_End;
@@ -437,7 +437,7 @@ public:
     }
 
   private:
-    typedef typename std::map< LabelType, LabelObjectPointerType >::iterator InternalIteratorType;
+    using InternalIteratorType = typename std::map< LabelType, LabelObjectPointerType >::iterator;
     InternalIteratorType m_Iterator;
     InternalIteratorType m_Begin;
     InternalIteratorType m_End;
@@ -456,10 +456,9 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMap);
 
   /** the LabelObject container type */
-  typedef std::map< LabelType, LabelObjectPointerType > LabelObjectContainerType;
-  typedef typename LabelObjectContainerType::iterator   LabelObjectContainerIterator;
-  typedef typename LabelObjectContainerType::const_iterator
-                                                        LabelObjectContainerConstIterator;
+  using LabelObjectContainerType = std::map< LabelType, LabelObjectPointerType >;
+  using LabelObjectContainerIterator = typename LabelObjectContainerType::iterator;
+  using LabelObjectContainerConstIterator = typename LabelObjectContainerType::const_iterator;
 
   LabelObjectContainerType m_LabelObjectContainer;
   LabelType                m_BackgroundValue;

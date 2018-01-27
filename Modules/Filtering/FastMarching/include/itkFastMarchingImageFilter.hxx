@@ -154,8 +154,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   m_LabelImage->Allocate();
 
   // set all output value to infinity
-  typedef ImageRegionIterator< LevelSetImageType >
-  OutputIterator;
+  using OutputIterator = ImageRegionIterator<LevelSetImageType>;
 
   OutputIterator outIt ( output, output->GetBufferedRegion() );
 
@@ -171,7 +170,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
     }
 
   // set all points type to FarPoint
-  typedef ImageRegionIterator< LabelImageType > LabelIterator;
+  using LabelIterator = ImageRegionIterator< LabelImageType >;
 
   LabelIterator typeIt( m_LabelImage,
                         m_LabelImage->GetBufferedRegion() );

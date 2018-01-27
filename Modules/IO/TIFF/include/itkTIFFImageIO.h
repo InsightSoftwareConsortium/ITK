@@ -43,13 +43,13 @@ class TIFFReaderInternal;
 class ITKIOTIFF_EXPORT TIFFImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef TIFFImageIO          Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = TIFFImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
-  typedef RGBPixel< unsigned short  > RGBPixelType;
-  typedef std::vector< RGBPixelType > PaletteType;
+  using RGBPixelType = RGBPixel< unsigned short  >;
+  using PaletteType = std::vector< RGBPixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

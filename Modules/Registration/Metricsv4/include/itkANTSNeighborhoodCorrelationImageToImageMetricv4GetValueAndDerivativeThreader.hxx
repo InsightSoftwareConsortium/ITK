@@ -136,7 +136,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
    scanMem.QsumFixedMoving = SumQueueType(numberOfFillZero, zero);
    scanMem.Qcount = SumQueueType(numberOfFillZero, zero);
 
-   typedef InternalComputationValueType LocalRealType;
+   using LocalRealType = InternalComputationValueType;
 
    // Now add the rest of the values from each hyperplane
    SizeValueType diameter = 2 * scanParameters.radius[0];
@@ -217,7 +217,7 @@ template < typename TDomainPartitioner, typename TImageToImageMetric, typename T
 {
  const SizeValueType hoodlen = scanParameters.windowLength;
 
- typedef InternalComputationValueType LocalRealType;
+ using LocalRealType = InternalComputationValueType;
 
  const LocalRealType localZero = NumericTraits<LocalRealType>::ZeroValue();
 
@@ -351,7 +351,7 @@ bool
 ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric, TNeighborhoodCorrelationMetric >
 ::ComputeInformationFromQueues( const ScanIteratorType &scanIt, ScanMemType &scanMem, const ScanParametersType &, const ThreadIdType ) const
 {
- typedef InternalComputationValueType LocalRealType;
+ using LocalRealType = InternalComputationValueType;
 
  const LocalRealType localZero = NumericTraits<LocalRealType>::ZeroValue();
 
@@ -472,7 +472,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
   MovingImageGradientType derivWRTImage;
   localCC = NumericTraits<MeasureType>::OneValue();
 
-  typedef InternalComputationValueType LocalRealType;
+  using LocalRealType = InternalComputationValueType;
 
   LocalRealType sFixedFixed   = scanMem.sFixedFixed;
   LocalRealType sMovingMoving = scanMem.sMovingMoving;
@@ -503,7 +503,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
       }
 
     /* Use a pre-allocated jacobian object for efficiency */
-    typedef JacobianType & JacobianReferenceType;
+    using JacobianReferenceType = JacobianType &;
     JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian;
     JacobianReferenceType jacobianPositional = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobianPositional;
 

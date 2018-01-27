@@ -148,7 +148,7 @@ SpatialObject< TDimension >
 {
   if ( depth > 0 )
     {
-    typedef typename TreeNodeType::ChildrenListType TreeChildrenListType;
+    using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
     TreeChildrenListType *children = m_TreeNode->GetChildren();
     typename TreeChildrenListType::const_iterator it = children->begin();
     typename TreeChildrenListType::const_iterator itEnd = children->end();
@@ -177,7 +177,7 @@ SpatialObject< TDimension >
 {
   if ( depth > 0 )
     {
-    typedef typename TreeNodeType::ChildrenListType TreeChildrenListType;
+    using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
     TreeChildrenListType *children = m_TreeNode->GetChildren();
     typename TreeChildrenListType::const_iterator it = children->begin();
     typename TreeChildrenListType::const_iterator itEnd = children->end();
@@ -208,7 +208,7 @@ SpatialObject< TDimension >
 
   if ( depth > 0 )
     {
-    typedef typename TreeNodeType::ChildrenListType TreeChildrenListType;
+    using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
     TreeChildrenListType *children = m_TreeNode->GetChildren();
     typename TreeChildrenListType::const_iterator it = children->begin();
     typename TreeChildrenListType::const_iterator itEnd = children->end();
@@ -350,7 +350,7 @@ SpatialObject< TDimension >
   m_IndexToWorldTransform->Compose(this->GetObjectToWorldTransform(), false);
 
   // Propagate the changes to the children
-  typedef typename TreeNodeType::ChildrenListType TreeChildrenListType;
+  using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
   TreeChildrenListType *children = m_TreeNode->GetChildren();
   typename TreeChildrenListType::const_iterator it = children->begin();
   typename TreeChildrenListType::const_iterator itEnd = children->end();
@@ -499,7 +499,7 @@ SpatialObject< TDimension >
     {
     latestTime = m_BoundsMTime;
     }
-  typedef typename TreeNodeType::ChildrenListType TreeChildrenListType;
+  using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
 
   if ( !m_TreeNode )
     {
@@ -556,7 +556,7 @@ SpatialObject< TDimension >
 
   if ( m_BoundingBoxChildrenDepth > 0 && m_TreeNode )
     {
-    typedef typename TreeNodeType::ChildrenListType TreeChildrenListType;
+    using TreeChildrenListType = typename TreeNodeType::ChildrenListType;
     TreeChildrenListType *children = m_TreeNode->GetChildren(0);
     typename TreeChildrenListType::const_iterator it = children->begin();
     typename TreeChildrenListType::const_iterator itEnd = children->end();

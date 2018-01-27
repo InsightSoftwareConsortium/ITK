@@ -32,7 +32,7 @@ class ITKCommon_EXPORT FloatingPointExceptions
 {
 public:
   /** defines what should happen when exceptions occur */
-  typedef enum { ABORT, EXIT } ExceptionAction;
+  using ExceptionAction = enum { ABORT, EXIT };
   /** Enable floating point exceptions */
   static void Enable();
 

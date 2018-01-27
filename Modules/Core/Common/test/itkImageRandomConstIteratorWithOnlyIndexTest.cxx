@@ -27,9 +27,9 @@ int itkImageRandomConstIteratorWithOnlyIndexTest(int, char* [] )
 
   const unsigned int ImageDimension = 3;
 
-  typedef itk::Index< ImageDimension >             PixelType;
+  using PixelType = itk::Index< ImageDimension >;
 
-  typedef itk::Image< PixelType, ImageDimension >  ImageType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
   ImageType::Pointer myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage.GetPointer();
@@ -54,8 +54,8 @@ int itkImageRandomConstIteratorWithOnlyIndexTest(int, char* [] )
   myImage->SetRequestedRegion( region0 );
   myImage->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex< ImageType >              IteratorType;
-  typedef itk::ImageRandomConstIteratorWithOnlyIndex< ImageType >     RandomConstIteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
+  using RandomConstIteratorType = itk::ImageRandomConstIteratorWithOnlyIndex< ImageType >;
 
   IteratorType it( myImage, region0 );
 
@@ -123,8 +123,8 @@ int itkImageRandomConstIteratorWithOnlyIndexTest(int, char* [] )
   // Verification with ImageBase type and both directions of iteration
   std::cout << "Verifying const iterator with ImageBase type and in both directions... ";
 
-  typedef itk::ImageBase< ImageDimension > ImageBaseType;
-  typedef itk::ImageRandomConstIteratorWithOnlyIndex< ImageBaseType >     ImageBaseRandomConstIteratorType;
+  using ImageBaseType = itk::ImageBase< ImageDimension >;
+  using ImageBaseRandomConstIteratorType = itk::ImageRandomConstIteratorWithOnlyIndex< ImageBaseType >;
 
   ImageBaseType::Pointer myImageBase = ImageBaseType::New();
   myImageBase->CopyInformation( myImage );

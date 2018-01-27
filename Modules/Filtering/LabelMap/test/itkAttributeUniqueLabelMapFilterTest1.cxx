@@ -40,43 +40,43 @@ int itkAttributeUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > ImageType;
+  using ImageType = itk::Image< unsigned char, dim >;
 
-  typedef itk::ShapeLabelObject< unsigned char, dim > LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >            LabelMapType;
+  using LabelObjectType = itk::ShapeLabelObject< unsigned char, dim >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
-  typedef itk::FlatStructuringElement< dim > KernelType;
-  typedef itk::BinaryDilateImageFilter< ImageType, ImageType, KernelType > DilateType;
+  using KernelType = itk::FlatStructuringElement< dim >;
+  using DilateType = itk::BinaryDilateImageFilter< ImageType, ImageType, KernelType >;
   DilateType::Pointer dilate = DilateType::New();
   KernelType::SizeType rad;
   rad.Fill( 15 );
   dilate->SetKernel( KernelType::Ball( rad ) );
 
-  typedef itk::ObjectByObjectLabelMapFilter< LabelMapType, LabelMapType, DilateType > OIType;
+  using OIType = itk::ObjectByObjectLabelMapFilter< LabelMapType, LabelMapType, DilateType >;
   OIType::Pointer oi = OIType::New();
   oi->SetInput( i2l->GetOutput() );
   oi->SetFilter( dilate );
   oi->SetPadSize( rad );
 
-  typedef itk::AttributeUniqueLabelMapFilter< LabelMapType, itk::Functor::NumberOfPixelsLabelObjectAccessor< LabelObjectType > > UniqueType;
+  using UniqueType = itk::AttributeUniqueLabelMapFilter< LabelMapType, itk::Functor::NumberOfPixelsLabelObjectAccessor< LabelObjectType > >;
   UniqueType::Pointer unique = UniqueType::New();
   unique->SetInput( oi->GetOutput() );
   unique->SetReverseOrdering( atoi(argv[3]) );
   itk::SimpleFilterWatcher watcher(unique, "filter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
+  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
   l2i->SetInput( unique->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );
   writer->SetFileName( argv[2] );

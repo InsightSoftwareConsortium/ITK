@@ -39,17 +39,17 @@ class ITK_TEMPLATE_EXPORT TreeContainer:public TreeContainerBase< TValue >
 {
 public:
 
-  /** Standard typedefs */
-  typedef TreeContainerBase< TValue > Superclass;
-  typedef TreeContainer< TValue >     Self;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
-  typedef TValue                      ValueType;
-  typedef TreeNode< ValueType >       TreeNodeType;
+  /** Standard type alias */
+  using Superclass = TreeContainerBase< TValue >;
+  using Self = TreeContainer< TValue >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ValueType = TValue;
+  using TreeNodeType = TreeNode< ValueType >;
 
-  /** Iterators typedef */
-  typedef TreeIteratorBase< Self >     IteratorType;
-  typedef PreOrderTreeIterator< Self > PreOrderIteratorType;
+  /** Iterators type alias */
+  using IteratorType = TreeIteratorBase< Self >;
+  using PreOrderIteratorType = PreOrderTreeIterator< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

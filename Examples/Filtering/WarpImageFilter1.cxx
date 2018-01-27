@@ -61,17 +61,17 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float                                         VectorComponentType;
-  typedef itk::Vector< VectorComponentType, Dimension > VectorPixelType;
-  typedef itk::Image< VectorPixelType,  Dimension >     DisplacementFieldType;
+  using VectorComponentType = float;
+  using VectorPixelType = itk::Vector< VectorComponentType, Dimension >;
+  using DisplacementFieldType = itk::Image< VectorPixelType,  Dimension >;
 
-  typedef unsigned char                         PixelType;
-  typedef itk::Image< PixelType,  Dimension >   ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType,  Dimension >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef   itk::ImageFileReader< ImageType >  ReaderType;
-  typedef   itk::ImageFileWriter< ImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   // Software Guide : BeginLatex
   //
@@ -81,7 +81,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   itk::ImageFileReader< DisplacementFieldType >  FieldReaderType;
+  using FieldReaderType = itk::ImageFileReader< DisplacementFieldType >;
   // Software Guide : EndCodeSnippet
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -107,9 +107,9 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::WarpImageFilter< ImageType,
+  using FilterType = itk::WarpImageFilter< ImageType,
                                 ImageType,
-                                DisplacementFieldType  >  FilterType;
+                                DisplacementFieldType  >;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -125,8 +125,8 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::LinearInterpolateImageFunction<
-                       ImageType, double >  InterpolatorType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
+                       ImageType, double >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 

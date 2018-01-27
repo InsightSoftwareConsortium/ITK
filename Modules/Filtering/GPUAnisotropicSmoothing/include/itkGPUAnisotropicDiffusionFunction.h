@@ -39,23 +39,23 @@ class GPUAnisotropicDiffusionFunction :
   public GPUFiniteDifferenceFunction< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUAnisotropicDiffusionFunction       Self;
-  typedef GPUFiniteDifferenceFunction< TImage > Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUAnisotropicDiffusionFunction;
+  using Superclass = GPUFiniteDifferenceFunction< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(GPUAnisotropicDiffusionFunction, GPUFiniteDifferenceFunction);
 
   /** Inherit some parameters from the superclass type */
-  typedef typename Superclass::ImageType        ImageType;
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::PixelRealType    PixelrealType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::TimeStepType     TimeStepType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelType = typename Superclass::PixelType;
+  using PixelrealType = typename Superclass::PixelRealType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
 
   /** Inherit some parameters from the superclass type */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);

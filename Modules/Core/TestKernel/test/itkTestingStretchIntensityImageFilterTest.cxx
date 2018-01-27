@@ -24,10 +24,10 @@
 int itkTestingStretchIntensityImageFilterTest( int itkNotUsed( argc ), char* itkNotUsed( argv )[] )
 {
   const unsigned int Dimension = 2;
-  typedef signed short                                            PixelType;
-  typedef itk::Image< PixelType, Dimension >                      ImageType;
-  typedef itk::Testing::StretchIntensityImageFilter< ImageType >  StretchFilterType;
-  typedef itk::StatisticsImageFilter< ImageType >                 StatsFilterType;
+  using PixelType = signed short;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using StretchFilterType = itk::Testing::StretchIntensityImageFilter< ImageType >;
+  using StatsFilterType = itk::StatisticsImageFilter< ImageType >;
 
   ImageType::SizeType imageSize = {{ 32, 32 }};
   ImageType::Pointer  image = ImageType::New();

@@ -45,7 +45,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel< float >    PixelType;
+  using PixelType = itk::RGBPixel< float >;
   // Software Guide : EndCodeSnippet
 
 
@@ -57,7 +57,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::PointSet< PixelType, 3 > PointSetType;
+  using PointSetType = itk::PointSet< PixelType, 3 >;
   PointSetType::Pointer  pointSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 
@@ -106,7 +106,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  PointSetType::PointsContainer::ConstIterator     PointIterator;
+  using PointIterator = PointSetType::PointsContainer::ConstIterator;
   PointIterator pointIterator = pointSet->GetPoints()->Begin();
   PointIterator pointEnd      = pointSet->GetPoints()->End();
   while( pointIterator != pointEnd )
@@ -139,7 +139,7 @@ int main(int, char *[])
 
 
   // Software Guide : BeginCodeSnippet
-  typedef  PointSetType::PointDataContainer::ConstIterator PointDataIterator;
+  using PointDataIterator = PointSetType::PointDataContainer::ConstIterator;
   PointDataIterator pixelIterator = pointSet->GetPointData()->Begin();
   PointDataIterator pixelEnd      = pointSet->GetPointData()->End();
   while( pixelIterator != pixelEnd )

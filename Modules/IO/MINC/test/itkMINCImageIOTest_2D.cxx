@@ -29,11 +29,11 @@
 
 template<typename ImageType> int test_image_moments(const char *input_image,const char *output_image,double total, double mx,double my,double epsilon)
 {
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
-  typedef itk::ImageMomentsCalculator< ImageType > MomentsCalculatorType;
+  using MomentsCalculatorType = itk::ImageMomentsCalculator< ImageType >;
 
   typename ReaderType::Pointer reader = ReaderType::New();
 

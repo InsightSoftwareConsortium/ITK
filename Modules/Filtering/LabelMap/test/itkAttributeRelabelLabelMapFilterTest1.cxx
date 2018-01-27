@@ -39,18 +39,18 @@ int itkAttributeRelabelLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 3;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  using ImageType = itk::Image< PixelType, dim >;
 
-  typedef itk::AttributeLabelObject< PixelType, dim, int >      LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >                      LabelMapType;
+  using LabelObjectType = itk::AttributeLabelObject< PixelType, dim, int >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
@@ -70,7 +70,7 @@ int itkAttributeRelabelLabelMapFilterTest1(int argc, char * argv[])
     }
 
 
-  typedef itk::AttributeRelabelLabelMapFilter< LabelMapType > LabelRelabelType;
+  using LabelRelabelType = itk::AttributeRelabelLabelMapFilter< LabelMapType >;
   LabelRelabelType::Pointer relabel = LabelRelabelType::New();
 
   //testing get and set macros for ReverseOrdering
@@ -89,11 +89,11 @@ int itkAttributeRelabelLabelMapFilterTest1(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(relabel, "filter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
+  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
   l2i->SetInput( relabel->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );

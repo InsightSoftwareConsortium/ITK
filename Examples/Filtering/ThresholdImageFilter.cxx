@@ -123,7 +123,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char  PixelType;
+  using PixelType = unsigned char;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -133,7 +133,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< PixelType,  2 >   ImageType;
+  using ImageType = itk::Image< PixelType,  2 >;
   // Software Guide : EndCodeSnippet
 
 
@@ -144,7 +144,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ThresholdImageFilter< ImageType >  FilterType;
+  using FilterType = itk::ThresholdImageFilter< ImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -156,7 +156,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -167,7 +167,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   // Software Guide : EndCodeSnippet
 
 

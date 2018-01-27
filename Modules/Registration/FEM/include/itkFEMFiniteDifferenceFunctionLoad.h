@@ -67,11 +67,11 @@ template <typename TMoving, typename TFixed>
 class ITK_TEMPLATE_EXPORT FiniteDifferenceFunctionLoad : public LoadElement
 {
 public:
-  /** Standard class typedefs. */
-  typedef FiniteDifferenceFunctionLoad Self;
-  typedef LoadElement                  Superclass;
-  typedef SmartPointer<Self>           Pointer;
-  typedef SmartPointer<const Self>     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FiniteDifferenceFunctionLoad;
+  using Superclass = LoadElement;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through the object factory. */
   itkSimpleNewMacro(Self);
@@ -84,77 +84,69 @@ public:
    *  including its internal member variables. */
   ::itk::LightObject::Pointer CreateAnother(void) const override;
 
-  // Necessary typedefs for dealing with images BEGIN
-  typedef typename LoadElement::Float Float;
+  // Necessary type alias for dealing with images BEGIN
+  using Float = typename LoadElement::Float;
 
-  typedef TMoving                                MovingImageType;
-  typedef typename MovingImageType::ConstPointer MovingConstPointer;
-  typedef MovingImageType *                      MovingPointer;
-  typedef TFixed                                 FixedImageType;
-  typedef FixedImageType *                       FixedPointer;
-  typedef typename FixedImageType::ConstPointer  FixedConstPointer;
+  using MovingImageType = TMoving;
+  using MovingConstPointer = typename MovingImageType::ConstPointer;
+  using MovingPointer = MovingImageType *;
+  using FixedImageType = TFixed;
+  using FixedPointer = FixedImageType *;
+  using FixedConstPointer = typename FixedImageType::ConstPointer;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       MovingImageType::ImageDimension);
 
-  typedef ImageRegionIteratorWithIndex<MovingImageType> MovingRegionIteratorType;
-  typedef ImageRegionIteratorWithIndex<FixedImageType>  FixedRegionIteratorType;
+  using MovingRegionIteratorType = ImageRegionIteratorWithIndex<MovingImageType>;
+  using FixedRegionIteratorType = ImageRegionIteratorWithIndex<FixedImageType>;
 
-  typedef NeighborhoodIterator<MovingImageType>
-    MovingNeighborhoodIteratorType;
-  typedef typename MovingNeighborhoodIteratorType::IndexType
-    MovingNeighborhoodIndexType;
-  typedef typename MovingNeighborhoodIteratorType::RadiusType
-    MovingRadiusType;
-  typedef typename MovingNeighborhoodIteratorType::RadiusType
-    RadiusType;
-  typedef NeighborhoodIterator<FixedImageType>
-    FixedNeighborhoodIteratorType;
-  typedef typename FixedNeighborhoodIteratorType::IndexType
-    FixedNeighborhoodIndexType;
-  typedef typename FixedNeighborhoodIteratorType::RadiusType
-    FixedRadiusType;
+  using MovingNeighborhoodIteratorType = NeighborhoodIterator<MovingImageType>;
+  using MovingNeighborhoodIndexType = typename MovingNeighborhoodIteratorType::IndexType;
+  using MovingRadiusType = typename MovingNeighborhoodIteratorType::RadiusType;
+  using RadiusType = typename MovingNeighborhoodIteratorType::RadiusType;
+  using FixedNeighborhoodIteratorType = NeighborhoodIterator<FixedImageType>;
+  using FixedNeighborhoodIndexType = typename FixedNeighborhoodIteratorType::IndexType;
+  using FixedRadiusType = typename FixedNeighborhoodIteratorType::RadiusType;
 
   // Typedefs for Image Data
-  typedef typename MovingImageType::PixelType MovingPixelType;
-  typedef typename FixedImageType::PixelType  FixedPixelType;
-  typedef Float                               PixelType;
-  typedef Float                               ComputationType;
-  typedef Image<PixelType, itkGetStaticConstMacro(ImageDimension)>
-    ImageType;
-  typedef itk::Vector<float, itkGetStaticConstMacro(ImageDimension)>
-    VectorType;
-  typedef vnl_vector<Float> FEMVectorType;
-  typedef Image<VectorType, itkGetStaticConstMacro(ImageDimension)>
-    DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer DisplacementFieldTypePointer;
+  using MovingPixelType = typename MovingImageType::PixelType;
+  using FixedPixelType = typename FixedImageType::PixelType;
+  using PixelType = Float;
+  using ComputationType = Float;
+  using ImageType =
+      Image<PixelType, itkGetStaticConstMacro(ImageDimension)>;
+  using VectorType =
+      itk::Vector<float, itkGetStaticConstMacro(ImageDimension)>;
+  using FEMVectorType = vnl_vector<Float>;
+  using DisplacementFieldType =
+      Image<VectorType, itkGetStaticConstMacro(ImageDimension)>;
+  using DisplacementFieldTypePointer = typename DisplacementFieldType::Pointer;
 
-  typedef NeighborhoodIterator<DisplacementFieldType> FieldIteratorType;
+  using FieldIteratorType = NeighborhoodIterator<DisplacementFieldType>;
 
 
   /** PDEDeformableRegistrationFilterFunction type. */
-  typedef PDEDeformableRegistrationFunction<FixedImageType, MovingImageType,
-                                            DisplacementFieldType>
-  FiniteDifferenceFunctionType;
-  typedef typename FiniteDifferenceFunctionType::Pointer FiniteDifferenceFunctionTypePointer;
+  using FiniteDifferenceFunctionType = PDEDeformableRegistrationFunction<FixedImageType, MovingImageType,
+                                            DisplacementFieldType>;
+  using FiniteDifferenceFunctionTypePointer = typename FiniteDifferenceFunctionType::Pointer;
 
-  typedef typename FiniteDifferenceFunctionType::TimeStepType TimeStepType;
+  using TimeStepType = typename FiniteDifferenceFunctionType::TimeStepType;
 
-  typedef MeanSquareRegistrationFunction<FixedImageType, MovingImageType,
-                                         DisplacementFieldType>  MeanSquareRegistrationFunctionType;
+  using MeanSquareRegistrationFunctionType = MeanSquareRegistrationFunction<FixedImageType, MovingImageType,
+                                         DisplacementFieldType>;
 
-  typedef DemonsRegistrationFunction<FixedImageType, MovingImageType,
-                                     DisplacementFieldType>  DemonsRegistrationFunctionType;
+  using DemonsRegistrationFunctionType = DemonsRegistrationFunction<FixedImageType, MovingImageType,
+                                     DisplacementFieldType>;
 
-  typedef NCCRegistrationFunction<FixedImageType, MovingImageType,
-                                  DisplacementFieldType>  NCCRegistrationFunctionType;
+  using NCCRegistrationFunctionType = NCCRegistrationFunction<FixedImageType, MovingImageType,
+                                  DisplacementFieldType>;
 
-  typedef MIRegistrationFunction<FixedImageType, MovingImageType,
-                                 DisplacementFieldType>  MIRegistrationFunctionType;
+  using MIRegistrationFunctionType = MIRegistrationFunction<FixedImageType, MovingImageType,
+                                 DisplacementFieldType>;
 
-  typedef unsigned long                                        ElementIdentifier;
-  typedef VectorContainer<ElementIdentifier, Element::Pointer> ElementContainerType;
+  using ElementIdentifier = unsigned long;
+  using ElementContainerType = VectorContainer<ElementIdentifier, Element::Pointer>;
 
 
   /* This method sets the pointer to a FiniteDifferenceFunction object that

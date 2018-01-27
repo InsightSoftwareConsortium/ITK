@@ -437,7 +437,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       }
     else
       {
-      typedef typename TDisplacementField::RegionType DisplacementRegionType;
+      using DisplacementRegionType = typename TDisplacementField::RegionType;
 
       DisplacementRegionType fieldRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(outputPtr->GetRequestedRegion(),
                                                                                          outputPtr,

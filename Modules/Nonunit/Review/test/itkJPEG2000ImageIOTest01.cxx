@@ -36,15 +36,15 @@ int itkJPEG2000ImageIOTest01( int argc, char * argv[] )
 
 
   //  Image types are defined below.
-  typedef unsigned char       InputPixelType;
-  typedef unsigned char       OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
   const   unsigned int        Dimension = 2;
 
-  typedef itk::Image< InputPixelType,  Dimension >    InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();

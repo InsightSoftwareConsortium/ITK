@@ -51,16 +51,16 @@ class ITK_TEMPLATE_EXPORT DefaultVectorPixelAccessor
 {
 public:
 
-  typedef unsigned int VectorLengthType;
+  using VectorLengthType = unsigned int;
 
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
    * that this class will exhibit. Here it is an VariableLengthVector. The container does not
    * manage the memory. In other words it is an array reference with the contents
    * pointing to the actual data in the image. */
-  typedef VariableLengthVector< TType > ExternalType;
+  using ExternalType = VariableLengthVector< TType >;
 
-  /** Internal typedef. It defines the internal real representation of data. */
-  typedef TType InternalType;
+  /** Internal type alias. It defines the internal real representation of data. */
+  using InternalType = TType;
 
   /** Set output using the value in input */
   inline void Set(InternalType & output, const ExternalType & input,

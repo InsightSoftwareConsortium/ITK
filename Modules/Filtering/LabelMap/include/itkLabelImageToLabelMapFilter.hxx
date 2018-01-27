@@ -90,7 +90,7 @@ LabelImageToLabelMapFilter< TInputImage, TOutputImage >
 {
   ProgressReporter progress( this, threadId, regionForThread.GetNumberOfPixels() );
 
-  typedef ImageLinearConstIteratorWithIndex< InputImageType > InputLineIteratorType;
+  using InputLineIteratorType = ImageLinearConstIteratorWithIndex< InputImageType >;
   InputLineIteratorType it(this->GetInput(), regionForThread);
   it.SetDirection(0);
 

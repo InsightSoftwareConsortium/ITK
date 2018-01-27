@@ -57,7 +57,7 @@ VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
 
   InputImagePointer inputImage = this->GetInput();
 
-  typedef ImageRegionConstIterator< InputImageType > InputIterator;
+  using InputIterator = ImageRegionConstIterator< InputImageType >;
 
   InputIterator it( inputImage, inputImage->GetBufferedRegion() );
 

@@ -266,10 +266,10 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   // with 1D kernels
   // because it doesn't return faces of the sub-blocks if they don't
   // fall along the edge of the image
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef std::list< RegionType >          FaceListType;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using FaceListType = std::list< RegionType >;
   FaceListType faceList;
 
   for ( unsigned i = 0; i < TInputImage::ImageDimension; i++ )

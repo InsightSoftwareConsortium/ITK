@@ -49,7 +49,7 @@ TileImageFilter< TInputImage, TOutputImage >
   typename TOutputImage::Pointer output = this->GetOutput();
 
 
-  typedef Image< InputPixelType, OutputImageDimension > TempImageType;
+  using TempImageType = Image< InputPixelType, OutputImageDimension >;
 
   // Allocate the output and initialize to default value
   this->AllocateOutputs();
@@ -105,7 +105,7 @@ TileImageFilter< TInputImage, TOutputImage >
 
       const TInputImage * inputImage = this->GetInput( it.Get().m_ImageNumber );
 
-      typedef ImportImageContainer< SizeValueType, InputPixelType > PixelContainerType;
+      using PixelContainerType = ImportImageContainer< SizeValueType, InputPixelType >;
 
       tempImage->SetPixelContainer( const_cast< PixelContainerType * >( inputImage->GetPixelContainer() ) );
 
@@ -180,7 +180,7 @@ TileImageFilter< TInputImage, TOutputImage >
   // this tile image will hold a class that defines the image number
   // for the tile, the size of the image and the destination index for
   // the image in the final composed image.
-  typedef ImageRegion< OutputImageDimension > RegionType;
+  using RegionType = ImageRegion< OutputImageDimension >;
   m_TileImage = TileImageType::New();
 
   // Determine the last dimension for the tile image. This dimension will

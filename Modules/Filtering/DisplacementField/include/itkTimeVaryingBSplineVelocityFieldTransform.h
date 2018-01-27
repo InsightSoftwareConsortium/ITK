@@ -69,11 +69,11 @@ class ITK_TEMPLATE_EXPORT TimeVaryingBSplineVelocityFieldTransform :
   public VelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef TimeVaryingBSplineVelocityFieldTransform                  Self;
-  typedef VelocityFieldTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TimeVaryingBSplineVelocityFieldTransform;
+  using Superclass = VelocityFieldTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( TimeVaryingBSplineVelocityFieldTransform, VelocityFieldTransform );
@@ -82,28 +82,28 @@ public:
   itkNewMacro( Self );
 
   /** InverseTransform type. */
-  typedef typename Superclass::InverseTransformBasePointer InverseTransformBasePointer;
+  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
 
   /** Interpolator types.*/
-  typedef typename Superclass::InterpolatorType                     InterpolatorType;
-  typedef typename Superclass::VelocityFieldInterpolatorType        VelocityFieldIntegratorType;
+  using InterpolatorType = typename Superclass::InterpolatorType;
+  using VelocityFieldIntegratorType = typename Superclass::VelocityFieldInterpolatorType;
 
   /** Field types. */
-  typedef typename Superclass::DisplacementFieldType                DisplacementFieldType;
-  typedef typename Superclass::VelocityFieldType                    VelocityFieldType;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using VelocityFieldType = typename Superclass::VelocityFieldType;
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType          ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Type of the input parameters. */
-  typedef typename Superclass::ParametersType          ParametersType;
-  typedef typename ParametersType::ValueType           ParametersValueType;
-  typedef typename Superclass::FixedParametersType     FixedParametersType;
-  typedef typename FixedParametersType::ValueType      FixedParametersValueType;
-  typedef typename Superclass::NumberOfParametersType  NumberOfParametersType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename ParametersType::ValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename FixedParametersType::ValueType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Derivative type */
-  typedef typename Superclass::DerivativeType       DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
   /** Dimension of the domain spaces. */
   itkStaticConstMacro( Dimension, unsigned int, NDimensions );
@@ -111,19 +111,19 @@ public:
   /** Dimension of the time varying velocity field. */
   itkStaticConstMacro( VelocityFieldDimension, unsigned int, NDimensions + 1 );
 
-  typedef typename VelocityFieldType::PointType         VelocityFieldPointType;
-  typedef typename VelocityFieldType::SizeType          VelocityFieldSizeType;
-  typedef typename VelocityFieldType::SpacingType       VelocityFieldSpacingType;
-  typedef typename VelocityFieldType::DirectionType     VelocityFieldDirectionType;
+  using VelocityFieldPointType = typename VelocityFieldType::PointType;
+  using VelocityFieldSizeType = typename VelocityFieldType::SizeType;
+  using VelocityFieldSpacingType = typename VelocityFieldType::SpacingType;
+  using VelocityFieldDirectionType = typename VelocityFieldType::DirectionType;
 
-  typedef VelocityFieldType                             TimeVaryingVelocityFieldControlPointLatticeType;
-  typedef typename VelocityFieldType::Pointer           TimeVaryingVelocityFieldControlPointLatticePointer;
+  using TimeVaryingVelocityFieldControlPointLatticeType = VelocityFieldType;
+  using TimeVaryingVelocityFieldControlPointLatticePointer = typename VelocityFieldType::Pointer;
 
-  typedef typename DisplacementFieldType::PixelType     DisplacementVectorType;
-  typedef typename DisplacementFieldType::SizeType      DisplacementFieldSizeType;
-  typedef typename DisplacementFieldType::SpacingType   DisplacementFieldSpacingType;
-  typedef typename DisplacementFieldType::PointType     DisplacementFieldPointType;
-  typedef typename DisplacementFieldType::DirectionType DisplacementFieldDirectionType;
+  using DisplacementVectorType = typename DisplacementFieldType::PixelType;
+  using DisplacementFieldSizeType = typename DisplacementFieldType::SizeType;
+  using DisplacementFieldSpacingType = typename DisplacementFieldType::SpacingType;
+  using DisplacementFieldPointType = typename DisplacementFieldType::PointType;
+  using DisplacementFieldDirectionType = typename DisplacementFieldType::DirectionType;
 
   /** Get the time-varying velocity field control point lattice. */
   VelocityFieldType * GetTimeVaryingVelocityFieldControlPointLattice()

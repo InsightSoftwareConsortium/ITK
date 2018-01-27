@@ -84,7 +84,7 @@ void BypassAdaptorSupportModifyScalars(itk::Image<float, 3> *img)
 
 void AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 {
-  typedef itk::Vector<float, 3> VectorType;
+  using VectorType = itk::Vector<float, 3>;
   const unsigned int N = 3;
   unsigned int i;
   VectorType temp_vector;
@@ -105,7 +105,7 @@ void AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 
 void NoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 {
-  typedef itk::Vector<float, 3> VectorType;
+  using VectorType = itk::Vector<float, 3>;
   const unsigned int N = 3;
   unsigned int i;
   VectorType temp_vector;
@@ -129,7 +129,7 @@ void NoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 
 void BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 {
-  typedef itk::Vector<float, 3> VectorType;
+  using VectorType = itk::Vector<float, 3>;
   const unsigned int N = 3;
   unsigned int i;
 
@@ -147,7 +147,7 @@ void BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img
 
 void BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 {
-  typedef itk::Vector<float, 3> VectorType;
+  using VectorType = itk::Vector<float, 3>;
   const unsigned int N = 3;
   unsigned int i;
 
@@ -165,8 +165,8 @@ void BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *i
 
 int itkAdaptorComparisonTest(int, char * [] )
 {
-  typedef itk::Image<float, 3>                 ScalarImageType;
-  typedef itk::Image<itk::Vector<float, 3>, 3> VectorImageType;
+  using ScalarImageType = itk::Image<float, 3>;
+  using VectorImageType = itk::Image<itk::Vector<float, 3>, 3>;
 
   clock_t start, stop, no_adaptor_comp, adaptor_comp;
 

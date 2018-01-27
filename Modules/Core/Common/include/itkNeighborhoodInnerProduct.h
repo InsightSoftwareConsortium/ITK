@@ -48,23 +48,23 @@ template< typename TImage, typename TOperator = typename TImage::PixelType, type
 class ITK_TEMPLATE_EXPORT NeighborhoodInnerProduct
 {
 public:
-  /** Standard typedefs */
-  typedef NeighborhoodInnerProduct Self;
+  /** Standard type alias */
+  using Self = NeighborhoodInnerProduct;
 
-  /** Capture some typedefs from the template parameters. */
-  typedef typename TImage::PixelType ImagePixelType;
-  typedef TOperator                  OperatorPixelType;
-  typedef TComputation               OutputPixelType;
+  /** Capture some type alias from the template parameters. */
+  using ImagePixelType = typename TImage::PixelType;
+  using OperatorPixelType = TOperator;
+  using OutputPixelType = TComputation;
 
-  /** Capture some typedefs from the template parameters. */
+  /** Capture some type alias from the template parameters. */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
-  /** Operator typedef */
-  typedef Neighborhood< OperatorPixelType,
-                        itkGetStaticConstMacro(ImageDimension) > OperatorType;
+  /** Operator type alias */
+  using OperatorType = Neighborhood< OperatorPixelType,
+                        itkGetStaticConstMacro(ImageDimension) >;
 
-  typedef Neighborhood< ImagePixelType,
-                        itkGetStaticConstMacro(ImageDimension) > NeighborhoodType;
+  using NeighborhoodType = Neighborhood< ImagePixelType,
+                        itkGetStaticConstMacro(ImageDimension) >;
 
   /** Reference oeprator. */
   OutputPixelType operator()(const std::slice & s,

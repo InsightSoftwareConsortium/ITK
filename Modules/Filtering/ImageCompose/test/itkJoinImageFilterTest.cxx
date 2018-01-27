@@ -27,18 +27,18 @@ int itkJoinImageFilterTest(int, char* [] )
   const unsigned int myDimension = 2;
 
   // Declare the types of the images
-  typedef itk::Image<char, myDimension>                           myImageType1;
-  typedef itk::Image<itk::Vector<unsigned short, 2>, myDimension> myImageType2;
-  typedef itk::Image<itk::RGBAPixel<short>, myDimension>          myImageType3;
+  using myImageType1 = itk::Image<char, myDimension>;
+  using myImageType2 = itk::Image<itk::Vector<unsigned short, 2>, myDimension>;
+  using myImageType3 = itk::Image<itk::RGBAPixel<short>, myDimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create three images
   myImageType1::Pointer inputImageA  = myImageType1::New();
@@ -77,9 +77,9 @@ int itkJoinImageFilterTest(int, char* [] )
   inputImageC->Allocate();
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIterator<myImageType1>  myIteratorType1;
-  typedef itk::ImageRegionIterator<myImageType2>  myIteratorType2;
-  typedef itk::ImageRegionIterator<myImageType3>  myIteratorType3;
+  using myIteratorType1 = itk::ImageRegionIterator<myImageType1>;
+  using myIteratorType2 = itk::ImageRegionIterator<myImageType2>;
+  using myIteratorType3 = itk::ImageRegionIterator<myImageType3>;
 
   // Create one iterator for Image A (this is a light object)
   myIteratorType1 it1( inputImageA, region );
@@ -128,17 +128,17 @@ int itkJoinImageFilterTest(int, char* [] )
   }
 
   // Declare the types for the Join Filters
-  typedef itk::JoinImageFilter<myImageType1, myImageType2> myFilterType;
-  typedef itk::JoinImageFilter<myImageType2, myImageType1> myFilterType1;
-  typedef itk::JoinImageFilter<myImageType1, myImageType1> myFilterType2;
-  typedef itk::JoinImageFilter<myFilterType::OutputImageType, myImageType3> myFilterType3;
-  typedef itk::JoinImageFilter<myImageType2, myImageType2> myFilterType4;
+  using myFilterType = itk::JoinImageFilter<myImageType1, myImageType2>;
+  using myFilterType1 = itk::JoinImageFilter<myImageType2, myImageType1>;
+  using myFilterType2 = itk::JoinImageFilter<myImageType1, myImageType1>;
+  using myFilterType3 = itk::JoinImageFilter<myFilterType::OutputImageType, myImageType3>;
+  using myFilterType4 = itk::JoinImageFilter<myImageType2, myImageType2>;
 
-  typedef itk::ImageRegionIterator<myFilterType::OutputImageType> myOutputIteratorType;
-  typedef itk::ImageRegionIterator<myFilterType1::OutputImageType> myOutputIteratorType1;
-  typedef itk::ImageRegionIterator<myFilterType2::OutputImageType> myOutputIteratorType2;
-  typedef itk::ImageRegionIterator<myFilterType3::OutputImageType> myOutputIteratorType3;
-  typedef itk::ImageRegionIterator<myFilterType4::OutputImageType> myOutputIteratorType4;
+  using myOutputIteratorType = itk::ImageRegionIterator<myFilterType::OutputImageType>;
+  using myOutputIteratorType1 = itk::ImageRegionIterator<myFilterType1::OutputImageType>;
+  using myOutputIteratorType2 = itk::ImageRegionIterator<myFilterType2::OutputImageType>;
+  using myOutputIteratorType3 = itk::ImageRegionIterator<myFilterType3::OutputImageType>;
+  using myOutputIteratorType4 = itk::ImageRegionIterator<myFilterType4::OutputImageType>;
 
 
   //

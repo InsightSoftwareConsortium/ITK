@@ -28,22 +28,22 @@ class MeshSourceGraftOutputFilter :
     public MeshToMeshFilter<TInputMesh,TOutputMesh>
 {
 public:
-  /** Standard class typedefs. */
-  typedef MeshSourceGraftOutputFilter              Self;
-  typedef MeshToMeshFilter<TInputMesh,TOutputMesh> Superclass;
-  typedef SmartPointer<Self>                       Pointer;
-  typedef SmartPointer<const Self>                 ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MeshSourceGraftOutputFilter;
+  using Superclass = MeshToMeshFilter<TInputMesh,TOutputMesh>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef TInputMesh                       InputMeshType;
-  typedef TOutputMesh                      OutputMeshType;
-  typedef typename InputMeshType::Pointer  InputMeshPointer;
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  using InputMeshType = TInputMesh;
+  using OutputMeshType = TOutputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
   /** Type for representing coordinates. */
-  typedef typename TInputMesh::CoordRepType  CoordRepType;
+  using CoordRepType = typename TInputMesh::CoordRepType;
 
   /** Type of the transform. */
-  typedef TTransform  TransformType;
+  using TransformType = TTransform;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -118,10 +118,10 @@ void MeshSourceGraftOutputFilter<TInputMesh,TOutputMesh,TTransform>
     }
 
   // Declare the type for the filter
-  typedef itk::TransformMeshFilter<
+  using FilterType = itk::TransformMeshFilter<
                                 TInputMesh,
                                 TOutputMesh,
-                                TransformType  >       FilterType;
+                                TransformType  >;
 
 
   // Create a Filter
@@ -192,22 +192,21 @@ int itkMeshSourceGraftOutputTest(int, char* [] )
   // Declare the mesh pixel type.
   // Those are the values associated
   // with each mesh point. (not used on this filter test)
-  typedef int PixelType;
+  using PixelType = int;
 
   // Declare the types of the Mesh
   // By default it is a 3D mesh using itk::Point<float,3>
   // on the vertices, and an itk::VectorContainter
   // as containter for points
-  typedef itk::Mesh<PixelType>  MeshType;
+  using MeshType = itk::Mesh<PixelType>;
 
   // Declare the type for PointsContainer
-  typedef MeshType::PointsContainer     PointsContainerType;
+  using PointsContainerType = MeshType::PointsContainer;
 
   // Declare the type for PointsContainerPointer
-  typedef MeshType::PointsContainerPointer
-                                        PointsContainerPointer;
+  using PointsContainerPointer = MeshType::PointsContainerPointer;
   // Declare the type for Points
-  typedef MeshType::PointType           PointType;
+  using PointType = MeshType::PointType;
 
   // Create an input Mesh
   MeshType::Pointer inputMesh  = MeshType::New();
@@ -245,14 +244,14 @@ int itkMeshSourceGraftOutputTest(int, char* [] )
 
 
   // Declare the transform type
-  typedef itk::AffineTransform<float,3> TransformType;
+  using TransformType = itk::AffineTransform<float,3>;
 
 
   // Declare the type for the filter
-  typedef itk::MeshSourceGraftOutputFilter<
+  using FilterType = itk::MeshSourceGraftOutputFilter<
                                 MeshType,
                                 MeshType,
-                                TransformType  >       FilterType;
+                                TransformType  >;
 
 
   // Create a Filter

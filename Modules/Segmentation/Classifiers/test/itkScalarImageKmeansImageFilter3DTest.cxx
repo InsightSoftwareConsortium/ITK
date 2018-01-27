@@ -70,11 +70,11 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
     exit(1);
     }
 
-  typedef signed short       PixelType;
+  using PixelType = signed short;
   const unsigned int          Dimension = 3;
 
-  typedef itk::Image<PixelType, Dimension > ImageType;
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ImageType = itk::Image<PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer T1Reader = ReaderType::New();
   T1Reader->SetFileName( inputVolume );
@@ -86,22 +86,22 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
   const PixelType maskThresholdBelow = 5;     // someday with more generality?
 
   /* The Threshold Image Filter is used to produce the brain clipping mask from a 3DSkullStrip result image. */
-  typedef itk::ThresholdImageFilter< ImageType > ThresholdFilterType;
+  using ThresholdFilterType = itk::ThresholdImageFilter< ImageType >;
   ThresholdFilterType::Pointer brainMaskFilter = ThresholdFilterType::New();
   brainMaskFilter->SetInput( maskReader->GetOutput() );
   brainMaskFilter->ThresholdBelow( maskThresholdBelow );
   brainMaskFilter->Update();
 
   /* The Not Image Filter is used to produce the other clipping mask. */
-  typedef itk::NotImageFilter< ImageType, ImageType > NotFilterType;
+  using NotFilterType = itk::NotImageFilter< ImageType, ImageType >;
   NotFilterType::Pointer nonBrainMaskFilter = NotFilterType::New();
   nonBrainMaskFilter->SetInput( maskReader->GetOutput() );
   nonBrainMaskFilter->Update();
 
   /* The Statistics Image Filter lets us find the initial cluster means.
      Should this be limited to the excluded region of the clipped T1 image?  */
-  typedef itk::LabelStatisticsImageFilter< ImageType, ImageType > LabelStatisticsFilterType;
-  typedef LabelStatisticsFilterType::RealType StatisticRealType;
+  using LabelStatisticsFilterType = itk::LabelStatisticsImageFilter< ImageType, ImageType >;
+  using StatisticRealType = LabelStatisticsFilterType::RealType;
   LabelStatisticsFilterType::Pointer statisticsFilter = LabelStatisticsFilterType::New();
   statisticsFilter->SetInput( T1Reader->GetOutput() );
   statisticsFilter->SetLabelInput( maskReader->GetOutput() );
@@ -139,7 +139,7 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
 
   /* The Mask Image Filter applies the clipping mask by stepping
      on the excluded region with the imageExclusion value. */
-  typedef itk::MaskImageFilter< ImageType, ImageType > MaskFilterType;
+  using MaskFilterType = itk::MaskImageFilter< ImageType, ImageType >;
   MaskFilterType::Pointer clippedBrainT1Filter = MaskFilterType::New();
   clippedBrainT1Filter->SetInput1( T1Reader->GetOutput() );
   clippedBrainT1Filter->SetInput2( brainMaskFilter->GetOutput() );
@@ -175,8 +175,8 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
 
   /* The Scalar Image Kmeans Image Filter will find a code image in 3 classes
      for the interior of the mask, plus a code for the exterior of the mask. */
-  typedef itk::ScalarImageKmeansImageFilter< ImageType > KMeansFilterType;
-  typedef KMeansFilterType::RealPixelType                RealPixelType;
+  using KMeansFilterType = itk::ScalarImageKmeansImageFilter< ImageType >;
+  using RealPixelType = KMeansFilterType::RealPixelType;
   KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
   kmeansFilter->SetInput( clippedBrainT1Pointer );
 
@@ -262,7 +262,7 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
     }
 
   /* Now remap the labels - background first followed by brain */
-  typedef KMeansFilterType::OutputImageType LabelImageType;
+  using LabelImageType = KMeansFilterType::OutputImageType;
   LabelImageType::Pointer kmeansLabelImage = LabelImageType::New();
   kmeansLabelImage->SetRegions( maskReader->GetOutput()->GetLargestPossibleRegion() );
   kmeansLabelImage->SetSpacing( maskReader->GetOutput()->GetSpacing() );
@@ -270,7 +270,7 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
   kmeansLabelImage->SetOrigin( maskReader->GetOutput()->GetOrigin() );
   kmeansLabelImage->Allocate(true);
 
-  typedef itk::LabelStatisticsImageFilter< LabelImageType, LabelImageType > LabelMapStatisticsFilterType;
+  using LabelMapStatisticsFilterType = itk::LabelStatisticsImageFilter< LabelImageType, LabelImageType >;
   LabelMapStatisticsFilterType::Pointer statisticsNonBrainFilter = LabelMapStatisticsFilterType::New();
   statisticsNonBrainFilter->SetInput( kmeansNonBrainFilter->GetOutput() );
   statisticsNonBrainFilter->SetLabelInput( kmeansNonBrainFilter->GetOutput() );
@@ -329,7 +329,7 @@ int itkScalarImageKmeansImageFilter3DTest (int argc, char *argv[])
     }
 
   /* Write out the resulting Label Image */
-  typedef itk::ImageFileWriter<LabelImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<LabelImageType>;
   WriterType::Pointer labelWriter = WriterType::New();
   labelWriter->SetInput( kmeansLabelImage );
   labelWriter->SetFileName( outputLabelMapVolume );

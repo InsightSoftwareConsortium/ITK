@@ -37,15 +37,15 @@
 int itkBSplineResampleImageFunctionTest(int, char* [] )
 {
   const unsigned int ImageDimension = 2;
-  typedef float                                PixelType;
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef itk::BSplineInterpolateImageFunction<ImageType,double, double> BSplineInterpolatorFunctionType;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using BSplineInterpolatorFunctionType = itk::BSplineInterpolateImageFunction<ImageType,double, double>;
 
   const unsigned int SplineOrder = 3;
   BSplineInterpolatorFunctionType::Pointer interpolator = makeRandomImageInterpolator<BSplineInterpolatorFunctionType>(SplineOrder);
   ImageType::ConstPointer randImage = interpolator->GetInputImage();
 
-  typedef itk::BSplineDecompositionImageFilter<ImageType,ImageType> FilterType;
+  using FilterType = itk::BSplineDecompositionImageFilter<ImageType,ImageType>;
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher watcher(filter,"filter");
 
@@ -56,7 +56,7 @@ int itkBSplineResampleImageFunctionTest(int, char* [] )
   filter->Print( std::cout );
 
   /** Set up a BSplineResampleImageFunction. */
-  typedef itk::BSplineResampleImageFunction<ImageType,double> ResampleFunctionType;
+  using ResampleFunctionType = itk::BSplineResampleImageFunction<ImageType,double>;
   ResampleFunctionType::Pointer resample = ResampleFunctionType::New();
 
   resample->SetSplineOrder( interpolator->GetSplineOrder());

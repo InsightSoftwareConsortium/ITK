@@ -32,23 +32,23 @@ int itkOpeningByReconstructionImageFilterTest(int argc, char* argv [] )
   }
 
   const int Dimension = 2;
-  typedef unsigned char                      PixelType;
-  typedef itk::Image< PixelType, Dimension > InputImageType;
-  typedef itk::Image< PixelType, Dimension > OutputImageType;
+  using PixelType = unsigned char;
+  using InputImageType = itk::Image< PixelType, Dimension >;
+  using OutputImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   // Declare the type of the Structuring element to be used
-  typedef itk::BinaryBallStructuringElement<
+  using StructuringElementType = itk::BinaryBallStructuringElement<
                             PixelType,
-                            Dimension>                  StructuringElementType;
+                            Dimension>;
 
   // Declare the type for the Morphology Filters to be Tested
-  typedef itk::OpeningByReconstructionImageFilter<
+  using MorphologicalFilterType = itk::OpeningByReconstructionImageFilter<
                                 InputImageType,
                                 OutputImageType,
-                                StructuringElementType >  MorphologicalFilterType;
+                                StructuringElementType >;
 
   ReaderType::Pointer           reader = ReaderType::New();
   WriterType::Pointer           writer = WriterType::New();

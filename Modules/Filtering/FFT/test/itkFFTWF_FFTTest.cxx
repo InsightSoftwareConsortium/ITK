@@ -29,12 +29,12 @@
 // double.
 int itkFFTWF_FFTTest(int argc, char *argv[])
 {
-  typedef itk::Image< float, 1>               ImageF1;
-  typedef itk::Image< std::complex<float>, 1> ImageCF1;
-  typedef itk::Image< float, 2>               ImageF2;
-  typedef itk::Image< std::complex<float>, 2> ImageCF2;
-  typedef itk::Image< float, 3>               ImageF3;
-  typedef itk::Image< std::complex<float>, 3> ImageCF3;
+  using ImageF1 = itk::Image< float, 1>;
+  using ImageCF1 = itk::Image< std::complex<float>, 1>;
+  using ImageF2 = itk::Image< float, 2>;
+  using ImageCF2 = itk::Image< std::complex<float>, 2>;
+  using ImageF3 = itk::Image< float, 3>;
+  using ImageCF3 = itk::Image< std::complex<float>, 3>;
 
   // exercise the name-value conversion methods
   itk::FFTWGlobalConfiguration::GetPlanRigorValue("FFTW_EXHAUSTIVE");

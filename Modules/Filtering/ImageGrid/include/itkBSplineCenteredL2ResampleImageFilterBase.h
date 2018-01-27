@@ -84,11 +84,11 @@ class ITK_TEMPLATE_EXPORT BSplineCenteredL2ResampleImageFilterBase:
   public BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineCenteredL2ResampleImageFilterBase                            Self;
-  typedef BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                                Pointer;
-  typedef SmartPointer< const Self >                                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineCenteredL2ResampleImageFilterBase;
+  using Superclass = BSplineCenteredResampleImageFilterBase< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineCenteredL2ResampleImageFilterBase, BSplineCenteredResampleImageFilterBase);

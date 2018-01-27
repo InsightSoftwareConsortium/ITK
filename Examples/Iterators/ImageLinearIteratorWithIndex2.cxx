@@ -57,12 +57,12 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef unsigned char               PixelType;
-  typedef itk::Image< PixelType, 3 >  Image3DType;
-  typedef itk::Image< PixelType, 4 >  Image4DType;
+  using PixelType = unsigned char;
+  using Image3DType = itk::Image< PixelType, 3 >;
+  using Image4DType = itk::Image< PixelType, 4 >;
 
-  typedef itk::ImageFileReader< Image4DType > Reader4DType;
-  typedef itk::ImageFileWriter< Image3DType > Writer3DType;
+  using Reader4DType = itk::ImageFileReader< Image4DType >;
+  using Writer3DType = itk::ImageFileWriter< Image3DType >;
 // Software Guide : EndCodeSnippet
 
   Reader4DType::Pointer reader4D = Reader4DType::New();
@@ -89,16 +89,16 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginCodeSnippet
   Image3DType::Pointer image3D = Image3DType::New();
-  typedef Image3DType::IndexType    Index3DType;
-  typedef Image3DType::SizeType     Size3DType;
-  typedef Image3DType::RegionType   Region3DType;
-  typedef Image3DType::SpacingType  Spacing3DType;
-  typedef Image3DType::PointType    Origin3DType;
+  using Index3DType = Image3DType::IndexType;
+  using Size3DType = Image3DType::SizeType;
+  using Region3DType = Image3DType::RegionType;
+  using Spacing3DType = Image3DType::SpacingType;
+  using Origin3DType = Image3DType::PointType;
 
-  typedef Image4DType::IndexType    Index4DType;
-  typedef Image4DType::SizeType     Size4DType;
-  typedef Image4DType::SpacingType  Spacing4DType;
-  typedef Image4DType::PointType    Origin4DType;
+  using Index4DType = Image4DType::IndexType;
+  using Size4DType = Image4DType::SizeType;
+  using Spacing4DType = Image4DType::SpacingType;
+  using Origin4DType = Image4DType::PointType;
 // Software Guide : EndCodeSnippet
 
   Index3DType       index3D;
@@ -140,13 +140,12 @@ int main( int argc, char *argv[] )
   image3D->Allocate();
 // Software Guide : EndCodeSnippet
 
-  typedef itk::NumericTraits< PixelType >::AccumulateType    SumType;
-  typedef itk::NumericTraits< SumType   >::RealType          MeanType;
+  using SumType = itk::NumericTraits< PixelType >::AccumulateType;
+  using MeanType = itk::NumericTraits< SumType   >::RealType;
 
   const unsigned int timeLength = region4D.GetSize()[3];
 
-  typedef itk::ImageLinearConstIteratorWithIndex<
-                                  Image4DType > IteratorType;
+  using IteratorType = itk::ImageLinearConstIteratorWithIndex<Image4DType>;
 
 // Software Guide : BeginLatex
 //

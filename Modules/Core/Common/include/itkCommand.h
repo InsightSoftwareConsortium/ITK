@@ -44,11 +44,11 @@ namespace itk
 class ITKCommon_EXPORT Command:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef Command                    Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Command;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Command, Object);
@@ -85,13 +85,12 @@ class ITK_TEMPLATE_EXPORT MemberCommand:public Command
 {
 public:
   /** pointer to a member function that takes a Object* and the event */
-  typedef  void ( T::*TMemberFunctionPointer )(Object *, const EventObject &);
-  typedef  void ( T::*TConstMemberFunctionPointer )(const Object *,
-                                                    const EventObject &);
+  using TMemberFunctionPointer = void (T::*)(Object *, const EventObject &);
+  using TConstMemberFunctionPointer = void (T::*)(const Object *, const EventObject &);
 
-  /** Standard class typedefs. */
-  typedef MemberCommand        Self;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = MemberCommand;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -164,11 +163,11 @@ class ITK_TEMPLATE_EXPORT ReceptorMemberCommand:public Command
 {
 public:
   /** pointer to a member function that takes a Object* and the event */
-  typedef  void ( T::*TMemberFunctionPointer )(const EventObject &);
+  using TMemberFunctionPointer = void (T::*)(const EventObject &);
 
-  /** Standard class typedefs. */
-  typedef ReceptorMemberCommand Self;
-  typedef SmartPointer< Self >  Pointer;
+  /** Standard class type aliases. */
+  using Self = ReceptorMemberCommand;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -232,11 +231,11 @@ class ITK_TEMPLATE_EXPORT SimpleMemberCommand:public Command
 {
 public:
   /** A method callback. */
-  typedef  void ( T::*TMemberFunctionPointer )();
+  using TMemberFunctionPointer = void (T::*)();
 
-  /** Standard class typedefs. */
-  typedef SimpleMemberCommand  Self;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = SimpleMemberCommand;
+  using Pointer = SmartPointer< Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SimpleMemberCommand, Command);
@@ -298,11 +297,11 @@ class ITK_TEMPLATE_EXPORT SimpleConstMemberCommand:public Command
 {
 public:
   /** A const member method callback. */
-  typedef  void ( T::*TMemberFunctionPointer )() const;
+  using TMemberFunctionPointer = void (T::*)() const;
 
-  /** Standard class typedefs. */
-  typedef SimpleConstMemberCommand Self;
-  typedef SmartPointer< Self >     Pointer;
+  /** Standard class type aliases. */
+  using Self = SimpleConstMemberCommand;
+  using Pointer = SmartPointer< Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SimpleConstMemberCommand, Command);
@@ -366,14 +365,13 @@ class ITKCommon_EXPORT CStyleCommand:public Command
 {
 public:
   /** Typedefs for C-style callbacks. */
-  typedef  void ( *FunctionPointer )(Object *, const EventObject &, void *);
-  typedef  void ( *ConstFunctionPointer )(const Object *,
-                                          const EventObject &, void *);
-  typedef  void ( *DeleteDataFunctionPointer )(void *);
+  using FunctionPointer = void (*)(Object *, const EventObject &, void *);
+  using ConstFunctionPointer = void (*)(const Object *, const EventObject &, void *);
+  using DeleteDataFunctionPointer = void (*)(void *);
 
-  /** Standard class typedefs. */
-  typedef CStyleCommand        Self;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = CStyleCommand;
+  using Pointer = SmartPointer< Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(CStyleCommand, Command);

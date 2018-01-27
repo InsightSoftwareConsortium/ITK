@@ -57,17 +57,17 @@ class ITKOptimizers_EXPORT ParticleSwarmOptimizerBase :
   public SingleValuedNonLinearOptimizer
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef ParticleSwarmOptimizerBase          Self;
-  typedef SingleValuedNonLinearOptimizer      Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = ParticleSwarmOptimizerBase;
+  using Superclass = SingleValuedNonLinearOptimizer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( ParticleSwarmOptimizerBase, SingleValuedNonLinearOptimizer )
 
-  typedef std::vector< std::pair<ParametersType::ValueType,
-                                 ParametersType::ValueType> > ParameterBoundsType;
+  using ParameterBoundsType = std::vector< std::pair<ParametersType::ValueType,
+                                 ParametersType::ValueType> >;
 
   struct ParticleData
   {
@@ -78,14 +78,13 @@ public:
     CostFunctionType::MeasureType m_BestValue;
   };
 
-  typedef std::vector<ParticleData>         SwarmType;
-  typedef unsigned int                      NumberOfIterationsType;
-  typedef unsigned int                      NumberOfParticlesType;
-  typedef unsigned int                      NumberOfGenerationsType;
-  typedef CostFunctionType::MeasureType     MeasureType;
-  typedef ParametersType::ValueType         ValueType;
-  typedef Statistics::MersenneTwisterRandomVariateGenerator
-                                            RandomVariateGeneratorType;
+  using SwarmType = std::vector<ParticleData>;
+  using NumberOfIterationsType = unsigned int;
+  using NumberOfParticlesType = unsigned int;
+  using NumberOfGenerationsType = unsigned int;
+  using MeasureType = CostFunctionType::MeasureType;
+  using ValueType = ParametersType::ValueType;
+  using RandomVariateGeneratorType = Statistics::MersenneTwisterRandomVariateGenerator;
 
   /** Specify whether to initialize the particles using a normal distribution
     * centered on the user supplied initial value or a uniform distribution.

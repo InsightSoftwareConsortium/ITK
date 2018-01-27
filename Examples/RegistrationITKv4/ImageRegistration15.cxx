@@ -46,17 +46,17 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>   Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
   CommandIterationUpdate() {m_LastMetricValue = 0;}
 
 public:
-  typedef itk::OnePlusOneEvolutionaryOptimizer OptimizerType;
-  typedef   const OptimizerType *              OptimizerPointer;
+  using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
+  using OptimizerPointer = const OptimizerType *;
 
   void Execute(itk::Object *caller,
                const itk::EventObject & event) override
@@ -104,25 +104,25 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned char   PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::TranslationTransform< double, Dimension > TransformType;
+  using TransformType = itk::TranslationTransform< double, Dimension >;
 
-  typedef itk::OnePlusOneEvolutionaryOptimizer       OptimizerType;
-  typedef itk::LinearInterpolateImageFunction<
+  using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
                                     MovingImageType,
-                                    double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod<
+                                    double             >;
+  using RegistrationType = itk::ImageRegistrationMethod<
                                     FixedImageType,
-                                    MovingImageType    > RegistrationType;
+                                    MovingImageType    >;
 
 
-  typedef itk::NormalizedMutualInformationHistogramImageToImageMetric<
+  using MetricType = itk::NormalizedMutualInformationHistogramImageToImageMetric<
                                           FixedImageType,
-                                          MovingImageType >    MetricType;
+                                          MovingImageType >;
 
   TransformType::Pointer      transform     = TransformType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -154,15 +154,15 @@ int main( int argc, char *argv[] )
 
   const unsigned int numberOfParameters = transform->GetNumberOfParameters();
 
-  typedef MetricType::ScalesType ScalesType;
+  using ScalesType = MetricType::ScalesType;
   ScalesType scales( numberOfParameters );
 
   scales.Fill( 1.0 );
 
   metric->SetDerivativeStepLengthScales(scales);
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader
@@ -181,7 +181,7 @@ int main( int argc, char *argv[] )
   registration->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
   transform->SetIdentity();
-  typedef RegistrationType::ParametersType ParametersType;
+  using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters =  transform->GetParameters();
   initialParameters[0] = 0.0;
   initialParameters[1] = 0.0;
@@ -196,7 +196,7 @@ int main( int argc, char *argv[] )
   std::cout << "Initial transform parameters = ";
   std::cout << initialParameters << std::endl;
 
-  typedef OptimizerType::ScalesType       OptimizerScalesType;
+  using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   FixedImageType::RegionType region = fixedImage->GetLargestPossibleRegion();
@@ -207,7 +207,7 @@ int main( int argc, char *argv[] )
   optimizerScales[1] = 1.0 / ( 0.1 * size[1] * spacing[1] );
   optimizer->SetScales( optimizerScales );
 
-  typedef itk::Statistics::NormalVariateGenerator  GeneratorType;
+  using GeneratorType = itk::Statistics::NormalVariateGenerator;
   GeneratorType::Pointer generator = GeneratorType::New();
   generator->Initialize(12345);
 
@@ -260,8 +260,8 @@ int main( int argc, char *argv[] )
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue          << std::endl;
 
-  typedef itk::ResampleImageFilter<
-            MovingImageType, FixedImageType >    ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter<
+            MovingImageType, FixedImageType >;
 
   TransformType::Pointer finalTransform = TransformType::New();
   finalTransform->SetParameters( finalParameters );
@@ -277,8 +277,8 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
-  typedef itk::Image< PixelType, Dimension >      OutputImageType;
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using OutputImageType = itk::Image< PixelType, Dimension >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer      writer =  WriterType::New();
   writer->SetFileName( argv[3] );

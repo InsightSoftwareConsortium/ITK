@@ -29,11 +29,11 @@ class RawImageReaderAndWriter
 {
 public:
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::RawImageIO< PixelType, 2 > RawImageIOType;
+  using RawImageIOType = itk::RawImageIO< PixelType, 2 >;
 
-  typedef itk::Image< PixelType, 2 > ImageType;
+  using ImageType = itk::Image< PixelType, 2 >;
 
 public:
 
@@ -58,7 +58,7 @@ public:
     PixelType value = itk::NumericTraits< PixelType >::ZeroValue();
 
     // Fill the image with incremental values.
-    typedef itk::ImageRegionIterator< ImageType > IteratorType;
+    using IteratorType = itk::ImageRegionIterator< ImageType >;
     IteratorType it( m_Image, region );
 
     it.GoToBegin();
@@ -76,7 +76,7 @@ public:
 
   void Write()
     {
-    typedef itk::ImageFileWriter< ImageType >  WriterType;
+    using WriterType = itk::ImageFileWriter< ImageType >;
     WriterType::Pointer  writer  = WriterType::New();
 
     writer->SetFileName( m_FileName.c_str() );
@@ -90,7 +90,7 @@ public:
 
   void Read()
     {
-    typedef itk::ImageFileReader< ImageType >  ReaderType;
+    using ReaderType = itk::ImageFileReader< ImageType >;
     ReaderType::Pointer  reader  = ReaderType::New();
     reader->SetFileName( m_FileName.c_str() );
 
@@ -120,7 +120,7 @@ public:
     //
     // Verify the content of the image.
     //
-    typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
+    using ConstIteratorType = itk::ImageRegionConstIterator< ImageType >;
 
     ConstIteratorType it1( m_Image, m_Image->GetLargestPossibleRegion() );
     ConstIteratorType it2( image, image->GetLargestPossibleRegion() );

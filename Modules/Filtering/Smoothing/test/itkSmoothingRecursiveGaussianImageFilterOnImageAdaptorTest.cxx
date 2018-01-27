@@ -27,21 +27,21 @@ int itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char* [] )
   // Define the dimension of the images
   const unsigned int myDimension = 3;
 
-  typedef itk::RGBPixel<float> RGBPixelType;
+  using RGBPixelType = itk::RGBPixel<float>;
 
   // Declare the types of the images
-  typedef itk::Image<RGBPixelType, myDimension>      myImageType;
+  using myImageType = itk::Image<RGBPixelType, myDimension>;
 
-  typedef itk::Image<float, myDimension>      FloatImageType;
+  using FloatImageType = itk::Image<float, myDimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>             myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>              mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
   const unsigned int numberOfComponents = 3;
 
@@ -70,7 +70,7 @@ int itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char* [] )
   inputImage->Allocate();
 
   // Declare Iterator type for the input image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
+  using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
   // Create one iterator for the Input Image A (this is a light object)
   myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
@@ -107,15 +107,15 @@ int itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char* [] )
   }
 
   // Create Image adaptor on the RGB Image
-  typedef itk::RGBToLuminanceImageAdaptor< myImageType, float > myAdaptorType;
+  using myAdaptorType = itk::RGBToLuminanceImageAdaptor< myImageType, float >;
   myAdaptorType::Pointer adaptor = myAdaptorType::New();
   adaptor->SetImage( inputImage );
 
 
   // Declare the type for the
-  typedef itk::SmoothingRecursiveGaussianImageFilter< myAdaptorType, FloatImageType >  myFilterType;
+  using myFilterType = itk::SmoothingRecursiveGaussianImageFilter< myAdaptorType, FloatImageType >;
 
-  typedef myFilterType::OutputImageType myGradientImageType;
+  using myGradientImageType = myFilterType::OutputImageType;
 
 
   // Create a  Filter
@@ -148,8 +148,7 @@ int itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char* [] )
   myGradientImageType::Pointer outputImage = filter->GetOutput();
 
   // Declare Iterator type for the output image
-  typedef itk::ImageRegionIteratorWithIndex<
-                                 myGradientImageType>  myOutputIteratorType;
+  using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myGradientImageType>;
 
   // Create an iterator for going through the output image
   myOutputIteratorType itg( outputImage,

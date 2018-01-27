@@ -32,7 +32,7 @@ int itkMathRoundTest( int, char *[] )
 {
   bool ok = true;
 
-  typedef itk::Index<3>::IndexValueType IndexValueType;
+  using IndexValueType = itk::Index<3>::IndexValueType;
 
   ok &= math_test_helper("rnd(-8.4999) == -8", itk::Math::Round<IndexValueType>(-8.4999) == -8);
   ok &= math_test_helper("rnd(-8.4999f) == -8", itk::Math::Round<IndexValueType>(-8.4999f) == -8);

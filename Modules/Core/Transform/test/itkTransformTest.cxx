@@ -33,34 +33,32 @@ class TransformTestHelper :
   public Transform< TScalar, NInputDimensions, NOutputDimensions >
 {
 public:
-  typedef TransformTestHelper                                       Self;
-  typedef Transform< TScalar, NInputDimensions, NOutputDimensions > Superclass;
-  typedef SmartPointer< Self >                                      Pointer;
-  typedef SmartPointer< const Self >                                ConstPointer;
+  using Self = TransformTestHelper;
+  using Superclass = Transform< TScalar, NInputDimensions, NOutputDimensions >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro( Self );
   itkTypeMacro( TransformTestHelper, Transform );
 
-  typedef typename Superclass::JacobianType              JacobianType;
-  typedef typename Superclass::ParametersType            ParametersType;
-  typedef typename Superclass::InputPointType            InputPointType;
-  typedef typename Superclass::OutputPointType           OutputPointType;
-  typedef typename Superclass::InputVectorType           InputVectorType;
-  typedef typename Superclass::OutputVectorType          OutputVectorType;
-  typedef typename Superclass::InputVectorPixelType      InputVectorPixelType;
-  typedef typename Superclass::OutputVectorPixelType     OutputVectorPixelType;
-  typedef typename Superclass::InputVnlVectorType        InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType       OutputVnlVectorType;
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+  using JacobianType = typename Superclass::JacobianType;
+  using ParametersType = typename Superclass::ParametersType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using InputVectorPixelType = typename Superclass::InputVectorPixelType;
+  using OutputVectorPixelType = typename Superclass::OutputVectorPixelType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
 
-  typedef typename Superclass::InputDiffusionTensor3DType  InputDiffusionTensor3DType;
-  typedef typename Superclass::OutputDiffusionTensor3DType OutputDiffusionTensor3DType;
+  using InputDiffusionTensor3DType = typename Superclass::InputDiffusionTensor3DType;
+  using OutputDiffusionTensor3DType = typename Superclass::OutputDiffusionTensor3DType;
 
-  typedef typename Superclass::InputSymmetricSecondRankTensorType
-  InputSymmetricSecondRankTensorType;
-  typedef typename Superclass::OutputSymmetricSecondRankTensorType
-  OutputSymmetricSecondRankTensorType;
+  using InputSymmetricSecondRankTensorType = typename Superclass::InputSymmetricSecondRankTensorType;
+  using OutputSymmetricSecondRankTensorType = typename Superclass::OutputSymmetricSecondRankTensorType;
 
   OutputPointType TransformPoint(const InputPointType  & itkNotUsed(inputPoint) ) const override
   {
@@ -169,30 +167,28 @@ template <
 class TransformTester
 {
 public:
-  typedef TransformTester                                             Self;
+  using Self = TransformTester;
 
-  typedef TransformTestHelper<double, NInputDimensions, NOutputDimensions> TransformType;
+  using TransformType = TransformTestHelper<double, NInputDimensions, NOutputDimensions>;
 
-  typedef typename TransformType::JacobianType              JacobianType;
-  typedef typename TransformType::ParametersType            ParametersType;
-  typedef typename TransformType::InputPointType            InputPointType;
-  typedef typename TransformType::OutputPointType           OutputPointType;
-  typedef typename TransformType::InputVectorType           InputVectorType;
-  typedef typename TransformType::OutputVectorType          OutputVectorType;
-  typedef typename TransformType::InputVectorPixelType      InputVectorPixelType;
-  typedef typename TransformType::OutputVectorPixelType     OutputVectorPixelType;
-  typedef typename TransformType::InputVnlVectorType        InputVnlVectorType;
-  typedef typename TransformType::OutputVnlVectorType       OutputVnlVectorType;
-  typedef typename TransformType::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename TransformType::OutputCovariantVectorType OutputCovariantVectorType;
+  using JacobianType = typename TransformType::JacobianType;
+  using ParametersType = typename TransformType::ParametersType;
+  using InputPointType = typename TransformType::InputPointType;
+  using OutputPointType = typename TransformType::OutputPointType;
+  using InputVectorType = typename TransformType::InputVectorType;
+  using OutputVectorType = typename TransformType::OutputVectorType;
+  using InputVectorPixelType = typename TransformType::InputVectorPixelType;
+  using OutputVectorPixelType = typename TransformType::OutputVectorPixelType;
+  using InputVnlVectorType = typename TransformType::InputVnlVectorType;
+  using OutputVnlVectorType = typename TransformType::OutputVnlVectorType;
+  using InputCovariantVectorType = typename TransformType::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename TransformType::OutputCovariantVectorType;
 
-  typedef typename TransformType::InputDiffusionTensor3DType  InputDiffusionTensor3DType;
-  typedef typename TransformType::OutputDiffusionTensor3DType OutputDiffusionTensor3DType;
+  using InputDiffusionTensor3DType = typename TransformType::InputDiffusionTensor3DType;
+  using OutputDiffusionTensor3DType = typename TransformType::OutputDiffusionTensor3DType;
 
-  typedef typename TransformType::InputSymmetricSecondRankTensorType
-  InputSymmetricSecondRankTensorType;
-  typedef typename TransformType::OutputSymmetricSecondRankTensorType
-  OutputSymmetricSecondRankTensorType;
+  using InputSymmetricSecondRankTensorType = typename TransformType::InputSymmetricSecondRankTensorType;
+  using OutputSymmetricSecondRankTensorType = typename TransformType::OutputSymmetricSecondRankTensorType;
 
   bool RunTests( void )
   {

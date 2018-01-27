@@ -59,12 +59,12 @@ class CurvatureAnisotropicDiffusionImageFilter:
   public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef CurvatureAnisotropicDiffusionImageFilter Self;
-  typedef AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = CurvatureAnisotropicDiffusionImageFilter;
+  using Superclass =
+      AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard method for creation through object factory. */
   itkNewMacro(Self);
@@ -74,7 +74,7 @@ public:
                AnisotropicDiffusionImageFilter);
 
   /** Extract superclass information. */
-  typedef typename Superclass::UpdateBufferType UpdateBufferType;
+  using UpdateBufferType = typename Superclass::UpdateBufferType;
 
   /** Extract superclass image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,

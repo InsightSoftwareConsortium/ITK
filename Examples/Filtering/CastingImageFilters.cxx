@@ -112,8 +112,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char    InputPixelType;
-  typedef   float            OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = float;
   // Software Guide : EndCodeSnippet
 
 
@@ -124,12 +124,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< InputPixelType,  3 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 3 >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  3 >;
+  using OutputImageType = itk::Image< OutputPixelType, 3 >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
 
   //  Software Guide : BeginLatex
@@ -139,17 +139,17 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CastImageFilter<
-               InputImageType, OutputImageType >  CastFilterType;
+  using CastFilterType = itk::CastImageFilter<
+               InputImageType, OutputImageType >;
 
-  typedef itk::RescaleIntensityImageFilter<
-               InputImageType, OutputImageType >  RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
+               InputImageType, OutputImageType >;
 
-  typedef itk::ShiftScaleImageFilter<
-               InputImageType, OutputImageType >  ShiftScaleFilterType;
+  using ShiftScaleFilterType = itk::ShiftScaleImageFilter<
+               InputImageType, OutputImageType >;
 
-  typedef itk::NormalizeImageFilter<
-               InputImageType, OutputImageType >  NormalizeFilterType;
+  using NormalizeFilterType = itk::NormalizeImageFilter<
+               InputImageType, OutputImageType >;
   // Software Guide : EndCodeSnippet
 
   ReaderType::Pointer reader = ReaderType::New();

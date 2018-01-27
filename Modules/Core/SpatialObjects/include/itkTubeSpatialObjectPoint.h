@@ -40,11 +40,11 @@ class ITK_TEMPLATE_EXPORT TubeSpatialObjectPoint:
 {
 public:
 
-  typedef TubeSpatialObjectPoint                     Self;
-  typedef SpatialObjectPoint< TPointDimension >      Superclass;
-  typedef Point< double, TPointDimension >           PointType;
-  typedef Vector< double, TPointDimension >          VectorType;
-  typedef CovariantVector< double, TPointDimension > CovariantVectorType;
+  using Self = TubeSpatialObjectPoint;
+  using Superclass = SpatialObjectPoint< TPointDimension >;
+  using PointType = Point< double, TPointDimension >;
+  using VectorType = Vector< double, TPointDimension >;
+  using CovariantVectorType = CovariantVector< double, TPointDimension >;
 
   /** Constructor. This one defines the number of dimensions in the
    * TubeSpatialObjectPoint */

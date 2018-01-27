@@ -127,7 +127,7 @@ ExpandImageFilter< TInputImage, TOutputImage >
   OutputImagePointer outputPtr = this->GetOutput();
 
   // Iterator for walking the output
-  typedef ImageScanlineIterator< TOutputImage > OutputIterator;
+  using OutputIterator = ImageScanlineIterator< TOutputImage >;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 

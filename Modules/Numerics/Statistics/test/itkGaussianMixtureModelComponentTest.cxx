@@ -25,11 +25,9 @@
 
 int itkGaussianMixtureModelComponentTest(int argc, char* argv[] )
 {
-  typedef itk::PointSet< double, 2 > PointSetType;
-  typedef itk::Statistics::PointSetToListSampleAdaptor< PointSetType >
-    DataSampleType;
-  typedef itk::Statistics::GaussianMixtureModelComponent< DataSampleType >
-    ComponentType;
+  using PointSetType = itk::PointSet< double, 2 >;
+  using DataSampleType = itk::Statistics::PointSetToListSampleAdaptor<PointSetType>;
+  using ComponentType = itk::Statistics::GaussianMixtureModelComponent<DataSampleType>;
 
   if (argc < 2)
     {
@@ -40,7 +38,7 @@ int itkGaussianMixtureModelComponentTest(int argc, char* argv[] )
 
   char* dataFileName = argv[1];
   int dataSize = 2000;
-  typedef itk::Array< double > ParametersType;
+  using ParametersType = itk::Array< double >;
   unsigned int numberOfClasses = 2;
 
   ParametersType params(6);
@@ -107,7 +105,7 @@ int itkGaussianMixtureModelComponentTest(int argc, char* argv[] )
   sample->SetPointSet(pointSet.GetPointer());
 
   /* Preparing the gaussian mixture components */
-  typedef ComponentType::Pointer ComponentPointer;
+  using ComponentPointer = ComponentType::Pointer;
   std::vector< ComponentPointer > components;
   for ( unsigned int i = 0; i < numberOfClasses; i++ )
     {

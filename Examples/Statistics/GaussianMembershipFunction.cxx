@@ -45,7 +45,7 @@
 int main(int, char*[])
 {
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< float, 2 > MeasurementVectorType;
+  using MeasurementVectorType = itk::Vector< float, 2 >;
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginLatex
   //
@@ -55,8 +55,7 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >
-    DensityFunctionType;
+  using DensityFunctionType = itk::Statistics::GaussianMembershipFunction<MeasurementVectorType>;
   DensityFunctionType::Pointer densityFunction = DensityFunctionType::New();
   // Software Guide : EndCodeSnippet
 

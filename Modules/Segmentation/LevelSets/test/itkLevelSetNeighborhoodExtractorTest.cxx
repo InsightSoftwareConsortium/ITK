@@ -22,11 +22,11 @@
 int itkLevelSetNeighborhoodExtractorTest(int, char* [] )
 {
   const unsigned int ImageDimension = 2;
-  typedef float                                PixelType;
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
 
   // Create an input image using fastmarching
-  typedef itk::FastMarchingImageFilter<ImageType> SourceType;
+  using SourceType = itk::FastMarchingImageFilter<ImageType>;
   SourceType::Pointer source = SourceType::New();
 
   ImageType::SizeType size;
@@ -41,7 +41,7 @@ int itkLevelSetNeighborhoodExtractorTest(int, char* [] )
   node.SetIndex( index );
   node.SetValue( -4.0 );
 
-  typedef SourceType::NodeContainer NodeContainerType;
+  using NodeContainerType = SourceType::NodeContainer;
   NodeContainerType::Pointer container = NodeContainerType::New();
 
   container->InsertElement( 0, node );
@@ -50,7 +50,7 @@ int itkLevelSetNeighborhoodExtractorTest(int, char* [] )
   source->CollectPointsOn();
   source->Update();
 
-  typedef itk::LevelSetNeighborhoodExtractor<ImageType> ExtractorType;
+  using ExtractorType = itk::LevelSetNeighborhoodExtractor<ImageType>;
   ExtractorType::Pointer extractor = ExtractorType::New();
 
   extractor->SetInputLevelSet( source->GetOutput() );
@@ -59,7 +59,7 @@ int itkLevelSetNeighborhoodExtractorTest(int, char* [] )
 
   extractor->Locate();
 
-  typedef NodeContainerType::ConstIterator Iterator;
+  using Iterator = NodeContainerType::ConstIterator;
   Iterator iter;
   Iterator iterEnd;
 

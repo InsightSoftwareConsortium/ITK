@@ -43,10 +43,10 @@ class ITKCommon_EXPORT LoggerManager:public Object
 {
 public:
 
-  typedef LoggerManager              Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = LoggerManager;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoggerManager, Object);
@@ -54,14 +54,14 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
-  typedef Logger::PriorityLevelType PriorityLevelType;
+  using PriorityLevelType = Logger::PriorityLevelType;
 
-  typedef Logger::OutputType OutputType;
+  using OutputType = Logger::OutputType;
 
-  typedef Logger::Pointer       LoggerPointer;
-  typedef ThreadLogger::Pointer ThreadLoggerPointer;
+  using LoggerPointer = Logger::Pointer;
+  using ThreadLoggerPointer = ThreadLogger::Pointer;
 
-  typedef std::string NameType;
+  using NameType = std::string;
 
   /** create a logger and add it into LoggerManager */
   LoggerPointer CreateLogger(
@@ -103,7 +103,7 @@ protected:
 
 private:
 
-  typedef std::map< NameType, LoggerPointer > ContainerType;
+  using ContainerType = std::map< NameType, LoggerPointer >;
 
   ContainerType m_LoggerSet;
 };  // class Logger

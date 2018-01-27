@@ -51,10 +51,10 @@ public:
     GPUDataManager::Pointer m_GPUDataManager;
     };
 
-  typedef GPUKernelManager         Self;
-  typedef LightObject              Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Self = GPUKernelManager;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
   itkTypeMacro(GPUKernelManager, LightObject);

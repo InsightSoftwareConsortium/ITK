@@ -58,15 +58,15 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
 
   const unsigned int ImageDimension = 2;
 
-  typedef unsigned int  InputPixelType;
-  typedef float         OutputPixelType;
-  typedef short         WriterPixelType;
-  typedef double        PointPixelType;
+  using InputPixelType = unsigned int;
+  using OutputPixelType = float;
+  using WriterPixelType = short;
+  using PointPixelType = double;
 
-  typedef itk::Image< InputPixelType, ImageDimension >  InputImageType;
-  typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
-  typedef itk::Image< WriterPixelType, ImageDimension > WriterImageType;
-  typedef itk::Point< PointPixelType, ImageDimension >  PointType;
+  using InputImageType = itk::Image< InputPixelType, ImageDimension >;
+  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
+  using WriterImageType = itk::Image< WriterPixelType, ImageDimension >;
+  using PointType = itk::Point< PointPixelType, ImageDimension >;
 
   // Make a binary input image based on the signed distance function
   // using the inside and outside values
@@ -81,7 +81,7 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
   image->SetRegions( region );
   image->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType > InputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
   InputIteratorType iter( image, region );
   iter.GoToBegin();
 
@@ -94,8 +94,8 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
     }
 
   // Set up the filter
-  typedef itk::ApproximateSignedDistanceMapImageFilter< InputImageType, OutputImageType >
-    DistanceMapFilterType;
+  using DistanceMapFilterType =
+      itk::ApproximateSignedDistanceMapImageFilter< InputImageType, OutputImageType >;
   DistanceMapFilterType::Pointer signedDistanceMapFilter =
     DistanceMapFilterType::New();
 
@@ -114,8 +114,8 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
 
 
   // Write the output image
-  typedef itk::ShiftScaleImageFilter< OutputImageType, WriterImageType >
-    RescaleFilterType;
+  using RescaleFilterType =
+      itk::ShiftScaleImageFilter< OutputImageType, WriterImageType >;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
   rescaler->SetInput( signedDistanceMapFilter->GetOutput() );
@@ -133,7 +133,7 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageFileWriter< WriterImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< WriterImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( rescaler->GetOutput() );
   writer->SetFileName( argv[2] );
@@ -144,7 +144,7 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
 
   OutputPixelType maxDistance = 0;
 
-  typedef itk::ImageRegionConstIteratorWithIndex< OutputImageType > OutputIteratorType;
+  using OutputIteratorType = itk::ImageRegionConstIteratorWithIndex< OutputImageType >;
   OutputIteratorType oIt( signedDistanceMapFilter->GetOutput(),
     signedDistanceMapFilter->GetOutput()->GetLargestPossibleRegion() );
   oIt.GoToBegin();

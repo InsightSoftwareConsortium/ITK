@@ -35,13 +35,13 @@ class ITK_TEMPLATE_EXPORT LaplacianSegmentationLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LaplacianSegmentationLevelSetFunction Self;
-  typedef SegmentationLevelSetFunction< TImageType, TFeatureImageType >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef TFeatureImageType          FeatureImageType;
+  /** Standard class type aliases. */
+  using Self = LaplacianSegmentationLevelSetFunction;
+  using Superclass =
+      SegmentationLevelSetFunction< TImageType, TFeatureImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using FeatureImageType = TFeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -50,10 +50,10 @@ public:
   itkTypeMacro(LaplacianSegmentationLevelSetFunction, SegmentationLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
-  typedef typename Superclass::ImageType         ImageType;
-  typedef typename Superclass::ScalarValueType   ScalarValueType;
-  typedef typename Superclass::FeatureScalarType FeatureScalarType;
-  typedef typename Superclass::RadiusType        RadiusType;
+  using ImageType = typename Superclass::ImageType;
+  using ScalarValueType = typename Superclass::ScalarValueType;
+  using FeatureScalarType = typename Superclass::FeatureScalarType;
+  using RadiusType = typename Superclass::RadiusType;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,

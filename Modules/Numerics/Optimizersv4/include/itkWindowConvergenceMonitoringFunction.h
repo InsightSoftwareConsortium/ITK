@@ -41,10 +41,10 @@ class ITK_TEMPLATE_EXPORT WindowConvergenceMonitoringFunction
 {
 public:
 
-  typedef WindowConvergenceMonitoringFunction                     Self;
-  typedef ConvergenceMonitoringFunction<TScalar, TScalar>         Superclass;
-  typedef SmartPointer<Self>                                      Pointer;
-  typedef SmartPointer<const Self>                                ConstPointer;
+  using Self = WindowConvergenceMonitoringFunction;
+  using Superclass = ConvergenceMonitoringFunction<TScalar, TScalar>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -52,14 +52,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( WindowConvergenceMonitoringFunction, ConvergenceMonitoringFunction );
 
-  typedef TScalar                                            ScalarType;
-  typedef typename NumericTraits<ScalarType>::RealType       RealType;
+  using ScalarType = TScalar;
+  using RealType = typename NumericTraits<ScalarType>::RealType;
 
-  typedef typename Superclass::EnergyValueType               EnergyValueType;
-  typedef typename Superclass::EnergyValueContainerType      EnergyValueContainerType;
-  typedef typename Superclass::EnergyValueContainerSizeType  EnergyValueContainerSizeType;
-  typedef typename EnergyValueContainerType::iterator        EnergyValueIterator;
-  typedef typename EnergyValueContainerType::const_iterator  EnergyValueConstIterator;
+  using EnergyValueType = typename Superclass::EnergyValueType;
+  using EnergyValueContainerType = typename Superclass::EnergyValueContainerType;
+  using EnergyValueContainerSizeType = typename Superclass::EnergyValueContainerSizeType;
+  using EnergyValueIterator = typename EnergyValueContainerType::iterator;
+  using EnergyValueConstIterator = typename EnergyValueContainerType::const_iterator;
 
   /** Add energy value */
   void AddEnergyValue( const EnergyValueType ) override;

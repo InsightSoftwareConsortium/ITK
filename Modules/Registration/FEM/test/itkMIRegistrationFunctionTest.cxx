@@ -35,17 +35,17 @@ int itkMIRegistrationFunctionTest( int, char* [] )
 
   const unsigned int ImageDimension = 2;
 
-  typedef double                                    PixelType;
-  typedef itk::Vector< PixelType, ImageDimension >  DeformationPixelType;
+  using PixelType = double;
+  using DeformationPixelType = itk::Vector< PixelType, ImageDimension >;
 
-  typedef itk::Image< PixelType,ImageDimension > MovingImageType;
-  typedef itk::Image< PixelType,ImageDimension > FixedImageType;
-  typedef itk::Image< DeformationPixelType, ImageDimension >
-    DisplacementFieldType;
+  using MovingImageType = itk::Image< PixelType,ImageDimension >;
+  using FixedImageType = itk::Image< PixelType,ImageDimension >;
+  using DisplacementFieldType =
+      itk::Image< DeformationPixelType, ImageDimension >;
 
   // Declare Gaussian image sources
-  typedef itk::GaussianImageSource< MovingImageType >  MovingImageSourceType;
-  typedef itk::GaussianImageSource< FixedImageType  >  FixedImageSourceType;
+  using MovingImageSourceType = itk::GaussianImageSource< MovingImageType >;
+  using FixedImageSourceType = itk::GaussianImageSource< FixedImageType  >;
 
   // Create the two images
   FixedImageType::SizeValueType fixedImageSize[] = { 100, 100 };
@@ -79,10 +79,9 @@ int itkMIRegistrationFunctionTest( int, char* [] )
   FixedImageType::Pointer  fixedImage  = fixedImageSource->GetOutput();
 
   // Set up the metric
-  typedef itk::MIRegistrationFunction< FixedImageType,
+  using MetricFunctionType = itk::MIRegistrationFunction< FixedImageType,
                                        MovingImageType,
-                                       DisplacementFieldType >
-                                       MetricFunctionType;
+                                       DisplacementFieldType >;
 
   MetricFunctionType::Pointer metricFunction = MetricFunctionType::New();
 

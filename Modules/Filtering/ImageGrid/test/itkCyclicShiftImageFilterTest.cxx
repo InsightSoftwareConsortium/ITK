@@ -32,11 +32,11 @@ int itkCyclicShiftImageFilterTest(int argc, char * argv[])
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                                  PixelType;
-  typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::ImageFileReader< ImageType >              ReaderType;
-  typedef itk::ChangeInformationImageFilter< ImageType > ChangeInfoFilterType;
-  typedef itk::CyclicShiftImageFilter< ImageType >       CyclicShiftFilterType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using ChangeInfoFilterType = itk::ChangeInformationImageFilter< ImageType >;
+  using CyclicShiftFilterType = itk::CyclicShiftImageFilter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );

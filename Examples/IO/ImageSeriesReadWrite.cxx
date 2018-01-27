@@ -63,10 +63,10 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char                       PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -81,8 +81,8 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageSeriesReader< ImageType >  ReaderType;
-  typedef itk::ImageFileWriter<   ImageType >  WriterType;
+  using ReaderType = itk::ImageSeriesReader< ImageType >;
+  using WriterType = itk::ImageFileWriter<   ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -102,7 +102,7 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::NumericSeriesFileNames    NameGeneratorType;
+  using NameGeneratorType = itk::NumericSeriesFileNames;
 
   NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
   // Software Guide : EndCodeSnippet

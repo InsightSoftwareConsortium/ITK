@@ -25,8 +25,8 @@
  * Define a PointSet type that stores a PixelType of "int".  Use the defaults
  * for the other template parameters.
  */
-typedef itk::PointSet<int>  PointSet;
-typedef PointSet::PointType PointType;
+using PointSet = itk::PointSet<int>;
+using PointType = PointSet::PointType;
 
 /**
  * The point set that is created consists of a 100 random points.

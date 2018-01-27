@@ -26,9 +26,9 @@ template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate   Self;
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -62,7 +62,7 @@ public:
       typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
       const itk::ObjectToObjectOptimizerBase* optimizerBase = filter->GetOptimizer();
-      typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+      using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
       typename GradientDescentOptimizerv4Type::ConstPointer optimizer = dynamic_cast<const GradientDescentOptimizerv4Type *>(optimizerBase);
       if( !optimizer )
         {
@@ -99,17 +99,17 @@ int itkSimplePointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed
   const unsigned int Dimension = 2;
   const unsigned int numberOfIterations = 20;
 
-  typedef itk::PointSet<unsigned int, Dimension> PointSetType;
+  using PointSetType = itk::PointSet<unsigned int, Dimension>;
 
-  typedef itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
 
-  typedef PointSetMetricType::FixedPointSetType    PointSetType;
-  typedef PointSetType::PointType                  PointType;
+  using PointSetType = PointSetMetricType::FixedPointSetType;
+  using PointType = PointSetType::PointType;
 
-  typedef double                           PixelType;
-  typedef itk::Image<PixelType, Dimension> FixedImageType;
-  typedef itk::Image<PixelType, Dimension> MovingImageType;
+  using PixelType = double;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
+  using MovingImageType = itk::Image<PixelType, Dimension>;
 
 
   PointSetType::Pointer fixedPoints = PointSetType::New();
@@ -172,7 +172,7 @@ int itkSimplePointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed
   fixedImage->SetSpacing( fixedImageSpacing );
   fixedImage->Allocate();
 
-  typedef itk::AffineTransform<double, PointSetType::PointDimension> AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<double, PointSetType::PointDimension>;
   AffineTransformType::Pointer transform = AffineTransformType::New();
   transform->SetIdentity();
 
@@ -183,7 +183,7 @@ int itkSimplePointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed
   metric->Initialize();
 
   // scales estimator
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< PointSetMetricType > RegistrationParameterScalesFromShiftType;
+  using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift< PointSetMetricType >;
   RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric( metric );
   shiftScaleEstimator->SetTransformForward( true );
@@ -191,7 +191,7 @@ int itkSimplePointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed
   shiftScaleEstimator->SetVirtualDomainPointSet( metric->GetVirtualTransformedPointSet() );
 
   // optimizer
-  typedef itk::GradientDescentOptimizerv4  OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizerv4;
   OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
@@ -200,7 +200,7 @@ int itkSimplePointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed
   optimizer->SetMinimumConvergenceValue( 0.0 );
   optimizer->SetConvergenceWindowSize( 10 );
 
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> AffineRegistrationType;
+  using AffineRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
   AffineRegistrationType::Pointer affineSimple = AffineRegistrationType::New();
   affineSimple->SetObjectName( "affineSimple" );
   affineSimple->SetFixedPointSet( fixedPoints );
@@ -209,7 +209,7 @@ int itkSimplePointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed
   affineSimple->SetMetric( metric );
   affineSimple->SetOptimizer( optimizer );
 
-  typedef CommandIterationUpdate<AffineRegistrationType> AffineCommandType;
+  using AffineCommandType = CommandIterationUpdate<AffineRegistrationType>;
   AffineCommandType::Pointer affineObserver = AffineCommandType::New();
   affineSimple->AddObserver( itk::MultiResolutionIterationEvent(), affineObserver );
 

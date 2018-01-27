@@ -38,7 +38,7 @@ int main(int, char* [])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CylinderSpatialObject   CylinderType;
+  using CylinderType = itk::CylinderSpatialObject;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

@@ -34,18 +34,18 @@ int itkLabelImageToShapeLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 2;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  using ImageType = itk::Image< PixelType, dim >;
 
-  typedef itk::ShapeLabelObject< PixelType, dim >     LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >            LabelMapType;
+  using LabelObjectType = itk::ShapeLabelObject< PixelType, dim >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType> L2SType;
+  using L2SType = itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType>;
   L2SType::Pointer l2s = L2SType::New();
   l2s->SetInput( reader->GetOutput() );
 
@@ -62,11 +62,11 @@ int itkLabelImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   TEST_SET_GET_VALUE( computePerimeter, l2s->GetComputeFeretDiameter() );
 
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
+  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
   l2i->SetInput( l2s->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );
   writer->SetFileName( argv[2] );

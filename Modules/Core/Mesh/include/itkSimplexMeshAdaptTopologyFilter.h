@@ -50,17 +50,17 @@ template< typename TInputMesh, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT SimplexMeshAdaptTopologyFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef SimplexMeshAdaptTopologyFilter Self;
+  /** Standard "Self" type alias. */
+  using Self = SimplexMeshAdaptTopologyFilter;
 
-  /** Standard "Superclass" typedef. */
-  typedef MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
+  /** Standard "Superclass" type alias. */
+  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
 
-  /** Smart pointer typedef support */
-  typedef SmartPointer< Self > Pointer;
+  /** Smart pointer type alias support */
+  using Pointer = SmartPointer< Self >;
 
-  /** Smart pointer typedef support */
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
@@ -68,28 +68,28 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SimplexMeshAdaptTopologyFilter, MeshToMeshFilter);
 
-  typedef TInputMesh                                                InputMeshType;
-  typedef typename InputMeshType::Pointer                           InputMeshPointer;
-  typedef typename InputMeshType::PointType                         InputPointType;
-  typedef typename InputMeshType::VectorType                        InputVectorType;
-  typedef typename InputMeshType::PixelType                         InputPixelType;
-  typedef typename InputMeshType::MeshTraits::CellTraits            InputCellTraitsType;
-  typedef typename InputMeshType::CellType                          InputCellType;
-  typedef typename InputMeshType::PointIdentifier                   PointIdentifier;
-  typedef typename InputMeshType::CellIdentifier                    CellIdentifier;
-  typedef typename InputCellType::PointIdIterator                   InputCellPointIdIterator;
-  typedef typename InputCellType::CellAutoPointer                   InputCellAutoPointer;
-  typedef typename InputMeshType::CellAutoPointer                   CellAutoPointer;
-  typedef          itk::PolygonCell< InputCellType >                InputPolygonType;
-  typedef typename InputPolygonType::PointIdIterator                InputPolygonPointIdIterator;
-  typedef CovariantVector< typename InputVectorType::ValueType, 3 > CovariantVectorType;
-  typedef  TOutputMesh                                              OutputMeshType;
-  typedef typename OutputMeshType::Pointer                          OutputMeshPointer;
-  typedef typename OutputMeshType::CellType                         OutputCellType;
-  typedef          itk::PolygonCell< OutputCellType >               OutputPolygonType;
+  using InputMeshType = TInputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using InputPointType = typename InputMeshType::PointType;
+  using InputVectorType = typename InputMeshType::VectorType;
+  using InputPixelType = typename InputMeshType::PixelType;
+  using InputCellTraitsType = typename InputMeshType::MeshTraits::CellTraits;
+  using InputCellType = typename InputMeshType::CellType;
+  using PointIdentifier = typename InputMeshType::PointIdentifier;
+  using CellIdentifier = typename InputMeshType::CellIdentifier;
+  using InputCellPointIdIterator = typename InputCellType::PointIdIterator;
+  using InputCellAutoPointer = typename InputCellType::CellAutoPointer;
+  using CellAutoPointer = typename InputMeshType::CellAutoPointer;
+  using InputPolygonType = itk::PolygonCell< InputCellType >;
+  using InputPolygonPointIdIterator = typename InputPolygonType::PointIdIterator;
+  using CovariantVectorType = CovariantVector< typename InputVectorType::ValueType, 3 >;
+  using OutputMeshType = TOutputMesh;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using OutputCellType = typename OutputMeshType::CellType;
+  using OutputPolygonType = itk::PolygonCell< OutputCellType >;
 
-  typedef typename itk::MapContainer< CellIdentifier, double > DoubleValueMapType;
-  typedef typename DoubleValueMapType::Iterator                DoubleContainerIterator;
+  using DoubleValueMapType = typename itk::MapContainer< CellIdentifier, double >;
+  using DoubleContainerIterator = typename DoubleValueMapType::Iterator;
 
   /** \class SimplexCellVisitor
    * class for visiting all polygonal cells.
@@ -226,15 +226,15 @@ public:
   };
 
   // cell visitor stuff
-  typedef itk::CellInterfaceVisitorImplementation< InputPixelType,
+  using SimplexVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
+                                                   InputPixelType,
                                                    InputCellTraitsType,
                                                    InputPolygonType,
-                                                   SimplexCellVisitor >
-  SimplexVisitorInterfaceType;
+                                                   SimplexCellVisitor >;
 
-  typedef typename SimplexVisitorInterfaceType::Pointer SimplexVisitorInterfacePointer;
-  typedef typename InputCellType::MultiVisitor          CellMultiVisitorType;
-  typedef typename CellMultiVisitorType::Pointer        CellMultiVisitorPointer;
+  using SimplexVisitorInterfacePointer = typename SimplexVisitorInterfaceType::Pointer;
+  using CellMultiVisitorType = typename InputCellType::MultiVisitor;
+  using CellMultiVisitorPointer = typename CellMultiVisitorType::Pointer;
 
   itkSetMacro(Threshold, double);
   itkGetConstMacro(Threshold, double);

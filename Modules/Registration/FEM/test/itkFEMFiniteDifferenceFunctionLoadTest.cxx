@@ -31,35 +31,31 @@
 const unsigned int ImageDimension = 3;
 const unsigned int ImageWidth = 16;
 
-typedef unsigned char InputImagePixelType;
-typedef float         DeformationFieldPixelType;
+using InputImagePixelType = unsigned char;
+using DeformationFieldPixelType = float;
 
-typedef itk::Image< InputImagePixelType, ImageDimension >         InputImageType;
-typedef itk::Vector< DeformationFieldPixelType, ImageDimension >  DeformationFieldVectorType;
-typedef itk::Image< DeformationFieldVectorType, ImageDimension >  DeformationFieldImageType;
+using InputImageType = itk::Image< InputImagePixelType, ImageDimension >;
+using DeformationFieldVectorType = itk::Vector< DeformationFieldPixelType, ImageDimension >;
+using DeformationFieldImageType = itk::Image< DeformationFieldVectorType, ImageDimension >;
 
 const unsigned int PixelsPerElement = 1;
-typedef itk::fem::Element2DC0LinearQuadrilateralMembrane                          Element2DType;
-typedef itk::fem::Element3DC0LinearHexahedronMembrane                             Element3DType;
-typedef itk::fem::FEMObject< ImageDimension >                                     FEMObjectType;
-typedef itk::fem::Solver< ImageDimension >                                        SolverType;
-typedef itk::fem::FiniteDifferenceFunctionLoad< InputImageType, InputImageType >  ImageMetricLoadType;
+using Element2DType = itk::fem::Element2DC0LinearQuadrilateralMembrane;
+using Element3DType = itk::fem::Element3DC0LinearHexahedronMembrane;
+using FEMObjectType = itk::fem::FEMObject< ImageDimension >;
+using SolverType = itk::fem::Solver< ImageDimension >;
+using ImageMetricLoadType = itk::fem::FiniteDifferenceFunctionLoad< InputImageType, InputImageType >;
 
-typedef itk::MeanSquareRegistrationFunction< InputImageType, InputImageType, DeformationFieldImageType >
-  MeanSquareRegistrationMetricType;
-typedef itk::NCCRegistrationFunction< InputImageType, InputImageType, DeformationFieldImageType >
-  NCCRegistrationMetricType;
-typedef itk::MIRegistrationFunction< InputImageType, InputImageType, DeformationFieldImageType >
-  MIRegistrationMetricType;
-typedef itk::DemonsRegistrationFunction< InputImageType, InputImageType, DeformationFieldImageType >
-  DemonsRegistrationMetricType;
+using MeanSquareRegistrationMetricType = itk::MeanSquareRegistrationFunction< InputImageType, InputImageType, DeformationFieldImageType >;
+using NCCRegistrationMetricType = itk::NCCRegistrationFunction< InputImageType, InputImageType, DeformationFieldImageType >;
+using MIRegistrationMetricType = itk::MIRegistrationFunction< InputImageType, InputImageType, DeformationFieldImageType >;
+using DemonsRegistrationMetricType = itk::DemonsRegistrationFunction< InputImageType, InputImageType, DeformationFieldImageType >;
 
 
 // Template function to fill in an image with a value.
 template< typename TImage >
 void FillImage( TImage * image, typename TImage::PixelType value )
 {
-  typedef itk::ImageRegionIteratorWithIndex< TImage > Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex< TImage >;
   Iterator it( image, image->GetBufferedRegion() );
   for( it.GoToBegin(); !it.IsAtEnd(); ++it )
     {
@@ -72,7 +68,7 @@ template< typename TImage >
 void FillWithCircle( TImage * image, double * center, double radius,
   typename TImage::PixelType foregnd, typename TImage::PixelType backgnd )
 {
-  typedef itk::ImageRegionIteratorWithIndex< TImage > Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex< TImage >;
   Iterator it( image, image->GetBufferedRegion() );
 
   typename TImage::IndexType index;
@@ -100,7 +96,7 @@ void FillWithCircle( TImage * image, double * center, double radius,
 template< typename TImage >
 void CopyImageBuffer( TImage *input, TImage *output )
 {
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator inIt( input, output->GetBufferedRegion() );
   Iterator outIt( output, output->GetBufferedRegion() );
   for( inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++outIt )
@@ -111,9 +107,8 @@ void CopyImageBuffer( TImage *input, TImage *output )
 
 FEMObjectType::Pointer CreateMesh( InputImageType* image, unsigned int elementWidth = 1 )
 {
-  typedef itk::fem::MaterialLinearElasticity MaterialType;
-  typedef itk::fem::ImageToRectilinearFEMObjectFilter< InputImageType >
-    MeshFilterType;
+  using MaterialType = itk::fem::MaterialLinearElasticity;
+  using MeshFilterType = itk::fem::ImageToRectilinearFEMObjectFilter<InputImageType>;
 
   vnl_vector< unsigned int > pixelsPerElement;
   pixelsPerElement.set_size(ImageDimension);
@@ -248,7 +243,7 @@ int RunTest( InputImageType* fixedImage, InputImageType* movingImage,
   Element2DType::VectorType position, solution;
   position.set_size( ImageDimension );
   solution.set_size( ImageDimension );
-  typedef itk::ImageRegionIteratorWithIndex< DeformationFieldImageType > Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex< DeformationFieldImageType >;
   Iterator iter( outField, outField->GetLargestPossibleRegion() );
   for( iter.GoToBegin(); !iter.IsAtEnd(); ++iter )
     {
@@ -270,7 +265,7 @@ int RunTest( InputImageType* fixedImage, InputImageType* movingImage,
     } // end of for (each pixel in displacement field)
 
   // Write to vector image
-  typedef itk::ImageFileWriter< DeformationFieldImageType > FieldWriterType;
+  using FieldWriterType = itk::ImageFileWriter< DeformationFieldImageType >;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   std::ostringstream outFilenameStream;
@@ -357,10 +352,10 @@ int itkFEMFiniteDifferenceFunctionLoadTest( int argc, char* argv[] )
 
   std::string filenamePrefix = argv[1];
 
-  typedef InputImageType::IndexType    IndexType;
-  typedef InputImageType::SizeType     SizeType;
-  typedef InputImageType::RegionType   RegionType;
-  typedef InputImageType::SpacingType  SpacingType;
+  using IndexType = InputImageType::IndexType;
+  using SizeType = InputImageType::SizeType;
+  using RegionType = InputImageType::RegionType;
+  using SpacingType = InputImageType::SpacingType;
 
 
   // Generate input images and initial deformation field
@@ -441,7 +436,7 @@ int itkFEMFiniteDifferenceFunctionLoadTest( int argc, char* argv[] )
   zeroVec.Fill( 0.0 );
   FillImage< DeformationFieldImageType >( initField, zeroVec );
 
-  typedef itk::ImageFileWriter< InputImageType > ImageWriterType;
+  using ImageWriterType = itk::ImageFileWriter< InputImageType >;
   ImageWriterType::Pointer writer = ImageWriterType::New();
   std::string filename( filenamePrefix );
 

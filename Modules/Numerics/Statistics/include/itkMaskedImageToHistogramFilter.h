@@ -42,11 +42,11 @@ template< typename TImage, typename TMaskImage >
 class ITK_TEMPLATE_EXPORT MaskedImageToHistogramFilter:public ImageToHistogramFilter<TImage>
 {
 public:
-  /** Standard typedefs */
-  typedef MaskedImageToHistogramFilter     Self;
-  typedef ImageToHistogramFilter<TImage>   Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard type alias */
+  using Self = MaskedImageToHistogramFilter;
+  using Superclass = ImageToHistogramFilter<TImage>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MaskedImageToHistogramFilter, ImageToHistogramFilter);
@@ -54,21 +54,21 @@ public:
   /** standard New() method support */
   itkNewMacro(Self);
 
-  typedef TImage                                         ImageType;
-  typedef typename ImageType::PixelType                  PixelType;
-  typedef typename ImageType::RegionType                 RegionType;
-  typedef typename NumericTraits< PixelType >::ValueType ValueType;
-  typedef typename NumericTraits< ValueType >::RealType  ValueRealType;
+  using ImageType = TImage;
+  using PixelType = typename ImageType::PixelType;
+  using RegionType = typename ImageType::RegionType;
+  using ValueType = typename NumericTraits< PixelType >::ValueType;
+  using ValueRealType = typename NumericTraits< ValueType >::RealType;
 
-  typedef Histogram< ValueRealType >                    HistogramType;
-  typedef typename HistogramType::Pointer               HistogramPointer;
-  typedef typename HistogramType::ConstPointer          HistogramConstPointer;
-  typedef typename HistogramType::SizeType              HistogramSizeType;
-  typedef typename HistogramType::MeasurementType       HistogramMeasurementType;
-  typedef typename HistogramType::MeasurementVectorType HistogramMeasurementVectorType;
+  using HistogramType = Histogram< ValueRealType >;
+  using HistogramPointer = typename HistogramType::Pointer;
+  using HistogramConstPointer = typename HistogramType::ConstPointer;
+  using HistogramSizeType = typename HistogramType::SizeType;
+  using HistogramMeasurementType = typename HistogramType::MeasurementType;
+  using HistogramMeasurementVectorType = typename HistogramType::MeasurementVectorType;
 
-  typedef TMaskImage                                     MaskImageType;
-  typedef typename MaskImageType::PixelType              MaskPixelType;
+  using MaskImageType = TMaskImage;
+  using MaskPixelType = typename MaskImageType::PixelType;
 
   /** Method to set/get the mask */
   itkSetInputMacro(MaskImage, MaskImageType);

@@ -64,9 +64,9 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate   Self;
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -74,8 +74,8 @@ protected:
 
 public:
 
-  typedef itk::RegularStepGradientDescentOptimizerv4<double> OptimizerType;
-  typedef const OptimizerType*                               OptimizerPointer;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
+  using OptimizerPointer = const OptimizerType*;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
   {
@@ -122,7 +122,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   const    unsigned int    Dimension = 2;
-  typedef  float           PixelType;
+  using PixelType = float;
   // Software Guide : EndCodeSnippet
 
 
@@ -133,8 +133,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -146,7 +146,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::TranslationTransform< double, Dimension > TransformType;
+  using TransformType = itk::TranslationTransform< double, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -158,7 +158,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RegularStepGradientDescentOptimizerv4<double> OptimizerType;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
   // Software Guide : EndCodeSnippet
 
 
@@ -171,9 +171,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MeanSquaresImageToImageMetricv4<
+  using MetricType = itk::MeanSquaresImageToImageMetricv4<
                                           FixedImageType,
-                                          MovingImageType >    MetricType;
+                                          MovingImageType >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -185,10 +185,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageRegistrationMethodv4<
+  using RegistrationType = itk::ImageRegistrationMethodv4<
                                     FixedImageType,
                                     MovingImageType,
-                                    TransformType   >    RegistrationType;
+                                    TransformType   >;
   // Software Guide : EndCodeSnippet
 
 
@@ -236,13 +236,13 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::LinearInterpolateImageFunction<
+  using FixedLinearInterpolatorType = itk::LinearInterpolateImageFunction<
                                         FixedImageType,
-                                        double > FixedLinearInterpolatorType;
+                                        double >;
 
-  typedef itk::LinearInterpolateImageFunction<
+  using MovingLinearInterpolatorType = itk::LinearInterpolateImageFunction<
                                         MovingImageType,
-                                        double > MovingLinearInterpolatorType;
+                                        double >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -266,8 +266,8 @@ int main( int argc, char *argv[] )
   metric->SetMovingInterpolator(  movingInterpolator  );
   // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< FixedImageType  >   FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType >   MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
   FixedImageReaderType::Pointer   fixedImageReader     = FixedImageReaderType::New();
   MovingImageReaderType::Pointer  movingImageReader    = MovingImageReaderType::New();
 
@@ -441,7 +441,7 @@ int main( int argc, char *argv[] )
 
   if( useEstimator )
     {
-    typedef itk::RegistrationParameterScalesFromPhysicalShift<MetricType> ScalesEstimatorType;
+    using ScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
     ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
     scalesEstimator->SetMetric( metric );
     scalesEstimator->SetTransformForward( true );
@@ -646,9 +646,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CompositeTransform<
+  using CompositeTransformType = itk::CompositeTransform<
                                  double,
-                                 Dimension > CompositeTransformType;
+                                 Dimension >;
   CompositeTransformType::Pointer outputCompositeTransform =
     CompositeTransformType::New();
   outputCompositeTransform->AddTransform( movingInitialTransform );
@@ -669,9 +669,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+                            FixedImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -752,15 +752,15 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char                            OutputPixelType;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::CastImageFilter<
+  using CastFilterType = itk::CastImageFilter<
                         FixedImageType,
-                        OutputImageType >          CastFilterType;
+                        OutputImageType >;
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -817,10 +817,10 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::SubtractImageFilter<
+  using DifferenceFilterType = itk::SubtractImageFilter<
                                   FixedImageType,
                                   FixedImageType,
-                                  FixedImageType > DifferenceFilterType;
+                                  FixedImageType >;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
@@ -854,9 +854,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RescaleIntensityImageFilter<
+  using RescalerType = itk::RescaleIntensityImageFilter<
                                   FixedImageType,
-                                  OutputImageType >   RescalerType;
+                                  OutputImageType >;
 
   RescalerType::Pointer intensityRescaler = RescalerType::New();
 

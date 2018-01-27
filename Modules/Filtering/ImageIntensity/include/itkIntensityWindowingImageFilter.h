@@ -31,7 +31,7 @@ template< typename TInput, typename  TOutput >
 class ITK_TEMPLATE_EXPORT IntensityWindowingTransform
 {
 public:
-  typedef typename NumericTraits< TInput >::RealType RealType;
+  using RealType = typename NumericTraits< TInput >::RealType;
   IntensityWindowingTransform() :
     m_Factor(0.0),
     m_Offset(0.0),
@@ -126,20 +126,20 @@ class ITK_TEMPLATE_EXPORT IntensityWindowingImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef IntensityWindowingImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = IntensityWindowingImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::IntensityWindowingTransform<
       typename TInputImage::PixelType,
-      typename TOutputImage::PixelType > >  Superclass;
+      typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TOutputImage::PixelType                   OutputPixelType;
-  typedef typename TInputImage::PixelType                    InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType RealType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< InputPixelType >::RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

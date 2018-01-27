@@ -52,12 +52,12 @@ namespace fem
 class ITKFEM_EXPORT Element3DC0LinearTriangular : public ElementStd<3, 3>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element3DC0LinearTriangular Self;
-  typedef ElementStd<3, 3>            TemplatedParentClass;
-  typedef TemplatedParentClass        Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element3DC0LinearTriangular;
+  using TemplatedParentClass = ElementStd<3, 3>;
+  using Superclass = TemplatedParentClass;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element3DC0LinearTriangular, TemplatedParentClass);

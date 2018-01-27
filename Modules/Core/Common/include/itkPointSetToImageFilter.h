@@ -34,15 +34,15 @@ template< typename TInputPointSet, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT PointSetToImageFilter:public ImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PointSetToImageFilter               Self;
-  typedef ImageSource< TOutputImage >         Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
-  typedef typename TOutputImage::SizeType     SizeType;
-  typedef TOutputImage                        OutputImageType;
-  typedef typename OutputImageType::Pointer   OutputImagePointer;
-  typedef typename OutputImageType::ValueType ValueType;
+  /** Standard class type aliases. */
+  using Self = PointSetToImageFilter;
+  using Superclass = ImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using SizeType = typename TOutputImage::SizeType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using ValueType = typename OutputImageType::ValueType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -50,13 +50,13 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PointSetToImageFilter, ImageSource);
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  /** Some convenient typedefs. */
-  typedef TInputPointSet                           InputPointSetType;
-  typedef typename InputPointSetType::Pointer      InputPointSetPointer;
-  typedef typename InputPointSetType::ConstPointer InputPointSetConstPointer;
+  /** Some convenient type alias. */
+  using InputPointSetType = TInputPointSet;
+  using InputPointSetPointer = typename InputPointSetType::Pointer;
+  using InputPointSetConstPointer = typename InputPointSetType::ConstPointer;
 
   /** Dimension constants */
   itkStaticConstMacro(InputPointSetDimension, unsigned int,
@@ -64,10 +64,10 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Image spacing and origin typedefs */
-  typedef typename TOutputImage::SpacingType   SpacingType;
-  typedef typename TOutputImage::DirectionType DirectionType;
-  typedef typename TOutputImage::PointType     PointType;
+  /** Image spacing and origin type alias */
+  using SpacingType = typename TOutputImage::SpacingType;
+  using DirectionType = typename TOutputImage::DirectionType;
+  using PointType = typename TOutputImage::PointType;
 
   /** Set/Get the input point-set of this process object.  */
   using Superclass::SetInput;

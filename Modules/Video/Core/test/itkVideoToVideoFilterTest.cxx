@@ -20,15 +20,15 @@
 #include "itkImageRegionIterator.h"
 #include "itkTestingMacros.h"
 
-// typedefs for test
+// type alias for test
 const unsigned int Dimension =                          2;
-typedef unsigned char                            InputPixelType;
-typedef itk::Image< InputPixelType, Dimension >  InputFrameType;
-typedef itk::VideoStream< InputFrameType >       InputVideoType;
-typedef float                                    OutputPixelType;
-typedef itk::Image< OutputPixelType, Dimension > OutputFrameType;
-typedef itk::VideoStream< OutputFrameType >      OutputVideoType;
-typedef itk::SizeValueType                       SizeValueType;
+using InputPixelType = unsigned char;
+using InputFrameType = itk::Image< InputPixelType, Dimension >;
+using InputVideoType = itk::VideoStream< InputFrameType >;
+using OutputPixelType = float;
+using OutputFrameType = itk::Image< OutputPixelType, Dimension >;
+using OutputVideoType = itk::VideoStream< OutputFrameType >;
+using SizeValueType = itk::SizeValueType;
 
 namespace itk
 {
@@ -75,21 +75,21 @@ class DummyVideoToVideoFilter :
 {
 public:
 
-  /** Standard class typedefs */
-  typedef TInputVideoStream                                InputVideoStreamType;
-  typedef TOutputVideoStream                               OutputVideoStreamType;
-  typedef DummyVideoToVideoFilter< InputVideoStreamType,
-                                   OutputVideoStreamType > Self;
-  typedef VideoToVideoFilter< TInputVideoStream,
-                             TOutputVideoStream >          Superclass;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
-  typedef WeakPointer< const Self >                        ConstWeakPointer;
+  /** Standard class type aliases */
+  using InputVideoStreamType = TInputVideoStream;
+  using OutputVideoStreamType = TOutputVideoStream;
+  using Self = DummyVideoToVideoFilter< InputVideoStreamType,
+                                   OutputVideoStreamType >;
+  using Superclass = VideoToVideoFilter< TInputVideoStream,
+                             TOutputVideoStream >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
-  typedef typename TInputVideoStream::FrameType  InputFrameType;
-  typedef typename InputFrameType::RegionType    InputFrameSpatialRegionType;
-  typedef typename TOutputVideoStream::FrameType OutputFrameType;
-  typedef typename OutputFrameType::RegionType   OutputFrameSpatialRegionType;
+  using InputFrameType = typename TInputVideoStream::FrameType;
+  using InputFrameSpatialRegionType = typename InputFrameType::RegionType;
+  using OutputFrameType = typename TOutputVideoStream::FrameType;
+  using OutputFrameSpatialRegionType = typename OutputFrameType::RegionType;
 
   itkNewMacro(Self);
 
@@ -180,8 +180,8 @@ int itkVideoToVideoFilterTest( int, char* [] )
   //////
 
   // Instantiate a filter
-  typedef itk::VideoToVideoFilterTest::
-  DummyVideoToVideoFilter< InputVideoType, OutputVideoType > VideoFilterType;
+  using VideoFilterType = itk::VideoToVideoFilterTest::
+  DummyVideoToVideoFilter< InputVideoType, OutputVideoType >;
   VideoFilterType::Pointer filter = VideoFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, DummyVideoToVideoFilter, VideoToVideoFilter );

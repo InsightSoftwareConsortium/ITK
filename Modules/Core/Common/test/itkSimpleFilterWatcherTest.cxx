@@ -55,15 +55,15 @@ namespace itk
                                             typename TOutputImage::PixelType >   >
   {
   public:
-    /** Standard class typedefs. */
-    typedef TanHelperImageFilter Self;
-    typedef UnaryFunctorImageFilter<
+    /** Standard class type aliases. */
+    using Self = TanHelperImageFilter;
+    using Superclass = UnaryFunctorImageFilter<
       TInputImage, TOutputImage,
       Function::TanHelper< typename TInputImage::PixelType,
-                     typename TOutputImage::PixelType > >  Superclass;
+                     typename TOutputImage::PixelType > >;
 
-    typedef SmartPointer< Self >       Pointer;
-    typedef SmartPointer< const Self > ConstPointer;
+    using Pointer = SmartPointer< Self >;
+    using ConstPointer = SmartPointer< const Self >;
 
     /** Method for creation through the object factory. */
     itkNewMacro(Self);
@@ -92,10 +92,10 @@ namespace itk
 int itkSimpleFilterWatcherTest (int, char*[])
 {
   // Test out the code
-  typedef itk::SimpleFilterWatcher        WatcherType;
-  typedef itk::Image<char,3>              ImageType;
-  typedef itk::TanHelperImageFilter<
-    ImageType, ImageType>                 FilterType;
+  using WatcherType = itk::SimpleFilterWatcher;
+  using ImageType = itk::Image<char,3>;
+  using FilterType = itk::TanHelperImageFilter<
+    ImageType, ImageType>;
   FilterType::Pointer filter = FilterType::New();
   const char * comment = "comment";
 

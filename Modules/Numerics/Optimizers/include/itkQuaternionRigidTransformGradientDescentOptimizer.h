@@ -53,11 +53,11 @@ class ITKOptimizers_EXPORT QuaternionRigidTransformGradientDescentOptimizer:
   public GradientDescentOptimizer
 {
 public:
-  /** Standard class typedefs. */
-  typedef QuaternionRigidTransformGradientDescentOptimizer Self;
-  typedef GradientDescentOptimizer                         Superclass;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
+  /** Standard class type aliases. */
+  using Self = QuaternionRigidTransformGradientDescentOptimizer;
+  using Superclass = GradientDescentOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,7 +68,7 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  typedef Superclass::ParametersType ParametersType;
+  using ParametersType = Superclass::ParametersType;
 
   /** Advance one step following the gradient direction. */
   void AdvanceOneStep(void) override;

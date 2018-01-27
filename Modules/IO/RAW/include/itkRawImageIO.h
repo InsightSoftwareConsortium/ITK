@@ -48,10 +48,10 @@ template< typename TPixel, unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT RawImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef RawImageIO           Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = RawImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,18 +59,18 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(RawImageIO, ImageIOBase);
 
-  /** Pixel typedef support. Used to declare pixel type in filters
+  /** Pixel type alias support Used to declare pixel type in filters
    * or other operations. */
-  typedef TPixel PixelType;
+  using PixelType = TPixel;
 
   /** Type used for counting elements. */
-  typedef Superclass::SizeValueType    SizeValueType;
+  using SizeValueType = Superclass::SizeValueType;
 
   /** this type is used in case the pixel has several components */
-  typedef typename PixelTraits< PixelType >::ValueType ComponentType;
+  using ComponentType = typename PixelTraits< PixelType >::ValueType;
 
   /** Helper class to swap bytes when necessary */
-  typedef ByteSwapper< ComponentType > ByteSwapperType;
+  using ByteSwapperType = ByteSwapper< ComponentType >;
 
   /** If the data is in the tail end of the file, you want to
    * explicitly set the header size. */
@@ -153,11 +153,11 @@ template< typename TPixel, unsigned int VImageDimension >
 class ITK_TEMPLATE_EXPORT RawImageIOFactory:public ObjectFactoryBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef RawImageIOFactory< TPixel, VImageDimension > Self;
-  typedef ObjectFactoryBase                            Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RawImageIOFactory< TPixel, VImageDimension >;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Class methods used to interface with the registered factories. */
   const char * GetITKSourceVersion(void) const override
@@ -185,7 +185,7 @@ public:
 protected:
   RawImageIOFactory() {}
   ~RawImageIOFactory() override {}
-  typedef RawImageIO< TPixel, VImageDimension > myProductType;
+  using myProductType = RawImageIO< TPixel, VImageDimension >;
   const myProductType *m_MyProduct;
 
 private:

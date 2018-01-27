@@ -159,30 +159,30 @@ int RotationMatrixToVersorTest(void)
 int itkVersorTest(int, char* [] )
 {
 
-  typedef   double          ValueType;
+  using ValueType = double;
 
   const ValueType epsilon = 1e-12;
 
   //  Versor type
-  typedef    itk::Versor< ValueType >    VersorType;
+  using VersorType = itk::Versor< ValueType >;
 
   //  Vector type
-  typedef    VersorType::VectorType      VectorType;
+  using VectorType = VersorType::VectorType;
 
   //  Point type
-  typedef    VersorType::PointType      PointType;
+  using PointType = VersorType::PointType;
 
   //  Covariant Vector type
-  typedef    VersorType::CovariantVectorType      CovariantVectorType;
+  using CovariantVectorType = VersorType::CovariantVectorType;
 
   //  VnlVector type
-  typedef    VersorType::VnlVectorType       VnlVectorType;
+  using VnlVectorType = VersorType::VnlVectorType;
 
   //  VnlQuaternion type
-  typedef    VersorType::VnlQuaternionType   VnlQuaternionType;
+  using VnlQuaternionType = VersorType::VnlQuaternionType;
 
   //  Matrix type
-  typedef    VersorType::MatrixType          MatrixType;
+  using MatrixType = VersorType::MatrixType;
 
   {
     std::cout << "Test default constructor... ";

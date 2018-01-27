@@ -68,7 +68,7 @@ MeanReciprocalSquareDifferenceImageToImageMetric< TFixedImage, TMovingImage >
   double MovingValue;
   double FixedValue;
 
-  typedef  itk::ImageRegionConstIteratorWithIndex< FixedImageType > FixedIteratorType;
+  using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex< FixedImageType >;
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
 

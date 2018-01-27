@@ -42,8 +42,8 @@ STAPLEImageFilter< TInputImage, TOutputImage >
 {
   const double epsilon = 1.0e-10;
 
-  typedef ImageScanlineConstIterator< TInputImage > IteratorType;
-  typedef ImageScanlineIterator< TOutputImage >     FuzzyIteratorType;
+  using IteratorType = ImageScanlineConstIterator< TInputImage >;
+  using FuzzyIteratorType = ImageScanlineIterator< TOutputImage >;
 
   const double min_rms_error = 1.0e-14; // 7 digits of precision
 

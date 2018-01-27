@@ -54,11 +54,11 @@ class ITK_TEMPLATE_EXPORT GrayscaleDilateImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GrayscaleDilateImageFilter                              Self;
-  typedef KernelImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
-  typedef SmartPointer< Self >                                    Pointer;
-  typedef SmartPointer< const Self >                              ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GrayscaleDilateImageFilter;
+  using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -67,41 +67,40 @@ public:
   itkTypeMacro(GrayscaleDilateImageFilter,
                KernelImageFilter);
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Image related typedefs. */
-  typedef TInputImage                                InputImageType;
-  typedef TOutputImage                               OutputImageType;
-  typedef typename TInputImage::RegionType           RegionType;
-  typedef typename TInputImage::SizeType             SizeType;
-  typedef typename TInputImage::IndexType            IndexType;
-  typedef typename TInputImage::PixelType            PixelType;
-  typedef typename TInputImage::OffsetType           OffsetType;
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Image related type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
+  using OffsetType = typename TInputImage::OffsetType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  typedef MovingHistogramDilateImageFilter< TInputImage, TOutputImage, TKernel >
-  HistogramFilterType;
-  typedef BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >
-  BasicFilterType;
+  using HistogramFilterType =
+      MovingHistogramDilateImageFilter< TInputImage, TOutputImage, TKernel >;
+  using BasicFilterType =
+      BasicDilateImageFilter< TInputImage, TOutputImage, TKernel >;
 
-  typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) > FlatKernelType;
+  using FlatKernelType = FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >;
 
-  typedef AnchorDilateImageFilter< TInputImage, FlatKernelType >           AnchorFilterType;
-  typedef VanHerkGilWermanDilateImageFilter< TInputImage, FlatKernelType > VHGWFilterType;
-  typedef CastImageFilter< TInputImage, TOutputImage >                     CastFilterType;
+  using AnchorFilterType = AnchorDilateImageFilter< TInputImage, FlatKernelType >;
+  using VHGWFilterType = VanHerkGilWermanDilateImageFilter< TInputImage, FlatKernelType >;
+  using CastFilterType = CastImageFilter< TInputImage, TOutputImage >;
 
   /** Typedef for boundary conditions. */
-  typedef ImageBoundaryCondition< InputImageType > *      ImageBoundaryConditionPointerType;
-  typedef ImageBoundaryCondition< InputImageType > const *ImageBoundaryConditionConstPointerType;
-  typedef ConstantBoundaryCondition< InputImageType >     DefaultBoundaryConditionType;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition< InputImageType > *;
+  using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<InputImageType> *;
+  using DefaultBoundaryConditionType = ConstantBoundaryCondition< InputImageType >;
 
-  /** Kernel typedef. */
-  typedef TKernel KernelType;
-//   typedef typename KernelType::Superclass KernelSuperclass;
-//   typedef Neighborhood< typename KernelType::PixelType, ImageDimension >
-// KernelSuperclass;
+  /** Kernel type alias. */
+  using KernelType = TKernel;
+//   using KernelSuperclass = typename KernelType::Superclass;
+//   using KernelSuperclass = Neighborhood< typename KernelType::PixelType, ImageDimension >;
 
   /** Set kernel (structuring element). */
   void SetKernel(const KernelType & kernel) override;

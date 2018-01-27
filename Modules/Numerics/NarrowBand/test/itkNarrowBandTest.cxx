@@ -22,11 +22,11 @@
 int itkNarrowBandTest (int, char*[])
 {
   unsigned int i;
-  typedef unsigned int                      IndexType;
-  typedef float                             DataType;
-  typedef itk::BandNode<IndexType,DataType> BandNodeType;
-  typedef itk::NarrowBand<BandNodeType>     BandType;
-  typedef BandType::RegionType              RegionType;
+  using IndexType = unsigned int;
+  using DataType = float;
+  using BandNodeType = itk::BandNode<IndexType,DataType>;
+  using BandType = itk::NarrowBand<BandNodeType>;
+  using RegionType = BandType::RegionType;
 
   BandType::Pointer band = BandType::New();
   band->Reserve(100);
@@ -45,7 +45,7 @@ int itkNarrowBandTest (int, char*[])
 
   std::cout<<"Band size: "<<band->Size()<<std::endl;
   //Iterate over the band
-  typedef BandType::ConstIterator itType;
+  using itType = BandType::ConstIterator;
 
   itType it = band->Begin();
   itType itend = band->End();
@@ -62,7 +62,7 @@ int itkNarrowBandTest (int, char*[])
   std::vector<RegionType> regions;
   regions = band->SplitBand(10);
 //  RegionType region;
-  typedef std::vector<RegionType>::const_iterator regionitType;
+  using regionitType = std::vector<RegionType>::const_iterator;
   regionitType regionsit = regions.begin();
   regionitType regionsitend = regions.end();
   std::cout<<"Number of regions: "<<regions.size()<<std::endl;

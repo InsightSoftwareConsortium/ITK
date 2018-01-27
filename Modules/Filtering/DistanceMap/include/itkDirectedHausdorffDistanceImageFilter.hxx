@@ -139,8 +139,8 @@ DirectedHausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   m_PixelCount.Fill(0);
 
   // Compute distance from non-zero pixels in the second image
-  typedef itk::SignedMaurerDistanceMapImageFilter< InputImage2Type, DistanceMapType >
-  FilterType;
+  using FilterType =
+      itk::SignedMaurerDistanceMapImageFilter< InputImage2Type, DistanceMapType >;
   typename FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput( this->GetInput2() );

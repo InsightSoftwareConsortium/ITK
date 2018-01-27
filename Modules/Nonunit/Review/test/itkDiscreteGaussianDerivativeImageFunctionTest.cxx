@@ -28,11 +28,11 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
 {
   const unsigned int Dimension = VDimension;
 
-  typedef float                               PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // Read the input image
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -42,8 +42,8 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
 
 
   // Create the itk::DiscreteGaussianDerivativeImageFunction
-  typedef itk::DiscreteGaussianDerivativeImageFunction< ImageType, PixelType >
-    GaussianDerivativeImageFunctionType;
+  using GaussianDerivativeImageFunctionType =
+      itk::DiscreteGaussianDerivativeImageFunction< ImageType, PixelType >;
   typename GaussianDerivativeImageFunctionType::Pointer function =
     GaussianDerivativeImageFunctionType::New();
 
@@ -123,17 +123,17 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
 
 
   // Step over input and output images
-  typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
-  typedef itk::ImageRegionIterator< ImageType >      IteratorType;
+  using ConstIteratorType = itk::ImageRegionConstIterator< ImageType >;
+  using IteratorType = itk::ImageRegionIterator< ImageType >;
 
   ConstIteratorType it ( inputImage, inputImage->GetRequestedRegion() );
   it.GoToBegin();
   IteratorType out( output, output->GetRequestedRegion() );
   out.GoToBegin();
 
-  typedef typename GaussianDerivativeImageFunctionType::PointType  PointType;
+  using PointType = typename GaussianDerivativeImageFunctionType::PointType;
   PointType point;
-  typedef typename GaussianDerivativeImageFunctionType::ContinuousIndexType ContinuousIndexType;
+  using ContinuousIndexType = typename GaussianDerivativeImageFunctionType::ContinuousIndexType;
   ContinuousIndexType cindex;
   const unsigned long nop = inputImage->GetRequestedRegion().GetNumberOfPixels();
   unsigned long pixelNumber = 0;
@@ -161,9 +161,9 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
     }
 
   // Rescale output
-  typedef unsigned char                                                   OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension >                        OutputImageType;
-  typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType >  RescaleType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using RescaleType = itk::RescaleIntensityImageFilter< ImageType, OutputImageType >;
 
   typename RescaleType::Pointer rescaler = RescaleType::New();
   rescaler->SetInput( output );
@@ -171,7 +171,7 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
   rescaler->SetOutputMaximum( itk::NumericTraits<OutputPixelType>::max() );
 
   // Write the output image
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( rescaler->GetOutput() );
@@ -204,11 +204,11 @@ int itkDiscreteGaussianDerivativeImageFunctionTest( int argc, char* argv[] )
   // when calling overloaded base class functions.
   const unsigned int Dimension = 2;
 
-  typedef float                               PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::DiscreteGaussianDerivativeImageFunction< ImageType, PixelType >
-    GaussianDerivativeImageFunctionType;
+  using GaussianDerivativeImageFunctionType =
+      itk::DiscreteGaussianDerivativeImageFunction< ImageType, PixelType >;
   GaussianDerivativeImageFunctionType::Pointer function =
     GaussianDerivativeImageFunctionType::New();
 

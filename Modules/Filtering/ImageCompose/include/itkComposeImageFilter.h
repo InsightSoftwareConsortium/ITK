@@ -60,20 +60,20 @@ class ITK_TEMPLATE_EXPORT ComposeImageFilter:
 {
 public:
 
-  typedef ComposeImageFilter                               Self;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
-  typedef ImageToImageFilter< TInputImage, TOutputImage >  Superclass;
+  using Self = ComposeImageFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
   itkNewMacro(Self);
   itkTypeMacro(ComposeImageFilter, ImageToImageFilter);
 
   itkStaticConstMacro(Dimension, unsigned int, TInputImage::ImageDimension);
 
-  typedef TInputImage                          InputImageType;
-  typedef TOutputImage                         OutputImageType;
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename InputImageType::RegionType  RegionType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using RegionType = typename InputImageType::RegionType;
 
   void SetInput1(const InputImageType *image1);
   void SetInput2(const InputImageType *image2);
@@ -101,8 +101,8 @@ private:
 
   // we have to specialize the code for complex, because it provides no operator[]
   // method
-  typedef ImageRegionConstIterator< InputImageType > InputIteratorType;
-  typedef std::vector< InputIteratorType >           InputIteratorContainerType;
+  using InputIteratorType = ImageRegionConstIterator< InputImageType >;
+  using InputIteratorContainerType = std::vector< InputIteratorType >;
 
   template<typename T>
   void ComputeOutputPixel(std::complex<T> & pix, InputIteratorContainerType & inputItContainer )

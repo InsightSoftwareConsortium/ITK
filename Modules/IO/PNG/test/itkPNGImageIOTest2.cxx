@@ -58,12 +58,12 @@ int itkPNGImageIOTest2( int argc, char * argv[] )
     }
 
   const unsigned int                          Dimension = 2;
-  typedef unsigned char                       PixelType;
+  using PixelType = unsigned char;
 
   // We are converting read data into grayscale pixel image
-  typedef itk::Image< PixelType, Dimension >  ImageType;
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
-  typedef itk::ImageFileWriter< ImageType >   WriterType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
 
   // Read the input image

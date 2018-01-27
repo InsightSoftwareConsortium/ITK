@@ -23,9 +23,9 @@
 
 int itkArray2DTest(int, char* [] )
 {
-  typedef itk::Array2D< double > ArrayType;
+  using ArrayType = itk::Array2D< double >;
 
-  typedef vnl_matrix<double> VnlMatrixType;
+  using VnlMatrixType = vnl_matrix<double>;
 
   const unsigned int rows = 3;
   const unsigned int cols = 4;

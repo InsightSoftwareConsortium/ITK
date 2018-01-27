@@ -31,7 +31,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
   int j;
   // Testing Points
   std::cout << "Testing Points : ";
-  typedef MetaMesh::PointListType PointListType;
+  using PointListType = MetaMesh::PointListType;
   PointListType::const_iterator it2 = _mesh->GetPoints().begin();
   for(j=0;j< static_cast<int>(_mesh->GetPoints().size());j++)
     {
@@ -52,7 +52,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
 
   // Testing cells
   std::cout << "Testing Cells : ";
-  typedef MetaMesh::CellListType CellListType;
+  using CellListType = MetaMesh::CellListType;
   CellListType::const_iterator it3 = _mesh->GetCells(MET_TETRAHEDRON_CELL).begin();
   for(j=0;j< static_cast<int>(_mesh->GetCells(MET_TETRAHEDRON_CELL).size());j++)
     {
@@ -102,7 +102,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
 
   // Testing cell links
   std::cout << "Testing CellLinks : ";
-  typedef MetaMesh::CellLinkListType CellLinkListType;
+  using CellLinkListType = MetaMesh::CellLinkListType;
   CellLinkListType::const_iterator it_link = _mesh->GetCellLinks().begin();
   for(j=0;j< static_cast<int>(_mesh->GetCellLinks().size());j++)
     {
@@ -128,7 +128,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
 
   // Testing PointData
   std::cout << "Testing PointData : ";
-  typedef MetaMesh::PointDataListType PointDataListType;
+  using PointDataListType = MetaMesh::PointDataListType;
   PointDataListType::const_iterator it_pd = _mesh->GetPointData().begin();
   for(j=0;j< static_cast<int>(_mesh->GetPointData().size());j++)
     {
@@ -144,7 +144,7 @@ bool TestingMetaMesh(MetaMesh* _mesh)
 
   // Testing CellData
   std::cout << "Testing CellData : ";
-  typedef MetaMesh::CellDataListType CellDataListType;
+  using CellDataListType = MetaMesh::CellDataListType;
   CellDataListType::const_iterator it_cd = _mesh->GetCellData().begin();
   float f = (float)(0.1);
   for(j=0;j< static_cast<int>(_mesh->GetCellData().size());j++)
@@ -256,7 +256,7 @@ int testMetaMesh(int argc, char * argv[])
   myScene2.Read("metamesh.msh");
   std::cout << "[PASSED]" << std::endl;
 
-  typedef  MetaScene::ObjectListType ListType;
+  using ListType = MetaScene::ObjectListType;
   ListType * list = myScene2.GetObjectList();
   ListType::iterator it = list->begin();
 

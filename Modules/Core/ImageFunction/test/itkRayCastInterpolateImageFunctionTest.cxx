@@ -32,16 +32,16 @@ itkRayCastInterpolateImageFunctionTest(
 {
     std::cout << "Testing RayCastInterpolateImageFunction:\n";
 
-    typedef unsigned char PixelType;
+    using PixelType = unsigned char;
     const unsigned int ImageDimension = 3;
 
-    typedef itk::Image< PixelType, ImageDimension > ImageType;
+    using ImageType = itk::Image< PixelType, ImageDimension >;
 
-    typedef ImageType::IndexType    IndexType;
-    typedef ImageType::PointType    PointType;
-    typedef ImageType::SpacingType  SpacingType;
-    typedef ImageType::SizeType     SizeType;
-    typedef ImageType::RegionType   RegionType;
+    using IndexType = ImageType::IndexType;
+    using PointType = ImageType::PointType;
+    using SpacingType = ImageType::SpacingType;
+    using SizeType = ImageType::SizeType;
+    using RegionType = ImageType::RegionType;
 
     /* Allocate a simple test image */
     ImageType::Pointer image = ImageType::New();
@@ -85,8 +85,8 @@ itkRayCastInterpolateImageFunctionTest(
         }
       }
 
-    typedef itk::RayCastInterpolateImageFunction<
-                      ImageType,double> RayCastInterpolatorType;
+    using RayCastInterpolatorType = itk::RayCastInterpolateImageFunction<
+                      ImageType,double>;
 
     /* Create and initialize the interpolator */
     RayCastInterpolatorType::Pointer interp = RayCastInterpolatorType::New();
@@ -102,15 +102,15 @@ itkRayCastInterpolateImageFunctionTest(
 
 
     /* Create the transform */
-    typedef itk::TranslationTransform<
-                    double,ImageDimension>  TransformType;
+    using TransformType = itk::TranslationTransform<
+                    double,ImageDimension>;
 
     TransformType::Pointer transform = TransformType::New();
     interp->SetTransform( transform );
 
     /* Create the auxiliary interpolator */
-    typedef itk::LinearInterpolateImageFunction<
-                    ImageType, double > InterpolatorType;
+    using InterpolatorType = itk::LinearInterpolateImageFunction<
+                    ImageType, double >;
 
     InterpolatorType::Pointer auxInterpolator = InterpolatorType::New();
 

@@ -36,9 +36,9 @@ template< unsigned int NDimensions = 3,
 class FEMSpatialObjectReader : public SpatialObjectReader<NDimensions,PixelType,TMeshTraits>
 {
 public:
-  typedef FEMSpatialObjectReader                                 Self;
-  typedef SpatialObjectReader<NDimensions,PixelType,TMeshTraits> Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
+  using Self = FEMSpatialObjectReader;
+  using Superclass = SpatialObjectReader<NDimensions,PixelType,TMeshTraits>;
+  using Pointer = SmartPointer< Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Superclass, Self);

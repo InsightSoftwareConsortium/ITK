@@ -38,15 +38,15 @@ int itkSplineKernelTransformTest(int , char* [] )
   // 2-D case
   int i, j;
 
-  typedef itk::ElasticBodySplineKernelTransform<double, 2>           EBSTransform2DType;
-  typedef itk::ElasticBodyReciprocalSplineKernelTransform<double, 2> EBRSTransform2DType;
-  typedef itk::ThinPlateSplineKernelTransform<double, 2>             TPSTransform2DType;
-  typedef itk::ThinPlateR2LogRSplineKernelTransform<double, 2>       TPR2LRSTransform2DType;
-  typedef itk::VolumeSplineKernelTransform<double, 2>                VSTransform2DType;
+  using EBSTransform2DType = itk::ElasticBodySplineKernelTransform<double, 2>;
+  using EBRSTransform2DType = itk::ElasticBodyReciprocalSplineKernelTransform<double, 2>;
+  using TPSTransform2DType = itk::ThinPlateSplineKernelTransform<double, 2>;
+  using TPR2LRSTransform2DType = itk::ThinPlateR2LogRSplineKernelTransform<double, 2>;
+  using VSTransform2DType = itk::VolumeSplineKernelTransform<double, 2>;
 
-  typedef EBSTransform2DType::InputPointType PointType2D;
-  typedef EBSTransform2DType::PointsIterator Points2DIteratorType;
-  typedef EBSTransform2DType::PointSetType   PointSetType2D;
+  using PointType2D = EBSTransform2DType::InputPointType;
+  using Points2DIteratorType = EBSTransform2DType::PointsIterator;
+  using PointSetType2D = EBSTransform2DType::PointSetType;
 
   PointType2D sourcePoint2D;
   PointType2D targetPoint2D;
@@ -332,11 +332,11 @@ int itkSplineKernelTransformTest(int , char* [] )
 
    // 3-D case
   int k;
-  typedef itk::ElasticBodySplineKernelTransform<double, 3> EBSTransform3DType;
-  typedef itk::ThinPlateSplineKernelTransform<double, 3>   TPSTransform3DType;
+  using EBSTransform3DType = itk::ElasticBodySplineKernelTransform<double, 3>;
+  using TPSTransform3DType = itk::ThinPlateSplineKernelTransform<double, 3>;
 
-  typedef EBSTransform3DType::InputPointType PointType3D;
-  typedef EBSTransform3DType::PointsIterator Points3DIteratorType;
+  using PointType3D = EBSTransform3DType::InputPointType;
+  using Points3DIteratorType = EBSTransform3DType::PointsIterator;
 
   PointType3D sourcePoint3D;
   PointType3D targetPoint3D;
@@ -453,11 +453,11 @@ int itkSplineKernelTransformTest(int , char* [] )
 
   // 4-D case
   int l;
-  typedef itk::ElasticBodySplineKernelTransform<double, 4> EBSTransform4DType;
-  typedef itk::ThinPlateSplineKernelTransform<double, 4>   TPSTransform4DType;
+  using EBSTransform4DType = itk::ElasticBodySplineKernelTransform<double, 4>;
+  using TPSTransform4DType = itk::ThinPlateSplineKernelTransform<double, 4>;
 
-  typedef EBSTransform4DType::InputPointType PointType4D;
-  typedef EBSTransform4DType::PointsIterator Points4DIteratorType;
+  using PointType4D = EBSTransform4DType::InputPointType;
+  using Points4DIteratorType = EBSTransform4DType::PointsIterator;
 
   PointType4D sourcePoint4D;
   PointType4D targetPoint4D;

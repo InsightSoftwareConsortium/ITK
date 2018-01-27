@@ -56,7 +56,7 @@ typename ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
 ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
 ::Evaluate(const InputType & position) const
 {
-  typedef Vector< double, VDimension > VectorType;
+  using VectorType = Vector< double, VDimension >;
 
   // Compute the vector from the origin to the point being tested
   VectorType vecOriginToTest = position - m_Origin;

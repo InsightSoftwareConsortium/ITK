@@ -88,11 +88,11 @@ class ITK_TEMPLATE_EXPORT MovingHistogramImageFilter:
   public MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MovingHistogramImageFilter                                           Self;
-  typedef MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel > Superclass;
-  typedef SmartPointer< Self >                                                 Pointer;
-  typedef SmartPointer< const Self >                                           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MovingHistogramImageFilter;
+  using Superclass = MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -101,33 +101,33 @@ public:
   itkTypeMacro(MovingHistogramImageFilter,
                MovingHistogramImageFilter);
 
-  /** Image related typedefs. */
-  typedef TInputImage                                InputImageType;
-  typedef TOutputImage                               OutputImageType;
-  typedef typename TInputImage::RegionType           RegionType;
-  typedef typename TInputImage::SizeType             SizeType;
-  typedef typename TInputImage::IndexType            IndexType;
-  typedef typename TInputImage::PixelType            PixelType;
-  typedef typename TInputImage::OffsetType           OffsetType;
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename TOutputImage::PixelType           OutputPixelType;
+  /** Image related type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
+  using OffsetType = typename TInputImage::OffsetType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Kernel typedef. */
-  typedef TKernel KernelType;
+  /** Kernel type alias. */
+  using KernelType = TKernel;
 
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator KernelIteratorType;
+  using KernelIteratorType = typename KernelType::ConstIterator;
 
   /** n-dimensional Kernel radius. */
-  typedef typename KernelType::SizeType RadiusType;
+  using RadiusType = typename KernelType::SizeType;
 
-  typedef typename std::list< OffsetType > OffsetListType;
+  using OffsetListType = typename std::list< OffsetType >;
 
-  typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare > OffsetMapType;
+  using OffsetMapType = typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare >;
 
   /** Configure the histogram.
    *  Subclasses must override this method. */
@@ -143,7 +143,7 @@ protected:
                              ThreadIdType threadId) override;
 
   // declare the type used to store the histogram
-  typedef THistogram HistogramType;
+  using HistogramType = THistogram;
 
   void PushHistogram(HistogramType & histogram,
                      const OffsetListType *addedList,

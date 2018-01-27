@@ -24,7 +24,7 @@ int itkImageIteratorsForwardBackwardTest(int, char* [] )
 {
 
   std::cout << "Creating an image" << std::endl;
-  typedef itk::Image<unsigned short,3> ImageType;
+  using ImageType = itk::Image<unsigned short,3>;
 
   ImageType::Pointer myImage = ImageType::New();
 
@@ -46,9 +46,9 @@ int itkImageIteratorsForwardBackwardTest(int, char* [] )
   myImage->SetRequestedRegion( region );
   myImage->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
 
-  typedef itk::ImageRegionConstIteratorWithIndex< ImageType > ConstIteratorType;
+  using ConstIteratorType = itk::ImageRegionConstIteratorWithIndex< ImageType >;
 
   IteratorType it( myImage, region );
 

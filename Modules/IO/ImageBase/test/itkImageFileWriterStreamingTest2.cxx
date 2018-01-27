@@ -23,11 +23,11 @@
 #include "itkTestingComparisonImageFilter.h"
 
 
-typedef unsigned char            PixelType;
-typedef itk::Image<PixelType,3>  ImageType;
+using PixelType = unsigned char;
+using ImageType = itk::Image<PixelType,3>;
 
-typedef itk::ImageFileReader<ImageType>         ReaderType;
-typedef itk::ImageFileWriter< ImageType >       WriterType;
+using ReaderType = itk::ImageFileReader<ImageType>;
+using WriterType = itk::ImageFileWriter< ImageType >;
 
 
 bool SameImage(std::string output, std::string baseline) {
@@ -41,7 +41,7 @@ bool SameImage(std::string output, std::string baseline) {
   testReader->SetFileName(output);
   baselineReader->SetFileName(baseline);
 
-  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
+  using DiffType = itk::Testing::ComparisonImageFilter<ImageType,ImageType>;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(baselineReader->GetOutput());
   diff->SetTestInput(testReader->GetOutput());
@@ -79,7 +79,7 @@ int itkImageFileWriterStreamingTest2(int argc, char* argv[])
   reader->SetFileName( argv[1] );
   reader->SetUseStreaming( true );
 
-  typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
+  using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 

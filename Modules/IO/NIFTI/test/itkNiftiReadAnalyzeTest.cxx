@@ -211,7 +211,7 @@ template <typename TImage>
 typename TImage::Pointer
 ReadImage( const std::string &fileName )
 {
-  typedef itk::ImageFileReader<TImage> ReaderType;
+  using ReaderType = itk::ImageFileReader<TImage>;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   {
@@ -270,7 +270,7 @@ int itkNiftiReadAnalyzeTest(int ac, char *av[])
     }
   //
   // read the image just written back in.
-  typedef itk::Image<float,3> ImageType;
+  using ImageType = itk::Image<float,3>;
   ImageType::Pointer img;
   try
     {

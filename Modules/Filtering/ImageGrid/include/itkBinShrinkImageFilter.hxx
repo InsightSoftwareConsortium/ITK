@@ -103,12 +103,12 @@ BinShrinkImageFilter<TInputImage,TOutputImage>
   const InputImageType * inputPtr = this->GetInput();
   OutputImageType *      outputPtr = this->GetOutput();
 
-  typedef typename InputImageType::PixelType                 InputPixelType;
-  typedef typename OutputImageType::PixelType                OutputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType AccumulatePixelType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using AccumulatePixelType = typename NumericTraits< InputPixelType >::RealType;
 
-  typedef ImageScanlineConstIterator< InputImageType > InputConstIteratorType;
-  typedef ImageScanlineIterator< OutputImageType >     OutputIteratorType;
+  using InputConstIteratorType = ImageScanlineConstIterator< InputImageType >;
+  using OutputIteratorType = ImageScanlineIterator< OutputImageType >;
 
   InputConstIteratorType inputIterator(inputPtr, inputPtr->GetRequestedRegion() );
   OutputIteratorType     outputIterator(outputPtr, outputRegionForThread);

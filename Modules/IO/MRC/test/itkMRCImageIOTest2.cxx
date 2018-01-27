@@ -29,8 +29,8 @@ namespace {
 template <typename TImageType>
 bool Test( const std::string &inFileName, const std::string &outFileName, const std::string &md5 )
 {
-  typedef TImageType                      ImageType;
-  typedef itk::ImageFileReader<ImageType> ImageFileReaderType;
+  using ImageType = TImageType;
+  using ImageFileReaderType = itk::ImageFileReader<ImageType>;
 
   typename ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
   reader->SetFileName( inFileName );
@@ -38,8 +38,8 @@ bool Test( const std::string &inFileName, const std::string &outFileName, const 
 
   typename ImageType::Pointer image = reader->GetOutput();
 
-  typedef itk::MetaDataDictionary            DictionaryType;
-  typedef itk::MetaDataObject< std::string > MetaDataStringType;
+  using DictionaryType = itk::MetaDataDictionary;
+  using MetaDataStringType = itk::MetaDataObject< std::string >;
 
   // prepare to iterate over the dictionary
   DictionaryType &dic= image->GetMetaDataDictionary();
@@ -86,14 +86,14 @@ bool Test( const std::string &inFileName, const std::string &outFileName, const 
     ++itr;
     }
 
-  typedef itk::Testing::HashImageFilter<ImageType> HashFilter;
+  using HashFilter = itk::Testing::HashImageFilter<ImageType>;
   typename HashFilter::Pointer hasher = HashFilter::New();
   hasher->SetInput( image );
   hasher->Update();
 
   TEST_EXPECT_EQUAL( md5, hasher->GetHash() );
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput( image );
   writer->SetFileName( outFileName );

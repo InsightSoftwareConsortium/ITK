@@ -75,11 +75,11 @@ template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ApproximateSignedDistanceMapImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard typedefs */
-  typedef ApproximateSignedDistanceMapImageFilter         Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard type alias */
+  using Self = ApproximateSignedDistanceMapImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ApproximateSignedDistanceMapImageFilter, ImageToImageFilter);
@@ -88,29 +88,29 @@ public:
   itkNewMacro(Self);
 
   /** Type for input image. */
-  typedef TInputImage InputImageType;
+  using InputImageType = TInputImage;
 
   /** Type for the output image. */
-  typedef TOutputImage OutputImageType;
+  using OutputImageType = TOutputImage;
 
   /** Type for the pixels of the input image. */
-  typedef typename InputImageType::PixelType InputPixelType;
+  using InputPixelType = typename InputImageType::PixelType;
 
   /** Type for the pixels of the output image. */
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
   /** Type of input image size and size value */
-  typedef typename OutputImageType::SizeType     OutputSizeType;
-  typedef typename OutputSizeType::SizeValueType OutputSizeValueType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using OutputSizeValueType = typename OutputSizeType::SizeValueType;
   /** The dimension of the input image. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       InputImageType::ImageDimension);
 
   /** Pointer Type for input image. */
-  typedef typename InputImageType::ConstPointer InputImagePointer;
+  using InputImagePointer = typename InputImageType::ConstPointer;
 
   /** Pointer Type for the output image. */
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Set/Get intensity value representing the interior of objects in the mask.
     */
@@ -138,8 +138,8 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ApproximateSignedDistanceMapImageFilter);
 
-  typedef IsoContourDistanceImageFilter< InputImageType, OutputImageType >   IsoContourType;
-  typedef FastChamferDistanceImageFilter< OutputImageType, OutputImageType > ChamferType;
+  using IsoContourType = IsoContourDistanceImageFilter< InputImageType, OutputImageType >;
+  using ChamferType = FastChamferDistanceImageFilter< OutputImageType, OutputImageType >;
   typename IsoContourType::Pointer m_IsoContourFilter;
 
   typename ChamferType::Pointer m_ChamferFilter;

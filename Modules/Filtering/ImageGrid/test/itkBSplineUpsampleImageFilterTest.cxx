@@ -44,21 +44,21 @@ int itkBSplineUpsampleImageFilterTest( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char   PixelType;
+  using PixelType = unsigned char;
   const unsigned int      Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >   ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::BSplineUpsampleImageFilter< ImageType, ImageType > UpsamplerFilterType;
+  using UpsamplerFilterType = itk::BSplineUpsampleImageFilter< ImageType, ImageType >;
 
   UpsamplerFilterType::Pointer filter = UpsamplerFilterType::New();
 
   FilterWatcher watcher(filter, "BSplineUpsampleImageFilter");
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   reader->SetFileName( argv[1] );

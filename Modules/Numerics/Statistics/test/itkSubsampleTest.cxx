@@ -28,10 +28,10 @@ int itkSubsampleTest(int, char* [] )
   bool pass = true;
   std::string whereFail = "";
 
-  typedef itk::Image< float, 3 > FloatImage;
+  using FloatImage = itk::Image< float, 3 >;
 
   // Now generate a random image
-  typedef itk::RandomImageSource<FloatImage> SourceType;
+  using SourceType = itk::RandomImageSource<FloatImage>;
   SourceType::Pointer source = SourceType::New();
 
   itk::SizeValueType size[3] = {17, 8, 20};
@@ -47,19 +47,19 @@ int itkSubsampleTest(int, char* [] )
 
 
   // creat a new image with array pixel type from the source
-  typedef itk::FixedArray< FloatImage::PixelType, 1 > ArrayPixelType;
+  using ArrayPixelType = itk::FixedArray< FloatImage::PixelType, 1 >;
 
-  typedef itk::Image< ArrayPixelType, 3 > ArrayPixelImageType;
-  typedef itk::Image< unsigned char, 3 >  MaskPixelImageType;
+  using ArrayPixelImageType = itk::Image< ArrayPixelType, 3 >;
+  using MaskPixelImageType = itk::Image< unsigned char, 3 >;
 
-  typedef itk::ComposeImageFilter< FloatImage, ArrayPixelImageType >
-    ImageCastFilterType;
+  using ImageCastFilterType =
+      itk::ComposeImageFilter< FloatImage, ArrayPixelImageType >;
   ImageCastFilterType::Pointer castFilter = ImageCastFilterType::New();
   castFilter->SetInput(source->GetOutput());
   castFilter->Update();
 
-  typedef  itk::Statistics::ImageToListSampleFilter< ArrayPixelImageType, MaskPixelImageType >
-    ImageToListSampleFilterType;
+  using ImageToListSampleFilterType =
+      itk::Statistics::ImageToListSampleFilter< ArrayPixelImageType, MaskPixelImageType >;
 
   ImageToListSampleFilterType::Pointer filter = ImageToListSampleFilterType::New();
   filter->SetInput(castFilter->GetOutput());
@@ -74,9 +74,9 @@ int itkSubsampleTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef ImageToListSampleFilterType::ListSampleType  ListSampleType;
+  using ListSampleType = ImageToListSampleFilterType::ListSampleType;
 
-  typedef itk::Statistics::Subsample< ListSampleType >  SubsampleType;
+  using SubsampleType = itk::Statistics::Subsample< ListSampleType >;
 
   SubsampleType::Pointer subsample = SubsampleType::New();
 
@@ -123,8 +123,7 @@ int itkSubsampleTest(int, char* [] )
     std::cerr << "Expected Exception caught: " << excp << std::endl;
     }
 
-  typedef SubsampleType::MeasurementVectorType
-                                                    MeasurementVectorType;
+  using MeasurementVectorType = SubsampleType::MeasurementVectorType;
   try
     {
     MeasurementVectorType vec = subsample->GetMeasurementVector( idOutisdeRange );
@@ -238,7 +237,7 @@ int itkSubsampleTest(int, char* [] )
     }
 
   // iterator test
-  typedef itk::ImageRegionConstIterator< ArrayPixelImageType > ImageIterator;
+  using ImageIterator = itk::ImageRegionConstIterator< ArrayPixelImageType >;
   ImageIterator i_iter(filter->GetInput(),
                        filter->GetInput()->GetLargestPossibleRegion());
 

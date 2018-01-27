@@ -34,9 +34,9 @@ int itkPhysicalPointImageSourceTest( const std::string &fname,
                                      typename TImageType::DirectionType &direction )
 {
 
-  typedef TImageType ImageType;
+  using ImageType = TImageType;
 
-  typedef itk::PhysicalPointImageSource< ImageType > PhysicalPointImageSourceType;
+  using PhysicalPointImageSourceType = itk::PhysicalPointImageSource< ImageType >;
 
   typename PhysicalPointImageSourceType::Pointer physicalPointImageSource =
     PhysicalPointImageSourceType::New();
@@ -50,15 +50,15 @@ int itkPhysicalPointImageSourceTest( const std::string &fname,
 
   TRY_EXPECT_NO_EXCEPTION( physicalPointImageSource->UpdateLargestPossibleRegion() );
 
-  typedef itk::Image< typename itk::NumericTraits< typename ImageType::PixelType >::ValueType, ImageType::ImageDimension >
-    ValueImageType;
+  using ValueImageType =
+      itk::Image< typename itk::NumericTraits< typename ImageType::PixelType >::ValueType, ImageType::ImageDimension >;
 
-  typedef itk::VectorIndexSelectionCastImageFilter< ImageType, ValueImageType > ValueImageCastFilter;
+  using ValueImageCastFilter = itk::VectorIndexSelectionCastImageFilter< ImageType, ValueImageType >;
   typename ValueImageCastFilter::Pointer vif = ValueImageCastFilter::New();
   vif->SetInput( physicalPointImageSource->GetOutput() );
   vif->SetIndex( 0 );
 
-  typedef itk::ImageFileWriter< ValueImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ValueImageType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( fname );
   writer->SetInput( vif->GetOutput() );
@@ -78,9 +78,9 @@ int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
     }
 
   const unsigned int ImageDimension = 2;
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
   itk::Size< ImageDimension > size;
   size.Fill( 64 );
@@ -93,8 +93,8 @@ int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  typedef itk::PhysicalPointImageSource< itk::Image< itk::Point< double, ImageDimension >, ImageDimension > >
-    PhysicalPointImageSourceType;
+  using PhysicalPointImageSourceType =
+      itk::PhysicalPointImageSource< itk::Image< itk::Point< double, ImageDimension >, ImageDimension > >;
 
   // Instantiate the filter
   PhysicalPointImageSourceType::Pointer physicalPointImageSource =

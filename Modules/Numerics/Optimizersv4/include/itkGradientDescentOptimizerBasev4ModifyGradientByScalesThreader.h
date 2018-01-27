@@ -37,20 +37,20 @@ class ITK_TEMPLATE_EXPORT GradientDescentOptimizerBasev4ModifyGradientByScalesTh
   : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4Template<TInternalComputationValueType> >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate      Self;
-  typedef DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4Template<TInternalComputationValueType> >
-                                                                                    Superclass;
-  typedef SmartPointer< Self >                                                      Pointer;
-  typedef SmartPointer< const Self >                                                ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate;
+  using Superclass =
+      DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4Template<TInternalComputationValueType> >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro( GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate, DomainThreader );
 
   itkNewMacro( Self );
 
-  typedef typename Superclass::DomainType    DomainType;
-  typedef typename Superclass::AssociateType AssociateType;
-  typedef DomainType                         IndexRangeType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
+  using IndexRangeType = DomainType;
 
 protected:
   void ThreadedExecution( const IndexRangeType & subrange,
@@ -64,7 +64,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<double> GradientDescentOptimizerBasev4ModifyGradientByScalesThreader;
+using GradientDescentOptimizerBasev4ModifyGradientByScalesThreader = GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate<double>;
 
 } // end namespace itk
 

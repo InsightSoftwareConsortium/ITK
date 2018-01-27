@@ -85,12 +85,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel< unsigned char >       RGBPixelType;
-  typedef itk::Image< RGBPixelType, 2 >        RGBImageType;
-  typedef itk::Vector< float, 3 >              VectorPixelType;
-  typedef itk::Image< VectorPixelType, 2 >     VectorImageType;
-  typedef itk::Image< itk::IdentifierType, 2 > LabeledImageType;
-  typedef itk::Image< float, 2 >               ScalarImageType;
+  using RGBPixelType = itk::RGBPixel< unsigned char >;
+  using RGBImageType = itk::Image< RGBPixelType, 2 >;
+  using VectorPixelType = itk::Vector< float, 3 >;
+  using VectorImageType = itk::Image< VectorPixelType, 2 >;
+  using LabeledImageType = itk::Image< itk::IdentifierType, 2 >;
+  using ScalarImageType = itk::Image< float, 2 >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -101,19 +101,16 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< RGBImageType >   FileReaderType;
-  typedef itk::VectorCastImageFilter< RGBImageType, VectorImageType >
-                                                 CastFilterType;
-  typedef itk::VectorGradientAnisotropicDiffusionImageFilter<
-                        VectorImageType, VectorImageType >
-                                                 DiffusionFilterType;
-  typedef itk::VectorGradientMagnitudeImageFilter< VectorImageType >
-                                                 GradientMagnitudeFilterType;
-  typedef itk::WatershedImageFilter< ScalarImageType >
-                                                 WatershedFilterType;
+  using FileReaderType = itk::ImageFileReader< RGBImageType >;
+  using CastFilterType =
+      itk::VectorCastImageFilter< RGBImageType, VectorImageType >;
+  using DiffusionFilterType = itk::VectorGradientAnisotropicDiffusionImageFilter<
+                        VectorImageType, VectorImageType >;
+  using GradientMagnitudeFilterType = itk::VectorGradientMagnitudeImageFilter<VectorImageType>;
+  using WatershedFilterType = itk::WatershedImageFilter<ScalarImageType>;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileWriter<RGBImageType> FileWriterType;
+  using FileWriterType = itk::ImageFileWriter<RGBImageType>;
 
   FileReaderType::Pointer reader = FileReaderType::New();
   reader->SetFileName(argv[1]);
@@ -188,10 +185,9 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Functor::ScalarToRGBPixelFunctor<unsigned long>
-    ColorMapFunctorType;
-  typedef itk::UnaryFunctorImageFilter<LabeledImageType,
-    RGBImageType, ColorMapFunctorType> ColorMapFilterType;
+  using ColorMapFunctorType = itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
+  using ColorMapFilterType = itk::UnaryFunctorImageFilter<LabeledImageType,
+    RGBImageType, ColorMapFunctorType>;
   ColorMapFilterType::Pointer colormapper = ColorMapFilterType::New();
   // Software Guide : EndCodeSnippet
 

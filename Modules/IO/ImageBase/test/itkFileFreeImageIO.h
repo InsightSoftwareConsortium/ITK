@@ -35,10 +35,10 @@ namespace itk
 class FileFreeImageIO : public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef FileFreeImageIO            Self;
-  typedef ImageIOBase                Superclass;
-  typedef SmartPointer<Self>         Pointer;
+  /** Standard class type aliases. */
+  using Self = FileFreeImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer<Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

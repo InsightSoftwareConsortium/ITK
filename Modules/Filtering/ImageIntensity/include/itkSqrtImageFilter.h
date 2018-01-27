@@ -69,15 +69,15 @@ class SqrtImageFilter:
                                            typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SqrtImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = SqrtImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::Sqrt< typename TInputImage::PixelType,
-                   typename TOutputImage::PixelType > >  Superclass;
+                   typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

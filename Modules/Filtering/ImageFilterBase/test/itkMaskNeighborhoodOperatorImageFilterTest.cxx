@@ -33,11 +33,11 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
     }
 
   const unsigned int Dimension = 2;
-  typedef float         PixelType;
-  typedef unsigned char OutputPixelType;
+  using PixelType = float;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image<PixelType, Dimension>       InputImageType;
-  typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
+  using InputImageType = itk::Image<PixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   itk::ImageFileReader<InputImageType>::Pointer input
     = itk::ImageFileReader<InputImageType>::New();
@@ -45,7 +45,7 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
   input->Update();
 
   // create a mask the size of the input file
-  typedef itk::Image<unsigned char, Dimension> MaskImageType;
+  using MaskImageType = itk::Image<unsigned char, Dimension>;
   MaskImageType::Pointer mask1 = MaskImageType::New();
   MaskImageType::Pointer mask2 = MaskImageType::New();
   MaskImageType::RegionType region;
@@ -89,7 +89,7 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
   }
 
   // Create a filter
-  typedef itk::MaskNeighborhoodOperatorImageFilter<InputImageType, MaskImageType, InputImageType> FilterType;
+  using FilterType = itk::MaskNeighborhoodOperatorImageFilter<InputImageType, MaskImageType, InputImageType>;
 
   itk::SobelOperator<float, 2> sobelHorizontal;
   sobelHorizontal.SetDirection(0);
@@ -119,8 +119,8 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
   filter2->SetOperator( sobelVertical );
   filter2->UseDefaultValueOff();
 
-  typedef itk::RescaleIntensityImageFilter<
-               InputImageType, OutputImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
+               InputImageType, OutputImageType >;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );

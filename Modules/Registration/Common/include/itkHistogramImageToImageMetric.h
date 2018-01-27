@@ -40,43 +40,41 @@ class ITK_TEMPLATE_EXPORT HistogramImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef HistogramImageToImageMetric                     Self;
-  typedef ImageToImageMetric< TFixedImage, TMovingImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = HistogramImageToImageMetric;
+  using Superclass = ImageToImageMetric< TFixedImage, TMovingImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(HistogramImageToImageMetric, ImageToImageMetric);
 
   /** Types transferred from the base class */
-  typedef typename Superclass::RealType                   RealType;
-  typedef typename Superclass::TransformType              TransformType;
-  typedef typename Superclass::TransformPointer           TransformPointer;
-  typedef typename Superclass::TransformParametersType    TransformParametersType;
-  typedef typename Superclass::TransformJacobianType      TransformJacobianType;
-  typedef typename Superclass::GradientPixelType          GradientPixelType;
-  typedef typename Superclass::InputPointType             InputPointType;
-  typedef typename Superclass::OutputPointType            OutputPointType;
-  typedef typename Superclass::MeasureType                MeasureType;
-  typedef typename Superclass::DerivativeType             DerivativeType;
-  typedef typename Superclass::FixedImageType             FixedImageType;
-  typedef typename Superclass::FixedImageType::PixelType  FixedImagePixelType;
-  typedef typename Superclass::MovingImageType            MovingImageType;
-  typedef typename Superclass::MovingImageType::PixelType MovingImagePixelType;
-  typedef typename Superclass::FixedImageConstPointer
-  FixedImageConstPointerType;
-  typedef typename Superclass::MovingImageConstPointer
-  MovingImageConstPointerType;
+  using RealType = typename Superclass::RealType;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformParametersType = typename Superclass::TransformParametersType;
+  using TransformJacobianType = typename Superclass::TransformJacobianType;
+  using GradientPixelType = typename Superclass::GradientPixelType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using FixedImagePixelType = typename Superclass::FixedImageType::PixelType;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using MovingImagePixelType = typename Superclass::MovingImageType::PixelType;
+  using FixedImageConstPointerType = typename Superclass::FixedImageConstPointer;
+  using MovingImageConstPointerType = typename Superclass::MovingImageConstPointer;
 
   /** Typedefs for histogram. This should have been defined as
       Histogram<RealType,2> but a bug in VC++7 produced an internal compiler
       error with such declaration. */
-  typedef Statistics::Histogram< double > HistogramType;
+  using HistogramType = Statistics::Histogram< double >;
 
-  typedef typename HistogramType::MeasurementVectorType MeasurementVectorType;
-  typedef typename HistogramType::SizeType              HistogramSizeType;
-  typedef typename HistogramType::Pointer               HistogramPointer;
+  using MeasurementVectorType = typename HistogramType::MeasurementVectorType;
+  using HistogramSizeType = typename HistogramType::SizeType;
+  using HistogramPointer = typename HistogramType::Pointer;
 
   /** Initializes the metric. */
   void Initialize() override;
@@ -121,7 +119,7 @@ public:
   itkGetConstMacro(DerivativeStepLength, double);
 
   /** The scales type. */
-  typedef Array< double > ScalesType;
+  using ScalesType = Array< double >;
 
   /** Sets the derivative step length scales. */
   itkSetMacro(DerivativeStepLengthScales, ScalesType);

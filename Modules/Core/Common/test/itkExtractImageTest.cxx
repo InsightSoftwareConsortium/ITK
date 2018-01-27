@@ -28,9 +28,9 @@ namespace {
 bool ExtractImageInPlaceTest( void )
 {
   // This is to test the InPlace option
-  typedef itk::Image< float, 3 > ImageType;
+  using ImageType = itk::Image< float, 3 >;
 
-  typedef itk::RandomImageSource< ImageType > SourceType;
+  using SourceType = itk::RandomImageSource< ImageType >;
   SourceType::Pointer source = SourceType::New();
   ImageType::SizeType   size = {{32, 32, 32}};
   source->SetSize( size );
@@ -42,7 +42,7 @@ bool ExtractImageInPlaceTest( void )
   ImageType::SizeType   extractSize = {{8, 8, 8}};
   ImageType::SizeType   zeroSize = {{0,0,0}};
 
-  typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractFilterType;
+  using ExtractFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   ExtractFilterType::Pointer extract = ExtractFilterType::New();
   extract->SetDirectionCollapseToSubmatrix();
   extract->SetExtractionRegion( ImageType::RegionType( extractIndex, extractSize ) );
@@ -55,7 +55,7 @@ bool ExtractImageInPlaceTest( void )
 
   // add a filter between which will produce the requested region, and
   // enable in-place operation
-  typedef itk::CastImageFilter<ImageType, ImageType> SomeStreamableFitlerType;
+  using SomeStreamableFitlerType = itk::CastImageFilter<ImageType, ImageType>;
   SomeStreamableFitlerType::Pointer filter = SomeStreamableFitlerType::New();
   filter->SetInput( source->GetOutput() );
   filter->InPlaceOff(); // ensure a copy is performed
@@ -90,15 +90,15 @@ int itkExtractImageTest(int, char* [] )
 
   int nextVal;
 
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   SimpleImage;
+  // type alias to simplify the syntax
+  using SimpleImage = itk::Image<short, 2>;
   SimpleImage::Pointer simpleImage = SimpleImage::New();
   std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", "
             << simpleImage->GetSpacing()[1] << std::endl;
 
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   ShortImage;
-  typedef itk::Image<short, 1>   LineImage;
+  // type alias to simplify the syntax
+  using ShortImage = itk::Image<short, 2>;
+  using LineImage = itk::Image<short, 1>;
 
   // Test the creation of an image with native type
   ShortImage::Pointer if2 = ShortImage::New();

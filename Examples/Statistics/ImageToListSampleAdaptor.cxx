@@ -72,7 +72,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image<float,2> FloatImage2DType;
+  using FloatImage2DType = itk::Image<float,2>;
 
   itk::RandomImageSource<FloatImage2DType>::Pointer random;
   random = itk::RandomImageSource<FloatImage2DType>::New();
@@ -80,9 +80,9 @@ int main()
   random->SetMin(    0.0 );
   random->SetMax( 1000.0 );
 
-  typedef FloatImage2DType::SpacingValueType  SpacingValueType;
-  typedef FloatImage2DType::SizeValueType     SizeValueType;
-  typedef FloatImage2DType::PointValueType    PointValueType;
+  using SpacingValueType = FloatImage2DType::SpacingValueType;
+  using SizeValueType = FloatImage2DType::SizeValueType;
+  using PointValueType = FloatImage2DType::PointValueType;
 
   SizeValueType size[2] = {20, 20};
   random->SetSize( size );
@@ -110,10 +110,10 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::FixedArray< float, 1 >            MeasurementVectorType;
-  typedef itk::Image< MeasurementVectorType, 2 > ArrayImageType;
-  typedef itk::ComposeImageFilter< FloatImage2DType, ArrayImageType >
-                                                 CasterType;
+  using MeasurementVectorType = itk::FixedArray< float, 1 >;
+  using ArrayImageType = itk::Image< MeasurementVectorType, 2 >;
+  using CasterType =
+      itk::ComposeImageFilter< FloatImage2DType, ArrayImageType >;
 
   CasterType::Pointer caster = CasterType::New();
   caster->SetInput( random->GetOutput() );
@@ -130,8 +130,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ImageToListSampleAdaptor<
-                                                  ArrayImageType > SampleType;
+  using SampleType = itk::Statistics::ImageToListSampleAdaptor<ArrayImageType>;
   SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 

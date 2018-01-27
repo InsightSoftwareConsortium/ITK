@@ -38,11 +38,11 @@ template< typename TInputImage, typename TPolyline, typename TVector,
 class ITK_TEMPLATE_EXPORT PolylineMaskImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PolylineMaskImageFilter                         Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PolylineMaskImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,28 +56,28 @@ public:
 
   itkStaticConstMacro(InputDimension, unsigned int, 3);
 
-  /** Some convenient typedefs for input image. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::ConstPointer InputImagePointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
-  typedef Point< double, 3 >                    PointType;
-  typedef Point< double, 2 >                    ProjPlanePointType;
+  /** Some convenient type alias for input image. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using PointType = Point< double, 3 >;
+  using ProjPlanePointType = Point< double, 2 >;
 
   /** Standard matrix type for this class. */
-  typedef Matrix< double, itkGetStaticConstMacro(InputDimension), itkGetStaticConstMacro(InputDimension) > MatrixType;
+  using MatrixType = Matrix< double, itkGetStaticConstMacro(InputDimension), itkGetStaticConstMacro(InputDimension) >;
 
-  /** typedef for the vector type. */
-  typedef TVector VectorType;
+  /** type alias for the vector type. */
+  using VectorType = TVector;
 
-  /** typedef for the polyline type. */
-  typedef TPolyline PolylineType;
+  /** type alias for the polyline type. */
+  using PolylineType = TPolyline;
 
-  /** typedef for the output image. */
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType  OutputImagePixelType;
+  /** type alias for the output image. */
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Set input image. */
   void SetInput1(const InputImageType *image);

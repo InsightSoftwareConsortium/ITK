@@ -70,7 +70,7 @@ typename ImageType::PointType GetCenterOfMass(const ImageType * volume)
 {
   typename ImageType::PointType CenterOfMass;
     {
-    typedef itk::ImageMomentsCalculator<ImageType> momentsCalculatorType;
+    using momentsCalculatorType = itk::ImageMomentsCalculator<ImageType>;
     typename momentsCalculatorType::Pointer moments=momentsCalculatorType::New();
     moments->SetImage(volume);
     moments->Compute();
@@ -91,9 +91,9 @@ int itkMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
 //------------------------------------------------------------
 
   // Allocate Images
-  typedef float                   PixelType;
-  typedef itk::Image<PixelType,3> InputImageType;
-  typedef itk::Image<float,3>     OutputImageType;
+  using PixelType = float;
+  using InputImageType = itk::Image<PixelType,3>;
+  using OutputImageType = itk::Image<float,3>;
   enum { ImageDimension = InputImageType::ImageDimension };
   bool useShrinkFilter(false);
   if(argc > 1)
@@ -153,7 +153,7 @@ int itkMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
 
   // Fill images with a 3D gaussian with some directional pattern
   // in the background
-  typedef  itk::ImageRegionIterator<InputImageType> Iterator;
+  using Iterator = itk::ImageRegionIterator<InputImageType>;
 
   itk::Point<double,3> center;
   center[0] = (double)region.GetSize()[0]/2.0;
@@ -192,9 +192,9 @@ int itkMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
  /**
   * Setup a multi-resolution pyramid
   */
-  typedef itk::MultiResolutionPyramidImageFilter<InputImageType,OutputImageType>
-                                    PyramidType;
-  typedef PyramidType::ScheduleType ScheduleType;
+  using PyramidType =
+      itk::MultiResolutionPyramidImageFilter<InputImageType,OutputImageType>;
+  using ScheduleType = PyramidType::ScheduleType;
   /**
    * This is kind of cheating but it exploits the fact that Recursive... is derived
    * from Multi... so it just swaps classes based on a command line flag. hey presto!

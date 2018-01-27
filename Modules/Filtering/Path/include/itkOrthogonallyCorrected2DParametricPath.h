@@ -46,32 +46,32 @@ class ITK_TEMPLATE_EXPORT
   ParametricPath< 2 >
 {
 public:
-  /** Standard class typedefs. */
-  typedef OrthogonallyCorrected2DParametricPath Self;
-  typedef ParametricPath< 2 >                   Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = OrthogonallyCorrected2DParametricPath;
+  using Superclass = ParametricPath< 2 >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(OrthogonallyCorrected2DParametricPath, ParametricPath);
 
   /** Input type */
-  typedef Superclass::InputType InputType;
+  using InputType = Superclass::InputType;
 
   /** Output type */
-  typedef Superclass::OutputType OutputType;
+  using OutputType = Superclass::OutputType;
 
   /** Basic data-structure types used */
-  typedef ContinuousIndex< double, 2 >           ContinuousIndexType;
-  typedef Index< 2 >                             IndexType;
-  typedef Offset< 2 >                            OffsetType;
-  typedef Superclass::VectorType                 VectorType;
-  typedef ParametricPath< 2 >                    OriginalPathType;
-  typedef OriginalPathType::ConstPointer         OriginalPathConstPointer;
-  typedef VectorContainer< unsigned, double >    OrthogonalCorrectionTableType;
-  typedef OrthogonalCorrectionTableType::Pointer OrthogonalCorrectionTablePointer;
+  using ContinuousIndexType = ContinuousIndex< double, 2 >;
+  using IndexType = Index< 2 >;
+  using OffsetType = Offset< 2 >;
+  using VectorType = Superclass::VectorType;
+  using OriginalPathType = ParametricPath< 2 >;
+  using OriginalPathConstPointer = OriginalPathType::ConstPointer;
+  using OrthogonalCorrectionTableType = VectorContainer< unsigned, double >;
+  using OrthogonalCorrectionTablePointer = OrthogonalCorrectionTableType::Pointer;
 
-  typedef OrthogonalCorrectionTableType::ElementIdentifier  OrthogonalCorrectionTableSizeType;
+  using OrthogonalCorrectionTableSizeType = OrthogonalCorrectionTableType::ElementIdentifier;
 
   /** Return the location of the parametric path at the specified location. */
   OutputType Evaluate(const InputType & input) const override;

@@ -34,7 +34,7 @@ namespace itk
 class ITKIOXML_EXPORT XMLReaderBase:public LightProcessObject
 {
 public:
-  typedef XMLReaderBase Self;
+  using Self = XMLReaderBase;
 
   /** Set the filename to write */
   itkSetStringMacro(Filename);
@@ -92,7 +92,7 @@ template< typename T >
 class XMLReader: public XMLReaderBase
 {
 public:
-  typedef XMLReader Self;
+  using Self = XMLReader;
 
   /** Set the output object.  Doesn't make sense for a client of the XMLReader,
    * but could be used in derived class to assign pointer to result object.
@@ -128,7 +128,7 @@ template< typename T >
 class XMLWriterBase:public LightProcessObject
 {
 public:
-  typedef XMLWriterBase Self;
+  using Self = XMLWriterBase;
 
   /** Constructor
    * Sets object pointer to zero.

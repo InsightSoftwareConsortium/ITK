@@ -41,11 +41,11 @@ class ITK_TEMPLATE_EXPORT KernelImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef KernelImageFilter                           Self;
-  typedef BoxImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = KernelImageFilter;
+  using Superclass = BoxImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -54,28 +54,27 @@ public:
   itkTypeMacro(KernelImageFilter,
                BoxImageFilter);
 
-  /** Image related typedefs. */
-  typedef TInputImage                      InputImageType;
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::OffsetType OffsetType;
+  /** Image related type alias. */
+  using InputImageType = TInputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using OffsetType = typename TInputImage::OffsetType;
 
-  typedef typename TInputImage::PixelType InputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
 
-  typedef TOutputImage                     OutputImageType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  typedef TKernel KernelType;
+  using KernelType = TKernel;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   /** Kernel type used to create box kernel, in SetRadius() method */
-  typedef FlatStructuringElement< itkGetStaticConstMacro(ImageDimension) >
-  FlatKernelType;
+  using FlatKernelType = FlatStructuringElement<(Self::ImageDimension)>;
   /** n-dimensional Kernel radius. */
-  typedef typename TInputImage::SizeType RadiusType;
+  using RadiusType = typename TInputImage::SizeType;
 
   /** Set kernel (structuring element). */
   virtual void SetKernel(const KernelType & kernel);

@@ -39,19 +39,19 @@ class MultiStartOptimizerv4TestMetric
 {
 public:
 
-  typedef MultiStartOptimizerv4TestMetric       Self;
-  typedef itk::ObjectToObjectMetricBase         Superclass;
-  typedef itk::SmartPointer<Self>               Pointer;
-  typedef itk::SmartPointer<const Self>         ConstPointer;
+  using Self = MultiStartOptimizerv4TestMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( MultiStartOptimizerv4TestMetric, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType        ParametersType;
-  typedef Superclass::ParametersValueType   ParametersValueType;
-  typedef Superclass::DerivativeType        DerivativeType;
-  typedef Superclass::MeasureType           MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using ParametersValueType = Superclass::ParametersValueType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
   MultiStartOptimizerv4TestMetric()
   {
@@ -158,7 +158,7 @@ int MultiStartOptimizerv4RunTest(
     return EXIT_FAILURE;
     }
 
-  typedef MultiStartOptimizerv4TestMetric::ParametersType    ParametersType;
+  using ParametersType = MultiStartOptimizerv4TestMetric::ParametersType;
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
   ParametersType bestPosition = itkOptimizer->GetBestParameters();
 
@@ -194,7 +194,7 @@ int itkMultiStartOptimizerv4Test(int, char* [] )
   std::cout << "MultiStart  Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef itk::MultiStartOptimizerv4 OptimizerType;
+  using OptimizerType = itk::MultiStartOptimizerv4;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -204,7 +204,7 @@ int itkMultiStartOptimizerv4Test(int, char* [] )
 
   itkOptimizer->SetMetric( metric );
 
-  typedef MultiStartOptimizerv4TestMetric::ParametersType    ParametersType;
+  using ParametersType = MultiStartOptimizerv4TestMetric::ParametersType;
 
   const unsigned int spaceDimension =
                       metric->GetNumberOfParameters();

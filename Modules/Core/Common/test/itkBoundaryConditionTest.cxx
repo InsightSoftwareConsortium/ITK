@@ -59,9 +59,9 @@ void filln(itk::Image<float, 2> *img)
 int itkBoundaryConditionTest(int, char* [] )
 {
 
- typedef itk::Image<float, 2> ImageType2D;
- typedef itk::Image<float, 3> ImageType3D;
- typedef itk::Image<float, 4> ImageTypeND;
+ using ImageType2D = itk::Image<float, 2>;
+ using ImageType3D = itk::Image<float, 3>;
+ using ImageTypeND = itk::Image<float, 4>;
 
  println("Creating some images");
 
@@ -158,8 +158,8 @@ int itkBoundaryConditionTest(int, char* [] )
    szN[2] = 1;
    szN[3] = 1;
 
-   typedef itk::NeighborhoodIterator<ImageType2D,
-     itk::ConstantBoundaryCondition<ImageType2D> > SmartIteratorType;
+   using SmartIteratorType = itk::NeighborhoodIterator<ImageType2D,
+     itk::ConstantBoundaryCondition<ImageType2D> >;
 
    SmartIteratorType it2d(sz2, image2D, image2D->GetRequestedRegion());
 

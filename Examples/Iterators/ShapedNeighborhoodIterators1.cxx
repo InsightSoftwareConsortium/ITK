@@ -66,17 +66,15 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char               PixelType;
-  typedef itk::Image< PixelType, 2 >  ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, 2 >;
 
-  typedef itk::ConstShapedNeighborhoodIterator<
-                                          ImageType
-                                            > ShapedNeighborhoodIteratorType;
+  using ShapedNeighborhoodIteratorType = itk::ConstShapedNeighborhoodIterator<ImageType>;
 
-  typedef itk::ImageRegionIterator< ImageType> IteratorType;
+  using IteratorType = itk::ImageRegionIterator< ImageType>;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -123,8 +121,7 @@ int main( int argc, char ** argv )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<
-                                                ImageType > FaceCalculatorType;
+  using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 
   FaceCalculatorType faceCalculator;
   FaceCalculatorType::FaceListType faceList;
@@ -231,7 +228,7 @@ int main( int argc, char ** argv )
     }
   // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );

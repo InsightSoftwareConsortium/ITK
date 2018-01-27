@@ -32,13 +32,13 @@
 int itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv [] )
 {
   // Declare the type of the input and output mesh
-  typedef itk::DefaultDynamicMeshTraits<double, 3, 3> TriangleMeshTraits;
-  typedef itk::Mesh<double,3, TriangleMeshTraits>     TriangleMeshType;
+  using TriangleMeshTraits = itk::DefaultDynamicMeshTraits<double, 3, 3>;
+  using TriangleMeshType = itk::Mesh<double,3, TriangleMeshTraits>;
 
   // declare triangle mesh source
-  typedef itk::RegularSphereMeshSource<TriangleMeshType>  SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType                 PointType;
-  typedef SphereMeshSourceType::VectorType                VectorType;
+  using SphereMeshSourceType = itk::RegularSphereMeshSource<TriangleMeshType>;
+  using PointType = SphereMeshSourceType::PointType;
+  using VectorType = SphereMeshSourceType::VectorType;
 
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
   PointType center;
@@ -58,9 +58,9 @@ int itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv [] )
   std::cout << "and " << mySphereMeshSource->GetOutput()->GetNumberOfCells() << " cells." << std::endl;
 
   std::cout << "Sending triangle mesh to rasterization algorithm. " << std::endl;
-  typedef itk::Image<unsigned char,3> ImageType;
+  using ImageType = itk::Image<unsigned char,3>;
 
-  typedef itk::TriangleMeshToBinaryImageFilter<TriangleMeshType,ImageType> TriangleMeshToBinaryImageFilterType;
+  using TriangleMeshToBinaryImageFilterType = itk::TriangleMeshToBinaryImageFilter<TriangleMeshType,ImageType>;
   TriangleMeshToBinaryImageFilterType::Pointer imageFilter = TriangleMeshToBinaryImageFilterType::New();
   imageFilter->SetInput(mySphereMeshSource->GetOutput());
   ImageType::SizeType size;
@@ -99,7 +99,7 @@ int itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv [] )
 
   if( argc > 1 )
     {
-    typedef itk::ImageFileWriter<ImageType > WriterType;
+    using WriterType = itk::ImageFileWriter<ImageType >;
 
     WriterType::Pointer ImageWriter = WriterType::New();
     ImageWriter->SetInput(imageFilter->GetOutput() );

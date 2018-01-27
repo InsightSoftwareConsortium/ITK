@@ -45,21 +45,21 @@ class ITK_TEMPLATE_EXPORT ShapeKeepNObjectsLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ShapeKeepNObjectsLabelMapFilter Self;
-  typedef InPlaceLabelMapFilter< TImage > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ShapeKeepNObjectsLabelMapFilter;
+  using Superclass = InPlaceLabelMapFilter< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TImage                              ImageType;
-  typedef typename ImageType::Pointer         ImagePointer;
-  typedef typename ImageType::ConstPointer    ImageConstPointer;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::IndexType       IndexType;
-  typedef typename ImageType::LabelObjectType LabelObjectType;
+  /** Some convenient type alias. */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using IndexType = typename ImageType::IndexType;
+  using LabelObjectType = typename ImageType::LabelObjectType;
 
-  typedef typename LabelObjectType::AttributeType AttributeType;
+  using AttributeType = typename LabelObjectType::AttributeType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
@@ -127,8 +127,8 @@ protected:
     // superclasses
     output2->SetBackgroundValue( output->GetBackgroundValue() );
 
-    typedef typename LabelObjectType::Pointer LabelObjectPointer;
-    typedef std::vector< LabelObjectPointer > VectorType;
+    using LabelObjectPointer = typename LabelObjectType::Pointer;
+    using VectorType = std::vector< LabelObjectPointer >;
 
     ProgressReporter progress( this, 0, 2 * output->GetNumberOfLabelObjects() );
 

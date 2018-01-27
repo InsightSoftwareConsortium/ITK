@@ -28,7 +28,7 @@ int itkGaussianDistributionTest(int, char* [] )
 
   std::cout << "itkGaussianDistribution Test \n \n";
 
-  typedef itk::Statistics::GaussianDistribution DistributionType;
+  using DistributionType = itk::Statistics::GaussianDistribution;
 
   DistributionType::Pointer distributionFunction = DistributionType::New();
 

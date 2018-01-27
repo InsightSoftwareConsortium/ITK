@@ -23,10 +23,10 @@
 
 int itkExtractImage3Dto2DTest(int, char* [] )
 {
-  typedef itk::Image<unsigned char,3>                      Image3DType;
-  typedef itk::Image<unsigned char,2>                      Image2DType;
-  typedef itk::ExtractImageFilter<Image3DType,Image2DType> ExtractType;
-  typedef itk::RandomImageSource<Image3DType>              RandomImageSourceType;
+  using Image3DType = itk::Image<unsigned char,3>;
+  using Image2DType = itk::Image<unsigned char,2>;
+  using ExtractType = itk::ExtractImageFilter<Image3DType,Image2DType>;
+  using RandomImageSourceType = itk::RandomImageSource<Image3DType>;
 
   RandomImageSourceType::Pointer src =
     RandomImageSourceType::New();

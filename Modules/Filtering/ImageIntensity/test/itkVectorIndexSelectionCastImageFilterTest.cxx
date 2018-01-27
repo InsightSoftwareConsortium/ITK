@@ -34,16 +34,16 @@ int itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned short InputPixelType;
-  typedef unsigned short OutputPixelType;
+  using InputPixelType = unsigned short;
+  using OutputPixelType = unsigned short;
 
   const unsigned int ImageDimension = 2;
 
-  typedef itk::VectorImage< InputPixelType, ImageDimension > InputImageType;
-  typedef itk::Image< OutputPixelType, ImageDimension  >     OutputImageType;
+  using InputImageType = itk::VectorImage< InputPixelType, ImageDimension >;
+  using OutputImageType = itk::Image< OutputPixelType, ImageDimension  >;
 
-  typedef itk::ImageFileReader< InputImageType  > ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -51,9 +51,9 @@ int itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv [] )
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
 
-  typedef itk::VectorIndexSelectionCastImageFilter<
+  using FilterType = itk::VectorIndexSelectionCastImageFilter<
                                      InputImageType,
-                                     OutputImageType> FilterType;
+                                     OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 

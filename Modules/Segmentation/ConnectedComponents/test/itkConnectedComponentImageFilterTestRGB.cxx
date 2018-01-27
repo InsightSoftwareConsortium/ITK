@@ -34,22 +34,22 @@ int itkConnectedComponentImageFilterTestRGB(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef   unsigned short  InternalPixelType;
+  using InternalPixelType = unsigned short;
   const     unsigned int    Dimension = 2;
 
-  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
-  typedef itk::Image<unsigned short,Dimension>       OutputImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using OutputImageType = itk::Image<unsigned short,Dimension>;
 
-  typedef itk::RGBPixel<unsigned char>        RGBPixelType;
-  typedef itk::Image<RGBPixelType, Dimension> RGBImageType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType, Dimension>;
 
-  typedef itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef itk::ImageFileWriter<  RGBImageType  >    WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
+  using WriterType = itk::ImageFileWriter<  RGBImageType  >;
 
 
-  typedef itk::BinaryThresholdImageFilter< InternalImageType, RGBImageType > ThresholdFilterType;
-  typedef itk::ConnectedComponentImageFilter< RGBImageType, OutputImageType > FilterType;
-  typedef itk::RelabelComponentImageFilter< OutputImageType, OutputImageType > RelabelType;
+  using ThresholdFilterType = itk::BinaryThresholdImageFilter< InternalImageType, RGBImageType >;
+  using FilterType = itk::ConnectedComponentImageFilter< RGBImageType, OutputImageType >;
+  using RelabelType = itk::RelabelComponentImageFilter< OutputImageType, OutputImageType >;
 
 
   ReaderType::Pointer reader = ReaderType::New();

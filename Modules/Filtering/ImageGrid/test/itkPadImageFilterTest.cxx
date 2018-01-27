@@ -21,11 +21,11 @@
 
 int itkPadImageFilterTest( int, char* [] )
 {
-  typedef itk::Image< short, 2 >    ShortImage;
-  typedef ShortImage::SizeType      SizeType;
-  typedef ShortImage::SizeValueType SizeValueType;
+  using ShortImage = itk::Image< short, 2 >;
+  using SizeType = ShortImage::SizeType;
+  using SizeValueType = ShortImage::SizeValueType;
 
-  typedef itk::PadImageFilter< ShortImage, ShortImage > FilterType;
+  using FilterType = itk::PadImageFilter< ShortImage, ShortImage >;
   FilterType::Pointer padFilter = FilterType::New();
 
   SizeType lowerBound = {{1, 2}};

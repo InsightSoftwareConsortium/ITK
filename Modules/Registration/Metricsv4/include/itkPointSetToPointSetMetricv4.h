@@ -74,66 +74,66 @@ class ITK_TEMPLATE_EXPORT PointSetToPointSetMetricv4
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef PointSetToPointSetMetricv4                                        Self;
-  typedef ObjectToObjectMetric<TFixedPointSet::PointDimension,
+  /** Standard class type aliases. */
+  using Self = PointSetToPointSetMetricv4;
+  using Superclass = ObjectToObjectMetric<TFixedPointSet::PointDimension,
     TMovingPointSet::PointDimension,
     Image<TInternalComputationValueType, TFixedPointSet::PointDimension>,
-    TInternalComputationValueType>                                          Superclass;
-  typedef SmartPointer<Self>                                                Pointer;
-  typedef SmartPointer<const Self>                                          ConstPointer;
+    TInternalComputationValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( PointSetToPointSetMetricv4, ObjectToObjectMetric );
 
   /**  Type of the measure. */
-  typedef typename Superclass::MeasureType            MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
   /**  Type of the parameters. */
-  typedef typename Superclass::ParametersType         ParametersType;
-  typedef typename Superclass::ParametersValueType    ParametersValueType;
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /**  Type of the derivative. */
-  typedef typename Superclass::DerivativeType         DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
   /** Transform types from Superclass*/
-  typedef typename Superclass::FixedTransformType            FixedTransformType;
-  typedef typename Superclass::FixedTransformPointer         FixedTransformPointer;
-  typedef typename Superclass::FixedInputPointType           FixedInputPointType;
-  typedef typename Superclass::FixedOutputPointType          FixedOutputPointType;
-  typedef typename Superclass::FixedTransformParametersType  FixedTransformParametersType;
+  using FixedTransformType = typename Superclass::FixedTransformType;
+  using FixedTransformPointer = typename Superclass::FixedTransformPointer;
+  using FixedInputPointType = typename Superclass::FixedInputPointType;
+  using FixedOutputPointType = typename Superclass::FixedOutputPointType;
+  using FixedTransformParametersType = typename Superclass::FixedTransformParametersType;
 
-  typedef typename Superclass::MovingTransformType            MovingTransformType;
-  typedef typename Superclass::MovingTransformPointer         MovingTransformPointer;
-  typedef typename Superclass::MovingInputPointType           MovingInputPointType;
-  typedef typename Superclass::MovingOutputPointType          MovingOutputPointType;
-  typedef typename Superclass::MovingTransformParametersType  MovingTransformParametersType;
+  using MovingTransformType = typename Superclass::MovingTransformType;
+  using MovingTransformPointer = typename Superclass::MovingTransformPointer;
+  using MovingInputPointType = typename Superclass::MovingInputPointType;
+  using MovingOutputPointType = typename Superclass::MovingOutputPointType;
+  using MovingTransformParametersType = typename Superclass::MovingTransformParametersType;
 
-  typedef typename Superclass::JacobianType                   JacobianType;
-  typedef typename Superclass::FixedTransformJacobianType     FixedTransformJacobianType;
-  typedef typename Superclass::MovingTransformJacobianType    MovingTransformJacobianType;
+  using JacobianType = typename Superclass::JacobianType;
+  using FixedTransformJacobianType = typename Superclass::FixedTransformJacobianType;
+  using MovingTransformJacobianType = typename Superclass::MovingTransformJacobianType;
 
-  typedef typename Superclass::MovingDisplacementFieldTransformType  DisplacementFieldTransformType;
+  using DisplacementFieldTransformType = typename Superclass::MovingDisplacementFieldTransformType;
 
-  typedef typename Superclass::ObjectType                     ObjectType;
+  using ObjectType = typename Superclass::ObjectType;
 
   /** Dimension type */
-  typedef typename Superclass::DimensionType                  DimensionType;
+  using DimensionType = typename Superclass::DimensionType;
 
   /**  Type of the fixed point set. */
-  typedef TFixedPointSet                               FixedPointSetType;
-  typedef typename TFixedPointSet::PointType           FixedPointType;
-  typedef typename TFixedPointSet::PixelType           FixedPixelType;
-  typedef typename TFixedPointSet::PointsContainer     FixedPointsContainer;
+  using FixedPointSetType = TFixedPointSet;
+  using FixedPointType = typename TFixedPointSet::PointType;
+  using FixedPixelType = typename TFixedPointSet::PixelType;
+  using FixedPointsContainer = typename TFixedPointSet::PointsContainer;
 
   itkStaticConstMacro( FixedPointDimension, DimensionType, Superclass::FixedDimension );
 
   /**  Type of the moving point set. */
-  typedef TMovingPointSet                              MovingPointSetType;
-  typedef typename TMovingPointSet::PointType          MovingPointType;
-  typedef typename TMovingPointSet::PixelType          MovingPixelType;
-  typedef typename TMovingPointSet::PointsContainer    MovingPointsContainer;
+  using MovingPointSetType = TMovingPointSet;
+  using MovingPointType = typename TMovingPointSet::PointType;
+  using MovingPixelType = typename TMovingPointSet::PixelType;
+  using MovingPointsContainer = typename TMovingPointSet::PointsContainer;
 
   itkStaticConstMacro( MovingPointDimension, DimensionType, Superclass::MovingDimension );
 
@@ -145,37 +145,37 @@ public:
    */
   itkStaticConstMacro( PointDimension, DimensionType, Superclass::FixedDimension );
 
-  typedef FixedPointType                               PointType;
-  typedef FixedPixelType                               PixelType;
-  typedef typename PointType::CoordRepType             CoordRepType;
-  typedef FixedPointsContainer                         PointsContainer;
-  typedef typename PointsContainer::ConstIterator      PointsConstIterator;
-  typedef typename PointsContainer::ElementIdentifier  PointIdentifier;
+  using PointType = FixedPointType;
+  using PixelType = FixedPixelType;
+  using CoordRepType = typename PointType::CoordRepType;
+  using PointsContainer = FixedPointsContainer;
+  using PointsConstIterator = typename PointsContainer::ConstIterator;
+  using PointIdentifier = typename PointsContainer::ElementIdentifier;
 
   /** Typedef for points locator class to speed up finding neighboring points */
-  typedef PointsLocator< PointsContainer>                     PointsLocatorType;
-  typedef typename PointsLocatorType::NeighborsIdentifierType NeighborsIdentifierType;
+  using PointsLocatorType = PointsLocator< PointsContainer>;
+  using NeighborsIdentifierType = typename PointsLocatorType::NeighborsIdentifierType;
 
-  typedef PointSet<FixedPixelType, itkGetStaticConstMacro( PointDimension )>    FixedTransformedPointSetType;
-  typedef PointSet<MovingPixelType, itkGetStaticConstMacro( PointDimension )>   MovingTransformedPointSetType;
+  using FixedTransformedPointSetType = PointSet<FixedPixelType, itkGetStaticConstMacro( PointDimension )>;
+  using MovingTransformedPointSetType = PointSet<MovingPixelType, itkGetStaticConstMacro( PointDimension )>;
 
-  typedef typename DerivativeType::ValueType                                          DerivativeValueType;
-  typedef FixedArray<DerivativeValueType, itkGetStaticConstMacro( PointDimension )>   LocalDerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
+  using LocalDerivativeType = FixedArray<DerivativeValueType, itkGetStaticConstMacro( PointDimension )>;
 
   /** Types for the virtual domain */
-  typedef typename Superclass::VirtualImageType       VirtualImageType;
-  typedef typename Superclass::VirtualImagePointer    VirtualImagePointer;
-  typedef typename Superclass::VirtualPixelType       VirtualPixelType;
-  typedef typename Superclass::VirtualRegionType      VirtualRegionType;
-  typedef typename Superclass::VirtualSizeType        VirtualSizeType;
-  typedef typename Superclass::VirtualSpacingType     VirtualSpacingType;
-  typedef typename Superclass::VirtualPointType       VirtualOriginType;
-  typedef typename Superclass::VirtualPointType       VirtualPointType;
-  typedef typename Superclass::VirtualDirectionType   VirtualDirectionType;
-  typedef typename Superclass::VirtualSizeType        VirtualRadiusType;
-  typedef typename Superclass::VirtualIndexType       VirtualIndexType;
-  typedef typename Superclass::VirtualPointSetType    VirtualPointSetType;
-  typedef typename Superclass::VirtualPointSetPointer VirtualPointSetPointer;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualImagePointer = typename Superclass::VirtualImagePointer;
+  using VirtualPixelType = typename Superclass::VirtualPixelType;
+  using VirtualRegionType = typename Superclass::VirtualRegionType;
+  using VirtualSizeType = typename Superclass::VirtualSizeType;
+  using VirtualSpacingType = typename Superclass::VirtualSpacingType;
+  using VirtualOriginType = typename Superclass::VirtualPointType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualDirectionType = typename Superclass::VirtualDirectionType;
+  using VirtualRadiusType = typename Superclass::VirtualSizeType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using VirtualPointSetType = typename Superclass::VirtualPointSetType;
+  using VirtualPointSetPointer = typename Superclass::VirtualPointSetPointer;
 
   /** Set fixed point set*/
   void SetFixedObject( const ObjectType *object ) override
@@ -403,7 +403,7 @@ protected:
    */
   void StorePointDerivative( const VirtualPointType &, const DerivativeType &, DerivativeType & ) const;
 
-  typedef typename Superclass::MetricCategoryType   MetricCategoryType;
+  using MetricCategoryType = typename Superclass::MetricCategoryType;
 
   /** Get metric category */
   MetricCategoryType GetMetricCategory() const override

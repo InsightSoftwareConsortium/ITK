@@ -33,11 +33,11 @@ class ITK_TEMPLATE_EXPORT QuadricDecimationQuadEdgeMeshFilter:
   public EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 {
 public:
-  typedef QuadricDecimationQuadEdgeMeshFilter Self;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
-  typedef EdgeDecimationQuadEdgeMeshFilter<
-    TInput, TOutput, TCriterion >             Superclass;
+  using Self = QuadricDecimationQuadEdgeMeshFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = EdgeDecimationQuadEdgeMeshFilter<
+    TInput, TOutput, TCriterion >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(QuadricDecimationQuadEdgeMeshFilter, EdgeDecimationQuadEdgeMeshFilter);
@@ -45,43 +45,42 @@ public:
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
 
-  typedef TInput                          InputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
+  using InputMeshType = TInput;
+  using InputMeshPointer = typename InputMeshType::Pointer;
 
-  typedef TOutput                                          OutputMeshType;
-  typedef typename OutputMeshType::Pointer                 OutputMeshPointer;
-  typedef typename OutputMeshType::PointIdentifier         OutputPointIdentifier;
-  typedef typename OutputMeshType::PointType               OutputPointType;
-  typedef typename OutputPointType::CoordRepType           OutputCoordType;
-  typedef typename OutputMeshType::QEType                  OutputQEType;
-  typedef typename OutputMeshType::EdgeCellType            OutputEdgeCellType;
-  typedef typename OutputMeshType::CellsContainerIterator  OutputCellsContainerIterator;
-  typedef typename OutputMeshType::PointsContainerPointer  OutputPointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainerIterator OutputPointsContainerIterator;
+  using OutputMeshType = TOutput;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;
+  using OutputPointType = typename OutputMeshType::PointType;
+  using OutputCoordType = typename OutputPointType::CoordRepType;
+  using OutputQEType = typename OutputMeshType::QEType;
+  using OutputEdgeCellType = typename OutputMeshType::EdgeCellType;
+  using OutputCellsContainerIterator = typename OutputMeshType::CellsContainerIterator;
+  using OutputPointsContainerPointer = typename OutputMeshType::PointsContainerPointer;
+  using OutputPointsContainerIterator = typename OutputMeshType::PointsContainerIterator;
 
   itkStaticConstMacro(OutputPointDimension, unsigned int, OutputMeshType::PointDimension);
 
-  typedef TCriterion                          CriterionType;
-  typedef typename CriterionType::MeasureType MeasureType;
+  using CriterionType = TCriterion;
+  using MeasureType = typename CriterionType::MeasureType;
 
-  typedef typename Superclass::PriorityType          PriorityType;
-  typedef typename Superclass::PriorityQueueItemType PriorityQueueItemType;
-  typedef typename Superclass::PriorityQueueType     PriorityQueueType;
-  typedef typename Superclass::PriorityQueuePointer  PriorityQueuePointer;
+  using PriorityType = typename Superclass::PriorityType;
+  using PriorityQueueItemType = typename Superclass::PriorityQueueItemType;
+  using PriorityQueueType = typename Superclass::PriorityQueueType;
+  using PriorityQueuePointer = typename Superclass::PriorityQueuePointer;
 
-  typedef typename Superclass::QueueMapType     QueueMapType;
-  typedef typename Superclass::QueueMapIterator QueueMapIterator;
+  using QueueMapType = typename Superclass::QueueMapType;
+  using QueueMapIterator = typename Superclass::QueueMapIterator;
 
-  typedef typename Superclass::OperatorType    OperatorType;
-  typedef typename Superclass::OperatorPointer OperatorPointer;
+  using OperatorType = typename Superclass::OperatorType;
+  using OperatorPointer = typename Superclass::OperatorPointer;
 
-  typedef QuadEdgeMeshDecimationQuadricElementHelper< OutputPointType >
-  QuadricElementType;
+  using QuadricElementType = QuadEdgeMeshDecimationQuadricElementHelper<OutputPointType>;
 
-  typedef std::map< OutputPointIdentifier, QuadricElementType >
-  QuadricElementMapType;
+  using QuadricElementMapType =
+      std::map< OutputPointIdentifier, QuadricElementType >;
 
-  typedef typename QuadricElementMapType::iterator QuadricElementMapIterator;
+  using QuadricElementMapIterator = typename QuadricElementMapType::iterator;
 
 protected:
   /** \brief Constructor */

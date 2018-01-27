@@ -52,10 +52,10 @@ class ITK_TEMPLATE_EXPORT Array : public vnl_vector< TValue >
 public:
 
   /** The element type stored at each location in the Array. */
-  typedef TValue                                  ValueType;
-  typedef Array                                   Self;
-  typedef vnl_vector< TValue >                    VnlVectorType;
-  typedef typename vnl_vector< TValue>::size_type SizeValueType;
+  using ValueType = TValue;
+  using Self = Array;
+  using VnlVectorType = vnl_vector< TValue >;
+  using SizeValueType = typename vnl_vector< TValue>::size_type;
 
 public:
 

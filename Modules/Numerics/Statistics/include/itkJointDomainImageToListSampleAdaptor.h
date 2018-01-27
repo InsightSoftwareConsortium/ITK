@@ -38,9 +38,9 @@ namespace Statistics
  */
 template< typename TImage >
 struct ImageJointDomainTraits {
-  typedef ImageJointDomainTraits                     Self;
-  typedef PixelTraits< typename TImage::PixelType >  PixelTraitsType;
-  typedef typename PixelTraitsType::ValueType        RangeDomainMeasurementType;
+  using Self = ImageJointDomainTraits;
+  using PixelTraitsType = PixelTraits< typename TImage::PixelType >;
+  using RangeDomainMeasurementType = typename PixelTraitsType::ValueType;
 
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
   itkStaticConstMacro(Dimension,
@@ -48,13 +48,13 @@ struct ImageJointDomainTraits {
                       TImage::ImageDimension
                       + PixelTraitsType::Dimension);
 
-  typedef float                                                              CoordinateRepType;
-  typedef Point< CoordinateRepType, itkGetStaticConstMacro(ImageDimension) > PointType;
-  typedef JoinTraits< RangeDomainMeasurementType, CoordinateRepType >        JoinTraitsType;
-  typedef typename JoinTraitsType::ValueType                                 MeasurementType;
+  using CoordinateRepType = float;
+  using PointType = Point< CoordinateRepType, itkGetStaticConstMacro(ImageDimension) >;
+  using JoinTraitsType = JoinTraits< RangeDomainMeasurementType, CoordinateRepType >;
+  using MeasurementType = typename JoinTraitsType::ValueType;
 
-  typedef FixedArray< MeasurementType, itkGetStaticConstMacro(Dimension) >
-  MeasurementVectorType;
+  using MeasurementVectorType =
+      FixedArray< MeasurementType, itkGetStaticConstMacro(Dimension) >;
 };  // end of ImageJointDomainTraits
 
 /** \class JointDomainImageToListSampleAdaptor
@@ -93,22 +93,22 @@ class ITK_TEMPLATE_EXPORT JointDomainImageToListSampleAdaptor:
 {
 public:
 
-  /** Standard class typedefs */
-  typedef JointDomainImageToListSampleAdaptor Self;
+  /** Standard class type aliases */
+  using Self = JointDomainImageToListSampleAdaptor;
 
-  typedef ListSample<
-    typename ImageJointDomainTraits< TImage >::MeasurementVectorType >   Superclass;
+  using Superclass = ListSample<
+    typename ImageJointDomainTraits< TImage >::MeasurementVectorType >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef ImageJointDomainTraits< TImage > ImageJointDomainTraitsType;
+  using ImageJointDomainTraitsType = ImageJointDomainTraits< TImage >;
 
-  typedef typename ImageJointDomainTraitsType::MeasurementVectorType      MeasurementVectorType;
-  typedef typename ImageJointDomainTraitsType::MeasurementType            MeasurementType;
-  typedef typename ImageJointDomainTraitsType::RangeDomainMeasurementType RangeDomainMeasurementType;
-  typedef typename ImageJointDomainTraitsType::PointType                  PointType;
-  typedef typename ImageJointDomainTraitsType::CoordinateRepType          CoordinateRepType;
+  using MeasurementVectorType = typename ImageJointDomainTraitsType::MeasurementVectorType;
+  using MeasurementType = typename ImageJointDomainTraitsType::MeasurementType;
+  using RangeDomainMeasurementType = typename ImageJointDomainTraitsType::RangeDomainMeasurementType;
+  using PointType = typename ImageJointDomainTraitsType::PointType;
+  using CoordinateRepType = typename ImageJointDomainTraitsType::CoordinateRepType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(JointDomainImageToListSampleAdaptor, ListSample);
@@ -120,27 +120,27 @@ public:
   itkStaticConstMacro(MeasurementVectorSize, unsigned int,
                       ImageJointDomainTraitsType::Dimension);
 
-  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
 
-  /** typedefs for Measurement vector, measurement,
+  /** type alias for Measurement vector, measurement,
    * Instance Identifier, frequency, size, size element value */
-  typedef typename Superclass::AbsoluteFrequencyType      AbsoluteFrequencyType;
-  typedef typename Superclass::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
-  typedef typename Superclass::InstanceIdentifier         InstanceIdentifier;
+  using AbsoluteFrequencyType = typename Superclass::AbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename Superclass::TotalAbsoluteFrequencyType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
 
-  /** Image typedefs */
-  typedef TImage                                ImageType;
-  typedef ImageRegionIterator< ImageType >      ImageIteratorType;
-  typedef ImageRegionConstIterator< ImageType > ImageConstIteratorType;
+  /** Image type alias */
+  using ImageType = TImage;
+  using ImageIteratorType = ImageRegionIterator< ImageType >;
+  using ImageConstIteratorType = ImageRegionConstIterator< ImageType >;
 
-  typedef typename ImageType::Pointer                    ImagePointer;
-  typedef typename ImageType::ConstPointer               ImageConstPointer;
-  typedef typename ImageType::PixelType                  PixelType;
-  typedef typename ImageType::PixelContainerConstPointer PixelContainerConstPointer;
-  typedef typename ImageType::IndexType                  ImageIndexType;
-  typedef typename ImageType::SizeType                   ImageSizeType;
-  typedef typename ImageType::RegionType                 ImageRegionType;
-  typedef MeasurementVectorType                          ValueType;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using PixelContainerConstPointer = typename ImageType::PixelContainerConstPointer;
+  using ImageIndexType = typename ImageType::IndexType;
+  using ImageSizeType = typename ImageType::SizeType;
+  using ImageRegionType = typename ImageType::RegionType;
+  using ValueType = MeasurementVectorType;
 
   /** Method to set the image */
   void SetImage(const TImage *image);
@@ -160,11 +160,11 @@ public:
   itkStaticConstMacro(RangeDomainDimension, unsigned int,
                       itk::PixelTraits< typename TImage::PixelType >::Dimension);
 
-  typedef FixedArray< RangeDomainMeasurementType,
-                      itkGetStaticConstMacro(RangeDomainDimension) >          RangeDomainMeasurementVectorType;
+  using RangeDomainMeasurementVectorType = FixedArray< RangeDomainMeasurementType,
+                      itkGetStaticConstMacro(RangeDomainDimension) >;
 
-  typedef std::vector< InstanceIdentifier >                                   InstanceIdentifierVectorType;
-  typedef FixedArray< float, itkGetStaticConstMacro(MeasurementVectorSize) >  NormalizationFactorsType;
+  using InstanceIdentifierVectorType = std::vector< InstanceIdentifier >;
+  using NormalizationFactorsType = FixedArray< float, itkGetStaticConstMacro(MeasurementVectorSize) >;
 
   /** Sets the normalization factors */
   void SetNormalizationFactors(NormalizationFactorsType & factors);

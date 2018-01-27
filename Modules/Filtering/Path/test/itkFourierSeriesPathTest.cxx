@@ -23,10 +23,10 @@
 int itkFourierSeriesPathTest( int, char*[] )
 {
   const unsigned int Dimension = 2;
-  typedef itk::FourierSeriesPath< Dimension >  PathType;
-  typedef PathType::InputType                  InputType;
-  typedef PathType::OffsetType                 OffsetType;
-  typedef PathType::VectorType                 VectorType;
+  using PathType = itk::FourierSeriesPath< Dimension >;
+  using InputType = PathType::InputType;
+  using OffsetType = PathType::OffsetType;
+  using VectorType = PathType::VectorType;
 
   bool passed = true;
 

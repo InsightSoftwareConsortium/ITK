@@ -64,7 +64,7 @@ int itkCSVFileReaderWriterTest_Func(int argc, char *argv[], bool headers)
 {
   double nan = std::numeric_limits<double>::quiet_NaN();
 
-  typedef itk::Array2D<double> MatrixType;
+  using MatrixType = itk::Array2D<double>;
   const unsigned int ARows = 3;
   const unsigned int ACols = 6;
   MatrixType matrix(ARows,ACols);
@@ -88,7 +88,7 @@ int itkCSVFileReaderWriterTest_Func(int argc, char *argv[], bool headers)
   matrix[2][5] = 3e+10;
 
   // write out the array2D object
-  typedef itk::CSVNumericObjectFileWriter<double, ARows, ACols> WriterType;
+  using WriterType = itk::CSVNumericObjectFileWriter<double, ARows, ACols>;
   WriterType::Pointer writer = WriterType::New();
 
   if (argc < 2 )
@@ -129,7 +129,7 @@ int itkCSVFileReaderWriterTest_Func(int argc, char *argv[], bool headers)
     return EXIT_FAILURE;
     }
 
-  typedef itk::CSVArray2DFileReader<double > ReaderType;
+  using ReaderType = itk::CSVArray2DFileReader<double >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( filename );
   reader->SetFieldDelimiterCharacter(',');
@@ -152,7 +152,7 @@ int itkCSVFileReaderWriterTest_Func(int argc, char *argv[], bool headers)
 
   reader->Print(std::cout);
 
-  typedef itk::CSVArray2DDataObject<double> DataFrameObjectType;
+  using DataFrameObjectType = itk::CSVArray2DDataObject<double>;
   DataFrameObjectType::Pointer dfo = reader->GetOutput();
   MatrixType test_matrix = dfo->GetMatrix();
 

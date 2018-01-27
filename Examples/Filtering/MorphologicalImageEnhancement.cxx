@@ -61,31 +61,31 @@ int main( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
 
-  typedef unsigned char   PixelType;
-  typedef unsigned char   WritePixelType;
+  using PixelType = unsigned char;
+  using WritePixelType = unsigned char;
 
-  typedef itk::Image< PixelType,  Dimension >       ImageType;
-    typedef itk::Image< WritePixelType, Dimension > WriteImageType;
+  using ImageType = itk::Image< PixelType,  Dimension >;
+    using WriteImageType = itk::Image< WritePixelType, Dimension >;
   // readers/writers
-  typedef itk::ImageFileReader< ImageType  >     ReaderType;
-  typedef itk::ImageFileWriter< WriteImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType  >;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
 
   // structuring element
-  typedef itk::BinaryBallStructuringElement<
-            PixelType, Dimension  > StructuringElementType;
+  using StructuringElementType = itk::BinaryBallStructuringElement<
+            PixelType, Dimension  >;
   // define the opening and closing types
-  typedef itk::GrayscaleMorphologicalOpeningImageFilter<
-            ImageType, ImageType, StructuringElementType >  OpeningFilterType;
-  typedef itk::GrayscaleMorphologicalClosingImageFilter<
-            ImageType, ImageType, StructuringElementType >  ClosingFilterType;
+  using OpeningFilterType = itk::GrayscaleMorphologicalOpeningImageFilter<
+            ImageType, ImageType, StructuringElementType >;
+  using ClosingFilterType = itk::GrayscaleMorphologicalClosingImageFilter<
+            ImageType, ImageType, StructuringElementType >;
   // define arithmetic operation filters
-  typedef itk::ConstrainedValueAdditionImageFilter<
-            ImageType, ImageType, ImageType > AdditionFilterType;
-  typedef itk::ConstrainedValueDifferenceImageFilter<
-            ImageType, ImageType, ImageType > SubtractionFilterType;
+  using AdditionFilterType = itk::ConstrainedValueAdditionImageFilter<
+            ImageType, ImageType, ImageType >;
+  using SubtractionFilterType = itk::ConstrainedValueDifferenceImageFilter<
+            ImageType, ImageType, ImageType >;
   // define rescaling filter
-  typedef itk::RescaleIntensityImageFilter<
-            ImageType, WriteImageType>    RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
+            ImageType, WriteImageType>;
 
   // Create structuring element
   StructuringElementType  structuringElement;

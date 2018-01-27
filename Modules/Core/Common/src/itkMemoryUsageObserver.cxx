@@ -90,7 +90,7 @@ WindowsMemoryUsageObserver::~WindowsMemoryUsageObserver()
 
 #define STATUS_INFO_LENGTH_MISMATCH ( (NTSTATUS)0xC0000004L )
 
-typedef LONG KPRIORITY;
+using KPRIORITY = LONG;
 #define SystemProcessesAndThreadsInformation    5
 
 typedef struct _CLIENT_ID {

@@ -60,10 +60,10 @@ public:
   /**
    * Standard "Self" & Superclass typedef.
    */
-  typedef LabelContourImageFilter                         Self;
-  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  using Self = LabelContourImageFilter;
+  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**
    * Method for creation through the object factory.
@@ -93,25 +93,25 @@ public:
 #endif
 
   /**
-   * Image typedef support
+   * Image type alias support
    */
-  typedef TInputImage                                 InputImageType;
-  typedef typename InputImageType::Pointer            InputImagePointer;
-  typedef typename InputImageType::IndexType          InputIndexType;
-  typedef typename InputImageType::SizeType           InputSizeType;
-  typedef typename InputImageType::OffsetType         InputOffsetType;
-  typedef typename InputImageType::PixelType          InputImagePixelType;
-  typedef typename InputImageType::SizeValueType      SizeValueType;
-  typedef typename InputImageType::OffsetValueType    OffsetValueType;
-  typedef typename InputImageType::PixelType          InputPixelType;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputIndexType = typename InputImageType::IndexType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using InputOffsetType = typename InputImageType::OffsetType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using SizeValueType = typename InputImageType::SizeValueType;
+  using OffsetValueType = typename InputImageType::OffsetValueType;
+  using InputPixelType = typename InputImageType::PixelType;
 
-  typedef TOutputImage                          OutputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename OutputImageType::RegionType  OutputRegionType;
-  typedef typename OutputImageType::IndexType   OutputIndexType;
-  typedef typename OutputImageType::SizeType    OutputSizeType;
-  typedef typename OutputImageType::OffsetType  OutputOffsetType;
-  typedef typename OutputImageType::PixelType   OutputImagePixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputRegionType = typename OutputImageType::RegionType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using OutputOffsetType = typename OutputImageType::OffsetType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /**
    * Set/Get whether the connected components are defined strictly by
@@ -175,15 +175,15 @@ private:
     InputImagePixelType label;
   };
 
-  typedef std::vector< RunLength >                  LineEncodingType;
-  typedef typename LineEncodingType::iterator       LineEncodingIterator;
-  typedef typename LineEncodingType::const_iterator LineEncodingConstIterator;
+  using LineEncodingType = std::vector< RunLength >;
+  using LineEncodingIterator = typename LineEncodingType::iterator;
+  using LineEncodingConstIterator = typename LineEncodingType::const_iterator;
 
-  typedef std::vector< OffsetValueType >            OffsetVectorType;
-  typedef typename OffsetVectorType::const_iterator OffsetVectorConstIterator;
+  using OffsetVectorType = std::vector< OffsetValueType >;
+  using OffsetVectorConstIterator = typename OffsetVectorType::const_iterator;
 
   // the map storing lines
-  typedef std::vector< LineEncodingType > LineMapType;
+  using LineMapType = std::vector< LineEncodingType >;
 
   LineMapType           m_LineMap;
   OutputImagePixelType  m_BackgroundValue;

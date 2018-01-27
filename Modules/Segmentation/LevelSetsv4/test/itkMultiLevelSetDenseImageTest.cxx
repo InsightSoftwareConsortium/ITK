@@ -23,15 +23,15 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
 {
   const unsigned int Dimension = 2;
 
-  typedef float                                          PixelType;
-  typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::LevelSetDenseImage< ImageType >           LevelSetType;
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
-  typedef std::list< itk::IdentifierType >               IdListType;
-  typedef itk::Image< IdListType, Dimension >            IdListImageType;
-  typedef itk::Image< short, Dimension >                 CacheImageType;
-  typedef itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >
-                                                         DomainMapImageFilterType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using LevelSetType = itk::LevelSetDenseImage< ImageType >;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
+  using IdListType = std::list< itk::IdentifierType >;
+  using IdListImageType = itk::Image< IdListType, Dimension >;
+  using CacheImageType = itk::Image< short, Dimension >;
+  using DomainMapImageFilterType =
+      itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >;
   ImageType::IndexType index;
   index[0] = 0;
   index[1] = 0;
@@ -118,7 +118,7 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
   CacheImageType::IndexType out_index;
   CacheImageType::PixelType out_id;
 
-  typedef DomainMapImageFilterType::DomainMapType DomainMapType;
+  using DomainMapType = DomainMapImageFilterType::DomainMapType;
   const DomainMapType domainMap  = filter->GetDomainMap();
   DomainMapType::const_iterator mapIt;
   const DomainMapType::const_iterator mapEnd = domainMap.end();
@@ -175,7 +175,7 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
     ++it;
     }
 
-  typedef DomainMapImageFilterType::DomainMapType::const_iterator DomainIteratorType;
+  using DomainIteratorType = DomainMapImageFilterType::DomainMapType::const_iterator;
   DomainIteratorType map_it = domainMap.begin();
   DomainIteratorType map_end = domainMap.end();
 

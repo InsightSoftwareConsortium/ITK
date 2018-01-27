@@ -48,14 +48,14 @@ class FastApproximateRankImageFilter:
                                                             FlatStructuringElement< TInputImage::ImageDimension > > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef FastApproximateRankImageFilter Self;
-  typedef MiniPipelineSeparableImageFilter< TInputImage, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = FastApproximateRankImageFilter;
+  using Superclass = MiniPipelineSeparableImageFilter< TInputImage, TOutputImage,
           RankImageFilter< TInputImage, TInputImage,
-                      FlatStructuringElement< TInputImage::ImageDimension > > > Superclass;
+                      FlatStructuringElement< TInputImage::ImageDimension > > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -63,20 +63,20 @@ public:
   /** Runtime information support. */
   itkTypeMacro(FastApproximateRankImageFilter, MiniPipelineSeparableImageFilter);
 
-  /** Image related typedefs. */
-  typedef TInputImage                      InputImageType;
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::PixelType  PixelType;
-  typedef typename TInputImage::OffsetType OffsetType;
-  typedef typename Superclass::FilterType  FilterType;
+  /** Image related type alias. */
+  using InputImageType = TInputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
+  using OffsetType = typename TInputImage::OffsetType;
+  using FilterType = typename Superclass::FilterType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   /** n-dimensional Kernel radius. */
-  typedef typename TInputImage::SizeType RadiusType;
+  using RadiusType = typename TInputImage::SizeType;
 
   void SetRank(float rank)
   {

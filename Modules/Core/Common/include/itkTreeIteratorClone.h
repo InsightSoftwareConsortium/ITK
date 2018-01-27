@@ -34,8 +34,8 @@ class TreeIteratorClone
 public:
 
   /** Typedefs */
-  typedef TreeIteratorClone< TObjectType > Self;
-  typedef TObjectType                      ObjectType;
+  using Self = TreeIteratorClone< TObjectType >;
+  using ObjectType = TObjectType;
 
   /** Constructor  */
   TreeIteratorClone () { m_Pointer = 0; }

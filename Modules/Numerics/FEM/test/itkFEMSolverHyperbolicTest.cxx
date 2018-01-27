@@ -22,7 +22,7 @@
 #include "itkFEMLinearSystemWrapperItpack.h"
 
 
-typedef itk::fem::SolverHyperbolic<2> FEMSolverType;
+using FEMSolverType = itk::fem::SolverHyperbolic<2>;
 
 
 // Print K - the global stiffness matrix
@@ -163,8 +163,8 @@ int itkFEMSolverHyperbolicTest(int ac, char* av[])
       }
     }
 
-  typedef itk::FEMSpatialObjectReader<2>      FEMSpatialObjectReaderType;
-  typedef FEMSpatialObjectReaderType::Pointer FEMSpatialObjectReaderPointer;
+  using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
+  using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
   SpatialReader->SetFileName( av[1] );
   try
@@ -178,7 +178,7 @@ int itkFEMSolverHyperbolicTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::FEMObjectSpatialObject<2>      FEMObjectSpatialObjectType;
+  using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
   FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
   FEMObjectSpatialObjectType::Pointer femSO =
     dynamic_cast<FEMObjectSpatialObjectType *>( (*(children->begin() ) ).GetPointer() );

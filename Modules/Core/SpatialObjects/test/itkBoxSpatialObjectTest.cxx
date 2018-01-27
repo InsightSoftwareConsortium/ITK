@@ -33,12 +33,12 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
     }
 
   const unsigned int Dimension = 2;
-  typedef itk::GroupSpatialObject< Dimension >       SceneType;
-  typedef itk::BoxSpatialObject< Dimension >         BoxType;
-  typedef itk::Image< unsigned char, Dimension >     OutputImageType;
-  typedef itk::ImageFileWriter< OutputImageType >    WriterType;
-  typedef itk::SpatialObjectToImageFilter< SceneType, OutputImageType >
-                                      SpatialObjectToImageFilterType;
+  using SceneType = itk::GroupSpatialObject< Dimension >;
+  using BoxType = itk::BoxSpatialObject< Dimension >;
+  using OutputImageType = itk::Image< unsigned char, Dimension >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using SpatialObjectToImageFilterType =
+      itk::SpatialObjectToImageFilter< SceneType, OutputImageType >;
 
   SceneType::Pointer scene =  SceneType::New();
   BoxType::Pointer box1 =     BoxType::New();
@@ -47,7 +47,7 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
   box1->SetId(1);
 
   // Test the SetProperty()
-  typedef BoxType::PropertyType PropertyType;
+  using PropertyType = BoxType::PropertyType;
   PropertyType::Pointer prop = PropertyType::New();
   box1->SetProperty(prop);
 

@@ -63,16 +63,16 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char  InputPixelType;
-  typedef   unsigned char  OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  2 >;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -92,8 +92,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RelabelComponentImageFilter<
-               InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::RelabelComponentImageFilter<
+               InputImageType, OutputImageType >;
 
   FilterType::Pointer relabeler = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -127,7 +127,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef std::vector< itk::SizeValueType > SizesInPixelsType;
+  using SizesInPixelsType = std::vector< itk::SizeValueType >;
   const SizesInPixelsType & sizesInPixels
                                       = relabeler->GetSizeOfObjectsInPixels();
 
@@ -144,7 +144,7 @@ int main( int argc, char * argv[] )
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
-  typedef std::vector< float > SizesInPhysicalUnitsType;
+  using SizesInPhysicalUnitsType = std::vector< float >;
   const SizesInPhysicalUnitsType sizesInUnits
                                = relabeler->GetSizeOfObjectsInPhysicalUnits();
 

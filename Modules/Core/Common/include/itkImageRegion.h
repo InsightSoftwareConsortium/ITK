@@ -69,9 +69,9 @@ template< unsigned int VImageDimension >
 class ITK_TEMPLATE_EXPORT ImageRegion:public Region
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageRegion Self;
-  typedef Region      Superclass;
+  /** Standard class type aliases. */
+  using Self = ImageRegion;
+  using Superclass = Region;
 
   /** Standard part of all itk objects. */
   itkTypeMacro(ImageRegion, Region);
@@ -88,20 +88,20 @@ public:
   static unsigned int GetImageDimension()
   { return ImageDimension; }
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef Index< itkGetStaticConstMacro(ImageDimension) > IndexType;
-  typedef typename IndexType::IndexValueType              IndexValueType;
-  typedef IndexValueType                                  IndexValueArrayType[ImageDimension];
-  typedef typename IndexType::OffsetType                  OffsetType;
-  typedef typename OffsetType::OffsetValueType            OffsetValueType;
-  typedef OffsetValueType                                 OffsetTableType[ImageDimension+1];
+  /** Index type alias support An index is used to access pixel values. */
+  using IndexType = Index< itkGetStaticConstMacro(ImageDimension) >;
+  using IndexValueType = typename IndexType::IndexValueType;
+  using OffsetType = typename IndexType::OffsetType;
+  using OffsetValueType = typename OffsetType::OffsetValueType;
+  typedef IndexValueType  IndexValueArrayType[ImageDimension];
+  typedef OffsetValueType OffsetTableType[ImageDimension+1];
 
-  /** Size typedef support. A size is used to define region bounds. */
-  typedef Size< itkGetStaticConstMacro(ImageDimension) > SizeType;
-  typedef typename SizeType::SizeValueType               SizeValueType;
+  /** Size type alias support A size is used to define region bounds. */
+  using SizeType = Size< itkGetStaticConstMacro(ImageDimension) >;
+  using SizeValueType = typename SizeType::SizeValueType;
 
-  /** Slice region typedef. SliceRegion is one dimension less than Self. */
-  typedef ImageRegion< itkGetStaticConstMacro(SliceDimension) > SliceRegion;
+  /** Slice region type alias. SliceRegion is one dimension less than Self. */
+  using SliceRegion = ImageRegion< itkGetStaticConstMacro(SliceDimension) >;
 
   /** Return the region type. Images are described with structured regions. */
   typename Superclass::RegionType GetRegionType() const override

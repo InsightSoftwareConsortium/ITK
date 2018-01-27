@@ -61,11 +61,11 @@ class ITK_TEMPLATE_EXPORT FastMarchingExtensionImageFilterBase:
 {
 public:
   /** Standard class typdedefs. */
-  typedef FastMarchingExtensionImageFilterBase              Self;
-  typedef FastMarchingImageFilterBase< TInput, TOutput >    Superclass;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
-  typedef typename Superclass::Traits                       Traits;
+  using Self = FastMarchingExtensionImageFilterBase;
+  using Superclass = FastMarchingImageFilterBase< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Traits = typename Superclass::Traits;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,34 +81,33 @@ public:
   /** Number of auxiliary variables to be extended. */
   itkStaticConstMacro(AuxDimension, unsigned int, VAuxDimension);
 
-  /** AuxVarType typedef support. */
-  typedef TAuxValue                                             AuxValueType;
-  typedef Vector< AuxValueType, AuxDimension >                  AuxValueVectorType;
-  typedef VectorContainer< IdentifierType, AuxValueVectorType > AuxValueContainerType;
+  /** AuxVarType type alias support */
+  using AuxValueType = TAuxValue;
+  using AuxValueVectorType = Vector< AuxValueType, AuxDimension >;
+  using AuxValueContainerType = VectorContainer< IdentifierType, AuxValueVectorType >;
 
-  typedef typename AuxValueContainerType::Pointer       AuxValueContainerPointer;
-  typedef typename AuxValueContainerType::ConstIterator AuxValueContainerConstIterator;
+  using AuxValueContainerPointer = typename AuxValueContainerType::Pointer;
+  using AuxValueContainerConstIterator = typename AuxValueContainerType::ConstIterator;
 
-  typedef Image< AuxValueType, ImageDimension > AuxImageType;
-  typedef typename AuxImageType::Pointer        AuxImagePointer;
+  using AuxImageType = Image< AuxValueType, ImageDimension >;
+  using AuxImagePointer = typename AuxImageType::Pointer;
 
 
-  /** Index typedef support. */
-  typedef typename Superclass::NodeType       NodeType;
-  typedef typename Superclass::NodePairType   NodePairType;
+  /** Index type alias support */
+  using NodeType = typename Superclass::NodeType;
+  using NodePairType = typename Superclass::NodePairType;
 
-//  typedef typename Superclass::NodeContainerType          NodeContainerType;
-//  typedef typename Superclass::NodeContainerPointer       NodeContainerPointer;
-//  typedef typename Superclass::NodeContainerConstIterator NodeContainerConstIterator;
+//  using NodeContainerType = typename Superclass::NodeContainerType;
+//  using NodeContainerPointer = typename Superclass::NodeContainerPointer;
+//  using NodeContainerConstIterator = typename Superclass::NodeContainerConstIterator;
 
-  typedef typename Superclass::NodePairContainerType    NodePairContainerType;
-  typedef typename Superclass::NodePairContainerPointer NodePairContainerPointer;
-  typedef typename Superclass::NodePairContainerConstIterator
-    NodePairContainerConstIterator;
+  using NodePairContainerType = typename Superclass::NodePairContainerType;
+  using NodePairContainerPointer = typename Superclass::NodePairContainerPointer;
+  using NodePairContainerConstIterator = typename Superclass::NodePairContainerConstIterator;
 
-  typedef typename Superclass::OutputImageType        OutputImageType;
-  typedef typename Superclass::OutputPixelType        OutputPixelType;
-  typedef typename Superclass::InternalNodeStructure  InternalNodeStructure;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputPixelType = typename Superclass::OutputPixelType;
+  using InternalNodeStructure = typename Superclass::InternalNodeStructure;
 
   /** Get one of the extended auxiliary variable image. */
   AuxImageType * GetAuxiliaryImage( const unsigned int& idx );

@@ -23,26 +23,26 @@ int itkBSplineTransformParametersAdaptorTest(int, char * [] )
 {
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
-  typedef double CoordinateRepType;
-  typedef itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder> TransformType;
+  using CoordinateRepType = double;
+  using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
 
   /**
    * Define the transformation domain
    */
 
-  typedef TransformType::OriginType OriginType;
+  using OriginType = TransformType::OriginType;
   OriginType origin;
   origin.Fill( 5.0 );
 
-  typedef TransformType::PhysicalDimensionsType PhysicalDimensionsType;
+  using PhysicalDimensionsType = TransformType::PhysicalDimensionsType;
   PhysicalDimensionsType dimensions;
   dimensions.Fill( 100 );
 
-  typedef TransformType::MeshSizeType MeshSizeType;
+  using MeshSizeType = TransformType::MeshSizeType;
   MeshSizeType meshSize;
   meshSize.Fill( 10 );
 
-  typedef TransformType::DirectionType DirectionType;
+  using DirectionType = TransformType::DirectionType;
   DirectionType direction;
   direction.SetIdentity();
 
@@ -58,7 +58,7 @@ int itkBSplineTransformParametersAdaptorTest(int, char * [] )
   /**
    * Allocate memory for the parameters
    */
-  typedef TransformType::ParametersType ParametersType;
+  using ParametersType = TransformType::ParametersType;
   unsigned long  numberOfParameters = transform->GetNumberOfParameters();
   ParametersType parameters( numberOfParameters );
   parameters.Fill( itk::NumericTraits<ParametersType::ValueType>::ZeroValue());
@@ -68,7 +68,7 @@ int itkBSplineTransformParametersAdaptorTest(int, char * [] )
    */
   transform->SetParameters( parameters );
 
-  typedef TransformType::ImageType CoefficientImageType;
+  using CoefficientImageType = TransformType::ImageType;
   CoefficientImageType::IndexType index;
   index.Fill( 5 );
   transform->GetCoefficientImages()[0]->SetPixel( index, 5.0 );
@@ -94,7 +94,7 @@ int itkBSplineTransformParametersAdaptorTest(int, char * [] )
   TransformType::SizeType gridSizeBefore =
     transform->GetCoefficientImages()[0]->GetLargestPossibleRegion().GetSize();
 
-  typedef itk::BSplineTransformParametersAdaptor<TransformType> AdaptorType;
+  using AdaptorType = itk::BSplineTransformParametersAdaptor<TransformType>;
   AdaptorType::Pointer adaptor = AdaptorType::New();
   adaptor->SetTransform( transform );
   adaptor->SetRequiredTransformDomainMeshSize( requiredMeshSize );

@@ -1,6 +1,6 @@
 
 # build seems to succeed only with unsigned char
-# also, Superclass typedef is wrong in VoronoiSegmentationImageFilter
+# also, Superclass type alias is wrong in VoronoiSegmentationImageFilter
 # and so we can't use POINTER_WITH_SUPERCLASS to wrap
 # VoronoiSegmentationImageFilterBase
 

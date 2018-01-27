@@ -34,15 +34,15 @@ int itkAdditiveGaussianNoiseImageFilterTest(int argc, char * argv[])
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                       PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::AdditiveGaussianNoiseImageFilter< ImageType, ImageType >
-    AdditiveGaussianNoiseFilterType;
+  using AdditiveGaussianNoiseFilterType =
+      itk::AdditiveGaussianNoiseImageFilter< ImageType, ImageType >;
 
   AdditiveGaussianNoiseFilterType::Pointer additiveGaussianNoiseFilter =
     AdditiveGaussianNoiseFilterType::New();
@@ -70,7 +70,7 @@ int itkAdditiveGaussianNoiseImageFilterTest(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher( additiveGaussianNoiseFilter, "AdditiveGaussianNoiseImageFilter" );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( additiveGaussianNoiseFilter->GetOutput() );
   writer->SetFileName( argv[2] );

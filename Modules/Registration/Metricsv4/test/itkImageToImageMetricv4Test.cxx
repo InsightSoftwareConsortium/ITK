@@ -41,31 +41,31 @@ class TestImageToImageGetValueAndDerivativeThreader
   : public itk::ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetricv4 >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TestImageToImageGetValueAndDerivativeThreader  Self;
-  typedef itk::ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetricv4 >
-                                                         Superclass;
-  typedef itk::SmartPointer< Self >                      Pointer;
-  typedef itk::SmartPointer< const Self >                ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TestImageToImageGetValueAndDerivativeThreader;
+  using Superclass =
+      itk::ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetricv4 >;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
   itkTypeMacro( TestImageToImageGetValueAndDerivativeThreader,
     ImageToImageMetricv4GetValueAndDerivativeThreader );
 
   itkNewMacro( Self );
 
-  typedef typename Superclass::DomainType    DomainType;
-  typedef typename Superclass::AssociateType AssociateType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
 
-  typedef typename Superclass::VirtualPointType        VirtualPointType;
-  typedef typename Superclass::VirtualIndexType        VirtualIndexType;
-  typedef typename Superclass::FixedImagePointType     FixedImagePointType;
-  typedef typename Superclass::FixedImagePixelType     FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType  FixedImageGradientType;
-  typedef typename Superclass::MovingImagePointType    MovingImagePointType;
-  typedef typename Superclass::MovingImagePixelType    MovingImagePixelType;
-  typedef typename Superclass::MovingImageGradientType MovingImageGradientType;
-  typedef typename Superclass::MeasureType             MeasureType;
-  typedef typename Superclass::DerivativeType          DerivativeType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using FixedImagePointType = typename Superclass::FixedImagePointType;
+  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
+  using FixedImageGradientType = typename Superclass::FixedImageGradientType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
+  using MovingImageGradientType = typename Superclass::MovingImageGradientType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
 protected:
   TestImageToImageGetValueAndDerivativeThreader() { }
@@ -112,12 +112,12 @@ class ImageToImageMetricv4TestMetric
   : public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToImageMetricv4TestMetric                      Self;
-  typedef itk::ImageToImageMetricv4<TFixedImage, TMovingImage,
-                                        TVirtualImage>        Superclass;
-  typedef itk::SmartPointer<Self>                             Pointer;
-  typedef itk::SmartPointer<const Self>                       ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageToImageMetricv4TestMetric;
+  using Superclass = itk::ImageToImageMetricv4<TFixedImage, TMovingImage,
+                                        TVirtualImage>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -126,21 +126,18 @@ public:
   itkTypeMacro(ImageToImageMetricv4TestMetric, ImageToImageMetricv4);
 
   /** superclass types */
-  typedef typename Superclass::MeasureType            MeasureType;
-  typedef typename Superclass::DerivativeType         DerivativeType;
-  typedef typename Superclass::VirtualPointType       VirtualPointType;
-  typedef typename Superclass::FixedImagePointType    FixedImagePointType;
-  typedef typename Superclass::FixedImagePixelType    FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType
-                                                      FixedImageGradientType;
-  typedef typename Superclass::MovingImagePointType   MovingImagePointType;
-  typedef typename Superclass::MovingImagePixelType   MovingImagePixelType;
-  typedef typename Superclass::MovingImageGradientType
-                                                      MovingImageGradientType;
-  typedef typename Superclass::VirtualImageType       VirtualImageType;
-  typedef typename Superclass::VirtualIndexType       VirtualIndexType;
-  typedef typename Superclass::VirtualPointSetType
-                                                      VirtualPointSetType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using FixedImagePointType = typename Superclass::FixedImagePointType;
+  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
+  using FixedImageGradientType = typename Superclass::FixedImageGradientType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
+  using MovingImageGradientType = typename Superclass::MovingImageGradientType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using VirtualPointSetType = typename Superclass::VirtualPointSetType;
 
   itkStaticConstMacro(VirtualImageDimension, typename TVirtualImage::ImageDimensionType, TVirtualImage::ImageDimension);
   itkStaticConstMacro(MovingImageDimension,  typename TMovingImage::ImageDimensionType,  TMovingImage::ImageDimension);
@@ -149,8 +146,8 @@ protected:
   friend class TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass >;
   friend class TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass >;
 
-  typedef TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass > DenseThreaderType;
-  typedef TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass >  SparseThreaderType;
+  using DenseThreaderType = TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass >;
+  using SparseThreaderType = TestImageToImageGetValueAndDerivativeThreader<itk::ThreadedIndexedContainerPartitioner, Superclass >;
 
   ImageToImageMetricv4TestMetric()
     {
@@ -187,15 +184,12 @@ bool ImageToImageMetricv4TestTestArray(
 
 //Global types
 const unsigned int ImageToImageMetricv4TestImageDimensionality = 2;
-typedef itk::Image< double, ImageToImageMetricv4TestImageDimensionality >
-                                      ImageToImageMetricv4TestImageType;
-typedef ImageToImageMetricv4TestMetric<
+using ImageToImageMetricv4TestImageType = itk::Image< double, ImageToImageMetricv4TestImageDimensionality >;
+using ImageToImageMetricv4TestMetricType = ImageToImageMetricv4TestMetric<
                                         ImageToImageMetricv4TestImageType,
                                         ImageToImageMetricv4TestImageType,
-                                        ImageToImageMetricv4TestImageType>
-                                         ImageToImageMetricv4TestMetricType;
-typedef ImageToImageMetricv4TestMetricType::Pointer
-                                      ImageToImageMetricv4TestMetricPointer;
+                                        ImageToImageMetricv4TestImageType>;
+using ImageToImageMetricv4TestMetricPointer = ImageToImageMetricv4TestMetricType::Pointer;
 //
 // Compute truth values for the identity-transform tests
 //
@@ -221,7 +215,7 @@ void ImageToImageMetricv4TestComputeIdentityTruthValues(
   truthDerivative.SetSize( metric->GetNumberOfParameters() );
   truthDerivative.Fill( 0 );
 
-  typedef ImageToImageMetricv4TestMetricType::MovingTransformType MovingTransformType;
+  using MovingTransformType = ImageToImageMetricv4TestMetricType::MovingTransformType;
 
   itk::ImageRegionIterator<ImageToImageMetricv4TestImageType>
                      itFixed( fixedImage, fixedImage->GetRequestedRegion() );
@@ -249,7 +243,7 @@ void ImageToImageMetricv4TestComputeIdentityTruthValues(
       }
     else
       {
-      typedef ImageToImageMetricv4TestMetricType::FixedImageGradientCalculatorType::ConstPointer FixedGradientCalculatorPointer;
+      using FixedGradientCalculatorPointer = ImageToImageMetricv4TestMetricType::FixedImageGradientCalculatorType::ConstPointer;
       FixedGradientCalculatorPointer fixedGradientCalculator = metric->GetFixedImageGradientCalculator();
       ImageToImageMetricv4TestMetricType::FixedImagePointType point;
       fixedImage->TransformIndexToPhysicalPoint( itFixed.GetIndex(), point );
@@ -264,7 +258,7 @@ void ImageToImageMetricv4TestComputeIdentityTruthValues(
       }
     else
       {
-      typedef ImageToImageMetricv4TestMetricType::MovingImageGradientCalculatorType::ConstPointer MovingGradientCalculatorPointer;
+      using MovingGradientCalculatorPointer = ImageToImageMetricv4TestMetricType::MovingImageGradientCalculatorType::ConstPointer;
       MovingGradientCalculatorPointer     movingGradientCalculator;
       movingGradientCalculator = metric->GetMovingImageGradientCalculator();
       ImageToImageMetricv4TestMetricType::FixedImagePointType point;
@@ -428,7 +422,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
   bool origGlobalWarningValue = itk::Object::GetGlobalWarningDisplay();
   itk::Object::SetGlobalWarningDisplay( true );
 
-  typedef unsigned int    DimensionSizeType;
+  using DimensionSizeType = unsigned int;
   const DimensionSizeType imageSize = 4;
 
   ImageToImageMetricv4TestImageType::SizeType       size = {{imageSize, imageSize}};
@@ -483,12 +477,10 @@ int itkImageToImageMetricv4Test(int, char ** const)
     }
 
   // Transforms
-  typedef itk::TranslationTransform<double,
-                               ImageToImageMetricv4TestImageDimensionality>
-                                                            FixedTransformType;
-  typedef itk::TranslationTransform<double,
-                               ImageToImageMetricv4TestImageDimensionality>
-                                                            MovingTransformType;
+  using FixedTransformType = itk::TranslationTransform<double,
+                               ImageToImageMetricv4TestImageDimensionality>;
+  using MovingTransformType = itk::TranslationTransform<double,
+                               ImageToImageMetricv4TestImageDimensionality>;
   FixedTransformType::Pointer fixedTransform = FixedTransformType::New();
   MovingTransformType::Pointer movingTransform = MovingTransformType::New();
   fixedTransform->SetIdentity();
@@ -582,12 +574,11 @@ int itkImageToImageMetricv4Test(int, char ** const)
   //
 
   // Create a displacement field transform
-  typedef itk::DisplacementFieldTransform<double,
-                              ImageToImageMetricv4TestImageDimensionality>
-                                                      DisplacementTransformType;
+  using DisplacementTransformType = itk::DisplacementFieldTransform<double,
+                              ImageToImageMetricv4TestImageDimensionality>;
   DisplacementTransformType::Pointer displacementTransform =
       DisplacementTransformType::New();
-  typedef DisplacementTransformType::DisplacementFieldType FieldType;
+  using FieldType = DisplacementTransformType::DisplacementFieldType;
   FieldType::Pointer field = FieldType::New(); //This is based on itk::Image
 
   FieldType::SizeType defsize;
@@ -653,10 +644,9 @@ int itkImageToImageMetricv4Test(int, char ** const)
   metric->SetUseMovingImageGradientFilter( false );
 
   // create a point set, size of image for basic testing
-  typedef ImageToImageMetricv4TestMetricType::FixedSampledPointSetType
-    PointSetType;
+  using PointSetType = ImageToImageMetricv4TestMetricType::FixedSampledPointSetType;
 
-  typedef PointSetType::PointType     PointType;
+  using PointType = PointSetType::PointType;
   PointSetType::CoordRepType          testPointCoords[2];
   PointSetType::Pointer               pset(PointSetType::New());
 

@@ -36,7 +36,7 @@ class ITK_TEMPLATE_EXPORT ConvertPixelBuffer<InputPixelType, VariableLengthVecto
 {
 public:
   /** Determine the output data type. */
-  typedef typename OutputConvertTraits::ComponentType OutputComponentType;
+  using OutputComponentType = typename OutputConvertTraits::ComponentType;
 
   /** General method converts from one type to another. */
   static void Convert(InputPixelType* inputData,

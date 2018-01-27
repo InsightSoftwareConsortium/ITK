@@ -64,15 +64,15 @@ class ComplexToModulusImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ComplexToModulusImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = ComplexToModulusImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::ComplexToModulus< typename TInputImage::PixelType,
-                               typename TOutputImage::PixelType > > Superclass;
+                               typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,9 +81,9 @@ public:
   itkTypeMacro(ComplexToModulusImageFilter,
                UnaryFunctorImageFilter);
 
-  typedef typename TInputImage::PixelType                     InputPixelType;
-  typedef typename TOutputImage::PixelType                    OutputPixelType;
-  typedef typename NumericTraits< InputPixelType >::ValueType InputPixelValueType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelValueType = typename NumericTraits< InputPixelType >::ValueType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

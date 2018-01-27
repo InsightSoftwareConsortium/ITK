@@ -26,12 +26,12 @@
 template< unsigned int ImageDimension >
 int BSpline( int argc, char *argv[] )
 {
-  typedef float                      RealType;
-  typedef itk::Vector< RealType, 1 > ScalarPixelType;
+  using RealType = float;
+  using ScalarPixelType = itk::Vector< RealType, 1 >;
 
-  typedef itk::Image< ScalarPixelType, ImageDimension > ScalarFieldType;
+  using ScalarFieldType = itk::Image< ScalarPixelType, ImageDimension >;
 
-  typedef itk::ImageFileReader< ScalarFieldType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ScalarFieldType >;
   typename ReaderType::Pointer reader = ReaderType::New();
   if( argc > 2 )
     {
@@ -53,8 +53,8 @@ int BSpline( int argc, char *argv[] )
   typename ScalarFieldType::SpacingType spacing;
   spacing.Fill( 1.0 );
 
-  typedef itk::BSplineControlPointImageFilter< ScalarFieldType,
-    ScalarFieldType > BSplinerType;
+  using BSplinerType = itk::BSplineControlPointImageFilter< ScalarFieldType,
+    ScalarFieldType >;
   typename BSplinerType::Pointer bspliner = BSplinerType::New();
 
   bspliner->SetInput( reader->GetOutput() );
@@ -87,7 +87,7 @@ int BSpline( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageFileWriter< ScalarFieldType > WriterType;
+  using WriterType = itk::ImageFileWriter< ScalarFieldType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( bspliner->GetOutput() );
@@ -143,13 +143,13 @@ int itkBSplineControlPointImageFilterTest( int argc, char *argv[] )
     }
 
   const unsigned int                 Dimension = 2;
-  typedef float                      RealType;
-  typedef itk::Vector< RealType, 1 > ScalarPixelType;
+  using RealType = float;
+  using ScalarPixelType = itk::Vector< RealType, 1 >;
 
-  typedef itk::Image< ScalarPixelType, Dimension > ScalarFieldType;
+  using ScalarFieldType = itk::Image< ScalarPixelType, Dimension >;
 
-  typedef itk::BSplineControlPointImageFilter< ScalarFieldType,
-    ScalarFieldType > BSplinerType;
+  using BSplinerType = itk::BSplineControlPointImageFilter< ScalarFieldType,
+    ScalarFieldType >;
   BSplinerType::Pointer bspliner = BSplinerType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( bspliner, BSplineControlPointImageFilter,
