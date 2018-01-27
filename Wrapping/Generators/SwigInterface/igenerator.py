@@ -61,7 +61,6 @@ class SwigInputGenerator(object):
         "itk::VectorContainer< unsigned long, itk::CellInterface<.+>",
         "itk::CellInterface< double, itk::QuadEdgeMeshCellTraitsInfo<.+>",
         "itk::QuadEdgeMeshLineCell< itk::CellInterface<.+>",
-        "itk::SmartPointerForwardReference<.+>",
         "itk::LibHandle",
         "itk::NeighborhoodAllocator<.+>",
         # to avoid wrapping all the region for all the dims
