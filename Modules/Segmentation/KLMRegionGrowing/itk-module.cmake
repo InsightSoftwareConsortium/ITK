@@ -1,7 +1,7 @@
 set(DOCUMENTATION "This module contains classes to perform energy-based region
 growing for multiband images.  Since this is based on G. Koepfler, C. Lopez and
 J. M. Morel's work, the acronym KLM is added to quality the region growing
-method.  See also \\\\ref ITKRegionGrowing.")
+method. See also ITKRegionGrowing.")
 
 itk_module(ITKKLMRegionGrowing
   ENABLE_SHARED

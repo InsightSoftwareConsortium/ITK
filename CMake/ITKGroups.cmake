@@ -31,15 +31,14 @@ Image, and modify it to create an output.  Filters can be chained together to
 create a processing pipeline.")
 
 set(Registration_documentation "This group of modules address the registration
-problem: find the spatial transformation between two images.  This is a high
-level group that makes use of many lower level modules such as \\ref
-ITKTransform, \\ref ITKOptimizers, \\ref ITKFiniteDifference, and \\ref
-ITKFEM.")
+problem: find the spatial transformation between two images. This is a high
+level group that makes use of many lower level modules such as ITKTransform,
+ITKOptimizers, ITKFiniteDifference, and ITKFEM.")
 
 set(Segmentation_documentation "This group of modules address the segmentation
-problem: partition the image into classified regions (labels).  This is a high
-level group that makes use of many lower level modules such as \\ref
-ITKQuadEdgeMesh and \\ref ITKNarrowBand.")
+problem: partition the image into classified regions (labels). This is a high
+level group that makes use of many lower level modules such as ITKQuadEdgeMesh
+and ITKNarrowBand.")
 
 set(Numerics_documentation "This group of modules are basic numerical tools and
 algorithms that have general applications outside of imaging.")
