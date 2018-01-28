@@ -284,7 +284,10 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
       coeffs[i] = 1.0;
       }
     }
-  m_DifferenceFunction->SetScaleCoefficients(coeffs);
+  if( m_DifferenceFunction )
+    {
+    m_DifferenceFunction->SetScaleCoefficients(coeffs);
+    }
 }
 
 template< typename TInputImage, typename TOutputImage >
