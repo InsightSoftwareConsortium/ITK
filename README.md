@@ -7,7 +7,7 @@ Links
 
 * [Homepage](https://itk.org)
 * [Download](https://itk.org/ITK/resources/software.html)
-* [Mailing List](https://itk.org/ITK/help/mailing.html)
+* [Discussion](https://itk.org/ITK/help/mailing.html)
 * [Book](https://itk.org/ITK/help/book.html)
 * [Help](https://itk.org/ITK/help/help.html)
 * [Examples](https://itk.org/ITKExamples/)
