@@ -374,7 +374,7 @@ If you still need help for de-identifying your images, please ask on the
 
 Please, simply avoid using images that, despite having been used in image
 analysis and related areas historically (e.g. "Lena"), may be interpreted as
-being degrading to part of our community, or a reinforcing stereotypes.
+being degrading to part of our community, or reinforcing stereotypes.
 
 Community members shall not attempt to identify de-identified images.
 
