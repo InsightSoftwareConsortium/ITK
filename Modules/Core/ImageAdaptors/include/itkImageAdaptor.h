@@ -129,12 +129,16 @@ public:
    * example usage:
    * typedef typename ImageAdaptorType::template Rebind< float >::Type OutputImageType;
    *
+   * \deprecated Use RebindImageType instead
    */
   template <typename UPixelType, unsigned int UImageDimension =  TImage::ImageDimension>
   struct Rebind
     {
       typedef Image<UPixelType, UImageDimension>  Type;
     };
+
+  template <typename UPixelType, unsigned int NUImageDimension = TImage::ImageDimension>
+    using RebindImageType = itk::Image<UPixelType, NUImageDimension>;
 
 
   /** Set the region object that defines the size and starting index

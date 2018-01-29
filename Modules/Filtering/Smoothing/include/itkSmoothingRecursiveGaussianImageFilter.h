@@ -82,8 +82,8 @@ public:
   /** Define the image type for internal computations.
    * RealType is usually 'double' in NumericTraits.
    * Here we prefer float in order to save memory. */
-  typedef typename NumericTraits< PixelType >::FloatType InternalRealType;
-  typedef typename InputImageType::template Rebind<InternalRealType>::Type RealImageType;
+  typedef typename NumericTraits< PixelType >::FloatType                      InternalRealType;
+  typedef typename InputImageType::template RebindImageType<InternalRealType> RealImageType;
 
   /** Typedef for the first Gaussian smoothing in the pipeline. */
   typedef RecursiveGaussianImageFilter< InputImageType, RealImageType > FirstGaussianFilterType;
