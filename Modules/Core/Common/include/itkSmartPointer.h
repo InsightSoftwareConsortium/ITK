@@ -38,6 +38,9 @@ namespace itk
  * linux:   c++ SmartPointerTest.cxx ./a.out
  * other:   CCcompiler SmartPointerTest.cxx  ./a.out
  *
+ * The state of the SmartPointer after a `move` is with a value of
+ * `nullptr`.
+ *
  * \ingroup ITKSystemObjects
  * \ingroup DataAccess
  * \ingroup ITKCommon
@@ -119,33 +122,25 @@ public:
   bool operator>=(const SmartPointer & r) const
   { return (void *)m_Pointer >= (void *)r.m_Pointer; }
 
-  /** Overload operator assignment.  */
+  /** Overload operator assignment.
+   *
+   * This method is also implicitly used for move semantics.
+   */
   // cppcheck-suppress operatorEqVarError
-  SmartPointer & operator=(const SmartPointer & r)
-  { return this->operator=( r.GetPointer() ); }
-
-
-  /** Move assignment operator **/
-  SmartPointer & operator=( SmartPointer && r)
-    {
-      if(this != &r)
-        {
-        this->UnRegister();
-        this->m_Pointer = r.m_Pointer;
-        r.m_Pointer = nullptr;
-        }
-      return *this;
-    }
-
+  SmartPointer & operator=(SmartPointer  r)
+  {
+    // The Copy-Swap idiom is used, with the implicit copy from the
+    // value-based argument r (intentionally not reference). If a move
+    // is requested it will be moved into r with the move constructor.
+    this->Swap(r);
+    return *this;
+  }
 
   /** Overload operator assignment.  */
   SmartPointer & operator=(ObjectType *r)
   {
-    if ( m_Pointer != r )
-      {
-      SmartPointer temp(r);
-      *this = std::move(temp);
-      }
+    SmartPointer temp(r);
+    this->Swap(temp);
 
     return *this;
   }
