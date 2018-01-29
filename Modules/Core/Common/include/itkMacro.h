@@ -220,7 +220,9 @@ namespace itk
 #define ITK_HAS_CPP11_ALIGNAS error "Replace ITK_HAS_CPP11_ALIGNAS with ITK_COMPILER_CXX_ALIGNAS"
 //-*-*-*
 
-
+// DEPRECATED: These macros are left here for compatibility with remote modules.
+// Once they have been removed from all known remote modules, this code should
+// be removed.
 #if defined ( ITK_FUTURE_LEGACY_REMOVE )
   #define ITK_CONSTEXPR_FUNC "Replace ITK_CONSTEXPR_FUNC with constexpr"
   #define ITK_CONSTEXPR_VAR  "Replace ITK_CONSTEXPR_VAR with constexpr"
