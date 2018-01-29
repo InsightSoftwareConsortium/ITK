@@ -118,6 +118,7 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
   set(cxx_flags
     -Wno-deprecated
     -Wno-invalid-offsetof
+    -Wno-undefined-var-template  # suppress invalid warning when explicitly instantiated in another translation unit
     -Woverloaded-virtual
     -Wstrict-null-sentinel
   )
