@@ -9,14 +9,7 @@ include(CMakeParseArguments)
 
 macro(define_by_product)
   cmake_parse_arguments(BY_PRODUCT "" "NAME" "TARGETS" ${ARGN})
-  if(CMAKE_VERSION VERSION_LESS 3.2)
-    if("${CMAKE_GENERATOR}" STREQUAL "Ninja")
-      message(FATAL_ERROR "CMake >= 3.2 required with Ninja to compile DCMTK.")
-    endif()
-    set(${BY_PRODUCT_NAME}_build_byproducts)
-  else()
-    set(${BY_PRODUCT_NAME}_build_byproducts  BUILD_BYPRODUCTS ${BY_PRODUCT_TARGETS})
-  endif()
+
 endmacro()
 
 if(DCMTK_USE_ICU)
@@ -50,7 +43,6 @@ if(DCMTK_USE_ICU)
         endif()
         list(APPEND ICU_BYPRODUCTS "${lib_path}")
       endforeach()
-    define_by_product(NAME icu TARGETS ${ICU_BYPRODUCTS})
     if(MSVC)
       # Create map of MD5
       set(ICU_1800_32 462079 39c597cf28f2df71baf92156d9276a4e)
@@ -90,13 +82,16 @@ if(DCMTK_USE_ICU)
     endif()
 
     # If not Debug, use Release (for Release, MinSizeRel,...)
-    set(ICU_ROOT_DIR ${ITKDCMTK_PREREQS}/$<$<CONFIG:Debug>:Debug>$<$<NOT:$<CONFIG:Debug>>:Release>)
+    if(CMAKE_CONFIGURATION_TYPES)
+      set(ICU_ROOT_DIR ${ITKDCMTK_PREREQS}/$<$<CONFIG:Debug>:Debug>$<$<NOT:$<CONFIG:Debug>>:Release>)
+    else()
+      set(ICU_ROOT_DIR ${ITKDCMTK_PREREQS})
+    endif()
     set(ICU_ARGS
       -DDCMTK_WITH_STDLIBC_ICONV:BOOL=OFF
       -DDCMTK_WITH_ICU:BOOL=ON
-      -DICU_ROOT_DIR:PATH=${ICU_ROOT_DIR} # Using CMake < 3.7 (FindICU.cmake from DCMTK)
       -DDCMTK_ENABLE_CHARSET_CONVERSION:STRING=ICU
-      -DICU_ROOT:PATH=${ICU_ROOT_DIR}  # CMake >= 3.7 (FindICU.cmake from CMake)
+      -DICU_ROOT:PATH=${ICU_ROOT_DIR}
       )
     itk_download_attempt_check(icu)
     if(MSVC)
@@ -105,7 +100,7 @@ if(DCMTK_USE_ICU)
         URL_MD5 ${ICU_MD5}
         SOURCE_DIR ${ITKDCMTK_PREREQS}
         UPDATE_COMMAND ""
-        ${build_byproducts}
+        BUILD_BYPRODUCTS ${ICU_BYPRODUCTS}
         CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND ""
@@ -116,7 +111,7 @@ if(DCMTK_USE_ICU)
       URL_MD5 ${ICU_MD5}
       PREFIX ${ITKDCMTK_BINARY_DIR}
       UPDATE_COMMAND ""
-      ${icu_build_byproducts}
+      BUILD_BYPRODUCTS ${ICU_BYPRODUCTS}
       CONFIGURE_COMMAND <SOURCE_DIR>/source/configure --prefix=${ITKDCMTK_PREREQS}
         --enable-static=yes
         --enable-shared=no
@@ -124,14 +119,6 @@ if(DCMTK_USE_ICU)
         "CXX=${CMAKE_CXX_COMPILER_LAUNCHER} ${CMAKE_CXX_COMPILER}"
         "CFLAGS=-fPIC"
         "CXXFLAGS=-fPIC"
-      )
-    list(APPEND ICU_ARGS
-    # Missing "sbin" subdirectory  in "icu_binary_suffixes" in FindICU.cmake in CMake when called from DCMTK
-      -DICU_GENCCODE_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/genccode
-      -DICU_GENCMN_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gencmn
-      -DICU_GENNORM2_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gennorm2
-      -DICU_ICUPKG_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/icupkg
-      -DICU_GENSPREP_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gensprep
       )
     endif()
     set(ICU_DEPENDENCY icu)
@@ -331,7 +318,6 @@ endforeach()
   if(CMAKE_CROSSCOMPILING_EMULATOR)
     list(APPEND _cross_compiling_flags -DCMAKE_CROSSCOMPILING_EMULATOR:FILEPATH=${CMAKE_CROSSCOMPILING_EMULATOR})
   endif()
-  define_by_product(NAME dcmtk TARGETS ${DCMTK_BYPRODUCTS})
   itk_download_attempt_check(${DCMTK_EPNAME})
   ExternalProject_Add(${DCMTK_EPNAME}
     GIT_REPOSITORY ${DCMTK_GIT_REPOSITORY}
@@ -368,7 +354,7 @@ endforeach()
     -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
     ${ICU_ARGS}
     DEPENDS ${JPEG_DEPENDENCY} ${PNG_DEPENDENCY} ${TIFF_DEPENDENCY} ${ICU_DEPENDENCY}
-    ${dcmtk_build_byproducts}
+    BUILD_BYPRODUCTS ${DCMTK_BYPRODUCTS}
     )
   foreach(lib ${_ITKDCMTK_LIB_NAMES})
     # make imported library target depend on external project target
