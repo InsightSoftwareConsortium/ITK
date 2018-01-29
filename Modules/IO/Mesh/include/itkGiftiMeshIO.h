@@ -19,7 +19,7 @@
 #define itkGiftiMeshIO_h
 #include "ITKIOMeshExport.h"
 
-#include "itkAutoPointer.h"
+#include <memory>
 #include "itkMapContainer.h"
 #include "itkMatrix.h"
 #include "itkMeshIOBase.h"
@@ -142,7 +142,7 @@ private:
 
   //Note that it is essential that m_GiftiImageHolder is defined before m_GiftiImage, to ensure that
   //m_GiftiImage can directly get a proxy from m_GiftiImageHolder during GiftiImageIO construction.
-  const AutoPointer<GiftiImageProxy> m_GiftiImageHolder;
+  const std::unique_ptr<GiftiImageProxy> m_GiftiImageHolder;
 
   GiftiImageProxy& m_GiftiImage;
 

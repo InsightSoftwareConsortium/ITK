@@ -21,7 +21,8 @@
 
 #include <fstream>
 #include "itkStreamingImageIOBase.h"
-#include "itkAutoPointer.h"
+#include "memory"
+
 
 namespace itk
 {
@@ -114,7 +115,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIO);
 
-  AutoPointer< JPEG2000ImageIOInternal >  m_Internal;
+  std::unique_ptr< JPEG2000ImageIOInternal >  m_Internal;
 
   typedef ImageIORegion::SizeValueType  SizeValueType;
   typedef ImageIORegion::IndexValueType IndexValueType;

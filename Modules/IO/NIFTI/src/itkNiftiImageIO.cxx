@@ -416,8 +416,8 @@ public:
 
 
 NiftiImageIO::NiftiImageIO() :
-  m_NiftiImageHolder(new NiftiImageProxy(nullptr), true),
-  m_NiftiImage(*m_NiftiImageHolder.GetPointer()),
+  m_NiftiImageHolder(new NiftiImageProxy(nullptr)),
+  m_NiftiImage(*m_NiftiImageHolder.get()),
   m_RescaleSlope(1.0),
   m_RescaleIntercept(0.0),
   m_OnDiskComponentType(UNKNOWNCOMPONENTTYPE),

@@ -22,7 +22,7 @@
 
 
 #include <fstream>
-#include "itkAutoPointer.h"
+#include <memory>
 #include "itkImageIOBase.h"
 
 namespace itk
@@ -131,7 +131,7 @@ private:
 
   //Note that it is essential that m_NiftiImageHolder is defined before m_NiftiImage, to ensure that
   //m_NiftiImage can directly get a proxy from m_NiftiImageHolder during NiftiImageIO construction.
-  const AutoPointer<NiftiImageProxy> m_NiftiImageHolder;
+  const std::unique_ptr<NiftiImageProxy> m_NiftiImageHolder;
 
   NiftiImageProxy& m_NiftiImage;
 

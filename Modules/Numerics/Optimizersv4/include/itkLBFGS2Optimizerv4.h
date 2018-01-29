@@ -21,7 +21,7 @@
 
 #include "itkObjectToObjectOptimizerBase.h"
 #include "ITKOptimizersv4Export.h"
-#include "itkAutoPointer.h"
+#include <memory>
 
 
 namespace itk
@@ -430,7 +430,7 @@ private:
   // Private Implementation (Pimpl), to hide liblbfgs data structures
   class PrivateImplementationHolder;
 
-  AutoPointer<PrivateImplementationHolder> m_Pimpl;
+  std::unique_ptr<PrivateImplementationHolder> m_Pimpl;
 
   /** Progress update variables */
   const double *m_CurrentGradient;

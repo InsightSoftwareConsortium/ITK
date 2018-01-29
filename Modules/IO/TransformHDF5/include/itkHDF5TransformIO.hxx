@@ -302,7 +302,7 @@ HDF5TransformIOTemplate<TParametersValueType>
   // happens in a big try/catch clause
   try
     {
-    this->m_H5File.TakeOwnership(new H5::H5File(this->GetFileName(),H5F_ACC_RDONLY));
+    this->m_H5File.reset(new H5::H5File(this->GetFileName(),H5F_ACC_RDONLY));
     // open /TransformGroup
     H5::Group transformGroup = this->m_H5File->openGroup(transformGroupName);
 
@@ -407,7 +407,7 @@ HDF5TransformIOTemplate<TParametersValueType>
   sysInfo.RunOSCheck();
   try
     {
-    this->m_H5File.TakeOwnership(new H5::H5File(this->GetFileName(),H5F_ACC_TRUNC));
+    this->m_H5File.reset(new H5::H5File(this->GetFileName(),H5F_ACC_TRUNC));
 
     this->WriteString(ItkVersion, Version::GetITKVersion());
     this->WriteString(HDFVersion, H5_VERS_INFO);
