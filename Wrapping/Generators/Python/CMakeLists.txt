@@ -496,7 +496,7 @@ _ITKCommonPython_GetObjectFactoryBase_PROTO
     target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
     itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${PYTHON_LIBRARY})
 
-    if(CMAKE_VERSION VERSION_GREATER 2.8.12 AND USE_COMPILER_HIDDEN_VISIBILITY)
+    if(USE_COMPILER_HIDDEN_VISIBILITY)
       # Prefer to use target properties supported by newer cmake
       set_target_properties(${lib} PROPERTIES CXX_VISIBILITY_PRESET hidden)
       set_target_properties(${lib} PROPERTIES C_VISIBILITY_PRESET hidden)
