@@ -20,8 +20,6 @@
 
 #include "itkImage.h"
 #include "itkProcessObject.h"
-#include "itkPhaseCorrelationOperator.h"
-#include "itkPhaseCorrelationOptimizer.h"
 #include <complex>
 #include "itkConstantPadImageFilter.h"
 #include "itkForwardFFTImageFilter.h"
@@ -29,6 +27,8 @@
 #include "itkDataObjectDecorator.h"
 #include "itkTranslationTransform.h"
 
+#include "itkPhaseCorrelationOperator.h"
+#include "itkPhaseCorrelationOptimizer.h"
 
 namespace itk
 {
@@ -55,7 +55,7 @@ namespace itk
  *  frequencies in step 2.
  *
  *  Step 1. is performed by this class too using FFT filters supplied by
- *  itk::FFTRealToComplexConjugateImageFilter::New() factory.
+ *  itk::ForwardFFTImageFilter::New() factory.
  *
  *  Step 2. is performed by generic PhaseCorrelationOperator supplied during
  *  run time. It has to crop the high frequencies to subsample the two images to
@@ -66,7 +66,7 @@ namespace itk
  *  correlation surface, while the others compute the shift from real
  *  correlation surface, step 3. is carried by this class only when necessary.
  *  The IFFT filter is created using
- *  itk::FFTComplexConjugateToRealImageFilter::New() factory.
+ *  itk::InverseFFTImageFilter::New() factory.
  *
  *  Step 4. is performed by run time supplied PhaseCorrelationOptimizer. It has
  *  to determine the shift from the real or complex correlation surface.
