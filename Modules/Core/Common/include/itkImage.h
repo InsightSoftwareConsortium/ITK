@@ -154,14 +154,20 @@ public:
 
   /**
    * example usage:
-   * typedef typename ImageType::template Rebind< float >::Type OutputImageType;
+   * typedef typename ImageType::template Rebind< float >::Type
+   * OutputImageType;
    *
+   * \deprecated Use RebindImageType instead
    */
   template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
   struct Rebind
     {
       typedef itk::Image<UPixelType, NUImageDimension>  Type;
     };
+
+
+  template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
+    using RebindImageType = itk::Image<UPixelType, NUImageDimension>;
 
 
   /** Allocate the image memory. The size of the image must

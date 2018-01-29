@@ -181,6 +181,7 @@ public:
    * \endcode
    *
    * \sa Image::Rebind
+   * \deprecated Use template alias RebindImageType instead
    */
   template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
   struct Rebind
@@ -195,6 +196,9 @@ public:
     typedef itk::VectorImage<UElementType, NUImageDimension>  Type;
   };
   /// \endcond
+
+  template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
+    using RebindImageType = typename Rebind<UPixelType, NUImageDimension>::Type;
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */
