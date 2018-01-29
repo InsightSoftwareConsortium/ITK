@@ -175,12 +175,11 @@ endif()
 # in ITK's configuration. If it is set, it most likely means that
 # a developer is configuring ITK to be built with a launcher such as ccache
 # or distcc. This should be done with the CMake variable
-# CMAKE_C_COMPILER_LAUNCHER_FLAG available in CMake > 3.4.0 .
+# CMAKE_C_COMPILER_LAUNCHER_FLAG.
 if(CMAKE_C_COMPILER_ARG1)
   message(WARNING "The CMake variable CMAKE_C_COMPILER_ARG1 is set. This most\
   likely mean that the developer is trying to use ccache or distcc. The CMake\
-  variable CMAKE_C_COMPILER_LAUNCHER_FLAG should be used instead\
-  (CMake>=3.4 required)")
+  variable CMAKE_C_COMPILER_LAUNCHER_FLAG should be used instead.")
 endif()
 
 #-----------------------------------------------------------------------------
