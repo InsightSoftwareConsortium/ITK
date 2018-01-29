@@ -204,8 +204,7 @@ LBFGSBOptimizerv4
 
   CostFunctionAdaptorType *adaptor = this->GetCostFunctionAdaptor();
 
-  m_VnlOptimizer.Reset();
-  m_VnlOptimizer.TakeOwnership( new InternalOptimizerType( *adaptor, this ) );
+  m_VnlOptimizer.reset( new InternalOptimizerType( *adaptor, this ) );
 
   // set the optimizer parameters
   m_VnlOptimizer->set_trace( m_Trace );

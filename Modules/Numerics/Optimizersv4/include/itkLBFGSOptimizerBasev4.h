@@ -21,7 +21,7 @@
 #include "itkSingleValuedNonLinearVnlOptimizerv4.h"
 #include "vnl/algo/vnl_lbfgs.h"
 #include "vnl/algo/vnl_lbfgsb.h"
-#include "itkAutoPointer.h"
+#include <memory>
 #include "ITKOptimizersv4Export.h"
 
 namespace itk
@@ -140,7 +140,8 @@ protected:
 
   bool                         m_OptimizerInitialized;
 
-  typedef AutoPointer<InternalOptimizerType>  InternalOptimizerAutoPointer;
+  typedef std::unique_ptr<InternalOptimizerType>  InternalOptimizerAutoPointer;
+
   InternalOptimizerAutoPointer  m_VnlOptimizer;
 
   mutable std::ostringstream    m_StopConditionDescription;

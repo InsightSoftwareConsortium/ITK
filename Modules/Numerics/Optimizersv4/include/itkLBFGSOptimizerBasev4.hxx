@@ -186,7 +186,7 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 
   this->SetCostFunctionAdaptor( adaptor );
 
-  m_VnlOptimizer.TakeOwnership( new InternalOptimizerType( *adaptor, this ) );
+  m_VnlOptimizer.reset( new InternalOptimizerType( *adaptor, this ) );
 }
 
 template<typename TInternalVnlOptimizerType>
@@ -211,7 +211,7 @@ typename LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::InternalOptimizerType 
 LBFGSOptimizerBasev4<TInternalVnlOptimizerType>
 ::GetOptimizer()
 {
-  return m_VnlOptimizer.GetPointer();
+  return m_VnlOptimizer.get();
 }
 
 template<typename TInternalVnlOptimizerType>

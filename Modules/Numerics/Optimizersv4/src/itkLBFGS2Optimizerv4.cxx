@@ -32,7 +32,7 @@ public:
 
 LBFGS2Optimizerv4
   ::LBFGS2Optimizerv4()
-    :m_Pimpl(new PrivateImplementationHolder, true)
+    :m_Pimpl(new PrivateImplementationHolder)
 {
   //Initialize to default paramaters
   lbfgs_parameter_init( &m_Pimpl->m_Parameters );

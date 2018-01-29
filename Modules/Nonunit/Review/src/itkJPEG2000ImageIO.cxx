@@ -69,9 +69,8 @@ public:
 
 
 JPEG2000ImageIO::JPEG2000ImageIO()
+  : m_Internal( new JPEG2000ImageIOInternal )
 {
-  this->m_Internal.TakeOwnership( new JPEG2000ImageIOInternal );
-
   //   opj_dparameters_t m_DecompressionParameters;
   opj_set_default_decoder_parameters(& this->m_Internal->m_DecompressionParameters);
 

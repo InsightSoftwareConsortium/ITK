@@ -49,8 +49,8 @@ public:
 
 GiftiMeshIO
 ::GiftiMeshIO() :
-  m_GiftiImageHolder(new GiftiImageProxy(nullptr), true),
-  m_GiftiImage(*m_GiftiImageHolder.GetPointer())
+  m_GiftiImageHolder(new GiftiImageProxy(nullptr)),
+  m_GiftiImage(*m_GiftiImageHolder.get())
 {
   this->AddSupportedWriteExtension(".gii");
   m_ReadPointData = true;

@@ -21,7 +21,7 @@
 #include "ITKIOTransformHDF5Export.h"
 
 #include "itkTransformIOBase.h"
-#include "itkAutoPointer.h"
+#include <memory>
 #include <string>
 
 // Avoids KWStyle error from forward declaration below.
@@ -139,7 +139,7 @@ private:
   void WriteOneTransform(const int transformIndex,
                          const TransformType *transform);
 
-  AutoPointer<H5::H5File> m_H5File;
+  std::unique_ptr<H5::H5File> m_H5File;
 };
 const std::string ITKIOTransformHDF5_EXPORT GetTransformName(int);
 
