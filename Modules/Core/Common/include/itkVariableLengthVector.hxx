@@ -87,7 +87,6 @@ VariableLengthVector< TValue >
     }
 }
 
-#if defined(ITK_HAS_CXX11_RVREF)
 template< typename TValue >
 VariableLengthVector< TValue >
 ::VariableLengthVector(Self && v) ITK_NOEXCEPT
@@ -142,8 +141,6 @@ VariableLengthVector< TValue >
 
   return *this;
 }
-
-#endif
 
 template< typename TValue >
 template <typename VariableLengthVectorExpression1, typename VariableLengthVectorExpression2, typename  TBinaryOp>
