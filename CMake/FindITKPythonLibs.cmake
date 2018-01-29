@@ -22,13 +22,4 @@
 # If SelectLibraryConfigurations was run, then the individual
 # PYTHON_LIBRARY_<CONFIG> values have been populated.
 
-if(CMAKE_VERSION VERSION_GREATER 3.7.1)
-  # Do nothing, the bug has been fixed
-else()
-  if(PYTHON_LIBRARY_RELEASE)
-    set(PYTHON_LIBRARY ${PYTHON_LIBRARY_RELEASE})
-  elseif(PYTHON_LIBRARY_DEBUG)
-    set(PYTHON_LIBRARY ${PYTHON_LIBRARY_DEBUG})
-  endif()
-endif()
 find_package(PythonLibs)
