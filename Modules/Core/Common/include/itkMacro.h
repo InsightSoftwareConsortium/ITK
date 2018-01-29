@@ -207,7 +207,6 @@ namespace itk
   #endif
 #endif
 
-#define ITK_HAS_CXX11_RVREF
 
 //-*-*-*
 //The following deprecations should be removed in ITKV6 and later
@@ -223,11 +222,13 @@ namespace itk
 
 
 #if defined ( ITK_FUTURE_LEGACY_REMOVE )
-  #define ITK_CONSTEXPR_FUNC constexpr
-  #define ITK_CONSTEXPR_VAR constexpr
-#else
   #define ITK_CONSTEXPR_FUNC "Replace ITK_CONSTEXPR_FUNC with constexpr"
   #define ITK_CONSTEXPR_VAR  "Replace ITK_CONSTEXPR_VAR with constexpr"
+  #define ITK_HAS_CXX11_RVREF "The value of this variable is always TRUE in ITKv5"
+#else
+  #define ITK_CONSTEXPR_FUNC constexpr
+  #define ITK_CONSTEXPR_VAR constexpr
+  #define ITK_HAS_CXX11_RVREF
 #endif
 
 // Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,

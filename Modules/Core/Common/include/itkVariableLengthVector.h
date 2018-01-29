@@ -428,7 +428,6 @@ public:
     swap(v.m_NumElements, m_NumElements);
     }
 
-#if defined(ITK_HAS_CXX11_RVREF)
   /** C++11 Move Constructor.
    * \post \c v is destructible and assignable.
    * \post `m_NumElements == 0`
@@ -447,7 +446,6 @@ public:
    * \post Current object contains old \c v data.
    */
   Self & operator=(Self && v) ITK_NOEXCEPT;
-#endif
 
   /** Constructor from an Expression Template vector.
    * \tparam TExpr1 Type of the left sub-expression
