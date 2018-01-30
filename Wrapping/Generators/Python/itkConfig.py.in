@@ -48,7 +48,7 @@ NotInPlace = False
 # Internal settings
 
 import warnings
-def itkFormatWarning(msg, *a):
+def itkFormatWarning(msg, *a, **kwa):
     """"Format the warnings issued by itk to display only the message.
 
     This will ignore the filename and the linenumber where the warning was
