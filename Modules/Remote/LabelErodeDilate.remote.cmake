@@ -6,7 +6,9 @@ itk_fetch_module(LabelErodeDilate
   structuring elements are supported.
   http://www.insight-journal.org/browse/publication/228
   https://hdl.handle.net/10380/3399"
-  #UPSTREAM_GIT_REPOSITORY ${git_protocol}://github.com/richardbeare/LabelErodeDilate.git
-  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/LabelErodeDilate.git
-  GIT_TAG efccdb0b6c8c3dab4d3e6782626ced48b4fc1042
+  #UPSTREAM_GIT_REPOSITORY
+  GIT_REPOSITORY ${git_protocol}://github.com/richardbeare/LabelErodeDilate.git
+  # Clone is not synchronized correctly with upstream.
+  #GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/LabelErodeDilate.git
+  GIT_TAG 55fdb464ad2ea325a6260c997280dc5a1bb029e2
   )
