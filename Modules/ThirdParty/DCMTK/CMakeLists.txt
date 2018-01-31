@@ -7,10 +7,6 @@ set(ITKDCMTK_NO_SRC 1)
 
 include(CMakeParseArguments)
 
-macro(define_by_product)
-  cmake_parse_arguments(BY_PRODUCT "" "NAME" "TARGETS" ${ARGN})
-
-endmacro()
 
 if(DCMTK_USE_ICU)
   option(ITK_USE_SYSTEM_ICU "Use an installed version of icu" OFF)
@@ -18,116 +14,81 @@ if(DCMTK_USE_ICU)
     set(ITKDCMTK_PREREQS ${ITKDCMTK_BINARY_DIR}/DCMTK_Prereqs)
     set(ITKDCMTK_ICU_LIBRARIES )
     if(WIN32)
-      set(ITKDCMTK_ICU_LIBRARY_NAMES uc dt)
+      message(FATAL_ERROR "ICU is not built as part of ITK on Windows. Please compile it outside of ITK.")
     else()
       set(ITKDCMTK_ICU_LIBRARY_NAMES uc data)
     endif()
     foreach(lib_name ${ITKDCMTK_ICU_LIBRARY_NAMES})
       set(lib ICU::${lib_name})
-        list(APPEND ITKDCMTK_ICU_LIBRARIES ${lib})
-        add_library(${lib} STATIC IMPORTED GLOBAL)
-        if(CMAKE_CONFIGURATION_TYPES)
-          foreach(c ${CMAKE_CONFIGURATION_TYPES})
-            string(TOUPPER "${c}" C)
-            set(debug_suffix)
-            if("${C}" STREQUAL "DEBUG")
-              set(lib_path ${ITKDCMTK_PREREQS}/${c}/lib/${lib_prefix}icu${lib_name}d${CMAKE_STATIC_LIBRARY_SUFFIX})
-            else()  # For all non-debug, use release
-              set(lib_path ${ITKDCMTK_PREREQS}/Release/lib/${lib_prefix}icu${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX})
-            endif()
-            set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION_${C} ${lib_path})
-          endforeach()
-        else()
-          set(lib_path ${ITKDCMTK_PREREQS}/lib/${lib_prefix}icu${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX})
-          set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION ${lib_path})
-        endif()
-        list(APPEND ICU_BYPRODUCTS "${lib_path}")
-      endforeach()
-    if(MSVC)
-      # Create map of MD5
-      set(ICU_1800_32 462079 39c597cf28f2df71baf92156d9276a4e)
-      set(ICU_1800_64 462080 9f9bc9e165ce47182889a748c20028c3)
-      set(ICU_1900_32 462049 86f191c160ff86e66437c23ae36c50f8)
-      set(ICU_1900_64 462053 3db188b9ba24ca39a0c5d1411b591d4d)
-      set(ICU_1911_32 462051 e4053721d7d11125d82df34e0a576c2a)
-      set(ICU_1911_64 462048 1706884a6fb773caad3f3955747cf7db)
-      ###
-      # Use a compatible MSVC_VERSION version if specific version is not available.
-      set(ICU_MSVC_VERSION ${MSVC_VERSION})
-      if(${ICU_MSVC_VERSION} LESS 1900) # Before VS 2015, so VS 2013 and earlier
-        set(version "58.2")
-      else()  # VS2015 && VS2017
-        set(version "59.1")
-        # All MSVC versions between 1910 and 1919 (both included) are or will
-        # be VS2017
-        if(${ICU_MSVC_VERSION} GREATER 1909 AND ${ICU_MSVC_VERSION} LESS 1920)
-          set(ICU_MSVC_VERSION 1911)
-        endif()
+      list(APPEND ITKDCMTK_ICU_LIBRARIES ${lib})
+      add_library(${lib} STATIC IMPORTED GLOBAL)
+      if(CMAKE_CONFIGURATION_TYPES)
+        foreach(c ${CMAKE_CONFIGURATION_TYPES})
+          string(TOUPPER "${c}" C)
+          set(debug_suffix)
+          if("${C}" STREQUAL "DEBUG")
+            set(lib_path ${ITKDCMTK_PREREQS}/${c}/lib/${lib_prefix}icu${lib_name}d${CMAKE_STATIC_LIBRARY_SUFFIX})
+          else()  # For all non-debug, use release
+            set(lib_path ${ITKDCMTK_PREREQS}/Release/lib/${lib_prefix}icu${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX})
+          endif()
+          set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION_${C} ${lib_path})
+        endforeach()
+      else()
+        set(lib_path ${ITKDCMTK_PREREQS}/lib/${lib_prefix}icu${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX})
+        set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION ${lib_path})
       endif()
-      string(REPLACE "." "_" version_underscore ${version})
-      math(EXPR bitness "${CMAKE_SIZEOF_VOID_P} * 8")
-      set(root_name "icu4c-${version_underscore}")
-      set(binary_archive_name "${root_name}-install-msvc${ICU_MSVC_VERSION}-${bitness}")
-      if(NOT DEFINED ICU_${ICU_MSVC_VERSION}_${bitness})
-        message(FATAL_ERROR
-        "Unsupported version of Visual Studio. Disable DCMTK_USE_ICU."
-        )
-      endif()
-      list(GET ICU_${ICU_MSVC_VERSION}_${bitness} 0 item_id)
-      set(ICU_URL "https://midas3.kitware.com/midas/download/bitstream/${item_id}")
-      list(GET ICU_${ICU_MSVC_VERSION}${bitness} 1 ICU_MD5)
-    else()
-      set(ICU_URL "http://download.icu-project.org/files/icu4c/58.2/icu4c-58_2-src.tgz")
-      set(ICU_MD5 fac212b32b7ec7ab007a12dff1f3aea1)
-    endif()
+      list(APPEND ICU_BYPRODUCTS "${lib_path}")
+    endforeach()
 
+    set(ICU_URL "http://download.icu-project.org/files/icu4c/58.2/icu4c-58_2-src.tgz")
+    set(ICU_MD5 fac212b32b7ec7ab007a12dff1f3aea1)
     # If not Debug, use Release (for Release, MinSizeRel,...)
     if(CMAKE_CONFIGURATION_TYPES)
       set(ICU_ROOT_DIR ${ITKDCMTK_PREREQS}/$<$<CONFIG:Debug>:Debug>$<$<NOT:$<CONFIG:Debug>>:Release>)
     else()
       set(ICU_ROOT_DIR ${ITKDCMTK_PREREQS})
     endif()
-    set(ICU_ARGS
+    set(CHARSET_CONVERSION_ARGS
       -DDCMTK_WITH_STDLIBC_ICONV:BOOL=OFF
       -DDCMTK_WITH_ICU:BOOL=ON
       -DDCMTK_ENABLE_CHARSET_CONVERSION:STRING=ICU
       -DICU_ROOT:PATH=${ICU_ROOT_DIR}
       )
     itk_download_attempt_check(icu)
-    if(MSVC)
-      ExternalProject_Add(icu
-        URL ${ICU_URL}
-        URL_MD5 ${ICU_MD5}
-        SOURCE_DIR ${ITKDCMTK_PREREQS}
-        UPDATE_COMMAND ""
-        BUILD_BYPRODUCTS ${ICU_BYPRODUCTS}
-        CONFIGURE_COMMAND ""
-      BUILD_COMMAND ""
-      INSTALL_COMMAND ""
-      )
-    else()
-      ExternalProject_Add(icu
-      URL ${ICU_URL}
-      URL_MD5 ${ICU_MD5}
-      PREFIX ${ITKDCMTK_BINARY_DIR}
-      UPDATE_COMMAND ""
-      BUILD_BYPRODUCTS ${ICU_BYPRODUCTS}
-      CONFIGURE_COMMAND <SOURCE_DIR>/source/configure --prefix=${ITKDCMTK_PREREQS}
-        --enable-static=yes
-        --enable-shared=no
-        "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
-        "CXX=${CMAKE_CXX_COMPILER_LAUNCHER} ${CMAKE_CXX_COMPILER}"
-        "CFLAGS=-fPIC"
-        "CXXFLAGS=-fPIC"
-      )
-    endif()
+    ExternalProject_Add(icu
+    URL ${ICU_URL}
+    URL_MD5 ${ICU_MD5}
+    PREFIX ${ITKDCMTK_BINARY_DIR}
+    UPDATE_COMMAND ""
+    BUILD_BYPRODUCTS ${ICU_BYPRODUCTS}
+    CONFIGURE_COMMAND <SOURCE_DIR>/source/configure --prefix=${ITKDCMTK_PREREQS}
+      --with-data-packaging=static
+      --enable-static=yes
+      --enable-shared=no
+      "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
+      "CXX=${CMAKE_CXX_COMPILER_LAUNCHER} ${CMAKE_CXX_COMPILER}"
+      "CFLAGS=-fPIC"
+      "CXXFLAGS=-fPIC"
+    )
     set(ICU_DEPENDENCY icu)
   endif()
 endif()
 
+if(APPLE)
+  # Character set conversion creates linking errors on MacOS. We disable
+  # `iconv` which is likely going to be found on the system by DCMTK, and
+  # that is going to create linking errors.
+  list(APPEND
+      CHARSET_CONVERSION_ARGS
+        -DDCMTK_WITH_ICONV:BOOL=OFF
+      )
+endif()
 
 set(_ITKDCMTK_LIB_NAMES dcmdata dcmimage dcmimgle dcmjpeg dcmjpls
     dcmnet dcmpstat dcmqrdb dcmsr dcmtls ijg12 ijg16 ijg8 oflog ofstd)
+if(WIN32)
+  set(ITKDCMTK_LIBDEP_WIN iphlpapi ws2_32 netapi32 wsock32)
+endif()
 
 #
 # if DCMTK is built elsewhere
@@ -191,6 +152,7 @@ set(CMAKE_MODULE_PATH
   \"${CMAKE_CURRENT_SOURCE_DIR}/CMake\" \${CMAKE_MODULE_PATH})
 ")
 
+set(ITKDCMTK_LINK_DEPENDENCIES ${ITKDCMTK_LIBDEP_WIN})
   # create imported targets when module is loaded from build tree
   if(CMAKE_CONFIGURATION_TYPES)
     set(ITKDCMTK_EXPORT_CODE_BUILD "
@@ -202,6 +164,9 @@ foreach(lib ${_ITKDCMTK_LIB_NAMES})
       string(TOUPPER \"\${c}\" C)
       set_property(TARGET \${lib} PROPERTY IMPORTED_LOCATION_\${C}
         \"${lib_dir}/\${c}/${lib_prefix}\${lib}${lib_suffix}\")
+    set_property(TARGET \${lib} PROPERTY
+      IMPORTED_LINK_INTERFACE_LIBRARIES
+      ${ITKDCMTK_LINK_DEPENDENCIES})
     endforeach()
   endif()
 endforeach()
@@ -214,6 +179,9 @@ foreach(lib ${_ITKDCMTK_LIB_NAMES})
     add_library(\${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED)
     set_property(TARGET \${lib} PROPERTY IMPORTED_LOCATION
       \"${lib_dir}/${lib_prefix}\${lib}${lib_suffix}\")
+    set_property(TARGET \${lib} PROPERTY
+      IMPORTED_LINK_INTERFACE_LIBRARIES
+      ${ITKDCMTK_LINK_DEPENDENCIES})
   endif()
 endforeach()
 ")
@@ -225,6 +193,9 @@ foreach(lib ${_ITKDCMTK_LIB_NAMES})
     add_library(\${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED)
     set_property(TARGET \${lib} PROPERTY IMPORTED_LOCATION
       \"\${ITK_INSTALL_PREFIX}/lib/${lib_prefix}\${lib}${lib_suffix}\")
+    set_property(TARGET \${lib} PROPERTY
+      IMPORTED_LINK_INTERFACE_LIBRARIES
+      ${ITKDCMTK_LINK_DEPENDENCIES})
   endif()
 endforeach()
 ")
@@ -269,9 +240,7 @@ endforeach()
 
   # build the list of libraries upon which DCMTK depends
   set(ITKDCMTK_LIBDEP "")
-  if(WIN32)
-    list(APPEND ITKDCMTK_LIBDEP iphlpapi ws2_32 netapi32 wsock32)
-  endif()
+  list(APPEND ITKDCMTK_LIBDEP ${ITKDCMTK_LIBDEP_WIN})
   foreach(lib ITKJPEG_LIBRARIES ITKTIFF_LIBRARIES ITKPNG_LIBRARIES
       ITKZLIB_LIBRARIES ITKDCMTK_ICU_LIBRARIES)
     foreach(_lib ${${lib}})
@@ -328,6 +297,7 @@ endforeach()
     INSTALL_COMMAND ""
    CMAKE_ARGS
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
+    -DCMAKE_VERBOSE_MAKEFILE:BOOL=${CMAKE_VERBOSE_MAKEFILE}
     -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
     -DDCMTK_ENABLE_BUILTIN_DICTIONARY:BOOL=ON
     -DDCMTK_WITH_DOXYGEN:BOOL=OFF
@@ -352,7 +322,7 @@ endforeach()
     -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
     -DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
-    ${ICU_ARGS}
+    ${CHARSET_CONVERSION_ARGS}
     DEPENDS ${JPEG_DEPENDENCY} ${PNG_DEPENDENCY} ${TIFF_DEPENDENCY} ${ICU_DEPENDENCY}
     BUILD_BYPRODUCTS ${DCMTK_BYPRODUCTS}
     )
