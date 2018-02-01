@@ -71,17 +71,6 @@ foreach(CXX_TEST_VERSION 201103L 201402L 201703L)
   endif()
 endforeach()
 
-# check of the optional TR1 type_traits, alternative boost
-# implementation could also be searched for
-include(CheckIncludeFileCXX)
-check_include_file_cxx( tr1/type_traits ITK_HAS_STLTR1_TR1_TYPE_TRAITS )
-check_include_file_cxx( type_traits ITK_HAS_STLTR1_TYPE_TRAITS )
-
-# Check for C++11 type_traits
-try_compile( ITK_HAS_CPP11_TYPETRAITS
-  ${ITK_BINARY_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckCxx11StlTypeTraits.cxx )
-
 try_compile( ITK_HAS_GNU_ATTRIBUTE_ALIGNED
   ${ITK_BINARY_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasGNUAttributeAligned.cxx
