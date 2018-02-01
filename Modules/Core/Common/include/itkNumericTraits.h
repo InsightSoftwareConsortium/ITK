@@ -24,17 +24,22 @@
 #undef max
 
 #define itkNUMERIC_TRAITS_MIN_MAX_MACRO()          \
-  static constexpr ValueType min(ValueType)                  \
+  static constexpr ValueType min(ValueType)         \
     {                                              \
     return std::numeric_limits< ValueType >::min(); \
     }                                              \
-  static constexpr ValueType max(ValueType)                  \
+  static constexpr ValueType max(ValueType)         \
     {                                              \
     return std::numeric_limits< ValueType >::max(); \
     }                                              \
-  using std::numeric_limits< ValueType >::min; \
-  using std::numeric_limits< ValueType >::max \
-  // Note: the last line is without a semicolon, as each macro call already ends with one.
+  static constexpr ValueType min()                  \
+    {                                              \
+    return std::numeric_limits< ValueType >::min(); \
+    }                                              \
+  static constexpr ValueType max()                  \
+    {                                              \
+    return std::numeric_limits< ValueType >::max(); \
+    }
 
 #if !defined( ITK_LEGACY_FUTURE_REMOVE )
 # include "vcl_limits.h"
