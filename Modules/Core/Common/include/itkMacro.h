@@ -627,8 +627,13 @@ itkTypeMacro(newexcp, parentexcp);                                              
   typedef oldtype newtype
 #endif
 
+#if defined ( ITK_FUTURE_LEGACY_REMOVE )
 //=============================================================================
-/* Define a common way of declaring a templated function as a friend inside a class.
+/*
+NOTE: DEPRECATED - This macro is not longer needed to support modern
+compilers.
+
+ Define a common way of declaring a templated function as a friend inside a class.
   - ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENTS(T)
 
   The following templated function
@@ -636,15 +641,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
             template <T>
             T add(const T & a, const T & b);
 
-  is declared as friend in some compilers as:
-
-            class A
-              {
-              public:
-                friend Self add<Self>( const Self & a, const Self & b );
-              }
-
-   while other compilers will do
+   is declared as friend with
 
             class A
               {
@@ -652,28 +649,10 @@ itkTypeMacro(newexcp, parentexcp);                                              
                 friend Self add<>( const Self & a, const Self & b );
               }
 
-   This characteristic of the compiler is checked by a TRY_COMPILE
-   command defined in Insight/CMake/itkTestFriendTemplatedFunction.cxx
-
 */
-#if defined( ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_NULL_STRING )
-#define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)
-#else
-#if defined( ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_EMPTY_BRACKETS )
 #define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)  < >
-#else
-#if defined( ITK_SUPPORTS_TEMPLATED_FRIEND_FUNCTION_WITH_TEMPLATE_ARGUMENTS )
-#define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)  < T >
-#endif
-#endif
-#endif
-// THIS IS A TEMPORARY PATCH FOR Visual Studio 10. The correct solution must
-// be implemented in Insight/CMake/itkTestFriendTemplatedFunction.cxx
-#if ( defined ( _MSC_VER ) && ( _MSC_VER >= 1600 ) )
-#ifdef  ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT
-#undef  ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT
-#endif
-#define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T)
+#else // LEGACY_REMOVE
+#define ITK_FRIEND_TEMPLATE_FUNCTION_ARGUMENT(T) "Macro remove use C++11 compliant declaration of "
 #endif
 
 //--------------------------------------------------------------------------------

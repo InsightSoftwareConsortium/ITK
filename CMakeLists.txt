@@ -218,8 +218,7 @@ endif()
 
 include(ITKSetStandardCompilerFlags)
 #---------------------------------------------------------------
-# run try compiles and tests for ITK
-include(itkTestFriendTemplatedFunction)
+
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
