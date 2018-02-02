@@ -68,11 +68,11 @@ class ITK_TEMPLATE_EXPORT ExpandImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ExpandImageFilter                               Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ExpandImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -81,32 +81,32 @@ public:
   itkTypeMacro(ExpandImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /** Inherit some types from superclass. */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename InputImageType::Pointer     InputImagePointer;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Typedef support for the interpolation function. */
-  typedef double                                                   CoordRepType;
-  typedef InterpolateImageFunction< InputImageType, CoordRepType > InterpolatorType;
-  typedef typename InterpolatorType::Pointer                       InterpolatorPointer;
-  typedef LinearInterpolateImageFunction< InputImageType, CoordRepType >
-  DefaultInterpolatorType;
+  using CoordRepType = double;
+  using InterpolatorType = InterpolateImageFunction< InputImageType, CoordRepType >;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
+  using DefaultInterpolatorType =
+      LinearInterpolateImageFunction< InputImageType, CoordRepType >;
 
   /** Get/Set the interpolator function. */
   itkSetObjectMacro(Interpolator, InterpolatorType);
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** The type of the expand factors representation */
-  typedef FixedArray< unsigned int, ImageDimension > ExpandFactorsType;
+  using ExpandFactorsType = FixedArray< unsigned int, ImageDimension >;
 
   /** Set the expand factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */

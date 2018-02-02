@@ -37,19 +37,19 @@ template<typename TParametersValueType>
 class ITK_TEMPLATE_EXPORT TransformIOFactoryTemplate:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef TransformIOFactoryTemplate Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer<Self>         Pointer;
-  typedef SmartPointer<const Self>   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TransformIOFactoryTemplate;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class Methods used to interface with the registered factories */
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformIOFactoryTemplate, Object);
 
-  /** Convenient typedefs. */
-  typedef typename TransformIOBaseTemplate<TParametersValueType>::Pointer TransformIOBasePointer;
+  /** Convenient type alias. */
+  using TransformIOBasePointer = typename TransformIOBaseTemplate<TParametersValueType>::Pointer;
 
   /** Create the appropriate TransformIO depending on
    *  the particulars of the file.
@@ -66,7 +66,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef TransformIOFactoryTemplate<double> TransformIOFactory;
+using TransformIOFactory = TransformIOFactoryTemplate<double>;
 
 } // end namespace itk
 

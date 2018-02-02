@@ -53,13 +53,13 @@ class ITK_TEMPLATE_EXPORT BSplineInterpolationWeightFunction:
                        Array< double > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineInterpolationWeightFunction Self;
-  typedef FunctionBase< ContinuousIndex< TCoordRep, VSpaceDimension >,
-                        Array< double > >                  Superclass;
+  /** Standard class type aliases. */
+  using Self = BSplineInterpolationWeightFunction;
+  using Superclass = FunctionBase< ContinuousIndex< TCoordRep, VSpaceDimension >,
+                        Array< double > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** New macro for creation of through the object factory. */
   itkNewMacro(Self);
@@ -73,15 +73,15 @@ public:
   /** Spline order. */
   itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
-  /** OutputType typedef support. */
-  typedef Array< double > WeightsType;
+  /** OutputType type alias support. */
+  using WeightsType = Array< double >;
 
-  /** Index and size typedef support. */
-  typedef Index< VSpaceDimension > IndexType;
-  typedef Size< VSpaceDimension >  SizeType;
+  /** Index and size type alias support. */
+  using IndexType = Index< VSpaceDimension >;
+  using SizeType = Size< VSpaceDimension >;
 
-  /** ContinuousIndex typedef support. */
-  typedef ContinuousIndex< TCoordRep, VSpaceDimension > ContinuousIndexType;
+  /** ContinuousIndex type alias support. */
+  using ContinuousIndexType = ContinuousIndex< TCoordRep, VSpaceDimension >;
 
   /** Evaluate the weights at specified ContinuousIndex position.
    * Subclasses must provide this method. */
@@ -119,13 +119,13 @@ private:
   SizeType m_SupportSize;
 
   /** Lookup table type. */
-  typedef Array2D< unsigned int > TableType;
+  using TableType = Array2D< unsigned int >;
 
   /** Table mapping linear offset to indices. */
   TableType m_OffsetToIndexTable;
 
   /** Interpolation kernel type. */
-  typedef BSplineKernelFunction< itkGetStaticConstMacro(SplineOrder) > KernelType;
+  using KernelType = BSplineKernelFunction< itkGetStaticConstMacro(SplineOrder) >;
 
   /** Interpolation kernel. */
   typename KernelType::Pointer m_Kernel;

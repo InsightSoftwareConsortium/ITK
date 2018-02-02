@@ -43,14 +43,14 @@ class ITKVideoCore_EXPORT TemporalRegion : public Region
 {
 public:
 
-  /** Standard class typedefs */
-  typedef TemporalRegion       Self;
-  typedef Region               Superclass;
+  /** Standard class type aliases */
+  using Self = TemporalRegion;
+  using Superclass = Region;
 
   itkTypeMacro(TemporalRegion, Region);
 
   /** Typedef for frame offsets */
-  typedef ::itk::SizeValueType FrameOffsetType;
+  using FrameOffsetType = ::itk::SizeValueType;
 
   /** Get/Set RealStart */
   void SetRealStart(const RealTimeStamp s);

@@ -375,7 +375,7 @@ Solver<VDimension>
 
   // Type that stores IDs of fixed DOF together with the values to
   // which they were fixed.
-  typedef std::map<Element::DegreeOfFreedomIDType, Float> BCTermType;
+  using BCTermType = std::map<Element::DegreeOfFreedomIDType, Float>;
   BCTermType bcterm;
 
   // If no DOFs exist in a system, we have nothing to do
@@ -605,7 +605,7 @@ Solver<VDimension>
 
   int numNodes = femObject->GetNumberOfNodes();
 
-  typedef Element::Node NodeType;
+  using NodeType = Element::Node;
 
   itk::fem::Element::VectorType pt(VDimension);
   for( int i = 0; i < numNodes; i++ )

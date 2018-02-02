@@ -30,29 +30,29 @@ namespace NaryMaximumImageFilterTest
 const unsigned int Dimension = 3;
 
 // Declare the pixel types of the images
-typedef float                PixelType;
+using PixelType = float;
 
 // Declare the types of the images
-typedef itk::Image< PixelType, Dimension >  InputImageType;
-typedef itk::Image< PixelType, Dimension >  OutputImageType;
+using InputImageType = itk::Image< PixelType, Dimension >;
+using OutputImageType = itk::Image< PixelType, Dimension >;
 
 // Declare the type of the index to access images
-typedef itk::Index< Dimension >         IndexType;
+using IndexType = itk::Index< Dimension >;
 
 // Declare the type of the size
-typedef itk::Size< Dimension >          SizeType;
+using SizeType = itk::Size< Dimension >;
 
 // Declare the type of the Region
-typedef itk::ImageRegion< Dimension >   RegionType;
+using RegionType = itk::ImageRegion< Dimension >;
 
 // Declare the type of the Iterators
-typedef itk::ImageRegionIteratorWithIndex< InputImageType >  InImageIteratorType;
-typedef itk::ImageRegionIteratorWithIndex< OutputImageType > OutImageIteratorType;
+using InImageIteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
+using OutImageIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
 
 // Declare the type for the itk::NaryMaximumImageFilter filter
-typedef itk::NaryMaximumImageFilter<
+using FilterType = itk::NaryMaximumImageFilter<
                               InputImageType,
-                              OutputImageType > FilterType;
+                              OutputImageType >;
 
 // Function for image initialization
 void InitializeImage( InputImageType * image, double value )

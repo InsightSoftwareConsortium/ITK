@@ -32,9 +32,9 @@ int itkImageToHistogramFilterTest3( int argc, char * argv [] )
 
 
   const unsigned int                                  Dimension = 2;
-  typedef unsigned char                               PixelComponentType;
-  typedef itk::Image< PixelComponentType, Dimension > ScalarImageType;
-  typedef itk::ImageFileReader< ScalarImageType >     ReaderType;
+  using PixelComponentType = unsigned char;
+  using ScalarImageType = itk::Image< PixelComponentType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ScalarImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
@@ -57,8 +57,7 @@ int itkImageToHistogramFilterTest3( int argc, char * argv [] )
   const ScalarImageType::PixelType imageMax = minmaxFilter->GetMaximum();
 
 
-  typedef itk::Statistics::ScalarImageToHistogramGenerator<ScalarImageType>
-    HistogramGeneratorType;
+  using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<ScalarImageType>;
   HistogramGeneratorType::Pointer histogramGenerator
     = HistogramGeneratorType::New();
   histogramGenerator->SetInput(reader->GetOutput());
@@ -73,7 +72,7 @@ int itkImageToHistogramFilterTest3( int argc, char * argv [] )
   histogramGenerator->Compute();
 
 
-  typedef HistogramGeneratorType::HistogramType  HistogramType;
+  using HistogramType = HistogramGeneratorType::HistogramType;
   const HistogramType * histogram = histogramGenerator->GetOutput();
 
   std::ofstream outputFile;

@@ -53,14 +53,14 @@ class ITK_TEMPLATE_EXPORT ImageToNeighborhoodSampleAdaptor :
   public ListSample< std::vector< ConstNeighborhoodIterator< TImage, TBoundaryCondition > > >
 {
 public:
-  /** Standard class typedefs */
-  typedef ImageToNeighborhoodSampleAdaptor               Self;
+  /** Standard class type aliases */
+  using Self = ImageToNeighborhoodSampleAdaptor;
 
-  typedef ListSample< std::vector< ConstNeighborhoodIterator< TImage, TBoundaryCondition > > >
-                                                         Superclass;
+  using Superclass =
+      ListSample< std::vector< ConstNeighborhoodIterator< TImage, TBoundaryCondition > > >;
 
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToNeighborhoodSampleAdaptor, ListSample);
@@ -68,38 +68,38 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Image typedefs */
-  typedef TImage                                          ImageType;
-  typedef typename ImageType::Pointer                     ImagePointer;
-  typedef typename ImageType::ConstPointer                ImageConstPointer;
-  typedef typename ImageType::IndexType                   IndexType;
-  typedef typename ImageType::OffsetType                  OffsetType;
-  typedef typename ImageType::OffsetValueType             OffsetValueType;
-  typedef typename ImageType::PixelType                   PixelType;
-  typedef typename ImageType::PixelContainerConstPointer  PixelContainerConstPointer;
-  typedef typename ImageType::RegionType                  RegionType;
-  typedef typename RegionType::OffsetTableType            OffsetTableType;
-  typedef typename ImageType::SizeType                    SizeType;
-  typedef ImageRegionIteratorWithIndex< TImage >          ImageIteratorType;
-  /** Neighborhood Iterator typedef support */
-  typedef ConstNeighborhoodIterator< TImage, TBoundaryCondition > NeighborhoodIteratorType;
-  typedef NeighborhoodIterator< TImage, TBoundaryCondition >      NonConstNeighborhoodIteratorType;
-  typedef typename NeighborhoodIteratorType::NeighborhoodType     NeighborhoodType;
-  typedef typename NeighborhoodIteratorType::RadiusType           NeighborhoodRadiusType;
-  typedef typename NeighborhoodIteratorType::IndexType            NeighborhoodIndexType;
-  typedef typename NeighborhoodIteratorType::SizeType             NeighborhoodSizeType;
+  /** Image type alias */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using IndexType = typename ImageType::IndexType;
+  using OffsetType = typename ImageType::OffsetType;
+  using OffsetValueType = typename ImageType::OffsetValueType;
+  using PixelType = typename ImageType::PixelType;
+  using PixelContainerConstPointer = typename ImageType::PixelContainerConstPointer;
+  using RegionType = typename ImageType::RegionType;
+  using OffsetTableType = typename RegionType::OffsetTableType;
+  using SizeType = typename ImageType::SizeType;
+  using ImageIteratorType = ImageRegionIteratorWithIndex< TImage >;
+  /** Neighborhood Iterator type alias support */
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator< TImage, TBoundaryCondition >;
+  using NonConstNeighborhoodIteratorType = NeighborhoodIterator< TImage, TBoundaryCondition >;
+  using NeighborhoodType = typename NeighborhoodIteratorType::NeighborhoodType;
+  using NeighborhoodRadiusType = typename NeighborhoodIteratorType::RadiusType;
+  using NeighborhoodIndexType = typename NeighborhoodIteratorType::IndexType;
+  using NeighborhoodSizeType = typename NeighborhoodIteratorType::SizeType;
 
-  /** Superclass typedefs for Measurement vector, measurement,
+  /** Superclass type alias for Measurement vector, measurement,
    * Instance Identifier, frequency, size, size element value */
-  typedef typename std::vector< ConstNeighborhoodIterator< TImage, TBoundaryCondition > >
-                                                     MeasurementVectorType;
-  typedef typename MeasurementVectorType::value_type ValueType;
-  typedef ValueType                                  MeasurementType;
+  using MeasurementVectorType =
+      typename std::vector< ConstNeighborhoodIterator< TImage, TBoundaryCondition > >;
+  using ValueType = typename MeasurementVectorType::value_type;
+  using MeasurementType = ValueType;
 
-  typedef typename Superclass::AbsoluteFrequencyType      AbsoluteFrequencyType;
-  typedef typename Superclass::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
-  typedef typename Superclass::MeasurementVectorSizeType  MeasurementVectorSizeType;
-  typedef typename Superclass::InstanceIdentifier         InstanceIdentifier;
+  using AbsoluteFrequencyType = typename Superclass::AbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename Superclass::TotalAbsoluteFrequencyType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
 
   /** Method to set the image */
   void SetImage(const TImage* image);

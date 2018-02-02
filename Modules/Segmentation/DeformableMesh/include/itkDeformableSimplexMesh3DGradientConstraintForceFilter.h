@@ -87,15 +87,15 @@ class ITK_TEMPLATE_EXPORT DeformableSimplexMesh3DGradientConstraintForceFilter :
   public DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 {
 public:
-  /** Standard "Self" typedefs. */
-  typedef DeformableSimplexMesh3DGradientConstraintForceFilter Self;
+  /** Standard "Self" type alias. */
+  using Self = DeformableSimplexMesh3DGradientConstraintForceFilter;
 
-  /** Standard "Superclass" typedef. */
-  typedef  DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh > Superclass;
+  /** Standard "Superclass" type alias. */
+  using Superclass = DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >;
 
-  /** Smart pointer typedef support */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -103,29 +103,29 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DeformableSimplexMesh3DGradientConstraintForceFilter, DeformableSimplexMesh3DFilter);
 
-  /** Some typedefs. */
-  typedef TInputMesh  InputMeshType;
-  typedef TOutputMesh OutputMeshType;
+  /** Some type alias. */
+  using InputMeshType = TInputMesh;
+  using OutputMeshType = TOutputMesh;
 
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::GradientIndexType      GradientIndexType;
-  typedef typename Superclass::GradientIndexValueType GradientIndexValueType;
-  typedef typename Superclass::GradientType           GradientType;
-  typedef typename Superclass::GradientImageType      GradientImageType;
+  using PointType = typename Superclass::PointType;
+  using GradientIndexType = typename Superclass::GradientIndexType;
+  using GradientIndexValueType = typename Superclass::GradientIndexValueType;
+  using GradientType = typename Superclass::GradientType;
+  using GradientImageType = typename Superclass::GradientImageType;
 
   /* Mesh pointer definition. */
-  typedef typename InputMeshType::Pointer  InputMeshPointer;
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
-  typedef typename InputMeshType::PixelType PixelType;
+  using PixelType = typename InputMeshType::PixelType;
 
-  typedef Image< PixelType, 3 >                        GradientIntensityImageType;
-  typedef typename GradientIntensityImageType::Pointer GradientIntensityImagePointer;
+  using GradientIntensityImageType = Image< PixelType, 3 >;
+  using GradientIntensityImagePointer = typename GradientIntensityImageType::Pointer;
 
-  typedef Image< float, 3 >                               OriginalImageType;
-  typedef typename OriginalImageType::IndexType           OriginalImageIndexType;
-  typedef typename OriginalImageIndexType::IndexValueType ImageIndexValueType;
-  typedef typename OriginalImageType::ConstPointer        OriginalImagePointer;
+  using OriginalImageType = Image< float, 3 >;
+  using OriginalImageIndexType = typename OriginalImageType::IndexType;
+  using ImageIndexValueType = typename OriginalImageIndexType::IndexValueType;
+  using OriginalImagePointer = typename OriginalImageType::ConstPointer;
 
   /** control the range of search for Bresenham at normal line */
   itkSetMacro(Range, int);

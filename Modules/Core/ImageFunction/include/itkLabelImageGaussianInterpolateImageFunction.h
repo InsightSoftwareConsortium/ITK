@@ -66,12 +66,12 @@ class ITK_TEMPLATE_EXPORT LabelImageGaussianInterpolateImageFunction :
   public GaussianInterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelImageGaussianInterpolateImageFunction                Self;
-  typedef GaussianInterpolateImageFunction<TInputImage, TCoordRep>  Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
-  typedef typename TInputImage::PixelType                           InputPixelType;
+  /** Standard class type aliases. */
+  using Self = LabelImageGaussianInterpolateImageFunction;
+  using Superclass = GaussianInterpolateImageFunction<TInputImage, TCoordRep>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using InputPixelType = typename TInputImage::PixelType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( LabelImageGaussianInterpolateImageFunction, GaussianInterpolateImageFunction );
@@ -82,23 +82,23 @@ public:
   /** ImageDimension constant */
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = typename Superclass::InputImageType;
 
-  /** RealType typedef support. */
-  typedef typename Superclass::RealType RealType;
+  /** RealType type alias support */
+  using RealType = typename Superclass::RealType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
-  /** Array typedef support */
-  typedef typename Superclass::ArrayType ArrayType;
+  /** Array type alias support */
+  using ArrayType = typename Superclass::ArrayType;
 
   /**
    * Evaluate at the given index

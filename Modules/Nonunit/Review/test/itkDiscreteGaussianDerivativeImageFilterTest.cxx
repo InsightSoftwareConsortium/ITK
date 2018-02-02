@@ -47,13 +47,13 @@ int itkDiscreteGaussianDerivativeImageFilterTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef float           PixelType;
-  typedef unsigned short  OutputPixelType;
+  using PixelType = float;
+  using OutputPixelType = unsigned short;
 
-  typedef itk::Image< PixelType, Dimension >        ImageType;
-  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
@@ -61,8 +61,8 @@ int itkDiscreteGaussianDerivativeImageFilterTest( int argc, char* argv[] )
   TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
 
-  typedef itk::DiscreteGaussianDerivativeImageFilter< ImageType, ImageType >
-    DerivativeFilterType;
+  using DerivativeFilterType =
+      itk::DiscreteGaussianDerivativeImageFilter< ImageType, ImageType >;
   DerivativeFilterType::Pointer derivativeFilter = DerivativeFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( derivativeFilter,
@@ -128,8 +128,8 @@ int itkDiscreteGaussianDerivativeImageFilterTest( int argc, char* argv[] )
     derivativeFilter->GetInternalNumberOfStreamDivisions() );
 
 
-  typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType >
-    RescaleFilterType;
+  using RescaleFilterType =
+      itk::RescaleIntensityImageFilter< ImageType, OutputImageType >;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
   rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
   rescaler->SetOutputMaximum( itk::NumericTraits<OutputPixelType>::max() );
@@ -137,7 +137,7 @@ int itkDiscreteGaussianDerivativeImageFilterTest( int argc, char* argv[] )
 
 
   // Write the output image
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( rescaler->GetOutput() );

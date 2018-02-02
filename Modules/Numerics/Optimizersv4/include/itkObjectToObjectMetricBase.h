@@ -51,32 +51,32 @@ class ITK_TEMPLATE_EXPORT ObjectToObjectMetricBaseTemplate:
   public SingleValuedCostFunctionv4Template<TInternalComputationValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ObjectToObjectMetricBaseTemplate                                   Self;
-  typedef SingleValuedCostFunctionv4Template<TInternalComputationValueType>  Superclass;
-  typedef SmartPointer< Self >                                               Pointer;
-  typedef SmartPointer< const Self >                                         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ObjectToObjectMetricBaseTemplate;
+  using Superclass = SingleValuedCostFunctionv4Template<TInternalComputationValueType>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ObjectToObjectMetricBaseTemplate, SingleValuedCostFunctionv4Template);
 
   /** Type used for representing object components  */
-  typedef TInternalComputationValueType           CoordinateRepresentationType;
+  using CoordinateRepresentationType = TInternalComputationValueType;
 
   /**  Type of the measure. */
-  typedef typename Superclass::MeasureType        MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
   /**  Type of the derivative. */
-  typedef typename Superclass::DerivativeType     DerivativeType;
-  typedef typename DerivativeType::ValueType      DerivativeValueType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
 
   /**  Type of the parameters. */
-  typedef typename Superclass::ParametersType     ParametersType;
-  typedef TInternalComputationValueType           ParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = TInternalComputationValueType;
 
   /**  Type of object. */
-  typedef Object                                  ObjectType;
-  typedef typename ObjectType::ConstPointer       ObjectConstPointer;
+  using ObjectType = Object;
+  using ObjectConstPointer = typename ObjectType::ConstPointer;
 
   /** Get/Set the Fixed Object.  */
   itkSetConstObjectMacro( FixedObject, ObjectType );
@@ -123,7 +123,7 @@ public:
 
   /** Type to represent the number of parameters that are being optimized at
    * any given iteration of the optimizer. */
-  typedef unsigned int NumberOfParametersType;
+  using NumberOfParametersType = unsigned int;
 
   /** Calculate and return the value for the metric based on the current
    * transformation(s). The result is both returned, and stored in the
@@ -205,7 +205,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef ObjectToObjectMetricBaseTemplate<double> ObjectToObjectMetricBase;
+using ObjectToObjectMetricBase = ObjectToObjectMetricBaseTemplate<double>;
 
 } // end namespace itk
 

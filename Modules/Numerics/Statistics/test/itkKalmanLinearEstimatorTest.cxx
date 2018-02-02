@@ -33,10 +33,10 @@ int itkKalmanLinearEstimatorTest(int, char* [] )
 {
 
 
-  typedef itk::KalmanLinearEstimator<double,6> KalmanFilterType;
+  using KalmanFilterType = itk::KalmanLinearEstimator<double,6>;
 
-  typedef KalmanFilterType::VectorType    VectorType;
-  typedef KalmanFilterType::ValueType     ValueType;
+  using VectorType = KalmanFilterType::VectorType;
+  using ValueType = KalmanFilterType::ValueType;
 
   KalmanFilterType filter;
 

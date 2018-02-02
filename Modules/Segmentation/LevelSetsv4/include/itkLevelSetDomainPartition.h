@@ -34,10 +34,10 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainPartition:
 {
 public:
 
-  typedef LevelSetDomainPartition                 Self;
-  typedef LevelSetDomainPartitionBase< TImage >   Superclass;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
+  using Self = LevelSetDomainPartition;
+  using Superclass = LevelSetDomainPartitionBase< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
@@ -46,10 +46,10 @@ public:
 
   itkTypeMacro(LevelSetDomainPartition, LevelSetDomainPartitionBase );
 
-  typedef TImage                                ImageType;
-  typedef typename ImageType::Pointer           ImagePointer;
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
 
-  typedef typename Superclass::ListPixelType    ListPixelType;
+  using ListPixelType = typename Superclass::ListPixelType;
 
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */

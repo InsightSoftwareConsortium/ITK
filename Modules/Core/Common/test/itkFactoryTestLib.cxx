@@ -26,11 +26,11 @@ template<typename TElementIdentifier, typename TElement>
 class TestImportImageContainer : public itk::ImportImageContainer< TElementIdentifier, TElement >
 {
 public:
-  /** Standard class typedefs.   */
-  typedef TestImportImageContainer                                  Self;
-  typedef itk::ImportImageContainer< TElementIdentifier, TElement > Superclass;
-  typedef itk::SmartPointer<Self>                                   Pointer;
-  typedef itk::SmartPointer<const Self>                             ConstPointer;
+  /** Standard class type aliases.   */
+  using Self = TestImportImageContainer;
+  using Superclass = itk::ImportImageContainer< TElementIdentifier, TElement >;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(TestImportImageContainer);
@@ -38,10 +38,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(TestImportImageContainer, ImportImageContainer);
 
-  typedef typename Superclass::ElementIdentifier  ElementIdentifier;
-  typedef typename Superclass::Element            Element;
+  using ElementIdentifier = typename Superclass::ElementIdentifier;
+  using Element = typename Superclass::Element;
 
-  typedef std::allocator<TElement>                Allocator;
+  using Allocator = std::allocator<TElement>;
 
   // Methods from itkObject
   virtual ~TestImportImageContainer()
@@ -143,10 +143,10 @@ private:
 class ImportImageContainerFactory : public itk::ObjectFactoryBase
 {
 public:
-  typedef ImportImageContainerFactory   Self;
-  typedef itk::ObjectFactoryBase        Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = ImportImageContainerFactory;
+  using Superclass = itk::ObjectFactoryBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
   const char* GetITKSourceVersion() const override { return ITK_SOURCE_VERSION; }

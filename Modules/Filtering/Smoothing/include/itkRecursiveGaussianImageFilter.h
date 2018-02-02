@@ -63,14 +63,14 @@ class ITK_TEMPLATE_EXPORT RecursiveGaussianImageFilter:
   public RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RecursiveGaussianImageFilter                               Self;
-  typedef RecursiveSeparableImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                       Pointer;
-  typedef SmartPointer< const Self >                                 ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RecursiveGaussianImageFilter;
+  using Superclass = RecursiveSeparableImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::RealType       RealType;
-  typedef typename Superclass::ScalarRealType ScalarRealType;
+  using RealType = typename Superclass::RealType;
+  using ScalarRealType = typename Superclass::ScalarRealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -91,7 +91,7 @@ public:
   typedef  enum { ZeroOrder, FirstOrder, SecondOrder } OrderEnumType;
 
   /** Type of the output image */
-  typedef TOutputImage OutputImageType;
+  using OutputImageType = TOutputImage;
 
   /** Set/Get the flag for normalizing the gaussian over scale-space.
 

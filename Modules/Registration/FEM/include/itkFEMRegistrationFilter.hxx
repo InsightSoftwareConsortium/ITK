@@ -221,10 +221,10 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ChooseMetric(
 {
   // Choose the similarity Function
 
-  typedef itk::MeanSquareRegistrationFunction<FixedImageType, MovingImageType, FieldType> MetricType0;
-  typedef itk::NCCRegistrationFunction<FixedImageType, MovingImageType, FieldType>        MetricType1;
-  typedef itk::MIRegistrationFunction<FixedImageType, MovingImageType, FieldType>         MetricType2;
-  typedef itk::DemonsRegistrationFunction<FixedImageType, MovingImageType, FieldType>     MetricType3;
+  using MetricType0 = itk::MeanSquareRegistrationFunction<FixedImageType, MovingImageType, FieldType>;
+  using MetricType1 = itk::NCCRegistrationFunction<FixedImageType, MovingImageType, FieldType>;
+  using MetricType2 = itk::MIRegistrationFunction<FixedImageType, MovingImageType, FieldType>;
+  using MetricType3 = itk::DemonsRegistrationFunction<FixedImageType, MovingImageType, FieldType>;
 
   m_WhichMetric = (unsigned int)which;
 
@@ -259,9 +259,9 @@ template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WarpImage( const MovingImageType * ImageToWarp)
 {
   typename WarperType::Pointer warper = WarperType::New();
-  typedef typename WarperType::CoordRepType WarperCoordRepType;
-  typedef itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordRepType>
-  InterpolatorType1;
+  using WarperCoordRepType = typename WarperType::CoordRepType;
+  using InterpolatorType1 =
+      itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordRepType>;
   typename InterpolatorType1::Pointer interpolator = InterpolatorType1::New();
 
   warper = WarperType::New();
@@ -463,7 +463,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(
 
       unsigned int maxnode = numnodesperelt - 1;
 
-      typedef typename Element::Node::SetOfElements NodeEltSetType;
+      using NodeEltSetType = typename Element::Node::SetOfElements;
       for( NodeEltSetType::iterator elt = m_FEMObject->GetNode(i)->m_elements.begin();
            elt != m_FEMObject->GetNode(i)->m_elements.end(); elt++ )
         {
@@ -795,13 +795,13 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ComputeJacobi
 {
   m_MinJacobian = 1.0;
 
-  typedef typename itk::DisplacementFieldJacobianDeterminantFilter< FieldType, float, FloatImageType > JacobianFilterType;
+  using JacobianFilterType = typename itk::DisplacementFieldJacobianDeterminantFilter< FieldType, float, FloatImageType >;
   typename JacobianFilterType::Pointer jacobianFilter = JacobianFilterType::New();
   jacobianFilter->SetInput( m_Field );
   jacobianFilter->Update( );
   m_FloatImage = jacobianFilter->GetOutput();
 
-  typedef typename itk::StatisticsImageFilter< FloatImageType > StatisticsFilterType;
+  using StatisticsFilterType = typename itk::StatisticsImageFilter< FloatImageType >;
   typename StatisticsFilterType::Pointer statisticsFilter = StatisticsFilterType::New();
   statisticsFilter->SetInput( m_FloatImage );
   statisticsFilter->Update( );
@@ -827,9 +827,9 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeo
   }
 
   typename WarperType::Pointer warper = WarperType::New();
-  typedef typename WarperType::CoordRepType WarperCoordRepType;
-  typedef itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordRepType>
-  InterpolatorType1;
+  using WarperCoordRepType = typename WarperType::CoordRepType;
+  using InterpolatorType1 =
+      itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordRepType>;
   typename InterpolatorType1::Pointer interpolator = InterpolatorType1::New();
 
   // If using landmarks, warp them
@@ -903,7 +903,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeo
 
     typename InterpolatorType::ContinuousIndexType inputIndex;
 
-    typedef typename InterpolatorType::OutputType InterpolatedType;
+    using InterpolatedType = typename InterpolatorType::OutputType;
 
     InterpolatedType interpolatedValue;
 
@@ -995,7 +995,7 @@ void
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SmoothDisplacementField()
 {
 
-  typedef RecursiveGaussianImageFilter< FieldType, FieldType > GaussianFilterType;
+  using GaussianFilterType = RecursiveGaussianImageFilter< FieldType, FieldType >;
   typename GaussianFilterType::Pointer smoother = GaussianFilterType::New();
 
   for( unsigned int dim = 0; dim < ImageDimension; ++dim )
@@ -1059,7 +1059,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SampleVectorF
     {
     coord = solver->GetOutput()->GetNode(i)->GetCoordinates();
     typename InterpolatorType::ContinuousIndexType inputIndex;
-    typedef typename InterpolatorType::OutputType InterpolatedType;
+    using InterpolatedType = typename InterpolatorType::OutputType;
     InterpolatedType interpolatedValue;
     for( unsigned int jj = 0; jj < ImageDimension; jj++ )
       {

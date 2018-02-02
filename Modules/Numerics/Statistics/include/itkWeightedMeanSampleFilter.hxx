@@ -101,7 +101,7 @@ WeightedMeanSampleFilter< TSample >
   NumericTraits<MeasurementVectorRealType>::SetLength( output, this->GetMeasurementVectorSize() );
 
   // algorithm start
-  typedef CompensatedSummation< MeasurementRealType > MeasurementRealAccumulateType;
+  using MeasurementRealAccumulateType = CompensatedSummation< MeasurementRealType >;
   std::vector< MeasurementRealAccumulateType > sum( measurementVectorSize );
 
   const WeightArrayType & weightsArray = this->GetWeights();
@@ -168,7 +168,7 @@ WeightedMeanSampleFilter< TSample >
   NumericTraits<MeasurementVectorRealType>::SetLength( output, this->GetMeasurementVectorSize() );
 
   // algorithm start
-  typedef CompensatedSummation< MeasurementRealType > MeasurementRealAccumulateType;
+  using MeasurementRealAccumulateType = CompensatedSummation< MeasurementRealType >;
   std::vector< MeasurementRealAccumulateType > sum( measurementVectorSize );
 
   const WeightingFunctionType * const weightFunction = this->GetWeightingFunction();

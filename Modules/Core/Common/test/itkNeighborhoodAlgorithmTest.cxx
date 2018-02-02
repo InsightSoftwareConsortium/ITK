@@ -23,8 +23,8 @@
 template<typename TImage>
 bool ImageBoundaryFaceCalculatorTest(TImage * image, typename TImage::RegionType & region, const typename TImage::SizeType & radius)
 {
-  typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage> FaceCalculatorType;
-  typedef typename FaceCalculatorType::FaceListType FaceListType;
+  using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage>;
+  using FaceListType = typename FaceCalculatorType::FaceListType;
   FaceCalculatorType faceCalculator;
   FaceListType faceList;
 
@@ -48,7 +48,7 @@ bool ImageBoundaryFaceCalculatorTest(TImage * image, typename TImage::RegionType
     {
       if (fit == faceList.begin())
       {
-        typedef itk::ConstNeighborhoodIterator<TImage> NeighborhoodIteratorType;
+        using NeighborhoodIteratorType = itk::ConstNeighborhoodIterator<TImage>;
         NeighborhoodIteratorType nIt(radius, image, *fit);
         // a neighborhood iterator with radius and the first region should never overlap the boundary of the image
         if (!nIt.InBounds() && fit->GetNumberOfPixels() > 0)
@@ -85,10 +85,10 @@ bool ImageBoundaryFaceCalculatorTest(TImage * image, typename TImage::RegionType
 template<typename TPixel, unsigned int VDimension>
 bool NeighborhoodAlgorithmTest()
 {
-  typedef itk::Image<TPixel, VDimension>      ImageType;
-  typedef typename ImageType::RegionType      RegionType;
-  typedef typename ImageType::IndexType       IndexType;
-  typedef typename ImageType::SizeType        SizeType;
+  using ImageType = itk::Image<TPixel, VDimension>;
+  using RegionType = typename ImageType::RegionType;
+  using IndexType = typename ImageType::IndexType;
+  using SizeType = typename ImageType::SizeType;
 
   IndexType ind;
   ind.Fill(0);

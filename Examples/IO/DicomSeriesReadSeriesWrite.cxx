@@ -98,11 +98,11 @@ int main( int argc, char* argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short    PixelType;
+  using PixelType = signed short;
   const unsigned int      Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >      ImageType;
-  typedef itk::ImageSeriesReader< ImageType >     ReaderType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageSeriesReader< ImageType >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -116,8 +116,8 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GDCMImageIO                        ImageIOType;
-  typedef itk::GDCMSeriesFileNames                NamesGeneratorType;
+  using ImageIOType = itk::GDCMImageIO;
+  using NamesGeneratorType = itk::GDCMSeriesFileNames;
 
   ImageIOType::Pointer gdcmIO = ImageIOType::New();
   NamesGeneratorType::Pointer namesGenerator = NamesGeneratorType::New();
@@ -230,13 +230,13 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short    OutputPixelType;
+  using OutputPixelType = signed short;
   const unsigned int      OutputDimension = 2;
 
-  typedef itk::Image< OutputPixelType, OutputDimension >    Image2DType;
+  using Image2DType = itk::Image< OutputPixelType, OutputDimension >;
 
-  typedef itk::ImageSeriesWriter<
-                             ImageType, Image2DType >  SeriesWriterType;
+  using SeriesWriterType = itk::ImageSeriesWriter<
+                             ImageType, Image2DType >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

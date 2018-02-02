@@ -56,11 +56,11 @@ template< typename TSample >
 class ITK_TEMPLATE_EXPORT MembershipSample:public DataObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef MembershipSample           Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MembershipSample;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(MembershipSample, DataObject);
@@ -68,29 +68,29 @@ public:
 
   /** Typedefs for Measurement vector, measurement, Instance Identifier,
    * frequency, size, size element value from the template argument TSample */
-  typedef TSample                                    SampleType;
-  typedef typename SampleType::MeasurementVectorType MeasurementVectorType;
-  typedef typename SampleType::MeasurementType       MeasurementType;
-  typedef typename SampleType::InstanceIdentifier    InstanceIdentifier;
-  typedef typename SampleType::ConstPointer          SampleConstPointer;
+  using SampleType = TSample;
+  using MeasurementVectorType = typename SampleType::MeasurementVectorType;
+  using MeasurementType = typename SampleType::MeasurementType;
+  using InstanceIdentifier = typename SampleType::InstanceIdentifier;
+  using SampleConstPointer = typename SampleType::ConstPointer;
 
-  typedef typename SampleType::AbsoluteFrequencyType      AbsoluteFrequencyType;
-  typedef typename SampleType::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
+  using AbsoluteFrequencyType = typename SampleType::AbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename SampleType::TotalAbsoluteFrequencyType;
 
-  typedef IdentifierType ClassLabelType;
+  using ClassLabelType = IdentifierType;
   /** vector of unique class labels that will be used for mapping internal
    * continuous class label with real class labels */
-  typedef std::vector< ClassLabelType > UniqueClassLabelsType;
+  using UniqueClassLabelsType = std::vector< ClassLabelType >;
 
   /** Typedef for the storage that holds a class label for each instance.
    * The relationship between instances and class label is one-to-one */
-  typedef itksys::hash_map< InstanceIdentifier, ClassLabelType > ClassLabelHolderType;
+  using ClassLabelHolderType = itksys::hash_map< InstanceIdentifier, ClassLabelType >;
 
   /** Typedef for each subsample that stores instance identifiers of instances
    * that belong to a class */
-  typedef Subsample< SampleType >                ClassSampleType;
-  typedef typename ClassSampleType::Pointer      ClassSamplePointer;
-  typedef typename ClassSampleType::ConstPointer ClassSampleConstPointer;
+  using ClassSampleType = Subsample< SampleType >;
+  using ClassSamplePointer = typename ClassSampleType::Pointer;
+  using ClassSampleConstPointer = typename ClassSampleType::ConstPointer;
 
   /** Set/Get the actual sample data */
   itkSetConstObjectMacro(Sample, SampleType);

@@ -37,15 +37,15 @@ int itkJPEG2000ImageIOTest04( int argc, char * argv[] )
 
 
   //  Image types are defined below.
-  typedef itk::RGBPixel<unsigned char>  PixelType;
+  using PixelType = itk::RGBPixel<unsigned char>;
   const   unsigned int        Dimension = 2;
 
-  typedef itk::Image< PixelType,  Dimension >   InputImageType;
-  typedef itk::Image< PixelType, Dimension >    OutputImageType;
+  using InputImageType = itk::Image< PixelType,  Dimension >;
+  using OutputImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-  typedef itk::JPEG2000ImageIO                     IOBaseType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using IOBaseType = itk::JPEG2000ImageIO;
 
   IOBaseType::Pointer base = IOBaseType::New();
   base->SetTileSize( atoi( argv[3] ), atoi( argv[4] ) );

@@ -79,20 +79,20 @@ class ITK_TEMPLATE_EXPORT BayesianClassifierInitializationImageFilter:
                                                 TInputImage::ImageDimension > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BayesianClassifierInitializationImageFilter Self;
-  typedef TInputImage                                 InputImageType;
-  typedef TProbabilityPrecisionType                   ProbabilityPrecisionType;
+  /** Standard class type aliases. */
+  using Self = BayesianClassifierInitializationImageFilter;
+  using InputImageType = TInputImage;
+  using ProbabilityPrecisionType = TProbabilityPrecisionType;
 
   /** Dimension of the input image */
   itkStaticConstMacro(Dimension, unsigned int,
                        InputImageType ::ImageDimension);
 
-  typedef VectorImage< ProbabilityPrecisionType,
-                       itkGetStaticConstMacro(Dimension) >                   OutputImageType;
-  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  using OutputImageType = VectorImage< ProbabilityPrecisionType,
+                       itkGetStaticConstMacro(Dimension) >;
+  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -101,33 +101,32 @@ public:
   itkTypeMacro(BayesianClassifierInitializationImageFilter, ImageToImageFilter);
 
   /** Input image iterators */
-  typedef ImageRegionConstIterator< InputImageType > InputImageIteratorType;
+  using InputImageIteratorType = ImageRegionConstIterator< InputImageType >;
 
   /** Pixel types. */
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
   /** Image Type and Pixel type for the images representing the membership of a
    *  pixel to a particular class. This image has arrays as pixels, the number of
    *  elements in the array is the same as the number of classes to be used.    */
-  typedef VectorImage< ProbabilityPrecisionType,
-                       itkGetStaticConstMacro(Dimension) >             MembershipImageType;
-  typedef typename MembershipImageType::PixelType    MembershipPixelType;
-  typedef typename MembershipImageType::Pointer      MembershipImagePointer;
-  typedef ImageRegionIterator< MembershipImageType > MembershipImageIteratorType;
+  using MembershipImageType = VectorImage< ProbabilityPrecisionType,
+                       itkGetStaticConstMacro(Dimension) >;
+  using MembershipPixelType = typename MembershipImageType::PixelType;
+  using MembershipImagePointer = typename MembershipImageType::Pointer;
+  using MembershipImageIteratorType = ImageRegionIterator< MembershipImageType >;
 
   /** Type of the Measurement */
-  typedef Vector< InputPixelType, 1 > MeasurementVectorType;
+  using MeasurementVectorType = Vector< InputPixelType, 1 >;
 
   /** Type of the density functions */
-  typedef Statistics::MembershipFunctionBase< MeasurementVectorType > MembershipFunctionType;
-  typedef typename MembershipFunctionType::Pointer                    MembershipFunctionPointer;
+  using MembershipFunctionType = Statistics::MembershipFunctionBase< MeasurementVectorType >;
+  using MembershipFunctionPointer = typename MembershipFunctionType::Pointer;
 
   /** Membership function container */
-  typedef VectorContainer< unsigned int,
-                           MembershipFunctionPointer >  MembershipFunctionContainerType;
-  typedef typename MembershipFunctionContainerType::Pointer
-  MembershipFunctionContainerPointer;
+  using MembershipFunctionContainerType = VectorContainer< unsigned int,
+                           MembershipFunctionPointer >;
+  using MembershipFunctionContainerPointer = typename MembershipFunctionContainerType::Pointer;
 
   /** Method to set/get the density functions. Here you can set a vector
    * container of density functions. If no density functions are specified,

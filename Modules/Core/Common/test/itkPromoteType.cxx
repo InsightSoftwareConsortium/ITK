@@ -27,7 +27,7 @@ namespace mpl {
 template <typename TA, typename TB>
 struct PromoteType<std::complex<TA>, std::complex<TB> >
   {
-  typedef std::complex<typename PromoteType<TA,TB>::Type> Type;
+  using Type = std::complex<typename PromoteType<TA,TB>::Type>;
   };
 } // itk::mpl
 } // itk

@@ -38,23 +38,22 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
   // Define the dimension of the images
   const unsigned char Dimension = 2;
 
-  typedef float PixelType;
+  using PixelType = float;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > FileReaderType;
+  using FileReaderType = itk::ImageFileReader< ImageType >;
 
   // Declare the type of the recursive Gaussian filter
-  typedef itk::HessianRecursiveGaussianImageFilter<
-                                            ImageType >  GaussianImageFilterType;
+  using GaussianImageFilterType = itk::HessianRecursiveGaussianImageFilter<ImageType>;
 
-  typedef GaussianImageFilterType::OutputImageType        HessianImageType;
+  using HessianImageType = GaussianImageFilterType::OutputImageType;
 
   // Delcare the type of objectness measure image filter
 
-  typedef itk::HessianToObjectnessMeasureImageFilter< HessianImageType, ImageType >
-    ObjectnessFilterType;
+  using ObjectnessFilterType =
+      itk::HessianToObjectnessMeasureImageFilter< HessianImageType, ImageType >;
 
   FileReaderType::Pointer imageReader = FileReaderType::New();
   imageReader->SetFileName( argv[1] );
@@ -122,7 +121,7 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
 
 
   // Write the output image
-  typedef itk::ImageFileWriter< ImageType > FileWriterType;
+  using FileWriterType = itk::ImageFileWriter< ImageType >;
   FileWriterType::Pointer writer = FileWriterType::New();
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();

@@ -19,8 +19,8 @@
 #include "itkLevenbergMarquardtOptimizer.h"
 #include "itkMath.h"
 
-typedef vnl_matrix<double> MatrixType;
-typedef vnl_vector<double> VectorType;
+using MatrixType = vnl_matrix<double>;
+using VectorType = vnl_vector<double>;
 
 
 const double ra = 11.0;
@@ -46,10 +46,10 @@ const double rc = 29.0;
 class LMCostFunction : public itk::MultipleValuedCostFunction
 {
 public:
-  typedef LMCostFunction                    Self;
-  typedef itk::MultipleValuedCostFunction   Superclass;
-  typedef itk::SmartPointer<Self>           Pointer;
-  typedef itk::SmartPointer<const Self>     ConstPointer;
+  using Self = LMCostFunction;
+  using Superclass = itk::MultipleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
 
   enum { XRange = 2,
@@ -58,9 +58,9 @@ public:
   enum { SpaceDimension =  3 };
   enum { RangeDimension =  ( 2*XRange+1 ) * ( 2*YRange+1 ) };
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::DerivativeType              DerivativeType;
-  typedef Superclass::MeasureType                 MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
   LMCostFunction():
             m_Measure(RangeDimension),
@@ -170,9 +170,9 @@ private:
 class CommandIterationUpdateLevenbergMarquardt : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdateLevenbergMarquardt   Self;
-  typedef  itk::Command                               Superclass;
-  typedef itk::SmartPointer<Self>                     Pointer;
+  using Self = CommandIterationUpdateLevenbergMarquardt;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -182,8 +182,8 @@ protected:
   }
 
 public:
-  typedef itk::LevenbergMarquardtOptimizer   OptimizerType;
-  typedef   const OptimizerType   *          OptimizerPointer;
+  using OptimizerType = itk::LevenbergMarquardtOptimizer;
+  using OptimizerPointer = const OptimizerType   *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
@@ -220,9 +220,9 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
 {
   std::cout << "Levenberg Marquardt optimizer test \n \n";
 
-  typedef  itk::LevenbergMarquardtOptimizer  OptimizerType;
+  using OptimizerType = itk::LevenbergMarquardtOptimizer;
 
-  typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
+  using vnlOptimizerType = OptimizerType::InternalOptimizerType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  optimizer = OptimizerType::New();
@@ -230,7 +230,7 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   // Declaration of the CostFunction adaptor
   LMCostFunction::Pointer costFunction = LMCostFunction::New();
 
-  typedef LMCostFunction::ParametersType ParametersType;
+  using ParametersType = LMCostFunction::ParametersType;
   ParametersType  parameters(LMCostFunction::SpaceDimension);
   parameters.Fill(0.0);
   costFunction->GetValue(parameters);
@@ -265,7 +265,7 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   vnlOptimizer->set_max_function_evals( maxIterations );
 
   // We start not so far from the solution
-  typedef LMCostFunction::ParametersType ParametersType;
+  using ParametersType = LMCostFunction::ParametersType;
   ParametersType  initialValue(LMCostFunction::SpaceDimension);
 
   initialValue[0] = 200;

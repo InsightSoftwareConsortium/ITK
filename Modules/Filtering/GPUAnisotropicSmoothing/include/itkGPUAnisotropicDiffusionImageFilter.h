@@ -37,21 +37,21 @@ class ITK_TEMPLATE_EXPORT GPUAnisotropicDiffusionImageFilter :
   public GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUAnisotropicDiffusionImageFilter                                                   Self;
-  typedef GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter > GPUSuperclass;
-  typedef AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >                         CPUSuperclass;
-  typedef SmartPointer< Self >                                                                 Pointer;
-  typedef SmartPointer< const Self >                                                           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUAnisotropicDiffusionImageFilter;
+  using GPUSuperclass = GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
+  using CPUSuperclass = AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information. */
   itkTypeMacro(GPUAnisotropicDiffusionImageFilter,
                GPUDenseFiniteDifferenceImageFilter);
 
   /** Capture information from the superclass. */
-  typedef typename GPUSuperclass::InputImageType   InputImageType;
-  typedef typename GPUSuperclass::OutputImageType  OutputImageType;
-  typedef typename GPUSuperclass::UpdateBufferType UpdateBufferType;
+  using InputImageType = typename GPUSuperclass::InputImageType;
+  using OutputImageType = typename GPUSuperclass::OutputImageType;
+  using UpdateBufferType = typename GPUSuperclass::UpdateBufferType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -59,8 +59,8 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  typedef typename GPUSuperclass::PixelType    PixelType;
-  typedef typename GPUSuperclass::TimeStepType TimeStepType;
+  using PixelType = typename GPUSuperclass::PixelType;
+  using TimeStepType = typename GPUSuperclass::TimeStepType;
 
 protected:
   GPUAnisotropicDiffusionImageFilter() {}

@@ -27,12 +27,11 @@ int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
 {
 
   const unsigned int                         Dimension = 3;
-  typedef unsigned char                      PixelComponentType;
-  typedef itk::RGBPixel<PixelComponentType>  PixelType;
+  using PixelComponentType = unsigned char;
+  using PixelType = itk::RGBPixel<PixelComponentType>;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
-  typedef itk::MahalanobisDistanceThresholdImageFunction< ImageType >
-                                             FunctionType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using FunctionType = itk::MahalanobisDistanceThresholdImageFunction<ImageType>;
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();

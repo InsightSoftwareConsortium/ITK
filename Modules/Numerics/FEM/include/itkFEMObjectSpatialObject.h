@@ -43,13 +43,13 @@ class ITK_TEMPLATE_EXPORT FEMObjectSpatialObject : public SpatialObject< TDimens
 {
 public:
 
-  typedef FEMObjectSpatialObject< TDimension > Self;
-  typedef SpatialObject< TDimension >          Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  using Self = FEMObjectSpatialObject< TDimension >;
+  using Superclass = SpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef itk::fem::FEMObject< TDimension >    FEMObjectType;
-  typedef typename FEMObjectType::Pointer      FEMObjectPointer;
+  using FEMObjectType = itk::fem::FEMObject< TDimension >;
+  using FEMObjectPointer = typename FEMObjectType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );

@@ -58,17 +58,17 @@ int main( int argc, char * argv[] )
     }
 
   const     unsigned int   Dimension = 2;
-  typedef   float          VectorComponentType;
+  using VectorComponentType = float;
 
-  typedef   itk::Vector< VectorComponentType, Dimension >    VectorType;
+  using VectorType = itk::Vector< VectorComponentType, Dimension >;
 
-  typedef   itk::Image< VectorType,  Dimension >   DisplacementFieldType;
+  using DisplacementFieldType = itk::Image< VectorType,  Dimension >;
 
 
-  typedef   unsigned char                            PixelType;
-  typedef   itk::Image< PixelType, Dimension >       FixedImageType;
+  using PixelType = unsigned char;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
 
-  typedef   itk::ImageFileReader< FixedImageType >   FixedReaderType;
+  using FixedReaderType = itk::ImageFileReader< FixedImageType >;
 
 
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
@@ -89,9 +89,7 @@ int main( int argc, char * argv[] )
 
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
-  typedef itk::LandmarkDisplacementFieldSource<
-                                DisplacementFieldType
-                                             >  FilterType;
+  using FilterType = itk::LandmarkDisplacementFieldSource< DisplacementFieldType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -102,8 +100,8 @@ int main( int argc, char * argv[] )
 
   //  Create source and target landmarks.
   //
-  typedef FilterType::LandmarkContainer        LandmarkContainerType;
-  typedef FilterType::LandmarkPointType        LandmarkPointType;
+  using LandmarkContainerType = FilterType::LandmarkContainer;
+  using LandmarkPointType = FilterType::LandmarkPointType;
 
   LandmarkContainerType::Pointer sourceLandmarks
                                                = LandmarkContainerType::New();
@@ -143,7 +141,7 @@ int main( int argc, char * argv[] )
     }
 
   // Write an image for regression testing
-  typedef itk::ImageFileWriter<  DisplacementFieldType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  DisplacementFieldType  >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput (  filter->GetOutput() );

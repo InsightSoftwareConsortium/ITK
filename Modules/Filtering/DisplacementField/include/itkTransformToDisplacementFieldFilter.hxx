@@ -188,7 +188,7 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
   const TransformType * transform = this->GetInput()->Get();
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageRegionIteratorWithIndex< TOutputImage > OutputIteratorType;
+  using OutputIteratorType = ImageRegionIteratorWithIndex< TOutputImage >;
   OutputIteratorType outIt( output, outputRegionForThread );
 
   // Define a few variables that will be used to translate from an input pixel
@@ -232,7 +232,7 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
   const TransformType * transform = this->GetInput()->Get();
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageLinearIteratorWithIndex< TOutputImage > OutputIteratorType;
+  using OutputIteratorType = ImageLinearIteratorWithIndex< TOutputImage >;
   OutputIteratorType outIt( output, outputRegionForThread );
 
   outIt.SetDirection(0);
@@ -261,7 +261,7 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
   // Compute delta
   PointType outputPointNeighbour;
   PointType transformedPointNeighbour;
-  typedef typename PointType::VectorType VectorType;
+  using VectorType = typename PointType::VectorType;
   VectorType delta;
   ++index[0];
   output->TransformIndexToPhysicalPoint( index, outputPointNeighbour );

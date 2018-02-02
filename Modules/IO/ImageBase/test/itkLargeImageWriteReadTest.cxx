@@ -26,15 +26,15 @@ namespace {
 template <typename TImageType>
 int ActualTest( std::string filename, typename TImageType::SizeType size )
 {
-  typedef TImageType                    ImageType;
-  typedef typename ImageType::PixelType PixelType;
+  using ImageType = TImageType;
+  using PixelType = typename ImageType::PixelType;
 
 
-  typedef itk::ImageFileWriter< ImageType >   WriterType;
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
-  typedef itk::ImageRegionIterator< ImageType >       IteratorType;
-  typedef itk::ImageRegionConstIterator< ImageType >  ConstIteratorType;
+  using IteratorType = itk::ImageRegionIterator< ImageType >;
+  using ConstIteratorType = itk::ImageRegionConstIterator< ImageType >;
 
   typename ImageType::RegionType region;
   typename ImageType::IndexType index;
@@ -170,8 +170,8 @@ int itkLargeImageWriteReadTest(int ac, char* argv[])
     {
     const unsigned int Dimension = 2;
 
-    typedef unsigned short                    PixelType;
-    typedef itk::Image< PixelType, Dimension> ImageType;
+    using PixelType = unsigned short;
+    using ImageType = itk::Image< PixelType, Dimension>;
 
     ImageType::SizeType size;
 
@@ -184,8 +184,8 @@ int itkLargeImageWriteReadTest(int ac, char* argv[])
     {
     const unsigned int Dimension = 3;
 
-    typedef unsigned short                    PixelType;
-    typedef itk::Image< PixelType, Dimension> ImageType;
+    using PixelType = unsigned short;
+    using ImageType = itk::Image< PixelType, Dimension>;
 
     ImageType::SizeType size;
 

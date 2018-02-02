@@ -52,7 +52,7 @@ GaborImageSource< TOutputImage >
   outputPtr->Allocate();
 
   // Create and initialize a new Gaussian function
-  typedef GaborKernelFunction<double> KernelFunctionType;
+  using KernelFunctionType = GaborKernelFunction<double>;
   typename KernelFunctionType::Pointer gabor = KernelFunctionType::New();
 
   gabor->SetSigma(this->m_Sigma[0]);

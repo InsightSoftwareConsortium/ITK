@@ -102,11 +102,11 @@ class ITK_TEMPLATE_EXPORT CurvatureRegistrationFilter:
                                           TDisplacementField >
 {
 public:
-  /** Standard class typedefs. */
-  typedef CurvatureRegistrationFilter                                                     Self;
-  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField > Superclass;
-  typedef SmartPointer< Self >                                                            Pointer;
-  typedef SmartPointer< const Self >                                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = CurvatureRegistrationFilter;
+  using Superclass = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -116,47 +116,44 @@ public:
                PDEDeformableRegistrationFilter);
 
   /** Inherit types from superclass. */
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType    FixedImageType;
-  typedef typename Superclass::FixedImagePointer FixedImagePointer;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using FixedImagePointer = typename Superclass::FixedImagePointer;
   itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType    MovingImageType;
-  typedef typename Superclass::MovingImagePointer MovingImagePointer;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using MovingImagePointer = typename Superclass::MovingImagePointer;
 
   /** Deformation field type. */
-  typedef typename Superclass::DisplacementFieldType
-  DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer
-  DisplacementFieldPointer;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
 
-  typedef typename TDisplacementField::PixelType         DisplacementFieldPixelType;
-  typedef typename DisplacementFieldPixelType::ValueType DisplacementFieldComponentType;
+  using DisplacementFieldPixelType = typename TDisplacementField::PixelType;
+  using DisplacementFieldComponentType = typename DisplacementFieldPixelType::ValueType;
   itkStaticConstMacro(DeformationVectorDimension, unsigned int, DisplacementFieldPixelType::Dimension);
 
   #if defined( ITK_USE_FFTWD )
   //Prefer to use double precision
-  typedef double RealTypeDFT;
+  using RealTypeDFT = double;
   #else
     #if defined( ITK_USE_FFTWF )
   //Allow to use single precision
       #warning "Using single precision for FFT computations!"
-  typedef double RealTypeDFT;
+  using RealTypeDFT = double;
     #endif
   #endif
 
-  typedef Image< RealTypeDFT, TDisplacementField::ImageDimension > DisplacementFieldComponentImageType;
-  typedef typename DisplacementFieldComponentImageType::Pointer    DisplacementFieldComponentImagePointer;
+  using DisplacementFieldComponentImageType = Image< RealTypeDFT, TDisplacementField::ImageDimension >;
+  using DisplacementFieldComponentImagePointer = typename DisplacementFieldComponentImageType::Pointer;
 
   /** FiniteDifferenceFunction type. */
-  typedef typename Superclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
   /** CurvatureRegistrationFilterFunction type. */
-  typedef TImageForceFunction RegistrationFunctionType;
+  using RegistrationFunctionType = TImageForceFunction;
 
   /** Set the constraint vs. image forces weight. */
   void SetConstraintWeight(const float w) { m_ConstraintWeight = w; }

@@ -47,7 +47,7 @@ int main(int, char*[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::MaximumDecisionRule DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 

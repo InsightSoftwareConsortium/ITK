@@ -57,11 +57,11 @@ class ITK_TEMPLATE_EXPORT BSplineExponentialDiffeomorphicTransform :
   public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineExponentialDiffeomorphicTransform                          Self;
-  typedef ConstantVelocityFieldTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                                Pointer;
-  typedef SmartPointer<const Self>                                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineExponentialDiffeomorphicTransform;
+  using Superclass = ConstantVelocityFieldTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( BSplineExponentialDiffeomorphicTransform, ConstantVelocityFieldTransform );
@@ -76,32 +76,32 @@ public:
   itkStaticConstMacro( Dimension, unsigned int, NDimensions );
 
   /** Types from superclass */
-  typedef typename Superclass::ScalarType               ScalarType;
-  typedef typename Superclass::DerivativeType           DerivativeType;
-  typedef typename DerivativeType::ValueType            DerivativeValueType;
+  using ScalarType = typename Superclass::ScalarType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
 
-  typedef typename Superclass::ParametersType            ParametersType;
-  typedef typename Superclass::ParametersValueType       ParametersValueType;
-  typedef typename Superclass::FixedParametersType       FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType  FixedParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
 
-  typedef typename Superclass::DisplacementFieldType        DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer     DisplacementFieldPointer;
-  typedef typename Superclass::ConstantVelocityFieldType    ConstantVelocityFieldType;
-  typedef typename Superclass::ConstantVelocityFieldPointer ConstantVelocityFieldPointer;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
+  using ConstantVelocityFieldType = typename Superclass::ConstantVelocityFieldType;
+  using ConstantVelocityFieldPointer = typename Superclass::ConstantVelocityFieldPointer;
 
-  typedef typename DisplacementFieldType::PixelType     DisplacementVectorType;
+  using DisplacementVectorType = typename DisplacementFieldType::PixelType;
 
   /**
-   * typedefs for projecting the input displacement field onto a
+   * type alias for projecting the input displacement field onto a
    * B-spline field.
    */
-  typedef PointSet<ConstantVelocityFieldType, Dimension>                            PointSetType;
-  typedef unsigned int                                                              SplineOrderType;
-  typedef DisplacementFieldToBSplineImageFilter<ConstantVelocityFieldType>          BSplineFilterType;
-  typedef typename BSplineFilterType::WeightsContainerType                          WeightsContainerType;
-  typedef typename BSplineFilterType::ArrayType                                     ArrayType;
-  typedef typename ArrayType::ValueType                                             ArrayValueType;
+  using PointSetType = PointSet<ConstantVelocityFieldType, Dimension>;
+  using SplineOrderType = unsigned int;
+  using BSplineFilterType = DisplacementFieldToBSplineImageFilter<ConstantVelocityFieldType>;
+  using WeightsContainerType = typename BSplineFilterType::WeightsContainerType;
+  using ArrayType = typename BSplineFilterType::ArrayType;
+  using ArrayValueType = typename ArrayType::ValueType;
 
   /**
    * Update the transform's parameters by the values in \c update. We overwrite the

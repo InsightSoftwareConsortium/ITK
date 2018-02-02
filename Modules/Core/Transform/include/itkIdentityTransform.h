@@ -51,11 +51,11 @@ template<typename TParametersValueType,
 class ITK_TEMPLATE_EXPORT IdentityTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef IdentityTransform                                           Self;
-  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = IdentityTransform;
+  using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New method for creating an object using a factory. */
   itkNewMacro(Self);
@@ -68,47 +68,47 @@ public:
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, NDimensions);
 
   /** Type of the input parameters. */
-  typedef typename Superclass::ParametersType           ParametersType;
-  typedef typename Superclass::ParametersValueType      ParametersValueType;
-  typedef typename Superclass::FixedParametersType      FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
-  typedef ParametersValueType                           ScalarType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using ScalarType = ParametersValueType;
 
 
   /** Type of the Jacobian matrix. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Transform category type. */
-  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+  using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TParametersValueType,
-                 itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
-  typedef Vector<TParametersValueType,
-                 itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
+  using InputVectorType = Vector<TParametersValueType,
+                 itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OutputVectorType = Vector<TParametersValueType,
+                 itkGetStaticConstMacro(OutputSpaceDimension)>;
 
   /** Standard covariant vector type for this class */
-  typedef CovariantVector<TParametersValueType,
-                          itkGetStaticConstMacro(InputSpaceDimension)>  InputCovariantVectorType;
-  typedef CovariantVector<TParametersValueType,
-                          itkGetStaticConstMacro(OutputSpaceDimension)> OutputCovariantVectorType;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType,
+                          itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType,
+                          itkGetStaticConstMacro(OutputSpaceDimension)>;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TParametersValueType,
-                           itkGetStaticConstMacro(InputSpaceDimension)>  InputVnlVectorType;
-  typedef vnl_vector_fixed<TParametersValueType,
-                           itkGetStaticConstMacro(OutputSpaceDimension)> OutputVnlVectorType;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType,
+                           itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType,
+                           itkGetStaticConstMacro(OutputSpaceDimension)>;
 
   /** Standard coordinate point type for this class */
-  typedef Point<TParametersValueType,
-                itkGetStaticConstMacro(InputSpaceDimension)> InputPointType;
-  typedef Point<TParametersValueType,
-                itkGetStaticConstMacro(OutputSpaceDimension)> OutputPointType;
+  using InputPointType = Point<TParametersValueType,
+                itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OutputPointType = Point<TParametersValueType,
+                itkGetStaticConstMacro(OutputSpaceDimension)>;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/
-  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
-  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+  using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
+  using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /**  Method to transform a point. */
   OutputPointType TransformPoint(const InputPointType  & point) const override

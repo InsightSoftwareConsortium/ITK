@@ -31,10 +31,10 @@ void
 ScalarAnisotropicDiffusionFunction< TImage >
 ::CalculateAverageGradientMagnitudeSquared(TImage *ip)
 {
-  typedef ConstNeighborhoodIterator< TImage >                           RNI_type;
-  typedef ConstNeighborhoodIterator< TImage >                           SNI_type;
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TImage > BFC_type;
-  typedef typename NumericTraits<PixelType>::AccumulateType             AccumulateType;
+  using RNI_type = ConstNeighborhoodIterator<TImage>;
+  using SNI_type = ConstNeighborhoodIterator<TImage>;
+  using BFC_type = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage>;
+  using AccumulateType = typename NumericTraits<PixelType>::AccumulateType;
 
   unsigned int                               i;
   ZeroFluxNeumannBoundaryCondition< TImage > bc;

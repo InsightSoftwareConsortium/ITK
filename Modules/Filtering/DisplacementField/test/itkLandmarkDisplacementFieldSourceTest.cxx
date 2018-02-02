@@ -35,15 +35,13 @@ int itkLandmarkDisplacementFieldSourceTest( int argc, char * argv[] )
     }
 
   const     unsigned int   Dimension = 2;
-  typedef   float          VectorComponentType;
+  using VectorComponentType = float;
 
-  typedef   itk::Vector< VectorComponentType, Dimension >    VectorType;
+  using VectorType = itk::Vector< VectorComponentType, Dimension >;
 
-  typedef itk::Image< VectorType,  Dimension >   DisplacementFieldType;
+  using DisplacementFieldType = itk::Image< VectorType,  Dimension >;
 
-  typedef itk::LandmarkDisplacementFieldSource<
-                                DisplacementFieldType
-                                             >  FilterType;
+  using FilterType = itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -79,8 +77,8 @@ int itkLandmarkDisplacementFieldSourceTest( int argc, char * argv[] )
 
   //  Create source and target landmarks.
   //
-  typedef FilterType::LandmarkContainer          LandmarkContainerType;
-  typedef FilterType::LandmarkPointType          LandmarkPointType;
+  using LandmarkContainerType = FilterType::LandmarkContainer;
+  using LandmarkPointType = FilterType::LandmarkPointType;
 
   LandmarkContainerType::Pointer sourceLandmarks = LandmarkContainerType::New();
   LandmarkContainerType::Pointer targetLandmarks = LandmarkContainerType::New();
@@ -126,7 +124,7 @@ int itkLandmarkDisplacementFieldSourceTest( int argc, char * argv[] )
     }
 
   // Write an image for regression testing
-  typedef itk::ImageFileWriter<  DisplacementFieldType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  DisplacementFieldType  >;
 
   WriterType::Pointer writer = WriterType::New();
 

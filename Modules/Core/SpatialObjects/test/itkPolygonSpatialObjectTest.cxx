@@ -22,7 +22,7 @@
 int itkPolygonSpatialObjectTest(int, char *[])
 {
   bool failed = false;
-  typedef itk::PolygonSpatialObject<3>  PolygonType;
+  using PolygonType = itk::PolygonSpatialObject<3>;
 
   //
   // create rectangle

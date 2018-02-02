@@ -33,19 +33,19 @@ int main(int argc, char* argv[])
   const char * inputFilename  = argv[1];
   const char * outputFilename = argv[2];
 
-  typedef unsigned char    CharPixelType;
+  using CharPixelType = unsigned char;
   const    unsigned int    Dimension = 2;
 
-  typedef itk::Image<CharPixelType, Dimension>    CharImageType;
+  using CharImageType = itk::Image<CharPixelType, Dimension>;
 
-  typedef itk::ImageFileReader< CharImageType >  ReaderType;
-  typedef itk::ImageFileWriter< CharImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< CharImageType >;
+  using WriterType = itk::ImageFileWriter< CharImageType >;
 
-  typedef itk::RescaleIntensityImageFilter<CharImageType, CharImageType> RescaleFilter;
+  using RescaleFilter = itk::RescaleIntensityImageFilter<CharImageType, CharImageType>;
 
-  typedef itk::LaplacianSharpeningImageFilter<
+  using LaplacianSharpeningFilter = itk::LaplacianSharpeningImageFilter<
                               CharImageType,
-                              CharImageType >    LaplacianSharpeningFilter;
+                              CharImageType >;
 
 
   //Setting the IO

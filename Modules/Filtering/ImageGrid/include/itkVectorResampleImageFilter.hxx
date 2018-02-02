@@ -113,7 +113,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   InputImageConstPointer inputPtr = this->GetInput();
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageRegionIteratorWithIndex< TOutputImage > OutputIterator;
+  using OutputIterator = ImageRegionIteratorWithIndex< TOutputImage >;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
@@ -122,7 +122,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   PointType outputPoint;         // Coordinates of current output pixel
   PointType inputPoint;          // Coordinates of current input pixel
 
-  typedef ContinuousIndex< TInterpolatorPrecisionType, ImageDimension > ContinuousIndexType;
+  using ContinuousIndexType = ContinuousIndex< TInterpolatorPrecisionType, ImageDimension >;
   ContinuousIndexType inputIndex;
 
   // Doc says this only works for VectorImage, but Image implementation says otherwise...
@@ -131,7 +131,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   // Support for progress methods/callbacks
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
-  typedef typename InterpolatorType::OutputType OutputType;
+  using OutputType = typename InterpolatorType::OutputType;
 
   // Walk the output region
   outIt.GoToBegin();

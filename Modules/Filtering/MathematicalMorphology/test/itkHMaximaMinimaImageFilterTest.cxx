@@ -40,26 +40,26 @@ int itkHMaximaMinimaImageFilterTest( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
 
-  typedef unsigned short   InputPixelType;
-  typedef short            InternalPixelType;
-  typedef unsigned char    OutputPixelType;
+  using InputPixelType = unsigned short;
+  using InternalPixelType = short;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType, Dimension >     InputImageType;
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
-  typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
   // Readers/writers
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   // Define the itk::HMaximaImageFilter filter type
-  typedef itk::HMaximaImageFilter<
+  using HMaximaFilterType = itk::HMaximaImageFilter<
                             InputImageType,
-                            InternalImageType > HMaximaFilterType;
+                            InternalImageType >;
   // Define the itk::HMinimaImageFilter filter type
-  typedef itk::HMinimaImageFilter<
+  using HMinimaFilterType = itk::HMinimaImageFilter<
                             InternalImageType,
-                            OutputImageType > HMinimaFilterType;
+                            OutputImageType >;
 
 
   // Creation of reader and writer filters

@@ -42,13 +42,13 @@ class ITK_TEMPLATE_EXPORT GaussianDerivativeImageFunction:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef GaussianDerivativeImageFunction Self;
-  typedef ImageFunction< TInputImage,
+  /** Standard class type aliases. */
+  using Self = GaussianDerivativeImageFunction;
+  using Superclass = ImageFunction< TInputImage,
                          Vector< TOutput, TInputImage::ImageDimension >,
-                         TOutput >        Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+                         TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,34 +56,34 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianDerivativeImageFunction, ImageFunction);
 
-  /** InputImageType typedef support. */
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef typename InputImageType::IndexType IndexType;
+  /** InputImageType type alias support */
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using IndexType = typename InputImageType::IndexType;
 
   /** Dimension of the underlying image. */
   itkStaticConstMacro(ImageDimension2, unsigned int,
                       InputImageType::ImageDimension);
 
-  typedef ContinuousIndex< SpacePrecisionType, itkGetStaticConstMacro(ImageDimension2) >
-  ContinuousIndexType;
+  using ContinuousIndexType =
+      ContinuousIndex< SpacePrecisionType, itkGetStaticConstMacro(ImageDimension2) >;
 
-  typedef Neighborhood< InputPixelType, itkGetStaticConstMacro(ImageDimension2) > NeighborhoodType;
-  typedef Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension2) >        OperatorNeighborhoodType;
+  using NeighborhoodType = Neighborhood< InputPixelType, itkGetStaticConstMacro(ImageDimension2) >;
+  using OperatorNeighborhoodType = Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
 
-  typedef Vector< TOutput, itkGetStaticConstMacro(ImageDimension2) >                         VectorType;
-  typedef typename Superclass::OutputType                                                    OutputType;
-  typedef FixedArray< OperatorNeighborhoodType, itkGetStaticConstMacro(ImageDimension2) > OperatorArrayType;
-  typedef NeighborhoodOperatorImageFunction< InputImageType,
-                                             TOutput > OperatorImageFunctionType;
-  typedef typename OperatorImageFunctionType::Pointer OperatorImageFunctionPointer;
+  using VectorType = Vector< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
+  using OutputType = typename Superclass::OutputType;
+  using OperatorArrayType = FixedArray< OperatorNeighborhoodType, itkGetStaticConstMacro(ImageDimension2) >;
+  using OperatorImageFunctionType = NeighborhoodOperatorImageFunction< InputImageType,
+                                             TOutput >;
+  using OperatorImageFunctionPointer = typename OperatorImageFunctionType::Pointer;
 
-  typedef GaussianDerivativeSpatialFunction< TOutput, 1 >  GaussianDerivativeFunctionType;
-  typedef typename GaussianDerivativeFunctionType::Pointer GaussianDerivativeFunctionPointer;
+  using GaussianDerivativeFunctionType = GaussianDerivativeSpatialFunction< TOutput, 1 >;
+  using GaussianDerivativeFunctionPointer = typename GaussianDerivativeFunctionType::Pointer;
 
-  /** Point typedef support. */
-  // typedef Point< TOutput, itkGetStaticConstMacro(ImageDimension2) > PointType;
-  typedef typename InputImageType::PointType PointType;
+  /** Point type alias support */
+  // using PointType = Point< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
+  using PointType = typename InputImageType::PointType;
 
   /** Evaluate the function at the specifed point. */
   OutputType Evaluate(const PointType & point) const override;

@@ -40,11 +40,11 @@ namespace fem
 class ITKFEM_EXPORT LoadGrav : public LoadElement
 {
 public:
-  /** Standard class typedefs. */
-  typedef LoadGrav                 Self;
-  typedef LoadElement              Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LoadGrav;
+  using Superclass = LoadElement;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoadGrav, LoadElement);
@@ -67,11 +67,11 @@ protected:
 class ITKFEM_EXPORT LoadGravConst : public LoadGrav
 {
 public:
-  /** Standard class typedefs. */
-  typedef LoadGravConst            Self;
-  typedef LoadGrav                 Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LoadGravConst;
+  using Superclass = LoadGrav;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

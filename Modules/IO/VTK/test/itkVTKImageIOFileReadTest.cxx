@@ -25,7 +25,7 @@ int ReadImage( const std::string fileName,
                typename TImage::Pointer image )
 {
 
-  typedef itk::VTKImageIO                         IOType;
+  using IOType = itk::VTKImageIO;
   IOType::Pointer vtkIO                   =  IOType::New();
 
   if (!vtkIO->CanReadFile(fileName.c_str()))
@@ -33,8 +33,8 @@ int ReadImage( const std::string fileName,
     return EXIT_FAILURE;
     }
 
-  typedef TImage                             ImageType;
-  typedef itk::ImageFileReader< ImageType >  ImageReaderType;
+  using ImageType = TImage;
+  using ImageReaderType = itk::ImageFileReader< ImageType >;
 
   typename ImageReaderType::Pointer reader = ImageReaderType::New();
   reader->SetImageIO(vtkIO);
@@ -67,7 +67,7 @@ int itkVTKImageIOFileReadTest( int argc, char* argv[] )
     }
 
   // Read matrix.vtk file
-  typedef itk::Image<float, 2>               matrixImageType;
+  using matrixImageType = itk::Image<float, 2>;
   matrixImageType::Pointer matriximage     = matrixImageType::New();
 
   if( ReadImage< matrixImageType >( argv[1], matriximage ) == EXIT_FAILURE)
@@ -78,7 +78,7 @@ int itkVTKImageIOFileReadTest( int argc, char* argv[] )
   std::cout << matriximage << std::endl;
 
   // Read ironProt.vtk file
-  typedef itk::Image<unsigned char, 3>       ironProtImageType;
+  using ironProtImageType = itk::Image<unsigned char, 3>;
   ironProtImageType::Pointer ironProtimage = ironProtImageType::New();
 
   if( ReadImage< ironProtImageType >( argv[2], ironProtimage ) == EXIT_FAILURE)

@@ -27,8 +27,8 @@ namespace ImageAdaptorInterpolate {
 class RedChannelPixelAccessor
 {
 public:
-  typedef itk::RGBPixel<float>   InternalType;
-  typedef               float    ExternalType;
+  using InternalType = itk::RGBPixel<float>;
+  using ExternalType = float;
 
   static ExternalType Get( const InternalType & input )
     {
@@ -36,24 +36,24 @@ public:
     }
 };
 
-typedef RedChannelPixelAccessor::InternalType  InputPixelType;
-typedef RedChannelPixelAccessor::ExternalType  PixelType;
+using InputPixelType = RedChannelPixelAccessor::InternalType;
+using PixelType = RedChannelPixelAccessor::ExternalType;
 
 enum{ ImageDimension = 3 };
 
-typedef itk::Image<InputPixelType,ImageDimension> ImageType;
-typedef itk::ImageAdaptor<  ImageType,
-                            RedChannelPixelAccessor > ImageAdaptorType;
+using ImageType = itk::Image<InputPixelType,ImageDimension>;
+using ImageAdaptorType = itk::ImageAdaptor<  ImageType,
+                            RedChannelPixelAccessor >;
 
-typedef double CoordRepType;
+using CoordRepType = double;
 
-typedef itk::LinearInterpolateImageFunction<
+using InterpolatorType = itk::LinearInterpolateImageFunction<
                                   ImageAdaptorType,
-                                  CoordRepType  > InterpolatorType;
-typedef InterpolatorType::IndexType               IndexType;
-typedef ImageType::PointType                      PointType;
-typedef InterpolatorType::ContinuousIndexType     ContinuousIndexType;
-typedef InterpolatorType::OutputType              OutputType;
+                                  CoordRepType  >;
+using IndexType = InterpolatorType::IndexType;
+using PointType = ImageType::PointType;
+using ContinuousIndexType = InterpolatorType::ContinuousIndexType;
+using OutputType = InterpolatorType::OutputType;
 
 
 /**
@@ -143,14 +143,14 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
 
   std::cout << "Testing image adaptor interpolation: " << std::endl;
 
-  typedef ImageAdaptorInterpolate::ImageType           ImageType;
-  typedef ImageAdaptorInterpolate::IndexType           IndexType;
-  typedef ImageAdaptorInterpolate::PointType           PointType;
-  typedef ImageAdaptorInterpolate::InputPixelType      InputPixelType;
-  typedef ImageAdaptorInterpolate::OutputType          OutputType;
-  typedef ImageAdaptorInterpolate::ContinuousIndexType ContinuousIndexType;
+  using ImageType = ImageAdaptorInterpolate::ImageType;
+  using IndexType = ImageAdaptorInterpolate::IndexType;
+  using PointType = ImageAdaptorInterpolate::PointType;
+  using InputPixelType = ImageAdaptorInterpolate::InputPixelType;
+  using OutputType = ImageAdaptorInterpolate::OutputType;
+  using ContinuousIndexType = ImageAdaptorInterpolate::ContinuousIndexType;
 
-  typedef ImageAdaptorInterpolate::InterpolatorType    InterpolatorType;
+  using InterpolatorType = ImageAdaptorInterpolate::InterpolatorType;
 
   const unsigned int ImageDimension = ImageAdaptorInterpolate::ImageDimension;
 
@@ -172,7 +172,7 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
   image->SetSpacing( spacing );
 
   // Write in a simple linear pattern
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter( image, region );
 
   IndexType index;
@@ -199,7 +199,7 @@ int itkImageAdaptorInterpolateImageFunctionTest(int, char* [] )
     }
 
   // Create the image adaptor
-  typedef ImageAdaptorInterpolate::ImageAdaptorType  ImageAdaptorType;
+  using ImageAdaptorType = ImageAdaptorInterpolate::ImageAdaptorType;
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 
   adaptor->SetImage( image );

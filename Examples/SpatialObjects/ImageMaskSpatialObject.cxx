@@ -50,7 +50,7 @@ int main(int, char* [])
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageMaskSpatialObject<3> ImageMaskSpatialObject;
+  using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<3>;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -61,9 +61,9 @@ int main(int, char* [])
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef ImageMaskSpatialObject::PixelType     PixelType;
-  typedef ImageMaskSpatialObject::ImageType     ImageType;
-  typedef itk::ImageRegionIterator< ImageType > Iterator;
+  using PixelType = ImageMaskSpatialObject::PixelType;
+  using ImageType = ImageMaskSpatialObject::ImageType;
+  using Iterator = itk::ImageRegionIterator< ImageType >;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size = {{ 50, 50, 50 }};

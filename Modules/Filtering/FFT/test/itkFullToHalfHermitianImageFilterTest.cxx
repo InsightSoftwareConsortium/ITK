@@ -35,9 +35,9 @@ int itkFullToHalfHermitianImageFilterTest(int argc, char *argv[])
     }
 
   // Read in image.
-  typedef itk::Image< float, 2 >                 ImageType;
-  typedef itk::Image< std::complex< float >, 2 > ComplexImageType;
-  typedef itk::RandomImageSource< ImageType >    RandomSourceType;
+  using ImageType = itk::Image< float, 2 >;
+  using ComplexImageType = itk::Image< std::complex< float >, 2 >;
+  using RandomSourceType = itk::RandomImageSource< ImageType >;
 
   RandomSourceType::Pointer source = RandomSourceType::New();
   RandomSourceType::SizeType size;
@@ -50,7 +50,7 @@ int itkFullToHalfHermitianImageFilterTest(int argc, char *argv[])
 
   // Change the index of the image's largest possible region to test
   // generality of the filters.
-  typedef itk::ChangeInformationImageFilter< ImageType > ChangeFilterType;
+  using ChangeFilterType = itk::ChangeInformationImageFilter< ImageType >;
   ChangeFilterType::Pointer changer = ChangeFilterType::New();
   changer->ChangeRegionOn();
   ChangeFilterType::OutputImageOffsetValueType indexShift[2];
@@ -61,17 +61,17 @@ int itkFullToHalfHermitianImageFilterTest(int argc, char *argv[])
 
   // Compute frequency image, yielding the non-redundant half of the
   // full complex image.
-  typedef itk::RealToHalfHermitianForwardFFTImageFilter< ImageType, ComplexImageType > FFTFilterType;
+  using FFTFilterType = itk::RealToHalfHermitianForwardFFTImageFilter< ImageType, ComplexImageType >;
   FFTFilterType::Pointer fft = FFTFilterType::New();
   fft->SetInput( changer->GetOutput() );
 
   // Expand the non-redundant half to the full complex image.
-  typedef itk::HalfToFullHermitianImageFilter< ComplexImageType > HalfToFullFilterType;
+  using HalfToFullFilterType = itk::HalfToFullHermitianImageFilter< ComplexImageType >;
   HalfToFullFilterType::Pointer halfToFullFilter = HalfToFullFilterType::New();
   halfToFullFilter->SetActualXDimensionIsOddInput( fft->GetActualXDimensionIsOddOutput() );
   halfToFullFilter->SetInput( fft->GetOutput() );
 
-  typedef itk::FullToHalfHermitianImageFilter< ComplexImageType > FullToHalfFilterType;
+  using FullToHalfFilterType = itk::FullToHalfHermitianImageFilter< ComplexImageType >;
   FullToHalfFilterType::Pointer fullToHalfFilter = FullToHalfFilterType::New();
   fullToHalfFilter->SetInput( halfToFullFilter->GetOutput() );
   fullToHalfFilter->Update();
@@ -89,7 +89,7 @@ int itkFullToHalfHermitianImageFilterTest(int argc, char *argv[])
 
   // Check that the output of the full-to-half filter is equal to the
   // output of the FFT filter.
-  typedef itk::ImageRegionConstIterator< ComplexImageType > IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator< ComplexImageType >;
   IteratorType fftIt( fft->GetOutput(), fftRegion );
   IteratorType f2hIt( fullToHalfFilter->GetOutput(), fftRegion );
 

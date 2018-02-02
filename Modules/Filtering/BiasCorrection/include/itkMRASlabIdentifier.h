@@ -65,11 +65,11 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT MRASlabIdentifier:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef MRASlabIdentifier          Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MRASlabIdentifier;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MRASlabIdentifier, Object);
@@ -78,20 +78,20 @@ public:
   itkNewMacro(Self);
 
   /** Type definition for the input image. */
-  typedef TInputImage ImageType;
+  using ImageType = TInputImage;
 
   /** Pointer type for the image. */
-  typedef typename TInputImage::Pointer ImagePointer;
+  using ImagePointer = typename TInputImage::Pointer;
 
   /** Const Pointer type for the image. */
-  typedef typename TInputImage::ConstPointer ImageConstPointer;
+  using ImageConstPointer = typename TInputImage::ConstPointer;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType  ImagePixelType;
-  typedef typename TInputImage::IndexType  ImageIndexType;
-  typedef typename TInputImage::SizeType   ImageSizeType;
-  typedef typename TInputImage::RegionType ImageRegionType;
-  typedef std::vector< ImageRegionType >   SlabRegionVectorType;
+  using ImagePixelType = typename TInputImage::PixelType;
+  using ImageIndexType = typename TInputImage::IndexType;
+  using ImageSizeType = typename TInputImage::SizeType;
+  using ImageRegionType = typename TInputImage::RegionType;
+  using SlabRegionVectorType = std::vector< ImageRegionType >;
 
   /** Set/Get the input image. */
   itkSetConstObjectMacro(Image, ImageType);

@@ -25,9 +25,9 @@
 int itkBinShrinkImageFilterTest1( int , char *[] )
 {
 
-  // typedefs to simplify the syntax
-  typedef itk::Image< int, 2 >      InputImageType;
-  typedef itk::Image< long int, 2 > OutputImageType;
+  // type alias to simplify the syntax
+  using InputImageType = itk::Image< int, 2 >;
+  using OutputImageType = itk::Image< long int, 2 >;
   InputImageType::Pointer sourceImage = InputImageType::New();
 
   // fill in an image
@@ -49,13 +49,12 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
     }
 
   // assemple pipeline
-  typedef itk::PipelineMonitorImageFilter<InputImageType>
-    InputMonitorFilterType;
+  using InputMonitorFilterType = itk::PipelineMonitorImageFilter<InputImageType>;
   InputMonitorFilterType::Pointer monitor1 = InputMonitorFilterType::New();
   monitor1->SetInput( sourceImage );
 
-  typedef itk::BinShrinkImageFilter< InputImageType, OutputImageType >
-    BinShrinkFilterType;
+  using BinShrinkFilterType =
+      itk::BinShrinkImageFilter< InputImageType, OutputImageType >;
   BinShrinkFilterType::Pointer bin = BinShrinkFilterType::New();
 
   // Exercise some methods for coverage
@@ -90,7 +89,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
   TEST_EXPECT_TRUE( t != bin->GetMTime() );
 
 
-  typedef itk::PipelineMonitorImageFilter<OutputImageType> OutputMonitorFilterType;
+  using OutputMonitorFilterType = itk::PipelineMonitorImageFilter<OutputImageType>;
   OutputMonitorFilterType::Pointer monitor2 = OutputMonitorFilterType::New();
   monitor2->SetInput(bin->GetOutput());
 

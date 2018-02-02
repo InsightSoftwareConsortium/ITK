@@ -47,11 +47,11 @@ class ITK_TEMPLATE_EXPORT MultiGradientOptimizerv4Template
 : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultiGradientOptimizerv4Template                             Self;
-  typedef GradientDescentOptimizerv4Template<TInternalComputationValueType>  Superclass;
-  typedef SmartPointer< Self >                                         Pointer;
-  typedef SmartPointer< const Self >                                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MultiGradientOptimizerv4Template;
+  using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultiGradientOptimizerv4Template, Superclass);
@@ -59,35 +59,35 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>                   LocalOptimizerType;
-  typedef typename itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>::Pointer LocalOptimizerPointer;
-  typedef typename Superclass::ParametersType                                                ParametersType;
-  typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>                       OptimizerType;
-  typedef typename OptimizerType::Pointer                                                    OptimizerPointer;
-  typedef std::vector< LocalOptimizerPointer >                                               OptimizersListType;
-  typedef typename OptimizersListType::size_type                                             OptimizersListSizeType;
+  using LocalOptimizerType = itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>;
+  using LocalOptimizerPointer = typename itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>::Pointer;
+  using ParametersType = typename Superclass::ParametersType;
+  using OptimizerType = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
+  using OptimizerPointer = typename OptimizerType::Pointer;
+  using OptimizersListType = std::vector< LocalOptimizerPointer >;
+  using OptimizersListSizeType = typename OptimizersListType::size_type;
 
-  typedef typename Superclass::StopConditionType                                             StopConditionType;
+  using StopConditionType = typename Superclass::StopConditionType;
 
   /** Stop condition return string type */
-  typedef typename Superclass::StopConditionReturnStringType StopConditionReturnStringType;
+  using StopConditionReturnStringType = typename Superclass::StopConditionReturnStringType;
 
   /** Stop condition internal string type */
-  typedef typename Superclass::StopConditionDescriptionType  StopConditionDescriptionType;
+  using StopConditionDescriptionType = typename Superclass::StopConditionDescriptionType;
 
   /** It should be possible to derive the internal computation type from the class object. */
-  typedef TInternalComputationValueType             InternalComputationValueType;
+  using InternalComputationValueType = TInternalComputationValueType;
 
   /** Metric type over which this class is templated */
-  typedef typename Superclass::MetricType           MetricType;
-  typedef typename MetricType::Pointer              MetricTypePointer;
+  using MetricType = typename Superclass::MetricType;
+  using MetricTypePointer = typename MetricType::Pointer;
 
   /** Derivative type */
-  typedef typename MetricType::DerivativeType       DerivativeType;
+  using DerivativeType = typename MetricType::DerivativeType;
 
   /** Measure type */
-  typedef typename Superclass::MeasureType          MeasureType;
-  typedef std::vector< MeasureType >                MetricValuesListType;
+  using MeasureType = typename Superclass::MeasureType;
+  using MetricValuesListType = std::vector< MeasureType >;
 
   /** Get stop condition enum */
   const StopConditionType & GetStopCondition() const override
@@ -141,7 +141,7 @@ public:
 };
 
 /** This helps to meet backward compatibility */
-typedef MultiGradientOptimizerv4Template<double> MultiGradientOptimizerv4;
+using MultiGradientOptimizerv4 = MultiGradientOptimizerv4Template<double>;
 
 } // end namespace itk
 

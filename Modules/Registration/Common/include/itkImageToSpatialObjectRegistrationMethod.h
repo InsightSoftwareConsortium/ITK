@@ -85,11 +85,11 @@ template< typename TFixedImage, typename TMovingSpatialObject >
 class ITK_TEMPLATE_EXPORT ImageToSpatialObjectRegistrationMethod : public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToSpatialObjectRegistrationMethod Self;
-  typedef ProcessObject                          Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageToSpatialObjectRegistrationMethod;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -98,42 +98,41 @@ public:
   itkTypeMacro(ImageToSpatialObjectRegistrationMethod, ProcessObject);
 
   /**  Type of the Fixed image. */
-  typedef          TFixedImage                  FixedImageType;
-  typedef typename FixedImageType::ConstPointer FixedImageConstPointer;
+  using FixedImageType = TFixedImage;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
 
   /**  Type of the Moving image. */
-  typedef TMovingSpatialObject MovingSpatialObjectType;
-  typedef typename MovingSpatialObjectType::ConstPointer
-  MovingSpatialObjectConstPointer;
+  using MovingSpatialObjectType = TMovingSpatialObject;
+  using MovingSpatialObjectConstPointer = typename MovingSpatialObjectType::ConstPointer;
 
   /**  Type of the metric. */
-  typedef ImageToSpatialObjectMetric< FixedImageType,
-                                      MovingSpatialObjectType >     MetricType;
-  typedef typename MetricType::Pointer MetricPointer;
+  using MetricType = ImageToSpatialObjectMetric< FixedImageType,
+                                      MovingSpatialObjectType >;
+  using MetricPointer = typename MetricType::Pointer;
 
   /**  Type of the Transform . */
-  typedef  typename MetricType::TransformType TransformType;
-  typedef  typename TransformType::Pointer    TransformPointer;
+  using TransformType = typename MetricType::TransformType;
+  using TransformPointer = typename TransformType::Pointer;
 
   /** Type for the output: Using Decorator pattern for enabling
    *  the Transform to be passed in the data pipeline */
-  typedef  DataObjectDecorator< TransformType >      TransformOutputType;
-  typedef typename TransformOutputType::Pointer      TransformOutputPointer;
-  typedef typename TransformOutputType::ConstPointer TransformOutputConstPointer;
+  using TransformOutputType = DataObjectDecorator< TransformType >;
+  using TransformOutputPointer = typename TransformOutputType::Pointer;
+  using TransformOutputConstPointer = typename TransformOutputType::ConstPointer;
 
   /**  Type of the Interpolator. */
-  typedef  typename MetricType::InterpolatorType InterpolatorType;
-  typedef  typename InterpolatorType::Pointer    InterpolatorPointer;
+  using InterpolatorType = typename MetricType::InterpolatorType;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
 
   /**  Type of the optimizer. */
-  typedef   SingleValuedNonLinearOptimizer OptimizerType;
+  using OptimizerType = SingleValuedNonLinearOptimizer;
 
   /** Type of the Transformation parameters This is the same type used to
    *  represent the search space of the optimization algorithm */
-  typedef  typename MetricType::TransformParametersType ParametersType;
+  using ParametersType = typename MetricType::TransformParametersType;
 
   /** Smart Pointer type to a DataObject. */
-  typedef typename DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = typename DataObject::Pointer;
 
   /** Set/Get the Fixed image. */
   itkSetConstObjectMacro(FixedImage, FixedImageType);
@@ -172,7 +171,7 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

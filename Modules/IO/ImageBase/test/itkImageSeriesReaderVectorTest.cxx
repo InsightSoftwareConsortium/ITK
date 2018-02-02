@@ -27,9 +27,9 @@ int itkImageSeriesReaderVectorTest(int ac, char* av[])
     return EXIT_FAILURE;
   }
 
-  typedef itk::VectorImage< unsigned short, 3>            VectorImageType;
+  using VectorImageType = itk::VectorImage< unsigned short, 3>;
 
-  typedef itk::ImageSeriesReader<VectorImageType>   VectorImageSeriesReader;
+  using VectorImageSeriesReader = itk::ImageSeriesReader<VectorImageType>;
 
   VectorImageSeriesReader::FileNamesContainer fnames;
   for (int i = 1; i < ac; ++i)

@@ -74,10 +74,10 @@ public:
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  typedef CompositeExampleImageFilter          Self;
-  typedef ImageToImageFilter< TImage, TImage > Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  using Self = CompositeExampleImageFilter;
+  using Superclass = ImageToImageFilter< TImage, TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
 //  Software Guide : EndCodeSnippet
 
@@ -96,8 +96,8 @@ public:
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  typedef TImage                        ImageType;
-  typedef typename ImageType::PixelType PixelType;
+  using ImageType = TImage;
+  using PixelType = typename ImageType::PixelType;
 
   itkGetMacro( Threshold, PixelType );
   itkSetMacro( Threshold, PixelType );
@@ -117,9 +117,9 @@ protected:
 //  Software Guide : BeginCodeSnippet
 protected:
 
-  typedef ThresholdImageFilter< ImageType >                    ThresholdType;
-  typedef GradientMagnitudeImageFilter< ImageType, ImageType > GradientType;
-  typedef RescaleIntensityImageFilter< ImageType, ImageType >  RescalerType;
+  using ThresholdType = ThresholdImageFilter< ImageType >;
+  using GradientType = GradientMagnitudeImageFilter< ImageType, ImageType >;
+  using RescalerType = RescaleIntensityImageFilter< ImageType, ImageType >;
 //  Software Guide : EndCodeSnippet
 
   void GenerateData() override;
@@ -271,18 +271,18 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< short, 2 >            ImageType;
+  using ImageType = itk::Image< short, 2 >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::CompositeExampleImageFilter<ImageType> FilterType;
+  using FilterType = itk::CompositeExampleImageFilter<ImageType>;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetThreshold( 20 );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );

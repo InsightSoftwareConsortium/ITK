@@ -43,12 +43,12 @@ int main( int argc, char * argv[] )
     }
 
 
-  typedef unsigned char      PixelType;
+  using PixelType = unsigned char;
   const   unsigned int       Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >    ImageType;
-  typedef itk::PointSet< PixelType, Dimension > PointSetType;
-  typedef itk::ImageFileReader< ImageType >     ReaderType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using PointSetType = itk::PointSet< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -69,7 +69,7 @@ int main( int argc, char * argv[] )
   PointSetType::Pointer  pointSet = PointSetType::New();
 
 
-  typedef itk::ImageRegionConstIterator< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator< ImageType >;
 
   const ImageType * image = reader->GetOutput();
 
@@ -78,7 +78,7 @@ int main( int argc, char * argv[] )
   it.GoToBegin();
 
 
-  typedef PointSetType::PointType     PointType;
+  using PointType = PointSetType::PointType;
   PointType point;
 
   unsigned long pointId = 0;

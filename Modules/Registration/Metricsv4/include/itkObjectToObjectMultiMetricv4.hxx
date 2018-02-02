@@ -152,7 +152,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     const MovingTransformType * transform = this->m_MetricQueue[j]->GetMovingTransform();
     //Check if it's a composite. If so, there must be only one transform set to be
     // optimized, and it must be the same as in other metrics.
-    typedef CompositeTransform<typename MovingTransformType::ScalarType, TFixedDimension> CompositeType;
+    using CompositeType = CompositeTransform<typename MovingTransformType::ScalarType, TFixedDimension>;
     const CompositeType * composite = dynamic_cast<const CompositeType*>(transform);
     if( composite != nullptr )
       {

@@ -77,13 +77,13 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char       PixelType;
+  using PixelType = unsigned char;
   const   unsigned int        Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -108,8 +108,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ScalarImageToHistogramGenerator<
-                                      ImageType >   HistogramGeneratorType;
+  using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<ImageType>;
 
   HistogramGeneratorType::Pointer histogramGenerator =
                                       HistogramGeneratorType::New();
@@ -158,7 +157,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef HistogramGeneratorType::HistogramType  HistogramType;
+  using HistogramType = HistogramGeneratorType::HistogramType;
 
   const HistogramType * histogram = histogramGenerator->GetOutput();
   // Software Guide : EndCodeSnippet

@@ -44,10 +44,10 @@ int itkDisplacementFieldTransformCloneTest( int, char *[] )
 {
   const unsigned int Dimensions = 3;
 
-  typedef double ParametersValueType;
-  typedef itk::DisplacementFieldTransform< ParametersValueType, Dimensions >
-                                                            DisplacementTransformType;
-  typedef DisplacementTransformType::DisplacementFieldType  FieldType;
+  using ParametersValueType = double;
+  using DisplacementTransformType =
+      itk::DisplacementFieldTransform< ParametersValueType, Dimensions >;
+  using FieldType = DisplacementTransformType::DisplacementFieldType;
 
   // Create a displacement field transform
   DisplacementTransformType::Pointer displacementTransform =

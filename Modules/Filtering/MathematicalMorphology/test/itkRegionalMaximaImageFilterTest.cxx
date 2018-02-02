@@ -30,15 +30,15 @@ int RegionalMaximaImageFilterTestHelper( std::string inputImageFile,
   std::string outputImageFile, std::string outputImageFile2,
   bool fullyConnected, bool flatIsMaxima )
 {
-  typedef TInputImage InputImageType;
-  typedef TInputImage OutputImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TInputImage;
 
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputImageFile );
 
-  typedef itk::RegionalMaximaImageFilter< InputImageType, OutputImageType >
-    FilterType;
+  using FilterType =
+      itk::RegionalMaximaImageFilter< InputImageType, OutputImageType >;
   typename FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput( reader->GetOutput() );
@@ -60,7 +60,7 @@ int RegionalMaximaImageFilterTestHelper( std::string inputImageFile,
   itk::SimpleFilterWatcher watcher( filter, "RegionalMaximaImageFilter" );
 
   // Write the output images
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( outputImageFile );
@@ -68,8 +68,8 @@ int RegionalMaximaImageFilterTestHelper( std::string inputImageFile,
 
 
   // Produce the same output with other filters
-  typedef itk::HConvexImageFilter< InputImageType, InputImageType >
-    ConvexFilterType;
+  using ConvexFilterType =
+      itk::HConvexImageFilter< InputImageType, InputImageType >;
   typename ConvexFilterType::Pointer convexFilter = ConvexFilterType::New();
   convexFilter->SetInput( reader->GetOutput() );
   convexFilter->SetFullyConnected( fullyConnected );
@@ -77,8 +77,8 @@ int RegionalMaximaImageFilterTestHelper( std::string inputImageFile,
 
   // Convex gives maxima with value = 1 and others with value = 0
   // Rescale the image so we have maxima = 255 other = 0
-  typedef itk::RescaleIntensityImageFilter< InputImageType, OutputImageType >
-    RescaleFilterType;
+  using RescaleFilterType =
+      itk::RescaleIntensityImageFilter< InputImageType, OutputImageType >;
   typename RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
   rescaler->SetInput( convexFilter->GetOutput() );
   rescaler->SetOutputMaximum( 255 );
@@ -123,10 +123,10 @@ int itkRegionalMaximaImageFilterTest( int argc, char * argv[] )
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  typedef unsigned char               PixelType;
-  typedef itk::Image< PixelType, 2 >  ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, 2 >;
 
-  typedef itk::RegionalMaximaImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::RegionalMaximaImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, RegionalMaximaImageFilter,
@@ -134,14 +134,14 @@ int itkRegionalMaximaImageFilterTest( int argc, char * argv[] )
 
   if( dimension == 2 )
     {
-    typedef itk::Image< PixelType, 2 > Image2DType;
+    using Image2DType = itk::Image< PixelType, 2 >;
     return RegionalMaximaImageFilterTestHelper< Image2DType, Image2DType >(
       inputImageFile, outputImageFile, outputImageFile2, fullyConnected,
       flatIsMaxima );
     }
   else if( dimension == 3 )
     {
-    typedef itk::Image< PixelType, 3 > Image3DType;
+    using Image3DType = itk::Image< PixelType, 3 >;
     return RegionalMaximaImageFilterTestHelper< Image3DType, Image3DType >(
       inputImageFile, outputImageFile, outputImageFile2, fullyConnected,
       flatIsMaxima );

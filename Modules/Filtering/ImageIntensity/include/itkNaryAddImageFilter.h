@@ -34,7 +34,7 @@ template< typename TInput, typename TOutput >
 class Add1
 {
 public:
-  typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
+  using AccumulatorType = typename NumericTraits< TInput >::AccumulateType;
   Add1() {}
   ~Add1() {}
   inline TOutput operator()(const std::vector< TInput > & B) const
@@ -100,15 +100,15 @@ class NaryAddImageFilter:
                           Functor::Add1< typename TInputImage::PixelType,  typename TInputImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef NaryAddImageFilter Self;
-  typedef NaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = NaryAddImageFilter;
+  using Superclass = NaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::Add1< typename TInputImage::PixelType,
-                   typename TInputImage::PixelType > > Superclass;
+                   typename TInputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

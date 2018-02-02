@@ -49,13 +49,13 @@ class ITK_TEMPLATE_EXPORT MedianImageFunction:
                         TCoordRep >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MedianImageFunction Self;
-  typedef ImageFunction< TInputImage, typename TInputImage::PixelType,
-                         TCoordRep >                     Superclass;
+  /** Standard class type aliases. */
+  using Self = MedianImageFunction;
+  using Superclass = ImageFunction< TInputImage, typename TInputImage::PixelType,
+                         TCoordRep >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MedianImageFunction, ImageFunction);
@@ -63,21 +63,21 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** InputImageType typedef support. */
-  typedef TInputImage                         InputImageType;
-  typedef typename Superclass::InputPixelType InputPixelType;
+  /** InputImageType type alias support */
+  using InputImageType = TInputImage;
+  using InputPixelType = typename Superclass::InputPixelType;
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support */
+  using PointType = typename Superclass::PointType;
 
   /** Dimension of the underlying image. */
   itkStaticConstMacro(ImageDimension, unsigned int,

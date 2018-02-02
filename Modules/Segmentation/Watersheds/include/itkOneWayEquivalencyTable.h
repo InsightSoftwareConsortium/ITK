@@ -46,21 +46,21 @@ namespace itk
 class ITKWatersheds_EXPORT OneWayEquivalencyTable:public DataObject
 {
 public:
-  /**  Standard typedefs and smart pointer declarations.   */
-  typedef OneWayEquivalencyTable     Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /**  Standard type alias and smart pointer declarations.   */
+  using Self = OneWayEquivalencyTable;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
   itkNewMacro(Self);
   itkTypeMacro(OneWayEquivalencyTable, DataObject);
 
   /** Define the container type for this table */
-  typedef itksys::hash_map< unsigned long, unsigned long,
-                            itksys::hash< unsigned long > > HashTableType;
+  using HashTableType = itksys::hash_map< unsigned long, unsigned long,
+                            itksys::hash< unsigned long > >;
 
-  typedef HashTableType::iterator       Iterator;
-  typedef HashTableType::const_iterator ConstIterator;
-  typedef HashTableType::value_type     ValueType;
+  using Iterator = HashTableType::iterator;
+  using ConstIterator = HashTableType::const_iterator;
+  using ValueType = HashTableType::value_type;
 
   /** "Flattens" the equivalency table by eliminating all redundant
    * and recursive equivalencies.  I.e. the set { 2=1; 3=2; 4=3 } is

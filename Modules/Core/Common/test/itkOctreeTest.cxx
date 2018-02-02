@@ -36,7 +36,7 @@ unsigned int Evaluate(const TPixel *pixel)
 
 int itkOctreeTest(int, char *[])
 {
-   typedef itk::Image<unsigned int,3> ImageType;
+   using ImageType = itk::Image<unsigned int,3>;
   const ImageType::SizeType imageSize = {{4,4,4}};
   const ImageType::IndexType imageIndex = {{0,0,0}};
   ImageType::RegionType region;
@@ -70,7 +70,7 @@ int itkOctreeTest(int, char *[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Octree<unsigned int,16384,IdentityMap<unsigned int,16384> > OctreeType;
+  using OctreeType = itk::Octree<unsigned int,16384,IdentityMap<unsigned int,16384> >;
   OctreeType::Pointer octree = OctreeType::New();
   octree->BuildFromImage(img);
   ImageType::Pointer output = octree->GetImage();

@@ -31,11 +31,11 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the pixel types of the images
-  typedef float                PixelType;
+  using PixelType = float;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, ImageDimension > TestInputImage;
-  typedef itk::Image< PixelType, ImageDimension > TestOutputImage;
+  using TestInputImage = itk::Image< PixelType, ImageDimension >;
+  using TestOutputImage = itk::Image< PixelType, ImageDimension >;
 
   TestInputImage::RegionType  region;
 
@@ -49,8 +49,8 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
   region.SetSize (size);
 
 
-  typedef itk::RescaleIntensityImageFilter< TestInputImage, TestOutputImage >
-    FilterType;
+  using FilterType =
+      itk::RescaleIntensityImageFilter< TestInputImage, TestOutputImage >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -59,7 +59,7 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
 
   // Now generate a real image
 
-  typedef itk::RandomImageSource< TestInputImage > SourceType;
+  using SourceType = itk::RandomImageSource< TestInputImage >;
   SourceType::Pointer source = SourceType::New();
 
   TestInputImage::SizeValueType randomSize[3] = {17, 8, 20};
@@ -86,7 +86,7 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
 
   TRY_EXPECT_NO_EXCEPTION( filter->UpdateLargestPossibleRegion() );
 
-  typedef itk::MinimumMaximumImageCalculator< TestOutputImage > CalculatorType;
+  using CalculatorType = itk::MinimumMaximumImageCalculator< TestOutputImage >;
   CalculatorType::Pointer calculator = CalculatorType::New();
 
   calculator->SetImage( filter->GetOutput() );

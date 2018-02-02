@@ -54,10 +54,10 @@ namespace itk
 class ITKIOPhilipsREC_EXPORT PhilipsRECImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef PhilipsRECImageIO    Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = PhilipsRECImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,36 +66,35 @@ public:
   itkTypeMacro(PhilipsRECImageIO, Superclass);
 
   /** Special types used for Philips PAR meta data. */
-  typedef VectorContainer< unsigned int, double > EchoTimesContainerType;
-  typedef VectorContainer< unsigned int, double > TriggerTimesContainerType;
-  typedef VectorContainer< unsigned int, double > RepetitionTimesContainerType;
-  typedef vnl_vector_fixed< int, 2 >              ScanResolutionType;
-  typedef vnl_vector_fixed< float, 3 >            FOVType;
-  typedef vnl_vector_fixed< double, 3 >           AngulationMidSliceType;
-  typedef vnl_vector_fixed< double, 3 >           OffCentreMidSliceType;
-  typedef vnl_vector_fixed< float, 3 >            PhaseEncodingVelocityType;
+  using EchoTimesContainerType = VectorContainer< unsigned int, double >;
+  using TriggerTimesContainerType = VectorContainer< unsigned int, double >;
+  using RepetitionTimesContainerType = VectorContainer< unsigned int, double >;
+  using ScanResolutionType = vnl_vector_fixed< int, 2 >;
+  using FOVType = vnl_vector_fixed< float, 3 >;
+  using AngulationMidSliceType = vnl_vector_fixed< double, 3 >;
+  using OffCentreMidSliceType = vnl_vector_fixed< double, 3 >;
+  using PhaseEncodingVelocityType = vnl_vector_fixed< float, 3 >;
   /** Image types:
    * 0 = Magnitude,
    * 1 = Real,
    * 2 = Imaginary,
    * 3 = Phase,
    * 4 = Special/Processed. */
-  typedef vnl_vector_fixed< int, 8 >    ImageTypesType;
-  typedef vnl_vector_fixed< int, 8 >    ScanningSequencesType;
-  typedef Superclass::IndexValueType    IndexValueType;
-  typedef std::vector< IndexValueType > SliceIndexType;
-  typedef vnl_vector_fixed< double, 3 > ImageTypeRescaleValuesType;
+  using ImageTypesType = vnl_vector_fixed< int, 8 >;
+  using ScanningSequencesType = vnl_vector_fixed< int, 8 >;
+  using IndexValueType = Superclass::IndexValueType;
+  using SliceIndexType = std::vector< IndexValueType >;
+  using ImageTypeRescaleValuesType = vnl_vector_fixed< double, 3 >;
 
-  typedef VectorContainer< unsigned int, ImageTypeRescaleValuesType > ImageTypeRescaleValuesContainerType;
-  typedef ImageTypeRescaleValuesContainerType::Pointer
-  ImageTypeRescaleValuesContainerTypePtr;
-  typedef VectorContainer< unsigned int,
-                           ImageTypeRescaleValuesContainerTypePtr > ScanningSequenceImageTypeRescaleValuesContainerType;
-  typedef double                                                 GradientBvalueType;
-  typedef VectorContainer< unsigned int, GradientBvalueType >    GradientBvalueContainerType;
-  typedef vnl_vector_fixed< double, 3 >                          GradientDirectionType;
-  typedef VectorContainer< unsigned int, GradientDirectionType > GradientDirectionContainerType;
-  typedef VectorContainer< unsigned int, int >                   LabelTypesASLContainerType;
+  using ImageTypeRescaleValuesContainerType = VectorContainer< unsigned int, ImageTypeRescaleValuesType >;
+  using ImageTypeRescaleValuesContainerTypePtr = ImageTypeRescaleValuesContainerType::Pointer;
+  using ScanningSequenceImageTypeRescaleValuesContainerType = VectorContainer< unsigned int,
+                           ImageTypeRescaleValuesContainerTypePtr >;
+  using GradientBvalueType = double;
+  using GradientBvalueContainerType = VectorContainer< unsigned int, GradientBvalueType >;
+  using GradientDirectionType = vnl_vector_fixed< double, 3 >;
+  using GradientDirectionContainerType = VectorContainer< unsigned int, GradientDirectionType >;
+  using LabelTypesASLContainerType = VectorContainer< unsigned int, int >;
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 

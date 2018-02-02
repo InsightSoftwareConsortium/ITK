@@ -56,7 +56,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   int maximumIteration = 200;
 
   /* Loading point data */
-  typedef itk::PointSet< double, 2 > PointSetType;
+  using PointSetType = itk::PointSet< double, 2 >;
   PointSetType::Pointer pointSet = PointSetType::New();
   PointSetType::PointsContainerPointer pointsContainer =
     PointSetType::PointsContainer::New();
@@ -81,8 +81,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   dataStream.close();
 
   /* Importing the point set to the sample */
-  typedef stat::PointSetToListSampleAdaptor< PointSetType >
-    DataSampleType;
+  using DataSampleType = stat::PointSetToListSampleAdaptor<PointSetType>;
 
   DataSampleType::Pointer sample =
     DataSampleType::New();
@@ -90,7 +89,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   sample->SetPointSet(pointSet);
 
   /* Creating k-d tree */
-  typedef stat::WeightedCentroidKdTreeGenerator< DataSampleType > Generator;
+  using Generator = stat::WeightedCentroidKdTreeGenerator< DataSampleType >;
   Generator::Pointer generator = Generator::New();
 
   generator->SetSample(sample.GetPointer());
@@ -98,7 +97,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
   generator->GenerateData();
 
   /* Searching kmeans */
-  typedef stat::KdTreeBasedKmeansEstimator< Generator::KdTreeType > Estimator;
+  using Estimator = stat::KdTreeBasedKmeansEstimator< Generator::KdTreeType >;
   Estimator::Pointer estimator = Estimator::New();
   std::cout << estimator->GetNameOfClass() << std::endl;
   estimator->Print( std::cout );

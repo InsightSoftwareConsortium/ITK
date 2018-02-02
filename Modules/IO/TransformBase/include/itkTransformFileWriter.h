@@ -40,19 +40,19 @@ class ITKIOTransformBase_TEMPLATE_EXPORT TransformFileWriterTemplate:public Ligh
 {
 public:
 
-  /** SmartPointer typedef support */
-  typedef TransformFileWriterTemplate Self;
-  typedef LightProcessObject          Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  /** SmartPointer type alias support */
+  using Self = TransformFileWriterTemplate;
+  using Superclass = LightProcessObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef TParametersValueType                             ParametersValueType;
-  typedef double                                           FixedParametersValueType;
-  typedef TransformBaseTemplate<ParametersValueType>       TransformType;
-  typedef TransformIOBaseTemplate<ParametersValueType>     TransformIOType;
-  typedef typename TransformIOType::TransformPointer       TransformPointer;
-  typedef typename TransformIOType::ConstTransformPointer  ConstTransformPointer;
-  typedef typename TransformIOType::ConstTransformListType ConstTransformListType;
+  using ParametersValueType = TParametersValueType;
+  using FixedParametersValueType = double;
+  using TransformType = TransformBaseTemplate<ParametersValueType>;
+  using TransformIOType = TransformIOBaseTemplate<ParametersValueType>;
+  using TransformPointer = typename TransformIOType::TransformPointer;
+  using ConstTransformPointer = typename TransformIOType::ConstTransformPointer;
+  using ConstTransformListType = typename TransformIOType::ConstTransformListType;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -108,7 +108,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef itk::TransformFileWriterTemplate<double> TransformFileWriter;
+using TransformFileWriter = itk::TransformFileWriterTemplate<double>;
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_PUSH()

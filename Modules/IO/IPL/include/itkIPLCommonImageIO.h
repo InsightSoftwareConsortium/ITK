@@ -50,21 +50,21 @@ namespace itk
 class ITKIOIPL_EXPORT IPLCommonImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef IPLCommonImageIO     Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = IPLCommonImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
-  typedef unsigned char  U8;
-  typedef signed char    S8;
-  typedef unsigned short U16;
-  typedef signed short   S16;
-  typedef unsigned int   U32;
-  typedef signed int     S32;
-  typedef uint64_t       U64;
-  typedef int64_t        S64;
-  typedef float          F32;
-  typedef double         F64;
+  using U8 = unsigned char;
+  using S8 = signed char;
+  using U16 = unsigned short;
+  using S16 = signed short;
+  using U32 = unsigned int;
+  using S32 = signed int;
+  using U64 = uint64_t;
+  using S64 = int64_t;
+  using F32 = float;
+  using F64 = double;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

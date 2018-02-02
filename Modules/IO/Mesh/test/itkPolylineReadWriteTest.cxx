@@ -31,8 +31,8 @@ int itkPolylineReadWriteTest(int argc, char * argv[])
   bool IsBinary = ( argc > 3 );
 
   const unsigned int dimension = 3;
-  typedef itk::VariableLengthVector< float >        PixelType;
-  typedef itk::Mesh< PixelType, dimension >         MeshType;
+  using PixelType = itk::VariableLengthVector< float >;
+  using MeshType = itk::Mesh< PixelType, dimension >;
 
   if( test< MeshType >( argv[1], argv[2], IsBinary ) )
     {

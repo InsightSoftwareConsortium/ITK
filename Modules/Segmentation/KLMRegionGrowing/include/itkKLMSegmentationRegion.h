@@ -92,11 +92,11 @@ class ITK_FORWARD_EXPORT KLMSegmentationBorder;
 class ITKKLMRegionGrowing_EXPORT KLMSegmentationRegion:public SegmentationRegion
 {
 public:
-  /** Standard class typedefs. */
-  typedef KLMSegmentationRegion      Self;
-  typedef SegmentationRegion         Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = KLMSegmentationRegion;
+  using Superclass = SegmentationRegion;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -105,22 +105,22 @@ public:
   itkTypeMacro(KLMSegmentationRegion, SegmentationRegion);
 
   /** Type definition for an double vector. */
-  typedef vnl_vector< double > MeanRegionIntensityType;
+  using MeanRegionIntensityType = vnl_vector< double >;
 
   /** Type definition for vector container that stores the borders
    * associated with a current region. */
-  typedef std::vector< KLMSegmentationBorder * > RegionBorderVectorType;
-  typedef RegionBorderVectorType::size_type      RegionBorderVectorSizeType;
+  using RegionBorderVectorType = std::vector< KLMSegmentationBorder * >;
+  using RegionBorderVectorSizeType = RegionBorderVectorType::size_type;
 
   /** Type definition for the region border vector iterators to be used. */
-  typedef RegionBorderVectorType::iterator RegionBorderVectorIterator;
+  using RegionBorderVectorIterator = RegionBorderVectorType::iterator;
 
   /** Type definition for the const region border vector iterators to be used.
     */
-  typedef RegionBorderVectorType::const_iterator RegionBorderVectorConstIterator;
+  using RegionBorderVectorConstIterator = RegionBorderVectorType::const_iterator;
 
   /** type definition for the region label type. */
-  typedef Superclass::RegionLabelType RegionLabelType;
+  using RegionLabelType = Superclass::RegionLabelType;
 
   /** Get a head pointer to the vector container storing the borders
    * associated with a region. */

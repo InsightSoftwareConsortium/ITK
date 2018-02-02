@@ -24,19 +24,16 @@
 #define itkQEDefineFrontIteratorMethodsMacro(MeshTypeArg)                       \
   /* Dual definition placed before others because of .NET that cannot */        \
   /* cope with definition of FrontIterator (that further hides the    */        \
-  /* definition of the template).                                      */        \
-  typedef typename MeshTypeArg::QEDual   QEDualType;                            \
-  typedef typename MeshTypeArg::QEPrimal QEPrimalType;                          \
-  typedef QuadEdgeMeshFrontIterator< MeshTypeArg,                               \
-                                     QEDualType > FrontDualIterator;            \
-  typedef QuadEdgeMeshConstFrontIterator< MeshTypeArg,                          \
-                                          QEDualType >                          \
-  ConstFrontDualIterator;                                                       \
-  typedef QuadEdgeMeshFrontIterator< MeshTypeArg,                               \
-                                     QEPrimalType >   FrontIterator;            \
-  typedef QuadEdgeMeshConstFrontIterator< MeshTypeArg,                          \
-                                          QEPrimalType >                        \
-  ConstFrontIterator;                                                           \
+  /* definition of the template).                                     */        \
+  using QEDualType = typename MeshTypeArg::QEDual;                              \
+  using QEPrimalType = typename MeshTypeArg::QEPrimal;                          \
+  using FrontDualIterator = QuadEdgeMeshFrontIterator< MeshTypeArg,             \
+                                          QEDualType >;                         \
+  using ConstFrontDualIterator = QuadEdgeMeshConstFrontIterator< MeshTypeArg,   \
+                                          QEDualType >;                         \
+  using FrontIterator = QuadEdgeMeshFrontIterator< MeshTypeArg, QEPrimalType >; \
+  using ConstFrontIterator = QuadEdgeMeshConstFrontIterator< MeshTypeArg,       \
+                                          QEPrimalType >;                       \
                                                                                 \
   virtual FrontIterator BeginFront(QEPrimalType * seed = (QEPrimalType *)0)     \
     {                                                                           \
@@ -89,18 +86,18 @@ template< typename TMesh, typename TQE >
 class ITK_TEMPLATE_EXPORT QuadEdgeMeshFrontBaseIterator
 {
 public:
-  // Hierarchy typedefs & values.
-  typedef QuadEdgeMeshFrontBaseIterator Self;
+  // Hierarchy type alias & values.
+  using Self = QuadEdgeMeshFrontBaseIterator;
 
   // Template types
-  typedef TMesh MeshType;
-  typedef TQE   QEType;
+  using MeshType = TMesh;
+  using QEType = TQE;
 
 protected:
   // Mesh types
-  typedef typename MeshType::CoordRepType CoordRepType;
+  using CoordRepType = typename MeshType::CoordRepType;
   // QE types
-  typedef typename QEType::OriginRefType QEOriginType;
+  using QEOriginType = typename QEType::OriginRefType;
 
   /**
    * \class FrontAtom
@@ -135,15 +132,15 @@ public:
   /** The active front is simply a list of edges that can be sorted on
    *  the sort attribute FrontAtom
    */
-  typedef std::list< FrontAtom >       FrontType;
-  typedef typename FrontType::iterator FrontTypeIterator;
-  typedef FrontType *                  FrontTypePointer;
+  using FrontType = std::list< FrontAtom >;
+  using FrontTypeIterator = typename FrontType::iterator;
+  using FrontTypePointer = FrontType *;
 
   /** Whether an Origin (i.e. a vertex or a face since we either deal with
    *  primal or dual edges) was already visited.
    */
-  typedef MapContainer< QEOriginType, bool >       IsVisitedContainerType;
-  typedef typename IsVisitedContainerType::Pointer IsVisitedPointerType;
+  using IsVisitedContainerType = MapContainer< QEOriginType, bool >;
+  using IsVisitedPointerType = typename IsVisitedContainerType::Pointer;
 
 public:
   /** Object creation methods. */
@@ -230,11 +227,11 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshFrontIterator:
   public QuadEdgeMeshFrontBaseIterator< TMesh, TQE  >
 {
 public:
-  /** Hierarchy typedefs and values. */
-  typedef QuadEdgeMeshFrontIterator                   Self;
-  typedef QuadEdgeMeshFrontBaseIterator< TMesh, TQE > Superclass;
-  typedef typename Superclass::MeshType               MeshType;
-  typedef typename Superclass::QEType                 QEType;
+  /** Hierarchy type alias and values. */
+  using Self = QuadEdgeMeshFrontIterator;
+  using Superclass = QuadEdgeMeshFrontBaseIterator< TMesh, TQE >;
+  using MeshType = typename Superclass::MeshType;
+  using QEType = typename Superclass::QEType;
 
 public:
   /** Object creation methods. */
@@ -257,12 +254,12 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshConstFrontIterator:
   public QuadEdgeMeshFrontBaseIterator< TMesh, TQE >
 {
 public:
-  /** Hierarchy typedefs & values. */
-  typedef QuadEdgeMeshConstFrontIterator                Self;
-  typedef QuadEdgeMeshFrontBaseIterator< TMesh, TQE >   Superclass;
-  typedef typename Superclass::QEType                   QEType;
-  typedef typename Superclass::MeshType                 MeshType;
-  typedef QuadEdgeMeshFrontIterator< MeshType, QEType > NoConstType;
+  /** Hierarchy type alias & values. */
+  using Self = QuadEdgeMeshConstFrontIterator;
+  using Superclass = QuadEdgeMeshFrontBaseIterator< TMesh, TQE >;
+  using QEType = typename Superclass::QEType;
+  using MeshType = typename Superclass::MeshType;
+  using NoConstType = QuadEdgeMeshFrontIterator< MeshType, QEType >;
 
 public:
   /** Object creation methods. */

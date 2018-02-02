@@ -29,11 +29,11 @@ namespace itk
 class TestDataObject: public DataObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef TestDataObject                                   Self;
-  typedef DataObject                                       Superclass;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TestDataObject;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -42,11 +42,11 @@ public:
 class TestProcessObject: public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef TestProcessObject                                Self;
-  typedef ProcessObject                                    Superclass;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TestProcessObject;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

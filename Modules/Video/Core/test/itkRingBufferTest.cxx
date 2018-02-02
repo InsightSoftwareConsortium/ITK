@@ -29,7 +29,7 @@ int itkRingBufferTest( int , char* [] )
   //////
   // Test instantiation
   //////
-  typedef itk::RingBuffer<itk::Object> RingBufferType;
+  using RingBufferType = itk::RingBuffer<itk::Object>;
   RingBufferType::Pointer ringBuffer = RingBufferType::New();
 
   // Check that the default number of buffers (3) was properly set

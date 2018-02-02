@@ -66,8 +66,8 @@ public:
   virtual ~CacheableScalarFunction();
 
   /** Function's input and output value type. */
-  typedef double               MeasureType;
-  typedef Array< MeasureType > MeasureArrayType;
+  using MeasureType = double;
+  using MeasureArrayType = Array< MeasureType >;
 
   /** Get the number of samples between the lower-bound and upper-bound
    * of the cache table. */

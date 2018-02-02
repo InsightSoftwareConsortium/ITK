@@ -54,7 +54,7 @@ public:
   GenericCUBFileAdaptor() {}
   virtual ~GenericCUBFileAdaptor() {}
 
-  typedef ImageIOBase::SizeType SizeType;
+  using SizeType = ImageIOBase::SizeType;
 
   virtual unsigned char ReadByte() = 0;
 
@@ -282,8 +282,8 @@ template< typename TPixel >
 class VoxBoCUBImageIOSwapHelper
 {
 public:
-  typedef ImageIOBase::ByteOrder      ByteOrder;
-  typedef ImageIOBase::BufferSizeType BufferSizeType;
+  using ByteOrder = ImageIOBase::ByteOrder;
+  using BufferSizeType = ImageIOBase::BufferSizeType;
 
   static void SwapIfNecessary(
     void *buffer, BufferSizeType numberOfBytes, ByteOrder dataByteOrder)

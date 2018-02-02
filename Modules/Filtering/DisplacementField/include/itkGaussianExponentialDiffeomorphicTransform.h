@@ -57,11 +57,11 @@ class ITK_TEMPLATE_EXPORT GaussianExponentialDiffeomorphicTransform :
   public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef GaussianExponentialDiffeomorphicTransform                         Self;
-  typedef ConstantVelocityFieldTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                                Pointer;
-  typedef SmartPointer<const Self>                                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GaussianExponentialDiffeomorphicTransform;
+  using Superclass = ConstantVelocityFieldTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( GaussianExponentialDiffeomorphicTransform, ConstantVelocityFieldTransform );
@@ -76,16 +76,16 @@ public:
   itkStaticConstMacro( Dimension, unsigned int, NDimensions );
 
   /** Types from superclass */
-  typedef typename Superclass::ScalarType               ScalarType;
-  typedef typename Superclass::DerivativeType           DerivativeType;
-  typedef typename DerivativeType::ValueType            DerivativeValueType;
+  using ScalarType = typename Superclass::ScalarType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
 
-  typedef typename Superclass::DisplacementFieldType        DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer     DisplacementFieldPointer;
-  typedef typename Superclass::ConstantVelocityFieldType    ConstantVelocityFieldType;
-  typedef typename Superclass::ConstantVelocityFieldPointer ConstantVelocityFieldPointer;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
+  using ConstantVelocityFieldType = typename Superclass::ConstantVelocityFieldType;
+  using ConstantVelocityFieldPointer = typename Superclass::ConstantVelocityFieldPointer;
 
-  typedef typename DisplacementFieldType::PixelType     DisplacementVectorType;
+  using DisplacementVectorType = typename DisplacementFieldType::PixelType;
 
   /**
    * Update the transform's parameters by the values in \c update. We overwrite the
@@ -117,11 +117,10 @@ protected:
 
   /** Type of Gaussian Operator used during smoothing. Define here
    * so we can use a member var during the operation. */
-  typedef GaussianOperator<ScalarType, NDimensions> GaussianSmoothingOperatorType;
+  using GaussianSmoothingOperatorType = GaussianOperator<ScalarType, NDimensions>;
 
-  typedef VectorNeighborhoodOperatorImageFilter
-    <ConstantVelocityFieldType, ConstantVelocityFieldType>
-                                                  GaussianSmoothingSmootherType;
+  using GaussianSmoothingSmootherType = VectorNeighborhoodOperatorImageFilter
+    <ConstantVelocityFieldType, ConstantVelocityFieldType>;
 
   GaussianSmoothingOperatorType                   m_GaussianSmoothingOperator;
 

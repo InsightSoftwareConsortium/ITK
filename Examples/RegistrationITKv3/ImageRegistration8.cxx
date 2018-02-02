@@ -93,17 +93,17 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>   Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::VersorRigid3DTransformOptimizer OptimizerType;
-  typedef   const OptimizerType *              OptimizerPointer;
+  using OptimizerType = itk::VersorRigid3DTransformOptimizer;
+  using OptimizerPointer = const OptimizerType *;
   void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
     Execute( (const itk::Object *)caller, event);
@@ -137,9 +137,9 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
   const unsigned int                          Dimension = 3;
-  typedef  float                              PixelType;
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using PixelType = float;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
   //  Software Guide : BeginLatex
   //
@@ -151,12 +151,12 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::VersorRigid3DTransform< double > TransformType;
+  using TransformType = itk::VersorRigid3DTransform< double >;
   // Software Guide : EndCodeSnippet
-  typedef itk::VersorRigid3DTransformOptimizer                                  OptimizerType;
-  typedef itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType > MetricType;
-  typedef itk:: LinearInterpolateImageFunction< MovingImageType, double >       InterpolatorType;
-  typedef itk::ImageRegistrationMethod< FixedImageType, MovingImageType >       RegistrationType;
+  using OptimizerType = itk::VersorRigid3DTransformOptimizer;
+  using MetricType = itk::MeanSquaresImageToImageMetric< FixedImageType, MovingImageType >;
+  using InterpolatorType = itk:: LinearInterpolateImageFunction< MovingImageType, double >;
+  using RegistrationType = itk::ImageRegistrationMethod< FixedImageType, MovingImageType >;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -181,8 +181,8 @@ int main( int argc, char *argv[] )
   TransformType::Pointer  transform = TransformType::New();
   registration->SetTransform( transform );
   // Software Guide : EndCodeSnippet
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
   fixedImageReader->SetFileName(  argv[1] );
@@ -210,10 +210,9 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredTransformInitializer< TransformType,
-                                             FixedImageType,
-                                             MovingImageType
-                                                 >  TransformInitializerType;
+  using TransformInitializerType = itk::CenteredTransformInitializer<
+                                        TransformType,
+                                        FixedImageType, MovingImageType >;
   TransformInitializerType::Pointer initializer =
                                           TransformInitializerType::New();
   // Software Guide : EndCodeSnippet
@@ -268,8 +267,8 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef TransformType::VersorType  VersorType;
-  typedef VersorType::VectorType     VectorType;
+  using VersorType = TransformType::VersorType;
+  using VectorType = VersorType::VectorType;
   VersorType     rotation;
   VectorType     axis;
   axis[0] = 0.0;
@@ -289,7 +288,7 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   registration->SetInitialTransformParameters( transform->GetParameters() );
   // Software Guide : EndCodeSnippet
-  typedef OptimizerType::ScalesType       OptimizerScalesType;
+  using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
   optimizerScales[0] = 1.0;
@@ -498,9 +497,9 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+                            FixedImageType >;
   TransformType::Pointer finalTransform = TransformType::New();
   finalTransform->SetCenter( transform->GetCenter() );
   finalTransform->SetParameters( finalParameters );
@@ -515,10 +514,10 @@ int main( int argc, char *argv[] )
   resampler->SetOutputDirection( fixedImage->GetDirection() );
   resampler->SetDefaultPixelValue( 100 );
 
-  typedef  unsigned char                                          OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension >                OutputImageType;
-  typedef itk::CastImageFilter< FixedImageType, OutputImageType > CastFilterType;
-  typedef itk::ImageFileWriter< OutputImageType >                 WriterType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using CastFilterType = itk::CastImageFilter< FixedImageType, OutputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
@@ -529,15 +528,15 @@ int main( int argc, char *argv[] )
   writer->SetInput( caster->GetOutput()   );
   writer->Update();
 
-  typedef itk::SubtractImageFilter<
+  using DifferenceFilterType = itk::SubtractImageFilter<
                                   FixedImageType,
                                   FixedImageType,
-                                  FixedImageType > DifferenceFilterType;
+                                  FixedImageType >;
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
-  typedef itk::RescaleIntensityImageFilter<
+  using RescalerType = itk::RescaleIntensityImageFilter<
                                   FixedImageType,
-                                  OutputImageType >   RescalerType;
+                                  OutputImageType >;
   RescalerType::Pointer intensityRescaler = RescalerType::New();
   intensityRescaler->SetInput( difference->GetOutput() );
   intensityRescaler->SetOutputMinimum(   0 );
@@ -556,7 +555,7 @@ int main( int argc, char *argv[] )
     writer2->Update();
     }
 
-  typedef itk::IdentityTransform< double, Dimension > IdentityTransformType;
+  using IdentityTransformType = itk::IdentityTransform< double, Dimension >;
   IdentityTransformType::Pointer identity = IdentityTransformType::New();
   // Compute the difference image between the
   // fixed and moving image before registration.
@@ -572,10 +571,10 @@ int main( int argc, char *argv[] )
   //  figures in the Software Guide.
   //
   //
-  typedef itk::Image< OutputPixelType, 2 > OutputSliceType;
-  typedef itk::ExtractImageFilter<
+  using OutputSliceType = itk::Image< OutputPixelType, 2 >;
+  using ExtractFilterType = itk::ExtractImageFilter<
                           OutputImageType,
-                          OutputSliceType > ExtractFilterType;
+                          OutputSliceType >;
   ExtractFilterType::Pointer extractor = ExtractFilterType::New();
   extractor->SetDirectionCollapseToSubmatrix();
   extractor->InPlaceOn();
@@ -591,7 +590,7 @@ int main( int argc, char *argv[] )
   desiredRegion.SetSize(  size  );
   desiredRegion.SetIndex( start );
   extractor->SetExtractionRegion( desiredRegion );
-  typedef itk::ImageFileWriter< OutputSliceType > SliceWriterType;
+  using SliceWriterType = itk::ImageFileWriter< OutputSliceType >;
   SliceWriterType::Pointer sliceWriter = SliceWriterType::New();
   sliceWriter->SetInput( extractor->GetOutput() );
   if( argc > 6 )

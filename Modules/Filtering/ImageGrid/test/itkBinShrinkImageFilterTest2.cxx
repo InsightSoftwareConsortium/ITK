@@ -29,7 +29,7 @@ template <typename TImageType>
 bool CheckValueIsPhysicalPoint( const TImageType *img )
 {
 
-  typedef itk::ImageRegionConstIterator<TImageType> IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator<TImageType>;
   IteratorType it(img, img->GetBufferedRegion() );
 
   bool match = true;
@@ -67,10 +67,10 @@ int itkBinShrinkImageFilterTest2( int , char *[] )
 
   const unsigned int ImageDimension = 2;
 
-  typedef itk::Vector<double, ImageDimension>   PixelType;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
+  using PixelType = itk::Vector<double, ImageDimension>;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  typedef itk::PhysicalPointImageSource<ImageType> SourceType;
+  using SourceType = itk::PhysicalPointImageSource<ImageType>;
   SourceType::Pointer source = SourceType::New();
 
   SourceType::SizeValueType size[] = {512,509};
@@ -91,7 +91,7 @@ int itkBinShrinkImageFilterTest2( int , char *[] )
 
       std::cout << "Testing with shrink factors:" << xf << " " << yf << std::endl;
 
-      typedef itk::BinShrinkImageFilter<ImageType, ImageType> FilterType;
+      using FilterType = itk::BinShrinkImageFilter<ImageType, ImageType>;
       FilterType::Pointer shrink = FilterType::New();
 
       shrink->SetInput(source->GetOutput() );

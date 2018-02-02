@@ -102,52 +102,49 @@ template< typename TInput, typename TOutput >
 class ITK_TEMPLATE_EXPORT FastMarchingBase : public FastMarchingTraits<TInput, TOutput>::SuperclassType
   {
 public:
-  typedef FastMarchingTraits<TInput, TOutput>   Traits;
-  typedef typename Traits::SuperclassType       SuperclassType;
+  using Traits = FastMarchingTraits<TInput, TOutput>;
+  using SuperclassType = typename Traits::SuperclassType;
 
-  typedef FastMarchingBase            Self;
-  typedef SuperclassType              Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  using Self = FastMarchingBase;
+  using Superclass = SuperclassType;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Input Domain related definitions */
-  typedef typename Traits::InputDomainType        InputDomainType;
-  typedef typename Traits::InputDomainPointer     InputDomainPointer;
-  typedef typename Traits::InputPixelType         InputPixelType;
+  using InputDomainType = typename Traits::InputDomainType;
+  using InputDomainPointer = typename Traits::InputDomainPointer;
+  using InputPixelType = typename Traits::InputPixelType;
 
   /** Output Domain related definitions */
-  typedef typename Traits::OutputDomainType       OutputDomainType;
-  typedef typename Traits::OutputDomainPointer    OutputDomainPointer;
-  typedef typename Traits::OutputPixelType        OutputPixelType;
+  using OutputDomainType = typename Traits::OutputDomainType;
+  using OutputDomainPointer = typename Traits::OutputDomainPointer;
+  using OutputPixelType = typename Traits::OutputPixelType;
 
   /** NodeType type of node */
-  typedef typename Traits::NodeType                 NodeType;
+  using NodeType = typename Traits::NodeType;
 
   /** NodePairType pair of node and corresponding value */
-  typedef typename Traits::NodePairType             NodePairType;
-  typedef typename Traits::NodePairContainerType    NodePairContainerType;
-  typedef typename Traits::NodePairContainerPointer NodePairContainerPointer;
-  typedef typename Traits::NodePairContainerConstIterator
-    NodePairContainerConstIterator;
+  using NodePairType = typename Traits::NodePairType;
+  using NodePairContainerType = typename Traits::NodePairContainerType;
+  using NodePairContainerPointer = typename Traits::NodePairContainerPointer;
+  using NodePairContainerConstIterator = typename Traits::NodePairContainerConstIterator;
 
-  typedef typename Traits::LabelType                LabelType;
+  using LabelType = typename Traits::LabelType;
 
   /** StoppingCriterionType stopping criterion */
-  typedef FastMarchingStoppingCriterionBase< TInput, TOutput > StoppingCriterionType;
-  typedef typename StoppingCriterionType::Pointer              StoppingCriterionPointer;
+  using StoppingCriterionType = FastMarchingStoppingCriterionBase< TInput, TOutput >;
+  using StoppingCriterionPointer = typename StoppingCriterionType::Pointer;
 
   /*
-  typedef long ElementIdentifier;
+  using ElementIdentifier = long;
 
-  typedef MinPriorityQueueElementWrapper< NodeType,
+  using PriorityQueueElementType = MinPriorityQueueElementWrapper< NodeType,
     OutputPixelType,
-    ElementIdentifier > PriorityQueueElementType;
+    ElementIdentifier >;
 
-  typedef PriorityQueueContainer< PriorityQueueElementType,
-    PriorityQueueElementType,
-    OutputPixelType,
-    ElementIdentifier > PriorityQueueType;
-  typedef typename PriorityQueueType::Pointer PriorityQueuePointer;
+  using PriorityQueueType = PriorityQueueContainer< PriorityQueueElementType,
+    PriorityQueueElementType, OutputPixelType, ElementIdentifier >;
+  using PriorityQueuePointer = typename PriorityQueueType::Pointer;
   */
 
   /** \enum TopologyCheckType */
@@ -231,14 +228,11 @@ protected:
   bool m_CollectPoints;
 
   //PriorityQueuePointer m_Heap;
-  typedef std::vector< NodePairType >   HeapContainerType;
-  typedef std::greater< NodePairType >  NodeComparerType;
+  using HeapContainerType = std::vector< NodePairType >;
+  using NodeComparerType = std::greater< NodePairType >;
 
-  typedef std::priority_queue<
-    NodePairType,
-    HeapContainerType,
-    NodeComparerType >
-    PriorityQueueType;
+  using PriorityQueueType = std::priority_queue<
+    NodePairType, HeapContainerType, NodeComparerType >;
 
   PriorityQueueType m_Heap;
 

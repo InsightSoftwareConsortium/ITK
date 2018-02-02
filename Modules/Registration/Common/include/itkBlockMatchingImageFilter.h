@@ -76,43 +76,43 @@ public MeshToMeshFilter< TFeatures, TDisplacements>
 public:
   itkStaticConstMacro(ImageDimension, unsigned, TFixedImage::ImageDimension);
 
-  /** Not input specific typedefs */
-  typedef ImageRegion< ImageDimension >  ImageRegionType;
-  typedef Size< ImageDimension >         ImageSizeType;
-  typedef Index< ImageDimension >        ImageIndexType;
+  /** Not input specific type alias */
+  using ImageRegionType = ImageRegion< ImageDimension >;
+  using ImageSizeType = Size< ImageDimension >;
+  using ImageIndexType = Index< ImageDimension >;
 
-  /** Fixed image typedefs. */
-  typedef TFixedImage                            FixedImageType;
-  typedef typename FixedImageType::ConstPointer  FixedImageConstPointer;
-  typedef typename FixedImageType::PixelType     FixedImagePixelType;
+  /** Fixed image type alias. */
+  using FixedImageType = TFixedImage;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
+  using FixedImagePixelType = typename FixedImageType::PixelType;
 
-  /** Moving image typedefs. */
-  typedef TMovingImage                            MovingImageType;
-  typedef typename MovingImageType::ConstPointer  MovingImageConstPointer;
+  /** Moving image type alias. */
+  using MovingImageType = TMovingImage;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
-  /** Feature points pointset typedefs. */
-  typedef TFeatures                                 FeaturePointsType;
-  typedef typename FeaturePointsType::Pointer       FeaturePointsPointer;
-  typedef typename FeaturePointsType::ConstPointer  FeaturePointsConstPointer;
-  typedef typename FeaturePointsType::PointType     FeaturePointsPhysicalCoordinates;
+  /** Feature points pointset type alias. */
+  using FeaturePointsType = TFeatures;
+  using FeaturePointsPointer = typename FeaturePointsType::Pointer;
+  using FeaturePointsConstPointer = typename FeaturePointsType::ConstPointer;
+  using FeaturePointsPhysicalCoordinates = typename FeaturePointsType::PointType;
 
-  /** Displacement vectors typedefs. */
-  typedef TDisplacements                            DisplacementsType;
-  typedef typename DisplacementsType::Pointer       DisplacementsPointer;
-  typedef typename DisplacementsType::ConstPointer  DisplacementsConstPointer;
-  typedef typename DisplacementsType::PixelType     DisplacementsVector;
+  /** Displacement vectors type alias. */
+  using DisplacementsType = TDisplacements;
+  using DisplacementsPointer = typename DisplacementsType::Pointer;
+  using DisplacementsConstPointer = typename DisplacementsType::ConstPointer;
+  using DisplacementsVector = typename DisplacementsType::PixelType;
 
-  /** Displacement similarities typedefs. */
-  typedef TSimilarities                            SimilaritiesType;
-  typedef typename SimilaritiesType::Pointer       SimilaritiesPointer;
-  typedef typename SimilaritiesType::ConstPointer  SimilaritiesConstPointer;
-  typedef typename SimilaritiesType::PixelType     SimilaritiesValue;
+  /** Displacement similarities type alias. */
+  using SimilaritiesType = TSimilarities;
+  using SimilaritiesPointer = typename SimilaritiesType::Pointer;
+  using SimilaritiesConstPointer = typename SimilaritiesType::ConstPointer;
+  using SimilaritiesValue = typename SimilaritiesType::PixelType;
 
-  /** Standard class typedefs. */
-  typedef MeshToMeshFilter< FeaturePointsType, DisplacementsType >  Superclass;
-  typedef BlockMatchingImageFilter                                  Self;
-  typedef SmartPointer< Self >                                      Pointer;
-  typedef SmartPointer< const Self >                                ConstPointer;
+  /** Standard class type aliases. */
+  using Superclass = MeshToMeshFilter< FeaturePointsType, DisplacementsType >;
+  using Self = BlockMatchingImageFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

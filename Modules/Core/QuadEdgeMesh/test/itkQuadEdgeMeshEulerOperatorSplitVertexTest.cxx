@@ -23,15 +23,15 @@
 int itkQuadEdgeMeshEulerOperatorSplitVertexTest( int , char * [] )
 {
 
-  typedef itk::QuadEdgeMesh< double, 3 >                      MeshType;
-  typedef MeshType::Pointer                                   MeshPointer;
-  typedef MeshType::QEType                                    QEType;
-  typedef MeshType::PointType                                 PointType;
+  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshPointer = MeshType::Pointer;
+  using QEType = MeshType::QEType;
+  using PointType = MeshType::PointType;
 
-  typedef itk::QuadEdgeMeshEulerOperatorSplitVertexFunction< MeshType, QEType>
-    SplitVertex;
-  typedef itk::QuadEdgeMeshEulerOperatorJoinVertexFunction< MeshType, QEType>
-    JoinVertex;
+  using SplitVertex =
+      itk::QuadEdgeMeshEulerOperatorSplitVertexFunction< MeshType, QEType>;
+  using JoinVertex =
+      itk::QuadEdgeMeshEulerOperatorJoinVertexFunction< MeshType, QEType>;
 
   /////////////////////////////////////////
   //

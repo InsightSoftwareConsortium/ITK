@@ -37,13 +37,13 @@ int itkConvertLabelMapFilterTest2(int argc, char * argv[])
 
   const unsigned int dim = 2;
 
-  typedef unsigned char                         InputPixelType;
-  typedef itk::Image< InputPixelType, dim >     InputImageType;
+  using InputPixelType = unsigned char;
+  using InputImageType = itk::Image< InputPixelType, dim >;
 
-  typedef unsigned short                        OutputPixelType;
-  typedef itk::Image< OutputPixelType, dim >    OutputImageType;
+  using OutputPixelType = unsigned short;
+  using OutputImageType = itk::Image< OutputPixelType, dim >;
 
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -51,14 +51,14 @@ int itkConvertLabelMapFilterTest2(int argc, char * argv[])
   // test ShapeLabelMap conversion: unsigned char type -> unsigned short type
   //////////////////////////////////////////////////////////////////////////////////
   // convert label image to ShapeLabelMap
-  typedef itk::LabelImageToShapeLabelMapFilter< InputImageType > L2SType;
+  using L2SType = itk::LabelImageToShapeLabelMapFilter< InputImageType >;
   L2SType::Pointer l2s = L2SType::New();
   l2s->SetInput( reader->GetOutput() );
   l2s->Update();
   // convert ShapeLabelMap from unsigned char type to unsigned short type
-  typedef L2SType::OutputImageType         InputShapeLabelMapType;
-  typedef itk::LabelMap<itk::ShapeLabelObject<unsigned short, dim> >   OutputShapeLabelMapType;
-  typedef itk::ConvertLabelMapFilter< InputShapeLabelMapType, OutputShapeLabelMapType > CastShapeType;
+  using InputShapeLabelMapType = L2SType::OutputImageType;
+  using OutputShapeLabelMapType = itk::LabelMap<itk::ShapeLabelObject<unsigned short, dim> >;
+  using CastShapeType = itk::ConvertLabelMapFilter< InputShapeLabelMapType, OutputShapeLabelMapType >;
   CastShapeType::Pointer castShape = CastShapeType::New();
   castShape->SetInput( l2s->GetOutput() );
   castShape->Update();
@@ -132,15 +132,15 @@ int itkConvertLabelMapFilterTest2(int argc, char * argv[])
   // test StatisticsLabelMap conversion: unsigned char type -> unsigned short type
   //////////////////////////////////////////////////////////////////////////////////
   // convert label image to StatisticsLabelMap
-  typedef itk::LabelImageToStatisticsLabelMapFilter< InputImageType, InputImageType > L2StatType;
+  using L2StatType = itk::LabelImageToStatisticsLabelMapFilter< InputImageType, InputImageType >;
   L2StatType::Pointer l2stat = L2StatType::New();
   l2stat->SetInput( reader->GetOutput() );
   l2stat->SetFeatureImage( reader->GetOutput() ); // use input label image itself as the feature image
   l2stat->Update();
   // convert StatisticsLabelMap from unsigned char type to unsigned short type
-  typedef L2StatType::OutputImageType              InputStatisticsLabelMapType;
-  typedef itk::LabelMap<itk::StatisticsLabelObject<unsigned short, dim> >     OutputStatisticsLabelMapType;
-  typedef itk::ConvertLabelMapFilter< InputStatisticsLabelMapType, OutputStatisticsLabelMapType > CastStatType;
+  using InputStatisticsLabelMapType = L2StatType::OutputImageType;
+  using OutputStatisticsLabelMapType = itk::LabelMap<itk::StatisticsLabelObject<unsigned short, dim> >;
+  using CastStatType = itk::ConvertLabelMapFilter< InputStatisticsLabelMapType, OutputStatisticsLabelMapType >;
   CastStatType::Pointer castStatistics = CastStatType::New();
   castStatistics->SetInput( l2stat->GetOutput() );
   castStatistics->Update();
@@ -235,24 +235,24 @@ int itkConvertLabelMapFilterTest2(int argc, char * argv[])
   // test LabelMap conversion: unsigned char type -> unsigned short type
   //////////////////////////////////////////////////////////////////////////////////
   // convert label image to label map
-  typedef itk::LabelImageToLabelMapFilter< InputImageType > L2MType;
+  using L2MType = itk::LabelImageToLabelMapFilter< InputImageType >;
   L2MType::Pointer l2m = L2MType::New();
   l2m->SetInput( reader->GetOutput() );
 
-  typedef itk::LabelObject< OutputPixelType, dim >      LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >              LabelMapType;
+  using LabelObjectType = itk::LabelObject< OutputPixelType, dim >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
   // convert label map from unsigned char to unsigned short type
-  typedef itk::ConvertLabelMapFilter< L2MType::OutputImageType, LabelMapType >     CastType;
+  using CastType = itk::ConvertLabelMapFilter< L2MType::OutputImageType, LabelMapType >;
   CastType::Pointer cast = CastType::New();
   cast->SetInput( l2m->GetOutput() );
   itk::SimpleFilterWatcher watcher(cast, "cast");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, OutputImageType> L2IType;
+  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, OutputImageType>;
   L2IType::Pointer l2i = L2IType::New();
   l2i->SetInput( cast->GetOutput() );
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );
   writer->SetFileName( argv[2] );

@@ -31,9 +31,9 @@ void
 VectorAnisotropicDiffusionFunction< TImage >
 ::CalculateAverageGradientMagnitudeSquared(TImage *ip)
 {
-  typedef ConstNeighborhoodIterator< TImage >                           RNI_type;
-  typedef ConstNeighborhoodIterator< TImage >                           SNI_type;
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TImage > BFC_type;
+  using RNI_type = ConstNeighborhoodIterator<TImage>;
+  using SNI_type = ConstNeighborhoodIterator<TImage>;
+  using BFC_type = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TImage>;
 
   unsigned int i, j;
   //  ZeroFluxNeumannBoundaryCondition<TImage>  bc;
@@ -49,7 +49,7 @@ VectorAnisotropicDiffusionFunction< TImage >
   VectorNeighborhoodInnerProduct< TImage > IP;
   RNI_type                                 iterator_list[ImageDimension];
   SNI_type                                 face_iterator_list[ImageDimension];
-  typedef typename PixelType::ValueType PixelValueType;
+  using PixelValueType = typename PixelType::ValueType;
   DerivativeOperator< PixelValueType, ImageDimension > operator_list[ImageDimension];
 
   // Set up the derivative operators, one for each dimension

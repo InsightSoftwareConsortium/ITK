@@ -30,24 +30,23 @@ int itkResampleImageTest6(int argc, char * argv [] )
   // Resample a Vector image
   const unsigned int NDimensions = 2;
 
-  typedef unsigned char                ValueType;
+  using ValueType = unsigned char;
 
-  typedef itk::VectorImage<ValueType, 2 >    ImageType;
-  typedef ImageType::PixelType               PixelType;
+  using ImageType = itk::VectorImage<ValueType, 2 >;
+  using PixelType = ImageType::PixelType;
 
-  typedef ImageType::IndexType         ImageIndexType;
-  typedef ImageType::Pointer           ImagePointerType;
-  typedef ImageType::RegionType        ImageRegionType;
-  typedef ImageType::SizeType          ImageSizeType;
+  using ImageIndexType = ImageType::IndexType;
+  using ImagePointerType = ImageType::Pointer;
+  using ImageRegionType = ImageType::RegionType;
+  using ImageSizeType = ImageType::SizeType;
 
-  typedef double                       CoordRepType;
+  using CoordRepType = double;
 
-  typedef itk::AffineTransform<CoordRepType,NDimensions>
-                                       AffineTransformType;
-  typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>
-                                       InterpolatorType;
-  typedef itk::ImageFileWriter<ImageType>
-                                       WriterType;
+  using AffineTransformType =
+      itk::AffineTransform<CoordRepType,NDimensions>;
+  using InterpolatorType =
+      itk::LinearInterpolateImageFunction<ImageType,CoordRepType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   if (argc < 2)
     {

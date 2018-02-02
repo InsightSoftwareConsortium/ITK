@@ -116,11 +116,11 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 {
 
   const unsigned int ImageDimension = 2;
-  typedef float PixelType;
+  using PixelType = float;
 
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef ImageType::IndexType                 IndexType;
-  typedef itk::Point<double,ImageDimension>    PointType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using IndexType = ImageType::IndexType;
+  using PointType = itk::Point<double,ImageDimension>;
 
   // Fill an input image with simple signed distance function
   ImageType::Pointer image = ImageType::New();
@@ -131,7 +131,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   image->SetRegions( region );
   image->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter( image, region );
   iter.GoToBegin();
 
@@ -144,7 +144,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
     }
 
   // Squash up the level sets by mulitplying with a scalar
-  typedef itk::ShiftScaleImageFilter<ImageType,ImageType> MultiplierType;
+  using MultiplierType = itk::ShiftScaleImageFilter<ImageType,ImageType>;
   MultiplierType::Pointer multiplier = MultiplierType::New();
   multiplier->SetInput( image );
   multiplier->SetScale( 0.5 );
@@ -173,7 +173,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 /*
   {
   // For debugging
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( aux2 );
   writer->SetFileName( "input.mhd" );
@@ -183,7 +183,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 
   // Set up reinitialize level set image filter
   const unsigned int AuxDimension = 2;
-  typedef itk::ExtensionVelocitiesImageFilter<ImageType,float,AuxDimension> ReinitializerType;
+  using ReinitializerType = itk::ExtensionVelocitiesImageFilter<ImageType,float,AuxDimension>;
   ReinitializerType::Pointer reinitializer = ReinitializerType::New();
   reinitializer->SetInput( multiplier->GetOutput() );
   reinitializer->SetInputVelocityImage( aux1, 0 );
@@ -199,7 +199,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 /*
   {
   // For debugging
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( reinitializer->GetOutputVelocityImage( 1 ) );
   writer->SetFileName( "output.mhd" );
@@ -208,7 +208,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 */
 
   // Check the output
-  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DifferenceType;
+  using DifferenceType = itk::Testing::ComparisonImageFilter<ImageType,ImageType>;
   DifferenceType::Pointer difference = DifferenceType::New();
   difference->SetTestInput( aux2 );
   difference->SetValidInput( reinitializer->GetOutputVelocityImage( 1 ) );
@@ -232,7 +232,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
     ++iter;
     }
 
-  typedef itk::MinimumMaximumImageCalculator<ImageType> CalculatorType;
+  using CalculatorType = itk::MinimumMaximumImageCalculator<ImageType>;
   CalculatorType::Pointer calculator = CalculatorType::New();
   calculator->SetImage( difference->GetOutput() );
   calculator->Compute();
@@ -265,9 +265,9 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   reinitializer->Update();
 
   // Check the output by iterating through the output narrowband
-  typedef ReinitializerType::NodeContainerPointer NodeContainerPointer;
-  typedef ReinitializerType::NodeContainer        NodeContainerType;
-  typedef NodeContainerType::ConstIterator        ContainerIterator;
+  using NodeContainerPointer = ReinitializerType::NodeContainerPointer;
+  using NodeContainerType = ReinitializerType::NodeContainer;
+  using ContainerIterator = NodeContainerType::ConstIterator;
 
   NodeContainerPointer nodes  = reinitializer->GetOutputNarrowBand();
   ContainerIterator nodeIter = nodes->Begin();

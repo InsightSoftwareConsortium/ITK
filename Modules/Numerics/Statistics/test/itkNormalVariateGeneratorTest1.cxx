@@ -20,7 +20,7 @@
 
 int itkNormalVariateGeneratorTest1( int, char * [] )
 {
-  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
+  using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
 
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
 

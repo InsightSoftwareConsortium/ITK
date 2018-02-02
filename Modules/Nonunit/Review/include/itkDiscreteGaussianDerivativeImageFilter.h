@@ -61,11 +61,11 @@ class ITK_TEMPLATE_EXPORT DiscreteGaussianDerivativeImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef DiscreteGaussianDerivativeImageFilter           Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DiscreteGaussianDerivativeImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,15 +74,15 @@ public:
   itkTypeMacro(DiscreteGaussianDerivativeImageFilter, ImageToImageFilter);
 
   /** Image type information. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType          InputPixelType;
-  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -90,10 +90,10 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Typedef of double containers */
-  typedef FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ArrayType;
+  using ArrayType = FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Array for storing desired order of derivatives */
-  typedef FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension) > OrderArrayType;
+  using OrderArrayType = FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Order of derivatives in each dimension. Sets the derivative order
    * independently for each dimension, but see also

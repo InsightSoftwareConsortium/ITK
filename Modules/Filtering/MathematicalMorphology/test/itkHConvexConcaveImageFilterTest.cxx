@@ -43,28 +43,28 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
 
-  typedef float         InputPixelType;
-  typedef float         OutputPixelType;
-  typedef unsigned char WritePixelType;
+  using InputPixelType = float;
+  using OutputPixelType = float;
+  using WritePixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  Dimension > InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::Image< WritePixelType, Dimension >  WriteImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using WriteImageType = itk::Image< WritePixelType, Dimension >;
 
   // Readers/writers
-  typedef itk::ImageFileReader< InputImageType  > ReaderType;
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
-  typedef itk::RescaleIntensityImageFilter< OutputImageType, WriteImageType >
-                                                  RescaleType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using RescaleType =
+      itk::RescaleIntensityImageFilter< OutputImageType, WriteImageType >;
 
   // Define the itk::HConvexImageFilter filter type
-  typedef itk::HConvexImageFilter<
+  using HConvexFilterType = itk::HConvexImageFilter<
                             InputImageType,
-                            InputImageType > HConvexFilterType;
+                            InputImageType >;
   // Define the itk::HConcaveImageFilter filter type
-  typedef itk::HConcaveImageFilter<
+  using HConcaveFilterType = itk::HConcaveImageFilter<
                             InputImageType,
-                            InputImageType > HConcaveFilterType;
+                            InputImageType >;
 
 
   // Creation of reader and writer filters
@@ -91,9 +91,9 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
   hConcaveFilter->SetHeight( atof( argv[3] ) );
 
   // Create a filter to add the two images
-  typedef itk::AddImageFilter<
+  using AddFilterType = itk::AddImageFilter<
                             InputImageType, InputImageType,
-                            OutputImageType > AddFilterType;
+                            OutputImageType >;
 
   AddFilterType::Pointer add = AddFilterType::New();
   add->SetInput1( hConvexFilter->GetOutput() );

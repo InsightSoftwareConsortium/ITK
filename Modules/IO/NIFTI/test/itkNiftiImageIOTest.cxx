@@ -121,7 +121,7 @@ int itkNiftiImageIOTest(int ac, char* av[])
     }
   if(ac > 1) //This is a mechanism for reading unsigned char images for testing.
     {
-      typedef itk::Image<unsigned char, 3> ImageType;
+      using ImageType = itk::Image<unsigned char, 3>;
       ImageType::Pointer input;
       for(int imagenameindex=1; imagenameindex < ac; imagenameindex++)
         {

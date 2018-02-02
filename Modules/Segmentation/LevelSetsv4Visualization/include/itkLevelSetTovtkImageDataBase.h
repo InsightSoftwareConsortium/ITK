@@ -32,16 +32,16 @@ template< typename TLevelSet >
 class ITK_TEMPLATE_EXPORT LevelSetTovtkImageDataBase : public ProcessObject
 {
 public:
-  typedef LevelSetTovtkImageDataBase      Self;
-  typedef ProcessObject                   Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  using Self = LevelSetTovtkImageDataBase;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LevelSetTovtkImageDataBase, ProcessObject);
 
-  typedef TLevelSet                       LevelSetType;
-  typedef typename LevelSetType::Pointer  LevelSetPointer;
+  using LevelSetType = TLevelSet;
+  using LevelSetPointer = typename LevelSetType::Pointer;
 
   using Superclass::SetInput;
   virtual void SetInput( LevelSetType* iLevelSet );

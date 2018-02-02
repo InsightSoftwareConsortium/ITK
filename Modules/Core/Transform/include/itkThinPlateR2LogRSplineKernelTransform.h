@@ -39,11 +39,11 @@ class ITK_TEMPLATE_EXPORT ThinPlateR2LogRSplineKernelTransform:
   public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ThinPlateR2LogRSplineKernelTransform               Self;
-  typedef KernelTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                 Pointer;
-  typedef SmartPointer<const Self>                           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ThinPlateR2LogRSplineKernelTransform;
+  using Superclass = KernelTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
@@ -52,31 +52,31 @@ public:
   itkTypeMacro(ThinPlateR2LogRSplineKernelTransform, KernelTransform);
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::FixedParametersType FixedParametersType;
+  using ParametersType = typename Superclass::ParametersType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
 
   /** Jacobian Type */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Dimension of the domain space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
 
-  typedef typename Superclass::InputPointType            InputPointType;
-  typedef typename Superclass::OutputPointType           OutputPointType;
-  typedef typename Superclass::InputVectorType           InputVectorType;
-  typedef typename Superclass::OutputVectorType          OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
-  typedef typename Superclass::PointsIterator            PointsIterator;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
+  using PointsIterator = typename Superclass::PointsIterator;
 
 protected:
   ThinPlateR2LogRSplineKernelTransform() {}
   ~ThinPlateR2LogRSplineKernelTransform() override {}
 
-  typedef typename Superclass::GMatrixType GMatrixType;
+  using GMatrixType = typename Superclass::GMatrixType;
   /** Compute G(x)
    * For the thin plate spline, this is:
    * G(x) = r(x)*I

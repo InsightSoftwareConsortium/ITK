@@ -56,7 +56,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     if ( !m_LabelImage )
       {
       // generate an image of the labelized image
-      typedef LabelMapToLabelImageFilter< TImage, LabelImageType > LCI2IType;
+      using LCI2IType = LabelMapToLabelImageFilter< TImage, LabelImageType >;
       typename LCI2IType::Pointer lci2i = LCI2IType::New();
       lci2i->SetInput( this->GetOutput() );
       // Respect the number of threads of the filter
@@ -109,7 +109,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   MatrixType    centralMoments;
   centralMoments.Fill(0);
 
-  typedef typename LabelObjectType::LengthType  LengthType;
+  using LengthType = typename LabelObjectType::LengthType;
 
   // Iterate over all the lines
   typename LabelObjectType::ConstLineIterator lit( labelObject );
@@ -430,10 +430,10 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 {
   const LabelPixelType & label = labelObject->GetLabel();
 
-  typedef typename std::deque< IndexType > IndexListType;
+  using IndexListType = typename std::deque< IndexType >;
   IndexListType idxList;
 
-  typedef typename itk::ConstNeighborhoodIterator< LabelImageType > NeighborIteratorType;
+  using NeighborIteratorType = typename itk::ConstNeighborhoodIterator< LabelImageType >;
   SizeType neighborHoodRadius;
   neighborHoodRadius.Fill(1);
   NeighborIteratorType                        it( neighborHoodRadius, m_LabelImage, m_LabelImage->GetBufferedRegion() );
@@ -443,7 +443,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   it.OverrideBoundaryCondition(&lcbc);
   it.GoToBegin();
 
-  typedef typename NeighborIteratorType::NeighborIndexType   NeighborIndexType;
+  using NeighborIndexType = typename NeighborIteratorType::NeighborIndexType;
 
   // Iterate over all the indexes
   typename LabelObjectType::ConstIndexIterator iit( labelObject );
@@ -503,8 +503,8 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 ::ComputePerimeter(LabelObjectType *labelObject)
 {
   // store the lines in a N-1D image of vectors
-  typedef std::deque< typename LabelObjectType::LineType > VectorLineType;
-  typedef itk::Image< VectorLineType, ImageDimension - 1 > LineImageType;
+  using VectorLineType = std::deque< typename LabelObjectType::LineType >;
+  using LineImageType = itk::Image< VectorLineType, ImageDimension - 1 >;
   typename LineImageType::Pointer lineImage = LineImageType::New();
   typename LineImageType::IndexType lIdx;
   typename LineImageType::SizeType lSize;
@@ -543,13 +543,13 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     }
 
   // a data structure to store the number of intercepts on each direction
-  typedef typename std::map<OffsetType, SizeValueType, typename OffsetType::LexicographicCompare> MapInterceptType;
+  using MapInterceptType = typename std::map<OffsetType, SizeValueType, typename OffsetType::LexicographicCompare>;
   MapInterceptType intercepts;
   // int nbOfDirections = (int)std::pow( 2.0, (int)ImageDimension ) - 1;
   // intecepts.resize(nbOfDirections + 1);  // code begins at position 1
 
   // now iterate over the vectors of lines
-  typedef ConstShapedNeighborhoodIterator< LineImageType > LineImageIteratorType;
+  using LineImageIteratorType = ConstShapedNeighborhoodIterator< LineImageType >;
   LineImageIteratorType lIt( lSize, lineImage, lRegion ); // the original, non padded region
   setConnectivity( &lIt, true );
   for( lIt.GoToBegin(); !lIt.IsAtEnd(); ++lIt )
@@ -786,8 +786,8 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 ::ComputeOrientedBoundingBox(LabelObjectType *labelObject)
 {
 
-  typedef vnl_matrix<double> VNLMatrixType;
-  typedef vnl_vector<double> VNLVectorType;
+  using VNLMatrixType = vnl_matrix<double>;
+  using VNLVectorType = vnl_vector<double>;
 
   const ImageType *            output = this->GetOutput();
 

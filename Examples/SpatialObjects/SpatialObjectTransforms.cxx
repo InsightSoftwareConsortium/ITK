@@ -46,8 +46,8 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::SpatialObject<2>             SpatialObjectType;
-  typedef SpatialObjectType::TransformType  TransformType;
+  using SpatialObjectType = itk::SpatialObject<2>;
+  using TransformType = SpatialObjectType::TransformType;
 
   SpatialObjectType::Pointer object1 = SpatialObjectType ::New();
   object1->GetProperty()->SetName("First Object");

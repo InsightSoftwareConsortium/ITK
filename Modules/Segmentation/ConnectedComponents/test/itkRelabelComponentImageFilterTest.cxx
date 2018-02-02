@@ -36,29 +36,29 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef   unsigned short  InternalPixelType;
-  typedef   unsigned long   LabelPixelType;
-  typedef   unsigned char   WritePixelType;
+  using InternalPixelType = unsigned short;
+  using LabelPixelType = unsigned long;
+  using WritePixelType = unsigned char;
   const     unsigned int    Dimension = 2;
 
-  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
-  typedef itk::Image< LabelPixelType, Dimension>     LabelImageType;
-  typedef itk::Image<WritePixelType, Dimension>      WriteImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using LabelImageType = itk::Image< LabelPixelType, Dimension>;
+  using WriteImageType = itk::Image<WritePixelType, Dimension>;
 
-  typedef itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef itk::ImageFileWriter<  WriteImageType  >  WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
+  using WriterType = itk::ImageFileWriter<  WriteImageType  >;
 
 
-  typedef itk::ChangeInformationImageFilter<InternalImageType> ChangeFilterType;
-  typedef itk::BinaryThresholdImageFilter< InternalImageType, InternalImageType > ThresholdFilterType;
-  typedef itk::ConnectedComponentImageFilter< InternalImageType, LabelImageType > ConnectedComponentType;
-  typedef itk::RelabelComponentImageFilter< LabelImageType, LabelImageType > RelabelComponentType;
-  typedef itk::BinaryThresholdImageFilter<LabelImageType, WriteImageType> FinalThresholdFilterType;
-  typedef itk::LabelStatisticsImageFilter< InternalImageType, LabelImageType> StatisticsFilterType;
+  using ChangeFilterType = itk::ChangeInformationImageFilter<InternalImageType>;
+  using ThresholdFilterType = itk::BinaryThresholdImageFilter< InternalImageType, InternalImageType >;
+  using ConnectedComponentType = itk::ConnectedComponentImageFilter< InternalImageType, LabelImageType >;
+  using RelabelComponentType = itk::RelabelComponentImageFilter< LabelImageType, LabelImageType >;
+  using FinalThresholdFilterType = itk::BinaryThresholdImageFilter<LabelImageType, WriteImageType>;
+  using StatisticsFilterType = itk::LabelStatisticsImageFilter< InternalImageType, LabelImageType>;
 
-  typedef itk::NumericTraits<InternalPixelType>::RealType RealType;
+  using RealType = itk::NumericTraits<InternalPixelType>::RealType;
 
-  typedef itk::Statistics::Histogram<RealType> HistogramType;
+  using HistogramType = itk::Statistics::Histogram<RealType>;
 
   int NumBins = 13;
   RealType LowerBound = 51.0;

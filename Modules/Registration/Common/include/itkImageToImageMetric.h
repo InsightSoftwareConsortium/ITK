@@ -52,28 +52,28 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetric:
   public SingleValuedCostFunction
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToImageMetric         Self;
-  typedef SingleValuedCostFunction   Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageToImageMetric;
+  using Superclass = SingleValuedCostFunction;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Type used for representing point components  */
-  typedef typename Superclass::ParametersValueType CoordinateRepresentationType;
+  using CoordinateRepresentationType = typename Superclass::ParametersValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToImageMetric, SingleValuedCostFunction);
 
   /**  Type of the moving Image. */
-  typedef TMovingImage                           MovingImageType;
-  typedef typename TMovingImage::PixelType       MovingImagePixelType;
-  typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePixelType = typename TMovingImage::PixelType;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /**  Type of the fixed Image. */
-  typedef TFixedImage                           FixedImageType;
-  typedef typename TFixedImage::PixelType       FixedImagePixelType;
-  typedef typename FixedImageType::ConstPointer FixedImageConstPointer;
-  typedef typename FixedImageType::RegionType   FixedImageRegionType;
+  using FixedImageType = TFixedImage;
+  using FixedImagePixelType = typename TFixedImage::PixelType;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
+  using FixedImageRegionType = typename FixedImageType::RegionType;
 
   /** Constants for the image dimensions */
   itkStaticConstMacro(MovingImageDimension,
@@ -84,59 +84,58 @@ public:
                       TFixedImage::ImageDimension);
 
   /**  Type of the Transform Base class */
-  typedef Transform< CoordinateRepresentationType,
+  using TransformType = Transform< CoordinateRepresentationType,
                      itkGetStaticConstMacro(MovingImageDimension),
-                     itkGetStaticConstMacro(FixedImageDimension) >
-  TransformType;
+                     itkGetStaticConstMacro(FixedImageDimension) >;
 
-  typedef typename TransformType::Pointer         TransformPointer;
-  typedef typename TransformType::InputPointType  InputPointType;
-  typedef typename TransformType::OutputPointType OutputPointType;
-  typedef typename TransformType::ParametersType  TransformParametersType;
-  typedef typename TransformType::JacobianType    TransformJacobianType;
+  using TransformPointer = typename TransformType::Pointer;
+  using InputPointType = typename TransformType::InputPointType;
+  using OutputPointType = typename TransformType::OutputPointType;
+  using TransformParametersType = typename TransformType::ParametersType;
+  using TransformJacobianType = typename TransformType::JacobianType;
 
-  /** Index and Point typedef support. */
-  typedef typename FixedImageType::IndexType           FixedImageIndexType;
-  typedef typename FixedImageIndexType::IndexValueType FixedImageIndexValueType;
-  typedef typename MovingImageType::IndexType          MovingImageIndexType;
-  typedef typename TransformType::InputPointType       FixedImagePointType;
-  typedef typename TransformType::OutputPointType      MovingImagePointType;
+  /** Index and Point type alias support */
+  using FixedImageIndexType = typename FixedImageType::IndexType;
+  using FixedImageIndexValueType = typename FixedImageIndexType::IndexValueType;
+  using MovingImageIndexType = typename MovingImageType::IndexType;
+  using FixedImagePointType = typename TransformType::InputPointType;
+  using MovingImagePointType = typename TransformType::OutputPointType;
 
-  typedef std::vector< FixedImageIndexType > FixedImageIndexContainer;
+  using FixedImageIndexContainer = std::vector< FixedImageIndexType >;
 
   /**  Type of the Interpolator Base class */
-  typedef InterpolateImageFunction< MovingImageType, CoordinateRepresentationType > InterpolatorType;
+  using InterpolatorType = InterpolateImageFunction< MovingImageType, CoordinateRepresentationType >;
 
   /** Gaussian filter to compute the gradient of the Moving Image */
-  typedef typename NumericTraits< MovingImagePixelType >::RealType                   RealType;
-  typedef CovariantVector< RealType, itkGetStaticConstMacro(MovingImageDimension) >  GradientPixelType;
-  typedef Image< GradientPixelType, itkGetStaticConstMacro(MovingImageDimension) >   GradientImageType;
-  typedef SmartPointer< GradientImageType >                                          GradientImagePointer;
-  typedef GradientRecursiveGaussianImageFilter< MovingImageType, GradientImageType > GradientImageFilterType;
-  typedef typename GradientImageFilterType::Pointer                                  GradientImageFilterPointer;
+  using RealType = typename NumericTraits< MovingImagePixelType >::RealType;
+  using GradientPixelType = CovariantVector< RealType, itkGetStaticConstMacro(MovingImageDimension) >;
+  using GradientImageType = Image< GradientPixelType, itkGetStaticConstMacro(MovingImageDimension) >;
+  using GradientImagePointer = SmartPointer< GradientImageType >;
+  using GradientImageFilterType = GradientRecursiveGaussianImageFilter< MovingImageType, GradientImageType >;
+  using GradientImageFilterPointer = typename GradientImageFilterType::Pointer;
 
-  typedef typename InterpolatorType::Pointer InterpolatorPointer;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject< itkGetStaticConstMacro(FixedImageDimension) > FixedImageMaskType;
-  typedef typename FixedImageMaskType::Pointer                         FixedImageMaskPointer;
-  typedef typename FixedImageMaskType::ConstPointer                    FixedImageMaskConstPointer;
+  using FixedImageMaskType = SpatialObject< itkGetStaticConstMacro(FixedImageDimension) >;
+  using FixedImageMaskPointer = typename FixedImageMaskType::Pointer;
+  using FixedImageMaskConstPointer = typename FixedImageMaskType::ConstPointer;
 
   /**  Type for the mask of the moving image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */
-  typedef SpatialObject< itkGetStaticConstMacro(MovingImageDimension) > MovingImageMaskType;
-  typedef typename MovingImageMaskType::Pointer                         MovingImageMaskPointer;
-  typedef typename MovingImageMaskType::ConstPointer                    MovingImageMaskConstPointer;
+  using MovingImageMaskType = SpatialObject< itkGetStaticConstMacro(MovingImageDimension) >;
+  using MovingImageMaskPointer = typename MovingImageMaskType::Pointer;
+  using MovingImageMaskConstPointer = typename MovingImageMaskType::ConstPointer;
 
   /**  Type of the measure. */
-  typedef typename Superclass::MeasureType MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
   /**  Type of the derivative. */
-  typedef typename Superclass::DerivativeType DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
   /**  Type of the parameters. */
-  typedef typename Superclass::ParametersType ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Get/Set the Fixed Image.  */
   itkSetConstObjectMacro( FixedImage, FixedImageType );
@@ -305,7 +304,7 @@ public:
   itkGetConstReferenceMacro(UseCachingOfBSplineWeights, bool);
   itkBooleanMacro(UseCachingOfBSplineWeights);
 
-  typedef MultiThreader MultiThreaderType;
+  using MultiThreaderType = MultiThreader;
   /** Get the Threader. */
   itkGetModifiableObjectMacro(Threader, MultiThreaderType);
   const TransformPointer * GetThreaderTransform()
@@ -348,8 +347,8 @@ public:
   bool                m_UseFixedImageSamplesIntensityThreshold;
   FixedImagePixelType m_FixedImageSamplesIntensityThreshold;
 
-  /** FixedImageSamplePoint typedef support. */
-  typedef std::vector< FixedImageSamplePoint > FixedImageSampleContainer;
+  /** FixedImageSamplePoint type alias support */
+  using FixedImageSampleContainer = std::vector< FixedImageSamplePoint >;
 
   /** Uniformly select a sample set from the fixed image domain. */
   virtual void SampleFixedImageRegion(FixedImageSampleContainer & samples) const;
@@ -412,35 +411,33 @@ public:
 
   itkStaticConstMacro(DeformationSplineOrder, unsigned int, 3);
 
-  typedef BSplineBaseTransform< CoordinateRepresentationType,
+  using BSplineTransformType = BSplineBaseTransform< CoordinateRepresentationType,
                                        FixedImageType ::ImageDimension,
-                                      itkGetStaticConstMacro(DeformationSplineOrder) >             BSplineTransformType;
+                                      itkGetStaticConstMacro(DeformationSplineOrder) >;
 
-  typedef typename BSplineTransformType::WeightsType      BSplineTransformWeightsType;
-  typedef typename BSplineTransformWeightsType::ValueType WeightsValueType;
-  typedef          Array2D< WeightsValueType >            BSplineTransformWeightsArrayType;
+  using BSplineTransformWeightsType = typename BSplineTransformType::WeightsType;
+  using WeightsValueType = typename BSplineTransformWeightsType::ValueType;
+  using BSplineTransformWeightsArrayType = Array2D< WeightsValueType >;
 
-  typedef typename BSplineTransformType::ParameterIndexArrayType BSplineTransformIndexArrayType;
-  typedef typename BSplineTransformIndexArrayType::ValueType     IndexValueType;
-  typedef          Array2D< IndexValueType >                     BSplineTransformIndicesArrayType;
+  using BSplineTransformIndexArrayType = typename BSplineTransformType::ParameterIndexArrayType;
+  using IndexValueType = typename BSplineTransformIndexArrayType::ValueType;
+  using BSplineTransformIndicesArrayType = Array2D< IndexValueType >;
 
-  typedef std::vector< MovingImagePointType > MovingImagePointArrayType;
-  typedef std::vector< bool >                 BooleanArrayType;
-  typedef FixedArray< SizeValueType,  FixedImageType ::ImageDimension > BSplineParametersOffsetType;
+  using MovingImagePointArrayType = std::vector< MovingImagePointType >;
+  using BooleanArrayType = std::vector< bool >;
+  using BSplineParametersOffsetType = FixedArray< SizeValueType,  FixedImageType ::ImageDimension >;
   /**
    * If a BSplineInterpolationFunction is used, this class obtain
    * image derivatives from the BSpline interpolator. Otherwise,
    * image derivatives are computed using central differencing.
    */
-  typedef BSplineInterpolateImageFunction< MovingImageType,
-                                           CoordinateRepresentationType >
-  BSplineInterpolatorType;
+  using BSplineInterpolatorType = BSplineInterpolateImageFunction< MovingImageType,
+                                           CoordinateRepresentationType >;
   /** Typedefs for using central difference calculator. */
-  typedef CentralDifferenceImageFunction< MovingImageType,
-                                          CoordinateRepresentationType >
-  DerivativeFunctionType;
-  typedef CovariantVector< double, itkGetStaticConstMacro(MovingImageDimension) >
-  ImageDerivativesType;
+  using DerivativeFunctionType = CentralDifferenceImageFunction< MovingImageType,
+                                          CoordinateRepresentationType >;
+  using ImageDerivativesType =
+      CovariantVector< double, itkGetStaticConstMacro(MovingImageDimension) >;
 
   typename BSplineTransformType::Pointer m_BSplineTransform;
 

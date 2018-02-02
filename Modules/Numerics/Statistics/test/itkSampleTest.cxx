@@ -29,14 +29,14 @@ template <typename TMeasurementVector>
 class MySample : public Sample< TMeasurementVector >
 {
 public:
-  /** Standard class typedef. */
-  typedef MySample  Self;
+  /** Standard class type alias. */
+  using Self = MySample;
 
-  typedef Sample< TMeasurementVector > Superclass;
+  using Superclass = Sample< TMeasurementVector >;
 
-  typedef SmartPointer< Self > Pointer;
+  using Pointer = SmartPointer< Self >;
 
-  typedef SmartPointer<const Self> ConstPointer;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
   itkTypeMacro(MySample, Sample);
@@ -44,13 +44,13 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
 
-  typedef typename Superclass::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename Superclass::TotalAbsoluteFrequencyType;
 
-  typedef typename Superclass::AbsoluteFrequencyType AbsoluteFrequencyType;
+  using AbsoluteFrequencyType = typename Superclass::AbsoluteFrequencyType;
 
-  typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
 
   /** Get the size of the sample (number of measurements) */
   InstanceIdentifier Size() const override
@@ -76,7 +76,7 @@ public:
   TotalAbsoluteFrequencyType GetTotalFrequency() const override
     {
     TotalAbsoluteFrequencyType sum = NumericTraits< TotalAbsoluteFrequencyType >::ZeroValue();
-    typedef typename std::vector< AbsoluteFrequencyType >::const_iterator Iterator;
+    using Iterator = typename std::vector< AbsoluteFrequencyType >::const_iterator;
     Iterator itr = m_Frequencies.begin();
     while( itr != m_Frequencies.end() )
       {
@@ -115,11 +115,10 @@ int itkSampleTest(int, char* [] )
 
   const unsigned int MeasurementVectorSize = 17;
 
-  typedef itk::FixedArray<
-    float, MeasurementVectorSize >  MeasurementVectorType;
+  using MeasurementVectorType = itk::FixedArray<
+    float, MeasurementVectorSize >;
 
-  typedef itk::Statistics::SampleTest::MySample<
-    MeasurementVectorType >   SampleType;
+  using SampleType = itk::Statistics::SampleTest::MySample<MeasurementVectorType>;
 
   SampleType::Pointer sample = SampleType::New();
 
@@ -145,7 +144,7 @@ int itkSampleTest(int, char* [] )
     measure[i] = 29 * i * i;
     }
 
-  typedef SampleType::AbsoluteFrequencyType AbsoluteFrequencyType;
+  using AbsoluteFrequencyType = SampleType::AbsoluteFrequencyType;
 
   AbsoluteFrequencyType frequency = 17;
 

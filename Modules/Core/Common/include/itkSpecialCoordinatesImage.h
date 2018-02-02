@@ -95,12 +95,12 @@ template< typename TPixel, unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT SpecialCoordinatesImage:public ImageBase< VImageDimension >
 {
 public:
-  /** Standard class typedefs */
-  typedef SpecialCoordinatesImage      Self;
-  typedef ImageBase< VImageDimension > Superclass;
-  typedef SmartPointer< Self >         Pointer;
-  typedef SmartPointer< const Self >   ConstPointer;
-  typedef WeakPointer< const Self >    ConstWeakPointer;
+  /** Standard class type aliases */
+  using Self = SpecialCoordinatesImage;
+  using Superclass = ImageBase< VImageDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -108,29 +108,29 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpecialCoordinatesImage, ImageBase);
 
-  /** Pixel typedef support. Used to declare pixel type in filters
+  /** Pixel type alias support Used to declare pixel type in filters
    * or other operations. */
-  typedef TPixel PixelType;
+  using PixelType = TPixel;
 
   /** Typedef alias for PixelType */
-  typedef TPixel ValueType;
+  using ValueType = TPixel;
 
   /** Internal Pixel representation. Used to maintain a uniform API
    * with Image Adaptors and allow to keep a particular internal
    * representation of data while showing a different external
    * representation. */
-  typedef TPixel InternalPixelType;
+  using InternalPixelType = TPixel;
 
-  typedef PixelType IOPixelType;
+  using IOPixelType = PixelType;
 
   /** Accessor type that convert data between internal and external
    *  representations.  */
-  typedef DefaultPixelAccessor< PixelType > AccessorType;
+  using AccessorType = DefaultPixelAccessor< PixelType >;
 
   /** Accessor functor to choose between accessors: DefaultPixelAccessor for
    * the Image, and DefaultVectorPixelAccessor for the vector image. The
    * functor provides a generic API between the two accessors. */
-  typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
+  using AccessorFunctorType = DefaultPixelAccessorFunctor< Self >;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
@@ -138,35 +138,35 @@ public:
    * the image. */
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support An index is used to access pixel values. */
+  using IndexType = typename Superclass::IndexType;
 
-  /** Offset typedef support. An offset is used to access pixel values. */
-  typedef typename Superclass::OffsetType OffsetType;
+  /** Offset type alias support An offset is used to access pixel values. */
+  using OffsetType = typename Superclass::OffsetType;
 
-  /** Size typedef support. A size is used to define region bounds. */
-  typedef typename Superclass::SizeType      SizeType;
+  /** Size type alias support A size is used to define region bounds. */
+  using SizeType = typename Superclass::SizeType;
 
   /** Container used to store pixels in the image. */
-  typedef ImportImageContainer< SizeValueType, PixelType > PixelContainer;
+  using PixelContainer = ImportImageContainer< SizeValueType, PixelType >;
 
-  /** Region typedef support. A region is used to specify a subset of an image.
+  /** Region type alias support A region is used to specify a subset of an image.
     */
-  typedef typename Superclass::RegionType RegionType;
+  using RegionType = typename Superclass::RegionType;
 
-  /** Spacing typedef support.  Spacing holds the "fake" size of a pixel, making
+  /** Spacing type alias support  Spacing holds the "fake" size of a pixel, making
    * each pixel look like a 1 unit hyper-cube to filters that were designed for
    * normal images and that therefore use m_Spacing.  The spacing is the
    * geometric distance between image samples. */
-  typedef typename Superclass::SpacingType SpacingType;
+  using SpacingType = typename Superclass::SpacingType;
 
-  /** Origin typedef support.  The origin is the "fake" geometric coordinates
+  /** Origin type alias support  The origin is the "fake" geometric coordinates
    * of the index (0,0).  Also for use w/ filters designed for normal images. */
-  typedef typename Superclass::PointType PointType;
+  using PointType = typename Superclass::PointType;
 
   /** A pointer to the pixel container. */
-  typedef typename PixelContainer::Pointer      PixelContainerPointer;
-  typedef typename PixelContainer::ConstPointer PixelContainerConstPointer;
+  using PixelContainerPointer = typename PixelContainer::Pointer;
+  using PixelContainerConstPointer = typename PixelContainer::ConstPointer;
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */

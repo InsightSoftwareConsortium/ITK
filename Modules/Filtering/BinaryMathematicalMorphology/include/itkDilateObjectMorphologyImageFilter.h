@@ -47,12 +47,12 @@ class ITK_TEMPLATE_EXPORT DilateObjectMorphologyImageFilter:
   public ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
-  /** Standard class typedefs. */
-  typedef DilateObjectMorphologyImageFilter                                 Self;
-  typedef ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
+  /** Standard class type aliases. */
+  using Self = DilateObjectMorphologyImageFilter;
+  using Superclass = ObjectMorphologyImageFilter< TInputImage, TOutputImage, TKernel >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard New method */
   itkNewMacro(Self);
@@ -61,22 +61,21 @@ public:
   itkTypeMacro(DilateObjectMorphologyImageFilter, ObjectMorphologyImageFilter);
 
   /** duplicates from base class to avoid compiler warnings */
-  typedef typename Superclass::PixelType PixelType;
+  using PixelType = typename Superclass::PixelType;
 
   /** duplicates from base class to avoid compiler warnings */
-  typedef TKernel KernelType;
+  using KernelType = TKernel;
 
   /** duplicates from base class to avoid compiler warnings */
-  typedef typename KernelType::ConstIterator KernelIteratorType;
+  using KernelIteratorType = typename KernelType::ConstIterator;
 
   /** duplicates from base class to avoid compiler warnings */
-  typedef NeighborhoodIterator< TOutputImage > OutputNeighborhoodIteratorType;
+  using OutputNeighborhoodIteratorType = NeighborhoodIterator< TOutputImage >;
 
-  typedef typename Superclass::DefaultBoundaryConditionType
-  DefaultBoundaryConditionType;
+  using DefaultBoundaryConditionType = typename Superclass::DefaultBoundaryConditionType;
 
   /** Type of the pixels in the Kernel. */
-  typedef typename TKernel::PixelType KernelPixelType;
+  using KernelPixelType = typename TKernel::PixelType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

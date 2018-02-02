@@ -57,26 +57,25 @@ class ITK_TEMPLATE_EXPORT MixtureModelComponentBase:
   public Object
 {
 public:
-  /**Standard class typedefs. */
-  typedef MixtureModelComponentBase  Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /**Standard class type aliases. */
+  using Self = MixtureModelComponentBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**Standard Macros */
   itkTypeMacro(MixtureModelComponentBase, Object);
 
-  typedef typename TSample::MeasurementVectorType     MeasurementVectorType;
-  typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using MeasurementVectorType = typename TSample::MeasurementVectorType;
+  using MeasurementVectorSizeType = typename TSample::MeasurementVectorSizeType;
 
-  /** typedef for the MembershipFunctionBase */
-  typedef MembershipFunctionBase< MeasurementVectorType >
-  MembershipFunctionType;
+  /** type alias for the MembershipFunctionBase */
+  using MembershipFunctionType = MembershipFunctionBase<MeasurementVectorType>;
 
-  /** typedef of strorage for the weights */
-  typedef Array< double > WeightArrayType;
+  /** type alias of strorage for the weights */
+  using WeightArrayType = Array< double >;
 
-  typedef Array< double > ParametersType;
+  using ParametersType = Array< double >;
 
   /** stores the sample pointer */
   virtual void SetSample(const TSample *sample);

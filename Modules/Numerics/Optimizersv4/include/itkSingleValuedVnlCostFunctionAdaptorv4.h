@@ -38,26 +38,26 @@ class SingleValuedVnlCostFunctionAdaptorv4:
 {
 public:
 
-  /** InternalMeasureType typedef. */
-  typedef   double InternalMeasureType;
+  /** InternalMeasureType type alias. */
+  using InternalMeasureType = double;
 
-  /** InternalParametersType typedef. */
-  typedef   vnl_vector< InternalMeasureType > InternalParametersType;
+  /** InternalParametersType type alias. */
+  using InternalParametersType = vnl_vector< InternalMeasureType >;
 
-  /** InternalGradientType typedef. */
-  typedef   vnl_vector< InternalMeasureType > InternalDerivativeType;
+  /** InternalGradientType type alias. */
+  using InternalDerivativeType = vnl_vector< InternalMeasureType >;
 
   /** Parameters of the SingleValuedCostFunction */
-  typedef ObjectToObjectMetricBase::ParametersType ParametersType;
+  using ParametersType = ObjectToObjectMetricBase::ParametersType;
 
   /** Derivatives of the SingleValuedCostFunction */
-  typedef ObjectToObjectMetricBase::DerivativeType DerivativeType;
+  using DerivativeType = ObjectToObjectMetricBase::DerivativeType;
 
   /** Type of the SingleValuedCostFunction value */
-  typedef ObjectToObjectMetricBase::MeasureType MeasureType;
+  using MeasureType = ObjectToObjectMetricBase::MeasureType;
 
-  /** Scales typedef */
-  typedef OptimizerParameters< InternalMeasureType > ScalesType;
+  /** Scales type alias */
+  using ScalesType = OptimizerParameters< InternalMeasureType >;
 
   /** Constructor with size */
   SingleValuedVnlCostFunctionAdaptorv4(unsigned int spaceDimension);

@@ -49,7 +49,7 @@ template< typename TInputPixel, typename TAccumulate >
 class MeanAccumulator
 {
 public:
-  typedef typename NumericTraits< TInputPixel >::RealType       RealType;
+  using RealType = typename NumericTraits< TInputPixel >::RealType;
 
   MeanAccumulator( SizeValueType size )
   {
@@ -90,19 +90,19 @@ class MeanProjectionImageFilter:public
                          Functor::MeanAccumulator< typename TInputImage::PixelType, TAccumulate > >
 {
 public:
-  typedef MeanProjectionImageFilter Self;
-  typedef ProjectionImageFilter< TInputImage, TOutputImage,
+  using Self = MeanProjectionImageFilter;
+  using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Functor::MeanAccumulator<
-                                   typename TInputImage::PixelType, TAccumulate > > Superclass;
+                                   typename TInputImage::PixelType, TAccumulate > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType InputPixelType;
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
 
-  typedef TOutputImage                        OutputImageType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
   /** Runtime information support. */
   itkTypeMacro(MeanProjectionImageFilter, ProjectionImageFilter);

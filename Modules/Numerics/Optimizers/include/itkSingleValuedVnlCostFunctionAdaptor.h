@@ -39,26 +39,26 @@ class ITKOptimizers_EXPORT SingleValuedVnlCostFunctionAdaptor:
 {
 public:
 
-  /** InternalParametersType typedef. */
-  typedef   vnl_vector< double > InternalParametersType;
+  /** InternalParametersType type alias. */
+  using InternalParametersType = vnl_vector< double >;
 
-  /** InternalMeasureType typedef. */
-  typedef   double InternalMeasureType;
+  /** InternalMeasureType type alias. */
+  using InternalMeasureType = double;
 
-  /** InternalGradientType typedef. */
-  typedef   vnl_vector< double > InternalDerivativeType;
+  /** InternalGradientType type alias. */
+  using InternalDerivativeType = vnl_vector< double >;
 
   /** Parameters of the SingleValuedCostFunction */
-  typedef SingleValuedCostFunction::ParametersType ParametersType;
+  using ParametersType = SingleValuedCostFunction::ParametersType;
 
   /** Derivatives of the SingleValuedCostFunction */
-  typedef SingleValuedCostFunction::DerivativeType DerivativeType;
+  using DerivativeType = SingleValuedCostFunction::DerivativeType;
 
   /** Type of the SingleValuedCostFunction value */
-  typedef SingleValuedCostFunction::MeasureType MeasureType;
+  using MeasureType = SingleValuedCostFunction::MeasureType;
 
-  /** Scales typedef */
-  typedef Array< double > ScalesType;
+  /** Scales type alias */
+  using ScalesType = Array< double >;
 
   /** Constructor with size */
   SingleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension);

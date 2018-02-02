@@ -27,22 +27,22 @@ namespace SincInterpolate {
 enum{ ImageDimension = 3 };
 enum{ WindowRadius = 2 };
 
-typedef unsigned char                               PixelType;
-typedef itk::Image<PixelType,ImageDimension>        ImageType;
-typedef itk::SpacePrecisionType                     CoordRepType;
-typedef itk::Function::HammingWindowFunction<2>     WindowFunctionType;
-typedef itk::ConstantBoundaryCondition< ImageType > BoundaryConditionType;
+using PixelType = unsigned char;
+using ImageType = itk::Image<PixelType,ImageDimension>;
+using CoordRepType = itk::SpacePrecisionType;
+using WindowFunctionType = itk::Function::HammingWindowFunction<2>;
+using BoundaryConditionType = itk::ConstantBoundaryCondition< ImageType >;
 
-typedef itk::WindowedSincInterpolateImageFunction<
+using InterpolatorType = itk::WindowedSincInterpolateImageFunction<
                                           ImageType,2,
                                           WindowFunctionType,
                                           BoundaryConditionType,
-                                          CoordRepType           > InterpolatorType;
+                                          CoordRepType >;
 
-typedef InterpolatorType::IndexType           IndexType;
-typedef InterpolatorType::PointType           PointType;
-typedef InterpolatorType::ContinuousIndexType ContinuousIndexType;
-typedef InterpolatorType::OutputType          OutputType;
+using IndexType = InterpolatorType::IndexType;
+using PointType = InterpolatorType::PointType;
+using ContinuousIndexType = InterpolatorType::ContinuousIndexType;
+using OutputType = InterpolatorType::OutputType;
 
 
 /**
@@ -129,15 +129,15 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
 
   std::cout << "Testing vector image interpolation: " << std::endl;
 
-  typedef SincInterpolate::ImageType            ImageType;
-  typedef SincInterpolate::IndexType            IndexType;
-  typedef SincInterpolate::PixelType            PixelType;
-  typedef SincInterpolate::PointType            PointType;
-  typedef SincInterpolate::OutputType           OutputType;
-  typedef SincInterpolate::ContinuousIndexType  ContinuousIndexType;
-  typedef SincInterpolate::CoordRepType         CoordRepType;
+  using ImageType = SincInterpolate::ImageType;
+  using IndexType = SincInterpolate::IndexType;
+  using PixelType = SincInterpolate::PixelType;
+  using PointType = SincInterpolate::PointType;
+  using OutputType = SincInterpolate::OutputType;
+  using ContinuousIndexType = SincInterpolate::ContinuousIndexType;
+  using CoordRepType = SincInterpolate::CoordRepType;
 
-  typedef SincInterpolate::InterpolatorType    InterpolatorType;
+  using InterpolatorType = SincInterpolate::InterpolatorType;
 
   const unsigned int ImageDimension = SincInterpolate::ImageDimension;
 
@@ -158,7 +158,7 @@ int itkWindowedSincInterpolateImageFunctionTest(int, char* [] )
   image->SetSpacing( spacing );
 
   // Write in a simple linear pattern
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter( image, region );
 
   IndexType index;

@@ -105,7 +105,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 
   this->m_FinalMeans = estimator->GetParameters();
 
-  typedef typename InputImageType::RegionType RegionType;
+  using RegionType = typename InputImageType::RegionType;
 
   // Now classify the samples
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
@@ -147,7 +147,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   membershipFunctionsObject->Set(membershipFunctions);
   classifier->SetMembershipFunctions(membershipFunctionsObject);
 
-  typedef typename ClassifierType::ClassLabelVectorObjectType ClassLabelVectorObjectType;
+  using ClassLabelVectorObjectType = typename ClassifierType::ClassLabelVectorObjectType;
   typename ClassLabelVectorObjectType::Pointer classLabelsObject = ClassLabelVectorObjectType::New();
   classLabelsObject->Set( classLabels );
   classifier->SetClassLabels( classLabelsObject );
@@ -158,7 +158,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   // Now classify the pixels
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
-  typedef ImageRegionIterator< OutputImageType > ImageIterator;
+  using ImageIterator = ImageRegionIterator< OutputImageType >;
 
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
@@ -175,10 +175,10 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   ImageIterator pixel( outputPtr, region );
   pixel.GoToBegin();
 
-  typedef typename ClassifierType::MembershipSampleType ClassifierOutputType;
+  using ClassifierOutputType = typename ClassifierType::MembershipSampleType;
   const ClassifierOutputType *membershipSample = classifier->GetOutput();
 
-  typedef typename ClassifierOutputType::ConstIterator LabelIterator;
+  using LabelIterator = typename ClassifierOutputType::ConstIterator;
 
   LabelIterator iter = membershipSample->Begin();
   LabelIterator end  = membershipSample->End();
@@ -194,8 +194,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
     {
     // If a region is defined to constrain classification to, we need to label
     // pixels outside with numberOfClasses + 1.
-    typedef ImageRegionExclusionIteratorWithIndex< OutputImageType >
-    ExclusionImageIteratorType;
+    using ExclusionImageIteratorType = ImageRegionExclusionIteratorWithIndex<OutputImageType>;
     ExclusionImageIteratorType exIt( outputPtr, outputPtr->GetBufferedRegion() );
     exIt.SetExclusionRegion( region );
     exIt.GoToBegin();

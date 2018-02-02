@@ -22,15 +22,15 @@ int itkLevelSetDomainMapImageFilterTest( int, char* [] )
 {
   const unsigned int Dimension = 2;
 
-  typedef std::list<int>                 ListPixelType;
-  typedef std::list<int>::const_iterator ListIteratorType;
+  using ListPixelType = std::list<int>;
+  using ListIteratorType = std::list<int>::const_iterator;
 
-  typedef itk::Image< ListPixelType, Dimension >   InputImageType;
-  typedef itk::Image< unsigned short, Dimension >  OutputImageType;
+  using InputImageType = itk::Image< ListPixelType, Dimension >;
+  using OutputImageType = itk::Image< unsigned short, Dimension >;
 
-  typedef itk::LevelSetDomainMapImageFilter< InputImageType, OutputImageType >
-                                                  DomainMapImageFilterType;
-  typedef DomainMapImageFilterType::DomainMapType DomainMapType;
+  using DomainMapImageFilterType =
+      itk::LevelSetDomainMapImageFilter< InputImageType, OutputImageType >;
+  using DomainMapType = DomainMapImageFilterType::DomainMapType;
 
   InputImageType::IndexType index;
   index[0] = 0;
@@ -67,7 +67,7 @@ int itkLevelSetDomainMapImageFilterTest( int, char* [] )
 
   OutputImageType::Pointer output = filter->GetOutput();
 
-  typedef itk::ImageRegionConstIteratorWithIndex<OutputImageType > OutputImageIteratorType;
+  using OutputImageIteratorType = itk::ImageRegionConstIteratorWithIndex<OutputImageType >;
   OutputImageIteratorType it( output, output->GetLargestPossibleRegion() );
 
   it.GoToBegin();

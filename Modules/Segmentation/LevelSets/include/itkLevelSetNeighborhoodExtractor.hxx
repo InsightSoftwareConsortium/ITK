@@ -142,7 +142,7 @@ void
 LevelSetNeighborhoodExtractor< TLevelSet >
 ::GenerateDataFull()
 {
-  typedef ImageRegionConstIterator< LevelSetImageType > InputConstIterator;
+  using InputConstIterator = ImageRegionConstIterator< LevelSetImageType >;
 
   InputConstIterator inIt ( m_InputLevelSet,
                             m_InputLevelSet->GetBufferedRegion() );

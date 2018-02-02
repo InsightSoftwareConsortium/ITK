@@ -41,43 +41,43 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char* [] )
   const unsigned int dimension = 3;
 
   // Fixed Image Type
-  typedef itk::Image<float,dimension>                    FixedImageType;
+  using FixedImageType = itk::Image<float,dimension>;
 
   // Moving Image Type
-//  typedef itk::Image<char,dimension>                     MovingImageType;
-  typedef itk::Image<float,dimension>                     MovingImageType;
+//  using MovingImageType = itk::Image<char,dimension>;
+  using MovingImageType = itk::Image<float,dimension>;
 
   // Transform Type
-  typedef itk::TranslationTransform< double, dimension > TransformType;
+  using TransformType = itk::TranslationTransform< double, dimension >;
 
   // Optimizer Type
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
 
   // Metric Type
-  typedef itk::MeanSquaresImageToImageMetric<
+  using MetricType = itk::MeanSquaresImageToImageMetric<
                                     FixedImageType,
-                                    MovingImageType >    MetricType;
+                                    MovingImageType >;
 
   // Interpolation technique
-  typedef itk:: LinearInterpolateImageFunction<
+  using InterpolatorType = itk:: LinearInterpolateImageFunction<
                                     MovingImageType,
-                                    double          >    InterpolatorType;
+                                    double          >;
 
   // Fixed Image Pyramid Type
-  typedef itk::RecursiveMultiResolutionPyramidImageFilter<
+  using FixedImagePyramidType = itk::RecursiveMultiResolutionPyramidImageFilter<
                                     FixedImageType,
-                                    FixedImageType  >    FixedImagePyramidType;
+                                    FixedImageType  >;
 
   // Moving Image Pyramid Type
-  typedef itk::RecursiveMultiResolutionPyramidImageFilter<
+  using MovingImagePyramidType = itk::RecursiveMultiResolutionPyramidImageFilter<
                                     MovingImageType,
-                                    MovingImageType  >   MovingImagePyramidType;
+                                    MovingImageType  >;
 
 
   // Registration Method
-  typedef itk::MultiResolutionImageRegistrationMethod<
+  using RegistrationType = itk::MultiResolutionImageRegistrationMethod<
                                     FixedImageType,
-                                    MovingImageType >    RegistrationType;
+                                    MovingImageType >;
 
 
   MetricType::Pointer         metric        = MetricType::New();
@@ -114,7 +114,7 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char* [] )
   registration->SetMovingImagePyramid( movingImagePyramid );
   registration->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
 
-  typedef RegistrationType::ParametersType ParametersType;
+  using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
   initialParameters.Fill(0);
 

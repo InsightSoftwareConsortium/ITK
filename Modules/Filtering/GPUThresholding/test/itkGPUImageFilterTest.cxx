@@ -40,14 +40,14 @@
 template< unsigned int VImageDimension >
 int runGPUImageFilterTest(const std::string& inFile, const std::string& outFile)
 {
-  typedef   unsigned char  InputPixelType;
-  typedef   unsigned char  OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  VImageDimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, VImageDimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  VImageDimension >;
+  using OutputImageType = itk::Image< OutputPixelType, VImageDimension >;
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   typename WriterType::Pointer writer = WriterType::New();
@@ -59,8 +59,8 @@ int runGPUImageFilterTest(const std::string& inFile, const std::string& outFile)
   // Note: We use regular itk filter type here but factory will automatically create
   //       GPU filter for Median filter and CPU filter for threshold filter.
   //
-  typedef itk::MeanImageFilter< InputImageType, OutputImageType > MeanFilterType;
-  typedef itk::BinaryThresholdImageFilter< InputImageType, OutputImageType > ThresholdFilterType;
+  using MeanFilterType = itk::MeanImageFilter< InputImageType, OutputImageType >;
+  using ThresholdFilterType = itk::BinaryThresholdImageFilter< InputImageType, OutputImageType >;
 
   typename MeanFilterType::Pointer filter1 = MeanFilterType::New();
   typename MeanFilterType::Pointer filter2 = MeanFilterType::New();

@@ -91,11 +91,11 @@ class ITK_TEMPLATE_EXPORT CurvatureFlowImageFilter:
   public DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef CurvatureFlowImageFilter                                      Self;
-  typedef DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                          Pointer;
-  typedef SmartPointer< const Self >                                    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = CurvatureFlowImageFilter;
+  using Superclass = DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -105,19 +105,17 @@ public:
                DenseFiniteDifferenceImageFilter);
 
   /** InputImage type. */
-  typedef typename Superclass::InputImageType InputImageType;
+  using InputImageType = typename Superclass::InputImageType;
 
   /** OutputImage type. */
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** FiniteDifferenceFunction type. */
-  typedef typename Superclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
   /** CurvatureFlowFunction type. */
-  typedef CurvatureFlowFunction< OutputImageType >
-  CurvatureFlowFunctionType;
+  using CurvatureFlowFunctionType = CurvatureFlowFunction<OutputImageType>;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -125,10 +123,10 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  typedef typename Superclass::PixelType PixelType;
+  using PixelType = typename Superclass::PixelType;
 
   /** The time step type. Inherited from the superclass. */
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** Set the timestep parameter. */
   itkSetMacro(TimeStep, TimeStepType);

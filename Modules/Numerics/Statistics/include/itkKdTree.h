@@ -52,7 +52,7 @@ namespace Statistics
  * <b>Recent API changes:</b>
  * The static const macro to get the length of a measurement vector,
  * \c MeasurementVectorSize  has been removed to allow the length of a measurement
- * vector to be specified at run time. The \c typedef for \c CentroidType has
+ * vector to be specified at run time. The \c type alias for \c CentroidType has
  * been changed from Array to FixedArray.
  *
  * \sa KdTreeNonterminalNode, KdTreeWeightedCentroidNonterminalNode,
@@ -64,17 +64,17 @@ template<typename TSample>
 struct ITK_TEMPLATE_EXPORT KdTreeNode
   {
   /** type alias for itself */
-  typedef KdTreeNode<TSample> Self;
+  using Self = KdTreeNode<TSample>;
 
   /** Measurement type, not the measurement vector type */
-  typedef typename TSample::MeasurementType MeasurementType;
+  using MeasurementType = typename TSample::MeasurementType;
 
   /** Centroid type */
-  typedef Array<double> CentroidType;
+  using CentroidType = Array<double>;
 
   /** Instance identifier type (index value type for the measurement
    * vector in a sample */
-  typedef typename TSample::InstanceIdentifier InstanceIdentifier;
+  using InstanceIdentifier = typename TSample::InstanceIdentifier;
 
   /** Returns true if the node is a terminal node, that is a node that
    * doesn't have any child. */
@@ -137,10 +137,10 @@ template<typename TSample>
 
 struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode:public KdTreeNode<TSample>
   {
-  typedef KdTreeNode<TSample>                     Superclass;
-  typedef typename Superclass::MeasurementType    MeasurementType;
-  typedef typename Superclass::CentroidType       CentroidType;
-  typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
+  using Superclass = KdTreeNode<TSample>;
+  using MeasurementType = typename Superclass::MeasurementType;
+  using CentroidType = typename Superclass::CentroidType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
 
   KdTreeNonterminalNode( unsigned int, MeasurementType, Superclass *,
     Superclass * );
@@ -244,11 +244,11 @@ private:
 template<typename TSample>
 struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode:public KdTreeNode<TSample>
   {
-  typedef KdTreeNode<TSample>                         Superclass;
-  typedef typename Superclass::MeasurementType        MeasurementType;
-  typedef typename Superclass::CentroidType           CentroidType;
-  typedef typename Superclass::InstanceIdentifier     InstanceIdentifier;
-  typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using Superclass = KdTreeNode<TSample>;
+  using MeasurementType = typename Superclass::MeasurementType;
+  using CentroidType = typename Superclass::CentroidType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
+  using MeasurementVectorSizeType = typename TSample::MeasurementVectorSizeType;
 
   KdTreeWeightedCentroidNonterminalNode( unsigned int, MeasurementType,
     Superclass *, Superclass *, CentroidType &, unsigned int );
@@ -361,10 +361,10 @@ private:
 template<typename TSample>
 struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode:public KdTreeNode<TSample>
   {
-  typedef KdTreeNode<TSample>                     Superclass;
-  typedef typename Superclass::MeasurementType    MeasurementType;
-  typedef typename Superclass::CentroidType       CentroidType;
-  typedef typename Superclass::InstanceIdentifier InstanceIdentifier;
+  using Superclass = KdTreeNode<TSample>;
+  using MeasurementType = typename Superclass::MeasurementType;
+  using CentroidType = typename Superclass::CentroidType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
 
   KdTreeTerminalNode() {}
 
@@ -483,11 +483,11 @@ template<typename TSample>
 class ITK_TEMPLATE_EXPORT KdTree:public Object
 {
 public:
-  /** Standard class typedefs */
-  typedef KdTree                     Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = KdTree;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(KdTree, Object);
@@ -495,31 +495,31 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** typedef alias for the source data container */
-  typedef TSample                                 SampleType;
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
-  typedef typename TSample::MeasurementType       MeasurementType;
-  typedef typename TSample::InstanceIdentifier    InstanceIdentifier;
-  typedef typename TSample::AbsoluteFrequencyType AbsoluteFrequencyType;
+  /** type alias alias for the source data container */
+  using SampleType = TSample;
+  using MeasurementVectorType = typename TSample::MeasurementVectorType;
+  using MeasurementType = typename TSample::MeasurementType;
+  using InstanceIdentifier = typename TSample::InstanceIdentifier;
+  using AbsoluteFrequencyType = typename TSample::AbsoluteFrequencyType;
 
-  typedef unsigned int MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = unsigned int;
 
   /** Get Macro to get the length of a measurement vector in the KdTree.
    * The length is obtained from the input sample. */
   itkGetConstMacro( MeasurementVectorSize, MeasurementVectorSizeType );
 
   /** DistanceMetric type for the distance calculation and comparison */
-  typedef EuclideanDistanceMetric< MeasurementVectorType > DistanceMetricType;
+  using DistanceMetricType = EuclideanDistanceMetric< MeasurementVectorType >;
 
   /** Node type of the KdTree */
-  typedef KdTreeNode<TSample> KdTreeNodeType;
+  using KdTreeNodeType = KdTreeNode<TSample>;
 
   /** Neighbor type. The first element of the std::pair is the instance
    * identifier and the second one is the distance between the measurement
    * vector identified by the first element and the query point. */
-  typedef std::pair< InstanceIdentifier, double > NeighborType;
+  using NeighborType = std::pair< InstanceIdentifier, double >;
 
-  typedef std::vector< InstanceIdentifier > InstanceIdentifierVectorType;
+  using InstanceIdentifierVectorType = std::vector< InstanceIdentifier >;
 
   /** \class NearestNeighbors
    * \brief data structure for storing k-nearest neighbor search result
@@ -713,8 +713,8 @@ public:
   /** Prints out the tree information */
   void PlotTree( KdTreeNodeType *node, std::ostream & os = std::cout ) const;
 
-  typedef typename TSample::Iterator      Iterator;
-  typedef typename TSample::ConstIterator ConstIterator;
+  using Iterator = typename TSample::Iterator;
+  using ConstIterator = typename TSample::ConstIterator;
 
 protected:
   /** Constructor */

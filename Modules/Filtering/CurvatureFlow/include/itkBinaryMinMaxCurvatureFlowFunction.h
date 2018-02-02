@@ -43,11 +43,11 @@ class ITK_TEMPLATE_EXPORT BinaryMinMaxCurvatureFlowFunction:
   public MinMaxCurvatureFlowFunction< TImage >
 {
 public:
-  /**  Standard class typedefs. */
-  typedef BinaryMinMaxCurvatureFlowFunction     Self;
-  typedef MinMaxCurvatureFlowFunction< TImage > Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  /**  Standard class type aliases. */
+  using Self = BinaryMinMaxCurvatureFlowFunction;
+  using Superclass = MinMaxCurvatureFlowFunction< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,11 +57,11 @@ public:
                MinMaxCurvatureFlowFunction);
 
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
-  typedef typename Superclass::ImageType        ImageType;
+  using PixelType = typename Superclass::PixelType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using ImageType = typename Superclass::ImageType;
 
   /** Extract superclass dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);

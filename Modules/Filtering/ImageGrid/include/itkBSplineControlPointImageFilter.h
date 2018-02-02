@@ -61,10 +61,10 @@ class ITK_TEMPLATE_EXPORT BSplineControlPointImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  typedef BSplineControlPointImageFilter                Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  using Self = BSplineControlPointImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,47 +76,47 @@ public:
   itkStaticConstMacro( ImageDimension, unsigned int,
                        TInputImage::ImageDimension );
 
-  typedef TInputImage  ControlPointLatticeType;
-  typedef TOutputImage OutputImageType;
+  using ControlPointLatticeType = TInputImage;
+  using OutputImageType = TOutputImage;
 
-  /** Image typedef support. */
-  typedef typename OutputImageType::PixelType  PixelType;
-  typedef typename OutputImageType::RegionType RegionType;
-  typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename OutputImageType::PointType  PointType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  /** Image type alias support */
+  using PixelType = typename OutputImageType::PixelType;
+  using RegionType = typename OutputImageType::RegionType;
+  using IndexType = typename OutputImageType::IndexType;
+  using PointType = typename OutputImageType::PointType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
-  typedef typename OutputImageType::SpacingType   SpacingType;
-  typedef typename OutputImageType::PointType     OriginType;
-  typedef typename OutputImageType::SizeType      SizeType;
-  typedef typename OutputImageType::DirectionType DirectionType;
+  using SpacingType = typename OutputImageType::SpacingType;
+  using OriginType = typename OutputImageType::PointType;
+  using SizeType = typename OutputImageType::SizeType;
+  using DirectionType = typename OutputImageType::DirectionType;
 
-  /** Other typedef */
-  typedef float RealType;
-  typedef Image<RealType,
-    itkGetStaticConstMacro( ImageDimension )>       RealImageType;
-  typedef typename RealImageType::Pointer           RealImagePointer;
+  /** Other type alias */
+  using RealType = float;
+  using RealImageType = Image<RealType,
+    itkGetStaticConstMacro( ImageDimension )>;
+  using RealImagePointer = typename RealImageType::Pointer;
 
-  typedef FixedArray<unsigned,
-    itkGetStaticConstMacro( ImageDimension )>       ArrayType;
-  typedef FixedArray<RealType,
-    itkGetStaticConstMacro( ImageDimension )>       RealArrayType;
+  using ArrayType = FixedArray<unsigned,
+    itkGetStaticConstMacro( ImageDimension )>;
+  using RealArrayType = FixedArray<RealType,
+    itkGetStaticConstMacro( ImageDimension )>;
 
-  /** PointSet typedef support. */
-  typedef PointSet<PixelType,
-    itkGetStaticConstMacro( ImageDimension )>       PointSetType;
-  typedef typename PointSetType::PixelType          PointDataType;
-  typedef typename PointSetType::PointDataContainer PointDataContainerType;
-  typedef Image<PointDataType,
-    itkGetStaticConstMacro( ImageDimension )>       PointDataImageType;
-  typedef typename PointDataImageType::Pointer      PointDataImagePointer;
+  /** PointSet type alias support */
+  using PointSetType = PointSet<PixelType,
+    itkGetStaticConstMacro( ImageDimension )>;
+  using PointDataType = typename PointSetType::PixelType;
+  using PointDataContainerType = typename PointSetType::PointDataContainer;
+  using PointDataImageType = Image<PointDataType,
+    itkGetStaticConstMacro( ImageDimension )>;
+  using PointDataImagePointer = typename PointDataImageType::Pointer;
 
   /** Interpolation kernel type (default spline order = 3) */
-  typedef CoxDeBoorBSplineKernelFunction<3> KernelType;
-  typedef BSplineKernelFunction<0>          KernelOrder0Type;
-  typedef BSplineKernelFunction<1>          KernelOrder1Type;
-  typedef BSplineKernelFunction<2>          KernelOrder2Type;
-  typedef BSplineKernelFunction<3>          KernelOrder3Type;
+  using KernelType = CoxDeBoorBSplineKernelFunction<3>;
+  using KernelOrder0Type = BSplineKernelFunction<0>;
+  using KernelOrder1Type = BSplineKernelFunction<1>;
+  using KernelOrder2Type = BSplineKernelFunction<2>;
+  using KernelOrder3Type = BSplineKernelFunction<3>;
 
   /**
    * Set the spline order of the B-spline object for all parametric dimensions.

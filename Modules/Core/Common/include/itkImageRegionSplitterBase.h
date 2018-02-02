@@ -59,11 +59,11 @@ class ITKCommon_EXPORT ImageRegionSplitterBase
   :public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageRegionSplitterBase    Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageRegionSplitterBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageRegionSplitterBase, Object);

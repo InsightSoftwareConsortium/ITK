@@ -44,8 +44,8 @@ VTKVisualize2DSparseLevelSetLayers<
   itk::WhitakerSparseLevelSetImage< TOutput, VDimension > >
 ::AddLayers()
 {
-  typedef typename LevelSetType::LayerType          LayerType;
-  typedef typename LevelSetType::LayerConstIterator LayerConstIterator;
+  using LayerType = typename LevelSetType::LayerType;
+  using LayerConstIterator = typename LevelSetType::LayerConstIterator;
   LayerType layer = this->m_LevelSet->GetLayer( LevelSetType::MinusTwoLayer() );
 
   LayerConstIterator it = layer.begin();
@@ -156,8 +156,8 @@ VTKVisualize2DSparseLevelSetLayers<
   itk::ShiSparseLevelSetImage< VDimension > >
 ::AddLayers()
   {
-  typedef typename LevelSetType::LayerType          LayerType;
-  typedef typename LevelSetType::LayerConstIterator LayerConstIterator;
+  using LayerType = typename LevelSetType::LayerType;
+  using LayerConstIterator = typename LevelSetType::LayerConstIterator;
 
   LayerType layer = this->m_LevelSet->GetLayer( LevelSetType::MinusOneLayer() );
 
@@ -224,8 +224,8 @@ VTKVisualize2DSparseLevelSetLayers<
 {
 
 
-  typedef typename LevelSetType::LayerType          LayerType;
-  typedef typename LevelSetType::LayerConstIterator LayerConstIterator;
+  using LayerType = typename LevelSetType::LayerType;
+  using LayerConstIterator = typename LevelSetType::LayerConstIterator;
 
   LayerType layer = this->m_LevelSet->GetLayer( LevelSetType::ZeroLayer() );
 

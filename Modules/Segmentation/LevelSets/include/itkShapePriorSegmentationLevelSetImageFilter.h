@@ -82,46 +82,46 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Standard class typedefs */
-  typedef ShapePriorSegmentationLevelSetImageFilter Self;
-  typedef SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = ShapePriorSegmentationLevelSetImageFilter;
+  using Superclass =
+      SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapePriorSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
 
-  /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType        ValueType;
-  typedef typename Superclass::OutputImageType  OutputImageType;
-  typedef typename Superclass::FeatureImageType FeatureImageType;
+  /** Inherited type alias from the superclass. */
+  using ValueType = typename Superclass::ValueType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using FeatureImageType = typename Superclass::FeatureImageType;
 
   /** Type of the output pixel. */
-  typedef TOutputPixelType OutputPixelType;
+  using OutputPixelType = TOutputPixelType;
 
   /** The level set function with shape prior type */
-  typedef ShapePriorSegmentationLevelSetFunction< OutputImageType,
-                                                  FeatureImageType > ShapePriorSegmentationFunctionType;
+  using ShapePriorSegmentationFunctionType = ShapePriorSegmentationLevelSetFunction< OutputImageType,
+                                                  FeatureImageType >;
 
   /** The shape signed distance function type. */
-  typedef typename ShapePriorSegmentationFunctionType::ShapeFunctionType ShapeFunctionType;
-  typedef typename ShapeFunctionType::Pointer                            ShapeFunctionPointer;
+  using ShapeFunctionType = typename ShapePriorSegmentationFunctionType::ShapeFunctionType;
+  using ShapeFunctionPointer = typename ShapeFunctionType::Pointer;
 
   /** The type of the MAP estimate cost function. */
-  typedef  ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixelType > CostFunctionType;
-  typedef  typename CostFunctionType::Pointer                               CostFunctionPointer;
-  typedef  typename CostFunctionType::ParametersType                        ParametersType;
+  using CostFunctionType = ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixelType >;
+  using CostFunctionPointer = typename CostFunctionType::Pointer;
+  using ParametersType = typename CostFunctionType::ParametersType;
 
   /** Type of node used to represent the active region around the zero set. */
-  typedef  typename CostFunctionType::NodeType          NodeType;
-  typedef  typename CostFunctionType::NodeContainerType NodeContainerType;
-  typedef  typename NodeContainerType::Pointer          NodeContainerPointer;
+  using NodeType = typename CostFunctionType::NodeType;
+  using NodeContainerType = typename CostFunctionType::NodeContainerType;
+  using NodeContainerPointer = typename NodeContainerType::Pointer;
 
   /** The type of optimizer used to compute the MAP estimate of the shape and
     pose parameters. */
-  typedef   SingleValuedNonLinearOptimizer  OptimizerType;
-  typedef   typename OptimizerType::Pointer OptimizerPointer;
+  using OptimizerType = SingleValuedNonLinearOptimizer;
+  using OptimizerPointer = typename OptimizerType::Pointer;
 
   /** Set/Get the shape signed distance function. */
   virtual void SetShapeFunction(ShapeFunctionType *s);

@@ -41,16 +41,16 @@ class ITKFEM_EXPORT LinearSystemWrapperVNL : public LinearSystemWrapper
 public:
 
   /* values stored in matrices & vectors */
-  typedef LinearSystemWrapper::Float Float;
+  using Float = LinearSystemWrapper::Float;
 
   /* superclass */
-  typedef LinearSystemWrapper Superclass;
+  using Superclass = LinearSystemWrapper;
 
-  /* matrix typedef */
-  typedef vnl_sparse_matrix<Float> MatrixRepresentation;
+  /* matrix type alias */
+  using MatrixRepresentation = vnl_sparse_matrix<Float>;
 
-  /* matrix holder typedef */
-  typedef std::vector<MatrixRepresentation *> MatrixHolder;
+  /* matrix holder type alias */
+  using MatrixHolder = std::vector<MatrixRepresentation *>;
 
   /* constructor & destructor */
   LinearSystemWrapperVNL() : LinearSystemWrapper(), m_Matrices(nullptr), m_Vectors(nullptr), m_Solutions(nullptr)

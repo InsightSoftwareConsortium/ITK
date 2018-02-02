@@ -65,31 +65,31 @@ public:
   itkStaticConstMacro(Dimension, unsigned int,
                       TInputPointSet::PointDimension);
 
-  /** Standard class typedefs. */
-  typedef PointSetFunction                              Self;
-  typedef FunctionBase
-    <typename TInputPointSet::PointType, TOutput>       Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PointSetFunction;
+  using Superclass = FunctionBase
+    <typename TInputPointSet::PointType, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( PointSetFunction, FunctionBase );
 
-  /** InputPointSetType typedef support. */
-  typedef TInputPointSet InputPointSetType;
+  /** InputPointSetType type alias support */
+  using InputPointSetType = TInputPointSet;
 
-  /** InputPixel typedef support */
-  typedef typename InputPointSetType::PointType         InputPointType;
-  typedef typename InputPointSetType::PixelType         InputPixelType;
+  /** InputPixel type alias support */
+  using InputPointType = typename InputPointSetType::PointType;
+  using InputPixelType = typename InputPointSetType::PixelType;
 
-  /** InputPointSetPointer typedef support */
-  typedef typename InputPointSetType::ConstPointer InputPointSetConstPointer;
+  /** InputPointSetPointer type alias support */
+  using InputPointSetConstPointer = typename InputPointSetType::ConstPointer;
 
-  /** OutputType typedef support. */
-  typedef TOutput                                       OutputType;
+  /** OutputType type alias support */
+  using OutputType = TOutput;
 
-  /** CoordRepType typedef support. */
-  typedef TCoordRep                                     CoordRepType;
+  /** CoordRepType type alias support */
+  using CoordRepType = TCoordRep;
 
   /** Set the input point set.
    * \warning this method caches BufferedRegion information.
@@ -123,7 +123,7 @@ private:
 // Define instantiation macro for this template.
 #define ITK_TEMPLATE_PointSetFunction(_, EXPORT, x, y) namespace itk { \
   _(3(class EXPORT PointSetFunction< ITK_TEMPLATE_3 x >)) \
-  namespace Templates { typedef PointSetFunction< ITK_TEMPLATE_3 x > PointSetFunction##y; } \
+  namespace Templates { using PointSetFunction##y = PointSetFunction< ITK_TEMPLATE_3 x >; } \
   }
 
 

@@ -37,26 +37,26 @@ int itkTopHatImageFilterTest(int argc, char* argv [] )
   const unsigned int Dimension = 2;
 
   // Define the pixel type
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
   // Declare the types of the images
-  typedef itk::Image<PixelType, Dimension>  ImageType;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   // Declare the reader and writer
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
 
   // Declare the type for the structuring element
-  typedef itk::BinaryBallStructuringElement<
-                            PixelType, Dimension> KernelType;
+  using KernelType = itk::BinaryBallStructuringElement<
+                            PixelType, Dimension>;
 
   // Declare the type for the morphology Filter
-  typedef itk::BlackTopHatImageFilter<
-                           ImageType, ImageType, KernelType> BlackFilterType;
+  using BlackFilterType = itk::BlackTopHatImageFilter<
+                           ImageType, ImageType, KernelType>;
 
-  typedef itk::WhiteTopHatImageFilter<
-                           ImageType, ImageType, KernelType> WhiteFilterType;
+  using WhiteFilterType = itk::WhiteTopHatImageFilter<
+                           ImageType, ImageType, KernelType>;
 
   // Create the reader and writer
   ReaderType::Pointer reader = ReaderType::New();

@@ -77,14 +77,14 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
-  typedef itk::RGBPixel< unsigned char >        RGBPixelType;
-  typedef itk::Image< RGBPixelType, Dimension > ImageType;
+  using RGBPixelType = itk::RGBPixel< unsigned char >;
+  using ImageType = itk::Image< RGBPixelType, Dimension >;
 
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ImageType::ConstPointer inputImage;
   ReaderType::Pointer reader = ReaderType::New();

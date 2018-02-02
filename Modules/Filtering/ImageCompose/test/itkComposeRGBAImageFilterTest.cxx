@@ -52,15 +52,15 @@ int itkComposeRGBAImageFilterTest(int argc, char* argv[])
     char* Input4Filename  = argv[5];
 
     // Typedefs
-    typedef unsigned char                                 ScalarPixelType;
+    using ScalarPixelType = unsigned char;
     const unsigned int                                    Dimension = 2;
-    typedef itk::RGBAPixel< ScalarPixelType >             RGBAPixelType;
-    typedef itk::Image< ScalarPixelType, Dimension >      ScalarImageType;
-    typedef itk::Image< RGBAPixelType, Dimension >        RGBAImageType;
-    typedef itk::ImageFileReader< ScalarImageType >       ReaderType;
-    typedef itk::ImageFileWriter< RGBAImageType >         WriterType;
-    typedef itk::ComposeImageFilter<
-      ScalarImageType, RGBAImageType >                    ComposeFilterType;
+    using RGBAPixelType = itk::RGBAPixel< ScalarPixelType >;
+    using ScalarImageType = itk::Image< ScalarPixelType, Dimension >;
+    using RGBAImageType = itk::Image< RGBAPixelType, Dimension >;
+    using ReaderType = itk::ImageFileReader< ScalarImageType >;
+    using WriterType = itk::ImageFileWriter< RGBAImageType >;
+    using ComposeFilterType = itk::ComposeImageFilter<
+      ScalarImageType, RGBAImageType >;
 
     // Read input1
     ReaderType::Pointer reader1 = ReaderType::New();

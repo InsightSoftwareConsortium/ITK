@@ -60,11 +60,11 @@ class ITK_TEMPLATE_EXPORT VoronoiSegmentationImageFilterBase:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VoronoiSegmentationImageFilterBase              Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VoronoiSegmentationImageFilterBase;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,39 +76,39 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Convenient typedefs. */
-  typedef TInputImage                        InputImageType;
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
-  typedef typename TInputImage::IndexType    IndexType;
-  typedef typename TInputImage::SizeType     SizeType;
-  typedef typename TInputImage::RegionType   RegionType;
-  typedef typename TInputImage::PixelType    PixelType;
+  /** Convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
+  using IndexType = typename TInputImage::IndexType;
+  using SizeType = typename TInputImage::SizeType;
+  using RegionType = typename TInputImage::RegionType;
+  using PixelType = typename TInputImage::PixelType;
 
-  typedef TOutputImage                     OutputImageType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  typedef VoronoiDiagram2D< double >                   VoronoiDiagram;
-  typedef VoronoiDiagram2DGenerator< double >          VoronoiDiagramGenerator;
-  typedef typename VoronoiDiagram::PointType           PointType;
-  typedef typename VoronoiDiagram::CellType            CellType;
-  typedef typename VoronoiDiagram::CellAutoPointer     CellAutoPointer;
-  typedef typename VoronoiDiagram::Pointer             VoronoiPointer;
-  typedef typename CellType::PointIdIterator           PointIdIterator;
-  typedef typename VoronoiDiagram::SeedsType           SeedsType;
-  typedef typename VoronoiDiagram::SeedsIterator       SeedsIterator;
-  typedef typename VoronoiDiagram::NeighborIdIterator  NeighborIdIterator;
-  typedef typename VoronoiDiagram::VoronoiEdgeIterator EdgeIterator;
-  typedef typename VoronoiDiagram::VoronoiEdge         EdgeInfo;
-  typedef std::vector< PointType >                     PointTypeVector;
-  typedef std::deque< PointType >                      PointTypeDeque;
-  typedef TBinaryPriorImage                            BinaryObjectImage;
-  typedef typename BinaryObjectImage::Pointer          BinaryObjectImagePointer;
-  typedef std::vector< IndexType >                     IndexList;
+  using VoronoiDiagram = VoronoiDiagram2D< double >;
+  using VoronoiDiagramGenerator = VoronoiDiagram2DGenerator< double >;
+  using PointType = typename VoronoiDiagram::PointType;
+  using CellType = typename VoronoiDiagram::CellType;
+  using CellAutoPointer = typename VoronoiDiagram::CellAutoPointer;
+  using VoronoiPointer = typename VoronoiDiagram::Pointer;
+  using PointIdIterator = typename CellType::PointIdIterator;
+  using SeedsType = typename VoronoiDiagram::SeedsType;
+  using SeedsIterator = typename VoronoiDiagram::SeedsIterator;
+  using NeighborIdIterator = typename VoronoiDiagram::NeighborIdIterator;
+  using EdgeIterator = typename VoronoiDiagram::VoronoiEdgeIterator;
+  using EdgeInfo = typename VoronoiDiagram::VoronoiEdge;
+  using PointTypeVector = std::vector< PointType >;
+  using PointTypeDeque = std::deque< PointType >;
+  using BinaryObjectImage = TBinaryPriorImage;
+  using BinaryObjectImagePointer = typename BinaryObjectImage::Pointer;
+  using IndexList = std::vector< IndexType >;
 
   /** To output the drawing of Voronoi Diagram (VD) . */
-  typedef Image< unsigned char, 2 > VDImage;
-  typedef typename VDImage::Pointer VDImagePointer;
+  using VDImage = Image< unsigned char, 2 >;
+  using VDImagePointer = typename VDImage::Pointer;
 
   /** Set/Get the initial number of seeds for VD. */
   itkSetMacro(NumberOfSeeds, int);

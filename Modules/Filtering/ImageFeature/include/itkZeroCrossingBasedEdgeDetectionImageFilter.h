@@ -71,27 +71,27 @@ class ITK_TEMPLATE_EXPORT ZeroCrossingBasedEdgeDetectionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard "Self" & Superclass typedef.   */
-  typedef ZeroCrossingBasedEdgeDetectionImageFilter       Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  /** Standard "Self" & Superclass type alias.   */
+  using Self = ZeroCrossingBasedEdgeDetectionImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
 
-  /** Image typedef support   */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  /** Image type alias support   */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
-  /** SmartPointer typedef support  */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** SmartPointer type alias support  */
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Define pixel type  */
-  typedef typename TInputImage::PixelType  InputImagePixelType;
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  using InputImagePixelType = typename TInputImage::PixelType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
 
   /** Method for creation through the object factory.   */
   itkNewMacro(Self);
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(ZeroCrossingBasedEdgeDetectionImageFilter, ImageToImageFilter);
@@ -103,7 +103,7 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Typedef of double containers */
-  typedef FixedArray< double, itkGetStaticConstMacro(ImageDimension) > ArrayType;
+  using ArrayType = FixedArray< double, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Standard get/set macros for Gaussian filter parameters.  */
   itkSetMacro(Variance, ArrayType);

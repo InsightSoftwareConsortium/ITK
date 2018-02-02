@@ -79,7 +79,7 @@ MinMaxCurvatureFlowFunction< TImage >
     counter[j] = 0;
     }
 
-  typedef typename StencilOperatorType::Iterator Iterator;
+  using Iterator = typename StencilOperatorType::Iterator;
   Iterator opIter;
   Iterator opEnd  = m_StencilOperator.End();
 
@@ -172,7 +172,7 @@ MinMaxCurvatureFlowFunction< TImage >
     counter[j] = 0;
     }
 
-  typedef typename NeighborhoodType::ConstIterator Iterator;
+  using Iterator = typename NeighborhoodType::ConstIterator;
   Iterator neighIter;
   Iterator neighEnd  = it.End();
 

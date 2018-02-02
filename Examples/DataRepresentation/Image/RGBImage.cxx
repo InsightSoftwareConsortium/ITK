@@ -55,7 +55,7 @@ int main( int , char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel< unsigned char >    PixelType;
+  using PixelType = itk::RGBPixel< unsigned char >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -65,7 +65,7 @@ int main( int , char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< PixelType, 3 >   ImageType;
+  using ImageType = itk::Image< PixelType, 3 >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -79,7 +79,7 @@ int main( int , char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   // Software Guide : EndCodeSnippet
 
   ReaderType::Pointer reader = ReaderType::New();

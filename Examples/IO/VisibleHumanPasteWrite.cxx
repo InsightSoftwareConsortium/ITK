@@ -49,12 +49,12 @@ int main(int argc, char *argv[])
   std::string inputImageFile = argv[1];
   std::string outputImageFile = argv[2];
 
-  typedef itk::RGBPixel< unsigned char >  RGBPixelType;
-  typedef itk::Image< RGBPixelType, 2 >   RGB2DImageType;
+  using RGBPixelType = itk::RGBPixel< unsigned char >;
+  using RGB2DImageType = itk::Image< RGBPixelType, 2 >;
 
 //  we begin by creating a reader for the file just written that is
 //  capable of streaming
-  typedef itk::ImageFileReader< RGB2DImageType > ImageReaderType;
+  using ImageReaderType = itk::ImageFileReader< RGB2DImageType >;
   ImageReaderType::Pointer reader = ImageReaderType::New();
   reader->SetFileName( inputImageFile );
 
@@ -62,15 +62,15 @@ int main(int argc, char *argv[])
 // which works on vector images to produce a scalar output. Then a
 // color image is recreated by compositing the output as red, green,
 // and blue channels.
-  typedef itk::VectorGradientMagnitudeImageFilter< RGB2DImageType > GradientMagnitudeImageFilter;
+  using GradientMagnitudeImageFilter = itk::VectorGradientMagnitudeImageFilter< RGB2DImageType >;
   GradientMagnitudeImageFilter::Pointer grad = GradientMagnitudeImageFilter::New();
   grad->SetInput( reader->GetOutput() );
 
   grad->SetUseImageSpacingOn();
 
-  typedef  GradientMagnitudeImageFilter::OutputImageType GradientMagnitudeOutputImageType;
+  using GradientMagnitudeOutputImageType = GradientMagnitudeImageFilter::OutputImageType;
 
-  typedef itk::ComposeImageFilter< GradientMagnitudeOutputImageType, RGB2DImageType > ComposeRGBFilterType;
+  using ComposeRGBFilterType = itk::ComposeImageFilter< GradientMagnitudeOutputImageType, RGB2DImageType >;
   ComposeRGBFilterType::Pointer composeRGB = ComposeRGBFilterType::New();
   composeRGB->SetInput1( grad->GetOutput() );
   composeRGB->SetInput2( grad->GetOutput() );
@@ -99,11 +99,11 @@ int main(int argc, char *argv[])
 // enable pasting, a call to SetIORegion is made with a valid
 // region. Finally, the pipeline is updated, causing the streaming of
 // regions
-  typedef itk::RGBToVectorImageAdaptor< RGB2DImageType >  ToVectorImageAdaptorType;
+  using ToVectorImageAdaptorType = itk::RGBToVectorImageAdaptor< RGB2DImageType >;
   ToVectorImageAdaptorType::Pointer adaptor = ToVectorImageAdaptorType::New();
   adaptor->SetImage( composeRGB->GetOutput() );
 
-  typedef itk::ImageFileWriter< ToVectorImageAdaptorType > ImageWriterType;
+  using ImageWriterType = itk::ImageFileWriter< ToVectorImageAdaptorType >;
   ImageWriterType::Pointer writer = ImageWriterType::New();
   writer->SetFileName( outputImageFile );
   writer->SetNumberOfStreamDivisions( 10 );

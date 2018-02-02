@@ -63,11 +63,11 @@ class ITK_TEMPLATE_EXPORT GridForwardWarpImageFilter:
   public ImageToImageFilter< TDisplacementField, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GridForwardWarpImageFilter                             Self;
-  typedef ImageToImageFilter< TDisplacementField, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
-  typedef SmartPointer< const Self >                             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GridForwardWarpImageFilter;
+  using Superclass = ImageToImageFilter< TDisplacementField, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,15 +76,15 @@ public:
   itkTypeMacro(GridForwardWarpImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Inherit some types from the superclass. */
-  typedef typename Superclass::OutputImageType    OutputImageType;
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
-  typedef typename OutputImageType::IndexType     IndexType;
-  typedef typename OutputImageType::SizeType      SizeType;
-  typedef typename OutputImageType::PixelType     PixelType;
-  typedef typename OutputImageType::SpacingType   SpacingType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using IndexType = typename OutputImageType::IndexType;
+  using SizeType = typename OutputImageType::SizeType;
+  using PixelType = typename OutputImageType::PixelType;
+  using SpacingType = typename OutputImageType::SpacingType;
 
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -92,10 +92,10 @@ public:
   itkStaticConstMacro(DisplacementFieldDimension, unsigned int,
                       TDisplacementField::ImageDimension);
 
-  /** Deformation field typedef support. */
-  typedef TDisplacementField                           DisplacementFieldType;
-  typedef typename DisplacementFieldType::ConstPointer DisplacementFieldConstPointer;
-  typedef typename DisplacementFieldType::PixelType    DisplacementType;
+  /** Deformation field type alias support */
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldConstPointer = typename DisplacementFieldType::ConstPointer;
+  using DisplacementType = typename DisplacementFieldType::PixelType;
 
   /** Set the background value */
   itkSetMacro(BackgroundValue, PixelType);

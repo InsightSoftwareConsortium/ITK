@@ -60,7 +60,7 @@ namespace itk
  *
  * The following illustrates the typical usage of this class:
  * \verbatim
- * typedef BSplineTransform<double,2,3> TransformType;
+ * using TransformType = BSplineTransform<double,2,3>;
  * TransformType::Pointer transform = TransformType::New();
  *
  * transform->SetTransformDomainOrigin( origin );
@@ -112,11 +112,11 @@ class ITK_TEMPLATE_EXPORT BSplineTransform :
   public BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineTransform                                       Self;
-  typedef BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder> Superclass;
-  typedef SmartPointer<Self>                                     Pointer;
-  typedef SmartPointer<const Self>                               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineTransform;
+  using Superclass = BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through the object factory. */
   itkNewMacro( Self );
@@ -131,35 +131,35 @@ public:
   itkStaticConstMacro( SplineOrder, unsigned int, VSplineOrder );
 
   /** Standard scalar type for this class. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Standard parameters container. */
-  typedef typename Superclass::ParametersType           ParametersType;
-  typedef typename Superclass::ParametersValueType      ParametersValueType;
-  typedef typename Superclass::FixedParametersType      FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
 
   /** Standard Jacobian container. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** The number of parameters defininig this transform. */
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType  InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType OutputPointType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
 
 
   std::string GetTransformTypeAsString() const override;
@@ -189,9 +189,9 @@ public:
   void SetFixedParameters( const FixedParametersType & parameters ) override;
 
   /** Parameters as SpaceDimension number of images. */
-  typedef typename Superclass::ImageType             ImageType;
-  typedef typename Superclass::ImagePointer          ImagePointer;
-  typedef typename Superclass::CoefficientImageArray CoefficientImageArray;
+  using ImageType = typename Superclass::ImageType;
+  using ImagePointer = typename Superclass::ImagePointer;
+  using CoefficientImageArray = typename Superclass::CoefficientImageArray;
 
   /** Set the array of coefficient images.
    *
@@ -207,22 +207,22 @@ public:
   void SetCoefficientImages( const CoefficientImageArray & images ) override;
 
   /** Typedefs for specifying the extent of the grid. */
-  typedef typename Superclass::RegionType    RegionType;
+  using RegionType = typename Superclass::RegionType;
 
-  typedef typename Superclass::IndexType     IndexType;
-  typedef typename Superclass::SizeType      SizeType;
-  typedef typename Superclass::SpacingType   SpacingType;
-  typedef typename Superclass::DirectionType DirectionType;
-  typedef typename Superclass::OriginType    OriginType;
+  using IndexType = typename Superclass::IndexType;
+  using SizeType = typename Superclass::SizeType;
+  using SpacingType = typename Superclass::SpacingType;
+  using DirectionType = typename Superclass::DirectionType;
+  using OriginType = typename Superclass::OriginType;
 
   /** Interpolation weights function type. */
-  typedef typename Superclass::WeightsFunctionType WeightsFunctionType;
+  using WeightsFunctionType = typename Superclass::WeightsFunctionType;
 
-  typedef typename Superclass::WeightsType         WeightsType;
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  using WeightsType = typename Superclass::WeightsType;
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   /** Parameter index array type. */
-  typedef typename Superclass::ParameterIndexArrayType ParameterIndexArrayType;
+  using ParameterIndexArrayType = typename Superclass::ParameterIndexArrayType;
 
   /**
    * Transform points by a BSpline deformable transformation.
@@ -245,10 +245,10 @@ public:
   /** Return the number of parameters per dimension. */
   NumberOfParametersType GetNumberOfParametersPerDimension() const override;
 
-  typedef typename Superclass::SpacingType   PhysicalDimensionsType;
-  typedef typename Superclass::PixelType     PixelType;
+  using PhysicalDimensionsType = typename Superclass::SpacingType;
+  using PixelType = typename Superclass::PixelType;
 
-  typedef typename Superclass::MeshSizeType MeshSizeType;
+  using MeshSizeType = typename Superclass::MeshSizeType;
 
   /** Function to specify the transform domain origin. */
   virtual void SetTransformDomainOrigin( const OriginType & );

@@ -151,14 +151,14 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  typedef typename InputImageType::ConstPointer ImageConstPointer;
-  typedef typename OutputImageType::Pointer     OutputPointer;
+  using ImageConstPointer = typename InputImageType::ConstPointer;
+  using OutputPointer = typename OutputImageType::Pointer;
 
   ImageConstPointer inputPtr = this->GetInput();
   OutputPointer     outputPtr = this->GetOutput();
 
-  typedef ImageRegionConstIterator< InputImageType > ConstIteratorType;
-  typedef ImageRegionIterator< OutputImageType >     IteratorType;
+  using ConstIteratorType = ImageRegionConstIterator< InputImageType >;
+  using IteratorType = ImageRegionIterator< OutputImageType >;
   ConstIteratorType inIt (inputPtr,
                           outputRegionForThread);
   IteratorType outIt (outputPtr,
@@ -207,8 +207,8 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateDataFull( const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType itkNotUsed(threadId) )
 {
-  typedef typename InputImageType::ConstPointer ImageConstPointer;
-  typedef typename OutputImageType::Pointer     OutputPointer;
+  using ImageConstPointer = typename InputImageType::ConstPointer;
+  using OutputPointer = typename OutputImageType::Pointer;
 
   ImageConstPointer inputPtr = this->GetInput();
   OutputPointer     outputPtr = this->GetOutput();

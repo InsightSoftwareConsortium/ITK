@@ -39,24 +39,24 @@ class ITK_TEMPLATE_EXPORT SpatialObjectWriter:public Object
 {
 public:
 
-  /** SmartPointer typedef support */
-  typedef SpatialObjectWriter  Self;
-  typedef SmartPointer< Self > Pointer;
+  /** SmartPointer type alias support */
+  using Self = SpatialObjectWriter;
+  using Pointer = SmartPointer< Self >;
 
-  typedef SpatialObject< NDimensions >        SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
-  typedef SceneSpatialObject< NDimensions >   SceneType;
+  using SpatialObjectType = SpatialObject< NDimensions >;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using SceneType = SceneSpatialObject< NDimensions >;
 
   /** base type for MetaConverters -- bidirections conversion btw
    *  SpatialObject & MetaObject
    */
-  typedef MetaConverterBase< NDimensions >  MetaConverterBaseType;
+  using MetaConverterBaseType = MetaConverterBase< NDimensions >;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  typedef Object Superclass;
+  using Superclass = Object;
   itkTypeMacro(SpatialObjectWriter, Object);
 
   /** Load a tube file. */

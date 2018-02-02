@@ -38,28 +38,28 @@ class ITK_TEMPLATE_EXPORT SpatialObjectReader:public Object
 {
 public:
 
-  /** SmartPointer typedef support */
-  typedef SpatialObjectReader                 Self;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SpatialObject< NDimensions >        SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
+  /** SmartPointer type alias support */
+  using Self = SpatialObjectReader;
+  using Pointer = SmartPointer< Self >;
+  using SpatialObjectType = SpatialObject< NDimensions >;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
 
-  typedef GroupSpatialObject< NDimensions > GroupType;
-  typedef typename GroupType::Pointer       GroupPointer;
+  using GroupType = GroupSpatialObject< NDimensions >;
+  using GroupPointer = typename GroupType::Pointer;
 
-  typedef SceneSpatialObject< NDimensions > SceneType;
-  typedef typename SceneType::Pointer       ScenePointer;
+  using SceneType = SceneSpatialObject< NDimensions >;
+  using ScenePointer = typename SceneType::Pointer;
 
   /** base type for MetaConverters -- bidirections conversion btw
    *  SpatialObject & MetaObject
    */
-  typedef MetaConverterBase< NDimensions >  MetaConverterBaseType;
+  using MetaConverterBaseType = MetaConverterBase< NDimensions >;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  typedef Object Superclass;
+  using Superclass = Object;
   itkTypeMacro(SpatialObjectReader, Object);
 
   /** Load a scene file. */

@@ -116,7 +116,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
       if ( mapIt == m_LabelStatistics.end() )
         {
         // create a new entry
-        typedef typename MapType::value_type MapValueType;
+        using MapValueType = typename MapType::value_type;
         if ( m_UseHistograms )
           {
           mapIt = m_LabelStatistics.insert( MapValueType( ( *threadIt ).first,
@@ -259,7 +259,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
       if ( mapIt == m_LabelStatisticsPerThread[threadId].end() )
         {
         // create a new statistics object
-        typedef typename MapType::value_type MapValueType;
+        using MapValueType = typename MapType::value_type;
         if ( m_UseHistograms )
           {
           mapIt = m_LabelStatisticsPerThread[threadId].insert( MapValueType( label,

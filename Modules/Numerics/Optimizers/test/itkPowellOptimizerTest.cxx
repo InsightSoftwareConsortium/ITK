@@ -40,18 +40,18 @@ class PowellBoundedCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef PowellBoundedCostFunction     Self;
-  typedef itk::SingleValuedCostFunction Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = PowellBoundedCostFunction;
+  using Superclass = itk::SingleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( PowellBoundedCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType      ParametersType;
-  typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
   PowellBoundedCostFunction()
   {
@@ -97,7 +97,7 @@ int itkPowellOptimizerTest(int, char* [] )
   std::cout << "Powell Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::PowellOptimizer  OptimizerType;
+  using OptimizerType = itk::PowellOptimizer;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -110,7 +110,7 @@ int itkPowellOptimizerTest(int, char* [] )
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
 
-  typedef PowellBoundedCostFunction::ParametersType    ParametersType;
+  using ParametersType = PowellBoundedCostFunction::ParametersType;
 
   const unsigned int spaceDimension =
                       costFunction->GetNumberOfParameters();

@@ -69,8 +69,8 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<short,3>                  ImageType;
-  typedef itk::ImageSeriesReader< ImageType >  ReaderType;
+  using ImageType = itk::Image<short,3>;
+  using ReaderType = itk::ImageSeriesReader< ImageType >;
 
   itk::DICOMImageIO2::Pointer dicomIO = itk::DICOMImageIO2::New();
 
@@ -81,7 +81,7 @@ int main( int argc, char* argv[] )
 
   try
     {
-    typedef std::vector<std::string> seriesIdContainer;
+    using seriesIdContainer = std::vector<std::string>;
     const seriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
 
     seriesIdContainer::const_iterator seriesItr = seriesUID.begin();
@@ -101,7 +101,7 @@ int main( int argc, char* argv[] )
     std::cout << std::endl << std::endl;
     std::cout << "Now reading series: " << std::endl << std::endl;
 
-    typedef std::vector<std::string> fileNamesContainer;
+    using fileNamesContainer = std::vector<std::string>;
     fileNamesContainer fileNames;
 
     if( argc < 4 ) // If no optional third argument
@@ -130,7 +130,7 @@ int main( int argc, char* argv[] )
       return EXIT_FAILURE;
       }
 
-    typedef itk::ImageFileWriter< ImageType > WriterType;
+    using WriterType = itk::ImageFileWriter< ImageType >;
     WriterType::Pointer writer = WriterType::New();
 
     std::cout  << "Writing the image as " << std::endl << std::endl;

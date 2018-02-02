@@ -33,11 +33,11 @@ template<typename TPixel, unsigned int VImageDimension=2>
 class TestImage : public itk::Image< TPixel, VImageDimension >
 {
 public:
-  /** Standard class typedefs.   */
-  typedef TestImage                             Self;
-  typedef itk::Image< TPixel, VImageDimension > Superclass;
-  typedef itk::SmartPointer<Self>               Pointer;
-  typedef itk::SmartPointer<const Self>         ConstPointer;
+  /** Standard class type aliases.   */
+  using Self = TestImage;
+  using Superclass = itk::Image< TPixel, VImageDimension >;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(TestImage);
@@ -60,11 +60,11 @@ template<typename TPixel, unsigned int VImageDimension=3>
 class TestImage2 : public itk::Image< TPixel, VImageDimension >
 {
 public:
-  /** Standard class typedefs.   */
-  typedef TestImage2                            Self;
-  typedef itk::Image< TPixel, VImageDimension > Superclass;
-  typedef itk::SmartPointer<Self>               Pointer;
-  typedef itk::SmartPointer<const Self>         ConstPointer;
+  /** Standard class type aliases.   */
+  using Self = TestImage2;
+  using Superclass = itk::Image< TPixel, VImageDimension >;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(TestImage2);
@@ -86,10 +86,10 @@ private:
 class TestFactory : public itk::ObjectFactoryBase
 {
 public:
-  typedef TestFactory                   Self;
-  typedef itk::ObjectFactoryBase        Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = TestFactory;
+  using Superclass = itk::ObjectFactoryBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
   const char* GetITKSourceVersion() const override { return ITK_SOURCE_VERSION; }
@@ -126,7 +126,7 @@ private:
     }
 };
 
-typedef itk::Image<short,2>::Pointer myPointer;
+using myPointer = itk::Image<short,2>::Pointer;
 bool TestNewImage(myPointer v, const char* expectedClassName)
 {
   std::cout << "v->GetNameOfClass(): " << v->GetNameOfClass();

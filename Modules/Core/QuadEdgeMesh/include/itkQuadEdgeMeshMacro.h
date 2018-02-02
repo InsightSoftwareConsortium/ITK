@@ -49,11 +49,11 @@ namespace itk
                                    PointVariable,                          \
                                    PointIndex)                             \
     {                                                                      \
-    typedef typename MeshType::PointType       PointType;                  \
-    typedef typename MeshType::PointIdentifier PointIdentifier;            \
-    typedef typename MeshType::PointsContainer PointsContainer;            \
-    typedef typename MeshType::PointsContainerIterator                     \
-    PointsContainerIterator;                                               \
+    using PointType = typename MeshType::PointType;                        \
+    using PointIdentifier = typename MeshType::PointIdentifier;            \
+    using PointsContainer = typename MeshType::PointsContainer;            \
+    using PointsContainerIterator =                                        \
+            typename MeshType::PointsContainerIterator;                    \
                                                                            \
     PointsContainer *points = ( MeshInstance )->GetPoints();               \
     /* If no points container are present, do nothing */                   \
@@ -105,9 +105,8 @@ namespace itk
                                   MeshInstance,                                \
                                   cellIterator)                                \
     {                                                                          \
-    typedef typename MeshType::CellsContainer CellsContainer;                  \
-    typedef typename MeshType::CellsContainerIterator                          \
-    CellsContainerIterator;                                                    \
+    using CellsContainer = typename MeshType::CellsContainer;                  \
+    using CellsContainerIterator = typename MeshType::CellsContainerIterator;  \
     /* If no cells are present, do nothing */                                  \
     if ( !MeshInstance->GetCells() )                                           \
       {                                                                        \
@@ -153,7 +152,7 @@ namespace itk
                                         MeshInstance,               \
                                         EdgeVariable)               \
     {                                                               \
-    typedef typename MeshType::QEPrimal QEPrimal;                   \
+    using QEPrimal = typename MeshType::QEPrimal;                   \
                                                                     \
     itkQEMeshForAllCellsMacro(MeshType, MeshInstance, cellIterator) \
       {                                                             \

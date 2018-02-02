@@ -24,12 +24,12 @@
 
 int itkSpatialObjectDuplicatorTest(int, char* [])
 {
-  typedef itk::EllipseSpatialObject<3> EllipseType;
+  using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer ellipse = EllipseType::New();
   ellipse->SetRadius(3);
   ellipse->GetProperty()->SetColor(0,1,1);
 
-  typedef itk::SpatialObjectDuplicator<EllipseType> DuplicatorType;
+  using DuplicatorType = itk::SpatialObjectDuplicator<EllipseType>;
   DuplicatorType::Pointer duplicator = DuplicatorType::New();
 
 
@@ -43,11 +43,11 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   std::cout << ellipse_copy->GetProperty()->GetColor() << std::endl;
 
   // Test with a group
-  typedef itk::GroupSpatialObject<3> GroupType;
+  using GroupType = itk::GroupSpatialObject<3>;
   GroupType::Pointer group = GroupType::New();
   group->AddSpatialObject(ellipse);
 
-  typedef itk::SpatialObjectDuplicator<GroupType> DuplicatorGroupType;
+  using DuplicatorGroupType = itk::SpatialObjectDuplicator<GroupType>;
   DuplicatorGroupType::Pointer duplicatorGroup = DuplicatorGroupType::New();
   duplicatorGroup->SetInput(group);
   duplicatorGroup->Update();
@@ -62,8 +62,8 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
 
 
   // Test copying a DTITube
-  typedef itk::DTITubeSpatialObject<3>       DTITubeType;
-  typedef itk::DTITubeSpatialObjectPoint<3>  DTITubePointType;
+  using DTITubeType = itk::DTITubeSpatialObject<3>;
+  using DTITubePointType = itk::DTITubeSpatialObjectPoint<3>;
 
   // Tubes
   DTITubeType::PointListType    list3;
@@ -101,7 +101,7 @@ int itkSpatialObjectDuplicatorTest(int, char* [])
   dtiTube->SetId(3);
   dtiTube->SetPoints(list3);
 
-  typedef itk::SpatialObjectDuplicator<DTITubeType> DuplicatorDTIType;
+  using DuplicatorDTIType = itk::SpatialObjectDuplicator<DTITubeType>;
   DuplicatorDTIType::Pointer duplicatorDti = DuplicatorDTIType::New();
   duplicatorDti->SetInput(dtiTube);
   duplicatorDti->Update();

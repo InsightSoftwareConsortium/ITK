@@ -63,10 +63,10 @@ template< >
 class Proxy< float >
 {
 public:
-  typedef float         PixelType;
-  typedef fftwf_complex ComplexType;
-  typedef fftwf_plan    PlanType;
-  typedef Proxy<float>  Self;
+  using PixelType = float;
+  using ComplexType = fftwf_complex;
+  using PlanType = fftwf_plan;
+  using Self = Proxy<float>;
 
   // FFTW works with any data size, but is optimized for size decomposition with prime factors up to 13.
   static constexpr SizeValueType GREATEST_PRIME_FACTOR = 13;
@@ -367,10 +367,10 @@ template< >
 class Proxy< double >
 {
 public:
-  typedef double        PixelType;
-  typedef fftw_complex  ComplexType;
-  typedef fftw_plan     PlanType;
-  typedef Proxy<double> Self;
+  using PixelType = double;
+  using ComplexType = fftw_complex;
+  using PlanType = fftw_plan;
+  using Self = Proxy<double>;
 
   // FFTW works with any data size, but is optimized for size decomposition with prime factors up to 13.
   static constexpr SizeValueType GREATEST_PRIME_FACTOR = 13;

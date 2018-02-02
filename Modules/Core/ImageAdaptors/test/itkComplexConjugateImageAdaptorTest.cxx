@@ -20,9 +20,9 @@
 #include "itkImageRegionIterator.h"
 
 
-typedef std::complex< float >                          PixelType;
-typedef itk::Image< PixelType, 2 >                     ImageType;
-typedef itk::ComplexConjugateImageAdaptor< ImageType > AdaptorType;
+using PixelType = std::complex< float >;
+using ImageType = itk::Image< PixelType, 2 >;
+using AdaptorType = itk::ComplexConjugateImageAdaptor< ImageType >;
 
 int itkComplexConjugateImageAdaptorTest(int, char* [])
 {

@@ -24,7 +24,7 @@
 template <unsigned int TDimension>
 void TestTransform()
 {
-  typedef itk::Image<float,TDimension>         ImageType;
+  using ImageType = itk::Image<float,TDimension>;
 
   typename ImageType::Pointer image =         ImageType::New();
   typename ImageType::Pointer orientedImage = ImageType::New();
@@ -38,9 +38,9 @@ void TestTransform()
   image->SetOrigin(origin);
   orientedImage->SetOrigin(origin);
 
-  typedef itk::ImageRegion< TDimension > RegionType;
-  typedef typename RegionType::IndexType IndexType;
-  typedef typename RegionType::SizeType  SizeType;
+  using RegionType = itk::ImageRegion< TDimension >;
+  using IndexType = typename RegionType::IndexType;
+  using SizeType = typename RegionType::SizeType;
 
   typename ImageType::PointType point;
   RegionType region;

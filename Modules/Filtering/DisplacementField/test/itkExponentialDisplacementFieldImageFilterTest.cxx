@@ -26,23 +26,23 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
 
-  typedef itk::Vector< double, ImageDimension >   PixelType;
+  using PixelType = itk::Vector< double, ImageDimension >;
 
   // Declare the types of the images
-  typedef itk::Image<PixelType, ImageDimension>  ImageType;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex< ImageType>  IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType>;
 
 
   // Declare the type of the index to access images
-  typedef itk::Index<ImageDimension>         IndexType;
+  using IndexType = itk::Index<ImageDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<ImageDimension>          SizeType;
+  using SizeType = itk::Size<ImageDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<ImageDimension>   RegionType;
+  using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
   ImageType::Pointer inputImage  = ImageType::New();
@@ -84,8 +84,8 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
     }
 
   // Declare the type for the filter
-  typedef itk::ExponentialDisplacementFieldImageFilter<
-                                  ImageType, ImageType  >   FilterType;
+  using FilterType = itk::ExponentialDisplacementFieldImageFilter<
+                                  ImageType, ImageType  >;
 
 
   // Create one filter
@@ -226,7 +226,7 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
   // See if the output is consistent when the spacing is changed
   // (in an isotropic manner)
   const double isospacing = 10;
-  typedef ImageType::SpacingType SpacingType;
+  using SpacingType = ImageType::SpacingType;
   SpacingType spacing;
   for (unsigned int d=0; d<ImageDimension; ++d)
     {

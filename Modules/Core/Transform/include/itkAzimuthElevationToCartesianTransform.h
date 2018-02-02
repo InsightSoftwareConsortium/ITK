@@ -86,11 +86,11 @@ class ITK_TEMPLATE_EXPORT AzimuthElevationToCartesianTransform:
   public AffineTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs.   */
-  typedef AzimuthElevationToCartesianTransform               Self;
-  typedef AffineTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                 Pointer;
-  typedef SmartPointer<const Self>                           ConstPointer;
+  /** Standard class type aliases.   */
+  using Self = AzimuthElevationToCartesianTransform;
+  using Superclass = AffineTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Dimension of the domain space. */
   itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
@@ -104,23 +104,23 @@ public:
   itkNewMacro(Self);
 
   /** Parameters type.   */
-  typedef typename Superclass::ParametersType        ParametersType;
-  typedef typename Superclass::FixedParametersType   FixedParametersType;
-  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+  using ParametersType = typename Superclass::ParametersType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** Jacobian type.   */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Standard scalar type for this class. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Standard coordinate point type for this class */
-  typedef  typename Superclass::InputPointType  InputPointType;
-  typedef  typename Superclass::OutputPointType OutputPointType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
 
   /** Standard matrix type for this class.   */
-  typedef Matrix< TParametersValueType, itkGetStaticConstMacro(SpaceDimension),
-                  itkGetStaticConstMacro(SpaceDimension) > MatrixType;
+  using MatrixType = Matrix< TParametersValueType, itkGetStaticConstMacro(SpaceDimension),
+                  itkGetStaticConstMacro(SpaceDimension) >;
 
   /** Set the transformation parameters. */
   void SetAzimuthElevationToCartesianParameters(

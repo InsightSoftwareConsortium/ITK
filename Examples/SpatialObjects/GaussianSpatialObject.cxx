@@ -41,7 +41,7 @@ int main(int, char* [])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GaussianSpatialObject<3>   GaussianType;
+  using GaussianType = itk::GaussianSpatialObject<3>;
   GaussianType::Pointer myGaussian = GaussianType::New();
   // Software Guide : EndCodeSnippet
 

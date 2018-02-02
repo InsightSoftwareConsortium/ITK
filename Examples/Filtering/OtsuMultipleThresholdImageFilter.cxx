@@ -51,12 +51,12 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  //Convenience typedefs
-  typedef  unsigned short  InputPixelType;
-  typedef  unsigned char   OutputPixelType;
+  //Convenience type alias
+  using InputPixelType = unsigned short;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  2 >;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
 
   // Software Guide : BeginLatex
   //
@@ -69,17 +69,15 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ScalarImageToHistogramGenerator<
-                         InputImageType > ScalarImageToHistogramGeneratorType;
+  using ScalarImageToHistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<InputImageType>;
 
-  typedef ScalarImageToHistogramGeneratorType::HistogramType HistogramType;
+  using HistogramType = ScalarImageToHistogramGeneratorType::HistogramType;
 
-  typedef itk::OtsuMultipleThresholdsCalculator< HistogramType >
-                                                               CalculatorType;
+  using CalculatorType = itk::OtsuMultipleThresholdsCalculator<HistogramType>;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   // Software Guide : BeginLatex
   //
@@ -89,8 +87,8 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::BinaryThresholdImageFilter<
-  InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::BinaryThresholdImageFilter<
+  InputImageType, OutputImageType >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -197,7 +195,7 @@ int main( int argc, char * argv[] )
   InputPixelType upperThreshold;
 
   // Software Guide : BeginCodeSnippet
-  typedef CalculatorType::OutputType::const_iterator ThresholdItType;
+  using ThresholdItType = CalculatorType::OutputType::const_iterator;
 
   for( ThresholdItType itNum = thresholdVector.begin();
        itNum != thresholdVector.end();

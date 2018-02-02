@@ -75,27 +75,27 @@ class ITK_TEMPLATE_EXPORT  LBFGSOptimizerBasev4:
     public SingleValuedNonLinearVnlOptimizerv4
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef LBFGSOptimizerBasev4                Self;
-  typedef SingleValuedNonLinearVnlOptimizerv4 Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = LBFGSOptimizerBasev4;
+  using Superclass = SingleValuedNonLinearVnlOptimizerv4;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LBFGSOptimizerBasev4, SingleValuedNonLinearVnlOptimizerv4);
 
-  typedef Superclass::MetricType     MetricType;
-  typedef Superclass::ParametersType ParametersType;
-  typedef Superclass::ScalesType     ScalesType;
+  using MetricType = Superclass::MetricType;
+  using ParametersType = Superclass::ParametersType;
+  using ScalesType = Superclass::ScalesType;
 
   /** Stop condition return string type */
-  typedef Superclass::StopConditionReturnStringType StopConditionReturnStringType;
+  using StopConditionReturnStringType = Superclass::StopConditionReturnStringType;
 
   /** Stop condition internal string type */
-  typedef Superclass::StopConditionDescriptionType  StopConditionDescriptionType;
+  using StopConditionDescriptionType = Superclass::StopConditionDescriptionType;
 
   /** The vnl optimizer */
-  typedef LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>   InternalOptimizerType;
+  using InternalOptimizerType = LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>;
 
   /** Method for getting access to the internal optimizer. */
   InternalOptimizerType * GetOptimizer();
@@ -136,12 +136,11 @@ protected:
   ~LBFGSOptimizerBasev4() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
+  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
   bool                         m_OptimizerInitialized;
 
-  typedef std::unique_ptr<InternalOptimizerType>  InternalOptimizerAutoPointer;
-
+  using InternalOptimizerAutoPointer = std::unique_ptr<InternalOptimizerType>;
   InternalOptimizerAutoPointer  m_VnlOptimizer;
 
   mutable std::ostringstream    m_StopConditionDescription;

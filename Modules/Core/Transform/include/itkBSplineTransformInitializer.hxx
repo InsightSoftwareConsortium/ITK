@@ -104,18 +104,18 @@ BSplineTransformInitializer<TTransform, TImage>
   // origin to determine these axes. Thus bitwise operators are used
   // throughout the code so that the initializer is generalized to n-dimensions.
 
-  typedef typename ImagePointType::CoordRepType      CoordRepType;
+  using CoordRepType = typename ImagePointType::CoordRepType;
 
-  typedef PointSet<CoordRepType, SpaceDimension>     PointSetType;
+  using PointSetType = PointSet<CoordRepType, SpaceDimension>;
   typename PointSetType::Pointer cornerPoints = PointSetType::New();
   cornerPoints->Initialize();
 
-  typedef typename PointSetType::PointType           PointType;
-  typedef typename PointSetType::PointIdentifier     PointIdentifier;
-  typedef typename PointType::RealType               RealType;
-  typedef typename PointType::VectorType             VectorType;
+  using PointType = typename PointSetType::PointType;
+  using PointIdentifier = typename PointSetType::PointIdentifier;
+  using RealType = typename PointType::RealType;
+  using VectorType = typename PointType::VectorType;
 
-  typedef ContinuousIndex<CoordRepType, SpaceDimension> ContinuousIndexType;
+  using ContinuousIndexType = ContinuousIndex<CoordRepType, SpaceDimension>;
 
   // We first convert the image corners into points which reside in physical
   // space and label them as indicated above.  Note that the corners reside
@@ -151,9 +151,9 @@ BSplineTransformInitializer<TTransform, TImage>
   // We next determine which corner is the transform domain origin by which
   // point is closest to the minimum of the bounding box.
 
-  typedef BoundingBox<unsigned int, SpaceDimension,
+  using BoundingBoxType = BoundingBox<unsigned int, SpaceDimension,
     typename PointSetType::CoordRepType,
-    typename PointSetType::PointsContainer> BoundingBoxType;
+    typename PointSetType::PointsContainer>;
   typename BoundingBoxType::Pointer bbox = BoundingBoxType::New();
   bbox->SetPoints( cornerPoints->GetPoints() );
   bbox->ComputeBoundingBox();

@@ -65,11 +65,11 @@ class ITK_TEMPLATE_EXPORT BSplineCenteredResampleImageFilterBase:
   public BSplineResampleImageFilterBase< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineCenteredResampleImageFilterBase                      Self;
-  typedef BSplineResampleImageFilterBase< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                        Pointer;
-  typedef SmartPointer< const Self >                                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineCenteredResampleImageFilterBase;
+  using Superclass = BSplineResampleImageFilterBase< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineCenteredResampleImageFilterBase, BSplineResampleImageFilterBase);
@@ -77,11 +77,11 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
-  /** OutputImagePixelType typedef support. */
-  typedef typename Superclass::OutputImagePixelType OutputImagePixelType;
+  /** OutputImagePixelType type alias support */
+  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
 
-  /** OutputImageIterator typedef support. */
-  typedef typename Superclass::OutputImageIterator OutputImageIterator;
+  /** OutputImageIterator type alias support */
+  using OutputImageIterator = typename Superclass::OutputImageIterator;
 
 protected:
 
@@ -109,8 +109,8 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineCenteredResampleImageFilterBase);
 
-  typedef typename TInputImage::IndexValueType    IndexValueType;
-  typedef typename TInputImage::SizeValueType     SizeValueType;
+  using IndexValueType = typename TInputImage::IndexValueType;
+  using SizeValueType = typename TInputImage::SizeValueType;
 
   // implemented
 };

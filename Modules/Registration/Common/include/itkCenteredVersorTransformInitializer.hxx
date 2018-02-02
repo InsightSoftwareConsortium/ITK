@@ -43,8 +43,8 @@ CenteredVersorTransformInitializer< TFixedImage, TMovingImage >
 
   if ( this->m_ComputeRotation )
     {
-    typedef typename Superclass::FixedImageCalculatorType::MatrixType  FixedMatrixType;
-    typedef typename Superclass::MovingImageCalculatorType::MatrixType MovingMatrixType;
+    using FixedMatrixType = typename Superclass::FixedImageCalculatorType::MatrixType;
+    using MovingMatrixType = typename Superclass::MovingImageCalculatorType::MatrixType;
 
     FixedMatrixType  fixedPrincipalAxis  = this->GetFixedCalculator()->GetPrincipalAxes();
     MovingMatrixType movingPrincipalAxis = this->GetMovingCalculator()->GetPrincipalAxes();

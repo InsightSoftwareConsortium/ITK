@@ -159,7 +159,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   // Iterate over all of those pixels and offsets, adding each
   // distance/intensity pair to the histogram
 
-  typedef ConstNeighborhoodIterator<ImageType> NeighborhoodIteratorType;
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator<ImageType>;
   typename NeighborhoodIteratorType::RadiusType radius;
   radius.Fill( 1 );
   NeighborhoodIteratorType neighborIt( radius,
@@ -169,7 +169,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   // this temp image has the same dimension for each offset
   // moving the allocation out of loop of offsets
   // while keeping FillBuffer with boolean false in each loop
-  typedef Image<bool, ImageDimension> BoolImageType;
+  using BoolImageType = Image<bool, ImageDimension>;
   typename BoolImageType::Pointer alreadyVisitedImage = BoolImageType::New();
   alreadyVisitedImage->CopyInformation( inputImage );
   alreadyVisitedImage->SetRegions( inputImage->GetRequestedRegion() );

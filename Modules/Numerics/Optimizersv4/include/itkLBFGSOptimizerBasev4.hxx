@@ -31,8 +31,8 @@ template< typename TInternalVnlOptimizerType >
 class ITK_TEMPLATE_EXPORT LBFGSOptimizerBaseHelperv4: public TInternalVnlOptimizerType
 {
   public:
-  typedef LBFGSOptimizerBaseHelperv4  Self;
-  typedef TInternalVnlOptimizerType   Superclass;
+  using Self = LBFGSOptimizerBaseHelperv4;
+  using Superclass = TInternalVnlOptimizerType;
 
   LBFGSOptimizerBaseHelperv4(vnl_cost_function & f,
                              LBFGSOptimizerBasev4<TInternalVnlOptimizerType> * itkObj):

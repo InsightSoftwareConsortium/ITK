@@ -27,14 +27,14 @@
 int itkImageToListSampleFilterTest3(int, char* [] )
 {
   const unsigned int MeasurementVectorSize = 8;
-  typedef float MeasurementComponentType;
+  using MeasurementComponentType = float;
 
   const unsigned int ImageDimension = 3;
-  typedef itk::VectorImage< MeasurementComponentType, ImageDimension > ImageType;
+  using ImageType = itk::VectorImage< MeasurementComponentType, ImageDimension >;
 
-  typedef itk::Image< unsigned char, ImageDimension > MaskImageType;
+  using MaskImageType = itk::Image< unsigned char, ImageDimension >;
 
-  typedef ImageType::PixelType  PixelType;
+  using PixelType = ImageType::PixelType;
 
   ImageType::Pointer image = ImageType::New();
 
@@ -49,7 +49,7 @@ int itkImageToListSampleFilterTest3(int, char* [] )
   ImageType::RegionType region( start, size );
   image->SetRegions( region );
   image->Allocate();
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
   IteratorType it( image, region );
   it.GoToBegin();
 
@@ -83,7 +83,7 @@ int itkImageToListSampleFilterTest3(int, char* [] )
   sizeMask[2] = 4;
 
   MaskImageType::RegionType regionMask( startMask, sizeMask);
-  typedef itk::ImageRegionIteratorWithIndex< MaskImageType > MaskIteratorType;
+  using MaskIteratorType = itk::ImageRegionIteratorWithIndex< MaskImageType >;
   MaskIteratorType mit( maskImage, regionMask );
   mit.GoToBegin();
   while (!mit.IsAtEnd())
@@ -93,8 +93,8 @@ int itkImageToListSampleFilterTest3(int, char* [] )
     }
 
   // Generate a list sample from "image" confined to the mask, "maskImage".
-  typedef itk::Statistics::ImageToListSampleFilter<
-    ImageType, MaskImageType > ImageToListSampleFilterType;
+  using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<
+    ImageType, MaskImageType >;
   ImageToListSampleFilterType::Pointer filter
                               = ImageToListSampleFilterType::New();
 
@@ -112,7 +112,7 @@ int itkImageToListSampleFilterTest3(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef ImageToListSampleFilterType::ListSampleType ListSampleType;
+  using ListSampleType = ImageToListSampleFilterType::ListSampleType;
   const ListSampleType * list = filter->GetOutput();
 
   // Check the sum of the pixels in the list sample. This should

@@ -74,11 +74,11 @@ class ITK_TEMPLATE_EXPORT PDEDeformableRegistrationFilter:
   public DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PDEDeformableRegistrationFilter                                          Self;
-  typedef DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField > Superclass;
-  typedef SmartPointer< Self >                                                     Pointer;
-  typedef SmartPointer< const Self >                                               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PDEDeformableRegistrationFilter;
+  using Superclass = DenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -88,31 +88,30 @@ public:
                DenseFiniteDifferenceImageFilter);
 
   /** FixedImage image type. */
-  typedef TFixedImage                           FixedImageType;
-  typedef typename FixedImageType::Pointer      FixedImagePointer;
-  typedef typename FixedImageType::ConstPointer FixedImageConstPointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::Pointer;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
 
   /** MovingImage image type. */
-  typedef TMovingImage                           MovingImageType;
-  typedef typename MovingImageType::Pointer      MovingImagePointer;
-  typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::Pointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /** Deformation field type. */
-  typedef TDisplacementField                      DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer DisplacementFieldPointer;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** Types inherithed from the superclass */
-  typedef typename Superclass::OutputImageType OutputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
   /** FiniteDifferenceFunction type. */
-  typedef typename Superclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
   /** PDEDeformableRegistrationFilterFunction type. */
-  typedef PDEDeformableRegistrationFunction< FixedImageType, MovingImageType,
-                                             DisplacementFieldType >  PDEDeformableRegistrationFunctionType;
+  using PDEDeformableRegistrationFunctionType = PDEDeformableRegistrationFunction< FixedImageType, MovingImageType,
+                                             DisplacementFieldType >;
 
-  /** Inherit some enums and typedefs from the superclass. */
+  /** Inherit some enums and type alias from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
@@ -154,7 +153,7 @@ public:
   itkGetConstMacro(SmoothDisplacementField, bool);
   itkBooleanMacro(SmoothDisplacementField);
 
-  typedef FixedArray< double, ImageDimension > StandardDeviationsType;
+  using StandardDeviationsType = FixedArray< double, ImageDimension >;
 
   /** Set the Gaussian smoothing standard deviations for the
    * displacement field. The values are set with respect to pixel

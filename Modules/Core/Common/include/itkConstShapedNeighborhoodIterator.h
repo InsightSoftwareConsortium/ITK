@@ -75,45 +75,44 @@ class ITK_TEMPLATE_EXPORT ConstShapedNeighborhoodIterator:
 public:
 
   /** Extract image type information. */
-  typedef typename TImage::InternalPixelType InternalPixelType;
-  typedef typename TImage::PixelType         PixelType;
+  using InternalPixelType = typename TImage::InternalPixelType;
+  using PixelType = typename TImage::PixelType;
 
   /** Save the image dimension. */
   itkStaticConstMacro(Dimension, unsigned int, TImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef ConstShapedNeighborhoodIterator                    Self;
-  typedef NeighborhoodIterator< TImage, TBoundaryCondition > Superclass;
+  /** Standard class type aliases. */
+  using Self = ConstShapedNeighborhoodIterator;
+  using Superclass = NeighborhoodIterator< TImage, TBoundaryCondition >;
 
-  /** Inherit typedefs from superclass */
-  typedef typename Superclass::OffsetType      OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
-  typedef typename Superclass::RadiusType      RadiusType;
-  typedef typename Superclass::SizeType        SizeType;
-  typedef typename SizeType::SizeValueType     SizeValueType;
+  /** Inherit type alias from superclass */
+  using OffsetType = typename Superclass::OffsetType;
+  using OffsetValueType = typename OffsetType::OffsetValueType;
+  using RadiusType = typename Superclass::RadiusType;
+  using SizeType = typename Superclass::SizeType;
+  using SizeValueType = typename SizeType::SizeValueType;
 
   /** Typedef support for common objects */
-  typedef TImage                                     ImageType;
-  typedef typename TImage::RegionType                RegionType;
-  typedef Index< itkGetStaticConstMacro(Dimension) > IndexType;
-  typedef typename IndexType::IndexValueType         IndexValueType;
-  typedef Neighborhood< PixelType, itkGetStaticConstMacro(Dimension) >
-  NeighborhoodType;
+  using ImageType = TImage;
+  using RegionType = typename TImage::RegionType;
+  using IndexType = Index< itkGetStaticConstMacro(Dimension) >;
+  using IndexValueType = typename IndexType::IndexValueType;
+  using NeighborhoodType = Neighborhood< PixelType, itkGetStaticConstMacro(Dimension) >;
 
-  typedef typename NeighborhoodType::NeighborIndexType  NeighborIndexType;
+  using NeighborIndexType = typename NeighborhoodType::NeighborIndexType;
 
   /** An stl storage container type that can be sorted.  The type used for
    *  the list of active offsets in the neighborhood. */
-  typedef std::list< NeighborIndexType >             IndexListType;
+  using IndexListType = std::list< NeighborIndexType >;
 
-  typedef typename IndexListType::iterator        IndexListIterator;
-  typedef typename IndexListType::const_iterator  IndexListConstIterator;
+  using IndexListIterator = typename IndexListType::iterator;
+  using IndexListConstIterator = typename IndexListType::const_iterator;
 
   /** Typedef for boundary condition type. */
-  typedef TBoundaryCondition BoundaryConditionType;
+  using BoundaryConditionType = TBoundaryCondition;
 
   /** Typedef for generic boundary condition pointer */
-  typedef ImageBoundaryCondition< ImageType > *ImageBoundaryConditionPointerType;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition<ImageType> *;
 
   /** Const Interator */
   struct ConstIterator {

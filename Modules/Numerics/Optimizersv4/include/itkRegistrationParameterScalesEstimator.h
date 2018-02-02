@@ -55,49 +55,49 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesEstimator
   : public OptimizerParameterScalesEstimatorTemplate<typename TMetric::ParametersValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegistrationParameterScalesEstimator                                              Self;
-  typedef OptimizerParameterScalesEstimatorTemplate<typename TMetric::ParametersValueType>  Superclass;
-  typedef SmartPointer<Self>                                                                Pointer;
-  typedef SmartPointer<const Self>                                                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegistrationParameterScalesEstimator;
+  using Superclass = OptimizerParameterScalesEstimatorTemplate<typename TMetric::ParametersValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( RegistrationParameterScalesEstimator, Superclass );
 
   /** Type of scales */
-  typedef typename Superclass::ScalesType           ScalesType;
+  using ScalesType = typename Superclass::ScalesType;
   /** Type of parameters of the optimizer */
-  typedef typename Superclass::ParametersType       ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
   /** Type of float */
-  typedef typename Superclass::FloatType            FloatType;
+  using FloatType = typename Superclass::FloatType;
 
-  typedef TMetric                                   MetricType;
-  typedef typename MetricType::Pointer              MetricPointer;
-  typedef typename MetricType::ConstPointer         MetricConstPointer;
+  using MetricType = TMetric;
+  using MetricPointer = typename MetricType::Pointer;
+  using MetricConstPointer = typename MetricType::ConstPointer;
 
   /** Type of the transform to initialize */
-  typedef typename MetricType::FixedTransformType   FixedTransformType;
-  typedef typename FixedTransformType::ConstPointer FixedTransformConstPointer;
+  using FixedTransformType = typename MetricType::FixedTransformType;
+  using FixedTransformConstPointer = typename FixedTransformType::ConstPointer;
 
-  typedef typename MetricType::MovingTransformType    MovingTransformType;
-  typedef typename MovingTransformType::ConstPointer  MovingTransformConstPointer;
+  using MovingTransformType = typename MetricType::MovingTransformType;
+  using MovingTransformConstPointer = typename MovingTransformType::ConstPointer;
 
   /** dimension accessors */
   itkStaticConstMacro(FixedDimension, SizeValueType, TMetric::FixedDimension );
   itkStaticConstMacro(MovingDimension, SizeValueType, TMetric::MovingDimension );
   itkStaticConstMacro(VirtualDimension, SizeValueType, TMetric::VirtualDimension );
 
-  typedef typename TMetric::VirtualImageType          VirtualImageType;
-  typedef typename TMetric::VirtualImageConstPointer  VirtualImageConstPointer;
-  typedef typename TMetric::VirtualImagePointer       VirtualImagePointer;
-  typedef typename TMetric::VirtualSpacingType        VirtualSpacingType;
-  typedef typename TMetric::VirtualRegionType         VirtualRegionType;
-  typedef typename TMetric::VirtualSizeType           VirtualSizeType;
-  typedef typename TMetric::VirtualPointType          VirtualPointType;
-  typedef typename TMetric::VirtualIndexType          VirtualIndexType;
+  using VirtualImageType = typename TMetric::VirtualImageType;
+  using VirtualImageConstPointer = typename TMetric::VirtualImageConstPointer;
+  using VirtualImagePointer = typename TMetric::VirtualImagePointer;
+  using VirtualSpacingType = typename TMetric::VirtualSpacingType;
+  using VirtualRegionType = typename TMetric::VirtualRegionType;
+  using VirtualSizeType = typename TMetric::VirtualSizeType;
+  using VirtualPointType = typename TMetric::VirtualPointType;
+  using VirtualIndexType = typename TMetric::VirtualIndexType;
 
-  typedef typename TMetric::VirtualPointSetType       VirtualPointSetType;
-  typedef typename TMetric::VirtualPointSetPointer    VirtualPointSetPointer;
+  using VirtualPointSetType = typename TMetric::VirtualPointSetType;
+  using VirtualPointSetPointer = typename TMetric::VirtualPointSetPointer;
 
   /** The strategies to sample physical points in the virtual domain. */
   typedef enum { FullDomainSampling = 0,
@@ -106,10 +106,10 @@ public:
                  CentralRegionSampling,
                  VirtualDomainPointSetSampling }    SamplingStrategyType;
 
-  typedef std::vector<VirtualPointType>             SamplePointContainerType;
+  using SamplePointContainerType = std::vector<VirtualPointType>;
 
   /** Type of Jacobian of transform. */
-  typedef typename TMetric::JacobianType            JacobianType;
+  using JacobianType = typename TMetric::JacobianType;
 
   /** SetMetric sets the metric used in the estimation process.
    *  The transforms from the metric will be used for estimation, along

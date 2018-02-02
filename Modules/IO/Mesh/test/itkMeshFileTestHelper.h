@@ -27,8 +27,8 @@ int
 TestPointsContainer( typename TMesh::PointsContainerPointer points0,
                      typename TMesh::PointsContainerPointer points1 )
 {
-  typedef TMesh                                           MeshType;
-  typedef typename MeshType::PointsContainerConstIterator PointsContainerConstIterator;
+  using MeshType = TMesh;
+  using PointsContainerConstIterator = typename MeshType::PointsContainerConstIterator;
 
   if ( points0.IsNotNull() && points1.IsNotNull() )
     {
@@ -81,9 +81,9 @@ int
 TestCellsContainer( typename TMesh::CellsContainerPointer cells0,
                     typename TMesh::CellsContainerPointer cells1 )
 {
-  typedef TMesh                                           MeshType;
-  typedef typename MeshType::CellsContainerConstIterator  CellsContainerConstIterator;
-  typedef typename MeshType::CellType::PointIdIterator    CellPointIdIterator;
+  using MeshType = TMesh;
+  using CellsContainerConstIterator = typename MeshType::CellsContainerConstIterator;
+  using CellPointIdIterator = typename MeshType::CellType::PointIdIterator;
 
   if ( cells0.IsNotNull() && cells1.IsNotNull() )
     {
@@ -144,8 +144,8 @@ int
 TestPointDataContainer( typename TMesh::PointDataContainerPointer pointData0,
                        typename TMesh::PointDataContainerPointer pointData1 )
 {
-  typedef TMesh                                         MeshType;
-  typedef typename MeshType::PointDataContainerIterator PointDataContainerIterator;
+  using MeshType = TMesh;
+  using PointDataContainerIterator = typename MeshType::PointDataContainerIterator;
 
   if ( pointData0.IsNotNull() && pointData1.IsNotNull() )
     {
@@ -195,8 +195,8 @@ int
 TestCellDataContainer( typename TMesh::CellDataContainerPointer cellData0,
                       typename TMesh::CellDataContainerPointer cellData1 )
 {
-  typedef TMesh                                        MeshType;
-  typedef typename MeshType::CellDataContainerIterator CellDataContainerIterator;
+  using MeshType = TMesh;
+  using CellDataContainerIterator = typename MeshType::CellDataContainerIterator;
 
   if ( cellData0.IsNotNull() && cellData1.IsNotNull() )
     {
@@ -245,13 +245,13 @@ template< typename TMesh >
 int
 test(char *INfilename, char *OUTfilename, bool IsBinary)
 {
-  typedef TMesh MeshType;
+  using MeshType = TMesh;
 
-  typedef itk::MeshFileReader< MeshType >       MeshFileReaderType;
-  typedef typename MeshFileReaderType::Pointer  MeshFileReaderPointer;
+  using MeshFileReaderType = itk::MeshFileReader< MeshType >;
+  using MeshFileReaderPointer = typename MeshFileReaderType::Pointer;
 
-  typedef itk::MeshFileWriter< MeshType >       MeshFileWriterType;
-  typedef typename MeshFileWriterType::Pointer  MeshFileWriterPointer;
+  using MeshFileWriterType = itk::MeshFileWriter< MeshType >;
+  using MeshFileWriterPointer = typename MeshFileWriterType::Pointer;
 
   MeshFileReaderPointer reader = MeshFileReaderType::New();
   reader->SetFileName(INfilename);

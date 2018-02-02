@@ -39,16 +39,16 @@ int itkObjectMorphologyImageFilterTest(int, char* [] )
   const unsigned short bgValue = 0;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned short, myDimension>  myImageType;
+  using myImageType = itk::Image<unsigned short, myDimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create an image
   myImageType::Pointer inputImage  = myImageType::New();
@@ -73,7 +73,7 @@ int itkObjectMorphologyImageFilterTest(int, char* [] )
   inputImage->Allocate();
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIterator<myImageType>  myIteratorType;
+  using myIteratorType = itk::ImageRegionIterator<myImageType>;
 
   // Initialize the content of Image
   inputImage->FillBuffer(bgValue);
@@ -109,25 +109,21 @@ int itkObjectMorphologyImageFilterTest(int, char* [] )
   inputImage->SetPixel(ind, fgValue);
 
   // Declare the type for the structuring element
-  typedef itk::BinaryBallStructuringElement<unsigned short, myDimension>
-    myKernelType;
+  using myKernelType =
+      itk::BinaryBallStructuringElement<unsigned short, myDimension>;
 
   // Declare the type for the morphology Filter
-  typedef itk::DilateObjectMorphologyImageFilter<myImageType, myImageType,
-                                                 myKernelType>
-    myDilateFilterType;
-  typedef itk::BinaryDilateImageFilter<myImageType, myImageType,
-                                                 myKernelType>
-    binDilateFilterType;
+  using myDilateFilterType = itk::DilateObjectMorphologyImageFilter<myImageType, myImageType,
+                                                 myKernelType>;
+  using binDilateFilterType = itk::BinaryDilateImageFilter<myImageType, myImageType,
+                                                 myKernelType>;
 
 
-  typedef itk::ErodeObjectMorphologyImageFilter<myImageType, myImageType,
-                                                 myKernelType>
-    myErodeFilterType;
+  using myErodeFilterType = itk::ErodeObjectMorphologyImageFilter<myImageType, myImageType,
+                                                 myKernelType>;
 
-  typedef itk::BinaryErodeImageFilter<myImageType, myImageType,
-                                                 myKernelType>
-    binErodeFilterType;
+  using binErodeFilterType = itk::BinaryErodeImageFilter<myImageType, myImageType,
+                                                 myKernelType>;
 
   // Create the filter
   myDilateFilterType::Pointer dilateFilter = myDilateFilterType::New();

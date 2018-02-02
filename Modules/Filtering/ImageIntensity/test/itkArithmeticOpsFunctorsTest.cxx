@@ -22,7 +22,7 @@
 
 TEST(ArithmeticOpsTest,DivFloor_float)
 {
-typedef itk::Functor::DivFloor<float,float,float> OpType;
+using OpType = itk::Functor::DivFloor<float,float,float>;
 
 OpType op1;
 OpType op2;
@@ -39,7 +39,7 @@ EXPECT_NO_THROW(op1(5.0f,0.0f));
 
 TEST(ArithmeticOpsTest,DivFloor_short)
 {
-typedef itk::Functor::DivFloor<short,short,short> OpType;
+using OpType = itk::Functor::DivFloor<short,short,short>;
 
 OpType op1;
 OpType op2;
@@ -56,7 +56,7 @@ EXPECT_NO_THROW(op1(5,0));
 
 TEST(ArithmeticOpsTest,DivReal) {
 
-typedef itk::Functor::DivReal<float,float,float> OpType;
+using OpType = itk::Functor::DivReal<float,float,float>;
 
 OpType op1;
 OpType op2;
@@ -75,7 +75,7 @@ EXPECT_NO_THROW(op1(5.0f,0.0f));
 
 TEST(ArithmeticOpsTest, UnaryMinus) {
 
-  typedef itk::Functor::UnaryMinus<short, short> OpType;
+  using OpType = itk::Functor::UnaryMinus<short, short>;
 
   OpType op1;
   OpType op2;

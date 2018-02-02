@@ -45,17 +45,17 @@ class OnePlusOneMetric : public itk::ObjectToObjectMetricBase
 {
 public:
 
-  typedef OnePlusOneMetric                Self;
-  typedef itk::ObjectToObjectMetricBase   Superclass;
-  typedef itk::SmartPointer<Self>         Pointer;
-  typedef itk::SmartPointer<const Self>   ConstPointer;
+  using Self = OnePlusOneMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType      ParametersType;
-  typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
 
   OnePlusOneMetric()
@@ -139,17 +139,17 @@ private:
 class OnePlusOneCommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  OnePlusOneCommandIterationUpdate   Self;
-  typedef  itk::Command                       Superclass;
-  typedef itk::SmartPointer<Self>             Pointer;
+  using Self = OnePlusOneCommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
   OnePlusOneCommandIterationUpdate() { m_LastMetricValue = 0.0; };
 
 public:
-  typedef itk::OnePlusOneEvolutionaryOptimizerv4<double>    OptimizerType;
-  typedef   const OptimizerType *                           OptimizerPointer;
+  using OptimizerType = itk::OnePlusOneEvolutionaryOptimizerv4<double>;
+  using OptimizerPointer = const OptimizerType *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
@@ -184,7 +184,7 @@ int itkOnePlusOneEvolutionaryOptimizerv4Test(int, char* [] )
   std::cout << "OnePlusOne Evolutionary Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::OnePlusOneEvolutionaryOptimizerv4<double>  OptimizerType;
+  using OptimizerType = itk::OnePlusOneEvolutionaryOptimizerv4<double>;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -196,7 +196,7 @@ int itkOnePlusOneEvolutionaryOptimizerv4Test(int, char* [] )
   itk::OnePlusOneMetric::Pointer metric = itk::OnePlusOneMetric::New();
   itkOptimizer->SetMetric( metric.GetPointer() );
 
-  typedef itk::OnePlusOneMetric::ParametersType    ParametersType;
+  using ParametersType = itk::OnePlusOneMetric::ParametersType;
 
   const unsigned int spaceDimension = metric->GetNumberOfParameters();
 
@@ -210,7 +210,7 @@ int itkOnePlusOneEvolutionaryOptimizerv4Test(int, char* [] )
   itkOptimizer->SetEpsilon( 0.1 );
   itkOptimizer->SetMaximumIteration( 8000 );
 
-  typedef itk::Statistics::NormalVariateGenerator  GeneratorType;
+  using GeneratorType = itk::Statistics::NormalVariateGenerator;
   GeneratorType::Pointer generator = GeneratorType::New();
   itkOptimizer->SetNormalVariateGenerator( generator );
 

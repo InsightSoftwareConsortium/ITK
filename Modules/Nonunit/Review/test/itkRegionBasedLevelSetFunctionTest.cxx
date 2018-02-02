@@ -28,11 +28,11 @@ class RegionBasedLevelSetFunctionTestHelper :
  public RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegionBasedLevelSetFunctionTestHelper                       Self;
-  typedef RegionBasedLevelSetFunction<TInput,TFeature,TSharedData>    Superclass;
-  typedef SmartPointer<Self>                                          Pointer;
-  typedef SmartPointer<const Self>                                    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegionBasedLevelSetFunctionTestHelper;
+  using Superclass = RegionBasedLevelSetFunction<TInput,TFeature,TSharedData>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
@@ -41,9 +41,9 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro( RegionBasedLevelSetFunctionTestHelper, RegionBasedLevelSetFunction );
 
-  typedef typename Superclass::ScalarValueType     ScalarValueType;
-  typedef typename Superclass::FeaturePixelType    FeaturePixelType;
-  typedef typename Superclass::FeatureIndexType    FeatureIndexType;
+  using ScalarValueType = typename Superclass::ScalarValueType;
+  using FeaturePixelType = typename Superclass::FeaturePixelType;
+  using FeatureIndexType = typename Superclass::FeatureIndexType;
 
   ScalarValueType ComputeInternalTerm(const FeaturePixelType& ,
     const FeatureIndexType& ) override
@@ -79,11 +79,11 @@ template <unsigned int NDimension>
 class RegionBasedLevelSetFunctionSharedDataHelper : public DataObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegionBasedLevelSetFunctionSharedDataHelper  Self;
-  typedef DataObject                                   Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegionBasedLevelSetFunctionSharedDataHelper;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
 
@@ -92,7 +92,7 @@ public:
 
   unsigned long       m_FunctionCount;
 
-  typedef Index< NDimension >                 IndexType;
+  using IndexType = Index< NDimension >;
 
   struct SingleData
     {
@@ -112,14 +112,14 @@ int itkRegionBasedLevelSetFunctionTest( int, char* [] )
 {
   const unsigned int Dimension = 3;
 
-  typedef double                                  PixelType;
-  typedef itk::Image< PixelType, Dimension >      ImageType;
-  typedef itk::Image< float, Dimension >          FeatureImageType;
+  using PixelType = double;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using FeatureImageType = itk::Image< float, Dimension >;
 
-  typedef itk::RegionBasedLevelSetFunctionSharedDataHelper<Dimension>      DataHelperType;
+  using DataHelperType = itk::RegionBasedLevelSetFunctionSharedDataHelper<Dimension>;
 
-  typedef itk::RegionBasedLevelSetFunctionTestHelper<
-    ImageType, FeatureImageType, DataHelperType >      RegionBasedLevelSetFunctionType;
+  using RegionBasedLevelSetFunctionType = itk::RegionBasedLevelSetFunctionTestHelper<
+    ImageType, FeatureImageType, DataHelperType >;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
   if( function.IsNull() )

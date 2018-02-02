@@ -50,7 +50,7 @@ void
 RegistrationParameterScalesFromIndexShift< TMetric >
 ::ComputeSampleShiftsInternal(const ParametersType &deltaParameters, ScalesType &sampleShifts)
 {
-  typedef itk::ContinuousIndex< FloatType, TTransform::OutputSpaceDimension > TransformOutputType;
+  using TransformOutputType = itk::ContinuousIndex< FloatType, TTransform::OutputSpaceDimension >;
 
   // We save the old parameters and apply the delta parameters to calculate the
   // voxel shift. After it is done, we will reset to the old parameters.

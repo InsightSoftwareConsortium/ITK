@@ -47,20 +47,20 @@ template< typename TOutput,
 class ITK_TEMPLATE_EXPORT SpatialFunction:public FunctionBase< TInput, TOutput >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SpatialFunction                 Self;
-  typedef FunctionBase< TInput, TOutput > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SpatialFunction;
+  using Superclass = FunctionBase< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpatialFunction, FunctionBase);
 
   /** Input type for the function. */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Spatial dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);

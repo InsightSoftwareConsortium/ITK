@@ -54,11 +54,11 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT VTKImageExport:public VTKImageExportBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef VTKImageExport             Self;
-  typedef VTKImageExportBase         Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VTKImageExport;
+  using Superclass = VTKImageExportBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
@@ -69,7 +69,7 @@ public:
   itkNewMacro(Self);
 
   /** The type of the input image. */
-  typedef TInputImage InputImageType;
+  using InputImageType = TInputImage;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro( ImageDimensionCheck,
@@ -86,10 +86,10 @@ protected:
   ~VTKImageExport() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef typename InputImageType::Pointer    InputImagePointer;
-  typedef typename InputImageType::RegionType InputRegionType;
-  typedef typename InputRegionType::SizeType  InputSizeType;
-  typedef typename InputRegionType::IndexType InputIndexType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputRegionType = typename InputImageType::RegionType;
+  using InputSizeType = typename InputRegionType::SizeType;
+  using InputIndexType = typename InputRegionType::IndexType;
 
   int * WholeExtentCallback() override;
 

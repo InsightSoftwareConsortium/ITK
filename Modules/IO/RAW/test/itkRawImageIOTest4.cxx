@@ -36,9 +36,9 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
 
     const unsigned int ImageDimension = TImageType::ImageDimension;
 
-    typedef typename TImageType::PixelType            PixelType;
-    typedef itk::ImageFileReader<TImageType>          ReaderType;
-    typedef itk::RawImageIO<PixelType,ImageDimension> IOType;
+    using PixelType = typename TImageType::PixelType;
+    using ReaderType = itk::ImageFileReader<TImageType>;
+    using IOType = itk::RawImageIO<PixelType,ImageDimension>;
 
     typename IOType::Pointer io = IOType::New();
 
@@ -75,7 +75,7 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
 
     std::cout << "Reading file " << filename << " succeeded " << std::endl;
 
-    typedef itk::ImageLinearIteratorWithIndex<TImageType> Iterator;
+    using Iterator = itk::ImageLinearIteratorWithIndex<TImageType>;
     Iterator it( reader->GetOutput(), reader->GetOutput()->GetBufferedRegion() );
 
     it.GoToBegin();
@@ -110,15 +110,15 @@ int Read( const char *filename , bool ReadBigEndian, unsigned int dims[] )
 int itkRawImageIOTest4(int argc, char*argv[])
 {
 
-  typedef unsigned short PixelType;
+  using PixelType = unsigned short;
   const unsigned int ImageDimension = 2;
 
-  typedef itk::Image<PixelType,ImageDimension>      ImageType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
 
   unsigned int dims[ImageDimension] = { 5, 5 };
 
-  typedef itk::PixelTraits< PixelType >::ValueType ComponentType;
-  typedef itk::ByteSwapper< ComponentType >        ByteSwapperType;
+  using ComponentType = itk::PixelTraits< PixelType >::ValueType;
+  using ByteSwapperType = itk::ByteSwapper< ComponentType >;
 
   PixelType value = itk::NumericTraits< PixelType >::ZeroValue();
   unsigned int numberOfPixels = dims[0] * dims[1];

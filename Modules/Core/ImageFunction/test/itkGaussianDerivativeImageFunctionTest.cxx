@@ -24,8 +24,8 @@ template< typename TPixel >
 int TestGaussianDerivativeImageFunction()
 {
   const unsigned int Dimension = 2;
-  typedef TPixel                             PixelType;
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using PixelType = TPixel;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // Create and allocate the image
   typename ImageType::Pointer      image = ImageType::New();
@@ -55,7 +55,7 @@ int TestGaussianDerivativeImageFunction()
     }
 
   // Test the derivative of Gaussian image function
-  typedef itk::GaussianDerivativeImageFunction< ImageType > DoGFunctionType;
+  using DoGFunctionType = itk::GaussianDerivativeImageFunction< ImageType >;
   typename DoGFunctionType::Pointer DoG = DoGFunctionType::New();
 
   DoG->SetInputImage( image );
@@ -150,10 +150,10 @@ int itkGaussianDerivativeImageFunctionTest( int, char* [] )
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
   const unsigned int Dimension = 2;
-  typedef float                               PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::GaussianDerivativeImageFunction< ImageType > DoGFunctionType;
+  using DoGFunctionType = itk::GaussianDerivativeImageFunction< ImageType >;
 
   DoGFunctionType::Pointer DoG = DoGFunctionType::New();
 
@@ -173,7 +173,7 @@ int itkGaussianDerivativeImageFunctionTest( int, char* [] )
 
   std::cout << "\nTesting Gaussian Derivative Spatial Function:";
 
-  typedef itk::GaussianDerivativeSpatialFunction<double,1>  GaussianDerivativeFunctionType;
+  using GaussianDerivativeFunctionType = itk::GaussianDerivativeSpatialFunction<double,1>;
   GaussianDerivativeFunctionType::Pointer f = GaussianDerivativeFunctionType::New();
 
   f->SetScale(1.0);

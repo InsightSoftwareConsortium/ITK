@@ -53,18 +53,18 @@ template< typename TElementIdentifier, typename TElement >
 class IndexedContainerInterface:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef IndexedContainerInterface  Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = IndexedContainerInterface;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard part of every itk Object. */
   itkTypeMacro(IndexedContainerInterface, Object);
 
   /** Save the template parameters. */
-  typedef TElementIdentifier ElementIdentifier;
-  typedef TElement           Element;
+  using ElementIdentifier = TElementIdentifier;
+  using Element = TElement;
 
   /** Get a reference to an existing element.
    * It is NOT guaranteed that the element will or will not be created if it

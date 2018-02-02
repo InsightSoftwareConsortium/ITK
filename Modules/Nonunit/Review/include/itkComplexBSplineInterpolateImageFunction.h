@@ -45,14 +45,14 @@ class ITK_TEMPLATE_EXPORT ComplexBSplineInterpolateImageFunction:
   public InterpolateImageFunction< TImageType, TCoordRep >
 {
 public:
-  /** Standard class typedef. */
-  typedef ComplexBSplineInterpolateImageFunction Self;
-  /** Standard class typedef. */
-  typedef InterpolateImageFunction< TImageType, TCoordRep > Superclass;
-  /** Standard class typedef. */
-  typedef SmartPointer< Self > Pointer;
-  /** Standard class typedef. */
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type alias. */
+  using Self = ComplexBSplineInterpolateImageFunction;
+  /** Standard class type alias. */
+  using Superclass = InterpolateImageFunction< TImageType, TCoordRep >;
+  /** Standard class type alias. */
+  using Pointer = SmartPointer< Self >;
+  /** Standard class type alias. */
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ComplexBSplineInterpolateImageFunction, InterpolateImageFunction);
@@ -63,30 +63,30 @@ public:
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = typename Superclass::InputImageType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
-  /** PointType typedef support */
-  typedef typename Superclass::PointType PointType;
+  /** PointType type alias support */
+  using PointType = typename Superclass::PointType;
 
   /** Internal Real and imaginary image type */
-  typedef Image< double, itkGetStaticConstMacro(ImageDimension) > InternalImageType;
+  using InternalImageType = Image< double, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Complex to Real filter type */
-  typedef ComplexToRealImageFilter< InputImageType, InternalImageType >      RealFilterType;
-  typedef ComplexToImaginaryImageFilter< InputImageType, InternalImageType > ImaginaryFilterType;
+  using RealFilterType = ComplexToRealImageFilter< InputImageType, InternalImageType >;
+  using ImaginaryFilterType = ComplexToImaginaryImageFilter< InputImageType, InternalImageType >;
 
   /** Underlying real BSpline interpolator */
-  typedef BSplineInterpolateImageFunction< InternalImageType, TCoordRep, TCoefficientType > InterpolatorType;
+  using InterpolatorType = BSplineInterpolateImageFunction< InternalImageType, TCoordRep, TCoefficientType >;
 
   /** Evaluate the function at a ContinuousIndex position.
   *
@@ -98,8 +98,8 @@ public:
   * calling the method. */
   OutputType EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
 
-  /** Derivative typedef support */
-/*  typedef CovariantVector< OutputType, itkGetStaticConstMacro( ImageDimension ) > CovariantVectorType;
+  /** Derivative type alias support */
+/*  using CovariantVectorType = CovariantVector< OutputType, itkGetStaticConstMacro( ImageDimension ) >;
 
   CovariantVectorType EvaluateDerivative( const PointType & point ) const
   {

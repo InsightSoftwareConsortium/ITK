@@ -39,47 +39,45 @@ int itkSingleLevelSetWhitakerImage2DWithLaplacianTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned short                                    InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension >           InputImageType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType >
-                                                            InputIteratorType;
-  typedef itk::ImageFileReader< InputImageType >            ReaderType;
+  using InputPixelType = unsigned short;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef float                                             PixelType;
+  using PixelType = float;
 
-  typedef itk::WhitakerSparseLevelSetImage< PixelType, Dimension >
-                                                            SparseLevelSetType;
-  typedef itk::BinaryImageToLevelSetImageAdaptor< InputImageType, SparseLevelSetType >
-                                                            BinaryToSparseAdaptorType;
+  using SparseLevelSetType =
+      itk::WhitakerSparseLevelSetImage< PixelType, Dimension >;
+  using BinaryToSparseAdaptorType =
+      itk::BinaryImageToLevelSetImageAdaptor< InputImageType, SparseLevelSetType >;
 
-  typedef itk::IdentifierType                               IdentifierType;
+  using IdentifierType = itk::IdentifierType;
 
-  typedef itk::LevelSetContainer< IdentifierType, SparseLevelSetType >
-                                                            LevelSetContainerType;
+  using LevelSetContainerType =
+      itk::LevelSetContainer< IdentifierType, SparseLevelSetType >;
 
-  typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >
-                                                            ChanAndVeseInternalTermType;
-  typedef itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >
-                                                            ChanAndVeseExternalTermType;
-  typedef itk::LevelSetEquationCurvatureTerm< InputImageType, LevelSetContainerType >
-                                                            CurvatureTermType;
-  typedef itk::LevelSetEquationPropagationTerm< InputImageType, LevelSetContainerType >
-                                                            PropagationTermType;
-  typedef itk::LevelSetEquationLaplacianTerm< InputImageType, LevelSetContainerType >
-                                                            LaplacianTermType;
-  typedef itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >
-                                                            TermContainerType;
+  using ChanAndVeseInternalTermType =
+      itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >;
+  using ChanAndVeseExternalTermType =
+      itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >;
+  using CurvatureTermType =
+      itk::LevelSetEquationCurvatureTerm< InputImageType, LevelSetContainerType >;
+  using PropagationTermType =
+      itk::LevelSetEquationPropagationTerm< InputImageType, LevelSetContainerType >;
+  using LaplacianTermType =
+      itk::LevelSetEquationLaplacianTerm< InputImageType, LevelSetContainerType >;
+  using TermContainerType =
+      itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >;
 
-  typedef itk::LevelSetEquationContainer< TermContainerType >
-                                                            EquationContainerType;
+  using EquationContainerType = itk::LevelSetEquationContainer<TermContainerType>;
 
-  typedef itk::LevelSetEvolution< EquationContainerType, SparseLevelSetType >
-                                                            LevelSetEvolutionType;
+  using LevelSetEvolutionType =
+      itk::LevelSetEvolution< EquationContainerType, SparseLevelSetType >;
 
-  typedef SparseLevelSetType::OutputRealType                      LevelSetOutputRealType;
-  typedef itk::SinRegularizedHeavisideStepFunction< LevelSetOutputRealType, LevelSetOutputRealType >
-                                                            HeavisideFunctionBaseType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType >     InputIteratorType;
+  using LevelSetOutputRealType = SparseLevelSetType::OutputRealType;
+  using HeavisideFunctionBaseType =
+      itk::SinRegularizedHeavisideStepFunction< LevelSetOutputRealType, LevelSetOutputRealType >;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
 
   // load binary mask
   ReaderType::Pointer reader = ReaderType::New();
@@ -189,8 +187,7 @@ int itkSingleLevelSetWhitakerImage2DWithLaplacianTest( int argc, char* argv[] )
   EquationContainerType::Pointer equationContainer = EquationContainerType::New();
   equationContainer->AddEquation( 0, termContainer0 );
 
-  typedef itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >
-      StoppingCriterionType;
+  using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations( 5 );
 

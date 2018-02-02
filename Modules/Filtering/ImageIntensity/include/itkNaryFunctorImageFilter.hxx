@@ -54,7 +54,7 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
   const unsigned int numberOfInputImages =
     static_cast< unsigned int >( this->GetNumberOfIndexedInputs() );
 
-  typedef ImageScanlineConstIterator< TInputImage > ImageScanlineConstIteratorType;
+  using ImageScanlineConstIteratorType = ImageScanlineConstIterator< TInputImage >;
   std::vector< ImageScanlineConstIteratorType * >   inputItrVector;
   inputItrVector.reserve(numberOfInputImages);
 

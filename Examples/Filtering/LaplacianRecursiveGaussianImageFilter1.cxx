@@ -75,8 +75,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef    float    InputPixelType;
-  typedef    float    OutputPixelType;
+  using InputPixelType = float;
+  using OutputPixelType = float;
   // Software Guide : EndCodeSnippet
 
 
@@ -87,12 +87,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  2 >;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
 
   //  Software Guide : BeginLatex
@@ -105,8 +105,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RecursiveGaussianImageFilter<
-                        InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::RecursiveGaussianImageFilter<
+                        InputImageType, OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -279,10 +279,10 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::AddImageFilter<
+  using AddFilterType = itk::AddImageFilter<
                 OutputImageType,
                 OutputImageType,
-                OutputImageType > AddFilterType;
+                OutputImageType >;
 
   AddFilterType::Pointer addFilter = AddFilterType::New();
 
@@ -320,11 +320,11 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  float WritePixelType;
+  using WritePixelType = float;
 
-  typedef itk::Image< WritePixelType, 2 >    WriteImageType;
+  using WriteImageType = itk::Image< WritePixelType, 2 >;
 
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 
@@ -355,17 +355,17 @@ int main( int argc, char * argv[] )
   //
   if (argc > 4)
     {
-    typedef unsigned char                CharPixelType;
-    typedef itk::Image<CharPixelType, 2> CharImageType;
+    using CharPixelType = unsigned char;
+    using CharImageType = itk::Image<CharPixelType, 2>;
 
-    typedef itk::RescaleIntensityImageFilter< OutputImageType, CharImageType>
-                                                            RescaleFilterType;
+    using RescaleFilterType =
+          itk::RescaleIntensityImageFilter< OutputImageType, CharImageType>;
 
     RescaleFilterType::Pointer rescale = RescaleFilterType::New();
     rescale->SetInput( addFilter->GetOutput() );
     rescale->SetOutputMinimum(   0 );
     rescale->SetOutputMaximum( 255 );
-    typedef itk::ImageFileWriter< CharImageType >  CharWriterType;
+    using CharWriterType = itk::ImageFileWriter< CharImageType >;
     CharWriterType::Pointer charWriter = CharWriterType::New();
     charWriter->SetFileName( argv[4] );
     charWriter->SetInput( rescale->GetOutput() );

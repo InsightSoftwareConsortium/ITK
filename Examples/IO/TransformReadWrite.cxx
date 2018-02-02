@@ -46,13 +46,13 @@ int main( int argc, char * argv[] )
     }
   const char * transformFileName = argv[1];
 
-  typedef double ScalarType;
+  using ScalarType = double;
   const unsigned int Dimension = 3;
 
-  typedef itk::CompositeTransform< ScalarType, Dimension > CompositeTransformType;
+  using CompositeTransformType = itk::CompositeTransform< ScalarType, Dimension >;
   CompositeTransformType::Pointer composite = CompositeTransformType::New();
 
-  typedef itk::AffineTransform< ScalarType, Dimension > AffineTransformType;
+  using AffineTransformType = itk::AffineTransform< ScalarType, Dimension >;
   AffineTransformType::Pointer affine = AffineTransformType::New();
   AffineTransformType::InputPointType cor;
   cor.Fill(12);
@@ -61,10 +61,10 @@ int main( int argc, char * argv[] )
   composite->AddTransform( affine );
 
   const unsigned int SplineOrder = 5;
-  typedef itk::BSplineTransform< ScalarType, Dimension, SplineOrder >
-    BSplineTransformType;
-  typedef itk::BSplineTransform< float, Dimension, SplineOrder >
-    BSplineTransformFType;
+  using BSplineTransformType =
+      itk::BSplineTransform< ScalarType, Dimension, SplineOrder >;
+  using BSplineTransformFType =
+      itk::BSplineTransform< float, Dimension, SplineOrder >;
 
   // By default only BSpline transforms of order 3 are registered.
   // Manually register this order 5 bspline for both float and double
@@ -96,7 +96,7 @@ int main( int argc, char * argv[] )
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::TransformFileWriterTemplate< ScalarType > TransformWriterType;
+  using TransformWriterType = itk::TransformFileWriterTemplate< ScalarType >;
   TransformWriterType::Pointer writer = TransformWriterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -141,10 +141,9 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float ReadScalarType;
+  using ReadScalarType = float;
 
-  typedef itk::TransformFileReaderTemplate< ReadScalarType >
-    TransformReaderType;
+  using TransformReaderType = itk::TransformFileReaderTemplate<ReadScalarType>;
   TransformReaderType::Pointer reader = TransformReaderType::New();
   // Software Guide : EndCodeSnippet
 
@@ -197,8 +196,8 @@ int main( int argc, char * argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CompositeTransform< ReadScalarType, Dimension >
-    ReadCompositeTransformType;
+  using ReadCompositeTransformType =
+      itk::CompositeTransform< ReadScalarType, Dimension >;
   TransformReaderType::TransformListType::const_iterator it
     = transforms->begin();
   if( !strcmp((*it)->GetNameOfClass(),"CompositeTransform") )

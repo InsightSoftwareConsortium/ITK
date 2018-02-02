@@ -71,14 +71,14 @@ class ITK_TEMPLATE_EXPORT AnnulusOperator:
   public NeighborhoodOperator< TPixel, TDimension, TAllocator >
 {
 public:
-  /** Standard typedefs */
-  typedef AnnulusOperator                                        Self;
-  typedef NeighborhoodOperator< TPixel, TDimension, TAllocator > Superclass;
+  /** Standard type alias */
+  using Self = AnnulusOperator;
+  using Superclass = NeighborhoodOperator< TPixel, TDimension, TAllocator >;
 
-  /** Additional typedefs */
-  typedef typename Superclass::SizeType      SizeType;
-  typedef typename Superclass::OffsetType    OffsetType;
-  typedef Vector< double, TDimension >       SpacingType;
+  /** Additional type alias */
+  using SizeType = typename Superclass::SizeType;
+  using OffsetType = typename Superclass::OffsetType;
+  using SpacingType = Vector< double, TDimension >;
 
   itkTypeMacro(AnnulusOperator, NeighborhoodOperator);
 
@@ -209,8 +209,8 @@ protected:
 
   /** Typedef support for coefficient vector type.  Necessary to
    *  work around compiler bug on VC++. */
-  typedef typename Superclass::CoefficientVector CoefficientVector;
-  typedef typename Superclass::PixelType         PixelType;
+  using CoefficientVector = typename Superclass::CoefficientVector;
+  using PixelType = typename Superclass::PixelType;
 
   /** Calculates operator coefficients. */
   CoefficientVector GenerateCoefficients() override;

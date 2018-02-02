@@ -32,10 +32,10 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolutionNumberOfIterationsStoppingCriterion :
   public LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
 {
 public:
-  typedef LevelSetEvolutionNumberOfIterationsStoppingCriterion     Self;
-  typedef LevelSetEvolutionStoppingCriterion< TLevelSetContainer > Superclass;
-  typedef SmartPointer< Self >                                     Pointer;
-  typedef SmartPointer< const Self >                               ConstPointer;
+  using Self = LevelSetEvolutionNumberOfIterationsStoppingCriterion;
+  using Superclass = LevelSetEvolutionStoppingCriterion< TLevelSetContainer >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through object factory */
   itkNewMacro( Self );
@@ -44,21 +44,21 @@ public:
   itkTypeMacro( LevelSetEvolutionNumberOfIterationsStoppingCriterion,
                 LevelSetEvolutionStoppingCriterion );
 
-  typedef TLevelSetContainer                               LevelSetContainerType;
-  typedef typename LevelSetContainerType::Pointer          LevelSetContainerPointer;
+  using LevelSetContainerType = TLevelSetContainer;
+  using LevelSetContainerPointer = typename LevelSetContainerType::Pointer;
 
-  typedef typename LevelSetContainerType::LevelSetIdentifierType  LevelSetIdentifierType;
-  typedef typename LevelSetContainerType::LevelSetType            LevelSetType;
-  typedef typename LevelSetContainerType::LevelSetPointer         LevelSetPointer;
+  using LevelSetIdentifierType = typename LevelSetContainerType::LevelSetIdentifierType;
+  using LevelSetType = typename LevelSetContainerType::LevelSetType;
+  using LevelSetPointer = typename LevelSetContainerType::LevelSetPointer;
 
-  typedef typename LevelSetContainerType::InputIndexType   InputIndexType;
-  typedef typename LevelSetContainerType::OutputType       OutputType;
-  typedef typename LevelSetContainerType::OutputRealType   OutputRealType;
-  typedef typename LevelSetContainerType::GradientType     GradientType;
-  typedef typename LevelSetContainerType::HessianType      HessianType;
+  using InputIndexType = typename LevelSetContainerType::InputIndexType;
+  using OutputType = typename LevelSetContainerType::OutputType;
+  using OutputRealType = typename LevelSetContainerType::OutputRealType;
+  using GradientType = typename LevelSetContainerType::GradientType;
+  using HessianType = typename LevelSetContainerType::HessianType;
 
-  typedef typename LevelSetContainerType::HeavisideType    HeavisideType;
-  typedef typename LevelSetContainerType::HeavisideType    HeavisidePointer;
+  using HeavisideType = typename LevelSetContainerType::HeavisideType;
+  using HeavisidePointer = typename LevelSetContainerType::HeavisideType;
 
   bool IsSatisfied() const override;
 

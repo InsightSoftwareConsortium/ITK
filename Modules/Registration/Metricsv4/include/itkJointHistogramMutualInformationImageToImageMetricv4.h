@@ -49,12 +49,12 @@ class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationImageToImageMetricv4 :
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef JointHistogramMutualInformationImageToImageMetricv4              Self;
-  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
-                             TInternalComputationValueType,TMetricTraits>  Superclass;
-  typedef SmartPointer<Self>                                               Pointer;
-  typedef SmartPointer<const Self>                                         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = JointHistogramMutualInformationImageToImageMetricv4;
+  using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
+                             TInternalComputationValueType,TMetricTraits>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,73 +63,72 @@ public:
   itkTypeMacro(JointHistogramMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
 
   /** Type used for representing parameter values  */
-  typedef typename Superclass::CoordinateRepresentationType
-                                                  CoordinateRepresentationType;
+  using CoordinateRepresentationType = typename Superclass::CoordinateRepresentationType;
   /** Type used internally for computations */
   /** It should be possible to derive the internal computation type from the class object. */
-  typedef TInternalComputationValueType               InternalComputationValueType;
+  using InternalComputationValueType = TInternalComputationValueType;
   /**  Type of the parameters. */
-  typedef typename Superclass::ParametersType         ParametersType;
-  typedef typename Superclass::ParametersValueType    ParametersValueType;
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
-  /** Superclass typedefs */
-  typedef typename Superclass::MeasureType              MeasureType;
-  typedef typename Superclass::DerivativeType           DerivativeType;
-  typedef typename Superclass::FixedImagePointType      FixedImagePointType;
-  typedef typename Superclass::FixedImagePixelType      FixedImagePixelType;
-  typedef typename Superclass::FixedGradientPixelType   FixedImageGradientType;
-  typedef typename Superclass::MovingImagePointType     MovingImagePointType;
-  typedef typename Superclass::MovingImagePixelType     MovingImagePixelType;
-  typedef typename Superclass::MovingGradientPixelType  MovingImageGradientType;
+  /** Superclass type alias */
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using FixedImagePointType = typename Superclass::FixedImagePointType;
+  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
+  using FixedImageGradientType = typename Superclass::FixedGradientPixelType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
+  using MovingImageGradientType = typename Superclass::MovingGradientPixelType;
 
-  typedef typename Superclass::FixedTransformType::JacobianType  FixedTransformJacobianType;
-  typedef typename Superclass::MovingTransformType::JacobianType MovingTransformJacobianType;
+  using FixedTransformJacobianType = typename Superclass::FixedTransformType::JacobianType;
+  using MovingTransformJacobianType = typename Superclass::MovingTransformType::JacobianType;
 
-  typedef typename Superclass::VirtualImageType         VirtualImageType;
-  typedef typename Superclass::VirtualIndexType         VirtualIndexType;
-  typedef typename Superclass::VirtualPointType         VirtualPointType;
-  typedef typename Superclass::VirtualPointSetType      VirtualPointSetType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualPointSetType = typename Superclass::VirtualPointSetType;
 
   /* Image dimension accessors */
   itkStaticConstMacro(VirtualImageDimension, typename TVirtualImage::ImageDimensionType, TVirtualImage::ImageDimension);
   itkStaticConstMacro(MovingImageDimension,  typename TMovingImage::ImageDimensionType,  TMovingImage::ImageDimension);
 
   /** Value type of the PDF */
-  typedef TInternalComputationValueType                  PDFValueType;
+  using PDFValueType = TInternalComputationValueType;
 
   /** Typedef for the joint PDF and marginal PDF are stored as ITK Images. */
-  typedef Image<PDFValueType,1>                 MarginalPDFType;
-  typedef typename MarginalPDFType::IndexType   MarginalPDFIndexType;
-  typedef typename MarginalPDFType::PointType   MarginalPDFPointType;
-  typedef Image< PDFValueType, 2>               JointPDFType;
-  typedef typename JointPDFType::IndexType      JointPDFIndexType;
-  typedef typename JointPDFType::PointType      JointPDFPointType;
-  typedef typename JointPDFType::IndexValueType JointPDFIndexValueType;
+  using MarginalPDFType = Image<PDFValueType,1>;
+  using MarginalPDFIndexType = typename MarginalPDFType::IndexType;
+  using MarginalPDFPointType = typename MarginalPDFType::PointType;
+  using JointPDFType = Image< PDFValueType, 2>;
+  using JointPDFIndexType = typename JointPDFType::IndexType;
+  using JointPDFPointType = typename JointPDFType::PointType;
+  using JointPDFIndexValueType = typename JointPDFType::IndexValueType;
 
   /** Get the JointPDF.  Valid after GetValueAndDerivative has been called. */
   itkGetModifiableObjectMacro(JointPDF, JointPDFType );
 
   // Declare the type for the derivative calculation
-  typedef itk::GradientRecursiveGaussianImageFilter< JointPDFType > JPDFGradientFilterType;
-  typedef typename JPDFGradientFilterType::OutputImageType          JPDFGradientImageType;
-  typedef typename JPDFGradientImageType::Pointer                   JPDFGradientImagePointer;
+  using JPDFGradientFilterType = itk::GradientRecursiveGaussianImageFilter< JointPDFType >;
+  using JPDFGradientImageType = typename JPDFGradientFilterType::OutputImageType;
+  using JPDFGradientImagePointer = typename JPDFGradientImageType::Pointer;
 
-  typedef itk::GradientRecursiveGaussianImageFilter< MarginalPDFType >  MarginalGradientFilterType;
-  typedef typename MarginalGradientFilterType::OutputImageType          MarginalGradientImageType;
-  typedef typename MarginalGradientImageType::Pointer                   MarginalGradientImagePointer;
+  using MarginalGradientFilterType = itk::GradientRecursiveGaussianImageFilter< MarginalPDFType >;
+  using MarginalGradientImageType = typename MarginalGradientFilterType::OutputImageType;
+  using MarginalGradientImagePointer = typename MarginalGradientImageType::Pointer;
 
   /** pdf interpolator */
-  typedef LinearInterpolateImageFunction<JointPDFType,double>     JointPDFInterpolatorType;
-  typedef typename JointPDFInterpolatorType::Pointer              JointPDFInterpolatorPointer;
-  typedef LinearInterpolateImageFunction<MarginalPDFType,double>  MarginalPDFInterpolatorType;
-  typedef typename MarginalPDFInterpolatorType::Pointer           MarginalPDFInterpolatorPointer;
+  using JointPDFInterpolatorType = LinearInterpolateImageFunction<JointPDFType,double>;
+  using JointPDFInterpolatorPointer = typename JointPDFInterpolatorType::Pointer;
+  using MarginalPDFInterpolatorType = LinearInterpolateImageFunction<MarginalPDFType,double>;
+  using MarginalPDFInterpolatorPointer = typename MarginalPDFInterpolatorType::Pointer;
 
   /** Joint PDF types */
-  typedef typename JointPDFType::PixelType             JointPDFValueType;
-  typedef typename JointPDFType::RegionType            JointPDFRegionType;
-  typedef typename JointPDFType::SizeType              JointPDFSizeType;
-  typedef typename JointPDFType::SpacingType           JointPDFSpacingType;
+  using JointPDFValueType = typename JointPDFType::PixelType;
+  using JointPDFRegionType = typename JointPDFType::RegionType;
+  using JointPDFSizeType = typename JointPDFType::SizeType;
+  using JointPDFSpacingType = typename JointPDFType::SpacingType;
 
 
   /** Get/Set the number of histogram bins */
@@ -166,10 +165,10 @@ protected:
   friend class JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionPartitioner< Self::VirtualImageDimension >, Self >;
   friend class JointHistogramMutualInformationComputeJointPDFThreader< ThreadedIndexedContainerPartitioner, Self >;
 
-  typedef JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionPartitioner< Self::VirtualImageDimension >, Self >
-    JointHistogramMutualInformationDenseComputeJointPDFThreaderType;
-  typedef JointHistogramMutualInformationComputeJointPDFThreader< ThreadedIndexedContainerPartitioner, Self >
-    JointHistogramMutualInformationSparseComputeJointPDFThreaderType;
+  using JointHistogramMutualInformationDenseComputeJointPDFThreaderType =
+      JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionPartitioner< Self::VirtualImageDimension >, Self >;
+  using JointHistogramMutualInformationSparseComputeJointPDFThreaderType =
+      JointHistogramMutualInformationComputeJointPDFThreader< ThreadedIndexedContainerPartitioner, Self >;
 
   typename JointHistogramMutualInformationDenseComputeJointPDFThreaderType::Pointer  m_JointHistogramMutualInformationDenseComputeJointPDFThreader;
   typename JointHistogramMutualInformationSparseComputeJointPDFThreaderType::Pointer m_JointHistogramMutualInformationSparseComputeJointPDFThreader;
@@ -177,10 +176,10 @@ protected:
   friend class JointHistogramMutualInformationGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
   friend class JointHistogramMutualInformationGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
 
-  typedef JointHistogramMutualInformationGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >
-    JointHistogramMutualInformationDenseGetValueAndDerivativeThreaderType;
-  typedef JointHistogramMutualInformationGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
-    JointHistogramMutualInformationSparseGetValueAndDerivativeThreaderType;
+  using JointHistogramMutualInformationDenseGetValueAndDerivativeThreaderType =
+      JointHistogramMutualInformationGetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+  using JointHistogramMutualInformationSparseGetValueAndDerivativeThreaderType =
+      JointHistogramMutualInformationGetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
 
   /** Standard PrintSelf method. */
   void PrintSelf(std::ostream & os, Indent indent) const override;

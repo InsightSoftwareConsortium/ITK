@@ -96,8 +96,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel< float >          InputPixelType;
-  typedef itk::Image< InputPixelType, 2 > InputImageType;
+  using InputPixelType = itk::RGBPixel< float >;
+  using InputImageType = itk::Image< InputPixelType, 2 >;
   // Software Guide : EndCodeSnippet
 
 
@@ -113,8 +113,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::VectorGradientAnisotropicDiffusionImageFilter<
-                       InputImageType, InputImageType >  FilterType;
+  using FilterType = itk::VectorGradientAnisotropicDiffusionImageFilter<
+                       InputImageType, InputImageType >;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -127,7 +127,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   filter->SetInput( reader->GetOutput() );
@@ -173,10 +173,10 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel< unsigned char >   WritePixelType;
-  typedef itk::Image< WritePixelType, 2 >  WriteImageType;
-  typedef itk::VectorCastImageFilter<
-                InputImageType, WriteImageType >  CasterType;
+  using WritePixelType = itk::RGBPixel< unsigned char >;
+  using WriteImageType = itk::Image< WritePixelType, 2 >;
+  using CasterType = itk::VectorCastImageFilter<
+                InputImageType, WriteImageType >;
   CasterType::Pointer caster = CasterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -190,7 +190,7 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
   WriterType::Pointer writer = WriterType::New();
   caster->SetInput( filter->GetOutput() );
   writer->SetInput( caster->GetOutput() );

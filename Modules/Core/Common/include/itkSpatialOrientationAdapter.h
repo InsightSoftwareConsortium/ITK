@@ -80,16 +80,15 @@ class ITKCommon_EXPORT SpatialOrientationAdapter:
   public OrientationAdapterBase< SpatialOrientation::ValidCoordinateOrientationFlags, 3 >
 {
 public:
-  /** typedef for superclass */
-  typedef SpatialOrientationAdapter Self;
+  /** type alias for superclass */
+  using Self = SpatialOrientationAdapter;
 
-  typedef OrientationAdapterBase< SpatialOrientation::ValidCoordinateOrientationFlags, 3 >
-  Superclass;
+  using Superclass = OrientationAdapterBase< SpatialOrientation::ValidCoordinateOrientationFlags, 3 >;
 
-  typedef SpatialOrientation::ValidCoordinateOrientationFlags OrientationType;
+  using OrientationType = SpatialOrientation::ValidCoordinateOrientationFlags;
 
-  /** typedef for direction cosines */
-  typedef Superclass::DirectionType DirectionType;
+  /** type alias for direction cosines */
+  using DirectionType = Superclass::DirectionType;
 
   /** Constructor */
   SpatialOrientationAdapter() {}

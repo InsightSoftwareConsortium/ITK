@@ -45,11 +45,11 @@ class ITK_TEMPLATE_EXPORT InterpolateImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef InterpolateImageFilter                          Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = InterpolateImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,12 +57,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(InterpolateImageFilter, ImageToImageFilter);
 
-  /** Inherit typedefs from Superclass */
-  typedef typename Superclass::InputImageType        InputImageType;
-  typedef typename Superclass::InputImagePointer     InputImagePointer;
-  typedef typename Superclass::OutputImageType       OutputImageType;
-  typedef typename Superclass::OutputImagePointer    OutputImagePointer;
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Inherit type alias from Superclass */
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Number of dimensions. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -70,10 +70,10 @@ public:
   itkStaticConstMacro(IntermediateImageDimension, unsigned int,
                       TOutputImage::ImageDimension + 1);
 
-  /** Interpolator typedef. */
-  typedef typename TInputImage::PixelType                                             InputPixelType;
-  typedef Image< InputPixelType, itkGetStaticConstMacro(IntermediateImageDimension) > IntermediateImageType;
-  typedef InterpolateImageFunction< IntermediateImageType >                           InterpolatorType;
+  /** Interpolator type alias. */
+  using InputPixelType = typename TInputImage::PixelType;
+  using IntermediateImageType = Image< InputPixelType, itkGetStaticConstMacro(IntermediateImageDimension) >;
+  using InterpolatorType = InterpolateImageFunction< IntermediateImageType >;
 
   /** Set/Get the first image */
   void SetInput1(const InputImageType *image)

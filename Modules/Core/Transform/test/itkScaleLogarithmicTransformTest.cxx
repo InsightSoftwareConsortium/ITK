@@ -24,7 +24,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
 {
 
 
-  typedef itk::ScaleLogarithmicTransform<double>  TransformType;
+  using TransformType = itk::ScaleLogarithmicTransform<double>;
 
 
   const double epsilon = 1e-10;
@@ -220,7 +220,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
 
     // Exercise Set/Get Center methods
     {
-      typedef TransformType::InputPointType  CenterType;
+      using CenterType = TransformType::InputPointType;
       CenterType center;
       center[0] = 5;
       center[1] = 6;
@@ -245,7 +245,7 @@ int itkScaleLogarithmicTransformTest(int ,char * [] )
 
     // Exercise Set/Get parameters
     {
-      typedef TransformType::ParametersType  ParametersType;
+      using ParametersType = TransformType::ParametersType;
       ParametersType parameters;
 
       parameters = scaleTransform->GetParameters();

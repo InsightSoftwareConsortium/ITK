@@ -39,23 +39,23 @@ int itkLabelMapToBinaryImageFilterTest( int argc, char * argv [] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char BinaryPixelType;
-  typedef unsigned char LabelPixelType;
+  using BinaryPixelType = unsigned char;
+  using LabelPixelType = unsigned char;
 
-  typedef itk::Image< BinaryPixelType, Dimension > BinaryImageType;
-  typedef itk::Image< LabelPixelType, Dimension >  LabelImageType;
+  using BinaryImageType = itk::Image< BinaryPixelType, Dimension >;
+  using LabelImageType = itk::Image< LabelPixelType, Dimension >;
 
-  typedef itk::LabelObject< LabelPixelType, Dimension >   LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >                LabelMapType;
+  using LabelObjectType = itk::LabelObject< LabelPixelType, Dimension >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
-  typedef itk::ImageFileReader< LabelImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< LabelImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToLabelMapFilter< LabelImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToLabelMapFilter< LabelImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
 
-  typedef itk::LabelMapToBinaryImageFilter< LabelMapType, BinaryImageType > L2IType;
+  using L2IType = itk::LabelMapToBinaryImageFilter< LabelMapType, BinaryImageType >;
   L2IType::Pointer l2i = L2IType::New();
 
   l2i->SetForegroundValue( atoi(argv[3]) );
@@ -66,7 +66,7 @@ int itkLabelMapToBinaryImageFilterTest( int argc, char * argv [] )
 
   itk::SimpleFilterWatcher watcher( l2i );
 
-  typedef itk::ImageFileWriter< BinaryImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< BinaryImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[2] );

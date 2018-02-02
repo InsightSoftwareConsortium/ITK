@@ -34,7 +34,7 @@ int itkContourSpatialObjectTest(int, char* [])
   // Set up data
   //
   const unsigned int NumDimensions = 2;
-  typedef itk::ContourSpatialObject<NumDimensions> SpatialObjectType;
+  using SpatialObjectType = itk::ContourSpatialObject<NumDimensions>;
 
   // contour is a unit square
   SpatialObjectType::ControlPointType pt1;

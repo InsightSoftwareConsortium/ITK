@@ -82,34 +82,34 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
   const unsigned int dimension = 3;
   unsigned int j;
 
-  typedef float  PixelType;
+  using PixelType = float;
 
   // Fixed Image Type
-  typedef itk::Image<PixelType,dimension>               FixedImageType;
+  using FixedImageType = itk::Image<PixelType,dimension>;
 
   // Moving Image Type
-  typedef itk::Image<PixelType,dimension>               MovingImageType;
+  using MovingImageType = itk::Image<PixelType,dimension>;
 
   // Transform Type
-  typedef itk::AffineTransform< double,dimension >  TransformType;
+  using TransformType = itk::AffineTransform< double,dimension >;
 
   // Optimizer Type
-  typedef itk::GradientDescentOptimizer             OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizer;
 
   // Metric Type
-  typedef itk::MattesMutualInformationImageToImageMetric<
+  using MetricType = itk::MattesMutualInformationImageToImageMetric<
                                     FixedImageType,
-                                    MovingImageType >    MetricType;
+                                    MovingImageType >;
 
   // Interpolation technique
-  typedef itk:: BSplineInterpolateImageFunction<
+  using InterpolatorType = itk:: BSplineInterpolateImageFunction<
                                     MovingImageType,
-                                    double          >    InterpolatorType;
+                                    double          >;
 
   // Registration Method
-  typedef itk::ImageRegistrationMethod<
+  using RegistrationType = itk::ImageRegistrationMethod<
                                     FixedImageType,
-                                    MovingImageType >    RegistrationType;
+                                    MovingImageType >;
 
 
   MetricType::Pointer         metric        = MetricType::New();
@@ -144,8 +144,8 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
   movingImage->Allocate();
 
 
-  typedef itk::ImageRegionIterator<MovingImageType> MovingImageIterator;
-  typedef itk::ImageRegionIterator<FixedImageType>  FixedImageIterator;
+  using MovingImageIterator = itk::ImageRegionIterator<MovingImageType>;
+  using FixedImageIterator = itk::ImageRegionIterator<FixedImageType>;
 
   itk::Point<double,dimension> center;
   for ( j = 0; j < dimension; j++ )
@@ -198,7 +198,7 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
    ******************************************************************/
 
   // set the translation scale
-  typedef OptimizerType::ScalesType ScalesType;
+  using ScalesType = OptimizerType::ScalesType;
   ScalesType parametersScales( transform->GetNumberOfParameters() );
 
   parametersScales.Fill( 1.0 );
@@ -214,7 +214,7 @@ int itkImageRegistrationMethodTest_15(int, char* [] )
   /******************************************************************
    * Set up the optimizer observer
    ******************************************************************/
-  typedef itk::CommandIterationUpdate< OptimizerType > CommandIterationType;
+  using CommandIterationType = itk::CommandIterationUpdate< OptimizerType >;
   CommandIterationType::Pointer iterationCommand =
     CommandIterationType::New();
 

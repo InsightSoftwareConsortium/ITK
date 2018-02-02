@@ -76,11 +76,11 @@ template< typename TOutputMesh,
 class ITK_TEMPLATE_EXPORT MeshFileReader:public MeshSource< TOutputMesh >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MeshFileReader             Self;
-  typedef MeshSource< TOutputMesh >  Superclass;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef SmartPointer< Self >       Pointer;
+  /** Standard class type aliases. */
+  using Self = MeshFileReader;
+  using Superclass = MeshSource< TOutputMesh >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -89,26 +89,26 @@ public:
   itkTypeMacro(MeshFileReader, MeshSource);
 
   /** Define output mesh types */
-  typedef TOutputMesh                              OutputMeshType;
-  typedef typename OutputMeshType::CoordRepType    OutputCoordRepType;
-  typedef typename OutputMeshType::PixelType       OutputPointPixelType;
-  typedef typename OutputMeshType::CellPixelType   OutputCellPixelType;
-  typedef typename OutputMeshType::PointType       OutputPointType;
-  typedef typename OutputMeshType::PointIdentifier OutputPointIdentifier;
-  typedef typename OutputMeshType::CellIdentifier  OutputCellIdentifier;
-  typedef typename OutputMeshType::CellAutoPointer OutputCellAutoPointer;
-  typedef typename OutputMeshType::CellType        OutputCellType;
-  typedef typename MeshIOBase::SizeValueType       SizeValueType;
+  using OutputMeshType = TOutputMesh;
+  using OutputCoordRepType = typename OutputMeshType::CoordRepType;
+  using OutputPointPixelType = typename OutputMeshType::PixelType;
+  using OutputCellPixelType = typename OutputMeshType::CellPixelType;
+  using OutputPointType = typename OutputMeshType::PointType;
+  using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;
+  using OutputCellIdentifier = typename OutputMeshType::CellIdentifier;
+  using OutputCellAutoPointer = typename OutputMeshType::CellAutoPointer;
+  using OutputCellType = typename OutputMeshType::CellType;
+  using SizeValueType = typename MeshIOBase::SizeValueType;
 
-  typedef VertexCell< OutputCellType >            OutputVertexCellType;
-  typedef LineCell< OutputCellType >              OutputLineCellType;
-  typedef TriangleCell< OutputCellType >          OutputTriangleCellType;
-  typedef PolygonCell< OutputCellType >           OutputPolygonCellType;
-  typedef TetrahedronCell< OutputCellType >       OutputTetrahedronCellType;
-  typedef HexahedronCell< OutputCellType >        OutputHexahedronCellType;
-  typedef QuadrilateralCell< OutputCellType >     OutputQuadrilateralCellType;
-  typedef QuadraticEdgeCell< OutputCellType >     OutputQuadraticEdgeCellType;
-  typedef QuadraticTriangleCell< OutputCellType > OutputQuadraticTriangleCellType;
+  using OutputVertexCellType = VertexCell< OutputCellType >;
+  using OutputLineCellType = LineCell< OutputCellType >;
+  using OutputTriangleCellType = TriangleCell< OutputCellType >;
+  using OutputPolygonCellType = PolygonCell< OutputCellType >;
+  using OutputTetrahedronCellType = TetrahedronCell< OutputCellType >;
+  using OutputHexahedronCellType = HexahedronCell< OutputCellType >;
+  using OutputQuadrilateralCellType = QuadrilateralCell< OutputCellType >;
+  using OutputQuadraticEdgeCellType = QuadraticEdgeCell< OutputCellType >;
+  using OutputQuadraticTriangleCellType = QuadraticTriangleCell< OutputCellType >;
 
   /** Define output point dimension */
   itkStaticConstMacro(OutputPointDimension, unsigned int, OutputMeshType::PointDimension);

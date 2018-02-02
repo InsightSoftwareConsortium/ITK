@@ -43,14 +43,14 @@ class ITKCommon_EXPORT StdStreamLogOutput:public LogOutput
 {
 public:
 
-  typedef StdStreamLogOutput         Self;
-  typedef LogOutput                  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = StdStreamLogOutput;
+  using Superclass = LogOutput;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef std::ostream StreamType;
+  using StreamType = std::ostream;
 
-  typedef std::ostream *StreamPointerType;
+  using StreamPointerType = std::ostream *;
 
   itkTypeMacro(StdStreamLogOutput, LogOutput);
 

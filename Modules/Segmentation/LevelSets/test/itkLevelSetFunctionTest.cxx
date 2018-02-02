@@ -94,17 +94,17 @@ public:
   void SetDistanceTransform (::itk::Image<float, 2> *d)
     { m_DistanceTransform = d; }
 
-  typedef MorphFunction Self;
+  using Self = MorphFunction;
 
-  typedef ::itk::LevelSetFunction< ::itk::Image<float, 2> > Superclass;
-  typedef Superclass::RadiusType                            RadiusType;
-  typedef Superclass::GlobalDataStruct                      GlobalDataStruct;
+  using Superclass = ::itk::LevelSetFunction< ::itk::Image<float, 2> >;
+  using RadiusType = Superclass::RadiusType;
+  using GlobalDataStruct = Superclass::GlobalDataStruct;
 
    /**
    * Smart pointer support for this class.
    */
-  typedef ::itk::SmartPointer<Self>       Pointer;
-  typedef ::itk::SmartPointer<const Self> ConstPointer;
+  using Pointer = ::itk::SmartPointer<Self>;
+  using ConstPointer = ::itk::SmartPointer<const Self>;
 
   /**
    * Run-time type information (and related methods)
@@ -144,13 +144,13 @@ class MorphFilter : public
 ::itk::DenseFiniteDifferenceImageFilter< ::itk::Image<float, 2>, ::itk::Image<float, 2> >
 {
 public:
-  typedef MorphFilter Self;
+  using Self = MorphFilter;
 
   /**
    * Smart pointer support for this class.
    */
-  typedef ::itk::SmartPointer<Self>       Pointer;
-  typedef ::itk::SmartPointer<const Self> ConstPointer;
+  using Pointer = ::itk::SmartPointer<Self>;
+  using ConstPointer = ::itk::SmartPointer<const Self>;
 
   /**
    * Run-time type information (and related methods)
@@ -201,7 +201,7 @@ private:
 
 int itkLevelSetFunctionTest(int, char* [] )
 {
-  typedef ::itk::Image<float, 2> ImageType;
+  using ImageType = ::itk::Image<float, 2>;
 
   const int n = 100;  // Number of iterations
 

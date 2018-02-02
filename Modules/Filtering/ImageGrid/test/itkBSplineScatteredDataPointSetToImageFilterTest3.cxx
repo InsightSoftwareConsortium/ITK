@@ -42,15 +42,15 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   const unsigned int ParametricDimension = 1;
   const unsigned int DataDimension = 3;
 
-  typedef double                                              RealType;
-  typedef unsigned char                                       OutputPixelType;
-  typedef itk::Vector<RealType, DataDimension>                VectorType;
-  typedef itk::Vector<OutputPixelType, DataDimension>         OutputVectorType;
-  typedef itk::Image< VectorType, ParametricDimension>        ImageType;
-  typedef itk::Image< OutputVectorType, ParametricDimension>  OutputImageType;
-  typedef VectorType                                          PointSetPixelType;
+  using RealType = double;
+  using OutputPixelType = unsigned char;
+  using VectorType = itk::Vector<RealType, DataDimension>;
+  using OutputVectorType = itk::Vector<OutputPixelType, DataDimension>;
+  using ImageType = itk::Image< VectorType, ParametricDimension>;
+  using OutputImageType = itk::Image< OutputVectorType, ParametricDimension>;
+  using PointSetPixelType = VectorType;
 
-  typedef itk::PointSet< PointSetPixelType, ParametricDimension > PointSetType;
+  using PointSetType = itk::PointSet< PointSetPixelType, ParametricDimension >;
 
   PointSetType::Pointer pointSet = PointSetType::New();
 
@@ -86,8 +86,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   inputFile.close();
 
   // Instantiate the filter and set the parameters
-  typedef itk::BSplineScatteredDataPointSetToImageFilter
-    <PointSetType, ImageType> FilterType;
+  using FilterType = itk::BSplineScatteredDataPointSetToImageFilter
+    <PointSetType, ImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -134,14 +134,14 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   ImageType::Pointer outputImage = filter->GetOutput();
 
   // Cast the output image
-  typedef itk::CastImageFilter< ImageType, OutputImageType > CastImageFilterType;
+  using CastImageFilterType = itk::CastImageFilter< ImageType, OutputImageType >;
 
   CastImageFilterType::Pointer caster = CastImageFilterType::New();
 
   caster->SetInput( outputImage );
 
   // Write the result image
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

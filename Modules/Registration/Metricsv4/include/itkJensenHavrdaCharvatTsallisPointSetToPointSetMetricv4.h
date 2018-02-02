@@ -72,12 +72,12 @@ class ITK_TEMPLATE_EXPORT JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4 :
     public PointSetToPointSetMetricv4<TPointSet, TPointSet, TInternalComputationValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4 Self;
-  typedef PointSetToPointSetMetricv4<TPointSet, TPointSet,
-    TInternalComputationValueType>                             Superclass;
-  typedef SmartPointer<Self>                                   Pointer;
-  typedef SmartPointer<const Self>                             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4;
+  using Superclass = PointSetToPointSetMetricv4<TPointSet, TPointSet,
+    TInternalComputationValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro( Self );
@@ -85,37 +85,37 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro( JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4, PointSetToPointSetMetricv4 );
 
-  typedef TPointSet                                 PointSetType;
-  typedef typename PointSetType::PointsContainer    PointsContainer;
-  typedef typename PointsContainer::ConstIterator   PointsContainerConstIterator;
+  using PointSetType = TPointSet;
+  using PointsContainer = typename PointSetType::PointsContainer;
+  using PointsContainerConstIterator = typename PointsContainer::ConstIterator;
 
   itkStaticConstMacro( PointDimension, unsigned int, TPointSet::PointDimension );
 
   /** Types transferred from the base class */
-  typedef typename Superclass::MeasureType              MeasureType;
-  typedef typename Superclass::DerivativeType           DerivativeType;
-  typedef typename Superclass::DerivativeValueType      DerivativeValueType;
-  typedef typename Superclass::LocalDerivativeType      LocalDerivativeType;
-  typedef typename Superclass::PointType                PointType;
-  typedef typename Superclass::PixelType                PixelType;
-  typedef typename Superclass::CoordRepType             CoordRepType;
-  typedef typename Superclass::PointIdentifier          PointIdentifier;
-  typedef typename Superclass::NeighborsIdentifierType  NeighborsIdentifierType;
-  typedef typename Superclass::NumberOfParametersType   NumberOfParametersType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename Superclass::DerivativeValueType;
+  using LocalDerivativeType = typename Superclass::LocalDerivativeType;
+  using PointType = typename Superclass::PointType;
+  using PixelType = typename Superclass::PixelType;
+  using CoordRepType = typename Superclass::CoordRepType;
+  using PointIdentifier = typename Superclass::PointIdentifier;
+  using NeighborsIdentifierType = typename Superclass::NeighborsIdentifierType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
-  typedef typename Superclass::JacobianType                   JacobianType;
-  typedef typename Superclass::FixedTransformJacobianType     FixedTransformJacobianType;
-  typedef typename Superclass::MovingTransformJacobianType    MovingTransformJacobianType;
+  using JacobianType = typename Superclass::JacobianType;
+  using FixedTransformJacobianType = typename Superclass::FixedTransformJacobianType;
+  using MovingTransformJacobianType = typename Superclass::MovingTransformJacobianType;
 
-  typedef MeasureType                                   RealType;
+  using RealType = MeasureType;
 
   /**
    * Other typedefs
    */
-  typedef ManifoldParzenWindowsPointSetFunction
-    <PointSetType, RealType>                            DensityFunctionType;
-  typedef typename DensityFunctionType::GaussianType    GaussianType;
-  typedef typename DensityFunctionType::Pointer         DensityFunctionPointer;
+  using DensityFunctionType = ManifoldParzenWindowsPointSetFunction
+    <PointSetType, RealType>;
+  using GaussianType = typename DensityFunctionType::GaussianType;
+  using DensityFunctionPointer = typename DensityFunctionType::Pointer;
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */

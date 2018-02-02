@@ -37,18 +37,18 @@ int itkMaskFeaturePointSelectionFilterTest( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char                  InputPixelType;
-  typedef itk::RGBPixel<InputPixelType>  OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = itk::RGBPixel<InputPixelType>;
 
-  typedef itk::Image< InputPixelType,  3 > InputImageType;
-  typedef itk::Image< OutputPixelType, 3 > OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  3 >;
+  using OutputImageType = itk::Image< OutputPixelType, 3 >;
 
-  typedef itk::Matrix< itk::SpacePrecisionType, 3, 3 > PointSetPixelType;
-  typedef itk::PointSet< PointSetPixelType, 3 >        PointSetType;
+  using PointSetPixelType = itk::Matrix< itk::SpacePrecisionType, 3, 3 >;
+  using PointSetType = itk::PointSet< PointSetPixelType, 3 >;
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef itk::MaskFeaturePointSelectionFilter< InputImageType, InputImageType, PointSetType >  FilterType;
+  using FilterType = itk::MaskFeaturePointSelectionFilter< InputImageType, InputImageType, PointSetType >;
 
   //Set up the reader
   ReaderType::Pointer reader = ReaderType::New();
@@ -75,12 +75,12 @@ int itkMaskFeaturePointSelectionFilterTest( int argc, char * argv[] )
     }
 
   //Set up the writer
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
 
-  typedef itk::ImageRegionConstIterator< InputImageType >         InputIteratorType;
+  using InputIteratorType = itk::ImageRegionConstIterator< InputImageType >;
   InputIteratorType inputIterator( reader->GetOutput(), reader->GetOutput()->GetBufferedRegion() );
-  typedef itk::ImageRegionIterator< OutputImageType > OutputIteratorType;
+  using OutputIteratorType = itk::ImageRegionIterator< OutputImageType >;
 
   OutputImageType::Pointer outputImage = OutputImageType::New();
   outputImage->CopyInformation( reader->GetOutput() );
@@ -105,7 +105,7 @@ int itkMaskFeaturePointSelectionFilterTest( int argc, char * argv[] )
     }
 
   //Highlight the feature points identified in the output image
-  typedef PointSetType::PointsContainer::ConstIterator PointIteratorType;
+  using PointIteratorType = PointSetType::PointsContainer::ConstIterator;
 
   PointIteratorType pointItr =
           filter->GetOutput()->GetPoints()->Begin();

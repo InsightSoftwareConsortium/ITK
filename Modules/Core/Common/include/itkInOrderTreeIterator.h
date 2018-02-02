@@ -28,12 +28,12 @@ class InOrderTreeIterator:public TreeIteratorBase< TTreeType >
 public:
 
   /** Typedefs */
-  typedef InOrderTreeIterator               Self;
-  typedef TreeIteratorBase< TTreeType >     Superclass;
-  typedef TTreeType                         TreeType;
-  typedef typename TTreeType::ValueType     ValueType;
-  typedef typename Superclass::TreeNodeType TreeNodeType;
-  typedef typename Superclass::NodeType     NodeType;
+  using Self = InOrderTreeIterator;
+  using Superclass = TreeIteratorBase< TTreeType >;
+  using TreeType = TTreeType;
+  using ValueType = typename TTreeType::ValueType;
+  using TreeNodeType = typename Superclass::TreeNodeType;
+  using NodeType = typename Superclass::NodeType;
 
   /** Constructors */
   InOrderTreeIterator(TreeType & start);

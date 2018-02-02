@@ -43,16 +43,16 @@ template< typename T >
 class VectorToRGBPixelAccessor
 {
 public:
-  /** Standard class typedefs. */
-  typedef   VectorToRGBPixelAccessor Self;
+  /** Standard class type aliases. */
+  using Self = VectorToRGBPixelAccessor;
 
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
     * that this class will exhibit */
-  typedef   RGBPixel< T > ExternalType;
+  using ExternalType = RGBPixel< T >;
 
-  /** Internal typedef. It defines the internal real
+  /** Internal type alias. It defines the internal real
    * representation of data */
-  typedef  Vector< T, 3 > InternalType;
+  using InternalType = Vector< T, 3 >;
 
   /** Write access to the VectorToRGB component */
   inline void Set(InternalType & output, const ExternalType & input) const

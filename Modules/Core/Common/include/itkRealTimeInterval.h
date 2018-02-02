@@ -46,11 +46,11 @@ class ITKCommon_EXPORT RealTimeInterval
 {
 public:
 
-  typedef RealTimeInterval    Self;
+  using Self = RealTimeInterval;
 
   /** Internal types used to represent seconds and microseconds. */
-  typedef   int64_t   SecondsDifferenceType;
-  typedef   int64_t   MicroSecondsDifferenceType;
+  using SecondsDifferenceType = int64_t;
+  using MicroSecondsDifferenceType = int64_t;
 
   /** Constructor */
   RealTimeInterval();
@@ -62,7 +62,7 @@ public:
   ~RealTimeInterval();
 
   /** Native type used to represent the time in different time units. */
-  typedef   double    TimeRepresentationType;
+  using TimeRepresentationType = double;
 
   /** Return time in multiple units. */
   TimeRepresentationType GetTimeInMicroSeconds() const;

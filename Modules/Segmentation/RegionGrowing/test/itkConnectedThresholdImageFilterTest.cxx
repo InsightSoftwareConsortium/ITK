@@ -40,10 +40,10 @@ int itkConnectedThresholdImageFilterTest( int argc, char* argv[] )
   const unsigned int Dimension = 2;
 
   // Define the pixel types of the images
-  typedef unsigned char                       PixelType;
+  using PixelType = unsigned char;
 
   // Define the types of the images
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
 
   itk::ImageFileReader< ImageType >::Pointer imageReader =
@@ -55,8 +55,8 @@ int itkConnectedThresholdImageFilterTest( int argc, char* argv[] )
   TRY_EXPECT_NO_EXCEPTION( imageReader->Update(); );
 
   // Create the filter
-  typedef itk::ConnectedThresholdImageFilter< ImageType, ImageType >
-    ConnectedThresholdImageFilterType;
+  using ConnectedThresholdImageFilterType =
+      itk::ConnectedThresholdImageFilter< ImageType, ImageType >;
 
   ConnectedThresholdImageFilterType::Pointer connectedThresholdFilter =
     ConnectedThresholdImageFilterType::New();

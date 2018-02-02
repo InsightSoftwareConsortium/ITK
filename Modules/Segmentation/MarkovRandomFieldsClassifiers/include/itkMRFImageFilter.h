@@ -126,12 +126,12 @@ class ITK_TEMPLATE_EXPORT MRFImageFilter:
   public ImageToImageFilter< TInputImage, TClassifiedImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MRFImageFilter                                      Self;
-  typedef ImageToImageFilter< TInputImage, TClassifiedImage > Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
-  typedef typename Superclass::OutputImagePointer             OutputImagePointer;
+  /** Standard class type aliases. */
+  using Self = MRFImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TClassifiedImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -140,97 +140,86 @@ public:
   itkTypeMacro(MRFImageFilter, Object);
 
   /** Type definition for the input image. */
-  typedef TInputImage                        InputImageType;
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType InputImagePixelType;
+  using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Type definition for the input image region type. */
-  typedef typename TInputImage::RegionType InputImageRegionType;
+  using InputImageRegionType = typename TInputImage::RegionType;
 
   /** Type definition for the input image region iterator */
-  typedef ImageRegionIterator< TInputImage >      InputImageRegionIterator;
-  typedef ImageRegionConstIterator< TInputImage > InputImageRegionConstIterator;
+  using InputImageRegionIterator = ImageRegionIterator< TInputImage >;
+  using InputImageRegionConstIterator = ImageRegionConstIterator< TInputImage >;
 
   /** Image dimension */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /** Type definitions for the training image. */
-  typedef typename TClassifiedImage::Pointer TrainingImagePointer;
+  using TrainingImagePointer = typename TClassifiedImage::Pointer;
 
   /** Type definitions for the training image pixel type. */
-  typedef typename TClassifiedImage::PixelType TrainingImagePixelType;
+  using TrainingImagePixelType = typename TClassifiedImage::PixelType;
 
   /** Type definitions for the labelled image.
    * It is derived from the training image. */
-  typedef typename TClassifiedImage::Pointer LabelledImagePointer;
+  using LabelledImagePointer = typename TClassifiedImage::Pointer;
 
   /** Type definitions for the classified image pixel type.
    * It has to be the same type as the training image. */
-  typedef typename TClassifiedImage::PixelType LabelledImagePixelType;
+  using LabelledImagePixelType = typename TClassifiedImage::PixelType;
 
   /** Type definitions for the classified image pixel type.
    * It has to be the same type as the training image. */
-  typedef typename TClassifiedImage::RegionType LabelledImageRegionType;
+  using LabelledImageRegionType = typename TClassifiedImage::RegionType;
 
   /** Type definition for the classified image index type. */
-  typedef typename TClassifiedImage::IndexType            LabelledImageIndexType;
-  typedef typename LabelledImageIndexType::IndexValueType IndexValueType;
+  using LabelledImageIndexType = typename TClassifiedImage::IndexType;
+  using IndexValueType = typename LabelledImageIndexType::IndexValueType;
 
   /** Type definition for the classified image offset type. */
-  typedef typename TClassifiedImage::OffsetType LabelledImageOffsetType;
+  using LabelledImageOffsetType = typename TClassifiedImage::OffsetType;
 
   /** Type definition for the input image region iterator */
-  typedef ImageRegionIterator< TClassifiedImage >
-  LabelledImageRegionIterator;
+  using LabelledImageRegionIterator = ImageRegionIterator< TClassifiedImage >;
 
   /** Labelled Image dimension */
   itkStaticConstMacro(ClassifiedImageDimension, unsigned int,
                       TClassifiedImage::ImageDimension);
 
   /** Type definitions for classifier to be used for the MRF lavbelling. */
-  typedef ImageClassifierBase< TInputImage, TClassifiedImage > ClassifierType;
+  using ClassifierType = ImageClassifierBase< TInputImage, TClassifiedImage >;
 
-  /** Size and value typedef support. */
-  typedef typename TInputImage::SizeType SizeType;
+  /** Size and value type alias support */
+  using SizeType = typename TInputImage::SizeType;
 
-  /** Radius typedef support. */
-  typedef typename TInputImage::SizeType NeighborhoodRadiusType;
+  /** Radius type alias support */
+  using NeighborhoodRadiusType = typename TInputImage::SizeType;
 
-  /** Input image neighborhood iterator and kernel size typedef */
-  typedef ConstNeighborhoodIterator< TInputImage >
-  InputImageNeighborhoodIterator;
+  /** Input image neighborhood iterator and kernel size type alias */
+  using InputImageNeighborhoodIterator = ConstNeighborhoodIterator<TInputImage>;
 
-  typedef typename InputImageNeighborhoodIterator::RadiusType
-  InputImageNeighborhoodRadiusType;
+  using InputImageNeighborhoodRadiusType = typename InputImageNeighborhoodIterator::RadiusType;
 
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >
-  InputImageFacesCalculator;
+  using InputImageFacesCalculator = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>;
 
-  typedef typename InputImageFacesCalculator::FaceListType
-  InputImageFaceListType;
+  using InputImageFaceListType = typename InputImageFacesCalculator::FaceListType;
 
-  typedef typename InputImageFaceListType::iterator
-  InputImageFaceListIterator;
+  using InputImageFaceListIterator = typename InputImageFaceListType::iterator;
 
-  /** Labelled image neighborhood interator typedef */
-  typedef NeighborhoodIterator< TClassifiedImage >
-  LabelledImageNeighborhoodIterator;
+  /** Labelled image neighborhood interator type alias */
+  using LabelledImageNeighborhoodIterator = NeighborhoodIterator< TClassifiedImage >;
 
-  typedef typename LabelledImageNeighborhoodIterator::RadiusType
-  LabelledImageNeighborhoodRadiusType;
+  using LabelledImageNeighborhoodRadiusType = typename LabelledImageNeighborhoodIterator::RadiusType;
 
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TClassifiedImage >
-  LabelledImageFacesCalculator;
+  using LabelledImageFacesCalculator = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TClassifiedImage >;
 
-  typedef typename LabelledImageFacesCalculator::FaceListType
-  LabelledImageFaceListType;
+  using LabelledImageFaceListType = typename LabelledImageFacesCalculator::FaceListType;
 
-  typedef typename LabelledImageFaceListType::iterator
-  LabelledImageFaceListIterator;
+  using LabelledImageFaceListIterator = typename LabelledImageFaceListType::iterator;
 
   /** Set the pointer to the classifer being used. */
   void SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
@@ -333,15 +322,14 @@ protected:
   /** Minimization algorithm to be used. */
   virtual void MinimizeFunctional();
 
-  typedef Image< int, itkGetStaticConstMacro(InputImageDimension) > LabelStatusImageType;
-  typedef typename LabelStatusImageType::IndexType                  LabelStatusIndexType;
-  typedef typename LabelStatusImageType::RegionType                 LabelStatusRegionType;
-  typedef typename LabelStatusImageType::Pointer                    LabelStatusImagePointer;
-  typedef ImageRegionIterator< LabelStatusImageType >               LabelStatusImageIterator;
+  using LabelStatusImageType = Image< int, itkGetStaticConstMacro(InputImageDimension) >;
+  using LabelStatusIndexType = typename LabelStatusImageType::IndexType;
+  using LabelStatusRegionType = typename LabelStatusImageType::RegionType;
+  using LabelStatusImagePointer = typename LabelStatusImageType::Pointer;
+  using LabelStatusImageIterator = ImageRegionIterator< LabelStatusImageType >;
 
-  /** Labelled status image neighborhood interator typedef */
-  typedef NeighborhoodIterator< LabelStatusImageType >
-  LabelStatusImageNeighborhoodIterator;
+  /** Labelled status image neighborhood interator type alias */
+  using LabelStatusImageNeighborhoodIterator = NeighborhoodIterator<LabelStatusImageType>;
   //Function implementing the neighborhood operation
 
   virtual void DoNeighborhoodOperation(const InputImageNeighborhoodIterator & imageIter,
@@ -359,19 +347,15 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MRFImageFilter);
 
-  typedef typename TInputImage::SizeType InputImageSizeType;
+  using InputImageSizeType = typename TInputImage::SizeType;
 
-  typedef typename LabelStatusImageNeighborhoodIterator::RadiusType
-  LabelStatusImageNeighborhoodRadiusType;
+  using LabelStatusImageNeighborhoodRadiusType = typename LabelStatusImageNeighborhoodIterator::RadiusType;
 
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< LabelStatusImageType >
-  LabelStatusImageFacesCalculator;
+  using LabelStatusImageFacesCalculator = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<LabelStatusImageType>;
 
-  typedef typename LabelStatusImageFacesCalculator::FaceListType
-  LabelStatusImageFaceListType;
+  using LabelStatusImageFaceListType = typename LabelStatusImageFacesCalculator::FaceListType;
 
-  typedef typename LabelStatusImageFaceListType::iterator
-  LabelStatusImageFaceListIterator;
+  using LabelStatusImageFaceListIterator = typename LabelStatusImageFaceListType::iterator;
 
   InputImageNeighborhoodRadiusType       m_InputImageNeighborhoodRadius;
   LabelledImageNeighborhoodRadiusType    m_LabelledImageNeighborhoodRadius;

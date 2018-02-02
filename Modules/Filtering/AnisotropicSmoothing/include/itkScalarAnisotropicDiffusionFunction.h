@@ -42,23 +42,23 @@ class ITK_TEMPLATE_EXPORT ScalarAnisotropicDiffusionFunction:
   public AnisotropicDiffusionFunction< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ScalarAnisotropicDiffusionFunction     Self;
-  typedef AnisotropicDiffusionFunction< TImage > Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ScalarAnisotropicDiffusionFunction;
+  using Superclass = AnisotropicDiffusionFunction< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Inherit some parameters from the superclass type. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::ImageType        ImageType;
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::PixelRealType    PixelRealType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::TimeStepType     TimeStepType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelType = typename Superclass::PixelType;
+  using PixelRealType = typename Superclass::PixelRealType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarAnisotropicDiffusionFunction,

@@ -213,7 +213,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
   HistogramType *output =
     static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
 
-  typedef ConstNeighborhoodIterator< ImageType > NeighborhoodIteratorType;
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator< ImageType >;
   NeighborhoodIteratorType neighborIt;
   neighborIt = NeighborhoodIteratorType(radius, input, region);
 
@@ -282,7 +282,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
 
   // Iterate over all of those pixels and offsets, adding each
   // co-occurrence pair to the histogram
-  typedef ConstNeighborhoodIterator< ImageType > NeighborhoodIteratorType;
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator< ImageType >;
   NeighborhoodIteratorType neighborIt, maskNeighborIt;
   neighborIt = NeighborhoodIteratorType(radius, input, region);
   maskNeighborIt = NeighborhoodIteratorType(radius, maskImage, region);

@@ -25,10 +25,11 @@ int itkVoronoiSegmentationImageFilterTest( int, char* [] )
   const int width = 256;
   const int height = 256;
 
-  typedef itk::Image<unsigned short, 2> UShortImage;
-  typedef itk::Image<unsigned char, 2>  PriorImage;
-  typedef itk::VoronoiSegmentationImageFilter<UShortImage, UShortImage, PriorImage>
-    VoronoiSegmentationImageFilterType;
+  using UShortImage = itk::Image<unsigned short, 2>;
+  using PriorImage = itk::Image<unsigned char, 2>;
+  using VoronoiSegmentationImageFilterType =
+    itk::VoronoiSegmentationImageFilter<UShortImage, UShortImage, PriorImage>
+;
 
   VoronoiSegmentationImageFilterType::Pointer voronoiSegmenter =
     VoronoiSegmentationImageFilterType::New();

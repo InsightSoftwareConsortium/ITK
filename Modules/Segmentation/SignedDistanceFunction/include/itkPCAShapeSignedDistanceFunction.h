@@ -69,13 +69,13 @@ class ITK_TEMPLATE_EXPORT PCAShapeSignedDistanceFunction:
   public ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PCAShapeSignedDistanceFunction Self;
-  typedef ShapeSignedDistanceFunction<
-    TCoordRep, VSpaceDimension >                   Superclass;
+  /** Standard class type aliases. */
+  using Self = PCAShapeSignedDistanceFunction;
+  using Superclass = ShapeSignedDistanceFunction<
+    TCoordRep, VSpaceDimension >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PCAShapeSignedDistanceFunction, ShapeSignedDistancFunction);
@@ -86,45 +86,45 @@ public:
   /** Dimension underlying input image. */
   itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
 
-  /** CoordRep typedef support. */
-  typedef typename Superclass::CoordRepType CoordRepType;
+  /** CoordRep type alias support */
+  using CoordRepType = typename Superclass::CoordRepType;
 
-  /** InputeType typedef support. */
-  typedef typename Superclass::InputType InputType;
+  /** InputeType type alias support */
+  using InputType = typename Superclass::InputType;
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support */
+  using PointType = typename Superclass::PointType;
 
-  /** Parameters typedef support. */
-  typedef typename Superclass::ParametersType ParametersType;
+  /** Parameters type alias support */
+  using ParametersType = typename Superclass::ParametersType;
 
-  /** Image typedef support. */
-  typedef TImage                      ImageType;
-  typedef typename ImageType::Pointer ImagePointer;
-  typedef std::vector< ImagePointer > ImagePointerVector;
+  /** Image type alias support */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImagePointerVector = std::vector< ImagePointer >;
 
-  /** Transform typedef support. */
-  typedef Transform< CoordRepType,
+  /** Transform type alias support */
+  using TransformType = Transform< CoordRepType,
                      itkGetStaticConstMacro(SpaceDimension),
-                     itkGetStaticConstMacro(SpaceDimension) > TransformType;
+                     itkGetStaticConstMacro(SpaceDimension) >;
 
-  /** Interpolator typedef support. */
-  typedef InterpolateImageFunction< ImageType, CoordRepType > InterpolatorType;
-  typedef typename InterpolatorType::Pointer                  InterpolatorPointer;
-  typedef std::vector< InterpolatorPointer >                  InterpolatorPointerVector;
+  /** Interpolator type alias support */
+  using InterpolatorType = InterpolateImageFunction< ImageType, CoordRepType >;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
+  using InterpolatorPointerVector = std::vector< InterpolatorPointer >;
 
-  /** extrapolator typedef support. */
-  typedef ExtrapolateImageFunction< ImageType, CoordRepType > ExtrapolatorType;
-  typedef typename ExtrapolatorType::Pointer                  ExtrapolatorPointer;
-  typedef std::vector< ExtrapolatorPointer >                  ExtrapolatorPointerVector;
+  /** extrapolator type alias support */
+  using ExtrapolatorType = ExtrapolateImageFunction< ImageType, CoordRepType >;
+  using ExtrapolatorPointer = typename ExtrapolatorType::Pointer;
+  using ExtrapolatorPointerVector = std::vector< ExtrapolatorPointer >;
 
-  /** function typedef support. */
-  typedef ImageFunction< ImageType, double, CoordRepType > FunctionType;
-  typedef typename FunctionType::Pointer                   FunctionPointer;
-  typedef std::vector< FunctionPointer >                   FunctionPointerVector;
+  /** function type alias support */
+  using FunctionType = ImageFunction< ImageType, double, CoordRepType >;
+  using FunctionPointer = typename FunctionType::Pointer;
+  using FunctionPointerVector = std::vector< FunctionPointer >;
 
   /** Set/Get the number of principal components
    * SetNumberOfPrincipalComponents must be called before SetParameters */

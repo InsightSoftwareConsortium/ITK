@@ -37,27 +37,27 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
   // Define the dimension of the images
   const unsigned int Dimension = 2;
 
-  typedef float                                 InputPixelType;
-  typedef itk::Image<InputPixelType,Dimension>  InputImageType;
+  using InputPixelType = float;
+  using InputImageType = itk::Image<InputPixelType,Dimension>;
 
 
-  typedef float                                 OutputPixelType;
-  typedef itk::Image<OutputPixelType,Dimension> OutputImageType;
+  using OutputPixelType = float;
+  using OutputImageType = itk::Image<OutputPixelType,Dimension>;
 
-  typedef itk::ImageFileReader<InputImageType>  FileReaderType;
+  using FileReaderType = itk::ImageFileReader<InputImageType>;
 
-  typedef itk::ImageFileWriter<OutputImageType> FileWriterType;
+  using FileWriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typedef itk::NumericTraits< InputPixelType >::RealType RealPixelType;
+  using RealPixelType = itk::NumericTraits< InputPixelType >::RealType;
 
-  typedef itk::SymmetricSecondRankTensor< RealPixelType, Dimension > HessianPixelType;
-  typedef itk::Image< HessianPixelType, Dimension >                  HessianImageType;
+  using HessianPixelType = itk::SymmetricSecondRankTensor< RealPixelType, Dimension >;
+  using HessianImageType = itk::Image< HessianPixelType, Dimension >;
 
   // Declare the type of enhancement filter
-  typedef itk::HessianToObjectnessMeasureImageFilter< HessianImageType,OutputImageType > ObjectnessFilterType;
+  using ObjectnessFilterType = itk::HessianToObjectnessMeasureImageFilter< HessianImageType,OutputImageType >;
 
   // Declare the type of multiscale enhancement filter
-  typedef itk::MultiScaleHessianBasedMeasureImageFilter< InputImageType,HessianImageType, OutputImageType > MultiScaleEnhancementFilterType;
+  using MultiScaleEnhancementFilterType = itk::MultiScaleHessianBasedMeasureImageFilter< InputImageType,HessianImageType, OutputImageType >;
 
   FileReaderType::Pointer imageReader = FileReaderType::New();
   imageReader->SetFileName(argv[1]);

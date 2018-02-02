@@ -45,7 +45,7 @@ class WeakPointer
 {
 public:
   /** Extract information from template parameter. */
-  typedef TObjectType ObjectType;
+  using ObjectType = TObjectType;
 
   /** Constructor.  */
   WeakPointer ()

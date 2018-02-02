@@ -93,7 +93,7 @@ protected:
   virtual void PrintTrailer(std::ostream & os, Indent indent) const;
 
 private:
-  typedef  EventObject *EventFactoryFunction ( );
+  using EventFactoryFunction = EventObject *();
   void operator=(const EventObject &);
 };
 
@@ -116,8 +116,8 @@ inline std::ostream & operator<<(std::ostream & os, EventObject & e)
   class ITKEvent_EXPORT classname:public super                       \
   {                                                                  \
 public:                                                              \
-    typedef classname Self;                                          \
-    typedef super     Superclass;                                    \
+    using Self = classname;                                          \
+    using Superclass = super;                                    \
     classname();                                                     \
     classname(const Self &s);                                        \
     virtual ~classname();                                            \
@@ -151,8 +151,8 @@ bool classname::CheckEvent(const::itk::EventObject * e) const               \
   class ITKEvent_EXPORT classname:public super                       \
   {                                                                  \
 public:                                                              \
-    typedef classname Self;                                          \
-    typedef super     Superclass;                                    \
+    using Self = classname;                                          \
+    using Superclass = super;                                    \
     classname() {}                                                   \
     virtual ~classname() {}                                          \
     virtual const char *GetEventName() const { return #classname; } \

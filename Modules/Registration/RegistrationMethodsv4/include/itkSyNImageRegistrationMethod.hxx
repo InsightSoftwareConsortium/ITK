@@ -156,7 +156,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
   InitialTransformType* fixedInitialTransform = const_cast<InitialTransformType*>( this->GetFixedInitialTransform() );
 
   // Monitor the convergence
-  typedef itk::Function::WindowConvergenceMonitoringFunction<RealType> ConvergenceMonitoringType;
+  using ConvergenceMonitoringType = itk::Function::WindowConvergenceMonitoringFunction<RealType>;
   typename ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
   convergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
 
@@ -206,7 +206,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
     // Add the update field to both displacement fields (from fixed/moving to middle image) and then smooth
 
-    typedef ComposeDisplacementFieldsImageFilter<DisplacementFieldType> ComposerType;
+    using ComposerType = ComposeDisplacementFieldsImageFilter<DisplacementFieldType>;
 
     typename ComposerType::Pointer fixedComposer = ComposerType::New();
     fixedComposer->SetDisplacementField( fixedToMiddleSmoothUpdateField );
@@ -312,7 +312,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
           }
         else
           {
-          typedef ResampleImageFilter<FixedImageType, FixedImageType, RealType> FixedResamplerType;
+          using FixedResamplerType = ResampleImageFilter<FixedImageType, FixedImageType, RealType>;
           typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
           fixedResampler->SetInput( fixedImages[n] );
           fixedResampler->SetTransform( fixedTransform );
@@ -321,7 +321,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
           fixedResampler->SetDefaultPixelValue( 0 );
           fixedResampler->Update();
 
-          typedef ResampleImageFilter<MovingImageType, MovingImageType, RealType> MovingResamplerType;
+          using MovingResamplerType = ResampleImageFilter<MovingImageType, MovingImageType, RealType>;
           typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
           movingResampler->SetInput( movingImages[n] );
           movingResampler->SetTransform( movingTransform );
@@ -335,11 +335,11 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
           if( fixedImageMasks[n] )
             {
-            typedef NearestNeighborInterpolateImageFunction<FixedMaskImageType, RealType> NearestNeighborInterpolatorType;
+            using NearestNeighborInterpolatorType = NearestNeighborInterpolateImageFunction<FixedMaskImageType, RealType>;
             typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
             nearestNeighborInterpolator->SetInputImage( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[n].GetPointer() ) )->GetImage() );
 
-            typedef ResampleImageFilter<FixedMaskImageType, FixedMaskImageType, RealType> FixedMaskResamplerType;
+            using FixedMaskResamplerType = ResampleImageFilter<FixedMaskImageType, FixedMaskImageType, RealType>;
             typename FixedMaskResamplerType::Pointer fixedMaskResampler = FixedMaskResamplerType::New();
             fixedMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[n].GetPointer() ) )->GetImage() );
             fixedMaskResampler->SetTransform( fixedTransform );
@@ -357,11 +357,11 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
           if( movingImageMasks[n] )
             {
-            typedef NearestNeighborInterpolateImageFunction<MovingMaskImageType, RealType> NearestNeighborInterpolatorType;
+            using NearestNeighborInterpolatorType = NearestNeighborInterpolateImageFunction<MovingMaskImageType, RealType>;
             typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
             nearestNeighborInterpolator->SetInputImage( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<MovingImageMaskType *>( movingImageMasks[n].GetPointer() ) )->GetImage() );
 
-            typedef ResampleImageFilter<MovingMaskImageType, MovingMaskImageType, RealType> MovingMaskResamplerType;
+            using MovingMaskResamplerType = ResampleImageFilter<MovingMaskImageType, MovingMaskImageType, RealType>;
             typename MovingMaskResamplerType::Pointer movingMaskResampler = MovingMaskResamplerType::New();
             movingMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<MovingImageMaskType *>( movingImageMasks[n].GetPointer() ) )->GetImage() );
             movingMaskResampler->SetTransform( movingTransform );
@@ -424,7 +424,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
         }
       else
         {
-        typedef ResampleImageFilter<FixedImageType, FixedImageType, RealType> FixedResamplerType;
+        using FixedResamplerType = ResampleImageFilter<FixedImageType, FixedImageType, RealType>;
         typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
         fixedResampler->SetInput( fixedImages[0] );
         fixedResampler->SetTransform( fixedTransform );
@@ -433,7 +433,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
         fixedResampler->SetDefaultPixelValue( 0 );
         fixedResampler->Update();
 
-        typedef ResampleImageFilter<MovingImageType, MovingImageType, RealType> MovingResamplerType;
+        using MovingResamplerType = ResampleImageFilter<MovingImageType, MovingImageType, RealType>;
         typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
         movingResampler->SetInput( movingImages[0] );
         movingResampler->SetTransform( movingTransform );
@@ -447,11 +447,11 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
         if( fixedImageMasks[0] )
           {
-          typedef NearestNeighborInterpolateImageFunction<FixedMaskImageType, RealType> NearestNeighborInterpolatorType;
+          using NearestNeighborInterpolatorType = NearestNeighborInterpolateImageFunction<FixedMaskImageType, RealType>;
           typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
           nearestNeighborInterpolator->SetInputImage( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[0].GetPointer() ) )->GetImage() );
 
-          typedef ResampleImageFilter<FixedMaskImageType, FixedMaskImageType, RealType> FixedMaskResamplerType;
+          using FixedMaskResamplerType = ResampleImageFilter<FixedMaskImageType, FixedMaskImageType, RealType>;
           typename FixedMaskResamplerType::Pointer fixedMaskResampler = FixedMaskResamplerType::New();
           fixedMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[0].GetPointer() ) )->GetImage() );
           fixedMaskResampler->SetTransform( fixedTransform );
@@ -469,11 +469,11 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
         if( movingImageMasks[0] )
           {
-          typedef NearestNeighborInterpolateImageFunction<MovingMaskImageType, RealType> NearestNeighborInterpolatorType;
+          using NearestNeighborInterpolatorType = NearestNeighborInterpolateImageFunction<MovingMaskImageType, RealType>;
           typename NearestNeighborInterpolatorType::Pointer nearestNeighborInterpolator = NearestNeighborInterpolatorType::New();
           nearestNeighborInterpolator->SetInputImage( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<MovingImageMaskType *>( movingImageMasks[0].GetPointer() ) )->GetImage() );
 
-          typedef ResampleImageFilter<MovingMaskImageType, MovingMaskImageType, RealType> MovingMaskResamplerType;
+          using MovingMaskResamplerType = ResampleImageFilter<MovingMaskImageType, MovingMaskImageType, RealType>;
           typename MovingMaskResamplerType::Pointer movingMaskResampler = MovingMaskResamplerType::New();
           movingMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<MovingImageMaskType *>( movingImageMasks[0].GetPointer() ) )->GetImage() );
           movingMaskResampler->SetTransform( movingTransform );
@@ -524,7 +524,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
   this->m_Metric->Initialize();
 
-  typedef typename ImageMetricType::DerivativeType MetricDerivativeType;
+  using MetricDerivativeType = typename ImageMetricType::DerivativeType;
   const typename MetricDerivativeType::SizeValueType metricDerivativeSize = virtualDomainImage->GetLargestPossibleRegion().GetNumberOfPixels() * ImageDimension;
   MetricDerivativeType metricDerivative( metricDerivativeSize );
 
@@ -602,9 +602,9 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     scale /= maxNorm;
     }
 
-  typedef Image<RealType, ImageDimension> RealImageType;
+  using RealImageType = Image<RealType, ImageDimension>;
 
-  typedef MultiplyImageFilter<DisplacementFieldType, RealImageType, DisplacementFieldType> MultiplierType;
+  using MultiplierType = MultiplyImageFilter<DisplacementFieldType, RealImageType, DisplacementFieldType>;
   typename MultiplierType::Pointer multiplier = MultiplierType::New();
   multiplier->SetInput( updateField );
   multiplier->SetConstant( scale );
@@ -621,7 +621,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::InvertDisplacementField( const DisplacementFieldType * field, const DisplacementFieldType * inverseFieldEstimate )
 {
-  typedef InvertDisplacementFieldImageFilter<DisplacementFieldType> InverterType;
+  using InverterType = InvertDisplacementFieldImageFilter<DisplacementFieldType>;
 
   typename InverterType::Pointer inverter = InverterType::New();
   inverter->SetInput( field );
@@ -641,7 +641,7 @@ typename SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform,
 SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 ::GaussianSmoothDisplacementField( const DisplacementFieldType * field, const RealType variance )
 {
-  typedef ImageDuplicator<DisplacementFieldType> DuplicatorType;
+  using DuplicatorType = ImageDuplicator<DisplacementFieldType>;
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
   duplicator->SetInputImage( field );
   duplicator->Update();
@@ -653,10 +653,10 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     return smoothField;
     }
 
-  typedef GaussianOperator<RealType, ImageDimension> GaussianSmoothingOperatorType;
+  using GaussianSmoothingOperatorType = GaussianOperator<RealType, ImageDimension>;
   GaussianSmoothingOperatorType gaussianSmoothingOperator;
 
-  typedef VectorNeighborhoodOperatorImageFilter<DisplacementFieldType, DisplacementFieldType> GaussianSmoothingSmootherType;
+  using GaussianSmoothingSmootherType = VectorNeighborhoodOperatorImageFilter<DisplacementFieldType, DisplacementFieldType>;
   typename GaussianSmoothingSmootherType::Pointer smoother = GaussianSmoothingSmootherType::New();
 
   for( SizeValueType d = 0; d < ImageDimension; d++ )
@@ -753,7 +753,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     this->m_CompositeTransform->AddTransform( this->m_OutputTransform );
     }
 
-  typedef ComposeDisplacementFieldsImageFilter<DisplacementFieldType, DisplacementFieldType> ComposerType;
+  using ComposerType = ComposeDisplacementFieldsImageFilter<DisplacementFieldType, DisplacementFieldType>;
 
   typename ComposerType::Pointer composer = ComposerType::New();
   composer->SetDisplacementField( this->m_MovingToMiddleTransform->GetInverseDisplacementField() );

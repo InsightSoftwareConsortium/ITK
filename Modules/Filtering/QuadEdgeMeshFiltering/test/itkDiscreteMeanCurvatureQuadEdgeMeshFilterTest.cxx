@@ -32,23 +32,17 @@ int itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest( int argc, char* argv[] )
     }
 
   const unsigned int Dimension = 3;
-  typedef double CoordType;
+  using CoordType = double;
 
-  typedef itk::QuadEdgeMeshExtendedTraits <
-    CoordType,
-    Dimension,
-    2,
-    CoordType,
-    CoordType,
-    CoordType,
-    bool,
-    bool > Traits;
+  using Traits = itk::QuadEdgeMeshExtendedTraits <
+    CoordType, Dimension, 2,
+    CoordType, CoordType, CoordType, bool, bool >;
 
-  typedef itk::QuadEdgeMesh< CoordType, Dimension, Traits > MeshType;
-  typedef itk::DiscreteMeanCurvatureQuadEdgeMeshFilter<MeshType,MeshType>
-    CurvatureFilterType;
+  using MeshType = itk::QuadEdgeMesh< CoordType, Dimension, Traits >;
+  using CurvatureFilterType =
+      itk::DiscreteMeanCurvatureQuadEdgeMeshFilter<MeshType,MeshType>;
 
-  typedef itk::MeshFileReader< MeshType > ReaderType;
+  using ReaderType = itk::MeshFileReader< MeshType >;
 
   ReaderType::Pointer reader = ReaderType::New( );
   reader->SetFileName( argv[1] );
@@ -71,7 +65,7 @@ int itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest( int argc, char* argv[] )
 
   MeshType::Pointer output = mean_curvature->GetOutput();
 
-  typedef itk::MeshFileWriter< MeshType > WriterType;
+  using WriterType = itk::MeshFileWriter< MeshType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( output );
   writer->SetFileName( "mean_curvature.vtk" );

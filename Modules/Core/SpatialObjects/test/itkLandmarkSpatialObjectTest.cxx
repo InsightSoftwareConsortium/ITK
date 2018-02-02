@@ -25,9 +25,9 @@
 
 int itkLandmarkSpatialObjectTest(int, char* [])
 {
-  typedef itk::LandmarkSpatialObject<3> LandmarkType;
-  typedef LandmarkType::Pointer         LandmarkPointer;
-  typedef itk::SpatialObjectPoint<3>    LandmarkPointType;
+  using LandmarkType = itk::LandmarkSpatialObject<3>;
+  using LandmarkPointer = LandmarkType::Pointer;
+  using LandmarkPointType = itk::SpatialObjectPoint<3>;
 
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing LandmarkSpatialObject:"<<std::endl<<std::endl;

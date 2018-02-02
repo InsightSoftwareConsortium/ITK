@@ -40,14 +40,14 @@
 template< unsigned int VImageDimension >
 int runGPUMeanImageFilterTest(const std::string& inFile, const std::string& outFile)
 {
-  typedef   unsigned char  InputPixelType;
-  typedef   unsigned char  OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::GPUImage< InputPixelType,  VImageDimension >   InputImageType;
-  typedef itk::GPUImage< OutputPixelType, VImageDimension >   OutputImageType;
+  using InputImageType = itk::GPUImage< InputPixelType,  VImageDimension >;
+  using OutputImageType = itk::GPUImage< OutputPixelType, VImageDimension >;
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   typename WriterType::Pointer writer = WriterType::New();
@@ -59,8 +59,8 @@ int runGPUMeanImageFilterTest(const std::string& inFile, const std::string& outF
   // Note: We use regular itk filter type here but factory will automatically create
   //       GPU filter for Median filter and CPU filter for threshold filter.
   //
-  typedef itk::MeanImageFilter< InputImageType, OutputImageType > MeanFilterType;
-  typedef itk::GPUMeanImageFilter< InputImageType, OutputImageType > GPUMeanFilterType;
+  using MeanFilterType = itk::MeanImageFilter< InputImageType, OutputImageType >;
+  using GPUMeanFilterType = itk::GPUMeanImageFilter< InputImageType, OutputImageType >;
 
   // Mean filter kernel radius
   typename InputImageType::SizeType indexRadius;

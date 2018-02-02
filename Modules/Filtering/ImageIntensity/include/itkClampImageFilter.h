@@ -43,10 +43,10 @@ class ITK_TEMPLATE_EXPORT Clamp
 {
 public:
 
-  typedef Clamp   Self;
+  using Self = Clamp;
 
-  typedef TInput  InputType;
-  typedef TOutput OutputType;
+  using InputType = TInput;
+  using OutputType = TOutput;
 
   /** Creates the functor and initializes the bounds to the
    * output-type limits.
@@ -141,18 +141,17 @@ class ITK_TEMPLATE_EXPORT ClampImageFilter :
                                                   typename TOutputImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ClampImageFilter               Self;
-  typedef UnaryFunctorImageFilter< TInputImage, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = ClampImageFilter;
+  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
                                    Functor::Clamp< typename TInputImage::PixelType,
-                                                   typename TOutputImage::PixelType > >
-                                         Superclass;
+                                                   typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TInputImage::PixelType  InputPixelType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

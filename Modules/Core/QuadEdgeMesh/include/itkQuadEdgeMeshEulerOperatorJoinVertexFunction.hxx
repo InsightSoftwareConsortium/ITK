@@ -189,7 +189,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::Process(QEType *e
   // originally present.
   //
 
-  typedef QuadEdgeMeshZipMeshFunction< MeshType, QEType > Zip;
+  using Zip = QuadEdgeMeshZipMeshFunction< MeshType, QEType >;
   if ( wasLeftTriangle )
     {
     typename Zip::Pointer zip = Zip::New();
@@ -535,7 +535,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction< TMesh, TQEType >::CommonVertexNeigh
   QEType *qe = e;
   QEType *e_it  = qe->GetOnext();
 
-  typedef std::list< PointIdentifier > PointIdentifierList;
+  using PointIdentifierList = std::list< PointIdentifier >;
   PointIdentifierList dir_list;
   PointIdentifierList sym_list;
   PointIdentifierList intersection_list;

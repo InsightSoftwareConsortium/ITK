@@ -59,12 +59,12 @@ class ITK_TEMPLATE_EXPORT DemonsImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
-  /** Standard class typedefs. */
-  typedef DemonsImageToImageMetricv4                                       Self;
-  typedef ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
-                             TInternalComputationValueType,TMetricTraits>  Superclass;
-  typedef SmartPointer<Self>                                               Pointer;
-  typedef SmartPointer<const Self>                                         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DemonsImageToImageMetricv4;
+  using Superclass = ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
+                             TInternalComputationValueType,TMetricTraits>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,29 +73,29 @@ public:
   itkTypeMacro(DemonsImageToImageMetricv4, ImageToImageMetricv4);
 
   /** Superclass types */
-  typedef typename Superclass::MeasureType             MeasureType;
-  typedef typename Superclass::DerivativeType          DerivativeType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
-  typedef typename Superclass::FixedImagePointType     FixedImagePointType;
-  typedef typename Superclass::FixedImagePixelType     FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType  FixedImageGradientType;
+  using FixedImagePointType = typename Superclass::FixedImagePointType;
+  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
+  using FixedImageGradientType = typename Superclass::FixedImageGradientType;
 
-  typedef typename Superclass::MovingImagePointType    MovingImagePointType;
-  typedef typename Superclass::MovingImagePixelType    MovingImagePixelType;
-  typedef typename Superclass::MovingImageGradientType MovingImageGradientType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
+  using MovingImageGradientType = typename Superclass::MovingImageGradientType;
 
-  typedef typename Superclass::MovingTransformType     MovingTransformType;
-  typedef typename Superclass::JacobianType            JacobianType;
-  typedef typename Superclass::VirtualImageType        VirtualImageType;
-  typedef typename Superclass::VirtualIndexType        VirtualIndexType;
-  typedef typename Superclass::VirtualPointType        VirtualPointType;
-  typedef typename Superclass::VirtualPointSetType     VirtualSPointSetType;
-  typedef typename Superclass::NumberOfParametersType  NumberOfParametersType;
+  using MovingTransformType = typename Superclass::MovingTransformType;
+  using JacobianType = typename Superclass::JacobianType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualSPointSetType = typename Superclass::VirtualPointSetType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** It should be possible to derive the internal computation type from the class object. */
-  typedef TInternalComputationValueType                InternalComputationValueType;
+  using InternalComputationValueType = TInternalComputationValueType;
 
-  typedef typename Superclass::ImageDimensionType      ImageDimensionType;
+  using ImageDimensionType = typename Superclass::ImageDimensionType;
 
   /* Image dimension accessors */
   itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
@@ -123,10 +123,10 @@ protected:
 
   friend class DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
   friend class DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
-  typedef DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >
-    DemonsDenseGetValueAndDerivativeThreaderType;
-  typedef DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >
-    DemonsSparseGetValueAndDerivativeThreaderType;
+  using DemonsDenseGetValueAndDerivativeThreaderType =
+      DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
+  using DemonsSparseGetValueAndDerivativeThreaderType =
+      DemonsImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 

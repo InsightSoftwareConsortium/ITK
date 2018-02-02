@@ -51,11 +51,11 @@ template< typename NodeType >
 class ITK_TEMPLATE_EXPORT NarrowBand:public LightObject
 {
 public:
-  /** Standard class typedefs */
-  typedef NarrowBand                 Self;
-  typedef LightObject                Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = NarrowBand;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,10 +63,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(NarrowBand, LightObject);
 
-  typedef std::vector< NodeType >                    NodeContainerType;
-  typedef typename NodeContainerType::size_type      SizeType;
-  typedef typename NodeContainerType::const_iterator ConstIterator;
-  typedef typename NodeContainerType::iterator       Iterator;
+  using NodeContainerType = std::vector< NodeType >;
+  using SizeType = typename NodeContainerType::size_type;
+  using ConstIterator = typename NodeContainerType::const_iterator;
+  using Iterator = typename NodeContainerType::iterator;
 
   /** Begin is the first valid iterator position within the region.  End is ONE
       PAST the last valid iterator position in the region. */

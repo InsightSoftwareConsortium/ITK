@@ -294,7 +294,7 @@ MeshFileWriter< TInputMesh >
                                        * MeshConvertPixelTraits< typename TInputMesh::PixelType >::GetNumberOfComponents(
       input->GetPointData()->ElementAt(0) );
 
-    typedef typename itk::NumericTraits< typename TInputMesh::PixelType >::ValueType ValueType;
+    using ValueType = typename itk::NumericTraits< typename TInputMesh::PixelType >::ValueType;
     ValueType * buffer = new ValueType[numberOfComponents];
     CopyPointDataToBuffer(buffer);
     m_MeshIO->WritePointData(buffer);
@@ -317,7 +317,7 @@ MeshFileWriter< TInputMesh >
                                        * MeshConvertPixelTraits< typename TInputMesh::CellPixelType >::GetNumberOfComponents(
       input->GetCellData()->ElementAt(0) );
 
-    typedef typename itk::NumericTraits< typename TInputMesh::CellPixelType >::ValueType ValueType;
+    using ValueType = typename itk::NumericTraits< typename TInputMesh::CellPixelType >::ValueType;
     ValueType * buffer = new ValueType[numberOfComponents];
     CopyCellDataToBuffer(buffer);
     m_MeshIO->WriteCellData(buffer);

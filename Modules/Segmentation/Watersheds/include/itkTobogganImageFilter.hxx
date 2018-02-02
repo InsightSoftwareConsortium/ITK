@@ -77,8 +77,8 @@ TobogganImageFilter< TInputImage >
   outputImage->Allocate();
   outputImage->FillBuffer (z);
 
-  typedef ImageRegionConstIterator< InputImageType >  InputIterator;
-  typedef ImageRegionConstIterator< OutputImageType > OutputIterator;
+  using InputIterator = ImageRegionConstIterator< InputImageType >;
+  using OutputIterator = ImageRegionConstIterator< OutputImageType >;
 
   InputIterator  inIt( inputImage, inputImage->GetRequestedRegion() );
   OutputIterator outIt( outputImage, outputImage->GetRequestedRegion() );

@@ -44,8 +44,8 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned short                PixelType;
-  typedef itk::PointSet< PixelType, 3 > PointSetType;
+  using PixelType = unsigned short;
+  using PointSetType = itk::PointSet< PixelType, 3 >;
   // Software Guide : EndCodeSnippet
 
 
@@ -118,7 +118,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef PointSetType::PointDataContainer      PointDataContainer;
+  using PointDataContainer = PointSetType::PointDataContainer;
   // Software Guide : EndCodeSnippet
 
 
@@ -206,7 +206,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef PointDataContainer::Iterator     PointDataIterator;
+  using PointDataIterator = PointDataContainer::Iterator;
   // Software Guide : EndCodeSnippet
 
 

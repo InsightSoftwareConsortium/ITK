@@ -69,19 +69,19 @@ namespace itk
  {
  public:
 
-   typedef PipelineMonitorImageFilter                  Self;
-   typedef ImageToImageFilter<TImageType, TImageType>  Superclass;
-   typedef SmartPointer<Self>                          Pointer;
-   typedef SmartPointer<const Self>                    ConstPointer;
+   using Self = PipelineMonitorImageFilter;
+   using Superclass = ImageToImageFilter<TImageType, TImageType>;
+   using Pointer = SmartPointer<Self>;
+   using ConstPointer = SmartPointer<const Self>;
 
-   typedef typename TImageType::PointType             PointType;
-   typedef typename TImageType::DirectionType         DirectionType;
-   typedef typename TImageType::SpacingType           SpacingType;
-   typedef typename TImageType::Pointer               InputImagePointer;
-   typedef typename TImageType::ConstPointer          InputImageConstPointer;
-   typedef typename Superclass::InputImageRegionType  ImageRegionType;
+   using PointType = typename TImageType::PointType;
+   using DirectionType = typename TImageType::DirectionType;
+   using SpacingType = typename TImageType::SpacingType;
+   using InputImagePointer = typename TImageType::Pointer;
+   using InputImageConstPointer = typename TImageType::ConstPointer;
+   using ImageRegionType = typename Superclass::InputImageRegionType;
 
-   typedef std::vector<typename TImageType::RegionType> RegionVectorType;
+   using RegionVectorType = std::vector<typename TImageType::RegionType>;
 
    /** Method for creation through the object factory. */
    itkNewMacro(Self);

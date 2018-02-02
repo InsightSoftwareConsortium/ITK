@@ -262,11 +262,11 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginCodeSnippet
   const     unsigned int   Dimension = 3;
-  typedef   short         InputPixelType;
-  typedef   unsigned char OutputPixelType;
+  using InputPixelType = short;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
   InputImageType::Pointer image;
 // Software Guide : EndCodeSnippet
@@ -281,7 +281,7 @@ int main( int argc, char *argv[] )
   if (input_name)
     {
 
-    typedef itk::ImageFileReader< InputImageType >  ReaderType;
+    using ReaderType = itk::ImageFileReader< InputImageType >;
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( input_name );
 
@@ -339,7 +339,7 @@ int main( int argc, char *argv[] )
 
     image->Update();
 
-    typedef itk::ImageRegionIteratorWithIndex< InputImageType > IteratorType;
+    using IteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
 
     IteratorType iterate( image, image->GetLargestPossibleRegion() );
 
@@ -391,7 +391,7 @@ int main( int argc, char *argv[] )
 
 #ifdef WRITE_CUBE_IMAGE_TO_FILE
     const char *filename = "cube.gipl";
-    typedef itk::ImageFileWriter< InputImageType >  WriterType;
+    using WriterType = itk::ImageFileWriter< InputImageType >;
     WriterType::Pointer writer = WriterType::New();
 
     writer->SetFileName( filename );
@@ -453,7 +453,7 @@ int main( int argc, char *argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ResampleImageFilter<InputImageType, InputImageType > FilterType;
+  using FilterType = itk::ResampleImageFilter<InputImageType, InputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -470,7 +470,7 @@ int main( int argc, char *argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredEuler3DTransform< double >  TransformType;
+  using TransformType = itk::CenteredEuler3DTransform< double >;
 
   TransformType::Pointer transform = TransformType::New();
 
@@ -491,8 +491,8 @@ int main( int argc, char *argv[] )
   InputImageType::PointType   imOrigin = image->GetOrigin();
   InputImageType::SpacingType imRes    = image->GetSpacing();
 
-  typedef InputImageType::RegionType     InputImageRegionType;
-  typedef InputImageRegionType::SizeType InputImageSizeType;
+  using InputImageRegionType = InputImageType::RegionType;
+  using InputImageSizeType = InputImageRegionType::SizeType;
 
   InputImageRegionType imRegion = image->GetBufferedRegion();
   InputImageSizeType   imSize   = imRegion.GetSize();
@@ -533,8 +533,7 @@ int main( int argc, char *argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::RayCastInterpolateImageFunction<InputImageType,double>
-                                                             InterpolatorType;
+  using InterpolatorType = itk::RayCastInterpolateImageFunction<InputImageType,double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   interpolator->SetTransform(transform);
 // Software Guide : EndCodeSnippet
@@ -676,14 +675,14 @@ int main( int argc, char *argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-    typedef itk::RescaleIntensityImageFilter<
-      InputImageType, OutputImageType > RescaleFilterType;
+    using RescaleFilterType = itk::RescaleIntensityImageFilter<
+      InputImageType, OutputImageType >;
     RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
     rescaler->SetOutputMinimum(   0 );
     rescaler->SetOutputMaximum( 255 );
     rescaler->SetInput( filter->GetOutput() );
 
-    typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+    using WriterType = itk::ImageFileWriter< OutputImageType >;
     WriterType::Pointer writer = WriterType::New();
 
     writer->SetFileName( output_name );

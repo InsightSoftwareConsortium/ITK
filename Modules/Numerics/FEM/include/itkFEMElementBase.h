@@ -73,11 +73,11 @@ namespace fem
 class ITKFEM_EXPORT Element : public FEMLightObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element                  Self;
-  typedef FEMLightObject           Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element;
+  using Superclass = FEMLightObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element, FEMLightObject);
@@ -85,25 +85,25 @@ public:
   /**
    * Floating point type used in all Element classes.
    */
-  typedef double        Float;
-  typedef unsigned long ElementIdentifier;
+  using Float = double;
+  using ElementIdentifier = unsigned long;
 
   /**
    * Array class that holds special pointers to the Element objects
    */
   // FIXME - Remove FEMPArray Type and replace with VectorContainer version
-  typedef FEMPArray<Element>                                   ArrayType;
-  typedef VectorContainer<ElementIdentifier, Element::Pointer> ArrayType1;
+  using ArrayType = FEMPArray<Element>;
+  using ArrayType1 = VectorContainer<ElementIdentifier, Element::Pointer>;
 
   /**
    * Class used to store the element stiffness matrix
    */
-  typedef vnl_matrix<Float> MatrixType;
+  using MatrixType = vnl_matrix<Float>;
 
   /**
    * Class to store the element load vector
    */
-  typedef vnl_vector<Float> VectorType;
+  using VectorType = vnl_vector<Float>;
 
   /**
    * Easy and consistent access to LoadElement and LoadElement::Pointer type.
@@ -116,14 +116,14 @@ public:
    * ALWAYS first convert the argument to Element::LoadPointer. See
    * code of function Solver::AssembleF(...) for more info.
    */
-  typedef FEMLightObject    LoadType;
-  typedef LoadType::Pointer LoadPointer;
+  using LoadType = FEMLightObject;
+  using LoadPointer = LoadType::Pointer;
 
   /**
    * Type that stores global ID's of degrees of freedom.
    */
 
-  typedef unsigned int DegreeOfFreedomIDType;
+  using DegreeOfFreedomIDType = unsigned int;
 
   /**
    * Constant that represents an invalid DegreeOfFreedomID object.
@@ -147,11 +147,11 @@ public:
   class ITKFEM_EXPORT Node : public FEMLightObject
   {
   public:
-    /** Standard class typedefs. */
-    typedef Node                     Self;
-    typedef FEMLightObject           Superclass;
-    typedef SmartPointer<Self>       Pointer;
-    typedef SmartPointer<const Self> ConstPointer;
+    /** Standard class type aliases. */
+    using Self = Node;
+    using Superclass = FEMLightObject;
+    using Pointer = SmartPointer<Self>;
+    using ConstPointer = SmartPointer<const Self>;
 
     /** Method for creation through the object factory. */
     // itkNewMacro(Self);
@@ -177,12 +177,12 @@ public:
     /**
      * Floating point precision type.
      */
-    typedef double Float;
+    using Float = double;
 
     /**
      * Array class that holds special pointers to the nodes.
      */
-    typedef FEMPArray<Self> ArrayType;
+    using ArrayType = FEMPArray<Self>;
 
     /**
      * Default constructor
@@ -247,7 +247,7 @@ public:
      * List of pointers to elements that use this node. External code is
      * responsible for maintaining the list.
      */
-    typedef std::set<Element *> SetOfElements;
+    using SetOfElements = std::set<Element *>;
     mutable SetOfElements m_elements;
   protected:
     void PrintSelf(std::ostream& os, Indent indent) const override;
@@ -508,7 +508,7 @@ public:
    * Type that is used to store IDs of a node. It is a
    * pointer to Node objects.
    */
-  typedef Node::ConstPointer NodeIDType;
+  using NodeIDType = Node::ConstPointer;
 
   /**
    * Return the total number of nodes in an elememnt.

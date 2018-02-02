@@ -29,15 +29,15 @@ int itkShrinkImageTest(int, char* [] )
 
   std::cout << "Shrink an image by (2,3)" << std::endl;
 
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   SimpleImage;
+  // type alias to simplify the syntax
+  using SimpleImage = itk::Image<short, 2>;
   SimpleImage::Pointer simpleImage = SimpleImage::New();
   std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", "
             << simpleImage->GetSpacing()[1] << std::endl;
   std::cout << std::flush;
 
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   ShortImage;
+  // type alias to simplify the syntax
+  using ShortImage = itk::Image<short, 2>;
 
   // Test the creation of an image with native type
   ShortImage::Pointer if2 = ShortImage::New();

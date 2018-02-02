@@ -68,12 +68,12 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float               InputPixelType;
-  typedef unsigned char       OutputPixelType;
+  using InputPixelType = float;
+  using OutputPixelType = unsigned char;
   const   unsigned int        Dimension = 2;
 
-  typedef itk::Image< InputPixelType,  Dimension >    InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -93,8 +93,8 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -106,9 +106,9 @@ int main( int argc, char ** argv )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RescaleIntensityImageFilter<
+  using FilterType = itk::RescaleIntensityImageFilter<
                                   InputImageType,
-                                  OutputImageType >    FilterType;
+                                  OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 

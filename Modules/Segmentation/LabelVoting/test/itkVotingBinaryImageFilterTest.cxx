@@ -34,15 +34,15 @@ int itkVotingBinaryImageFilterTestImp( const std::string &infname,
                                        unsigned int birthThreshold = 1,
                                        unsigned int survivalThreshold = 1)
 {
-  typedef TInputImageType InputImageType;
-  typedef TInputImageType OutputImageType;
+  using InputImageType = TInputImageType;
+  using OutputImageType = TInputImageType;
 
-  typedef typename TInputImageType::PixelType InputPixelType;
+  using InputPixelType = typename TInputImageType::PixelType;
 
-  typedef itk::ImageFileReader<InputImageType>  ReaderType;
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typedef itk::VotingBinaryImageFilter<InputImageType, OutputImageType> FilterType;
+  using FilterType = itk::VotingBinaryImageFilter<InputImageType, OutputImageType>;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( infname );
@@ -110,8 +110,8 @@ int itkVotingBinaryImageFilterTest(int argc, char* argv[] )
   const itk::ImageIOBase::IOComponentType componentType = iobase->GetComponentType();
   const unsigned int dimension = iobase->GetNumberOfDimensions();
 
-  typedef itk::Image<short,3>                                     TestImageType;
-  typedef itk::VotingBinaryImageFilter<TestImageType, TestImageType> FilterType;
+  using TestImageType = itk::Image<short,3>;
+  using FilterType = itk::VotingBinaryImageFilter<TestImageType, TestImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   EXERCISE_BASIC_OBJECT_METHODS( filter, VotingBinaryImageFilter, ImageToImageFilter );

@@ -37,19 +37,19 @@ template< typename TMesh,
 class QuadEdgeMeshDecimationCriterion:public Object
 {
 public:
-  typedef QuadEdgeMeshDecimationCriterion Self;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
-  typedef Object                          Superclass;
+  using Self = QuadEdgeMeshDecimationCriterion;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = Object;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(QuadEdgeMeshDecimationCriterion, Object);
 
-  typedef TMesh                                                  MeshType;
-  typedef TElement                                               ElementType;
-  typedef TMeasure                                               MeasureType;
-  typedef TPriorityQueueWrapper                                  PriorityQueueWrapperType;
-  typedef typename PriorityQueueWrapperType::ElementPriorityType PriorityType;
+  using MeshType = TMesh;
+  using ElementType = TElement;
+  using MeasureType = TMeasure;
+  using PriorityQueueWrapperType = TPriorityQueueWrapper;
+  using PriorityType = typename PriorityQueueWrapperType::ElementPriorityType;
 
   void SetNumberOfElements(const SizeValueType & numberOfElements)
   {
@@ -125,11 +125,11 @@ class NumberOfPointsCriterion:
                                           TMeasure, TPriorityQueueWrapper >
 {
 public:
-  typedef NumberOfPointsCriterion    Self;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef QuadEdgeMeshDecimationCriterion<
-    TMesh, TElement, TMeasure, TPriorityQueueWrapper >       Superclass;
+  using Self = NumberOfPointsCriterion;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshDecimationCriterion<
+    TMesh, TElement, TMeasure, TPriorityQueueWrapper >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(NumberOfPointsCriterion, QuadEdgeMeshDecimationCriterion);
@@ -137,11 +137,11 @@ public:
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
 
-  typedef typename Superclass::MeshType                 MeshType;
-  typedef typename Superclass::ElementType              ElementType;
-  typedef typename Superclass::MeasureType              MeasureType;
-  typedef typename Superclass::PriorityQueueWrapperType PriorityQueueWrapperType;
-  typedef typename Superclass::PriorityType             PriorityType;
+  using MeshType = typename Superclass::MeshType;
+  using ElementType = typename Superclass::ElementType;
+  using MeasureType = typename Superclass::MeasureType;
+  using PriorityQueueWrapperType = typename Superclass::PriorityQueueWrapperType;
+  using PriorityType = typename Superclass::PriorityType;
 
   inline bool is_satisfied( MeshType *iMesh,
                             const ElementType & itkNotUsed(iElement),
@@ -175,11 +175,11 @@ class NumberOfFacesCriterion:
                                           TMeasure, TPriorityQueueWrapper >
 {
 public:
-  typedef NumberOfFacesCriterion     Self;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef QuadEdgeMeshDecimationCriterion< TMesh, TElement,
-                                           TMeasure, TPriorityQueueWrapper >                 Superclass;
+  using Self = NumberOfFacesCriterion;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshDecimationCriterion< TMesh, TElement,
+                                           TMeasure, TPriorityQueueWrapper >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(NumberOfFacesCriterion, QuadEdgeMeshDecimationCriterion);
@@ -187,12 +187,12 @@ public:
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
 
-  typedef typename Superclass::MeshType                  MeshType;
-  typedef typename MeshType::CellsContainerConstIterator CellsContainerConstIterator;
-  typedef typename Superclass::ElementType               ElementType;
-  typedef typename Superclass::MeasureType               MeasureType;
-  typedef typename Superclass::PriorityQueueWrapperType  PriorityQueueWrapperType;
-  typedef typename Superclass::PriorityType              PriorityType;
+  using MeshType = typename Superclass::MeshType;
+  using CellsContainerConstIterator = typename MeshType::CellsContainerConstIterator;
+  using ElementType = typename Superclass::ElementType;
+  using MeasureType = typename Superclass::MeasureType;
+  using PriorityQueueWrapperType = typename Superclass::PriorityQueueWrapperType;
+  using PriorityType = typename Superclass::PriorityType;
 
   bool is_satisfied( MeshType *iMesh,
                      const ElementType & itkNotUsed(iElement),
@@ -226,11 +226,11 @@ class MaxMeasureBoundCriterion:
                                           TMeasure, TPriorityQueueWrapper >
 {
 public:
-  typedef MaxMeasureBoundCriterion   Self;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef QuadEdgeMeshDecimationCriterion< TMesh, TElement,
-                                           TMeasure, TPriorityQueueWrapper >                        Superclass;
+  using Self = MaxMeasureBoundCriterion;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshDecimationCriterion< TMesh, TElement,
+                                           TMeasure, TPriorityQueueWrapper >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(MaxMeasureBoundCriterion, QuadEdgeMeshDecimationCriterion);
@@ -238,12 +238,12 @@ public:
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
 
-  typedef typename Superclass::MeshType                  MeshType;
-  typedef typename MeshType::CellsContainerConstIterator CellsContainerConstIterator;
-  typedef typename Superclass::ElementType               ElementType;
-  typedef typename Superclass::MeasureType               MeasureType;
-  typedef typename Superclass::PriorityQueueWrapperType  PriorityQueueWrapperType;
-  typedef typename Superclass::PriorityType              PriorityType;
+  using MeshType = typename Superclass::MeshType;
+  using CellsContainerConstIterator = typename MeshType::CellsContainerConstIterator;
+  using ElementType = typename Superclass::ElementType;
+  using MeasureType = typename Superclass::MeasureType;
+  using PriorityQueueWrapperType = typename Superclass::PriorityQueueWrapperType;
+  using PriorityType = typename Superclass::PriorityType;
 
   bool is_satisfied(MeshType *itkNotUsed(iMesh),
                     const ElementType & itkNotUsed(iElement),
@@ -277,11 +277,11 @@ class MinMeasureBoundCriterion:
                                           TMeasure, TPriorityQueueWrapper >
 {
 public:
-  typedef MinMeasureBoundCriterion   Self;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef QuadEdgeMeshDecimationCriterion< TMesh, TElement,
-                                           TMeasure, TPriorityQueueWrapper >                         Superclass;
+  using Self = MinMeasureBoundCriterion;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshDecimationCriterion< TMesh, TElement,
+                                           TMeasure, TPriorityQueueWrapper >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(MinMeasureBoundCriterion, QuadEdgeMeshDecimationCriterion);
@@ -289,12 +289,12 @@ public:
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
 
-  typedef typename Superclass::MeshType                  MeshType;
-  typedef typename MeshType::CellsContainerConstIterator CellsContainerConstIterator;
-  typedef typename Superclass::ElementType               ElementType;
-  typedef typename Superclass::MeasureType               MeasureType;
-  typedef typename Superclass::PriorityQueueWrapperType  PriorityQueueWrapperType;
-  typedef typename Superclass::PriorityType              PriorityType;
+  using MeshType = typename Superclass::MeshType;
+  using CellsContainerConstIterator = typename MeshType::CellsContainerConstIterator;
+  using ElementType = typename Superclass::ElementType;
+  using MeasureType = typename Superclass::MeasureType;
+  using PriorityQueueWrapperType = typename Superclass::PriorityQueueWrapperType;
+  using PriorityType = typename Superclass::PriorityType;
 
   inline bool is_satisfied(MeshType *,
                            const ElementType & ,

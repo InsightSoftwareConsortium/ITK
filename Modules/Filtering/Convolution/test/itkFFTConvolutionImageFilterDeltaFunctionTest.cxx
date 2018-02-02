@@ -32,9 +32,9 @@ int itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
 
   const unsigned int ImageDimension = 2;
 
-  typedef unsigned char                            PixelType;
-  typedef itk::Image< PixelType, ImageDimension >  ImageType;
-  typedef itk::ImageFileReader< ImageType >        ReaderType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   // Read kernel image
   ReaderType::Pointer reader = ReaderType::New();
@@ -58,7 +58,7 @@ int itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
     }
   deltaFunctionImage->SetPixel( middleIndex, 1 );
 
-  typedef itk::FFTConvolutionImageFilter<ImageType> ConvolutionFilterType;
+  using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
   ConvolutionFilterType::Pointer convolver = ConvolutionFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( convolver, FFTConvolutionImageFilter, ConvolutionImageFilterBase );
@@ -78,7 +78,7 @@ int itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
 
   TRY_EXPECT_NO_EXCEPTION( convolver->Update() );
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( convolver->GetOutput() );

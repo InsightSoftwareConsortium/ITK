@@ -84,17 +84,17 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>   Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::LBFGSBOptimizerv4     OptimizerType;
-  typedef   const OptimizerType *    OptimizerPointer;
+  using OptimizerType = itk::LBFGSBOptimizerv4;
+  using OptimizerPointer = const OptimizerType *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
   {
@@ -128,10 +128,10 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    ImageDimension = 3;
-  typedef  float           PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< PixelType, ImageDimension >  FixedImageType;
-  typedef itk::Image< PixelType, ImageDimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, ImageDimension >;
+  using MovingImageType = itk::Image< PixelType, ImageDimension >;
 
 
   //  Software Guide : BeginLatex
@@ -148,25 +148,25 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   const unsigned int SpaceDimension = ImageDimension;
   const unsigned int SplineOrder = 3;
-  typedef double CoordinateRepType;
+  using CoordinateRepType = double;
 
-  typedef itk::BSplineTransform<
+  using TransformType = itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
-                            SplineOrder >     TransformType;
+                            SplineOrder >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::LBFGSBOptimizerv4       OptimizerType;
+  using OptimizerType = itk::LBFGSBOptimizerv4;
 
 
-  typedef itk::MeanSquaresImageToImageMetricv4<
+  using MetricType = itk::MeanSquaresImageToImageMetricv4<
                                     FixedImageType,
-                                    MovingImageType >    MetricType;
+                                    MovingImageType >;
 
-  typedef itk::ImageRegistrationMethodv4<
+  using RegistrationType = itk::ImageRegistrationMethodv4<
                                     FixedImageType,
-                                    MovingImageType >    RegistrationType;
+                                    MovingImageType >;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -177,8 +177,8 @@ int main( int argc, char *argv[] )
   registration->SetOptimizer(     optimizer     );
 
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
@@ -208,8 +208,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   // Initialize the transform
-  typedef itk::BSplineTransformInitializer< TransformType,
-                                            FixedImageType>      InitializerType;
+  using InitializerType = itk::BSplineTransformInitializer< TransformType,
+                                            FixedImageType>;
 
   InitializerType::Pointer transformInitializer = InitializerType::New();
 
@@ -224,7 +224,7 @@ int main( int argc, char *argv[] )
   transformInitializer->InitializeTransform();
 
   // Set transform to identity
-  typedef TransformType::ParametersType     ParametersType;
+  using ParametersType = TransformType::ParametersType;
   const unsigned int numberOfParameters =
                outputBSplineTransform->GetNumberOfParameters();
   ParametersType parameters( numberOfParameters );
@@ -316,9 +316,9 @@ int main( int argc, char *argv[] )
 
   // Finally we use the last transform in order to resample the image.
   //
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+                            FixedImageType >;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -331,15 +331,15 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
-  typedef  unsigned char  OutputPixelType;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
+  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
 
-  typedef itk::CastImageFilter<
+  using CastFilterType = itk::CastImageFilter<
                         FixedImageType,
-                        OutputImageType > CastFilterType;
+                        OutputImageType >;
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
 
   WriterType::Pointer      writer =  WriterType::New();
@@ -364,10 +364,10 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::SquaredDifferenceImageFilter<
+  using DifferenceFilterType = itk::SquaredDifferenceImageFilter<
                                   FixedImageType,
                                   FixedImageType,
-                                  OutputImageType > DifferenceFilterType;
+                                  OutputImageType >;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
@@ -416,12 +416,12 @@ int main( int argc, char *argv[] )
 
   // Generate the explicit deformation field resulting from
   // the registration.
-  typedef itk::Vector< float, ImageDimension >          VectorPixelType;
-  typedef itk::Image< VectorPixelType, ImageDimension > DisplacementFieldImageType;
+  using VectorPixelType = itk::Vector< float, ImageDimension >;
+  using DisplacementFieldImageType = itk::Image< VectorPixelType, ImageDimension >;
 
-  typedef itk::TransformToDisplacementFieldFilter<
+  using DisplacementFieldGeneratorType = itk::TransformToDisplacementFieldFilter<
                         DisplacementFieldImageType,
-                        CoordinateRepType >             DisplacementFieldGeneratorType;
+                        CoordinateRepType >;
 
   /** Create an setup displacement field generator. */
   DisplacementFieldGeneratorType::Pointer dispfieldGenerator =
@@ -440,7 +440,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageFileWriter< DisplacementFieldImageType >  FieldWriterType;
+  using FieldWriterType = itk::ImageFileWriter< DisplacementFieldImageType >;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput( dispfieldGenerator->GetOutput() );

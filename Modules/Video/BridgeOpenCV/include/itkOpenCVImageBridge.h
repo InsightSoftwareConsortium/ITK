@@ -58,8 +58,8 @@ class OpenCVImageBridge
 {
 public:
 
-  /** ITK stype typedefs */
-  typedef OpenCVImageBridge Self;
+  /** ITK stype type alias */
+  using Self = OpenCVImageBridge;
 
   /** IplImage* -> itk::Image */
   template<typename TOutputImageType>
@@ -92,9 +92,9 @@ private:
                                         int iDepth )
   {
     // Typedefs
-    typedef TOutputImageType                            ImageType;
-    typedef typename ImageType::PixelType               OutputPixelType;
-    typedef DefaultConvertPixelTraits<OutputPixelType>  ConvertPixelTraits;
+    using ImageType = TOutputImageType;
+    using OutputPixelType = typename ImageType::PixelType;
+    using ConvertPixelTraits = DefaultConvertPixelTraits<OutputPixelType>;
 
     unsigned int inChannels = in->nChannels;
     unsigned int outChannels = itk::NumericTraits<OutputPixelType>::MeasurementVectorType::Dimension;
@@ -189,9 +189,9 @@ private:
   template< typename TValue, unsigned int VDimension >
   struct HandleRGBPixel< RGBPixel< TValue >, VDimension >
   {
-    typedef TValue                          ValueType;
-    typedef RGBPixel< ValueType >           PixelType;
-    typedef Image< PixelType, VDimension >  ImageType;
+    using ValueType = TValue;
+    using PixelType = RGBPixel< ValueType >;
+    using ImageType = Image< PixelType, VDimension >;
 
     static void Padding( const ImageType* in, IplImage* out )
     {

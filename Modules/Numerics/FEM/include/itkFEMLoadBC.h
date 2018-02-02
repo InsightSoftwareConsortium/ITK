@@ -35,11 +35,11 @@ namespace fem
 class ITKFEM_EXPORT LoadBC : public Load
 {
 public:
-  /** Standard class typedefs. */
-  typedef LoadBC                   Self;
-  typedef Load                     Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LoadBC;
+  using Superclass = Load;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

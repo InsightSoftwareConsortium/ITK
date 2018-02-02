@@ -25,9 +25,9 @@
 
 int itkBlobSpatialObjectTest(int, char* [])
 {
-  typedef itk::BlobSpatialObject<3>    BlobType;
-  typedef BlobType::Pointer            BlobPointer;
-  typedef itk::SpatialObjectPoint<3>   BlobPointType;
+  using BlobType = itk::BlobSpatialObject<3>;
+  using BlobPointer = BlobType::Pointer;
+  using BlobPointType = itk::SpatialObjectPoint<3>;
 
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing BlobSpatialObject:"<<std::endl<<std::endl;

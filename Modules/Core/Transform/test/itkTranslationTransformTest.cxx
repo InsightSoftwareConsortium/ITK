@@ -20,7 +20,7 @@
 
 #include "itkTranslationTransform.h"
 
-typedef  itk::Vector<double,2>     VectorType;
+using VectorType = itk::Vector<double,2>;
 
 namespace
 {
@@ -48,7 +48,7 @@ int itkTranslationTransformTest(int ,char *[] )
      actually check that the results are correct. */
 
   /* Create a 2D identity transformation and show its parameters */
-  typedef itk::TranslationTransform<double,2>  TransformType;
+  using TransformType = itk::TranslationTransform<double,2>;
   TransformType::Pointer  id2 = TransformType::New();
   vector2 = id2->GetOffset();
   std::cout << "Vector from instantiating an identity transform:"

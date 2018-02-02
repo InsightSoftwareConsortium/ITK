@@ -88,7 +88,7 @@ int testMetaTube(int argc, char * argv[])
   myScene2.Read("test.scn");
   std::cout << "  ... read scene " << std::endl;
 
-  typedef  MetaScene::ObjectListType ListType;
+  using ListType = MetaScene::ObjectListType;
   ListType * list = myScene2.GetObjectList();
   ListType::iterator it = list->begin();
 
@@ -99,7 +99,7 @@ int testMetaTube(int argc, char * argv[])
     (*it)->PrintInfo();
     if(!strncmp((*it)->ObjectTypeName(),"Tube",4))
     {
-      typedef MetaTube::PointListType PointListType;
+      using PointListType = MetaTube::PointListType;
       MetaTube* tube = dynamic_cast<MetaTube*>(*it);
       PointListType::iterator it2 = tube->GetPoints().begin();
 

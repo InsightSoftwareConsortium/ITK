@@ -33,7 +33,7 @@ int itkFixedArrayTest2(int, char* [] )
   // Declare a simple timer
   clock_t t;
 
-  typedef itk::FixedArray<double,2> ArrayType;
+  using ArrayType = itk::FixedArray<double,2>;
 
   // Declare an array of nelements FixedArray
   // and add a small margin to play with pointers

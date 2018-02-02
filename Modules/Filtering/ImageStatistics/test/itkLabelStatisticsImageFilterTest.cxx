@@ -35,9 +35,9 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
     std::cerr << argv[0] << " inputImage labeledImage " << std::endl;
     return EXIT_FAILURE;
   }
-  typedef itk::Image<unsigned char,2> ImageType;
+  using ImageType = itk::Image<unsigned char,2>;
 
-  typedef itk::ImageFileReader< ImageType >    ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   ReaderType::Pointer reader2 = ReaderType::New();
@@ -45,7 +45,7 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
   reader1->SetFileName( argv[1] );
   reader2->SetFileName( argv[2] );
 
-  typedef itk::LabelStatisticsImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::LabelStatisticsImageFilter< ImageType, ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -68,11 +68,11 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
   const unsigned int numberOfObjects  = filter->GetNumberOfObjects();
   const unsigned int numberOfLabels   = filter->GetNumberOfLabels();
 
-  typedef FilterType::RealType                      RealType;
-  typedef FilterType::BoundingBoxType               BoundingBoxType;
-  typedef FilterType::RegionType                    RegionType;
-  typedef FilterType::LabelPixelType                LabelPixelType;
-  typedef FilterType::ValidLabelValuesContainerType ValidLabelValuesType;
+  using RealType = FilterType::RealType;
+  using BoundingBoxType = FilterType::BoundingBoxType;
+  using RegionType = FilterType::RegionType;
+  using LabelPixelType = FilterType::LabelPixelType;
+  using ValidLabelValuesType = FilterType::ValidLabelValuesContainerType;
 
   LabelPixelType labelValue;
 

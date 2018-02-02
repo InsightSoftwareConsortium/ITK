@@ -41,11 +41,11 @@ namespace fem
 class ITKFEM_EXPORT LoadNode : public Load
 {
 public:
-  /** Standard class typedefs. */
-  typedef LoadNode                 Self;
-  typedef Load                     Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LoadNode;
+  using Superclass = Load;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through the object factory. */
   itkSimpleNewMacro(Self);
@@ -53,7 +53,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoadNode, Load);
 
-  typedef Element::Node::Float Float;
+  using Float = Element::Node::Float;
 
   /**
     * Set the force acting at the node

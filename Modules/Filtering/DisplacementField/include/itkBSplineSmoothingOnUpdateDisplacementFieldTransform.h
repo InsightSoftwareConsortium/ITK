@@ -53,11 +53,11 @@ class ITK_TEMPLATE_EXPORT BSplineSmoothingOnUpdateDisplacementFieldTransform :
   public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineSmoothingOnUpdateDisplacementFieldTransform            Self;
-  typedef DisplacementFieldTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                            Pointer;
-  typedef SmartPointer<const Self>                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineSmoothingOnUpdateDisplacementFieldTransform;
+  using Superclass = DisplacementFieldTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( BSplineSmoothingOnUpdateDisplacementFieldTransform, DisplacementFieldTransform );
@@ -69,28 +69,28 @@ public:
   itkStaticConstMacro( Dimension, unsigned int, NDimensions );
 
   /** Types from superclass */
-  typedef typename Superclass::ScalarType                    ScalarType;
-  typedef typename Superclass::DerivativeType                DerivativeType;
-  typedef typename DerivativeType::ValueType                 DerivativeValueType;
-  typedef typename Superclass::DisplacementFieldType         DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer      DisplacementFieldPointer;
-  typedef typename Superclass::DisplacementFieldConstPointer DisplacementFieldConstPointer;
+  using ScalarType = typename Superclass::ScalarType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
+  using DisplacementFieldConstPointer = typename Superclass::DisplacementFieldConstPointer;
 
-  typedef typename Transform<TParametersValueType,NDimensions, NDimensions>::Pointer
-             TransformPointer;
+  using TransformPointer =
+          typename Transform<TParametersValueType,NDimensions, NDimensions>::Pointer;
 
   /**
-   * typedefs for projecting the input displacement field onto a
+   * type alias for projecting the input displacement field onto a
    * B-spline field.
    */
-  typedef typename DisplacementFieldType::PixelType                            DisplacementVectorType;
-  typedef PointSet<DisplacementVectorType, Dimension>                          PointSetType;
-  typedef unsigned int                                                         SplineOrderType;
-  typedef DisplacementFieldToBSplineImageFilter<DisplacementFieldType>         BSplineFilterType;
-  typedef typename BSplineFilterType::WeightsContainerType                     WeightsContainerType;
-  typedef DisplacementFieldType                                                DisplacementFieldControlPointLatticeType;
-  typedef typename BSplineFilterType::ArrayType                                ArrayType;
-  typedef typename ArrayType::ValueType                                        ArrayValueType;
+  using DisplacementVectorType = typename DisplacementFieldType::PixelType;
+  using PointSetType = PointSet<DisplacementVectorType, Dimension>;
+  using SplineOrderType = unsigned int;
+  using BSplineFilterType = DisplacementFieldToBSplineImageFilter<DisplacementFieldType>;
+  using WeightsContainerType = typename BSplineFilterType::WeightsContainerType;
+  using DisplacementFieldControlPointLatticeType = DisplacementFieldType;
+  using ArrayType = typename BSplineFilterType::ArrayType;
+  using ArrayValueType = typename ArrayType::ValueType;
 
   /**
    * Update the transform's parameters by the values in \c update.  We

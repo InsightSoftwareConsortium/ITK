@@ -74,20 +74,19 @@ class TernaryMagnitudeImageFilter:
                                typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TernaryMagnitudeImageFilter Self;
-  typedef TernaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = TernaryMagnitudeImageFilter;
+  using Superclass = TernaryFunctorImageFilter<
     TInputImage1, TInputImage2,
     TInputImage3, TOutputImage,
     Functor::Modulus3<
       typename TInputImage1::PixelType,
       typename TInputImage2::PixelType,
       typename TInputImage3::PixelType,
-      typename TOutputImage::PixelType >
-    >                                   Superclass;
+      typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

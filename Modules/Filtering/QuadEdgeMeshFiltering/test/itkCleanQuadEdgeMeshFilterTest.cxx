@@ -35,12 +35,12 @@ int itkCleanQuadEdgeMeshFilterTest( int argc, char* argv[] )
     }
 
   // ** TYPEDEF **
-  typedef double        Coord;
+  using Coord = double;
   const unsigned int    Dimension = 3;
 
-  typedef itk::QuadEdgeMesh< Coord, Dimension >  MeshType;
-  typedef itk::MeshFileReader< MeshType >        ReaderType;
-  typedef itk::MeshFileWriter< MeshType >        WriterType;
+  using MeshType = itk::QuadEdgeMesh< Coord, Dimension >;
+  using ReaderType = itk::MeshFileReader< MeshType >;
+  using WriterType = itk::MeshFileWriter< MeshType >;
 
   // ** READ THE FILE IN **
   ReaderType::Pointer reader = ReaderType::New( );
@@ -63,7 +63,7 @@ int itkCleanQuadEdgeMeshFilterTest( int argc, char* argv[] )
   std::stringstream ssout( argv[2] );
   ssout >>tol;
 
-  typedef itk::CleanQuadEdgeMeshFilter< MeshType, MeshType > CleanFilterType;
+  using CleanFilterType = itk::CleanQuadEdgeMeshFilter< MeshType, MeshType >;
   CleanFilterType::Pointer filter = CleanFilterType::New();
   filter->SetInput( mesh );
   filter->SetRelativeTolerance( tol );

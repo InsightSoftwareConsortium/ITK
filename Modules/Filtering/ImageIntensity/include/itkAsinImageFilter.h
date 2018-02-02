@@ -87,16 +87,15 @@ class AsinImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef AsinImageFilter Self;
-  typedef UnaryFunctorImageFilter< TInputImage, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = AsinImageFilter;
+  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
                                    Functor::Asin<
                                      typename TInputImage::PixelType,
-                                     typename TOutputImage::PixelType >
-                                   >                                 Superclass;
+                                     typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

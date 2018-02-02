@@ -77,8 +77,8 @@ private:
 class ExceptionObject::ReferenceCountedExceptionData:public ExceptionData, public LightObject
 {
 public:
-  typedef ReferenceCountedExceptionData Self;
-  typedef SmartPointer< const Self >    ConstPointer;
+  using Self = ReferenceCountedExceptionData;
+  using ConstPointer = SmartPointer< const Self >;
   static ConstPointer ConstNew(
     const std::string & file, unsigned int line,
     const std::string & description,

@@ -192,7 +192,7 @@ PCAShapeSignedDistanceFunction< TCoordRep, VSpaceDimension, TImage >
 
   itkDebugMacro(<< "mappedPoint:" << mappedPoint);
 
-  typedef typename NumericTraits< OutputType >::RealType RealType;
+  using RealType = typename NumericTraits< OutputType >::RealType;
   RealType output;
 
   if ( !m_Interpolators[0]->IsInsideBuffer(mappedPoint) )

@@ -39,18 +39,18 @@ class ITK_TEMPLATE_EXPORT PlaneSpatialObject:
 {
 public:
 
-  /** Standard typedefs */
-  typedef PlaneSpatialObject                           Self;
-  typedef double                                       ScalarType;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
-  typedef SpatialObject< TDimension >                  Superclass;
-  typedef SmartPointer< Superclass >                   SuperclassPointer;
-  typedef typename Superclass::PointType               PointType;
-  typedef typename Superclass::TransformType           TransformType;
-  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >           PointContainerPointer;
-  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
+  /** Standard type alias */
+  using Self = PlaneSpatialObject;
+  using ScalarType = double;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SpatialObject< TDimension >;
+  using SuperclassPointer = SmartPointer< Superclass >;
+  using PointType = typename Superclass::PointType;
+  using TransformType = typename Superclass::TransformType;
+  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointContainerPointer = SmartPointer< PointContainerType >;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
 
   itkStaticConstMacro(NumberOfDimension, unsigned int,
                       TDimension);

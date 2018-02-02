@@ -52,20 +52,20 @@ int main( int argc, char * argv[] )
     }
 
   const     unsigned int   Dimension = 2;
-  typedef   float          VectorComponentType;
+  using VectorComponentType = float;
 
-  typedef   itk::Vector< VectorComponentType, Dimension >    VectorType;
+  using VectorType = itk::Vector< VectorComponentType, Dimension >;
 
-  typedef   itk::Image< VectorType, Dimension >   DisplacementFieldType;
+  using DisplacementFieldType = itk::Image< VectorType, Dimension >;
 
-  typedef   unsigned char                            PixelType;
-  typedef   itk::Image< PixelType, Dimension >       FixedImageType;
-  typedef   itk::Image< PixelType, Dimension >       MovingImageType;
+  using PixelType = unsigned char;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
-  typedef   itk::ImageFileReader< FixedImageType  >  FixedReaderType;
-  typedef   itk::ImageFileReader< MovingImageType >  MovingReaderType;
+  using FixedReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingReaderType = itk::ImageFileReader< MovingImageType >;
 
-  typedef   itk::ImageFileWriter< MovingImageType >  MovingWriterType;
+  using MovingWriterType = itk::ImageFileWriter< MovingImageType >;
 
 
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
@@ -102,9 +102,7 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
 
-  typedef itk::LandmarkDisplacementFieldSource<
-                                DisplacementFieldType
-                                             >  DisplacementSourceType;
+  using DisplacementSourceType = itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
 
   DisplacementSourceType::Pointer deformer = DisplacementSourceType::New();
 
@@ -124,8 +122,8 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
 
-  typedef DisplacementSourceType::LandmarkContainer LandmarkContainerType;
-  typedef DisplacementSourceType::LandmarkPointType LandmarkPointType;
+  using LandmarkContainerType = DisplacementSourceType::LandmarkContainer;
+  using LandmarkPointType = DisplacementSourceType::LandmarkPointType;
 
   LandmarkContainerType::Pointer sourceLandmarks =
     LandmarkContainerType::New();
@@ -191,14 +189,14 @@ int main( int argc, char * argv[] )
 
   DisplacementFieldType::ConstPointer displacementField = deformer->GetOutput();
 
-  typedef itk::WarpImageFilter< MovingImageType,
+  using FilterType = itk::WarpImageFilter< MovingImageType,
                                 MovingImageType,
-                                DisplacementFieldType  >  FilterType;
+                                DisplacementFieldType  >;
 
   FilterType::Pointer warper = FilterType::New();
 
-  typedef itk::LinearInterpolateImageFunction<
-                       MovingImageType, double >  InterpolatorType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
+                       MovingImageType, double >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 

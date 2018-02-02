@@ -107,17 +107,17 @@ public:
     m_DistanceTransform = d;
   }
 
-  typedef MorphFunction Self;
+  using Self = MorphFunction;
 
-  typedef ::itk::LevelSetFunction< ::itk::Image<float, 3> > Superclass;
-  typedef Superclass::RadiusType                            RadiusType;
-  typedef Superclass::GlobalDataStruct                      GlobalDataStruct;
+  using Superclass = ::itk::LevelSetFunction< ::itk::Image<float, 3> >;
+  using RadiusType = Superclass::RadiusType;
+  using GlobalDataStruct = Superclass::GlobalDataStruct;
 
   /**
    * Smart pointer support for this class.
    */
-  typedef ::itk::SmartPointer<Self>       Pointer;
-  typedef ::itk::SmartPointer<const Self> ConstPointer;
+  using Pointer = ::itk::SmartPointer<Self>;
+  using ConstPointer = ::itk::SmartPointer<const Self>;
 
   /**
    * Run-time type information (and related methods)
@@ -156,13 +156,13 @@ class MorphFilter : public
 ::itk::ParallelSparseFieldLevelSetImageFilter< ::itk::Image<float, 3>, ::itk::Image<float, 3> >
 {
 public:
-  typedef MorphFilter Self;
+  using Self = MorphFilter;
 
   /**
    * Smart pointer support for this class.
    */
-  typedef ::itk::SmartPointer<Self>       Pointer;
-  typedef ::itk::SmartPointer<const Self> ConstPointer;
+  using Pointer = ::itk::SmartPointer<Self>;
+  using ConstPointer = ::itk::SmartPointer<const Self>;
 
   /**
    * Run-time type information (and related methods)
@@ -219,7 +219,7 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef ::itk::Image<float, 3> ImageType;
+  using ImageType = ::itk::Image<float, 3>;
 
   const int n = 100;  // Number of iterations
   const int numOfThreads= 3; // Number of threads to be used
@@ -263,7 +263,7 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
   PSFLSIFT::evaluate_function(im_init, PSFLSIFT::sphere);
   PSFLSIFT::evaluate_function(im_target, PSFLSIFT::cube);
 
-  typedef  itk::ImageFileWriter<  ImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  ImageType  >;
   WriterType::Pointer writer = WriterType::New();
   if (argc > 2)
     {

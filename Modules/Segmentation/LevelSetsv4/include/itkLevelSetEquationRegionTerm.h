@@ -28,20 +28,20 @@ class LevelSetEquationRegionTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
-  typedef LevelSetEquationRegionTerm                             Self;
-  typedef SmartPointer< Self >                                   Pointer;
-  typedef SmartPointer< const Self >                             ConstPointer;
-  typedef LevelSetEquationTermBase< TInput, TLevelSetContainer > Superclass;
+  using Self = LevelSetEquationRegionTerm;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LevelSetEquationTermBase< TInput, TLevelSetContainer >;
 
-  typedef TInput                      InputType;
-  typedef typename InputType::Pointer InputPointer;
+  using InputType = TInput;
+  using InputPointer = typename InputType::Pointer;
 
-  typedef TLevelSetContainer                           LevelSetContainerType;
-  typedef typename LevelSetContainerType::Pointer      LevelSetContainerPointer;
-  typedef typename LevelSetContainerType::OutputType   LevelSetOutputType;
-  typedef typename LevelSetContainerType::InputType    LevelSetInputType;
-  typedef typename LevelSetContainerType::GradientType GradientType;
-  typedef typename LevelSetContainerType::HessianType  HessianType;
+  using LevelSetContainerType = TLevelSetContainer;
+  using LevelSetContainerPointer = typename LevelSetContainerType::Pointer;
+  using LevelSetOutputType = typename LevelSetContainerType::OutputType;
+  using LevelSetInputType = typename LevelSetContainerType::InputType;
+  using GradientType = typename LevelSetContainerType::GradientType;
+  using HessianType = typename LevelSetContainerType::HessianType;
 
 protected:
   LevelSetEquationRegionTerm() : Superclass()

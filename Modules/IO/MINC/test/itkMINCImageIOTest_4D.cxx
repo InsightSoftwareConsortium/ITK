@@ -36,10 +36,10 @@ int itkMINCImageIOTest_4D( int argc, char * argv [] )
 
   itk::MINCImageIOFactory::RegisterOneFactory();
 
-  typedef itk::VectorImage< float, 3 > ImageType;
+  using ImageType = itk::VectorImage< float, 3 >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();

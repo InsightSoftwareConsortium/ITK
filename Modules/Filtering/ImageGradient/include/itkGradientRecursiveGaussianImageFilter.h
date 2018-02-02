@@ -57,78 +57,74 @@ class ITK_TEMPLATE_EXPORT GradientRecursiveGaussianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GradientRecursiveGaussianImageFilter            Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GradientRecursiveGaussianImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Pixel Type of the input image. May be scalar or vector. */
-  typedef TInputImage                                           InputImageType;
-  typedef typename TInputImage::PixelType                       PixelType;
-  typedef typename NumericTraits< PixelType >::RealType         RealType;
-  typedef typename NumericTraits< PixelType >::ScalarRealType   ScalarRealType;
+  using InputImageType = TInputImage;
+  using PixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
+  using ScalarRealType = typename NumericTraits< PixelType >::ScalarRealType;
 
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
-  typedef typename NumericTraits< RealType >::FloatType         InternalRealType;
-  typedef typename NumericTraits< InternalRealType >::ValueType InternalScalarRealType;
+  using InternalRealType = typename NumericTraits< RealType >::FloatType;
+  using InternalScalarRealType = typename NumericTraits< InternalRealType >::ValueType;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Gradient vector typedef */
-  typedef CovariantVector<ScalarRealType, ImageDimension > GradientVectorType;
+  /** Gradient vector type alias */
+  using GradientVectorType = CovariantVector<ScalarRealType, ImageDimension >;
 
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.
       Here we prefer float in order to save memory.  */
-  typedef Image< InternalRealType,
-                 itkGetStaticConstMacro(ImageDimension) >   RealImageType;
+  using RealImageType = Image< InternalRealType,
+                 itkGetStaticConstMacro(ImageDimension) >;
 
 
   /**  Output Image Nth Element Adaptor
    *  This adaptor allows to use conventional scalar
    *  smoothing filters to compute each one of the
    *  components of the gradient image pixels. */
-  typedef NthElementImageAdaptor< TOutputImage,
-                                  InternalScalarRealType >  OutputImageAdaptorType;
+  using OutputImageAdaptorType = NthElementImageAdaptor< TOutputImage,
+                                  InternalScalarRealType >;
 
-  typedef typename OutputImageAdaptorType::Pointer OutputImageAdaptorPointer;
+  using OutputImageAdaptorPointer = typename OutputImageAdaptorType::Pointer;
 
   /** Define the type for the sigma array **/
-  typedef FixedArray< ScalarRealType,
-                      itkGetStaticConstMacro(ImageDimension) > SigmaArrayType;
+  using SigmaArrayType = FixedArray< ScalarRealType,
+                      itkGetStaticConstMacro(ImageDimension) >;
 
   /**  Smoothing filter type */
-  typedef RecursiveGaussianImageFilter<
-    RealImageType,
-    RealImageType
-    >    GaussianFilterType;
+  using GaussianFilterType = RecursiveGaussianImageFilter<
+    RealImageType, RealImageType >;
 
   /**  Derivative filter type, it will be the first in the pipeline  */
-  typedef RecursiveGaussianImageFilter<
-    InputImageType,
-    RealImageType
-    >    DerivativeFilterType;
+  using DerivativeFilterType = RecursiveGaussianImageFilter<
+    InputImageType, RealImageType >;
 
   /**  Pointer to a gaussian filter.  */
-  typedef typename GaussianFilterType::Pointer GaussianFilterPointer;
+  using GaussianFilterPointer = typename GaussianFilterType::Pointer;
 
   /**  Pointer to a derivative filter.  */
-  typedef typename DerivativeFilterType::Pointer DerivativeFilterPointer;
+  using DerivativeFilterPointer = typename DerivativeFilterType::Pointer;
 
   /**  Pointer to the Output Image */
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** Type of the output Image */
-  typedef TOutputImage                                         OutputImageType;
-  typedef typename OutputImageType::PixelType                  OutputPixelType;
-  typedef typename NumericTraits< OutputPixelType >::ValueType OutputComponentType;
-  typedef CovariantVector< OutputComponentType, ImageDimension >
-    CovariantVectorType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputComponentType = typename NumericTraits< OutputPixelType >::ValueType;
+  using CovariantVectorType =
+      CovariantVector< OutputComponentType, ImageDimension >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

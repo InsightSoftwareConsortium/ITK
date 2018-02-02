@@ -39,11 +39,11 @@ namespace
 {
   bool Test_GetLines_should_return_empty_list_when_input_image_is_entirely_black()
   {
-    typedef unsigned char PixelType;
+    using PixelType = unsigned char;
 
-    typedef itk::Image<PixelType> ImageType;
+    using ImageType = itk::Image<PixelType>;
 
-    typedef itk::HoughTransform2DLinesImageFilter< PixelType, double > FilterType;
+    using FilterType = itk::HoughTransform2DLinesImageFilter< PixelType, double >;
 
     // Create a black input image for the filter.
     const ImageType::Pointer image = ImageType::New();
@@ -67,9 +67,9 @@ namespace
 
   bool Test_GetLines_should_return_empty_list_when_NumberOfLines_is_set_to_zero()
   {
-    typedef unsigned char PixelType;
+    using PixelType = unsigned char;
 
-    typedef itk::Image<PixelType> ImageType;
+    using ImageType = itk::Image<PixelType>;
 
     // Create an image.
     const ImageType::Pointer image = ImageType::New();
@@ -85,7 +85,7 @@ namespace
       image->SetPixel(index, 1);
     }
 
-    typedef itk::HoughTransform2DLinesImageFilter< PixelType, double > FilterType;
+    using FilterType = itk::HoughTransform2DLinesImageFilter< PixelType, double >;
 
     const FilterType::Pointer filter = FilterType::New();
 
@@ -122,12 +122,12 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
   const unsigned Dimension = 2;
 
   // Declare the pixel types of the images
-  typedef unsigned char                           PixelType;
-  typedef double                                  HoughSpacePixelType;
+  using PixelType = unsigned char;
+  using HoughSpacePixelType = double;
 
   // Declare the types of the images
-  typedef itk::Image< HoughSpacePixelType, Dimension >      HoughImageType;
-  typedef itk::Image< PixelType, Dimension >                ImageType;
+  using HoughImageType = itk::Image< HoughSpacePixelType, Dimension >;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
 
   // Create a line image with one line
@@ -179,21 +179,21 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
   m_HoughSpaceImage->Allocate();
 
   // Apply gradient filter to the input image
- typedef itk::CastImageFilter< ImageType, HoughImageType > CastingFilterType;
+ using CastingFilterType = itk::CastImageFilter< ImageType, HoughImageType >;
 
   CastingFilterType::Pointer caster = CastingFilterType::New();
   caster->SetInput( image );
 
 
-  typedef itk::GradientMagnitudeImageFilter< HoughImageType, HoughImageType >
-    GradientFilterType;
+  using GradientFilterType =
+      itk::GradientMagnitudeImageFilter< HoughImageType, HoughImageType >;
 
   GradientFilterType::Pointer gradFilter = GradientFilterType::New();
   gradFilter->SetInput( caster->GetOutput() );
   gradFilter->Update();
 
   /// Apply a threshold to the Grad(InputImage)
-  typedef itk::ThresholdImageFilter< HoughImageType > ThresholdFilterType;
+  using ThresholdFilterType = itk::ThresholdImageFilter< HoughImageType >;
 
   ThresholdFilterType::Pointer threshFilter = ThresholdFilterType::New();
   threshFilter->SetInput( gradFilter->GetOutput() );
@@ -205,8 +205,8 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
   threshFilter->Update();
 
   // Define the HoughTransform filter
-  typedef itk::HoughTransform2DLinesImageFilter< HoughSpacePixelType, HoughSpacePixelType >
-    HoughTransformFilterType;
+  using HoughTransformFilterType =
+      itk::HoughTransform2DLinesImageFilter< HoughSpacePixelType, HoughSpacePixelType >;
 
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
 
@@ -248,8 +248,8 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
 
 
   // Blur the accumulator in order to find the maximum
-  typedef itk::DiscreteGaussianImageFilter< HoughImageType,HoughImageType >
-    GaussianFilterType;
+  using GaussianFilterType =
+      itk::DiscreteGaussianImageFilter< HoughImageType,HoughImageType >;
 
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
   gaussianFilter->SetInput( accumulator );
@@ -263,7 +263,7 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
 
   HoughImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
-  typedef itk::MinimumMaximumImageCalculator< HoughImageType > MinMaxCalculatorType;
+  using MinMaxCalculatorType = itk::MinimumMaximumImageCalculator< HoughImageType >;
   MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
 
   itk::ImageRegionIterator< HoughImageType > it_output( m_HoughSpaceImage,

@@ -41,18 +41,17 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT NeighborhoodAccessorFunctor
 {
 public:
-  typedef NeighborhoodAccessorFunctor           Self;
-  typedef TImage                                ImageType;
-  typedef typename ImageType::PixelType         PixelType;
-  typedef typename ImageType::InternalPixelType InternalPixelType;
-  typedef unsigned int                          VectorLengthType;
-  typedef typename ImageType::OffsetType        OffsetType;
+  using Self = NeighborhoodAccessorFunctor;
+  using ImageType = TImage;
+  using PixelType = typename ImageType::PixelType;
+  using InternalPixelType = typename ImageType::InternalPixelType;
+  using VectorLengthType = unsigned int;
+  using OffsetType = typename ImageType::OffsetType;
 
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
-  typedef Neighborhood< InternalPixelType *, Self::ImageDimension > NeighborhoodType;
+  using NeighborhoodType = Neighborhood< InternalPixelType *, Self::ImageDimension >;
 
-  typedef ImageBoundaryCondition< ImageType > const *
-  ImageBoundaryConditionConstPointerType;
+  using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<ImageType> *;
 
   /** Set the pointer index to the start of the buffer. */
   inline void SetBegin(const InternalPixelType *) {}

@@ -69,8 +69,8 @@ int main(int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float            PixelType;
-  typedef float            OutputPixelType;
+  using PixelType = float;
+  using OutputPixelType = float;
 
   const unsigned int  Dimension = 3;
   //  Software Guide : EndCodeSnippet
@@ -85,17 +85,17 @@ int main(int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< PixelType,       Dimension >  ImageType;
-  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
+  using ImageType = itk::Image< PixelType,       Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType       >   ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >   WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType       >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
-  typedef itk::ImageDuplicator< OutputImageType >   DuplicatorType;
+  using DuplicatorType = itk::ImageDuplicator< OutputImageType >;
 
-  typedef itk::RecursiveGaussianImageFilter<
+  using FilterType = itk::RecursiveGaussianImageFilter<
                                       ImageType,
-                                      ImageType >  FilterType;
+                                      ImageType >;
 
   ReaderType::Pointer  reader  = ReaderType::New();
   WriterType::Pointer  writer  = WriterType::New();

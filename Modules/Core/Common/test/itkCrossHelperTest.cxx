@@ -30,19 +30,19 @@ int itkCrossHelperTest( int argc, char* argv[] )
   const unsigned int Dimension3D = 3;
   const unsigned int Dimension4D = 4;
 
-  typedef double CoordRepType;
+  using CoordRepType = double;
 
-  typedef itk::Vector< CoordRepType, Dimension2D > Vector2DType;
-  typedef itk::Vector< CoordRepType, Dimension3D > Vector3DType;
-  typedef itk::Vector< CoordRepType, Dimension4D > Vector4DType;
+  using Vector2DType = itk::Vector< CoordRepType, Dimension2D >;
+  using Vector3DType = itk::Vector< CoordRepType, Dimension3D >;
+  using Vector4DType = itk::Vector< CoordRepType, Dimension4D >;
 
-  typedef itk::CrossHelper< Vector2DType > Cross2DType;
+  using Cross2DType = itk::CrossHelper< Vector2DType >;
   Cross2DType cross2d;
 
-  typedef itk::CrossHelper< Vector3DType > Cross3DType;
+  using Cross3DType = itk::CrossHelper< Vector3DType >;
   Cross3DType cross3d;
 
-  typedef itk::CrossHelper< Vector4DType > Cross4DType;
+  using Cross4DType = itk::CrossHelper< Vector4DType >;
   Cross4DType cross4d;
 
   Vector2DType u2d;

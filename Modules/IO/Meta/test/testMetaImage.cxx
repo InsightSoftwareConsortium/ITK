@@ -31,7 +31,7 @@ template< typename PixelType, unsigned int Dimension>
 int ReadWriteCompare(PixelType value, std::string type)
 {
   std::cout << "Testing: " << type << std::endl;
-  typedef itk::Image<PixelType, 3> ImageType;
+  using ImageType = itk::Image<PixelType, 3>;
   const char *filename = "test.mha";
   typename ImageType::SpacingType spacing;
   typename ImageType::PointType origin;
@@ -98,7 +98,7 @@ int ReadWriteCompare(PixelType value, std::string type)
     }
 
   // Now compare the two images
-  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
+  using DiffType = itk::Testing::ComparisonImageFilter<ImageType,ImageType>;
   typename DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(img);
   diff->SetTestInput(input);

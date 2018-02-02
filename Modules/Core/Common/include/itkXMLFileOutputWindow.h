@@ -49,11 +49,11 @@ namespace itk
 class ITKCommon_EXPORT XMLFileOutputWindow:public FileOutputWindow
 {
 public:
-  /** Standard class typedefs. */
-  typedef XMLFileOutputWindow        Self;
-  typedef FileOutputWindow           Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = XMLFileOutputWindow;
+  using Superclass = FileOutputWindow;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

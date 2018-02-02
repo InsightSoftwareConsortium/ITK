@@ -35,20 +35,20 @@ class ITK_TEMPLATE_EXPORT QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTempla
   : public DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4Template<TInternalComputationValueType> >
 {
 public:
-  /** Standard class typedefs. */
-  typedef QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate                                  Self;
-  typedef DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4Template<TInternalComputationValueType> >
-                                                                                                    Superclass;
-  typedef SmartPointer< Self >                                                                      Pointer;
-  typedef SmartPointer< const Self >                                                                ConstPointer;
+  /** Standard class type aliases. */
+  using Self = QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate;
+  using Superclass =
+      DomainThreader< ThreadedIndexedContainerPartitioner, QuasiNewtonOptimizerv4Template<TInternalComputationValueType> >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro( QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate, DomainThreader );
 
   itkNewMacro( Self );
 
-  typedef typename Superclass::DomainType     DomainType;
-  typedef typename Superclass::AssociateType  AssociateType;
-  typedef DomainType                          IndexRangeType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
+  using IndexRangeType = DomainType;
 
 protected:
   void ThreadedExecution( const IndexRangeType & subrange,
@@ -62,7 +62,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<double> QuasiNewtonOptimizerv4EstimateNewtonStepThreader;
+using QuasiNewtonOptimizerv4EstimateNewtonStepThreader = QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate<double>;
 
 } // end namespace itk
 

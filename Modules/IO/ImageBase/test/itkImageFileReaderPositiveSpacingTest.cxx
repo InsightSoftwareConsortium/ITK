@@ -32,8 +32,8 @@ int itkImageFileReaderPositiveSpacingTest(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<short,2>               ImageNDType;
-  typedef itk::ImageFileReader<ImageNDType> ReaderType;
+  using ImageNDType = itk::Image<short,2>;
+  using ReaderType = itk::ImageFileReader<ImageNDType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(av[1]);
@@ -98,7 +98,7 @@ int itkImageFileReaderPositiveSpacingTest(int ac, char* av[])
   indexToPhysicalPoint = ioDirection * scale;
   physicalPointToIndex = indexToPhysicalPoint.GetInverse();
 
-  typedef itk::ImageRegionIteratorWithIndex< ImageNDType > IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageNDType >;
   IteratorType it(image, image->GetLargestPossibleRegion());
   for(it.GoToBegin();!it.IsAtEnd();++it)
     {

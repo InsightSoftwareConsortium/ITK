@@ -31,11 +31,11 @@ int itkJPEG2000ImageIOTest05( int argc, char * argv[] )
     }
 
 
-  typedef unsigned char             PixelType;
-  typedef itk::Image<PixelType,3>   ImageType;
-  typedef itk::Image<PixelType,2>   OutputImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType,3>;
+  using OutputImageType = itk::Image<PixelType,2>;
 
-  typedef itk::ImageFileReader<ImageType>         ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   //reader->SetUseStreaming( true );
@@ -56,7 +56,7 @@ int itkJPEG2000ImageIOTest05( int argc, char * argv[] )
 
   itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
 
-  typedef  itk::ImageSeriesWriter<ImageType,OutputImageType> WriterType;
+  using WriterType = itk::ImageSeriesWriter<ImageType,OutputImageType>;
 
   WriterType::Pointer writer = WriterType::New();
 

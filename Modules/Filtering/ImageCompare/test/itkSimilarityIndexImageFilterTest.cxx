@@ -22,12 +22,12 @@
 int itkSimilarityIndexImageFilterTest(int, char* [] )
 {
 
-  typedef unsigned char Pixel1Type;
-  typedef float         Pixel2Type;
+  using Pixel1Type = unsigned char;
+  using Pixel2Type = float;
   enum { ImageDimension = 2 };
 
-  typedef itk::Image<Pixel1Type,ImageDimension> Image1Type;
-  typedef itk::Image<Pixel2Type,ImageDimension> Image2Type;
+  using Image1Type = itk::Image<Pixel1Type,ImageDimension>;
+  using Image2Type = itk::Image<Pixel2Type,ImageDimension>;
 
   Image1Type::Pointer image1 = Image1Type::New();
   Image2Type::Pointer image2 = Image2Type::New();
@@ -84,7 +84,7 @@ int itkSimilarityIndexImageFilterTest(int, char* [] )
 
     }
 
-  typedef itk::SimilarityIndexImageFilter<Image1Type,Image2Type> FilterType;
+  using FilterType = itk::SimilarityIndexImageFilter<Image1Type,Image2Type>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput1( image1 );

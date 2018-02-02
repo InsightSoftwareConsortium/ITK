@@ -104,7 +104,7 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel >
   // Create the temp image for surface encoding
   // The temp image size is equal to the output requested region for thread
   // padded by max( connectivity neighborhood radius, SE kernel radius ).
-  typedef itk::Image< unsigned char, TInputImage::ImageDimension > TempImageType;
+  using TempImageType = itk::Image< unsigned char, TInputImage::ImageDimension >;
   typename TempImageType::Pointer tmpImage = TempImageType::New();
 
   // Define regions of temp image

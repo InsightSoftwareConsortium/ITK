@@ -41,17 +41,16 @@ template< typename TImage >
 class VectorImageNeighborhoodAccessorFunctor
 {
 public:
-  typedef TImage                                ImageType;
-  typedef typename ImageType::PixelType         PixelType;
-  typedef typename ImageType::InternalPixelType InternalPixelType;
-  typedef unsigned int                          VectorLengthType;
-  typedef typename ImageType::OffsetType        OffsetType;
+  using ImageType = TImage;
+  using PixelType = typename ImageType::PixelType;
+  using InternalPixelType = typename ImageType::InternalPixelType;
+  using VectorLengthType = unsigned int;
+  using OffsetType = typename ImageType::OffsetType;
 
-  typedef Neighborhood< InternalPixelType *,
-                         TImage ::ImageDimension > NeighborhoodType;
+  using NeighborhoodType = Neighborhood< InternalPixelType *,
+                         TImage ::ImageDimension >;
 
-  typedef ImageBoundaryCondition< ImageType > const
-  *ImageBoundaryConditionConstPointerType;
+  using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<ImageType> *;
 
   VectorImageNeighborhoodAccessorFunctor(VectorLengthType length):
     m_VectorLength(length), m_OffsetMultiplier(length - 1), m_Begin(nullptr) {}

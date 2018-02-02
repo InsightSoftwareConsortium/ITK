@@ -27,14 +27,14 @@ template <typename TMeasurementVector>
 class MyMembershipFunctionBase : public MembershipFunctionBase< TMeasurementVector >
 {
 public:
-  /** Standard class typedef. */
-  typedef MyMembershipFunctionBase  Self;
+  /** Standard class type alias. */
+  using Self = MyMembershipFunctionBase;
 
-  typedef MembershipFunctionBase< TMeasurementVector > Superclass;
+  using Superclass = MembershipFunctionBase< TMeasurementVector >;
 
-  typedef SmartPointer< Self > Pointer;
+  using Pointer = SmartPointer< Self >;
 
-  typedef SmartPointer<const Self> ConstPointer;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
   itkTypeMacro(MyMembershipFunctionBase, MembershipFunctionBase);
@@ -62,10 +62,9 @@ int itkMembershipFunctionBaseTest2(int, char* [] )
 
   const unsigned int MeasurementVectorSize = 3;
 
-  typedef itk::Array< float>  MeasurementVectorType;
+  using MeasurementVectorType = itk::Array< float>;
 
-  typedef itk::Statistics::MembershipFunctionBaseTest::MyMembershipFunctionBase<
-    MeasurementVectorType >   MembershipFunctionBaseType;
+  using MembershipFunctionBaseType = itk::Statistics::MembershipFunctionBaseTest::MyMembershipFunctionBase<MeasurementVectorType>;
 
   MembershipFunctionBaseType::Pointer function = MembershipFunctionBaseType::New();
 

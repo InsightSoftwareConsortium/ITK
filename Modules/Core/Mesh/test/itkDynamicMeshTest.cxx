@@ -22,27 +22,23 @@
 #include <iostream>
 
 /**
- * Some typedefs to make things easier.
+ * Some type alias to make things easier.
  */
 
 /**
  * Define a mesh type that stores a PixelType of "int".  Use the defaults
  * for the other template parameters.
  */
-typedef itk::DefaultDynamicMeshTraits< int,
-                                       2,
-                                       2,
-                                       float,
-                                       float
-                                       >  MeshTraits;
+using MeshTraits = itk::DefaultDynamicMeshTraits<
+                          int, 2, 2, float, float >;
 
-typedef itk::Mesh< MeshTraits::PixelType,
+using MeshType = itk::Mesh< MeshTraits::PixelType,
                    MeshTraits::PointDimension,
                    MeshTraits
-                   >  MeshType;
+                   >;
 
 
-typedef MeshType::CellTraits  CellTraits;
+using CellTraits = MeshType::CellTraits;
 
 
 /**
@@ -50,19 +46,19 @@ typedef MeshType::CellTraits  CellTraits;
  * with defaults (itkDefaultDynamicMeshTraits), the point dimension is 3 and
  * the coordinate representation is float.
  */
-typedef MeshType::PointType             PointType;
-typedef PointType::VectorType           VectorType;
+using PointType = MeshType::PointType;
+using VectorType = PointType::VectorType;
 
-typedef MeshType::Pointer               MeshPointer;
-typedef MeshType::ConstPointer          MeshConstPointer;
+using MeshPointer = MeshType::Pointer;
+using MeshConstPointer = MeshType::ConstPointer;
 
-typedef MeshType::PointType             PointType;
+using PointType = MeshType::PointType;
 
-typedef MeshType::PointsContainer       PointsContainer;
-typedef MeshType::PointDataContainer    PointDataContainer;
+using PointsContainer = MeshType::PointsContainer;
+using PointDataContainer = MeshType::PointDataContainer;
 
-typedef PointsContainer::Iterator       PointsIterator;
-typedef PointDataContainer::Iterator    CellsIterator;
+using PointsIterator = PointsContainer::Iterator;
+using CellsIterator = PointDataContainer::Iterator;
 
 int itkDynamicMeshTest(int, char* [] )
 {

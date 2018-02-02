@@ -55,11 +55,11 @@ class ITK_TEMPLATE_EXPORT VoronoiSegmentationRGBImageFilter:
   public VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VoronoiSegmentationRGBImageFilter                               Self;
-  typedef VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                            Pointer;
-  typedef SmartPointer< const Self >                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VoronoiSegmentationRGBImageFilter;
+  using Superclass = VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VoronoiSegmentationRGBImageFilter,
@@ -68,16 +68,16 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Convenient typedefs. */
-  typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
-  typedef typename Superclass::IndexList         IndexList;
-  typedef typename Superclass::IndexType         IndexType;
-  typedef typename Superclass::RegionType        RegionType;
-  typedef typename Superclass::PixelType         PixelType;
-  typedef typename Superclass::InputImagePointer InputImagePointer;
-  typedef typename Superclass::InputImageType    InputImageType;
-  typedef Vector< float, 6 >                     RGBHCVPixel;
-  typedef Image< RGBHCVPixel >                   RGBHCVImage;
+  /** Convenient type alias. */
+  using BinaryObjectImage = typename Superclass::BinaryObjectImage;
+  using IndexList = typename Superclass::IndexList;
+  using IndexType = typename Superclass::IndexType;
+  using RegionType = typename Superclass::RegionType;
+  using PixelType = typename Superclass::PixelType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputImageType = typename Superclass::InputImageType;
+  using RGBHCVPixel = Vector< float, 6 >;
+  using RGBHCVImage = Image< RGBHCVPixel >;
 
   /** \todo Document. */
   void SetMeanPercentError(double x[6]);

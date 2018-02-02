@@ -60,13 +60,13 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   InputImageConstPointer inputPtr = this->GetInput();
 
   // Create caster, smoother and resampleShrink filters
-  typedef CastImageFilter< TInputImage, TOutputImage >              CasterType;
-  typedef CastImageFilter< TOutputImage, TOutputImage >             CopierType;
-  typedef DiscreteGaussianImageFilter< TOutputImage, TOutputImage > SmootherType;
+  using CasterType = CastImageFilter< TInputImage, TOutputImage >;
+  using CopierType = CastImageFilter< TOutputImage, TOutputImage >;
+  using SmootherType = DiscreteGaussianImageFilter< TOutputImage, TOutputImage >;
 
-  typedef ImageToImageFilter< TOutputImage, TOutputImage >  ImageToImageType;
-  typedef ResampleImageFilter< TOutputImage, TOutputImage > ResampleShrinkerType;
-  typedef ShrinkImageFilter< TOutputImage, TOutputImage >   ShrinkerType;
+  using ImageToImageType = ImageToImageFilter< TOutputImage, TOutputImage >;
+  using ResampleShrinkerType = ResampleImageFilter< TOutputImage, TOutputImage >;
+  using ShrinkerType = ShrinkImageFilter< TOutputImage, TOutputImage >;
 
   typename CasterType::Pointer caster   = CasterType::New();
   typename CopierType::Pointer copier   = CopierType::New();
@@ -87,12 +87,12 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   else
     {
     resampleShrinker = ResampleShrinkerType::New();
-    typedef itk::LinearInterpolateImageFunction< OutputImageType, double >
-    LinearInterpolatorType;
+    using LinearInterpolatorType =
+        itk::LinearInterpolateImageFunction< OutputImageType, double >;
     typename LinearInterpolatorType::Pointer interpolator =
       LinearInterpolatorType::New();
-    typedef itk::IdentityTransform< double, OutputImageType::ImageDimension >
-    IdentityTransformType;
+    using IdentityTransformType =
+        itk::IdentityTransform< double, OutputImageType::ImageDimension >;
     typename IdentityTransformType::Pointer identityTransform =
       IdentityTransformType::New();
     resampleShrinker->SetInterpolator(interpolator);
@@ -258,15 +258,15 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   unsigned int refLevel;
   refLevel = static_cast<unsigned int>( refOutputPtr->GetSourceOutputIndex() );
 
-  typedef typename TOutputImage::PixelType                    OutputPixelType;
-  typedef GaussianOperator< OutputPixelType, ImageDimension > OperatorType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OperatorType = GaussianOperator< OutputPixelType, ImageDimension >;
 
   OperatorType *oper = new OperatorType;
   oper->SetMaximumError( this->GetMaximumError() );
 
-  typedef typename OutputImageType::SizeType   SizeType;
-  typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename OutputImageType::RegionType RegionType;
+  using SizeType = typename OutputImageType::SizeType;
+  using IndexType = typename OutputImageType::IndexType;
+  using RegionType = typename OutputImageType::RegionType;
 
   int          ilevel, idim;
   unsigned int factors[ImageDimension];
@@ -391,9 +391,9 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
     }
 
   // compute baseIndex and baseSize
-  typedef typename OutputImageType::SizeType   SizeType;
-  typedef typename OutputImageType::IndexType  IndexType;
-  typedef typename OutputImageType::RegionType RegionType;
+  using SizeType = typename OutputImageType::SizeType;
+  using IndexType = typename OutputImageType::IndexType;
+  using RegionType = typename OutputImageType::RegionType;
 
   unsigned int refLevel = this->GetNumberOfLevels() - 1;
   SizeType     baseSize = this->GetOutput(refLevel)->GetRequestedRegion().GetSize();
@@ -411,8 +411,8 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   baseRegion.SetSize(baseSize);
 
   // compute requirements for the smoothing part
-  typedef typename TOutputImage::PixelType                    OutputPixelType;
-  typedef GaussianOperator< OutputPixelType, ImageDimension > OperatorType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OperatorType = GaussianOperator< OutputPixelType, ImageDimension >;
 
   OperatorType *oper = new OperatorType;
 

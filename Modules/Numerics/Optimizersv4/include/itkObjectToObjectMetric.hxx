@@ -36,8 +36,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   m_NumberOfValidPoints(0)
 {
   /* Both transforms default to an identity transform */
-  typedef IdentityTransform<TParametersValueType, itkGetStaticConstMacro( MovingDimension ) > MovingIdentityTransformType;
-  typedef IdentityTransform<TParametersValueType, itkGetStaticConstMacro( FixedDimension ) > FixedIdentityTransformType;
+  using MovingIdentityTransformType = IdentityTransform<TParametersValueType, itkGetStaticConstMacro( MovingDimension ) >;
+  using FixedIdentityTransformType = IdentityTransform<TParametersValueType, itkGetStaticConstMacro( FixedDimension ) >;
   this->m_FixedTransform  = FixedIdentityTransformType::New();
   this->m_MovingTransform = MovingIdentityTransformType::New();
 
@@ -434,7 +434,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
 {
   // If it's a composite transform and the displacement field is the first
   // to be applied (i.e. the most recently added), then return that.
-  typedef CompositeTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >  MovingCompositeTransformType;
+  using MovingCompositeTransformType = CompositeTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >;
   const MovingTransformType* transform = this->m_MovingTransform.GetPointer();
   // If it's a CompositeTransform, get the last transform (1st applied).
   const MovingCompositeTransformType* comptx = dynamic_cast< const MovingCompositeTransformType * > ( transform );
@@ -470,7 +470,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
     itkExceptionMacro("Expected the moving transform to be of type DisplacementFieldTransform or derived, "
                       "or a CompositeTransform with DisplacementFieldTransform as the last to have been added." );
     }
-  typedef typename MovingDisplacementFieldTransformType::DisplacementFieldType FieldType;
+  using FieldType = typename MovingDisplacementFieldTransformType::DisplacementFieldType;
   typename FieldType::ConstPointer field = displacementTransform->GetDisplacementField();
   typename FieldType::RegionType fieldRegion = field->GetBufferedRegion();
   VirtualRegionType virtualRegion = this->GetVirtualRegion();

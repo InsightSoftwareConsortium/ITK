@@ -37,8 +37,8 @@ template< typename TOutputImage >
 VTKImageImport< TOutputImage >
 ::VTKImageImport()
 {
-  typedef typename TOutputImage::PixelType             PixelType;
-  typedef typename PixelTraits< PixelType >::ValueType ScalarType;
+  using PixelType = typename TOutputImage::PixelType;
+  using ScalarType = typename PixelTraits< PixelType >::ValueType;
 
   if ( typeid( ScalarType ) == typeid( double ) )
     {
@@ -240,7 +240,7 @@ VTKImageImport< TOutputImage >
     const unsigned int components =
       (m_NumberOfComponentsCallback)( m_CallbackUserData );
 
-    typedef typename TOutputImage::PixelType             PixelType;
+    using PixelType = typename TOutputImage::PixelType;
     const unsigned int estimatedNumberOfComponents = NumericTraits< PixelType >::GetLength();
 
     if ( components != estimatedNumberOfComponents )

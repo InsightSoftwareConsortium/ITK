@@ -35,11 +35,11 @@ int itkFEMLandmarkLoadImplementationTest(int argc, char *argv[])
   //the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  typedef itk::fem::Solver<2> Solver2DType;
+  using Solver2DType = itk::fem::Solver<2>;
   Solver2DType::Pointer solver = Solver2DType::New();
 
-  typedef itk::FEMSpatialObjectReader<2>      FEMSpatialObjectReaderType;
-  typedef FEMSpatialObjectReaderType::Pointer FEMSpatialObjectReaderPointer;
+  using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
+  using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
 //  SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/LoadLandmarkTest.meta");
   SpatialReader->SetFileName( argv[1] );
@@ -54,7 +54,7 @@ int itkFEMLandmarkLoadImplementationTest(int argc, char *argv[])
   std::cout << " [PASSED]" << std::endl;
 
   // Testing the fe mesh validity
-  typedef itk::FEMObjectSpatialObject<2>      FEMObjectSpatialObjectType;
+  using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
 
   FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
   if( strcmp( (*(children->begin() ) )->GetTypeName(), "FEMObjectSpatialObject") )
@@ -81,8 +81,8 @@ int itkFEMLandmarkLoadImplementationTest(int argc, char *argv[])
   // to write the deformed mesh
   FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
   femSODef->SetFEMObject(solver->GetOutput() );
-  typedef itk::FEMSpatialObjectWriter<2>      FEMSpatialObjectWriterType;
-  typedef FEMSpatialObjectWriterType::Pointer FEMSpatialObjectWriterPointer;
+  using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<2>;
+  using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
   FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
   SpatialWriter->SetInput(femSODef);
   SpatialWriter->SetFileName( argv[2] );

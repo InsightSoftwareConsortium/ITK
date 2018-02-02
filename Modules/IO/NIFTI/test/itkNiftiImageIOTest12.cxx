@@ -37,7 +37,7 @@ int itkNiftiImageIOTest12(int ac, char* av[])
 
   // make large RGB Image
 
-  typedef itk::VectorImage<unsigned char, 3 > ImageType;
+  using ImageType = itk::VectorImage<unsigned char, 3 >;
 
   ImageType::RegionType region;
   ImageType::SizeType size = {{2024, 1024, 1024}};
@@ -67,7 +67,7 @@ int itkNiftiImageIOTest12(int ac, char* av[])
 
   }
 
-  typedef itk::Testing::HashImageFilter<ImageType> Hasher;
+  using Hasher = itk::Testing::HashImageFilter<ImageType>;
   Hasher::Pointer hasher = Hasher::New();
   hasher->SetInput( image );
   hasher->InPlaceOff();

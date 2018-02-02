@@ -37,8 +37,8 @@ namespace mpl {
  */
 struct TrueType
 {
-  typedef bool     ValueType;
-  typedef TrueType Type;
+  using ValueType = bool;
+  using Type = TrueType;
 
   itkStaticConstMacro(Value, ValueType, true);
   operator ValueType() { return Value; }
@@ -50,8 +50,8 @@ struct TrueType
  */
 struct FalseType
 {
-  typedef bool      ValueType;
-  typedef FalseType Type;
+  using ValueType = bool;
+  using Type = FalseType;
   itkStaticConstMacro(Value, ValueType, false);
   operator ValueType() { return Value; }
 };
@@ -65,8 +65,8 @@ struct FalseType
  */
 template <bool VP, typename T1, typename T2> struct If;
 /// \cond SPECIALIZATION_IMPLEMENTATION
-template <typename T1, typename T2> struct If<true , T1, T2>{ typedef T1 Type; };
-template <typename T1, typename T2> struct If<false, T1, T2>{ typedef T2 Type; };
+template <typename T1, typename T2> struct If<true , T1, T2>{ using Type = T1; };
+template <typename T1, typename T2> struct If<false, T1, T2>{ using Type = T2; };
 /// \endcond
 
 /** MPL \c OR operator on constants.
@@ -93,7 +93,7 @@ template <> struct OrC<false, false,false> : FalseType {};
  * \ingroup ITKCommon
  */
 template < typename TF1, typename TF2, typename TF3=FalseType> struct Or : OrC<TF1::Value, TF2::Value, TF3::Value>
-{ typedef typename OrC<TF1::Value, TF2::Value, TF3::Value>::Type Type; };
+{ using Type = typename OrC<TF1::Value, TF2::Value, TF3::Value>::Type; };
 
 /** MPL \c AND operator on constants.
  * \tparam VF1 First boolean expression
@@ -117,7 +117,7 @@ template <> struct AndC<true, true> : TrueType {};
  * \ingroup ITKCommon
  */
 template < typename TF1, typename TF2> struct And : AndC<TF1::Value, TF2::Value>
-{ typedef typename AndC<TF1::Value, TF2::Value>::Type Type; };
+{ using Type = typename AndC<TF1::Value, TF2::Value>::Type; };
 
 /** MPL \c XOR operator on constants.
  * \tparam VF1 First boolean expression
@@ -142,7 +142,7 @@ template <> struct XorC<false, true> : TrueType {};
  * \ingroup ITKCommon
  */
 template < typename TF1, typename TF2> struct Xor : XorC<TF1::Value, TF2::Value>
-{ typedef typename XorC<TF1::Value, TF2::Value>::Type Type; };
+{ using Type = typename XorC<TF1::Value, TF2::Value>::Type; };
 
 /** MPL \c NOT operator on constants.
  * \tparam VF boolean expression to negate
@@ -165,7 +165,7 @@ template <> struct NotC<true>  : FalseType {};
  * \ingroup ITKCommon
  */
 template < typename TF> struct Not : NotC<TF::Value>
-{ typedef typename NotC<TF::Value>::Type Type; };
+{ using Type = typename NotC<TF::Value>::Type; };
 
 } // mpl namespace
 

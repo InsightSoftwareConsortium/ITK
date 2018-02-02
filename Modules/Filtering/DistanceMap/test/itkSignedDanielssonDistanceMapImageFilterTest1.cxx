@@ -24,20 +24,20 @@
 template< unsigned int ImageDimension>
 int itkSignedDanielssonDistanceMapImageFilterTest1( char * argv[] )
 {
-  typedef unsigned char   InputPixelType;
-  typedef float           OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = float;
 
-  typedef itk::Image<InputPixelType,  ImageDimension>  InputImageType;
-  typedef itk::Image<OutputPixelType, ImageDimension>  OutputImageType;
-  typedef itk::ImageFileReader<InputImageType>         ReaderType;
-  typedef itk::ImageFileWriter<OutputImageType>        WriterType;
+  using InputImageType = itk::Image<InputPixelType,  ImageDimension>;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
-  typedef itk::SignedDanielssonDistanceMapImageFilter
-  <InputImageType, OutputImageType>  FilterType;
+  using FilterType = itk::SignedDanielssonDistanceMapImageFilter
+  <InputImageType, OutputImageType>;
 
   typename FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );

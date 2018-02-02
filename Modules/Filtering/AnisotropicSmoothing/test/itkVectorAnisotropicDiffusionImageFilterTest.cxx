@@ -31,7 +31,7 @@ int itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *itk
 {
   try
     {
-      typedef itk::Image<itk::Vector<float, 3>, 2> ImageType;
+      using ImageType = itk::Image<itk::Vector<float, 3>, 2>;
 
       // Set up Gradient diffusion filter
       itk::VectorGradientAnisotropicDiffusionImageFilter<ImageType, ImageType>

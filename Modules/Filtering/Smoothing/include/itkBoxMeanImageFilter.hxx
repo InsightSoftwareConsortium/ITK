@@ -46,8 +46,8 @@ BoxMeanImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
 {
   // Accumulate type is too small
-  typedef typename NumericTraits< PixelType >::RealType    AccPixType;
-  typedef Image< AccPixType, TInputImage::ImageDimension > AccumImageType;
+  using AccPixType = typename NumericTraits< PixelType >::RealType;
+  using AccumImageType = Image< AccPixType, TInputImage::ImageDimension >;
 
   typename TInputImage::SizeType internalRadius;
   for ( unsigned int i = 0; i < TInputImage::ImageDimension; i++ )

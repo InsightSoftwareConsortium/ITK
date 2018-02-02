@@ -49,8 +49,8 @@ namespace itk
 class ITKCommon_EXPORT SimpleFastMutexLock
 {
 public:
-  /** Standard class typedefs.  */
-  typedef SimpleFastMutexLock Self;
+  /** Standard class type aliases.  */
+  using Self = SimpleFastMutexLock;
 
   /** Constructor and destructor left public purposely because of stack
     allocation. */

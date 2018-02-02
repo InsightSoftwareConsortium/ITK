@@ -27,14 +27,12 @@
 int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char* argv[] )
 {
   namespace stat = itk::Statistics;
-  typedef itk::PointSet< double, 2 >                        PointSetType;
-  typedef stat::PointSetToListSampleAdaptor< PointSetType > DataSampleType;
+  using PointSetType = itk::PointSet< double, 2 >;
+  using DataSampleType = stat::PointSetToListSampleAdaptor< PointSetType >;
 
-  typedef stat::ExpectationMaximizationMixtureModelEstimator< DataSampleType >
-    EstimatorType;
+  using EstimatorType = stat::ExpectationMaximizationMixtureModelEstimator<DataSampleType>;
 
-  typedef stat::GaussianMixtureModelComponent< DataSampleType >
-    ComponentType;
+  using ComponentType = stat::GaussianMixtureModelComponent<DataSampleType>;
 
   if (argc < 2)
     {
@@ -48,7 +46,7 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char* argv[] )
   char* dataFileName = argv[1];
   int dataSize = 2000;
   int maximumIteration = 200;
-  typedef itk::Array< double > ParametersType;
+  using ParametersType = itk::Array< double >;
   double minStandardDeviation =28.54746;
   unsigned int numberOfClasses = 2;
   std::vector< ParametersType > trueParameters(numberOfClasses);
@@ -131,7 +129,7 @@ int itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char* argv[] )
   sample->SetPointSet(pointSet.GetPointer());
 
   /* Preparing the gaussian mixture components */
-  typedef ComponentType::Pointer ComponentPointer;
+  using ComponentPointer = ComponentType::Pointer;
   std::vector< ComponentPointer > components;
   for ( i = 0; i < numberOfClasses; i++ )
     {

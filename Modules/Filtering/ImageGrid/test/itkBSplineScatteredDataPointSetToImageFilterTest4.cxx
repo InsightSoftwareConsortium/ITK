@@ -36,15 +36,15 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   const unsigned int DataDimension = 3;
   const unsigned int SplineOrder = 3;
 
-  typedef float                                                            RealType;
-  typedef itk::Vector<RealType, DataDimension>                             VectorType;
-  typedef itk::Image<VectorType, ParametricDimension>                      VectorImageType;
-  typedef itk::PointSet<VectorImageType::PixelType, ParametricDimension>   PointSetType;
-  typedef PointSetType::PointType                                          PointType;
+  using RealType = float;
+  using VectorType = itk::Vector<RealType, DataDimension>;
+  using VectorImageType = itk::Image<VectorType, ParametricDimension>;
+  using PointSetType = itk::PointSet<VectorImageType::PixelType, ParametricDimension>;
+  using PointType = PointSetType::PointType;
 
   // Instantiate the B-spline filter
 
-  typedef itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType> FilterType;
+  using FilterType = itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType>;
 
   VectorImageType::SizeType size;
   size.Fill( 100 );
@@ -60,7 +60,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   PointSetType::Pointer pointSet = PointSetType::New();
   pointSet->Initialize();
 
-  typedef FilterType::WeightsContainerType WeightsContainerType;
+  using WeightsContainerType = FilterType::WeightsContainerType;
   WeightsContainerType::Pointer weights = WeightsContainerType::New();
   weights->Initialize();
 
@@ -174,15 +174,15 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
 
   // Instantiate the BSpline transform
 
-  typedef itk::BSplineTransform<float, DataDimension, SplineOrder> TransformType;
+  using TransformType = itk::BSplineTransform<float, DataDimension, SplineOrder>;
   TransformType::Pointer transform = TransformType::New();
 
-  typedef TransformType::ImageType CoefficientImageType;
+  using CoefficientImageType = TransformType::ImageType;
 
   TransformType::CoefficientImageArray coefficientImages;
   for( unsigned int j = 0; j < DataDimension; j++ )
     {
-    typedef itk::VectorIndexSelectionCastImageFilter<VectorImageType, CoefficientImageType> SelectorType;
+    using SelectorType = itk::VectorIndexSelectionCastImageFilter<VectorImageType, CoefficientImageType>;
     SelectorType::Pointer selector = SelectorType::New();
     selector->SetInput( filter->GetPhiLattice() );
     selector->SetIndex( j );
@@ -194,8 +194,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
 
   transform->SetCoefficientImages( coefficientImages );
 
-  typedef TransformType::InputPointType  InputPointType;
-  typedef TransformType::OutputPointType OutputPointType;
+  using InputPointType = TransformType::InputPointType;
+  using OutputPointType = TransformType::OutputPointType;
 
   InputPointType inputPoint;
   inputPoint.Fill( 50.0 );
@@ -205,7 +205,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   // Now instantiate an interpolator to get an approximation of what
   // the transform should produce
 
-  typedef itk::VectorLinearInterpolateImageFunction<VectorImageType> InterpolatorType;
+  using InterpolatorType = itk::VectorLinearInterpolateImageFunction<VectorImageType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   interpolator->SetInputImage( filter->GetOutput() );
 

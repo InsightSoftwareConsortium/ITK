@@ -39,10 +39,10 @@ class ITK_TEMPLATE_EXPORT ContourSpatialObjectPoint:
 {
 public:
 
-  typedef ContourSpatialObjectPoint                  Self;
-  typedef SpatialObjectPoint< TPointDimension >      Superclass;
-  typedef Point< double, TPointDimension >           PointType;
-  typedef CovariantVector< double, TPointDimension > VectorType;
+  using Self = ContourSpatialObjectPoint;
+  using Superclass = SpatialObjectPoint< TPointDimension >;
+  using PointType = Point< double, TPointDimension >;
+  using VectorType = CovariantVector< double, TPointDimension >;
 
   /** Constructor. This one defines the number of dimensions
    *  in the ContourSpatialObjectPoint */

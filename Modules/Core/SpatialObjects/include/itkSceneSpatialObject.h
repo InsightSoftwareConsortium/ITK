@@ -40,17 +40,17 @@ class ITK_TEMPLATE_EXPORT SceneSpatialObject:
 {
 public:
 
-  typedef SceneSpatialObject< TSpaceDimension > Self;
-  typedef Object                                Superclass;
-  typedef Superclass::Pointer                   SuperclassPointer;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  using Self = SceneSpatialObject< TSpaceDimension >;
+  using Superclass = Object;
+  using SuperclassPointer = Superclass::Pointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef SpatialObject< TSpaceDimension >    ObjectType;
-  typedef SpatialObject< TSpaceDimension >    SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
+  using ObjectType = SpatialObject< TSpaceDimension >;
+  using SpatialObjectType = SpatialObject< TSpaceDimension >;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
 
-  typedef std::list< SpatialObjectPointer >   ObjectListType;
+  using ObjectListType = std::list< SpatialObjectPointer >;
 
   itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
 

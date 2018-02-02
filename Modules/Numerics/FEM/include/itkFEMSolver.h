@@ -49,10 +49,10 @@ namespace fem
  * approach.
  *
  * \code
- *       typedef itk::fem::FEMObject<3> FEMObjectType;
+ *       using FEMObjectType = itk::fem::FEMObject<3>;
  *       FEMObjectObjectType::Pointer fem = FEMObjectObjectType::New();
  *       ...
- *       typedef itk::fem::Solver<3> FEMSolverType;
+ *       using FEMSolverType = itk::fem::Solver<3>;
  *       FEMSolverType::Pointer solver = FEMSolverType::New();
  *
  *       solver->SetInput( fem );
@@ -72,11 +72,11 @@ template <unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT Solver : public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef Solver                   Self;
-  typedef ProcessObject            Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Solver;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -88,30 +88,30 @@ public:
   itkStaticConstMacro(MaxDimensions, unsigned int, 3);
 
   /** Smart Pointer type to a DataObject. */
-  typedef typename itk::fem::FEMObject<VDimension> FEMObjectType;
-  typedef typename FEMObjectType::Pointer          FEMObjectPointer;
-  typedef typename FEMObjectType::ConstPointer     FEMObjectConstPointer;
-  typedef typename DataObject::Pointer             DataObjectPointer;
+  using FEMObjectType = typename itk::fem::FEMObject<VDimension>;
+  using FEMObjectPointer = typename FEMObjectType::Pointer;
+  using FEMObjectConstPointer = typename FEMObjectType::ConstPointer;
+  using DataObjectPointer = typename DataObject::Pointer;
 
-  /** Some convenient typedefs. */
-  typedef Element::Float           Float;
-  typedef Element::VectorType      VectorType;
-  typedef Element::Node::ArrayType NodeArray;
-  typedef Element::ArrayType       ElementArray;
-  typedef Load::ArrayType          LoadArray;
-  typedef Material::ArrayType      MaterialArray;
+  /** Some convenient type alias. */
+  using Float = Element::Float;
+  using VectorType = Element::VectorType;
+  using NodeArray = Element::Node::ArrayType;
+  using ElementArray = Element::ArrayType;
+  using LoadArray = Load::ArrayType;
+  using MaterialArray = Material::ArrayType;
 
   /**
    * Type used to store interpolation grid
    */
-  typedef typename itk::Image<Element::ConstPointer, VDimension> InterpolationGridType;
-  typedef typename InterpolationGridType::Pointer                InterpolationGridPointerType;
-  typedef typename InterpolationGridType::SizeType               InterpolationGridSizeType;
-  typedef typename InterpolationGridType::RegionType             InterpolationGridRegionType;
-  typedef typename InterpolationGridType::PointType              InterpolationGridPointType;
-  typedef typename InterpolationGridType::SpacingType            InterpolationGridSpacingType;
-  typedef typename InterpolationGridType::IndexType              InterpolationGridIndexType;
-  typedef typename InterpolationGridType::DirectionType          InterpolationGridDirectionType;
+  using InterpolationGridType = typename itk::Image<Element::ConstPointer, VDimension>;
+  using InterpolationGridPointerType = typename InterpolationGridType::Pointer;
+  using InterpolationGridSizeType = typename InterpolationGridType::SizeType;
+  using InterpolationGridRegionType = typename InterpolationGridType::RegionType;
+  using InterpolationGridPointType = typename InterpolationGridType::PointType;
+  using InterpolationGridSpacingType = typename InterpolationGridType::SpacingType;
+  using InterpolationGridIndexType = typename InterpolationGridType::IndexType;
+  using InterpolationGridDirectionType = typename InterpolationGridType::DirectionType;
 
   /** Get/Set the interpolation grid Origin. */
   itkSetMacro(Origin, InterpolationGridPointType);
@@ -249,7 +249,7 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) override;
 

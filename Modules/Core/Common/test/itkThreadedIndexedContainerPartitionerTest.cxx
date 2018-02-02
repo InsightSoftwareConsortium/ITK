@@ -21,18 +21,18 @@
 class DomainThreaderAssociate
 {
 public:
-  typedef DomainThreaderAssociate Self;
+  using Self = DomainThreaderAssociate;
 
   class TestDomainThreader: public itk::DomainThreader< itk::ThreadedIndexedContainerPartitioner, Self >
   {
   public:
-    typedef TestDomainThreader                                                                            Self;
-    typedef itk::DomainThreader< itk::ThreadedIndexedContainerPartitioner, Self > Superclass;
-    typedef itk::SmartPointer< Self >                                                                     Pointer;
-    typedef itk::SmartPointer< const Self >                                                               ConstPointer;
+    using Self = TestDomainThreader;
+    using Superclass = itk::DomainThreader< itk::ThreadedIndexedContainerPartitioner, Self >;
+    using Pointer = itk::SmartPointer< Self >;
+    using ConstPointer = itk::SmartPointer< const Self >;
 
-    typedef Superclass::DomainPartitionerType     DomainPartitionerType;
-    typedef Superclass::DomainType                DomainType;
+    using DomainPartitionerType = Superclass::DomainPartitionerType;
+    using DomainType = Superclass::DomainType;
 
     itkNewMacro( Self );
 
@@ -134,7 +134,7 @@ int ThreadedIndexedContainerPartitionerRunTest(
             << domainThreader->GetNumberOfThreadsUsed() << "\n\n" << std::endl;
 
   /* Check the results. */
-  typedef DomainThreaderAssociate::TestDomainThreader::DomainType DomainType;
+  using DomainType = DomainThreaderAssociate::TestDomainThreader::DomainType;
   DomainType::IndexValueType previousEndIndex = -1;
   const std::vector< DomainType > domainInThreadedExecution = domainThreader->GetDomainInThreadedExecution();
   for( itk::ThreadIdType i = 0; i < domainThreader->GetNumberOfThreadsUsed(); ++i )
@@ -195,7 +195,7 @@ int itkThreadedIndexedContainerPartitionerTest(int, char* [])
   std::cout << "domainThreader->GetMultiThreader()->NumberOfThreads(): " << domainThreader->GetMultiThreader()->GetNumberOfThreads()
             << std::endl;
 
-  typedef DomainThreaderAssociate::TestDomainThreader::DomainType DomainType;
+  using DomainType = DomainThreaderAssociate::TestDomainThreader::DomainType;
   DomainType fullRange;
 
   /* Test with single thread */

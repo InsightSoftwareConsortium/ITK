@@ -29,8 +29,8 @@ int itkMatrixImageWriteReadTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Matrix<float,3,3>                      MatrixPixelType;
-  typedef itk::Image<MatrixPixelType, 3>              MatrixImageType;
+  using MatrixPixelType = itk::Matrix<float,3,3>;
+  using MatrixImageType = itk::Image<MatrixPixelType, 3>;
 
   MatrixImageType::Pointer matrixImage1 = MatrixImageType::New();
 
@@ -78,7 +78,7 @@ int itkMatrixImageWriteReadTest( int ac, char* av[] )
     ++itr;
     }
 
-  typedef itk::ImageFileWriter< MatrixImageType > MatrixWriterType;
+  using MatrixWriterType = itk::ImageFileWriter< MatrixImageType >;
 
   MatrixWriterType::Pointer matrixWriter = MatrixWriterType::New();
 
@@ -96,7 +96,7 @@ int itkMatrixImageWriteReadTest( int ac, char* av[] )
     }
 
 
-  typedef itk::ImageFileReader<  MatrixImageType > MatrixReaderType;
+  using MatrixReaderType = itk::ImageFileReader<  MatrixImageType >;
 
   MatrixReaderType::Pointer matrixReader = MatrixReaderType::New();
 

@@ -40,39 +40,39 @@ class ITK_TEMPLATE_EXPORT ShiftScaleImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ShiftScaleImageFilter                           Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ShiftScaleImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Typedef to describe the output and input image region types. */
-  typedef typename TInputImage::RegionType  InputImageRegionType;
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using InputImageRegionType = typename TInputImage::RegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Typedef to describe the pointer to the input/output. */
-  typedef typename TInputImage::Pointer  InputImagePointer;
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename TInputImage::PixelType  InputImagePixelType;
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  using InputImagePixelType = typename TInputImage::PixelType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  typedef typename TInputImage::IndexType   InputImageIndexType;
-  typedef typename TInputImage::SizeType    InputImageSizeType;
-  typedef typename TInputImage::OffsetType  InputImageOffsetType;
-  typedef typename TOutputImage::IndexType  OutputImageIndexType;
-  typedef typename TOutputImage::SizeType   OutputImageSizeType;
-  typedef typename TOutputImage::OffsetType OutputImageOffsetType;
+  using InputImageIndexType = typename TInputImage::IndexType;
+  using InputImageSizeType = typename TInputImage::SizeType;
+  using InputImageOffsetType = typename TInputImage::OffsetType;
+  using OutputImageIndexType = typename TOutputImage::IndexType;
+  using OutputImageSizeType = typename TOutputImage::SizeType;
+  using OutputImageOffsetType = typename TOutputImage::OffsetType;
 
   /** Type to use form computations. */
-  typedef typename NumericTraits< OutputImagePixelType >::RealType RealType;
+  using RealType = typename NumericTraits< OutputImagePixelType >::RealType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 

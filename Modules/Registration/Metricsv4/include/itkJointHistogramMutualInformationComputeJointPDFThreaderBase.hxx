@@ -118,7 +118,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
 {
   const ThreadIdType numberOfThreadsUsed = this->GetNumberOfThreadsUsed();
 
-  typedef typename JointHistogramType::PixelType JointHistogramPixelType;
+  using JointHistogramPixelType = typename JointHistogramType::PixelType;
   this->m_Associate->m_JointHistogramTotalCount = NumericTraits<SizeValueType>::ZeroValue();
   for( ThreadIdType i = 0; i < numberOfThreadsUsed; ++i )
     {
@@ -131,10 +131,10 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase< TDomainPartitioner, 
     return;
     }
 
-  typedef ImageRegionIterator< JointPDFType > JointPDFIteratorType;
+  using JointPDFIteratorType = ImageRegionIterator< JointPDFType >;
   JointPDFIteratorType jointPDFIt( this->m_Associate->m_JointPDF, this->m_Associate->m_JointPDF->GetBufferedRegion() );
   jointPDFIt.GoToBegin();
-  typedef ImageRegionConstIterator< JointHistogramType > JointHistogramIteratorType;
+  using JointHistogramIteratorType = ImageRegionConstIterator< JointHistogramType >;
   std::vector< JointHistogramIteratorType > jointHistogramPerThreadIts;
   for( ThreadIdType i = 0; i < numberOfThreadsUsed; ++i )
     {

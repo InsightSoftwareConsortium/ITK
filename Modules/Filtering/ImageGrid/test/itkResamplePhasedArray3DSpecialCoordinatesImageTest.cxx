@@ -26,15 +26,15 @@
 
 enum {NDimensions = 3};
 
-typedef float                                                 PixelType;
-typedef itk::PhasedArray3DSpecialCoordinatesImage<PixelType>  InputImageType;
-typedef itk::Image<PixelType, NDimensions>                    ImageType;
-typedef InputImageType::Pointer             InputImagePointerType;
-typedef ImageType::Pointer                  ImagePointerType;
-typedef ImageType::RegionType               ImageRegionType;
-typedef ImageType::SizeType                 ImageSizeType;
-typedef ImageType::IndexType                ImageIndexType;
-typedef double                              CoordRepType;
+using PixelType = float;
+using InputImageType = itk::PhasedArray3DSpecialCoordinatesImage<PixelType>;
+using ImageType = itk::Image<PixelType, NDimensions>;
+using InputImagePointerType = InputImageType::Pointer;
+using ImagePointerType = ImageType::Pointer;
+using ImageRegionType = ImageType::RegionType;
+using ImageSizeType = ImageType::SizeType;
+using ImageIndexType = ImageType::IndexType;
+using CoordRepType = double;
 
 
 int itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char* [] )

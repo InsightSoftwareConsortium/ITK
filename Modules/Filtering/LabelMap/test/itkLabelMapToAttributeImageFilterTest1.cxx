@@ -37,30 +37,30 @@ int itkLabelMapToAttributeImageFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 2;
 
-  typedef unsigned short PixelType;
+  using PixelType = unsigned short;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  using ImageType = itk::Image< PixelType, dim >;
 
-  typedef itk::ShapeLabelObject< PixelType, dim >           ShapeLabelObjectType;
-  typedef itk::LabelMap< ShapeLabelObjectType >             LabelMapType;
+  using ShapeLabelObjectType = itk::ShapeLabelObject< PixelType, dim >;
+  using LabelMapType = itk::LabelMap< ShapeLabelObjectType >;
 
   //Reading Image File
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   //Converting LabelImage to ShapeLabelMap
-  typedef itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
-  typedef itk::LabelMapToAttributeImageFilter< LabelMapType, ImageType,
-     itk::Functor::NumberOfPixelsLabelObjectAccessor<LabelMapType::LabelObjectType> > L2ImageType;
+  using L2ImageType = itk::LabelMapToAttributeImageFilter< LabelMapType, ImageType,
+     itk::Functor::NumberOfPixelsLabelObjectAccessor<LabelMapType::LabelObjectType> >;
   L2ImageType::Pointer l2i = L2ImageType::New();
   l2i->SetInput( i2l->GetOutput() );
   itk::SimpleFilterWatcher watcher(l2i, "filter");
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );

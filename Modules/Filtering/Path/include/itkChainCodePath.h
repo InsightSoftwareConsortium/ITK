@@ -53,27 +53,27 @@ public:
   /** Dimension underlying input image. */
   itkStaticConstMacro(Dimension, unsigned int, VDimension);
 
-  /** Standard class typedefs. */
-  typedef ChainCodePath< VDimension >                            Self;
-  typedef Path< unsigned int, Offset< VDimension >, VDimension > Superclass;
+  /** Standard class type aliases. */
+  using Self = ChainCodePath< VDimension >;
+  using Superclass = Path< unsigned int, Offset< VDimension >, VDimension >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChainCodePath, Path);
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
-  typedef typename Superclass::InputType  InputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
+  using InputType = typename Superclass::InputType;
 
   /** The output type of this function is an Index */
-  typedef OutputType          OffsetType;
-  typedef Index< VDimension > IndexType;
+  using OffsetType = OutputType;
+  using IndexType = Index< VDimension >;
 
-  typedef std::vector< OffsetType > ChainCodeType;
+  using ChainCodeType = std::vector< OffsetType >;
 
-  typedef typename ChainCodeType::size_type ChainCodeSizeType;
+  using ChainCodeSizeType = typename ChainCodeType::size_type;
 
   // Functions inherited from Path
 

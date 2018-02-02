@@ -36,24 +36,22 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                     PixelComponentType;
-  typedef itk::RGBPixel<PixelComponentType> PixelType;
+  using PixelComponentType = unsigned char;
+  using PixelType = itk::RGBPixel<PixelComponentType>;
 
-  typedef unsigned char OutputPixelType;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image<PixelType,       Dimension> ImageType;
-  typedef itk::Image<OutputPixelType, Dimension> OutputImageType;
+  using ImageType = itk::Image<PixelType,       Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  typedef itk::ImageFileReader<ImageType>  ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer input = ReaderType::New();
   input->SetFileName(av[1]);
 
   // Create a filter
-  typedef itk::VectorConfidenceConnectedImageFilter<
-                                              ImageType,
-                                              OutputImageType
-                                                > FilterType;
+  using FilterType = itk::VectorConfidenceConnectedImageFilter<
+                                 ImageType, OutputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher filterWatch(filter);
@@ -110,7 +108,7 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
             << std::endl;
 
   // Generate test image
-  typedef itk::ImageFileWriter<OutputImageType>  WriterType;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetInput( filter->GetOutput() );
@@ -121,13 +119,13 @@ int itkVectorConfidenceConnectedImageFilterTest(int ac, char* av[] )
   filter->SetSeed( seed1 );
 
 
-  typedef itk::VectorImage<PixelComponentType, Dimension> VectorImageType;
+  using VectorImageType = itk::VectorImage<PixelComponentType, Dimension>;
 
-  typedef itk::ImageFileReader<VectorImageType>       VectorReaderType;
+  using VectorReaderType = itk::ImageFileReader<VectorImageType>;
   VectorReaderType::Pointer vinput = VectorReaderType::New();
   vinput->SetFileName(av[1]);
 
-  typedef itk::VectorConfidenceConnectedImageFilter< VectorImageType, OutputImageType > VectorFilterType;
+  using VectorFilterType = itk::VectorConfidenceConnectedImageFilter< VectorImageType, OutputImageType >;
   VectorFilterType::Pointer vFilter = VectorFilterType::New();
 
   vFilter->SetInput(vinput->GetOutput());

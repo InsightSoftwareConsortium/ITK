@@ -45,11 +45,11 @@ class ITK_TEMPLATE_EXPORT EigenAnalysis2DImageFilter:
   public ImageToImageFilter< TInputImage, TEigenValueImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef EigenAnalysis2DImageFilter                          Self;
-  typedef ImageToImageFilter< TInputImage, TEigenValueImage > Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = EigenAnalysis2DImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TEigenValueImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(EigenAnalysis2DImageFilter, ImageToImageFilter);
@@ -58,21 +58,21 @@ public:
   itkNewMacro(Self);
 
   /** Typedef for the vector type representing the eigen vectors */
-  typedef typename TEigenVectorImage::PixelType EigenVectorType;
-  typedef typename EigenVectorType::ValueType   VectorComponentType;
+  using EigenVectorType = typename TEigenVectorImage::PixelType;
+  using VectorComponentType = typename EigenVectorType::ValueType;
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  /** Some convenient typedefs. */
-  typedef TEigenValueImage                          EigenValueImageType;
-  typedef typename EigenValueImageType::Pointer     EigenValueImagePointer;
-  typedef typename EigenValueImageType::RegionType  EigenValueImageRegionType;
-  typedef typename EigenValueImageType::PixelType   EigenValueImagePixelType;
-  typedef TEigenVectorImage                         EigenVectorImageType;
-  typedef typename EigenVectorImageType::Pointer    EigenVectorImagePointer;
-  typedef typename EigenVectorImageType::RegionType EigenVectorImageRegionType;
-  typedef typename EigenVectorImageType::PixelType  EigenVectorImagePixelType;
+  /** Some convenient type alias. */
+  using EigenValueImageType = TEigenValueImage;
+  using EigenValueImagePointer = typename EigenValueImageType::Pointer;
+  using EigenValueImageRegionType = typename EigenValueImageType::RegionType;
+  using EigenValueImagePixelType = typename EigenValueImageType::PixelType;
+  using EigenVectorImageType = TEigenVectorImage;
+  using EigenVectorImagePointer = typename EigenVectorImageType::Pointer;
+  using EigenVectorImageRegionType = typename EigenVectorImageType::RegionType;
+  using EigenVectorImagePixelType = typename EigenVectorImageType::PixelType;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -103,7 +103,7 @@ public:
   EigenVectorImageType * GetMaxEigenVector();
 
   /**  Create the Output */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

@@ -63,11 +63,11 @@ class ITK_TEMPLATE_EXPORT KernelTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef KernelTransform                                             Self;
-  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = KernelTransform;
+  using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(KernelTransform, Transform);
@@ -79,51 +79,51 @@ public:
   itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::FixedParametersType FixedParametersType;
-  typedef typename Superclass::ParametersType      ParametersType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Transform category type. */
-  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+  using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType OutputPointType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
 
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType  InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
 
   /** Standard covariant vector type for this class */
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
 
    /** The number of parameters defininig this transform. */
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
-  /** PointList typedef. This type is used for maintaining lists of points,
+  /** PointList type alias. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists. */
-  typedef DefaultStaticMeshTraits<TParametersValueType, NDimensions, NDimensions, TParametersValueType, TParametersValueType> PointSetTraitsType;
-  typedef PointSet<InputPointType, NDimensions, PointSetTraitsType>                                PointSetType;
+  using PointSetTraitsType = DefaultStaticMeshTraits<TParametersValueType, NDimensions, NDimensions, TParametersValueType, TParametersValueType>;
+  using PointSetType = PointSet<InputPointType, NDimensions, PointSetTraitsType>;
 
-  typedef typename PointSetType::Pointer                      PointSetPointer;
-  typedef typename PointSetType::PointsContainer              PointsContainer;
-  typedef typename PointSetType::PointsContainerIterator      PointsIterator;
-  typedef typename PointSetType::PointsContainerConstIterator PointsConstIterator;
-  typedef typename PointSetType::PointIdentifier              PointIdentifier;
+  using PointSetPointer = typename PointSetType::Pointer;
+  using PointsContainer = typename PointSetType::PointsContainer;
+  using PointsIterator = typename PointSetType::PointsContainerIterator;
+  using PointsConstIterator = typename PointSetType::PointsContainerConstIterator;
+  using PointIdentifier = typename PointSetType::PointIdentifier;
 
-  /** VectorSet typedef. */
-  typedef itk::VectorContainer<SizeValueType, InputVectorType> VectorSetType;
-  typedef typename VectorSetType::Pointer                      VectorSetPointer;
+  /** VectorSet type alias. */
+  using VectorSetType = itk::VectorContainer<SizeValueType, InputVectorType>;
+  using VectorSetPointer = typename VectorSetType::Pointer;
 
   /** Get/Set the source landmarks list, which we will denote \f$ p \f$. */
   itkGetModifiableObjectMacro(SourceLandmarks, PointSetType); //NOTE: This is used to circumvent the SetTargetLandmarks
@@ -162,8 +162,8 @@ public:
     itkExceptionMacro( << "TransformCovariantVector(const InputCovariantVectorType &) is not implemented for KernelTransform");
   }
 
-  /** 'I' (identity) matrix typedef. */
-  typedef vnl_matrix_fixed<TParametersValueType, NDimensions, NDimensions> IMatrixType;
+  /** 'I' (identity) matrix type alias. */
+  using IMatrixType = vnl_matrix_fixed<TParametersValueType, NDimensions, NDimensions>;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const override;
@@ -224,38 +224,38 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
 public:
-  /** 'G' matrix typedef. */
-  typedef vnl_matrix_fixed<TParametersValueType, NDimensions, NDimensions> GMatrixType;
+  /** 'G' matrix type alias. */
+  using GMatrixType = vnl_matrix_fixed<TParametersValueType, NDimensions, NDimensions>;
 
-  /** 'L' matrix typedef. */
-  typedef vnl_matrix<TParametersValueType> LMatrixType;
+  /** 'L' matrix type alias. */
+  using LMatrixType = vnl_matrix<TParametersValueType>;
 
-  /** 'K' matrix typedef. */
-  typedef vnl_matrix<TParametersValueType> KMatrixType;
+  /** 'K' matrix type alias. */
+  using KMatrixType = vnl_matrix<TParametersValueType>;
 
-  /** 'P' matrix typedef. */
-  typedef vnl_matrix<TParametersValueType> PMatrixType;
+  /** 'P' matrix type alias. */
+  using PMatrixType = vnl_matrix<TParametersValueType>;
 
-  /** 'Y' matrix typedef. */
-  typedef vnl_matrix<TParametersValueType> YMatrixType;
+  /** 'Y' matrix type alias. */
+  using YMatrixType = vnl_matrix<TParametersValueType>;
 
-  /** 'W' matrix typedef. */
-  typedef vnl_matrix<TParametersValueType> WMatrixType;
+  /** 'W' matrix type alias. */
+  using WMatrixType = vnl_matrix<TParametersValueType>;
 
-  /** 'D' matrix typedef. Deformation component */
-  typedef vnl_matrix<TParametersValueType> DMatrixType;
+  /** 'D' matrix type alias. Deformation component */
+  using DMatrixType = vnl_matrix<TParametersValueType>;
 
-  /** 'A' matrix typedef. Rotational part of the Affine component */
-  typedef vnl_matrix_fixed<TParametersValueType, NDimensions, NDimensions> AMatrixType;
+  /** 'A' matrix type alias. Rotational part of the Affine component */
+  using AMatrixType = vnl_matrix_fixed<TParametersValueType, NDimensions, NDimensions>;
 
-  /** 'B' matrix typedef. Translational part of the Affine component */
-  typedef vnl_vector_fixed<TParametersValueType, NDimensions> BMatrixType;
+  /** 'B' matrix type alias. Translational part of the Affine component */
+  using BMatrixType = vnl_vector_fixed<TParametersValueType, NDimensions>;
 
-  /** Row matrix typedef. */
-  typedef vnl_matrix_fixed<TParametersValueType, 1, NDimensions> RowMatrixType;
+  /** Row matrix type alias. */
+  using RowMatrixType = vnl_matrix_fixed<TParametersValueType, 1, NDimensions>;
 
-  /** Column matrix typedef. */
-  typedef vnl_matrix_fixed<TParametersValueType, NDimensions, 1> ColumnMatrixType;
+  /** Column matrix type alias. */
+  using ColumnMatrixType = vnl_matrix_fixed<TParametersValueType, NDimensions, 1>;
 
 protected:
   /** Compute G(x)

@@ -90,8 +90,8 @@ ChangeLabelLabelMapFilter< TImage >
   ProgressReporter progress(this, 0, static_cast<SizeValueType>( m_MapOfLabelToBeReplaced.size() ) * 2);
 
   // First remove the ones to change and store them elsewhere to process later
-  typedef typename LabelObjectType::Pointer LabelObjectPointer;
-  typedef std::deque< LabelObjectPointer >  VectorType;
+  using LabelObjectPointer = typename LabelObjectType::Pointer;
+  using VectorType = std::deque< LabelObjectPointer >;
 
   VectorType labelObjectsToBeRelabeled;
 
@@ -139,7 +139,7 @@ ChangeLabelLabelMapFilter< TImage >
   // RestoreLabelObjectsAndChangeLabels
 
   // Put the objects back in the map, with the updated label
-  typedef typename VectorType::iterator LabelObjectIterator;
+  using LabelObjectIterator = typename VectorType::iterator;
   LabelObjectIterator labelObjectItr = labelObjectsToBeRelabeled.begin();
 
   while ( labelObjectItr != labelObjectsToBeRelabeled.end() )
@@ -189,7 +189,7 @@ ChangeLabelLabelMapFilter< TImage >
 
   ChangeMapIterator pairToReplace = m_MapOfLabelToBeReplaced.begin();
 
-  typedef typename NumericTraits< PixelType >::PrintType LabelPrintType;
+  using LabelPrintType = typename NumericTraits< PixelType >::PrintType;
 
   os << indent << "Labels to replace: " << std::endl;
   while ( pairToReplace != m_MapOfLabelToBeReplaced.end() )

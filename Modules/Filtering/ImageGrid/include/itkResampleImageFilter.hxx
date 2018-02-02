@@ -181,8 +181,8 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   // Check whether the input or the output is a
   // SpecialCoordinatesImage. If either are, then we cannot use the
   // fast path since index mapping will definitely not be linear.
-  typedef SpecialCoordinatesImage< PixelType, ImageDimension >           OutputSpecialCoordinatesImageType;
-  typedef SpecialCoordinatesImage< InputPixelType, InputImageDimension > InputSpecialCoordinatesImageType;
+  using OutputSpecialCoordinatesImageType = SpecialCoordinatesImage< PixelType, ImageDimension >;
+  using InputSpecialCoordinatesImageType = SpecialCoordinatesImage< InputPixelType, InputImageDimension >;
 
   const bool isSpecialCoordinatesImage = ( dynamic_cast< const InputSpecialCoordinatesImageType * >( this->GetInput() )
        || dynamic_cast< const OutputSpecialCoordinatesImageType * >( this->GetOutput() ) );
@@ -257,7 +257,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
 
   // Honor the SpecialCoordinatesImage isInside value returned
   // by TransformPhysicalPointToContinuousIndex
-  typedef SpecialCoordinatesImage< InputPixelType, InputImageDimension > InputSpecialCoordinatesImageType;
+  using InputSpecialCoordinatesImageType = SpecialCoordinatesImage< InputPixelType, InputImageDimension >;
   const bool isSpecialCoordinatesImage = dynamic_cast< const InputSpecialCoordinatesImageType * >( inputPtr );
 
   // Get the input transform
@@ -265,7 +265,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
 
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageRegionIteratorWithIndex< TOutputImage > OutputIterator;
+  using OutputIterator = ImageRegionIteratorWithIndex< TOutputImage >;
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
   // Define a few indices that will be used to translate from an input pixel
@@ -285,7 +285,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   const PixelComponentType minValue =  NumericTraits< PixelComponentType >::NonpositiveMin();
   const PixelComponentType maxValue =  NumericTraits< PixelComponentType >::max();
 
-  typedef typename InterpolatorType::OutputType OutputType;
+  using OutputType = typename InterpolatorType::OutputType;
   const ComponentType minOutputValue = static_cast< ComponentType >( minValue );
   const ComponentType maxOutputValue = static_cast< ComponentType >( maxValue );
 
@@ -349,7 +349,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   const TransformType *transformPtr = this->GetTransform();
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageScanlineIterator< TOutputImage > OutputIterator;
+  using OutputIterator = ImageScanlineIterator< TOutputImage >;
 
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
@@ -363,7 +363,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   ContinuousInputIndexType inputIndex;
   ContinuousInputIndexType tmpInputIndex;
 
-  typedef typename PointType::VectorType VectorType;
+  using VectorType = typename PointType::VectorType;
   VectorType delta;          // delta in input continuous index coordinate frame
 
   IndexType index;
@@ -376,7 +376,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
                              threadId,
                              numberOfLinesToProcess );
 
-  typedef typename InterpolatorType::OutputType OutputType;
+  using OutputType = typename InterpolatorType::OutputType;
 
   // Cache information from the superclass
   PixelType defaultValue = this->GetDefaultPixelValue();
@@ -386,7 +386,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   const PixelComponentType minValue =  NumericTraits< PixelComponentType >::NonpositiveMin();
   const PixelComponentType maxValue =  NumericTraits< PixelComponentType >::max();
 
-  typedef typename InterpolatorType::OutputType OutputType;
+  using OutputType = typename InterpolatorType::OutputType;
   const ComponentType minOutputValue = static_cast< ComponentType >( minValue );
   const ComponentType maxOutputValue = static_cast< ComponentType >( maxValue );
 

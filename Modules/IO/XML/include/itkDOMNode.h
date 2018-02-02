@@ -53,11 +53,11 @@ class DOMTextNode; // forward declaration
 class ITKIOXML_EXPORT DOMNode : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef DOMNode                     Self;
-  typedef Object                      Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DOMNode;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,21 +66,21 @@ public:
   itkTypeMacro(DOMNode, Object);
 
   /** Container to return all or a subset of the children of a DOM node. */
-  typedef std::vector<DOMNode*>         ChildrenListType;
-  typedef std::vector<const DOMNode*>   ConstChildrenListType;
+  using ChildrenListType = std::vector<DOMNode*>;
+  using ConstChildrenListType = std::vector<const DOMNode*>;
 
   /** An attribute is a pair of <key,value>, both key and value are strings. */
-  typedef std::string AttributeKeyType;
-  typedef std::string AttributeValueType;
+  using AttributeKeyType = std::string;
+  using AttributeValueType = std::string;
 
-  typedef std::pair<const AttributeKeyType,AttributeValueType> AttributeItemType;
+  using AttributeItemType = std::pair<const AttributeKeyType,AttributeValueType>;
 
   /** Container to return the attributes of a DOM node. */
-  typedef std::list<AttributeItemType> AttributesListType;
+  using AttributesListType = std::list<AttributeItemType>;
 
-  typedef std::size_t SizeType;
-  typedef int         IdentifierType;
-  typedef int         OffsetType;
+  using SizeType = std::size_t;
+  using IdentifierType = int;
+  using OffsetType = int;
 
   /** Retrieve the parent node. */
   virtual void SetParent( DOMNode* node );
@@ -218,15 +218,15 @@ private:
   std::string m_ID;
 
   /** Internally the children are stored in a vector. */
-  typedef std::vector<Pointer> ChildrenContainer;
+  using ChildrenContainer = std::vector<Pointer>;
   ChildrenContainer m_Children;
 
   /** Internally the attributes are stored in a map. */
-  typedef std::map<AttributeKeyType,AttributeValueType> AttributesContainer;
+  using AttributesContainer = std::map<AttributeKeyType,AttributeValueType>;
   AttributesContainer m_Attributes;
 
   /** Container to keep the inserting orders of the attributes. */
-  typedef std::list<AttributeItemType*> OrderedAttributesContainer;
+  using OrderedAttributesContainer = std::list<AttributeItemType*>;
   OrderedAttributesContainer m_OrderedAttributes;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(DOMNode);

@@ -46,17 +46,17 @@ class ITK_TEMPLATE_EXPORT CoolColormapFunction:
 {
 public:
 
-  typedef CoolColormapFunction                   Self;
-  typedef ColormapFunction< TScalar, TRGBPixel > Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
+  using Self = CoolColormapFunction;
+  using Superclass = ColormapFunction< TScalar, TRGBPixel >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef typename Superclass::RGBPixelType RGBPixelType;
-  typedef typename Superclass::ScalarType   ScalarType;
-  typedef typename Superclass::RealType     RealType;
+  using RGBPixelType = typename Superclass::RGBPixelType;
+  using ScalarType = typename Superclass::ScalarType;
+  using RealType = typename Superclass::RealType;
 
   RGBPixelType operator()(const TScalar &) const override;
 

@@ -30,7 +30,7 @@ template< unsigned int VDimension >
 struct helper< itk::Index< VDimension > >
 {
   static constexpr unsigned int Dimension = VDimension;
-  typedef itk::Index< VDimension > PositionType;
+  using PositionType = itk::Index< VDimension >;
 
   template< class TImage, class TIterator >
   static PositionType GetPosition( const TImage* , const TIterator& it )
@@ -43,7 +43,7 @@ template< typename TCoord, unsigned int VDimension >
 struct helper< itk::Point< TCoord, VDimension > >
 {
   static constexpr unsigned int Dimension = VDimension;
-  typedef itk::Point< TCoord, VDimension > PositionType;
+  using PositionType = itk::Point< TCoord, VDimension >;
 
   template< class TImage, class TIterator >
   static PositionType GetPosition( const TImage* image, const TIterator& it )
@@ -70,18 +70,18 @@ int InternalTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef TPosition PositionType;
+  using PositionType = TPosition;
 
   const unsigned int ImageDimension = TPosition::Dimension;
-  typedef unsigned char                                 ImagePixelType;
-  typedef itk::Image< ImagePixelType, ImageDimension >  ImageType;
+  using ImagePixelType = unsigned char;
+  using ImageType = itk::Image< ImagePixelType, ImageDimension >;
 
   const unsigned int MeshDimension = TPosition::Dimension;
-  typedef itk::Mesh< PositionType, MeshDimension >                      InputMeshType;
-  typedef itk::Mesh< typename InputMeshType::PointType, MeshDimension > OutputMeshType;
+  using InputMeshType = itk::Mesh< PositionType, MeshDimension >;
+  using OutputMeshType = itk::Mesh< typename InputMeshType::PointType, MeshDimension >;
 
   // Read the input image
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -105,12 +105,12 @@ int InternalTest(int argc, char* argv[])
   itk::ImageRegionConstIterator<ImageType> imageIterator( image, image->GetBufferedRegion() );
   imageIterator.GoToBegin();
 
-  typedef typename InputMeshType::PointType PointType;
+  using PointType = typename InputMeshType::PointType;
   PointType point;
   point.Fill( 0. );
 
-  typedef typename InputMeshType::PointDataContainer        PointDataContainer;
-  typedef typename InputMeshType::PointDataContainerPointer PointDataContainerPointer;
+  using PointDataContainer = typename InputMeshType::PointDataContainer;
+  using PointDataContainerPointer = typename InputMeshType::PointDataContainerPointer;
 
   PointDataContainerPointer pointData = PointDataContainer::New();
 
@@ -118,7 +118,7 @@ int InternalTest(int argc, char* argv[])
   typename InputMeshType::PointIdentifier pointId = 0;
   imageIterator.GoToBegin();
 
-  typedef typename ImageType::PointType ImagePointType;
+  using ImagePointType = typename ImageType::PointType;
 
   while( !imageIterator.IsAtEnd() )
     {
@@ -140,9 +140,9 @@ int InternalTest(int argc, char* argv[])
 
   mesh->SetPointData(pointData.GetPointer());
 
-  typedef itk::ParametricSpaceToImageSpaceMeshFilter<
+  using ParametricFilterType = itk::ParametricSpaceToImageSpaceMeshFilter<
     InputMeshType,
-    OutputMeshType > ParametricFilterType;
+    OutputMeshType >;
 
   typename ParametricFilterType::Pointer parametricFilter = ParametricFilterType::New();
 
@@ -212,9 +212,9 @@ int InternalTest(int argc, char* argv[])
 int itkParametricSpaceToImageSpaceMeshFilterTest(int argc, char * argv[])
 {
   const unsigned int ImageDimension = 2;
-  typedef unsigned char                           PixelType;
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
-  typedef ImageType::IndexType                    IndexType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using IndexType = ImageType::IndexType;
 
   if( InternalTest< IndexType >( argc, argv ) == EXIT_FAILURE )
     {
@@ -224,7 +224,7 @@ int itkParametricSpaceToImageSpaceMeshFilterTest(int argc, char * argv[])
 
   std::cout << "Test succeeded for itk::Image< unsigned char, 2 >::IndexType" << std::endl;
 
-  typedef ImageType::PointType  PointType;
+  using PointType = ImageType::PointType;
   if( InternalTest< PointType >( argc, argv ) == EXIT_FAILURE )
     {
     std::cerr << "Failure for itk::Point" << std::endl;

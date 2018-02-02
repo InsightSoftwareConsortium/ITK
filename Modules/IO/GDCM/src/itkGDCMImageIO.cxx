@@ -812,7 +812,7 @@ void GDCMImageIO::Write(const void *buffer)
         }
       else if ( key == ITK_Origin )
         {
-        typedef Array< double > DoubleArrayType;
+        using DoubleArrayType = Array< double >;
         DoubleArrayType originArray( 3 );
         ExposeMetaData< DoubleArrayType >(dict, key, originArray);
         m_Origin.resize( 3 );
@@ -822,7 +822,7 @@ void GDCMImageIO::Write(const void *buffer)
         }
       else if ( key == ITK_Spacing )
         {
-        typedef Array< double > DoubleArrayType;
+        using DoubleArrayType = Array< double >;
         DoubleArrayType spacingArray( 3 );
         ExposeMetaData< DoubleArrayType >(dict, key, spacingArray);
         m_Spacing.resize( 3 );
@@ -832,7 +832,7 @@ void GDCMImageIO::Write(const void *buffer)
         }
       else if( key == ITK_ZDirection )
         {
-        typedef Matrix< double > DoubleMatrixType;
+        using DoubleMatrixType = Matrix< double >;
         DoubleMatrixType directionMatrix;
         ExposeMetaData< DoubleMatrixType >( dict, key, directionMatrix );
         for(int i = 0; i<3; i++)

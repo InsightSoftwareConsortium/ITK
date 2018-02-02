@@ -50,23 +50,23 @@ class ITK_TEMPLATE_EXPORT StandardDeviationPerComponentSampleFilter:
   public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef StandardDeviationPerComponentSampleFilter Self;
-  typedef ProcessObject                             Superclass;
-  typedef SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                ConstPointer;
-  typedef TSample                                   SampleType;
+  /** Standard class type aliases. */
+  using Self = StandardDeviationPerComponentSampleFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using SampleType = TSample;
 
   /** Standard Macros */
   itkTypeMacro(StandardDeviationPerComponentSampleFilter, ProcessObject);
   itkNewMacro(Self);
 
   /** Length of a measurement vector */
-  typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = typename TSample::MeasurementVectorSizeType;
 
   /** Measurement vector type */
-  typedef typename TSample::MeasurementVectorType                   MeasurementVectorType;
-  typedef typename NumericTraits< MeasurementVectorType >::RealType MeasurementVectorRealType;
+  using MeasurementVectorType = typename TSample::MeasurementVectorType;
+  using MeasurementVectorRealType = typename NumericTraits< MeasurementVectorType >::RealType;
 
   /** Method to set/get the sample */
   using Superclass::SetInput;
@@ -76,9 +76,9 @@ public:
 
   /** MeasurementVector is not a DataObject, we need to decorate it to push it down
    * a ProcessObject's pipeline */
-  typedef  SimpleDataObjectDecorator< MeasurementVectorRealType > MeasurementVectorRealDecoratedType;
+  using MeasurementVectorRealDecoratedType = SimpleDataObjectDecorator< MeasurementVectorRealType >;
 
-  typedef MeasurementVectorRealDecoratedType OutputType;
+  using OutputType = MeasurementVectorRealDecoratedType;
 
   /** Return the standard deviation vector */
   const MeasurementVectorRealType GetStandardDeviationPerComponent() const;
@@ -98,9 +98,9 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DataObject pointer */
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

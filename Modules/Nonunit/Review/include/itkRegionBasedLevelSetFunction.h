@@ -68,11 +68,11 @@ class ITK_TEMPLATE_EXPORT RegionBasedLevelSetFunction:public
   FiniteDifferenceFunction< TInput >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegionBasedLevelSetFunction        Self;
-  typedef FiniteDifferenceFunction< TInput > Superclass;
-  typedef SmartPointer< Self >               Pointer;
-  typedef SmartPointer< const Self >         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegionBasedLevelSetFunction;
+  using Superclass = FiniteDifferenceFunction< TInput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
@@ -82,16 +82,16 @@ public:
   itkTypeMacro(RegionBasedLevelSetFunction, FiniteDifferenceFunction);
 
   /** Extract some parameters from the superclass. */
-  typedef double                                      TimeStepType;
-  typedef typename Superclass::ImageType              ImageType;
-  typedef typename Superclass::PixelType              PixelType;
-  typedef PixelType                                   ScalarValueType;
-  typedef typename Superclass::RadiusType             RadiusType;
-  typedef typename Superclass::NeighborhoodType       NeighborhoodType;
-  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
-  typedef typename Superclass::FloatOffsetType        FloatOffsetType;
-  typedef FixedArray< ScalarValueType, itkGetStaticConstMacro(ImageDimension) >
-  VectorType;
+  using TimeStepType = double;
+  using ImageType = typename Superclass::ImageType;
+  using PixelType = typename Superclass::PixelType;
+  using ScalarValueType = PixelType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using VectorType =
+      FixedArray< ScalarValueType, itkGetStaticConstMacro(ImageDimension) >;
 
   /* This structure is derived from LevelSetFunction and stores intermediate
   values for computing time step sizes */
@@ -124,29 +124,29 @@ public:
     ScalarValueType m_MaxGlobalChange;
   };
 
-  typedef TInput                                  InputImageType;
-  typedef typename InputImageType::ConstPointer   InputImageConstPointer;
-  typedef typename InputImageType::Pointer        InputImagePointer;
-  typedef typename InputImageType::PixelType      InputPixelType;
-  typedef typename InputImageType::IndexType      InputIndexType;
-  typedef typename InputImageType::IndexValueType InputIndexValueType;
-  typedef typename InputImageType::SizeType       InputSizeType;
-  typedef typename InputImageType::SizeValueType  InputSizeValueType;
-  typedef typename InputImageType::RegionType     InputRegionType;
-  typedef typename InputImageType::PointType      InputPointType;
+  using InputImageType = TInput;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputPixelType = typename InputImageType::PixelType;
+  using InputIndexType = typename InputImageType::IndexType;
+  using InputIndexValueType = typename InputImageType::IndexValueType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using InputSizeValueType = typename InputImageType::SizeValueType;
+  using InputRegionType = typename InputImageType::RegionType;
+  using InputPointType = typename InputImageType::PointType;
 
-  typedef TFeature                                FeatureImageType;
-  typedef typename FeatureImageType::ConstPointer FeatureImageConstPointer;
-  typedef typename FeatureImageType::PixelType    FeaturePixelType;
-  typedef typename FeatureImageType::IndexType    FeatureIndexType;
-  typedef typename FeatureImageType::SpacingType  FeatureSpacingType;
-  typedef typename FeatureImageType::OffsetType   FeatureOffsetType;
+  using FeatureImageType = TFeature;
+  using FeatureImageConstPointer = typename FeatureImageType::ConstPointer;
+  using FeaturePixelType = typename FeatureImageType::PixelType;
+  using FeatureIndexType = typename FeatureImageType::IndexType;
+  using FeatureSpacingType = typename FeatureImageType::SpacingType;
+  using FeatureOffsetType = typename FeatureImageType::OffsetType;
 
-  typedef TSharedData                      SharedDataType;
-  typedef typename SharedDataType::Pointer SharedDataPointer;
+  using SharedDataType = TSharedData;
+  using SharedDataPointer = typename SharedDataType::Pointer;
 
-  typedef HeavisideStepFunctionBase< InputPixelType, InputPixelType > HeavisideFunctionType;
-  typedef typename HeavisideFunctionType::ConstPointer                HeavisideFunctionConstPointer;
+  using HeavisideFunctionType = HeavisideStepFunctionBase< InputPixelType, InputPixelType >;
+  using HeavisideFunctionConstPointer = typename HeavisideFunctionType::ConstPointer;
 
   void SetDomainFunction(const HeavisideFunctionType *f)
   {

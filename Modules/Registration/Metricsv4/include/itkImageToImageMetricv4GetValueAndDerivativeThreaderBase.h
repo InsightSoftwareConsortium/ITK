@@ -45,47 +45,47 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreaderBase
   : public DomainThreader< TDomainPartitioner, TImageToImageMetricv4 >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToImageMetricv4GetValueAndDerivativeThreaderBase       Self;
-  typedef DomainThreader< TDomainPartitioner, TImageToImageMetricv4 > Superclass;
-  typedef SmartPointer< Self >                                        Pointer;
-  typedef SmartPointer< const Self >                                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageToImageMetricv4GetValueAndDerivativeThreaderBase;
+  using Superclass = DomainThreader< TDomainPartitioner, TImageToImageMetricv4 >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro( ImageToImageMetricv4GetValueAndDerivativeThreaderBase, DomainThreader );
 
   /** Superclass types. */
-  typedef typename Superclass::DomainType    DomainType;
-  typedef typename Superclass::AssociateType AssociateType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
 
   /** Types of the target class. */
-  typedef TImageToImageMetricv4                                      ImageToImageMetricv4Type;
-  typedef typename ImageToImageMetricv4Type::VirtualImageType        VirtualImageType;
-  typedef typename ImageToImageMetricv4Type::VirtualIndexType        VirtualIndexType;
-  typedef typename ImageToImageMetricv4Type::VirtualPointType        VirtualPointType;
-  typedef typename ImageToImageMetricv4Type::FixedImagePointType     FixedImagePointType;
-  typedef typename ImageToImageMetricv4Type::FixedImagePixelType     FixedImagePixelType;
-  typedef typename ImageToImageMetricv4Type::FixedImageIndexType     FixedImageIndexType;
-  typedef typename ImageToImageMetricv4Type::FixedImageGradientType  FixedImageGradientType;
-  typedef typename ImageToImageMetricv4Type::MovingImagePointType    MovingImagePointType;
-  typedef typename ImageToImageMetricv4Type::MovingImagePixelType    MovingImagePixelType;
-  typedef typename ImageToImageMetricv4Type::MovingImageGradientType MovingImageGradientType;
+  using ImageToImageMetricv4Type = TImageToImageMetricv4;
+  using VirtualImageType = typename ImageToImageMetricv4Type::VirtualImageType;
+  using VirtualIndexType = typename ImageToImageMetricv4Type::VirtualIndexType;
+  using VirtualPointType = typename ImageToImageMetricv4Type::VirtualPointType;
+  using FixedImagePointType = typename ImageToImageMetricv4Type::FixedImagePointType;
+  using FixedImagePixelType = typename ImageToImageMetricv4Type::FixedImagePixelType;
+  using FixedImageIndexType = typename ImageToImageMetricv4Type::FixedImageIndexType;
+  using FixedImageGradientType = typename ImageToImageMetricv4Type::FixedImageGradientType;
+  using MovingImagePointType = typename ImageToImageMetricv4Type::MovingImagePointType;
+  using MovingImagePixelType = typename ImageToImageMetricv4Type::MovingImagePixelType;
+  using MovingImageGradientType = typename ImageToImageMetricv4Type::MovingImageGradientType;
 
-  typedef typename ImageToImageMetricv4Type::FixedTransformType      FixedTransformType;
-  typedef typename FixedTransformType::OutputPointType               FixedOutputPointType;
-  typedef typename ImageToImageMetricv4Type::MovingTransformType     MovingTransformType;
-  typedef typename MovingTransformType::OutputPointType              MovingOutputPointType;
+  using FixedTransformType = typename ImageToImageMetricv4Type::FixedTransformType;
+  using FixedOutputPointType = typename FixedTransformType::OutputPointType;
+  using MovingTransformType = typename ImageToImageMetricv4Type::MovingTransformType;
+  using MovingOutputPointType = typename MovingTransformType::OutputPointType;
 
-  typedef typename ImageToImageMetricv4Type::MeasureType             MeasureType;
-  typedef typename ImageToImageMetricv4Type::DerivativeType          DerivativeType;
-  typedef typename ImageToImageMetricv4Type::DerivativeValueType     DerivativeValueType;
-  typedef typename ImageToImageMetricv4Type::JacobianType            JacobianType;
-  typedef typename ImageToImageMetricv4Type::ImageDimensionType      ImageDimensionType;
+  using MeasureType = typename ImageToImageMetricv4Type::MeasureType;
+  using DerivativeType = typename ImageToImageMetricv4Type::DerivativeType;
+  using DerivativeValueType = typename ImageToImageMetricv4Type::DerivativeValueType;
+  using JacobianType = typename ImageToImageMetricv4Type::JacobianType;
+  using ImageDimensionType = typename ImageToImageMetricv4Type::ImageDimensionType;
 
-  typedef typename ImageToImageMetricv4Type::InternalComputationValueType InternalComputationValueType;
-  typedef typename ImageToImageMetricv4Type::NumberOfParametersType       NumberOfParametersType;
+  using InternalComputationValueType = typename ImageToImageMetricv4Type::InternalComputationValueType;
+  using NumberOfParametersType = typename ImageToImageMetricv4Type::NumberOfParametersType;
 
-  typedef CompensatedSummation<DerivativeValueType>                   CompensatedDerivativeValueType;
-  typedef std::vector<CompensatedDerivativeValueType>                 CompensatedDerivativeType;
+  using CompensatedDerivativeValueType = CompensatedSummation<DerivativeValueType>;
+  using CompensatedDerivativeType = std::vector<CompensatedDerivativeValueType>;
 
   /** Access the GetValueAndDerivative() accesor in image metric base. */
   virtual bool GetComputeDerivative() const;

@@ -38,7 +38,7 @@ void GenerateImage( typename TImage::Pointer ioImage )
   region.SetIndex( index );
   region.SetSize( size );
 
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   ioImage->SetRegions( region );
   ioImage->Allocate();
@@ -63,23 +63,23 @@ void GenerateImage( typename TImage::Pointer ioImage )
 
 int itkVTKVisualize2DDenseImageLevelSetTest( int , char* [] )
 {
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 2;
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   ImageType::Pointer image = ImageType::New();
   GenerateImage< ImageType >( image );
 
-  typedef double LevelSetOutputType;
+  using LevelSetOutputType = double;
 
-  typedef itk::Image< LevelSetOutputType, Dimension > LevelSetImageType;
+  using LevelSetImageType = itk::Image< LevelSetOutputType, Dimension >;
 
-  typedef itk::LevelSetDenseImage< LevelSetImageType > LevelSetType;
+  using LevelSetType = itk::LevelSetDenseImage< LevelSetImageType >;
 
   LevelSetImageType::Pointer LevelSetImage = LevelSetImageType::New();
   GenerateImage< LevelSetImageType >( LevelSetImage );
 
-  typedef itk::ImageRegionIteratorWithIndex< LevelSetImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< LevelSetImageType >;
   IteratorType it( LevelSetImage, LevelSetImage->GetLargestPossibleRegion() );
   it.GoToBegin();
 
@@ -97,7 +97,7 @@ int itkVTKVisualize2DDenseImageLevelSetTest( int , char* [] )
   LevelSetType::Pointer levelset = LevelSetType::New();
   levelset->SetImage( LevelSetImage );
 
-  typedef itk::VTKVisualizeImageLevelSetIsoValues< ImageType, LevelSetType > VisualizationType;
+  using VisualizationType = itk::VTKVisualizeImageLevelSetIsoValues< ImageType, LevelSetType >;
   VisualizationType::Pointer viewer = VisualizationType::New();
   viewer->SetInputImage( image );
   viewer->SetLevelSet( levelset );

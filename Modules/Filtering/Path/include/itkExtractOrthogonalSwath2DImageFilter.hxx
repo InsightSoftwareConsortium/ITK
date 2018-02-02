@@ -176,8 +176,8 @@ ExtractOrthogonalSwath2DImageFilter< TImage >
   // support progress methods/callbacks
   ProgressReporter progress( this, 0,  outputRegion.GetNumberOfPixels() );
 
-  typedef ImageRegionIteratorWithIndex< ImageType >           OutputIterator;
-  typedef LinearInterpolateImageFunction< ImageType, double > InterpolatorType;
+  using OutputIterator = ImageRegionIteratorWithIndex< ImageType >;
+  using InterpolatorType = LinearInterpolateImageFunction< ImageType, double >;
 
   ImageIndexType                      index;
   double                              orthogonalOffset;

@@ -80,13 +80,13 @@ class ITK_TEMPLATE_EXPORT GaussianDerivativeOperator :
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GaussianDerivativeOperator                             Self;
-  typedef NeighborhoodOperator< TPixel, VDimension, TAllocator > Superclass;
+  /** Standard class type aliases. */
+  using Self = GaussianDerivativeOperator;
+  using Superclass = NeighborhoodOperator< TPixel, VDimension, TAllocator >;
 
   /** Neighborhood operator types. */
-  typedef GaussianOperator< TPixel, VDimension, TAllocator >   GaussianOperatorType;
-  typedef DerivativeOperator< TPixel, VDimension, TAllocator > DerivativeOperatorType;
+  using GaussianOperatorType = GaussianOperator< TPixel, VDimension, TAllocator >;
+  using DerivativeOperatorType = DerivativeOperator< TPixel, VDimension, TAllocator >;
 
   /** Constructor. */
   GaussianDerivativeOperator();
@@ -151,7 +151,7 @@ public:
 
 protected:
 
-  typedef typename Superclass::CoefficientVector CoefficientVector;
+  using CoefficientVector = typename Superclass::CoefficientVector;
 
   /** Returns the value of the modified Bessel function I0(x) at a point x >= 0.
     */

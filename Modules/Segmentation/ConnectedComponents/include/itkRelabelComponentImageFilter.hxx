@@ -52,10 +52,10 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
 
   // Use a map to keep track of the size of each object.  Object
   // number -> ObjectType (which has Object number and the two sizes)
-  typedef itksys::hash_map< LabelType, RelabelComponentObjectType > MapType;
+  using MapType = itksys::hash_map< LabelType, RelabelComponentObjectType >;
   MapType sizeMap;
   typename MapType::iterator mapIt;
-  typedef typename MapType::value_type MapValueType;
+  using MapValueType = typename MapType::value_type;
 
   // Get the input and the output
   typename TInputImage::ConstPointer input = this->GetInput();
@@ -121,12 +121,12 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   // to determine how to sort the objects. Define a map for converting
   // input labels to output labels.
   //
-  typedef std::vector< RelabelComponentObjectType > VectorType;
+  using VectorType = std::vector< RelabelComponentObjectType >;
   VectorType sizeVector;
   typename VectorType::iterator vit;
 
-  typedef std::map< LabelType, LabelType >    RelabelMapType;
-  typedef typename RelabelMapType::value_type RelabelMapValueType;
+  using RelabelMapType = std::map< LabelType, LabelType >;
+  using RelabelMapValueType = typename RelabelMapType::value_type;
   RelabelMapType relabelMap;
 
   // copy the original object map to a vector so we can sort it

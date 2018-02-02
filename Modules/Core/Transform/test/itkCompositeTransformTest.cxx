@@ -105,14 +105,14 @@ int itkCompositeTransformTest(int, char *[] )
   const unsigned int NDimensions = 2;
 
   /* Create composite transform */
-  typedef itk::CompositeTransform<double, NDimensions> CompositeType;
-  typedef CompositeType::ScalarType                    ScalarType;
+  using CompositeType = itk::CompositeTransform<double, NDimensions>;
+  using ScalarType = CompositeType::ScalarType;
 
   CompositeType::Pointer compositeTransform = CompositeType::New();
 
   /* Test obects */
-  typedef  itk::Matrix<ScalarType, NDimensions, NDimensions> Matrix2Type;
-  typedef  itk::Vector<ScalarType, NDimensions>              Vector2Type;
+  using Matrix2Type = itk::Matrix<ScalarType, NDimensions, NDimensions>;
+  using Vector2Type = itk::Vector<ScalarType, NDimensions>;
 
   /* Test that we have an empty the queue */
   if( compositeTransform->GetNumberOfTransforms() != 0 )
@@ -122,7 +122,7 @@ int itkCompositeTransformTest(int, char *[] )
     }
 
   /* Add an affine transform */
-  typedef itk::AffineTransform<ScalarType, NDimensions> AffineType;
+  using AffineType = itk::AffineTransform<ScalarType, NDimensions>;
   AffineType::Pointer affine = AffineType::New();
   Matrix2Type         matrix2;
   Vector2Type         vector2;
@@ -831,9 +831,9 @@ int itkCompositeTransformTest(int, char *[] )
   CompositeType::Pointer compositeTransform3 = CompositeType::New();
   CompositeType::Pointer compositeTransform4 = CompositeType::New();
 
-  typedef itk::TranslationTransform<double, NDimensions>  TranslationTransformType;
-  typedef TranslationTransformType::Pointer               TranslationTransformPointer;
-  typedef std::vector<TranslationTransformPointer>        TranslationTransformVector;
+  using TranslationTransformType = itk::TranslationTransform<double, NDimensions>;
+  using TranslationTransformPointer = TranslationTransformType::Pointer;
+  using TranslationTransformVector = std::vector<TranslationTransformPointer>;
   TranslationTransformVector  translationTransformVector(12);
   for( itk::SizeValueType n=0; n < 12; n++ )
     {

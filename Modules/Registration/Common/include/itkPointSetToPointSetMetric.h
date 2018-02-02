@@ -46,26 +46,26 @@ class ITK_TEMPLATE_EXPORT PointSetToPointSetMetric:public MultipleValuedCostFunc
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef PointSetToPointSetMetric   Self;
-  typedef MultipleValuedCostFunction Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PointSetToPointSetMetric;
+  using Superclass = MultipleValuedCostFunction;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Type used for representing point components  */
-  typedef Superclass::ParametersValueType CoordinateRepresentationType;
+  using CoordinateRepresentationType = Superclass::ParametersValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PointSetToPointSetMetric, MultipleValuedCostFunction);
 
   /**  Type of the moving Pointset. */
-  typedef TMovingPointSet                           MovingPointSetType;
-  typedef typename TMovingPointSet::PixelType       MovingPointSetPixelType;
-  typedef typename MovingPointSetType::ConstPointer MovingPointSetConstPointer;
+  using MovingPointSetType = TMovingPointSet;
+  using MovingPointSetPixelType = typename TMovingPointSet::PixelType;
+  using MovingPointSetConstPointer = typename MovingPointSetType::ConstPointer;
 
   /**  Type of the fixed Pointset. */
-  typedef TFixedPointSet                           FixedPointSetType;
-  typedef typename FixedPointSetType::ConstPointer FixedPointSetConstPointer;
+  using FixedPointSetType = TFixedPointSet;
+  using FixedPointSetConstPointer = typename FixedPointSetType::ConstPointer;
 
   /** Constants for the pointset dimensions */
   itkStaticConstMacro(MovingPointSetDimension, unsigned int,
@@ -73,31 +73,31 @@ public:
   itkStaticConstMacro(FixedPointSetDimension, unsigned int,
                       TFixedPointSet::PointDimension);
 
-  typedef typename FixedPointSetType::PointsContainer::ConstIterator     FixedPointIterator;
-  typedef typename FixedPointSetType::PointDataContainer::ConstIterator  FixedPointDataIterator;
+  using FixedPointIterator = typename FixedPointSetType::PointsContainer::ConstIterator;
+  using FixedPointDataIterator = typename FixedPointSetType::PointDataContainer::ConstIterator;
 
-  typedef typename MovingPointSetType::PointsContainer::ConstIterator    MovingPointIterator;
-  typedef typename MovingPointSetType::PointDataContainer::ConstIterator MovingPointDataIterator;
+  using MovingPointIterator = typename MovingPointSetType::PointsContainer::ConstIterator;
+  using MovingPointDataIterator = typename MovingPointSetType::PointDataContainer::ConstIterator;
 
   /**  Type of the Transform Base class */
-  typedef Transform< CoordinateRepresentationType,
+  using TransformType = Transform< CoordinateRepresentationType,
                      itkGetStaticConstMacro(MovingPointSetDimension),
-                     itkGetStaticConstMacro(FixedPointSetDimension) > TransformType;
+                     itkGetStaticConstMacro(FixedPointSetDimension) >;
 
-  typedef typename TransformType::Pointer         TransformPointer;
-  typedef typename TransformType::InputPointType  InputPointType;
-  typedef typename TransformType::OutputPointType OutputPointType;
-  typedef typename TransformType::ParametersType  TransformParametersType;
-  typedef typename TransformType::JacobianType    TransformJacobianType;
+  using TransformPointer = typename TransformType::Pointer;
+  using InputPointType = typename TransformType::InputPointType;
+  using OutputPointType = typename TransformType::OutputPointType;
+  using TransformParametersType = typename TransformType::ParametersType;
+  using TransformJacobianType = typename TransformType::JacobianType;
 
   /**  Type of the measure. */
-  typedef Superclass::MeasureType MeasureType;
+  using MeasureType = Superclass::MeasureType;
 
   /**  Type of the derivative. */
-  typedef Superclass::DerivativeType DerivativeType;
+  using DerivativeType = Superclass::DerivativeType;
 
   /**  Type of the parameters. */
-  typedef Superclass::ParametersType ParametersType;
+  using ParametersType = Superclass::ParametersType;
 
   /** Get/Set the Fixed Pointset.  */
   itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);

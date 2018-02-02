@@ -55,9 +55,9 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   //------------------------------------------------------
   //Create a simple test vector with 16 entries and 2 bands
   //------------------------------------------------------
-  typedef itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION> VecImageType;
+  using VecImageType = itk::Image<itk::Vector<double,NUMBANDS>,NDIMENSION>;
 
-  typedef VecImageType::PixelType VecImagePixelType;
+  using VecImagePixelType = VecImageType::PixelType;
 
   VecImageType::Pointer vecImage = VecImageType::New();
 
@@ -76,8 +76,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
 
   // setup the iterators
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef
-    itk::ImageRegionIterator< VecImageType > VecIterator;
+  using VecIterator = itk::ImageRegionIterator<VecImageType>;
 
   VecIterator outIt( vecImage, vecImage->GetBufferedRegion() );
 
@@ -153,19 +152,17 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   //----------------------------------------------------------------------
   namespace stat = itk::Statistics;
 
-  typedef stat::DistanceToCentroidMembershipFunction< VecImagePixelType >
-                                          MembershipFunctionType;
-  typedef MembershipFunctionType::Pointer MembershipFunctionPointer;
+  using MembershipFunctionType = stat::DistanceToCentroidMembershipFunction<VecImagePixelType>;
+  using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
-  typedef std::vector< MembershipFunctionPointer >
-    MembershipFunctionPointerVector;
+  using MembershipFunctionPointerVector = std::vector<MembershipFunctionPointer>;
 
 
   //----------------------------------------------------------------------
   //Set the image model estimator
   //----------------------------------------------------------------------
-  typedef itk::ImageKmeansModelEstimator<VecImageType, MembershipFunctionType>
-    ImageKmeansModelEstimatorType;
+  using ImageKmeansModelEstimatorType =
+      itk::ImageKmeansModelEstimator<VecImageType, MembershipFunctionType>;
 
   ImageKmeansModelEstimatorType::Pointer
     applyKmeansEstimator = ImageKmeansModelEstimatorType::New();

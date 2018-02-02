@@ -35,35 +35,35 @@ template <class TComputeType, unsigned int TImageDimension>
 class RigidTransformTraits
 {
 public:
-  typedef itk::AffineTransform<TComputeType, TImageDimension> TransformType;
+  using TransformType = itk::AffineTransform<TComputeType, TImageDimension>;
 };
 
 template <>
 class RigidTransformTraits<double, 2>
 {
 public:
-  typedef itk::Euler2DTransform<double> TransformType;
+  using TransformType = itk::Euler2DTransform<double>;
 };
 
 template <>
 class RigidTransformTraits<float, 2>
 {
 public:
-  typedef itk::Euler2DTransform<float> TransformType;
+  using TransformType = itk::Euler2DTransform<float>;
 };
 
 template <>
 class RigidTransformTraits<double, 3>
 {
 public:
-  typedef itk::Euler3DTransform<double> TransformType;
+  using TransformType = itk::Euler3DTransform<double>;
 };
 
 template <>
 class RigidTransformTraits<float, 3>
 {
 public:
-  typedef itk::Euler3DTransform<float> TransformType;
+  using TransformType = itk::Euler3DTransform<float>;
 };
 
 
@@ -71,16 +71,16 @@ template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate                                          Self;
-  typedef itk::Command                                                    Superclass;
-  typedef itk::SmartPointer<Self>                                         Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
-  typedef typename TFilter::FixedImageType                                FixedImageType;
+  using FixedImageType = typename TFilter::FixedImageType;
   itkStaticConstMacro( ImageDimension, unsigned int, FixedImageType::ImageDimension ); /** ImageDimension constants */
 
-  typedef itk::ShrinkImageFilter<FixedImageType, FixedImageType>          ShrinkFilterType;
-  typedef typename TFilter::OutputTransformType::ScalarType               RealType;
+  using ShrinkFilterType = itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
+  using RealType = typename TFilter::OutputTransformType::ScalarType;
 
 protected:
   CommandIterationUpdate() {};
@@ -117,11 +117,11 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
 {
   const unsigned int ImageDimension = TDimension;
 
-  typedef double                                PixelType;
-  typedef itk::Image<PixelType, ImageDimension> FixedImageType;
-  typedef itk::Image<PixelType, ImageDimension> MovingImageType;
+  using PixelType = double;
+  using FixedImageType = itk::Image<PixelType, ImageDimension>;
+  using MovingImageType = itk::Image<PixelType, ImageDimension>;
 
-  typedef itk::ImageFileReader<FixedImageType> ImageReaderType;
+  using ImageReaderType = itk::ImageFileReader<FixedImageType>;
 
   typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName( argv[2] );
@@ -145,11 +145,11 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   // Set up the centered transform initializer
 
-  typedef itk::AffineTransform<double, ImageDimension> AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<double, ImageDimension>;
   typename AffineTransformType::Pointer initialTransform = AffineTransformType::New();
 
-  typedef itk::CenteredTransformInitializer<AffineTransformType,
-    FixedImageType, MovingImageType> TransformInitializerType;
+  using TransformInitializerType = itk::CenteredTransformInitializer<AffineTransformType,
+    FixedImageType, MovingImageType>;
   typename TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
   initializer->SetTransform( initialTransform );
@@ -158,13 +158,13 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
   initializer->MomentsOn();
   initializer->InitializeTransform();
 
-  typedef itk::CompositeTransform<double, ImageDimension> CompositeTransformType;
+  using CompositeTransformType = itk::CompositeTransform<double, ImageDimension>;
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
   compositeTransform->AddTransform( initialTransform );
 
   // Set up MI metric
 
-  typedef itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> MIMetricType;
+  using MIMetricType = itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
   typename MIMetricType::Pointer mutualInformationMetric = MIMetricType::New();
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );
   mutualInformationMetric->SetUseMovingImageGradientFilter( false );
@@ -174,9 +174,9 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   // Set up the and optimize the rigid registration
 
-  typedef typename RigidTransformTraits<double, ImageDimension>::TransformType RigidTransformType;
+  using RigidTransformType = typename RigidTransformTraits<double, ImageDimension>::TransformType;
 
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, RigidTransformType> RigidRegistrationType;
+  using RigidRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, RigidTransformType>;
   typename RigidRegistrationType::Pointer rigidRegistration = RigidRegistrationType::New();
 
   rigidRegistration->SetFixedImage( fixedImage );
@@ -194,12 +194,12 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
   rigidShrinkFactorsPerLevel[2] = 4;
   rigidRegistration->SetShrinkFactorsPerLevel( rigidShrinkFactorsPerLevel );
 
-  typedef itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType> RigidScalesEstimatorType;
+  using RigidScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType>;
   typename RigidScalesEstimatorType::Pointer rigidScalesEstimator = RigidScalesEstimatorType::New();
   rigidScalesEstimator->SetMetric( mutualInformationMetric );
   rigidScalesEstimator->SetTransformForward( true );
 
-  typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+  using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
   GradientDescentOptimizerv4Type * rigidOptimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( rigidRegistration->GetModifiableOptimizer() );
   TEST_EXPECT_TRUE( rigidOptimizer != nullptr );
   rigidOptimizer->SetLearningRate( 0.1 );
@@ -212,7 +212,7 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
   rigidOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
   rigidOptimizer->SetScalesEstimator( rigidScalesEstimator );
 
-  typedef CommandIterationUpdate<RigidRegistrationType> RigidCommandType;
+  using RigidCommandType = CommandIterationUpdate<RigidRegistrationType>;
   typename RigidCommandType::Pointer rigidObserver = RigidCommandType::New();
   rigidRegistration->AddObserver( itk::MultiResolutionIterationEvent(), rigidObserver );
 
@@ -230,7 +230,7 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   // Set up and optimize the affine registration
 
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, AffineTransformType> AffineRegistrationType;
+  using AffineRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, AffineTransformType>;
   typename AffineRegistrationType::Pointer affineRegistration = AffineRegistrationType::New();
 
   affineRegistration->SetFixedImage( fixedImage );
@@ -248,12 +248,12 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
   affineShrinkFactorsPerLevel[2] = 4;
   affineRegistration->SetShrinkFactorsPerLevel( affineShrinkFactorsPerLevel );
 
-  typedef itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType> AffineScalesEstimatorType;
+  using AffineScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType>;
   typename AffineScalesEstimatorType::Pointer affineScalesEstimator = AffineScalesEstimatorType::New();
   affineScalesEstimator->SetMetric( mutualInformationMetric );
   affineScalesEstimator->SetTransformForward( true );
 
-  typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+  using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
   GradientDescentOptimizerv4Type * affineOptimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineRegistration->GetModifiableOptimizer() );
   TEST_EXPECT_TRUE( affineOptimizer != nullptr );
   affineOptimizer->SetLearningRate( 0.1 );
@@ -266,7 +266,7 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
   affineOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
   affineOptimizer->SetScalesEstimator( affineScalesEstimator );
 
-  typedef CommandIterationUpdate<AffineRegistrationType> AffineCommandType;
+  using AffineCommandType = CommandIterationUpdate<AffineRegistrationType>;
   typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
   affineRegistration->AddObserver( itk::MultiResolutionIterationEvent(), affineObserver );
 
@@ -284,7 +284,7 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   // Write out resulting images
 
-  typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
   resampler->SetTransform( compositeTransform );
   resampler->SetInput( movingImage );
@@ -297,13 +297,13 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   std::string warpedMovingImageFileName = std::string( argv[4] ) + std::string( "WarpedMovingImage.nii.gz" );
 
-  typedef itk::ImageFileWriter<FixedImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<FixedImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( warpedMovingImageFileName.c_str() );
   writer->SetInput( resampler->GetOutput() );
   writer->Update();
 
-  typedef itk::ResampleImageFilter<FixedImageType, MovingImageType> InverseResampleFilterType;
+  using InverseResampleFilterType = itk::ResampleImageFilter<FixedImageType, MovingImageType>;
   typename InverseResampleFilterType::Pointer inverseResampler = ResampleFilterType::New();
   inverseResampler->SetTransform( compositeTransform->GetInverseTransform() );
   inverseResampler->SetInput( fixedImage );
@@ -316,7 +316,7 @@ int PerformCompositeImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   std::string inverseWarpedFixedImageFileName = std::string( argv[4] ) + std::string( "InverseWarpedFixedImage.nii.gz" );
 
-  typedef itk::ImageFileWriter<MovingImageType> InverseWriterType;
+  using InverseWriterType = itk::ImageFileWriter<MovingImageType>;
   typename InverseWriterType::Pointer inverseWriter = InverseWriterType::New();
   inverseWriter->SetFileName( inverseWarpedFixedImageFileName.c_str() );
   inverseWriter->SetInput( inverseResampler->GetOutput() );

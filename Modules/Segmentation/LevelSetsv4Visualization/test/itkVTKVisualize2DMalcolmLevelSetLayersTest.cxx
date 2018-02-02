@@ -39,7 +39,7 @@ void GenerateImage( typename TImage::Pointer ioImage )
   region.SetIndex( index );
   region.SetSize( size );
 
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   ioImage->SetRegions( region );
   ioImage->Allocate();
@@ -64,16 +64,16 @@ void GenerateImage( typename TImage::Pointer ioImage )
 
 int itkVTKVisualize2DMalcolmLevelSetLayersTest( int , char* [] )
 {
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 2;
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   ImageType::Pointer image = ImageType::New();
   GenerateImage< ImageType >( image );
 
-  typedef itk::MalcolmSparseLevelSetImage< Dimension >  LevelSetType;
-  typedef itk::BinaryImageToLevelSetImageAdaptor<
-      ImageType, LevelSetType >                    BinaryToSparseAdaptorType;
+  using LevelSetType = itk::MalcolmSparseLevelSetImage< Dimension >;
+  using BinaryToSparseAdaptorType = itk::BinaryImageToLevelSetImageAdaptor<
+      ImageType, LevelSetType >;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage( image );
@@ -81,7 +81,7 @@ int itkVTKVisualize2DMalcolmLevelSetLayersTest( int , char* [] )
 
   LevelSetType::Pointer LevelSet = adaptor->GetModifiableLevelSet();
 
-  typedef itk::VTKVisualize2DSparseLevelSetLayers< ImageType, LevelSetType > VisualizationType;
+  using VisualizationType = itk::VTKVisualize2DSparseLevelSetLayers< ImageType, LevelSetType >;
   VisualizationType::Pointer viewer = VisualizationType::New();
   viewer->SetInputImage( image );
   viewer->SetLevelSet( LevelSet );

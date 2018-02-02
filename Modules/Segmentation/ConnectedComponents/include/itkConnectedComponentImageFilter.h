@@ -63,23 +63,23 @@ public:
   /**
    * Standard "Self" & Superclass typedef.
    */
-  typedef ConnectedComponentImageFilter                   Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  using Self = ConnectedComponentImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
 
   /**
    * Types from the Superclass
    */
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  using InputImagePointer = typename Superclass::InputImagePointer;
 
   /**
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType          InputPixelType;
-  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
-  typedef typename TMaskImage::PixelType           MaskPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
+  using MaskPixelType = typename TMaskImage::PixelType;
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
@@ -88,29 +88,29 @@ public:
                       TInputImage::ImageDimension);
 
   /**
-   * Image typedef support
+   * Image type alias support
    */
-  typedef TInputImage                      InputImageType;
-  typedef TMaskImage                       MaskImageType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::OffsetType OffsetType;
+  using InputImageType = TInputImage;
+  using MaskImageType = TMaskImage;
+  using IndexType = typename TInputImage::IndexType;
+  using SizeType = typename TInputImage::SizeType;
+  using OffsetType = typename TInputImage::OffsetType;
 
-  typedef TOutputImage                      OutputImageType;
-  typedef typename TOutputImage::RegionType RegionType;
-  typedef typename TOutputImage::IndexType  OutputIndexType;
-  typedef typename TOutputImage::SizeType   OutputSizeType;
-  typedef typename TOutputImage::OffsetType OutputOffsetType;
-  typedef typename TOutputImage::PixelType  OutputImagePixelType;
+  using OutputImageType = TOutputImage;
+  using RegionType = typename TOutputImage::RegionType;
+  using OutputIndexType = typename TOutputImage::IndexType;
+  using OutputSizeType = typename TOutputImage::SizeType;
+  using OutputOffsetType = typename TOutputImage::OffsetType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
 
-  typedef std::list< IndexType >          ListType;
-  typedef typename MaskImageType::Pointer MaskImagePointer;
+  using ListType = std::list< IndexType >;
+  using MaskImagePointer = typename MaskImageType::Pointer;
 
   /**
-   * Smart pointer typedef support
+   * Smart pointer type alias support
    */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**
    * Run-time type information (and related methods)
@@ -133,7 +133,7 @@ public:
   itkBooleanMacro(FullyConnected);
 
   /** Type used as identifier of the different component labels. */
-  typedef IdentifierType   LabelType;
+  using LabelType = IdentifierType;
 
   // only set after completion
   itkGetConstReferenceMacro(ObjectCount, LabelType);
@@ -201,7 +201,7 @@ private:
   OutputImagePixelType m_BackgroundValue;
 
   // some additional types
-  typedef typename TOutputImage::RegionType::SizeType OutSizeType;
+  using OutSizeType = typename TOutputImage::RegionType::SizeType;
 
   // types to support the run length encoding of lines
   class runLength
@@ -213,15 +213,15 @@ public:
     LabelType                               label;   // the initial label of the run
   };
 
-  typedef std::vector< runLength > lineEncoding;
+  using lineEncoding = std::vector< runLength >;
 
   // the map storing lines
-  typedef std::vector< lineEncoding > LineMapType;
+  using LineMapType = std::vector< lineEncoding >;
 
-  typedef std::vector< typename TInputImage::OffsetValueType > OffsetVec;
+  using OffsetVec = std::vector< typename TInputImage::OffsetValueType >;
 
   // the types to support union-find operations
-  typedef std::vector< LabelType > UnionFindType;
+  using UnionFindType = std::vector< LabelType >;
   UnionFindType m_UnionFind;
   UnionFindType m_Consecutive;
 

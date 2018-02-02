@@ -35,11 +35,11 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromIndexShift :
   public RegistrationParameterScalesFromShiftBase< TMetric >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegistrationParameterScalesFromIndexShift           Self;
-  typedef RegistrationParameterScalesFromShiftBase< TMetric > Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegistrationParameterScalesFromIndexShift;
+  using Superclass = RegistrationParameterScalesFromShiftBase< TMetric >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -48,36 +48,36 @@ public:
   itkTypeMacro( RegistrationParameterScalesFromIndexShift, RegistrationParameterScalesFromShiftBase );
 
   /** Type of scales */
-  typedef typename Superclass::ScalesType                ScalesType;
+  using ScalesType = typename Superclass::ScalesType;
   /** Type of parameters of the optimizer */
-  typedef typename Superclass::ParametersType            ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
   /** Type of float */
-  typedef typename Superclass::FloatType                 FloatType;
+  using FloatType = typename Superclass::FloatType;
 
-  typedef typename Superclass::VirtualPointType          VirtualPointType;
-  typedef typename Superclass::VirtualIndexType          VirtualIndexType;
-  typedef typename Superclass::MovingTransformType       MovingTransformType;
-  typedef typename Superclass::FixedTransformType        FixedTransformType;
-  typedef typename Superclass::JacobianType              JacobianType;
-  typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using MovingTransformType = typename Superclass::MovingTransformType;
+  using FixedTransformType = typename Superclass::FixedTransformType;
+  using JacobianType = typename Superclass::JacobianType;
+  using VirtualImageConstPointer = typename Superclass::VirtualImageConstPointer;
 
-  typedef typename TMetric::FixedImageType               FixedImageType;
-  typedef typename TMetric::MovingImageType              MovingImageType;
+  using FixedImageType = typename TMetric::FixedImageType;
+  using MovingImageType = typename TMetric::MovingImageType;
 
-  typedef typename FixedImageType::ConstPointer          FixedImageConstPointer;
-  typedef typename MovingImageType::ConstPointer         MovingImageConstPointer;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
-  typedef typename FixedImageType::PointType             FixedPointType;
-  typedef typename FixedImageType::IndexType             FixedIndexType;
-  typedef typename FixedImageType::PointValueType        FixedPointValueType;
+  using FixedPointType = typename FixedImageType::PointType;
+  using FixedIndexType = typename FixedImageType::IndexType;
+  using FixedPointValueType = typename FixedImageType::PointValueType;
 
-  typedef typename itk::ContinuousIndex< FixedPointValueType, FixedImageType::ImageDimension >          FixedContinuousIndexType;
+  using FixedContinuousIndexType = typename itk::ContinuousIndex< FixedPointValueType, FixedImageType::ImageDimension >;
 
-  typedef typename MovingImageType::PointType            MovingPointType;
-  typedef typename MovingImageType::IndexType            MovingIndexType;
-  typedef typename MovingImageType::PointValueType       MovingPointValueType;
+  using MovingPointType = typename MovingImageType::PointType;
+  using MovingIndexType = typename MovingImageType::IndexType;
+  using MovingPointValueType = typename MovingImageType::PointValueType;
 
-  typedef typename itk::ContinuousIndex< MovingPointValueType, MovingImageType::ImageDimension >         MovingContinuousIndexType;
+  using MovingContinuousIndexType = typename itk::ContinuousIndex< MovingPointValueType, MovingImageType::ImageDimension >;
 
 protected:
   RegistrationParameterScalesFromIndexShift();

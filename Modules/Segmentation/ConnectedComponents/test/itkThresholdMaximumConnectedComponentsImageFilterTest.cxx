@@ -46,12 +46,12 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc,
     }
 
 
-  typedef unsigned char InputPixelType;
-  typedef unsigned char OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
   const   unsigned int Dimension = 2;
 
-  typedef itk::Image< InputPixelType, Dimension >  InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
   InputPixelType maxLabel = itk::NumericTraits<InputPixelType>::max();
   InputPixelType minLabel =
@@ -59,7 +59,7 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc,
 
   const unsigned int minimumPixelArea = atoi( argv[3] );
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetFileName( argv[1] );
@@ -89,8 +89,7 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc,
   unsigned int numberOfObjects;
   unsigned int thresholdValue;
 
-  typedef itk::ThresholdMaximumConnectedComponentsImageFilter< InputImageType>
-  ThresholdType;
+  using ThresholdType = itk::ThresholdMaximumConnectedComponentsImageFilter<InputImageType>;
   ThresholdType::Pointer automaticThreshold = ThresholdType::New();
 
   automaticThreshold->SetInput( reader->GetOutput() );
@@ -122,7 +121,7 @@ int itkThresholdMaximumConnectedComponentsImageFilterTest( int argc,
 
   // *****************************************************************
   // Image File Writer
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New( );
   writer->SetInput( automaticThreshold->GetOutput() );

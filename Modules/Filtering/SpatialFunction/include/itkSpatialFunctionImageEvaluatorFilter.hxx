@@ -46,7 +46,7 @@ SpatialFunctionImageEvaluatorFilter< TSpatialFunction, TInputImage, TOutputImage
   outputPtr->Allocate();
 
   // Create an iterator that will walk the output region
-  typedef ImageRegionIterator< TOutputImage > OutputIterator;
+  using OutputIterator = ImageRegionIterator< TOutputImage >;
 
   OutputIterator outIt = OutputIterator( outputPtr,
                                          outputPtr->GetRequestedRegion() );

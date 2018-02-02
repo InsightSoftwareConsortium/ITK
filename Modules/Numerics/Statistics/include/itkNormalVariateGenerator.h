@@ -99,11 +99,11 @@ class ITKStatistics_EXPORT NormalVariateGenerator:
   public RandomVariateGeneratorBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef NormalVariateGenerator     Self;
-  typedef RandomVariateGeneratorBase Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = NormalVariateGenerator;
+  using Superclass = RandomVariateGeneratorBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NormalVariateGenerator,

@@ -23,10 +23,10 @@ class TransformHelperType : public itk::ScaleVersor3DTransform<double>
 {
 public:
 
-  typedef TransformHelperType                 Self;
-  typedef itk::ScaleVersor3DTransform<double> Superclass;
-  typedef itk::SmartPointer<Self>             Pointer;
-  typedef itk::SmartPointer<const Self>       ConstPointer;
+  using Self = TransformHelperType;
+  using Superclass = itk::ScaleVersor3DTransform<double>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -43,16 +43,16 @@ public:
 
 int itkScaleVersor3DTransformTest(int, char * [] )
 {
-  typedef   double ValueType;
+  using ValueType = double;
 
   const ValueType epsilon = 1e-12;
 
-  typedef    itk::ScaleVersor3DTransform<ValueType>  TransformType;
-  typedef    TransformType::VersorType               VersorType;
-  typedef    TransformType::InputVectorType          VectorType;
-  typedef    TransformType::ParametersType           ParametersType;
-  typedef    TransformType::JacobianType             JacobianType;
-  typedef    TransformType::MatrixType               MatrixType;
+  using TransformType = itk::ScaleVersor3DTransform<ValueType>;
+  using VersorType = TransformType::VersorType;
+  using VectorType = TransformType::InputVectorType;
+  using ParametersType = TransformType::ParametersType;
+  using JacobianType = TransformType::JacobianType;
+  using MatrixType = TransformType::MatrixType;
 
     {
     std::cout << "Test default constructor... ";

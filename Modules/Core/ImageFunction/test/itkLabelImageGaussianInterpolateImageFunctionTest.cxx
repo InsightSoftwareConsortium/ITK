@@ -26,13 +26,13 @@ int itkLabelImageGaussianInterpolateImageFunctionTest( int , char*[] )
  {
  int test_status = EXIT_SUCCESS;
  const   unsigned int                       Dimension = 2;
- typedef unsigned short int                 PixelType; //Label images should be integer value types
- typedef itk::Image< PixelType, Dimension > ImageType;
- typedef ImageType::RegionType              RegionType;
- typedef RegionType::SizeType               SizeType;
- typedef ImageType::IndexType               IndexType;
+ using PixelType = unsigned short int; //Label images should be integer value types
+ using ImageType = itk::Image< PixelType, Dimension >;
+ using RegionType = ImageType::RegionType;
+ using SizeType = RegionType::SizeType;
+ using IndexType = ImageType::IndexType;
 
- typedef float                              CoordRepType;
+ using CoordRepType = float;
 
  //The ImageSizeToCompute
  const double FOV=10.0;
@@ -90,8 +90,8 @@ int itkLabelImageGaussianInterpolateImageFunctionTest( int , char*[] )
      }
    }
 
- typedef itk::LabelImageGaussianInterpolateImageFunction< ImageType, CoordRepType >
-                                                       InterpolatorType;
+ using InterpolatorType =
+     itk::LabelImageGaussianInterpolateImageFunction< ImageType, CoordRepType >;
  InterpolatorType::Pointer interpolator = InterpolatorType::New();
  interpolator->SetInputImage( small_image );
    {

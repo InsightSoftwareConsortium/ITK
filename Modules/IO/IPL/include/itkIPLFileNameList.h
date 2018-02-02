@@ -123,9 +123,9 @@ private:
 class ITKIOIPL_EXPORT IPLFileNameList
 {
 public:
-  typedef std::vector< IPLFileSortInfo * > ListType;
-  typedef ListType::iterator               IteratorType;
-  typedef size_t                           ListSizeType;
+  using ListType = std::vector< IPLFileSortInfo * >;
+  using IteratorType = ListType::iterator;
+  using ListSizeType = size_t;
 
   enum {
     SortGlobalAscend = 0,

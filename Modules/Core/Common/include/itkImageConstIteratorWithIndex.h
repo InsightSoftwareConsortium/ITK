@@ -92,8 +92,8 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageConstIteratorWithIndex
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageConstIteratorWithIndex Self;
+  /** Standard class type aliases. */
+  using Self = ImageConstIteratorWithIndex;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
@@ -101,40 +101,40 @@ public:
    * access to the dimension of the image that the iterator walks. */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
-  /** Index typedef support. */
-  typedef typename TImage::IndexType         IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
+  /** Index type alias support */
+  using IndexType = typename TImage::IndexType;
+  using IndexValueType = typename IndexType::IndexValueType;
 
-  /** Size typedef support. */
-  typedef typename TImage::SizeType        SizeType;
-  typedef typename SizeType::SizeValueType SizeValueType;
+  /** Size type alias support */
+  using SizeType = typename TImage::SizeType;
+  using SizeValueType = typename SizeType::SizeValueType;
 
-  /** Region typedef support. */
-  typedef typename TImage::RegionType RegionType;
+  /** Region type alias support */
+  using RegionType = typename TImage::RegionType;
 
-  /** Image typedef support. */
-  typedef TImage ImageType;
+  /** Image type alias support */
+  using ImageType = TImage;
 
-  /** PixelContainer typedef support. Used to refer to the container for
+  /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass,
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer  PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  using PixelContainer = typename TImage::PixelContainer;
+  using PixelContainerPointer = typename PixelContainer::Pointer;
 
   /** Internal Pixel Type */
-  typedef typename TImage::InternalPixelType InternalPixelType;
+  using InternalPixelType = typename TImage::InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   /**  Accessor type that converts data between internal and external
    *  representations. */
-  typedef typename TImage::AccessorType        AccessorType;
-  typedef typename TImage::AccessorFunctorType AccessorFunctorType;
+  using AccessorType = typename TImage::AccessorType;
+  using AccessorFunctorType = typename TImage::AccessorFunctorType;
 
   /** Type of the Offset taken from the image */
-  typedef typename TImage::OffsetType          OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
+  using OffsetType = typename TImage::OffsetType;
+  using OffsetValueType = typename OffsetType::OffsetValueType;
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */

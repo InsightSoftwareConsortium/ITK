@@ -47,27 +47,27 @@ class ITK_TEMPLATE_EXPORT MapContainer:
   private std::map< TElementIdentifier, TElement >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MapContainer               Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MapContainer;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard part of every itk Object. */
   itkTypeMacro(MapContainer, Object);
 
   /** Save the template parameters. */
-  typedef TElementIdentifier ElementIdentifier;
-  typedef TElement           Element;
+  using ElementIdentifier = TElementIdentifier;
+  using Element = TElement;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MapContainer);
 
   /** Quick access to the STL map type that was inherited. */
-  typedef std::map< ElementIdentifier, Element > MapType;
-  typedef typename MapType::iterator             MapIterator;
-  typedef typename MapType::const_iterator       MapConstIterator;
-  typedef typename MapType::key_compare          MapKeyCompareType;
+  using MapType = std::map< ElementIdentifier, Element >;
+  using MapIterator = typename MapType::iterator;
+  using MapConstIterator = typename MapType::const_iterator;
+  using MapKeyCompareType = typename MapType::key_compare;
 
 public:
   /** Provide pass-through constructors corresponding to all the STL
@@ -86,7 +86,7 @@ public:
   itkNewMacro(Self);
 
   /** This type is provided to adapt this container as an STL container */
-  typedef MapType STLContainerType;
+  using STLContainerType = MapType;
 
   /** Cast the container to a STL container type */
   STLContainerType & CastToSTLContainer()
@@ -155,11 +155,11 @@ public:
   class Iterator
   {
 public:
-    typedef typename MapIterator::iterator_category iterator_category;
-    typedef typename MapIterator::value_type        value_type;
-    typedef typename MapIterator::difference_type   difference_type;
-    typedef typename MapIterator::pointer           pointer;
-    typedef typename MapIterator::reference         reference;
+    using iterator_category = typename MapIterator::iterator_category;
+    using value_type = typename MapIterator::value_type;
+    using difference_type = typename MapIterator::difference_type;
+    using pointer = typename MapIterator::pointer;
+    using reference = typename MapIterator::reference;
 
     Iterator() {}
     Iterator(const Iterator & i):m_Iter(i.m_Iter) {}
@@ -196,11 +196,11 @@ private:
   class ConstIterator
   {
 public:
-    typedef typename MapConstIterator::iterator_category iterator_category;
-    typedef typename MapConstIterator::value_type        value_type;
-    typedef typename MapConstIterator::difference_type   difference_type;
-    typedef typename MapConstIterator::pointer           pointer;
-    typedef typename MapConstIterator::reference         reference;
+    using iterator_category = typename MapConstIterator::iterator_category;
+    using value_type = typename MapConstIterator::value_type;
+    using difference_type = typename MapConstIterator::difference_type;
+    using pointer = typename MapConstIterator::pointer;
+    using reference = typename MapConstIterator::reference;
 
     ConstIterator() {}
     ConstIterator(const MapConstIterator & ci):m_Iter(ci) {}

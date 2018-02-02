@@ -71,10 +71,10 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT SolverCrankNicolson : public Solver<TDimension>
 {
 public:
-  typedef SolverCrankNicolson      Self;
-  typedef Solver<TDimension>       Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Self = SolverCrankNicolson;
+  using Superclass = Solver<TDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -82,7 +82,7 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(SolverCrankNicolson, Solver<TDimension> );
 
-  typedef Element::Float Float;
+  using Float = Element::Float;
 
   /** Get/Set the use of the Mass Matrix for the solution. */
   itkSetMacro(UseMassMatrix, bool);

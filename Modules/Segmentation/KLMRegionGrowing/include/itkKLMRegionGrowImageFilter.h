@@ -165,11 +165,11 @@ template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT KLMRegionGrowImageFilter:public RegionGrowImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef KLMRegionGrowImageFilter                           Self;
-  typedef RegionGrowImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = KLMRegionGrowImageFilter;
+  using Superclass = RegionGrowImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -178,37 +178,37 @@ public:
   itkTypeMacro(KLMRegionGrowImageFilter, RegionGrowImageFilter);
 
   /** Type definition for the input image. */
-  typedef TInputImage                        InputImageType;
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType InputImagePixelType;
+  using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Type definition for the input image pixel vector type. */
-  typedef typename TInputImage::PixelType::VectorType InputImageVectorType;
+  using InputImageVectorType = typename TInputImage::PixelType::VectorType;
 
   /** InputImageVectorDimension enumeration. */
   itkStaticConstMacro(InputImageVectorDimension, unsigned int,
                       InputImagePixelType::Dimension);
 
   /** Type definition for the input image index type. */
-  typedef typename TInputImage::IndexType InputImageIndexType;
+  using InputImageIndexType = typename TInputImage::IndexType;
 
   /** Type definition for the image iterators to be used. */
-  typedef ImageRegionIterator< TInputImage >      InputImageIterator;
-  typedef ImageRegionConstIterator< TInputImage > InputImageConstIterator;
+  using InputImageIterator = ImageRegionIterator< TInputImage >;
+  using InputImageConstIterator = ImageRegionConstIterator< TInputImage >;
 
   /** Type definition for the image region type. */
-  typedef typename TInputImage::RegionType InputRegionType;
+  using InputRegionType = typename TInputImage::RegionType;
 
   /** Type definition for the input grid size type used to create
     * initial atomic regions. */
-  typedef typename Superclass::GridSizeType GridSizeType;
+  using GridSizeType = typename Superclass::GridSizeType;
 
   /** Type definition for the output image. */
-  typedef TOutputImage                   OutputImageType;
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** InputImageDimension enumeration. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -219,51 +219,51 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Type definition for the output image pixel type. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
 
   /** Type definition for the output image pixel vector type. */
-  typedef typename TOutputImage::PixelType::VectorType OutputImageVectorType;
+  using OutputImageVectorType = typename TOutputImage::PixelType::VectorType;
 
   /** OutputImageVectorDimension enumeration. */
   itkStaticConstMacro(OutputImageVectorDimension, unsigned int,
                       OutputImagePixelType::Dimension);
 
   /** Type definition for the output image index type. */
-  typedef typename TOutputImage::IndexType OutputImageIndexType;
+  using OutputImageIndexType = typename TOutputImage::IndexType;
 
   /** Type definition for the output image iterators.  */
-  typedef ImageRegionIterator< TOutputImage > OutputImageIterator;
+  using OutputImageIterator = ImageRegionIterator< TOutputImage >;
 
   /** type definition for the region label type. */
-  typedef typename KLMSegmentationRegion::RegionLabelType RegionLabelType;
+  using RegionLabelType = typename KLMSegmentationRegion::RegionLabelType;
 
   /** The dimension of the labelled image. */
   itkStaticConstMacro(LabelImageDimension, RegionLabelType,
                       InputImageDimension);
 
   /** Type definition for the labelled image pixel type. */
-  typedef Image< RegionLabelType, itkGetStaticConstMacro(LabelImageDimension) > LabelImageType;
+  using LabelImageType = Image< RegionLabelType, itkGetStaticConstMacro(LabelImageDimension) >;
 
   /** Type definition for the labelled image pointer.  */
-  typedef typename LabelImageType::Pointer LabelImagePointer;
+  using LabelImagePointer = typename LabelImageType::Pointer;
 
   /** Type definition for the labelled image pixel type. */
-  typedef typename LabelImageType::PixelType LabelImagePixelType;
+  using LabelImagePixelType = typename LabelImageType::PixelType;
 
   /** Type definition for the labelled image index type. */
-  typedef typename LabelImageType::IndexType LabelImageIndexType;
+  using LabelImageIndexType = typename LabelImageType::IndexType;
 
   /** Type definition for the labelled image iterators.  */
-  typedef ImageRegionIterator< LabelImageType > LabelImageIterator;
+  using LabelImageIterator = ImageRegionIterator< LabelImageType >;
 
   /** Storage type for the mean region intensity. */
-  typedef vnl_vector< double > MeanRegionIntensityType;
+  using MeanRegionIntensityType = vnl_vector< double >;
 
   /** Type definition for the smart border type. */
-  typedef KLMSegmentationBorder BorderType;
+  using BorderType = KLMSegmentationBorder;
 
   /** Type definition for the smart border pointers object. */
-  typedef KLMDynamicBorderArray< BorderType > KLMSegmentationBorderArrayPtr;
+  using KLMSegmentationBorderArrayPtr = KLMDynamicBorderArray< BorderType >;
 
   /** Set/Get the desired threshold parameter for lambda. See
    * itkSegmentationBorder documentation for details regarding this
@@ -357,9 +357,9 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(KLMRegionGrowImageFilter);
 
-  typedef typename TInputImage::SizeType          InputImageSizeType;
-  typedef typename KLMSegmentationRegion::Pointer KLMSegmentationRegionPtr;
-  typedef typename KLMSegmentationBorder::Pointer KLMSegmentationBorderPtr;
+  using InputImageSizeType = typename TInputImage::SizeType;
+  using KLMSegmentationRegionPtr = typename KLMSegmentationRegion::Pointer;
+  using KLMSegmentationBorderPtr = typename KLMSegmentationBorder::Pointer;
 
   double       m_MaximumLambda;
   unsigned int m_NumberOfRegions;

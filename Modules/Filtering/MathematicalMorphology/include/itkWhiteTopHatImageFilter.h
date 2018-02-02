@@ -39,26 +39,26 @@ class ITK_TEMPLATE_EXPORT WhiteTopHatImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
-  /** Standard class typedefs. */
-  typedef WhiteTopHatImageFilter                                  Self;
-  typedef KernelImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
-  typedef SmartPointer< Self >                                    Pointer;
-  typedef SmartPointer< const Self >                              ConstPointer;
+  /** Standard class type aliases. */
+  using Self = WhiteTopHatImageFilter;
+  using Superclass = KernelImageFilter< TInputImage, TOutputImage, TKernel >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                            InputImageType;
-  typedef TOutputImage                           OutputImageType;
-  typedef typename InputImageType::Pointer       InputImagePointer;
-  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
-  typedef typename InputImageType::RegionType    InputImageRegionType;
-  typedef typename InputImageType::PixelType     InputImagePixelType;
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
-  /** Kernel typedef. */
-  typedef TKernel KernelType;
+  /** Kernel type alias. */
+  using KernelType = TKernel;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,

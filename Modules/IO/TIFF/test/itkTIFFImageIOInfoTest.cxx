@@ -33,17 +33,17 @@ int itkTIFFImageIOInfoTest( int argc, char * argv[] )
     }
 
   const unsigned int                          Dimension = 2;
-  typedef unsigned char                       PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   reader->Update();
 
-  typedef itk::MetaDataDictionary            DictionaryType;
-  typedef itk::MetaDataObject< std::string > MetaDataStringType;
+  using DictionaryType = itk::MetaDataDictionary;
+  using MetaDataStringType = itk::MetaDataObject< std::string >;
 
   const DictionaryType & dictionary = reader->GetImageIO()->GetMetaDataDictionary();
   DictionaryType::ConstIterator itr = dictionary.Begin();

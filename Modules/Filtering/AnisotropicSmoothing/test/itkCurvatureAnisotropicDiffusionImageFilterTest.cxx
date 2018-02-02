@@ -29,7 +29,7 @@ int itkCurvatureAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *
 {
   try
     {
-      typedef itk::Image<float, 2> ImageType;
+      using ImageType = itk::Image<float, 2>;
 
       // Set up filter
       itk::CurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer

@@ -36,30 +36,30 @@ template< typename TInputImage, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT ImageToMeshFilter:public MeshSource< TOutputMesh >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToMeshFilter          Self;
-  typedef MeshSource< TOutputMesh >  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageToMeshFilter;
+  using Superclass = MeshSource< TOutputMesh >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToMeshFilter, MeshSource);
 
   /** Create a valid output. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObject::Pointer  MakeOutput(DataObjectPointerArraySizeType idx) override;
 
-  /** Some Image related typedefs. */
-  typedef   TInputImage                           InputImageType;
-  typedef   typename InputImageType::Pointer      InputImagePointer;
-  typedef   typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef   typename InputImageType::RegionType   InputImageRegionType;
-  typedef   typename InputImageType::PixelType    InputImagePixelType;
+  /** Some Image related type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
-  /** Some Mesh related typedefs. */
-  typedef   TOutputMesh                      OutputMeshType;
-  typedef   typename OutputMeshType::Pointer OutputMeshPointer;
+  /** Some Mesh related type alias. */
+  using OutputMeshType = TOutputMesh;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
   /** Set the input image of this process object.  */
   using Superclass::SetInput;

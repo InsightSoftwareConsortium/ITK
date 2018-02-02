@@ -66,45 +66,44 @@ template< typename TImageType >
 class ITK_TEMPLATE_EXPORT FiniteDifferenceFunction:public LightObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef FiniteDifferenceFunction   Self;
-  typedef LightObject                Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FiniteDifferenceFunction;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(FiniteDifferenceFunction, LightObject);
 
   /** Extract some parameters from the image type */
-  typedef TImageType                    ImageType;
-  typedef typename ImageType::PixelType PixelType;
-  typedef double                        PixelRealType;
+  using ImageType = TImageType;
+  using PixelType = typename ImageType::PixelType;
+  using PixelRealType = double;
 
   /** Save image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
 
   /** Define the TimeStepType to always be double. */
-  typedef double TimeStepType;
+  using TimeStepType = double;
 
   /** The default boundary condition for finite difference
    * functions that is used unless overridden in the Evaluate() method. */
-  typedef ZeroFluxNeumannBoundaryCondition< ImageType >
-  DefaultBoundaryConditionType;
+  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition<ImageType>;
 
   /** Neighborhood radius type */
-  typedef typename ConstNeighborhoodIterator< TImageType >::RadiusType RadiusType;
+  using RadiusType = typename ConstNeighborhoodIterator< TImageType >::RadiusType;
 
   /** The type of data structure that is passed to this function object
    * to evaluate at a pixel that does not lie on a data set boundary. */
-  typedef ConstNeighborhoodIterator< TImageType, DefaultBoundaryConditionType > NeighborhoodType;
+  using NeighborhoodType = ConstNeighborhoodIterator< TImageType, DefaultBoundaryConditionType >;
 
   /** The type of data structure that holds the scales with which the
    * neighborhood is weighted to properly account for spacing and neighborhood radius. */
-  typedef Vector< PixelRealType, itkGetStaticConstMacro(ImageDimension) > NeighborhoodScalesType;
+  using NeighborhoodScalesType = Vector< PixelRealType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** A floating point offset from an image grid location. Used for
    * interpolation among grid values in a neighborhood. */
-  typedef Vector< float, itkGetStaticConstMacro(ImageDimension) > FloatOffsetType;
+  using FloatOffsetType = Vector< float, itkGetStaticConstMacro(ImageDimension) >;
 
   /** This method allows the function to set its state before each iteration
    *  of the finite difference solver (image filter) that uses it.  This is

@@ -840,7 +840,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   // Normally, if we delete a map element using an iterator,
   // it should keep the iterator validity but .net doesn't
   // like it, so we delay the cell deletion to a later loop.
-  typedef std::list< CellIdentifier > DeleteCellsCont;
+  using DeleteCellsCont = std::list< CellIdentifier >;
   DeleteCellsCont cellsToDelete;
 
   // Delete all references to 'e' in the cell container
@@ -1291,7 +1291,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 {
   const PointIdentifier numberOfPoints = static_cast< PointIdentifier >( points.size() );
 
-  typedef std::vector< QEPrimal * > QEList;
+  using QEList = std::vector< QEPrimal * >;
   QEList FaceQEList( numberOfPoints, nullptr );
 
   // Now create edge list and create missing edges if needed.

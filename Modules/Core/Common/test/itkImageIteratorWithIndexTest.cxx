@@ -29,13 +29,13 @@ class itkImageIteratorWithIndexTestIteratorTester
 {
 
   public:
-    typedef TPixelType                  PixelType;
+    using PixelType = TPixelType;
 
-    typedef itk::Image< PixelType, 3 > ImageType;
+    using ImageType = itk::Image< PixelType, 3 >;
 
-    typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+    using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
 
-    typedef itk::ImageRegionConstIteratorWithIndex< ImageType > ConstIteratorType;
+    using ConstIteratorType = itk::ImageRegionConstIteratorWithIndex< ImageType >;
 
     itkImageIteratorWithIndexTestIteratorTester( const PixelType & value )
     {
@@ -266,7 +266,7 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     }
 
   std::cout << "Testing with Image< itk::Vector<char,4>, 3 > " << std::endl;
-  typedef itk::Vector<char,4> VC;
+  using VC = itk::Vector<char,4>;
   VC vc;
   vc.Fill( 127 );
   itkImageIteratorWithIndexTestIteratorTester< VC > TesterVC( vc );
@@ -284,7 +284,7 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     }
 
   std::cout << "Testing with Image< itk::Vector<unsigned char,4>, 3 > " << std::endl;
-  typedef itk::Vector<unsigned char,4> VUC;
+  using VUC = itk::Vector<unsigned char,4>;
   VUC vuc;
   vuc.Fill( 10 );
   itkImageIteratorWithIndexTestIteratorTester< VUC > TesterVUC( vuc );
@@ -302,7 +302,7 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     }
 
   std::cout << "Testing with Image< itk::Vector<short,4>, 3 > " << std::endl;
-  typedef itk::Vector<short,4> VS;
+  using VS = itk::Vector<short,4>;
   VS vs;
   vs.Fill( 10 );
   itkImageIteratorWithIndexTestIteratorTester< VS > TesterVS( vs );
@@ -320,7 +320,7 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     }
 
   std::cout << "Testing with Image< itk::Vector<unsigned short,4>, 3 > " << std::endl;
-  typedef itk::Vector<unsigned short,4> VUS;
+  using VUS = itk::Vector<unsigned short,4>;
   VUS vus;
   vus.Fill( 10 );
   itkImageIteratorWithIndexTestIteratorTester< VUS > TesterVUS( vus );
@@ -338,7 +338,7 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     }
 
   std::cout << "Testing with Image< itk::Vector<int,4>, 3 > " << std::endl;
-  typedef itk::Vector<int,4> VI;
+  using VI = itk::Vector<int,4>;
   VI vi;
   vi.Fill( 10 );
   itkImageIteratorWithIndexTestIteratorTester< VI > TesterVI( vi );
@@ -356,7 +356,7 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     }
 
   std::cout << "Testing with Image< itk::Vector<unsigned int,4>, 3 > " << std::endl;
-  typedef itk::Vector<unsigned int,4> VUI;
+  using VUI = itk::Vector<unsigned int,4>;
   VUI vui;
   vui.Fill( 10 );
   itkImageIteratorWithIndexTestIteratorTester< VUI > TesterVUI( vui );
@@ -374,7 +374,7 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     }
 
   std::cout << "Testing with Image< itk::Vector<float,4>, 3 > " << std::endl;
-  typedef itk::Vector<float,4> VF;
+  using VF = itk::Vector<float,4>;
   VF vf;
   vf.Fill( 10 );
   itkImageIteratorWithIndexTestIteratorTester< VF > TesterVF( vf );
@@ -392,7 +392,7 @@ int itkImageIteratorWithIndexTest(int, char* [] )
     }
 
   std::cout << "Testing with Image< itk::Vector<double,4>, 3 > " << std::endl;
-  typedef itk::Vector<double,4> VD;
+  using VD = itk::Vector<double,4>;
   VD vd;
   vd.Fill( 10 );
   itkImageIteratorWithIndexTestIteratorTester< VD > TesterVD( vd );

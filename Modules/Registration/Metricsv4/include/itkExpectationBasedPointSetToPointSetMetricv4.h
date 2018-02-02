@@ -47,12 +47,12 @@ class ITK_TEMPLATE_EXPORT ExpectationBasedPointSetToPointSetMetricv4:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef ExpectationBasedPointSetToPointSetMetricv4                   Self;
-  typedef PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet,
-    TInternalComputationValueType>                                     Superclass;
-  typedef SmartPointer<Self>                                           Pointer;
-  typedef SmartPointer<const Self>                                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ExpectationBasedPointSetToPointSetMetricv4;
+  using Superclass = PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet,
+    TInternalComputationValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro( Self );
@@ -61,14 +61,14 @@ public:
   itkTypeMacro( ExpectationBasedPointSetToPointSetMetricv4, PointSetToPointSetMetricv4 );
 
    /** Types transferred from the base class */
-  typedef typename Superclass::MeasureType              MeasureType;
-  typedef typename Superclass::DerivativeType           DerivativeType;
-  typedef typename Superclass::LocalDerivativeType      LocalDerivativeType;
-  typedef typename Superclass::PointType                PointType;
-  typedef typename Superclass::PixelType                PixelType;
-  typedef typename Superclass::CoordRepType             CoordRepType;
-  typedef typename Superclass::PointIdentifier          PointIdentifier;
-  typedef typename Superclass::NeighborsIdentifierType  NeighborsIdentifierType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using LocalDerivativeType = typename Superclass::LocalDerivativeType;
+  using PointType = typename Superclass::PointType;
+  using PixelType = typename Superclass::PixelType;
+  using CoordRepType = typename Superclass::CoordRepType;
+  using PointIdentifier = typename Superclass::PointIdentifier;
+  using NeighborsIdentifierType = typename Superclass::NeighborsIdentifierType;
 
   /**
    * Calculates the local metric value for a single point.
@@ -119,8 +119,8 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpectationBasedPointSetToPointSetMetricv4);
 
-  typedef typename PointType::VectorType                    VectorType;
-  typedef typename NeighborsIdentifierType::const_iterator  NeighborsIterator;
+  using VectorType = typename PointType::VectorType;
+  using NeighborsIterator = typename NeighborsIdentifierType::const_iterator;
 
   CoordRepType                               m_PointSetSigma;
   MeasureType                                m_PreFactor;

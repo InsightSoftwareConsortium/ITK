@@ -77,12 +77,12 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char                       InputPixelType;
-  typedef unsigned char                       MiddlePixelType;
-  typedef unsigned char                       OutputPixelType;
-  typedef itk::Image< InputPixelType,  3 >    InputImageType;
-  typedef itk::Image< MiddlePixelType, 3 >    MiddleImageType;
-  typedef itk::Image< OutputPixelType, 3 >    OutputImageType;
+  using InputPixelType = unsigned char;
+  using MiddlePixelType = unsigned char;
+  using OutputPixelType = unsigned char;
+  using InputImageType = itk::Image< InputPixelType,  3 >;
+  using MiddleImageType = itk::Image< MiddlePixelType, 3 >;
+  using OutputImageType = itk::Image< OutputPixelType, 3 >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -92,8 +92,8 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   // Software Guide : EndCodeSnippet
 
   // Here we recover the file names from the command line arguments
@@ -141,8 +141,8 @@ int main( int argc, char ** argv )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::ExtractImageFilter< InputImageType, MiddleImageType >
-    ExtractFilterType;
+  using ExtractFilterType =
+      itk::ExtractImageFilter< InputImageType, MiddleImageType >;
   ExtractFilterType::Pointer extractFilter = ExtractFilterType::New();
   extractFilter->SetDirectionCollapseToSubmatrix();
   // Software Guide : EndCodeSnippet
@@ -225,13 +225,13 @@ int main( int argc, char ** argv )
   extractFilter->SetExtractionRegion( desiredRegion );
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginCodeSnippet
-  typedef itk::PasteImageFilter< MiddleImageType,
-                                 OutputImageType > PasteFilterType;
+  using PasteFilterType = itk::PasteImageFilter< MiddleImageType,
+                                 OutputImageType >;
   PasteFilterType::Pointer pasteFilter = PasteFilterType::New();
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginCodeSnippet
-  typedef itk::MedianImageFilter< MiddleImageType,
-                                  MiddleImageType > MedianFilterType;
+  using MedianFilterType = itk::MedianImageFilter< MiddleImageType,
+                                  MiddleImageType >;
   MedianFilterType::Pointer medianFilter = MedianFilterType::New();
   // Software Guide : EndCodeSnippet
   //  Software Guide : BeginLatex

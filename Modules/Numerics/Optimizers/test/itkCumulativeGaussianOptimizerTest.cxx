@@ -40,11 +40,11 @@ int itkCumulativeGaussianOptimizerTest(int, char* [] )
   double differenceTolerance = 1e-20; // Tolerance allowed for the difference between Gaussian iterations.
 
   // Typedef and initialization for the Cumulative Gaussian Optimizer.
-  typedef itk::CumulativeGaussianOptimizer CumulativeGaussianOptimizerType;
+  using CumulativeGaussianOptimizerType = itk::CumulativeGaussianOptimizer;
   CumulativeGaussianOptimizerType::Pointer optimizer = CumulativeGaussianOptimizerType::New();
 
   // Typedef and initialization for the Cumulative Gaussian Cost Function.
-  typedef itk::CumulativeGaussianCostFunction CostFunctionType;
+  using CostFunctionType = itk::CumulativeGaussianCostFunction;
   CostFunctionType::Pointer costFunction = CostFunctionType::New();
 
   // Declare and initialize the data array.

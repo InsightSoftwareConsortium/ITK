@@ -44,30 +44,30 @@ class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilterWithSoftConstrai
 {
 public:
   /** Basic types. */
-  typedef LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints Self;
-  typedef LaplacianDeformationQuadEdgeMeshFilter< TInputMesh,
+  using Self = LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints;
+  using Superclass = LaplacianDeformationQuadEdgeMeshFilter< TInputMesh,
                                                   TOutputMesh,
-                                                  TSolverTraits >   Superclass;
-  typedef SmartPointer< Self >                                      Pointer;
-  typedef SmartPointer< const Self >                                ConstPointer;
+                                                  TSolverTraits >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Input types. */
-  typedef TInputMesh                              InputMeshType;
+  using InputMeshType = TInputMesh;
 
   itkStaticConstMacro(InputPointDimension, unsigned int, InputMeshType::PointDimension);
 
   /** Output types. */
-  typedef TOutputMesh                                         OutputMeshType;
-  typedef typename Superclass::OutputPointType                OutputPointType;
-  typedef typename Superclass::OutputCoordRepType             OutputCoordRepType;
-  typedef typename Superclass::OutputPointIdentifier          OutputPointIdentifier;
+  using OutputMeshType = TOutputMesh;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using OutputCoordRepType = typename Superclass::OutputCoordRepType;
+  using OutputPointIdentifier = typename Superclass::OutputPointIdentifier;
 
   itkStaticConstMacro(OutputPointDimension, unsigned int, OutputMeshType::PointDimension);
 
-  typedef TSolverTraits                     SolverTraits;
-  typedef typename Superclass::ValueType    ValueType;
-  typedef typename Superclass::MatrixType   MatrixType;
-  typedef typename Superclass::VectorType   VectorType;
+  using SolverTraits = TSolverTraits;
+  using ValueType = typename Superclass::ValueType;
+  using MatrixType = typename Superclass::MatrixType;
+  using VectorType = typename Superclass::VectorType;
 
   itkNewMacro(Self);
   itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints, LaplacianDeformationQuadEdgeMeshFilter);
@@ -91,17 +91,17 @@ protected:
 
   void GenerateData() override;
 
-  typedef typename Superclass::ConstraintMapType                ConstraintMapType;
-  typedef typename Superclass::ConstraintMapConstIterator       ConstraintMapConstIterator;
+  using ConstraintMapType = typename Superclass::ConstraintMapType;
+  using ConstraintMapConstIterator = typename Superclass::ConstraintMapConstIterator;
 
-  typedef typename Superclass::OutputMapPointIdentifier               OutputMapPointIdentifier;
-  typedef typename Superclass::OutputMapPointIdentifierIterator       OutputMapPointIdentifierIterator;
-  typedef typename Superclass::OutputMapPointIdentifierConstIterator  OutputMapPointIdentifierConstIterator;
+  using OutputMapPointIdentifier = typename Superclass::OutputMapPointIdentifier;
+  using OutputMapPointIdentifierIterator = typename Superclass::OutputMapPointIdentifierIterator;
+  using OutputMapPointIdentifierConstIterator = typename Superclass::OutputMapPointIdentifierConstIterator;
 
 
-  typedef typename Superclass::RowType          RowType;
-  typedef typename Superclass::RowConstIterator RowConstIterator;
-  typedef typename Superclass::RowIterator      RowIterator;
+  using RowType = typename Superclass::RowType;
+  using RowConstIterator = typename Superclass::RowConstIterator;
+  using RowIterator = typename Superclass::RowIterator;
 
   void ComputeVertexIdMapping() override;
 

@@ -25,10 +25,10 @@
 
 int itkLineSpatialObjectTest(int, char* [])
 {
-  typedef itk::LineSpatialObject<3>      LineType;
-  typedef LineType::Pointer              LinePointer;
-  typedef LineType::LinePointType        LinePointType;
-  typedef itk::CovariantVector<double,3> VectorType;
+  using LineType = itk::LineSpatialObject<3>;
+  using LinePointer = LineType::Pointer;
+  using LinePointType = LineType::LinePointType;
+  using VectorType = itk::CovariantVector<double,3>;
 
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing LineSpatialObject:"<<std::endl<<std::endl;

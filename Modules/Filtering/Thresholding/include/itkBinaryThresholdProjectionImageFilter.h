@@ -96,14 +96,14 @@ class BinaryThresholdProjectionImageFilter:
                                   typename TOutputImage::PixelType > >
 {
 public:
-  typedef BinaryThresholdProjectionImageFilter Self;
-  typedef ProjectionImageFilter< TInputImage, TOutputImage,
+  using Self = BinaryThresholdProjectionImageFilter;
+  using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Function::BinaryThresholdAccumulator<
                                    typename TInputImage::PixelType,
-                                   typename TOutputImage::PixelType > > Superclass;
+                                   typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Runtime information support. */
   itkTypeMacro(BinaryThresholdProjectionImageFilter, ProjectionImageFilter);
@@ -111,15 +111,15 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
-  /** Image typedef support. */
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  /** Image type alias support */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-  typedef typename Superclass::AccumulatorType AccumulatorType;
+  using AccumulatorType = typename Superclass::AccumulatorType;
 
   /** Set/Get the output value used as "foreground". Defaults to
    * maximum value of PixelType. */
@@ -159,15 +159,13 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
 
-    typedef typename NumericTraits< InputPixelType >::PrintType
-    InputPixelPrintType;
+    using InputPixelPrintType = typename NumericTraits<InputPixelType>::PrintType;
 
     os << indent << "ForegroundValue: "
        << static_cast< InputPixelPrintType >( m_ForegroundValue )
        << std::endl;
 
-    typedef typename NumericTraits< OutputPixelType >::PrintType
-    OutputPixelPrintType;
+    using OutputPixelPrintType = typename NumericTraits<OutputPixelType>::PrintType;
 
     os << indent << "BackgroundValue: "
        << static_cast< OutputPixelPrintType >( m_BackgroundValue )

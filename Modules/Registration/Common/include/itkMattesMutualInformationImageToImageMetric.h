@@ -114,11 +114,11 @@ class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetric:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef MattesMutualInformationImageToImageMetric     Self;
-  typedef ImageToImageMetric<TFixedImage, TMovingImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MattesMutualInformationImageToImageMetric;
+  using Superclass = ImageToImageMetric<TFixedImage, TMovingImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -128,28 +128,28 @@ public:
                ImageToImageMetric);
 
   /** Types inherited from Superclass. */
-  typedef typename Superclass::TransformType                  TransformType;
-  typedef typename Superclass::TransformPointer               TransformPointer;
-  typedef typename Superclass::TransformJacobianType          TransformJacobianType;
-  typedef typename Superclass::InterpolatorType               InterpolatorType;
-  typedef typename Superclass::MeasureType                    MeasureType;
-  typedef typename Superclass::DerivativeType                 DerivativeType;
-  typedef typename Superclass::ParametersType                 ParametersType;
-  typedef typename Superclass::FixedImageType                 FixedImageType;
-  typedef typename Superclass::MovingImageType                MovingImageType;
-  typedef typename Superclass::MovingImagePointType           MovingImagePointType;
-  typedef typename Superclass::FixedImageConstPointer         FixedImageConstPointer;
-  typedef typename Superclass::MovingImageConstPointer        MovingImageConstPointer;
-  typedef typename Superclass::BSplineTransformWeightsType    BSplineTransformWeightsType;
-  typedef typename Superclass::BSplineTransformIndexArrayType BSplineTransformIndexArrayType;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformJacobianType = typename Superclass::TransformJacobianType;
+  using InterpolatorType = typename Superclass::InterpolatorType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using ParametersType = typename Superclass::ParametersType;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using FixedImageConstPointer = typename Superclass::FixedImageConstPointer;
+  using MovingImageConstPointer = typename Superclass::MovingImageConstPointer;
+  using BSplineTransformWeightsType = typename Superclass::BSplineTransformWeightsType;
+  using BSplineTransformIndexArrayType = typename Superclass::BSplineTransformIndexArrayType;
 
-  typedef typename Superclass::CoordinateRepresentationType CoordinateRepresentationType;
-  typedef typename Superclass::FixedImageSampleContainer    FixedImageSampleContainer;
-  typedef typename Superclass::ImageDerivativesType         ImageDerivativesType;
-  typedef typename Superclass::WeightsValueType             WeightsValueType;
-  typedef typename Superclass::IndexValueType               IndexValueType;
+  using CoordinateRepresentationType = typename Superclass::CoordinateRepresentationType;
+  using FixedImageSampleContainer = typename Superclass::FixedImageSampleContainer;
+  using ImageDerivativesType = typename Superclass::ImageDerivativesType;
+  using WeightsValueType = typename Superclass::WeightsValueType;
+  using IndexValueType = typename Superclass::IndexValueType;
 
-  typedef typename FixedImageType::OffsetValueType OffsetValueType;
+  using OffsetValueType = typename FixedImageType::OffsetValueType;
 
   /** The moving image dimension. */
   itkStaticConstMacro(MovingImageDimension, unsigned int,
@@ -212,11 +212,11 @@ public:
   itkBooleanMacro(UseExplicitPDFDerivatives);
 
   /** The marginal PDFs are stored as std::vector. */
-  typedef double PDFValueType; //NOTE:  floating point precision is not as stable.  Double precision proves faster and more robust in real-world testing.
+  using PDFValueType = double; //NOTE:  floating point precision is not as stable.  Double precision proves faster and more robust in real-world testing.
 
   /** Typedef for the joint PDF and PDF derivatives are stored as ITK Images. */
-  typedef Image<PDFValueType, 2> JointPDFType;
-  typedef Image<PDFValueType, 3> JointPDFDerivativesType;
+  using JointPDFType = Image<PDFValueType, 2>;
+  using JointPDFDerivativesType = Image<PDFValueType, 3>;
 
   /**
    * Get the internal JointPDF image that was used in
@@ -255,18 +255,18 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetric);
 
-  typedef JointPDFType::IndexType             JointPDFIndexType;
-  typedef JointPDFType::PixelType             JointPDFValueType;
-  typedef JointPDFType::RegionType            JointPDFRegionType;
-  typedef JointPDFType::SizeType              JointPDFSizeType;
-  typedef JointPDFDerivativesType::IndexType  JointPDFDerivativesIndexType;
-  typedef JointPDFDerivativesType::PixelType  JointPDFDerivativesValueType;
-  typedef JointPDFDerivativesType::RegionType JointPDFDerivativesRegionType;
-  typedef JointPDFDerivativesType::SizeType   JointPDFDerivativesSizeType;
+  using JointPDFIndexType = JointPDFType::IndexType;
+  using JointPDFValueType = JointPDFType::PixelType;
+  using JointPDFRegionType = JointPDFType::RegionType;
+  using JointPDFSizeType = JointPDFType::SizeType;
+  using JointPDFDerivativesIndexType = JointPDFDerivativesType::IndexType;
+  using JointPDFDerivativesValueType = JointPDFDerivativesType::PixelType;
+  using JointPDFDerivativesRegionType = JointPDFDerivativesType::RegionType;
+  using JointPDFDerivativesSizeType = JointPDFDerivativesType::SizeType;
 
   /** Typedefs for BSpline kernel and derivative functions. */
-  typedef BSplineKernelFunction<3,PDFValueType>           CubicBSplineFunctionType;
-  typedef BSplineDerivativeKernelFunction<3,PDFValueType> CubicBSplineDerivativeFunctionType;
+  using CubicBSplineFunctionType = BSplineKernelFunction<3,PDFValueType>;
+  using CubicBSplineDerivativeFunctionType = BSplineDerivativeKernelFunction<3,PDFValueType>;
 
   /** Precompute fixed image parzen window indices. */
   void ComputeFixedImageParzenWindowIndices( FixedImageSampleContainer & samples);
@@ -308,13 +308,13 @@ private:
   typename CubicBSplineDerivativeFunctionType::Pointer m_CubicBSplineDerivativeKernel;
 
   /** Helper array for storing the values of the JointPDF ratios. */
-  typedef PDFValueType        PRatioType;
-  typedef Array2D<PRatioType> PRatioArrayType;
+  using PRatioType = PDFValueType;
+  using PRatioArrayType = Array2D<PRatioType>;
 
   mutable PRatioArrayType m_PRatioArray;
 
   /** The moving image marginal PDF. */
-  typedef std::vector< PDFValueType > MarginalPDFType;
+  using MarginalPDFType = std::vector< PDFValueType >;
   mutable MarginalPDFType             m_MovingImageMarginalPDF;
 
   struct MMIMetricPerThreadStruct

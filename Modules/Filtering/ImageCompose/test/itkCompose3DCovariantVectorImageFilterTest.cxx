@@ -22,18 +22,18 @@
 
 int itkCompose3DCovariantVectorImageFilterTest(int , char * [])
 {
-  typedef unsigned char              PixelType;
-  typedef itk::Image< PixelType, 3 > InputImageType;
+  using PixelType = unsigned char;
+  using InputImageType = itk::Image< PixelType, 3 >;
 
-  typedef itk::CovariantVector<float, 3>    OutputPixelType;
-  typedef itk::Image< OutputPixelType, 3 >  OutputImageType;
+  using OutputPixelType = itk::CovariantVector<float, 3>;
+  using OutputImageType = itk::Image< OutputPixelType, 3 >;
 
-  typedef itk::ComposeImageFilter< InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::ComposeImageFilter< InputImageType, OutputImageType >;
 
 
-  typedef InputImageType::RegionType RegionType;
-  typedef InputImageType::SizeType   SizeType;
-  typedef InputImageType::IndexType  IndexType;
+  using RegionType = InputImageType::RegionType;
+  using SizeType = InputImageType::SizeType;
+  using IndexType = InputImageType::IndexType;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -81,12 +81,12 @@ int itkCompose3DCovariantVectorImageFilterTest(int , char * [])
    return EXIT_FAILURE;
    }
 
-  typedef FilterType::OutputImageType  OutputImageType;
+  using OutputImageType = FilterType::OutputImageType;
 
   OutputImageType::Pointer threeVectorImage = filter->GetOutput();
 
-  typedef itk::ImageRegionIterator<OutputImageType> OutputIterator;
-  typedef itk::ImageRegionIterator<InputImageType>  InputIterator;
+  using OutputIterator = itk::ImageRegionIterator<OutputImageType>;
+  using InputIterator = itk::ImageRegionIterator<InputImageType>;
 
   InputIterator i0( zeroImage,   region );
   InputIterator i1( oneImage, region );
@@ -100,7 +100,7 @@ int itkCompose3DCovariantVectorImageFilterTest(int , char * [])
 
   ot.GoToBegin();
 
-  typedef OutputImageType::PixelType  OutputPixelType;
+  using OutputPixelType = OutputImageType::PixelType;
 
   while( !ot.IsAtEnd() )
     {

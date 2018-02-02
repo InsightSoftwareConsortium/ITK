@@ -51,20 +51,20 @@ namespace itk
 class ITKIODCMTK_EXPORT DCMTKSeriesFileNames:public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef DCMTKSeriesFileNames Self;
-  typedef ProcessObject        Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = DCMTKSeriesFileNames;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
 
   /** Type of the container that holds the UID's for the series. */
-  typedef std::vector< std::string > SeriesUIDContainerType;
+  using SeriesUIDContainerType = std::vector< std::string >;
   /** For backwards compatibility. */
-  typedef SeriesUIDContainerType SeriesUIDContainer;
+  using SeriesUIDContainer = SeriesUIDContainerType;
 
   /** Type of the container that holds the file names in the series. */
-  typedef std::vector< std::string > FileNamesContainerType;
+  using FileNamesContainerType = std::vector< std::string >;
   /** For backwards compatibility */
-  typedef FileNamesContainerType FilenamesContainer;
+  using FilenamesContainer = FileNamesContainerType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -38,11 +38,11 @@ class FastMarchingReachedTargetNodesStoppingCriterion :
 public FastMarchingStoppingCriterionBase< TInput, TOutput >
 {
 public:
-  typedef FastMarchingReachedTargetNodesStoppingCriterion       Self;
-  typedef FastMarchingStoppingCriterionBase< TInput, TOutput >  Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
-  typedef typename Superclass::Traits                           Traits;
+  using Self = FastMarchingReachedTargetNodesStoppingCriterion;
+  using Superclass = FastMarchingStoppingCriterionBase< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Traits = typename Superclass::Traits;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -51,8 +51,8 @@ public:
   itkTypeMacro(FastMarchingReachedTargetNodesStoppingCriterion,
                 FastMarchingStoppingCriterionBase );
 
-  typedef typename Superclass::OutputPixelType  OutputPixelType;
-  typedef typename Superclass::NodeType         NodeType;
+  using OutputPixelType = typename Superclass::OutputPixelType;
+  using NodeType = typename Superclass::NodeType;
 
   /** \enum TargetConditionType */
   enum TargetConditionType { OneTarget = 1,

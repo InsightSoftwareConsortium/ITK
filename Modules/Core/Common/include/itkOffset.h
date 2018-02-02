@@ -56,8 +56,8 @@ template< unsigned int VOffsetDimension = 2 >
 class ITK_TEMPLATE_EXPORT Offset
 {
 public:
-  /** Standard class typedefs. */
-  typedef Offset Self;
+  /** Standard class type aliases. */
+  using Self = Offset;
 
   /** Dimension constant */
   itkStaticConstMacro(Dimension, unsigned int, VOffsetDimension);
@@ -65,12 +65,12 @@ public:
   /** Get the dimension (size) of the index. */
   static unsigned int GetOffsetDimension() { return VOffsetDimension; }
 
-  /** Compatible offset typedefs. */
-  typedef   Offset< VOffsetDimension > OffsetType;
-  typedef   itk::OffsetValueType       OffsetValueType;
+  /** Compatible offset type alias. */
+  using OffsetType = Offset< VOffsetDimension >;
+  using OffsetValueType = itk::OffsetValueType;
 
   /** Lexicographic ordering functor type.  */
-  typedef Functor::OffsetLexicographicCompare< VOffsetDimension > LexicographicCompare;
+  using LexicographicCompare = Functor::OffsetLexicographicCompare< VOffsetDimension >;
 
   /** Add an offset to an offset. */
   const Self

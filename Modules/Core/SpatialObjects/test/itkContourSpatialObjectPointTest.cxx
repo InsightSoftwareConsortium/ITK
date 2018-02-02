@@ -24,7 +24,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
 {
   // Test for 2D
   //
-  typedef itk::ContourSpatialObjectPoint< 2 > ContourSpatialObjectPoint2DType;
+  using ContourSpatialObjectPoint2DType = itk::ContourSpatialObjectPoint< 2 >;
 
   ContourSpatialObjectPoint2DType contourSpatialObjectPoint2D;
 
@@ -83,7 +83,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
 
   // Test for 3D
   //
-  typedef itk::ContourSpatialObjectPoint< 3 > ContourSpatialObjectPoint3DType;
+  using ContourSpatialObjectPoint3DType = itk::ContourSpatialObjectPoint< 3 >;
 
   ContourSpatialObjectPoint3DType contourSpatialObjectPoint3D;
 
@@ -142,7 +142,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
 
   // Test for 4D
   //
-  typedef itk::ContourSpatialObjectPoint< 4 > ContourSpatialObjectPoint4DType;
+  using ContourSpatialObjectPoint4DType = itk::ContourSpatialObjectPoint< 4 >;
 
   ContourSpatialObjectPoint4DType contourSpatialObjectPoint4D;
 

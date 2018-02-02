@@ -26,11 +26,11 @@ template <typename TMeasurementVector>
 class MyDistanceMetric : public DistanceMetric< TMeasurementVector >
 {
 public:
-  /** Standard class typedef. */
-  typedef MyDistanceMetric                     Self;
-  typedef DistanceMetric< TMeasurementVector > Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer<const Self>             ConstPointer;
+  /** Standard class type alias. */
+  using Self = MyDistanceMetric;
+  using Superclass = DistanceMetric< TMeasurementVector >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
   itkTypeMacro(MyDistanceMetric, DistanceMetric);
@@ -60,18 +60,17 @@ public:
 int itkDistanceMetricTest(int, char* [] )
 {
 
-  typedef unsigned int MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = unsigned int;
 
   const MeasurementVectorSizeType MeasurementVectorSize = 17;
 
-  typedef itk::FixedArray<
-    float, MeasurementVectorSize >  MeasurementVectorType;
+  using MeasurementVectorType = itk::FixedArray<
+    float, MeasurementVectorSize >;
 
 
-  typedef itk::Statistics::DistanceMetricTest::MyDistanceMetric<
-    MeasurementVectorType >   DistanceMetricType;
+  using DistanceMetricType = itk::Statistics::DistanceMetricTest::MyDistanceMetric<MeasurementVectorType>;
 
-  typedef DistanceMetricType::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = DistanceMetricType::MeasurementVectorSizeType;
 
   DistanceMetricType::Pointer distance = DistanceMetricType::New();
 

@@ -41,19 +41,19 @@ int itkVectorToRGBImageAdaptorTest(int, char* [] ) {
 //     Typedefs for convenience
 //-------------------------------------
 
-typedef float  ValueType;
+using ValueType = float;
 
 const unsigned int numberOfComponents = 3;
 
-typedef itk::Vector< ValueType,
-                     numberOfComponents >   VectorPixelType;
+using VectorPixelType = itk::Vector< ValueType,
+                     numberOfComponents >;
 
 const unsigned int ImageDimension = 2;
 
-typedef itk::Image< VectorPixelType, ImageDimension >         ImageType;
-typedef itk::VectorToRGBImageAdaptor< ImageType >             ImageAdaptorType;
-typedef itk::ImageRegionIteratorWithIndex< ImageType >        IteratorType;
-typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType > RGBIteratorType;
+using ImageType = itk::Image< VectorPixelType, ImageDimension >;
+using ImageAdaptorType = itk::VectorToRGBImageAdaptor< ImageType >;
+using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
+using RGBIteratorType = itk::ImageRegionIteratorWithIndex< ImageAdaptorType >;
 
   ImageType::SizeType size;
   size[0] = 2;
@@ -111,7 +111,7 @@ typedef itk::ImageRegionIteratorWithIndex< ImageAdaptorType > RGBIteratorType;
 
   // Set the values of the image, using the adaptor
 
-  typedef ImageAdaptorType::AccessorType::ExternalType  RGBPixelType;
+  using RGBPixelType = ImageAdaptorType::AccessorType::ExternalType;
 
   RGBPixelType color;
 

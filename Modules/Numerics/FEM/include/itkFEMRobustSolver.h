@@ -40,10 +40,10 @@ namespace fem
  * This solver takes a FEMObject as input and outputs a deformed FEMObject.
  *
  * \code
- *       typedef itk::fem::FEMObject<3> FEMObjectType;
+ *       using FEMObjectType = itk::fem::FEMObject<3>;
  *       FEMObjectObjectType::Pointer fem = FEMObjectObjectType::New();
  *       ...
- *       typedef itk::fem::RobustSolver<3> FEMSolverType;
+ *       using FEMSolverType = itk::fem::RobustSolver<3>;
  *       FEMSolverType::Pointer solver = FEMSolverType::New();
  *
  *       solver->SetInput( fem );
@@ -83,11 +83,11 @@ template <unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT RobustSolver : public Solver<VDimension>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RobustSolver              Self;
-  typedef Solver<VDimension>        Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RobustSolver;
+  using Superclass = Solver<VDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -96,26 +96,26 @@ public:
   itkTypeMacro(RobustSolver, Solver);
 
   /** Inherit some types from the superclass. */
-  typedef typename Superclass::VectorType                           VectorType;
-  typedef typename Superclass::Float                                Float;
-  typedef typename Superclass::InterpolationGridType                InterpolationGridType;
-  typedef typename Superclass::InterpolationGridPointerType         InterpolationGridPointerType;
-  typedef typename Superclass::InterpolationGridSizeType            InterpolationGridSizeType;
-  typedef typename Superclass::InterpolationGridRegionType          InterpolationGridRegionType;
-  typedef typename Superclass::InterpolationGridPointType           InterpolationGridPointType;
-  typedef typename Superclass::InterpolationGridSpacingType         InterpolationGridSpacingType;
-  typedef typename Superclass::InterpolationGridIndexType           InterpolationGridIndexType;
-  typedef typename InterpolationGridType::DirectionType             InterpolationGridDirectionType;
+  using VectorType = typename Superclass::VectorType;
+  using Float = typename Superclass::Float;
+  using InterpolationGridType = typename Superclass::InterpolationGridType;
+  using InterpolationGridPointerType = typename Superclass::InterpolationGridPointerType;
+  using InterpolationGridSizeType = typename Superclass::InterpolationGridSizeType;
+  using InterpolationGridRegionType = typename Superclass::InterpolationGridRegionType;
+  using InterpolationGridPointType = typename Superclass::InterpolationGridPointType;
+  using InterpolationGridSpacingType = typename Superclass::InterpolationGridSpacingType;
+  using InterpolationGridIndexType = typename Superclass::InterpolationGridIndexType;
+  using InterpolationGridDirectionType = typename InterpolationGridType::DirectionType;
 
   itkStaticConstMacro(FEMDimension, unsigned int, VDimension);
 
-  typedef typename Superclass::FEMObjectType    FEMObjectType;
+  using FEMObjectType = typename Superclass::FEMObjectType;
 
   /** Some convenient types */
-  typedef typename Element::MatrixType                     MatrixType;
-  typedef typename FEMObjectType::LoadContainerType        LoadContainerType;
-  typedef typename FEMObjectType::NodeContainerType        NodeContainerType;
-  typedef typename FEMObjectType::LoadContainerIterator    LoadContainerIterator;
+  using MatrixType = typename Element::MatrixType;
+  using LoadContainerType = typename FEMObjectType::LoadContainerType;
+  using NodeContainerType = typename FEMObjectType::NodeContainerType;
+  using LoadContainerIterator = typename FEMObjectType::LoadContainerIterator;
 
   /**
    * Number of iterations used by the solver to compute approximations.
@@ -317,7 +317,7 @@ private:
 
 
   /** Represents the index of the vector and matrix. */
-  typedef unsigned int FEMIndexType;
+  using FEMIndexType = unsigned int;
 
   FEMIndexType m_ForceIndex;
   FEMIndexType m_LandmarkForceIndex;

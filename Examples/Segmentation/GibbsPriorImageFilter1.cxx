@@ -73,8 +73,8 @@ int main( int argc, char *argv[] )
   const unsigned short NUMBANDS = 1;
   const unsigned short NDIMENSION = 3;
 
-  typedef itk::Image<itk::Vector<unsigned short,NUMBANDS>,
-                                                     NDIMENSION> VecImageType;
+  using VecImageType = itk::Image<itk::Vector<unsigned short,NUMBANDS>,
+                                                     NDIMENSION>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -88,14 +88,14 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned short, NDIMENSION > ClassImageType;
+  using ClassImageType = itk::Image< unsigned short, NDIMENSION >;
   // Software Guide : EndCodeSnippet
 
 
   // We instantiate reader and writer types
   //
-  typedef  itk::ImageFileReader< ClassImageType >   ReaderType;
-  typedef  itk::ImageFileWriter<  ClassImageType  > WriterType;
+  using ReaderType = itk::ImageFileReader< ClassImageType >;
+  using WriterType = itk::ImageFileWriter<  ClassImageType  >;
 
   ReaderType::Pointer inputimagereader = ReaderType::New();
   ReaderType::Pointer trainingimagereader = ReaderType::New();
@@ -109,7 +109,7 @@ int main( int argc, char *argv[] )
   // We convert the input into vector images
   //
   VecImageType::Pointer vecImage = VecImageType::New();
-  typedef VecImageType::PixelType VecImagePixelType;
+  using VecImagePixelType = VecImageType::PixelType;
   VecImageType::SizeType vecImgSize = { {181 , 217, 1} };
 
   VecImageType::IndexType index;
@@ -125,7 +125,7 @@ int main( int argc, char *argv[] )
   vecImage->Allocate();
 
   enum { VecImageDimension = VecImageType::ImageDimension };
-  typedef itk::ImageRegionIterator< VecImageType > VecIterator;
+  using VecIterator = itk::ImageRegionIterator< VecImageType >;
 
   VecIterator vecIt( vecImage, vecImage->GetBufferedRegion() );
   vecIt.GoToBegin();
@@ -133,13 +133,13 @@ int main( int argc, char *argv[] )
   inputimagereader->Update();
   trainingimagereader->Update();
 
-  typedef itk::ImageRegionIterator< ClassImageType > ClassIterator;
+  using ClassIterator = itk::ImageRegionIterator< ClassImageType >;
 
   ClassIterator inputIt( inputimagereader->GetOutput(), inputimagereader->GetOutput()->GetBufferedRegion() );
   inputIt.GoToBegin();
 
   //Set up the vector to store the image  data
-  typedef VecImageType::PixelType     DataVector;
+  using DataVector = VecImageType::PixelType;
   DataVector   dblVec;
 
   while ( !vecIt.IsAtEnd() )
@@ -156,21 +156,18 @@ int main( int argc, char *argv[] )
 
   namespace stat = itk::Statistics;
 
-  typedef VecImageType::PixelType         VecImagePixelType;
-  typedef stat::MahalanobisDistanceMembershipFunction< VecImagePixelType >
-                                          MembershipFunctionType;
-  typedef MembershipFunctionType::Pointer MembershipFunctionPointer;
+  using VecImagePixelType = VecImageType::PixelType;
+  using MembershipFunctionType = stat::MahalanobisDistanceMembershipFunction<VecImagePixelType>;
+  using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
-  typedef std::vector< MembershipFunctionPointer >
-    MembershipFunctionPointerVector;
+  using MembershipFunctionPointerVector = std::vector<MembershipFunctionPointer>;
 
   //----------------------------------------------------------------------
   // Set the image model estimator (train the class models)
   //----------------------------------------------------------------------
 
-  typedef itk::ImageGaussianModelEstimator<VecImageType,
-    MembershipFunctionType, ClassImageType>
-    ImageGaussianModelEstimatorType;
+  using ImageGaussianModelEstimatorType = itk::ImageGaussianModelEstimator<VecImageType,
+    MembershipFunctionType, ClassImageType>;
 
   ImageGaussianModelEstimatorType::Pointer
     applyEstimateModel = ImageGaussianModelEstimatorType::New();
@@ -195,9 +192,9 @@ int main( int argc, char *argv[] )
   //----------------------------------------------------------------------
   //Set the decision rule
   //----------------------------------------------------------------------
-  typedef itk::Statistics::DecisionRule::Pointer DecisionRuleBasePointer;
+  using DecisionRuleBasePointer = itk::Statistics::DecisionRule::Pointer;
 
-  typedef itk::Statistics::MinimumDecisionRule DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   DecisionRuleType::Pointer  myDecisionRule = DecisionRuleType::New();
 
   std::cout << " site 3 " << std::endl;
@@ -217,9 +214,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageClassifierBase< VecImageType,
-                                    ClassImageType > ClassifierType;
-  typedef ClassifierType::Pointer                    ClassifierPointer;
+  using ClassifierType = itk::ImageClassifierBase< VecImageType,
+                                    ClassImageType >;
+  using ClassifierPointer = ClassifierType::Pointer;
   ClassifierPointer myClassifier = ClassifierType::New();
   // Software Guide : EndCodeSnippet
 
@@ -243,8 +240,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBGibbsPriorFilter<VecImageType,ClassImageType>
-    GibbsPriorFilterType;
+  using GibbsPriorFilterType =
+      itk::RGBGibbsPriorFilter<VecImageType,ClassImageType>;
   GibbsPriorFilterType::Pointer applyGibbsImageFilter =
     GibbsPriorFilterType::New();
   // Software Guide : EndCodeSnippet

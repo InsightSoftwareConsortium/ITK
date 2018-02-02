@@ -161,10 +161,10 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction< TMesh, TQEType >::Process(QEType *h)
   // that is immediately deleted (with SplitFacet). Still we chose to write it
   // that way in the sake of maintenance simplicity (as long as JoinFacet and
   // SplitFacet are working, this operator does it job).
-  typedef QuadEdgeMeshEulerOperatorJoinFacetFunction< MeshType, QEType >
-  JoinFacet;
-  typedef QuadEdgeMeshEulerOperatorSplitFacetFunction< MeshType, QEType >
-  SplitFacet;
+  using JoinFacet =
+      QuadEdgeMeshEulerOperatorJoinFacetFunction< MeshType, QEType >;
+  using SplitFacet =
+      QuadEdgeMeshEulerOperatorSplitFacetFunction< MeshType, QEType >;
 
   QEType *G = h->GetLnext();
   typename JoinFacet::Pointer joinFacet = JoinFacet::New();

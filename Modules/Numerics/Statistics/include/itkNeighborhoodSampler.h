@@ -44,11 +44,11 @@ template< typename TSample >
 class ITK_TEMPLATE_EXPORT NeighborhoodSampler:public SampleToSubsampleFilter< TSample >
 {
 public:
-  /** Standard class typedefs. */
-  typedef NeighborhoodSampler                Self;
-  typedef SampleToSubsampleFilter< TSample > Superclass;
-  typedef SmartPointer< Self >               Pointer;
-  typedef SmartPointer< const Self >         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = NeighborhoodSampler;
+  using Superclass = SampleToSubsampleFilter< TSample >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(NeighborhoodSampler, SampleToSubsampleFilter);
@@ -56,18 +56,18 @@ public:
 
   /** Typedefs for Measurement vector, measurement, Instance Identifier,
    * frequency, size, size element value from the template argument TSample */
-  typedef typename Superclass::SampleType             SampleType;
-  typedef typename Superclass::MeasurementVectorType  MeasurementVectorType;
-  typedef typename Superclass::MeasurementType        MeasurementType;
-  typedef typename Superclass::InstanceIdentifier     InstanceIdentifier;
-  typedef typename Superclass::SubsampleType          SubsampleType;
-  typedef typename Superclass::OutputType             OutputType;
+  using SampleType = typename Superclass::SampleType;
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using MeasurementType = typename Superclass::MeasurementType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
+  using SubsampleType = typename Superclass::SubsampleType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Type of the distance radius. */
-  typedef double RadiusType;
+  using RadiusType = double;
 
   /** Type of DataObjects to use for distance radius input. */
-  typedef SimpleDataObjectDecorator< RadiusType > InputRadiusObjectType;
+  using InputRadiusObjectType = SimpleDataObjectDecorator< RadiusType >;
 
   /** Method to set the input value of the Radius */
   itkSetGetDecoratedInputMacro(Radius, RadiusType);

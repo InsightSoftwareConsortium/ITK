@@ -39,7 +39,7 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT VertexCell:public TCellInterface
 {
 public:
-  /** Standard class typedefs. */
+  /** Standard class type aliases. */
   itkCellCommonTypedefs(VertexCell);
   itkCellInheritedTypedefs(TCellInterface);
 

@@ -44,7 +44,7 @@ AdaptiveHistogramEqualizationImageFilter< TImageType, TKernel >
   // Calculate min and max gray level of an input image
   // NOTE: This computation of min/max means that this filter should
   // not be able to stream.
-  typedef MinimumMaximumImageFilter<ImageType> MinMaxFilter;
+  using MinMaxFilter = MinimumMaximumImageFilter<ImageType>;
   typename MinMaxFilter::Pointer minmax = MinMaxFilter::New();
 
   minmax->SetInput( input );

@@ -78,18 +78,18 @@ struct node_type
 
 int itkBasicFiltersPrintTest(int , char* [])
 {
-  typedef itk::Image<float,2>         InputType;
-  typedef itk::Image<float,2>         OutputType;
-  typedef itk::Image<unsigned char,2> CharType;
+  using InputType = itk::Image<float,2>;
+  using OutputType = itk::Image<float,2>;
+  using CharType = itk::Image<unsigned char,2>;
 
-  typedef itk::Vector<float,2>     VectorType;
-  typedef itk::Image<VectorType,2> VectorImageType;
+  using VectorType = itk::Vector<float,2>;
+  using VectorImageType = itk::Image<VectorType,2>;
 
-  typedef itk::CovariantVector<float,2>     CovariantVectorType;
-  typedef itk::Image<CovariantVectorType,2> CovariantVectorImageType;
+  using CovariantVectorType = itk::CovariantVector<float,2>;
+  using CovariantVectorImageType = itk::Image<CovariantVectorType,2>;
 
-  //typedef itk::Neighborhood<unsigned short,2> KernelType;
-  typedef itk::BinaryBallStructuringElement<unsigned short,2> KernelType;
+  //using KernelType = itk::Neighborhood<unsigned short,2>;
+  using KernelType = itk::BinaryBallStructuringElement<unsigned short,2>;
 
 
   itk::AcosImageFilter<InputType,OutputType>::Pointer AcosImageFilterObj =

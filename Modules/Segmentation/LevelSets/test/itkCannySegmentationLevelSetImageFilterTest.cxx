@@ -21,8 +21,8 @@
 
 namespace CSIFTN {
 
-typedef itk::Image<float, 3> ImageType;
-typedef itk::Image<char, 3>  SeedImageType;
+using ImageType = itk::Image<float, 3>;
+using SeedImageType = itk::Image<char, 3>;
 
 const int V_WIDTH  = 64;
 const int V_HEIGHT = 64;
@@ -109,10 +109,10 @@ class RMSCommand : public Command
 {
 public:
   /** Smart pointer declaration methods */
-  typedef RMSCommand                     Self;
-  typedef Command                        Superclass;
-  typedef itk::SmartPointer<Self>        Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  using Self = RMSCommand;
+  using Superclass = Command;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkTypeMacro( RMSCommand, Command );
   itkNewMacro(Self);
 

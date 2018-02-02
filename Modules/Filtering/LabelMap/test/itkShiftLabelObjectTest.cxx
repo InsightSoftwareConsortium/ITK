@@ -30,14 +30,14 @@ int itkShiftLabelObjectTest(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef itk::LabelObject< unsigned long, dim > LabelObjectType;
-  typedef LabelObjectType::IndexType             IndexType;
-  typedef LabelObjectType::OffsetType            OffsetType;
-  typedef itk::LabelMap< LabelObjectType >       LabelMapType;
-  typedef LabelMapType::SizeType                 SizeType;
-  typedef itk::Image< unsigned char, dim >       ImageType;
+  using LabelObjectType = itk::LabelObject< unsigned long, dim >;
+  using IndexType = LabelObjectType::IndexType;
+  using OffsetType = LabelObjectType::OffsetType;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using SizeType = LabelMapType::SizeType;
+  using ImageType = itk::Image< unsigned char, dim >;
 
-  typedef itk::LabelImageToLabelMapFilter<ImageType, LabelMapType> LabelImageToLabelMapFilterType;
+  using LabelImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
 
   ImageType::Pointer image = ImageType::New();
 

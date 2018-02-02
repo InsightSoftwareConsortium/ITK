@@ -38,7 +38,7 @@ namespace itk
  * Since SymmetricSecondRankTensor is a subclass of FixedArray,
  * you can access its components as:
  *
- * typedef itk::SymmetricSecondRankTensor< float >    TensorPixelType;
+ * using TensorPixelType = itk::SymmetricSecondRankTensor< float >;
  * TensorPixelType tensor;
  *
  *   tensor[0] = 1.233;
@@ -76,33 +76,33 @@ class ITK_TEMPLATE_EXPORT SymmetricSecondRankTensor:public
   FixedArray< TComponent, NDimension *( NDimension + 1 ) / 2 >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SymmetricSecondRankTensor                                    Self;
-  typedef FixedArray< TComponent, NDimension *( NDimension + 1 ) / 2 > Superclass;
+  /** Standard class type aliases. */
+  using Self = SymmetricSecondRankTensor;
+  using Superclass = FixedArray< TComponent, NDimension *( NDimension + 1 ) / 2 >;
 
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, NDimension);
   itkStaticConstMacro( InternalDimension, unsigned int, ( NDimension * ( NDimension + 1 ) / 2 ) );
 
-  /** Convenience typedefs. */
-  typedef FixedArray< TComponent,
-                      itkGetStaticConstMacro(InternalDimension) > BaseArray;
+  /** Convenience type alias. */
+  using BaseArray = FixedArray< TComponent,
+                      itkGetStaticConstMacro(InternalDimension) >;
 
   /** Array of eigen-values. */
-  typedef FixedArray< TComponent, NDimension > EigenValuesArrayType;
+  using EigenValuesArrayType = FixedArray< TComponent, NDimension >;
 
   /** Matrix of eigen-vectors. */
-  typedef Matrix< TComponent, NDimension, NDimension > MatrixType;
-  typedef Matrix< TComponent, NDimension, NDimension > EigenVectorsMatrixType;
+  using MatrixType = Matrix< TComponent, NDimension, NDimension >;
+  using EigenVectorsMatrixType = Matrix< TComponent, NDimension, NDimension >;
 
   /**  Define the component type. */
-  typedef TComponent                                    ComponentType;
-  typedef typename Superclass::ValueType                ValueType;
-  typedef typename NumericTraits< ValueType >::RealType AccumulateValueType;
-  typedef typename NumericTraits< ValueType >::RealType RealValueType;
+  using ComponentType = TComponent;
+  using ValueType = typename Superclass::ValueType;
+  using AccumulateValueType = typename NumericTraits< ValueType >::RealType;
+  using RealValueType = typename NumericTraits< ValueType >::RealType;
 
-  typedef SymmetricEigenAnalysis< MatrixType,
-                                  EigenValuesArrayType, EigenVectorsMatrixType >  SymmetricEigenAnalysisType;
+  using SymmetricEigenAnalysisType = SymmetricEigenAnalysis< MatrixType,
+                                  EigenValuesArrayType, EigenVectorsMatrixType >;
 
   /** Default constructor has nothing to do. */
   SymmetricSecondRankTensor() { this->Fill(0); }
@@ -208,10 +208,10 @@ public:
 private:
 };
 
-/** This extra typedef is necessary for preventing an Internal Compiler Error in
- * Microsoft Visual C++ 6.0. This typedef is not needed for any other compiler. */
-typedef std::ostream OutputStreamType;
-typedef std::istream InputStreamType;
+/** This extra type alias is necessary for preventing an Internal Compiler Error in
+ * Microsoft Visual C++ 6.0. This type alias is not needed for any other compiler. */
+using OutputStreamType = std::ostream;
+using InputStreamType = std::istream;
 
 template< typename TComponent, unsigned int NDimension  >
 OutputStreamType & operator<<(OutputStreamType & os,

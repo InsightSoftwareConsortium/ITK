@@ -45,10 +45,10 @@ template< typename TOutputImage >
 class ITKIOImageBase_HIDDEN ImageSeriesReader:public ImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageSeriesReader           Self;
-  typedef ImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
+  /** Standard class type aliases. */
+  using Self = ImageSeriesReader;
+  using Superclass = ImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,24 +57,24 @@ public:
   itkTypeMacro(ImageSeriesReader, ImageSource);
 
   /** The size of the output image. */
-  typedef typename TOutputImage::SizeType SizeType;
+  using SizeType = typename TOutputImage::SizeType;
 
   /** The index of the output image. */
-  typedef typename TOutputImage::IndexType IndexType;
+  using IndexType = typename TOutputImage::IndexType;
 
   /** The region of the output image. */
-  typedef typename TOutputImage::RegionType ImageRegionType;
+  using ImageRegionType = typename TOutputImage::RegionType;
 
   /** The pixel type of the output image. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
 
   /** The pixel type of the output image. */
-  typedef MetaDataDictionary                  DictionaryType;
-  typedef MetaDataDictionary *                DictionaryRawPointer;
-  typedef std::vector< DictionaryRawPointer > DictionaryArrayType;
-  typedef const DictionaryArrayType *         DictionaryArrayRawPointer;
+  using DictionaryType = MetaDataDictionary;
+  using DictionaryRawPointer = MetaDataDictionary *;
+  using DictionaryArrayType = std::vector< DictionaryRawPointer >;
+  using DictionaryArrayRawPointer = const DictionaryArrayType *;
 
-  typedef  std::vector< std::string > FileNamesContainer;
+  using FileNamesContainer = std::vector< std::string >;
 
   /** Set the vector of strings that contains the file names. Files
    * are processed in sequential order. */
@@ -193,7 +193,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageSeriesReader);
 
-  typedef ImageFileReader< TOutputImage > ReaderType;
+  using ReaderType = ImageFileReader< TOutputImage >;
 
   int ComputeMovingDimensionIndex(ReaderType *reader);
 

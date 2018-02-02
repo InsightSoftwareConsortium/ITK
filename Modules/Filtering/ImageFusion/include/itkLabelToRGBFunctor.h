@@ -51,11 +51,11 @@ class LabelToRGBFunctor
 {
 public:
 
-  typedef LabelToRGBFunctor Self;
+  using Self = LabelToRGBFunctor;
 
   LabelToRGBFunctor()
   {
-    typedef typename TRGBPixel::ValueType ValueType;
+    using ValueType = typename TRGBPixel::ValueType;
 
     // the following colors are from "R", and named:
     // "red"             "green3"          "blue"            "cyan"
@@ -111,7 +111,7 @@ public:
     TRGBPixel rgbPixel;
     NumericTraits<TRGBPixel>::SetLength(rgbPixel, 3);
 
-    typedef typename TRGBPixel::ValueType ValueType;
+    using ValueType = typename TRGBPixel::ValueType;
 
     ValueType m = NumericTraits<ValueType>::max();
 

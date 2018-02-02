@@ -62,11 +62,11 @@ template<
 class ITK_TEMPLATE_EXPORT MaskFeaturePointSelectionFilter: public ImageToMeshFilter< TImage, TFeatures >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageToMeshFilter< TImage, TFeatures >  Superclass;
-  typedef MaskFeaturePointSelectionFilter         Self;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
+  /** Standard class type aliases. */
+  using Superclass = ImageToMeshFilter< TImage, TFeatures >;
+  using Self = MaskFeaturePointSelectionFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,27 +76,27 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned, 3u);
 
-  /** Not input specific typedefs */
-  typedef ImageRegion< ImageDimension >  RegionType;
-  typedef Size< ImageDimension >         SizeType;
-  typedef Index< ImageDimension >        IndexType;
-  typedef Offset< ImageDimension >       OffsetType;
+  /** Not input specific type alias */
+  using RegionType = ImageRegion< ImageDimension >;
+  using SizeType = Size< ImageDimension >;
+  using IndexType = Index< ImageDimension >;
+  using OffsetType = Offset< ImageDimension >;
 
-  /** Image typedefs */
-  typedef TImage                            ImageType;
-  typedef typename ImageType::ConstPointer  ImageConstPointer;
-  typedef typename ImageType::PixelType     ImagePixelType;
+  /** Image type alias */
+  using ImageType = TImage;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using ImagePixelType = typename ImageType::PixelType;
 
-  /** Mask image typedefs */
-  typedef TMask                            MaskType;
-  typedef typename MaskType::ConstPointer  MaskConstPointer;
-  typedef typename MaskType::PixelType     MaskPixelType;
+  /** Mask image type alias */
+  using MaskType = TMask;
+  using MaskConstPointer = typename MaskType::ConstPointer;
+  using MaskPixelType = typename MaskType::PixelType;
 
-  /** Feature points pointset typedefs */
-  typedef TFeatures                              FeaturePointsType;
-  typedef typename FeaturePointsType::Pointer    FeaturePointsPointer;
-  typedef typename FeaturePointsType::PixelType  StructureTensorType;
-  typedef typename FeaturePointsType::PointType  PointType;
+  /** Feature points pointset type alias */
+  using FeaturePointsType = TFeatures;
+  using FeaturePointsPointer = typename FeaturePointsType::Pointer;
+  using StructureTensorType = typename FeaturePointsType::PixelType;
+  using PointType = typename FeaturePointsType::PointType;
 
   /** connectivity constants */
   enum

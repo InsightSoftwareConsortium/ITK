@@ -61,11 +61,11 @@ class ITK_TEMPLATE_EXPORT NormalVectorDiffusionFunction:
   public NormalVectorFunctionBase< TSparseImageType >
 {
 public:
-  /** Standard class typedef. */
-  typedef NormalVectorDiffusionFunction                Self;
-  typedef NormalVectorFunctionBase< TSparseImageType > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  /** Standard class type alias. */
+  using Self = NormalVectorDiffusionFunction;
+  using Superclass = NormalVectorFunctionBase< TSparseImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(NormalVectorDiffusionFunction, NormalVectorFunctionBase);
@@ -77,16 +77,16 @@ public:
   itkNewMacro(Self);
 
   /** Typedefs from the superclass. */
-  typedef typename Superclass::TimeStepType           TimeStepType;
-  typedef typename Superclass::RadiusType             RadiusType;
-  typedef typename Superclass::NeighborhoodType       NeighborhoodType;
-  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
-  typedef typename Superclass::FloatOffsetType        FloatOffsetType;
-  typedef typename Superclass::IndexType              IndexType;
-  typedef typename Superclass::SparseImageType        SparseImageType;
-  typedef typename Superclass::NodeType               NodeType;
-  typedef typename Superclass::NodeValueType          NodeValueType;
-  typedef typename Superclass::NormalVectorType       NormalVectorType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using IndexType = typename Superclass::IndexType;
+  using SparseImageType = typename Superclass::SparseImageType;
+  using NodeType = typename Superclass::NodeType;
+  using NodeValueType = typename Superclass::NodeValueType;
+  using NormalVectorType = typename Superclass::NormalVectorType;
 
   /** This method is used to choose between isotropic/anisotropic filtering. A
       parameter value of 0 indicates isotropic diffusion and is the

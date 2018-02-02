@@ -54,11 +54,11 @@ int main( int argc, char* argv[] )
     }
 
 
-  typedef signed short    PixelType;
+  using PixelType = signed short;
   const unsigned int      Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >      ImageType;
-  typedef itk::ImageFileReader< ImageType >       ReaderType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -75,8 +75,8 @@ int main( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::GDCMImageIO                        ImageIOType;
-  typedef itk::NumericSeriesFileNames             NamesGeneratorType;
+  using ImageIOType = itk::GDCMImageIO;
+  using NamesGeneratorType = itk::NumericSeriesFileNames;
 
   ImageIOType::Pointer gdcmIO = ImageIOType::New();
 
@@ -85,13 +85,13 @@ int main( int argc, char* argv[] )
   itksys::SystemTools::MakeDirectory( outputDirectory );
 
 
-  typedef signed short    OutputPixelType;
+  using OutputPixelType = signed short;
   const unsigned int      OutputDimension = 2;
 
-  typedef itk::Image< OutputPixelType, OutputDimension >    Image2DType;
+  using Image2DType = itk::Image< OutputPixelType, OutputDimension >;
 
-  typedef itk::ImageSeriesWriter<
-                         ImageType, Image2DType >  SeriesWriterType;
+  using SeriesWriterType = itk::ImageSeriesWriter<
+                         ImageType, Image2DType >;
 
   NamesGeneratorType::Pointer namesGenerator = NamesGeneratorType::New();
 

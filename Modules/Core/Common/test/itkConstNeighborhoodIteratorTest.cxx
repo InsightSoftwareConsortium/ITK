@@ -228,7 +228,7 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
   radius[3] = 1;
 
   println("Creating ConstNeighborhoodIterator");
-  typedef itk::ConstNeighborhoodIterator<TestImageType> IteratorType;
+  using IteratorType = itk::ConstNeighborhoodIterator<TestImageType>;
   IteratorType iib_it(radius, iib_img, iib_img->GetRequestedRegion());
   IteratorType::OffsetType resultOffset;
   IteratorType::OffsetType internalIndex;
@@ -310,7 +310,7 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
   // Iterate over a region, then change the region and iterate over the new region
   {
     // Create an image
-    typedef itk::Image<int, 2> ChangeRegionTestImageType;
+    using ChangeRegionTestImageType = itk::Image<int, 2>;
     ChangeRegionTestImageType::IndexType imageCorner;
     imageCorner.Fill(0);
 
@@ -353,7 +353,7 @@ int itkConstNeighborhoodIteratorTest(int, char* [] )
     ChangeRegionTestImageType::SizeType neighborhoodRadius;
     neighborhoodRadius.Fill(1);
 
-    typedef itk::ConstNeighborhoodIterator<ChangeRegionTestImageType> NeighborhoodIteratorType;
+    using NeighborhoodIteratorType = itk::ConstNeighborhoodIterator<ChangeRegionTestImageType>;
     NeighborhoodIteratorType neighborhoodIterator(neighborhoodRadius, image, region1);
 
     std::vector<int> expectedValuesRegion1(9);

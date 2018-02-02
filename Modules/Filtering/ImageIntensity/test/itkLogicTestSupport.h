@@ -33,7 +33,7 @@ int checkImOnImRes(typename InIm1::Pointer A, typename InIm2::Pointer B,
                    typename ResIm::Pointer Res, typename ResIm::PixelType FG,
                    typename ResIm::PixelType BG)
 {
-  typedef typename itk::ImageRegionIteratorWithIndex<InIm1>  myIteratorType1;
+  using myIteratorType1 = typename itk::ImageRegionIteratorWithIndex<InIm1>;
 
   OpT Op;
 
@@ -69,7 +69,7 @@ int checkImOnConstRes(typename InIm1::Pointer A, ConstT B,
                    typename ResIm::Pointer Res, typename ResIm::PixelType FG,
                    typename ResIm::PixelType BG)
 {
-  typedef typename itk::ImageRegionIteratorWithIndex<InIm1>  myIteratorType1;
+  using myIteratorType1 = typename itk::ImageRegionIteratorWithIndex<InIm1>;
 
   OpT Op;
 
@@ -103,7 +103,7 @@ int checkConstOnImRes(ConstT A, typename InIm1::Pointer B,
                       typename ResIm::Pointer Res, typename ResIm::PixelType FG,
                       typename ResIm::PixelType BG)
 {
-  typedef typename itk::ImageRegionIteratorWithIndex<InIm1>  myIteratorType1;
+  using myIteratorType1 = typename itk::ImageRegionIteratorWithIndex<InIm1>;
 
   OpT Op;
 

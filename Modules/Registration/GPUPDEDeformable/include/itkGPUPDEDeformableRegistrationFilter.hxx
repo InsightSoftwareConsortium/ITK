@@ -64,7 +64,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
   std::cout << "Defines: " << defines.str() << std::endl;
 
-  typedef const char * GPUCodeType;
+  using GPUCodeType = const char *;
   GPUCodeType GPUSource = GPUPDEDeformableRegistrationFilter::GetOpenCLSource();
 
   // load and build program
@@ -147,7 +147,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
       zeros[j] = 0;
       }
 
-    typedef typename itk::GPUTraits<TDisplacementField>::Type GPUOutputImage;
+    using GPUOutputImage = typename itk::GPUTraits<TDisplacementField>::Type;
     typename GPUOutputImage::Pointer output = dynamic_cast<GPUOutputImage *>(this->GetOutput() );
 
     ImageRegionIterator<OutputImageType> out( output, output->GetRequestedRegion() );
@@ -301,8 +301,8 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
                        typename GPUDataManager::Pointer GPUSmoothingKernels[],
                        int GPUSmoothingKernelSizes[])
 {
-  typedef typename itk::GPUTraits<TDisplacementField>::Type GPUBufferImage;
-  typedef typename itk::GPUTraits<TDisplacementField>::Type GPUOutputImage;
+  using GPUBufferImage = typename itk::GPUTraits<TDisplacementField>::Type;
+  using GPUOutputImage = typename itk::GPUTraits<TDisplacementField>::Type;
 
   typename GPUBufferImage::Pointer  bfPtr =  dynamic_cast<GPUBufferImage *>( m_TempField.GetPointer() );
   typename GPUOutputImage::Pointer  otPtr =  dynamic_cast<GPUOutputImage *>( field.GetPointer() );
@@ -477,7 +477,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   m_TempField->SetBufferedRegion( field->GetBufferedRegion() );
   m_TempField->Allocate();
 
-  typedef GaussianOperator<DeformationScalarType, ImageDimension> OperatorType;
+  using OperatorType = GaussianOperator<DeformationScalarType, ImageDimension>;
   OperatorType oper;
   // Automatically create the smoothing kernels in advance.
   // Therefore, we will avoid the data copy to GPU at every

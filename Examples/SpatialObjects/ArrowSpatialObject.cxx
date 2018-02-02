@@ -39,7 +39,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ArrowSpatialObject<3>   ArrowType;
+  using ArrowType = itk::ArrowSpatialObject<3>;
   ArrowType::Pointer myArrow = ArrowType::New();
 // Software Guide : EndCodeSnippet
 

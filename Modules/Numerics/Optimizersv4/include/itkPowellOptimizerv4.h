@@ -60,11 +60,11 @@ class ITK_TEMPLATE_EXPORT PowellOptimizerv4:
   public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef PowellOptimizerv4                                                   Self;
-  typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>  Superclass;
-  typedef SmartPointer< Self >                                                Pointer;
-  typedef SmartPointer< const Self >                                          ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = PowellOptimizerv4;
+  using Superclass = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -72,9 +72,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PowellOptimizerv4, Superclass);
 
-  typedef typename Superclass::ParametersType     ParametersType;
-  typedef typename Superclass::MeasureType        MeasureType;
-  typedef typename Superclass::ScalesType         ScalesType;
+  using ParametersType = typename Superclass::ParametersType;
+  using MeasureType = typename Superclass::MeasureType;
+  using ScalesType = typename Superclass::ScalesType;
 
   /** Set/Get maximum iteration limit. */
   itkSetMacro(MaximumIteration, unsigned int);

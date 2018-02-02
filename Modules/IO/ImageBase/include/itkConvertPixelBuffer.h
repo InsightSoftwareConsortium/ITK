@@ -47,8 +47,8 @@ class ITK_TEMPLATE_EXPORT ConvertPixelBuffer
 {
 public:
   /** Determine the output data type. */
-  typedef typename OutputConvertTraits::ComponentType OutputComponentType;
-  typedef ConvertPixelBuffer                          Self;
+  using OutputComponentType = typename OutputConvertTraits::ComponentType;
+  using Self = ConvertPixelBuffer;
   /** General method converts from one type to another. */
   static void Convert(InputPixelType *inputData,
                       int inputNumberOfComponents,

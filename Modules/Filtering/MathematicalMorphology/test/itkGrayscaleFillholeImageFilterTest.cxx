@@ -43,25 +43,25 @@ int itkGrayscaleFillholeImageFilterTest( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
 
-  typedef short           InputPixelType;
-  typedef short           OutputPixelType;
-  typedef unsigned char   WritePixelType;
+  using InputPixelType = short;
+  using OutputPixelType = short;
+  using WritePixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
-  typedef itk::Image< WritePixelType, Dimension >    WriteImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using WriteImageType = itk::Image< WritePixelType, Dimension >;
 
 
   // readers/writers
-  typedef itk::ImageFileReader< InputImageType  > ReaderType;
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
-  typedef itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>
-                                                  RescaleType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
+  using RescaleType =
+      itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
 
   // define the fillhole filter
-  typedef itk::GrayscaleFillholeImageFilter<
+  using FillholeFilterType = itk::GrayscaleFillholeImageFilter<
                             InputImageType,
-                            OutputImageType >  FillholeFilterType;
+                            OutputImageType >;
 
 
   // Creation of Reader and Writer filters

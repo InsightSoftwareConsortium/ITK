@@ -74,11 +74,11 @@ class ITK_TEMPLATE_EXPORT BSplineDecompositionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineDecompositionImageFilter                 Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineDecompositionImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineDecompositionImageFilter, ImageToImageFilter);
@@ -87,22 +87,22 @@ public:
   itkNewMacro(Self);
 
   /** Inherit input and output image types from Superclass. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
 
-  typedef typename itk::NumericTraits< typename TOutputImage::PixelType >::RealType CoeffType;
+  using CoeffType = typename itk::NumericTraits< typename TOutputImage::PixelType >::RealType;
 
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Iterator typedef support */
-  typedef ImageLinearIteratorWithIndex< TOutputImage > OutputLinearIterator;
+  /** Iterator type alias support */
+  using OutputLinearIterator = ImageLinearIteratorWithIndex< TOutputImage >;
 
-  typedef std::vector< double > SplinePolesVectorType;
+  using SplinePolesVectorType = std::vector< double >;
 
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
    *  is a 3rd order spline. */
@@ -143,7 +143,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) override;
 
 private:
-  typedef std::vector< CoeffType >  CoefficientsVectorType;
+  using CoefficientsVectorType = std::vector< CoeffType >;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDecompositionImageFilter);
 

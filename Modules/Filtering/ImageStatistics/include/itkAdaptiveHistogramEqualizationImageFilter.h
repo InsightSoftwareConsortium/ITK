@@ -78,17 +78,16 @@ class ITK_TEMPLATE_EXPORT AdaptiveHistogramEqualizationImageFilter:
 {
 public:
   /**
-   * Standard class typedefs
+   * Standard class type aliases
    */
-  typedef AdaptiveHistogramEqualizationImageFilter     Self;
-  typedef MovingHistogramImageFilter< TImageType,
+  using Self = AdaptiveHistogramEqualizationImageFilter;
+  using Superclass = MovingHistogramImageFilter< TImageType,
                                      TImageType,
                                      TKernel,
                                      typename Function::AdaptiveEqualizationHistogram< typename TImageType::PixelType,
-                                                                                       typename TImageType::PixelType > >
-                                                       Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+                                                                                       typename TImageType::PixelType > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TImageType::ImageDimension);
@@ -99,10 +98,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(AdaptiveHistogramEqualizationImageFilter, ImageToImageFilter);
 
-  /** Image type typedef support. */
-  typedef TImageType                    ImageType;
-  typedef typename ImageType::PixelType InputPixelType;
-  typedef typename ImageType::SizeType  ImageSizeType;
+  /** Image type type alias support */
+  using ImageType = TImageType;
+  using InputPixelType = typename ImageType::PixelType;
+  using ImageSizeType = typename ImageType::SizeType;
 
   /** Set/Get the value of alpha. Alpha = 0 produces the adaptive
    * histogram equalization (provided beta=0). Alpha = 1 produces an

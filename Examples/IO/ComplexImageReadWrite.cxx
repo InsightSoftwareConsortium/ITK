@@ -67,8 +67,8 @@ int main( int argc, char * argv [] )
 // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
-  typedef std::complex< float >              PixelType;
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using PixelType = std::complex< float >;
+  using ImageType = itk::Image< PixelType, Dimension >;
 // Software Guide : EndCodeSnippet
 
 
@@ -80,8 +80,8 @@ int main( int argc, char * argv [] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();

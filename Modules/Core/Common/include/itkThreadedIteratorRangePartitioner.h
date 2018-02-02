@@ -38,8 +38,8 @@ template< typename TIterator >
 class ITK_TEMPLATE_EXPORT ThreadedIteratorRangePartitionerDomain
 {
 public:
-  typedef TIterator                              IteratorType;
-  typedef ThreadedIteratorRangePartitionerDomain Self;
+  using IteratorType = TIterator;
+  using Self = ThreadedIteratorRangePartitionerDomain;
 
   ThreadedIteratorRangePartitionerDomain() {}
 
@@ -109,11 +109,11 @@ class ITK_TEMPLATE_EXPORT ThreadedIteratorRangePartitioner
   : public ThreadedDomainPartitioner< ThreadedIteratorRangePartitionerDomain< TIterator > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ThreadedIteratorRangePartitioner                                                  Self;
-  typedef ThreadedDomainPartitioner< ThreadedIteratorRangePartitionerDomain< TIterator > > Superclass;
-  typedef SmartPointer< Self >                                                              Pointer;
-  typedef SmartPointer< const Self >                                                        ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ThreadedIteratorRangePartitioner;
+  using Superclass = ThreadedDomainPartitioner< ThreadedIteratorRangePartitionerDomain< TIterator > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -122,9 +122,9 @@ public:
   itkTypeMacro(ThreadedIteratorRangePartitioner, ThreadedDomainPartitioner);
 
   /** Type for convenience of base class methods */
-  typedef typename Superclass::DomainType  DomainType;
+  using DomainType = typename Superclass::DomainType;
 
-  typedef TIterator IteratorType;
+  using IteratorType = TIterator;
 
   /** Split the domain \c completeDomain into up to \c requestedTotal
    * non-overlapping subdomains, setting subdomain number \c threadId as

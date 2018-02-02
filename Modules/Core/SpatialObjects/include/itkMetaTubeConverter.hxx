@@ -68,9 +68,9 @@ MetaTubeConverter< NDimensions >
   tubeSO->GetProperty()->SetBlue(tubeMO->Color()[2]);
   tubeSO->GetProperty()->SetAlpha(tubeMO->Color()[3]);
 
-  typedef itk::TubeSpatialObjectPoint< NDimensions > TubePointType;
+  using TubePointType = itk::TubeSpatialObjectPoint< NDimensions >;
 
-  typedef MetaTube::PointListType ListType;
+  using ListType = MetaTube::PointListType;
   ListType::const_iterator it2 = tubeMO->GetPoints().begin();
 
   itk::CovariantVector< double, NDimensions > v;
@@ -80,7 +80,7 @@ MetaTubeConverter< NDimensions >
     {
     TubePointType pnt;
 
-    typedef typename TubeSpatialObjectType::PointType PointType;
+    using PointType = typename TubeSpatialObjectType::PointType;
     PointType point;
 
     for ( unsigned int i = 0; i < ndims; i++ )

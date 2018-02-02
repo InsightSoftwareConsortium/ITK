@@ -34,13 +34,13 @@ int main( int argc, char * argv[] )
     }
 
   const unsigned int                               Dimension = 2;
-  typedef unsigned char                            InputPixelType;
-  typedef unsigned char                            OutputPixelType;
-  typedef itk::Image< InputPixelType,  Dimension > InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -49,7 +49,7 @@ int main( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
 
 
-  typedef itk::ResampleImageFilter<InputImageType,OutputImageType> FilterType;
+  using FilterType = itk::ResampleImageFilter<InputImageType,OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetDefaultPixelValue( 0 );

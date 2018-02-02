@@ -41,18 +41,18 @@ template <unsigned VDimension = 3>
 class ITK_TEMPLATE_EXPORT MetaConverterBase : public Object
 {
 public:
-  /** standard class typedefs */
-  typedef MetaConverterBase          Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** standard class type alias */
+  using Self = MetaConverterBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaConverterBase, Object);
 
-  typedef SpatialObject<VDimension>           SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer SpatialObjectPointer;
-  typedef MetaObject                          MetaObjectType;
+  using SpatialObjectType = SpatialObject<VDimension>;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using MetaObjectType = MetaObject;
 
   /** Read a MetaIO file, return a SpatialObject */
   virtual SpatialObjectPointer  ReadMeta(const char *name);

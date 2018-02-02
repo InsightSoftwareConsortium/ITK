@@ -205,7 +205,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
   ProgressReporter progress(this, 0, requestedSize[m_Dimension]);
 
   // allocate a vector to store internal image
-  typedef typename InternalInputImageType::Pointer InternalInputImagePointer;
+  using InternalInputImagePointer = typename InternalInputImageType::Pointer;
   std::vector< InternalInputImagePointer > internalInputs( this->GetNumberOfIndexedInputs() );
 
   for ( unsigned int i = 0; i < numberOfIndexedInputs; i++ )

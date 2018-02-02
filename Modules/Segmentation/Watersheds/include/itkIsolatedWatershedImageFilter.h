@@ -42,11 +42,11 @@ class ITK_TEMPLATE_EXPORT IsolatedWatershedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef IsolatedWatershedImageFilter                    Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = IsolatedWatershedImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,24 +55,24 @@ public:
   itkTypeMacro(IsolatedWatershedImageFilter,
                ImageToImageFilter);
 
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
-  typedef typename InputImageType::IndexType    IndexType;
-  typedef typename InputImageType::SizeType     SizeType;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using IndexType = typename InputImageType::IndexType;
+  using SizeType = typename InputImageType::SizeType;
 
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType  OutputImagePixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
-  typedef typename NumericTraits<InputImagePixelType>::RealType      RealPixelType;
-  typedef Image<RealPixelType, TInputImage::ImageDimension>          RealImageType;
+  using RealPixelType = typename NumericTraits<InputImagePixelType>::RealType;
+  using RealImageType = Image<RealPixelType, TInputImage::ImageDimension>;
 
-  typedef WatershedImageFilter< RealImageType >                          WatershedType;
-  typedef GradientMagnitudeImageFilter< InputImageType, RealImageType > GradientMagnitudeType;
+  using WatershedType = WatershedImageFilter< RealImageType >;
+  using GradientMagnitudeType = GradientMagnitudeImageFilter< InputImageType, RealImageType >;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Set seed point 1. This seed will be isolated from Seed2 (if

@@ -66,13 +66,13 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
   std::cout << " iterations "<< numberOfIterations
     << " displacementIterations " << numberOfDisplacementIterations << std::endl;
 
-  typedef double PixelType; //I assume png is unsigned short
+  using PixelType = double; //I assume png is unsigned short
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   typename FixedImageReaderType::Pointer fixedImageReader   = FixedImageReaderType::New();
   typename MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
@@ -87,30 +87,28 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
   typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
 
   /** define a resample filter that will ultimately be used to deform the image */
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+                            FixedImageType >;
   typename ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
 
   /** create a composite transform holder for other transforms  */
-  typedef itk::CompositeTransform<double, Dimension>    CompositeType;
+  using CompositeType = itk::CompositeTransform<double, Dimension>;
 
   typename CompositeType::Pointer compositeTransform = CompositeType::New();
 
   //create an affine transform
-  typedef TAffineTransform                              AffineTransformType;
+  using AffineTransformType = TAffineTransform;
 
   typename AffineTransformType::Pointer affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
   std::cout <<" affineTransform params " << affineTransform->GetParameters() << std::endl;
-  typedef itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<
-                                                    double, Dimension>
-                                                     DisplacementTransformType;
+  using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<
+                                                    double, Dimension>;
   typename DisplacementTransformType::Pointer displacementTransform =
                                               DisplacementTransformType::New();
-  typedef typename DisplacementTransformType::DisplacementFieldType
-                                                         DisplacementFieldType;
+  using DisplacementFieldType = typename DisplacementTransformType::DisplacementFieldType;
   typename DisplacementFieldType::Pointer field = DisplacementFieldType::New();
 
   //set the field to be the same as the fixed image region, which will
@@ -133,32 +131,32 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
   displacementTransform->SetGaussianSmoothingVarianceForTheTotalField( 6 );
 
   //identity transform for fixed image
-  typedef itk::IdentityTransform<double, Dimension> IdentityTransformType;
+  using IdentityTransformType = itk::IdentityTransform<double, Dimension>;
   typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
   // The metric
-  typedef itk::ImageToImageMetricv4
-    < FixedImageType, MovingImageType >         MetricBaseType;
+  using MetricBaseType = itk::ImageToImageMetricv4
+    < FixedImageType, MovingImageType >;
   typename MetricBaseType::Pointer metric;
 
   if (metricString.compare("ms") == 0)
     {
-    typedef itk::MeanSquaresImageToImageMetricv4
-      < FixedImageType, MovingImageType >           MeanSquaresMetricType;
+    using MeanSquaresMetricType = itk::MeanSquaresImageToImageMetricv4
+      < FixedImageType, MovingImageType >;
     typename MeanSquaresMetricType::Pointer meanSquaresMetric = MeanSquaresMetricType::New();
     metric = meanSquaresMetric.GetPointer();
     }
   else if (metricString.compare("mi") == 0)
     {
-    typedef itk::JointHistogramMutualInformationImageToImageMetricv4
-      < FixedImageType, MovingImageType >                   MIMetricType;
-    typedef typename MIMetricType::FixedSampledPointSetType PointSetType;
+    using MIMetricType = itk::JointHistogramMutualInformationImageToImageMetricv4
+      < FixedImageType, MovingImageType >;
+    using PointSetType = typename MIMetricType::FixedSampledPointSetType;
     typename MIMetricType::Pointer miMetric = MIMetricType::New();
     metric = miMetric.GetPointer();
 
     miMetric->SetNumberOfHistogramBins(20);
-    typedef typename PointSetType::PointType     PointType;
+    using PointType = typename PointSetType::PointType;
     typename PointSetType::Pointer               pset(PointSetType::New());
     unsigned long ind=0,ct=0;
     itk::ImageRegionIteratorWithIndex<FixedImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion() );
@@ -182,8 +180,8 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
   else if (metricString.compare("anc") == 0)
     {
     // The metric
-    typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4
-      < FixedImageType, MovingImageType > ANCMetricType;
+    using ANCMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4
+      < FixedImageType, MovingImageType >;
     typename ANCMetricType::Pointer nbcMetric = ANCMetricType::New();
     metric = nbcMetric.GetPointer();
 
@@ -213,13 +211,13 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
   metric->SetUseFixedImageGradientFilter( gaussian );
   metric->Initialize();
 
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricBaseType > RegistrationParameterScalesFromShiftType;
+  using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift< MetricBaseType >;
   typename RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
   std::cout << "First do an affine registration " << std::endl;
 
-  typedef itk::QuasiNewtonOptimizerv4  OptimizerType;
+  using OptimizerType = itk::QuasiNewtonOptimizerv4;
   typename OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
@@ -283,7 +281,7 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
   resample->SetDefaultPixelValue( 0 );
   resample->Update();
   //write out the displacement field
-  typedef itk::ImageFileWriter< DisplacementFieldType >  DisplacementWriterType;
+  using DisplacementWriterType = itk::ImageFileWriter< DisplacementFieldType >;
   typename DisplacementWriterType::Pointer      displacementwriter =  DisplacementWriterType::New();
   std::string outfilename( argv[5] );
   std::string ext = itksys::SystemTools::GetFilenameExtension( outfilename );
@@ -294,13 +292,13 @@ int itkQuasiNewtonOptimizerv4RegistrationTestMain(int argc, char *argv[])
   displacementwriter->Update();
 
   //write the warped image into a file
-  //typedef double                                    OutputPixelType;
-  typedef unsigned short                            OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
-  typedef itk::CastImageFilter<
+  //using OutputPixelType = double;
+  using OutputPixelType = unsigned short;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using CastFilterType = itk::CastImageFilter<
                         MovingImageType,
-                        OutputImageType >           CastFilterType;
-  typedef itk::ImageFileWriter< OutputImageType >   WriterType;
+                        OutputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   typename WriterType::Pointer      writer =  WriterType::New();
   typename CastFilterType::Pointer  caster =  CastFilterType::New();
   writer->SetFileName( argv[5] );
@@ -337,15 +335,15 @@ int itkQuasiNewtonOptimizerv4RegistrationTest(int argc, char *argv[])
 
   if (Dimension==2)
     {
-    typedef itk::AffineTransform<double, 2>   AffineTransformType;
-    //typedef itk::Euler2DTransform<double>             AffineTransformType;
+    using AffineTransformType = itk::AffineTransform<double, 2>;
+    //using AffineTransformType = itk::Euler2DTransform<double>;
     return itkQuasiNewtonOptimizerv4RegistrationTestMain
       <2, AffineTransformType>(argc, argv);
     }
   else if (Dimension==3)
     {
-    typedef itk::AffineTransform<double, 3>   AffineTransformType;
-    //typedef itk::Euler3DTransform<double>             AffineTransformType;
+    using AffineTransformType = itk::AffineTransform<double, 3>;
+    //using AffineTransformType = itk::Euler3DTransform<double>;
     return itkQuasiNewtonOptimizerv4RegistrationTestMain
       <3, AffineTransformType>(argc, argv);
     }

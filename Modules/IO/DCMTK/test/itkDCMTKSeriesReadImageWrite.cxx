@@ -38,10 +38,10 @@ int itkDCMTKSeriesReadImageWrite( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned short,3>            ImageType;
-  typedef itk::ImageSeriesReader< ImageType >     ReaderType;
-  typedef itk::DCMTKImageIO                       ImageIOType;
-  typedef itk::DCMTKSeriesFileNames               SeriesFileNames;
+  using ImageType = itk::Image<unsigned short,3>;
+  using ReaderType = itk::ImageSeriesReader< ImageType >;
+  using ImageIOType = itk::DCMTKImageIO;
+  using SeriesFileNames = itk::DCMTKSeriesFileNames;
 
   ImageIOType::Pointer dcmtkIO = ImageIOType::New();
   SeriesFileNames::Pointer it = SeriesFileNames::New();
@@ -74,7 +74,7 @@ int itkDCMTKSeriesReadImageWrite( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[2] );

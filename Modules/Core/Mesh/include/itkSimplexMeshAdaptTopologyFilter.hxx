@@ -80,9 +80,9 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
 
   const PointIdentifier numberOfPoints = inputMesh->GetNumberOfPoints();
 
-  typedef typename InputMeshType::GeometryMapType           GeometryMapType;
-  typedef typename InputMeshType::GeometryMapPointer        GeometryMapPointer;
-  typedef typename InputMeshType::GeometryMapConstIterator  GeometryMapConstIterator;
+  using GeometryMapType = typename InputMeshType::GeometryMapType;
+  using GeometryMapPointer = typename InputMeshType::GeometryMapPointer;
+  using GeometryMapConstIterator = typename InputMeshType::GeometryMapConstIterator;
 
   GeometryMapPointer inputGeometryData = inputMesh->GetGeometryData();
 

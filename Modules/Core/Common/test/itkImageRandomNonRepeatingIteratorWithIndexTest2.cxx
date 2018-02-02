@@ -29,11 +29,10 @@
 int itkImageRandomNonRepeatingIteratorWithIndexTest2(int, char* [])
 {
   const unsigned int ImageDimension = 2;
-  typedef itk::Index< ImageDimension >             PixelType;
-  typedef itk::Image< PixelType, ImageDimension >  ImageType;
+  using PixelType = itk::Index< ImageDimension >;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
-  typedef itk::ImageRandomNonRepeatingConstIteratorWithIndex< ImageType >
-    RandomConstIteratorType;
+  using RandomConstIteratorType = itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType>;
   const unsigned long N = 10;
   const int Seed = 42;
   ImageType::SizeType size;
@@ -48,8 +47,8 @@ int itkImageRandomNonRepeatingIteratorWithIndexTest2(int, char* [])
   myImage->SetBufferedRegion( region );
   myImage->SetRequestedRegion( region );
   myImage->Allocate();
-  typedef std::vector<ImageType::IndexType>            WalkType;
-  typedef WalkType::iterator                           WalkIteratorType;
+  using WalkType = std::vector<ImageType::IndexType>;
+  using WalkIteratorType = WalkType::iterator;
   WalkType firstWalk(N);
   RandomConstIteratorType firstIt(myImage, region);
   firstIt.ReinitializeSeed( Seed );

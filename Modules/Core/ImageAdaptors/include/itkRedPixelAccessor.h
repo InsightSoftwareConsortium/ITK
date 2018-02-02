@@ -38,16 +38,16 @@ template< typename T >
 class RedPixelAccessor
 {
 public:
-  /** Standard class typedefs. */
-  typedef   RedPixelAccessor Self;
+  /** Standard class type aliases. */
+  using Self = RedPixelAccessor;
 
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
     * that this class will exhibit */
-  typedef T ExternalType;
+  using ExternalType = T;
 
-  /** Internal typedef. It defines the internal real
+  /** Internal type alias. It defines the internal real
    * representation of data */
-  typedef     RGBPixel< T > InternalType;
+  using InternalType = RGBPixel< T >;
 
   /** Write access to the Red component */
   inline void Set(InternalType & output, const ExternalType & input) const

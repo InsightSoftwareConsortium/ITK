@@ -69,15 +69,15 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
-  /** Standard class typedefs. */
-  typedef ScalarImageKmeansImageFilter                          Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ScalarImageKmeansImageFilter;
+  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -85,42 +85,42 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarImageKmeansImageFilter, ImageToImageFilter);
 
-  /** Image typedef support. */
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  /** Image type alias support */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
   /** Type used for representing the Mean values. */
-  typedef typename NumericTraits< InputPixelType >::RealType RealPixelType;
+  using RealPixelType = typename NumericTraits< InputPixelType >::RealType;
 
   /** Create a List from the scalar image. */
-  typedef itk::Statistics::ImageToListSampleAdaptor< InputImageType > AdaptorType;
+  using AdaptorType = itk::Statistics::ImageToListSampleAdaptor< InputImageType >;
 
   /** Define the Measurement vector type from the AdaptorType. */
-  typedef typename AdaptorType::MeasurementVectorType MeasurementVectorType;
+  using MeasurementVectorType = typename AdaptorType::MeasurementVectorType;
 
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType > MembershipFunctionType;
-  typedef itk::Statistics::SampleClassifierFilter< AdaptorType >                         ClassifierType;
-  typedef itk::Statistics::MinimumDecisionRule  DecisionRuleType;
+  using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType >;
+  using ClassifierType = itk::Statistics::SampleClassifierFilter< AdaptorType >;
+  using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
 
-  typedef typename ClassifierType::ClassLabelVectorType ClassLabelVectorType;
+  using ClassLabelVectorType = typename ClassifierType::ClassLabelVectorType;
 
-  typedef typename ClassifierType::MembershipFunctionVectorType MembershipFunctionVectorType;
-  typedef typename MembershipFunctionType::CentroidType         MembershipFunctionOriginType;
+  using MembershipFunctionVectorType = typename ClassifierType::MembershipFunctionVectorType;
+  using MembershipFunctionOriginType = typename MembershipFunctionType::CentroidType;
 
-  typedef typename MembershipFunctionType::Pointer MembershipFunctionPointer;
+  using MembershipFunctionPointer = typename MembershipFunctionType::Pointer;
 
   /** Create the K-d tree structure. */
-  typedef itk::Statistics::WeightedCentroidKdTreeGenerator< AdaptorType > TreeGeneratorType;
-  typedef typename TreeGeneratorType::KdTreeType                          TreeType;
-  typedef itk::Statistics::KdTreeBasedKmeansEstimator< TreeType >         EstimatorType;
+  using TreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator< AdaptorType >;
+  using TreeType = typename TreeGeneratorType::KdTreeType;
+  using EstimatorType = itk::Statistics::KdTreeBasedKmeansEstimator< TreeType >;
 
-  typedef typename EstimatorType::ParametersType ParametersType;
+  using ParametersType = typename EstimatorType::ParametersType;
 
-  typedef typename InputImageType::RegionType ImageRegionType;
+  using ImageRegionType = typename InputImageType::RegionType;
 
-  typedef RegionOfInterestImageFilter<
+  using RegionOfInterestFilterType = RegionOfInterestImageFilter<
     InputImageType,
-    InputImageType  > RegionOfInterestFilterType;
+    InputImageType  >;
 
   /** Add a new class to the classification by specifying its initial mean. */
   void AddClassWithInitialMean(RealPixelType mean);
@@ -169,7 +169,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageKmeansImageFilter);
 
-  typedef std::vector< RealPixelType > MeansContainer;
+  using MeansContainer = std::vector< RealPixelType >;
 
   MeansContainer m_InitialMeans;
 

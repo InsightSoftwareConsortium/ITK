@@ -52,26 +52,26 @@ class ITK_TEMPLATE_EXPORT IterativeDeconvolutionImageFilter :
     public FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
-  /** Standard typedefs. */
-  typedef IterativeDeconvolutionImageFilter               Self;
-  typedef FFTConvolutionImageFilter< TInputImage,
+  /** Standard type alias. */
+  using Self = IterativeDeconvolutionImageFilter;
+  using Superclass = FFTConvolutionImageFilter< TInputImage,
                                      TKernelImage,
                                      TOutputImage,
-                                     TInternalPrecision > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+                                     TInternalPrecision >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Other useful typedefs. */
-  typedef TInputImage  InputImageType;
-  typedef TKernelImage KernelImageType;
-  typedef TOutputImage OutputImageType;
+  /** Other useful type alias. */
+  using InputImageType = TInputImage;
+  using KernelImageType = TKernelImage;
+  using OutputImageType = TOutputImage;
 
   /** Internal types used by the FFT filters. */
-  typedef typename Superclass::InternalImageType               InternalImageType;
-  typedef typename Superclass::InternalImagePointerType        InternalImagePointerType;
-  typedef typename Superclass::InternalComplexType             InternalComplexType;
-  typedef typename Superclass::InternalComplexImageType        InternalComplexImageType;
-  typedef typename Superclass::InternalComplexImagePointerType InternalComplexImagePointerType;
+  using InternalImageType = typename Superclass::InternalImageType;
+  using InternalImagePointerType = typename Superclass::InternalImagePointerType;
+  using InternalComplexType = typename Superclass::InternalComplexType;
+  using InternalComplexImageType = typename Superclass::InternalComplexImageType;
+  using InternalComplexImagePointerType = typename Superclass::InternalComplexImagePointerType;
 
   /** Runtime information support. */
   itkTypeMacro(IterativeDeconvolutionImageFilter, ConvolutionImageFilterBase);
@@ -131,8 +131,8 @@ protected:
   /** Intermediate results. Protected for easy access by subclasses. */
   InternalImagePointerType m_CurrentEstimate;
 
-  typedef typename Superclass::FFTFilterType  FFTFilterType;
-  typedef typename Superclass::IFFTFilterType IFFTFilterType;
+  using FFTFilterType = typename Superclass::FFTFilterType;
+  using IFFTFilterType = typename Superclass::IFFTFilterType;
 
   void PrintSelf(std::ostream & os, Indent indent) const override;
 

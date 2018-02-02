@@ -37,20 +37,20 @@ class ITK_TEMPLATE_EXPORT DecimateFramesVideoFilter :
 {
 public:
 
-  /** Standard class typedefs */
-  typedef TVideoStream                                 VideoStreamType;
-  typedef TVideoStream                                 InputVideoStreamType;
-  typedef TVideoStream                                 OutputVideoStreamType;
-  typedef DecimateFramesVideoFilter< VideoStreamType > Self;
-  typedef VideoToVideoFilter< VideoStreamType,
-                              VideoStreamType >        Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
-  typedef WeakPointer< const Self >                    ConstWeakPointer;
+  /** Standard class type aliases */
+  using VideoStreamType = TVideoStream;
+  using InputVideoStreamType = TVideoStream;
+  using OutputVideoStreamType = TVideoStream;
+  using Self = DecimateFramesVideoFilter< VideoStreamType >;
+  using Superclass = VideoToVideoFilter< VideoStreamType,
+                              VideoStreamType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
-  typedef typename TVideoStream::FrameType FrameType;
-  typedef typename FrameType::PixelType    PixelType;
-  typedef typename FrameType::RegionType   FrameSpatialRegionType;
+  using FrameType = typename TVideoStream::FrameType;
+  using PixelType = typename FrameType::PixelType;
+  using FrameSpatialRegionType = typename FrameType::RegionType;
 
   itkNewMacro(Self);
 

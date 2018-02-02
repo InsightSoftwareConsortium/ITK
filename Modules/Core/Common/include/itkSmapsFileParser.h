@@ -38,7 +38,7 @@ namespace itk
 class ITKCommon_EXPORT MapRecord
 {
 public:
-  typedef SizeValueType  MemoryLoadType;
+  using MemoryLoadType = SizeValueType;
   virtual ~MapRecord();
   /** Reset the record
   */
@@ -126,7 +126,7 @@ class ITKCommon_EXPORT MapData
 {
 public:
   /** need a large enough type to be able to accumulate the SmapsRecord */
-  typedef SizeValueType  MemoryLoadType;
+  using MemoryLoadType = SizeValueType;
   //todo delete records
   virtual ~MapData();
 
@@ -150,7 +150,7 @@ protected:
   void Reset();
 
 protected:
-  typedef std::vector< MapRecord * > MapRecordVectorType;
+  using MapRecordVectorType = std::vector< MapRecord * >;
 
   /** contains all the segment records */
   MapRecordVectorType m_Records;
@@ -164,7 +164,7 @@ protected:
 class ITKCommon_EXPORT SmapsData_2_6:public MapData
 {
 public:
-  typedef MapData::MemoryLoadType MemoryLoadType;
+  using MemoryLoadType = MapData::MemoryLoadType;
 
   ~SmapsData_2_6() override;
 
@@ -193,7 +193,7 @@ protected:
 class ITKCommon_EXPORT VMMapData_10_2:public MapData
 {
 public:
-  typedef MapData::MemoryLoadType MemoryLoadType;
+  using MemoryLoadType = MapData::MemoryLoadType;
   VMMapData_10_2();
   ~VMMapData_10_2() override;
 
@@ -222,7 +222,7 @@ template< typename TMapData >
 class ITK_TEMPLATE_EXPORT MapFileParser
 {
 public:
-  typedef typename TMapData::MemoryLoadType MemoryLoadType;
+  using MemoryLoadType = typename TMapData::MemoryLoadType;
 
   virtual ~MapFileParser();
   /** Load and parse a Map file pointed by mapFileLocation.

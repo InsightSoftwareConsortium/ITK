@@ -71,15 +71,15 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
-  typedef unsigned char   InputPixelType;
-  typedef unsigned char   OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
 
   //  Software Guide : BeginLatex
@@ -101,9 +101,9 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::BinaryBallStructuringElement<
+  using StructuringElementType = itk::BinaryBallStructuringElement<
                       InputPixelType,
-                      Dimension  >             StructuringElementType;
+                      Dimension  >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -115,15 +115,15 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GrayscaleErodeImageFilter<
+  using ErodeFilterType = itk::GrayscaleErodeImageFilter<
                             InputImageType,
                             OutputImageType,
-                            StructuringElementType >  ErodeFilterType;
+                            StructuringElementType >;
 
-  typedef itk::GrayscaleDilateImageFilter<
+  using DilateFilterType = itk::GrayscaleDilateImageFilter<
                             InputImageType,
                             OutputImageType,
-                            StructuringElementType >  DilateFilterType;
+                            StructuringElementType >;
   // Software Guide : EndCodeSnippet
 
 

@@ -377,23 +377,23 @@ struct FloatIEEETraits;
 template <>
 struct FloatIEEETraits<float>
 {
-  typedef int32_t  IntType;
-  typedef uint32_t UIntType;
+  using IntType = int32_t;
+  using UIntType = uint32_t;
 };
 
 template <>
 struct FloatIEEETraits<double>
 {
-  typedef int64_t  IntType;
-  typedef uint64_t UIntType;
+  using IntType = int64_t;
+  using UIntType = uint64_t;
 };
 
 template <typename T>
 union FloatIEEE
 {
-  typedef T                                     FloatType;
-  typedef typename FloatIEEETraits<T>::IntType  IntType;
-  typedef typename FloatIEEETraits<T>::UIntType UIntType;
+  using FloatType = T;
+  using IntType = typename FloatIEEETraits<T>::IntType;
+  using UIntType = typename FloatIEEETraits<T>::UIntType;
 
   FloatType asFloat;
   IntType asInt;

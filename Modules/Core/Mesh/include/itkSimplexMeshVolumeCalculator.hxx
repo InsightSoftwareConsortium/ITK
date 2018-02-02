@@ -95,8 +95,8 @@ template< typename TInputMesh >
 IdentifierType SimplexMeshVolumeCalculator< TInputMesh >
 ::FindCellId(IdentifierType id1, IdentifierType id2, IdentifierType id3)
 {
-  typedef std::set< typename InputMeshType::PointIdentifier > PointSetType;
-  typedef typename PointSetType::iterator                     PointSetIterator;
+  using PointSetType = std::set< typename InputMeshType::PointIdentifier >;
+  using PointSetIterator = typename PointSetType::iterator;
 
   PointSetType cells1 =  m_SimplexMesh->GetCellLinks()->GetElement(id1);
   PointSetType cells2 =  m_SimplexMesh->GetCellLinks()->GetElement(id2);

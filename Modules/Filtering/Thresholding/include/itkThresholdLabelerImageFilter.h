@@ -48,8 +48,8 @@ public:
   ThresholdLabeler() { m_LabelOffset = NumericTraits< TOutput >::OneValue(); }
   ~ThresholdLabeler() {}
 
-  typedef typename NumericTraits< TInput >::RealType RealThresholdType;
-  typedef std::vector< RealThresholdType >           RealThresholdVector;
+  using RealThresholdType = typename NumericTraits< TInput >::RealType;
+  using RealThresholdVector = std::vector< RealThresholdType >;
 
   /** Set the vector of thresholds. */
   void SetThresholds(const RealThresholdVector & thresholds)
@@ -113,17 +113,17 @@ class ITK_TEMPLATE_EXPORT ThresholdLabelerImageFilter:
                              typename TOutputImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ThresholdLabelerImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = ThresholdLabelerImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::ThresholdLabeler<
       typename TInputImage::PixelType,
       typename TOutputImage::PixelType >
-    >                                  Superclass;
+    >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -132,13 +132,13 @@ public:
   itkTypeMacro(ThresholdLabelerImageFilter, UnaryFunctorImageFilter);
 
   /** Pixel types. */
-  typedef typename TInputImage::PixelType  InputPixelType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
   /** Threshold vector types. */
-  typedef std::vector< InputPixelType >                      ThresholdVector;
-  typedef typename NumericTraits< InputPixelType >::RealType RealThresholdType;
-  typedef std::vector< RealThresholdType >                   RealThresholdVector;
+  using ThresholdVector = std::vector< InputPixelType >;
+  using RealThresholdType = typename NumericTraits< InputPixelType >::RealType;
+  using RealThresholdVector = std::vector< RealThresholdType >;
 
   /** The input and output pixel types must support comparison operators. */
 #ifdef ITK_USE_CONCEPT_CHECKING

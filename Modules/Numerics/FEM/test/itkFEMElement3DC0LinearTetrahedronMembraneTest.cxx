@@ -34,11 +34,11 @@ int itkFEMElement3DC0LinearTetrahedronMembraneTest(int argc, char *argv[])
   //the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  typedef itk::fem::Solver<3> Solver3DType;
+  using Solver3DType = itk::fem::Solver<3>;
   Solver3DType::Pointer solver = Solver3DType::New();
 
-  typedef itk::FEMSpatialObjectReader<3>      FEMSpatialObjectReaderType;
-  typedef FEMSpatialObjectReaderType::Pointer FEMSpatialObjectReaderPointer;
+  using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<3>;
+  using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
   SpatialReader->SetFileName( argv[1] );
   SpatialReader->Update();
@@ -52,7 +52,7 @@ int itkFEMElement3DC0LinearTetrahedronMembraneTest(int argc, char *argv[])
   std::cout << " [PASSED]" << std::endl;
 
   // Testing the fe mesh validity
-  typedef itk::FEMObjectSpatialObject<3>      FEMObjectSpatialObjectType;
+  using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<3>;
 
   FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
   if( strcmp( (*(children->begin() ) )->GetTypeName(), "FEMObjectSpatialObject") )
@@ -96,8 +96,8 @@ int itkFEMElement3DC0LinearTetrahedronMembraneTest(int argc, char *argv[])
   // to write the deformed mesh
   FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
   femSODef->SetFEMObject(solver->GetOutput() );
-  typedef itk::FEMSpatialObjectWriter<3>      FEMSpatialObjectWriterType;
-  typedef FEMSpatialObjectWriterType::Pointer FEMSpatialObjectWriterPointer;
+  using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<3>;
+  using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
   FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
   SpatialWriter->SetInput(femSODef);
   SpatialWriter->SetFileName( argv[2] );

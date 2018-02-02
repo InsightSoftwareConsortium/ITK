@@ -25,14 +25,14 @@
 #include "itkImageFileReader.h"
 #include "itkImageRegionConstIterator.h"
 
-// typedefs
+// type alias
 const unsigned int Dimension =                      2;
-typedef unsigned char                               PixelType;
-typedef itk::Image< PixelType, Dimension >          FrameType;
-typedef itk::VideoStream< FrameType >               VideoType;
-typedef itk::DecimateFramesVideoFilter< VideoType > FilterType;
-typedef itk::VideoFileReader< VideoType >           ReaderType;
-typedef itk::VideoFileWriter< VideoType >           WriterType;
+using PixelType = unsigned char;
+using FrameType = itk::Image< PixelType, Dimension >;
+using VideoType = itk::VideoStream< FrameType >;
+using FilterType = itk::DecimateFramesVideoFilter< VideoType >;
+using ReaderType = itk::VideoFileReader< VideoType >;
+using WriterType = itk::VideoFileWriter< VideoType >;
 
 namespace itk
 {
@@ -44,7 +44,7 @@ namespace DecimateFramesVideoFilterTest
  */
 bool FramesAreEqual(const FrameType* f1, const FrameType* f2)
 {
-  typedef ImageRegionConstIterator<FrameType> IterType;
+  using IterType = ImageRegionConstIterator<FrameType>;
   IterType it1(f1, f1->GetLargestPossibleRegion());
   IterType it2(f2, f2->GetLargestPossibleRegion());
 
@@ -125,7 +125,7 @@ int itkDecimateFramesVideoFilterTest( int argc, char* argv[] )
 
   // Set up two readers to read in the frames that should have been written and
   // compare against those that actually were
-  typedef itk::ImageFileReader<FrameType> FrameReaderType;
+  using FrameReaderType = itk::ImageFileReader<FrameType>;
   FrameReaderType::Pointer inputFrameReader = FrameReaderType::New();
   FrameReaderType::Pointer outputFrameReader = FrameReaderType::New();
 

@@ -30,12 +30,12 @@ class AnchorCloseImageFilter:
 
 {
 public:
-  typedef AnchorCloseImageFilter Self;
-  typedef AnchorOpenCloseImageFilter< TImage, TKernel, std::greater< typename TImage::PixelType >,
-                                      std::less< typename TImage::PixelType > > Superclass;
+  using Self = AnchorCloseImageFilter;
+  using Superclass = AnchorOpenCloseImageFilter< TImage, TKernel, std::greater< typename TImage::PixelType >,
+                                      std::less< typename TImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

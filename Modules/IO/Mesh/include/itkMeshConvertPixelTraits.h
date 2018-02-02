@@ -46,7 +46,7 @@ class MeshConvertPixelTraits
 {
 public:
   /** Determine the pixel data type. */
-  typedef typename PixelType::ComponentType ComponentType;
+  using ComponentType = typename PixelType::ComponentType;
 
   /** Return the number of components per pixel. */
   static unsigned int GetNumberOfComponents()
@@ -74,7 +74,7 @@ template<>                                                                \
   class MeshConvertPixelTraits<type>                                      \
   {                                                                       \
   public:                                                                 \
-  typedef type ComponentType;                                             \
+  using ComponentType = type;                                             \
   static unsigned int GetNumberOfComponents()                             \
   {                                                                       \
   return 1;                                                               \
@@ -121,8 +121,8 @@ template<>                                                                \
   class MeshConvertPixelTraits< Offset<dimension> >                                \
   {                                                                                \
   public:                                                                          \
-  typedef Offset<dimension>  TargetType;                                           \
-  typedef TargetType::OffsetValueType  ComponentType;                              \
+  using TargetType = Offset<dimension>;                                           \
+  using ComponentType = TargetType::OffsetValueType;                              \
   static unsigned int GetNumberOfComponents()                                      \
   {                                                                                \
   return dimension;                                                                \
@@ -162,8 +162,8 @@ template<>                                                                \
   class MeshConvertPixelTraits< type< componenttype, dimension> >                    \
   {                                                                                  \
   public:                                                                            \
-  typedef type< componenttype, dimension >  TargetType;                              \
-  typedef componenttype                     ComponentType;                           \
+  using TargetType = type< componenttype, dimension >;                              \
+  using ComponentType = componenttype;                           \
   static unsigned int GetNumberOfComponents()                                        \
   {                                                                                  \
   return dimension;                                                                  \
@@ -233,8 +233,8 @@ template<>                                                                      
   class MeshConvertPixelTraits< type< componenttype, rows, cols > >                \
   {                                                                                \
   public:                                                                          \
-  typedef type< componenttype, rows, cols >  TargetType;                           \
-  typedef componenttype                     ComponentType;                         \
+  using TargetType = type< componenttype, rows, cols >;                           \
+  using ComponentType = componenttype;                         \
   static unsigned int GetNumberOfComponents()                                      \
   {                                                                                \
   return rows * cols;                                                              \
@@ -307,8 +307,8 @@ template<>                                                                      
   class MeshConvertPixelTraits< ::std::complex< componenttype > >                  \
   {                                                                                \
   public:                                                                          \
-  typedef ::std::complex< componenttype>  TargetType;                              \
-  typedef componenttype                     ComponentType;                         \
+  using TargetType = ::std::complex< componenttype>;                              \
+  using ComponentType = componenttype;                         \
   static unsigned int GetNumberOfComponents()                                      \
   {                                                                                \
   return 2;                                                                        \
@@ -353,8 +353,8 @@ template<>                                                                      
   class MeshConvertPixelTraits< type< componenttype> >                             \
   {                                                                                \
   public:                                                                          \
-  typedef type< componenttype >             TargetType;                            \
-  typedef componenttype                     ComponentType;                         \
+  using TargetType = type< componenttype >;                            \
+  using ComponentType = componenttype;                         \
   static unsigned int GetNumberOfComponents()                                      \
   {                                                                                \
   return 0;                                                                        \

@@ -40,17 +40,17 @@ class VanHerkGilWermanDilateImageFilter:
   public VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, MaxFunctor< typename TImage::PixelType > >
 {
 public:
-  typedef VanHerkGilWermanDilateImageFilter Self;
-  typedef VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel,
-                                                  MaxFunctor< typename TImage::PixelType > > Superclass;
+  using Self = VanHerkGilWermanDilateImageFilter;
+  using Superclass = VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel,
+                                                  MaxFunctor< typename TImage::PixelType > >;
 
   /** Runtime information support. */
   itkTypeMacro(VanHerkGilWermanDilateImageFilter,
                VanHerkGilWermanErodeDilateImageFilter);
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef typename TImage::PixelType PixelType;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using PixelType = typename TImage::PixelType;
 
 
   /** Method for creation through the object factory. */

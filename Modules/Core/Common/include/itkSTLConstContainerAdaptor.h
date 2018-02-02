@@ -47,10 +47,10 @@ class STLConstContainerAdaptor
 {
 public:
 
-  typedef const TContainer AdapteeType;
+  using AdapteeType = const TContainer;
 
-  typedef const typename AdapteeType::Element          ElementType;
-  typedef const typename AdapteeType::STLContainerType TargetType;
+  using ElementType = const typename AdapteeType::Element;
+  using TargetType = const typename AdapteeType::STLContainerType;
 
 private:
 

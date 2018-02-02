@@ -59,7 +59,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    typedef typename TOutput::ValueType OutputValueType;
+    using OutputValueType = typename TOutput::ValueType;
 
     TOutput value;
     for ( unsigned int k = 0; k < TOutput::Dimension; k++ )
@@ -79,15 +79,15 @@ class VectorCastImageFilter:
                                                 typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorCastImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = VectorCastImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::VectorCast< typename TInputImage::PixelType,
-                         typename TOutputImage::PixelType > >  Superclass;
+                         typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

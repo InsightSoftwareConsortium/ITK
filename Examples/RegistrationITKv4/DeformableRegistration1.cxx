@@ -42,7 +42,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  Next, we use \code{typedef}s to instantiate all necessary classes.  We
+//  Next, we use \code{using} type alias to instantiate all necessary classes.  We
 //  define the image and element types we plan to use to solve a
 //  two-dimensional registration problem.  We define multiple element
 //  types so that they can be used without recompiling the code.
@@ -51,11 +51,11 @@
 
 
 //  Software Guide : BeginCodeSnippet
-typedef itk::Image<unsigned char, 2>                     DiskImageType;
-typedef itk::Image<float, 2>                             ImageType;
-typedef itk::fem::Element2DC0LinearQuadrilateralMembrane ElementType;
-typedef itk::fem::Element2DC0LinearTriangularMembrane    ElementType2;
-typedef itk::fem::FEMObject<2>                           FEMObjectType;
+using DiskImageType = itk::Image<unsigned char, 2>;
+using ImageType = itk::Image<float, 2>;
+using ElementType = itk::fem::Element2DC0LinearQuadrilateralMembrane;
+using ElementType2 = itk::fem::Element2DC0LinearTriangularMembrane;
+using FEMObjectType = itk::fem::FEMObject<2>;
 //  Software Guide : EndCodeSnippet
 
 
@@ -70,11 +70,11 @@ typedef itk::fem::FEMObject<2>                           FEMObjectType;
 
 
 //  SoftwareGuide : BeginCodeSnippet
-typedef itk::Image<unsigned char, 3>                    FileImage3DType;
-typedef itk::Image<float, 3>                            Image3DType;
-typedef itk::fem::Element3DC0LinearHexahedronMembrane   Element3DType;
-typedef itk::fem::Element3DC0LinearTetrahedronMembrane  Element3DType2;
-typedef itk::fem::FEMObject<3>                          FEMObject3DType;
+using FileImage3DType = itk::Image<unsigned char, 3>;
+using Image3DType = itk::Image<float, 3>;
+using Element3DType = itk::fem::Element3DC0LinearHexahedronMembrane;
+using Element3DType2 = itk::fem::Element3DC0LinearTetrahedronMembrane;
+using FEMObject3DType = itk::fem::FEMObject<3>;
 //  Software Guide : EndCodeSnippet
 
 
@@ -88,8 +88,8 @@ typedef itk::fem::FEMObject<3>                          FEMObject3DType;
 
 
 //  Software Guide : BeginCodeSnippet
-typedef itk::fem::FEMRegistrationFilter<ImageType,ImageType,FEMObjectType>
-                                                             RegistrationType;
+using RegistrationType = itk::fem::FEMRegistrationFilter<
+                              ImageType,ImageType,FEMObjectType>;
 //  Software Guide : EndCodeSnippet
 
 
@@ -143,7 +143,7 @@ int main(int argc, char *argv[])
 
 
   // Read the image files
-  typedef itk::ImageFileReader< DiskImageType > FileSourceType;
+  using FileSourceType = itk::ImageFileReader< DiskImageType >;
 
   FileSourceType::Pointer movingfilter = FileSourceType::New();
   movingfilter->SetFileName( movingImageName );
@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
 
 
   // Rescale the image intensities so that they fall between 0 and 255
-  typedef itk::RescaleIntensityImageFilter<DiskImageType,ImageType> FilterType;
+  using FilterType = itk::RescaleIntensityImageFilter<DiskImageType,ImageType>;
   FilterType::Pointer movingrescalefilter = FilterType::New();
   FilterType::Pointer fixedrescalefilter = FilterType::New();
 
@@ -195,7 +195,7 @@ int main(int argc, char *argv[])
 
 
   // Histogram match the images
-  typedef itk::HistogramMatchingImageFilter<ImageType,ImageType> HEFilterType;
+  using HEFilterType = itk::HistogramMatchingImageFilter<ImageType,ImageType>;
   HEFilterType::Pointer IntensityEqualizeFilter = HEFilterType::New();
 
   IntensityEqualizeFilter->SetReferenceImage( fixedrescalefilter->GetOutput() );
@@ -320,7 +320,7 @@ int main(int argc, char *argv[])
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter<RegistrationType::FieldType> DispWriterType;
+  using DispWriterType = itk::ImageFileWriter<RegistrationType::FieldType>;
   DispWriterType::Pointer dispWriter = DispWriterType::New();
   dispWriter->SetInput( registrationFilter->GetDisplacementField() );
   dispWriter->SetFileName("displacement.mha");

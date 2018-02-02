@@ -29,7 +29,7 @@ template <int VDimension>
 class ImagePattern
 {
 public:
-  typedef itk::Index<VDimension> IndexType;
+  using IndexType = itk::Index<VDimension>;
 
   ImagePattern()
     {
@@ -70,9 +70,9 @@ public:
 
 int itkExpandImageFilterTest(int, char* [] )
 {
-  typedef float PixelType;
+  using PixelType = float;
   enum { ImageDimension = 2 };
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
 
   bool testPassed = true;
 
@@ -97,7 +97,7 @@ int itkExpandImageFilterTest(int, char* [] )
     pattern.m_Coeff[j] = 1.0;
     }
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator inIter( input, region );
 
   while( !inIter.IsAtEnd() )
@@ -110,10 +110,10 @@ int itkExpandImageFilterTest(int, char* [] )
 
   std::cout << "Run ExpandImageFilter in standalone mode with progress.";
   std::cout << std::endl;
-  typedef itk::ExpandImageFilter<ImageType,ImageType> ExpanderType;
+  using ExpanderType = itk::ExpandImageFilter<ImageType,ImageType>;
   ExpanderType::Pointer expander = ExpanderType::New();
 
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,double> InterpolatorType;
+  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType,double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   expander->SetInterpolator( interpolator );
@@ -193,7 +193,7 @@ int itkExpandImageFilterTest(int, char* [] )
   std::cout << "Run ExpandImageFilter with streamer";
   std::cout << std::endl;
 
-  typedef itk::CastImageFilter<ImageType,ImageType> CasterType;
+  using CasterType = itk::CastImageFilter<ImageType,ImageType>;
   CasterType::Pointer caster = CasterType::New();
 
   caster->SetInput( expander->GetInput() );
@@ -206,7 +206,7 @@ int itkExpandImageFilterTest(int, char* [] )
 //TEST_RMV20100728   expander2->SetEdgePaddingValue( expander->GetEdgePaddingValue() );
   expander2->SetInterpolator( interpolator );
 
-  typedef itk::StreamingImageFilter<ImageType,ImageType> StreamerType;
+  using StreamerType = itk::StreamingImageFilter<ImageType,ImageType>;
   StreamerType::Pointer streamer = StreamerType::New();
   streamer->SetInput( expander2->GetOutput() );
   streamer->SetNumberOfStreamDivisions( 3 );

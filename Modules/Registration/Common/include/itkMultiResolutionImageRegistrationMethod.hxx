@@ -243,8 +243,8 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
   m_MovingImagePyramid->SetInput(m_MovingImage);
   m_MovingImagePyramid->UpdateLargestPossibleRegion();
 
-  typedef typename FixedImageRegionType::SizeType  SizeType;
-  typedef typename FixedImageRegionType::IndexType IndexType;
+  using SizeType = typename FixedImageRegionType::SizeType;
+  using IndexType = typename FixedImageRegionType::IndexType;
 
   ScheduleType schedule = m_FixedImagePyramid->GetSchedule();
   itkDebugMacro (<< "FixedImage schedule: " << schedule);

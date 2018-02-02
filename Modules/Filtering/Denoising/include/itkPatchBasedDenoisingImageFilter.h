@@ -62,12 +62,12 @@ class ITK_TEMPLATE_EXPORT PatchBasedDenoisingImageFilter :
   public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef PatchBasedDenoisingImageFilter                                Self;
-  typedef PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                                            Pointer;
-  typedef SmartPointer<const Self>                                      ConstPointer;
-  typedef typename Superclass::OutputImagePointer                       OutputImagePointer;
+  /** Standard class type aliases. */
+  using Self = PatchBasedDenoisingImageFilter;
+  using Superclass = PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -77,53 +77,53 @@ public:
     PatchBasedDenoisingBaseImageFilter);
 
   /** Type definition for the input image. */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
   /** Image dimension, assumed to be the same for input and output data*/
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
   /** Type definition for the input image region and size type. */
-  typedef typename InputImageType::RegionType InputImageRegionType;
+  using InputImageRegionType = typename InputImageType::RegionType;
 
   /** Type definition for the input image region iterator */
-  typedef ImageRegionIterator<OutputImageType>     OutputImageRegionIteratorType;
-  typedef ImageRegionConstIterator<InputImageType> InputImageRegionConstIteratorType;
+  using OutputImageRegionIteratorType = ImageRegionIterator<OutputImageType>;
+  using InputImageRegionConstIteratorType = ImageRegionConstIterator<InputImageType>;
 
   /** Type definition for the input and output pixel types.
       Output pixel type will be used in computations. */
-  typedef typename Superclass::PixelType      PixelType;
-  typedef typename Superclass::PixelValueType PixelValueType;
+  using PixelType = typename Superclass::PixelType;
+  using PixelValueType = typename Superclass::PixelValueType;
 
-  typedef typename NumericTraits< PixelType >::RealType      RealType;
-  typedef typename NumericTraits< PixelValueType >::RealType RealValueType;
-  typedef Array<PixelValueType>                              PixelArrayType;
-  typedef Array<RealValueType>                               RealArrayType;
-  typedef Array<unsigned short>                              ShortArrayType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
+  using RealValueType = typename NumericTraits< PixelValueType >::RealType;
+  using PixelArrayType = Array<PixelValueType>;
+  using RealArrayType = Array<RealValueType>;
+  using ShortArrayType = Array<unsigned short>;
 
   /** Type definition for patch weights type. */
-  typedef typename Superclass::ListAdaptorType         ListAdaptorType;
-  typedef typename Superclass::PatchRadiusType         PatchRadiusType;
-  typedef typename Superclass::InputImagePatchIterator InputImagePatchIterator;
-  typedef ListAdaptorType                              PatchSampleType;
-  typedef typename Superclass::PatchWeightsType        PatchWeightsType;
+  using ListAdaptorType = typename Superclass::ListAdaptorType;
+  using PatchRadiusType = typename Superclass::PatchRadiusType;
+  using InputImagePatchIterator = typename Superclass::InputImagePatchIterator;
+  using PatchSampleType = ListAdaptorType;
+  using PatchWeightsType = typename Superclass::PatchWeightsType;
 
   /** Type definitions for delegate classes. */
-  typedef itk::Statistics::RegionConstrainedSubsampler<
-      PatchSampleType, InputImageRegionType >          BaseSamplerType;
-  typedef typename BaseSamplerType::Pointer            BaseSamplerPointer;
-  typedef typename BaseSamplerType::InstanceIdentifier InstanceIdentifier;
+  using BaseSamplerType = itk::Statistics::RegionConstrainedSubsampler<
+      PatchSampleType, InputImageRegionType >;
+  using BaseSamplerPointer = typename BaseSamplerType::Pointer;
+  using InstanceIdentifier = typename BaseSamplerType::InstanceIdentifier;
 
   /**
    * Type definitions for Riemannian LogMap Eigensystem.
    * Since the LogMap computations are only valid for DiffusionTensor3D
    * pixels right now which always have a dimension of 3x3.
    */
-  typedef FixedArray< PixelValueType, 3 >      EigenValuesArrayType;
-  typedef Matrix< PixelValueType, 3, 3 >       EigenVectorsMatrixType;
-  typedef std::vector<EigenValuesArrayType>    EigenValuesCacheType;
-  typedef std::vector<EigenVectorsMatrixType>  EigenVectorsCacheType;
+  using EigenValuesArrayType = FixedArray< PixelValueType, 3 >;
+  using EigenVectorsMatrixType = Matrix< PixelValueType, 3, 3 >;
+  using EigenValuesCacheType = std::vector<EigenValuesArrayType>;
+  using EigenVectorsCacheType = std::vector<EigenVectorsMatrixType>;
 
   struct ThreadDataStruct
     {
@@ -240,7 +240,7 @@ protected:
   {
     // The enable if idiom is used to overload this method for both
     // scalars and multi-component types. By exploiting that
-    // NumericTraits' ValueType typedef (defines the per-element type
+    // NumericTraits' ValueType type alias (defines the per-element type
     // for multi-component types ) is different then the parameterize
     // type, the bracket operator is used only for multi-component
     // types.

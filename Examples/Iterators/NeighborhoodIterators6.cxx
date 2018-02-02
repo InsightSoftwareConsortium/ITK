@@ -61,16 +61,16 @@ int main( int argc, char ** argv )
     return EXIT_FAILURE;
     }
 
-  typedef float                                  PixelType;
-  typedef itk::Image< PixelType, 2 >             ImageType;
-  typedef itk::NeighborhoodIterator< ImageType > NeighborhoodIteratorType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, 2 >;
+  using NeighborhoodIteratorType = itk::NeighborhoodIterator< ImageType >;
 
-  typedef itk::FastMarchingImageFilter<ImageType, ImageType>  FastMarchingFilterType;
+  using FastMarchingFilterType = itk::FastMarchingImageFilter<ImageType, ImageType>;
 
   FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
 
-  typedef FastMarchingFilterType::NodeContainer  NodeContainer;
-  typedef FastMarchingFilterType::NodeType       NodeType;
+  using NodeContainer = FastMarchingFilterType::NodeContainer;
+  using NodeType = FastMarchingFilterType::NodeType;
 
   NodeContainer::Pointer seeds = NodeContainer::New();
 
@@ -207,12 +207,12 @@ int main( int argc, char ** argv )
 //
 // Software Guide : EndLatex
 
-  typedef unsigned char                          WritePixelType;
-  typedef itk::Image< WritePixelType, 2 >        WriteImageType;
-  typedef itk::ImageFileWriter< WriteImageType > WriterType;
+  using WritePixelType = unsigned char;
+  using WriteImageType = itk::Image< WritePixelType, 2 >;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
 
-  typedef itk::RescaleIntensityImageFilter< ImageType,
-    WriteImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< ImageType,
+    WriteImageType >;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 

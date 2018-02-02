@@ -52,12 +52,12 @@ TikhonovDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInte
 
   this->PrepareInputs( localInput, kernelImage, input, kernel, progress, 0.7 );
 
-  typedef Functor::TikhonovDeconvolutionFunctor< InternalComplexType,
+  using FunctorType = Functor::TikhonovDeconvolutionFunctor< InternalComplexType,
                          InternalComplexType,
-                         InternalComplexType> FunctorType;
-  typedef BinaryFunctorImageFilter< InternalComplexImageType,
+                         InternalComplexType>;
+  using TikhonovFilterType = BinaryFunctorImageFilter< InternalComplexImageType,
                                InternalComplexImageType,
-                               InternalComplexImageType, FunctorType > TikhonovFilterType;
+                               InternalComplexImageType, FunctorType >;
   typename TikhonovFilterType::Pointer tikhonovFilter = TikhonovFilterType::New();
   tikhonovFilter->SetInput1( input );
   tikhonovFilter->SetInput2( kernel );

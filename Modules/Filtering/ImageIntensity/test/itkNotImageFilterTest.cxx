@@ -27,24 +27,24 @@ int itkNotImageFilterTest( int, char* [] )
   const unsigned int Dimension = 3;
 
   // Declare the types of the images
-  typedef unsigned char                       PixelType;
+  using PixelType = unsigned char;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension >  InputImageType;
-  typedef itk::Image< PixelType, Dimension >  OutputImageType;
+  using InputImageType = itk::Image< PixelType, Dimension >;
+  using OutputImageType = itk::Image< PixelType, Dimension >;
 
   // Declare the type of the index to access images
-  typedef itk::Index< Dimension >         IndexType;
+  using IndexType = itk::Index< Dimension >;
 
   // Declare the type of the size
-  typedef itk::Size< Dimension >          SizeType;
+  using SizeType = itk::Size< Dimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< Dimension >   RegionType;
+  using RegionType = itk::ImageRegion< Dimension >;
 
   // Declare the type for the filter
-  typedef itk::NotImageFilter< InputImageType, OutputImageType >
-    NotImageFilterType;
+  using NotImageFilterType =
+      itk::NotImageFilter< InputImageType, OutputImageType >;
 
   // Create the input image
   InputImageType::Pointer inputImage = InputImageType::New();
@@ -71,10 +71,8 @@ int itkNotImageFilterTest( int, char* [] )
   inputImage->Allocate();
 
   // Declare appropriate Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType >
-    InputIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType >
-    OutputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Create one iterator for Image A (this is a light object)
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );

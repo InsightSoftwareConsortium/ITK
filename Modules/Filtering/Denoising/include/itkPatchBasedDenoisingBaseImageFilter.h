@@ -95,18 +95,18 @@ class ITK_TEMPLATE_EXPORT PatchBasedDenoisingBaseImageFilter :
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef PatchBasedDenoisingBaseImageFilter            Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PatchBasedDenoisingBaseImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PatchBasedDenoisingBaseImageFilter, ImageToImageFilter);
 
   /** Input and output image types. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
   /** Image dimension, assumed to be the same for input and output data. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -115,10 +115,10 @@ public:
   /** Type definition for the input and output pixel types.
    *  Output pixel type will be used in computations.
    */
-  typedef typename InputImageType::PixelType           InputPixelType;
-  typedef typename OutputImageType::PixelType          OutputPixelType;
-  typedef OutputPixelType                              PixelType;
-  typedef typename NumericTraits<PixelType>::ValueType PixelValueType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using PixelType = OutputPixelType;
+  using PixelValueType = typename NumericTraits<PixelType>::ValueType;
 
   /** Type definition for selecting the noise model. */
   typedef enum { NOMODEL = 0, GAUSSIAN = 1, RICIAN = 2, POISSON = 3 } NoiseModelType;
@@ -134,16 +134,16 @@ public:
   /** This data structure type is used to store the weights (mask) for pixels in a patch in order to
    *  make the patch more isotropic and less rectangular.
    */
-  typedef Array<float> PatchWeightsType;
+  using PatchWeightsType = Array<float>;
   /** This data structure type is used for efficiently accessing patch values
    *  from the image data structure.
    */
-  typedef ZeroFluxNeumannBoundaryCondition<OutputImageType> BoundaryConditionType;
-  typedef typename::itk::Statistics::ImageToNeighborhoodSampleAdaptor<
-      OutputImageType, BoundaryConditionType >              ListAdaptorType;
-  typedef typename ListAdaptorType::NeighborhoodRadiusType  PatchRadiusType;
-  typedef ConstNeighborhoodIterator<
-      InputImageType, BoundaryConditionType >               InputImagePatchIterator;
+  using BoundaryConditionType = ZeroFluxNeumannBoundaryCondition<OutputImageType>;
+  using ListAdaptorType = typename::itk::Statistics::ImageToNeighborhoodSampleAdaptor<
+      OutputImageType, BoundaryConditionType >;
+  using PatchRadiusType = typename ListAdaptorType::NeighborhoodRadiusType;
+  using InputImagePatchIterator = ConstNeighborhoodIterator<
+      InputImageType, BoundaryConditionType >;
 
   /** Set/Get the patch radius specified in physical coordinates.
    * Patch radius is preferably set to an even number.

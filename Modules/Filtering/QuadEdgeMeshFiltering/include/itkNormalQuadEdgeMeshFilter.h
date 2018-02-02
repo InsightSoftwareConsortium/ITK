@@ -69,52 +69,52 @@ class ITK_TEMPLATE_EXPORT NormalQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  typedef NormalQuadEdgeMeshFilter                                    Self;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh > Superclass;
-  typedef SmartPointer< Self >                                        Pointer;
-  typedef SmartPointer< const Self >                                  ConstPointer;
+  using Self = NormalQuadEdgeMeshFilter;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro (Self);
 
   itkTypeMacro (NormalQuadEdgeMeshFilter,
                 QuadEdgeMeshToQuadEdgeMeshFilter);
 
-  typedef TInputMesh                              InputMeshType;
-  typedef typename InputMeshType::Pointer         InputMeshPointer;
-  typedef typename InputMeshType::PointIdentifier InputPointIdentifier;
-  typedef typename InputMeshType::PointType       InputPointType;
-  typedef typename InputMeshType::VectorType      InputVectorType;
-  typedef typename InputMeshType::QEType          InputQEType;
+  using InputMeshType = TInputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using InputPointIdentifier = typename InputMeshType::PointIdentifier;
+  using InputPointType = typename InputMeshType::PointType;
+  using InputVectorType = typename InputMeshType::VectorType;
+  using InputQEType = typename InputMeshType::QEType;
 
-  typedef TOutputMesh                                          OutputMeshType;
-  typedef typename OutputMeshType::Pointer                     OutputMeshPointer;
-  typedef typename OutputMeshType::PointType                   OutputPointType;
-  typedef typename OutputPointType::VectorType                 OutputVectorType;
-  typedef typename OutputMeshType::QEType                      OutputQEType;
-  typedef typename OutputMeshType::PointIdentifier             OutputPointIdentifier;
-  typedef typename OutputMeshType::PointIdIterator             OutputPointIdIterator;
-  typedef typename OutputMeshType::PointsContainerPointer      OutputPointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainerIterator     OutputPointsContainerIterator;
-  typedef typename OutputMeshType::CellType                    OutputCellType;
-  typedef typename OutputMeshType::CellIdentifier              OutputCellIdentifier;
-  typedef typename OutputMeshType::CellAutoPointer             OutputCellAutoPointer;
-  typedef typename OutputMeshType::CellsContainerConstIterator OutputCellsContainerPointer;
-  typedef typename OutputMeshType::CellsContainerConstIterator OutputCellsContainerConstIterator;
+  using OutputMeshType = TOutputMesh;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using OutputPointType = typename OutputMeshType::PointType;
+  using OutputVectorType = typename OutputPointType::VectorType;
+  using OutputQEType = typename OutputMeshType::QEType;
+  using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;
+  using OutputPointIdIterator = typename OutputMeshType::PointIdIterator;
+  using OutputPointsContainerPointer = typename OutputMeshType::PointsContainerPointer;
+  using OutputPointsContainerIterator = typename OutputMeshType::PointsContainerIterator;
+  using OutputCellType = typename OutputMeshType::CellType;
+  using OutputCellIdentifier = typename OutputMeshType::CellIdentifier;
+  using OutputCellAutoPointer = typename OutputMeshType::CellAutoPointer;
+  using OutputCellsContainerPointer = typename OutputMeshType::CellsContainerConstIterator;
+  using OutputCellsContainerConstIterator = typename OutputMeshType::CellsContainerConstIterator;
 
-  typedef TriangleHelper< OutputPointType > TriangleType;
+  using TriangleType = TriangleHelper< OutputPointType >;
 
-  typedef QuadEdgeMeshPolygonCell< OutputCellType >   OutputPolygonType;
-  typedef typename OutputPolygonType::SelfAutoPointer OutputPolygonAutoPointer;
+  using OutputPolygonType = QuadEdgeMeshPolygonCell< OutputCellType >;
+  using OutputPolygonAutoPointer = typename OutputPolygonType::SelfAutoPointer;
 
-  typedef typename OutputMeshType::CellDataContainer  OutputCellDataContainer;
-  typedef typename OutputMeshType::PointDataContainer OutputPointDataContainer;
+  using OutputCellDataContainer = typename OutputMeshType::CellDataContainer;
+  using OutputPointDataContainer = typename OutputMeshType::PointDataContainer;
 
-  typedef typename OutputMeshType::MeshTraits        OutputMeshTraits;
-  typedef typename OutputMeshTraits::PixelType       OutputVertexNormalType;
-  typedef typename OutputVertexNormalType::ValueType OutputVertexNormalComponentType;
+  using OutputMeshTraits = typename OutputMeshType::MeshTraits;
+  using OutputVertexNormalType = typename OutputMeshTraits::PixelType;
+  using OutputVertexNormalComponentType = typename OutputVertexNormalType::ValueType;
 
-  typedef typename OutputMeshTraits::CellPixelType OutputFaceNormalType;
-  typedef typename OutputFaceNormalType::ValueType OutputFaceNormalComponentType;
+  using OutputFaceNormalType = typename OutputMeshTraits::CellPixelType;
+  using OutputFaceNormalComponentType = typename OutputFaceNormalType::ValueType;
 
   enum WeightType {
     GOURAUD = 0, // Uniform weights

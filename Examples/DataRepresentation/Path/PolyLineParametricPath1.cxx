@@ -56,13 +56,13 @@ int main(int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< unsigned char, Dimension > ImageType;
+  using ImageType = itk::Image< unsigned char, Dimension >;
 
-  typedef itk::PolyLineParametricPath< Dimension > PathType;
+  using PathType = itk::PolyLineParametricPath< Dimension >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< ImageType >    ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer   reader = ReaderType::New();
 
@@ -84,10 +84,10 @@ int main(int argc, char * argv [] )
   PathType::Pointer path = PathType::New();
   path->Initialize();
 
-  typedef PathType::ContinuousIndexType    ContinuousIndexType;
+  using ContinuousIndexType = PathType::ContinuousIndexType;
   ContinuousIndexType cindex;
 
-  typedef ImageType::PointType             ImagePointType;
+  using ImagePointType = ImageType::PointType;
   ImagePointType origin = image->GetOrigin();
 
   ImageType::SpacingType spacing = image->GetSpacing();

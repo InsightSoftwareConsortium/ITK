@@ -77,15 +77,15 @@ class MaximumProjectionImageFilter:
                                 Functor::MaximumAccumulator< typename TInputImage::PixelType > >
 {
 public:
-  typedef MaximumProjectionImageFilter Self;
-  typedef ProjectionImageFilter< TInputImage, TOutputImage,
-                                 Functor::MaximumAccumulator< typename TInputImage::PixelType > > Superclass;
+  using Self = MaximumProjectionImageFilter;
+  using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
+                                 Functor::MaximumAccumulator< typename TInputImage::PixelType > >;
 
-  typedef TInputImage                        InputImageType;
-  typedef typename InputImageType::PixelType InputPixelType;
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Runtime information support. */
   itkTypeMacro(MaximumProjectionImageFilter, ProjectionImageFilter);

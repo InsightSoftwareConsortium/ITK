@@ -61,11 +61,11 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef int MeasurementType;
+  using MeasurementType = int;
   const unsigned int MeasurementVectorLength = 2;
-  typedef itk::Vector< MeasurementType , MeasurementVectorLength >
-                                                    MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType =
+      itk::Vector< MeasurementType , MeasurementVectorLength >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize( MeasurementVectorLength );
 
@@ -97,7 +97,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::NeighborhoodSampler< SampleType > SamplerType;
+  using SamplerType = itk::Statistics::NeighborhoodSampler< SampleType >;
   SamplerType::Pointer sampler = SamplerType::New();
 
   sampler->SetInputSample( sample );

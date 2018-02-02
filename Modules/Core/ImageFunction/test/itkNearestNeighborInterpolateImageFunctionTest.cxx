@@ -29,34 +29,31 @@ int itkNearestNeighborInterpolateImageFunctionTest( int , char*[] )
  int result = EXIT_SUCCESS;
 
  const   unsigned int                                  Dimension = 2;
- typedef float                                         PixelType;
+ using PixelType = float;
  const   unsigned int                                  VectorDimension = 4;
- typedef itk::Vector< PixelType, VectorDimension >     VectorPixelType;
- typedef itk::Image< PixelType, Dimension >            ImageType;
- typedef itk::Image< VectorPixelType, Dimension >      VectorImageType;
- typedef itk::VectorImage< PixelType, Dimension >      VariableVectorImageType;
- typedef VariableVectorImageType::PixelType            VariablePixelType;
- typedef ImageType::RegionType                         RegionType;
- typedef RegionType::SizeType                          SizeType;
- typedef ImageType::IndexType                          IndexType;
+ using VectorPixelType = itk::Vector< PixelType, VectorDimension >;
+ using ImageType = itk::Image< PixelType, Dimension >;
+ using VectorImageType = itk::Image< VectorPixelType, Dimension >;
+ using VariableVectorImageType = itk::VectorImage< PixelType, Dimension >;
+ using VariablePixelType = VariableVectorImageType::PixelType;
+ using RegionType = ImageType::RegionType;
+ using SizeType = RegionType::SizeType;
+ using IndexType = ImageType::IndexType;
 
- typedef itk::Point<float,2>                           PointType;
+ using PointType = itk::Point<float,2>;
 
- typedef float                                         CoordRepType;
- typedef itk::NearestNeighborInterpolateImageFunction< ImageType, CoordRepType >
-                                                       InterpolatorType;
- typedef itk::NearestNeighborInterpolateImageFunction
+ using CoordRepType = float;
+ using InterpolatorType =
+     itk::NearestNeighborInterpolateImageFunction< ImageType, CoordRepType >;
+ using VectorInterpolatorType = itk::NearestNeighborInterpolateImageFunction
                                                        <VectorImageType,
-                                                        CoordRepType >
-                                                        VectorInterpolatorType;
- typedef itk::NearestNeighborInterpolateImageFunction
+                                                        CoordRepType >;
+ using VariableVectorInterpolatorType = itk::NearestNeighborInterpolateImageFunction
                                                        <VariableVectorImageType,
-                                                        CoordRepType >
-                                                VariableVectorInterpolatorType;
+                                                        CoordRepType >;
 
- typedef VectorInterpolatorType::OutputType            InterpolatedVectorType;
- typedef VariableVectorInterpolatorType::OutputType
-                                               InterpolatedVariableVectorType;
+ using InterpolatedVectorType = VectorInterpolatorType::OutputType;
+ using InterpolatedVariableVectorType = VariableVectorInterpolatorType::OutputType;
 
  ImageType::Pointer image = ImageType::New();
  VectorImageType::Pointer vectorimage = VectorImageType::New();

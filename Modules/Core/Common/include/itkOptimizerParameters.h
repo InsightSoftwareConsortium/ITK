@@ -36,16 +36,16 @@ class ITK_TEMPLATE_EXPORT OptimizerParameters : public Array<TParametersValueTyp
 public:
 
   /** The element type stored at each location in the Array. */
-  typedef TParametersValueType                 ValueType;
-  typedef OptimizerParameters                  Self;
-  typedef Array<TParametersValueType>          Superclass;
-  typedef Superclass                           ArrayType;
-  typedef typename Superclass::VnlVectorType   VnlVectorType;
-  typedef typename Superclass::SizeValueType   SizeValueType;
+  using ValueType = TParametersValueType;
+  using Self = OptimizerParameters;
+  using Superclass = Array<TParametersValueType>;
+  using ArrayType = Superclass;
+  using VnlVectorType = typename Superclass::VnlVectorType;
+  using SizeValueType = typename Superclass::SizeValueType;
 
   /** Helper class for managing different types of parameter
    * data. */
-  typedef OptimizerParametersHelper<TParametersValueType> OptimizerParametersHelperType;
+  using OptimizerParametersHelperType = OptimizerParametersHelper<TParametersValueType>;
 
   /** Default constructor. It is created with an empty array
    *  it has to be allocated later by assignment              */

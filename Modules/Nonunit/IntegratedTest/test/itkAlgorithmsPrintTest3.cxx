@@ -29,15 +29,15 @@
 
 int main(int , char* [])
 {
-  typedef itk::Image<float,2> InputType;
-  typedef itk::Image<float,2> OutputType;
+  using InputType = itk::Image<float,2>;
+  using OutputType = itk::Image<float,2>;
 
-  typedef itk::Image<unsigned char,2>  CharType;
+  using CharType = itk::Image<unsigned char,2>;
 
-  typedef itk::Mesh<double> MeshType;
+  using MeshType = itk::Mesh<double>;
 
-  typedef itk::Vector<float,3>         RGBVectorType;
-  typedef itk::Image<RGBVectorType, 2> RGBVectorImageType;
+  using RGBVectorType = itk::Vector<float,3>;
+  using RGBVectorImageType = itk::Image<RGBVectorType, 2>;
 
   itk::ShapeDetectionLevelSetFunction<InputType,InputType>::Pointer ShapeDetectionLevelSetFunctionObj =
     itk::ShapeDetectionLevelSetFunction<InputType,InputType>::New();

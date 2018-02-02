@@ -32,12 +32,12 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char       PixelType;
+  using PixelType = unsigned char;
   const unsigned int          Dimension = 2;
 
-  typedef itk::Image<PixelType, Dimension > ImageType;
+  using ImageType = itk::Image<PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -55,7 +55,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
     }
 
 
-  typedef itk::ScalarImageKmeansImageFilter< ImageType > KMeansFilterType;
+  using KMeansFilterType = itk::ScalarImageKmeansImageFilter< ImageType >;
 
   KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
 
@@ -106,18 +106,18 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
     std::cout << "    estimated mean : " << estimatedMeans[i] << std::endl;
     }
 
-  typedef KMeansFilterType::OutputImageType  OutputImageType;
+  using OutputImageType = KMeansFilterType::OutputImageType;
 
-  typedef itk::RelabelComponentImageFilter<
+  using RelabelFilterType = itk::RelabelComponentImageFilter<
                                 OutputImageType,
-                                OutputImageType > RelabelFilterType;
+                                OutputImageType >;
 
 
   RelabelFilterType::Pointer relabeler = RelabelFilterType::New();
 
   relabeler->SetInput( kmeansFilter->GetOutput() );
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( relabeler->GetOutput() );
   writer->SetFileName( argv[2] );
@@ -134,7 +134,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
     }
 
 
-  typedef RelabelFilterType::ObjectSizeInPixelsContainerType  SizesType;
+  using SizesType = RelabelFilterType::ObjectSizeInPixelsContainerType;
 
   const SizesType &  sizes = relabeler->GetSizeOfObjectsInPixels();
 

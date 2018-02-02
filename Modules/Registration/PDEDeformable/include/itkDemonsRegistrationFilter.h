@@ -65,11 +65,11 @@ class ITK_TEMPLATE_EXPORT DemonsRegistrationFilter:
                                           TDisplacementField >
 {
 public:
-  /** Standard class typedefs. */
-  typedef DemonsRegistrationFilter                                                        Self;
-  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField > Superclass;
-  typedef SmartPointer< Self >                                                            Pointer;
-  typedef SmartPointer< const Self >                                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DemonsRegistrationFilter;
+  using Superclass = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,27 +79,26 @@ public:
                PDEDeformableRegistrationFilter);
 
   /** Inherit types from superclass. */
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType    FixedImageType;
-  typedef typename Superclass::FixedImagePointer FixedImagePointer;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using FixedImagePointer = typename Superclass::FixedImagePointer;
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType    MovingImageType;
-  typedef typename Superclass::MovingImagePointer MovingImagePointer;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using MovingImagePointer = typename Superclass::MovingImagePointer;
 
   /** displacement field type. */
-  typedef typename Superclass::DisplacementFieldType    DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer DisplacementFieldPointer;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
 
   /** FiniteDifferenceFunction type. */
-  typedef typename Superclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
   /** DemonsRegistrationFilterFunction type. */
-  typedef DemonsRegistrationFunction< FixedImageType, MovingImageType,
-                                      DisplacementFieldType >  DemonsRegistrationFunctionType;
+  using DemonsRegistrationFunctionType = DemonsRegistrationFunction< FixedImageType, MovingImageType,
+                                      DisplacementFieldType >;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image

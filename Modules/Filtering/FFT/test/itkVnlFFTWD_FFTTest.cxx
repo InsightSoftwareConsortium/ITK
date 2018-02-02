@@ -28,9 +28,9 @@
 // and double.
 int itkVnlFFTWD_FFTTest(int, char *[])
 {
-  typedef itk::Image< double, 1>               ImageD1;
-  typedef itk::Image< double, 2>               ImageD2;
-  typedef itk::Image< double, 3>               ImageD3;
+  using ImageD1 = itk::Image< double, 1>;
+  using ImageD2 = itk::Image< double, 2>;
+  using ImageD3 = itk::Image< double, 3>;
 
   std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
   std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;

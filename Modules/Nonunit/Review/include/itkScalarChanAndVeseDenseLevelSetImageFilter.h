@@ -68,12 +68,12 @@ class ITK_TEMPLATE_EXPORT ScalarChanAndVeseDenseLevelSetImageFilter:
 {
 public:
 
-  typedef ScalarChanAndVeseDenseLevelSetImageFilter Self;
-  typedef MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
+  using Self = ScalarChanAndVeseDenseLevelSetImageFilter;
+  using Superclass = MultiphaseDenseFiniteDifferenceImageFilter< TInputImage,
                                                       TFeatureImage, TOutputImage,
-                                                      TFunction >                Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                                                      TFunction >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -84,37 +84,36 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  /** Inherited typedef from the superclass. */
-  typedef typename Superclass::InputImageType    InputImageType;
-  typedef typename Superclass::InputImagePointer InputImagePointer;
-  typedef typename Superclass::InputPointType    InputPointType;
-  typedef typename Superclass::ValueType         ValueType;
-  typedef typename InputImageType::SpacingType   InputSpacingType;
+  /** Inherited type alias from the superclass. */
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputPointType = typename Superclass::InputPointType;
+  using ValueType = typename Superclass::ValueType;
+  using InputSpacingType = typename InputImageType::SpacingType;
 
-  typedef TFeatureImage                             FeatureImageType;
-  typedef typename FeatureImageType::Pointer        FeatureImagePointer;
-  typedef typename FeatureImageType::PixelType      FeaturePixelType;
-  typedef typename FeatureImageType::IndexType      FeatureIndexType;
-  typedef typename FeatureIndexType::IndexValueType FeatureIndexValueType;
-  typedef typename FeatureImageType::RegionType     FeatureRegionType;
+  using FeatureImageType = TFeatureImage;
+  using FeatureImagePointer = typename FeatureImageType::Pointer;
+  using FeaturePixelType = typename FeatureImageType::PixelType;
+  using FeatureIndexType = typename FeatureImageType::IndexType;
+  using FeatureIndexValueType = typename FeatureIndexType::IndexValueType;
+  using FeatureRegionType = typename FeatureImageType::RegionType;
 
-  /** Output image type typedefs */
-  typedef TOutputImage                        OutputImageType;
-  typedef typename OutputImageType::IndexType IndexType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  /** Output image type type alias */
+  using OutputImageType = TOutputImage;
+  using IndexType = typename OutputImageType::IndexType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-  typedef typename Superclass::TimeStepType TimeStepType;
-  typedef typename Superclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
-  typedef TFunction                      FunctionType;
-  typedef typename FunctionType::Pointer FunctionPointer;
+  using FunctionType = TFunction;
+  using FunctionPointer = typename FunctionType::Pointer;
 
-  typedef TSharedData                      SharedDataType;
-  typedef typename SharedDataType::Pointer SharedDataPointer;
+  using SharedDataType = TSharedData;
+  using SharedDataPointer = typename SharedDataType::Pointer;
 
-  typedef RegionOfInterestImageFilter< FeatureImageType, FeatureImageType > ROIFilterType;
-  typedef typename ROIFilterType::Pointer                                   ROIFilterPointer;
+  using ROIFilterType = RegionOfInterestImageFilter< FeatureImageType, FeatureImageType >;
+  using ROIFilterPointer = typename ROIFilterType::Pointer;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

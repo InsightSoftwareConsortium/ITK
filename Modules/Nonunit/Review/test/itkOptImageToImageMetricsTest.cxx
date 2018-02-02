@@ -34,11 +34,11 @@ int itkOptImageToImageMetricsTest(int , char* argv[])
             << itk::MultiThreader::GetGlobalDefaultNumberOfThreads()
             << std::endl;
 
-  typedef itk::Image< unsigned int > FixedImageType;
-  typedef itk::Image< unsigned int > MovingImageType;
+  using FixedImageType = itk::Image< unsigned int >;
+  using MovingImageType = itk::Image< unsigned int >;
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();

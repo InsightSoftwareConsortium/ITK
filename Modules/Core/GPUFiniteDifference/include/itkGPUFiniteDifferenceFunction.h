@@ -48,40 +48,40 @@ class GPUFiniteDifferenceFunction : public FiniteDifferenceFunction< TImageType 
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef GPUFiniteDifferenceFunction            Self;
-  typedef FiniteDifferenceFunction< TImageType > Superclass;
-  typedef Superclass                             DifferenceFunctionType;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUFiniteDifferenceFunction;
+  using Superclass = FiniteDifferenceFunction< TImageType >;
+  using DifferenceFunctionType = Superclass;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(GPUFiniteDifferenceFunction, FiniteDifferenceFunction);
 
   /** Extract some parameters from the image type */
-  typedef typename Superclass::ImageType     ImageType;
-  typedef typename Superclass::PixelType     PixelType;
-  typedef typename Superclass::PixelRealType PixelRealType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelType = typename Superclass::PixelType;
+  using PixelRealType = typename Superclass::PixelRealType;
 
   /** Save image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
 
   /** Define the TimeStepType to always be double. */
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** The default boundary condition for finite difference
    * functions that is used unless overridden in the Evaluate() method. */
-  typedef typename Superclass::DefaultBoundaryConditionType DefaultBoundaryConditionType;
+  using DefaultBoundaryConditionType = typename Superclass::DefaultBoundaryConditionType;
 
   /** Neighborhood radius type */
-  typedef typename Superclass::RadiusType RadiusType;
+  using RadiusType = typename Superclass::RadiusType;
 
   /** Neighborhood type */
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
 
   /** A floating point offset from an image grid location. Used for
     * interpolation among grid values in a neighborhood. */
-  typedef typename Superclass::FloatOffsetType FloatOffsetType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
 
 #if !defined( ITK_WRAPPING_PARSER )
   /** Empty implementation - this will not be used by GPU filters */

@@ -35,20 +35,20 @@
 class CompensatedSummationTest2Associate
 {
 public:
-  typedef CompensatedSummationTest2Associate Self;
+  using Self = CompensatedSummationTest2Associate;
 
   // Nested class holds the domain threader
   class TestDomainThreader
     : public itk::DomainThreader< itk::ThreadedIndexedContainerPartitioner, Self >
   {
   public:
-    typedef TestDomainThreader                                                    Self;
-    typedef itk::DomainThreader< itk::ThreadedIndexedContainerPartitioner, Self > Superclass;
-    typedef itk::SmartPointer< Self >                                             Pointer;
-    typedef itk::SmartPointer< const Self >                                       ConstPointer;
+    using Self = TestDomainThreader;
+    using Superclass = itk::DomainThreader< itk::ThreadedIndexedContainerPartitioner, Self >;
+    using Pointer = itk::SmartPointer< Self >;
+    using ConstPointer = itk::SmartPointer< const Self >;
 
-    typedef Superclass::DomainPartitionerType     DomainPartitionerType;
-    typedef Superclass::DomainType                DomainType;
+    using DomainPartitionerType = Superclass::DomainPartitionerType;
+    using DomainType = Superclass::DomainType;
 
     itkNewMacro( Self );
 
@@ -144,7 +144,7 @@ int itkCompensatedSummationTest2(int, char* [])
             << domainThreader->GetMultiThreader()->GetGlobalDefaultNumberOfThreads()
             << std::endl;
 
-  typedef CompensatedSummationTest2Associate::TestDomainThreader::DomainType DomainType;
+  using DomainType = CompensatedSummationTest2Associate::TestDomainThreader::DomainType;
   DomainType domain;
 
   itk::ThreadIdType maxNumberOfThreads =

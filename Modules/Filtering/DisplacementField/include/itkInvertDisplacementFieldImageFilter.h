@@ -42,10 +42,10 @@ class ITK_TEMPLATE_EXPORT InvertDisplacementFieldImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  typedef InvertDisplacementFieldImageFilter            Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  using Self = InvertDisplacementFieldImageFilter;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -53,30 +53,30 @@ public:
   /** Extract dimension from input image. */
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 
-  typedef TInputImage                          InputFieldType;
-  typedef TOutputImage                         OutputFieldType;
+  using InputFieldType = TInputImage;
+  using OutputFieldType = TOutputImage;
 
-  typedef InputFieldType                       DisplacementFieldType;
-  typedef OutputFieldType                      InverseDisplacementFieldType;
+  using DisplacementFieldType = InputFieldType;
+  using InverseDisplacementFieldType = OutputFieldType;
 
-  /** Image typedef support. */
-  typedef typename OutputFieldType::PixelType     PixelType;
-  typedef typename OutputFieldType::PixelType     VectorType;
-  typedef typename OutputFieldType::RegionType    RegionType;
-  typedef typename OutputFieldType::IndexType     IndexType;
+  /** Image type alias support */
+  using PixelType = typename OutputFieldType::PixelType;
+  using VectorType = typename OutputFieldType::PixelType;
+  using RegionType = typename OutputFieldType::RegionType;
+  using IndexType = typename OutputFieldType::IndexType;
 
-  typedef typename OutputFieldType::PointType     PointType;
-  typedef typename OutputFieldType::SpacingType   SpacingType;
-  typedef typename OutputFieldType::PointType     OriginType;
-  typedef typename OutputFieldType::SizeType      SizeType;
-  typedef typename OutputFieldType::DirectionType DirectionType;
+  using PointType = typename OutputFieldType::PointType;
+  using SpacingType = typename OutputFieldType::SpacingType;
+  using OriginType = typename OutputFieldType::PointType;
+  using SizeType = typename OutputFieldType::SizeType;
+  using DirectionType = typename OutputFieldType::DirectionType;
 
-  /** Other typedef */
-  typedef typename VectorType::ComponentType                        RealType;
-  typedef Image<RealType, ImageDimension>                           RealImageType;
-  typedef VectorInterpolateImageFunction<InputFieldType, RealType>  InterpolatorType;
-  typedef VectorLinearInterpolateImageFunction <InputFieldType, RealType>
-                                                                    DefaultInterpolatorType;
+  /** Other type alias */
+  using RealType = typename VectorType::ComponentType;
+  using RealImageType = Image<RealType, ImageDimension>;
+  using InterpolatorType = VectorInterpolateImageFunction<InputFieldType, RealType>;
+  using DefaultInterpolatorType =
+      VectorLinearInterpolateImageFunction <InputFieldType, RealType>;
 
   /** Get the interpolator. */
   itkGetModifiableObjectMacro( Interpolator, InterpolatorType );

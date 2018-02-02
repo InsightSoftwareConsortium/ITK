@@ -77,7 +77,7 @@ LabelMapToAttributeImageFilter<TInputImage, TOutputImage, TAttributeAccessor>
        ! loit.IsAtEnd();
        ++loit )
     {
-    typedef typename InputImageType::LabelObjectType  LabelObjectType;
+    using LabelObjectType = typename InputImageType::LabelObjectType;
     const LabelObjectType * labelObject = loit.GetLabelObject();
     const AttributeValueType & attribute = accessor( labelObject );
 

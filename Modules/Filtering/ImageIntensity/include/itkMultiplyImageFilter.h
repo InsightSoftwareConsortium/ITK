@@ -49,16 +49,15 @@ class ITK_TEMPLATE_EXPORT MultiplyImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultiplyImageFilter Self;
-  typedef BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = MultiplyImageFilter;
+  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                                     Functor::Mult<
                                       typename TInputImage1::PixelType,
                                       typename TInputImage2::PixelType,
-                                      typename TOutputImage::PixelType >
-                                    >                                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                                      typename TOutputImage::PixelType > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

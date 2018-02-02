@@ -27,7 +27,7 @@ bool TestGaussianOperator( double variance,
                            unsigned int order )
 {
 
-  typedef itk::GaussianDerivativeOperator< double, 1 > GaussianOp;
+  using GaussianOp = itk::GaussianDerivativeOperator< double, 1 >;
 
   std::cout << "Testing variance: " << variance
             << " error: " << error
@@ -112,7 +112,7 @@ int itkGaussianDerivativeOperatorTest( int argc, char *argv[] )
 
   // Exercise code
 
-  typedef itk::GaussianDerivativeOperator< double, 3 > GaussianOp;
+  using GaussianOp = itk::GaussianDerivativeOperator< double, 3 >;
 
   GaussianOp op1;
   GaussianOp op2;

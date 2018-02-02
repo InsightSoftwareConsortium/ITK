@@ -75,7 +75,7 @@ typename SphereSignedDistanceFunction< TCoordRep, VSpaceDimension >
 SphereSignedDistanceFunction< TCoordRep, VSpaceDimension >
 ::Evaluate(const PointType & point) const
 {
-  typedef typename NumericTraits< OutputType >::RealType RealType;
+  using RealType = typename NumericTraits< OutputType >::RealType;
   RealType output = 0.0;
 
   for ( unsigned int j = 0; j < SpaceDimension; j++ )

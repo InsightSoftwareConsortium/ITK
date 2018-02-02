@@ -47,11 +47,11 @@ namespace itk
 class ITKCommon_EXPORT MetaDataObjectBase: public LightObject
 {
 public:
-  /** Smart pointer typedef support. */
-  typedef MetaDataObjectBase         Self;
-  typedef LightObject                Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using Self = MetaDataObjectBase;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaDataObjectBase, LightObject);

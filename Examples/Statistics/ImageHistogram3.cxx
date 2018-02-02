@@ -68,17 +68,17 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char                         PixelComponentType;
+  using PixelComponentType = unsigned char;
 
-  typedef itk::RGBPixel< PixelComponentType >   RGBPixelType;
+  using RGBPixelType = itk::RGBPixel< PixelComponentType >;
 
   const unsigned int                            Dimension = 2;
 
-  typedef itk::Image< RGBPixelType, Dimension > RGBImageType;
+  using RGBImageType = itk::Image< RGBPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< RGBImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< RGBImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -105,8 +105,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ImageToHistogramFilter<
-                            RGBImageType >   HistogramFilterType;
+  using HistogramFilterType = itk::Statistics::ImageToHistogramFilter<RGBImageType>;
 
   HistogramFilterType::Pointer histogramFilter =
                                              HistogramFilterType::New();
@@ -128,7 +127,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef HistogramFilterType::HistogramSizeType   SizeType;
+  using SizeType = HistogramFilterType::HistogramSizeType;
 
   SizeType size( 3 );
 
@@ -209,7 +208,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef HistogramFilterType::HistogramType  HistogramType;
+  using HistogramType = HistogramFilterType::HistogramType;
 
   const HistogramType * histogram = histogramFilter->GetOutput();
   // Software Guide : EndCodeSnippet

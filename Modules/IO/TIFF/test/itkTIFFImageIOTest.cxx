@@ -27,8 +27,8 @@ namespace
 template< typename TImage >
 bool TestMultipleReads( const std::string &fname, TImage*)
 {
-  typedef TImage                          ImageType;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ImageType = TImage;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   typename ReaderType::Pointer reader = ReaderType::New();
 
@@ -60,9 +60,9 @@ bool TestMultipleReads( const std::string &fname, TImage*)
 template< typename TImage >
 int itkTIFFImageIOTestHelper( int, char * argv[] )
 {
-  typedef TImage                            ImageType;
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ImageType = TImage;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   typename WriterType::Pointer writer = WriterType::New();
@@ -120,17 +120,17 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
 
   if( dimension == 2 && pixelType == 1 )
     {
-    typedef itk::RGBPixel< unsigned char > PixelType;
+    using PixelType = itk::RGBPixel< unsigned char >;
     return itkTIFFImageIOTestHelper< itk::Image<PixelType, 2> >( argc, argv );
     }
   else if (dimension == 2 && pixelType == 2 )
     {
-    typedef itk::RGBPixel< unsigned short > PixelType;
+    using PixelType = itk::RGBPixel< unsigned short >;
     return itkTIFFImageIOTestHelper< itk::Image<PixelType, 2> >( argc, argv );
     }
   else if( dimension == 2 && pixelType == 3 )
     {
-    typedef itk::RGBPixel<short> PixelType;
+    using PixelType = itk::RGBPixel<short>;
     return itkTIFFImageIOTestHelper< itk::Image<PixelType, 2> >( argc, argv );
     }
   else if( dimension == 3 && pixelType == 1 )

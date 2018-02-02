@@ -77,10 +77,10 @@ class DummySpatialObject :
   public SpatialObject<TDimension>
 {
 public:
-  typedef DummySpatialObject        Self;
-  typedef SpatialObject<TDimension> Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  using Self = DummySpatialObject;
+  using Superclass = SpatialObject<TDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** method for creation through the object factory */
   itkNewMacro(Self);
@@ -120,11 +120,11 @@ class MetaDummyConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
-  /** Standard class typedefs */
-  typedef MetaDummyConverter               Self;
-  typedef MetaConverterBase< NDimensions > Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard class type aliases */
+  using Self = MetaDummyConverter;
+  using Superclass = MetaConverterBase< NDimensions >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -132,15 +132,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaDummyConverter, MetaConverterBase);
 
-  typedef typename Superclass::SpatialObjectType SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
-  typedef typename Superclass::MetaObjectType    MetaObjectType;
+  using SpatialObjectType = typename Superclass::SpatialObjectType;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using MetaObjectType = typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  typedef DummySpatialObject<NDimensions>               DummySpatialObjectType;
-  typedef typename DummySpatialObjectType::Pointer      DummySpatialObjectPointer;
-  typedef typename DummySpatialObjectType::ConstPointer DummySpatialObjectConstPointer;
-  typedef MetaDummy                                     DummyMetaObjectType;
+  using DummySpatialObjectType = DummySpatialObject<NDimensions>;
+  using DummySpatialObjectPointer = typename DummySpatialObjectType::Pointer;
+  using DummySpatialObjectConstPointer = typename DummySpatialObjectType::ConstPointer;
+  using DummyMetaObjectType = MetaDummy;
 
   /** Convert the MetaObject to Spatial Object */
   SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override
@@ -206,11 +206,11 @@ int itkNewMetaObjectTypeTest(int, char* [])
 {
   const float Pi(3.1415926);
 
-  typedef itk::SceneSpatialObject<3>                 SceneType;
-  typedef itk::DummySpatialObject<3>                 DummyType;
-  typedef itk::MetaSceneConverter<3,unsigned short>  MetaSceneConverterType;
+  using SceneType = itk::SceneSpatialObject<3>;
+  using DummyType = itk::DummySpatialObject<3>;
+  using MetaSceneConverterType = itk::MetaSceneConverter<3,unsigned short>;
 
-  typedef itk::MetaDummyConverter<3>                 DummyConverterType;
+  using DummyConverterType = itk::MetaDummyConverter<3>;
 
   SceneType::Pointer scene(SceneType::New());
 

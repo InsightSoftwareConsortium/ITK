@@ -124,13 +124,12 @@ void
 VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  typedef typename InputImageType::PixelType InputPixelType;
+  using InputPixelType = typename InputImageType::PixelType;
 
-  typedef BinaryThresholdImageFunction< OutputImageType >
-  SecondFunctionType;
-  typedef FloodFilledImageFunctionConditionalIterator< OutputImageType, DistanceThresholdFunctionType > IteratorType;
-  typedef FloodFilledImageFunctionConditionalConstIterator< InputImageType,
-                                                            SecondFunctionType >        SecondIteratorType;
+  using SecondFunctionType = BinaryThresholdImageFunction<OutputImageType>;
+  using IteratorType = FloodFilledImageFunctionConditionalIterator< OutputImageType, DistanceThresholdFunctionType >;
+  using SecondIteratorType = FloodFilledImageFunctionConditionalConstIterator< InputImageType,
+                                                            SecondFunctionType >;
 
   unsigned int loop;
 
@@ -144,13 +143,13 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
 
   // Compute the statistics of the seed point
-  typedef VectorMeanImageFunction< InputImageType > VectorMeanImageFunctionType;
+  using VectorMeanImageFunctionType = VectorMeanImageFunction< InputImageType >;
   typename VectorMeanImageFunctionType::Pointer meanFunction =
     VectorMeanImageFunctionType::New();
 
   meanFunction->SetInputImage(inputImage);
   meanFunction->SetNeighborhoodRadius(m_InitialNeighborhoodRadius);
-  typedef CovarianceImageFunction< InputImageType > CovarianceImageFunctionType;
+  using CovarianceImageFunctionType = CovarianceImageFunction< InputImageType >;
   typename CovarianceImageFunctionType::Pointer varianceFunction =
     CovarianceImageFunctionType::New();
   varianceFunction->SetInputImage(inputImage);
@@ -162,8 +161,8 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   CovarianceMatrixType covariance;
   MeanVectorType       mean;
 
-  typedef typename InputPixelType::ValueType                     ComponentPixelType;
-  typedef typename NumericTraits< ComponentPixelType >::RealType ComponentRealType;
+  using ComponentPixelType = typename InputPixelType::ValueType;
+  using ComponentRealType = typename NumericTraits< ComponentPixelType >::RealType;
 
   const unsigned int dimension = inputImage->GetNumberOfComponentsPerPixel();
 
@@ -173,8 +172,8 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
   covariance.fill(NumericTraits< ComponentRealType >::ZeroValue());
   mean.fill(NumericTraits< ComponentRealType >::ZeroValue());
 
-  typedef typename VectorMeanImageFunctionType::OutputType MeanFunctionVectorType;
-  typedef typename CovarianceImageFunctionType::OutputType CovarianceFunctionMatrixType;
+  using MeanFunctionVectorType = typename VectorMeanImageFunctionType::OutputType;
+  using CovarianceFunctionMatrixType = typename CovarianceImageFunctionType::OutputType;
 
   typename SeedsContainerType::const_iterator si = m_Seeds.begin();
   typename SeedsContainerType::const_iterator li = m_Seeds.end();

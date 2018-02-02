@@ -38,10 +38,10 @@ typename CovarianceImageFunction< TInputImage, TCoordRep >
 CovarianceImageFunction< TInputImage, TCoordRep >
 ::EvaluateAtIndex(const IndexType & index) const
 {
-  typedef  typename TInputImage::PixelType PixelType;
-  typedef  typename PixelType::ValueType   PixelComponentType;
+  using PixelType = typename TInputImage::PixelType;
+  using PixelComponentType = typename PixelType::ValueType;
 
-  typedef  typename NumericTraits< PixelComponentType >::RealType PixelComponentRealType;
+  using PixelComponentRealType = typename NumericTraits< PixelComponentType >::RealType;
 
 
   if ( !this->GetInputImage() )
@@ -61,7 +61,7 @@ CovarianceImageFunction< TInputImage, TCoordRep >
 
   covariance.fill(NumericTraits< PixelComponentRealType >::ZeroValue());
 
-  typedef vnl_vector< PixelComponentRealType > MeanVectorType;
+  using MeanVectorType = vnl_vector< PixelComponentRealType >;
   MeanVectorType mean = MeanVectorType(VectorDimension);
   mean.fill(NumericTraits< PixelComponentRealType >::ZeroValue());
 

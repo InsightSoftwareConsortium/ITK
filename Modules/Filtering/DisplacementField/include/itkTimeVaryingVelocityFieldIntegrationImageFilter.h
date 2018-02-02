@@ -56,11 +56,11 @@ class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldIntegrationImageFilter :
   public ImageToImageFilter<TTimeVaryingVelocityField, TDisplacementField>
 {
 public:
-  typedef TimeVaryingVelocityFieldIntegrationImageFilter  Self;
-  typedef ImageToImageFilter
-    <TTimeVaryingVelocityField, TDisplacementField>       Superclass;
-  typedef SmartPointer<Self>                              Pointer;
-  typedef SmartPointer<const Self>                        ConstPointer;
+  using Self = TimeVaryingVelocityFieldIntegrationImageFilter;
+  using Superclass = ImageToImageFilter
+    <TTimeVaryingVelocityField, TDisplacementField>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -77,22 +77,21 @@ public:
   itkStaticConstMacro( OutputImageDimension, unsigned int,
     TDisplacementField::ImageDimension );
 
-  typedef TTimeVaryingVelocityField                   TimeVaryingVelocityFieldType;
-  typedef TDisplacementField                          DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer     DisplacementFieldPointer;
-  typedef typename DisplacementFieldType::PixelType   VectorType;
-  typedef typename VectorType::RealValueType          RealType;
-  typedef typename VectorType::ValueType              ScalarType;
-  typedef typename DisplacementFieldType::PointType   PointType;
-  typedef typename DisplacementFieldType::RegionType  OutputRegionType;
+  using TimeVaryingVelocityFieldType = TTimeVaryingVelocityField;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
+  using VectorType = typename DisplacementFieldType::PixelType;
+  using RealType = typename VectorType::RealValueType;
+  using ScalarType = typename VectorType::ValueType;
+  using PointType = typename DisplacementFieldType::PointType;
+  using OutputRegionType = typename DisplacementFieldType::RegionType;
 
-  typedef VectorInterpolateImageFunction
-    <TimeVaryingVelocityFieldType, ScalarType>    VelocityFieldInterpolatorType;
-  typedef typename VelocityFieldInterpolatorType::Pointer
-                                                  VelocityFieldInterpolatorPointer;
+  using VelocityFieldInterpolatorType = VectorInterpolateImageFunction
+    <TimeVaryingVelocityFieldType, ScalarType>;
+  using VelocityFieldInterpolatorPointer = typename VelocityFieldInterpolatorType::Pointer;
 
-  typedef VectorInterpolateImageFunction<DisplacementFieldType, ScalarType>   DisplacementFieldInterpolatorType;
-  typedef typename DisplacementFieldInterpolatorType::Pointer                 DisplacementFieldInterpolatorPointer;
+  using DisplacementFieldInterpolatorType = VectorInterpolateImageFunction<DisplacementFieldType, ScalarType>;
+  using DisplacementFieldInterpolatorPointer = typename DisplacementFieldInterpolatorType::Pointer;
 
   /** Get/Set the time-varying velocity field interpolator.  Default = linear. */
   itkSetObjectMacro( VelocityFieldInterpolator, VelocityFieldInterpolatorType );

@@ -76,10 +76,10 @@ template< typename TOutputImage,
 class ITKIOImageBase_HIDDEN ImageFileReader:public ImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageFileReader             Self;
-  typedef ImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
+  /** Standard class type aliases. */
+  using Self = ImageFileReader;
+  using Superclass = ImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -88,16 +88,16 @@ public:
   itkTypeMacro(ImageFileReader, ImageSource);
 
   /** The size of the output image. */
-  typedef typename TOutputImage::SizeType SizeType;
+  using SizeType = typename TOutputImage::SizeType;
 
   /** The size of the output image. */
-  typedef typename TOutputImage::IndexType IndexType;
+  using IndexType = typename TOutputImage::IndexType;
 
   /** The region of the output image. */
-  typedef typename TOutputImage::RegionType ImageRegionType;
+  using ImageRegionType = typename TOutputImage::RegionType;
 
   /** The pixel type of the output image. */
-  typedef typename TOutputImage::InternalPixelType OutputImagePixelType;
+  using OutputImagePixelType = typename TOutputImage::InternalPixelType;
 
   /** Specify the file to read. This is forwarded to the IO instance. */
   itkSetGetDecoratedInputMacro(FileName, std::string);

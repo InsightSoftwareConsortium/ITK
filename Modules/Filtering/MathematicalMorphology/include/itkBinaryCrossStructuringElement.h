@@ -54,38 +54,38 @@ class ITK_TEMPLATE_EXPORT BinaryCrossStructuringElement:
   public Neighborhood< TPixel, VDimension, TAllocator >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryCrossStructuringElement                  Self;
-  typedef Neighborhood< TPixel, VDimension, TAllocator > Superclass;
+  /** Standard class type aliases. */
+  using Self = BinaryCrossStructuringElement;
+  using Superclass = Neighborhood< TPixel, VDimension, TAllocator >;
 
   /** External support for allocator type. */
-  typedef TAllocator AllocatorType;
+  using AllocatorType = TAllocator;
 
   /** External support for dimensionality. */
   itkStaticConstMacro(NeighborhoodDimension, unsigned int, VDimension);
 
   /** External support for pixel type. */
-  typedef TPixel PixelType;
+  using PixelType = TPixel;
 
-  /** Iterator typedef support. Note the naming is intentional, i.e.,
+  /** Iterator type alias support Note the naming is intentional, i.e.,
   * AllocatorType::iterator and AllocatorType::const_iterator, because the
   * allocator may be a vnl object or other type, which uses this form. */
-  typedef typename AllocatorType::iterator       Iterator;
-  typedef typename AllocatorType::const_iterator ConstIterator;
+  using Iterator = typename AllocatorType::iterator;
+  using ConstIterator = typename AllocatorType::const_iterator;
 
-  /** Size and value typedef support. */
-  typedef typename Superclass::SizeType      SizeType;
-  typedef typename Superclass::SizeValueType SizeValueType;
+  /** Size and value type alias support */
+  using SizeType = typename Superclass::SizeType;
+  using SizeValueType = typename Superclass::SizeValueType;
 
-  /** Offset and value typedef support. */
-  typedef typename Superclass::OffsetType      OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
+  /** Offset and value type alias support */
+  using OffsetType = typename Superclass::OffsetType;
+  using OffsetValueType = typename OffsetType::OffsetValueType;
 
-  /** Radius typedef support. */
-  typedef typename Superclass::RadiusType RadiusType;
+  /** Radius type alias support */
+  using RadiusType = typename Superclass::RadiusType;
 
-  /** External slice iterator type typedef support. */
-  typedef SliceIterator< TPixel, Self > SliceIteratorType;
+  /** External slice iterator type type alias support */
+  using SliceIteratorType = SliceIterator< TPixel, Self >;
 
   /** Default constructor. */
   BinaryCrossStructuringElement()

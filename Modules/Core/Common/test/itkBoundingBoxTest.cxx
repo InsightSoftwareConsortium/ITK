@@ -24,7 +24,7 @@ int itkBoundingBoxTest (int, char*[])
 {
   // Test out the bounding box code
 
-  typedef itk::BoundingBox<unsigned long, 1, double> BB;
+  using BB = itk::BoundingBox<unsigned long, 1, double>;
   BB::Pointer myBox = BB::New();
 
   BB::PointsContainerPointer Points = BB::PointsContainer::New();
@@ -130,7 +130,7 @@ int itkBoundingBoxTest (int, char*[])
   // Test the IsInside method in 3D
   std::cout << " Some Testing in 3D " <<std::endl;
 
-  typedef itk::BoundingBox<unsigned long, 3, double> CC;
+  using CC = itk::BoundingBox<unsigned long, 3, double>;
   CC::Pointer my3DBox = CC::New();
 
   CC::PointsContainerPointer Points3D = CC::PointsContainer::New();

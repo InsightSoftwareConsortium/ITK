@@ -110,10 +110,10 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
   // have to perform N convolutions for each point we calculate but
   // only one.
 
-  typedef itk::Image< TOutput, itkGetStaticConstMacro(ImageDimension2) > KernelImageType;
+  using KernelImageType = itk::Image< TOutput, itkGetStaticConstMacro(ImageDimension2) >;
   typename KernelImageType::Pointer kernelImage = KernelImageType::New();
 
-  typedef typename KernelImageType::RegionType RegionType;
+  using RegionType = typename KernelImageType::RegionType;
   RegionType region;
 
   typename RegionType::SizeType size;
@@ -139,8 +139,8 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
   kernelRegion.SetIndex(origin);
 
   // Now create an image filter to perform successive convolutions
-  typedef itk::NeighborhoodOperatorImageFilter< KernelImageType, KernelImageType >
-  NeighborhoodFilterType;
+  using NeighborhoodFilterType =
+      itk::NeighborhoodOperatorImageFilter< KernelImageType, KernelImageType >;
   typename NeighborhoodFilterType::Pointer convolutionFilter = NeighborhoodFilterType::New();
 
   for ( unsigned int direction = 0; direction < itkGetStaticConstMacro(ImageDimension2); ++direction )
@@ -217,7 +217,7 @@ DiscreteGaussianDerivativeImageFunction< TInputImage, TOutput >
     }
   else
     {
-    typedef unsigned int NumberOfNeighborsType;
+    using NumberOfNeighborsType = unsigned int;
 
     unsigned int  dim; // index over dimension
     NumberOfNeighborsType numberOfNeighbors = 1 << ImageDimension2;

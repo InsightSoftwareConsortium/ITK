@@ -82,12 +82,12 @@ class ITK_TEMPLATE_EXPORT GPUPDEDeformableRegistrationFilter :
   public GPUDenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField, TParentImageFilter >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUPDEDeformableRegistrationFilter                                                              Self;
-  typedef GPUDenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField, TParentImageFilter > GPUSuperclass;
-  typedef TParentImageFilter                                                                              CPUSuperclass;
-  typedef SmartPointer< Self >                                                                            Pointer;
-  typedef SmartPointer< const Self >                                                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUPDEDeformableRegistrationFilter;
+  using GPUSuperclass = GPUDenseFiniteDifferenceImageFilter< TDisplacementField, TDisplacementField, TParentImageFilter >;
+  using CPUSuperclass = TParentImageFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -97,35 +97,33 @@ public:
                GPUDenseFiniteDifferenceImageFilter);
 
   /** FixedImage image type. */
-  typedef TFixedImage                           FixedImageType;
-  typedef typename FixedImageType::Pointer      FixedImagePointer;
-  typedef typename FixedImageType::ConstPointer FixedImageConstPointer;
+  using FixedImageType = TFixedImage;
+  using FixedImagePointer = typename FixedImageType::Pointer;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
 
   /** MovingImage image type. */
-  typedef TMovingImage                           MovingImageType;
-  typedef typename MovingImageType::Pointer      MovingImagePointer;
-  typedef typename MovingImageType::ConstPointer MovingImageConstPointer;
+  using MovingImageType = TMovingImage;
+  using MovingImagePointer = typename MovingImageType::Pointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
 
   /** Deformation field type. */
-  typedef TDisplacementField                      DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer DisplacementFieldPointer;
-  typedef typename TDisplacementField::PixelType  DeformationVectorType;
-  typedef typename TDisplacementField::PixelType::ValueType
-                                                 DeformationScalarType;
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
+  using DeformationVectorType = typename TDisplacementField::PixelType;
+  using DeformationScalarType = typename TDisplacementField::PixelType::ValueType;
 
   /** Types inherithed from the GPUSuperclass */
-  typedef typename GPUSuperclass::OutputImageType OutputImageType;
+  using OutputImageType = typename GPUSuperclass::OutputImageType;
 
   /** FiniteDifferenceFunction type. */
-  typedef typename GPUSuperclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
+  using FiniteDifferenceFunctionType = typename GPUSuperclass::FiniteDifferenceFunctionType;
 
   /** PDEDeformableRegistrationFilterFunction type. */
   /** GPUPDEDeformableRegistrationFilterFunction type. */
-  typedef GPUPDEDeformableRegistrationFunction< FixedImageType, MovingImageType,
-                                                DisplacementFieldType >  GPUPDEDeformableRegistrationFunctionType;
+  using GPUPDEDeformableRegistrationFunctionType = GPUPDEDeformableRegistrationFunction< FixedImageType, MovingImageType,
+                                                DisplacementFieldType >;
 
-  /** Inherit some enums and typedefs from the GPUSuperclass. */
+  /** Inherit some enums and type alias from the GPUSuperclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       GPUSuperclass::ImageDimension);
 
@@ -138,7 +136,7 @@ public:
     return this->GetOutput();
   }
 
-  typedef FixedArray< double, ImageDimension > StandardDeviationsType;
+  using StandardDeviationsType = FixedArray< double, ImageDimension >;
 
 protected:
   GPUPDEDeformableRegistrationFilter();

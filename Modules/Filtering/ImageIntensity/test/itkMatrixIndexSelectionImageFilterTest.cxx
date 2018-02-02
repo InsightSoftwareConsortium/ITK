@@ -35,12 +35,12 @@ int itkMatrixIndexSelectionImageFilterTest( int argc, char* argv[] )
   const unsigned int Dimension = 2;
 
   // Declare the pixel types of the images
-  typedef itk::Matrix< unsigned short, Dimension, Dimension > PixelType;
-  typedef unsigned char                                       OutputPixelType;
+  using PixelType = itk::Matrix< unsigned short, Dimension, Dimension >;
+  using OutputPixelType = unsigned char;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension >       InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using InputImageType = itk::Image< PixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
   // Create a matrix image
   InputImageType::Pointer image = InputImageType::New();
@@ -107,8 +107,8 @@ int itkMatrixIndexSelectionImageFilterTest( int argc, char* argv[] )
     }
   }
 
-  typedef itk::MatrixIndexSelectionImageFilter< InputImageType, OutputImageType >
-    SelectionFilterType;
+  using SelectionFilterType =
+      itk::MatrixIndexSelectionImageFilter< InputImageType, OutputImageType >;
 
   SelectionFilterType::Pointer filter = SelectionFilterType::New();
 
@@ -138,7 +138,7 @@ int itkMatrixIndexSelectionImageFilterTest( int argc, char* argv[] )
 
   filter->SetFunctor( filter->GetFunctor() );
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[1] );

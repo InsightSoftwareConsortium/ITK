@@ -56,8 +56,8 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT LineIterator:public LineConstIterator< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LineIterator Self;
+  /** Standard class type aliases. */
+  using Self = LineIterator;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
@@ -67,19 +67,19 @@ public:
                       TImage::ImageDimension);
 
   /** Define the superclass */
-  typedef LineConstIterator< TImage > Superclass;
+  using Superclass = LineConstIterator< TImage >;
 
   /** Inherit types from the superclass */
-  typedef typename Superclass::IndexType             IndexType;
-  typedef typename Superclass::OffsetType            OffsetType;
-  typedef typename Superclass::SizeType              SizeType;
-  typedef typename Superclass::RegionType            RegionType;
-  typedef typename Superclass::ImageType             ImageType;
-  typedef typename Superclass::PixelContainer        PixelContainer;
-  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
-  typedef typename Superclass::InternalPixelType     InternalPixelType;
-  typedef typename Superclass::PixelType             PixelType;
-  typedef typename Superclass::AccessorType          AccessorType;
+  using IndexType = typename Superclass::IndexType;
+  using OffsetType = typename Superclass::OffsetType;
+  using SizeType = typename Superclass::SizeType;
+  using RegionType = typename Superclass::RegionType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelContainer = typename Superclass::PixelContainer;
+  using PixelContainerPointer = typename Superclass::PixelContainerPointer;
+  using InternalPixelType = typename Superclass::InternalPixelType;
+  using PixelType = typename Superclass::PixelType;
+  using AccessorType = typename Superclass::AccessorType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LineIterator, LineConstIterator);

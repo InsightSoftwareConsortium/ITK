@@ -21,19 +21,19 @@
 
 int itkPriorityQueueTest( int, char * [] )
 {
-  typedef itk::IdentifierType    ElementIdentifier;
+  using ElementIdentifier = itk::IdentifierType;
 
-  typedef itk::MinPriorityQueueElementWrapper< size_t, double, ElementIdentifier > MinPQElementType;
-  typedef itk::MaxPriorityQueueElementWrapper< size_t, double, ElementIdentifier > MaxPQElementType;
+  using MinPQElementType = itk::MinPriorityQueueElementWrapper< size_t, double, ElementIdentifier >;
+  using MaxPQElementType = itk::MaxPriorityQueueElementWrapper< size_t, double, ElementIdentifier >;
 
-  typedef itk::PriorityQueueContainer<
-    MinPQElementType, MinPQElementType, double, ElementIdentifier > MinPQType;
+  using MinPQType = itk::PriorityQueueContainer<
+    MinPQElementType, MinPQElementType, double, ElementIdentifier >;
   MinPQType::Pointer min_priority_queue = MinPQType::New( );
 
   std::cout << min_priority_queue->GetNameOfClass() << std::endl;
 
-  typedef itk::PriorityQueueContainer<
-    MaxPQElementType, MaxPQElementType, double, ElementIdentifier > MaxPQType;
+  using MaxPQType = itk::PriorityQueueContainer<
+    MaxPQElementType, MaxPQElementType, double, ElementIdentifier >;
   MaxPQType::Pointer max_priority_queue = MaxPQType::New( );
 
   std::list< double > sequence;

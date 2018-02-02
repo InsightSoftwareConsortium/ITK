@@ -208,9 +208,9 @@ MRCHeaderObject::~MRCHeaderObject(void)
 
 void MRCHeaderObject::swapHeader(bool bigEndian)
 {
-  typedef itk::ByteSwapper< float >   FloatSwapper;
-  typedef itk::ByteSwapper< int32_t > Int32Swapper;
-  typedef itk::ByteSwapper< int16_t > Int16Swapper;
+  using FloatSwapper = itk::ByteSwapper< float >;
+  using Int32Swapper = itk::ByteSwapper< int32_t >;
+  using Int16Swapper = itk::ByteSwapper< int16_t >;
 
   if ( FloatSwapper::SystemIsBigEndian() )
     {

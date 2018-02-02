@@ -34,19 +34,19 @@ int itkLabelToRGBImageFilterTest(int argc, char * argv[])
     return 1;
     }
 
-  typedef unsigned char                               PixelType;
-  typedef itk::Image< PixelType, Dimension >          ImageType;
-  typedef itk::RGBPixel<unsigned char>                ColorPixelType;
-  typedef itk::Image< ColorPixelType, Dimension >     ColorImageType;
-  typedef itk::ImageFileReader< ImageType >           ReaderType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ColorPixelType = itk::RGBPixel<unsigned char>;
+  using ColorImageType = itk::Image< ColorPixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   //Read in the input image
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   //Instantiate the filter
-  typedef itk::LabelToRGBImageFilter<
-    ImageType, ColorImageType> FilterType;
+  using FilterType = itk::LabelToRGBImageFilter<
+    ImageType, ColorImageType>;
   FilterType::Pointer filter = FilterType::New();
 
   // Exercising Background Value methods
@@ -65,7 +65,7 @@ int itkLabelToRGBImageFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   //Instantiate output image
-  typedef itk::ImageFileWriter< ColorImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ColorImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetInput( filter->GetOutput() );

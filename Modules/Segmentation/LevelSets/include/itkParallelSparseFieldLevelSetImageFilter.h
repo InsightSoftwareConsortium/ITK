@@ -75,9 +75,9 @@ template< typename TNeighborhoodType >
 class ITK_TEMPLATE_EXPORT ParallelSparseFieldCityBlockNeighborList
 {
 public:
-  typedef TNeighborhoodType                     NeighborhoodType;
-  typedef typename NeighborhoodType::OffsetType OffsetType;
-  typedef typename NeighborhoodType::RadiusType RadiusType;
+  using NeighborhoodType = TNeighborhoodType;
+  using OffsetType = typename NeighborhoodType::OffsetType;
+  using RadiusType = typename NeighborhoodType::RadiusType;
 
   itkStaticConstMacro(Dimension, unsigned int, NeighborhoodType::Dimension);
 
@@ -250,17 +250,17 @@ class ITK_TEMPLATE_EXPORT ParallelSparseFieldLevelSetImageFilter:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs */
-  typedef ParallelSparseFieldLevelSetImageFilter                   Self;
-  typedef FiniteDifferenceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                     Pointer;
-  typedef SmartPointer< const Self >                               ConstPointer;
+  /** Standard class type aliases */
+  using Self = ParallelSparseFieldLevelSetImageFilter;
+  using Superclass = FiniteDifferenceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**Typedefs from the superclass */
-  typedef typename Superclass::TimeStepType                 TimeStepType;
-  typedef typename Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
-  typedef typename Superclass::RadiusType                   RadiusType;
-  typedef typename Superclass::NeighborhoodScalesType       NeighborhoodScalesType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -269,42 +269,42 @@ public:
   itkTypeMacro(ParallelSparseFieldLevelSetImageFilter, FiniteDifferenceImageFilter);
 
   /** Information derived from the image types. */
-  typedef TInputImage                         InputImageType;
-  typedef TOutputImage                        OutputImageType;
-  typedef typename OutputImageType::IndexType IndexType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using IndexType = typename OutputImageType::IndexType;
 
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
-  typedef typename OutputImageType::PixelType PixelType;
+  using PixelType = typename OutputImageType::PixelType;
 
-  typedef typename OutputImageType::RegionType ThreadRegionType;
+  using ThreadRegionType = typename OutputImageType::RegionType;
 
   /** The data type used in numerical computations.  Derived from the output
    *  image type. */
-  typedef typename OutputImageType::ValueType ValueType;
+  using ValueType = typename OutputImageType::ValueType;
 
   /** Node type used in parallel sparse field layer lists. */
-  typedef ParallelSparseFieldLevelSetNode< IndexType > LayerNodeType;
+  using LayerNodeType = ParallelSparseFieldLevelSetNode< IndexType >;
 
   /** A list type used in the algorithm. */
-  typedef SparseFieldLayer< LayerNodeType > LayerType;
-  typedef typename LayerType::Pointer       LayerPointerType;
+  using LayerType = SparseFieldLayer< LayerNodeType >;
+  using LayerPointerType = typename LayerType::Pointer;
 
   /** A type for a list of LayerPointerTypes */
-  typedef std::vector< LayerPointerType > LayerListType;
+  using LayerListType = std::vector< LayerPointerType >;
 
   /** Type used for storing status information */
-  typedef signed char StatusType;
+  using StatusType = signed char;
 
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */
-  typedef Image< StatusType, itkGetStaticConstMacro(ImageDimension) > StatusImageType;
+  using StatusImageType = Image< StatusType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Memory pre-allocator used to manage layer nodes in a multithreaded
    *  environment. */
-  typedef ObjectStore< LayerNodeType > LayerNodeStorageType;
+  using LayerNodeStorageType = ObjectStore< LayerNodeType >;
 
-  typedef Offset< itkGetStaticConstMacro(ImageDimension) > OffsetType;
+  using OffsetType = Offset< itkGetStaticConstMacro(ImageDimension) >;
 
   /** Set/Get the number of layers to use in the sparse field.  Argument is the
    *  number of layers on ONE side of the active layer, so the total layers in

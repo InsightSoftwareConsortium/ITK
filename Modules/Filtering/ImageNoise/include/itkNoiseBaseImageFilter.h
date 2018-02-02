@@ -42,13 +42,13 @@ class ITK_TEMPLATE_EXPORT NoiseBaseImageFilter :
   public InPlaceImageFilter<TInputImage,TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef NoiseBaseImageFilter                          Self;
-  typedef InPlaceImageFilter<TInputImage,TOutputImage > Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = NoiseBaseImageFilter;
+  using Superclass = InPlaceImageFilter<TInputImage,TOutputImage >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef typename Superclass::OutputImagePixelType OutputImagePixelType;
+  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NoiseBaseImageFilter, InPlaceImageFilter);

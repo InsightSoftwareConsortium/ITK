@@ -43,11 +43,11 @@ protected:
   {
     static const unsigned int Dimension = D;
 
-    typedef TPixelType                       PixelType;
-    typedef itk::Image<PixelType, Dimension> ImageType;
+    using PixelType = TPixelType;
+    using ImageType = itk::Image<PixelType, Dimension>;
 
-    typedef itk::ShapeLabelObject<PixelType, Dimension> LabelObjectType;
-    typedef itk::LabelMap<LabelObjectType>              ShapeLabelMapType;
+    using LabelObjectType = itk::ShapeLabelObject<PixelType, Dimension>;
+    using ShapeLabelMapType = itk::LabelMap<LabelObjectType>;
 
 
     static typename ImageType::Pointer CreateImage(void)
@@ -68,7 +68,7 @@ protected:
                                                                      PixelType label = 1)
       {
 
-        typedef itk::LabelImageToShapeLabelMapFilter<ImageType> L2SType;
+        using L2SType = itk::LabelImageToShapeLabelMapFilter<ImageType>;
         typename L2SType::Pointer l2s = L2SType::New();
         l2s->SetInput( image );
         l2s->ComputeFeretDiameterOn();
@@ -92,7 +92,7 @@ TEST_F(ShapeLabelMapFixture,3D_T1x1x1)
 {
   using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
 
-  typedef FixtureUtilities<3> Utils;
+  using Utils = FixtureUtilities<3>;
 
   Utils::ImageType::Pointer image( Utils::CreateImage() );
 
@@ -134,7 +134,7 @@ TEST_F(ShapeLabelMapFixture,3D_T3x2x1)
 {
   using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
 
-  typedef FixtureUtilities<3> Utils;
+  using Utils = FixtureUtilities<3>;
 
   Utils::ImageType::Pointer image( Utils::CreateImage() );
 
@@ -181,7 +181,7 @@ TEST_F(ShapeLabelMapFixture,3D_T3x2x1_Direction)
 {
   using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
 
-  typedef FixtureUtilities<3> Utils;
+  using Utils = FixtureUtilities<3>;
 
   Utils::ImageType::Pointer image( Utils::CreateImage() );
 
@@ -236,7 +236,7 @@ TEST_F(ShapeLabelMapFixture,3D_T2x2x2_Spacing)
 {
   using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
 
-  typedef FixtureUtilities<3> Utils;
+  using Utils = FixtureUtilities<3>;
 
   Utils::ImageType::Pointer image( Utils::CreateImage() );
 
@@ -289,7 +289,7 @@ TEST_F(ShapeLabelMapFixture,3D_T2x2x2_Spacing_Direction)
 {
   using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
 
-  typedef FixtureUtilities<3> Utils;
+  using Utils = FixtureUtilities<3>;
 
   Utils::ImageType::Pointer image( Utils::CreateImage() );
 
@@ -349,7 +349,7 @@ TEST_F(ShapeLabelMapFixture,2D_T1x1)
 {
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
-  typedef FixtureUtilities<2> Utils;
+  using Utils = FixtureUtilities<2>;
 
   Utils::ImageType::Pointer image( Utils::CreateImage() );
 
@@ -371,7 +371,7 @@ TEST_F(ShapeLabelMapFixture,2D_T1_1)
 {
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
-  typedef FixtureUtilities<2> Utils;
+  using Utils = FixtureUtilities<2>;
 
   Utils::ImageType::Pointer image( Utils::CreateImage() );
 
@@ -395,7 +395,7 @@ TEST_F(ShapeLabelMapFixture,2D_T1_1_FlipDirection)
 {
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
-  typedef FixtureUtilities<2> Utils;
+  using Utils = FixtureUtilities<2>;
 
   Utils::ImageType::Pointer image( Utils::CreateImage() );
 
@@ -429,7 +429,7 @@ TEST_F(ShapeLabelMapFixture,2D_T2x4)
 {
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
-  typedef FixtureUtilities<2> Utils;
+  using Utils = FixtureUtilities<2>;
 
   Utils::ImageType::Pointer image( Utils::CreateImage() );
 

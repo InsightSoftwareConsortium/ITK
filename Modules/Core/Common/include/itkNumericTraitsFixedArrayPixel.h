@@ -45,40 +45,40 @@ class NumericTraits< FixedArray< T, D > >
 {
 private:
 
-  typedef  typename NumericTraits< T >::AbsType        ElementAbsType;
-  typedef  typename NumericTraits< T >::AccumulateType ElementAccumulateType;
-  typedef  typename NumericTraits< T >::FloatType      ElementFloatType;
-  typedef  typename NumericTraits< T >::PrintType      ElementPrintType;
-  typedef  typename NumericTraits< T >::RealType       ElementRealType;
+  using ElementAbsType = typename NumericTraits< T >::AbsType;
+  using ElementAccumulateType = typename NumericTraits< T >::AccumulateType;
+  using ElementFloatType = typename NumericTraits< T >::FloatType;
+  using ElementPrintType = typename NumericTraits< T >::PrintType;
+  using ElementRealType = typename NumericTraits< T >::RealType;
 
 public:
 
   /** Return the type of the native component type. */
-  typedef T ValueType;
+  using ValueType = T;
 
-  typedef FixedArray< T, D > Self;
+  using Self = FixedArray< T, D >;
 
   /** Unsigned component type */
-  typedef FixedArray< ElementAbsType, D > AbsType;
+  using AbsType = FixedArray< ElementAbsType, D >;
 
   /** Accumulation of addition and multiplication. */
-  typedef FixedArray< ElementAccumulateType, D > AccumulateType;
+  using AccumulateType = FixedArray< ElementAccumulateType, D >;
 
   /** Typedef for operations that use floating point instead of real precision
     */
-  typedef FixedArray< ElementFloatType, D > FloatType;
+  using FloatType = FixedArray< ElementFloatType, D >;
 
   /** Return the type that can be printed. */
-  typedef FixedArray< ElementPrintType, D > PrintType;
+  using PrintType = FixedArray< ElementPrintType, D >;
 
   /** Type for real-valued scalar operations. */
-  typedef FixedArray< ElementRealType, D > RealType;
+  using RealType = FixedArray< ElementRealType, D >;
 
   /** Type for real-valued scalar operations. */
-  typedef ElementRealType ScalarRealType;
+  using ScalarRealType = ElementRealType;
 
   /** Measurement vector type */
-  typedef Self MeasurementVectorType;
+  using MeasurementVectorType = Self;
 
   /** Component wise defined element
    *

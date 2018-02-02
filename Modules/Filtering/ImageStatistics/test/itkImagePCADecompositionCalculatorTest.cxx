@@ -50,10 +50,9 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   //------------------------------------------------------
   //Create 3 simple test images with
   //------------------------------------------------------
-  typedef itk::Image<double,NDIMENSION> InputImageType;
+  using InputImageType = itk::Image<double,NDIMENSION>;
 
-  typedef
-    itk::ImageRegionIterator< InputImageType > InputImageIterator;
+  using InputImageIterator = itk::ImageRegionIterator<InputImageType>;
 
 
   InputImageType::Pointer image1 = InputImageType::New();
@@ -228,8 +227,7 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   //----------------------------------------------------------------------
   //Set the image Decomposition Calculator
   //----------------------------------------------------------------------
-  typedef itk::ImagePCADecompositionCalculator<InputImageType>
-    ImagePCAShapeModelEstimatorType;
+  using ImagePCAShapeModelEstimatorType = itk::ImagePCADecompositionCalculator<InputImageType>;
 
   ImagePCAShapeModelEstimatorType::Pointer
     decomposer = ImagePCAShapeModelEstimatorType::New();

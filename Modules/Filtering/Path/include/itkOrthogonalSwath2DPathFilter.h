@@ -53,12 +53,12 @@ class ITK_TEMPLATE_EXPORT OrthogonalSwath2DPathFilter:public
                             OrthogonallyCorrected2DParametricPath >
 {
 public:
-  /** Standard class typedefs. */
-  typedef OrthogonalSwath2DPathFilter Self;
-  typedef PathAndImageToPathFilter< TFourierSeriesPath, TSwathMeritImage,
-                                    OrthogonallyCorrected2DParametricPath > Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = OrthogonalSwath2DPathFilter;
+  using Superclass = PathAndImageToPathFilter< TFourierSeriesPath, TSwathMeritImage,
+                                    OrthogonallyCorrected2DParametricPath >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,25 +66,23 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(OrthogonalSwath2DPathFilter, PathAndImageToPathFilter);
 
-  /** Some convenient typedefs. */
-  typedef TFourierSeriesPath                InputPathType;
-  typedef typename InputPathType::Pointer   InputPathPointer;
-  typedef typename InputPathType::InputType InputPathInputType;
+  /** Some convenient type alias. */
+  using InputPathType = TFourierSeriesPath;
+  using InputPathPointer = typename InputPathType::Pointer;
+  using InputPathInputType = typename InputPathType::InputType;
 
-  typedef TSwathMeritImage                 ImageType;
-  typedef typename ImageType::ConstPointer ImageConstPointer;
+  using ImageType = TSwathMeritImage;
+  using ImageConstPointer = typename ImageType::ConstPointer;
 
-  typedef OrthogonallyCorrected2DParametricPath OutputPathType;
-  typedef typename OutputPathType::Pointer      OutputPathPointer;
-  typedef typename OutputPathType::InputType    OutputPathInputType;
-  typedef typename OutputPathType::OrthogonalCorrectionTableType
-  OrthogonalCorrectionTableType;
-  typedef typename OutputPathType::OrthogonalCorrectionTablePointer
-  OrthogonalCorrectionTablePointer;
+  using OutputPathType = OrthogonallyCorrected2DParametricPath;
+  using OutputPathPointer = typename OutputPathType::Pointer;
+  using OutputPathInputType = typename OutputPathType::InputType;
+  using OrthogonalCorrectionTableType = typename OutputPathType::OrthogonalCorrectionTableType;
+  using OrthogonalCorrectionTablePointer = typename OutputPathType::OrthogonalCorrectionTablePointer;
 
-  typedef typename InputPathType::IndexType  IndexType;
-  typedef typename InputPathType::OffsetType OffsetType;
-  typedef typename ImageType::SizeType       SizeType;
+  using IndexType = typename InputPathType::IndexType;
+  using OffsetType = typename InputPathType::OffsetType;
+  using SizeType = typename ImageType::SizeType;
 
 protected:
   OrthogonalSwath2DPathFilter();

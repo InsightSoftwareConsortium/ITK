@@ -43,13 +43,13 @@ template< typename TRealValueType = double >
 class KernelFunctionBase:public FunctionBase< TRealValueType, TRealValueType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef KernelFunctionBase                             Self;
-  typedef FunctionBase< TRealValueType, TRealValueType > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = KernelFunctionBase;
+  using Superclass = FunctionBase< TRealValueType, TRealValueType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TRealValueType                             RealType;
+  using RealType = TRealValueType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(KernelFunctionBase, FunctionBase);

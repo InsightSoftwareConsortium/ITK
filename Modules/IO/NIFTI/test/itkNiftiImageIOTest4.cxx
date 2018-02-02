@@ -19,7 +19,7 @@
 
 #include "itkNiftiImageIOTest.h"
 
-typedef itk::Image<unsigned char,3> Test4ImageType;
+using Test4ImageType = itk::Image<unsigned char,3>;
 
 void
 PrintDir(Test4ImageType::DirectionType &dir)
@@ -75,8 +75,8 @@ int itkNiftiImageIOTest4(int ac, char* av[])
   // cosines;
   vnl_random randgen(8775070);
 
-  typedef itk::AffineTransform<double,3>  TransformType;
-  typedef itk::Vector<double,3>           AxisType;
+  using TransformType = itk::AffineTransform<double,3>;
+  using AxisType = itk::Vector<double,3>;
 
   TransformType::Pointer transform = TransformType::New();
   AxisType axis;

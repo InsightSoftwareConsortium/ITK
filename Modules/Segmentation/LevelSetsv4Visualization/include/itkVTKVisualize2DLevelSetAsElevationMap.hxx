@@ -113,8 +113,8 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
   typename InputImageType::ConstPointer inputImage = this->m_InputImageConverter->GetInput();
   typename InputImageType::RegionType       region = inputImage->GetLargestPossibleRegion();
 
-  typedef typename InputImageType::IndexType      IndexType;
-  typedef typename InputImageType::PointType      PointType;
+  using IndexType = typename InputImageType::IndexType;
+  using PointType = typename InputImageType::PointType;
 
   IndexType start = region.GetIndex();
   PointType itkPoint;

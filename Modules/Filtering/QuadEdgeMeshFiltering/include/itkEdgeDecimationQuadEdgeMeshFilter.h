@@ -41,49 +41,49 @@ class ITK_TEMPLATE_EXPORT EdgeDecimationQuadEdgeMeshFilter:
   public DecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 {
 public:
-  typedef EdgeDecimationQuadEdgeMeshFilter Self;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
-  typedef DecimationQuadEdgeMeshFilter<
-    TInput, TOutput, TCriterion >          Superclass;
+  using Self = EdgeDecimationQuadEdgeMeshFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DecimationQuadEdgeMeshFilter<
+    TInput, TOutput, TCriterion >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(EdgeDecimationQuadEdgeMeshFilter, DecimationQuadEdgeMeshFilter);
 
-  typedef TInput                          InputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
+  using InputMeshType = TInput;
+  using InputMeshPointer = typename InputMeshType::Pointer;
 
-  typedef TOutput                                         OutputMeshType;
-  typedef typename OutputMeshType::Pointer                OutputMeshPointer;
-  typedef typename OutputMeshType::PointIdentifier        OutputPointIdentifier;
-  typedef typename OutputMeshType::PointType              OutputPointType;
-  typedef typename OutputPointType::VectorType            OutputVectorType;
-  typedef typename OutputMeshType::QEType                 OutputQEType;
-  typedef typename OutputMeshType::EdgeCellType           OutputEdgeCellType;
-  typedef typename OutputMeshType::CellType               OutputCellType;
-  typedef typename OutputMeshType::CellIdentifier         OutputCellIdentifier;
-  typedef typename OutputMeshType::CellsContainerPointer  OutputCellsContainerPointer;
-  typedef typename OutputMeshType::CellsContainerIterator OutputCellsContainerIterator;
+  using OutputMeshType = TOutput;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;
+  using OutputPointType = typename OutputMeshType::PointType;
+  using OutputVectorType = typename OutputPointType::VectorType;
+  using OutputQEType = typename OutputMeshType::QEType;
+  using OutputEdgeCellType = typename OutputMeshType::EdgeCellType;
+  using OutputCellType = typename OutputMeshType::CellType;
+  using OutputCellIdentifier = typename OutputMeshType::CellIdentifier;
+  using OutputCellsContainerPointer = typename OutputMeshType::CellsContainerPointer;
+  using OutputCellsContainerIterator = typename OutputMeshType::CellsContainerIterator;
 
-  typedef QuadEdgeMeshPolygonCell< OutputCellType > OutputPolygonType;
+  using OutputPolygonType = QuadEdgeMeshPolygonCell< OutputCellType >;
 
-  typedef TCriterion                                       CriterionType;
-  typedef typename CriterionType::Pointer                  CriterionPointer;
-  typedef typename CriterionType::MeasureType              MeasureType;
-  typedef typename CriterionType::PriorityType             PriorityType;
-  typedef typename CriterionType::PriorityQueueWrapperType PriorityQueueItemType;
+  using CriterionType = TCriterion;
+  using CriterionPointer = typename CriterionType::Pointer;
+  using MeasureType = typename CriterionType::MeasureType;
+  using PriorityType = typename CriterionType::PriorityType;
+  using PriorityQueueItemType = typename CriterionType::PriorityQueueWrapperType;
 
-  typedef PriorityQueueContainer< PriorityQueueItemType *,
+  using PriorityQueueType = PriorityQueueContainer< PriorityQueueItemType *,
                                   ElementWrapperPointerInterface< PriorityQueueItemType * >,
-                                  PriorityType >                                          PriorityQueueType;
-  typedef typename PriorityQueueType::Pointer PriorityQueuePointer;
+                                  PriorityType >;
+  using PriorityQueuePointer = typename PriorityQueueType::Pointer;
 
-  typedef std::map< OutputQEType *, PriorityQueueItemType * > QueueMapType;
-  typedef typename QueueMapType::const_iterator               QueueMapConstIterator;
-  typedef typename QueueMapType::iterator                     QueueMapIterator;
+  using QueueMapType = std::map< OutputQEType *, PriorityQueueItemType * >;
+  using QueueMapConstIterator = typename QueueMapType::const_iterator;
+  using QueueMapIterator = typename QueueMapType::iterator;
 
-  typedef QuadEdgeMeshEulerOperatorJoinVertexFunction< OutputMeshType, OutputQEType > OperatorType;
-  typedef typename OperatorType::Pointer                                              OperatorPointer;
+  using OperatorType = QuadEdgeMeshEulerOperatorJoinVertexFunction< OutputMeshType, OutputQEType >;
+  using OperatorPointer = typename OperatorType::Pointer;
 
 protected:
 
@@ -237,7 +237,7 @@ protected:
     typename std::list< OutputCellIdentifier >::iterator
     it = elements_to_be_tested.begin();
 
-    typedef TriangleHelper< OutputPointType > TriangleType;
+    using TriangleType = TriangleHelper< OutputPointType >;
 
     bool                  orientation_ok(true);
     OutputCellIdentifier  c_id(0);

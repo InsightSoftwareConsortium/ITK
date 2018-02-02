@@ -29,20 +29,20 @@ int itkDanielssonDistanceMapImageFilterTest1( int argc, char * argv[] )
     }
 
   const   unsigned int    ImageDimension = 2;
-  typedef unsigned char   InputPixelType;
-  typedef float           OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = float;
 
-  typedef itk::Image<InputPixelType,  ImageDimension>  InputImageType;
-  typedef itk::Image<OutputPixelType, ImageDimension>  OutputImageType;
+  using InputImageType = itk::Image<InputPixelType,  ImageDimension>;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  typedef itk::ImageFileReader<InputImageType>    ReaderType;
-  typedef itk::ImageFileWriter<OutputImageType>   WriterType;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
-  typedef itk::DanielssonDistanceMapImageFilter <InputImageType, OutputImageType>  FilterType;
+  using FilterType = itk::DanielssonDistanceMapImageFilter <InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->Update();

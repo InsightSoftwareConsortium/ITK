@@ -21,8 +21,8 @@
 #include "itkNumericTraits.h"
 #include <iostream>
 
-typedef unsigned long long       PixelType;
-typedef itk::Image<PixelType, 3> ImageType;
+using PixelType = unsigned long long;
+using ImageType = itk::Image<PixelType, 3>;
 
 int verifyContent(ImageType::Pointer image)
 {
@@ -59,7 +59,7 @@ int itk64bitTest(int argc, char *argv[])
     }
 
   int returnValue = EXIT_SUCCESS;
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]); // Input/Test64bit.nrrd
 
@@ -71,7 +71,7 @@ int itk64bitTest(int argc, char *argv[])
     returnValue += verifyContent(image);
 
     std::cout << "Writing " << argv[2] << std::endl;
-    typedef itk::ImageFileWriter<ImageType> WriterType;
+    using WriterType = itk::ImageFileWriter<ImageType>;
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName(argv[2]);

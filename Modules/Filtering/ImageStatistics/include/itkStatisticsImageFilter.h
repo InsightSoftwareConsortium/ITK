@@ -50,11 +50,11 @@ class ITK_TEMPLATE_EXPORT StatisticsImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
-  /** Standard Self typedef */
-  typedef StatisticsImageFilter                          Self;
-  typedef ImageToImageFilter< TInputImage, TInputImage > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  /** Standard Self type alias */
+  using Self = StatisticsImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -62,27 +62,27 @@ public:
   /** Runtime information support. */
   itkTypeMacro(StatisticsImageFilter, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef typename TInputImage::Pointer InputImagePointer;
+  /** Image related type alias. */
+  using InputImagePointer = typename TInputImage::Pointer;
 
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::PixelType  PixelType;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /** Type to use for computations. */
-  typedef typename NumericTraits< PixelType >::RealType RealType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
 
   /** Smart Pointer type to a DataObject. */
-  typedef typename DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = typename DataObject::Pointer;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef SimpleDataObjectDecorator< RealType >  RealObjectType;
-  typedef SimpleDataObjectDecorator< PixelType > PixelObjectType;
+  using RealObjectType = SimpleDataObjectDecorator< RealType >;
+  using PixelObjectType = SimpleDataObjectDecorator< PixelType >;
 
   /** Return the computed Minimum. */
   PixelType GetMinimum() const
@@ -128,7 +128,7 @@ public:
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

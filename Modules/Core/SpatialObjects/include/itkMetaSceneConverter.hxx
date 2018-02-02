@@ -266,7 +266,7 @@ MetaSceneConverter< NDimensions, PixelType, TMeshTraits >
   metaScene->ElementSpacing(spacing);
   delete[] spacing;
 
-  typedef typename SceneType::ObjectListType ListType;
+  using ListType = typename SceneType::ObjectListType;
 
   ListType *childrenList = scene->GetObjects(depth, name);
   typename ListType::iterator it = childrenList->begin();

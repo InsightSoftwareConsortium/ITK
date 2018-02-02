@@ -61,11 +61,11 @@ namespace itk
 class ITKIOXML_EXPORT DOMNodeXMLWriter : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef DOMNodeXMLWriter            Self;
-  typedef Object                      Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DOMNodeXMLWriter;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,8 +73,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DOMNodeXMLWriter, Object);
 
-  typedef DOMNode                 InputType;
-  typedef InputType::ConstPointer ConstInputPointer;
+  using InputType = DOMNode;
+  using ConstInputPointer = InputType::ConstPointer;
 
   /** Set the output XML filename. */
   itkSetStringMacro(FileName);

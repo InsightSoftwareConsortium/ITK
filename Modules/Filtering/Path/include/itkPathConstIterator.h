@@ -75,8 +75,8 @@ template< typename TImage, typename TPath >
 class ITK_TEMPLATE_EXPORT PathConstIterator
 {
 public:
-  /** Standard class typedefs. */
-  typedef PathConstIterator Self;
+  /** Standard class type aliases. */
+  using Self = PathConstIterator;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
@@ -85,51 +85,51 @@ public:
   itkStaticConstMacro(ImageIteratorDimension, unsigned int,
                       TImage::ImageDimension);
 
-  /** Index typedef support. */
-  typedef typename TImage::IndexType      IndexType;
+  /** Index type alias support */
+  using IndexType = typename TImage::IndexType;
 
-  /** Offset typedef support. */
-  typedef typename TImage::OffsetType      OffsetType;
+  /** Offset type alias support */
+  using OffsetType = typename TImage::OffsetType;
 
-  /** Size typedef support. */
-  typedef typename TImage::SizeType      SizeType;
+  /** Size type alias support */
+  using SizeType = typename TImage::SizeType;
 
-  /** Region typedef support */
-  typedef typename TImage::RegionType RegionType;
+  /** Region type alias support */
+  using RegionType = typename TImage::RegionType;
 
-  /** Spacing typedef support */
-  typedef typename TImage::SpacingType SpacingType;
+  /** Spacing type alias support */
+  using SpacingType = typename TImage::SpacingType;
 
-  /** Origin typedef support */
-  typedef typename TImage::PointType PointType;
+  /** Origin type alias support */
+  using PointType = typename TImage::PointType;
 
-  /** Image typedef support. */
-  typedef TImage ImageType;
+  /** Image type alias support */
+  using ImageType = TImage;
 
-  /** PixelContainer typedef support. Used to refer to the container for
+  /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename TImage::PixelContainer  PixelContainer;
-  typedef typename PixelContainer::Pointer PixelContainerPointer;
+  using PixelContainer = typename TImage::PixelContainer;
+  using PixelContainerPointer = typename PixelContainer::Pointer;
 
   /** Internal Pixel Type */
-  typedef typename TImage::InternalPixelType InternalPixelType;
+  using InternalPixelType = typename TImage::InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   /**  Accessor type that convert data between internal and external
    *  representations. */
-  typedef typename TImage::AccessorType AccessorType;
+  using AccessorType = typename TImage::AccessorType;
 
-  /** Path typedef support */
-  typedef TPath PathType;
+  /** Path type alias support */
+  using PathType = TPath;
 
   /** Path 1D Input Type */
-  typedef typename PathType::InputType PathInputType;
+  using PathInputType = typename PathType::InputType;
 
   /** Path ND Output Type, which is not necessarily an index type */
-  typedef typename PathType::OutputType PathOutputType;
+  using PathOutputType = typename PathType::OutputType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacroNoParent(PathConstIterator);

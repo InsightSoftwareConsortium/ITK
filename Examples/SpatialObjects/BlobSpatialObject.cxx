@@ -53,9 +53,9 @@ int main( int, char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::BlobSpatialObject<3>    BlobType;
-  typedef BlobType::Pointer            BlobPointer;
-  typedef itk::SpatialObjectPoint<3>   BlobPointType;
+  using BlobType = itk::BlobSpatialObject<3>;
+  using BlobPointer = BlobType::Pointer;
+  using BlobPointType = itk::SpatialObjectPoint<3>;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex

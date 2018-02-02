@@ -35,17 +35,17 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, cha
   try
     {
     const unsigned int ImageDimension = 2;
-    typedef unsigned char PixelType;
+    using PixelType = unsigned char;
 
-    typedef itk::Image<PixelType, ImageDimension> ImageType;
-    typedef ImageType::RegionType                 RegionType;
-    typedef ImageType::IndexType                  IndexType;
+    using ImageType = itk::Image<PixelType, ImageDimension>;
+    using RegionType = ImageType::RegionType;
+    using IndexType = ImageType::IndexType;
 
-    typedef itk::BinaryThresholdImageFunction<ImageType> FunctionType;
-    typedef itk::ShapedFloodFilledImageFunctionConditionalConstIterator<
-                  ImageType, FunctionType> ShapedFloodFilledIteratorType;
+    using FunctionType = itk::BinaryThresholdImageFunction<ImageType>;
+    using ShapedFloodFilledIteratorType = itk::ShapedFloodFilledImageFunctionConditionalConstIterator<
+                  ImageType, FunctionType>;
 
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
 
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( argv[1] );
@@ -89,7 +89,7 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, cha
       visitedImage->SetPixel( shapedFloodIt.GetIndex(), 255);
       }
 
-    typedef itk::ImageRegionConstIterator<ImageType> ConstIteratorType;
+    using ConstIteratorType = itk::ImageRegionConstIterator<ImageType>;
 
     ConstIteratorType inIt(reader->GetOutput(), region);
     ConstIteratorType outIt(visitedImage, region);

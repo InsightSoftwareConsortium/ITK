@@ -28,12 +28,12 @@
 // the array.The data types used are float and double.
 int itkFFTWD_RealFFTTest(int, char *[])
 {
-  typedef itk::Image< double, 1>               ImageD1;
-  typedef itk::Image< std::complex<double>, 1> ImageCD1;
-  typedef itk::Image< double, 2>               ImageD2;
-  typedef itk::Image< std::complex<double>, 2> ImageCD2;
-  typedef itk::Image< double, 3>               ImageD3;
-  typedef itk::Image< std::complex<double>, 3> ImageCD3;
+  using ImageD1 = itk::Image< double, 1>;
+  using ImageCD1 = itk::Image< std::complex<double>, 1>;
+  using ImageD2 = itk::Image< double, 2>;
+  using ImageCD2 = itk::Image< std::complex<double>, 2>;
+  using ImageD3 = itk::Image< double, 3>;
+  using ImageCD3 = itk::Image< std::complex<double>, 3>;
 
   std::cout << "WriteWisdomCache  " << itk::FFTWGlobalConfiguration::GetWriteWisdomCache() << std::endl;
   std::cout << "ReadWisdomCache  " << itk::FFTWGlobalConfiguration::GetReadWisdomCache() << std::endl;

@@ -74,18 +74,18 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   float  InputPixelType;
-  typedef   float  OutputPixelType;
+  using InputPixelType = float;
+  using OutputPixelType = float;
 
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -105,8 +105,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::DerivativeImageFilter<
-               InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::DerivativeImageFilter<
+               InputImageType, OutputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -168,13 +168,13 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
 
-  typedef itk::Image< unsigned char, Dimension >  WriteImageType;
+  using WriteImageType = itk::Image< unsigned char, Dimension >;
 
-  typedef itk::RescaleIntensityImageFilter<
+  using NormalizeFilterType = itk::RescaleIntensityImageFilter<
                                   OutputImageType,
-                                  WriteImageType >    NormalizeFilterType;
+                                  WriteImageType >;
 
-  typedef itk::ImageFileWriter< WriteImageType >       NormalizedWriterType;
+  using NormalizedWriterType = itk::ImageFileWriter< WriteImageType >;
 
   NormalizeFilterType::Pointer normalizer = NormalizeFilterType::New();
   NormalizedWriterType::Pointer normalizedWriter = NormalizedWriterType::New();

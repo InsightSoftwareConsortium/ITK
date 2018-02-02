@@ -66,11 +66,11 @@ template< typename THistogram >
 class ITK_TEMPLATE_EXPORT HistogramToRunLengthFeaturesFilter : public ProcessObject
 {
 public:
-  /** Standard typedefs */
-  typedef HistogramToRunLengthFeaturesFilter     Self;
-  typedef ProcessObject                          Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+  /** Standard type alias */
+  using Self = HistogramToRunLengthFeaturesFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( HistogramToRunLengthFeaturesFilter, ProcessObject );
@@ -78,14 +78,13 @@ public:
   /** standard New() method support */
   itkNewMacro( Self );
 
-  typedef THistogram                                      HistogramType;
-  typedef typename HistogramType::Pointer                 HistogramPointer;
-  typedef typename HistogramType::ConstPointer            HistogramConstPointer;
-  typedef typename HistogramType::MeasurementType         MeasurementType;
-  typedef typename HistogramType::MeasurementVectorType   MeasurementVectorType;
-  typedef typename HistogramType::IndexType               IndexType;
-  typedef typename HistogramType::
-    TotalAbsoluteFrequencyType                            FrequencyType;
+  using HistogramType = THistogram;
+  using HistogramPointer = typename HistogramType::Pointer;
+  using HistogramConstPointer = typename HistogramType::ConstPointer;
+  using MeasurementType = typename HistogramType::MeasurementType;
+  using MeasurementVectorType = typename HistogramType::MeasurementVectorType;
+  using IndexType = typename HistogramType::IndexType;
+  using FrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;
 
   /** Method to Set/Get the input Histogram */
   using Superclass::SetInput;
@@ -93,10 +92,10 @@ public:
   const HistogramType * GetInput() const;
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer                   DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef SimpleDataObjectDecorator<MeasurementType>     MeasurementObjectType;
+  using MeasurementObjectType = SimpleDataObjectDecorator<MeasurementType>;
 
   /** Methods to return the short run emphasis. */
   MeasurementType GetShortRunEmphasis() const;
@@ -164,7 +163,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
   /** Make a DataObject to be used for output output. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput( DataObjectPointerArraySizeType ) override;
 

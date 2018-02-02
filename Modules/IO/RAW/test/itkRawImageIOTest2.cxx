@@ -40,7 +40,7 @@ int itkRawImageIOTest2(int argc, char * argv [])
   // itk::OutputWindow::GetInstance()->PromptUserOn();
 
   // We are reading a RGB pixel
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
 
   // Create a source object (in this case a reader)
   itk::RawImageIO<RGBPixelType>::Pointer io;
@@ -66,7 +66,7 @@ int itkRawImageIOTest2(int argc, char * argv [])
 
   std::cout << "IO: " << io << std::endl;
 
-  typedef itk::Image<RGBPixelType,3> RGBImage3DType;
+  using RGBImage3DType = itk::Image<RGBPixelType,3>;
   itk::ImageFileReader<RGBImage3DType>::Pointer reader;
   reader = itk::ImageFileReader<RGBImage3DType>::New();
   reader->SetFileName(argv[1]);

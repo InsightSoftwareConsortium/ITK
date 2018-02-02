@@ -44,11 +44,11 @@ class ImageRegistrationMethodImageSource : public itk::Object
 {
 public:
 
-  typedef ImageRegistrationMethodImageSource    Self;
-  typedef Object                                Superclass;
-  typedef SmartPointer<Self>                    Pointer;
-  typedef SmartPointer<const Self>              ConstPointer;
-  typedef OptimizerParameters<double>           ParametersType;
+  using Self = ImageRegistrationMethodImageSource;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ParametersType = OptimizerParameters<double>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,8 +57,8 @@ public:
   itkTypeMacro(Image, Object);
 
 
-  typedef itk::Image<TMovingPixelType,NDimension> MovingImageType;
-  typedef itk::Image<TFixedPixelType,NDimension > FixedImageType;
+  using MovingImageType = itk::Image<TMovingPixelType,NDimension>;
+  using FixedImageType = itk::Image<TFixedPixelType,NDimension >;
 
 const MovingImageType * GetMovingImage(void) const
   {
@@ -95,9 +95,9 @@ void GenerateImages( const typename MovingImageType::SizeType & size )
   m_FixedImage->Allocate();
 
   /* Fill images with a 2D gaussian*/
-  typedef  itk::ImageRegionIteratorWithIndex<MovingImageType> MovingImageIteratorType;
+  using MovingImageIteratorType = itk::ImageRegionIteratorWithIndex<MovingImageType>;
 
-  typedef  itk::ImageRegionIteratorWithIndex<FixedImageType> FixedImageIteratorType;
+  using FixedImageIteratorType = itk::ImageRegionIteratorWithIndex<FixedImageType>;
 
 
   itk::Point<double,2> center;

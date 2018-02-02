@@ -57,11 +57,11 @@ class ITK_TEMPLATE_EXPORT SliceImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SliceImageFilter                                Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SliceImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,18 +70,18 @@ public:
   itkTypeMacro(SliceImageFilter, ImageToImageFilter);
 
   /** Typedef to images */
-  typedef TOutputImage                          OutputImageType;
-  typedef TInputImage                           InputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  using OutputImageType = TOutputImage;
+  using InputImageType = TInputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
 
-  typedef typename TOutputImage::IndexType  OutputIndexType;
-  typedef typename TInputImage::IndexType   InputIndexType;
-  typedef typename TOutputImage::OffsetType OutputOffsetType;
+  using OutputIndexType = typename TOutputImage::IndexType;
+  using InputIndexType = typename TInputImage::IndexType;
+  using OutputOffsetType = typename TOutputImage::OffsetType;
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -90,9 +90,9 @@ public:
                       TOutputImage::ImageDimension);
 
 
-  typedef typename InputImageType::IndexType      IndexType;
-  typedef typename InputIndexType::IndexValueType IndexValueType;
-  typedef FixedArray< int, ImageDimension >       ArrayType;
+  using IndexType = typename InputImageType::IndexType;
+  using IndexValueType = typename InputIndexType::IndexValueType;
+  using ArrayType = FixedArray< int, ImageDimension >;
 
   /** Set/Get the first index extracted from the input image */
   itkSetMacro(Start, IndexType);

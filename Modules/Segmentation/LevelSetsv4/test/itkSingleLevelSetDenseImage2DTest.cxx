@@ -37,35 +37,35 @@ int itkSingleLevelSetDenseImage2DTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned short                                      InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension >             InputImageType;
-  typedef itk::ImageFileReader< InputImageType >              ReaderType;
+  using InputPixelType = unsigned short;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
-  typedef float                                          PixelType;
-  typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::LevelSetDenseImage< ImageType >           LevelSetType;
-  typedef LevelSetType::OutputRealType                   LevelSetOutputRealType;
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using LevelSetType = itk::LevelSetDenseImage< ImageType >;
+  using LevelSetOutputRealType = LevelSetType::OutputRealType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
 
-  typedef itk::IdentifierType                                     IdentifierType;
-  typedef itk::LevelSetContainer< IdentifierType, LevelSetType >  LevelSetContainerType;
-  typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >
-                                                                      ChanAndVeseInternalTermType;
-  typedef itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >
-                                                                      ChanAndVeseExternalTermType;
-  typedef itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >
-                                                                      TermContainerType;
+  using IdentifierType = itk::IdentifierType;
+  using LevelSetContainerType = itk::LevelSetContainer< IdentifierType, LevelSetType >;
+  using ChanAndVeseInternalTermType =
+      itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >;
+  using ChanAndVeseExternalTermType =
+      itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >;
+  using TermContainerType =
+      itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >;
 
-  typedef itk::LevelSetEquationContainer< TermContainerType >     EquationContainerType;
+  using EquationContainerType = itk::LevelSetEquationContainer< TermContainerType >;
 
-  typedef itk::LevelSetEvolution< EquationContainerType, LevelSetType > LevelSetEvolutionType;
+  using LevelSetEvolutionType = itk::LevelSetEvolution< EquationContainerType, LevelSetType >;
 
-  typedef itk::AtanRegularizedHeavisideStepFunction<
-      LevelSetOutputRealType, LevelSetOutputRealType >          HeavisideFunctionBaseType;
+  using HeavisideFunctionBaseType = itk::AtanRegularizedHeavisideStepFunction<
+      LevelSetOutputRealType, LevelSetOutputRealType >;
 
-  typedef  itk::FastMarchingImageFilter< ImageType, ImageType > FastMarchingFilterType;
-  typedef FastMarchingFilterType::NodeContainer                 NodeContainer;
-  typedef FastMarchingFilterType::NodeType                      NodeType;
+  using FastMarchingFilterType = itk::FastMarchingImageFilter< ImageType, ImageType >;
+  using NodeContainer = FastMarchingFilterType::NodeContainer;
+  using NodeType = FastMarchingFilterType::NodeType;
 
   // Read the image to be segmented
   ReaderType::Pointer reader = ReaderType::New();
@@ -169,8 +169,7 @@ int itkSingleLevelSetDenseImage2DTest( int argc, char* argv[] )
   equationContainer->SetLevelSetContainer( lscontainer );
   equationContainer->AddEquation( 0, termContainer0 );
 
-  typedef itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >
-      StoppingCriterionType;
+  using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations( 50 );
 
@@ -207,7 +206,7 @@ int itkSingleLevelSetDenseImage2DTest( int argc, char* argv[] )
     ++oIt;
     }
 
-  typedef itk::ImageFileWriter< ImageType > OutputWriterType;
+  using OutputWriterType = itk::ImageFileWriter< ImageType >;
   OutputWriterType::Pointer writer = OutputWriterType::New();
   writer->SetFileName( argv[5] );
   writer->SetInput( outputImage );

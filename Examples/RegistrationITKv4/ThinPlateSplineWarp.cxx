@@ -54,24 +54,24 @@ int main( int argc, char * argv[] )
 
   const     unsigned int   ImageDimension = 3;
 
-  typedef   unsigned char                                    PixelType;
-  typedef   itk::Image< PixelType, ImageDimension >          InputImageType;
-  typedef   itk::ImageFileReader< InputImageType  >          ReaderType;
-  typedef   itk::ImageFileWriter< InputImageType >           DeformedImageWriterType;
-  typedef   itk::Vector< float, ImageDimension >             FieldVectorType;
-  typedef   itk::Image< FieldVectorType,  ImageDimension >   DisplacementFieldType;
-  typedef   itk::ImageFileWriter< DisplacementFieldType >    FieldWriterType;
-  typedef   double                                           CoordinateRepType;
-  typedef   itk::ThinPlateSplineKernelTransform< CoordinateRepType,
-        ImageDimension>                                      TransformType;
-  typedef   itk::Point< CoordinateRepType,
-                                  ImageDimension >           PointType;
-  typedef   TransformType::PointSetType                      PointSetType;
-  typedef   PointSetType::PointIdentifier                    PointIdType;
-  typedef   itk::ResampleImageFilter< InputImageType,
-                                      InputImageType  >      ResamplerType;
-  typedef   itk::LinearInterpolateImageFunction<
-                       InputImageType, double >              InterpolatorType;
+  using PixelType = unsigned char;
+  using InputImageType = itk::Image< PixelType, ImageDimension >;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using DeformedImageWriterType = itk::ImageFileWriter< InputImageType >;
+  using FieldVectorType = itk::Vector< float, ImageDimension >;
+  using DisplacementFieldType = itk::Image< FieldVectorType,  ImageDimension >;
+  using FieldWriterType = itk::ImageFileWriter< DisplacementFieldType >;
+  using CoordinateRepType = double;
+  using TransformType = itk::ThinPlateSplineKernelTransform< CoordinateRepType,
+        ImageDimension>;
+  using PointType = itk::Point< CoordinateRepType,
+                                  ImageDimension >;
+  using PointSetType = TransformType::PointSetType;
+  using PointIdType = PointSetType::PointIdentifier;
+  using ResamplerType = itk::ResampleImageFilter< InputImageType,
+                                      InputImageType  >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
+                       InputImageType, double >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
@@ -193,7 +193,7 @@ int main( int argc, char * argv[] )
   field->SetSpacing( spacing );
   field->Allocate();
 
-  typedef itk::ImageRegionIterator< DisplacementFieldType > FieldIterator;
+  using FieldIterator = itk::ImageRegionIterator< DisplacementFieldType >;
   FieldIterator fi( field, region );
   fi.GoToBegin();
   TransformType::InputPointType  point1;

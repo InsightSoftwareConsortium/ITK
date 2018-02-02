@@ -122,7 +122,7 @@ Similarity3DTransform<TParametersValueType>
     itkExceptionMacro(<< "Attempting to set a non-orthogonal matrix (after removing scaling)");
     }
 
-  typedef MatrixOffsetTransformBase<TParametersValueType, 3, 3> Baseclass;
+  using Baseclass = MatrixOffsetTransformBase<TParametersValueType, 3, 3>;
   this->Baseclass::SetMatrix(matrix);
 }
 
@@ -221,7 +221,7 @@ void
 Similarity3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
                                                                            JacobianType & jacobian) const
 {
-  typedef typename VersorType::ValueType ValueType;
+  using ValueType = typename VersorType::ValueType;
 
   // compute derivatives with respect to rotation
   const ValueType vx = this->GetVersor().GetX();

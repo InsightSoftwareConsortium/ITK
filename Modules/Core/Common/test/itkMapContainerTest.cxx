@@ -22,14 +22,14 @@
 #include <iostream>
 
 /**
- * Some typedefs to make things easier.
+ * Some type alias to make things easier.
  */
-typedef   itk::Point<float,3>     PointType;
-typedef   itk::Vector<float,3>    VectorType;
+using PointType = itk::Point<float,3>;
+using VectorType = itk::Vector<float,3>;
 
-typedef itk::MapContainer< unsigned long,
-                           PointType >     ContainerType;
-typedef ContainerType::Pointer             ContainerPointer;
+using ContainerType = itk::MapContainer< unsigned long,
+                           PointType >;
+using ContainerPointer = ContainerType::Pointer;
 
 int itkMapContainerTest(int, char* [] )
 {

@@ -23,10 +23,10 @@ int itkMedianImageFunctionTest(int, char* [] )
 {
 
   const unsigned int Dimension = 3;
-  typedef unsigned char   PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension >    ImageType;
-  typedef itk::MedianImageFunction< ImageType > FunctionType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using FunctionType = itk::MedianImageFunction< ImageType >;
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();

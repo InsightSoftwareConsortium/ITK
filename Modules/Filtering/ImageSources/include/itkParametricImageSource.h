@@ -45,22 +45,22 @@ class ITK_TEMPLATE_EXPORT ParametricImageSource
   : public GenerateImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ParametricImageSource             Self;
-  typedef GenerateImageSource<TOutputImage> Superclass;
-  typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ParametricImageSource;
+  using Superclass = GenerateImageSource<TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
-  /** Some convenient typedefs. */
-  typedef TOutputImage                        OutputImageType;
-  typedef typename OutputImageType::Pointer   OutputImagePointer;
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
+  /** Some convenient type alias. */
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
-  typedef double                              ParametersValueType;
-  typedef Array< ParametersValueType >        ParametersType;
+  using ParametersValueType = double;
+  using ParametersType = Array< ParametersValueType >;
 
    /** ImageDimension constant */
   itkStaticConstMacro(OutputImageDimension,

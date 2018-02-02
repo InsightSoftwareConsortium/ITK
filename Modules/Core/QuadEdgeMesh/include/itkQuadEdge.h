@@ -224,12 +224,12 @@ namespace itk
 class ITKQuadEdgeMesh_EXPORT QuadEdge
 {
 public:
-  /** Hierarchy typedefs & values. */
-  typedef QuadEdge Self;
+  /** Hierarchy type alias & values. */
+  using Self = QuadEdge;
 
   /** Iterator types. */
-  typedef QuadEdgeMeshIterator< Self >      Iterator;
-  typedef QuadEdgeMeshConstIterator< Self > ConstIterator;
+  using Iterator = QuadEdgeMeshIterator< Self >;
+  using ConstIterator = QuadEdgeMeshConstIterator< Self >;
 
   /** Basic iterators methods. */
   inline itkQEDefineIteratorMethodsMacro(Onext);

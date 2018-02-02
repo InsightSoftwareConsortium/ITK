@@ -41,12 +41,12 @@ template< typename TRealValueType = double >
 class GaussianKernelFunction:public KernelFunctionBase<TRealValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef GaussianKernelFunction             Self;
-  typedef KernelFunctionBase<TRealValueType> Superclass;
-  typedef SmartPointer< Self >               Pointer;
+  /** Standard class type aliases. */
+  using Self = GaussianKernelFunction;
+  using Superclass = KernelFunctionBase<TRealValueType>;
+  using Pointer = SmartPointer< Self >;
 
-  typedef typename Superclass::RealType  RealType;
+  using RealType = typename Superclass::RealType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

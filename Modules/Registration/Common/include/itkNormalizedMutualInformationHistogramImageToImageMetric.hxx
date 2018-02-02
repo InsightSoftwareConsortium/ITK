@@ -34,7 +34,7 @@ NormalizedMutualInformationHistogramImageToImageMetric< TFixedImage, \
   MeasureType entropyY = NumericTraits< MeasureType >::ZeroValue();
   MeasureType jointEntropy = NumericTraits< MeasureType >::ZeroValue();
 
-  typedef typename NumericTraits< HistogramFrequencyType >::RealType HistogramFrequencyRealType;
+  using HistogramFrequencyRealType = typename NumericTraits< HistogramFrequencyType >::RealType;
 
   HistogramFrequencyRealType totalFreq =
     static_cast< HistogramFrequencyRealType >( histogram.GetTotalFrequency() );

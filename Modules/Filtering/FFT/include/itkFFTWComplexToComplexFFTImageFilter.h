@@ -60,17 +60,17 @@ class ITK_TEMPLATE_EXPORT FFTWComplexToComplexFFTImageFilter:
   public ComplexToComplexFFTImageFilter< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef FFTWComplexToComplexFFTImageFilter       Self;
-  typedef ComplexToComplexFFTImageFilter< TImage > Superclass;
-  typedef SmartPointer< Self >                     Pointer;
-  typedef SmartPointer< const Self >               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FFTWComplexToComplexFFTImageFilter;
+  using Superclass = ComplexToComplexFFTImageFilter< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TImage                               ImageType;
-  typedef typename ImageType::PixelType        PixelType;
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using ImageType = TImage;
+  using PixelType = typename ImageType::PixelType;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   // the proxy type is a wrapper for the fftw API
   // since the proxy is only defined over double and float,
@@ -78,7 +78,7 @@ public:
   // is trying to use double if only the float FFTW version is
   // configured in, or float if only double is configured.
   //
-  typedef typename fftw::Proxy< typename PixelType::value_type > FFTWProxyType;
+  using FFTWProxyType = typename fftw::Proxy< typename PixelType::value_type >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,8 +90,8 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       ImageType::ImageDimension);
 
-  /** Image type typedef support. */
-  typedef typename ImageType::SizeType ImageSizeType;
+  /** Image type type alias support */
+  using ImageSizeType = typename ImageType::SizeType;
 
   /**
    * Set/Get the behavior of wisdom plan creation. The default is

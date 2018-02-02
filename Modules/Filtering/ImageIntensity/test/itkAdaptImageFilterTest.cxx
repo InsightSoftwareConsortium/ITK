@@ -44,15 +44,15 @@
 //-------------------------------------
 //     Typedefs for convenience
 //-------------------------------------
-typedef itk::Image< itk::RGBPixel<float>,   2 >             myRGBImageType;
-typedef itk::ImageRegionIteratorWithIndex< myRGBImageType > myRGBIteratorType;
+using myRGBImageType = itk::Image< itk::RGBPixel<float>,   2 >;
+using myRGBIteratorType = itk::ImageRegionIteratorWithIndex< myRGBImageType >;
 
-typedef itk::RedPixelAccessor<float>   myRedAccessorType;
-typedef itk::GreenPixelAccessor<float> myGreenAccessorType;
-typedef itk::BluePixelAccessor<float>  myBlueAccessorType;
+using myRedAccessorType = itk::RedPixelAccessor<float>;
+using myGreenAccessorType = itk::GreenPixelAccessor<float>;
+using myBlueAccessorType = itk::BluePixelAccessor<float>;
 
-typedef itk::Image< float,   2 >                         myImageType;
-typedef itk::ImageRegionIteratorWithIndex< myImageType > myIteratorType;
+using myImageType = itk::Image< float,   2 >;
+using myIteratorType = itk::ImageRegionIteratorWithIndex< myImageType >;
 
 //-------------------------
 //

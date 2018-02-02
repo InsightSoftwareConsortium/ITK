@@ -38,16 +38,16 @@ class AddImageAdaptor:public
                 Accessor::AddPixelAccessor< typename TImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef AddImageAdaptor Self;
-  typedef ImageAdaptor< TImage,
+  /** Standard class type aliases. */
+  using Self = AddImageAdaptor;
+  using Superclass = ImageAdaptor< TImage,
                         Accessor::AddPixelAccessor<
-                          typename TImage::PixelType > >  Superclass;
+                          typename TImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(AddImageAdaptor, ImageAdaptor);

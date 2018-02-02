@@ -29,8 +29,8 @@ int itkFEMElement2DC0LinearQuadrilateralStrainItpackTest(int argc, char *argv[])
   //the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  typedef itk::fem::Solver<2> SolverType;
-  typedef SolverType *        SolverPointerType;
+  using SolverType = itk::fem::Solver<2>;
+  using SolverPointerType = SolverType *;
   SolverPointerType m_Solver = new SolverType;
   // std::ifstream     fileInput;
 

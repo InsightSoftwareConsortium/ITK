@@ -115,27 +115,24 @@ class ITK_TEMPLATE_EXPORT GeodesicActiveContourShapePriorLevelSetImageFilter:
                                                     TOutputPixelType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GeodesicActiveContourShapePriorLevelSetImageFilter
-  Self;
-  typedef ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
-                                                     TOutputPixelType > Superclass;
+  /** Standard class type aliases. */
+  using Self = GeodesicActiveContourShapePriorLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>;
+  using Superclass = ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
+                                                     TOutputPixelType >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Inherited typedef from the superclass. */
-  typedef typename Superclass::ValueType        ValueType;
-  typedef typename Superclass::OutputImageType  OutputImageType;
-  typedef typename Superclass::FeatureImageType FeatureImageType;
-  typedef typename Superclass::OutputPixelType  OutputPixelType;
+  /** Inherited type alias from the superclass. */
+  using ValueType = typename Superclass::ValueType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using FeatureImageType = typename Superclass::FeatureImageType;
+  using OutputPixelType = typename Superclass::OutputPixelType;
 
   /** Type of the segmentation function */
-  typedef GeodesicActiveContourShapePriorLevelSetFunction< OutputImageType,
-                                                           FeatureImageType >
-  GeodesicActiveContourFunctionType;
-  typedef typename GeodesicActiveContourFunctionType::Pointer
-  GeodesicActiveContourFunctionPointer;
+  using GeodesicActiveContourFunctionType = GeodesicActiveContourShapePriorLevelSetFunction< OutputImageType,
+                                                           FeatureImageType >;
+  using GeodesicActiveContourFunctionPointer = typename GeodesicActiveContourFunctionType::Pointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GeodesicActiveContourShapePriorLevelSetImageFilter,

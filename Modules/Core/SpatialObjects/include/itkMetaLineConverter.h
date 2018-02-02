@@ -35,11 +35,11 @@ class ITK_TEMPLATE_EXPORT MetaLineConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
-  /** Standard class typedefs */
-  typedef MetaLineConverter                Self;
-  typedef MetaConverterBase< NDimensions > Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard class type aliases */
+  using Self = MetaLineConverter;
+  using Superclass = MetaConverterBase< NDimensions >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -47,15 +47,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaLineConverter, MetaConverterBase);
 
-  typedef typename Superclass::SpatialObjectType SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
-  typedef typename Superclass::MetaObjectType    MetaObjectType;
+  using SpatialObjectType = typename Superclass::SpatialObjectType;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using MetaObjectType = typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  typedef LineSpatialObject<NDimensions>               LineSpatialObjectType;
-  typedef typename LineSpatialObjectType::Pointer      LineSpatialObjectPointer;
-  typedef typename LineSpatialObjectType::ConstPointer LineSpatialObjectConstPointer;
-  typedef MetaLine                                     LineMetaObjectType;
+  using LineSpatialObjectType = LineSpatialObject<NDimensions>;
+  using LineSpatialObjectPointer = typename LineSpatialObjectType::Pointer;
+  using LineSpatialObjectConstPointer = typename LineSpatialObjectType::ConstPointer;
+  using LineMetaObjectType = MetaLine;
 
   /** Convert the MetaObject to Spatial Object */
   SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override;

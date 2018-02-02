@@ -64,11 +64,11 @@ class ITKOptimizers_EXPORT LBFGSBOptimizer:
   public SingleValuedNonLinearVnlOptimizer
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef LBFGSBOptimizer                   Self;
-  typedef SingleValuedNonLinearVnlOptimizer Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = LBFGSBOptimizer;
+  using Superclass = SingleValuedNonLinearVnlOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,21 +79,21 @@ public:
   /**  BoundValue type.
    *  Use for defining the lower and upper bounds on the variables.
    */
-  typedef Array< double > BoundValueType;
+  using BoundValueType = Array< double >;
 
   /** BoundSelection type
    * Use for defining the boundary condition for each variables.
    */
-  typedef Array< long > BoundSelectionType;
+  using BoundSelectionType = Array< long >;
 
   /** Internal boundary value storage type */
-  typedef vnl_vector< double > InternalBoundValueType;
+  using InternalBoundValueType = vnl_vector< double >;
 
   /** Internal boundary selection storage type */
-  typedef vnl_vector< long > InternalBoundSelectionType;
+  using InternalBoundSelectionType = vnl_vector< long >;
 
   /** The vnl optimizer */
-  typedef LBFGSBOptimizerHelper InternalOptimizerType;
+  using InternalOptimizerType = LBFGSBOptimizerHelper;
 
   /** Start optimization with an initial value. */
   void StartOptimization(void) override;
@@ -183,7 +183,7 @@ protected:
   ~LBFGSBOptimizer() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
+  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSBOptimizer);

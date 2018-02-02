@@ -135,7 +135,7 @@ template< class TInput >
 class RescaleDynamicRangeFunctor
 {
 public:
-  typedef unsigned char OutputPixelType;
+  using OutputPixelType = unsigned char;
   RescaleDynamicRangeFunctor() {};
   ~RescaleDynamicRangeFunctor() {};
   inline OutputPixelType operator()( const TInput &A )
@@ -173,34 +173,34 @@ namespace
 class HistogramWriter
 {
 public:
-  typedef float InternalPixelType;
+  using InternalPixelType = float;
   itkStaticConstMacro( Dimension, unsigned int, 2);
 
-  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
 
-  typedef itk::MutualInformationHistogramImageToImageMetric<
+  using MetricType = itk::MutualInformationHistogramImageToImageMetric<
                                         InternalImageType,
-                                        InternalImageType >    MetricType;
+                                        InternalImageType >;
   // Software Guide : EndCodeSnippet
 
-  typedef MetricType::Pointer   MetricPointer;
+  using MetricPointer = MetricType::Pointer;
 
   // Software Guide : BeginCodeSnippet
-  typedef MetricType::HistogramType   HistogramType;
+  using HistogramType = MetricType::HistogramType;
 
-  typedef itk::HistogramToEntropyImageFilter< HistogramType, InternalImageType>
-                                HistogramToEntropyImageFilterType;
+  using HistogramToEntropyImageFilterType =
+      itk::HistogramToEntropyImageFilter< HistogramType, InternalImageType>;
 
-  typedef HistogramToEntropyImageFilterType::Pointer
-                                HistogramToImageFilterPointer;
+  using HistogramToImageFilterPointer =
+        HistogramToEntropyImageFilterType::Pointer;
 
-  typedef HistogramToEntropyImageFilterType::OutputImageType OutputImageType;
+  using OutputImageType = HistogramToEntropyImageFilterType::OutputImageType;
 
-  typedef itk::ImageFileWriter< OutputImageType > HistogramFileWriterType;
-  typedef HistogramFileWriterType::Pointer        HistogramFileWriterPointer;
+  using HistogramFileWriterType = itk::ImageFileWriter< OutputImageType >;
+  using HistogramFileWriterPointer = HistogramFileWriterType::Pointer;
   // Software Guide : EndCodeSnippet
 
-  typedef HistogramToEntropyImageFilterType::OutputPixelType OutputPixelType;
+  using OutputPixelType = HistogramToEntropyImageFilterType::OutputPixelType;
 
   HistogramWriter():
     m_Metric(0)
@@ -318,24 +318,21 @@ public:
     //Write the joint histogram as outputFilename. Also intensity window
     //the image by lower and upper thresholds and rescale the image to
     //8 bits.
-    typedef itk::Image< unsigned char, Dimension > RescaledOutputImageType;
+    using RescaledOutputImageType = itk::Image< unsigned char, Dimension >;
 
-    typedef RescaleDynamicRangeFunctor<
-                              OutputPixelType
-                                      > RescaleDynamicRangeFunctorType;
+    using RescaleDynamicRangeFunctorType = RescaleDynamicRangeFunctor<
+                              OutputPixelType >;
 
-    typedef itk::UnaryFunctorImageFilter<
-                                OutputImageType,
-                                RescaledOutputImageType,
-                                RescaleDynamicRangeFunctorType
-                                      > RescaleDynamicRangeFilterType;
+    using RescaleDynamicRangeFilterType = itk::UnaryFunctorImageFilter<
+                                OutputImageType, RescaledOutputImageType,
+                                RescaleDynamicRangeFunctorType >;
 
     RescaleDynamicRangeFilterType::Pointer rescaler =
                                 RescaleDynamicRangeFilterType::New();
 
     rescaler->SetInput( m_Filter->GetOutput() );
 
-    typedef itk::ImageFileWriter< RescaledOutputImageType > RescaledWriterType;
+    using RescaledWriterType = itk::ImageFileWriter< RescaledOutputImageType >;
 
     RescaledWriterType::Pointer rescaledWriter =
                                 RescaledWriterType::New();
@@ -388,9 +385,9 @@ private:
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef  itk::SmartPointer<Self>  Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkSimpleNewMacro( Self );
 
 protected:
@@ -401,8 +398,8 @@ protected:
 
 public:
 
-  typedef   itk::RegularStepGradientDescentOptimizer     OptimizerType;
-  typedef   const OptimizerType *                        OptimizerPointer;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
+  using OptimizerPointer = const OptimizerType *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event)
     {
@@ -481,27 +478,27 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef  unsigned char  PixelType;
+  using PixelType = unsigned char;
 
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >         FixedImageType;
-  typedef itk::Image< PixelType, Dimension >         MovingImageType;
-  typedef   float                                    InternalPixelType;
-  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
+  using InternalPixelType = float;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
 
-  typedef itk::TranslationTransform< double, Dimension > TransformType;
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::LinearInterpolateImageFunction<
+  using TransformType = itk::TranslationTransform< double, Dimension >;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
                                     InternalImageType,
-                                    double             > InterpolatorType;
-  typedef itk::ImageRegistrationMethod<
+                                    double             >;
+  using RegistrationType = itk::ImageRegistrationMethod<
                                     InternalImageType,
-                                    InternalImageType >  RegistrationType;
+                                    InternalImageType >;
 
-  typedef itk::MutualInformationHistogramImageToImageMetric<
+  using MetricType = itk::MutualInformationHistogramImageToImageMetric<
                                           InternalImageType,
-                                          InternalImageType >    MetricType;
+                                          InternalImageType >;
 
   // Software Guide : BeginLatex
   //
@@ -545,7 +542,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
   const unsigned int numberOfParameters = transform->GetNumberOfParameters();
-  typedef MetricType::ScalesType ScalesType;
+  using ScalesType = MetricType::ScalesType;
   ScalesType scales( numberOfParameters );
   scales.Fill( 1.0 );
   metric->SetDerivativeStepLengthScales(scales);
@@ -557,8 +554,8 @@ int main( int argc, char *argv[] )
 
   registration->SetMetric( metric  );
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
@@ -567,25 +564,22 @@ int main( int argc, char *argv[] )
   movingImageReader->SetFileName( argv[2] );
 
 
-  typedef itk::NormalizeImageFilter<
+  using FixedNormalizeFilterType = itk::NormalizeImageFilter<
                                 FixedImageType,
-                                InternalImageType
-                                        > FixedNormalizeFilterType;
+                                InternalImageType >;
 
-  typedef itk::NormalizeImageFilter<
+  using MovingNormalizeFilterType = itk::NormalizeImageFilter<
                                 MovingImageType,
-                                InternalImageType
-                                              > MovingNormalizeFilterType;
+                                InternalImageType >;
 
   FixedNormalizeFilterType::Pointer fixedNormalizer =
                                             FixedNormalizeFilterType::New();
 
   MovingNormalizeFilterType::Pointer movingNormalizer =
                                             MovingNormalizeFilterType::New();
-  typedef itk::DiscreteGaussianImageFilter<
+  using GaussianFilterType = itk::DiscreteGaussianImageFilter<
                                       InternalImageType,
-                                      InternalImageType
-                                                    > GaussianFilterType;
+                                      InternalImageType >;
 
   GaussianFilterType::Pointer fixedSmoother  = GaussianFilterType::New();
   GaussianFilterType::Pointer movingSmoother = GaussianFilterType::New();
@@ -616,7 +610,7 @@ int main( int argc, char *argv[] )
   registration->SetFixedImageRegion(
        fixedNormalizer->GetOutput()->GetBufferedRegion() );
 
-  typedef RegistrationType::ParametersType ParametersType;
+  using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
 
   initialParameters[0] = 0.0;  // Initial offset in mm along X
@@ -685,9 +679,9 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+                            FixedImageType >;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
@@ -708,15 +702,15 @@ int main( int argc, char *argv[] )
   resample->SetDefaultPixelValue( 100 );
 
 
-  typedef  unsigned char  OutputPixelType;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::CastImageFilter<
+  using CastFilterType = itk::CastImageFilter<
                         FixedImageType,
-                        OutputImageType > CastFilterType;
+                        OutputImageType >;
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
 
   WriterType::Pointer      writer =  WriterType::New();

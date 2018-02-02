@@ -61,7 +61,7 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   const unsigned int VectorDimension = 3;
 
-  typedef itk::Vector< float, VectorDimension >    PixelType;
+  using PixelType = itk::Vector< float, VectorDimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -75,7 +75,7 @@ int main( int argc, char * argv [] )
   // Software Guide : BeginCodeSnippet
   const unsigned int ImageDimension = 2;
 
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -86,8 +86,8 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();

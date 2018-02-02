@@ -119,11 +119,11 @@ class ITK_TEMPLATE_EXPORT MultiLabelSTAPLEImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultiLabelSTAPLEImageFilter                     Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MultiLabelSTAPLEImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -133,31 +133,31 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType  InputPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Image typedef support */
-  typedef TInputImage                       InputImageType;
-  typedef TOutputImage                      OutputImageType;
-  typedef typename InputImageType::Pointer  InputImagePointer;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  /** Image type alias support */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Iterator types. */
-  typedef ImageRegionConstIterator< TInputImage > InputConstIteratorType;
-  typedef ImageRegionIterator< TOutputImage >     OutputIteratorType;
+  using InputConstIteratorType = ImageRegionConstIterator< TInputImage >;
+  using OutputIteratorType = ImageRegionIterator< TOutputImage >;
 
-  /** Confusion matrix typedefs. */
-  typedef TWeights             WeightsType;
-  typedef Array2D<WeightsType> ConfusionMatrixType;
-  typedef Array<WeightsType>   PriorProbabilitiesType;
+  /** Confusion matrix type alias. */
+  using WeightsType = TWeights;
+  using ConfusionMatrixType = Array2D<WeightsType>;
+  using PriorProbabilitiesType = Array<WeightsType>;
 
   /** Get the number of elapsed iterations of the iterative E-M algorithm. */
   itkGetConstMacro(ElapsedNumberOfIterations, unsigned int);

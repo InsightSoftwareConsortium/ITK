@@ -32,8 +32,8 @@ int itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char* argv[] )
   std::cout << "vecLength: " << vecLength << std::endl;
 
   const unsigned int                            ImageDimension = 2;
-  typedef itk::Vector<float,vecLength>          PixelType;
-  typedef itk::Image<PixelType,ImageDimension>  ImageType;
+  using PixelType = itk::Vector<float,vecLength>;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
 
   typename ImageType::Pointer image = ImageType::New();
   typename ImageType::SizeType size;
@@ -44,7 +44,7 @@ int itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char* argv[] )
   image->Allocate();
 
   // make a test image
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter( image, region );
   iter.GoToBegin();
   unsigned int counter = 0;
@@ -62,11 +62,11 @@ int itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char* argv[] )
     }
 
   // set up central difference calculator
-  typedef float                             CoordRepType;
-  typedef itk::Matrix<double,vecLength,2>   DerivativeType;
+  using CoordRepType = float;
+  using DerivativeType = itk::Matrix<double,vecLength,2>;
 
-  typedef itk::CentralDifferenceImageFunction<ImageType,CoordRepType,DerivativeType>  FunctionType;
-  typedef typename FunctionType::OutputType                                           OutputType;
+  using FunctionType = itk::CentralDifferenceImageFunction<ImageType,CoordRepType,DerivativeType>;
+  using OutputType = typename FunctionType::OutputType;
 
   typename FunctionType::Pointer function = FunctionType::New();
 

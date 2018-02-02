@@ -45,19 +45,19 @@ class ITK_TEMPLATE_EXPORT AggregateLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef AggregateLabelMapFilter         Self;
-  typedef InPlaceLabelMapFilter< TImage > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = AggregateLabelMapFilter;
+  using Superclass = InPlaceLabelMapFilter< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TImage                              ImageType;
-  typedef typename ImageType::Pointer         ImagePointer;
-  typedef typename ImageType::ConstPointer    ImageConstPointer;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::IndexType       IndexType;
-  typedef typename ImageType::LabelObjectType LabelObjectType;
+  /** Some convenient type alias. */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using IndexType = typename ImageType::IndexType;
+  using LabelObjectType = typename ImageType::LabelObjectType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);

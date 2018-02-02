@@ -80,7 +80,7 @@ void
 LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::BeforeThreadedGenerateData()
 {
-  typedef ObjectByObjectLabelMapFilter< LabelMapType, LabelMapType > OBOType;
+  using OBOType = ObjectByObjectLabelMapFilter< LabelMapType, LabelMapType >;
   typename OBOType::Pointer obo = OBOType::New();
   obo->SetInput( this->GetInput() );
   SizeType rad = m_DilationRadius;
@@ -92,41 +92,41 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   // obo->SetInPlace( false );
 
   // dilate the image
-  typedef typename OBOType::InternalInputImageType InternalImageType;
-  typedef FlatStructuringElement< ImageDimension > KernelType;
-  typedef BinaryDilateImageFilter< InternalImageType, InternalImageType, KernelType > DilateType;
+  using InternalImageType = typename OBOType::InternalInputImageType;
+  using KernelType = FlatStructuringElement< ImageDimension >;
+  using DilateType = BinaryDilateImageFilter< InternalImageType, InternalImageType, KernelType >;
   typename DilateType::Pointer dilate = DilateType::New();
   dilate->SetKernel( KernelType::Ball( m_DilationRadius ) );
   obo->SetInputFilter( dilate );
 
-//   typedef typename CastImageFilter< InternalImageType, InternalImageType, KernelType > CastType;
+//   using CastType = typename CastImageFilter< InternalImageType, InternalImageType, KernelType >;
 //   typename CastType::Pointer cast = CastType::New();
 //   cast->SetInPlace( false );
 
-  typedef BinaryErodeImageFilter< InternalImageType, InternalImageType, KernelType > ErodeType;
+  using ErodeType = BinaryErodeImageFilter< InternalImageType, InternalImageType, KernelType >;
   typename ErodeType::Pointer erode = ErodeType::New();
   erode->SetKernel( KernelType::Ball( m_ContourThickness ) );
   erode->SetInput( dilate->GetOutput() );
 
-  typedef SubtractImageFilter< InternalImageType, InternalImageType > SubtractType;
+  using SubtractType = SubtractImageFilter< InternalImageType, InternalImageType >;
   typename SubtractType::Pointer sub = SubtractType::New();
   sub->SetInput( 0, dilate->GetOutput() );
   sub->SetInput( 1, erode->GetOutput() );
 
 
-  typedef SliceBySliceImageFilter< InternalImageType, InternalImageType > SliceType;
-  typedef typename SliceType::InternalInputImageType SliceInternalImageType;
+  using SliceType = SliceBySliceImageFilter< InternalImageType, InternalImageType >;
+  using SliceInternalImageType = typename SliceType::InternalInputImageType;
   typename SliceType::Pointer slice = SliceType::New();
 
-  typedef CastImageFilter< SliceInternalImageType, SliceInternalImageType > SliceCastType;
+  using SliceCastType = CastImageFilter< SliceInternalImageType, SliceInternalImageType >;
   typename SliceCastType::Pointer scast = SliceCastType::New();
   scast->SetInPlace( false );
   slice->SetInputFilter( scast );
 
-  typedef FlatStructuringElement< ImageDimension - 1 > SliceKernelType;
-  typedef BinaryErodeImageFilter< SliceInternalImageType, SliceInternalImageType, SliceKernelType > SliceErodeType;
+  using SliceKernelType = FlatStructuringElement< ImageDimension - 1 >;
+  using SliceErodeType = BinaryErodeImageFilter< SliceInternalImageType, SliceInternalImageType, SliceKernelType >;
   typename SliceErodeType::Pointer serode = SliceErodeType::New();
-  typedef typename SliceKernelType::RadiusType RadiusType;
+  using RadiusType = typename SliceKernelType::RadiusType;
   RadiusType srad;
   srad.Fill(NumericTraits<typename RadiusType::SizeValueType>::ZeroValue());
   for( unsigned int i=0, j=0; i<ImageDimension; i++ )
@@ -140,7 +140,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
   serode->SetKernel( SliceKernelType::Ball( srad ) );
   serode->SetInput( scast->GetOutput() );
 
-  typedef SubtractImageFilter< SliceInternalImageType, SliceInternalImageType > SliceSubtractType;
+  using SliceSubtractType = SubtractImageFilter< SliceInternalImageType, SliceInternalImageType >;
   typename SliceSubtractType::Pointer ssub = SliceSubtractType::New();
   ssub->SetInput( 0, scast->GetOutput() );
   ssub->SetInput( 1, serode->GetOutput() );
@@ -154,7 +154,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
     }
   else if( m_Type == CONTOUR )
     {
-//     typedef BinaryContourImageFilter< InternalImageType, InternalImageType > ContourType;
+//     using ContourType = BinaryContourImageFilter< InternalImageType, InternalImageType >;
 //     typename ContourType::Pointer contour = ContourType::New();
 //     contour->SetInput( dilate->GetOutput() );
 //     obo->SetOutputFilter( contour );
@@ -166,8 +166,8 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
     slice->SetDimension( m_SliceDimension );
     obo->SetOutputFilter( slice );
 
-//     typedef typename SliceType::InternalInputImageType SliceInternalType;
-//     typedef BinaryContourImageFilter< SliceInternalType, SliceInternalType > SliceContourType;
+//     using SliceInternalType = typename SliceType::InternalInputImageType;
+//     using SliceContourType = BinaryContourImageFilter< SliceInternalType, SliceInternalType >;
 //     typename SliceContourType::Pointer slice_contour = SliceContourType::New();
 //     slice->SetFilter( slice_contour );
     }
@@ -177,7 +177,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
     }
 
   // choose which labels will be on top of the oters
-  typedef LabelUniqueLabelMapFilter< LabelMapType > UniqueType;
+  using UniqueType = LabelUniqueLabelMapFilter< LabelMapType >;
   typename UniqueType::Pointer uniq = UniqueType::New();
   uniq->SetInput( obo->GetOutput() );
   uniq->SetReverseOrdering( m_Priority == LOW_LABEL_ON_TOP );

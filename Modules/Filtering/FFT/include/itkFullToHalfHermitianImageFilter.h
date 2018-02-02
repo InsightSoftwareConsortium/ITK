@@ -46,26 +46,26 @@ class ITK_TEMPLATE_EXPORT FullToHalfHermitianImageFilter :
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename InputImageType::IndexType       InputImageIndexType;
-  typedef typename InputImageType::IndexValueType  InputImageIndexValueType;
-  typedef typename InputImageType::SizeType        InputImageSizeType;
-  typedef typename InputImageType::SizeValueType   InputImageSizeValueType;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef TInputImage                              OutputImageType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  typedef typename OutputImageType::IndexType      OutputImageIndexType;
-  typedef typename OutputImageType::IndexValueType OutputImageIndexValueType;
-  typedef typename OutputImageType::SizeType       OutputImageSizeType;
-  typedef typename OutputImageType::SizeValueType  OutputImageSizeValueType;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
+  /** Standard class type aliases. */
+  using InputImageType = TInputImage;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using InputImageIndexType = typename InputImageType::IndexType;
+  using InputImageIndexValueType = typename InputImageType::IndexValueType;
+  using InputImageSizeType = typename InputImageType::SizeType;
+  using InputImageSizeValueType = typename InputImageType::SizeValueType;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using OutputImageType = TInputImage;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using OutputImageIndexType = typename OutputImageType::IndexType;
+  using OutputImageIndexValueType = typename OutputImageType::IndexValueType;
+  using OutputImageSizeType = typename OutputImageType::SizeType;
+  using OutputImageSizeValueType = typename OutputImageType::SizeValueType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
-  typedef FullToHalfHermitianImageFilter                 Self;
-  typedef ImageToImageFilter< TInputImage, TInputImage > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  using Self = FullToHalfHermitianImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

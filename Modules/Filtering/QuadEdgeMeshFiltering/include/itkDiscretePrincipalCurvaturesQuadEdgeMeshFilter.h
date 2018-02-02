@@ -35,33 +35,33 @@ class DiscretePrincipalCurvaturesQuadEdgeMeshFilter:
   public DiscreteCurvatureQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  typedef DiscretePrincipalCurvaturesQuadEdgeMeshFilter     Self;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
-  typedef DiscreteCurvatureQuadEdgeMeshFilter<
-    TInputMesh, TOutputMesh >                               Superclass;
+  using Self = DiscretePrincipalCurvaturesQuadEdgeMeshFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DiscreteCurvatureQuadEdgeMeshFilter<
+    TInputMesh, TOutputMesh >;
 
-  typedef typename Superclass::InputMeshType                 InputMeshType;
-  typedef typename Superclass::InputMeshPointer              InputMeshPointer;
-  typedef typename Superclass::OutputMeshType                OutputMeshType;
-  typedef typename Superclass::OutputMeshPointer             OutputMeshPointer;
-  typedef typename Superclass::OutputPointsContainerPointer  OutputPointsContainerPointer;
-  typedef typename Superclass::OutputPointsContainerIterator OutputPointsContainerIterator;
-  typedef typename Superclass::OutputPointType               OutputPointType;
-  typedef typename Superclass::OutputVectorType              OutputVectorType;
-  typedef typename Superclass::OutputCoordType               OutputCoordType;
-  typedef typename Superclass::OutputPointIdentifier         OutputPointIdentifier;
-  typedef typename Superclass::OutputCellIdentifier          OutputCellIdentifier;
-  typedef typename Superclass::OutputQEType                  OutputQEType;
-  typedef typename Superclass::OutputMeshTraits              OutputMeshTraits;
-  typedef typename Superclass::OutputCurvatureType           OutputCurvatureType;
+  using InputMeshType = typename Superclass::InputMeshType;
+  using InputMeshPointer = typename Superclass::InputMeshPointer;
+  using OutputMeshType = typename Superclass::OutputMeshType;
+  using OutputMeshPointer = typename Superclass::OutputMeshPointer;
+  using OutputPointsContainerPointer = typename Superclass::OutputPointsContainerPointer;
+  using OutputPointsContainerIterator = typename Superclass::OutputPointsContainerIterator;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using OutputCoordType = typename Superclass::OutputCoordType;
+  using OutputPointIdentifier = typename Superclass::OutputPointIdentifier;
+  using OutputCellIdentifier = typename Superclass::OutputCellIdentifier;
+  using OutputQEType = typename Superclass::OutputQEType;
+  using OutputMeshTraits = typename Superclass::OutputMeshTraits;
+  using OutputCurvatureType = typename Superclass::OutputCurvatureType;
 
-  typedef typename Superclass::TriangleType TriangleType;
+  using TriangleType = typename Superclass::TriangleType;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(DiscretePrincipalCurvaturesQuadEdgeMeshFilter, DiscreteCurvatureQuadEdgeMeshFilter);
 
-  typedef ConformalMatrixCoefficients< OutputMeshType > CoefficientType;
+  using CoefficientType = ConformalMatrixCoefficients< OutputMeshType >;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

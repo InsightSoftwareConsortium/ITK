@@ -78,10 +78,10 @@ class InternalHeader;
 class ITKIOGDCM_EXPORT GDCMImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef GDCMImageIO          Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = GDCMImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

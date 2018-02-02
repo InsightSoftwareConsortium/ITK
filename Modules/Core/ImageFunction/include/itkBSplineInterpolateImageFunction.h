@@ -85,11 +85,11 @@ class ITK_TEMPLATE_EXPORT BSplineInterpolateImageFunction:
   public InterpolateImageFunction< TImageType, TCoordRep >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineInterpolateImageFunction                   Self;
-  typedef InterpolateImageFunction< TImageType, TCoordRep > Superclass;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineInterpolateImageFunction;
+  using Superclass = InterpolateImageFunction< TImageType, TCoordRep >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineInterpolateImageFunction, InterpolateImageFunction);
@@ -97,41 +97,39 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = typename Superclass::InputImageType;
 
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
-  /** PointType typedef support */
-  typedef typename Superclass::PointType PointType;
+  /** PointType type alias support */
+  using PointType = typename Superclass::PointType;
 
-  /** Iterator typedef support */
-  typedef ImageLinearIteratorWithIndex< TImageType > Iterator;
+  /** Iterator type alias support */
+  using Iterator = ImageLinearIteratorWithIndex< TImageType >;
 
-  /** Internal Coefficient typedef support */
-  typedef TCoefficientType CoefficientDataType;
-  typedef Image< CoefficientDataType,
-                 itkGetStaticConstMacro(ImageDimension) >
-  CoefficientImageType;
+  /** Internal Coefficient type alias support */
+  using CoefficientDataType = TCoefficientType;
+  using CoefficientImageType = Image< CoefficientDataType,
+                 itkGetStaticConstMacro(ImageDimension) >;
 
   /** Define filter for calculating the BSpline coefficients */
-  typedef BSplineDecompositionImageFilter< TImageType, CoefficientImageType > CoefficientFilter;
-  typedef typename CoefficientFilter::Pointer                                 CoefficientFilterPointer;
+  using CoefficientFilter = BSplineDecompositionImageFilter< TImageType, CoefficientImageType >;
+  using CoefficientFilterPointer = typename CoefficientFilter::Pointer;
 
-  /** Derivative typedef support */
-  typedef CovariantVector< OutputType,
-                           itkGetStaticConstMacro(ImageDimension) >
-  CovariantVectorType;
+  /** Derivative type alias support */
+  using CovariantVectorType = CovariantVector< OutputType,
+                           itkGetStaticConstMacro(ImageDimension) >;
 
   /** Evaluate the function at a ContinuousIndex position.
    *

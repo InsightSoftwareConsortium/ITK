@@ -36,20 +36,20 @@ int itkModulusImageFilterTest(int argc, char * argv[])
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                       PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   // get the distance map inside the spots
   // spot are already black so there is no need to invert the image
-  typedef itk::DanielssonDistanceMapImageFilter< ImageType, ImageType > DistanceFilter;
+  using DistanceFilter = itk::DanielssonDistanceMapImageFilter< ImageType, ImageType >;
   DistanceFilter::Pointer distance = DistanceFilter::New();
   distance->SetInput( reader->GetOutput() );
 
-  typedef itk::ModulusImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::ModulusImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, ModulusImageFilter,
@@ -66,13 +66,13 @@ int itkModulusImageFilterTest(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(filter);
 
-  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > ThresholdType;
+  using ThresholdType = itk::RescaleIntensityImageFilter< ImageType, ImageType >;
   ThresholdType::Pointer rescale = ThresholdType::New();
   rescale->SetInput( filter->GetOutput() );
   rescale->SetOutputMaximum( itk::NumericTraits< PixelType >::max() );
   rescale->SetOutputMinimum( itk::NumericTraits< PixelType >::NonpositiveMin() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( rescale->GetOutput() );
   writer->SetFileName( argv[2] );

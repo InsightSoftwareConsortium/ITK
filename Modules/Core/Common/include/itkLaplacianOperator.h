@@ -65,14 +65,14 @@ class ITK_TEMPLATE_EXPORT LaplacianOperator:
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:
-  /** Standard "Self" typedef support.   */
-  typedef LaplacianOperator Self;
+  /** Standard "Self" type alias support   */
+  using Self = LaplacianOperator;
 
-  /** Standard "Superclass" typedef.   */
-  typedef NeighborhoodOperator< TPixel, VDimension, TAllocator > Superclass;
+  /** Standard "Superclass" type alias.   */
+  using Superclass = NeighborhoodOperator< TPixel, VDimension, TAllocator >;
 
-  typedef typename Superclass::PixelType PixelType;
-  typedef typename Superclass::SizeType  SizeType;
+  using PixelType = typename Superclass::PixelType;
+  using SizeType = typename Superclass::SizeType;
 
   /**  Default constructor  */
   LaplacianOperator()
@@ -119,7 +119,7 @@ public:
 protected:
   /** Typedef support for coefficient vector type.  Necessary to
    * work around compiler bug on VC++.   */
-  typedef typename Superclass::CoefficientVector CoefficientVector;
+  using CoefficientVector = typename Superclass::CoefficientVector;
 
   /** Calculates operator coefficients.   */
   CoefficientVector GenerateCoefficients() override;

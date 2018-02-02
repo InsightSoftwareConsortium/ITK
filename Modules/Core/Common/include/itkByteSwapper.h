@@ -50,14 +50,14 @@ template< typename T >
 class ITK_TEMPLATE_EXPORT ByteSwapper:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ByteSwapper                Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ByteSwapper;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Work around MSVC bug (including ByteSwapper.h in a templated class). */
-  typedef std::ostream OStreamType;
+  using OStreamType = std::ostream;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ByteSwapper, Object);
@@ -79,7 +79,7 @@ public:
 
   /** Type for representing large buffers, including those in 64bits
    * architectures */
-  typedef SizeValueType BufferSizeType;
+  using BufferSizeType = SizeValueType;
 
   /** Generic swap method handles type T. The swapping is
    * done in-place. 2, 4 and 8 byte swapping

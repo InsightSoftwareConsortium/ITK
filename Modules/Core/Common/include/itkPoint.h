@@ -52,31 +52,31 @@ template< typename TCoordRep, unsigned int NPointDimension = 3 >
 class ITK_TEMPLATE_EXPORT Point:public FixedArray< TCoordRep, NPointDimension >
 {
 public:
-  /** Standard class typedefs. */
-  typedef Point                                    Self;
-  typedef FixedArray< TCoordRep, NPointDimension > Superclass;
+  /** Standard class type aliases. */
+  using Self = Point;
+  using Superclass = FixedArray< TCoordRep, NPointDimension >;
 
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */
-  typedef TCoordRep ValueType;
-  typedef TCoordRep CoordRepType;
+  using ValueType = TCoordRep;
+  using CoordRepType = TCoordRep;
 
-  typedef typename NumericTraits< ValueType >::RealType RealType;
+  using RealType = typename NumericTraits< ValueType >::RealType;
 
   /** Dimension of the Space */
   itkStaticConstMacro(PointDimension, unsigned int, NPointDimension);
 
   /** The Array type from which this Vector is derived. */
-  typedef FixedArray< TCoordRep, NPointDimension > BaseArray;
-  typedef typename BaseArray::Iterator             Iterator;
-  typedef typename BaseArray::ConstIterator        ConstIterator;
+  using BaseArray = FixedArray< TCoordRep, NPointDimension >;
+  using Iterator = typename BaseArray::Iterator;
+  using ConstIterator = typename BaseArray::ConstIterator;
 
   /** Get the dimension (size) of the point. */
   static unsigned int GetPointDimension()
   { return NPointDimension; }
 
   /** VectorType define the difference between two Points */
-  typedef Vector< ValueType, NPointDimension > VectorType;
+  using VectorType = Vector< ValueType, NPointDimension >;
 
   /** Default constructor has nothing to do. */
   Point() {}
@@ -294,11 +294,11 @@ template< typename TPointContainer, typename TWeightContainer >
 class ITK_TEMPLATE_EXPORT BarycentricCombination
 {
 public:
-  /** Convenient typedefs. */
-  typedef TPointContainer                      PointContainerType;
-  typedef typename PointContainerType::Pointer PointContainerPointer;
-  typedef typename PointContainerType::Element PointType;
-  typedef TWeightContainer                     WeightContainerType;
+  /** Convenient type alias. */
+  using PointContainerType = TPointContainer;
+  using PointContainerPointer = typename PointContainerType::Pointer;
+  using PointType = typename PointContainerType::Element;
+  using WeightContainerType = TWeightContainer;
 
   BarycentricCombination() {}
   ~BarycentricCombination() {}

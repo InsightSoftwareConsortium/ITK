@@ -42,10 +42,10 @@ int itkFEMLoadPointTestUser(int, char *[])
   //the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  typedef itk::fem::FEMObject<2> FEMObjectType;
+  using FEMObjectType = itk::fem::FEMObject<2>;
   FEMObjectType::Pointer femObject = FEMObjectType::New();
 
-  typedef itk::fem::Solver<2> Solver2DType;
+  using Solver2DType = itk::fem::Solver<2>;
   Solver2DType::Pointer solver = Solver2DType::New();
 
 

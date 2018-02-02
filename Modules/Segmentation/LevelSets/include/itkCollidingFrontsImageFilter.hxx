@@ -81,7 +81,7 @@ CollidingFrontsImageFilter< TInputImage, TOutputImage >
     }
   fastMarchingFilter2->Update();
 
-  typedef itk::MultiplyImageFilter< GradientImageType, GradientImageType, OutputImageType > MultiplyFilterType;
+  using MultiplyFilterType = itk::MultiplyImageFilter< GradientImageType, GradientImageType, OutputImageType >;
 
   typename MultiplyFilterType::Pointer multiplyFilter = MultiplyFilterType::New();
   multiplyFilter->SetInput1( fastMarchingFilter1->GetGradientImage() );
@@ -112,8 +112,8 @@ CollidingFrontsImageFilter< TInputImage, TOutputImage >
     outputImage->Allocate();
     outputImage->FillBuffer (NumericTraits< OutputPixelType >::ZeroValue());
 
-    typedef BinaryThresholdImageFunction< OutputImageType >                                   FunctionType;
-    typedef FloodFilledImageFunctionConditionalConstIterator< OutputImageType, FunctionType > IteratorType;
+    using FunctionType = BinaryThresholdImageFunction< OutputImageType >;
+    using IteratorType = FloodFilledImageFunctionConditionalConstIterator< OutputImageType, FunctionType >;
 
     typename FunctionType::Pointer function = FunctionType::New();
     function->SetInputImage (multipliedImage);

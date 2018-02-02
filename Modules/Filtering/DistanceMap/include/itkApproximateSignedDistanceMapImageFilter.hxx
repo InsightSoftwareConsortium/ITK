@@ -46,7 +46,7 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
 
   OutputImagePointer output = this->GetOutput();
 
-  typedef typename OutputImageType::RegionType OutputRegionType;
+  using OutputRegionType = typename OutputImageType::RegionType;
   OutputRegionType oRegion = output->GetRequestedRegion();
 
   // Calculate the largest possible distance in the output image.

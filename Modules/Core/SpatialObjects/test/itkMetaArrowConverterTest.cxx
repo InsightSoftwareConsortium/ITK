@@ -45,11 +45,11 @@ int itkMetaArrowConverterTest(int ac, char* av[])
     }
 
 
-  // typedefs
+  // type alias
   const unsigned int Dimensions = 3;
-  typedef itk::ArrowSpatialObject<Dimensions> SpatialObjectType;
-  typedef itk::GroupSpatialObject<Dimensions> SpatialObjectParentType;
-  typedef itk::MetaArrowConverter<Dimensions> ConverterType;
+  using SpatialObjectType = itk::ArrowSpatialObject<Dimensions>;
+  using SpatialObjectParentType = itk::GroupSpatialObject<Dimensions>;
+  using ConverterType = itk::MetaArrowConverter<Dimensions>;
 
   // instantiate new converter and object
   ConverterType::Pointer converter = ConverterType::New();

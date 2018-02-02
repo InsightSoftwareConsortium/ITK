@@ -55,20 +55,20 @@ class ITK_TEMPLATE_EXPORT RealToHalfHermitianForwardFFTImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TInputImage                          InputImageType;
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef typename InputImageType::IndexType   InputIndexType;
-  typedef typename InputImageType::SizeType    InputSizeType;
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename OutputImageType::IndexType  OutputIndexType;
-  typedef typename OutputIndexType::SizeType   OutputSizeType;
+  /** Standard class type aliases. */
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using InputIndexType = typename InputImageType::IndexType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using OutputSizeType = typename OutputIndexType::SizeType;
 
-  typedef RealToHalfHermitianForwardFFTImageFilter              Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  using Self = RealToHalfHermitianForwardFFTImageFilter;
+  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Customized object creation methods that support configuration-based
     * selection of FFT implementation.

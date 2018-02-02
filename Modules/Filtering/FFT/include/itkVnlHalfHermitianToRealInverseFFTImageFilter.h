@@ -45,22 +45,22 @@ class ITK_TEMPLATE_EXPORT VnlHalfHermitianToRealInverseFFTImageFilter:
   public HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::PixelType       InputPixelType;
-  typedef typename InputImageType::SizeType        InputSizeType;
-  typedef typename InputImageType::IndexType       InputIndexType;
-  typedef typename InputImageType::SizeValueType   InputSizeValueType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::PixelType      OutputPixelType;
-  typedef typename OutputImageType::IndexType      OutputIndexType;
-  typedef typename OutputImageType::SizeType       OutputSizeType;
-  typedef typename OutputImageType::IndexValueType OutputIndexValueType;
+  /** Standard class type aliases. */
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using InputIndexType = typename InputImageType::IndexType;
+  using InputSizeValueType = typename InputImageType::SizeValueType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using OutputIndexValueType = typename OutputImageType::IndexValueType;
 
-  typedef VnlHalfHermitianToRealInverseFFTImageFilter                           Self;
-  typedef HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                                  Pointer;
-  typedef SmartPointer< const Self >                                            ConstPointer;
+  using Self = VnlHalfHermitianToRealInverseFFTImageFilter;
+  using Superclass = HalfHermitianToRealInverseFFTImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -98,7 +98,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VnlHalfHermitianToRealInverseFFTImageFilter);
 
-  typedef vnl_vector< InputPixelType  > SignalVectorType;
+  using SignalVectorType = vnl_vector< InputPixelType  >;
 };
 }
 

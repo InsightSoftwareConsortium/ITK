@@ -82,17 +82,17 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>   Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::RegularStepGradientDescentOptimizerv4<double>  OptimizerType;
-  typedef   const OptimizerType *                             OptimizerPointer;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
+  using OptimizerPointer = const OptimizerType *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
@@ -126,10 +126,10 @@ int main( int argc, char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  float           PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
 
   //  Software Guide : BeginLatex
@@ -143,18 +143,18 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CenteredRigid2DTransform< double > TransformType;
+  using TransformType = itk::CenteredRigid2DTransform< double >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::RegularStepGradientDescentOptimizerv4<double>     OptimizerType;
-  typedef itk::MeanSquaresImageToImageMetricv4<
+  using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
+  using MetricType = itk::MeanSquaresImageToImageMetricv4<
                                       FixedImageType,
-                                      MovingImageType >          MetricType;
-  typedef itk::ImageRegistrationMethodv4<
+                                      MovingImageType >;
+  using RegistrationType = itk::ImageRegistrationMethodv4<
                                       FixedImageType,
                                       MovingImageType,
-                                      TransformType >            RegistrationType;
+                                      TransformType >;
 
   MetricType::Pointer         metric        = MetricType::New();
   OptimizerType::Pointer      optimizer     = OptimizerType::New();
@@ -240,8 +240,8 @@ int main( int argc, char *argv[] )
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
@@ -271,10 +271,10 @@ int main( int argc, char *argv[] )
   movingImageReader->Update();
   // Software Guide : EndCodeSnippet
 
-  typedef FixedImageType::SpacingType    SpacingType;
-  typedef FixedImageType::PointType      OriginType;
-  typedef FixedImageType::RegionType     RegionType;
-  typedef FixedImageType::SizeType       SizeType;
+  using SpacingType = FixedImageType::SpacingType;
+  using OriginType = FixedImageType::PointType;
+  using RegionType = FixedImageType::RegionType;
+  using SizeType = FixedImageType::SizeType;
 
   //  Software Guide : BeginLatex
   //
@@ -384,7 +384,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef OptimizerType::ScalesType       OptimizerScalesType;
+  using OptimizerScalesType = OptimizerType::ScalesType;
   OptimizerScalesType optimizerScales(
     initialTransform->GetNumberOfParameters() );
   const double translationScale = 1.0 / 1000.0;
@@ -578,9 +578,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
 
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+                            FixedImageType >;
 
   //TransformType::ConstPointer finalTransform = TransformType::New();
 
@@ -597,12 +597,12 @@ int main( int argc, char *argv[] )
   resample->SetOutputDirection( fixedImage->GetDirection() );
   resample->SetDefaultPixelValue( 100 );
 
-  typedef unsigned char                            OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::CastImageFilter<
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using CastFilterType = itk::CastImageFilter<
                         FixedImageType,
-                        OutputImageType >          CastFilterType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+                        OutputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
@@ -623,18 +623,18 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< float, Dimension > DifferenceImageType;
+  using DifferenceImageType = itk::Image< float, Dimension >;
 
-  typedef itk::SubtractImageFilter<
+  using DifferenceFilterType = itk::SubtractImageFilter<
                            FixedImageType,
                            FixedImageType,
-                           DifferenceImageType > DifferenceFilterType;
+                           DifferenceImageType >;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
-  typedef itk::RescaleIntensityImageFilter<
+  using RescalerType = itk::RescaleIntensityImageFilter<
                                   DifferenceImageType,
-                                  OutputImageType >   RescalerType;
+                                  OutputImageType >;
 
   RescalerType::Pointer intensityRescaler = RescalerType::New();
 

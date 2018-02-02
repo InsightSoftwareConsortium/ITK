@@ -45,11 +45,11 @@ class ITK_TEMPLATE_EXPORT FastMarchingQuadEdgeMeshFilterBase :
     public FastMarchingBase< TInput, TOutput >
 {
 public:
-  typedef FastMarchingQuadEdgeMeshFilterBase     Self;
-  typedef FastMarchingBase< TInput, TOutput >    Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
-  typedef typename Superclass::Traits            Traits;
+  using Self = FastMarchingQuadEdgeMeshFilterBase;
+  using Superclass = FastMarchingBase< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Traits = typename Superclass::Traits;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,52 +57,47 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastMarchingQuadEdgeMeshFilterBase, FastMarchingBase);
 
-  typedef typename Superclass::InputDomainType     InputMeshType;
-  typedef typename Superclass::InputDomainPointer  InputMeshPointer;
-  typedef typename Superclass::InputPixelType      InputPixelType;
-  typedef typename InputMeshType::PointType        InputPointType;
-  typedef typename InputMeshType::PointIdentifier  InputPointIdentifierType;
+  using InputMeshType = typename Superclass::InputDomainType;
+  using InputMeshPointer = typename Superclass::InputDomainPointer;
+  using InputPixelType = typename Superclass::InputPixelType;
+  using InputPointType = typename InputMeshType::PointType;
+  using InputPointIdentifierType = typename InputMeshType::PointIdentifier;
 
-  typedef typename Superclass::OutputDomainType     OutputMeshType;
-  typedef typename Superclass::OutputDomainPointer  OutputMeshPointer;
-  typedef typename Superclass::OutputPixelType      OutputPixelType;
-  typedef typename OutputMeshType::PointType        OutputPointType;
-  typedef typename OutputPointType::VectorType      OutputVectorType;
-  typedef typename OutputVectorType::RealValueType  OutputVectorRealType;
-  typedef typename OutputMeshType::QEType           OutputQEType;
-  typedef typename OutputMeshType::PointIdentifier  OutputPointIdentifierType;
-  typedef typename OutputMeshType::PointsContainer  OutputPointsContainer;
-  typedef typename OutputPointsContainer::Pointer   OutputPointsContainerPointer;
-  typedef typename OutputPointsContainer::Iterator  OutputPointsContainerIterator;
-  typedef typename OutputMeshType::PointDataContainer
-                                                    OutputPointDataContainer;
-  typedef typename OutputPointDataContainer::Pointer
-                                                    OutputPointDataContainerPointer;
+  using OutputMeshType = typename Superclass::OutputDomainType;
+  using OutputMeshPointer = typename Superclass::OutputDomainPointer;
+  using OutputPixelType = typename Superclass::OutputPixelType;
+  using OutputPointType = typename OutputMeshType::PointType;
+  using OutputVectorType = typename OutputPointType::VectorType;
+  using OutputVectorRealType = typename OutputVectorType::RealValueType;
+  using OutputQEType = typename OutputMeshType::QEType;
+  using OutputPointIdentifierType = typename OutputMeshType::PointIdentifier;
+  using OutputPointsContainer = typename OutputMeshType::PointsContainer;
+  using OutputPointsContainerPointer = typename OutputPointsContainer::Pointer;
+  using OutputPointsContainerIterator = typename OutputPointsContainer::Iterator;
+  using OutputPointDataContainer = typename OutputMeshType::PointDataContainer;
+  using OutputPointDataContainerPointer = typename OutputPointDataContainer::Pointer;
 
-  typedef typename OutputMeshType::CellsContainer   OutputCellsContainer;
-  typedef typename OutputCellsContainer::Pointer    OutputCellsContainerPointer;
-  typedef typename OutputCellsContainer::ConstIterator
-                                                    OutputCellsContainerConstIterator;
-  typedef typename OutputMeshType::CellType         OutputCellType;
+  using OutputCellsContainer = typename OutputMeshType::CellsContainer;
+  using OutputCellsContainerPointer = typename OutputCellsContainer::Pointer;
+  using OutputCellsContainerConstIterator = typename OutputCellsContainer::ConstIterator;
+  using OutputCellType = typename OutputMeshType::CellType;
 
 
-  typedef typename Traits::NodeType                 NodeType;
-  typedef typename Traits::NodePairType             NodePairType;
-  typedef typename Traits::NodePairContainerType    NodePairContainerType;
-  typedef typename Traits::NodePairContainerPointer NodePairContainerPointer;
-  typedef typename Traits::NodePairContainerConstIterator
-    NodePairContainerConstIterator;
+  using NodeType = typename Traits::NodeType;
+  using NodePairType = typename Traits::NodePairType;
+  using NodePairContainerType = typename Traits::NodePairContainerType;
+  using NodePairContainerPointer = typename Traits::NodePairContainerPointer;
+  using NodePairContainerConstIterator = typename Traits::NodePairContainerConstIterator;
 
-//  typedef typename Traits::NodeContainerType        NodeContainerType;
-//  typedef typename Traits::NodeContainerPointer     NodeContainerPointer;
-//  typedef typename Traits::NodeContainerConstIterator
-//    NodeContainerConstIterator;
+//  using NodeContainerType = typename Traits::NodeContainerType;
+//  using NodeContainerPointer = typename Traits::NodeContainerPointer;
+//  using NodeContainerConstIterator = typename Traits::NodeContainerConstIterator;
 
-  typedef typename Superclass::LabelType LabelType;
+  using LabelType = typename Superclass::LabelType;
 
-  typedef std::map< NodeType, LabelType >           NodeLabelMapType;
-  typedef typename NodeLabelMapType::iterator       NodeLabelMapIterator;
-  typedef typename NodeLabelMapType::const_iterator NodeLabelMapConstIterator;
+  using NodeLabelMapType = std::map< NodeType, LabelType >;
+  using NodeLabelMapIterator = typename NodeLabelMapType::iterator;
+  using NodeLabelMapConstIterator = typename NodeLabelMapType::const_iterator;
 
 protected:
 

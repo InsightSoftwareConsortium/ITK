@@ -23,8 +23,8 @@
 int itkQuaternionRigidTransformTest(int, char * [] )
 {
 
-  typedef double                                        CoordinateType;
-  typedef itk::QuaternionRigidTransform<CoordinateType> TransformType;
+  using CoordinateType = double;
+  using TransformType = itk::QuaternionRigidTransform<CoordinateType>;
 
   const double       epsilon = 1e-10;
   const unsigned int N = 3;
@@ -751,7 +751,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     std::cout << "Testing SetMatrix() ... ";
     unsigned int par;
 
-    typedef TransformType::MatrixType MatrixType;
+    using MatrixType = TransformType::MatrixType;
     MatrixType matrix;
 
     TransformType::Pointer t = TransformType::New();
@@ -823,7 +823,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
 
     // Check the computed parameters
 
-    typedef TransformType::ParametersType ParametersType;
+    using ParametersType = TransformType::ParametersType;
     ParametersType e( t->GetNumberOfParameters() );
     e.Fill( 0.0 );
     e[2] = std::sin(0.5 * a);

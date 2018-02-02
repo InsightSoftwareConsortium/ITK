@@ -35,16 +35,16 @@ int itkFEMLoadBCMFCTestUser(int argc, char *[])
 
   itk::FEMFactoryBase::RegisterDefaultTypes();
 
-  typedef itk::fem::Solver<2> Solver2DType;
+  using Solver2DType = itk::fem::Solver<2>;
   Solver2DType::Pointer solver = Solver2DType::New();
 
-  typedef itk::fem::FEMObject<2> FEMObjectType;
+  using FEMObjectType = itk::fem::FEMObject<2>;
   FEMObjectType::Pointer femObject = FEMObjectType::New();
 
   itk::fem::LinearSystemWrapperVNL vnlSolver;
 
   vnlSolver.SetMaximumNonZeroValuesInMatrix(1000, 1000);
-  typedef itk::fem::Element::Node NodeType;
+  using NodeType = itk::fem::Element::Node;
 
   NodeType::Pointer n1;
 
@@ -230,11 +230,11 @@ int itkFEMLoadBCMFCTestUser(int argc, char *[])
 
   // to write the deformed mesh
   // Testing the fe mesh validity
-  /* typedef itk::FEMObjectSpatialObject<2>    FEMObjectSpatialObjectType;
+  /* using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
    FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
    femSODef->SetFEMObject(solver->GetOutput());
-   typedef itk::FEMSpatialObjectWriter<2>    FEMSpatialObjectWriterType;
-   typedef FEMSpatialObjectWriterType::Pointer            FEMSpatialObjectWriterPointer;
+   using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<2>;
+   using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
    FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
    SpatialWriter->SetInput(femSODef);
    SpatialWriter->SetFileName( argv[2] );

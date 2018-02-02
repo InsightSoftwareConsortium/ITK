@@ -122,8 +122,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   unsigned int numberOfClasses = 2;
-  typedef itk::Vector< double, 1 > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Vector< double, 1 >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize( 1 ); // length of measurement vectors
                                          // in the sample.
@@ -149,7 +149,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
+  using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
 
   normalGenerator->Initialize( 101 );
@@ -184,7 +184,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Array< double > ParametersType;
+  using ParametersType = itk::Array< double >;
   ParametersType params( 2 );
 
   std::vector< ParametersType > initialParameters( numberOfClasses );
@@ -196,8 +196,7 @@ int main()
   params[1] = 850.0;
   initialParameters[1] = params;
 
-  typedef itk::Statistics::GaussianMixtureModelComponent< SampleType >
-    ComponentType;
+  using ComponentType = itk::Statistics::GaussianMixtureModelComponent<SampleType>;
 
   std::vector< ComponentType::Pointer > components;
   for ( unsigned int i = 0; i < numberOfClasses; i++ )
@@ -215,8 +214,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator<
-                           SampleType > EstimatorType;
+  using EstimatorType = itk::Statistics::ExpectationMaximizationMixtureModelEstimator<SampleType>;
   EstimatorType::Pointer estimator = EstimatorType::New();
 
   estimator->SetSample( sample );

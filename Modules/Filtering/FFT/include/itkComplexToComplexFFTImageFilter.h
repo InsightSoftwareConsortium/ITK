@@ -54,15 +54,15 @@ class ITK_TEMPLATE_EXPORT ComplexToComplexFFTImageFilter:
 {
 public:
   /** Input and output image types. */
-  typedef TImage ImageType;
-  typedef TImage InputImageType;
-  typedef TImage OutputImageType;
+  using ImageType = TImage;
+  using InputImageType = TImage;
+  using OutputImageType = TImage;
 
-  /** Standard class typedefs. */
-  typedef ComplexToComplexFFTImageFilter                        Self;
-  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ComplexToComplexFFTImageFilter;
+  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);
@@ -83,8 +83,8 @@ public:
     INVERSE = 2
     };
 
-  /** Image type typedef support. */
-  typedef typename ImageType::SizeType ImageSizeType;
+  /** Image type type alias support */
+  using ImageSizeType = typename ImageType::SizeType;
 
   /** Set/Get the direction in which the transform will be applied.
    * By selecting FORWARD, this filter will perform a direct, i.e. forward, Fourier Transform,

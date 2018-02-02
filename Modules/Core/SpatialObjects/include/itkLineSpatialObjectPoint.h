@@ -44,11 +44,11 @@ class ITK_TEMPLATE_EXPORT LineSpatialObjectPoint:
 {
 public:
 
-  typedef LineSpatialObjectPoint                        Self;
-  typedef SpatialObjectPoint< TPointDimension >         Superclass;
-  typedef Point< double, TPointDimension >              PointType;
-  typedef CovariantVector< double, TPointDimension >    VectorType;
-  typedef FixedArray< VectorType, TPointDimension - 1 > NormalArrayType;
+  using Self = LineSpatialObjectPoint;
+  using Superclass = SpatialObjectPoint< TPointDimension >;
+  using PointType = Point< double, TPointDimension >;
+  using VectorType = CovariantVector< double, TPointDimension >;
+  using NormalArrayType = FixedArray< VectorType, TPointDimension - 1 >;
 
   /** Constructor */
   LineSpatialObjectPoint();

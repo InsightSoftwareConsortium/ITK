@@ -29,11 +29,11 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
 {
   const unsigned int ImageDimension = 3;
 
-  typedef float InputImagePixelType;
+  using InputImagePixelType = float;
 
-  typedef itk::Image< InputImagePixelType, ImageDimension >            ImageType;
-  typedef itk::Image< InputImagePixelType, ImageDimension >            MaskType;
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > ImageIteratorType;
+  using ImageType = itk::Image< InputImagePixelType, ImageDimension >;
+  using MaskType = itk::Image< InputImagePixelType, ImageDimension >;
+  using ImageIteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
 
   bool SaveImages = false;
   ImageType::SizeType   imageSize;
@@ -92,7 +92,7 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
 
   // fills the image with a sphere filled with intensity values from a
   // normal distribution.
-  typedef itk::SphereSpatialFunction<ImageDimension> SphereType;
+  using SphereType = itk::SphereSpatialFunction<ImageDimension>;
   SphereType::Pointer sphere = SphereType::New();
 
   SphereType::InputType center;
@@ -121,7 +121,7 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
     }
 
   // creates a bias field
-  typedef itk::MultivariateLegendrePolynomial BiasFieldType;
+  using BiasFieldType = itk::MultivariateLegendrePolynomial;
   BiasFieldType::DomainSizeType biasSize(3);
   int biasDegree = 3;
   biasSize[0] = imageSize[0];
@@ -164,8 +164,8 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
     }
 
   // creates a bias correction filter and run it.
-  typedef itk::MRIBiasFieldCorrectionFilter<ImageType, ImageType, MaskType>
-    FilterType;
+  using FilterType =
+      itk::MRIBiasFieldCorrectionFilter<ImageType, ImageType, MaskType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -265,7 +265,7 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
 
   if ( SaveImages )
     {
-    typedef itk::ImageFileWriter< ImageType > WriterType;
+    using WriterType = itk::ImageFileWriter< ImageType >;
     WriterType::Pointer writer = WriterType::New();
 
     writer->SetInput( image );

@@ -30,7 +30,7 @@ template< typename TFilter >
 int InPlaceTest( char * inputFilename, bool normalizeAcrossScale, typename TFilter::SigmaArrayType::ValueType sigmaValue )
 {
   // Read the input image
-  typedef itk::ImageFileReader< typename TFilter::InputImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< typename TFilter::InputImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFilename );
 
@@ -65,7 +65,7 @@ int InPlaceTest( char * inputFilename, bool normalizeAcrossScale, typename TFilt
   typename TFilter::OutputImageType::Pointer outputImage2 = filter->GetOutput();
   outputImage2->DisconnectPipeline();
 
-  typedef itk::ImageRegionConstIterator< typename TFilter::OutputImageType > IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator< typename TFilter::OutputImageType >;
   IteratorType it1( outputImage1, outputImage1->GetBufferedRegion() );
   IteratorType it2( outputImage2, outputImage2->GetBufferedRegion() );
 
@@ -112,16 +112,16 @@ int itkSmoothingRecursiveGaussianImageFilterTest( int argc, char* argv[] )
   const unsigned int Dimension = 2;
 
   // Declare the types of the images
-  typedef unsigned char                       PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // Read the input image
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   // Declare the type for the itk::SmoothingRecursiveGaussianImageFilter
-  typedef itk::SmoothingRecursiveGaussianImageFilter< ImageType > SmoothingRecursiveGaussianImageFilterType;
+  using SmoothingRecursiveGaussianImageFilterType = itk::SmoothingRecursiveGaussianImageFilter< ImageType >;
 
   // Create the filter
   SmoothingRecursiveGaussianImageFilterType::Pointer filter = SmoothingRecursiveGaussianImageFilterType::New();
@@ -155,7 +155,7 @@ int itkSmoothingRecursiveGaussianImageFilterTest( int argc, char* argv[] )
 
 
   // Write the output
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( filter->GetOutput() );

@@ -42,7 +42,7 @@ AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>
 
   ImageType * output = this->GetOutput();
 
-  typedef typename std::vector< typename LabelObjectType::Pointer > VectorType;
+  using VectorType = typename std::vector< typename LabelObjectType::Pointer >;
 
   ProgressReporter progress( this, 0, 2 * output->GetNumberOfLabelObjects() );
 

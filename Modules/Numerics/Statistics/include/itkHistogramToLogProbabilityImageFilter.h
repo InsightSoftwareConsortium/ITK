@@ -55,7 +55,7 @@ public:
   //   Total Number of occurrences.
   //
   // Returns pixels of float..
-  typedef  TOutput OutputPixelType;
+  using OutputPixelType = TOutput;
 
   HistogramLogProbabilityFunction():
     m_TotalFrequency(1) {}
@@ -100,16 +100,15 @@ class HistogramToLogProbabilityImageFilter:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef HistogramToLogProbabilityImageFilter Self;
+  /** Standard class type aliases. */
+  using Self = HistogramToLogProbabilityImageFilter;
 
-  /** Standard "Superclass" typedef. */
-  typedef HistogramToImageFilter< THistogram, TImage,
-                                 Function::HistogramLogProbabilityFunction< SizeValueType, typename TImage::PixelType > >
-  Superclass;
+  /** Standard "Superclass" type alias. */
+  using Superclass = HistogramToImageFilter< THistogram, TImage,
+                                 Function::HistogramLogProbabilityFunction< SizeValueType, typename TImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(HistogramToLogProbabilityImageFilter, HistogramToImageFilter);

@@ -21,14 +21,14 @@
 #include <iostream>
 
 /**
- * Some typedefs to make things easier.
+ * Some type alias to make things easier.
  */
 
 
-typedef itk::QuadEdgeMesh< double, 3 >  MeshType;
+using MeshType = itk::QuadEdgeMesh< double, 3 >;
 
 
-typedef MeshType::CellTraits  CellTraits;
+using CellTraits = MeshType::CellTraits;
 
 
 /**
@@ -36,19 +36,19 @@ typedef MeshType::CellTraits  CellTraits;
  * with defaults (itkDefaultDynamicMeshTraits), the point dimension is 3 and
  * the coordinate representation is float.
  */
-typedef MeshType::PointType             PointType;
-typedef PointType::VectorType           VectorType;
+using PointType = MeshType::PointType;
+using VectorType = PointType::VectorType;
 
-typedef MeshType::Pointer               MeshPointer;
-typedef MeshType::ConstPointer          MeshConstPointer;
+using MeshPointer = MeshType::Pointer;
+using MeshConstPointer = MeshType::ConstPointer;
 
-typedef MeshType::PointType             PointType;
+using PointType = MeshType::PointType;
 
-typedef MeshType::PointsContainer       PointsContainer;
-typedef MeshType::PointDataContainer    PointDataContainer;
+using PointsContainer = MeshType::PointsContainer;
+using PointDataContainer = MeshType::PointDataContainer;
 
-typedef PointsContainer::Iterator       PointsIterator;
-typedef PointDataContainer::Iterator    CellsIterator;
+using PointsIterator = PointsContainer::Iterator;
+using CellsIterator = PointDataContainer::Iterator;
 
 int itkDynamicQuadEdgeMeshTest(int, char* [] )
 {

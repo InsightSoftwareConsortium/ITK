@@ -111,11 +111,11 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   // based alignment
   std::cout << "Testing Landmark alignment with VersorRigid3DTransform" << std::endl;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension > FixedImageType;
-  typedef itk::Image< PixelType, Dimension > MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
   FixedImageType::Pointer fixedImage   = FixedImageType::New();
   MovingImageType::Pointer movingImage = MovingImageType::New();
@@ -146,11 +146,11 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   movingImage->Allocate();
 
   // Set the transform type..
-  typedef itk::VersorRigid3DTransform< double > TransformType;
+  using TransformType = itk::VersorRigid3DTransform< double >;
   TransformType::Pointer transform = TransformType::New();
-  typedef itk::LandmarkBasedTransformInitializer< TransformType,
+  using TransformInitializerType = itk::LandmarkBasedTransformInitializer< TransformType,
                                                   FixedImageType,
-                                                  MovingImageType > TransformInitializerType;
+                                                  MovingImageType >;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( initializer, LandmarkBasedTransformInitializer, Object );
@@ -180,7 +180,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   TransformInitializerType::PointsContainerConstIterator
     mitr = movingLandmarks.begin();
 
-  typedef TransformInitializerType::OutputVectorType  OutputVectorType;
+  using OutputVectorType = TransformInitializerType::OutputVectorType;
   OutputVectorType error;
   OutputVectorType::RealValueType tolerance = 0.1;
   bool failed = false;
@@ -219,11 +219,11 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   // Test landmark alignment using Rigid 2D transform in 2 dimensions
   std::cout << "Testing Landmark alignment with Rigid2DTransform" << std::endl;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension > FixedImageType;
-  typedef itk::Image< PixelType, Dimension > MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
   FixedImageType::Pointer fixedImage   = FixedImageType::New();
   MovingImageType::Pointer movingImage = MovingImageType::New();
@@ -254,10 +254,10 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   movingImage->Allocate();
 
   // Set the transform type
-  typedef itk::Rigid2DTransform< double > TransformType;
+  using TransformType = itk::Rigid2DTransform< double >;
   TransformType::Pointer transform = TransformType::New();
-  typedef itk::LandmarkBasedTransformInitializer< TransformType,
-                                                  FixedImageType, MovingImageType > TransformInitializerType;
+  using TransformInitializerType = itk::LandmarkBasedTransformInitializer< TransformType,
+                                                  FixedImageType, MovingImageType >;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( initializer, LandmarkBasedTransformInitializer, Object );
@@ -342,7 +342,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   TransformInitializerType::PointsContainerConstIterator
     mitr = movingLandmarks.begin();
 
-  typedef TransformInitializerType::OutputVectorType  OutputVectorType;
+  using OutputVectorType = TransformInitializerType::OutputVectorType;
   OutputVectorType error;
   OutputVectorType::RealValueType tolerance = 0.1;
   bool failed = false;
@@ -378,9 +378,9 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   }
 
   {
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 3;
-  typedef itk::Image<PixelType,Dimension> ImageType;
+  using ImageType = itk::Image<PixelType,Dimension>;
   ImageType::Pointer fixedImage   = ImageType::New();
   ImageType::Pointer movingImage = ImageType::New();
 
@@ -409,10 +409,10 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   movingImage->SetRequestedRegion( mRegion );
   movingImage->Allocate();
 
-  typedef itk::AffineTransform<double,Dimension> TransformType;
+  using TransformType = itk::AffineTransform<double,Dimension>;
   TransformType::Pointer transform = TransformType::New();
-  typedef itk::LandmarkBasedTransformInitializer< TransformType,
-                                                  ImageType, ImageType > TransformInitializerType;
+  using TransformInitializerType = itk::LandmarkBasedTransformInitializer< TransformType,
+                                                  ImageType, ImageType >;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( initializer, LandmarkBasedTransformInitializer, Object );
@@ -499,7 +499,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   TransformInitializerType::PointsContainerConstIterator
     mitr = movingLandmarks.begin();
 
-  typedef TransformInitializerType::OutputVectorType  OutputVectorType;
+  using OutputVectorType = TransformInitializerType::OutputVectorType;
   OutputVectorType error;
   OutputVectorType::RealValueType tolerance = 0.1;
   bool failed = false;
@@ -571,7 +571,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   TransformInitializerType::PointsContainerConstIterator
     mitr = movingLandmarks.begin();
 
-  typedef TransformInitializerType::OutputVectorType  OutputVectorType;
+  using OutputVectorType = TransformInitializerType::OutputVectorType;
   OutputVectorType error;
   OutputVectorType::RealValueType tolerance = 0.1;
   unsigned int failed = 0;
@@ -614,11 +614,11 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   {
   std::cout << "\nTesting Landmark alignment with BSplineTransform..." << std::endl;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension > FixedImageType;
-  typedef itk::Image< PixelType, Dimension > MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
   FixedImageType::Pointer fixedImage   = FixedImageType::New();
   MovingImageType::Pointer movingImage = MovingImageType::New();
@@ -656,11 +656,11 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
 
   // Set the transform type
   const unsigned int SplineOrder = 3;
-  typedef itk::BSplineTransform< double, FixedImageType::ImageDimension, SplineOrder>  TransformType;
+  using TransformType = itk::BSplineTransform< double, FixedImageType::ImageDimension, SplineOrder>;
   TransformType::Pointer transform = TransformType::New();
 
-  typedef itk::LandmarkBasedTransformInitializer< TransformType, FixedImageType, MovingImageType >
-    TransformInitializerType;
+  using TransformInitializerType =
+      itk::LandmarkBasedTransformInitializer< TransformType, FixedImageType, MovingImageType >;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( initializer, LandmarkBasedTransformInitializer, Object );
@@ -714,7 +714,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   TransformInitializerType::PointsContainerConstIterator
     mitr = movingLandmarks.begin();
 
-  typedef TransformInitializerType::OutputVectorType  OutputVectorType;
+  using OutputVectorType = TransformInitializerType::OutputVectorType;
   OutputVectorType error;
   OutputVectorType::RealValueType tolerance = 0.1;
   bool failed = false;
@@ -751,9 +751,9 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   }
 
   {
-  typedef itk::Transform< float, 3, 3 > TransformType;
+  using TransformType = itk::Transform< float, 3, 3 >;
 
-  typedef itk::LandmarkBasedTransformInitializer< TransformType > TransformInitializerType;
+  using TransformInitializerType = itk::LandmarkBasedTransformInitializer< TransformType >;
 
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 

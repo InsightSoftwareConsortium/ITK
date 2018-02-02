@@ -27,11 +27,11 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
 
   // Now generate an image
   enum { MeasurementVectorSize = 3 };
-  typedef float MeasurementType;
+  using MeasurementType = float;
 
-  typedef itk::FixedArray< MeasurementType, MeasurementVectorSize > MeasurementVectorType;
-  typedef itk::Image< MeasurementVectorType, MeasurementVectorSize > ImageType;
-  typedef itk::Image< unsigned char, MeasurementVectorSize >         MaskImageType;
+  using MeasurementVectorType = itk::FixedArray< MeasurementType, MeasurementVectorSize >;
+  using ImageType = itk::Image< MeasurementVectorType, MeasurementVectorSize >;
+  using MaskImageType = itk::Image< unsigned char, MeasurementVectorSize >;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::RegionType region;
@@ -46,7 +46,7 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
   image->SetBufferedRegion(region);
   image->Allocate();
 
-  typedef itk::ImageRegionIterator< ImageType > ImageIterator;
+  using ImageIterator = itk::ImageRegionIterator< ImageType >;
   ImageIterator iter(image, region);
 
   unsigned int count = 0;
@@ -65,8 +65,8 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
     }
 
   // creates an ImageToListSampleAdaptor object
-  typedef  itk::Statistics::ImageToListSampleFilter< ImageType, MaskImageType >
-                                     ImageToListSampleFilterType;
+  using ImageToListSampleFilterType =
+      itk::Statistics::ImageToListSampleFilter< ImageType, MaskImageType >;
 
   ImageToListSampleFilterType::Pointer sampleGeneratingFilter
                             = ImageToListSampleFilterType::New();
@@ -83,8 +83,8 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  typedef ImageToListSampleFilterType::ListSampleType                 ListSampleType;
-  typedef itk::Statistics::StandardDeviationPerComponentSampleFilter< ListSampleType >         StandardDeviationPerComponentSampleFilterType;
+  using ListSampleType = ImageToListSampleFilterType::ListSampleType;
+  using StandardDeviationPerComponentSampleFilterType = itk::Statistics::StandardDeviationPerComponentSampleFilter< ListSampleType >;
 
   StandardDeviationPerComponentSampleFilterType::Pointer standardDeviationFilter = StandardDeviationPerComponentSampleFilterType::New();
 
@@ -128,8 +128,8 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
   const double   epsilon = 1e-6;
 
   // CHECK THE RESULTS
-  typedef StandardDeviationPerComponentSampleFilterType::MeasurementVectorRealType  MeasurementVectorRealType;
-  typedef StandardDeviationPerComponentSampleFilterType::MeasurementVectorRealDecoratedType  MeasurementVectorRealDecoratedType;
+  using MeasurementVectorRealType = StandardDeviationPerComponentSampleFilterType::MeasurementVectorRealType;
+  using MeasurementVectorRealDecoratedType = StandardDeviationPerComponentSampleFilterType::MeasurementVectorRealDecoratedType;
 
   const MeasurementVectorRealDecoratedType * standardDeviationDecorator =
     standardDeviationFilter->GetStandardDeviationPerComponentOutput();
@@ -155,7 +155,7 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
     }
 
 
-  typedef itk::Statistics::CovarianceSampleFilter< ListSampleType > CovarianceSampleFilterType;
+  using CovarianceSampleFilterType = itk::Statistics::CovarianceSampleFilter< ListSampleType >;
   CovarianceSampleFilterType::Pointer covarianceFilter = CovarianceSampleFilterType::New();
   covarianceFilter->SetInput( sampleGeneratingFilter->GetOutput());
 

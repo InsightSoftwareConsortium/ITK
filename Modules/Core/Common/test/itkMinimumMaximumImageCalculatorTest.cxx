@@ -23,10 +23,10 @@
 int itkMinimumMaximumImageCalculatorTest( int, char *[] )
 {
 
-  typedef itk::Size< 3 >                                  SizeType;
-  typedef itk::Image< short, 3 >                          ImageType;
+  using SizeType = itk::Size< 3 >;
+  using ImageType = itk::Image< short, 3 >;
 
-  typedef itk::MinimumMaximumImageCalculator<ImageType>   MinMaxCalculatorType;
+  using MinMaxCalculatorType = itk::MinimumMaximumImageCalculator<ImageType>;
 
   /* Define the image size and physical coordinates */
   SizeType size = {{20, 20, 20}};

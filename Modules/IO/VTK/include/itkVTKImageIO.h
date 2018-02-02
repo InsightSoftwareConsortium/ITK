@@ -50,11 +50,11 @@ class ITKIOVTK_EXPORT VTKImageIO:
   public StreamingImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef VTKImageIO                 Self;
-  typedef StreamingImageIOBase       Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VTKImageIO;
+  using Superclass = StreamingImageIOBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

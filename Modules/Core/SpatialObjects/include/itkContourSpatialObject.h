@@ -41,22 +41,22 @@ class ITK_TEMPLATE_EXPORT ContourSpatialObject:
 {
 public:
 
-  typedef ContourSpatialObject                    Self;
-  typedef PointBasedSpatialObject< TDimension >   Superclass;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
-  typedef double                                  ScalarType;
-  typedef ContourSpatialObjectPoint< TDimension > ControlPointType;
-  typedef SpatialObjectPoint< TDimension >        InterpolatedPointType;
-  typedef std::vector< ControlPointType >         ControlPointListType;
-  typedef std::vector< InterpolatedPointType >    InterpolatedPointListType;
+  using Self = ContourSpatialObject;
+  using Superclass = PointBasedSpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ScalarType = double;
+  using ControlPointType = ContourSpatialObjectPoint< TDimension >;
+  using InterpolatedPointType = SpatialObjectPoint< TDimension >;
+  using ControlPointListType = std::vector< ControlPointType >;
+  using InterpolatedPointListType = std::vector< InterpolatedPointType >;
 
-  typedef typename Superclass::SpatialObjectPointType  SpatialObjectPointType;
-  typedef typename Superclass::PointType               PointType;
-  typedef typename Superclass::TransformType           TransformType;
-  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
-  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >           PointContainerPointer;
+  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
+  using PointType = typename Superclass::PointType;
+  using TransformType = typename Superclass::TransformType;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointContainerPointer = SmartPointer< PointContainerType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

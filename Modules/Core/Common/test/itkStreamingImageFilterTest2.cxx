@@ -31,8 +31,8 @@ int itkStreamingImageFilterTest2(int, char* [] )
   itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
   logger->SetInstance(logger);
 
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   ShortImage;
+  // type alias to simplify the syntax
+  using ShortImage = itk::Image<short, 2>;
 
   // Test the creation of an image with native type
   ShortImage::Pointer if2 = ShortImage::New();

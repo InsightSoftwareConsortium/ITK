@@ -41,39 +41,38 @@ int itkTransformToDisplacementFieldFilterTest( int argc, char * argv [] )
 
   /** Typedefs. */
   const unsigned int  Dimension = 2;
-  typedef float       ScalarPixelType;
-  typedef double      CoordRepresentationType;
+  using ScalarPixelType = float;
+  using CoordRepresentationType = double;
   const unsigned int  SplineOrder = 3;
 
-  typedef itk::Vector<
-    ScalarPixelType, Dimension >          VectorPixelType;
+  using VectorPixelType = itk::Vector<
+    ScalarPixelType, Dimension >;
 
-  typedef itk::Image<
-    VectorPixelType, Dimension >          DisplacementFieldImageType;
+  using DisplacementFieldImageType = itk::Image<
+    VectorPixelType, Dimension >;
 
-  typedef itk::Transform<
+  using TransformType = itk::Transform<
     CoordRepresentationType, Dimension,
-    Dimension >                           TransformType;
+    Dimension >;
 
-  typedef itk::AffineTransform<
-    CoordRepresentationType, Dimension >  AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<
+    CoordRepresentationType, Dimension >;
 
-  typedef itk::BSplineTransform<
+  using BSplineTransformType = itk::BSplineTransform<
     CoordRepresentationType, Dimension,
-    SplineOrder >                         BSplineTransformType;
+    SplineOrder >;
 
-  typedef TransformType::ParametersType   ParametersType;
+  using ParametersType = TransformType::ParametersType;
 
-  typedef itk::TransformToDisplacementFieldFilter<
+  using DisplacementFieldGeneratorType = itk::TransformToDisplacementFieldFilter<
     DisplacementFieldImageType,
-    CoordRepresentationType >             DisplacementFieldGeneratorType;
+    CoordRepresentationType >;
 
-  typedef DisplacementFieldGeneratorType::SizeType       SizeType;
-  typedef DisplacementFieldGeneratorType::SpacingType    SpacingType;
-  typedef DisplacementFieldGeneratorType::OriginType     OriginType;
-  typedef DisplacementFieldGeneratorType::IndexType      IndexType;
-  typedef itk::ImageFileWriter<
-    DisplacementFieldImageType >                         WriterType;
+  using SizeType = DisplacementFieldGeneratorType::SizeType;
+  using SpacingType = DisplacementFieldGeneratorType::SpacingType;
+  using OriginType = DisplacementFieldGeneratorType::OriginType;
+  using IndexType = DisplacementFieldGeneratorType::IndexType;
+  using WriterType = itk::ImageFileWriter<DisplacementFieldImageType>;
 
   /** Create output information. */
   SizeType size;        size.Fill( 20 );

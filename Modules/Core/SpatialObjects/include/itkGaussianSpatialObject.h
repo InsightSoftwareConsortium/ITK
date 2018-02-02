@@ -45,15 +45,15 @@ class ITK_TEMPLATE_EXPORT GaussianSpatialObject:
 {
 public:
 
-  typedef GaussianSpatialObject                Self;
-  typedef double                               ScalarType;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
-  typedef SpatialObject< TDimension >          Superclass;
-  typedef SmartPointer< Superclass >           SuperclassPointer;
-  typedef typename Superclass::PointType       PointType;
-  typedef typename Superclass::TransformType   TransformType;
-  typedef typename Superclass::BoundingBoxType BoundingBoxType;
+  using Self = GaussianSpatialObject;
+  using ScalarType = double;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SpatialObject< TDimension >;
+  using SuperclassPointer = SmartPointer< Superclass >;
+  using PointType = typename Superclass::PointType;
+  using TransformType = typename Superclass::TransformType;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
 
   itkStaticConstMacro(NumberOfDimensions, unsigned int,
                       TDimension);

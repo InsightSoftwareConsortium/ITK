@@ -207,9 +207,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   float           InternalPixelType;
+  using InternalPixelType = float;
   const     unsigned int    Dimension = 2;
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -220,8 +220,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char                            OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -233,8 +233,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::BinaryThresholdImageFilter< InternalImageType,
-                        OutputImageType    >    ThresholdingFilterType;
+  using ThresholdingFilterType = itk::BinaryThresholdImageFilter< InternalImageType,
+                        OutputImageType    >;
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -267,8 +267,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
+  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
   // Software Guide : EndCodeSnippet
 
 
@@ -282,9 +282,9 @@ int main( int argc, char *argv[] )
   //  The RescaleIntensityImageFilter type is declared below. This filter will
   //  renormalize image before sending them to writers.
   //
-  typedef itk::RescaleIntensityImageFilter<
+  using CastFilterType = itk::RescaleIntensityImageFilter<
                                InternalImageType,
-                               OutputImageType >   CastFilterType;
+                               OutputImageType >;
 
   //  Software Guide : BeginLatex
   //
@@ -294,9 +294,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   itk::CurvatureAnisotropicDiffusionImageFilter<
+  using SmoothingFilterType = itk::CurvatureAnisotropicDiffusionImageFilter<
                                InternalImageType,
-                               InternalImageType >  SmoothingFilterType;
+                               InternalImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -322,12 +322,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   itk::GradientMagnitudeRecursiveGaussianImageFilter<
+  using GradientFilterType = itk::GradientMagnitudeRecursiveGaussianImageFilter<
                                InternalImageType,
-                               InternalImageType >  GradientFilterType;
-  typedef   itk::SigmoidImageFilter<
+                               InternalImageType >;
+  using SigmoidFilterType = itk::SigmoidImageFilter<
                                InternalImageType,
-                               InternalImageType >  SigmoidFilterType;
+                               InternalImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -369,8 +369,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::FastMarchingImageFilter< InternalImageType,
-                              InternalImageType >    FastMarchingFilterType;
+  using FastMarchingFilterType = itk::FastMarchingImageFilter< InternalImageType,
+                              InternalImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -512,8 +512,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typedef FastMarchingFilterType::NodeContainer           NodeContainer;
-  typedef FastMarchingFilterType::NodeType                NodeType;
+  using NodeContainer = FastMarchingFilterType::NodeContainer;
+  using NodeType = FastMarchingFilterType::NodeType;
   NodeContainer::Pointer seeds = NodeContainer::New();
   //  Software Guide : EndCodeSnippet
 
@@ -715,7 +715,7 @@ int main( int argc, char *argv[] )
   // with a viewer to help determine an appropriate threshold to be used on
   // the output of the \code{fastmarching} filter.
   //
-  typedef itk::ImageFileWriter< InternalImageType > InternalWriterType;
+  using InternalWriterType = itk::ImageFileWriter< InternalImageType >;
 
   InternalWriterType::Pointer mapWriter = InternalWriterType::New();
   mapWriter->SetInput( fastMarching->GetOutput() );

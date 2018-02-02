@@ -52,11 +52,11 @@ class ITK_TEMPLATE_EXPORT NeighborhoodOperatorImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard "Self" & Superclass typedef. */
-  typedef NeighborhoodOperatorImageFilter                 Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef       SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard "Self" & Superclass type alias. */
+  using Self = NeighborhoodOperatorImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,14 +66,14 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename  TInputImage::PixelType         InputPixelType;
-  typedef typename  TInputImage::InternalPixelType InputInternalPixelType;
-  typedef TOperatorValueType                       OperatorValueType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using InputPixelType = typename  TInputImage::PixelType;
+  using InputInternalPixelType = typename  TInputImage::InternalPixelType;
+  using OperatorValueType = TOperatorValueType;
 
-  typedef typename NumericTraits<InputPixelType>::ValueType InputPixelValueType;
-  typedef typename NumericTraits<OutputPixelType>::RealType ComputingPixelType;
+  using InputPixelValueType = typename NumericTraits<InputPixelType>::ValueType;
+  using ComputingPixelType = typename NumericTraits<OutputPixelType>::RealType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
@@ -82,24 +82,23 @@ public:
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Image typedef support. */
-  typedef TInputImage                      InputImageType;
-  typedef TOutputImage                     OutputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  /** Image type alias support */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
 
   /** Typedef for generic boundary condition pointer. */
-  typedef ImageBoundaryCondition< InputImageType > *
-  ImageBoundaryConditionPointerType;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition<InputImageType> *;
 
   /** Typedef for the default boundary condition */
-  typedef ZeroFluxNeumannBoundaryCondition< InputImageType > DefaultBoundaryCondition;
+  using DefaultBoundaryCondition = ZeroFluxNeumannBoundaryCondition< InputImageType >;
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Neighborhood types */
-  typedef Neighborhood< OperatorValueType,
-                        itkGetStaticConstMacro(ImageDimension) > OutputNeighborhoodType;
+  using OutputNeighborhoodType = Neighborhood< OperatorValueType,
+                        itkGetStaticConstMacro(ImageDimension) >;
 
   /** Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it

@@ -59,28 +59,28 @@ class ITK_TEMPLATE_EXPORT FourierSeriesPath:public
   ParametricPath< VDimension >
 {
 public:
-  /** Standard class typedefs. */
-  typedef FourierSeriesPath            Self;
-  typedef ParametricPath< VDimension > Superclass;
-  typedef SmartPointer< Self >         Pointer;
-  typedef SmartPointer< const Self >   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FourierSeriesPath;
+  using Superclass = ParametricPath< VDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FourierSeriesPath, ParametricPath);
 
   /** Input type */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Basic data-structure types used */
-  typedef ContinuousIndex< double, VDimension >   ContinuousIndexType;
-  typedef Index<  VDimension >                    IndexType;
-  typedef Offset< VDimension >                    OffsetType;
-  typedef Vector< double, VDimension >            VectorType;
-  typedef VectorContainer< unsigned, VectorType > CoefficientsType;
-  typedef typename CoefficientsType::Pointer      CoefficientsPointer;
+  using ContinuousIndexType = ContinuousIndex< double, VDimension >;
+  using IndexType = Index<  VDimension >;
+  using OffsetType = Offset< VDimension >;
+  using VectorType = Vector< double, VDimension >;
+  using CoefficientsType = VectorContainer< unsigned, VectorType >;
+  using CoefficientsPointer = typename CoefficientsType::Pointer;
 
   /** Return the location of the parametric path at the specified location. */
   OutputType Evaluate(const InputType & input) const override;

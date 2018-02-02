@@ -32,7 +32,7 @@ public:
 
 int itkSpatialObjectToImageFilterTest(int, char* [] )
 {
-  typedef itk::EllipseSpatialObject<2>   EllipseType;
+  using EllipseType = itk::EllipseSpatialObject<2>;
 
   EllipseType::Pointer ellipse = EllipseType::New();
   ellipse->SetRadius(10);
@@ -43,9 +43,9 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
   ellipse->GetObjectToParentTransform()->SetOffset(offset);
   ellipse->ComputeObjectToWorldTransform();
 
-  typedef itk::Image<double,2> ImageType;
+  using ImageType = itk::Image<double,2>;
 
-  typedef itk::SpatialObjectToImageFilter<EllipseType,ImageType> SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<EllipseType,ImageType>;
   SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(ellipse);
   imageFilter->SetInsideValue(2);
@@ -116,7 +116,7 @@ int itkSpatialObjectToImageFilterTest(int, char* [] )
 
   // Test Progress Reporter
   ShowProgressObject progressWatch( imageFilter );
-  typedef itk::SimpleMemberCommand< ShowProgressObject > CommandType;
+  using CommandType = itk::SimpleMemberCommand< ShowProgressObject >;
   CommandType::Pointer command = CommandType::New();
   command->SetCallbackFunction( &progressWatch,
                                 &ShowProgressObject::ShowProgress );

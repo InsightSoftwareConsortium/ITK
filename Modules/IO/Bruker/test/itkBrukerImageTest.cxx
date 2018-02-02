@@ -37,8 +37,8 @@ int itkBrukerImageTest( int argc, char *argv[] )
   itk::MetaImageIO::SetDefaultDoublePrecision(6);
   std::cout << "Running Bruker2DSeq Test" << std::endl;
 
-  typedef float                      PixelType;
-  typedef itk::Image< PixelType, 3 > ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, 3 >;
 
   itk::Bruker2dseqImageIOFactory::RegisterOneFactory();
 
@@ -52,8 +52,8 @@ int itkBrukerImageTest( int argc, char *argv[] )
   bool canReadFile = brukerImageIO->CanReadFile( inputFilename );
   if( canReadFile )
     {
-    typedef itk::ImageFileReader< ImageType > ReaderType;
-    typedef itk::ImageFileWriter< ImageType > WriterType;
+    using ReaderType = itk::ImageFileReader< ImageType >;
+    using WriterType = itk::ImageFileWriter< ImageType >;
     ReaderType::Pointer reader = ReaderType::New();
     WriterType::Pointer writer = WriterType::New();
     reader->SetFileName( argv[1] );

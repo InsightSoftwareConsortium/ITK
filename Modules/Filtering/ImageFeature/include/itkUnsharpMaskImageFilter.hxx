@@ -82,9 +82,9 @@ UnsharpMaskImageFilter< TInputImage, TOutputImage, TInternalPrecision >
   gaussianF->SetSigmaArray(m_Sigmas);
   gaussianF->SetNumberOfThreads(this->GetNumberOfThreads());
 
-  typedef UnsharpMaskingFunctor< InputPixelType, TInternalPrecision, OutputPixelType > USMType;
-  typedef BinaryFunctorImageFilter< TInputImage, typename GaussianType::OutputImageType,
-    TOutputImage, USMType > BinaryFunctorType;
+  using USMType = UnsharpMaskingFunctor< InputPixelType, TInternalPrecision, OutputPixelType >;
+  using BinaryFunctorType = BinaryFunctorImageFilter< TInputImage, typename GaussianType::OutputImageType,
+    TOutputImage, USMType >;
   typename BinaryFunctorType::Pointer functorF = BinaryFunctorType::New();
   functorF->SetInput1(this->GetInput());
   functorF->SetInput2(gaussianF->GetOutput());

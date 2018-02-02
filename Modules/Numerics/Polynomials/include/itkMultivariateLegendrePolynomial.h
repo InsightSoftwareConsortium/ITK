@@ -75,22 +75,22 @@ namespace itk
 class ITKPolynomials_EXPORT MultivariateLegendrePolynomial
 {
 public:
-  typedef MultivariateLegendrePolynomial Self;
+  using Self = MultivariateLegendrePolynomial;
 
-  typedef std::vector< double >        DoubleArrayType;
-  typedef std::vector< unsigned long > ULongArrayType;
-  typedef std::vector< long >          LongArrayType;
+  using DoubleArrayType = std::vector< double >;
+  using ULongArrayType = std::vector< unsigned long >;
+  using LongArrayType = std::vector< long >;
 
   /** Internal coefficient storage type. */
-  typedef DoubleArrayType CoefficientArrayType;
+  using CoefficientArrayType = DoubleArrayType;
 
   /** Same as CoefficientArray
    * This type definition will be used by EnergyFunction object. */
-  typedef Array< double > ParametersType;
+  using ParametersType = Array< double >;
 
   /** The size of the domain. */
-  typedef ULongArrayType DomainSizeType;
-  typedef LongArrayType  IndexType;
+  using DomainSizeType = ULongArrayType;
+  using IndexType = LongArrayType;
 
   /** Constructor. */
   MultivariateLegendrePolynomial(unsigned int dimension,

@@ -48,11 +48,11 @@ class ITK_TEMPLATE_EXPORT SegmentTable:public DataObject
 {
 public:
   /** Define smart pointers for this object */
-  typedef SegmentTable               Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef TScalar                    ScalarType;
+  using Self = SegmentTable;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ScalarType = TScalar;
 
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmentTable, DataObject);
@@ -81,7 +81,7 @@ public:
 
   /** Structure for storing lists of adjacencies (edges) and their
       saliencies. */
-  typedef std::list< edge_pair_t > edge_list_t;
+  using edge_list_t = std::list<edge_pair_t>;
 
   /** Structure holding information about each segment in an image. */
   struct segment_t {
@@ -90,12 +90,12 @@ public:
   };
 
   /** Define the container type for the table */
-  typedef itksys::hash_map< IdentifierType, segment_t,
-    itksys::hash< IdentifierType > >           HashMapType;
-  typedef typename HashMapType::iterator       Iterator;
-  typedef typename HashMapType::const_iterator ConstIterator;
-  typedef typename HashMapType::value_type     ValueType;
-  typedef typename HashMapType::data_type      DataType;
+  using HashMapType = itksys::hash_map< IdentifierType, segment_t,
+    itksys::hash< IdentifierType > >;
+  using Iterator = typename HashMapType::iterator;
+  using ConstIterator = typename HashMapType::const_iterator;
+  using ValueType = typename HashMapType::value_type;
+  using DataType = typename HashMapType::data_type;
 
   /** Inserts a segment into the table  */
   bool Add(IdentifierType a, const segment_t & t);

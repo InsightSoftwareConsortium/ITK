@@ -42,9 +42,9 @@ RGBImageTotalAbsDifference(
   const itk::Image<itk::RGBPixel<TPixelValue>, VDimension>* valid,
   const itk::Image<itk::RGBPixel<TPixelValue>, VDimension>* test)
 {
-  typedef itk::RGBPixel<TPixelValue>                           PixelType;
-  typedef itk::Image<PixelType, VDimension>                    RGBImageType;
-  typedef itk::ImageRegionConstIteratorWithIndex<RGBImageType> IterType;
+  using PixelType = itk::RGBPixel<TPixelValue>;
+  using RGBImageType = itk::Image<PixelType, VDimension>;
+  using IterType = itk::ImageRegionConstIteratorWithIndex<RGBImageType>;
 
   IterType validIt(valid, valid->GetLargestPossibleRegion());
   validIt.GoToBegin();
@@ -142,13 +142,13 @@ IplImage* ConvertIplImageDataType(IplImage* in)
 template<typename TValue, unsigned int VDimension>
 int itkOpenCVImageBridgeTestTemplatedRGB(char* argv0, char* argv1)
 {
-  // typedefs
+  // type alias
   const unsigned int Dimension =                          VDimension;
-  typedef TValue                                          ValueType;
-  typedef itk::RGBPixel< ValueType >                      PixelType;
-  typedef typename PixelType::ComponentType               ComponentType;
-  typedef itk::Image< PixelType, Dimension >              ImageType;
-  typedef itk::ImageFileReader<ImageType>                 ReaderType;
+  using ValueType = TValue;
+  using PixelType = itk::RGBPixel< ValueType >;
+  using ComponentType = typename PixelType::ComponentType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   //
   // Read the image directly

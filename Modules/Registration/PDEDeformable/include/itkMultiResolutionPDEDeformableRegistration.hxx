@@ -279,8 +279,8 @@ MultiResolutionPDEDeformableRegistration< TFixedImage, TMovingImage, TDisplaceme
     // First smooth it
     tempField = inputPtr;
 
-    typedef RecursiveGaussianImageFilter< DisplacementFieldType,
-                                          DisplacementFieldType > GaussianFilterType;
+    using GaussianFilterType = RecursiveGaussianImageFilter< DisplacementFieldType,
+                                          DisplacementFieldType >;
     typename GaussianFilterType::Pointer smoother =
       GaussianFilterType::New();
 

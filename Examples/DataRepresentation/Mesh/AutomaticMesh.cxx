@@ -77,13 +77,13 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float                             PixelType;
-  typedef itk::Mesh< PixelType, 3 >         MeshType;
+  using PixelType = float;
+  using MeshType = itk::Mesh< PixelType, 3 >;
 
-  typedef MeshType::PointType               PointType;
+  using PointType = MeshType::PointType;
 
-  typedef itk::AutomaticTopologyMeshSource< MeshType >   MeshSourceType;
-  typedef MeshSourceType::IdentifierArrayType            IdentifierArrayType;
+  using MeshSourceType = itk::AutomaticTopologyMeshSource< MeshType >;
+  using IdentifierArrayType = MeshSourceType::IdentifierArrayType;
 
   MeshSourceType::Pointer meshSource;
 

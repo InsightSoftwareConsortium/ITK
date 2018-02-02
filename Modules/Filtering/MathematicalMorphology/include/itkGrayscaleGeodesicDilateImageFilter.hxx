@@ -297,8 +297,8 @@ GrayscaleGeodesicDilateImageFilter< TInputImage, TOutputImage >
   // Neighborhood iterator.  Let's use a shaped neighborhood so we can
   // restrict the access to face connected neighbors. This iterator
   // will be applied to the marker image.
-  typedef ConstShapedNeighborhoodIterator< TInputImage > NeighborhoodIteratorType;
-  typedef typename NeighborhoodIteratorType::NeighborIndexType NeighborIndexType;
+  using NeighborhoodIteratorType = ConstShapedNeighborhoodIterator< TInputImage >;
+  using NeighborIndexType = typename NeighborhoodIteratorType::NeighborIndexType;
 
   // iterator for the marker image
   // NeighborhoodIteratorType markerIt;

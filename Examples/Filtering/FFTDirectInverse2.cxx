@@ -63,18 +63,18 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
   const unsigned int      Dimension = 2;
-  //  typedef unsigned char   OutputPixelType;
-  typedef unsigned short  OutputPixelType;
-  typedef float           WorkPixelType;
+  //  using OutputPixelType = unsigned char;
+  using OutputPixelType = unsigned short;
+  using WorkPixelType = float;
 
-  typedef itk::Image< WorkPixelType,  Dimension > InputImageType;
-  typedef itk::Image< WorkPixelType,  Dimension > WorkImageType;
-  typedef itk::Image< OutputPixelType,Dimension > OutputImageType;
+  using InputImageType = itk::Image< WorkPixelType,  Dimension >;
+  using WorkImageType = itk::Image< WorkPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType,Dimension >;
 // Software Guide : EndCodeSnippet
 
 // File handling
-  typedef itk::ImageFileReader< InputImageType  > ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer inputreader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -86,26 +86,26 @@ int main( int argc, char * argv[] )
   inputreader->Update();
 
 // Forward FFT filter
-  typedef itk::FFTWForwardFFTImageFilter < InputImageType > FFTFilterType;
+  using FFTFilterType = itk::FFTWForwardFFTImageFilter < InputImageType >;
 
   FFTFilterType::Pointer fftinput = FFTFilterType::New();
   fftinput->SetInput( inputreader->GetOutput() );
   fftinput->Update();
 
 // This is the output type from the FFT filters
-  typedef FFTFilterType::OutputImageType ComplexImageType;
+  using ComplexImageType = FFTFilterType::OutputImageType;
 
 // Do the inverse transform = forward transform + flip all axes
-  typedef itk::FFTWInverseFFTImageFilter < ComplexImageType > invFFTFilterType;
+  using invFFTFilterType = itk::FFTWInverseFFTImageFilter < ComplexImageType >;
 
   invFFTFilterType::Pointer fftoutput = invFFTFilterType::New();
   fftoutput->SetInput(fftinput->GetOutput()); // try to recover the input image
   fftoutput->Update();
 
   // Rescale the output to suit the output image type
-  typedef itk::RescaleIntensityImageFilter<
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
                                       WorkImageType,
-                                      OutputImageType > RescaleFilterType;
+                                      OutputImageType >;
 
   RescaleFilterType::Pointer intensityrescaler = RescaleFilterType::New();
 

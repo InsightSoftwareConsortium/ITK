@@ -69,8 +69,8 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< float, 3 > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Vector< float, 3 >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   MeasurementVectorType mv;
   mv[0] = 1.0;
@@ -121,7 +121,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::Subsample< SampleType > SubsampleType;
+  using SubsampleType = itk::Statistics::Subsample< SampleType >;
   SubsampleType::Pointer subsample = SubsampleType::New();
   subsample->SetSample( sample );
 

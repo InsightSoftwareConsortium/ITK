@@ -44,10 +44,10 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::LineSpatialObject<3>        LineType;
-  typedef LineType::Pointer                LinePointer;
-  typedef itk::LineSpatialObjectPoint<3>   LinePointType;
-  typedef itk::CovariantVector<double,3>   VectorType;
+  using LineType = itk::LineSpatialObject<3>;
+  using LinePointer = LineType::Pointer;
+  using LinePointType = itk::LineSpatialObjectPoint<3>;
+  using VectorType = itk::CovariantVector<double,3>;
 
   LinePointer Line = LineType::New();
 // Software Guide : EndCodeSnippet

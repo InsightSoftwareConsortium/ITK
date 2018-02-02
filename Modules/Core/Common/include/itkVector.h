@@ -62,26 +62,26 @@ template< typename T, unsigned int NVectorDimension = 3 >
 class ITK_TEMPLATE_EXPORT Vector:public FixedArray< T, NVectorDimension >
 {
 public:
-  /** Standard class typedefs. */
-  typedef Vector                            Self;
-  typedef FixedArray< T, NVectorDimension > Superclass;
+  /** Standard class type aliases. */
+  using Self = Vector;
+  using Superclass = FixedArray< T, NVectorDimension >;
 
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Vector.   */
-  typedef T                                             ValueType;
-  typedef typename NumericTraits< ValueType >::RealType RealValueType;
+  using ValueType = T;
+  using RealValueType = typename NumericTraits< ValueType >::RealType;
 
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, NVectorDimension);
 
   /** I am a vector type. */
-  typedef Self VectorType;
+  using VectorType = Self;
 
   /** Component value type */
-  typedef T ComponentType;
+  using ComponentType = T;
 
   /** The Array type from which this vector is derived. */
-  typedef FixedArray< T, NVectorDimension > BaseArray;
+  using BaseArray = FixedArray< T, NVectorDimension >;
 
   /** Get the dimension (size) of the vector. */
   static unsigned int GetVectorDimension() { return NVectorDimension; }

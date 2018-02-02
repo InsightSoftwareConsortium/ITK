@@ -26,18 +26,18 @@ template <typename TScalar>
 class Rigid3DTransformSurrogate : public Rigid3DTransform < TScalar >
 {
 public:
-  /** Standard class typedefs. */
-  typedef Rigid3DTransformSurrogate   Self;
-  typedef Rigid3DTransform< TScalar > Superclass;
-  typedef SmartPointer< Self        > Pointer;
-  typedef SmartPointer< const Self  > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Rigid3DTransformSurrogate;
+  using Superclass = Rigid3DTransform< TScalar >;
+  using Pointer = SmartPointer< Self        >;
+  using ConstPointer = SmartPointer< const Self  >;
 
   itkNewMacro(Self);
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost. */
-  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
-  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+  using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
+  using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   InverseTransformBasePointer GetInverseTransform() const override
     {
@@ -65,7 +65,7 @@ bool TestSettingTranslation(void)
 
     itk::Vector< double, 3> T; T[0]=100;T[1]=200;T[2]=300;
 
-    typedef itk::Rigid3DTransformSurrogate<double>  TransformType;
+    using TransformType = itk::Rigid3DTransformSurrogate<double>;
 
     TransformType::Pointer r1 = TransformType::New();
     //r1->SetIdentity();
@@ -118,8 +118,8 @@ bool TestSettingTranslation(void)
 int itkRigid3DTransformTest(int ,char * [] )
 {
 
-  typedef itk::Rigid3DTransformSurrogate<double> TransformType;
-  typedef TransformType::ParametersType          ParametersType;
+  using TransformType = itk::Rigid3DTransformSurrogate<double>;
+  using ParametersType = TransformType::ParametersType;
 
   const double epsilon = 1e-10;
   const unsigned int N = 3;
@@ -524,7 +524,7 @@ int itkRigid3DTransformTest(int ,char * [] )
       }
 
     // attempt to set an orthogonal matrix
-    typedef TransformType::MatrixType MatrixType;
+    using MatrixType = TransformType::MatrixType;
 
     MatrixType matrix;
     matrix.GetVnlMatrix().set_identity();
@@ -614,7 +614,7 @@ int itkRigid3DTransformTest(int ,char * [] )
      std::cout << "Testing SetMatrix() ... ";
      unsigned int par;
 
-     typedef TransformType::MatrixType MatrixType;
+     using MatrixType = TransformType::MatrixType;
      MatrixType matrix;
 
      TransformType::Pointer t = TransformType::New();

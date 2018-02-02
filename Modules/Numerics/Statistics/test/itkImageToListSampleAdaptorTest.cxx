@@ -24,13 +24,13 @@
 template< typename TImage >
 int itkImageToListSampleAdaptorTestTemplate()
 {
-  typedef TImage ImageType;
+  using ImageType = TImage;
   const unsigned int Dimension = ImageType::ImageDimension;
 
-  typedef itk::Image< float, Dimension > FloatImageType;
+  using FloatImageType = itk::Image< float, Dimension >;
 
   // Now generate a random image
-  typedef itk::RandomImageSource< FloatImageType > SourceType;
+  using SourceType = itk::RandomImageSource< FloatImageType >;
   typename SourceType::Pointer source = SourceType::New();
 
   itk::SizeValueType size[Dimension] = {17, 8, 20};
@@ -43,14 +43,13 @@ int itkImageToListSampleAdaptorTestTemplate()
   source->SetMin( static_cast< typename FloatImageType::PixelType >( minValue ) );
   source->SetMax( static_cast< typename FloatImageType::PixelType >( maxValue ) );
 
-  typedef itk::ComposeImageFilter< FloatImageType, ImageType > ComposeFilterType;
+  using ComposeFilterType = itk::ComposeImageFilter< FloatImageType, ImageType >;
   typename ComposeFilterType::Pointer composeFilter = ComposeFilterType::New();
   composeFilter->SetInput( source->GetOutput() );
   composeFilter->Update();
 
   // creates a sample
-  typedef  itk::Statistics::ImageToListSampleAdaptor< ImageType >
-    ImageToListSampleAdaptorType;
+  using ImageToListSampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor<ImageType>;
 
   typename ImageToListSampleAdaptorType::Pointer sample = ImageToListSampleAdaptorType::New();
 
@@ -165,7 +164,7 @@ int itkImageToListSampleAdaptorTestTemplate()
   std::cerr << "Iterators..." << std::endl;
     {
     // forward iterator
-    typedef typename ImageToListSampleAdaptorType::Iterator IteratorType;
+    using IteratorType = typename ImageToListSampleAdaptorType::Iterator;
 
     IteratorType s_iter = sample->Begin();
 
@@ -228,7 +227,7 @@ int itkImageToListSampleAdaptorTestTemplate()
   std::cerr << "Const Iterators..." << std::endl;
     {
     // forward iterator
-    typedef typename ImageToListSampleAdaptorType::ConstIterator  ConstIteratorType;
+    using ConstIteratorType = typename ImageToListSampleAdaptorType::ConstIterator;
 
     ConstIteratorType s_iter = sample->Begin();
 
@@ -309,11 +308,11 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
 
   const unsigned int Dimension = 3;
 
-  typedef itk::VectorImage< float, Dimension > VectorImageType;
+  using VectorImageType = itk::VectorImage< float, Dimension >;
   returnValue += itkImageToListSampleAdaptorTestTemplate< VectorImageType >();
 
-  typedef itk::FixedArray< float, 1 >             FixedArrayType;
-  typedef itk::Image< FixedArrayType, Dimension > FixedArrayImageType;
+  using FixedArrayType = itk::FixedArray< float, 1 >;
+  using FixedArrayImageType = itk::Image< FixedArrayType, Dimension >;
   returnValue += itkImageToListSampleAdaptorTestTemplate< FixedArrayImageType >();
 
   return returnValue;

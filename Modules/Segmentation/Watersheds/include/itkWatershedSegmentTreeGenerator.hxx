@@ -184,7 +184,7 @@ void SegmentTreeGenerator< TScalar >
     }
 
   // Heapsort the list
-  typedef typename SegmentTreeType::merge_comp MergeComparison;
+  using MergeComparison = typename SegmentTreeType::merge_comp;
   std::make_heap( mergeList->Begin(), mergeList->End(), MergeComparison() );
 }
 
@@ -201,7 +201,7 @@ void SegmentTreeGenerator< TScalar >
   ScalarType threshold = static_cast< ScalarType >( m_FloodLevel * segments->GetMaximumDepth() );
 
   unsigned counter;
-  typedef typename SegmentTreeType::merge_comp MergeComparison;
+  using MergeComparison = typename SegmentTreeType::merge_comp;
   typename SegmentTableType::DataType  * toSeg;
   typename SegmentTreeType::ValueType tempMerge;
   IdentifierType toSegLabel, fromSegLabel;

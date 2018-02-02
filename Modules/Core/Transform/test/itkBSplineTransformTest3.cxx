@@ -31,9 +31,9 @@
 class CommandProgressUpdate : public itk::Command
 {
 public:
-  typedef  CommandProgressUpdate      Self;
-  typedef  itk::Command               Superclass;
-  typedef itk::SmartPointer<Self>     Pointer;
+  using Self = CommandProgressUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -65,14 +65,14 @@ static int RunTest(int argc, char * argv [] )
 {
   const     unsigned int   ImageDimension = 2;
 
-  typedef   unsigned char                             PixelType;
-  typedef   itk::Image< PixelType, ImageDimension >   FixedImageType;
-  typedef   itk::Image< PixelType, ImageDimension >   MovingImageType;
+  using PixelType = unsigned char;
+  using FixedImageType = itk::Image< PixelType, ImageDimension >;
+  using MovingImageType = itk::Image< PixelType, ImageDimension >;
 
-  typedef   itk::ImageFileReader< FixedImageType  >   FixedReaderType;
-  typedef   itk::ImageFileReader< MovingImageType >   MovingReaderType;
+  using FixedReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingReaderType = itk::ImageFileReader< MovingImageType >;
 
-  typedef   itk::ImageFileWriter< MovingImageType >   MovingWriterType;
+  using MovingWriterType = itk::ImageFileWriter< MovingImageType >;
 
 
   typename FixedReaderType::Pointer fixedReader = FixedReaderType::New();
@@ -100,13 +100,13 @@ static int RunTest(int argc, char * argv [] )
   typename FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
 
-  typedef itk::ResampleImageFilter< MovingImageType,
-                                    FixedImageType  >  FilterType;
+  using FilterType = itk::ResampleImageFilter< MovingImageType,
+                                    FixedImageType  >;
 
   typename FilterType::Pointer resampler = FilterType::New();
 
-  typedef itk::LinearInterpolateImageFunction<
-                       MovingImageType, double >  InterpolatorType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
+                       MovingImageType, double >;
 
   typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
@@ -133,17 +133,17 @@ static int RunTest(int argc, char * argv [] )
 
 
   const unsigned int SpaceDimension = ImageDimension;
-  typedef double CoordinateRepType;
+  using CoordinateRepType = double;
 
-  typedef itk::BSplineTransform<
+  using TransformType = itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
-                            VSplineOrder >     TransformType;
+                            VSplineOrder >;
 
   typename TransformType::Pointer bsplineTransform = TransformType::New();
 
 
-  typedef typename TransformType::RegionType RegionType;
+  using RegionType = typename TransformType::RegionType;
   RegionType bsplineRegion;
   typename RegionType::SizeType   size;
 
@@ -162,11 +162,11 @@ static int RunTest(int argc, char * argv [] )
   bsplineRegion.SetSize( size );
 
 
-  typedef typename TransformType::MeshSizeType MeshSizeType;
+  using MeshSizeType = typename TransformType::MeshSizeType;
   MeshSizeType meshSize;
   meshSize.Fill( numberOfGridCells );
 
-  typedef typename TransformType::PhysicalDimensionsType PhysicalDimensionsType;
+  using PhysicalDimensionsType = typename TransformType::PhysicalDimensionsType;
   PhysicalDimensionsType fixedDimensions;
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
@@ -178,7 +178,7 @@ static int RunTest(int argc, char * argv [] )
   bsplineTransform->SetTransformDomainPhysicalDimensions( fixedDimensions );
   bsplineTransform->SetTransformDomainMeshSize( meshSize );
 
-  typedef typename TransformType::ParametersType     ParametersType;
+  using ParametersType = typename TransformType::ParametersType;
 
   const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
 
@@ -222,8 +222,8 @@ static int RunTest(int argc, char * argv [] )
     }
 
 
-  typedef itk::Vector< float, ImageDimension >        VectorType;
-  typedef itk::Image< VectorType, ImageDimension >    DeformationFieldType;
+  using VectorType = itk::Vector< float, ImageDimension >;
+  using DeformationFieldType = itk::Image< VectorType, ImageDimension >;
 
   typename DeformationFieldType::Pointer field = DeformationFieldType::New();
   field->SetRegions( fixedRegion );
@@ -231,7 +231,7 @@ static int RunTest(int argc, char * argv [] )
   field->SetSpacing( fixedSpacing );
   field->Allocate();
 
-  typedef itk::ImageRegionIterator< DeformationFieldType > FieldIterator;
+  using FieldIterator = itk::ImageRegionIterator< DeformationFieldType >;
   FieldIterator fi( field, fixedRegion );
 
   fi.GoToBegin();
@@ -254,7 +254,7 @@ static int RunTest(int argc, char * argv [] )
     }
 
 
-  typedef itk::ImageFileWriter< DeformationFieldType >  FieldWriterType;
+  using FieldWriterType = itk::ImageFileWriter< DeformationFieldType >;
   typename FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput( field );

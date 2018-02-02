@@ -58,10 +58,10 @@ template< typename TTermContainer >
 class ITK_TEMPLATE_EXPORT LevelSetEquationContainer : public Object
 {
 public:
-  typedef LevelSetEquationContainer     Self;
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer< const Self >    ConstPointer;
-  typedef Object                        Superclass;
+  using Self = LevelSetEquationContainer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = Object;
 
   /** Method for creation through object factory */
   itkNewMacro( Self );
@@ -69,18 +69,18 @@ public:
   /** Run-time type information */
   itkTypeMacro( LevelSetEquationContainer, Object );
 
-  typedef TTermContainer                            TermContainerType;
-  typedef typename TermContainerType::Pointer       TermContainerPointer;
+  using TermContainerType = TTermContainer;
+  using TermContainerPointer = typename TermContainerType::Pointer;
 
-  typedef typename TermContainerType::InputImageType    InputImageType;
-  typedef typename TermContainerType::InputImagePointer InputImagePointer;
+  using InputImageType = typename TermContainerType::InputImageType;
+  using InputImagePointer = typename TermContainerType::InputImagePointer;
 
-  typedef typename TermContainerType::LevelSetOutputRealType  LevelSetOutputRealType;
-  typedef typename TermContainerType::LevelSetInputIndexType  LevelSetInputIndexType;
+  using LevelSetOutputRealType = typename TermContainerType::LevelSetOutputRealType;
+  using LevelSetInputIndexType = typename TermContainerType::LevelSetInputIndexType;
 
-  typedef typename TermContainerType::LevelSetIdentifierType    LevelSetIdentifierType;
-  typedef typename TermContainerType::LevelSetContainerType     LevelSetContainerType;
-  typedef typename TermContainerType::LevelSetContainerPointer  LevelSetContainerPointer;
+  using LevelSetIdentifierType = typename TermContainerType::LevelSetIdentifierType;
+  using LevelSetContainerType = typename TermContainerType::LevelSetContainerType;
+  using LevelSetContainerPointer = typename TermContainerType::LevelSetContainerPointer;
 
   /** Add a equation to the system of equations in the EquationContainer map */
   void AddEquation( const LevelSetIdentifierType& iId, TermContainerType * iEquation );
@@ -111,9 +111,9 @@ public:
   itkGetModifiableObjectMacro(LevelSetContainer, LevelSetContainerType );
 
 protected:
-  typedef std::map< LevelSetIdentifierType, TermContainerPointer >  MapContainerType;
-  typedef typename MapContainerType::iterator                       MapContainerIterator;
-  typedef typename MapContainerType::const_iterator                 MapContainerConstIterator;
+  using MapContainerType = std::map< LevelSetIdentifierType, TermContainerPointer >;
+  using MapContainerIterator = typename MapContainerType::iterator;
+  using MapContainerConstIterator = typename MapContainerType::const_iterator;
 
 public:
   class Iterator;

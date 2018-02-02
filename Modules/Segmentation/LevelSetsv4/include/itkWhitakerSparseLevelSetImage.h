@@ -42,10 +42,10 @@ class ITK_TEMPLATE_EXPORT WhitakerSparseLevelSetImage :
     public LevelSetSparseImage< TOutput, VDimension >
 {
 public:
-  typedef WhitakerSparseLevelSetImage                 Self;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
-  typedef LevelSetSparseImage< TOutput, VDimension >  Superclass;
+  using Self = WhitakerSparseLevelSetImage;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LevelSetSparseImage< TOutput, VDimension >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,31 +55,31 @@ public:
 
   itkStaticConstMacro ( Dimension, unsigned int, VDimension );
 
-  typedef typename Superclass::InputType        InputType;
-  typedef typename Superclass::OutputType       OutputType;
-  typedef typename Superclass::OutputRealType   OutputRealType;
-  typedef typename Superclass::GradientType     GradientType;
-  typedef typename Superclass::HessianType      HessianType;
-  typedef typename Superclass::LevelSetDataType LevelSetDataType;
+  using InputType = typename Superclass::InputType;
+  using OutputType = typename Superclass::OutputType;
+  using OutputRealType = typename Superclass::OutputRealType;
+  using GradientType = typename Superclass::GradientType;
+  using HessianType = typename Superclass::HessianType;
+  using LevelSetDataType = typename Superclass::LevelSetDataType;
 
-  typedef typename Superclass::LayerIdType            LayerIdType;
-  typedef typename Superclass::LabelObjectType        LabelObjectType;
-  typedef typename Superclass::LabelObjectPointer     LabelObjectPointer;
-  typedef typename Superclass::LabelObjectLengthType  LabelObjectLengthType;
-  typedef typename Superclass::LabelObjectLineType    LabelObjectLineType;
+  using LayerIdType = typename Superclass::LayerIdType;
+  using LabelObjectType = typename Superclass::LabelObjectType;
+  using LabelObjectPointer = typename Superclass::LabelObjectPointer;
+  using LabelObjectLengthType = typename Superclass::LabelObjectLengthType;
+  using LabelObjectLineType = typename Superclass::LabelObjectLineType;
 
-  typedef typename Superclass::LabelMapType           LabelMapType;
-  typedef typename Superclass::LabelMapPointer        LabelMapPointer;
-  typedef typename Superclass::LabelMapConstPointer   LabelMapConstPointer;
-  typedef typename Superclass::RegionType             RegionType;
+  using LabelMapType = typename Superclass::LabelMapType;
+  using LabelMapPointer = typename Superclass::LabelMapPointer;
+  using LabelMapConstPointer = typename Superclass::LabelMapConstPointer;
+  using RegionType = typename Superclass::RegionType;
 
-  typedef typename Superclass::LayerType          LayerType;
-  typedef typename Superclass::LayerIterator      LayerIterator;
-  typedef typename Superclass::LayerConstIterator LayerConstIterator;
+  using LayerType = typename Superclass::LayerType;
+  using LayerIterator = typename Superclass::LayerIterator;
+  using LayerConstIterator = typename Superclass::LayerConstIterator;
 
-  typedef typename Superclass::LayerMapType           LayerMapType;
-  typedef typename Superclass::LayerMapIterator       LayerMapIterator;
-  typedef typename Superclass::LayerMapConstIterator  LayerMapConstIterator;
+  using LayerMapType = typename Superclass::LayerMapType;
+  using LayerMapIterator = typename Superclass::LayerMapIterator;
+  using LayerMapConstIterator = typename Superclass::LayerMapConstIterator;
 
   /** Returns the value of the level set function at a given location iP */
   using Superclass::Evaluate;
@@ -107,7 +107,7 @@ public:
   typename LabelObject< TLabel, Dimension >::Pointer
   GetAsLabelObject()
     {
-    typedef LabelObject< TLabel, Dimension > OutputLabelObjectType;
+    using OutputLabelObjectType = LabelObject< TLabel, Dimension >;
     typename OutputLabelObjectType::Pointer object = OutputLabelObjectType::New();
 
     for( LayerIdType status = this->MinusThreeLayer(); status < this->PlusOneLayer(); ++status )

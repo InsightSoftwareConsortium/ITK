@@ -84,9 +84,9 @@ int itkAntiAliasBinaryImageFilterTest(int argc, char * argv [] )
     }
   const char * outputImage = argv[1];
 
-  typedef char                         InputDataType;
-  typedef itk::Image<InputDataType, 3> BinaryImageType;
-  typedef itk::Image<float, 3>         RealImageType;
+  using InputDataType = char;
+  using BinaryImageType = itk::Image<InputDataType, 3>;
+  using RealImageType = itk::Image<float, 3>;
 
   itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::Pointer
     antialiaser = itk::AntiAliasBinaryImageFilter<BinaryImageType, RealImageType>::New();
@@ -137,7 +137,7 @@ int itkAntiAliasBinaryImageFilterTest(int argc, char * argv [] )
     }
   else
     {
-    typedef itk::ImageFileWriter<RealImageType> WriterType;
+    using WriterType = itk::ImageFileWriter<RealImageType>;
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput( antialiaser->GetOutput() );
     writer->SetFileName( outputImage );

@@ -102,11 +102,11 @@ template< typename THistogram >
 class ITK_TEMPLATE_EXPORT HistogramToTextureFeaturesFilter:public ProcessObject
 {
 public:
-  /** Standard typedefs */
-  typedef HistogramToTextureFeaturesFilter Self;
-  typedef ProcessObject                    Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard type alias */
+  using Self = HistogramToTextureFeaturesFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(HistogramToTextureFeaturesFilter, ProcessObject);
@@ -114,23 +114,21 @@ public:
   /** standard New() method support */
   itkNewMacro(Self);
 
-  typedef THistogram                                    HistogramType;
-  typedef typename HistogramType::Pointer               HistogramPointer;
-  typedef typename HistogramType::ConstPointer          HistogramConstPointer;
-  typedef typename HistogramType::MeasurementType       MeasurementType;
-  typedef typename HistogramType::MeasurementVectorType MeasurementVectorType;
-  typedef typename HistogramType::IndexType             IndexType;
-  typedef typename HistogramType::AbsoluteFrequencyType AbsoluteFrequencyType;
-  typedef typename HistogramType::RelativeFrequencyType RelativeFrequencyType;
+  using HistogramType = THistogram;
+  using HistogramPointer = typename HistogramType::Pointer;
+  using HistogramConstPointer = typename HistogramType::ConstPointer;
+  using MeasurementType = typename HistogramType::MeasurementType;
+  using MeasurementVectorType = typename HistogramType::MeasurementVectorType;
+  using IndexType = typename HistogramType::IndexType;
+  using AbsoluteFrequencyType = typename HistogramType::AbsoluteFrequencyType;
+  using RelativeFrequencyType = typename HistogramType::RelativeFrequencyType;
 
-  typedef typename HistogramType::TotalAbsoluteFrequencyType
-  TotalAbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;
 
-  typedef typename HistogramType::TotalRelativeFrequencyType
-  TotalRelativeFrequencyType;
+  using TotalRelativeFrequencyType = typename HistogramType::TotalRelativeFrequencyType;
 
   /** Container to hold relative frequencies of the histogram */
-  typedef std::vector< RelativeFrequencyType > RelativeFrequencyContainerType;
+  using RelativeFrequencyContainerType = std::vector< RelativeFrequencyType >;
 
   /** Method to Set/Get the input Histogram */
   using Superclass::SetInput;
@@ -139,10 +137,10 @@ public:
   const HistogramType * GetInput() const;
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Type of DataObjects used for scalar outputs */
-  typedef SimpleDataObjectDecorator< MeasurementType > MeasurementObjectType;
+  using MeasurementObjectType = SimpleDataObjectDecorator< MeasurementType >;
 
   /** Return energy texture value. */
   MeasurementType GetEnergy() const;
@@ -206,7 +204,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Make a DataObject to be used for output output. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) override;
 

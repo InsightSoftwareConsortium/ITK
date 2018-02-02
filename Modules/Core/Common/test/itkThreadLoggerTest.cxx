@@ -26,7 +26,7 @@ struct ThreadDataStruct
 {
   itk::LoggerBase* logger;
 };
-typedef std::vector<ThreadDataStruct> ThreadDataVec;
+using ThreadDataVec = std::vector<ThreadDataStruct>;
 
 class LogTester
 {

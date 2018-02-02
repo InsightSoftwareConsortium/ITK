@@ -46,11 +46,11 @@ template <typename THistogram, typename TOutput>
 class HistogramThresholdCalculator : public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef HistogramThresholdCalculator    Self;
-  typedef ProcessObject                   Superclass;
-  typedef SmartPointer<Self>              Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
+  /** Standard class type aliases. */
+  using Self = HistogramThresholdCalculator;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,11 +59,11 @@ public:
   itkTypeMacro(HistogramThresholdCalculator, ProcessObject);
 
   /** Type definition for the input histogram. */
-  typedef THistogram HistogramType;
+  using HistogramType = THistogram;
 
   /** output object type */
-  typedef TOutput                               OutputType;
-  typedef SimpleDataObjectDecorator<OutputType> DecoratedOutputType;
+  using OutputType = TOutput;
+  using DecoratedOutputType = SimpleDataObjectDecorator<OutputType>;
 
   void SetInput( const HistogramType * input )
   {

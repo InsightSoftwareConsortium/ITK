@@ -48,7 +48,7 @@ ImageVectorOptimizerParametersHelper< TValue, NVectorDimension, VImageDimension 
     }
   // The buffer for Image<Vector> points to Vector type, not TValue, so
   // have to cast.
-  typedef typename ParameterImageType::PixelContainer::Element vectorElement;
+  using vectorElement = typename ParameterImageType::PixelContainer::Element;
   vectorElement* vectorPointer = reinterpret_cast<vectorElement *>(pointer);
   // We're expecting the new memory buffer t be of same size.
   unsigned int sizeInVectors = m_ParameterImage->GetPixelContainer()->Size();

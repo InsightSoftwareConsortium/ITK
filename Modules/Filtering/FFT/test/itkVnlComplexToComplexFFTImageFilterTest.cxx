@@ -25,22 +25,22 @@
 template< typename TPixel, unsigned int VDimension >
 int transformImage( const char * inputImageFileName, const char * outputImageFileName )
 {
-  typedef TPixel                        RealPixelType;
-  typedef std::complex< RealPixelType > ComplexPixelType;
+  using RealPixelType = TPixel;
+  using ComplexPixelType = std::complex< RealPixelType >;
   const unsigned int Dimension = VDimension;
 
-  typedef itk::Image< RealPixelType, Dimension >    RealImageType;
-  typedef itk::Image< ComplexPixelType, Dimension > ComplexImageType;
+  using RealImageType = itk::Image< RealPixelType, Dimension >;
+  using ComplexImageType = itk::Image< ComplexPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< RealImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< RealImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputImageFileName );
 
-  typedef itk::ForwardFFTImageFilter< RealImageType, ComplexImageType > ForwardFilterType;
+  using ForwardFilterType = itk::ForwardFFTImageFilter< RealImageType, ComplexImageType >;
   typename ForwardFilterType::Pointer forwardFilter = ForwardFilterType::New();
   forwardFilter->SetInput( reader->GetOutput() );
 
-  typedef itk::VnlComplexToComplexFFTImageFilter< ComplexImageType > ComplexFilterType;
+  using ComplexFilterType = itk::VnlComplexToComplexFFTImageFilter< ComplexImageType >;
   typename ComplexFilterType::Pointer inverseComplexFilter = ComplexFilterType::New();
   inverseComplexFilter->SetInput( forwardFilter->GetOutput() );
   inverseComplexFilter->SetTransformDirection( ComplexFilterType::INVERSE );
@@ -49,11 +49,11 @@ int transformImage( const char * inputImageFileName, const char * outputImageFil
   forwardComplexFilter->SetInput( inverseComplexFilter->GetOutput() );
   forwardComplexFilter->SetTransformDirection( ComplexFilterType::FORWARD );
 
-  typedef itk::InverseFFTImageFilter< ComplexImageType, RealImageType > InverseFilterType;
+  using InverseFilterType = itk::InverseFFTImageFilter< ComplexImageType, RealImageType >;
   typename InverseFilterType::Pointer inverseFilter = InverseFilterType::New();
   inverseFilter->SetInput( forwardComplexFilter->GetOutput() );
 
-  typedef itk::ImageFileWriter< RealImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< RealImageType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( outputImageFileName );
   writer->SetInput( inverseFilter->GetOutput() );

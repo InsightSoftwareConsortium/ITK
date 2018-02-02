@@ -46,11 +46,11 @@ class ITKOptimizers_EXPORT SPSAOptimizer:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef SPSAOptimizer                  Self;
-  typedef SingleValuedNonLinearOptimizer Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SPSAOptimizer;
+  using Superclass = SingleValuedNonLinearOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

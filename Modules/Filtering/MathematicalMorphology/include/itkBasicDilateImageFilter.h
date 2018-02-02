@@ -49,11 +49,11 @@ class ITK_TEMPLATE_EXPORT BasicDilateImageFilter:
   public MorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BasicDilateImageFilter                                      Self;
-  typedef MorphologyImageFilter< TInputImage, TOutputImage, TKernel > Superclass;
-  typedef SmartPointer< Self >                                        Pointer;
-  typedef SmartPointer< const Self >                                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BasicDilateImageFilter;
+  using Superclass = MorphologyImageFilter< TInputImage, TOutputImage, TKernel >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -63,19 +63,19 @@ public:
                MorphologyImageFilter);
 
   /** Declaration of pixel type. */
-  typedef typename Superclass::PixelType PixelType;
+  using PixelType = typename Superclass::PixelType;
 
   /** Kernel (structuring element) iterator. */
-  typedef typename Superclass::KernelIteratorType KernelIteratorType;
+  using KernelIteratorType = typename Superclass::KernelIteratorType;
 
   /** Neighborhood iterator type. */
-  typedef typename Superclass::NeighborhoodIteratorType NeighborhoodIteratorType;
+  using NeighborhoodIteratorType = typename Superclass::NeighborhoodIteratorType;
 
-  /** Kernel typedef. */
-  typedef typename Superclass::KernelType KernelType;
+  /** Kernel type alias. */
+  using KernelType = typename Superclass::KernelType;
 
   /** Default boundary condition type */
-  typedef typename Superclass::DefaultBoundaryConditionType DefaultBoundaryConditionType;
+  using DefaultBoundaryConditionType = typename Superclass::DefaultBoundaryConditionType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -86,7 +86,7 @@ public:
                       TKernel::NeighborhoodDimension);
 
   /** Type of the pixels in the Kernel. */
-  typedef typename TKernel::PixelType KernelPixelType;
+  using KernelPixelType = typename TKernel::PixelType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

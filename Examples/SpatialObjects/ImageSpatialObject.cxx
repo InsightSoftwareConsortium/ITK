@@ -41,7 +41,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::Image<short,2> Image;
+  using Image = itk::Image<short,2>;
   Image::Pointer image = Image::New();
   Image::SizeType size = {{ 10, 10 }};
   Image::RegionType region;
@@ -57,7 +57,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageRegionIterator<Image> Iterator;
+  using Iterator = itk::ImageRegionIterator<Image>;
   Iterator it(image,region);
   short pixelValue =0;
 
@@ -75,7 +75,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageSpatialObject<2,short> ImageSpatialObject;
+  using ImageSpatialObject = itk::ImageSpatialObject<2,short>;
   ImageSpatialObject::Pointer imageSO = ImageSpatialObject::New();
 // Software Guide : EndCodeSnippet
 
@@ -99,7 +99,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::Point<double,2> Point;
+  using Point = itk::Point<double,2>;
   Point insidePoint;
   insidePoint.Fill(9);
 

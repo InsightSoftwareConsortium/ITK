@@ -56,13 +56,13 @@ class ITK_TEMPLATE_EXPORT ShapePriorSegmentationLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ShapePriorSegmentationLevelSetFunction Self;
-  typedef SegmentationLevelSetFunction< TImageType, TFeatureImageType >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef TFeatureImageType          FeatureImageType;
+  /** Standard class type aliases. */
+  using Self = ShapePriorSegmentationLevelSetFunction;
+  using Superclass =
+      SegmentationLevelSetFunction< TImageType, TFeatureImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using FeatureImageType = TFeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,26 +71,26 @@ public:
   itkTypeMacro(ShapePriorSegmentationLevelSetFunction, SegmentationLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
-  typedef typename Superclass::ImageType           ImageType;
-  typedef typename Superclass::NeighborhoodType    NeighborhoodType;
-  typedef typename Superclass::ScalarValueType     ScalarValueType;
-  typedef typename Superclass::FeatureScalarType   FeatureScalarType;
-  typedef typename Superclass::RadiusType          RadiusType;
-  typedef typename Superclass::FloatOffsetType     FloatOffsetType;
-  typedef typename Superclass::VectorImageType     VectorImageType;
-  typedef typename Superclass::PixelType           PixelType;
-  typedef typename Superclass::TimeStepType        TimeStepType;
-  typedef typename Superclass::IndexType           IndexType;
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  using ImageType = typename Superclass::ImageType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using ScalarValueType = typename Superclass::ScalarValueType;
+  using FeatureScalarType = typename Superclass::FeatureScalarType;
+  using RadiusType = typename Superclass::RadiusType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using VectorImageType = typename Superclass::VectorImageType;
+  using PixelType = typename Superclass::PixelType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using IndexType = typename Superclass::IndexType;
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
-  /** ShapeFunction typedef support. */
-  typedef ShapeSignedDistanceFunction< double,
-                                       itkGetStaticConstMacro(ImageDimension) > ShapeFunctionType;
-  typedef typename ShapeFunctionType::ConstPointer ShapeFunctionPointer;
+  /** ShapeFunction type alias support */
+  using ShapeFunctionType = ShapeSignedDistanceFunction< double,
+                                       itkGetStaticConstMacro(ImageDimension) >;
+  using ShapeFunctionPointer = typename ShapeFunctionType::ConstPointer;
 
   /** Zeta. The ShapePriorWeight scales the shape prior term values. */
   void SetShapePriorWeight(const ScalarValueType p)
@@ -115,7 +115,7 @@ public:
 
   /** A global data type used to store values needed to compute the time step.
     */
-  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
+  using GlobalDataStruct = typename Superclass::GlobalDataStruct;
   struct ShapePriorGlobalDataStruct:public GlobalDataStruct {
     ScalarValueType m_MaxShapePriorChange;
   };

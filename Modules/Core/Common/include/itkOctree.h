@@ -49,9 +49,9 @@ enum OctreePlaneType {
 class ITKCommon_EXPORT OctreeBase:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef OctreeBase           Self;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = OctreeBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Get the actual tree base
    *
@@ -114,12 +114,12 @@ template< typename TPixel, unsigned int ColorTableSize, typename MappingFunction
 class ITK_TEMPLATE_EXPORT Octree:public OctreeBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef Octree                      Self;
-  typedef OctreeBase                  Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef Image< TPixel, 3 >          ImageType;
-  typedef typename ImageType::Pointer ImageTypePointer;
+  /** Standard class type aliases. */
+  using Self = Octree;
+  using Superclass = OctreeBase;
+  using Pointer = SmartPointer< Self >;
+  using ImageType = Image< TPixel, 3 >;
+  using ImageTypePointer = typename ImageType::Pointer;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

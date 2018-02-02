@@ -27,25 +27,24 @@ int itkSampleToHistogramFilterTest( int , char * [] )
 {
 
   const unsigned int numberOfComponents = 3;
-  typedef float      MeasurementType;
+  using MeasurementType = float;
 
-  typedef itk::Array< MeasurementType > MeasurementVectorType;
+  using MeasurementVectorType = itk::Array< MeasurementType >;
 
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-  typedef itk::Statistics::Histogram< MeasurementType,
-          itk::Statistics::DenseFrequencyContainer2 > HistogramType;
+  using HistogramType = itk::Statistics::Histogram< MeasurementType,
+          itk::Statistics::DenseFrequencyContainer2 >;
 
-  typedef itk::Statistics::SampleToHistogramFilter<
-    SampleType, HistogramType > FilterType;
+  using FilterType = itk::Statistics::SampleToHistogramFilter<
+    SampleType, HistogramType >;
 
-  typedef FilterType::InputHistogramSizeObjectType         InputHistogramSizeObjectType;
-  typedef FilterType::HistogramSizeType                    HistogramSizeType;
-  typedef FilterType::HistogramMeasurementType             HistogramMeasurementType;
-  typedef FilterType::HistogramMeasurementVectorType       HistogramMeasurementVectorType;
-  typedef FilterType::InputHistogramMeasurementObjectType  InputHistogramMeasurementObjectType;
-  typedef FilterType::
-    InputHistogramMeasurementVectorObjectType  InputHistogramMeasurementVectorObjectType;
+  using InputHistogramSizeObjectType = FilterType::InputHistogramSizeObjectType;
+  using HistogramSizeType = FilterType::HistogramSizeType;
+  using HistogramMeasurementType = FilterType::HistogramMeasurementType;
+  using HistogramMeasurementVectorType = FilterType::HistogramMeasurementVectorType;
+  using InputHistogramMeasurementObjectType = FilterType::InputHistogramMeasurementObjectType;
+  using InputHistogramMeasurementVectorObjectType = FilterType::InputHistogramMeasurementVectorObjectType;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -597,7 +596,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
 
   filter->SetAutoMinimumMaximum( autoMinimumMaximum1 );
 
-  typedef FilterType::InputBooleanObjectType InputBooleanObjectType;
+  using InputBooleanObjectType = FilterType::InputBooleanObjectType;
 
   const InputBooleanObjectType * recoveredAutoMinimumMaximumObject =
     filter->GetAutoMinimumMaximumInput();

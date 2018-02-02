@@ -53,35 +53,35 @@ int itkFEMRobustSolverTest(int, char *[])
   const unsigned int DataDimension = 2;
   const unsigned int ParameterDimension = 2;
 
-  /** Solver typedef suppot */
-  typedef itk::fem::RobustSolver<DataDimension>    SolverType;
+  /** Solver type alias suppot */
+  using SolverType = itk::fem::RobustSolver<DataDimension>;
 
-  /** FEMObject typedef suppport */
-  typedef itk::fem::FEMObject<DataDimension>       FEMObjectType;
+  /** FEMObject type alias suppport */
+  using FEMObjectType = itk::fem::FEMObject<DataDimension>;
 
-  /** FEM element typedef support */
-  typedef itk::fem::Element2DC0LinearQuadrilateralStrain     ElementType;
+  /** FEM element type alias support */
+  using ElementType = itk::fem::Element2DC0LinearQuadrilateralStrain;
 
-  /** FEM node typedef support */
-  typedef itk::fem::Element::Node            NodeType;
+  /** FEM node type alias support */
+  using NodeType = itk::fem::Element::Node;
 
-  /** FEM Load typedef support */
-  typedef itk::fem::LoadNoisyLandmark          LoadType;
+  /** FEM Load type alias support */
+  using LoadType = itk::fem::LoadNoisyLandmark;
 
-  /** FEM material typedef support */
-  typedef itk::fem::MaterialLinearElasticity           MaterialType;
+  /** FEM material type alias support */
+  using MaterialType = itk::fem::MaterialLinearElasticity;
 
-  /** FEM element typedef support */
-  typedef itk::fem::Element::VectorType                  FEMVectorType;
+  /** FEM element type alias support */
+  using FEMVectorType = itk::fem::Element::VectorType;
 
-  /** FEM container typedef support */
-  typedef FEMObjectType::LoadContainerType        LoadContainerType;
-  typedef FEMObjectType::NodeContainerType        NodeContainerType;
-  typedef FEMObjectType::ElementContainerType     ElementContainerType;
-  typedef FEMObjectType::MaterialContainerType    MaterialContainerType;
+  /** FEM container type alias support */
+  using LoadContainerType = FEMObjectType::LoadContainerType;
+  using NodeContainerType = FEMObjectType::NodeContainerType;
+  using ElementContainerType = FEMObjectType::ElementContainerType;
+  using MaterialContainerType = FEMObjectType::MaterialContainerType;
 
-  /** intepolation grid typedef support */
-  typedef itk::Image<itk::fem::Element::ConstPointer, ParameterDimension> InterpolationGridType;
+  /** intepolation grid type alias support */
+  using InterpolationGridType = itk::Image<itk::fem::Element::ConstPointer, ParameterDimension>;
 
   SolverType::Pointer solver = SolverType::New();
 

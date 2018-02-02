@@ -42,11 +42,11 @@ class ITK_TEMPLATE_EXPORT Subsample:
   public TSample
 {
 public:
-  /** Standard class typedefs */
-  typedef Subsample                  Self;
-  typedef TSample                    Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = Subsample;
+  using Superclass = TSample;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Subsample, TSample);
@@ -55,23 +55,23 @@ public:
   itkNewMacro(Self);
 
   /** Smart pointer to the actual sample data holder */
-  typedef typename TSample::Pointer SamplePointer;
+  using SamplePointer = typename TSample::Pointer;
 
   /** Typedefs for Measurement vector, measurement, Instance Identifier,
    * frequency, size, size element value from the template argument TSample */
-  typedef typename TSample::MeasurementVectorType MeasurementVectorType;
-  typedef typename TSample::MeasurementType       MeasurementType;
-  typedef typename TSample::InstanceIdentifier    InstanceIdentifier;
-  typedef MeasurementVectorType                   ValueType;
+  using MeasurementVectorType = typename TSample::MeasurementVectorType;
+  using MeasurementType = typename TSample::MeasurementType;
+  using InstanceIdentifier = typename TSample::InstanceIdentifier;
+  using ValueType = MeasurementVectorType;
 
-  typedef typename TSample::AbsoluteFrequencyType      AbsoluteFrequencyType;
-  typedef typename TSample::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
+  using AbsoluteFrequencyType = typename TSample::AbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename TSample::TotalAbsoluteFrequencyType;
 
   /** Type of the storage for instances that belong to the class
    * represented by a Subsample object. A Subsample object stores
    * only the InstanceIdentifiers. The actual data is still in the Sample
    * object */
-  typedef std::vector< InstanceIdentifier > InstanceIdentifierHolder;
+  using InstanceIdentifierHolder = std::vector< InstanceIdentifier >;
 
 // Disable clang warning false positive.
 // <https://llvm.org/bugs/show_bug.cgi?id=22582>

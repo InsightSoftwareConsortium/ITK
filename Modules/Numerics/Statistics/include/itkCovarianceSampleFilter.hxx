@@ -141,7 +141,7 @@ CovarianceSampleFilter< TSample >
     itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >( this->ProcessObject::GetOutput(1) );
 
   // calculate mean
-  typedef MeanSampleFilter< SampleType > MeanFilterType;
+  using MeanFilterType = MeanSampleFilter< SampleType >;
   typename MeanFilterType::Pointer meanFilter = MeanFilterType::New();
 
   meanFilter->SetInput( input );
@@ -154,7 +154,7 @@ CovarianceSampleFilter< TSample >
   MeasurementVectorRealType diff;
   NumericTraits<MeasurementVectorRealType>::SetLength( diff, measurementVectorSize );
 
-  typedef typename SampleType::TotalAbsoluteFrequencyType TotalFrequencyType;
+  using TotalFrequencyType = typename SampleType::TotalAbsoluteFrequencyType;
   TotalFrequencyType totalFrequency = NumericTraits< TotalFrequencyType >::ZeroValue();
 
   typename SampleType::ConstIterator iter =      input->Begin();

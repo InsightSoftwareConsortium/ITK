@@ -91,7 +91,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
       if( mapIt == this->m_LabelSetMeasures.end() )
         {
         // Create a new entry
-        typedef typename MapType::value_type MapValueType;
+        using MapValueType = typename MapType::value_type;
         mapIt = this->m_LabelSetMeasures.insert( MapValueType(
                                                    (*threadIt).first, LabelSetMeasures() ) ).first;
         }
@@ -139,7 +139,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
     if( mapItS == this->m_LabelSetMeasuresPerThread[threadId].end() )
       {
       // Create a new label set measures object
-      typedef typename MapType::value_type MapValueType;
+      using MapValueType = typename MapType::value_type;
       mapItS = this->m_LabelSetMeasuresPerThread[threadId].insert(
         MapValueType( sourceLabel, LabelSetMeasures() ) ).first;
       }
@@ -147,7 +147,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
     if( mapItT == this->m_LabelSetMeasuresPerThread[threadId].end() )
       {
       // Create a new label set measures object
-      typedef typename MapType::value_type MapValueType;
+      using MapValueType = typename MapType::value_type;
       mapItT = this->m_LabelSetMeasuresPerThread[threadId].insert(
         MapValueType( targetLabel, LabelSetMeasures() ) ).first;
       }

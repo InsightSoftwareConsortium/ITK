@@ -43,18 +43,18 @@ int itkFastMarchingUpwindGradientBaseTest(int, char* [] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   // create a fastmarching object
-  typedef float PixelType;
+  using PixelType = float;
   const unsigned Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension > FloatImageType;
+  using FloatImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::FastMarchingReachedTargetNodesStoppingCriterion< FloatImageType, FloatImageType >
-      CriterionType;
+  using CriterionType =
+      itk::FastMarchingReachedTargetNodesStoppingCriterion< FloatImageType, FloatImageType >;
 
   CriterionType::Pointer criterion = CriterionType::New();
 
-  typedef itk::FastMarchingUpwindGradientImageFilterBase<
-      FloatImageType, FloatImageType > FloatFMType;
+  using FloatFMType = itk::FastMarchingUpwindGradientImageFilterBase<
+      FloatImageType, FloatImageType >;
 
   FloatFMType::Pointer marcher = FloatFMType::New();
 
@@ -67,10 +67,10 @@ int itkFastMarchingUpwindGradientBaseTest(int, char* [] )
 
   itk::SimpleFilterWatcher MarcherWatcher( marcher );
 
-  typedef FloatFMType::NodeType     NodeType;
-  typedef FloatFMType::NodePairType NodePairType;
+  using NodeType = FloatFMType::NodeType;
+  using NodePairType = FloatFMType::NodePairType;
 
-  typedef FloatFMType::NodePairContainerType NodePairContainerType;
+  using NodePairContainerType = FloatFMType::NodePairContainerType;
 
   // setup alive points
   NodePairContainerType::Pointer AlivePoints = NodePairContainerType::New();
@@ -136,8 +136,8 @@ int itkFastMarchingUpwindGradientBaseTest(int, char* [] )
   marcher->SetInput( speedImage );
 
   // check the results
-  typedef FloatFMType::GradientImageType  FloatGradientImage;
-  typedef FloatGradientImage::PixelType   GradientPixelType;
+  using FloatGradientImage = FloatFMType::GradientImageType;
+  using GradientPixelType = FloatGradientImage::PixelType;
   FloatGradientImage::Pointer gradientOutput = marcher->GetGradientImage();
   itk::ImageRegionIterator<FloatGradientImage>
     iterator( gradientOutput, gradientOutput->GetBufferedRegion() );

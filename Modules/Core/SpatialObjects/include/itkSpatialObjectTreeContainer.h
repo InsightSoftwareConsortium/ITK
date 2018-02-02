@@ -51,17 +51,17 @@ class ITK_TEMPLATE_EXPORT SpatialObjectTreeContainer:
 {
 public:
 
-  /** Standard typedefs */
-  typedef SpatialObject< TDimension >              SpatialObjectType;
-  typedef SpatialObjectType *                      SpatialObjectPointer;
-  typedef TreeContainer< SpatialObjectPointer >    Superclass;
-  typedef SpatialObjectTreeContainer< TDimension > Self;
-  typedef SmartPointer< Self >                     Pointer;
-  typedef SmartPointer< const Self >               ConstPointer;
-  typedef SpatialObjectTreeNode< TDimension >      TreeNodeType;
+  /** Standard type alias */
+  using SpatialObjectType = SpatialObject< TDimension >;
+  using SpatialObjectPointer = SpatialObjectType *;
+  using Superclass = TreeContainer< SpatialObjectPointer >;
+  using Self = SpatialObjectTreeContainer< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using TreeNodeType = SpatialObjectTreeNode< TDimension >;
 
-  /** Iterators typedef */
-  typedef typename Superclass::IteratorType IteratorType;
+  /** Iterators type alias */
+  using IteratorType = typename Superclass::IteratorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

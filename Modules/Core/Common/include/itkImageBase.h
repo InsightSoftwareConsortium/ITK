@@ -110,11 +110,11 @@ template< unsigned int VImageDimension = 2 >
 class ITK_TEMPLATE_EXPORT ImageBase:public DataObject
 {
 public:
-  /** Standard typedefs. */
-  typedef ImageBase                  Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard type alias. */
+  using Self = ImageBase;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -123,7 +123,7 @@ public:
   itkTypeMacro(ImageBase, DataObject);
 
   /** Type of image dimension */
-  typedef unsigned int ImageDimensionType;
+  using ImageDimensionType = unsigned int;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel
@@ -131,38 +131,38 @@ public:
    * of the image. */
   itkStaticConstMacro(ImageDimension, ImageDimensionType, VImageDimension);
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef Index< VImageDimension >           IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
+  /** Index type alias support. An index is used to access pixel values. */
+  using IndexType = Index< VImageDimension >;
+  using IndexValueType = typename IndexType::IndexValueType;
 
-  /** Offset typedef support. An offset represent relative position
+  /** Offset type alias support. An offset represent relative position
    * between indices. */
-  typedef Offset< VImageDimension >            OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
+  using OffsetType = Offset< VImageDimension >;
+  using OffsetValueType = typename OffsetType::OffsetValueType;
 
-  /** Size typedef support. A size is used to define region bounds. */
-  typedef Size< VImageDimension >          SizeType;
-  typedef typename SizeType::SizeValueType SizeValueType;
+  /** Size type alias support. A size is used to define region bounds. */
+  using SizeType = Size< VImageDimension >;
+  using SizeValueType = typename SizeType::SizeValueType;
 
-  /** Region typedef support. A region is used to specify a subset of an image. */
-  typedef ImageRegion< VImageDimension > RegionType;
+  /** Region type alias support. A region is used to specify a subset of an image. */
+  using RegionType = ImageRegion< VImageDimension >;
 
-  /** Spacing typedef support.  Spacing holds the size of a pixel.
+  /** Spacing type alias support.  Spacing holds the size of a pixel.
    * The spacing is the geometric distance between image samples along
    * each dimension. ITK only supports positive spacing value:
    * negative values may cause undesirable results.  */
-  typedef SpacePrecisionType                          SpacingValueType;
-  typedef Vector< SpacingValueType, VImageDimension > SpacingType;
+  using SpacingValueType = SpacePrecisionType;
+  using SpacingType = Vector< SpacingValueType, VImageDimension >;
 
-  /** Origin typedef support.  The origin is the geometric coordinates
+  /** Origin type alias support.  The origin is the geometric coordinates
    * of the index (0,0). */
-  typedef SpacePrecisionType                       PointValueType;
-  typedef Point< PointValueType, VImageDimension > PointType;
+  using PointValueType = SpacePrecisionType;
+  using PointType = Point< PointValueType, VImageDimension >;
 
-  /** Direction typedef support.  The Direction is a matix of
+  /** Direction type alias support.  The Direction is a matix of
    * direction cosines that specify the direction in physical space
    * between samples along each dimension. */
-  typedef Matrix< SpacePrecisionType, VImageDimension, VImageDimension > DirectionType;
+  using DirectionType = Matrix< SpacePrecisionType, VImageDimension, VImageDimension >;
 
   /** Restore object to initialized state. */
   void Initialize() override;
@@ -516,7 +516,7 @@ public:
 
     for ( unsigned int i = 0; i < VImageDimension; ++i )
       {
-      typedef typename NumericTraits< TCoordRep >::AccumulateType CoordSumType;
+      using CoordSumType = typename NumericTraits< TCoordRep >::AccumulateType;
       CoordSumType sum = NumericTraits< CoordSumType >::ZeroValue();
       for ( unsigned int j = 0; j < VImageDimension; ++j )
         {
@@ -549,7 +549,7 @@ public:
 
     for ( unsigned int i = 0; i < VImageDimension; ++i )
       {
-      typedef typename NumericTraits< TCoordRep >::AccumulateType CoordSumType;
+      using CoordSumType = typename NumericTraits< TCoordRep >::AccumulateType;
       CoordSumType sum = NumericTraits< CoordSumType >::ZeroValue();
       for ( unsigned int j = 0; j < VImageDimension; ++j )
         {

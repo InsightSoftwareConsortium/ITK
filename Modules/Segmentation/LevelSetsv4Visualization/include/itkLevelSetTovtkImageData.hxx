@@ -108,7 +108,7 @@ LevelSetTovtkImageData< WhitakerSparseLevelSetImage< TOutput, VDimension > >
   this->m_InternalImage->SetNumberOfComponentsPerPixel( 1 );
   this->m_InternalImage->Allocate();
 
-  typedef ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = ImageRegionIteratorWithIndex< ImageType >;
 
   IteratorType it( this->m_InternalImage, this->m_InternalImage->GetLargestPossibleRegion() );
   it.GoToBegin();

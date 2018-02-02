@@ -72,12 +72,12 @@ template< unsigned int VIndexDimension = 2 >
 class ITK_TEMPLATE_EXPORT Index
 {
 public:
-  /** Standard class typedefs. */
-  typedef Index Self;
+  /** Standard class type aliases. */
+  using Self = Index;
 
-  /** Compatible Index and value typedef */
-  typedef   Index< VIndexDimension > IndexType;
-  typedef   ::itk::IndexValueType    IndexValueType;
+  /** Compatible Index and value type alias */
+  using IndexType = Index< VIndexDimension >;
+  using IndexValueType = ::itk::IndexValueType;
 
   /** Dimension constant */
   itkStaticConstMacro(Dimension, unsigned int, VIndexDimension);
@@ -85,15 +85,15 @@ public:
   /** Get the dimension (size) of the index. */
   static unsigned int GetIndexDimension() { return VIndexDimension; }
 
-  /** Compatible Size typedef. */
-  typedef   Size< VIndexDimension > SizeType;
+  /** Compatible Size type alias. */
+  using SizeType = Size< VIndexDimension >;
 
-  /** Compatible Offset and Offset value typedef. */
-  typedef   Offset< VIndexDimension >            OffsetType;
-  typedef   ::itk::OffsetValueType               OffsetValueType;
+  /** Compatible Offset and Offset value type alias. */
+  using OffsetType = Offset< VIndexDimension >;
+  using OffsetValueType = ::itk::OffsetValueType;
 
   /** Lexicographic ordering functor type.  */
-  typedef Functor::IndexLexicographicCompare< VIndexDimension > LexicographicCompare;
+  using LexicographicCompare = Functor::IndexLexicographicCompare< VIndexDimension >;
 
   /** Add a size to an index. This method models a random access Index. */
   const Self

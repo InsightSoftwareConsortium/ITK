@@ -24,31 +24,31 @@
 const unsigned int myDimension = 2;
 
 // Declare type for Eigen Vectors
-typedef itk::Vector<double, myDimension> myVectorType;
+using myVectorType = itk::Vector<double, myDimension>;
 
 // Declare the types of the images
-typedef itk::Image<double, myDimension>           myImageType;
-typedef itk::Image<myVectorType, myDimension>     myVectorImageType;
+using myImageType = itk::Image<double, myDimension>;
+using myVectorImageType = itk::Image<myVectorType, myDimension>;
 
 // Declare the type of the index to access images
-typedef itk::Index<myDimension>             myIndexType;
+using myIndexType = itk::Index<myDimension>;
 
 // Declare the type of the size
-typedef itk::Size<myDimension>              mySizeType;
+using mySizeType = itk::Size<myDimension>;
 
 // Declare the type of the Region
-typedef itk::ImageRegion<myDimension>        myRegionType;
+using myRegionType = itk::ImageRegion<myDimension>;
 
 
 // Declare Iterator types apropriated for each image
-typedef itk::ImageRegionIteratorWithIndex<myImageType>       myIteratorType;
-typedef itk::ImageRegionIteratorWithIndex<myVectorImageType> myVectorIteratorType;
+using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
+using myVectorIteratorType = itk::ImageRegionIteratorWithIndex<myVectorImageType>;
 
 
 // Declare the Filter
-typedef itk::EigenAnalysis2DImageFilter< myImageType,
+using myFilterType = itk::EigenAnalysis2DImageFilter< myImageType,
                                          myImageType,
-                                         myVectorImageType >  myFilterType;
+                                         myVectorImageType >;
 
 // Function for image initialization
 void InitializeImage( myImageType * image, double value   )

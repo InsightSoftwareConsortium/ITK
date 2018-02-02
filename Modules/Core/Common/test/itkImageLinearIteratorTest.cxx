@@ -26,9 +26,9 @@ int itkImageLinearIteratorTest(int, char* [] )
 
   const unsigned int ImageDimension = 3;
 
-  typedef itk::Index< ImageDimension >             PixelType;
+  using PixelType = itk::Index< ImageDimension >;
 
-  typedef itk::Image< PixelType, ImageDimension >  ImageType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
   ImageType::Pointer myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage.GetPointer();
@@ -51,9 +51,9 @@ int itkImageLinearIteratorTest(int, char* [] )
   myImage->SetRequestedRegion( region0 );
   myImage->Allocate();
 
-  typedef itk::ImageLinearIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageLinearIteratorWithIndex< ImageType >;
 
-  typedef itk::ImageLinearConstIteratorWithIndex< ImageType > ConstIteratorType;
+  using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex< ImageType >;
 
   IteratorType it( myImage, region0 );
 

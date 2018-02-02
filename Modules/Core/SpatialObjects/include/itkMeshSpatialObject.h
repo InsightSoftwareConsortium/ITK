@@ -39,23 +39,23 @@ class ITK_TEMPLATE_EXPORT MeshSpatialObject:
 {
 public:
 
-  typedef double                     ScalarType;
-  typedef MeshSpatialObject< TMesh > Self;
+  using ScalarType = double;
+  using Self = MeshSpatialObject< TMesh >;
 
   itkStaticConstMacro(Dimension, unsigned int, TMesh::PointDimension);
 
-  typedef SpatialObject< itkGetStaticConstMacro(Dimension) > Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
+  using Superclass = SpatialObject< itkGetStaticConstMacro(Dimension) >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TMesh                                MeshType;
-  typedef typename MeshType::Pointer           MeshPointer;
-  typedef typename Superclass::TransformType   TransformType;
-  typedef typename Superclass::PointType       PointType;
-  typedef typename Superclass::BoundingBoxType BoundingBoxType;
+  using MeshType = TMesh;
+  using MeshPointer = typename MeshType::Pointer;
+  using TransformType = typename Superclass::TransformType;
+  using PointType = typename Superclass::PointType;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
 
-  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
-  typedef typename PointContainerType::Pointer         PointContainerPointer;
+  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointContainerPointer = typename PointContainerType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

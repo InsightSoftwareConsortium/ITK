@@ -35,9 +35,9 @@ int itkFlipImageFilterTest( int argc, char* argv[] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
   const unsigned int ImageDimension = 3;
-  typedef unsigned char                           PixelType;
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
-  typedef itk::FlipImageFilter< ImageType >       FlipperType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
+  using FlipperType = itk::FlipImageFilter< ImageType >;
 
   // Define a small input image
   ImageType::IndexType index = {{ 10, 20, 30 }};
@@ -63,7 +63,7 @@ int itkFlipImageFilterTest( int argc, char* argv[] )
   inputImage->SetSpacing( spacing );
   inputImage->SetOrigin( origin );
 
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
   IteratorType inputIter( inputImage, inputImage->GetBufferedRegion() );
 
   PixelType counter = 0;
@@ -103,8 +103,8 @@ int itkFlipImageFilterTest( int argc, char* argv[] )
   const ImageType::SpacingType& outputSpacing = outputImage->GetSpacing();
   const ImageType::PointType&   outputOrigin  = outputImage->GetOrigin();
 
-  typedef ImageType::IndexType      IndexType;
-  typedef IndexType::IndexValueType IndexValueType;
+  using IndexType = ImageType::IndexType;
+  using IndexValueType = IndexType::IndexValueType;
 
   inputIter.GoToBegin();
   bool passed = true;

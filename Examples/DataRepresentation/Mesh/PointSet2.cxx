@@ -31,7 +31,7 @@
 
 int main(int, char *[])
 {
-  typedef itk::PointSet< unsigned short, 3 > PointSetType;
+  using PointSetType = itk::PointSet< unsigned short, 3 >;
 
   //  Software Guide : BeginLatex
   //
@@ -44,7 +44,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef PointSetType::PointsContainer      PointsContainer;
+  using PointsContainer = PointSetType::PointsContainer;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -84,7 +84,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef PointSetType::PointType   PointType;
+  using PointType = PointSetType::PointType;
   PointType p0;
   PointType p1;
   p0[0] = -1.0; p0[1] = 0.0; p0[2] = 0.0; // Point 0 = {-1,0,0 }
@@ -161,7 +161,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef PointsContainer::Iterator     PointsIterator;
+  using PointsIterator = PointsContainer::Iterator;
   // Software Guide : EndCodeSnippet
 
 

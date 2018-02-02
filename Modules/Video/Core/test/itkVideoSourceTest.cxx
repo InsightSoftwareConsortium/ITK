@@ -19,12 +19,12 @@
 #include "itkVideoSource.h"
 #include "itkImageRegionIterator.h"
 
-// Set up typedefs for test
+// Set up type alias for test
 const unsigned int Dimension =                   2;
-typedef unsigned char                      PixelType;
-typedef itk::Image< PixelType, Dimension > FrameType;
-typedef itk::VideoStream< FrameType >      VideoType;
-typedef itk::SizeValueType                 SizeValueType;
+using PixelType = unsigned char;
+using FrameType = itk::Image< PixelType, Dimension >;
+using VideoType = itk::VideoStream< FrameType >;
+using SizeValueType = itk::SizeValueType;
 
 namespace itk
 {
@@ -38,16 +38,16 @@ class DummyVideoSource : public VideoSource<TOutputVideoStream>
 {
 public:
 
-  /** Standard class typedefs */
-  typedef TOutputVideoStream                        OutputVideoStreamType;
-  typedef DummyVideoSource< OutputVideoStreamType > Self;
-  typedef VideoSource< OutputVideoStreamType >      Superclass;
-  typedef SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                ConstPointer;
-  typedef WeakPointer< const Self >                 ConstWeakPointer;
+  /** Standard class type aliases */
+  using OutputVideoStreamType = TOutputVideoStream;
+  using Self = DummyVideoSource< OutputVideoStreamType >;
+  using Superclass = VideoSource< OutputVideoStreamType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
-  typedef typename TOutputVideoStream::FrameType OutputFrameType;
-  typedef typename OutputFrameType::RegionType   OutputFrameSpatialRegionType;
+  using OutputFrameType = typename TOutputVideoStream::FrameType;
+  using OutputFrameSpatialRegionType = typename OutputFrameType::RegionType;
 
   itkNewMacro(Self);
 
@@ -154,7 +154,7 @@ int itkVideoSourceTest( int, char* [] )
   //////
   // Test Instantiation
   //////
-  typedef itk::VideoSourceTest::DummyVideoSource< VideoType > VideoSourceType;
+  using VideoSourceType = itk::VideoSourceTest::DummyVideoSource< VideoType >;
   VideoSourceType::Pointer videoSource = VideoSourceType::New();
 
   //////

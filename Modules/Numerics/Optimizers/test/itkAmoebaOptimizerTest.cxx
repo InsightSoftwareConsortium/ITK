@@ -47,21 +47,21 @@ class amoebaTestF1 : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef amoebaTestF1                      Self;
-  typedef itk::SingleValuedCostFunction     Superclass;
-  typedef itk::SmartPointer<Self>           Pointer;
-  typedef itk::SmartPointer<const Self>     ConstPointer;
+  using Self = amoebaTestF1;
+  using Superclass = itk::SingleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( amoebaTestF1, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::DerivativeType              DerivativeType;
-  typedef Superclass::MeasureType                 MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
-  typedef vnl_vector<double>                      VectorType;
-  typedef vnl_matrix<double>                      MatrixType;
+  using VectorType = vnl_vector<double>;
+  using MatrixType = vnl_matrix<double>;
 
 
   amoebaTestF1():m_A(SpaceDimension,SpaceDimension),m_B(SpaceDimension)
@@ -149,15 +149,15 @@ class amoebaTestF2 : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef amoebaTestF2                      Self;
-  typedef itk::SingleValuedCostFunction     Superclass;
-  typedef itk::SmartPointer<Self>           Pointer;
-  typedef itk::SmartPointer<const Self>     ConstPointer;
+  using Self = amoebaTestF2;
+  using Superclass = itk::SingleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( amoebaTestF1, SingleValuedCostFunction );
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::MeasureType                 MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using MeasureType = Superclass::MeasureType;
 
   amoebaTestF2()
    {
@@ -193,9 +193,9 @@ public:
 class CommandIterationUpdateAmoeba : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdateAmoeba   Self;
-  typedef  itk::Command                   Superclass;
-  typedef itk::SmartPointer<Self>         Pointer;
+  using Self = CommandIterationUpdateAmoeba;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
   void Reset() { m_IterationNumber = 0; }
@@ -259,7 +259,7 @@ int AmoebaTest1()
 
   std::cout << "Amoeba Optimizer Test 1\n \n";
 
-  typedef  itk::AmoebaOptimizer  OptimizerType;
+  using OptimizerType = itk::AmoebaOptimizer;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -441,7 +441,7 @@ int AmoebaTest2()
 {
   std::cout << "Amoeba Optimizer Test 2\n \n";
 
-  typedef  itk::AmoebaOptimizer  OptimizerType;
+  using OptimizerType = itk::AmoebaOptimizer;
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
 
          // set optimizer parameters

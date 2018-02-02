@@ -39,15 +39,15 @@ class ITK_TEMPLATE_EXPORT ArrowSpatialObject:
 {
 public:
 
-  typedef ArrowSpatialObject                 Self;
-  typedef SpatialObject< TDimension >        Superclass;
-  typedef SmartPointer< Self >               Pointer;
-  typedef SmartPointer< const Self >         ConstPointer;
-  typedef double                             ScalarType;
-  typedef Vector< double, TDimension >       VectorType;
-  typedef Point< double, TDimension >        PointType;
-  typedef typename Superclass::TransformType TransformType;
-  typedef typename TransformType::MatrixType MatrixType;
+  using Self = ArrowSpatialObject;
+  using Superclass = SpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ScalarType = double;
+  using VectorType = Vector< double, TDimension >;
+  using PointType = Point< double, TDimension >;
+  using TransformType = typename Superclass::TransformType;
+  using MatrixType = typename TransformType::MatrixType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

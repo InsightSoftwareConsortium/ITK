@@ -66,14 +66,14 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   if( argc > 5 )
   if ( atoi(argv[5]) == 1 ) rotateinput=true;
   const unsigned int Dimension = 2;
-  typedef unsigned short PixelType; //I assume png is unsigned short
-  typedef double InternalPixelType;
+  using PixelType = unsigned short; //I assume png is unsigned short
+  using InternalPixelType = double;
 
-  typedef itk::Image< PixelType, Dimension >          InputImageType;
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
+  using InputImageType = itk::Image< PixelType, Dimension >;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< InputImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< InputImageType >  MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< InputImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< InputImageType >;
 
   FixedImageReaderType::Pointer fixedImageReader   = FixedImageReaderType::New();
   fixedImageReader->SetFileName( argv[1] );
@@ -83,9 +83,9 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   movingImageReader->Update();
 
   //get the images
-  typedef itk::CastImageFilter<
+  using CastFilterType = itk::CastImageFilter<
                         InputImageType,
-                        InternalImageType >           CastFilterType;
+                        InternalImageType >;
   CastFilterType::Pointer  fixedcaster =  CastFilterType::New();
   fixedcaster->SetInput( fixedImageReader->GetOutput() ); // resample->GetOutput()
   fixedcaster->Update();
@@ -99,8 +99,8 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
 
   /** Now set up a rotation about the center of the image */
   //create an affine transform
-  typedef itk::AffineTransform<double, Dimension>
-                                                    AffineTransformType;
+  using AffineTransformType =
+      itk::AffineTransform<double, Dimension>;
   InternalImageType::IndexType centerindex;
   InternalImageType::PointType mpoint;
   InternalImageType::PointType fpoint;
@@ -124,9 +124,9 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   affineTransformGroundTruth->Translate(foffset);
 
   /** define a resample filter that will ultimately be used to deform the image */
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             InternalImageType,
-                            InternalImageType >    ResampleFilterType;
+                            InternalImageType >;
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
   resample->SetTransform( affineTransformGroundTruth );
   resample->SetInput( movingImage );
@@ -142,20 +142,16 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   std::cout <<" affineTransform params prior to optimization " << affineTransform->GetParameters() << std::endl;
 
   //identity transform for fixed image
-  typedef itk::IdentityTransform<double, Dimension> IdentityTransformType;
+  using IdentityTransformType = itk::IdentityTransform<double, Dimension>;
   IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
   // The metric
-  //  typedef itk::MeanSquaresImageToImageMetricv4 < InternalImageType, InternalImageType >
-  typedef itk::CorrelationImageToImageMetricv4 < InternalImageType, InternalImageType >
-  //  typedef itk::MattesMutualInformationImageToImageMetricv4 < InternalImageType, InternalImageType >
-  //  typedef itk::JointHistogramMutualInformationImageToImageMetricv4 < InternalImageType, InternalImageType >
-                                                                                        MetricType;
-  typedef MetricType::FixedSampledPointSetType                                        PointSetType;
+  using MetricType = itk::CorrelationImageToImageMetricv4 < InternalImageType, InternalImageType >;
+  using PointSetType = MetricType::FixedSampledPointSetType;
   MetricType::Pointer metric = MetricType::New();
   //  metric->SetNumberOfHistogramBins(20);
-  typedef PointSetType::PointType     PointType;
+  using PointType = PointSetType::PointType;
   PointSetType::Pointer               pset(PointSetType::New());
   unsigned long ind=0,ct=0;
   itk::ImageRegionIteratorWithIndex<InternalImageType> It(fixedImage, fixedImage->GetLargestPossibleRegion() );
@@ -183,11 +179,11 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   metric->SetUseFixedImageGradientFilter( gaussian );
   metric->Initialize();
 
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType > RegistrationParameterScalesFromShiftType;
+  using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift< MetricType >;
   RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
-  typedef itk::GradientDescentOptimizerv4  OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizerv4;
   OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
@@ -196,7 +192,7 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   optimizer->SetConvergenceWindowSize(20);
   optimizer->SetMinimumConvergenceValue(-1.e-5);
 
-  typedef  itk::MultiStartOptimizerv4  MOptimizerType;
+  using MOptimizerType = itk::MultiStartOptimizerv4;
   MOptimizerType::Pointer  MOptimizer = MOptimizerType::New();
   MOptimizerType::ParametersListType parametersList = MOptimizer->GetParametersList();
   float rotplus=10;
@@ -237,7 +233,7 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   resampleout->SetDefaultPixelValue( 0 );
   resampleout->Update();
   //write the warped image into a file
-  typedef itk::ImageFileWriter< InternalImageType >   WriterType;
+  using WriterType = itk::ImageFileWriter< InternalImageType >;
   WriterType::Pointer      writer =  WriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( resampleout->GetOutput() );

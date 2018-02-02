@@ -35,21 +35,19 @@ int itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char* argv [] )
     return EXIT_FAILURE;
   }
   const int Dimension = 2;
-  typedef unsigned char                      PixelType;
-  typedef itk::Image< PixelType, Dimension > InputImageType;
-  typedef itk::Image< PixelType, Dimension > OutputImageType;
+  using PixelType = unsigned char;
+  using InputImageType = itk::Image< PixelType, Dimension >;
+  using OutputImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
-  typedef itk::ShiftScaleImageFilter <InputImageType,InputImageType>
-    ShiftFilterType;
-  typedef itk::GrayscaleGeodesicDilateImageFilter < InputImageType,
-                                                   OutputImageType >
-    DilateFilterType;
-  typedef itk::GrayscaleGeodesicErodeImageFilter < InputImageType,
-                                                   OutputImageType >
-    ErodeFilterType;
+  using ShiftFilterType =
+      itk::ShiftScaleImageFilter <InputImageType,InputImageType>;
+  using DilateFilterType = itk::GrayscaleGeodesicDilateImageFilter < InputImageType,
+                                                   OutputImageType >;
+  using ErodeFilterType = itk::GrayscaleGeodesicErodeImageFilter < InputImageType,
+                                                   OutputImageType >;
 
   ReaderType::Pointer           reader = ReaderType::New();
   WriterType::Pointer           writer = WriterType::New();

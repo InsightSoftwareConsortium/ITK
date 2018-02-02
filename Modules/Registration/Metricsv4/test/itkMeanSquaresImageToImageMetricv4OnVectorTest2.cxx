@@ -30,7 +30,7 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2Run( typename TMetric::Measur
   const unsigned int imageSize = 5;
   const unsigned int imageDimensionality = 3;
 
-  typedef typename TMetric::FixedImageType  ImageType;
+  using ImageType = typename TMetric::FixedImageType;
 
   typename ImageType::SizeType       size;
   size.Fill( imageSize );
@@ -64,7 +64,7 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2Run( typename TMetric::Measur
   /*
    * Fill both images
    */
-  typedef typename ImageType::PixelType PixelType;
+  using PixelType = typename ImageType::PixelType;
 
   itk::ImageRegionIterator<ImageType> itFixed( fixedImage, region );
   itk::ImageRegionIteratorWithIndex<ImageType> itMoving( movingImage, region );
@@ -85,8 +85,8 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2Run( typename TMetric::Measur
     }
 
   /* Transforms */
-  typedef itk::TranslationTransform<double,imageDimensionality> FixedTransformType;
-  typedef itk::TranslationTransform<double,imageDimensionality> MovingTransformType;
+  using FixedTransformType = itk::TranslationTransform<double,imageDimensionality>;
+  using MovingTransformType = itk::TranslationTransform<double,imageDimensionality>;
 
   typename FixedTransformType::Pointer fixedTransform = FixedTransformType::New();
   typename MovingTransformType::Pointer movingTransform = MovingTransformType::New();
@@ -143,11 +143,11 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   const unsigned int vectorLength = 3;
 
   /* The vector metric */
-  typedef itk::Vector<double, vectorLength>                  VectorType;
-  typedef itk::Image< VectorType, imageDimensionality >      VectorImageType;
+  using VectorType = itk::Vector<double, vectorLength>;
+  using VectorImageType = itk::Image< VectorType, imageDimensionality >;
 
-  typedef itk::VectorImageToImageMetricTraitsv4< VectorImageType, VectorImageType, VectorImageType, vectorLength, double >    MetricTraitsType;
-  typedef itk::MeanSquaresImageToImageMetricv4< VectorImageType, VectorImageType, VectorImageType, double, MetricTraitsType > VectorMetricType;
+  using MetricTraitsType = itk::VectorImageToImageMetricTraitsv4< VectorImageType, VectorImageType, VectorImageType, vectorLength, double >;
+  using VectorMetricType = itk::MeanSquaresImageToImageMetricv4< VectorImageType, VectorImageType, VectorImageType, double, MetricTraitsType >;
 
   VectorMetricType::MeasureType     vectorMeasure = 0.0;
   VectorMetricType::DerivativeType  vectorDerivative;
@@ -157,8 +157,8 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   std::cout << "vectorMeasure: " << vectorMeasure << " vectorDerivative: " << vectorDerivative << std::endl;
 
   /* The scalar metric */
-  typedef itk::Image< double, imageDimensionality >                                                 ScalarImageType;
-  typedef itk::MeanSquaresImageToImageMetricv4< ScalarImageType, ScalarImageType, ScalarImageType > ScalarMetricType;
+  using ScalarImageType = itk::Image< double, imageDimensionality >;
+  using ScalarMetricType = itk::MeanSquaresImageToImageMetricv4< ScalarImageType, ScalarImageType, ScalarImageType >;
 
   ScalarMetricType::MeasureType     scalarMeasure = 0.0;
   ScalarMetricType::DerivativeType  scalarDerivative;

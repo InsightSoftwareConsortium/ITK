@@ -45,19 +45,19 @@ template <typename TBaseClass = Element>
 class ITK_TEMPLATE_EXPORT Element2DStress : public TBaseClass
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element2DStress          Self;
-  typedef TBaseClass               Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element2DStress;
+  using Superclass = TBaseClass;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element2DStress, TBaseClass);
 
-  // Repeat the required typedefs and enums from parent class
-  typedef typename Superclass::Float      Float;
-  typedef typename Superclass::MatrixType MatrixType;
-  typedef typename Superclass::VectorType VectorType;
+  // Repeat the required type alias and enums from parent class
+  using Float = typename Superclass::Float;
+  using MatrixType = typename Superclass::MatrixType;
+  using VectorType = typename Superclass::VectorType;
 
   /**
    * Default constructor only clears the internal storage

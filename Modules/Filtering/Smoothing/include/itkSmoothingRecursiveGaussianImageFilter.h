@@ -54,18 +54,18 @@ class ITK_TEMPLATE_EXPORT SmoothingRecursiveGaussianImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SmoothingRecursiveGaussianImageFilter           Self;
-  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SmoothingRecursiveGaussianImageFilter;
+  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Pixel typedefs. */
-  typedef TInputImage                                         InputImageType;
-  typedef TOutputImage                                        OutputImageType;
-  typedef typename TInputImage::PixelType                     PixelType;
-  typedef typename NumericTraits< PixelType >::RealType       RealType;
-  typedef typename NumericTraits< PixelType >::ScalarRealType ScalarRealType;
+  /** Pixel type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using PixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< PixelType >::RealType;
+  using ScalarRealType = typename NumericTraits< PixelType >::ScalarRealType;
 
   /** Runtime information support. */
   itkTypeMacro(SmoothingRecursiveGaussianImageFilter,
@@ -76,35 +76,35 @@ public:
                       TInputImage::ImageDimension);
 
   /** Define the type for the sigma array. */
-  typedef FixedArray< ScalarRealType,
-                      itkGetStaticConstMacro(ImageDimension) > SigmaArrayType;
+  using SigmaArrayType = FixedArray< ScalarRealType,
+                      itkGetStaticConstMacro(ImageDimension) >;
 
   /** Define the image type for internal computations.
    * RealType is usually 'double' in NumericTraits.
    * Here we prefer float in order to save memory. */
-  typedef typename NumericTraits< PixelType >::FloatType                      InternalRealType;
-  typedef typename InputImageType::template RebindImageType<InternalRealType> RealImageType;
+  using InternalRealType = typename NumericTraits< PixelType >::FloatType;
+  using RealImageType = typename InputImageType::template Rebind<InternalRealType>::Type;
 
   /** Typedef for the first Gaussian smoothing in the pipeline. */
-  typedef RecursiveGaussianImageFilter< InputImageType, RealImageType > FirstGaussianFilterType;
+  using FirstGaussianFilterType = RecursiveGaussianImageFilter< InputImageType, RealImageType >;
 
   /** Typedef for the internal Gaussian smoothing filter. */
-  typedef RecursiveGaussianImageFilter< RealImageType, RealImageType > InternalGaussianFilterType;
+  using InternalGaussianFilterType = RecursiveGaussianImageFilter< RealImageType, RealImageType >;
 
   /** Typedef for the casting image filter. */
-  typedef CastImageFilter< RealImageType, OutputImageType > CastingFilterType;
+  using CastingFilterType = CastImageFilter< RealImageType, OutputImageType >;
 
   /** Pointer to the internal Gaussian filter. */
-  typedef typename InternalGaussianFilterType::Pointer InternalGaussianFilterPointer;
+  using InternalGaussianFilterPointer = typename InternalGaussianFilterType::Pointer;
 
   /** Pointer to the first Gaussian smoothing filter. */
-  typedef typename FirstGaussianFilterType::Pointer FirstGaussianFilterPointer;
+  using FirstGaussianFilterPointer = typename FirstGaussianFilterType::Pointer;
 
   /** Pointer to the casting image filter. */
-  typedef typename CastingFilterType::Pointer CastingFilterPointer;
+  using CastingFilterPointer = typename CastingFilterType::Pointer;
 
   /** Pointer to the Output Image */
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

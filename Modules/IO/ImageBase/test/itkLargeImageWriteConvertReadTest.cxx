@@ -28,12 +28,12 @@ int itkLargeImageWriteConvertReadTest(int ac, char* av[])
     std::cout << "usage: itkIOTests itkLargeImageWriteConvertReadTest outputFileName numberOfPixelsInOneDimension" << std::endl;
     return EXIT_FAILURE;
     }
-  typedef unsigned char                 OutputPixelType;
-  typedef itk::Image<OutputPixelType,2> OutputImageType;
-  typedef itk::Image<unsigned short,2>  InputImageType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image<OutputPixelType,2>;
+  using InputImageType = itk::Image<unsigned short,2>;
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
   itk::TimeProbesCollectorBase chronometer;
 
@@ -58,7 +58,7 @@ int itkLargeImageWriteConvertReadTest(int ac, char* av[])
   chronometer.Stop("Allocate");
 
   std::cout << "Initializing pixel values " << std::endl;
-  typedef itk::ImageRegionIterator< OutputImageType >  IteratorType;
+  using IteratorType = itk::ImageRegionIterator< OutputImageType >;
 
   IteratorType itr( image, region );
   itr.GoToBegin();

@@ -29,11 +29,11 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
 {
   const unsigned int Dimension = VDimension;
 
-  typedef float                               PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   // Read input
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -41,8 +41,8 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
 
 
   // Create the itk::DiscreteHessianGaussianImageFunction
-  typedef itk::DiscreteHessianGaussianImageFunction< ImageType, PixelType >
-    HessianGaussianImageFunctionType;
+  using HessianGaussianImageFunctionType =
+      itk::DiscreteHessianGaussianImageFunction< ImageType, PixelType >;
   typename HessianGaussianImageFunctionType::TensorType hessian;
   typename HessianGaussianImageFunctionType::TensorType::EigenValuesArrayType eigenValues;
 
@@ -113,7 +113,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
 
 
   // Create image for storing result
-  typedef typename ImageType::Pointer ImageTypePointer;
+  using ImageTypePointer = typename ImageType::Pointer;
 
   ImageTypePointer output = ImageType::New();
   output->SetSpacing( reader->GetOutput()->GetSpacing() );
@@ -127,16 +127,16 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
 
 
   // Step over input and output images
-  typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
-  typedef itk::ImageRegionIterator< ImageType >      IteratorType;
+  using ConstIteratorType = itk::ImageRegionConstIterator< ImageType >;
+  using IteratorType = itk::ImageRegionIterator< ImageType >;
 
   ConstIteratorType it( reader->GetOutput(), reader->GetOutput()->GetRequestedRegion() );
   it.GoToBegin();
   IteratorType outIter( output, output->GetRequestedRegion() );
 
-  typedef typename HessianGaussianImageFunctionType::PointType  PointType;
+  using PointType = typename HessianGaussianImageFunctionType::PointType;
   PointType point;
-  typedef typename HessianGaussianImageFunctionType::ContinuousIndexType ContinuousIndexType;
+  using ContinuousIndexType = typename HessianGaussianImageFunctionType::ContinuousIndexType;
   ContinuousIndexType cindex;
   const unsigned long nop = reader->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
   unsigned long pixelNumber = 0;
@@ -174,7 +174,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
     }
 
   // Write the output image
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( output );
@@ -183,7 +183,7 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
 
 
   // Check that VarianceArrayType can be changed
-  typedef typename HessianGaussianImageFunctionType::VarianceArrayType VarianceArrayType;
+  using VarianceArrayType = typename HessianGaussianImageFunctionType::VarianceArrayType;
   VarianceArrayType varReturned = function->GetVariance();
 
   VarianceArrayType varChanged = varReturned;
@@ -277,12 +277,12 @@ int itkDiscreteHessianGaussianImageFunctionTest( int argc, char* argv[] )
   // when calling overloaded base class functions.
   const unsigned int Dimension = 3;
 
-  typedef float                               PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
 
-  typedef itk::DiscreteHessianGaussianImageFunction< ImageType, PixelType >
-    HessianGaussianImageFunctionType;
+  using HessianGaussianImageFunctionType =
+      itk::DiscreteHessianGaussianImageFunction< ImageType, PixelType >;
   HessianGaussianImageFunctionType::Pointer function =
     HessianGaussianImageFunctionType::New();
 

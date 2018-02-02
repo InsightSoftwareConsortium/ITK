@@ -36,20 +36,20 @@ class GradientDescentOptimizerv4Test2Metric
 {
 public:
 
-  typedef GradientDescentOptimizerv4Test2Metric Self;
-  typedef itk::ObjectToObjectMetricBase         Superclass;
-  typedef itk::SmartPointer<Self>               Pointer;
-  typedef itk::SmartPointer<const Self>         ConstPointer;
+  using Self = GradientDescentOptimizerv4Test2Metric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( GradientDescentOptimizerv4Test2Metric, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=3 };
 
-  typedef Superclass::ParametersType          ParametersType;
-  typedef Superclass::ParametersValueType     ParametersValueType;
-  typedef Superclass::NumberOfParametersType  NumberOfParametersType;
-  typedef Superclass::DerivativeType          DerivativeType;
-  typedef Superclass::MeasureType             MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using ParametersValueType = Superclass::ParametersValueType;
+  using NumberOfParametersType = Superclass::NumberOfParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
   GradientDescentOptimizerv4Test2Metric()
   {
@@ -129,9 +129,9 @@ int itkGradientDescentOptimizerv4Test2(int, char* [] )
   std::cout << "Gradient Descent Object Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::GradientDescentOptimizerv4  OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizerv4;
 
-  typedef OptimizerType::ScalesType             ScalesType;
+  using ScalesType = OptimizerType::ScalesType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -141,8 +141,8 @@ int itkGradientDescentOptimizerv4Test2(int, char* [] )
 
   itkOptimizer->SetMetric( metric );
 
-  typedef GradientDescentOptimizerv4Test2Metric::ParametersType    ParametersType;
-  typedef GradientDescentOptimizerv4Test2Metric::NumberOfParametersType    NumberOfParametersType;
+  using ParametersType = GradientDescentOptimizerv4Test2Metric::ParametersType;
+  using NumberOfParametersType = GradientDescentOptimizerv4Test2Metric::NumberOfParametersType;
 
   ParametersType  initialPosition( metric->GetNumberOfParameters() );
   initialPosition.Fill(0);

@@ -38,11 +38,11 @@ class ITKOptimizers_EXPORT SingleValuedNonLinearVnlOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:
-  /** Standard class typedefs. */
-  typedef SingleValuedNonLinearVnlOptimizer Self;
-  typedef SingleValuedNonLinearOptimizer    Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SingleValuedNonLinearVnlOptimizer;
+  using Superclass = SingleValuedNonLinearOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SingleValuedNonLinearVnlOptimizer,
@@ -52,7 +52,7 @@ public:
    * adaptor in order to generate iteration events. This will allow to overcome
    * the limitation of VNL optimizers not offering callbacks for every
    * iteration */
-  typedef ReceptorMemberCommand< Self > CommandType;
+  using CommandType = ReceptorMemberCommand< Self >;
 
   /** Set the cost Function. This method has to be overloaded
    *  by derived classes because the CostFunctionAdaptor requires
@@ -92,7 +92,7 @@ protected:
   SingleValuedNonLinearVnlOptimizer();
   ~SingleValuedNonLinearVnlOptimizer() override;
 
-  typedef SingleValuedVnlCostFunctionAdaptor CostFunctionAdaptorType;
+  using CostFunctionAdaptorType = SingleValuedVnlCostFunctionAdaptor;
 
   void SetCostFunctionAdaptor(CostFunctionAdaptorType *adaptor);
 

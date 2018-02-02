@@ -83,11 +83,11 @@ class ITK_TEMPLATE_EXPORT BSplineResampleImageFilterBase:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineResampleImageFilterBase                  Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineResampleImageFilterBase;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineResampleImageFilterBase, ImageToImageFilter);
@@ -95,33 +95,33 @@ public:
   /** New macro for creation of through a Smart Pointer */
   //  Must be sustantiated through another class. itkNewMacro( Self );
 
-  /** InputInputImage typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
+  /** InputInputImage type alias support */
+  using InputImageType = typename Superclass::InputImageType;
 
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Index typedef support. */
-  typedef typename TInputImage::IndexType IndexType;
+  /** Index type alias support */
+  using IndexType = typename TInputImage::IndexType;
 
-  /** Size typedef support. */
-  typedef typename TInputImage::SizeType SizeType;
+  /** Size type alias support */
+  using SizeType = typename TInputImage::SizeType;
 
-  /** Size typedef support. */
-  typedef typename TInputImage::RegionType RegionType;
+  /** Size type alias support */
+  using RegionType = typename TInputImage::RegionType;
 
-  /** OutputImagePixelType typedef support. */
-  typedef typename Superclass::OutputImagePixelType OutputImagePixelType;
+  /** OutputImagePixelType type alias support */
+  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
 
-  /** Iterator typedef support */
-  typedef itk::ImageLinearConstIteratorWithIndex< TInputImage > ConstInputImageIterator;
+  /** Iterator type alias support */
+  using ConstInputImageIterator = itk::ImageLinearConstIteratorWithIndex< TInputImage >;
 
-  /** Iterator typedef support */
-  typedef itk::ImageLinearConstIteratorWithIndex< TOutputImage > ConstOutputImageIterator;
+  /** Iterator type alias support */
+  using ConstOutputImageIterator = itk::ImageLinearConstIteratorWithIndex< TOutputImage >;
 
-  /** Output Iterator typedef support */
-  typedef itk::ImageLinearIteratorWithIndex< TOutputImage > OutputImageIterator;
+  /** Output Iterator type alias support */
+  using OutputImageIterator = itk::ImageLinearIteratorWithIndex< TOutputImage >;
 
   /** Set the spline order for interpolation.  Value must be between 0 and 3 with a
    * default of 0. */

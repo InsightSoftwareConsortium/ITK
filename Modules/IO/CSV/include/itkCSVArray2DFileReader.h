@@ -59,7 +59,7 @@ namespace itk
  * Below is an example of how this class can be used to read and parse the data
  * from an input file:
  *
- * typedef itk::CSVArray2DFileReader<double> ReaderType;
+ * using ReaderType = itk::CSVArray2DFileReader<double>;
  * ReaderType::Pointer reader = ReaderType::New();
  *
  * std::string filename = "NameOfFile.csv";
@@ -78,11 +78,11 @@ template <typename TData>
 class ITK_TEMPLATE_EXPORT CSVArray2DFileReader:public CSVFileReaderBase
 {
 public:
-  /** Standard class typedefs */
-  typedef CSVArray2DFileReader      Self;
-  typedef CSVFileReaderBase         Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  /** Standard class type aliases */
+  using Self = CSVArray2DFileReader;
+  using Superclass = CSVFileReaderBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -91,11 +91,11 @@ public:
   itkTypeMacro(CSVArray2DFileReader, CSVFileReaderBase);
 
   /** DataFrame Object types */
-  typedef typename itk::CSVArray2DDataObject<TData>    Array2DDataObjectType;
-  typedef typename Array2DDataObjectType::Pointer      Array2DDataObjectPointer;
+  using Array2DDataObjectType = typename itk::CSVArray2DDataObject<TData>;
+  using Array2DDataObjectPointer = typename Array2DDataObjectType::Pointer;
 
   /** The value type of the dataset. */
-  typedef TData ValueType;
+  using ValueType = TData;
 
   /** This method can be used to get the data frame object once the data from
   * the file has been parsed. */

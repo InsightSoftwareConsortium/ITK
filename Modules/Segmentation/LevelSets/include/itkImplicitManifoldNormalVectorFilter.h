@@ -74,14 +74,14 @@ class ITK_TEMPLATE_EXPORT ImplicitManifoldNormalVectorFilter:
   public FiniteDifferenceSparseImageFilter< TInputImage, TSparseOutputImage >
 {
 public:
-  /** Standard class typedef */
-  typedef ImplicitManifoldNormalVectorFilter Self;
-  typedef FiniteDifferenceSparseImageFilter<
+  /** Standard class type alias */
+  using Self = ImplicitManifoldNormalVectorFilter;
+  using Superclass = FiniteDifferenceSparseImageFilter<
     TInputImage,
-    TSparseOutputImage >                      Superclass;
+    TSparseOutputImage >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(ImplicitManifoldNormalVectorFilter,
@@ -94,26 +94,25 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Typedefs from the superclass */
-  typedef typename Superclass::InputImageType InputImageType;
-  typedef typename Superclass::IndexType      IndexType;
-  typedef typename Superclass::NodeDataType   NormalVectorType;
-  typedef typename Superclass::NodeValueType  NodeValueType;
-  typedef typename Superclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
+  using InputImageType = typename Superclass::InputImageType;
+  using IndexType = typename Superclass::IndexType;
+  using NormalVectorType = typename Superclass::NodeDataType;
+  using NodeValueType = typename Superclass::NodeValueType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
-  typedef typename Superclass::SparseOutputImageType SparseOutputImageType;
-  typedef typename Superclass::OutputNodeType        NormalBandNodeType;
-  typedef typename Superclass::NodeListType          NodeListType;
+  using SparseOutputImageType = typename Superclass::SparseOutputImageType;
+  using NormalBandNodeType = typename Superclass::OutputNodeType;
+  using NodeListType = typename Superclass::NodeListType;
 
   /** The iterator for the input image. */
-  typedef ConstNeighborhoodIterator< InputImageType > InputImageIteratorType;
+  using InputImageIteratorType = ConstNeighborhoodIterator< InputImageType >;
 
   /** This is the finite difference function type for processing the normal
       vectors */
-  typedef NormalVectorFunctionBase< SparseOutputImageType > NormalFunctionType;
+  using NormalFunctionType = NormalVectorFunctionBase< SparseOutputImageType >;
 
   /** This is the radius type for the image neigborhoods. */
-  typedef typename FiniteDifferenceFunctionType::RadiusType RadiusType;
+  using RadiusType = typename FiniteDifferenceFunctionType::RadiusType;
 
   /** This method is used to set the finite difference function. */
   void SetNormalFunction(NormalFunctionType *nf);

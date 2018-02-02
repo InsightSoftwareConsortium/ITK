@@ -42,14 +42,14 @@ int itkHConcaveImageFilterTest( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
 
-  typedef short         InputPixelType;
-  typedef unsigned char OutputPixelType;
+  using InputPixelType = short;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType, Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
   // Read the input image
-  typedef itk::ImageFileReader< InputImageType  > ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -57,9 +57,9 @@ int itkHConcaveImageFilterTest( int argc, char * argv[] )
 
 
   // Define the itk::HConcaveImageFilter filter type
-  typedef itk::HConcaveImageFilter<
+  using HConcaveFilterType = itk::HConcaveImageFilter<
                             InputImageType,
-                            OutputImageType > HConcaveFilterType;
+                            OutputImageType >;
 
   // Create the filter
   HConcaveFilterType::Pointer hConcaveFilter = HConcaveFilterType::New();
@@ -87,7 +87,7 @@ int itkHConcaveImageFilterTest( int argc, char * argv[] )
 
 
   // Write the output
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( hConcaveFilter->GetOutput() );

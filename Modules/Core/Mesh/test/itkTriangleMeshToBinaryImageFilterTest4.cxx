@@ -39,8 +39,8 @@ int itkTriangleMeshToBinaryImageFilterTest4( int argc, char * argv [] )
 
   const unsigned int Dimension = 3;
 
-  typedef itk::Mesh<float, Dimension>           MeshType;
-  typedef itk::MeshFileReader< MeshType >       ReaderType;
+  using MeshType = itk::Mesh<float, Dimension>;
+  using ReaderType = itk::MeshFileReader< MeshType >;
 
   ReaderType::Pointer  polyDataReader = ReaderType::New();
 
@@ -57,9 +57,9 @@ int itkTriangleMeshToBinaryImageFilterTest4( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned char, 3> ImageType;
+  using ImageType = itk::Image<unsigned char, 3>;
 
-  typedef itk::TriangleMeshToBinaryImageFilter< MeshType, ImageType >  TriangleImageType;
+  using TriangleImageType = itk::TriangleMeshToBinaryImageFilter< MeshType, ImageType >;
 
   TriangleImageType::Pointer imageFilter = TriangleImageType::New();
 
@@ -260,7 +260,7 @@ int itkTriangleMeshToBinaryImageFilterTest4( int argc, char * argv [] )
   //Exercising Printself//
   imageFilter->Print(std::cout);
 
-  typedef itk::ImageFileWriter<ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType >;
   WriterType::Pointer imageWriter = WriterType::New();
   imageWriter->SetInput(imageFilter->GetOutput() );
   imageWriter->SetFileName( argv[2] );

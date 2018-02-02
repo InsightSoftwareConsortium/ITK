@@ -46,7 +46,7 @@ inline int Partition(TSubsample *sample,
                      int beginIndex, int endIndex,
                      const typename TSubsample::MeasurementType partitionValue)
 {
-  typedef typename TSubsample::MeasurementType SampleMeasurementType;
+  using SampleMeasurementType = typename TSubsample::MeasurementType;
 
   int moveToFrontIndex = beginIndex;
   int moveToBackIndex = endIndex - 1;
@@ -245,7 +245,7 @@ inline void FindSampleBound(const TSample *sample,
                             typename TSample::MeasurementVectorType & min,
                             typename TSample::MeasurementVectorType & max)
 {
-  typedef typename TSample::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = typename TSample::MeasurementVectorSizeType;
 
   const MeasurementVectorSizeType measurementSize = sample->GetMeasurementVectorSize();
   if ( measurementSize == 0 )
@@ -300,10 +300,10 @@ FindSampleBoundAndMean(const TSubsample *sample,
                        typename TSubsample::MeasurementVectorType & max,
                        typename TSubsample::MeasurementVectorType & mean)
 {
-  typedef typename TSubsample::MeasurementType       MeasurementType;
-  typedef typename TSubsample::MeasurementVectorType MeasurementVectorType;
+  using MeasurementType = typename TSubsample::MeasurementType;
+  using MeasurementVectorType = typename TSubsample::MeasurementVectorType;
 
-  typedef typename TSubsample::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = typename TSubsample::MeasurementVectorSizeType;
   const MeasurementVectorSizeType Dimension = sample->GetMeasurementVectorSize();
   if ( Dimension == 0 )
     {
@@ -360,7 +360,7 @@ QuickSelect(TSubsample *sample,
             int kth,
             typename TSubsample::MeasurementType medianGuess)
 {
-  typedef typename TSubsample::MeasurementType SampleMeasurementType;
+  using SampleMeasurementType = typename TSubsample::MeasurementType;
 
   int begin = beginIndex;
   int end = endIndex - 1;
@@ -442,7 +442,7 @@ QuickSelect(TSubsample *sample,
             int endIndex,
             int kth)
 {
-  typedef typename TSubsample::MeasurementType SampleMeasurementType;
+  using SampleMeasurementType = typename TSubsample::MeasurementType;
   SampleMeasurementType medianGuess = NumericTraits< SampleMeasurementType >::NonpositiveMin();
   return QuickSelect< TSubsample >(sample, activeDimension,
                                    beginIndex, endIndex, kth, medianGuess);
@@ -456,7 +456,7 @@ inline int UnguardedPartition(TSubsample *sample,
                               int endIndex,
                               typename TSubsample::MeasurementType pivotValue)
 {
-  typedef typename TSubsample::MeasurementType MeasurementType;
+  using MeasurementType = typename TSubsample::MeasurementType;
   while ( true )
     {
     MeasurementType beginValue =
@@ -498,7 +498,7 @@ NthElement(TSubsample *sample,
            int endIndex,
            int nth)
 {
-  typedef typename TSubsample::MeasurementType MeasurementType;
+  using MeasurementType = typename TSubsample::MeasurementType;
 
   const int nthIndex = beginIndex + nth;
 
@@ -551,7 +551,7 @@ inline void InsertSort(TSubsample *sample,
     backwardIndex = backwardSearchBegin;
     while ( backwardIndex > beginIndex )
       {
-      typedef typename TSubsample::MeasurementType SampleMeasurementType;
+      using SampleMeasurementType = typename TSubsample::MeasurementType;
       const SampleMeasurementType value1 = sample->GetMeasurementVectorByIndex(backwardIndex)[activeDimension];
       const SampleMeasurementType value2 = sample->GetMeasurementVectorByIndex(backwardIndex - 1)[activeDimension];
 
@@ -578,7 +578,7 @@ inline void DownHeap(TSubsample *sample,
   int rightChild;
   int largerChild;
 
-  typedef typename TSubsample::MeasurementType SampleMeasurementType;
+  using SampleMeasurementType = typename TSubsample::MeasurementType;
   SampleMeasurementType currentNodeValue =
     sample->GetMeasurementVectorByIndex(currentNode)[activeDimension];
   SampleMeasurementType leftChildValue;
@@ -658,7 +658,7 @@ inline void IntrospectiveSortLoop(TSubsample *sample,
                                   int depthLimit,
                                   int sizeThreshold)
 {
-  typedef typename TSubsample::MeasurementType SampleMeasurementType;
+  using SampleMeasurementType = typename TSubsample::MeasurementType;
 
   int length = endIndex - beginIndex;
   int cut;

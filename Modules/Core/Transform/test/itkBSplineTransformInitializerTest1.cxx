@@ -44,14 +44,14 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
 
   const   unsigned int ImageDimension = 2;
 
-  typedef unsigned char                         PixelType;
-  typedef itk::Image<PixelType, ImageDimension> FixedImageType;
-  typedef itk::Image<PixelType, ImageDimension> MovingImageType;
+  using PixelType = unsigned char;
+  using FixedImageType = itk::Image<PixelType, ImageDimension>;
+  using MovingImageType = itk::Image<PixelType, ImageDimension>;
 
-  typedef itk::ImageFileReader<FixedImageType>  FixedReaderType;
-  typedef itk::ImageFileReader<MovingImageType> MovingReaderType;
+  using FixedReaderType = itk::ImageFileReader<FixedImageType>;
+  using MovingReaderType = itk::ImageFileReader<MovingImageType>;
 
-  typedef itk::ImageFileWriter<MovingImageType> MovingWriterType;
+  using MovingWriterType = itk::ImageFileWriter<MovingImageType>;
 
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName( argv[2] );
@@ -75,13 +75,13 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
 
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
-  typedef itk::ResampleImageFilter< MovingImageType, FixedImageType >
-    FilterType;
+  using FilterType =
+      itk::ResampleImageFilter< MovingImageType, FixedImageType >;
 
   FilterType::Pointer resampler = FilterType::New();
 
-  typedef itk::LinearInterpolateImageFunction<
-    MovingImageType, double>  InterpolatorType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
+    MovingImageType, double>;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
@@ -106,15 +106,15 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
 
   const unsigned int SpaceDimension = ImageDimension;
   const unsigned int SplineOrder = 3;
-  typedef double CoordinateRepType;
+  using CoordinateRepType = double;
 
-  typedef itk::BSplineTransform< CoordinateRepType, SpaceDimension,
-    SplineOrder > TransformType;
+  using TransformType = itk::BSplineTransform< CoordinateRepType, SpaceDimension,
+    SplineOrder >;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
 
-  typedef itk::BSplineTransformInitializer< TransformType, FixedImageType >
-    InitializerType;
+  using InitializerType =
+      itk::BSplineTransformInitializer< TransformType, FixedImageType >;
   InitializerType::Pointer transformInitializer = InitializerType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( transformInitializer, BSplineTransformInitializer,
@@ -134,7 +134,7 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
 
   transformInitializer->InitializeTransform();
 
-  typedef TransformType::ParametersType ParametersType;
+  using ParametersType = TransformType::ParametersType;
 
   const unsigned int numberOfParameters =
     bsplineTransform->GetNumberOfParameters();
@@ -168,8 +168,8 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Vector<float, ImageDimension>     VectorType;
-  typedef itk::Image<VectorType, ImageDimension> DeformationFieldType;
+  using VectorType = itk::Vector<float, ImageDimension>;
+  using DeformationFieldType = itk::Image<VectorType, ImageDimension>;
 
   DeformationFieldType::Pointer field = DeformationFieldType::New();
   field->SetRegions( fixedRegion );
@@ -178,7 +178,7 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
   field->SetDirection( fixedDirection );
   field->Allocate();
 
-  typedef itk::ImageRegionIterator<DeformationFieldType> FieldIterator;
+  using FieldIterator = itk::ImageRegionIterator<DeformationFieldType>;
   FieldIterator fi( field, fixedRegion );
 
   fi.GoToBegin();
@@ -201,7 +201,7 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
     ++fi;
     }
 
-  typedef itk::ImageFileWriter<DeformationFieldType> FieldWriterType;
+  using FieldWriterType = itk::ImageFileWriter<DeformationFieldType>;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput( field );

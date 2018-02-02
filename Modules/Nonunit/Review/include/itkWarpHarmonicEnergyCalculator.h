@@ -45,11 +45,11 @@ template< typename TInputImage >
 class ITK_TEMPLATE_EXPORT WarpHarmonicEnergyCalculator:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef WarpHarmonicEnergyCalculator Self;
-  typedef Object                       Superclass;
-  typedef SmartPointer< Self >         Pointer;
-  typedef SmartPointer< const Self >   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = WarpHarmonicEnergyCalculator;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,22 +58,22 @@ public:
   itkTypeMacro(WarpHarmonicEnergyCalculator, Object);
 
   /** Type definition for the input image. */
-  typedef TInputImage ImageType;
+  using ImageType = TInputImage;
 
   /** Pointer type for the image. */
-  typedef typename TInputImage::Pointer ImagePointer;
+  using ImagePointer = typename TInputImage::Pointer;
 
   /** Const Pointer type for the image. */
-  typedef typename TInputImage::ConstPointer ImageConstPointer;
+  using ImageConstPointer = typename TInputImage::ConstPointer;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType PixelType;
+  using PixelType = typename TInputImage::PixelType;
 
   /** Type definition for the input image index type. */
-  typedef typename TInputImage::IndexType IndexType;
+  using IndexType = typename TInputImage::IndexType;
 
   /** Type definition for the input image region type. */
-  typedef typename TInputImage::RegionType RegionType;
+  using RegionType = typename TInputImage::RegionType;
 
   /** The dimensionality of the input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -85,8 +85,8 @@ public:
 
   /** Type of the iterator that will be used to move through the image.  Also
       the type which will be passed to the evaluate function */
-  typedef ConstNeighborhoodIterator< ImageType >             ConstNeighborhoodIteratorType;
-  typedef typename ConstNeighborhoodIteratorType::RadiusType RadiusType;
+  using ConstNeighborhoodIteratorType = ConstNeighborhoodIterator< ImageType >;
+  using RadiusType = typename ConstNeighborhoodIteratorType::RadiusType;
 
   /** Set/Get whether or not the filter will use the spacing of the input
    *  image in its calculations.
@@ -101,7 +101,7 @@ public:
   itkGetConstMacro(UseImageSpacing, bool);
   itkBooleanMacro(UseImageSpacing);
 
-  typedef FixedArray< double, ImageDimension > WeightsType;
+  using WeightsType = FixedArray< double, ImageDimension >;
 
   /** Set/Get the array of weights used to scale partial derivatives in the
    *  gradient calculations.

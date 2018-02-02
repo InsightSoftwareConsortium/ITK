@@ -54,8 +54,8 @@ ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage, TFunctor, TMask
   // Neighborhood iterators.  Let's use a shaped neighborhood so we can
   // restrict the access to face connected neighbors. These iterators
   // will be applied to both the input and the output image
-  typedef ConstShapedNeighborhoodIterator< TInputImage >  InputNeighborhoodIteratorType;
-  typedef ConstShapedNeighborhoodIterator< TOutputImage > OutputNeighborhoodIteratorType;
+  using InputNeighborhoodIteratorType = ConstShapedNeighborhoodIterator< TInputImage >;
+  using OutputNeighborhoodIteratorType = ConstShapedNeighborhoodIterator< TOutputImage >;
 
   SizeType kernelRadius;
   kernelRadius.Fill(1);

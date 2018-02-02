@@ -27,14 +27,14 @@
 int itkNormalizeToConstantImageFilterTest( int, char* [] )
 {
   const unsigned int Dimension = 3;
-  typedef int     IntPixelType;
-  typedef double  DoublePixelType;
+  using IntPixelType = int;
+  using DoublePixelType = double;
 
-  typedef itk::Image< IntPixelType, Dimension >    IntImage;
-  typedef itk::Image< DoublePixelType, Dimension > DoubleImage;
+  using IntImage = itk::Image< IntPixelType, Dimension >;
+  using DoubleImage = itk::Image< DoublePixelType, Dimension >;
 
   // Generate a random image
-  typedef itk::RandomImageSource< IntImage > SourceType;
+  using SourceType = itk::RandomImageSource< IntImage >;
   SourceType::Pointer source = SourceType::New();
 
   IntImage::SizeValueType randomSize[3] = {18, 17, 67};
@@ -46,8 +46,8 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
   source->SetMin( minValue );
   source->SetMax( maxValue );
 
-  typedef itk::NormalizeToConstantImageFilter< IntImage, DoubleImage >
-    NormalizeType;
+  using NormalizeType =
+      itk::NormalizeToConstantImageFilter< IntImage, DoubleImage >;
   NormalizeType::Pointer normalize = NormalizeType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( normalize, NormalizeToConstantImageFilter,
@@ -62,7 +62,7 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
   normalize->SetInput( source->GetOutput() );
   normalize->Update();
 
-  typedef itk::ImageRegionConstIterator< DoubleImage > IteratorType;
+  using IteratorType = itk::ImageRegionConstIterator< DoubleImage >;
   IteratorType it( normalize->GetOutput(),
                    normalize->GetOutput()->GetLargestPossibleRegion() );
 

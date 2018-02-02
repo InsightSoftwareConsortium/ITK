@@ -52,11 +52,11 @@ class ITK_TEMPLATE_EXPORT BinaryFunctorImageFilter:
   public InPlaceImageFilter< TInputImage1, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryFunctorImageFilter                         Self;
-  typedef InPlaceImageFilter< TInputImage1, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BinaryFunctorImageFilter;
+  using Superclass = InPlaceImageFilter< TInputImage1, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -64,26 +64,24 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryFunctorImageFilter, InPlaceImageFilter);
 
-  /** Some convenient typedefs. */
-  typedef TFunction                              FunctorType;
-  typedef TInputImage1                           Input1ImageType;
-  typedef typename Input1ImageType::ConstPointer Input1ImagePointer;
-  typedef typename Input1ImageType::RegionType   Input1ImageRegionType;
-  typedef typename Input1ImageType::PixelType    Input1ImagePixelType;
-  typedef SimpleDataObjectDecorator<Input1ImagePixelType>
-                                                 DecoratedInput1ImagePixelType;
+  /** Some convenient type alias. */
+  using FunctorType = TFunction;
+  using Input1ImageType = TInputImage1;
+  using Input1ImagePointer = typename Input1ImageType::ConstPointer;
+  using Input1ImageRegionType = typename Input1ImageType::RegionType;
+  using Input1ImagePixelType = typename Input1ImageType::PixelType;
+  using DecoratedInput1ImagePixelType = SimpleDataObjectDecorator<Input1ImagePixelType>;
 
-  typedef TInputImage2                           Input2ImageType;
-  typedef typename Input2ImageType::ConstPointer Input2ImagePointer;
-  typedef typename Input2ImageType::RegionType   Input2ImageRegionType;
-  typedef typename Input2ImageType::PixelType    Input2ImagePixelType;
-  typedef SimpleDataObjectDecorator<Input2ImagePixelType>
-                                                 DecoratedInput2ImagePixelType;
+  using Input2ImageType = TInputImage2;
+  using Input2ImagePointer = typename Input2ImageType::ConstPointer;
+  using Input2ImageRegionType = typename Input2ImageType::RegionType;
+  using Input2ImagePixelType = typename Input2ImageType::PixelType;
+  using DecoratedInput2ImagePixelType = SimpleDataObjectDecorator<Input2ImagePixelType>;
 
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType  OutputImagePixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Connect the first operand for pixel-wise operation. */
   virtual void SetInput1(const TInputImage1 *image1);

@@ -95,8 +95,8 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageConstIteratorWithOnlyIndex
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageConstIteratorWithOnlyIndex Self;
+  /** Standard class type aliases. */
+  using Self = ImageConstIteratorWithOnlyIndex;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
@@ -104,23 +104,23 @@ public:
    * access to the dimension of the image that the iterator walks. */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
-  /** Index typedef support. */
-  typedef typename TImage::IndexType         IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
+  /** Index type alias support */
+  using IndexType = typename TImage::IndexType;
+  using IndexValueType = typename IndexType::IndexValueType;
 
-  /** Size typedef support. */
-  typedef typename TImage::SizeType        SizeType;
-  typedef typename SizeType::SizeValueType SizeValueType;
+  /** Size type alias support */
+  using SizeType = typename TImage::SizeType;
+  using SizeValueType = typename SizeType::SizeValueType;
 
-  /** Region typedef support. */
-  typedef typename TImage::RegionType RegionType;
+  /** Region type alias support */
+  using RegionType = typename TImage::RegionType;
 
-  /** Image typedef support. */
-  typedef TImage ImageType;
+  /** Image type alias support */
+  using ImageType = TImage;
 
   /** Type of the Offset taken from the image */
-  typedef typename TImage::OffsetType          OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
+  using OffsetType = typename TImage::OffsetType;
+  using OffsetValueType = typename OffsetType::OffsetValueType;
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */

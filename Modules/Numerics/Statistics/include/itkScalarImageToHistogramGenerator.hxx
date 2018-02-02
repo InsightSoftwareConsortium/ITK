@@ -73,7 +73,7 @@ void
 ScalarImageToHistogramGenerator< TImage >
 ::SetHistogramMin(RealPixelType minimumValue)
 {
-  typedef typename GeneratorType::HistogramMeasurementVectorType MeasurementVectorType;
+  using MeasurementVectorType = typename GeneratorType::HistogramMeasurementVectorType;
   MeasurementVectorType minVector;
   NumericTraits<MeasurementVectorType>::SetLength(minVector, 1);
   minVector[0] = minimumValue;
@@ -85,7 +85,7 @@ void
 ScalarImageToHistogramGenerator< TImage >
 ::SetHistogramMax(RealPixelType maximumValue)
 {
-  typedef typename GeneratorType::HistogramMeasurementVectorType MeasurementVectorType;
+  using MeasurementVectorType = typename GeneratorType::HistogramMeasurementVectorType;
   MeasurementVectorType maxVector;
   NumericTraits<MeasurementVectorType>::SetLength(maxVector, 1);
   maxVector[0] = maximumValue;

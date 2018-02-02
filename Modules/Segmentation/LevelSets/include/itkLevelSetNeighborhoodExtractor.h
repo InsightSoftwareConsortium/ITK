@@ -59,10 +59,10 @@ class ITK_TEMPLATE_EXPORT LevelSetNeighborhoodExtractor:
 {
 public:
   /** Standard class typdedefs. */
-  typedef LevelSetNeighborhoodExtractor Self;
-  typedef LightProcessObject            Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer< const Self >    ConstPointer;
+  using Self = LevelSetNeighborhoodExtractor;
+  using Superclass = LightProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -70,22 +70,22 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LevelSetNeighborhoodExtractor, Object);
 
-  /** LevelSetType typedef support. */
-  typedef LevelSetTypeDefault< TLevelSet >            LevelSetType;
-  typedef typename LevelSetType::LevelSetImageType    LevelSetImageType;
-  typedef typename LevelSetType::LevelSetPointer      LevelSetPointer;
-  typedef typename LevelSetType::LevelSetConstPointer LevelSetConstPointer;
-  typedef typename LevelSetType::PixelType            PixelType;
-  typedef typename LevelSetType::NodeType             NodeType;
-  typedef typename LevelSetType::NodeContainer        NodeContainer;
-  typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
+  /** LevelSetType type alias support */
+  using LevelSetType = LevelSetTypeDefault< TLevelSet >;
+  using LevelSetImageType = typename LevelSetType::LevelSetImageType;
+  using LevelSetPointer = typename LevelSetType::LevelSetPointer;
+  using LevelSetConstPointer = typename LevelSetType::LevelSetConstPointer;
+  using PixelType = typename LevelSetType::PixelType;
+  using NodeType = typename LevelSetType::NodeType;
+  using NodeContainer = typename LevelSetType::NodeContainer;
+  using NodeContainerPointer = typename LevelSetType::NodeContainerPointer;
 
   /** SetDimension enumeration. */
   itkStaticConstMacro(SetDimension, unsigned int,
                       LevelSetType::SetDimension);
 
-  /** Index typedef support. */
-  typedef Index< itkGetStaticConstMacro(SetDimension) > IndexType;
+  /** Index type alias support */
+  using IndexType = Index< itkGetStaticConstMacro(SetDimension) >;
 
   /** Get/Set the input level set. */
   itkSetConstObjectMacro(InputLevelSet, LevelSetImageType);

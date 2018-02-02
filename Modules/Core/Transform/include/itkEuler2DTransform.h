@@ -42,11 +42,11 @@ class ITK_TEMPLATE_EXPORT Euler2DTransform:
   public Rigid2DTransform<TParametersValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Euler2DTransform                       Self;
-  typedef Rigid2DTransform<TParametersValueType> Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Euler2DTransform;
+  using Superclass = Rigid2DTransform<TParametersValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -60,34 +60,34 @@ public:
 
 
   /** Parameters type. */
-  typedef typename Superclass::ScalarType          ScalarType;
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::FixedParametersType FixedParametersType;
+  using ScalarType = typename Superclass::ScalarType;
+  using ParametersType = typename Superclass::ParametersType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Point type. */
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType OutputPointType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
 
   /** Vector type. */
-  typedef typename Superclass::InputVectorType  InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
 
   /** CovariantVector type. */
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
 
   /** VnlVector type. */
-  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
-  typedef typename Superclass::MatrixType          MatrixType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
+  using MatrixType = typename Superclass::MatrixType;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/
-  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
-  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+  using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
+  using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /**
    * This method creates and returns a new Euler2DTransform object

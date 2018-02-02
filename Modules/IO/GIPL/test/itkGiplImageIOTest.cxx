@@ -34,10 +34,10 @@ int itkGiplImageIOTest( int ac, char* av[] )
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
-  typedef unsigned short PixelType;
+  using PixelType = unsigned short;
 
 
-  typedef itk::Image<PixelType, 3> myImage;
+  using myImage = itk::Image<PixelType, 3>;
 
   itk::ImageFileReader<myImage>::Pointer reader
                                   = itk::ImageFileReader<myImage>::New();

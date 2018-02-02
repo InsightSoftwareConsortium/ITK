@@ -23,9 +23,9 @@ int itkSubsampleTest2( int, char * [] )
 {
   std::cout << "Subsample Test \n \n";
 
-  typedef itk::Array< float > MeasurementVectorType;
+  using MeasurementVectorType = itk::Array< float >;
 
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
   SampleType::MeasurementVectorSizeType measurementVectorSize = 3;
   std::cerr << "Measurement vector size: " << measurementVectorSize
@@ -49,7 +49,7 @@ int itkSubsampleTest2( int, char * [] )
     }
 
   // tests begin
-  typedef itk::Statistics::Subsample< SampleType >   SubsampleType;
+  using SubsampleType = itk::Statistics::Subsample< SampleType >;
   SubsampleType::Pointer   subSample = SubsampleType::New();
   subSample->SetSample( sample );
 
@@ -79,7 +79,7 @@ int itkSubsampleTest2( int, char * [] )
       }
     }
 
-  typedef itk::Statistics::Subsample< SubsampleType >   CascadedSubsampleType;
+  using CascadedSubsampleType = itk::Statistics::Subsample< SubsampleType >;
   CascadedSubsampleType::Pointer  subSample2  = CascadedSubsampleType::New();
   subSample2->SetSample( subSample );
 
@@ -116,7 +116,7 @@ int itkSubsampleTest2( int, char * [] )
 
   std::cout << subSample2->GetSample() << std::endl;
 
-  typedef CascadedSubsampleType::Iterator IteratorType;
+  using IteratorType = CascadedSubsampleType::Iterator;
 
   IteratorType iter = subSample2->Begin();
   while( iter != subSample2->End() )
@@ -127,7 +127,7 @@ int itkSubsampleTest2( int, char * [] )
     ++iter;
     }
 
-  typedef CascadedSubsampleType::ConstIterator ConstIteratorType;
+  using ConstIteratorType = CascadedSubsampleType::ConstIterator;
 
   IteratorType citer = subSample2->Begin();
   while( citer != subSample2->End() )

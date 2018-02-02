@@ -64,11 +64,11 @@ template< typename TInputImage,
 class ITK_TEMPLATE_EXPORT ImageModelEstimatorBase:public LightProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageModelEstimatorBase    Self;
-  typedef LightProcessObject         Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageModelEstimatorBase;
+  using Superclass = LightProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageModelEstimatorBase, LightProcessObject);
@@ -80,17 +80,16 @@ public:
   itkGetConstReferenceMacro(NumberOfModels, unsigned int);
 
   /** Type definitions for the membership function . */
-  typedef typename TMembershipFunction::Pointer MembershipFunctionPointer;
+  using MembershipFunctionPointer = typename TMembershipFunction::Pointer;
 
-  typedef std::vector< MembershipFunctionPointer >
-  MembershipFunctionPointerVector;
-
-  /** Type definitions for the training image. */
-  typedef          TInputImage          InputImageType;
-  typedef typename TInputImage::Pointer InputImagePointer;
+  using MembershipFunctionPointerVector = std::vector<MembershipFunctionPointer>;
 
   /** Type definitions for the training image. */
-  //typedef typename TTrainingImage::Pointer TrainingImagePointer;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename TInputImage::Pointer;
+
+  /** Type definitions for the training image. */
+  //using TrainingImagePointer = typename TTrainingImage::Pointer;
 
   /** Get/Set the input image. */
   itkSetObjectMacro(InputImage, InputImageType);

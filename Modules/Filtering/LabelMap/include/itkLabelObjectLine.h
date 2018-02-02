@@ -44,8 +44,8 @@ class ITK_TEMPLATE_EXPORT LabelObjectLine
 public:
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  typedef Index< VImageDimension > IndexType;
-  typedef SizeValueType            LengthType;
+  using IndexType = Index< VImageDimension >;
+  using LengthType = SizeValueType;
 
   LabelObjectLine();
   LabelObjectLine(const IndexType & idx, const LengthType & length);

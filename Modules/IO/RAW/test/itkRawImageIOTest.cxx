@@ -27,10 +27,9 @@
 
 int itkRawImageIOTest(int argc, char* argv[])
 {
-  typedef itk::Image<unsigned short,2>    ImageType;
-  typedef ImageType::PixelType            PixelType;
-  typedef itk::ImageRegionConstIterator<
-                                  ImageType > ImageIteratorType;
+  using ImageType = itk::Image<unsigned short,2>;
+  using PixelType = ImageType::PixelType;
+  using ImageIteratorType = itk::ImageRegionConstIterator<ImageType>;
   if(argc < 3)
     {
     std::cerr << "Usage: " << argv[0] << " Output1 Output2\n";

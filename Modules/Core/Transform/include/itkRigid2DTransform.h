@@ -57,11 +57,11 @@ class ITK_TEMPLATE_EXPORT Rigid2DTransform :
   public MatrixOffsetTransformBase<TParametersValueType, 2, 2>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Rigid2DTransform                                      Self;
-  typedef MatrixOffsetTransformBase<TParametersValueType, 2, 2> Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Rigid2DTransform;
+  using Superclass = MatrixOffsetTransformBase<TParametersValueType, 2, 2>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Rigid2DTransform, MatrixOffsetTransformBase);
@@ -75,46 +75,46 @@ public:
   itkStaticConstMacro(ParametersDimension, unsigned int, 3);
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::ParametersType           ParametersType;
-  typedef typename Superclass::ParametersValueType      ParametersValueType;
-  typedef typename Superclass::FixedParametersType      FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   // / Standard matrix type for this class
-  typedef typename Superclass::MatrixType      MatrixType;
-  typedef typename Superclass::MatrixValueType MatrixValueType;
+  using MatrixType = typename Superclass::MatrixType;
+  using MatrixValueType = typename Superclass::MatrixValueType;
 
   // / Standard vector type for this class
-  typedef typename Superclass::OffsetType      OffsetType;
-  typedef typename Superclass::OffsetValueType OffsetValueType;
+  using OffsetType = typename Superclass::OffsetType;
+  using OffsetValueType = typename Superclass::OffsetValueType;
 
   // / Standard vector type for this class
-  typedef typename Superclass::InputVectorType       InputVectorType;
-  typedef typename Superclass::OutputVectorType      OutputVectorType;
-  typedef typename Superclass::OutputVectorValueType OutputVectorValueType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using OutputVectorValueType = typename Superclass::OutputVectorValueType;
 
   // / Standard covariant vector type for this class
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
 
   // / Standard vnl_vector type for this class
-  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
 
   // / Standard coordinate point type for this class
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType OutputPointType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost. */
-  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
-  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+  using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
+  using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /**
    * Set the rotation Matrix of a Rigid2D Transform

@@ -140,9 +140,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   float           InternalPixelType;
+  using InternalPixelType = float;
   const     unsigned int    Dimension = 2;
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -150,11 +150,11 @@ int main( int argc, char *argv[] )
   //  process the final level set at the output of the
   //  GeodesicActiveContourLevelSetImageFilter.
   //
-  typedef unsigned char                            OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::BinaryThresholdImageFilter<
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using ThresholdingFilterType = itk::BinaryThresholdImageFilter<
                         InternalImageType,
-                        OutputImageType    >       ThresholdingFilterType;
+                        OutputImageType    >;
 
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
 
@@ -167,8 +167,8 @@ int main( int argc, char *argv[] )
 
   // We instantiate reader and writer types in the following lines.
   //
-  typedef  itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
+  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -180,17 +180,17 @@ int main( int argc, char *argv[] )
   //  The RescaleIntensityImageFilter type is declared below. This filter will
   //  renormalize image before sending them to writers.
   //
-  typedef itk::RescaleIntensityImageFilter<
+  using CastFilterType = itk::RescaleIntensityImageFilter<
                                InternalImageType,
-                               OutputImageType >   CastFilterType;
+                               OutputImageType >;
 
 
   //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} type is
   //  instantiated using the internal image type.
   //
-  typedef   itk::CurvatureAnisotropicDiffusionImageFilter<
+  using SmoothingFilterType = itk::CurvatureAnisotropicDiffusionImageFilter<
                                InternalImageType,
-                               InternalImageType >  SmoothingFilterType;
+                               InternalImageType >;
 
   SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
 
@@ -200,12 +200,12 @@ int main( int argc, char *argv[] )
   //  SigmoidImageFilter are instantiated using the internal image
   //  type.
   //
-  typedef   itk::GradientMagnitudeRecursiveGaussianImageFilter<
+  using GradientFilterType = itk::GradientMagnitudeRecursiveGaussianImageFilter<
                                InternalImageType,
-                               InternalImageType >  GradientFilterType;
-  typedef   itk::SigmoidImageFilter<
+                               InternalImageType >;
+  using SigmoidFilterType = itk::SigmoidImageFilter<
                                InternalImageType,
-                               InternalImageType >  SigmoidFilterType;
+                               InternalImageType >;
 
   GradientFilterType::Pointer  gradientMagnitude = GradientFilterType::New();
 
@@ -228,9 +228,9 @@ int main( int argc, char *argv[] )
   //  will be used to generate the initial level set in the form of a distance
   //  map.
   //
-  typedef  itk::FastMarchingImageFilter<
+  using FastMarchingFilterType = itk::FastMarchingImageFilter<
                               InternalImageType,
-                              InternalImageType >    FastMarchingFilterType;
+                              InternalImageType >;
 
 
   //  Next we construct one filter of this class using the \code{New()}
@@ -247,8 +247,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::GeodesicActiveContourLevelSetImageFilter< InternalImageType,
-                InternalImageType >    GeodesicActiveContourFilterType;
+  using GeodesicActiveContourFilterType = itk::GeodesicActiveContourLevelSetImageFilter< InternalImageType,
+                InternalImageType >;
   GeodesicActiveContourFilterType::Pointer geodesicActiveContour =
                                      GeodesicActiveContourFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -361,8 +361,8 @@ int main( int argc, char *argv[] )
   //  container is defined as \code{NodeContainer} among the
   //  FastMarchingImageFilter traits.
   //
-  typedef FastMarchingFilterType::NodeContainer  NodeContainer;
-  typedef FastMarchingFilterType::NodeType       NodeType;
+  using NodeContainer = FastMarchingFilterType::NodeContainer;
+  using NodeType = FastMarchingFilterType::NodeType;
 
   NodeContainer::Pointer seeds = NodeContainer::New();
 
@@ -508,7 +508,7 @@ int main( int argc, char *argv[] )
   // determine an appropriate threshold to be used on the output of the
   // fastmarching filter.
   //
-  typedef itk::ImageFileWriter< InternalImageType > InternalWriterType;
+  using InternalWriterType = itk::ImageFileWriter< InternalImageType >;
 
   InternalWriterType::Pointer mapWriter = InternalWriterType::New();
   mapWriter->SetInput( fastMarching->GetOutput() );

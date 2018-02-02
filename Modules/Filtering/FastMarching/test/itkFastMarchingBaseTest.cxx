@@ -25,10 +25,10 @@ class FastMarchingBaseTestHelper :
     public FastMarchingBase< TInput, TOutput >
 {
 public:
-  typedef FastMarchingBaseTestHelper          Self;
-  typedef FastMarchingBase< TInput, TOutput > Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  using Self = FastMarchingBaseTestHelper;
+  using Superclass = FastMarchingBase< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -36,14 +36,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastMarchingBaseTestHelper, FastMarchingBase);
 
-  typedef typename Superclass::Traits           Traits;
-  typedef typename Superclass::OutputDomainType OutputDomainType;
+  using Traits = typename Superclass::Traits;
+  using OutputDomainType = typename Superclass::OutputDomainType;
 
-//  typedef typename Superclass::NodeContainerType  NodeContainerType;
-  typedef typename Superclass::NodeType         NodeType;
+//  using NodeContainerType = typename Superclass::NodeContainerType;
+  using NodeType = typename Superclass::NodeType;
 
-  typedef typename Superclass::OutputPixelType  OutputPixelType;
-  typedef typename Superclass::LabelType        LabelType;
+  using OutputPixelType = typename Superclass::OutputPixelType;
+  using LabelType = typename Superclass::LabelType;
 
 protected:
   FastMarchingBaseTestHelper() {}
@@ -99,19 +99,19 @@ int itkFastMarchingBaseTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef float PixelType;
+  using PixelType = float;
 
   bool exception_caught = false;
 
   if( atoi( argv[1] ) == 0 )
     {
     const unsigned Dimension = 3;
-    typedef itk::Image<PixelType, Dimension> ImageType;
+    using ImageType = itk::Image<PixelType, Dimension>;
 
     ImageType::Pointer input = ImageType::New();
 
-    typedef itk::FastMarchingBaseTestHelper< ImageType, ImageType >
-        ImageFastMarching;
+    using ImageFastMarching =
+        itk::FastMarchingBaseTestHelper< ImageType, ImageType >;
     ImageFastMarching::Pointer fmm = ImageFastMarching::New();
     fmm->SetInput( input );
 
@@ -126,7 +126,7 @@ int itkFastMarchingBaseTest( int argc, char* argv[] )
       exception_caught = true;
       }
 
-    typedef ImageFastMarching::OutputDomainType OutputImageType;
+    using OutputImageType = ImageFastMarching::OutputDomainType;
     OutputImageType::Pointer output = fmm->GetOutput();
 
     (void) output;
@@ -135,12 +135,12 @@ int itkFastMarchingBaseTest( int argc, char* argv[] )
     {
     if( atoi( argv[1] ) == 1 )
       {
-      typedef itk::QuadEdgeMesh<PixelType, 3, itk::QuadEdgeMeshTraits< PixelType, 3, bool, bool > > MeshType;
+      using MeshType = itk::QuadEdgeMesh<PixelType, 3, itk::QuadEdgeMeshTraits< PixelType, 3, bool, bool > >;
 
       MeshType::Pointer input = MeshType::New();
 
-      typedef itk::FastMarchingBaseTestHelper< MeshType, MeshType >
-          MeshFastMarching;
+      using MeshFastMarching =
+          itk::FastMarchingBaseTestHelper< MeshType, MeshType >;
       MeshFastMarching::Pointer fmm = MeshFastMarching::New();
       fmm->SetInput( input );
 
@@ -155,7 +155,7 @@ int itkFastMarchingBaseTest( int argc, char* argv[] )
         exception_caught = true;
         }
 
-      typedef MeshFastMarching::OutputDomainType OutputMeshType;
+      using OutputMeshType = MeshFastMarching::OutputDomainType;
       OutputMeshType::Pointer output = fmm->GetOutput();
 
       (void) output;

@@ -324,7 +324,7 @@ SymmetricSecondRankTensor<T,NDimension>
 ::Rotate( const Matrix<TMatrixValueType, NDimension, NDimension> & m ) const
 {
   Self result;
-  typedef Matrix<double, NDimension, NDimension> RotationMatrixType;
+  using RotationMatrixType = Matrix<double, NDimension, NDimension>;
   RotationMatrixType SCT; //self * Transpose(m)
   for(unsigned int r=0; r<NDimension; r++)
   {
@@ -364,7 +364,7 @@ SymmetricSecondRankTensor< T, NDimension >
 {
   MatrixType result;
 
-  typedef typename NumericTraits< T >::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits< T >::AccumulateType;
   for ( unsigned int r = 0; r < NDimension; r++ )
     {
     for ( unsigned int c = 0; c < NDimension; c++ )
@@ -390,7 +390,7 @@ SymmetricSecondRankTensor< T, NDimension >
 {
   MatrixType result;
 
-  typedef typename NumericTraits< T >::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits< T >::AccumulateType;
   for ( unsigned int r = 0; r < NDimension; r++ )
     {
     for ( unsigned int c = 0; c < NDimension; c++ )

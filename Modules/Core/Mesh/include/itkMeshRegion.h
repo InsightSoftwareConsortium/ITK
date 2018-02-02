@@ -52,9 +52,9 @@ namespace itk
 class ITKMesh_EXPORT MeshRegion:public Region
 {
 public:
-  /** Standard class typedefs. */
-  typedef MeshRegion Self;
-  typedef Region     Superclass;
+  /** Standard class type aliases. */
+  using Self = MeshRegion;
+  using Superclass = Region;
 
   /** Standard part of all itk objects. */
   itkTypeMacro(MeshRegion, Region);

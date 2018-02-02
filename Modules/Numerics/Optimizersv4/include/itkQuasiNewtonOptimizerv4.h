@@ -60,11 +60,11 @@ class ITK_TEMPLATE_EXPORT QuasiNewtonOptimizerv4Template :
   public         GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef QuasiNewtonOptimizerv4Template                                 Self;
-  typedef GradientDescentOptimizerv4Template<TInternalComputationValueType>    Superclass;
-  typedef SmartPointer< Self >                                           Pointer;
-  typedef SmartPointer< const Self >                                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = QuasiNewtonOptimizerv4Template;
+  using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,19 +73,19 @@ public:
   itkTypeMacro(QuasiNewtonOptimizerv4Template, Superclass);
 
   /** It should be possible to derive the internal computation type from the class object. */
-  typedef TInternalComputationValueType          InternalComputationValueType;
+  using InternalComputationValueType = TInternalComputationValueType;
 
-  typedef typename Superclass::ParametersType    ParametersType;
-  typedef typename Superclass::MeasureType       MeasureType;
-  typedef typename Superclass::DerivativeType    DerivativeType;
-  typedef typename Superclass::IndexRangeType    IndexRangeType;
-  typedef typename Superclass::StopConditionType StopConditionType;
+  using ParametersType = typename Superclass::ParametersType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using IndexRangeType = typename Superclass::IndexRangeType;
+  using StopConditionType = typename Superclass::StopConditionType;
 
   /** Type for Hessian matrix in the Quasi-Newton method */
-  typedef itk::Array2D<TInternalComputationValueType> HessianType;
+  using HessianType = itk::Array2D<TInternalComputationValueType>;
 
   /** Type for an array of Hessian matrix for local support */
-  typedef std::vector<HessianType> HessianArrayType;
+  using HessianArrayType = std::vector<HessianType>;
 
   /** Start and run the optimization */
   void StartOptimization( bool doOnlyInitialization = false ) override;
@@ -198,7 +198,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef QuasiNewtonOptimizerv4Template<double> QuasiNewtonOptimizerv4;
+using QuasiNewtonOptimizerv4 = QuasiNewtonOptimizerv4Template<double>;
 
 } // end namespace itk
 

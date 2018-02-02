@@ -69,19 +69,19 @@ class ITK_TEMPLATE_EXPORT NarrowBandImageFilterBase:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs */
-  typedef NarrowBandImageFilterBase                                Self;
-  typedef FiniteDifferenceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                     Pointer;
-  typedef SmartPointer< const Self >                               ConstPointer;
+  /** Standard class type aliases */
+  using Self = NarrowBandImageFilterBase;
+  using Superclass = FiniteDifferenceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(NarrowBandImageFilterBase, ImageToImageFilter);
 
   /**Typedefs from the superclass */
-  typedef typename Superclass::InputImageType               InputImageType;
-  typedef typename Superclass::OutputImageType              OutputImageType;
-  typedef typename Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -89,26 +89,26 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  typedef typename Superclass::PixelType PixelType;
+  using PixelType = typename Superclass::PixelType;
 
   /** The value type of a time step.  Inherited from the superclass. */
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** The index type for the output image. */
-  typedef typename OutputImageType::IndexType IndexType;
+  using IndexType = typename OutputImageType::IndexType;
 
   /** The data type used in numerical computations.  Derived from the output
    *  image type. */
-  typedef typename OutputImageType::ValueType ValueType;
+  using ValueType = typename OutputImageType::ValueType;
 
   /** This is the storage type for the nodes on the narrow band. */
-  typedef BandNode< IndexType, PixelType > BandNodeType;
+  using BandNodeType = BandNode< IndexType, PixelType >;
 
   /** The list type for storing the narrow band. */
-  typedef NarrowBand< BandNodeType >          NarrowBandType;
-  typedef typename NarrowBandType::Pointer    NarrowBandPointer;
-  typedef typename NarrowBandType::RegionType RegionType;
-  typedef typename NarrowBandType::Iterator   NarrowBandIterator;
+  using NarrowBandType = NarrowBand< BandNodeType >;
+  using NarrowBandPointer = typename NarrowBandType::Pointer;
+  using RegionType = typename NarrowBandType::RegionType;
+  using NarrowBandIterator = typename NarrowBandType::Iterator;
 
   /** Set/Get IsoSurfaceValue to use in the input image */
   itkSetMacro(IsoSurfaceValue, ValueType);

@@ -38,8 +38,8 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ConditionalConstIterator
 {
 public:
-  /** Standard class typedefs. */
-  typedef ConditionalConstIterator Self;
+  /** Standard class type aliases. */
+  using Self = ConditionalConstIterator;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
@@ -47,23 +47,23 @@ public:
    * access to the dimension of the image that the iterator walks. */
   itkStaticConstMacro(NDimension, unsigned int, TImage::ImageDimension);
 
-  /** Index typedef support. */
-  typedef typename TImage::IndexType IndexType;
+  /** Index type alias support. */
+  using IndexType = typename TImage::IndexType;
 
-  /** Size typedef support. */
-  typedef typename TImage::SizeType SizeType;
+  /** Size type alias support. */
+  using SizeType = typename TImage::SizeType;
 
-  /** Region typedef support. */
-  typedef typename TImage::RegionType RegionType;
+  /** Region type alias support. */
+  using RegionType = typename TImage::RegionType;
 
-  /** Image typedef support. */
-  typedef TImage ImageType;
+  /** Image type alias support. */
+  using ImageType = TImage;
 
   /** Internal Pixel Type */
-  typedef typename TImage::InternalPixelType InternalPixelType;
+  using InternalPixelType = typename TImage::InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   /** Compute whether the index of interest should be included in the flood */
   virtual bool IsPixelIncluded(const IndexType & index) const = 0;

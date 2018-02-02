@@ -51,15 +51,15 @@
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float                             PixelType;
-  typedef itk::Mesh< PixelType, 3 >         MeshType;
+  using PixelType = float;
+  using MeshType = itk::Mesh< PixelType, 3 >;
 
-  typedef MeshType::CellType                CellType;
+  using CellType = MeshType::CellType;
 
-  typedef itk::VertexCell< CellType >       VertexType;
-  typedef itk::LineCell< CellType >         LineType;
-  typedef itk::TriangleCell< CellType >     TriangleType;
-  typedef itk::TetrahedronCell< CellType >  TetrahedronType;
+  using VertexType = itk::VertexCell< CellType >;
+  using LineType = itk::LineCell< CellType >;
+  using TriangleType = itk::TriangleCell< CellType >;
+  using TetrahedronType = itk::TetrahedronCell< CellType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -339,21 +339,21 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CellInterfaceVisitorImplementation<
+  using VertexVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
       PixelType, MeshType::CellTraits, VertexType,
-      CustomVertexVisitor > VertexVisitorInterfaceType;
+      CustomVertexVisitor >;
 
-  typedef itk::CellInterfaceVisitorImplementation<
+  using LineVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
       PixelType, MeshType::CellTraits, LineType,
-      CustomLineVisitor > LineVisitorInterfaceType;
+      CustomLineVisitor >;
 
-  typedef itk::CellInterfaceVisitorImplementation<
+  using TriangleVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
       PixelType, MeshType::CellTraits, TriangleType,
-      CustomTriangleVisitor > TriangleVisitorInterfaceType;
+      CustomTriangleVisitor >;
 
-  typedef itk::CellInterfaceVisitorImplementation<
+  using TetrahedronVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
       PixelType, MeshType::CellTraits, TetrahedronType,
-      CustomTetrahedronVisitor > TetrahedronVisitorInterfaceType;
+      CustomTetrahedronVisitor >;
   // Software Guide : EndCodeSnippet
 
 
@@ -423,7 +423,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef CellType::MultiVisitor CellMultiVisitorType;
+  using CellMultiVisitorType = CellType::MultiVisitor;
   CellMultiVisitorType::Pointer multiVisitor = CellMultiVisitorType::New();
   // Software Guide : EndCodeSnippet
 

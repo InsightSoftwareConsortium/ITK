@@ -25,9 +25,9 @@ int itkFiniteCylinderSpatialFunctionTest(int, char* [] )
   // Test will create a cylinder (3 - dimensional)
   const unsigned int dimension = 3;
 
-  // Cylinder spatial function typedef.
-  typedef itk::FiniteCylinderSpatialFunction<dimension> TCylinderFunctionType;
-  typedef TCylinderFunctionType::InputType TCylinderFunctionVectorType;
+  // Cylinder spatial function type alias.
+  using TCylinderFunctionType = itk::FiniteCylinderSpatialFunction<dimension>;
+  using TCylinderFunctionVectorType = TCylinderFunctionType::InputType;
 
   //cylinder
   TCylinderFunctionType::Pointer spatialFunc = TCylinderFunctionType::New();

@@ -24,7 +24,7 @@
 namespace itk
 {
 /* 3D Polygon Groups only ones that make sense for this data type */
-typedef PolygonGroupSpatialObject< 3 > PGroupSpatialObjectType;
+using PGroupSpatialObjectType = PolygonGroupSpatialObject< 3 >;
 
 /** \class PolygonGroupSpatialObjectXMLFileReader
  *
@@ -36,15 +36,15 @@ class PolygonGroupSpatialObjectXMLFileReader:
   public XMLReader< PGroupSpatialObjectType >
 {
 public:
-  /** Standard typedefs */
-  typedef PolygonGroupSpatialObjectXMLFileReader Self;
-  typedef XMLReader< PGroupSpatialObjectType >   Superclass;
-  typedef SmartPointer< Self >                   Pointer;
+  /** Standard type alias */
+  using Self = PolygonGroupSpatialObjectXMLFileReader;
+  using Superclass = XMLReader< PGroupSpatialObjectType >;
+  using Pointer = SmartPointer< Self >;
 
-  typedef PGroupSpatialObjectType   PolygonGroupType;
-  typedef PolygonSpatialObject< 3 > PolygonSpatialObjectType;
-  typedef SpatialObjectPoint< 3 >   PointType;
-  typedef std::vector< PointType >  PointListType;
+  using PolygonGroupType = PGroupSpatialObjectType;
+  using PolygonSpatialObjectType = PolygonSpatialObject< 3 >;
+  using PointType = SpatialObjectPoint< 3 >;
+  using PointListType = std::vector< PointType >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PolygonGroupSpatialObjectXMLFileReader, XMLReader);
@@ -85,10 +85,10 @@ class PolygonGroupSpatialObjectXMLFileWriter:
   public XMLWriterBase< PGroupSpatialObjectType >
 {
 public:
-  /** standard typedefs */
-  typedef XMLWriterBase< PGroupSpatialObjectType > Superclass;
-  typedef PolygonGroupSpatialObjectXMLFileWriter   Self;
-  typedef SmartPointer< Self >                     Pointer;
+  /** standard type alias */
+  using Superclass = XMLWriterBase< PGroupSpatialObjectType >;
+  using Self = PolygonGroupSpatialObjectXMLFileWriter;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -96,8 +96,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PolygonGroupSpatialObjectXMLFileWriter,
                XMLWriterBase< PGroupSpatialObjectType > );
-  typedef PGroupSpatialObjectType   PolygonGroupType;
-  typedef PolygonSpatialObject< 3 > PolygonSpatialObjectType;
+  using PolygonGroupType = PGroupSpatialObjectType;
+  using PolygonSpatialObjectType = PolygonSpatialObject< 3 >;
   /** Test whether a file is writable. */
   int CanWriteFile(const char *name) override;
 

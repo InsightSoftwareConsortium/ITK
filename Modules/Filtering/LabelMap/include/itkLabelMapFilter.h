@@ -59,11 +59,11 @@ class ITK_TEMPLATE_EXPORT LabelMapFilter:
   ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelMapFilter                                  Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LabelMapFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LabelMapFilter, ImageToImageFilter);
@@ -71,19 +71,19 @@ public:
   /** Standard New method. */
   itkNewMacro(Self);
 
-  /** Some convenient typedefs. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename Superclass::InputImageRegionType   InputImageRegionType;
-  typedef typename Superclass::InputImagePixelType    InputImagePixelType;
-  typedef typename InputImageType::LabelObjectType    LabelObjectType;
+  /** Some convenient type alias. */
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
+  using InputImageRegionType = typename Superclass::InputImageRegionType;
+  using InputImagePixelType = typename Superclass::InputImagePixelType;
+  using LabelObjectType = typename InputImageType::LabelObjectType;
 
-  typedef TOutputImage                           OutputImageType;
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);

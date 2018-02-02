@@ -254,7 +254,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 ::SetFixedParametersGridOriginFromTransformDomainInformation() const
 {
   // Set the origin parameters
-  typedef typename ImageType::PointType PointType;
+  using PointType = typename ImageType::PointType;
   PointType origin;
   origin.Fill( 0.0 );
   for( unsigned int i = 0; i < NDimensions; i++ )
@@ -385,7 +385,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 
   if( validArrayOfImages )
     {
-    typedef typename ImageType::PointType PointType;
+    using PointType = typename ImageType::PointType;
     PointType origin;
     origin.Fill( 0.0 );
     for( unsigned int i = 0; i < SpaceDimension; i++ )
@@ -504,7 +504,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 
     outputPoint.Fill( NumericTraits<ScalarType>::ZeroValue() );
 
-    typedef ImageScanlineConstIterator<ImageType> IteratorType;
+    using IteratorType = ImageScanlineConstIterator<ImageType>;
     IteratorType               coeffIterator[SpaceDimension];
     unsigned long              counter = 0;
     const ParametersValueType *basePointer =

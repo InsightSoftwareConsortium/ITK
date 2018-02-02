@@ -124,7 +124,7 @@ public:
   }
 
   /** type of the color component */
-  typedef typename TRGBPixel::ComponentType ComponentType;
+  using ComponentType = typename TRGBPixel::ComponentType;
 
   void AddColor(unsigned char r, unsigned char g, unsigned char b)
   {

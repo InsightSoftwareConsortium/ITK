@@ -70,11 +70,11 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ThresholdImageFilter:public InPlaceImageFilter< TImage, TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ThresholdImageFilter                 Self;
-  typedef InPlaceImageFilter< TImage, TImage > Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ThresholdImageFilter;
+  using Superclass = InPlaceImageFilter< TImage, TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -83,7 +83,7 @@ public:
   itkTypeMacro(ThresholdImageFilter, InPlaceImageFilter);
 
   /** Typedef to describe the type of pixel. */
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   /** The pixel type must support comparison operators. */
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -119,17 +119,17 @@ public:
   itkSetMacro(Upper, PixelType);
   itkGetConstMacro(Upper, PixelType);
 
-  /** Additional typedefs for the input image. */
-  typedef TImage                                InputImageType;
-  typedef typename InputImageType::ConstPointer InputImagePointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  /** Additional type alias for the input image. */
+  using InputImageType = TImage;
+  using InputImagePointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
-  /** Additional typedefs for the output image. */
-  typedef TImage                               OutputImageType;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType  OutputImagePixelType;
+  /** Additional type alias for the output image. */
+  using OutputImageType = TImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
 protected:
   ThresholdImageFilter();

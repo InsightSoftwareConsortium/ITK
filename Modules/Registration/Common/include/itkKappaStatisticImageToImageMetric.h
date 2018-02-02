@@ -56,11 +56,11 @@ class ITK_TEMPLATE_EXPORT KappaStatisticImageToImageMetric:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef KappaStatisticImageToImageMetric                Self;
-  typedef ImageToImageMetric< TFixedImage, TMovingImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = KappaStatisticImageToImageMetric;
+  using Superclass = ImageToImageMetric< TFixedImage, TMovingImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,23 +69,23 @@ public:
   itkTypeMacro(KappaStatisticImageToImageMetric, ImageToImageMetric);
 
   /** Types transferred from the base class */
-  typedef typename Superclass::RealType                RealType;
-  typedef typename Superclass::TransformType           TransformType;
-  typedef typename Superclass::TransformPointer        TransformPointer;
-  typedef typename Superclass::TransformParametersType TransformParametersType;
-  typedef typename Superclass::TransformJacobianType   TransformJacobianType;
-  typedef typename Superclass::GradientImageType       GradientImageType;
-  typedef typename Superclass::GradientPixelType       GradientPixelType;
-  typedef typename Superclass::InputPointType          InputPointType;
-  typedef typename Superclass::OutputPointType         OutputPointType;
+  using RealType = typename Superclass::RealType;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformParametersType = typename Superclass::TransformParametersType;
+  using TransformJacobianType = typename Superclass::TransformJacobianType;
+  using GradientImageType = typename Superclass::GradientImageType;
+  using GradientPixelType = typename Superclass::GradientPixelType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
 
-  typedef typename Superclass::MeasureType             MeasureType;
-  typedef typename Superclass::DerivativeType          DerivativeType;
-  typedef typename Superclass::FixedImageType          FixedImageType;
-  typedef typename Superclass::MovingImageType         MovingImageType;
-  typedef typename Superclass::FixedImageConstPointer  FixedImageConstPointer;
-  typedef typename Superclass::MovingImageConstPointer MovingImageConstPointer;
-  typedef typename Superclass::FixedImageRegionType    FixedImageRegionType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using FixedImageConstPointer = typename Superclass::FixedImageConstPointer;
+  using MovingImageConstPointer = typename Superclass::MovingImageConstPointer;
+  using FixedImageRegionType = typename Superclass::FixedImageRegionType;
 
   /** Computes the gradient image and assigns it to m_GradientImage */
   void ComputeGradient() override;

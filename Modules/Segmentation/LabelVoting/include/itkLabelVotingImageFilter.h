@@ -76,11 +76,11 @@ class ITK_TEMPLATE_EXPORT LabelVotingImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelVotingImageFilter                          Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LabelVotingImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,8 +90,8 @@ public:
 
   /** Extract some information from the image types. Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TInputImage::PixelType  InputPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
 
   /** Extract some information from the image types. Dimensionality
    * of the two images is assumed to be the same. */
@@ -100,16 +100,16 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Image typedef support */
-  typedef TInputImage                           InputImageType;
-  typedef TOutputImage                          OutputImageType;
-  typedef typename InputImageType::ConstPointer InputImagePointer;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
+  /** Image type alias support */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::ConstPointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  typedef unsigned long                         LabelCountType;
+  using LabelCountType = unsigned long;
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Set label value for undecided pixels. */
   void SetLabelForUndecidedPixels(const OutputPixelType l)

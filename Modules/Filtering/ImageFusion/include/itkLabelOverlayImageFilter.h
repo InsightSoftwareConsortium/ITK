@@ -61,25 +61,25 @@ class ITK_TEMPLATE_EXPORT LabelOverlayImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelOverlayImageFilter Self;
+  /** Standard class type aliases. */
+  using Self = LabelOverlayImageFilter;
 
-  typedef BinaryFunctorImageFilter< TInputImage, TLabelImage, TOutputImage,
+  using Superclass = BinaryFunctorImageFilter< TInputImage, TLabelImage, TOutputImage,
                                     Functor::LabelOverlayFunctor<
                                       typename TInputImage::PixelType,
                                       typename TLabelImage::PixelType,
-                                      typename TOutputImage::PixelType >   >  Superclass;
+                                      typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TOutputImage OutputImageType;
-  typedef TLabelImage  LabelImageType;
-  typedef TInputImage  InputImageType;
+  using OutputImageType = TOutputImage;
+  using LabelImageType = TLabelImage;
+  using InputImageType = TInputImage;
 
-  typedef typename TOutputImage::PixelType OutputPixelType;
-  typedef typename TLabelImage::PixelType  LabelPixelType;
-  typedef typename TInputImage::PixelType  InputPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using LabelPixelType = typename TLabelImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
 
   /** Runtime information support. */
   itkTypeMacro(LabelOverlayImageFilter, BinaryFunctorImageFilter);
@@ -122,7 +122,7 @@ public:
   unsigned int GetNumberOfColors() const;
 
   /** type of the color component */
-  typedef typename OutputPixelType::ComponentType ComponentType;
+  using ComponentType = typename OutputPixelType::ComponentType;
 
   /** Add color to the LUT container */
   void AddColor(ComponentType r, ComponentType g, ComponentType b);

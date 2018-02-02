@@ -63,8 +63,8 @@ CheckerBoardImageFilter< TImage >
   InputImageConstPointer input2Ptr = this->GetInput(1);
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageRegionIteratorWithIndex< OutputImageType >     OutputIterator;
-  typedef ImageRegionConstIteratorWithIndex< InputImageType > InputIterator;
+  using OutputIterator = ImageRegionIteratorWithIndex< OutputImageType >;
+  using InputIterator = ImageRegionConstIteratorWithIndex< InputImageType >;
 
   OutputIterator outItr(outputPtr, outputRegionForThread);
   InputIterator  in1Itr(input1Ptr, outputRegionForThread);
@@ -88,8 +88,8 @@ CheckerBoardImageFilter< TImage >
     factors[d] = size[d] / m_CheckerPattern[d];
     }
 
-  typedef typename InputImageType::PixelType PixelType;
-  typedef typename InputImageType::IndexType IndexType;
+  using PixelType = typename InputImageType::PixelType;
+  using IndexType = typename InputImageType::IndexType;
 
   PixelType pixval;
 

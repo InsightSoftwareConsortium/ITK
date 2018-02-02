@@ -32,10 +32,10 @@ class PreOrderTreeIterator:public TreeIteratorBase< TTreeType >
 public:
 
   /** Typedefs */
-  typedef typename TTreeType::ValueType     ValueType;
-  typedef TreeIteratorBase< TTreeType >     Superclass;
-  typedef typename Superclass::TreeNodeType TreeNodeType;
-  typedef typename Superclass::NodeType     NodeType;
+  using ValueType = typename TTreeType::ValueType;
+  using Superclass = TreeIteratorBase< TTreeType >;
+  using TreeNodeType = typename Superclass::TreeNodeType;
+  using NodeType = typename Superclass::NodeType;
 
   /** Constructor */
   PreOrderTreeIterator(const TTreeType *tree, const TreeNodeType *start = nullptr);

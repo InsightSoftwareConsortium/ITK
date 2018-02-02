@@ -33,16 +33,15 @@ class TestImageFunction:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef TestImageFunction                   Self;
-  typedef ImageFunction< TInputImage,
+  /** Standard class type aliases. */
+  using Self = TestImageFunction;
+  using Superclass = ImageFunction< TInputImage,
                          typename NumericTraits<
                          typename TInputImage::PixelType >::RealType,
-                         TCoordRep >
-                                              Superclass;
+                         TCoordRep >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TestImageFunction, ImageFunction);
@@ -50,25 +49,25 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType     OutputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = typename Superclass::InputImageType;
 
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support */
+  using PointType = typename Superclass::PointType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType      IndexType;
-  typedef typename Superclass::IndexValueType IndexValueType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
+  using IndexValueType = typename Superclass::IndexValueType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   /** Evaluate the function at specified Point position.*/
   OutputType Evaluate(const PointType & itkNotUsed(point) ) const override
@@ -110,25 +109,22 @@ int itkImageFunctionTest( int , char*[] )
   bool result = EXIT_SUCCESS;
 
   const   unsigned int                                  Dimension = 3;
-  typedef float                                         PixelType;
-  typedef itk::Image< PixelType, Dimension >            ImageType;
-  typedef ImageType::RegionType                         RegionType;
-  typedef RegionType::SizeType                          SizeType;
-  typedef ImageType::IndexType                          IndexType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using RegionType = ImageType::RegionType;
+  using SizeType = RegionType::SizeType;
+  using IndexType = ImageType::IndexType;
 
-  typedef float                                         CoordRepType;
-  typedef itk::ContinuousIndex<CoordRepType, Dimension> ContinuousIndexType;
-  typedef itk::Point<CoordRepType, Dimension>           PointType;
+  using CoordRepType = float;
+  using ContinuousIndexType = itk::ContinuousIndex<CoordRepType, Dimension>;
+  using PointType = itk::Point<CoordRepType, Dimension>;
 
-  typedef itk::NumericTraits<IndexType::IndexValueType>
-                                              IndexNumericTraits;
-  typedef itk::NumericTraits<ContinuousIndexType::ValueType>
-                                              ContinuousIndexNumericTraits;
-  typedef itk::NumericTraits<PointType::ValueType>
-                                              PointNumericTraits;
+  using IndexNumericTraits = itk::NumericTraits<IndexType::IndexValueType>;
+  using ContinuousIndexNumericTraits = itk::NumericTraits<ContinuousIndexType::ValueType>;
+  using PointNumericTraits = itk::NumericTraits<PointType::ValueType>;
 
 
-  typedef itk::TestImageFunction< ImageType, CoordRepType >  FunctionType;
+  using FunctionType = itk::TestImageFunction< ImageType, CoordRepType >;
 
   ImageType::Pointer image = ImageType::New();
 

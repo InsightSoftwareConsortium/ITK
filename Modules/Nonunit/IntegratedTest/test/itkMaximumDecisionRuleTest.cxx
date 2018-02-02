@@ -21,9 +21,9 @@
 
 int itkMaximumDecisionRuleTest(int, char* [] )
 {
-  typedef itk::Statistics::MaximumDecisionRule      MaximumDecisionRuleType;
+  using MaximumDecisionRuleType = itk::Statistics::MaximumDecisionRule;
 
-  typedef MaximumDecisionRuleType::MembershipVectorType MembershipVectorType;
+  using MembershipVectorType = MaximumDecisionRuleType::MembershipVectorType;
 
   MaximumDecisionRuleType::Pointer decisionRule = MaximumDecisionRuleType::New();
 

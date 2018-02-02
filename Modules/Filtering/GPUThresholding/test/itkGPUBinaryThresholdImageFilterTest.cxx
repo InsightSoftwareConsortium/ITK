@@ -36,14 +36,14 @@
 template< unsigned int VImageDimension >
 int runGPUBinaryThresholdImageFilterTest(const std::string& inFile, const std::string& outFile)
 {
-  typedef   unsigned char  InputPixelType;
-  typedef   unsigned char  OutputPixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::GPUImage< InputPixelType,  VImageDimension >   InputImageType;
-  typedef itk::GPUImage< OutputPixelType, VImageDimension >   OutputImageType;
+  using InputImageType = itk::GPUImage< InputPixelType,  VImageDimension >;
+  using OutputImageType = itk::GPUImage< OutputPixelType, VImageDimension >;
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   typename WriterType::Pointer writer = WriterType::New();
@@ -57,8 +57,8 @@ int runGPUBinaryThresholdImageFilterTest(const std::string& inFile, const std::s
   reader->SetFileName( inFile );
   writer->SetFileName( outFile );
 
-  typedef itk::BinaryThresholdImageFilter< InputImageType, OutputImageType > ThresholdFilterType;
-  typedef itk::GPUBinaryThresholdImageFilter< InputImageType, OutputImageType > GPUThresholdFilterType;
+  using ThresholdFilterType = itk::BinaryThresholdImageFilter< InputImageType, OutputImageType >;
+  using GPUThresholdFilterType = itk::GPUBinaryThresholdImageFilter< InputImageType, OutputImageType >;
 
   // threshold parameters
   const InputPixelType upperThreshold = 255;

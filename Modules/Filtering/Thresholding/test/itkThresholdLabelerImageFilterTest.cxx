@@ -30,11 +30,11 @@ int ThresholdLabelerImageFilterTestHelper( bool useRealTypeThresholds )
   //
   const unsigned int Dimension = 2;
 
-  typedef float         InputPixelType;
-  typedef unsigned long LabeledPixelType;
+  using InputPixelType = float;
+  using LabeledPixelType = unsigned long;
 
-  typedef itk::Image< InputPixelType, Dimension >   InputImageType;
-  typedef itk::Image< LabeledPixelType, Dimension > LabeledImageType;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using LabeledImageType = itk::Image< LabeledPixelType, Dimension >;
 
   // Create an image with stripes to label
   InputImageType::IndexType index = {{0, 0}};
@@ -53,7 +53,7 @@ int ThresholdLabelerImageFilterTestHelper( bool useRealTypeThresholds )
   region.SetSize(size);
 
   // Stripe y indexes
-  typedef std::vector<InputImageType::IndexType::IndexValueType> IndexValueVectorType;
+  using IndexValueVectorType = std::vector<InputImageType::IndexType::IndexValueType>;
   IndexValueVectorType yindexes;
   yindexes.push_back(0);
   yindexes.push_back(8);
@@ -93,7 +93,7 @@ int ThresholdLabelerImageFilterTestHelper( bool useRealTypeThresholds )
     }
 
   // Apply labeler filter
-  typedef itk::ThresholdLabelerImageFilter< InputImageType, LabeledImageType > LabelerFilterType;
+  using LabelerFilterType = itk::ThresholdLabelerImageFilter< InputImageType, LabeledImageType >;
   LabelerFilterType::Pointer labelerFilter = LabelerFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( labelerFilter, ThresholdLabelerImageFilter,

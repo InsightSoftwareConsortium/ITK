@@ -50,13 +50,13 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension >                 ImageType;
-  typedef itk::StatisticsLabelObject< PixelType, Dimension > StatisticsLabelObjectType;
-  typedef itk::LabelMap< StatisticsLabelObjectType >         LabelMapType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using StatisticsLabelObjectType = itk::StatisticsLabelObject< PixelType, Dimension >;
+  using LabelMapType = itk::LabelMap< StatisticsLabelObjectType >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputImage );
 
@@ -67,34 +67,34 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   // Dilate each label object to form overlapping label objects.
   const unsigned int radiusValue = 5;
 
-  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType > LabelImageToLabelMapFilterType;
+  using LabelImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType >;
   LabelImageToLabelMapFilterType::Pointer labelMapConverter = LabelImageToLabelMapFilterType::New();
   labelMapConverter->SetInput( reader->GetOutput() );
   labelMapConverter->SetBackgroundValue( itk::NumericTraits< PixelType >::ZeroValue() );
 
-  typedef itk::FlatStructuringElement< Dimension > StructuringElementType;
+  using StructuringElementType = itk::FlatStructuringElement< Dimension >;
   StructuringElementType::RadiusType radius;
   radius.Fill( radiusValue );
 
   StructuringElementType structuringElement = StructuringElementType::Box( radius );
 
-  typedef itk::GrayscaleDilateImageFilter< ImageType, ImageType, StructuringElementType > MorphologicalFilterType;
+  using MorphologicalFilterType = itk::GrayscaleDilateImageFilter< ImageType, ImageType, StructuringElementType >;
   MorphologicalFilterType::Pointer grayscaleDilateFilter = MorphologicalFilterType::New();
   grayscaleDilateFilter->SetInput( reader->GetOutput() );
   grayscaleDilateFilter->SetKernel( structuringElement );
 
-  typedef itk::ObjectByObjectLabelMapFilter< LabelMapType > ObjectByObjectLabelMapFilterType;
+  using ObjectByObjectLabelMapFilterType = itk::ObjectByObjectLabelMapFilter< LabelMapType >;
   ObjectByObjectLabelMapFilterType::Pointer objectByObjectLabelMapFilter = ObjectByObjectLabelMapFilterType::New();
   objectByObjectLabelMapFilter->SetInput( labelMapConverter->GetOutput() );
   objectByObjectLabelMapFilter->SetBinaryInternalOutput( false );
   objectByObjectLabelMapFilter->SetFilter( grayscaleDilateFilter );
 
-  typedef itk::StatisticsLabelMapFilter< LabelMapType, ImageType > StatisticsFilterType;
+  using StatisticsFilterType = itk::StatisticsLabelMapFilter< LabelMapType, ImageType >;
   StatisticsFilterType::Pointer statisticsFilter = StatisticsFilterType::New();
   statisticsFilter->SetInput1( objectByObjectLabelMapFilter->GetOutput()  );
   statisticsFilter->SetFeatureImage( reader2->GetOutput() );
 
-  typedef itk::StatisticsUniqueLabelMapFilter< LabelMapType > LabelUniqueType;
+  using LabelUniqueType = itk::StatisticsUniqueLabelMapFilter< LabelMapType >;
   LabelUniqueType::Pointer unique = LabelUniqueType::New();
 
   //testing boolean macro for ReverseOrdering
@@ -121,11 +121,11 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(unique, "filter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> LabelMapToImageFilterType;
+  using LabelMapToImageFilterType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   LabelMapToImageFilterType::Pointer labelMapToImageFilter = LabelMapToImageFilterType::New();
   labelMapToImageFilter->SetInput( unique->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( labelMapToImageFilter->GetOutput() );
   writer->SetFileName( outputImage );

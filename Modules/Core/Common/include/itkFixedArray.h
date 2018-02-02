@@ -58,16 +58,16 @@ public:
   itkStaticConstMacro(Dimension, unsigned int, VLength);
 
   /** The element type stored at each location in the FixedArray. */
-  typedef TValue ValueType;
+  using ValueType = TValue;
 
   /** A type representing the C-array version of this FixedArray. */
   typedef ValueType CArray[VLength];
 
   /** An iterator through the array. */
-  typedef ValueType *Iterator;
+  using Iterator = ValueType *;
 
   /** A const iterator through the array. */
-  typedef const ValueType *ConstIterator;
+  using ConstIterator = const ValueType *;
 
   class ConstReverseIterator;
 
@@ -116,18 +116,18 @@ public:
   };
 
   /** A pointer to the ValueType. */
-  typedef ValueType *pointer;
+  using pointer = ValueType *;
 
   /** A const pointer to the ValueType. */
-  typedef const ValueType *const_pointer;
+  using const_pointer = const ValueType *;
 
   /** A reference to the ValueType. */
-  typedef ValueType & reference;
+  using reference = ValueType &;
 
   /** A const reference to the ValueType. */
-  typedef const ValueType & const_reference;
+  using const_reference = const ValueType &;
 
-  typedef unsigned int SizeType;
+  using SizeType = unsigned int;
 
 public:
   /** Constructors */

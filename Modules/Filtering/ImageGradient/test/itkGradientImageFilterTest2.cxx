@@ -30,22 +30,22 @@ template <typename TInputImage>
 int DoIt( const std::string &infname,
           const std::string &outfname )
 {
-  typedef TInputImage InputImageType;
+  using InputImageType = TInputImage;
 
   const unsigned int ImageDimension = InputImageType::ImageDimension;
-  typedef typename InputImageType::PixelType InputPixelType;
+  using InputPixelType = typename InputImageType::PixelType;
 
-  typedef itk::ImageFileReader<InputImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( infname );
 
-  typedef itk::GradientImageFilter<InputImageType > FilterType;
+  using FilterType = itk::GradientImageFilter<InputImageType >;
   typename FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput( reader->GetOutput() );
 
-  typedef typename FilterType::OutputImageType  OutputImageType;
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
+  using OutputImageType = typename FilterType::OutputImageType;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( outfname );
@@ -54,9 +54,9 @@ int DoIt( const std::string &infname,
 
   std::cout << filter;
 
-  typedef itk::VectorImage<InputPixelType, ImageDimension> VectorImageType;
+  using VectorImageType = itk::VectorImage<InputPixelType, ImageDimension>;
 
-  typedef itk::GradientImageFilter<InputImageType, float, float, VectorImageType> VectorFilterType;
+  using VectorFilterType = itk::GradientImageFilter<InputImageType, float, float, VectorImageType>;
   typename VectorFilterType::Pointer vectorFilter = VectorFilterType::New();
   vectorFilter->SetInput( reader->GetOutput() );
   vectorFilter->Update();
@@ -117,8 +117,8 @@ int itkGradientImageFilterTest2(int argc, char * argv[] )
     itkGenericExceptionMacro( "Unable to determine ImageIO reader for \"" << infname << "\"" );
     }
 
-  typedef itk::Image<short,3>                      TestImageType;
-  typedef itk::GradientImageFilter<TestImageType > FilterType;
+  using TestImageType = itk::Image<short,3>;
+  using FilterType = itk::GradientImageFilter<TestImageType >;
 
   FilterType::Pointer filter = FilterType::New();
   EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );

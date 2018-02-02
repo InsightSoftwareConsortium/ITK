@@ -69,11 +69,11 @@ template <typename TMoving, typename TFixed>
 class ITK_TEMPLATE_EXPORT ImageMetricLoad : public LoadElement
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageMetricLoad          Self;
-  typedef LoadElement              Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageMetricLoad;
+  using Superclass = LoadElement;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);
@@ -85,91 +85,82 @@ public:
    * including its internal member variables. */
   ::itk::LightObject::Pointer CreateAnother(void) const override;
 
-  // Necessary typedefs for dealing with images BEGIN
-  typedef typename LoadElement::Float Float;
+  // Necessary type alias for dealing with images BEGIN
+  using Float = typename LoadElement::Float;
 
-  typedef TMoving                           MovingType;
-  typedef typename MovingType::ConstPointer MovingConstPointer;
-  typedef MovingType *                      MovingPointer;
-  typedef TFixed                            FixedType;
-  typedef FixedType *                       FixedPointer;
-  typedef typename FixedType::ConstPointer  FixedConstPointer;
+  using MovingType = TMoving;
+  using MovingConstPointer = typename MovingType::ConstPointer;
+  using MovingPointer = MovingType *;
+  using FixedType = TFixed;
+  using FixedPointer = FixedType *;
+  using FixedConstPointer = typename FixedType::ConstPointer;
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       MovingType::ImageDimension);
 
-  typedef ImageRegionIteratorWithIndex<MovingType> RefRegionIteratorType;
-  typedef ImageRegionIteratorWithIndex<FixedType>  TarRegionIteratorType;
+  using RefRegionIteratorType = ImageRegionIteratorWithIndex<MovingType>;
+  using TarRegionIteratorType = ImageRegionIteratorWithIndex<FixedType>;
 
-  typedef NeighborhoodIterator<MovingType>
-  MovingNeighborhoodIteratorType;
-  typedef typename MovingNeighborhoodIteratorType::IndexType
-  MovingNeighborhoodIndexType;
-  typedef typename MovingNeighborhoodIteratorType::RadiusType
-  MovingRadiusType;
-  typedef NeighborhoodIterator<FixedType>
-  FixedNeighborhoodIteratorType;
-  typedef typename FixedNeighborhoodIteratorType::IndexType
-  FixedNeighborhoodIndexType;
-  typedef typename FixedNeighborhoodIteratorType::RadiusType
-  FixedRadiusType;
+  using MovingNeighborhoodIteratorType = NeighborhoodIterator<MovingType>;
+  using MovingNeighborhoodIndexType = typename MovingNeighborhoodIteratorType::IndexType;
+  using MovingRadiusType = typename MovingNeighborhoodIteratorType::RadiusType;
+  using FixedNeighborhoodIteratorType = NeighborhoodIterator<FixedType>;
+  using FixedNeighborhoodIndexType = typename FixedNeighborhoodIteratorType::IndexType;
+  using FixedRadiusType = typename FixedNeighborhoodIteratorType::RadiusType;
 
 // IMAGE DATA
-  typedef   typename  MovingType::PixelType                             RefPixelType;
-  typedef   typename  FixedType::PixelType                              TarPixelType;
-  typedef   Float                                                       PixelType;
-  typedef   Float                                                       ComputationType;
-  typedef   Image<RefPixelType, itkGetStaticConstMacro(ImageDimension)> RefImageType;
-  typedef   Image<TarPixelType, itkGetStaticConstMacro(ImageDimension)> TarImageType;
-  typedef   Image<PixelType, itkGetStaticConstMacro(ImageDimension)>    ImageType;
-  typedef   vnl_vector<Float>                                           VectorType;
+  using RefPixelType = typename  MovingType::PixelType;
+  using TarPixelType = typename  FixedType::PixelType;
+  using PixelType = Float;
+  using ComputationType = Float;
+  using RefImageType = Image<RefPixelType, itkGetStaticConstMacro(ImageDimension)>;
+  using TarImageType = Image<TarPixelType, itkGetStaticConstMacro(ImageDimension)>;
+  using ImageType = Image<PixelType, itkGetStaticConstMacro(ImageDimension)>;
+  using VectorType = vnl_vector<Float>;
 
-// Necessary typedefs for dealing with images END
+// Necessary type alias for dealing with images END
 
 // ------------------------------------------------------------
 // Set up the metrics
 // ------------------------------------------------------------
-  typedef double
-  CoordinateRepresentationType;
-  typedef Transform<CoordinateRepresentationType, itkGetStaticConstMacro(ImageDimension),
-                    itkGetStaticConstMacro(ImageDimension)>            TransformBaseType;
-  typedef TranslationTransform<CoordinateRepresentationType,
-                               itkGetStaticConstMacro(ImageDimension)> DefaultTransformType;
+  using CoordinateRepresentationType = double;
+  using TransformBaseType = Transform<CoordinateRepresentationType, itkGetStaticConstMacro(ImageDimension),
+                    itkGetStaticConstMacro(ImageDimension)>;
+  using DefaultTransformType = TranslationTransform<CoordinateRepresentationType,
+                               itkGetStaticConstMacro(ImageDimension)>;
 
   /**  Type of supported metrics. */
-  typedef   ImageToImageMetric<FixedType, MovingType> MetricBaseType;
-  typedef typename MetricBaseType::Pointer            MetricBaseTypePointer;
+  using MetricBaseType = ImageToImageMetric<FixedType, MovingType>;
+  using MetricBaseTypePointer = typename MetricBaseType::Pointer;
 
-  typedef   MutualInformationImageToImageMetric<MovingType, FixedType> MutualInformationMetricType;
+  using MutualInformationMetricType = MutualInformationImageToImageMetric<MovingType, FixedType>;
 
-  typedef   MeanSquaresImageToImageMetric<MovingType, FixedType> MeanSquaresMetricType;
+  using MeanSquaresMetricType = MeanSquaresImageToImageMetric<MovingType, FixedType>;
 
-  typedef   NormalizedCorrelationImageToImageMetric<MovingType, FixedType> NormalizedCorrelationMetricType;
+  using NormalizedCorrelationMetricType = NormalizedCorrelationImageToImageMetric<MovingType, FixedType>;
 
-  typedef  MeanSquaresMetricType                        DefaultMetricType;
-  typedef typename DefaultTransformType::ParametersType ParametersType;
-  typedef typename DefaultTransformType::JacobianType   JacobianType;
+  using DefaultMetricType = MeanSquaresMetricType;
+  using ParametersType = typename DefaultTransformType::ParametersType;
+  using JacobianType = typename DefaultTransformType::JacobianType;
 
-  typedef unsigned long                                        ElementIdentifier;
-  typedef VectorContainer<ElementIdentifier, Element::Pointer> ElementContainerType;
+  using ElementIdentifier = unsigned long;
+  using ElementContainerType = VectorContainer<ElementIdentifier, Element::Pointer>;
 // ------------------------------------------------------------
 // Set up an Interpolator
 // ------------------------------------------------------------
-  typedef LinearInterpolateImageFunction<MovingType, double> InterpolatorType;
+  using InterpolatorType = LinearInterpolateImageFunction<MovingType, double>;
 
   /** Gradient filtering */
-  typedef float RealType;
-  typedef CovariantVector<RealType,
-                          itkGetStaticConstMacro(ImageDimension)> GradientPixelType;
-  typedef Image<GradientPixelType,
-                itkGetStaticConstMacro(ImageDimension)> GradientImageType;
-  typedef SmartPointer<GradientImageType> GradientImagePointer;
-  typedef GradientRecursiveGaussianImageFilter<ImageType,
-                                               GradientImageType>
-  GradientImageFilterType;
-  //  typedef typename GradientImageFilterType::Pointer
-  // GradientImageFilterPointer;
+  using RealType = float;
+  using GradientPixelType = CovariantVector<RealType,
+                          itkGetStaticConstMacro(ImageDimension)>;
+  using GradientImageType = Image<GradientPixelType,
+                itkGetStaticConstMacro(ImageDimension)>;
+  using GradientImagePointer = SmartPointer<GradientImageType>;
+  using GradientImageFilterType = GradientRecursiveGaussianImageFilter<ImageType,
+                                               GradientImageType>;
+  // using GradientImageFilterPointer = typename GradientImageFilterType::Pointer;
 
 // FUNCTIONS
 

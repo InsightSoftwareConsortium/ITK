@@ -43,15 +43,15 @@ class ITK_FORCE_EXPORT_MACRO(ITKVideoCore) TemporalDataObject : public DataObjec
 {
 public:
 
-  /** Standard class typedefs */
-  typedef TemporalDataObject         Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef WeakPointer< const Self >  ConstWeakPointer;
+  /** Standard class type aliases */
+  using Self = TemporalDataObject;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
-  typedef RingBuffer<DataObject>        BufferType;
-  typedef TemporalRegion                TemporalRegionType;
+  using BufferType = RingBuffer<DataObject>;
+  using TemporalRegionType = TemporalRegion;
 
   /** Enum for defining the way in which to compare temporal regions */
   typedef enum {Frame, RealTime, FrameAndRealTime} TemporalUnitType;

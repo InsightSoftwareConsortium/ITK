@@ -37,11 +37,11 @@ template< typename TInputImage, typename TInputSpatialObject, unsigned int TSamp
 class ITK_TEMPLATE_EXPORT SpatialObjectToImageStatisticsCalculator:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef SpatialObjectToImageStatisticsCalculator Self;
-  typedef Object                                   Superclass;
-  typedef SmartPointer< Self >                     Pointer;
-  typedef SmartPointer< const Self >               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SpatialObjectToImageStatisticsCalculator;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -50,13 +50,13 @@ public:
   itkTypeMacro(SpatialObjectToImageStatisticsCalculator, Object);
 
   /** Type definitions for the input image. */
-  typedef TInputImage                        ImageType;
-  typedef typename TInputImage::Pointer      ImagePointer;
-  typedef typename TInputImage::ConstPointer ImageConstPointer;
-  typedef typename TInputImage::PixelType    PixelType;
-  typedef typename TInputImage::IndexType    IndexType;
+  using ImageType = TInputImage;
+  using ImagePointer = typename TInputImage::Pointer;
+  using ImageConstPointer = typename TInputImage::ConstPointer;
+  using PixelType = typename TInputImage::PixelType;
+  using IndexType = typename TInputImage::IndexType;
 
-  typedef  typename NumericTraits< PixelType >::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits< PixelType >::AccumulateType;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       ImageType::ImageDimension);
@@ -68,20 +68,20 @@ public:
                       TInputSpatialObject::ObjectDimension);
 
   /** Type definitions for the input spatial object. */
-  typedef TInputSpatialObject                      SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer      SpatialObjectPointer;
-  typedef typename SpatialObjectType::ConstPointer SpatialObjectConstPointer;
+  using SpatialObjectType = TInputSpatialObject;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
 
   /** Type definition of the flood fill iterator */
-  typedef itk::FloodFilledSpatialFunctionConditionalConstIterator< ImageType,
-                                                                   SpatialObjectType > IteratorType;
+  using IteratorType = itk::FloodFilledSpatialFunctionConditionalConstIterator< ImageType,
+                                                                   SpatialObjectType >;
 
   /** Vector and Matrix Type */
-  typedef Vector< double, TSampleDimension >                   VectorType;
-  typedef Matrix< double, TSampleDimension, TSampleDimension > MatrixType;
+  using VectorType = Vector< double, TSampleDimension >;
+  using MatrixType = Matrix< double, TSampleDimension, TSampleDimension >;
 
   /** Type definitions for the samples */
-  typedef itk::Statistics::ListSample< VectorType > SampleType;
+  using SampleType = itk::Statistics::ListSample< VectorType >;
 
   /** Set/Get the direction of the sample */
   itkSetMacro(SampleDirection, unsigned int);

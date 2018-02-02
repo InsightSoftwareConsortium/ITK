@@ -44,9 +44,9 @@ namespace itk
  *
  *  This class may also be used to create a smoother by combining it with the upSampler
  *  as in the following example:
- *      typedef itk::BSplineResampleImageFilterBase<ImageType2D, ImageType2D> ResamplerType;
- *      typedef itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> DownsamplerType2D;
- *      typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> UpsamplerType2D;
+ *      using ResamplerType = itk::BSplineResampleImageFilterBase<ImageType2D, ImageType2D>;
+ *      using DownsamplerType2D = itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D,ResamplerType>;
+ *      using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType>;
  *
  *      DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
  *      UpsamplerType2D::Pointer   upSampler =   UpsamplerType2D::New();
@@ -90,11 +90,11 @@ class ITK_TEMPLATE_EXPORT BSplineDownsampleImageFilter:
   public ResamplerType
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineDownsampleImageFilter Self;
-  typedef ResamplerType                Superclass;
-  typedef SmartPointer< Self >         Pointer;
-  typedef SmartPointer< const Self >   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineDownsampleImageFilter;
+  using Superclass = ResamplerType;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineDownsampleImageFilter, ResamplerType);
@@ -102,17 +102,17 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = typename Superclass::InputImageType;
 
-  /** InputImagePointer typedef support. */
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  /** InputImagePointer type alias support */
+  using InputImagePointer = typename Superclass::InputImagePointer;
 
-  /** OutputImagePointer typedef support. */
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  /** OutputImagePointer type alias support */
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
 
-  /** OutputImageIterator typedef support. */
-  typedef typename Superclass::OutputImageIterator OutputImageIterator;
+  /** OutputImageIterator type alias support */
+  using OutputImageIterator = typename Superclass::OutputImageIterator;
 
   /** Creates an image half the size of the input image with spacing twice the
     * input image. */

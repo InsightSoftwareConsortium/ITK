@@ -59,11 +59,11 @@ class ITKStatistics_EXPORT TDistribution:
   public ProbabilityDistribution
 {
 public:
-  /** Standard class typedefs */
-  typedef TDistribution              Self;
-  typedef ProbabilityDistribution    Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = TDistribution;
+  using Superclass = ProbabilityDistribution;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Strandard macros */
   itkTypeMacro(TDistribution, ProbabilityDistribution);

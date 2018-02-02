@@ -35,10 +35,10 @@ class ITKWatersheds_EXPORT WatershedMiniPipelineProgressCommand:public Command
 {
 public:
   /** Smart pointer declaration methods */
-  typedef WatershedMiniPipelineProgressCommand Self;
-  typedef Command                              Superclass;
-  typedef itk::SmartPointer< Self >            Pointer;
-  typedef itk::SmartPointer< const Self >      ConstPointer;
+  using Self = WatershedMiniPipelineProgressCommand;
+  using Superclass = Command;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
   itkTypeMacro(WatershedMiniPipelineProgressCommand, Command);
   itkNewMacro(Self);
 

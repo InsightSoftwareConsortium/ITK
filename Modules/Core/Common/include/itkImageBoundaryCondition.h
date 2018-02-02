@@ -56,25 +56,24 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Standard typedefs. */
-  typedef ImageBoundaryCondition Self;
+  /** Standard type alias. */
+  using Self = ImageBoundaryCondition;
 
   /** Extract information from the image type */
-  typedef typename TInputImage::PixelType                       PixelType;
-  typedef typename TInputImage::InternalPixelType *             PixelPointerType;
-  typedef typename TOutputImage::PixelType                      OutputPixelType;
-  typedef Index< itkGetStaticConstMacro(ImageDimension) >       IndexType;
-  typedef Size< itkGetStaticConstMacro(ImageDimension) >        SizeType;
-  typedef Offset< itkGetStaticConstMacro(ImageDimension) >      OffsetType;
-  typedef ImageRegion< itkGetStaticConstMacro(ImageDimension) > RegionType;
+  using PixelType = typename TInputImage::PixelType;
+  using PixelPointerType = typename TInputImage::InternalPixelType *;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using IndexType = Index< itkGetStaticConstMacro(ImageDimension) >;
+  using SizeType = Size< itkGetStaticConstMacro(ImageDimension) >;
+  using OffsetType = Offset< itkGetStaticConstMacro(ImageDimension) >;
+  using RegionType = ImageRegion< itkGetStaticConstMacro(ImageDimension) >;
 
   /** Type of the data container passed to this function object. */
-  typedef Neighborhood< PixelPointerType,
-                        itkGetStaticConstMacro(ImageDimension) > NeighborhoodType;
+  using NeighborhoodType = Neighborhood< PixelPointerType,
+                        itkGetStaticConstMacro(ImageDimension) >;
 
   /** Functor used to access pixels from a neighborhood of pixel pointers */
-  typedef typename TInputImage::NeighborhoodAccessorFunctorType
-  NeighborhoodAccessorFunctorType;
+  using NeighborhoodAccessorFunctorType = typename TInputImage::NeighborhoodAccessorFunctorType;
 
   /** Default constructor. */
   ImageBoundaryCondition() {}

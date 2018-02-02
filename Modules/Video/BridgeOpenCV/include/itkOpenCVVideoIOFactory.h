@@ -32,11 +32,11 @@ namespace itk
 class ITKVideoBridgeOpenCV_EXPORT OpenCVVideoIOFactory: public ObjectFactoryBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef OpenCVVideoIOFactory       Self;
-  typedef ObjectFactoryBase          Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = OpenCVVideoIOFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Class methods used to interface with the registered factories. */
   virtual const char * GetITKSourceVersion() const;

@@ -76,8 +76,8 @@ DoubleThresholdImageFilter< TInputImage, TOutputImage >
 
   // Build a mini-pipeline that involves two thresholds filters and a
   // geodesic dilation.
-  typedef BinaryThresholdImageFilter< TInputImage, TOutputImage >           ThresholdFilterType;
-  typedef ReconstructionByDilationImageFilter< TOutputImage, TOutputImage > DilationFilterType;
+  using ThresholdFilterType = BinaryThresholdImageFilter< TInputImage, TOutputImage >;
+  using DilationFilterType = ReconstructionByDilationImageFilter< TOutputImage, TOutputImage >;
 
   typename ThresholdFilterType::Pointer narrowThreshold = ThresholdFilterType::New();
 

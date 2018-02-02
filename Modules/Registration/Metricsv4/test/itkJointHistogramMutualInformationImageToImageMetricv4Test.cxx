@@ -33,7 +33,7 @@ int itkJointHistogramMutualInformationImageToImageMetricv4Test( int , char * [] 
 
   const unsigned int imageSize = 10;
   const unsigned int imageDimensionality = 3;
-  typedef itk::Image< double, imageDimensionality >              ImageType;
+  using ImageType = itk::Image< double, imageDimensionality >;
 
   ImageType::SizeType       size;
   size.Fill( imageSize );
@@ -85,20 +85,19 @@ int itkJointHistogramMutualInformationImageToImageMetricv4Test( int , char * [] 
     }
 
   /* Transforms */
-  typedef itk::TranslationTransform<double,imageDimensionality>
-                                                            FixedTransformType;
-  typedef itk::TranslationTransform<double,imageDimensionality>
-                                                            MovingTransformType;
+  using FixedTransformType =
+      itk::TranslationTransform<double,imageDimensionality>;
+  using MovingTransformType =
+      itk::TranslationTransform<double,imageDimensionality>;
   FixedTransformType::Pointer fixedTransform = FixedTransformType::New();
   MovingTransformType::Pointer movingTransform = MovingTransformType::New();
   fixedTransform->SetIdentity();
   movingTransform->SetIdentity();
 
   /* The metric */
-  typedef itk::JointHistogramMutualInformationImageToImageMetricv4< ImageType,
+  using MetricType = itk::JointHistogramMutualInformationImageToImageMetricv4< ImageType,
                                                                 ImageType,
-                                                                ImageType >
-                                                                  MetricType;
+                                                                ImageType >;
   MetricType::Pointer metric = MetricType::New();
 
   /* Assign images and transforms.

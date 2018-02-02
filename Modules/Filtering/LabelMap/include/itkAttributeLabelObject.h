@@ -31,8 +31,8 @@ template< typename TLabelObject >
 class AttributeLabelObjectAccessor
 {
 public:
-  typedef TLabelObject                                 LabelObjectType;
-  typedef typename LabelObjectType::AttributeValueType AttributeValueType;
+  using LabelObjectType = TLabelObject;
+  using AttributeValueType = typename LabelObjectType::AttributeValueType;
 
   inline const AttributeValueType operator()( const LabelObjectType * labelObject )
     {
@@ -70,13 +70,13 @@ template < typename TLabel, unsigned int VImageDimension, typename TAttributeVal
 class AttributeLabelObject : public LabelObject< TLabel, VImageDimension >
 {
 public:
-  /** Standard class typedefs */
-  typedef AttributeLabelObject                   Self;
-  typedef LabelObject< TLabel, VImageDimension > Superclass;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef typename Superclass::LabelObjectType   LabelObjectType;
-  typedef SmartPointer< const Self >             ConstPointer;
-  typedef WeakPointer< const Self >              ConstWeakPointer;
+  /** Standard class type aliases */
+  using Self = AttributeLabelObject;
+  using Superclass = LabelObject< TLabel, VImageDimension >;
+  using Pointer = SmartPointer< Self >;
+  using LabelObjectType = typename Superclass::LabelObjectType;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -84,19 +84,19 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(AttributeLabelObject, LabelObject);
 
-  typedef LabelMap< Self > LabelMapType;
+  using LabelMapType = LabelMap< Self >;
 
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  typedef typename Superclass::IndexType IndexType;
+  using IndexType = typename Superclass::IndexType;
 
-  typedef TLabel LabelType;
+  using LabelType = TLabel;
 
-  typedef typename Superclass::LineType LineType;
+  using LineType = typename Superclass::LineType;
 
-  typedef typename Superclass::LengthType LengthType;
+  using LengthType = typename Superclass::LengthType;
 
-  typedef TAttributeValue AttributeValueType;
+  using AttributeValueType = TAttributeValue;
 
   void SetAttribute( const AttributeValueType & v )
     {

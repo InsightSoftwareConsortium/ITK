@@ -35,10 +35,10 @@ template< class TOutputImage >
 class ConstantImageSource:public GenerateImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ConstantImageSource                 Self;
-  typedef ConstantImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >                Pointer;
+  /** Standard class type aliases. */
+  using Self = ConstantImageSource;
+  using Superclass = ConstantImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -116,7 +116,7 @@ bool ImagesEqual(const TImage* img1, const TImage* img2)
 template<class TScalar, unsigned int TDimension>
 int TestStreamWrite(char *file1, unsigned int numberOfStreams = 0)
 {
-  typedef itk::Image<TScalar,TDimension> ImageType;
+  using ImageType = itk::Image<TScalar,TDimension>;
 
   // Create a source object (in this case a constant image).
   typename ImageType::SizeValueType size[TDimension];
@@ -187,7 +187,7 @@ int TestStreamWrite(char *file1, unsigned int numberOfStreams = 0)
 template<class TScalar, unsigned int TDimension>
 int TestStreamRead(char *file1, unsigned int numberOfStreams = 0)
 {
-  typedef itk::Image<TScalar,TDimension> ImageType;
+  using ImageType = itk::Image<TScalar,TDimension>;
 
   // Create a source object (in this case a constant image).
   typename ImageType::SizeValueType size[TDimension];

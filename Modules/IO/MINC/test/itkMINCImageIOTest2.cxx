@@ -35,13 +35,13 @@ int itkMINCImageIOTest2( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< unsigned short, 3 > ImageType;
+  using ImageType = itk::Image< unsigned short, 3 >;
 
   itk::MINCImageIO::Pointer mincIO1 = itk::MINCImageIO::New();
   itk::MINCImageIO::Pointer mincIO2 = itk::MINCImageIO::New();
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();

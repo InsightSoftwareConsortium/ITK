@@ -26,8 +26,8 @@
 
 int itkPlaneSpatialObjectTest(int, char* [])
 {
-  typedef itk::PlaneSpatialObject<2>    PlaneType;
-  typedef PlaneType::Pointer            PlanePointer;
+  using PlaneType = itk::PlaneSpatialObject<2>;
+  using PlanePointer = PlaneType::Pointer;
 
   std::cout<<"=================================="<<std::endl;
   std::cout<<"Testing PlaneSpatialObject:"<<std::endl<<std::endl;

@@ -68,26 +68,26 @@ class ITK_TEMPLATE_EXPORT ImageSource
   : public ProcessObject, private ImageSourceCommon
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageSource                Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageSource;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
-  typedef Superclass::DataObjectIdentifierType       DataObjectIdentifierType;
-  typedef Superclass::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectIdentifierType = Superclass::DataObjectIdentifierType;
+  using DataObjectPointerArraySizeType = Superclass::DataObjectPointerArraySizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageSource, ProcessObject);
 
-  /** Some convenient typedefs. */
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename OutputImageType::PixelType  OutputImagePixelType;
+  /** Some convenient type alias. */
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** ImageDimension constant */
   itkStaticConstMacro(OutputImageDimension, unsigned int,

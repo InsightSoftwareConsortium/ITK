@@ -71,8 +71,8 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   typename TInputImage::ConstPointer input = this->GetInput();
   typename TMaskImage::ConstPointer mask = this->GetMaskImage();
 
-  typedef MaskImageFilter< TInputImage, TMaskImage, TInputImage >
-  MaskFilterType;
+  using MaskFilterType =
+      MaskImageFilter< TInputImage, TMaskImage, TInputImage >;
   typename MaskFilterType::Pointer maskFilter = MaskFilterType::New();
   if ( mask )
     {
@@ -122,7 +122,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   const ThreadIdType nbOfThreads = static_cast<const ThreadIdType>( m_NumberOfLabels.size() );
 
   // create a line iterator
-  typedef itk::ImageLinearConstIteratorWithIndex< InputImageType > InputLineIteratorType;
+  using InputLineIteratorType = itk::ImageLinearConstIteratorWithIndex< InputImageType >;
   InputLineIteratorType inLineIt(m_Input, outputRegionForThread);
   inLineIt.SetDirection(0);
 
@@ -148,7 +148,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 
   // compute the number of pixels before that threads
   outputRegionSize[splitAxis] = outputRegionForThreadIdx[splitAxis] - outputRegionIdx[splitAxis];
-  typedef SizeValueType LineIdType;
+  using LineIdType = SizeValueType;
   LineIdType firstLineIdForThread = RegionType(outputRegionIdx, outputRegionSize).GetNumberOfPixels() / xsizeForThread;
   LineIdType lineId = firstLineIdForThread;
 
@@ -423,10 +423,10 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   // offset for us. All this messing around produces an array of
   // offsets that will be used to index the map
   typename TOutputImage::Pointer output = this->GetOutput();
-  typedef Image< OffsetValueType, TOutputImage::ImageDimension - 1 >  PretendImageType;
-  typedef typename PretendImageType::RegionType::SizeType             PretendSizeType;
-  typedef typename PretendImageType::RegionType::IndexType            PretendIndexType;
-  typedef ConstShapedNeighborhoodIterator< PretendImageType >         LineNeighborhoodType;
+  using PretendImageType = Image< OffsetValueType, TOutputImage::ImageDimension - 1 >;
+  using PretendSizeType = typename PretendImageType::RegionType::SizeType;
+  using PretendIndexType = typename PretendImageType::RegionType::IndexType;
+  using LineNeighborhoodType = ConstShapedNeighborhoodIterator< PretendImageType >;
 
   typename PretendImageType::Pointer fakeImage;
   fakeImage = PretendImageType::New();

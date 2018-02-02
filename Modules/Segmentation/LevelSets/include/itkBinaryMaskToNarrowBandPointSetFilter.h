@@ -55,13 +55,13 @@ class ITK_TEMPLATE_EXPORT BinaryMaskToNarrowBandPointSetFilter:
   public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryMaskToNarrowBandPointSetFilter Self;
+  /** Standard class type aliases. */
+  using Self = BinaryMaskToNarrowBandPointSetFilter;
 
-  typedef ImageToMeshFilter< TInputImage, TOutputMesh >  Superclass;
+  using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
 
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,60 +69,60 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(BinaryMaskToNarrowBandPointSetFilter, ImageToMeshFilter);
 
-  /** Some typedefs associated with the input images. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  /** Some type alias associated with the input images. */
+  using InputImageType = TInputImage;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
-  typedef ImageRegionConstIteratorWithIndex< InputImageType > InputImageIterator;
+  using InputImageIterator = ImageRegionConstIteratorWithIndex< InputImageType >;
 
-  /** Some typedefs associated with the output mesh. */
-  typedef TOutputMesh                                 OutputMeshType;
-  typedef typename OutputMeshType::PointType          PointType;
-  typedef typename OutputMeshType::Pointer            OutputMeshPointer;
-  typedef typename OutputMeshType::ConstPointer       OutputMeshConstPointer;
-  typedef typename OutputMeshType::PointsContainer    PointsContainer;
-  typedef typename OutputMeshType::PointIdentifier    PointIdentifier;
-  typedef typename PointsContainer::Pointer           PointsContainerPointer;
-  typedef typename PointsContainer::Iterator          PointsContainerIterator;
-  typedef typename OutputMeshType::PointDataContainer PointDataContainer;
-  typedef typename PointDataContainer::Pointer        PointDataContainerPointer;
-  typedef typename PointDataContainer::Iterator       PointDataContainerIterator;
+  /** Some type alias associated with the output mesh. */
+  using OutputMeshType = TOutputMesh;
+  using PointType = typename OutputMeshType::PointType;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using OutputMeshConstPointer = typename OutputMeshType::ConstPointer;
+  using PointsContainer = typename OutputMeshType::PointsContainer;
+  using PointIdentifier = typename OutputMeshType::PointIdentifier;
+  using PointsContainerPointer = typename PointsContainer::Pointer;
+  using PointsContainerIterator = typename PointsContainer::Iterator;
+  using PointDataContainer = typename OutputMeshType::PointDataContainer;
+  using PointDataContainerPointer = typename PointDataContainer::Pointer;
+  using PointDataContainerIterator = typename PointDataContainer::Iterator;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
   /** Float image type to be used by the ReinitializeLevelSet image filter */
-  typedef itk::Image< float,
-                      itkGetStaticConstMacro(ImageDimension) >   RealImageType;
+  using RealImageType = itk::Image< float,
+                      itkGetStaticConstMacro(ImageDimension) >;
 
   /** The ReinitializeLevelSet filter is used to evaluate the distance from
       every pixel to the border of the binary mask. It uses internally a
       FastMarching filter for propagating a from from the edges of the binary
       mask.  */
-  typedef ReinitializeLevelSetImageFilter< RealImageType >  DistanceFilterType;
-  typedef typename DistanceFilterType::Pointer              DistanceFilterPointer;
-  typedef typename DistanceFilterType::NodeContainerPointer NodeContainerPointer;
-  typedef typename DistanceFilterType::NodeContainer        NodeContainer;
-  typedef typename NodeContainer::Element                   NodeType;
+  using DistanceFilterType = ReinitializeLevelSetImageFilter< RealImageType >;
+  using DistanceFilterPointer = typename DistanceFilterType::Pointer;
+  using NodeContainerPointer = typename DistanceFilterType::NodeContainerPointer;
+  using NodeContainer = typename DistanceFilterType::NodeContainer;
+  using NodeType = typename NodeContainer::Element;
 
   /** The ReinitializeLevelSetImageFilter expect the input to be binary
       within the range [-0.5:0.5]. This filte will scale the input to
       fit in this range. */
-  typedef RescaleIntensityImageFilter< InputImageType, RealImageType > RescaleFilterType;
+  using RescaleFilterType = RescaleIntensityImageFilter< InputImageType, RealImageType >;
 
-  typedef typename RescaleFilterType::Pointer RescaleFilterPointer;
+  using RescaleFilterPointer = typename RescaleFilterType::Pointer;
 
   /** The dimension of the output mesh. */
   itkStaticConstMacro(PointDimension, unsigned int,
                       TOutputMesh::PointDimension);
 
-  /** Some typedefs associated with the output mesh. */
+  /** Some type alias associated with the output mesh. */
   void GenerateData(void) override;
 
-  /** Some typedefs associated with the output mesh. */
+  /** Some type alias associated with the output mesh. */
   void GenerateOutputInformation(void) override;
 
   /** accept the input image */

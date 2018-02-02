@@ -154,7 +154,7 @@ template< typename TScalar, unsigned int TImageDimension >
 void Relabeler< TScalar, TImageDimension >
 ::GraftNthOutput(unsigned int idx, ImageType *graft)
 {
-  typedef typename ImageType::Pointer OutputImagePointer;
+  using OutputImagePointer = typename ImageType::Pointer;
 
   if ( idx < this->GetNumberOfIndexedOutputs() )
     {

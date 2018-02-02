@@ -56,32 +56,32 @@ class ITK_TEMPLATE_EXPORT GaussianMembershipFunction:
   public MembershipFunctionBase< TMeasurementVector >
 {
 public:
-  /** Standard class typedefs */
-  typedef GaussianMembershipFunction                   Self;
-  typedef MembershipFunctionBase< TMeasurementVector > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  /** Standard class type aliases */
+  using Self = GaussianMembershipFunction;
+  using Superclass = MembershipFunctionBase< TMeasurementVector >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(GaussianMembershipFunction, MembershipFunction);
   itkNewMacro(Self);
 
   /** SmartPointer class for superclass */
-  typedef typename Superclass::Pointer MembershipFunctionPointer;
+  using MembershipFunctionPointer = typename Superclass::Pointer;
 
   /** Typedef alias for the measurement vectors */
-  typedef TMeasurementVector MeasurementVectorType;
+  using MeasurementVectorType = TMeasurementVector;
 
   /** Length of each measurement vector */
-  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
 
   /** Type of the mean vector. RealType on a vector-type is the same
    * vector-type but with a real element type.  */
-  typedef typename itk::NumericTraits< MeasurementVectorType >::RealType MeasurementVectorRealType;
-  typedef MeasurementVectorRealType MeanVectorType;
+  using MeasurementVectorRealType = typename itk::NumericTraits< MeasurementVectorType >::RealType;
+  using MeanVectorType = MeasurementVectorRealType;
 
   /** Type of the covariance matrix */
-  typedef VariableSizeMatrix< double > CovarianceMatrixType;
+  using CovarianceMatrixType = VariableSizeMatrix< double >;
 
   /** Set the mean of the Gaussian distribution. Mean is a vector type
    * similar to the measurement type but with a real element type. */

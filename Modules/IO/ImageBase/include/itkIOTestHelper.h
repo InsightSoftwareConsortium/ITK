@@ -33,7 +33,7 @@ public:
   static typename TImage::Pointer ReadImage( const std::string &fileName,
                                              const bool zeroOrigin = false )
     {
-      typedef itk::ImageFileReader<TImage> ReaderType;
+      using ReaderType = itk::ImageFileReader<TImage>;
 
       typename ReaderType::Pointer reader = ReaderType::New();
       {
@@ -73,7 +73,7 @@ public:
              const std::string &filename)
     {
 
-      typedef itk::ImageFileWriter< ImageType > WriterType;
+      using WriterType = itk::ImageFileWriter< ImageType >;
       typename  WriterType::Pointer writer = WriterType::New();
 
       typename ImageIOType::Pointer imageio(ImageIOType::New());

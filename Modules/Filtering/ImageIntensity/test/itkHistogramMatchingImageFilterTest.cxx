@@ -64,10 +64,10 @@ template <typename TScalar>
 int itkHistogramMatchingImageFilterTest()
 {
 
-  typedef TScalar PixelType;
+  using PixelType = TScalar;
   enum {ImageDimension = 3};
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef itk::ImageRegionIterator<ImageType>  Iterator;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using Iterator = itk::ImageRegionIterator<ImageType>;
 
   typename ImageType::SizeType size;
   size[0] = 30;
@@ -111,7 +111,7 @@ int itkHistogramMatchingImageFilterTest()
     }
 
 
-  typedef itk::HistogramMatchingImageFilter<ImageType,ImageType> FilterType;
+  using FilterType = itk::HistogramMatchingImageFilter<ImageType,ImageType>;
   typename FilterType::Pointer filter = FilterType::New();
 
   filter->SetReferenceImage( reference );

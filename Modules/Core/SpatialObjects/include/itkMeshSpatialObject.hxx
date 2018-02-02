@@ -73,7 +73,7 @@ MeshSpatialObject< TMesh >
     typename MeshType::CellsContainer::ConstIterator it = cells->Begin();
     while ( it != cells->End() )
       {
-      typedef typename MeshType::CoordRepType CoordRepType;
+      using CoordRepType = typename MeshType::CoordRepType;
       CoordRepType position[Dimension];
       for ( unsigned int i = 0; i < Dimension; i++ )
         {

@@ -59,11 +59,11 @@ class ITK_TEMPLATE_EXPORT BSplineControlPointImageFunction
 : public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>
 {
 public:
-  typedef BSplineControlPointImageFunction              Self;
-  typedef ImageFunction<TInputImage,
-    typename TInputImage::PixelType, TCoordRep>         Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  using Self = BSplineControlPointImageFunction;
+  using Superclass = ImageFunction<TInputImage,
+    typename TInputImage::PixelType, TCoordRep>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -74,38 +74,38 @@ public:
   /** Extract dimension from input image. */
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 
-  /** Image typedef support */
-  typedef TInputImage                         ControlPointLatticeType;
-  typedef TInputImage                         InputImageType;
-  typedef TCoordRep                           CoordRepType;
-  typedef typename InputImageType::PixelType  PixelType;
-  typedef typename InputImageType::RegionType RegionType;
-  typedef typename InputImageType::IndexType  IndexType;
-  typedef typename Superclass::PointType      PointType;
-  typedef typename InputImageType::RegionType InputImageRegionType;
+  /** Image type alias support */
+  using ControlPointLatticeType = TInputImage;
+  using InputImageType = TInputImage;
+  using CoordRepType = TCoordRep;
+  using PixelType = typename InputImageType::PixelType;
+  using RegionType = typename InputImageType::RegionType;
+  using IndexType = typename InputImageType::IndexType;
+  using PointType = typename Superclass::PointType;
+  using InputImageRegionType = typename InputImageType::RegionType;
 
-  typedef typename InputImageType::SpacingType   SpacingType;
-  typedef typename InputImageType::PointType     OriginType;
-  typedef typename InputImageType::SizeType      SizeType;
+  using SpacingType = typename InputImageType::SpacingType;
+  using OriginType = typename InputImageType::PointType;
+  using SizeType = typename InputImageType::SizeType;
 
-  /** Output typedef support */
-  typedef PixelType                           OutputType;
-  typedef VariableSizeMatrix<CoordRepType>    GradientType;
-  typedef VariableSizeMatrix<CoordRepType>    HessianComponentType;
+  /** Output type alias support */
+  using OutputType = PixelType;
+  using GradientType = VariableSizeMatrix<CoordRepType>;
+  using HessianComponentType = VariableSizeMatrix<CoordRepType>;
 
-  /** Other typedef */
-  typedef FixedArray<unsigned, ImageDimension>       ArrayType;
-  typedef Image<CoordRepType, ImageDimension>        RealImageType;
-  typedef typename RealImageType::Pointer            RealImagePointer;
-  typedef typename Superclass::ContinuousIndexType   ContinuousIndexType;
-  typedef float                                      RealType;
+  /** Other type alias */
+  using ArrayType = FixedArray<unsigned, ImageDimension>;
+  using RealImageType = Image<CoordRepType, ImageDimension>;
+  using RealImagePointer = typename RealImageType::Pointer;
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using RealType = float;
 
   /** Interpolation kernel type (default spline order = 3) */
-  typedef CoxDeBoorBSplineKernelFunction<3> KernelType;
-  typedef BSplineKernelFunction<0>          KernelOrder0Type;
-  typedef BSplineKernelFunction<1>          KernelOrder1Type;
-  typedef BSplineKernelFunction<2>          KernelOrder2Type;
-  typedef BSplineKernelFunction<3>          KernelOrder3Type;
+  using KernelType = CoxDeBoorBSplineKernelFunction<3>;
+  using KernelOrder0Type = BSplineKernelFunction<0>;
+  using KernelOrder1Type = BSplineKernelFunction<1>;
+  using KernelOrder2Type = BSplineKernelFunction<2>;
+  using KernelOrder3Type = BSplineKernelFunction<3>;
 
   /**
    * Set the input image.  Note that the size, spacing, origin, and spline

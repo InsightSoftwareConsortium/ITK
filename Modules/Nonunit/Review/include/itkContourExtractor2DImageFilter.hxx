@@ -80,7 +80,7 @@ ContourExtractor2DImageFilter< TInputImage >
   // with the center pixel at the top-left. So we only activate the
   // coresponding offsets, and only query pixels 4, 5, 7, and 8 with the
   // iterator's GetPixel method.
-  typedef ConstShapedNeighborhoodIterator< InputImageType > SquareIterator;
+  using SquareIterator = ConstShapedNeighborhoodIterator< InputImageType >;
   typename SquareIterator::RadiusType radius = { { 1, 1 } };
   SquareIterator  it(radius, this->GetInput(), shrunkRegion);
   InputOffsetType none  = { { 0, 0 } };
@@ -430,7 +430,7 @@ ContourExtractor2DImageFilter< TInputImage >
     // Now put all the points from the contour deque into the path and
     // mark output as modified
 
-    typedef typename ContourType::const_iterator ConstIteratorType;
+    using ConstIteratorType = typename ContourType::const_iterator;
     if ( m_ReverseContourOrientation )
       {
       ConstIteratorType itC = ( *it ).end();
@@ -543,7 +543,7 @@ ContourExtractor2DImageFilter< TInputImage >
     os << indent << "Custom region: " << m_RequestedRegion << std::endl;
     }
 
-  typedef typename NumericTraits< InputRealType >::PrintType InputRealPrintType;
+  using InputRealPrintType = typename NumericTraits< InputRealType >::PrintType;
 
   os << indent << "Contour value: "
      << static_cast< InputRealPrintType >( m_ContourValue )

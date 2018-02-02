@@ -38,26 +38,26 @@ int itkStatisticsKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 3;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  using ImageType = itk::Image< PixelType, dim >;
 
-  typedef itk::StatisticsLabelObject< PixelType, dim >           StatisticsLabelObjectType;
-  typedef itk::LabelMap< StatisticsLabelObjectType >             LabelMapType;
+  using StatisticsLabelObjectType = itk::StatisticsLabelObject< PixelType, dim >;
+  using LabelMapType = itk::LabelMap< StatisticsLabelObjectType >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-  typedef itk::LabelImageToStatisticsLabelMapFilter< ImageType, ImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToStatisticsLabelMapFilter< ImageType, ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
   i2l->SetFeatureImage( reader2->GetOutput() );
 
-  typedef itk::StatisticsKeepNObjectsLabelMapFilter< LabelMapType > LabelOpeningType;
+  using LabelOpeningType = itk::StatisticsKeepNObjectsLabelMapFilter< LabelMapType >;
   LabelOpeningType::Pointer opening = LabelOpeningType::New();
 
   //testing boolean macro for ReverseOrdering
@@ -82,11 +82,11 @@ int itkStatisticsKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
+  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
   l2i->SetInput( opening->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );

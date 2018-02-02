@@ -67,9 +67,9 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
 {
   this->AllocateOutputs();
 
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
-  typedef typename InputImageType::PointType  PointType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using PointType = typename InputImageType::PointType;
 
   const InputImageType *inputImage = this->GetInput();
   OutputImageType      *outputImage = this->GetOutput();
@@ -77,8 +77,8 @@ StochasticFractalDimensionImageFilter< TInputImage, TMaskImage, TOutputImage >
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 100);
 
-  typedef typename NeighborhoodAlgorithm
-  ::ImageBoundaryFacesCalculator< InputImageType > FaceCalculatorType;
+  using FaceCalculatorType = typename NeighborhoodAlgorithm
+  ::ImageBoundaryFacesCalculator< InputImageType >;
   FaceCalculatorType faceCalculator;
 
   typename FaceCalculatorType::FaceListType faceList =

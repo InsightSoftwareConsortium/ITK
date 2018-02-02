@@ -36,11 +36,11 @@ namespace fem
 class ITKFEM_EXPORT LoadPoint : public LoadElement
 {
 public:
-  /** Standard class typedefs. */
-  typedef LoadPoint                Self;
-  typedef LoadElement              Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LoadPoint;
+  using Superclass = LoadElement;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

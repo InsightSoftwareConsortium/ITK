@@ -62,10 +62,10 @@ class ITK_TEMPLATE_EXPORT FastMarchingExtensionImageFilter:
 {
 public:
   /** Standard class typdedefs. */
-  typedef FastMarchingExtensionImageFilter                  Self;
-  typedef FastMarchingImageFilter< TLevelSet, TSpeedImage > Superclass;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
+  using Self = FastMarchingExtensionImageFilter;
+  using Superclass = FastMarchingImageFilter< TLevelSet, TSpeedImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,10 +73,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastMarchingExtensionImageFilter, FastMarchingImageFilter);
 
-  /** Inherited typedefs. */
-  typedef typename Superclass::LevelSetType      LevelSetType;
-  typedef typename Superclass::SpeedImageType    SpeedImageType;
-  typedef typename Superclass::LevelSetImageType LevelSetImageType;
+  /** Inherited type alias. */
+  using LevelSetType = typename Superclass::LevelSetType;
+  using SpeedImageType = typename Superclass::SpeedImageType;
+  using LevelSetImageType = typename Superclass::LevelSetImageType;
 
   /** The dimension of the level set. */
   itkStaticConstMacro(SetDimension, unsigned int, Superclass::SetDimension);
@@ -84,19 +84,18 @@ public:
   /** Number of auxiliary variables to be extended. */
   itkStaticConstMacro(AuxDimension, unsigned int, VAuxDimension);
 
-  /** AuxVarType typedef support. */
-  typedef AuxVarTypeDefault< TAuxValue,
+  /** AuxVarType type alias support */
+  using AuxVarType = AuxVarTypeDefault< TAuxValue,
                              itkGetStaticConstMacro(AuxDimension),
-                             itkGetStaticConstMacro(SetDimension) >
-  AuxVarType;
-  typedef typename AuxVarType::AuxValueType       AuxValueType;
-  typedef typename AuxVarType::AuxValueVectorType AuxValueVectorType;
-  typedef typename AuxVarType::AuxValueContainer  AuxValueContainer;
-  typedef typename AuxVarType::AuxImageType       AuxImageType;
-  typedef typename AuxVarType::AuxImagePointer    AuxImagePointer;
+                             itkGetStaticConstMacro(SetDimension) >;
+  using AuxValueType = typename AuxVarType::AuxValueType;
+  using AuxValueVectorType = typename AuxVarType::AuxValueVectorType;
+  using AuxValueContainer = typename AuxVarType::AuxValueContainer;
+  using AuxImageType = typename AuxVarType::AuxImageType;
+  using AuxImagePointer = typename AuxVarType::AuxImagePointer;
 
-  /** Index typedef support. */
-  typedef Index< itkGetStaticConstMacro(SetDimension) > IndexType;
+  /** Index type alias support */
+  using IndexType = Index< itkGetStaticConstMacro(SetDimension) >;
 
   /** Get one of the extended auxiliary variable image. */
   AuxImageType * GetAuxiliaryImage(unsigned int idx);

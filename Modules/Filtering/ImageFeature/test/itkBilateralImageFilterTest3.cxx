@@ -30,14 +30,14 @@ int itkBilateralImageFilterTest3(int ac, char* av[] )
     return -1;
     }
 
-  typedef unsigned char            PixelType;
-  typedef itk::Image<PixelType, 2> myImage;
+  using PixelType = unsigned char;
+  using myImage = itk::Image<PixelType, 2>;
   itk::ImageFileReader<myImage>::Pointer input
     = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
 
   // Create a filter
-  typedef itk::BilateralImageFilter<myImage,myImage> FilterType;
+  using FilterType = itk::BilateralImageFilter<myImage,myImage>;
 
   FilterType::Pointer filter1 = FilterType::New();
     filter1->SetInput(input->GetOutput());

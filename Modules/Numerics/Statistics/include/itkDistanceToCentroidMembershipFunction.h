@@ -46,11 +46,11 @@ class ITK_TEMPLATE_EXPORT DistanceToCentroidMembershipFunction:
   public MembershipFunctionBase< TVector >
 {
 public:
-  /** Standard class typedefs */
-  typedef DistanceToCentroidMembershipFunction Self;
-  typedef MembershipFunctionBase< TVector >    Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  /** Standard class type aliases */
+  using Self = DistanceToCentroidMembershipFunction;
+  using Superclass = MembershipFunctionBase< TVector >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Strandard macros */
   itkTypeMacro(DistanceToCentroidMembershipFunction,
@@ -58,22 +58,21 @@ public:
   itkNewMacro(Self);
 
   /** SmartPointer class for superclass */
-  typedef typename Superclass::Pointer MembershipFunctionPointer;
+  using MembershipFunctionPointer = typename Superclass::Pointer;
 
   /** Typedef alias for the measurement vectors */
-  typedef TVector MeasurementVectorType;
+  using MeasurementVectorType = TVector;
 
   /** Typedef to represent the length of measurement vectors */
-  typedef typename Superclass::MeasurementVectorSizeType
-  MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
 
   /**  Set the length of each measurement vector. */
   void SetMeasurementVectorSize(MeasurementVectorSizeType) override;
 
   /** Type of the DistanceMetric to use */
-  typedef DistanceMetric< MeasurementVectorType > DistanceMetricType;
-  typedef typename DistanceMetricType::Pointer    DistanceMetricPointer;
-  typedef typename DistanceMetricType::OriginType CentroidType;
+  using DistanceMetricType = DistanceMetric< MeasurementVectorType >;
+  using DistanceMetricPointer = typename DistanceMetricType::Pointer;
+  using CentroidType = typename DistanceMetricType::OriginType;
 
   /** Set the DistanceMetric to be used when calling the Evaluate() method */
   itkSetObjectMacro(DistanceMetric, DistanceMetricType);

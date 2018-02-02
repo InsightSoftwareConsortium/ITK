@@ -21,7 +21,7 @@
 #include "itkTestingMacros.h"
 #include "vnl/vnl_sample.h"
 
-typedef itk::Image<unsigned int,3> ImageType;
+using ImageType = itk::Image<unsigned int,3>;
 
 ImageType::Pointer CreateRandomImage()
 {

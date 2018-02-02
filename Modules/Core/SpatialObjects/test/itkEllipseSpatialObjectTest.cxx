@@ -25,7 +25,7 @@
 
 int itkEllipseSpatialObjectTest(int, char* [])
 {
-  typedef itk::EllipseSpatialObject<4>   EllipseType;
+  using EllipseType = itk::EllipseSpatialObject<4>;
 
   EllipseType::Pointer myEllipse = EllipseType::New();
   std::cout << "Testing Print after construction" << std::endl;

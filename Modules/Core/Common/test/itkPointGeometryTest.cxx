@@ -36,11 +36,11 @@ int itkPointGeometryTest(int, char* [] )
 
 // Dimension & Type
   const     unsigned int    N = 3;
-  typedef   double          ValueType;
+  using ValueType = double;
 
 //  Vector & Point Classes
-  typedef    itk::Vector< ValueType, N >    VectorType;
-  typedef    itk::Point<  ValueType, N >    PointType;
+  using VectorType = itk::Vector< ValueType, N >;
+  using PointType = itk::Point<  ValueType, N >;
 
   VectorType va;
 
@@ -115,8 +115,8 @@ int itkPointGeometryTest(int, char* [] )
   const float tolerance = 1e-7;
 
   //  Point Classes
-  typedef    itk::Point<  double, N >    DoublePointType;
-  typedef    itk::Point<  float , N >    FloatPointType;
+  using DoublePointType = itk::Point<  double, N >;
+  using FloatPointType = itk::Point<  float , N >;
 
   DoublePointType dp;
   dp[0] = 1.0;
@@ -266,7 +266,7 @@ int itkPointGeometryTest(int, char* [] )
     const double tolerance = 1e-10;
     PointType combination;
     const unsigned int NP = 3;
-    typedef itk::VectorContainer<unsigned long,PointType>  VectorOfPoints;
+    using VectorOfPoints = itk::VectorContainer<unsigned long,PointType>;
     VectorOfPoints::Pointer points = VectorOfPoints::New();
     points->Reserve(NP);
     const double K = 12.0;
@@ -285,7 +285,7 @@ int itkPointGeometryTest(int, char* [] )
     w[0] = 1/3.0;
     w[1] = 1/3.0;
 
-    typedef itk::BarycentricCombination< VectorOfPoints, double * > BarycentricCalculatorType;
+    using BarycentricCalculatorType = itk::BarycentricCombination< VectorOfPoints, double * >;
     BarycentricCalculatorType barycentreCalculator;
     combination = barycentreCalculator.Evaluate( points, w );
     std::cout << "Test for Barycentric combination of a VectorContainer of Points" << std::endl;

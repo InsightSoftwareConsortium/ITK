@@ -38,7 +38,7 @@ void
 SparseFrequencyContainer2
 ::SetToZero()
 {
-  typedef FrequencyContainerType::iterator IteratorType;
+  using IteratorType = FrequencyContainerType::iterator;
   IteratorType iter = m_FrequencyContainer.begin();
   IteratorType end  = m_FrequencyContainer.end();
   while ( iter != end )

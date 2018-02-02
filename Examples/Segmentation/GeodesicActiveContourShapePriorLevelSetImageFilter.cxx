@@ -160,9 +160,9 @@ template<class TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate   Self;
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -219,9 +219,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   float           InternalPixelType;
+  using InternalPixelType = float;
   const     unsigned int    Dimension = 2;
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -229,11 +229,11 @@ int main( int argc, char *argv[] )
   //  process the final level set at the output of the
   //  GeodesicActiveContourLevelSetImageFilter.
   //
-  typedef unsigned char                            OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::BinaryThresholdImageFilter<
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using ThresholdingFilterType = itk::BinaryThresholdImageFilter<
                         InternalImageType,
-                        OutputImageType    >       ThresholdingFilterType;
+                        OutputImageType    >;
 
   ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
 
@@ -246,8 +246,8 @@ int main( int argc, char *argv[] )
 
   // We instantiate reader and writer types in the following lines.
   //
-  typedef  itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
+  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -259,17 +259,17 @@ int main( int argc, char *argv[] )
   //  The RescaleIntensityImageFilter type is declared below. This filter will
   //  renormalize image before sending them to writers.
   //
-  typedef itk::RescaleIntensityImageFilter<
+  using CastFilterType = itk::RescaleIntensityImageFilter<
                                InternalImageType,
-                               OutputImageType >   CastFilterType;
+                               OutputImageType >;
 
 
   //  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} type is
   //  instantiated using the internal image type.
   //
-  typedef   itk::CurvatureAnisotropicDiffusionImageFilter<
+  using SmoothingFilterType = itk::CurvatureAnisotropicDiffusionImageFilter<
                                InternalImageType,
-                               InternalImageType >  SmoothingFilterType;
+                               InternalImageType >;
 
   SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
 
@@ -278,9 +278,9 @@ int main( int argc, char *argv[] )
   //  GradientMagnitudeRecursiveGaussianImageFilter is
   //  instantiated using the internal image type.
   //
-  typedef   itk::GradientMagnitudeRecursiveGaussianImageFilter<
+  using GradientFilterType = itk::GradientMagnitudeRecursiveGaussianImageFilter<
                                InternalImageType,
-                               InternalImageType >  GradientFilterType;
+                               InternalImageType >;
 
   GradientFilterType::Pointer  gradientMagnitude = GradientFilterType::New();
 
@@ -289,9 +289,9 @@ int main( int argc, char *argv[] )
   //  will be used to generate the initial level set in the form of a distance
   //  map.
   //
-  typedef  itk::FastMarchingImageFilter<
+  using FastMarchingFilterType = itk::FastMarchingImageFilter<
                               InternalImageType,
-                              InternalImageType >    FastMarchingFilterType;
+                              InternalImageType >;
 
 
   //  Next we construct one filter of this class using the \code{New()}
@@ -308,9 +308,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GeodesicActiveContourShapePriorLevelSetImageFilter<
-            InternalImageType, InternalImageType >
-                                              GeodesicActiveContourFilterType;
+  using GeodesicActiveContourFilterType = itk::GeodesicActiveContourShapePriorLevelSetImageFilter<
+            InternalImageType, InternalImageType >;
   GeodesicActiveContourFilterType::Pointer geodesicActiveContour =
                                        GeodesicActiveContourFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -326,8 +325,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ChangeInformationImageFilter<
-                               InternalImageType >  CenterFilterType;
+  using CenterFilterType = itk::ChangeInformationImageFilter<InternalImageType>;
 
   CenterFilterType::Pointer center = CenterFilterType::New();
   center->CenterImageOn();
@@ -341,9 +339,9 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   itk::BoundedReciprocalImageFilter<
+  using ReciprocalFilterType = itk::BoundedReciprocalImageFilter<
                                InternalImageType,
-                               InternalImageType >  ReciprocalFilterType;
+                               InternalImageType >;
 
   ReciprocalFilterType::Pointer reciprocal = ReciprocalFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -465,8 +463,8 @@ int main( int argc, char *argv[] )
   //  container is defined as \code{NodeContainer} among the
   //  FastMarchingImageFilter traits.
   //
-  typedef FastMarchingFilterType::NodeContainer  NodeContainer;
-  typedef FastMarchingFilterType::NodeType       NodeType;
+  using NodeContainer = FastMarchingFilterType::NodeContainer;
+  using NodeType = FastMarchingFilterType::NodeType;
 
   NodeContainer::Pointer seeds = NodeContainer::New();
 
@@ -617,10 +615,10 @@ int main( int argc, char *argv[] )
   const unsigned int numberOfPCAModes = atoi( argv[14] );
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::PCAShapeSignedDistanceFunction<
+  using ShapeFunctionType = itk::PCAShapeSignedDistanceFunction<
                               double,
                               Dimension,
-                              InternalImageType >     ShapeFunctionType;
+                              InternalImageType >;
 
   ShapeFunctionType::Pointer shape = ShapeFunctionType::New();
 
@@ -697,7 +695,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Euler2DTransform<double>    TransformType;
+  using TransformType = itk::Euler2DTransform<double>;
   TransformType::Pointer transform = TransformType::New();
 
   shape->SetTransform( transform );
@@ -716,9 +714,9 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ShapePriorMAPCostFunction<
+  using CostFunctionType = itk::ShapePriorMAPCostFunction<
                               InternalImageType,
-                              InternalPixelType >     CostFunctionType;
+                              InternalPixelType >;
 
   CostFunctionType::Pointer costFunction = CostFunctionType::New();
 
@@ -783,7 +781,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::OnePlusOneEvolutionaryOptimizer    OptimizerType;
+  using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
   OptimizerType::Pointer optimizer = OptimizerType::New();
   // Software Guide : EndCodeSnippet
 
@@ -801,7 +799,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::NormalVariateGenerator GeneratorType;
+  using GeneratorType = itk::Statistics::NormalVariateGenerator;
   GeneratorType::Pointer generator = GeneratorType::New();
 
   generator->Initialize( 20020702 );
@@ -890,7 +888,7 @@ int main( int argc, char *argv[] )
   geodesicActiveContour->SetOptimizer( optimizer );
   geodesicActiveContour->SetInitialParameters( parameters );
 
-  typedef CommandIterationUpdate<GeodesicActiveContourFilterType> CommandType;
+  using CommandType = CommandIterationUpdate<GeodesicActiveContourFilterType>;
   CommandType::Pointer observer = CommandType::New();
   geodesicActiveContour->AddObserver( itk::IterationEvent(), observer );
   // Software Guide : EndCodeSnippet
@@ -935,7 +933,7 @@ int main( int argc, char *argv[] )
   // determine an appropriate threshold to be used on the output of the
   // fastmarching filter.
   //
-  typedef itk::ImageFileWriter< InternalImageType > InternalWriterType;
+  using InternalWriterType = itk::ImageFileWriter< InternalImageType >;
 
   InternalWriterType::Pointer mapWriter = InternalWriterType::New();
   mapWriter->SetInput( fastMarching->GetOutput() );
@@ -953,10 +951,10 @@ int main( int argc, char *argv[] )
   gradientWriter->Update();
 
   // Also write out the initial and final best fit shape
-  typedef itk::SpatialFunctionImageEvaluatorFilter<
+  using EvaluatorFilterType = itk::SpatialFunctionImageEvaluatorFilter<
                               ShapeFunctionType,
                               InternalImageType,
-                              InternalImageType >  EvaluatorFilterType;
+                              InternalImageType >;
 
   EvaluatorFilterType::Pointer evaluator = EvaluatorFilterType::New();
   evaluator->SetInput( geodesicActiveContour->GetOutput() );

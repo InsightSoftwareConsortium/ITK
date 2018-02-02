@@ -42,7 +42,7 @@ template< typename TCellInterface >
 class ITK_TEMPLATE_EXPORT LineCell:public TCellInterface
 {
 public:
-  /** Standard class typedefs. */
+  /** Standard class type aliases. */
   itkCellCommonTypedefs(LineCell);
   itkCellInheritedTypedefs(TCellInterface);
 
@@ -50,8 +50,8 @@ public:
   itkTypeMacro(LineCell, CellInterface);
 
   /** The type of boundary for this lines's vertices. */
-  typedef VertexCell< TCellInterface >         VertexType;
-  typedef typename VertexType::SelfAutoPointer VertexAutoPointer;
+  using VertexType = VertexCell< TCellInterface >;
+  using VertexAutoPointer = typename VertexType::SelfAutoPointer;
 
   /** Line-specific topology numbers. */
   itkStaticConstMacro(NumberOfPoints, unsigned int, 2);

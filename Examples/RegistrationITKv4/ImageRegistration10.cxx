@@ -52,17 +52,17 @@
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>   Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef itk::AmoebaOptimizer         OptimizerType;
-  typedef   const OptimizerType   *    OptimizerPointer;
+  using OptimizerType = itk::AmoebaOptimizer;
+  using OptimizerPointer = const OptimizerType   *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
@@ -102,13 +102,13 @@ int main( int argc, char *argv[] )
   // representing image pixels.
   //
   const    unsigned int    Dimension = 2;
-  typedef  float           PixelType;
+  using PixelType = float;
 
 
   //  The types of the input images are instantiated by the following lines.
   //
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
   //  Software Guide : BeginLatex
   //
@@ -118,7 +118,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::TranslationTransform< double, Dimension > TransformType;
+  using TransformType = itk::TranslationTransform< double, Dimension >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -130,7 +130,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::AmoebaOptimizer       OptimizerType;
+  using OptimizerType = itk::AmoebaOptimizer;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -146,9 +146,9 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::MatchCardinalityImageToImageMetric<
+  using MetricType = itk::MatchCardinalityImageToImageMetric<
                                     FixedImageType,
-                                    MovingImageType >    MetricType;
+                                    MovingImageType >;
   // Software Guide : EndCodeSnippet
 
   //  Finally, the type of the interpolator is declared. The
@@ -164,17 +164,17 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk:: NearestNeighborInterpolateImageFunction<
+  using InterpolatorType = itk:: NearestNeighborInterpolateImageFunction<
                                     MovingImageType,
-                                    double          >    InterpolatorType;
+                                    double          >;
   // Software Guide : EndCodeSnippet
 
   //  The registration method type is instantiated using the types of the
   //  fixed and moving images. This class is responsible for interconnecting
   //  all the components we have described so far.
-  typedef itk::ImageRegistrationMethod<
+  using RegistrationType = itk::ImageRegistrationMethod<
                                     FixedImageType,
-                                    MovingImageType >    RegistrationType;
+                                    MovingImageType >;
   //  Software Guide : BeginLatex
   //
   //  Each one of the registration components is created using its
@@ -221,8 +221,8 @@ int main( int argc, char *argv[] )
   registration->SetTransform(     transform     );
   registration->SetInterpolator(  interpolator  );
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
   FixedImageReaderType::Pointer
     fixedImageReader = FixedImageReaderType::New();
   MovingImageReaderType::Pointer
@@ -278,7 +278,7 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  typedef RegistrationType::ParametersType ParametersType;
+  using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
 
   double tx = 0.0;
@@ -469,9 +469,9 @@ int main( int argc, char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+                            FixedImageType >;
 
   //  Software Guide : BeginLatex
   //
@@ -534,12 +534,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typedef unsigned short                           OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::CastImageFilter<
+  using OutputPixelType = unsigned short;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using CastFilterType = itk::CastImageFilter<
                         FixedImageType,
-                        OutputImageType >          CastFilterType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+                        OutputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   //  Software Guide : EndCodeSnippet
 
   //  SoftwareGuide : BeginLatex
@@ -579,10 +579,10 @@ int main( int argc, char *argv[] )
   // SoftwareGuide : EndLatex
 
   // SoftwareGuide : BeginCodeSnippet
-  typedef itk::SquaredDifferenceImageFilter<
+  using DifferenceFilterType = itk::SquaredDifferenceImageFilter<
                                   FixedImageType,
                                   FixedImageType,
-                                  OutputImageType > DifferenceFilterType;
+                                  OutputImageType >;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
   difference->SetInput1( fixedImageReader->GetOutput() );

@@ -87,12 +87,12 @@ class BinaryNotImageFilter :
     public UnaryFunctorImageFilter< TImage, TImage, Functor::BinaryNot< typename TImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryNotImageFilter                         Self;
-  typedef UnaryFunctorImageFilter<TImage, TImage,
-    Functor::BinaryNot<  typename TImage::PixelType> > Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BinaryNotImageFilter;
+  using Superclass = UnaryFunctorImageFilter<TImage, TImage,
+    Functor::BinaryNot<  typename TImage::PixelType> >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -101,7 +101,7 @@ public:
   itkTypeMacro(BinaryNotImageFilter,
                UnaryFunctorImageFilter);
 
-  typedef typename TImage::PixelType     PixelType;
+  using PixelType = typename TImage::PixelType;
 
   /** Set/Get the value in the image considered as "foreground". Defaults to
    * maximum value of PixelType. */
@@ -128,8 +128,7 @@ protected:
     {
     Superclass::PrintSelf(os,indent);
 
-    typedef typename NumericTraits<PixelType>::PrintType
-                                              PixelPrintType;
+    using PixelPrintType = typename NumericTraits<PixelType>::PrintType;
 
     os << indent << "ForegroundValue: "
                     << static_cast< PixelPrintType > (m_ForegroundValue)

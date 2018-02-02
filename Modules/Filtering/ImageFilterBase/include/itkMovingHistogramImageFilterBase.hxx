@@ -50,7 +50,7 @@ MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
 
   // transform the structuring element in an image for an easier
   // access to the data
-  typedef Image< bool, TInputImage::ImageDimension > BoolImageType;
+  using BoolImageType = Image< bool, TInputImage::ImageDimension >;
   typename BoolImageType::Pointer tmpSEImage = BoolImageType::New();
   tmpSEImage->SetRegions( kernel.GetSize() );
   tmpSEImage->Allocate();
@@ -164,7 +164,7 @@ MovingHistogramImageFilterBase< TInputImage, TOutputImage, TKernel >
     }
 
   // search for the best axis
-  typedef typename std::set< DirectionCost > MapCountType;
+  using MapCountType = typename std::set< DirectionCost >;
   MapCountType invertedCount;
   unsigned int i;
   for ( i = 0; i < ImageDimension; i++ )

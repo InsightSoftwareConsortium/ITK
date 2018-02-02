@@ -25,11 +25,11 @@
 int itkImageToListSampleAdaptorTest2(int, char* [] )
 {
   const unsigned int MeasurementVectorSize = 8;
-  typedef unsigned long MeasurementComponentType;
-  typedef itk::FixedArray< MeasurementComponentType, MeasurementVectorSize > PixelType;
+  using MeasurementComponentType = unsigned long;
+  using PixelType = itk::FixedArray< MeasurementComponentType, MeasurementVectorSize >;
 
   const unsigned int ImageDimension = 3;
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
   ImageType::Pointer image = ImageType::New();
 
@@ -42,7 +42,7 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
   ImageType::RegionType region( start, size );
   image->SetRegions( region );
   image->Allocate();
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
   IteratorType it( image, region );
   it.GoToBegin();
   while (!it.IsAtEnd())
@@ -57,8 +57,7 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
     }
 
   //define an adaptor type
-  typedef itk::Statistics::ImageToListSampleAdaptor<
-    ImageType > ImageToListSampleAdaptorType;
+  using ImageToListSampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor<ImageType>;
   ImageToListSampleAdaptorType::Pointer adaptor
                               = ImageToListSampleAdaptorType::New();
 
@@ -92,7 +91,7 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
   //
   // Exercise the iterators
   //
-  typedef ImageToListSampleAdaptorType::ConstIterator ConstIterator;
+  using ConstIterator = ImageToListSampleAdaptorType::ConstIterator;
 
   ConstIterator itrBegin = adaptor->Begin();
   ConstIterator itrEnd   = adaptor->End();
@@ -114,9 +113,9 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
 
   std::cout << "Frequency Sum = " << frequencySum << std::endl;
 
-  typedef itk::VariableLengthVector< float > VariableLengthPixelType;
+  using VariableLengthPixelType = itk::VariableLengthVector< float >;
 
-  typedef itk::Image< VariableLengthPixelType, ImageDimension > VariableLengthImageType;
+  using VariableLengthImageType = itk::Image< VariableLengthPixelType, ImageDimension >;
 
   const unsigned int vMeasurementVectorSize = 4;
 
@@ -132,7 +131,7 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
   vImage->SetRegions( vRegion );
   vImage->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex< VariableLengthImageType > VariableIteratorType;
+  using VariableIteratorType = itk::ImageRegionIteratorWithIndex< VariableLengthImageType >;
 
   VariableIteratorType ivt( vImage, vRegion );
 
@@ -151,8 +150,7 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
     }
 
   //define an adaptor for the image with variable length vector type
-  typedef itk::Statistics::ImageToListSampleAdaptor<
-    VariableLengthImageType > VariableLengthImageToListSampleAdaptorType;
+  using VariableLengthImageToListSampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor<VariableLengthImageType>;
 
   VariableLengthImageToListSampleAdaptorType::Pointer vAdaptor
                               = VariableLengthImageToListSampleAdaptorType::New();
@@ -192,11 +190,11 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
   //
   // Test an RGB image
   //
-  typedef itk::RGBPixel< unsigned char > RGBPixelType;
+  using RGBPixelType = itk::RGBPixel< unsigned char >;
 
   unsigned int rgbMeasurementVectorSize = 3;
 
-  typedef itk::Image< RGBPixelType, ImageDimension > RGBImageType;
+  using RGBImageType = itk::Image< RGBPixelType, ImageDimension >;
 
   RGBImageType::Pointer rgbImage = RGBImageType::New();
 
@@ -210,7 +208,7 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
   rgbImage->SetRegions( rgbRegion );
   rgbImage->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex< RGBImageType > RGBIteratorType;
+  using RGBIteratorType = itk::ImageRegionIteratorWithIndex< RGBImageType >;
 
   RGBIteratorType rgbt( rgbImage, rgbRegion );
 
@@ -229,8 +227,7 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
     }
 
   //define an adaptor for the image with variable length vector type
-  typedef itk::Statistics::ImageToListSampleAdaptor<
-    RGBImageType > RGBImageToListSampleAdaptorType;
+  using RGBImageToListSampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor<RGBImageType>;
 
   RGBImageToListSampleAdaptorType::Pointer rgbAdaptor
                               = RGBImageToListSampleAdaptorType::New();

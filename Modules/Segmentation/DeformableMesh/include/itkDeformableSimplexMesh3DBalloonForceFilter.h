@@ -53,15 +53,15 @@ class ITK_TEMPLATE_EXPORT DeformableSimplexMesh3DBalloonForceFilter:public Defor
                                                                                                  TOutputMesh >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef DeformableSimplexMesh3DBalloonForceFilter Self;
+  /** Standard "Self" type alias. */
+  using Self = DeformableSimplexMesh3DBalloonForceFilter;
 
-  /** Standard "Superclass" typedef. */
-  typedef DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh > Superclass;
+  /** Standard "Superclass" type alias. */
+  using Superclass = DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >;
 
-  /** Smart pointer typedef support */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
@@ -69,22 +69,22 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DeformableSimplexMesh3DBalloonForceFilter, DeformableSimplexMesh3DFilter);
 
-  /** Some typedefs. */
-  typedef TInputMesh                                  InputMeshType;
-  typedef TOutputMesh                                 OutputMeshType;
-  typedef typename Superclass::PointType              PointType;
-  typedef typename Superclass::GradientIndexType      GradientIndexType;
-  typedef typename Superclass::GradientIndexValueType GradientIndexValueType;
-  typedef typename Superclass::GradientImageType      GradientImageType;
+  /** Some type alias. */
+  using InputMeshType = TInputMesh;
+  using OutputMeshType = TOutputMesh;
+  using PointType = typename Superclass::PointType;
+  using GradientIndexType = typename Superclass::GradientIndexType;
+  using GradientIndexValueType = typename Superclass::GradientIndexValueType;
+  using GradientImageType = typename Superclass::GradientImageType;
 
   /* Mesh pointer definition. */
-  typedef typename InputMeshType::Pointer  InputMeshPointer;
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
-  typedef typename InputMeshType::PixelType PixelType;
+  using PixelType = typename InputMeshType::PixelType;
 
-  typedef Image< PixelType, 3 >                        GradientIntensityImageType;
-  typedef typename GradientIntensityImageType::Pointer GradientIntensityImagePointer;
+  using GradientIntensityImageType = Image< PixelType, 3 >;
+  using GradientIntensityImagePointer = typename GradientIntensityImageType::Pointer;
 
   itkSetMacro(Kappa, double);
   itkGetConstMacro(Kappa, double);

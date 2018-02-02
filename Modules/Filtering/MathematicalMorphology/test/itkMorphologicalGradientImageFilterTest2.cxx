@@ -34,19 +34,19 @@ int itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef unsigned char            PType;
-  typedef itk::Image< PType, dim > IType;
+  using PType = unsigned char;
+  using IType = itk::Image< PType, dim >;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  using ReaderType = itk::ImageFileReader< IType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  typedef itk::BinaryBallStructuringElement< PType, dim  > StructuringElementType;
+  using StructuringElementType = itk::BinaryBallStructuringElement< PType, dim  >;
   StructuringElementType  structuringElement;
   structuringElement.SetRadius( 2 );
   structuringElement.CreateStructuringElement();
 
-  typedef itk::MorphologicalGradientImageFilter< IType, IType, StructuringElementType > GradientType;
+  using GradientType = itk::MorphologicalGradientImageFilter< IType, IType, StructuringElementType >;
   GradientType::Pointer gradient = GradientType::New();
   gradient->SetInput(reader->GetOutput());
   gradient->SetKernel( structuringElement );
@@ -55,7 +55,7 @@ int itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   const int algorithmType = gradient->GetAlgorithm();
   std::cout<<"algorithmType : "<<algorithmType<<std::endl;
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  using WriterType = itk::ImageFileWriter< IType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(gradient->GetOutput());
   writer->SetFileName(argv[2]);
@@ -87,11 +87,11 @@ int itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
 
   try
   {
-    typedef itk::FlatStructuringElement<dim> SRType;
+    using SRType = itk::FlatStructuringElement<dim>;
     SRType::RadiusType elementRadius;
     elementRadius.Fill(4);
     SRType structuringElement2 = SRType::Box(elementRadius);
-    typedef itk::MorphologicalGradientImageFilter< IType, IType, SRType > Gradient1Type;
+    using Gradient1Type = itk::MorphologicalGradientImageFilter< IType, IType, SRType >;
     Gradient1Type::Pointer gradient1 = Gradient1Type::New();
     gradient1->SetInput(reader->GetOutput());
     gradient1->SetKernel( structuringElement2 );

@@ -74,10 +74,10 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef unsigned char       PixelType;
+  using PixelType = unsigned char;
   const unsigned int          Dimension = 2;
 
-  typedef itk::Image<PixelType, Dimension > ImageType;
+  using ImageType = itk::Image<PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -88,7 +88,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -109,7 +109,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::ImageToListSampleAdaptor< ImageType >   AdaptorType;
+  using AdaptorType = itk::Statistics::ImageToListSampleAdaptor< ImageType >;
 
   AdaptorType::Pointer adaptor = AdaptorType::New();
 
@@ -153,13 +153,11 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef PixelType HistogramMeasurementType;
-  typedef itk::Statistics::Histogram< HistogramMeasurementType >
-    HistogramType;
-  typedef itk::Statistics::SampleToHistogramFilter<
+  using HistogramMeasurementType = PixelType;
+  using HistogramType = itk::Statistics::Histogram<HistogramMeasurementType>;
+  using FilterType = itk::Statistics::SampleToHistogramFilter<
                                                 AdaptorType,
-                                                HistogramType>
-                                                FilterType;
+                                                HistogramType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet

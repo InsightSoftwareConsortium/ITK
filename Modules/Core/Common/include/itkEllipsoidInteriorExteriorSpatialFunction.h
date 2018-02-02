@@ -41,11 +41,11 @@ class ITK_TEMPLATE_EXPORT EllipsoidInteriorExteriorSpatialFunction:
   public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:
-  /** Standard class typedefs. */
-  typedef EllipsoidInteriorExteriorSpatialFunction              Self;
-  typedef InteriorExteriorSpatialFunction< VDimension, TInput > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = EllipsoidInteriorExteriorSpatialFunction;
+  using Superclass = InteriorExteriorSpatialFunction< VDimension, TInput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(EllipsoidInteriorExteriorSpatialFunction, InteriorExteriorSpatialFunction);
@@ -54,13 +54,13 @@ public:
   itkNewMacro(Self);
 
   /** Input type for the function */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type for the function */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Typedef for the orientation matrix */
-  typedef vnl_matrix_fixed< double, VDimension, VDimension > OrientationType;
+  using OrientationType = vnl_matrix_fixed< double, VDimension, VDimension >;
 
   /** Set/Get and set the center of the ellipsoid. */
   itkGetConstMacro(Center, InputType);

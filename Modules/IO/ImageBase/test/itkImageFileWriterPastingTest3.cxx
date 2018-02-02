@@ -22,9 +22,9 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itkExtractImageFilter.h"
 
-typedef unsigned char            PixelType;
-typedef itk::Image<PixelType,3>  ImageType;
-typedef ImageType::Pointer       ImagePointer;
+using PixelType = unsigned char;
+using ImageType = itk::Image<PixelType,3>;
+using ImagePointer = ImageType::Pointer;
 
 namespace {
 
@@ -34,7 +34,7 @@ bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
   int radiusTolerance = 0;
   unsigned long numberOfPixelTolerance = 0;
 
-  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
+  using DiffType = itk::Testing::ComparisonImageFilter<ImageType,ImageType>;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput(baselineImage);
   diff->SetTestInput(testImage);
@@ -73,8 +73,8 @@ int itkImageFileWriterPastingTest3(int argc, char* argv[])
     }
 
 
-  typedef itk::ImageFileReader<ImageType>    ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
 
   ImageType::Pointer image;
@@ -158,14 +158,14 @@ int itkImageFileWriterPastingTest3(int argc, char* argv[])
     }
 
   // compare the two subregions
-  typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilterType;
+  using ExtractImageFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   ExtractImageFilterType::Pointer extractTestImage = ExtractImageFilterType::New();
   extractTestImage->SetInput(readerTestImage->GetOutput());
   extractTestImage->SetDirectionCollapseToSubmatrix();
   extractTestImage->SetExtractionRegion( image->GetBufferedRegion() );
   extractTestImage->InPlaceOn();
 
-  typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilterType;
+  using ExtractImageFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
   ExtractImageFilterType::Pointer extractBaselineImage = ExtractImageFilterType::New();
   extractBaselineImage->SetInput(reader->GetOutput());
   extractBaselineImage->SetDirectionCollapseToSubmatrix();

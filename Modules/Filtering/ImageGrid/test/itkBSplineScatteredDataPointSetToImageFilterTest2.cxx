@@ -40,14 +40,14 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv[] )
   const unsigned int ParametricDimension = 1;
   const unsigned int DataDimension = 3;
 
-  typedef double                                              RealType;
-  typedef unsigned char                                       OutputPixelType;
-  typedef itk::Vector< RealType, DataDimension >              VectorType;
-  typedef itk::Vector< OutputPixelType, DataDimension >       OutputVectorType;
-  typedef itk::Image< VectorType, ParametricDimension >       ImageType;
-  typedef itk::Image< OutputVectorType, ParametricDimension>  OutputImageType;
+  using RealType = double;
+  using OutputPixelType = unsigned char;
+  using VectorType = itk::Vector< RealType, DataDimension >;
+  using OutputVectorType = itk::Vector< OutputPixelType, DataDimension >;
+  using ImageType = itk::Image< VectorType, ParametricDimension >;
+  using OutputImageType = itk::Image< OutputVectorType, ParametricDimension>;
 
-  typedef itk::PointSet<VectorType, ParametricDimension> PointSetType;
+  using PointSetType = itk::PointSet<VectorType, ParametricDimension>;
 
   PointSetType::Pointer pointSet = PointSetType::New();
 
@@ -69,8 +69,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv[] )
     }
 
   // Instantiate the filter and set the parameters
-  typedef itk::BSplineScatteredDataPointSetToImageFilter
-    <PointSetType, ImageType> FilterType;
+  using FilterType = itk::BSplineScatteredDataPointSetToImageFilter
+    <PointSetType, ImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -126,13 +126,13 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv[] )
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Cast the PhiLattice
-  typedef itk::CastImageFilter< FilterType::PointDataImageType, OutputImageType >
-    CastImageFilterType;
+  using CastImageFilterType =
+      itk::CastImageFilter< FilterType::PointDataImageType, OutputImageType >;
   CastImageFilterType::Pointer caster = CastImageFilterType::New();
   caster->SetInput( filter->GetPhiLattice() );
 
   // Write the PhiLattice
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[1] );
   writer->SetInput( caster->GetOutput() );

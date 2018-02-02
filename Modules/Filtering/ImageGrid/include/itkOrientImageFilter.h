@@ -81,8 +81,8 @@ namespace itk
  * #include "itkMetaDataObject.h"
  * #include "itkImage.h"
  * #include "itkOrientImageFilter.h"
- * typedef itk::Image<unsigned char,3> ImageType;
- * typedef itk::ImageFileReader< TstImageType > ImageReaderType;
+ * using ImageType = itk::Image<unsigned char,3>;
+ * using ImageReaderType = itk::ImageFileReader< TstImageType >;
  * ImageType::Pointer ReadAnalyzeFile(const char *path)
  * {
  *   itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
@@ -114,8 +114,8 @@ namespace itk
  * #include "itkAnalyzeImageIO.h"
  * #include "itkImage.h"
  * #include "itkOrientImageFilter.h"
- * typedef itk::Image<unsigned char,3> ImageType;
- * typedef itk::ImageFileReader< TstImageType > ImageReaderType;
+ * using ImageType = itk::Image<unsigned char,3>;
+ * using ImageReaderType = itk::ImageFileReader< TstImageType >;
  * ImageType::Pointer ReadAnalyzeFile(const char *path)
  * {
  *   itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
@@ -142,32 +142,32 @@ class ITK_TEMPLATE_EXPORT OrientImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef OrientImageFilter                               Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = OrientImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                            InputImageType;
-  typedef typename InputImageType::Pointer       InputImagePointer;
-  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
-  typedef typename InputImageType::RegionType    InputImageRegionType;
-  typedef typename InputImageType::PixelType     InputImagePixelType;
-  typedef TOutputImage                           OutputImageType;
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
-  typedef SpatialOrientation::ValidCoordinateOrientationFlags
-  CoordinateOrientationCode;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using CoordinateOrientationCode = SpatialOrientation::ValidCoordinateOrientationFlags;
+
   /** Axes permuter type. */
-  typedef PermuteAxesImageFilter< TInputImage >        PermuterType;
-  typedef typename PermuterType::PermuteOrderArrayType PermuteOrderArrayType;
+  using PermuterType = PermuteAxesImageFilter< TInputImage >;
+  using PermuteOrderArrayType = typename PermuterType::PermuteOrderArrayType;
 
   /** Axes flipper type. */
-  typedef FlipImageFilter< TInputImage >          FlipperType;
-  typedef typename FlipperType::FlipAxesArrayType FlipAxesArrayType;
+  using FlipperType = FlipImageFilter< TInputImage >;
+  using FlipAxesArrayType = typename FlipperType::FlipAxesArrayType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,

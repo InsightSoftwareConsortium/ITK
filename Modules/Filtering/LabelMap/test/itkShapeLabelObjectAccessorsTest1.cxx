@@ -35,11 +35,11 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
 
   const unsigned int dim = 3;
 
-  typedef unsigned char                           PixelType;
-  typedef itk::Image< PixelType, dim >            ImageType;
-  typedef itk::ShapeLabelObject< PixelType, dim > ShapeLabelObjectType;
-  typedef itk::LabelMap< ShapeLabelObjectType >   LabelMapType;
-  typedef itk::ImageFileReader< ImageType >       ReaderType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, dim >;
+  using ShapeLabelObjectType = itk::ShapeLabelObject< PixelType, dim >;
+  using LabelMapType = itk::LabelMap< ShapeLabelObjectType >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   // Exercise the attribute translation code and verify that
   // translations are correct
@@ -78,7 +78,7 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
   i2l->SetComputePerimeter(true);

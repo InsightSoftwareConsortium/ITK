@@ -57,7 +57,7 @@ static int compare_linear(const char *linear_transform)
 {
   itk::ObjectFactoryBase::RegisterFactory(itk::MINCTransformIOFactory::New() );
 
-  typedef itk::AffineTransform<double,3> AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<double,3>;
   AffineTransformType::Pointer        affine = AffineTransformType::New();
   AffineTransformType::InputPointType cor;
 
@@ -132,8 +132,8 @@ static int compare_linear(const char *linear_transform)
 static int compare_nonlinear_double(const char *nonlinear_transform)
 {
 
-  typedef itk::DisplacementFieldTransform<double,3>         DisplacementFieldTransform;
-  typedef DisplacementFieldTransform::DisplacementFieldType DisplacementFieldType;
+  using DisplacementFieldTransform = itk::DisplacementFieldTransform<double,3>;
+  using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
 
   DisplacementFieldTransform::Pointer disp = DisplacementFieldTransform::New();
   DisplacementFieldType::Pointer field=DisplacementFieldType::New();

@@ -41,20 +41,20 @@ class ITK_TEMPLATE_EXPORT SurfaceSpatialObject:
 {
 public:
 
-  typedef SurfaceSpatialObject                         Self;
-  typedef PointBasedSpatialObject< TDimension >        Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
-  typedef double                                       ScalarType;
-  typedef SurfaceSpatialObjectPoint< TDimension >      SurfacePointType;
-  typedef std::vector< SurfacePointType >              PointListType;
-  typedef typename Superclass::SpatialObjectPointType  SpatialObjectPointType;
-  typedef typename Superclass::PointType               PointType;
-  typedef typename Superclass::TransformType           TransformType;
-  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >           PointContainerPointer;
-  typedef typename Superclass::BoundingBoxType         BoundingBoxType;
-  typedef typename Superclass::CovariantVectorType     CovariantVectorType;
+  using Self = SurfaceSpatialObject;
+  using Superclass = PointBasedSpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ScalarType = double;
+  using SurfacePointType = SurfaceSpatialObjectPoint< TDimension >;
+  using PointListType = std::vector< SurfacePointType >;
+  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
+  using PointType = typename Superclass::PointType;
+  using TransformType = typename Superclass::TransformType;
+  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointContainerPointer = SmartPointer< PointContainerType >;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using CovariantVectorType = typename Superclass::CovariantVectorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

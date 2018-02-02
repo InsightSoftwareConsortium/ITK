@@ -62,11 +62,11 @@ class ITK_TEMPLATE_EXPORT CollidingFrontsImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef CollidingFrontsImageFilter                      Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = CollidingFrontsImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -76,42 +76,37 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType                   OutputPixelType;
-  typedef typename TInputImage::PixelType                    InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType RealType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using RealType = typename NumericTraits< InputPixelType >::RealType;
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Image typedef support */
-  typedef TInputImage                       InputImageType;
-  typedef TInputImage                       SpeedImageType;
-  typedef typename InputImageType::Pointer  InputImagePointer;
-  typedef TOutputImage                      OutputImageType;
-  typedef TOutputImage                      LevelSetImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  /** Image type alias support */
+  using InputImageType = TInputImage;
+  using SpeedImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImageType = TOutputImage;
+  using LevelSetImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  /** FastMarchingUpwindGradientImageFilter typedefs. */
-  typedef itk::FastMarchingUpwindGradientImageFilter< LevelSetImageType,
-                                                      SpeedImageType > FastMarchingUpwindGradientImageFilterType;
+  /** FastMarchingUpwindGradientImageFilter type alias. */
+  using FastMarchingUpwindGradientImageFilterType = itk::FastMarchingUpwindGradientImageFilter< LevelSetImageType,
+                                                      SpeedImageType >;
 
   /** Typedef support of level set method types. */
-  typedef typename FastMarchingUpwindGradientImageFilterType::PixelType
-  PixelType;
-  typedef typename FastMarchingUpwindGradientImageFilterType::NodeType
-  NodeType;
-  typedef typename FastMarchingUpwindGradientImageFilterType::NodeContainer
-  NodeContainer;
-  typedef typename FastMarchingUpwindGradientImageFilterType::NodeContainerPointer
-  NodeContainerPointer;
-  typedef typename FastMarchingUpwindGradientImageFilterType::GradientImageType
-  GradientImageType;
-  typedef typename FastMarchingUpwindGradientImageFilterType::IndexType IndexType;
+  using PixelType = typename FastMarchingUpwindGradientImageFilterType::PixelType;
+  using NodeType = typename FastMarchingUpwindGradientImageFilterType::NodeType;
+  using NodeContainer = typename FastMarchingUpwindGradientImageFilterType::NodeContainer;
+  using NodeContainerPointer = typename FastMarchingUpwindGradientImageFilterType::NodeContainerPointer;
+  using GradientImageType = typename FastMarchingUpwindGradientImageFilterType::GradientImageType;
+  using IndexType = typename FastMarchingUpwindGradientImageFilterType::IndexType;
 
   /** Set the container of Seed Points representing the first initial front.
    * Seed points are represented as a VectorContainer of LevelSetNodes. */

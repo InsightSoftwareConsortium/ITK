@@ -24,7 +24,7 @@
 int itkImageTest(int, char* [] )
 {
 
-  typedef itk::Image<float,2> Image;
+  using Image = itk::Image<float,2>;
   Image::Pointer image = Image::New();
   image->DebugOn();
   const char * const knownStringName = "My First Image For Testing.";
@@ -75,7 +75,7 @@ int itkImageTest(int, char* [] )
     }
 
   std::cout << "Test transform to/from physical vector." << std::endl;
-  typedef itk::FixedArray<float, 2> GradientType;
+  using GradientType = itk::FixedArray<float, 2>;
   GradientType truthGradient, outputGradient, testGradient;
   truthGradient[0] = 1.0;
   truthGradient[1] = 1.0;

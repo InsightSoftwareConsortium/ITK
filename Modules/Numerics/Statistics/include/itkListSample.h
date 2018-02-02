@@ -51,11 +51,11 @@ template< typename TMeasurementVector >
 class ITK_TEMPLATE_EXPORT ListSample:public Sample< TMeasurementVector >
 {
 public:
-  /** Standard class typedef. */
-  typedef ListSample                   Self;
-  typedef Sample< TMeasurementVector > Superclass;
-  typedef SmartPointer< Self >         Pointer;
-  typedef SmartPointer< const Self >   ConstPointer;
+  /** Standard class type alias. */
+  using Self = ListSample;
+  using Superclass = Sample< TMeasurementVector >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(ListSample, Sample);
@@ -64,19 +64,19 @@ public:
   itkNewMacro(Self);
 
   /** Typedefs inherited from the superclass */
-  typedef typename Superclass::MeasurementVectorType      MeasurementVectorType;
-  typedef typename Superclass::MeasurementVectorSizeType  MeasurementVectorSizeType;
-  typedef typename Superclass::MeasurementType            MeasurementType;
-  typedef typename Superclass::AbsoluteFrequencyType      AbsoluteFrequencyType;
-  typedef typename Superclass::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
-  typedef typename Superclass::InstanceIdentifier         InstanceIdentifier;
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using MeasurementType = typename Superclass::MeasurementType;
+  using AbsoluteFrequencyType = typename Superclass::AbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = typename Superclass::TotalAbsoluteFrequencyType;
+  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
 
   /** Value type of a measurement (component of the measurement
    * vector) */
-  typedef MeasurementVectorType ValueType;
+  using ValueType = MeasurementVectorType;
 
   /** internal data container type */
-  typedef std::vector< MeasurementVectorType > InternalDataContainerType;
+  using InternalDataContainerType = std::vector< MeasurementVectorType >;
 
   /** Resize the container. Using Resize() and then SetMeasurementVector() is
    * about nine times faster than usign PushBack() continuously. Which means that
@@ -192,7 +192,7 @@ protected:
 
 private:
     ConstIterator() = delete;
-    typedef typename InternalDataContainerType::const_iterator InternalIterator;
+    using InternalIterator = typename InternalDataContainerType::const_iterator;
     InternalIterator   m_Iter;
     InstanceIdentifier m_InstanceIdentifier;
   };

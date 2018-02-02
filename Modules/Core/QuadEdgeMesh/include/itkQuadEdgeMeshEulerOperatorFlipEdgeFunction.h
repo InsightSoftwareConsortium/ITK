@@ -40,11 +40,11 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorFlipEdgeFunction:
   public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
-  /** Standard class typedefs. */
-  typedef QuadEdgeMeshEulerOperatorFlipEdgeFunction    Self;
-  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType * > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = QuadEdgeMeshEulerOperatorFlipEdgeFunction;
+  using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro(Self);
   /** Run-time type information (and related methods). */
@@ -52,10 +52,10 @@ public:
                QuadEdgeMeshFunctionBase);
 
   /** Type of QuadEdge with which to apply slicing. */
-  typedef TQEType QEType;
+  using QEType = TQEType;
 
-  typedef typename Superclass::MeshType   MeshType;
-  typedef typename Superclass::OutputType OutputType;
+  using MeshType = typename Superclass::MeshType;
+  using OutputType = typename Superclass::OutputType;
 
   enum EdgeStatusType {
     STANDARD_CONFIG = 0,

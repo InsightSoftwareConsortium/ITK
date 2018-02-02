@@ -62,23 +62,23 @@ class ITK_TEMPLATE_EXPORT HessianToObjectnessMeasureImageFilter:public
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef HessianToObjectnessMeasureImageFilter           Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = HessianToObjectnessMeasureImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Image dimension */
   itkStaticConstMacro(ImageDimension, unsigned int,  InputImageType ::ImageDimension);
 
-  typedef double                                                                    EigenValueType;
-  typedef itk::FixedArray< EigenValueType, itkGetStaticConstMacro(ImageDimension) > EigenValueArrayType;
+  using EigenValueType = double;
+  using EigenValueArrayType = itk::FixedArray< EigenValueType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

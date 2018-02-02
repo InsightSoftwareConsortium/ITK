@@ -34,8 +34,8 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   std::cout << "with a point at (1,6) (value=2)" << std::endl << std::endl;
 
 
-  typedef itk::Image<unsigned char, 2>  myImageType2D1;
-  typedef itk::Image<float, 2>          myImageType2D2;
+  using myImageType2D1 = itk::Image<unsigned char, 2>;
+  using myImageType2D2 = itk::Image<float, 2>;
 
   /* Allocate the 2D image */
   myImageType2D1::SizeType size2D = {{9,9}};
@@ -57,7 +57,7 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
    * The ClosestPoints computation is based on the value of the pixel.
    */
 
-  typedef  itk::ImageRegionIteratorWithIndex<myImageType2D1> myIteratorType2D1;
+  using myIteratorType2D1 = itk::ImageRegionIteratorWithIndex<myImageType2D1>;
 
   myIteratorType2D1 it2D1(inputImage2D,region2D);
 
@@ -76,9 +76,9 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   inputImage2D->SetPixel( index2D, 2);
 
   /* Create Danielsson Distance Map filter */
-  typedef itk::DanielssonDistanceMapImageFilter<
+  using myFilterType2D = itk::DanielssonDistanceMapImageFilter<
                                             myImageType2D1,
-                                            myImageType2D2 > myFilterType2D;
+                                            myImageType2D2 >;
 
   myFilterType2D::Pointer filter2D = myFilterType2D::New();
 
@@ -86,7 +86,7 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
 
   myImageType2D2::Pointer outputDistance2D = filter2D->GetOutput();
 
-  typedef myFilterType2D::VoronoiImageType VoronoiImageType;
+  using VoronoiImageType = myFilterType2D::VoronoiImageType;
 
   VoronoiImageType::Pointer outputVoronoi2D  = filter2D->GetVoronoiMap();
 
@@ -308,7 +308,7 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   // pixels in the computation since those pixels do not influence the result.
 
   // Allocate the 3D image
-  typedef itk::Image< float, 3>  ImageType3D;
+  using ImageType3D = itk::Image< float, 3>;
   ImageType3D::SizeType size3D = {{200,200,200}};
   ImageType3D::IndexType index3D = {{0,0}};
   ImageType3D::RegionType region3D;
@@ -338,7 +338,7 @@ int itkDanielssonDistanceMapImageFilterTest(int, char* [] )
   }
 
   // Create Danielsson Distance Map filter
-  typedef itk::DanielssonDistanceMapImageFilter< ImageType3D, ImageType3D > myFilterType3D;
+  using myFilterType3D = itk::DanielssonDistanceMapImageFilter< ImageType3D, ImageType3D >;
 
   myFilterType3D::Pointer filter3D = myFilterType3D::New();
 

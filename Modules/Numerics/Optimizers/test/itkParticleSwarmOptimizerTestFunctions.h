@@ -38,15 +38,15 @@ class ParticleSwarmTestF1 : public SingleValuedCostFunction
 {
 public:
 
-  typedef ParticleSwarmTestF1      Self;
-  typedef SingleValuedCostFunction Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Self = ParticleSwarmTestF1;
+  using Superclass = SingleValuedCostFunction;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( ParticleSwarmTestF1, SingleValuedCostFunction );
 
-  typedef Superclass::ParametersType ParametersType;
-  typedef Superclass::MeasureType    MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using MeasureType = Superclass::MeasureType;
 
   ParticleSwarmTestF1()
   {
@@ -97,19 +97,19 @@ class ParticleSwarmTestF2 : public SingleValuedCostFunction
 {
 public:
 
-  typedef ParticleSwarmTestF2      Self;
-  typedef SingleValuedCostFunction Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Self = ParticleSwarmTestF2;
+  using Superclass = SingleValuedCostFunction;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( ParticleSwarmTestF2, SingleValuedCostFunction );
 
-  typedef Superclass::ParametersType ParametersType;
-  typedef Superclass::DerivativeType DerivativeType;
-  typedef Superclass::MeasureType    MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
-  typedef vnl_vector<double> VectorType;
-  typedef vnl_matrix<double> MatrixType;
+  using VectorType = vnl_vector<double>;
+  using MatrixType = vnl_matrix<double>;
 
   ParticleSwarmTestF2() : m_A( 2, 2 ), m_Intercept(2)
   {
@@ -157,15 +157,15 @@ class ParticleSwarmTestF3 : public SingleValuedCostFunction
 {
 public:
 
-  typedef ParticleSwarmTestF3      Self;
-  typedef SingleValuedCostFunction Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  using Self = ParticleSwarmTestF3;
+  using Superclass = SingleValuedCostFunction;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( ParticleSwarmTestF3, SingleValuedCostFunction );
 
-  typedef Superclass::ParametersType ParametersType;
-  typedef Superclass::MeasureType    MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using MeasureType = Superclass::MeasureType;
 
   ParticleSwarmTestF3()
   {
@@ -195,9 +195,9 @@ public:
 class CommandIterationUpdateParticleSwarm : public Command
 {
 public:
-  typedef  CommandIterationUpdateParticleSwarm Self;
-  typedef  Command                             Superclass;
-  typedef SmartPointer<Self>                   Pointer;
+  using Self = CommandIterationUpdateParticleSwarm;
+  using Superclass = Command;
+  using Pointer = SmartPointer<Self>;
   itkNewMacro( Self );
 
   void Reset()

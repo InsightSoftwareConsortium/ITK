@@ -62,27 +62,27 @@ class ITK_TEMPLATE_EXPORT ParametricPath:public
   Path< double, ContinuousIndex< SpacePrecisionType, VDimension >, VDimension >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ParametricPath                                   Self;
+  /** Standard class type aliases. */
+  using Self = ParametricPath;
   /** All paths must be mapable to index space */
-  typedef ContinuousIndex< SpacePrecisionType,VDimension > ContinuousIndexType;
-  typedef Path< double, ContinuousIndexType, VDimension >  Superclass;
+  using ContinuousIndexType = ContinuousIndex< SpacePrecisionType,VDimension >;
+  using Superclass = Path< double, ContinuousIndexType, VDimension >;
 
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ParametricPath, Path);
 
   /** Input type */
-  typedef typename Superclass::InputType InputType;
+  using InputType = typename Superclass::InputType;
 
   /** Output type */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
-  typedef Index<  VDimension >                  IndexType;
-  typedef Offset< VDimension >                  OffsetType;
-  typedef Vector< double, VDimension >          VectorType;
+  using IndexType = Index<  VDimension >;
+  using OffsetType = Offset< VDimension >;
+  using VectorType = Vector< double, VDimension >;
 
   /** Return the nearest index to the parametric path at the specified location.
    * This is a wrapper to Evaluate(). */

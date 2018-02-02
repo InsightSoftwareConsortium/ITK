@@ -37,14 +37,14 @@ int itkMaskedImageToHistogramFilterTest1( int argc, char * argv [] )
     }
 
 
-  typedef unsigned char                                   PixelComponentType;
+  using PixelComponentType = unsigned char;
   const unsigned int                                      Dimension = 3;
-  typedef itk::Vector< PixelComponentType, 2 >            VectorPixelType;
+  using VectorPixelType = itk::Vector< PixelComponentType, 2 >;
 
-  typedef itk::Image< unsigned char, Dimension >   ImageType;
-  typedef itk::Image< VectorPixelType, Dimension > VectorImageType;
+  using ImageType = itk::Image< unsigned char, Dimension >;
+  using VectorImageType = itk::Image< VectorPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -54,23 +54,23 @@ int itkMaskedImageToHistogramFilterTest1( int argc, char * argv [] )
   ReaderType::Pointer reader3 = ReaderType::New();
   reader3->SetFileName( argv[3] );
 
-  typedef itk::ComposeImageFilter< ImageType, VectorImageType > ComposeType;
+  using ComposeType = itk::ComposeImageFilter< ImageType, VectorImageType >;
   ComposeType::Pointer compose = ComposeType::New();
   compose->SetInput1(reader->GetOutput());
   compose->SetInput2(reader2->GetOutput());
 
-  typedef itk::Statistics::MaskedImageToHistogramFilter< VectorImageType, ImageType >   HistogramFilterType;
+  using HistogramFilterType = itk::Statistics::MaskedImageToHistogramFilter< VectorImageType, ImageType >;
   HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
   histogramFilter->SetInput( compose->GetOutput() );
   histogramFilter->SetMaskImage( reader3->GetOutput() );
   histogramFilter->SetMaskValue( atoi(argv[4]) );
   itk::SimpleFilterWatcher watcher(histogramFilter, "filter");
 
-  typedef HistogramFilterType::HistogramType       HistogramType;
-  typedef HistogramFilterType::HistogramSizeType   SizeType;
+  using HistogramType = HistogramFilterType::HistogramType;
+  using SizeType = HistogramFilterType::HistogramSizeType;
 
 //   // Setting bin mins and max
-//   typedef HistogramFilterType::HistogramMeasurementVectorType  HistogramMeasurementVectorType;
+//   using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
 //   HistogramMeasurementVectorType histogramBinMinimum( 2 );
 //   histogramBinMinimum[0] = 0;
 //   histogramBinMinimum[1] = 0;
@@ -98,16 +98,16 @@ int itkMaskedImageToHistogramFilterTest1( int argc, char * argv [] )
 
   // use a 3D image to check the behavior of HistogramToImageFilter when the image
   // is of greater dimension than the histogram
-  typedef itk::Image< float, 3 > FloatImageType;
-  typedef itk::HistogramToLogProbabilityImageFilter< HistogramType, FloatImageType >   ImageFilterType;
+  using FloatImageType = itk::Image< float, 3 >;
+  using ImageFilterType = itk::HistogramToLogProbabilityImageFilter< HistogramType, FloatImageType >;
   ImageFilterType::Pointer imageFilter = ImageFilterType::New();
   imageFilter->SetInput( histogramFilter->GetOutput() );
 
-  typedef itk::RescaleIntensityImageFilter< FloatImageType, ImageType > RescaleType;
+  using RescaleType = itk::RescaleIntensityImageFilter< FloatImageType, ImageType >;
   RescaleType::Pointer rescale = RescaleType::New();
   rescale->SetInput( imageFilter->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( rescale->GetOutput() );
   writer->SetFileName( argv[5] );

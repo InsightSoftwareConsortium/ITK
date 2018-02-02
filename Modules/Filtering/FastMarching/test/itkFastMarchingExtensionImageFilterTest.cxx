@@ -41,18 +41,17 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
 {
   // create a fastmarching object
   const unsigned int Dimension = 2;
-  typedef float PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< PixelType, Dimension > FloatImageType;
+  using FloatImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::FastMarchingThresholdStoppingCriterion< FloatImageType, FloatImageType >
-      CriterionType;
+  using CriterionType =
+      itk::FastMarchingThresholdStoppingCriterion< FloatImageType, FloatImageType >;
   CriterionType::Pointer criterion = CriterionType::New();
   criterion->SetThreshold( 100. );
 
-  typedef itk::FastMarchingExtensionImageFilterBase<
-      FloatImageType, FloatImageType, unsigned char, 1 >
-      MarcherType;
+  using MarcherType = itk::FastMarchingExtensionImageFilterBase<
+      FloatImageType, FloatImageType, unsigned char, 1 >;
 
   MarcherType::Pointer marcher = MarcherType::New();
   marcher->SetStoppingCriterion( criterion );
@@ -68,8 +67,8 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   bool passed;
 
   // setup trial points
-  typedef MarcherType::NodePairType           NodePairType;
-  typedef MarcherType::NodePairContainerType  NodePairContainerType;
+  using NodePairType = MarcherType::NodePairType;
+  using NodePairContainerType = MarcherType::NodePairContainerType;
 
   // setup alive points
   NodePairContainerType::Pointer AlivePoints = NodePairContainerType::New();
@@ -149,8 +148,8 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
     }
   if ( !passed ) { return EXIT_FAILURE; }
 
-  typedef MarcherType::AuxValueVectorType     VectorType;
-  typedef MarcherType::AuxValueContainerType  AuxValueContainerType;
+  using VectorType = MarcherType::AuxValueVectorType;
+  using AuxValueContainerType = MarcherType::AuxValueContainerType;
 
   AuxValueContainerType::Pointer auxAliveValues = AuxValueContainerType::New();
 
@@ -241,7 +240,7 @@ int itkFastMarchingExtensionImageFilterTest(int, char* [] )
   itk::ImageRegionIterator<FloatImageType>
     iterator( output, output->GetBufferedRegion() );
 
-  typedef MarcherType::AuxImageType AuxImageType;
+  using AuxImageType = MarcherType::AuxImageType;
   AuxImageType::Pointer auxImage = marcher->GetAuxiliaryImage(0);
   itk::ImageRegionIterator<AuxImageType>
     auxIterator( auxImage, auxImage->GetBufferedRegion() );

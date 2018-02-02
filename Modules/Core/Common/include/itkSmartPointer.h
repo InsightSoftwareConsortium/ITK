@@ -49,7 +49,7 @@ template< typename TObjectType >
 class SmartPointer
 {
 public:
-  typedef TObjectType ObjectType;
+  using ObjectType = TObjectType;
 
   /** Constructor  */
   SmartPointer ()

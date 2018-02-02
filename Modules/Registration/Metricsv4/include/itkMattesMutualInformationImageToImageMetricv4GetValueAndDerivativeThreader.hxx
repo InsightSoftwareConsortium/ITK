@@ -326,7 +326,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< TDomai
     }
 
   // Compute the transform Jacobian.
-  typedef JacobianType & JacobianReferenceType;
+  using JacobianReferenceType = JacobianType &;
   JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian;
   if( doComputeDerivative )
     {

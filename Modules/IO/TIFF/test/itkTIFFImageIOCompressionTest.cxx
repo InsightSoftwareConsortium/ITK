@@ -32,9 +32,9 @@ namespace
 template< typename TImage >
 int itkTIFFImageIOCompressionTestHelper( int, char * argv[], int JPEGQuality )
 {
-  typedef TImage                            ImageType;
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ImageType = TImage;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   typename ReaderType::Pointer reader = ReaderType::New();
   typename WriterType::Pointer writer = WriterType::New();
@@ -109,7 +109,7 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
 
   std::string inputFilename = argv[1];
 
-  typedef itk::ImageIOBase::IOComponentType ScalarPixelType;
+  using ScalarPixelType = itk::ImageIOBase::IOComponentType;
 
   itk::TIFFImageIO::Pointer imageIO = itk::TIFFImageIO::New();
 
@@ -142,27 +142,27 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
         {
         case itk::ImageIOBase::UCHAR:
         {
-        typedef unsigned char PixelType;
+        using PixelType = unsigned char;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::CHAR:
         {
-        typedef char PixelType;
+        using PixelType = char;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::USHORT:
         {
-        typedef unsigned short PixelType;
+        using PixelType = unsigned short;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::SHORT:
         {
-        typedef short PixelType;
+        using PixelType = short;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::FLOAT:
         {
-        typedef float PixelType;
+        using PixelType = float;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
@@ -176,27 +176,27 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
         {
         case itk::ImageIOBase::UCHAR:
         {
-        typedef itk::RGBPixel< unsigned char > PixelType;
+        using PixelType = itk::RGBPixel< unsigned char >;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::CHAR:
         {
-        typedef itk::RGBPixel< char > PixelType;
+        using PixelType = itk::RGBPixel< char >;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::USHORT:
         {
-        typedef itk::RGBPixel< unsigned short > PixelType;
+        using PixelType = itk::RGBPixel< unsigned short >;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::SHORT:
         {
-        typedef itk::RGBPixel<short> PixelType;
+        using PixelType = itk::RGBPixel<short>;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::FLOAT:
         {
-        typedef itk::RGBPixel< float > PixelType;
+        using PixelType = itk::RGBPixel< float >;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
@@ -210,27 +210,27 @@ int itkTIFFImageIOCompressionTest( int argc, char* argv[] )
         {
         case itk::ImageIOBase::UCHAR:
         {
-        typedef itk::RGBAPixel< unsigned char > PixelType;
+        using PixelType = itk::RGBAPixel< unsigned char >;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::CHAR:
         {
-        typedef itk::RGBAPixel< char > PixelType;
+        using PixelType = itk::RGBAPixel< char >;
         return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::USHORT:
         {
-        typedef itk::RGBAPixel< unsigned short > PixelType;
+        using PixelType = itk::RGBAPixel< unsigned short >;
         return itkTIFFImageIOCompressionTestHelper<itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::SHORT:
         {
-        typedef itk::RGBAPixel< short > PixelType;
+        using PixelType = itk::RGBAPixel< short >;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::FLOAT:
         {
-        typedef itk::RGBAPixel< float > PixelType;
+        using PixelType = itk::RGBAPixel< float >;
         return itkTIFFImageIOCompressionTestHelper< itk::Image<PixelType, 2> >( argc, argv, JPEGQuality );
         }
         case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:

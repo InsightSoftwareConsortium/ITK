@@ -78,11 +78,11 @@ class ITK_TEMPLATE_EXPORT MinMaxCurvatureFlowImageFilter:
   public CurvatureFlowImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MinMaxCurvatureFlowImageFilter                        Self;
-  typedef CurvatureFlowImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MinMaxCurvatureFlowImageFilter;
+  using Superclass = CurvatureFlowImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,13 +90,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MinMaxCurvatureFlowImageFilter, CurvatureFlowImageFilter);
 
-  /** Inherit typedefs from Superclass. */
-  typedef typename Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
-  typedef typename Superclass::OutputImageType              OutputImageType;
+  /** Inherit type alias from Superclass. */
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using OutputImageType = typename Superclass::OutputImageType;
 
   /** MinMaxCurvatureFlowFunction type. */
-  typedef MinMaxCurvatureFlowFunction< OutputImageType >
-  MinMaxCurvatureFlowFunctionType;
+  using MinMaxCurvatureFlowFunctionType = MinMaxCurvatureFlowFunction<OutputImageType>;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -104,8 +103,8 @@ public:
                       Superclass::ImageDimension);
 
   /** Typedef support for the neighbour radius. */
-  typedef typename FiniteDifferenceFunctionType::RadiusType RadiusType;
-  typedef typename RadiusType::SizeValueType                RadiusValueType;
+  using RadiusType = typename FiniteDifferenceFunctionType::RadiusType;
+  using RadiusValueType = typename RadiusType::SizeValueType;
 
   /** Set/Get the stencil radius. */
   itkSetMacro(StencilRadius, RadiusValueType);

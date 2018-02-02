@@ -42,33 +42,30 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
   //                        Typedefs
   //-------------------------------------------------------------
 
-  // Float Image typedefs
-  typedef   float                                    myFloatPixelType;
-  typedef   itk::Image<myFloatPixelType, 3>          myFloatImageType;
+  // Float Image type alias
+  using myFloatPixelType = float;
+  using myFloatImageType = itk::Image<myFloatPixelType, 3>;
 
-  typedef   myFloatImageType::SizeType               mySizeType;
-  typedef   myFloatImageType::IndexType              myIndexType;
-  typedef   myFloatImageType::RegionType             myRegionType;
-
-
-  // RGBPixel Image typedefs
-  typedef   itk::RGBPixel<myFloatPixelType>           myRGBPixelPixelType;
-  typedef   itk::Image<myRGBPixelPixelType, 3>        myRGBPixelImageType;
-  typedef   itk::RedPixelAccessor<myFloatPixelType>   myAccessorType;
-  typedef   itk::ImageAdaptor<myRGBPixelImageType,
-                              myAccessorType>         myAdaptorType;
-  typedef itk::ImageRegionIteratorWithIndex<
-                                   myFloatImageType > myFloatIteratorType;
+  using mySizeType = myFloatImageType::SizeType;
+  using myIndexType = myFloatImageType::IndexType;
+  using myRegionType = myFloatImageType::RegionType;
 
 
-  typedef itk::ImageRegionIteratorWithIndex<
-                                     myRGBPixelImageType >   myRGBPixelIteratorType;
+  // RGBPixel Image type alias
+  using myRGBPixelPixelType = itk::RGBPixel<myFloatPixelType>;
+  using myRGBPixelImageType = itk::Image<myRGBPixelPixelType, 3>;
+  using myAccessorType = itk::RedPixelAccessor<myFloatPixelType>;
+  using myAdaptorType = itk::ImageAdaptor<myRGBPixelImageType,
+                              myAccessorType>;
+  using myFloatIteratorType = itk::ImageRegionIteratorWithIndex<myFloatImageType>;
 
 
-  typedef itk::AddImageFilter< myAdaptorType,
+  using myRGBPixelIteratorType = itk::ImageRegionIteratorWithIndex<myRGBPixelImageType>;
+
+
+  using myFilterType = itk::AddImageFilter< myAdaptorType,
                                myFloatImageType,
-                               myFloatImageType >       myFilterType;
-
+                               myFloatImageType >;
 
   //-------------------------------------------------------------
   //                 Create and Allocate the image

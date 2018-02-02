@@ -30,12 +30,12 @@ int itkFloodFilledSpatialFunctionTest(int, char* [])
 {
   const unsigned int dim = 2;
 
-  // Image typedef
-  typedef itk::Image< bool, dim > ImageType;
+  // Image type alias
+  using ImageType = itk::Image< bool, dim >;
 
-  typedef ImageType::SizeValueType      SizeValueType;
-  typedef ImageType::SpacingValueType   SpacingValueType;
-  typedef ImageType::PointValueType     PointValueType;
+  using SizeValueType = ImageType::SizeValueType;
+  using SpacingValueType = ImageType::SpacingValueType;
+  using PointValueType = ImageType::PointValueType;
 
   // Image size and spacing parameters
   SizeValueType     sourceImageSize[]  = { 5, 5};
@@ -84,8 +84,8 @@ int itkFloodFilledSpatialFunctionTest(int, char* [])
       }
 
     // Create and initialize a spatial function
-    typedef itk::SphereSpatialFunction<dim> FunctionType;
-    typedef FunctionType::InputType         FunctionPositionType;
+    using FunctionType = itk::SphereSpatialFunction<dim>;
+    using FunctionPositionType = FunctionType::InputType;
 
     FunctionType::Pointer spatialFunc = FunctionType::New();
     spatialFunc->SetRadius( 1.0 );
@@ -100,8 +100,8 @@ int itkFloodFilledSpatialFunctionTest(int, char* [])
     const ImageType::IndexValueType pos[] = {2,2};
     seedPos.SetIndex(pos);
 
-    typedef itk::FloodFilledSpatialFunctionConditionalIterator
-      <ImageType, FunctionType> ItType;
+    using ItType = itk::FloodFilledSpatialFunctionConditionalIterator
+      <ImageType, FunctionType>;
 
     ItType sfi = ItType(sourceImage, spatialFunc, seedPos);
 

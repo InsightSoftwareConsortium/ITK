@@ -40,20 +40,20 @@ namespace itk
 class ITKIOMesh_EXPORT VTKPolyDataMeshIO:public MeshIOBase
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef VTKPolyDataMeshIO          Self;
-  typedef MeshIOBase                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = VTKPolyDataMeshIO;
+  using Superclass = MeshIOBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef Superclass::SizeValueType  SizeValueType;
+  using SizeValueType = Superclass::SizeValueType;
 
-  typedef std::string                                        StringType;
-  typedef std::vector< StringType >                          StringVectorType;
-  typedef std::stringstream                                  StringStreamType;
-  typedef std::vector< SizeValueType >                       PointIdVector;
-  typedef VectorContainer< SizeValueType,  PointIdVector >   PolylinesContainerType;
-  typedef PolylinesContainerType::Pointer                    PolylinesContainerPointer;
+  using StringType = std::string;
+  using StringVectorType = std::vector< StringType >;
+  using StringStreamType = std::stringstream;
+  using PointIdVector = std::vector< SizeValueType >;
+  using PolylinesContainerType = VectorContainer< SizeValueType,  PointIdVector >;
+  using PolylinesContainerPointer = PolylinesContainerType::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

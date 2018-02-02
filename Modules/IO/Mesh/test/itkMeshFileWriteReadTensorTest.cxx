@@ -34,15 +34,15 @@ int itkMeshFileWriteReadTensorTest( int argc, char* argv[] )
   const char * outputMesh2D = argv[1];
   const char * outputMesh3D = argv[2];
 
-  typedef float                                               TensorElementType;
-  typedef itk::SymmetricSecondRankTensor<TensorElementType,2> Tensor2dType;
-  typedef itk::SymmetricSecondRankTensor<TensorElementType,3> Tensor3dType;
+  using TensorElementType = float;
+  using Tensor2dType = itk::SymmetricSecondRankTensor<TensorElementType,2>;
+  using Tensor3dType = itk::SymmetricSecondRankTensor<TensorElementType,3>;
 
-  typedef itk::Mesh<Tensor2dType,2> Mesh2dType;
-  typedef itk::Mesh<Tensor3dType,3> Mesh3dType;
+  using Mesh2dType = itk::Mesh<Tensor2dType,2>;
+  using Mesh3dType = itk::Mesh<Tensor3dType,3>;
 
-  typedef itk::MeshFileWriter<Mesh2dType> MeshWriter2dType;
-  typedef itk::MeshFileWriter<Mesh3dType> MeshWriter3dType;
+  using MeshWriter2dType = itk::MeshFileWriter<Mesh2dType>;
+  using MeshWriter3dType = itk::MeshFileWriter<Mesh3dType>;
 
   // Test the 2D case
   std::cout << "Testing VTKPolyDataMeshIO for a mesh with 2D tensor pixels..." << std::endl;

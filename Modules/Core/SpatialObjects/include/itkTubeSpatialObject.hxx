@@ -175,7 +175,7 @@ TubeSpatialObject< TDimension, TTubePointType >
         it++;
         }
 
-      typedef typename BoundingBoxType::PointsContainer PointsContainer;
+      using PointsContainer = typename BoundingBoxType::PointsContainer;
       const PointsContainer *corners = bb->GetCorners();
       typename BoundingBoxType::PointsContainer::const_iterator
       itBB = corners->begin();

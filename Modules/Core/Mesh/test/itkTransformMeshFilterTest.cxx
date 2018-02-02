@@ -31,22 +31,21 @@ int itkTransformMeshFilterTest(int, char* [] )
   // Declare the mesh pixel type.
   // Those are the values associated
   // with each mesh point. (not used on this filter test)
-  typedef int PixelType;
+  using PixelType = int;
 
   // Declare the types of the Mesh
   // By default it is a 3D mesh using itk::Point<float,3>
   // on the vertices, and an itk::VectorContainter
   // as containter for points
-  typedef itk::Mesh<PixelType>  MeshType;
+  using MeshType = itk::Mesh<PixelType>;
 
   // Declare the type for PointsContainer
-  typedef MeshType::PointsContainer     PointsContainerType;
+  using PointsContainerType = MeshType::PointsContainer;
 
   // Declare the type for PointsContainerPointer
-  typedef MeshType::PointsContainerPointer
-                                        PointsContainerPointer;
+  using PointsContainerPointer = MeshType::PointsContainerPointer;
   // Declare the type for Points
-  typedef MeshType::PointType           PointType;
+  using PointType = MeshType::PointType;
 
   // Create an input Mesh
   MeshType::Pointer inputMesh  = MeshType::New();
@@ -84,19 +83,19 @@ int itkTransformMeshFilterTest(int, char* [] )
 
 
   // Declare the transform type
-  typedef itk::AffineTransform<float,3> TransformType;
-  typedef itk::Transform<float,3,3>     BaseTransformType;
+  using TransformType = itk::AffineTransform<float,3>;
+  using BaseTransformType = itk::Transform<float,3,3>;
 
 
   // Declare the type for the filter
-  typedef itk::TransformMeshFilter<
+  using FilterType = itk::TransformMeshFilter<
                                 MeshType,
                                 MeshType,
-                                TransformType  >       FilterType;
-  typedef itk::TransformMeshFilter<
+                                TransformType  >;
+  using FilterWithBaseTransformType = itk::TransformMeshFilter<
                                 MeshType,
                                 MeshType,
-                                BaseTransformType  >   FilterWithBaseTransformType;
+                                BaseTransformType  >;
 
 
   // Create a Filter

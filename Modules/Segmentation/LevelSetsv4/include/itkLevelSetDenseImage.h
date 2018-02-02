@@ -42,16 +42,16 @@ class ITK_TEMPLATE_EXPORT LevelSetDenseImage :
   public DiscreteLevelSetImage< typename TImage::PixelType, TImage::ImageDimension >
   {
 public:
-  typedef TImage                         ImageType;
-  typedef typename ImageType::Pointer    ImagePointer;
-  typedef typename ImageType::IndexType  IndexType;
-  typedef typename ImageType::PixelType  PixelType;
-  typedef typename ImageType::RegionType RegionType;
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using IndexType = typename ImageType::IndexType;
+  using PixelType = typename ImageType::PixelType;
+  using RegionType = typename ImageType::RegionType;
 
-  typedef LevelSetDenseImage                                            Self;
-  typedef SmartPointer< Self >                                          Pointer;
-  typedef SmartPointer< const Self >                                    ConstPointer;
-  typedef DiscreteLevelSetImage< PixelType, ImageType::ImageDimension > Superclass;
+  using Self = LevelSetDenseImage;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DiscreteLevelSetImage< PixelType, ImageType::ImageDimension >;
 
   /** Method for creation through object factory */
   itkNewMacro ( Self );
@@ -61,12 +61,12 @@ public:
 
   itkStaticConstMacro ( Dimension, unsigned int, Superclass::Dimension );
 
-  typedef typename Superclass::InputType        InputType;
-  typedef typename Superclass::OutputType       OutputType;
-  typedef typename Superclass::OutputRealType   OutputRealType;
-  typedef typename Superclass::GradientType     GradientType;
-  typedef typename Superclass::HessianType      HessianType;
-  typedef typename Superclass::LevelSetDataType LevelSetDataType;
+  using InputType = typename Superclass::InputType;
+  using OutputType = typename Superclass::OutputType;
+  using OutputRealType = typename Superclass::OutputRealType;
+  using GradientType = typename Superclass::GradientType;
+  using HessianType = typename Superclass::HessianType;
+  using LevelSetDataType = typename Superclass::LevelSetDataType;
 
   virtual void SetImage( ImageType* iImage );
   itkGetModifiableObjectMacro(Image, ImageType );

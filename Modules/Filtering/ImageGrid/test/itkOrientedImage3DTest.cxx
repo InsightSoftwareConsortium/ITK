@@ -37,13 +37,13 @@ int itkOrientedImage3DTest( int ac, char * av[] )
     }
 
   const unsigned int Dimension = 3;
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image<PixelType, Dimension>            ImageType;
-  typedef itk::ImageFileReader< ImageType >           ReaderType;
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
-  typedef ImageType::IndexType                        IndexType;
-  typedef IndexType::IndexValueType                   IndexValueType;
+  using IndexType = ImageType::IndexType;
+  using IndexValueType = IndexType::IndexValueType;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -130,7 +130,7 @@ int itkOrientedImage3DTest( int ac, char * av[] )
   centralIndex[1] = static_cast< IndexValueType >( size[1] / 2.0 );
   centralIndex[2] = static_cast< IndexValueType >( size[2] / 2.0 );
 
-  typedef itk::CentralDifferenceImageFunction< ImageType, double >   CentralDifferenceImageFunctionType;
+  using CentralDifferenceImageFunctionType = itk::CentralDifferenceImageFunction< ImageType, double >;
 
   CentralDifferenceImageFunctionType::Pointer gradientHelper1 = CentralDifferenceImageFunctionType::New();
   gradientHelper1->SetInputImage( image );

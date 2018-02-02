@@ -82,12 +82,12 @@ class ITK_TEMPLATE_EXPORT VectorImage:
   public ImageBase< VImageDimension >
 {
 public:
-  /** Standard class typedefs */
-  typedef VectorImage                  Self;
-  typedef ImageBase< VImageDimension > Superclass;
-  typedef SmartPointer< Self >         Pointer;
-  typedef SmartPointer< const Self >   ConstPointer;
-  typedef WeakPointer< const Self >    ConstWeakPointer;
+  /** Standard class type aliases */
+  using Self = VectorImage;
+  using Superclass = ImageBase< VImageDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -95,34 +95,33 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorImage, ImageBase);
 
-  /** Pixel typedef support. Used to declare pixel type in filters
+  /** Pixel type alias support Used to declare pixel type in filters
    * or other operations. This is not the actual pixel type contained in
    * the buffer, ie m_Buffer. The image exhibits an external API of an
    * VariableLengthVector< T > and internally stores its data as type T. */
-  typedef VariableLengthVector< TPixel > PixelType;
+  using PixelType = VariableLengthVector< TPixel >;
 
   /** This is the actual pixel type contained in the buffer. Each vector
    * pixel is composed of 'm_VectorLength' contiguous InternalPixelType.
    */
-  typedef TPixel InternalPixelType;
+  using InternalPixelType = TPixel;
 
   /** Typedef alias for PixelType */
-  typedef PixelType ValueType;
+  using ValueType = PixelType;
 
-  typedef InternalPixelType IOPixelType;
+  using IOPixelType = InternalPixelType;
 
   /** Accessor type that convert data between internal and external
    *  representations.  */
-  typedef DefaultVectorPixelAccessor< InternalPixelType > AccessorType;
+  using AccessorType = DefaultVectorPixelAccessor< InternalPixelType >;
 
   /** Functor to provide a common API between DefaultPixelAccessor and
    * DefaultVectorPixelAccessor */
-  typedef DefaultVectorPixelAccessorFunctor< Self > AccessorFunctorType;
+  using AccessorFunctorType = DefaultVectorPixelAccessorFunctor< Self >;
 
   /** Typedef for the functor used to access a neighborhood of pixel
    * pointers. */
-  typedef VectorImageNeighborhoodAccessorFunctor<
-    Self >              NeighborhoodAccessorFunctorType;
+  using NeighborhoodAccessorFunctorType = VectorImageNeighborhoodAccessorFunctor<Self>;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
@@ -130,42 +129,42 @@ public:
    * the image. */
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef typename Superclass::IndexType      IndexType;
-  typedef typename Superclass::IndexValueType IndexValueType;
+  /** Index type alias support An index is used to access pixel values. */
+  using IndexType = typename Superclass::IndexType;
+  using IndexValueType = typename Superclass::IndexValueType;
 
-  /** Offset typedef support. An offset is used to access pixel values. */
-  typedef typename Superclass::OffsetType OffsetType;
+  /** Offset type alias support An offset is used to access pixel values. */
+  using OffsetType = typename Superclass::OffsetType;
 
-  /** Size typedef support. A size is used to define region bounds. */
-  typedef typename Superclass::SizeType      SizeType;
+  /** Size type alias support A size is used to define region bounds. */
+  using SizeType = typename Superclass::SizeType;
 
   /** Container used to store pixels in the image. */
-  typedef ImportImageContainer< SizeValueType, InternalPixelType > PixelContainer;
+  using PixelContainer = ImportImageContainer< SizeValueType, InternalPixelType >;
 
-  /** Direction typedef support. A matrix of direction cosines. */
-  typedef typename Superclass::DirectionType DirectionType;
+  /** Direction type alias support A matrix of direction cosines. */
+  using DirectionType = typename Superclass::DirectionType;
 
-  /** Region typedef support. A region is used to specify a subset of an image.
+  /** Region type alias support A region is used to specify a subset of an image.
     */
-  typedef typename Superclass::RegionType RegionType;
+  using RegionType = typename Superclass::RegionType;
 
-  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
+  /** Spacing type alias support  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
-  typedef typename Superclass::SpacingType SpacingType;
+  using SpacingType = typename Superclass::SpacingType;
 
-  /** Origin typedef support.  The origin is the geometric coordinates
+  /** Origin type alias support  The origin is the geometric coordinates
    * of the index (0,0). */
-  typedef typename Superclass::PointType PointType;
+  using PointType = typename Superclass::PointType;
 
   /** A pointer to the pixel container. */
-  typedef typename PixelContainer::Pointer      PixelContainerPointer;
-  typedef typename PixelContainer::ConstPointer PixelContainerConstPointer;
+  using PixelContainerPointer = typename PixelContainer::Pointer;
+  using PixelContainerConstPointer = typename PixelContainer::ConstPointer;
 
-  /** Offset typedef (relative position between indices) */
-  typedef typename Superclass::OffsetValueType OffsetValueType;
+  /** Offset type alias (relative position between indices) */
+  using OffsetValueType = typename Superclass::OffsetValueType;
 
-  typedef unsigned int VectorLengthType;
+  using VectorLengthType = unsigned int;
 
   /**
    * \brief A structure which enable changing any image class' pixel
@@ -186,14 +185,14 @@ public:
   template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
   struct Rebind
   {
-    typedef itk::VectorImage<UPixelType, NUImageDimension>  Type;
+    using Type = itk::VectorImage<UPixelType, NUImageDimension>;
   };
 
   /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
   template <typename UElementType, unsigned int NUImageDimension>
   struct Rebind< VariableLengthVector< UElementType >, NUImageDimension>
   {
-    typedef itk::VectorImage<UElementType, NUImageDimension>  Type;
+    using Type = itk::VectorImage<UElementType, NUImageDimension>;
   };
   /// \endcond
 

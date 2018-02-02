@@ -25,7 +25,7 @@ int itkNeighborhoodOperatorImageFilterTest(int , char *[] )
 {
   try
     {
-      typedef  itk::Image<float, 3> ImageType;
+      using ImageType = itk::Image<float, 3>;
       // Set up operator
       itk::DerivativeOperator<float, 3> oper;
       oper.SetOrder(2);

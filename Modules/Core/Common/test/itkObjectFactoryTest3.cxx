@@ -21,10 +21,10 @@
 class FakeObject3 : public itk::Object
 {
 public:
-  typedef FakeObject3                   Self;
-  typedef itk::Object                   Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = FakeObject3;
+  using Superclass = itk::Object;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
 protected:
   FakeObject3() {}
@@ -34,10 +34,10 @@ protected:
 class TestFactory3 : public itk::ObjectFactoryBase
 {
 public:
-  typedef TestFactory3                  Self;
-  typedef itk::ObjectFactoryBase        Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = TestFactory3;
+  using Superclass = itk::ObjectFactoryBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
   const char* GetITKSourceVersion() const override { return ITK_SOURCE_VERSION; }
@@ -73,11 +73,11 @@ private:
   std::string  m_Description;
 };
 
-typedef std::vector< std::string >  DescriptionListType;
+using DescriptionListType = std::vector< std::string >;
 
 int ListRegisteredFactories( const std::string & TestName, const DescriptionListType & expectedList )
 {
-  typedef std::list<itk::ObjectFactoryBase *> FactoryListType;
+  using FactoryListType = std::list<itk::ObjectFactoryBase *>;
 
   FactoryListType factories = itk::ObjectFactoryBase::GetRegisteredFactories();
 

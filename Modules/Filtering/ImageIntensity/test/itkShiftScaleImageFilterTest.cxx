@@ -27,9 +27,9 @@ int itkShiftScaleImageFilterTest(int, char* [] )
 {
   std::cout << "itkShiftScaleImageFilterTest Start" << std::endl;
 
-  typedef itk::Image<char,3>                 TestInputImage;
-  typedef itk::Image<unsigned char,3>        TestOutputImage;
-  typedef itk::NumericTraits<char>::RealType RealType;
+  using TestInputImage = itk::Image<char,3>;
+  using TestOutputImage = itk::Image<unsigned char,3>;
+  using RealType = itk::NumericTraits<char>::RealType;
 
   TestInputImage::Pointer    inputImage  = TestInputImage::New();
   TestInputImage::RegionType region;
@@ -45,7 +45,7 @@ int itkShiftScaleImageFilterTest(int, char* [] )
   inputImage->Allocate();
   inputImage->FillBuffer( static_cast< TestInputImage::PixelType >( fillValue ) );
 
-  typedef itk::ShiftScaleImageFilter<TestInputImage,TestOutputImage> FilterType;
+  using FilterType = itk::ShiftScaleImageFilter<TestInputImage,TestOutputImage>;
   FilterType::Pointer filter = FilterType::New();
 
   // Set up Start, End and Progress callbacks
@@ -57,7 +57,7 @@ int itkShiftScaleImageFilterTest(int, char* [] )
 
   // Now generate a real image
 
-  typedef itk::RandomImageSource<TestInputImage> SourceType;
+  using SourceType = itk::RandomImageSource<TestInputImage>;
   SourceType::Pointer source = SourceType::New();
   TestInputImage::SizeValueType randomSize[3] = {17, 8, 20};
 

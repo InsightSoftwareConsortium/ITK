@@ -22,9 +22,9 @@
 
 int itkLabelObjectLineComparatorTest(int, char* [] )
 {
-  typedef itk::LabelObjectLine<2>                                      LabelObjectLineType;
-  typedef itk::LabelObjectLine<2>::IndexType                           IndexType;
-  typedef itk::Functor::LabelObjectLineComparator<LabelObjectLineType> ComparatorType;
+  using LabelObjectLineType = itk::LabelObjectLine<2>;
+  using IndexType = itk::LabelObjectLine<2>::IndexType;
+  using ComparatorType = itk::Functor::LabelObjectLineComparator<LabelObjectLineType>;
 
   ComparatorType lessThan;
 

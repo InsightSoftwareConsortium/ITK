@@ -48,42 +48,42 @@ class ITK_TEMPLATE_EXPORT SegmentationLevelSetFunction:
   public LevelSetFunction< TImageType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SegmentationLevelSetFunction   Self;
-  typedef LevelSetFunction< TImageType > Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SegmentationLevelSetFunction;
+  using Superclass = LevelSetFunction< TImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(SegmentationLevelSetFunction, LevelSetFunction);
 
   /** Extract some parameters from the superclass. */
-  typedef typename Superclass::ImageType        ImageType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::PixelRealType    PixelRealType;
-  typedef TFeatureImageType                     FeatureImageType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
-  typedef typename Superclass::ScalarValueType  ScalarValueType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename FeatureImageType::PixelType  FeatureScalarType;
-  typedef typename ImageType::IndexType         IndexType;
-  typedef typename Superclass::VectorType       VectorType;
-  typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
+  using ImageType = typename Superclass::ImageType;
+  using RadiusType = typename Superclass::RadiusType;
+  using PixelRealType = typename Superclass::PixelRealType;
+  using FeatureImageType = TFeatureImageType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using ScalarValueType = typename Superclass::ScalarValueType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using FeatureScalarType = typename FeatureImageType::PixelType;
+  using IndexType = typename ImageType::IndexType;
+  using VectorType = typename Superclass::VectorType;
+  using GlobalDataStruct = typename Superclass::GlobalDataStruct;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Define an image type for the advection field. */
-  typedef Image< VectorType, itkGetStaticConstMacro(ImageDimension) > VectorImageType;
+  using VectorImageType = Image< VectorType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Define a scalar interpolator */
-  typedef LinearInterpolateImageFunction< ImageType > InterpolatorType;
+  using InterpolatorType = LinearInterpolateImageFunction< ImageType >;
 
   /** Define a vector interpolator */
-  typedef VectorLinearInterpolateImageFunction< VectorImageType > VectorInterpolatorType;
+  using VectorInterpolatorType = VectorLinearInterpolateImageFunction< VectorImageType >;
 
   /** Continuous index type recognized by the interpolator */
-  typedef typename InterpolatorType::ContinuousIndexType ContinuousIndexType;
+  using ContinuousIndexType = typename InterpolatorType::ContinuousIndexType;
 
   /** Set/Get the image which will be used to calculate the speed function. */
   virtual const FeatureImageType * GetFeatureImage() const

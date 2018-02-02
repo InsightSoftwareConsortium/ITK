@@ -48,11 +48,11 @@ template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT GetAverageSliceImageFilter:public AccumulateImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GetAverageSliceImageFilter                         Self;
-  typedef AccumulateImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GetAverageSliceImageFilter;
+  using Superclass = AccumulateImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

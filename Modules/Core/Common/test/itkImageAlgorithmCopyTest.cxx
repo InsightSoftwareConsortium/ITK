@@ -25,8 +25,8 @@ static void AverageTestCopy( typename TImage::SizeType &size )
 
   std::cout << "--- For image size: " << size << " ---" << std::endl;
 
-  typedef typename TImage::PixelType PixelType;
-  typedef TImage                     ImageType;
+  using PixelType = typename TImage::PixelType;
+  using ImageType = TImage;
   typename ImageType::RegionType     region;
 
 
@@ -48,7 +48,7 @@ static void AverageTestCopy( typename TImage::SizeType &size )
 
   itk::TimeProbe t;
 
-  typedef itk::ImageRegionIterator<ImageType> ImageIterator;
+  using ImageIterator = itk::ImageRegionIterator<ImageType>;
 
   for ( unsigned int i = 0; i < 10; ++i )
     {
@@ -107,7 +107,7 @@ static void AverageTestCopy( typename TImage::SizeType &size )
 
 int itkImageAlgorithmCopyTest( int, char *[] )
 {
-  typedef itk::Image<char, 3 > ImageType3D;
+  using ImageType3D = itk::Image<char, 3 >;
   ImageType3D::SizeType size3d;
 
   size3d.Fill( 16 );
@@ -122,7 +122,7 @@ int itkImageAlgorithmCopyTest( int, char *[] )
   size3d.Fill( 128 );
   AverageTestCopy<ImageType3D>( size3d );
 
-  typedef itk::Image<char, 2 > ImageType2D;
+  using ImageType2D = itk::Image<char, 2 >;
   ImageType2D::SizeType size2d;
 
   size2d.Fill( 16 );

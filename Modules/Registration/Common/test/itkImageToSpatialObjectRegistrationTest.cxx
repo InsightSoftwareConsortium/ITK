@@ -35,16 +35,16 @@ template < typename TOptimizer >
 class IterationCallback : public Command
 {
 public:
-  typedef IterationCallback              Self;
-  typedef itk::Command                   Superclass;
-  typedef itk::SmartPointer<Self>        Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  using Self = IterationCallback;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   itkTypeMacro( IterationCallback, Superclass );
   itkNewMacro( Self );
 
   /** Type defining the optimizer */
-  typedef    TOptimizer     OptimizerType;
+  using OptimizerType = TOptimizer;
 
 
   /** Set Optimizer */
@@ -97,19 +97,19 @@ class SimpleImageToSpatialObjectMetric : public ImageToSpatialObjectMetric<TFixe
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef SimpleImageToSpatialObjectMetric  Self;
-  typedef ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>
-                                            Superclass;
-  typedef SmartPointer<Self>                Pointer;
-  typedef SmartPointer<const Self>          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SimpleImageToSpatialObjectMetric;
+  using Superclass =
+      ImageToSpatialObjectMetric<TFixedImage,TMovingSpatialObject>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef Point<double,2>                     PointType;
-  typedef std::list<PointType>                PointListType;
-  typedef TMovingSpatialObject                MovingSpatialObjectType;
-  typedef typename Superclass::ParametersType ParametersType;
-  typedef typename Superclass::DerivativeType DerivativeType;
-  typedef typename Superclass::MeasureType    MeasureType;
+  using PointType = Point<double,2>;
+  using PointListType = std::list<PointType>;
+  using MovingSpatialObjectType = TMovingSpatialObject;
+  using ParametersType = typename Superclass::ParametersType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using MeasureType = typename Superclass::MeasureType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -129,7 +129,7 @@ public:
         }
       this->m_MovingSpatialObject = object;
       m_PointList.clear();
-      typedef itk::ImageRegionConstIteratorWithIndex<TFixedImage> myIteratorType;
+      using myIteratorType = itk::ImageRegionConstIteratorWithIndex<TFixedImage>;
 
       myIteratorType it(this->m_FixedImage,this->m_FixedImage->GetLargestPossibleRegion());
 
@@ -206,8 +206,8 @@ private:
 /** test */
 int itkImageToSpatialObjectRegistrationTest(int, char* [] )
 {
-  typedef itk::GroupSpatialObject<2>   GroupType;
-  typedef itk::EllipseSpatialObject<2> EllipseType;
+  using GroupType = itk::GroupSpatialObject<2>;
+  using EllipseType = itk::EllipseSpatialObject<2>;
 
   // Create a group with 3 ellipses linked by lines.
   EllipseType::Pointer ellipse1 = EllipseType::New();
@@ -241,9 +241,9 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   group->AddSpatialObject(ellipse2);
   group->AddSpatialObject(ellipse3);
 
-  typedef itk::Image<double,2> ImageType;
+  using ImageType = itk::Image<double,2>;
 
-  typedef itk::SpatialObjectToImageFilter<GroupType,ImageType> SpatialObjectToImageFilterType;
+  using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<GroupType,ImageType>;
   SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(group);
   ImageType::SizeType size;
@@ -255,7 +255,7 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   ImageType::Pointer image = imageFilter->GetOutput();
 
   // blurr the image to have a global maximum
-  typedef itk::DiscreteGaussianImageFilter<ImageType,ImageType> GaussianFilterType;
+  using GaussianFilterType = itk::DiscreteGaussianImageFilter<ImageType,ImageType>;
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
   gaussianFilter->SetInput(image);
@@ -264,24 +264,24 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   gaussianFilter->Update();
   image = gaussianFilter->GetOutput();
 
-  typedef itk::ImageToSpatialObjectRegistrationMethod<ImageType,GroupType>  RegistrationType;
+  using RegistrationType = itk::ImageToSpatialObjectRegistrationMethod<ImageType,GroupType>;
   RegistrationType::Pointer registration = RegistrationType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( registration, ImageToSpatialObjectRegistrationMethod,
     ProcessObject );
 
-  typedef itk::SimpleImageToSpatialObjectMetric<ImageType,GroupType> MetricType;
+  using MetricType = itk::SimpleImageToSpatialObjectMetric<ImageType,GroupType>;
   MetricType::Pointer metric = MetricType::New();
 
   std::cout << "metric = " << metric << std::endl;
 
-  typedef itk::LinearInterpolateImageFunction<ImageType,double>  InterpolatorType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType,double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  typedef itk::OnePlusOneEvolutionaryOptimizer  OptimizerType;
+  using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
   OptimizerType::Pointer optimizer  = OptimizerType::New();
 
-  typedef itk::Euler2DTransform<> TransformType;
+  using TransformType = itk::Euler2DTransform<>;
   TransformType::Pointer transform = TransformType::New();
 
   metric->SetTransform(transform);
@@ -393,7 +393,7 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   optimizer->SetEpsilon( 0.01 );
   optimizer->SetMaximumIteration( 500 );
 
-  typedef itk::IterationCallback<OptimizerType> IterationCallbackType;
+  using IterationCallbackType = itk::IterationCallback<OptimizerType>;
   IterationCallbackType::Pointer callback = IterationCallbackType::New();
   callback->SetOptimizer( optimizer );
 

@@ -82,11 +82,11 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   const InputImageType * input = this->GetInput();
 
   // h-minima filter to remove the smallest minima
-  typedef HMinimaImageFilter< TInputImage, TInputImage > HMinimaType;
+  using HMinimaType = HMinimaImageFilter< TInputImage, TInputImage >;
   typename HMinimaType::Pointer hmin;
 
   // Delegate to a R-Min filter to find the regional minima
-  typedef RegionalMinimaImageFilter< TInputImage, TOutputImage > RMinType;
+  using RMinType = RegionalMinimaImageFilter< TInputImage, TOutputImage >;
   typename RMinType::Pointer rmin = RMinType::New();
   rmin->SetInput( input );
   rmin->SetFullyConnected(m_FullyConnected);
@@ -94,8 +94,8 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   rmin->SetForegroundValue( NumericTraits< OutputImagePixelType >::max() );
 
   // label the components
-  typedef ConnectedComponentImageFilter< TOutputImage, TOutputImage >
-  ConnectedCompType;
+  using ConnectedCompType =
+      ConnectedComponentImageFilter< TOutputImage, TOutputImage >;
   typename ConnectedCompType::Pointer label = ConnectedCompType::New();
   label->SetFullyConnected(m_FullyConnected);
   label->SetInput( rmin->GetOutput() );

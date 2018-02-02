@@ -25,9 +25,9 @@ namespace itk
 
 // Allow using single precision by default
 #if defined(ITK_USE_FLOAT_SPACE_PRECISION)
-  typedef float  SpacePrecisionType;
+  using SpacePrecisionType = float;
 #else
-  typedef double SpacePrecisionType;
+  using SpacePrecisionType = double;
 #endif
 
 }

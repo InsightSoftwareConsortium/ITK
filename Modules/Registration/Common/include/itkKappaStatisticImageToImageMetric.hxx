@@ -53,7 +53,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 
   // Get an iterator over the fixed image
   //
-  typedef  ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
+  using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;
   typename FixedImageType::IndexType fixedIndex;
   FixedIteratorType fi( fixedImage, fixedImage->GetBufferedRegion() );
 
@@ -173,7 +173,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 
   const unsigned int ImageDimension = FixedImageType::ImageDimension;
 
-  typedef  ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
+  using FixedIteratorType = ImageRegionConstIteratorWithIndex<FixedImageType>;
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
 
@@ -187,7 +187,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
   derivative = DerivativeType(ParametersDimension);
   derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
-  typedef Array<double> ArrayType;
+  using ArrayType = Array<double>;
 
   ArrayType sum1 = ArrayType(ParametersDimension);
   sum1.Fill(NumericTraits<typename ArrayType::ValueType>::ZeroValue());
@@ -256,9 +256,9 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
-      typedef typename OutputPointType::CoordRepType CoordRepType;
-      typedef ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>
-      MovingImageContinuousIndexType;
+      using CoordRepType = typename OutputPointType::CoordRepType;
+      using MovingImageContinuousIndexType =
+          ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>;
 
       MovingImageContinuousIndexType tempIndex;
       this->m_MovingImage->TransformPhysicalPointToContinuousIndex(transformedPoint, tempIndex);
@@ -308,8 +308,8 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
   tempGradientImage->Allocate();
   tempGradientImage->Update();
 
-  typedef  ImageRegionIteratorWithIndex<GradientImageType>    GradientIteratorType;
-  typedef  ImageRegionConstIteratorWithIndex<MovingImageType> MovingIteratorType;
+  using GradientIteratorType = ImageRegionIteratorWithIndex<GradientImageType>;
+  using MovingIteratorType = ImageRegionConstIteratorWithIndex<MovingImageType>;
 
   GradientIteratorType git( tempGradientImage, tempGradientImage->GetBufferedRegion() );
   MovingIteratorType   mit( this->m_MovingImage, this->m_MovingImage->GetBufferedRegion() );

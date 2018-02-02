@@ -51,11 +51,11 @@ class ITK_TEMPLATE_EXPORT ShapePriorMAPCostFunction:
   public ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ShapePriorMAPCostFunction                                    Self;
-  typedef ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel > Superclass;
-  typedef SmartPointer< Self >                                         Pointer;
-  typedef SmartPointer< const Self >                                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ShapePriorMAPCostFunction;
+  using Superclass = ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,36 +63,36 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapePriorMAPCostFunction, ShapePriorMAPCostFunctionBase);
 
-  /**  ParametersType typedef.
+  /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  typedef typename Superclass::ParametersType ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Type of the feature image representing the edge potential map. */
-  typedef typename Superclass::FeatureImageType    FeatureImageType;
-  typedef typename Superclass::FeatureImagePointer FeatureImagePointer;
+  using FeatureImageType = typename Superclass::FeatureImageType;
+  using FeatureImagePointer = typename Superclass::FeatureImagePointer;
 
   /** Type of the return measure value. */
-  typedef typename Superclass::MeasureType MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
   /** Dimension constant. */
   itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
 
   /** Type of pixel used to represent the level set. */
-  typedef typename Superclass::PixelType PixelType;
+  using PixelType = typename Superclass::PixelType;
 
   /** Type of node used to represent the active region around the zero set. */
-  typedef typename Superclass::NodeType NodeType;
+  using NodeType = typename Superclass::NodeType;
 
   /** Type of container used to store the level set nodes. */
-  typedef typename Superclass::NodeContainerType NodeContainerType;
+  using NodeContainerType = typename Superclass::NodeContainerType;
 
   /** Type of the shape signed distance function. */
-  typedef typename Superclass::ShapeFunctionType ShapeFunctionType;
+  using ShapeFunctionType = typename Superclass::ShapeFunctionType;
 
   /** Type of the array for storing shape parameter mean and standard deivation.
     * FIXME: should be templated.
     */
-  typedef Array< double > ArrayType;
+  using ArrayType = Array< double >;
 
   /** Set/Get the array of shape parameters mean. */
   itkSetMacro(ShapeParameterMeans, ArrayType);
@@ -106,7 +106,7 @@ public:
    * The weights are applied to terms in the following order:
    * LogInsideTerm, LogGradientTerm, LogShapePriorTerm and
    * LogPosePriorTerm. */
-  typedef FixedArray< double, 4 > WeightsType;
+  using WeightsType = FixedArray< double, 4 >;
   itkSetMacro(Weights, WeightsType);
   itkGetConstReferenceMacro(Weights, WeightsType);
 

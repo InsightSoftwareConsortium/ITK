@@ -36,10 +36,10 @@ int itkVectorGeometryTest(int, char* [] )
 
   // Dimension & Type
   const     unsigned int    N = 3;
-  typedef   double          ValueType;
+  using ValueType = double;
 
   //  Vector type
-  typedef    itk::Vector< ValueType, N >    VectorType;
+  using VectorType = itk::Vector< ValueType, N >;
 
 /*
   VectorType vv;
@@ -196,8 +196,8 @@ int itkVectorGeometryTest(int, char* [] )
   const float tolerance = 1e-7;
 
   //  Vector Classes
-  typedef    itk::Vector<  double, N >    DoubleVectorType;
-  typedef    itk::Vector<  float , N >    FloatVectorType;
+  using DoubleVectorType = itk::Vector<  double, N >;
+  using FloatVectorType = itk::Vector<  float , N >;
 
   DoubleVectorType dp;
   dp[0] = 1.0;

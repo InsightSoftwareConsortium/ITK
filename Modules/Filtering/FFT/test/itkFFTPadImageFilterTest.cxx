@@ -40,14 +40,14 @@ int itkFFTPadImageFilterTest( int argc, char * argv[] )
   //  associated image types.
   //
   const unsigned int Dimension = 2;
-  typedef unsigned char                       PixelType;
-  typedef itk::Image< PixelType,  Dimension > ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType,  Dimension >;
 
 
   // readers/writers
-  typedef itk::ImageFileReader< ImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< ImageType >   WriterType;
-  typedef itk::FFTPadImageFilter< ImageType > FFTPadType;
+  using ReaderType = itk::ImageFileReader< ImageType  >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
+  using FFTPadType = itk::FFTPadImageFilter< ImageType >;
 
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -86,8 +86,8 @@ int itkFFTPadImageFilterTest( int argc, char * argv[] )
   writer->Update();
 
   // Ensure we can build with a different output image type.
-  typedef itk::Image< double, Dimension >                      OutputImageType;
-  typedef itk::FFTPadImageFilter< ImageType, OutputImageType > FFTPadWithOutputType;
+  using OutputImageType = itk::Image< double, Dimension >;
+  using FFTPadWithOutputType = itk::FFTPadImageFilter< ImageType, OutputImageType >;
   FFTPadWithOutputType::Pointer fftPadWithOutput = FFTPadWithOutputType::New();
   (void) fftPadWithOutput;
 

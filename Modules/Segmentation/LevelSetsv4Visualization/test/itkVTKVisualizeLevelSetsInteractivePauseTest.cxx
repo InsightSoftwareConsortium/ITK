@@ -38,11 +38,11 @@
 #include "vtkInteractorStyleImage.h"
 
 const unsigned int Dimension = 2;
-typedef unsigned char                                    InputPixelType;
-typedef itk::Image< InputPixelType, Dimension >          InputImageType;
-typedef float                                            LevelSetPixelType;
-typedef itk::Image< LevelSetPixelType, Dimension >       LevelSetImageType;
-typedef itk::LevelSetDenseImage< LevelSetImageType >     LevelSetType;
+using InputPixelType = unsigned char;
+using InputImageType = itk::Image< InputPixelType, Dimension >;
+using LevelSetPixelType = float;
+using LevelSetImageType = itk::Image< LevelSetPixelType, Dimension >;
+using LevelSetType = itk::LevelSetDenseImage< LevelSetImageType >;
 
 struct NeedToPauseInformation
 {
@@ -65,9 +65,9 @@ struct NeedToPauseInformation
 class ProcessingPauseCommand: public itk::Command
 {
 public:
-  typedef ProcessingPauseCommand    Self;
-  typedef Command                   Superclass;
-  typedef itk::SmartPointer< Self > Pointer;
+  using Self = ProcessingPauseCommand;
+  using Superclass = Command;
+  using Pointer = itk::SmartPointer< Self >;
 
   itkNewMacro( Self );
 
@@ -108,7 +108,7 @@ private:
 class KeypressPauseCommand: public vtkCommand
 {
 public:
-  typedef itk::VTKVisualizeImageLevelSetIsoValues< InputImageType, LevelSetType > VisualizationType;
+  using VisualizationType = itk::VTKVisualizeImageLevelSetIsoValues< InputImageType, LevelSetType >;
 
   KeypressPauseCommand(){}
 
@@ -193,12 +193,12 @@ visualizeLevelSet( TInputImage * inputImage,
   ProcessingPauseCommand * pauseCommand,
   KeypressPauseCommand * keypressCommand )
 {
-  typedef typename LevelSetType::OutputType                LevelSetOutputType;
-  typedef typename LevelSetType::OutputRealType            LevelSetRealType;
+  using LevelSetOutputType = typename LevelSetType::OutputType;
+  using LevelSetRealType = typename LevelSetType::OutputRealType;
 
   // Generate a binary mask that will be used as initialization for the level
   // set evolution.
-  typedef typename itk::Image< LevelSetOutputType, InputImageType::ImageDimension > BinaryImageType;
+  using BinaryImageType = typename itk::Image< LevelSetOutputType, InputImageType::ImageDimension >;
   typename BinaryImageType::Pointer binary = BinaryImageType::New();
   binary->SetRegions( inputImage->GetLargestPossibleRegion() );
   binary->CopyInformation( inputImage );
@@ -215,7 +215,7 @@ visualizeLevelSet( TInputImage * inputImage,
   region.SetIndex( index );
   region.SetSize( size );
 
-  typedef itk::ImageRegionIteratorWithIndex< BinaryImageType > InputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex< BinaryImageType >;
   InputIteratorType iIt( binary, region );
   iIt.GoToBegin();
   while( !iIt.IsAtEnd() )
@@ -224,8 +224,8 @@ visualizeLevelSet( TInputImage * inputImage,
     ++iIt;
     }
 
-  typedef itk::BinaryImageToLevelSetImageAdaptor< BinaryImageType,
-    LevelSetType > BinaryImageToLevelSetType;
+  using BinaryImageToLevelSetType = itk::BinaryImageToLevelSetImageAdaptor< BinaryImageType,
+    LevelSetType >;
 
   typename BinaryImageToLevelSetType::Pointer adaptor = BinaryImageToLevelSetType::New();
   adaptor->SetInputImage( binary );
@@ -234,13 +234,13 @@ visualizeLevelSet( TInputImage * inputImage,
   std::cout << "Finished converting to sparse format" << std::endl;
 
   // The Heaviside function
-  typedef typename itk::SinRegularizedHeavisideStepFunction< LevelSetRealType, LevelSetRealType > HeavisideFunctionType;
+  using HeavisideFunctionType = typename itk::SinRegularizedHeavisideStepFunction< LevelSetRealType, LevelSetRealType >;
   typename HeavisideFunctionType::Pointer heaviside = HeavisideFunctionType::New();
   heaviside->SetEpsilon( 1.5 );
   std::cout << "Heaviside function created" << std::endl;
 
   // Create the level set container
-  typedef typename itk::LevelSetContainer< itk::IdentifierType, LevelSetType > LevelSetContainerType;
+  using LevelSetContainerType = typename itk::LevelSetContainer< itk::IdentifierType, LevelSetType >;
   typename LevelSetContainerType::Pointer levelSetContainer = LevelSetContainerType::New();
   levelSetContainer->SetHeaviside( heaviside );
   levelSetContainer->AddLevelSet( 0, levelSet );
@@ -249,20 +249,20 @@ visualizeLevelSet( TInputImage * inputImage,
   // Create the terms.
   //
   // // Chan and Vese internal term
-  typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType > ChanAndVeseInternalTermType;
+  using ChanAndVeseInternalTermType = itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >;
   typename ChanAndVeseInternalTermType::Pointer cvInternalTerm = ChanAndVeseInternalTermType::New();
   cvInternalTerm->SetInput( inputImage );
   cvInternalTerm->SetCoefficient( 0.5 );
   std::cout << "Chan and Vese internal term created" << std::endl;
 
   // // Chan and Vese external term
-  typedef typename itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType > ChanAndVeseExternalTermType;
+  using ChanAndVeseExternalTermType = typename itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >;
   typename ChanAndVeseExternalTermType::Pointer cvExternalTerm = ChanAndVeseExternalTermType::New();
   cvExternalTerm->SetInput( inputImage );
   std::cout << "Chan and Vese external term created" << std::endl;
 
   // Create term container (equation rhs)
-  typedef typename itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType > TermContainerType;
+  using TermContainerType = typename itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >;
   typename TermContainerType::Pointer termContainer = TermContainerType::New();
   termContainer->SetLevelSetContainer( levelSetContainer );
   termContainer->SetInput( inputImage );
@@ -271,21 +271,21 @@ visualizeLevelSet( TInputImage * inputImage,
   std::cout << "Term container created" << std::endl;
 
   // Create equation container
-  typedef typename itk::LevelSetEquationContainer< TermContainerType > EquationContainerType;
+  using EquationContainerType = typename itk::LevelSetEquationContainer< TermContainerType >;
   typename EquationContainerType::Pointer equationContainer = EquationContainerType::New();
   equationContainer->SetLevelSetContainer( levelSetContainer );
   equationContainer->AddEquation( 0, termContainer );
   std::cout << "Equation container created" << std::endl;
 
   // Create stopping criteria
-  typedef typename itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType > StoppingCriterionType;
+  using StoppingCriterionType = typename itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >;
   typename StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations( numberOfIterations );
   std::cout << "Stopping criteria created" << std::endl;
 
 
   // Create evolution class
-  typedef typename itk::LevelSetEvolution< EquationContainerType, LevelSetType > LevelSetEvolutionType;
+  using LevelSetEvolutionType = typename itk::LevelSetEvolution< EquationContainerType, LevelSetType >;
   typename LevelSetEvolutionType::Pointer evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer( equationContainer );
   evolution->SetStoppingCriterion( criterion );
@@ -370,7 +370,7 @@ int itkVTKVisualizeLevelSetsInteractivePauseTest( int argc, char* argv[] )
   // Image Dimension
 
   // Read input image (to be processed).
-  typedef itk::ImageFileReader< InputImageType >   ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();

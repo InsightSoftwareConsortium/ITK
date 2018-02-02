@@ -36,11 +36,11 @@ class ITKOptimizers_EXPORT SingleValuedNonLinearOptimizer:
   public NonLinearOptimizer
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef SingleValuedNonLinearOptimizer Self;
-  typedef NonLinearOptimizer             Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = SingleValuedNonLinearOptimizer;
+  using Superclass = NonLinearOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -51,19 +51,19 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  typedef Superclass::ParametersType ParametersType;
+  using ParametersType = Superclass::ParametersType;
 
   /** Type of the Cost Function   */
-  typedef  SingleValuedCostFunction  CostFunctionType;
-  typedef  CostFunctionType::Pointer CostFunctionPointer;
+  using CostFunctionType = SingleValuedCostFunction;
+  using CostFunctionPointer = CostFunctionType::Pointer;
 
   /**  Measure type.
    *  It defines a type used to return the cost function value.  */
-  typedef CostFunctionType::MeasureType MeasureType;
+  using MeasureType = CostFunctionType::MeasureType;
 
   /**  Derivative type.
    *  It defines a type used to return the cost function derivative. */
-  typedef CostFunctionType::DerivativeType DerivativeType;
+  using DerivativeType = CostFunctionType::DerivativeType;
 
   /** Set the cost function. */
   virtual void SetCostFunction(CostFunctionType *costFunction);

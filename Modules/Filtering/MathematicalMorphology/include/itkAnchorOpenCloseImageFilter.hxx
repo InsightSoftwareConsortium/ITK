@@ -167,7 +167,7 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
     }
 
   // copy internal buffer to output
-  typedef ImageRegionIterator< InputImageType > IterType;
+  using IterType = ImageRegionIterator< InputImageType >;
   IterType oit(this->GetOutput(), OReg);
   IterType iit(internalbuffer, OReg);
   for ( oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit )
@@ -201,7 +201,7 @@ AnchorOpenCloseImageFilter< TImage, TKernel, TCompare1, TCompare2 >
   // to iterate
   // over all the indexes inside the region.
   //
-  // typedef ImageRegionConstIteratorWithIndex<TImage> ItType;
+  // using ItType = ImageRegionConstIteratorWithIndex<TImage>;
   // ItType it(input, face);
 
   typename TImage::Pointer dumbImg = TImage::New();

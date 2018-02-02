@@ -50,7 +50,7 @@ namespace itk
  * "MeshTraits" structure is used to define the container and identifier
  * types that will be used to access the mesh.  See DefaultStaticMeshTraits
  * for the set of type definitions needed.  All types that are defined
- * in the "MeshTraits" structure will have duplicate typedefs in the resulting
+ * in the "MeshTraits" structure will have duplicate type alias in the resulting
  * mesh itself.
  *
  * Mesh is an adaptive, evolving structure. Typically points and cells
@@ -108,13 +108,13 @@ template<
 class ITK_TEMPLATE_EXPORT Mesh:public PointSet< TPixelType, VDimension, TMeshTraits >
 {
 public:
-  /** Standard typedefs. */
-  typedef Mesh                                            Self;
-  typedef PointSet< TPixelType, VDimension, TMeshTraits > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard type alias. */
+  using Self = Mesh;
+  using Superclass = PointSet< TPixelType, VDimension, TMeshTraits >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::RegionType RegionType;
+  using RegionType = typename Superclass::RegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -123,9 +123,9 @@ public:
   itkTypeMacro(Mesh, PointSet);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TMeshTraits                        MeshTraits;
-  typedef typename MeshTraits::PixelType     PixelType;
-  typedef typename MeshTraits::CellPixelType CellPixelType;
+  using MeshTraits = TMeshTraits;
+  using PixelType = typename MeshTraits::PixelType;
+  using CellPixelType = typename MeshTraits::CellPixelType;
 
   /** Convenient constants obtained from TMeshTraits template parameter. */
   itkStaticConstMacro(PointDimension, unsigned int,
@@ -140,56 +140,56 @@ public:
                       CellsAllocatedAsADynamicArray,
                       CellsAllocatedDynamicallyCellByCell } CellsAllocationMethodType;
 
-  /** Convenient typedefs obtained from TMeshTraits template parameter. */
-  typedef typename MeshTraits::CoordRepType            CoordRepType;
-  typedef typename MeshTraits::InterpolationWeightType InterpolationWeightType;
-  typedef typename MeshTraits::PointIdentifier         PointIdentifier;
-  typedef typename MeshTraits::CellIdentifier          CellIdentifier;
-  typedef typename MeshTraits::CellFeatureIdentifier   CellFeatureIdentifier;
-  typedef typename MeshTraits::PointHashType           PointHashType;
-  typedef typename MeshTraits::PointType               PointType;
-  typedef typename MeshTraits::PointsContainer         PointsContainer;
-  typedef typename MeshTraits::CellTraits              CellTraits;
-  typedef typename MeshTraits::CellsContainer          CellsContainer;
-  typedef typename MeshTraits::PointCellLinksContainer PointCellLinksContainer;
-  typedef typename MeshTraits::CellLinksContainer      CellLinksContainer;
-  typedef typename MeshTraits::PointDataContainer      PointDataContainer;
-  typedef typename MeshTraits::CellDataContainer       CellDataContainer;
+  /** Convenient type alias obtained from TMeshTraits template parameter. */
+  using CoordRepType = typename MeshTraits::CoordRepType;
+  using InterpolationWeightType = typename MeshTraits::InterpolationWeightType;
+  using PointIdentifier = typename MeshTraits::PointIdentifier;
+  using CellIdentifier = typename MeshTraits::CellIdentifier;
+  using CellFeatureIdentifier = typename MeshTraits::CellFeatureIdentifier;
+  using PointHashType = typename MeshTraits::PointHashType;
+  using PointType = typename MeshTraits::PointType;
+  using PointsContainer = typename MeshTraits::PointsContainer;
+  using CellTraits = typename MeshTraits::CellTraits;
+  using CellsContainer = typename MeshTraits::CellsContainer;
+  using PointCellLinksContainer = typename MeshTraits::PointCellLinksContainer;
+  using CellLinksContainer = typename MeshTraits::CellLinksContainer;
+  using PointDataContainer = typename MeshTraits::PointDataContainer;
+  using CellDataContainer = typename MeshTraits::CellDataContainer;
 
   /** Used to support geometric operations on the toolkit. */
-  typedef BoundingBox< PointIdentifier, itkGetStaticConstMacro(PointDimension),
-                       CoordRepType, PointsContainer >   BoundingBoxType;
+  using BoundingBoxType = BoundingBox< PointIdentifier, itkGetStaticConstMacro(PointDimension),
+                       CoordRepType, PointsContainer >;
 
   /** Create types that are pointers to each of the container types. */
-  typedef typename PointsContainer::Pointer         PointsContainerPointer;
-  typedef typename CellsContainer::Pointer          CellsContainerPointer;
-  typedef typename CellsContainer::ConstPointer     CellsContainerConstPointer;
-  typedef typename CellLinksContainer::Pointer      CellLinksContainerPointer;
-  typedef typename PointDataContainer::Pointer      PointDataContainerPointer;
-  typedef typename CellDataContainer::Pointer       CellDataContainerPointer;
-  typedef typename CellDataContainer::ConstPointer  CellDataContainerConstPointer;
-  typedef typename BoundingBoxType::Pointer         BoundingBoxPointer;
-  typedef typename CellLinksContainer::ConstPointer CellLinksContainerConstPointer;
+  using PointsContainerPointer = typename PointsContainer::Pointer;
+  using CellsContainerPointer = typename CellsContainer::Pointer;
+  using CellsContainerConstPointer = typename CellsContainer::ConstPointer;
+  using CellLinksContainerPointer = typename CellLinksContainer::Pointer;
+  using PointDataContainerPointer = typename PointDataContainer::Pointer;
+  using CellDataContainerPointer = typename CellDataContainer::Pointer;
+  using CellDataContainerConstPointer = typename CellDataContainer::ConstPointer;
+  using BoundingBoxPointer = typename BoundingBoxType::Pointer;
+  using CellLinksContainerConstPointer = typename CellLinksContainer::ConstPointer;
 
   /** Create types that are iterators for each of the container types. */
-  typedef typename PointsContainer::ConstIterator          PointsContainerConstIterator;
-  typedef typename PointsContainer::Iterator               PointsContainerIterator;
-  typedef typename CellsContainer::ConstIterator           CellsContainerConstIterator;
-  typedef typename CellsContainer::Iterator                CellsContainerIterator;
-  typedef typename CellLinksContainer::ConstIterator       CellLinksContainerIterator;
-  typedef typename PointDataContainer::ConstIterator       PointDataContainerIterator;
-  typedef typename CellDataContainer::ConstIterator        CellDataContainerIterator;
-  typedef typename PointCellLinksContainer::const_iterator PointCellLinksContainerIterator;
+  using PointsContainerConstIterator = typename PointsContainer::ConstIterator;
+  using PointsContainerIterator = typename PointsContainer::Iterator;
+  using CellsContainerConstIterator = typename CellsContainer::ConstIterator;
+  using CellsContainerIterator = typename CellsContainer::Iterator;
+  using CellLinksContainerIterator = typename CellLinksContainer::ConstIterator;
+  using PointDataContainerIterator = typename PointDataContainer::ConstIterator;
+  using CellDataContainerIterator = typename CellDataContainer::ConstIterator;
+  using PointCellLinksContainerIterator = typename PointCellLinksContainer::const_iterator;
 
   /** A useful rename. */
-  typedef CellFeatureIdentifier CellFeatureCount;
+  using CellFeatureCount = CellFeatureIdentifier;
 
   /** The base cell type for cells in this mesh. */
-  typedef CellInterface< CellPixelType, CellTraits > CellType;
-  typedef typename CellType::CellAutoPointer         CellAutoPointer;
+  using CellType = CellInterface< CellPixelType, CellTraits >;
+  using CellAutoPointer = typename CellType::CellAutoPointer;
 
   /** Visiting cells. */
-  typedef typename CellType::MultiVisitor CellMultiVisitorType;
+  using CellMultiVisitorType = typename CellType::MultiVisitor;
 
   /** \class BoundaryAssignmentIdentifier
    *  An explicit cell boundary assignment can be accessed through the cell
@@ -205,7 +205,7 @@ public:
   {
 public:
     /** Create an alias to BoundaryAssignmentIdentifier. */
-    typedef BoundaryAssignmentIdentifier Self;
+    using Self = BoundaryAssignmentIdentifier;
 
     /** Constructor just takes the cell and feature identifiers, or defaults
      *  to their individual default values.  */
@@ -243,12 +243,10 @@ public:
    * identifier and a boundary feature identifier.  The boundary
    * feature identifier distinguishes different boundary features for
    * a given cell at a given dimension.  */
-  typedef MapContainer< BoundaryAssignmentIdentifier, CellIdentifier >
-  BoundaryAssignmentsContainer;
-  typedef typename BoundaryAssignmentsContainer::Pointer
-  BoundaryAssignmentsContainerPointer;
-  typedef std::vector< BoundaryAssignmentsContainerPointer >
-  BoundaryAssignmentsContainerVector;
+  using BoundaryAssignmentsContainer =
+      MapContainer< BoundaryAssignmentIdentifier, CellIdentifier >;
+  using BoundaryAssignmentsContainerPointer = typename BoundaryAssignmentsContainer::Pointer;
+  using BoundaryAssignmentsContainerVector = std::vector<BoundaryAssignmentsContainerPointer>;
 
 protected:
 
@@ -362,7 +360,7 @@ public:
    * CellFeatureIdentifier \a featureId must be assigned for each
    * distinct boundary feature of a given dimension.
    * CellFeatureIdentifier is equivalent to <tt>IdentifierType</tt> by
-   * default, and this typedef will not typically need to be changed.
+   * default, and this type alias will not typically need to be changed.
    * The UsingCells list of \a boundaryId is automatically updated to
    * include \a cellId.
    */

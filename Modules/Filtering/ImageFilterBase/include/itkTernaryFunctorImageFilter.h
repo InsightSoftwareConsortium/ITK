@@ -41,11 +41,11 @@ class ITK_TEMPLATE_EXPORT TernaryFunctorImageFilter:
   public InPlaceImageFilter< TInputImage1, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef TernaryFunctorImageFilter                        Self;
-  typedef InPlaceImageFilter< TInputImage1, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
+  /** Standard class type aliases. */
+  using Self = TernaryFunctorImageFilter;
+  using Superclass = InPlaceImageFilter< TInputImage1, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -53,24 +53,24 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(TernaryFunctorImageFilter, InPlaceImageFilter);
 
-  /** Some typedefs. */
-  typedef TFunction                              FunctorType;
-  typedef TInputImage1                           Input1ImageType;
-  typedef typename Input1ImageType::ConstPointer Input1ImagePointer;
-  typedef typename Input1ImageType::RegionType   Input1ImageRegionType;
-  typedef typename Input1ImageType::PixelType    Input1ImagePixelType;
-  typedef TInputImage2                           Input2ImageType;
-  typedef typename Input2ImageType::ConstPointer Input2ImagePointer;
-  typedef typename Input2ImageType::RegionType   Input2ImageRegionType;
-  typedef typename Input2ImageType::PixelType    Input2ImagePixelType;
-  typedef TInputImage3                           Input3ImageType;
-  typedef typename Input3ImageType::ConstPointer Input3ImagePointer;
-  typedef typename Input3ImageType::RegionType   Input3ImageRegionType;
-  typedef typename Input3ImageType::PixelType    Input3ImagePixelType;
-  typedef TOutputImage                           OutputImageType;
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+  /** Some type alias. */
+  using FunctorType = TFunction;
+  using Input1ImageType = TInputImage1;
+  using Input1ImagePointer = typename Input1ImageType::ConstPointer;
+  using Input1ImageRegionType = typename Input1ImageType::RegionType;
+  using Input1ImagePixelType = typename Input1ImageType::PixelType;
+  using Input2ImageType = TInputImage2;
+  using Input2ImagePointer = typename Input2ImageType::ConstPointer;
+  using Input2ImageRegionType = typename Input2ImageType::RegionType;
+  using Input2ImagePixelType = typename Input2ImageType::PixelType;
+  using Input3ImageType = TInputImage3;
+  using Input3ImagePointer = typename Input3ImageType::ConstPointer;
+  using Input3ImageRegionType = typename Input3ImageType::RegionType;
+  using Input3ImagePixelType = typename Input3ImageType::PixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** Connect one of the operands for pixel-wise addition. */
   void SetInput1(const TInputImage1 *image1);

@@ -28,20 +28,18 @@ int itkBinaryThresholdImageFilterTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned char, ImageDimension> InputImageType;
-  typedef itk::Image<float, ImageDimension>         OutputImageType;
-  typedef InputImageType::PixelType                 InputPixelType;
-  typedef OutputImageType::PixelType                OutputPixelType;
+  using InputImageType = itk::Image<unsigned char, ImageDimension>;
+  using OutputImageType = itk::Image<float, ImageDimension>;
+  using InputPixelType = InputImageType::PixelType;
+  using OutputPixelType = OutputImageType::PixelType;
 
   // Declare iterator type
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType>  InputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
-  typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType>  OutputIteratorType;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Use a random image source as input
-  typedef itk::RandomImageSource<InputImageType> SourceType;
+  using SourceType = itk::RandomImageSource<InputImageType>;
   SourceType::Pointer source = SourceType::New();
 
   InputImageType::SizeValueType sizeArray[ImageDimension] = { 3,3,3 };
@@ -51,8 +49,8 @@ int itkBinaryThresholdImageFilterTest(int, char* [] )
   source->SetSize( sizeArray );
 
   // Declare the type for the binary threshold filter
-  typedef itk::BinaryThresholdImageFilter< InputImageType,
-                               OutputImageType  >  FilterType;
+  using FilterType = itk::BinaryThresholdImageFilter< InputImageType,
+                               OutputImageType  >;
 
 
   // Create a filter

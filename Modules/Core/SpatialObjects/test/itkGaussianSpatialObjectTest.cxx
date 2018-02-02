@@ -25,7 +25,7 @@
 
 int itkGaussianSpatialObjectTest(int, char* [])
 {
-  typedef itk::GaussianSpatialObject<4>   GaussianType;
+  using GaussianType = itk::GaussianSpatialObject<4>;
 
   GaussianType::Pointer myGaussian = GaussianType::New();
   myGaussian->Print(std::cout);

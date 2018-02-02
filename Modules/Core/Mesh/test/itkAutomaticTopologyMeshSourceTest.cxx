@@ -26,13 +26,13 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
 {
 
   // Declare the type of the Mesh
-  typedef itk::Mesh<double>                         MeshType;
-  typedef MeshType::PointType                       PointType;
-  typedef MeshType::CellType                        CellType;
+  using MeshType = itk::Mesh<double>;
+  using PointType = MeshType::PointType;
+  using CellType = MeshType::CellType;
 
-  typedef itk::AutomaticTopologyMeshSource< MeshType >   MeshSourceType;
-  typedef MeshSourceType::IdentifierType                 IdentifierType;
-  typedef MeshSourceType::IdentifierArrayType            IdentifierArrayType;
+  using MeshSourceType = itk::AutomaticTopologyMeshSource< MeshType >;
+  using IdentifierType = MeshSourceType::IdentifierType;
+  using IdentifierArrayType = MeshSourceType::IdentifierArrayType;
 
   MeshSourceType::Pointer meshSource;
 
@@ -258,12 +258,12 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
   std::cout << "\n" << mesh->GetNumberOfCells() << " cells:" << std::endl;
   for( i = 0; i < mesh->GetNumberOfCells(); i++ )
     {
-    typedef MeshType::CellAutoPointer CellAutoPointer;
+    using CellAutoPointer = MeshType::CellAutoPointer;
     CellAutoPointer cell;
     if( mesh->GetCell( i, cell ) )
       {
       std::cout << i << ": ";
-      typedef CellType::PointIdConstIterator PointIdIterator;
+      using PointIdIterator = CellType::PointIdConstIterator;
       PointIdIterator pointIter = cell->PointIdsBegin();
       PointIdIterator pointsEnd = cell->PointIdsEnd();
       for(; pointIter != pointsEnd; ++pointIter )
@@ -277,7 +277,7 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
 
   for( i = 0; i < mesh->GetNumberOfCells(); i++ )
     {
-    typedef MeshType::CellAutoPointer CellAutoPointer;
+    using CellAutoPointer = MeshType::CellAutoPointer;
     CellAutoPointer cell;
     if( mesh->GetCell( i, cell ) )
       {
@@ -285,7 +285,7 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
         {
         std::cout << "Cell " << i << ":\n";
 
-        typedef std::set<IdentifierType> NeighborSet;
+        using NeighborSet = std::set<IdentifierType>;
         NeighborSet cellSet;
 
         mesh->GetCellBoundaryFeatureNeighbors( 0, i, 0, &cellSet );

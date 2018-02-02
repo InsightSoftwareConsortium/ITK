@@ -405,8 +405,8 @@ VTKTetrahedralMeshReader<TOutputMesh>
 
     if( foundPointData )
       {
-      typedef typename OutputMeshType::PointDataContainer PointDataContainer;
-      typedef typename PointDataContainer::Pointer PointDataContainerPointer;
+      using PointDataContainer = typename OutputMeshType::PointDataContainer;
+      using PointDataContainerPointer = typename PointDataContainer::Pointer;
 
       PointDataContainerPointer pointDataContainer = PointDataContainer::New();
       pointDataContainer->Reserve( numberOfPoints );

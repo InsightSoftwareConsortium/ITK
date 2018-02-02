@@ -82,13 +82,13 @@ IplImage* ConvertIplImageDataType(IplImage* in)
 template<typename TPixelType, unsigned int VDimension>
 int itkOpenCVImageBridgeTestTemplatedScalar(char* argv)
 {
-  // typedefs
+  // type alias
   const unsigned int Dimension =                         VDimension;
-  typedef TPixelType                                     PixelType;
-  typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::ImageFileReader<ImageType>                ReaderType;
-  typedef itk::Testing::ComparisonImageFilter<ImageType, ImageType>
-                                                         DifferenceFilterType;
+  using PixelType = TPixelType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using DifferenceFilterType =
+      itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
 
   itk::ObjectFactoryBase::RegisterFactory( itk::OpenCVVideoIOFactory::New() );
 

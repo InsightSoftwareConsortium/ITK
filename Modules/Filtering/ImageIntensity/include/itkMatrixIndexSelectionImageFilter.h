@@ -85,16 +85,13 @@ class MatrixIndexSelectionImageFilter:
                                                           typename TOutputImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MatrixIndexSelectionImageFilter
-  Self;
-  typedef UnaryFunctorImageFilter< TInputImage, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = MatrixIndexSelectionImageFilter<Image<Matrix<unsigned short, 2, 2>, 2>, Image<unsigned char, 2> >;
+  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
                                    Functor::MatrixIndexSelection< typename TInputImage::PixelType,
-                                                                  typename TOutputImage::PixelType > > Superclass;
-  typedef SmartPointer< Self >
-  Pointer;
-  typedef SmartPointer< const Self >
-  ConstPointer;
+                                                                  typename TOutputImage::PixelType > >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(MatrixIndexSelectionImageFilter, UnaryFunctorImageFilter);

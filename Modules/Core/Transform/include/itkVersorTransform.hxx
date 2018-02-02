@@ -153,7 +153,7 @@ void
 VersorTransform<TParametersValueType>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
-  typedef typename VersorType::ValueType ValueType;
+  using ValueType = typename VersorType::ValueType;
 
   // compute derivatives with respect to rotation
   const ValueType vx = m_Versor.GetX();

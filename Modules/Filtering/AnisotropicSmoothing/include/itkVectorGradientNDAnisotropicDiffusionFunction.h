@@ -45,11 +45,11 @@ class ITK_TEMPLATE_EXPORT VectorGradientNDAnisotropicDiffusionFunction:
   public VectorAnisotropicDiffusionFunction< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorGradientNDAnisotropicDiffusionFunction Self;
-  typedef VectorAnisotropicDiffusionFunction< TImage > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VectorGradientNDAnisotropicDiffusionFunction;
+  using Superclass = VectorAnisotropicDiffusionFunction< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,12 +59,12 @@ public:
                ScalarAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::ImageType        ImageType;
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::TimeStepType     TimeStepType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelType = typename Superclass::PixelType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
 
   /** Extract vector and image dimension from superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -73,7 +73,7 @@ public:
                       Superclass::VectorDimension);
 
   /** Type of a value in a vector (double, float, etc.) */
-  typedef typename PixelType::ValueType ScalarValueType;
+  using ScalarValueType = typename PixelType::ValueType;
 
   /** Compute the equation value. */
   PixelType ComputeUpdate(const NeighborhoodType & neighborhood,

@@ -47,11 +47,11 @@ class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateDisplacementFieldTransform :
   public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef GaussianSmoothingOnUpdateDisplacementFieldTransform           Self;
-  typedef DisplacementFieldTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                            Pointer;
-  typedef SmartPointer<const Self>                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GaussianSmoothingOnUpdateDisplacementFieldTransform;
+  using Superclass = DisplacementFieldTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( GaussianSmoothingOnUpdateDisplacementFieldTransform,
@@ -61,14 +61,14 @@ public:
   itkNewMacro( Self );
 
   /** Types from superclass */
-  typedef typename Superclass::ScalarType               ScalarType;
-  typedef typename Superclass::DerivativeType           DerivativeType;
-  typedef typename DerivativeType::ValueType            DerivativeValueType;
-  typedef typename Superclass::DisplacementFieldType    DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer DisplacementFieldPointer;
-  typedef typename DisplacementFieldType::PixelType     DisplacementVectorType;
+  using ScalarType = typename Superclass::ScalarType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename DerivativeType::ValueType;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
+  using DisplacementVectorType = typename DisplacementFieldType::PixelType;
 
-  typedef typename Transform<TParametersValueType,NDimensions, NDimensions>::Pointer TransformPointer;
+  using TransformPointer = typename Transform<TParametersValueType,NDimensions, NDimensions>::Pointer;
 
   /**
    * Get/Set the Gaussian smoothing standard deviation for the update field.
@@ -115,11 +115,10 @@ protected:
 
   /** Type of Gaussian Operator used during smoothing. Define here
    * so we can use a member var during the operation. */
-  typedef GaussianOperator<ScalarType, Superclass::Dimension>
-                                                  GaussianSmoothingOperatorType;
-  typedef VectorNeighborhoodOperatorImageFilter< DisplacementFieldType,
-                                                 DisplacementFieldType >
-                                                  GaussianSmoothingSmootherType;
+  using GaussianSmoothingOperatorType =
+      GaussianOperator<ScalarType, Superclass::Dimension>;
+  using GaussianSmoothingSmootherType = VectorNeighborhoodOperatorImageFilter< DisplacementFieldType,
+                                                 DisplacementFieldType >;
   GaussianSmoothingOperatorType                    m_GaussianSmoothingOperator;
 
 private:

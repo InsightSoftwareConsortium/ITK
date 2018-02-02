@@ -42,22 +42,22 @@ class conjugateCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef conjugateCostFunction             Self;
-  typedef itk::SingleValuedCostFunction     Superclass;
-  typedef itk::SmartPointer<Self>           Pointer;
-  typedef itk::SmartPointer<const Self>     ConstPointer;
+  using Self = conjugateCostFunction;
+  using Superclass = itk::SingleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( conjugateCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::DerivativeType              DerivativeType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
 
-  typedef vnl_vector<double>                      VectorType;
-  typedef vnl_matrix<double>                      MatrixType;
+  using VectorType = vnl_vector<double>;
+  using MatrixType = vnl_matrix<double>;
 
-  typedef double MeasureType;
+  using MeasureType = double;
 
 
   conjugateCostFunction()
@@ -113,9 +113,9 @@ private:
 class CommandIterationUpdateConjugateGradient : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdateConjugateGradient   Self;
-  typedef  itk::Command                              Superclass;
-  typedef itk::SmartPointer<Self>                    Pointer;
+  using Self = CommandIterationUpdateConjugateGradient;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -125,8 +125,8 @@ protected:
   }
 
 public:
-  typedef itk::ConjugateGradientOptimizer   OptimizerType;
-  typedef   const OptimizerType   *         OptimizerPointer;
+  using OptimizerType = itk::ConjugateGradientOptimizer;
+  using OptimizerPointer = const OptimizerType   *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) override
     {
@@ -160,9 +160,9 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
 {
   std::cout << "Conjugate Gradient Optimizer Test \n \n";
 
-  typedef  itk::ConjugateGradientOptimizer  OptimizerType;
+  using OptimizerType = itk::ConjugateGradientOptimizer;
 
-  typedef  OptimizerType::InternalOptimizerType  vnlOptimizerType;
+  using vnlOptimizerType = OptimizerType::InternalOptimizerType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();

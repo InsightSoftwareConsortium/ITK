@@ -34,15 +34,15 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
-  typedef unsigned char            PixelType;
-  typedef itk::Image<PixelType, 2> myImage;
+  using PixelType = unsigned char;
+  using myImage = itk::Image<PixelType, 2>;
 
   itk::ImageFileReader<myImage>::Pointer input
     = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
 
   // Create a filter
-  typedef itk::ConfidenceConnectedImageFilter<myImage,myImage> FilterType;
+  using FilterType = itk::ConfidenceConnectedImageFilter<myImage,myImage>;
 
   FilterType::Pointer filter = FilterType::New();
   itk::SimpleFilterWatcher filterWatch(filter);

@@ -23,9 +23,9 @@
 
 int itkVTKImageToImageFilterTest(int, char*[])
 {
-  typedef itk::Image<double, 2>                 ImageType;
-  typedef vtkSmartPointer<vtkImageNoiseSource>  VTKNoiseType;
-  typedef itk::VTKImageToImageFilter<ImageType> ConnectorType;
+  using ImageType = itk::Image<double, 2>;
+  using VTKNoiseType = vtkSmartPointer<vtkImageNoiseSource>;
+  using ConnectorType = itk::VTKImageToImageFilter<ImageType>;
 
   VTKNoiseType noise_source = VTKNoiseType::New();
   noise_source->SetWholeExtent(0,20,0,20,0,0);

@@ -43,8 +43,8 @@ typename FrustumSpatialFunction< VDimension, TInput >::OutputType
 FrustumSpatialFunction< VDimension, TInput >
 ::Evaluate(const InputType & position) const
 {
-  typedef InputType                      PointType;
-  typedef typename PointType::VectorType VectorType;
+  using PointType = InputType;
+  using VectorType = typename PointType::VectorType;
 
   VectorType   relativePosition = position - m_Apex;
   const double distanceToApex = relativePosition.GetNorm();

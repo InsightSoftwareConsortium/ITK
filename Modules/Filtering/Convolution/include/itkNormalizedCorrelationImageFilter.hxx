@@ -99,9 +99,9 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
   // Normalize the template in a local variable. This will simplify
   // the calculations later.
   //
-  typedef Neighborhood< typename NumericTraits< OperatorValueType >::RealType,
-                        ImageDimension >                      NormalizedTemplateType;
-  typedef typename NumericTraits< OutputPixelType >::RealType OutputPixelRealType;
+  using NormalizedTemplateType = Neighborhood< typename NumericTraits< OperatorValueType >::RealType,
+                        ImageDimension >;
+  using OutputPixelRealType = typename NumericTraits< OutputPixelType >::RealType;
 
   NormalizedTemplateType normalizedTemplate;
   normalizedTemplate.SetRadius( this->GetOperator().GetRadius() );
@@ -145,10 +145,10 @@ NormalizedCorrelationImageFilter< TInputImage, TMaskImage, TOutputImage, TOperat
   // we pass in the input image and the OUTPUT requested region. We are
   // only concerned with centering the neighborhood operator at the
   // pixels that correspond to output pixels.
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >
-  BFC;
+  using BFC =
+      NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >;
 
-  typedef typename BFC::FaceListType FaceListType;
+  using FaceListType = typename BFC::FaceListType;
   BFC          faceCalculator;
   FaceListType faceList;
 

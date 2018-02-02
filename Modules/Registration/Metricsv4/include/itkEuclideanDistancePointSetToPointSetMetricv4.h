@@ -45,12 +45,12 @@ class ITK_TEMPLATE_EXPORT EuclideanDistancePointSetToPointSetMetricv4:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef EuclideanDistancePointSetToPointSetMetricv4                  Self;
-  typedef PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet,
-    TInternalComputationValueType>                                     Superclass;
-  typedef SmartPointer<Self>                                           Pointer;
-  typedef SmartPointer<const Self>                                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = EuclideanDistancePointSetToPointSetMetricv4;
+  using Superclass = PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet,
+    TInternalComputationValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -59,12 +59,12 @@ public:
   itkTypeMacro( EuclideanDistancePointSetToPointSetMetricv4, PointSetToPointSetMetricv4 );
 
   /** Types transferred from the base class */
-  typedef typename Superclass::MeasureType          MeasureType;
-  typedef typename Superclass::DerivativeType       DerivativeType;
-  typedef typename Superclass::LocalDerivativeType  LocalDerivativeType;
-  typedef typename Superclass::PointType            PointType;
-  typedef typename Superclass::PixelType            PixelType;
-  typedef typename Superclass::PointIdentifier      PointIdentifier;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using LocalDerivativeType = typename Superclass::LocalDerivativeType;
+  using PointType = typename Superclass::PointType;
+  using PixelType = typename Superclass::PixelType;
+  using PointIdentifier = typename Superclass::PointIdentifier;
 
   /**
    * Calculates the local metric value for a single point.

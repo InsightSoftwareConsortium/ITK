@@ -36,11 +36,11 @@ class ITK_TEMPLATE_EXPORT OptimizerParametersHelper
 public:
 
   /** The element type stored at each location in the Array. */
-  typedef TValue                          ValueType;
-  typedef OptimizerParametersHelper       Self;
+  using ValueType = TValue;
+  using Self = OptimizerParametersHelper;
 
   /** Type of common data object used by OptimizerParameters. */
-  typedef Array< TValue >                 CommonContainerType;
+  using CommonContainerType = Array< TValue >;
 
   /** Default constructor. Nothing to do. */
   OptimizerParametersHelper(){}

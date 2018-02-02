@@ -32,8 +32,8 @@ template<typename ScalarType>
 static int oneTest(const std::string & outputDirectory, const char *goodname,const char *badname)
 {
   unsigned int i;
-  typedef itk::AffineTransform<ScalarType,4>  AffineTransformType;
-  typedef itk::AffineTransform<ScalarType,10> AffineTransformTypeNotRegistered;
+  using AffineTransformType = itk::AffineTransform<ScalarType,4>;
+  using AffineTransformTypeNotRegistered = itk::AffineTransform<ScalarType,10>;
   typename AffineTransformType::Pointer affine = AffineTransformType::New();
   typename AffineTransformType::InputPointType cor;
 
@@ -241,7 +241,7 @@ templatelessTest( const std::string & outputDirectory )
 {
   const std::string outputFile = outputDirectory + "itkIOTransformTxtTestRigid2DTransform.tfm";
 
-  typedef itk::Rigid2DTransform< float > TransformType;
+  using TransformType = itk::Rigid2DTransform< float >;
   TransformType::Pointer transform = TransformType::New();
 
   itk::TransformFileWriter::Pointer writer = itk::TransformFileWriter::New();
@@ -275,6 +275,5 @@ int itkIOTransformTxtTest(int argc, char* argv[])
 
   return  ( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS &&
             result3 == EXIT_SUCCESS && result4 == EXIT_SUCCESS &&
-            result5 == EXIT_SUCCESS )? EXIT_SUCCESS : EXIT_FAILURE
-          ;
+            result5 == EXIT_SUCCESS )? EXIT_SUCCESS : EXIT_FAILURE;
 }

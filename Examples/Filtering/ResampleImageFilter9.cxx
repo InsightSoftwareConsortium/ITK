@@ -53,14 +53,14 @@ int main( int argc, char * argv[] )
     }
 
   const unsigned int                          Dimension = 2;
-  typedef unsigned char                       PixelComponentType;
-  typedef itk::RGBPixel< PixelComponentType > PixelType;
+  using PixelComponentType = unsigned char;
+  using PixelType = itk::RGBPixel< PixelComponentType >;
 
-  typedef itk::Image< PixelType,  Dimension >   ImageType;
+  using ImageType = itk::Image< PixelType,  Dimension >;
 
 
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writerNearest = WriterType::New(); // writer for nearest neighbor
@@ -70,25 +70,25 @@ int main( int argc, char * argv[] )
   writerNearest->SetFileName( argv[2] );
   writerLinear->SetFileName( argv[3] );
 
-  typedef itk::VectorResampleImageFilter<
-                            ImageType, ImageType >  FilterType;
+  using FilterType = itk::VectorResampleImageFilter<
+                            ImageType, ImageType >;
 
   FilterType::Pointer nearestFilter = FilterType::New();
   FilterType::Pointer linearFilter = FilterType::New();
 
   //Interpolators
-  typedef itk::VectorNearestNeighborInterpolateImageFunction<
-                       ImageType, double >  NearestInterpolatorType;
+  using NearestInterpolatorType = itk::VectorNearestNeighborInterpolateImageFunction<
+                       ImageType, double >;
   NearestInterpolatorType::Pointer interpolatorNearest = NearestInterpolatorType::New();
 
-  typedef itk::VectorLinearInterpolateImageFunction<
-                       ImageType, double >  LinearInterpolatorType;
+  using LinearInterpolatorType = itk::VectorLinearInterpolateImageFunction<
+                       ImageType, double >;
   LinearInterpolatorType::Pointer interpolatorLinear = LinearInterpolatorType::New();
 
   nearestFilter->SetInterpolator( interpolatorNearest );
   linearFilter->SetInterpolator( interpolatorLinear );
 
-  typedef itk::IdentityTransform< double, Dimension >  TransformType;
+  using TransformType = itk::IdentityTransform< double, Dimension >;
   TransformType::Pointer transform = TransformType::New();
 
   nearestFilter->SetTransform( transform );

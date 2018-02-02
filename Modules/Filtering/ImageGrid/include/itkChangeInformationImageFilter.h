@@ -50,49 +50,49 @@ class ITK_TEMPLATE_EXPORT ChangeInformationImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ChangeInformationImageFilter                   Self;
-  typedef ImageToImageFilter< TInputImage, TInputImage > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ChangeInformationImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  typedef TInputImage   InputImageType;
-  typedef TInputImage   OutputImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TInputImage;
 
   /** Typedef to describe the output and input image region types. */
-  typedef typename OutputImageType::RegionType  OutputImageRegionType;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using InputImageRegionType = typename InputImageType::RegionType;
 
   /** Typedef to describe the pointer to the input. */
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
 
   /** Typedef to describe the type of pixel. */
-  typedef typename OutputImageType::PixelType OutputImagePixelType;
-  typedef typename InputImageType::PixelType  InputImagePixelType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  typedef typename OutputImageType::IndexType        OutputImageIndexType;
-  typedef typename OutputImageType::SizeType         OutputImageSizeType;
-  typedef typename OutputImageType::OffsetType       OutputImageOffsetType;
-  typedef typename OutputImageType::DirectionType    OutputImageDirectionType;
-  typedef typename OutputImageType::OffsetValueType  OutputImageOffsetValueType;
-  typedef typename InputImageType::IndexType         InputImageIndexType;
-  typedef typename InputImageType::SizeType          InputImageSizeType;
-  typedef typename InputImageType::OffsetType        InputImageOffsetType;
-  typedef typename InputImageType::DirectionType     InputImageDirectionType;
+  using OutputImageIndexType = typename OutputImageType::IndexType;
+  using OutputImageSizeType = typename OutputImageType::SizeType;
+  using OutputImageOffsetType = typename OutputImageType::OffsetType;
+  using OutputImageDirectionType = typename OutputImageType::DirectionType;
+  using OutputImageOffsetValueType = typename OutputImageType::OffsetValueType;
+  using InputImageIndexType = typename InputImageType::IndexType;
+  using InputImageSizeType = typename InputImageType::SizeType;
+  using InputImageOffsetType = typename InputImageType::OffsetType;
+  using InputImageDirectionType = typename InputImageType::DirectionType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);
 
-  /** Image spacing, origin and direction typedefs */
-  typedef typename InputImageType::SpacingType   SpacingType;
-  typedef typename InputImageType::PointType     PointType;
-  typedef typename InputImageType::DirectionType DirectionType;
+  /** Image spacing, origin and direction type alias */
+  using SpacingType = typename InputImageType::SpacingType;
+  using PointType = typename InputImageType::PointType;
+  using DirectionType = typename InputImageType::DirectionType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ChangeInformationImageFilter, ImageToImageFilter);

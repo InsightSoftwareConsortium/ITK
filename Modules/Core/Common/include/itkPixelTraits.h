@@ -49,7 +49,7 @@ public:
   itkStaticConstMacro(Dimension, unsigned int, TPixelType::Length);
 
   /** Type of a single component of a pixel. */
-  typedef typename TPixelType::ValueType ValueType;
+  using ValueType = typename TPixelType::ValueType;
 };
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
@@ -63,7 +63,7 @@ class PixelTraits< bool >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef bool ValueType;
+  using ValueType = bool;
 };
 
 template< >
@@ -71,7 +71,7 @@ class PixelTraits< char >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef char ValueType;
+  using ValueType = char;
 };
 
 template< >
@@ -79,7 +79,7 @@ class PixelTraits< signed char >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef char ValueType;
+  using ValueType = char;
 };
 
 template< >
@@ -87,7 +87,7 @@ class PixelTraits< unsigned char >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef unsigned char ValueType;
+  using ValueType = unsigned char;
 };
 
 template< >
@@ -95,7 +95,7 @@ class PixelTraits< short >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef short ValueType;
+  using ValueType = short;
 };
 
 template< >
@@ -103,7 +103,7 @@ class PixelTraits< unsigned short >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef unsigned short ValueType;
+  using ValueType = unsigned short;
 };
 
 template< >
@@ -111,7 +111,7 @@ class PixelTraits< int >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
@@ -119,7 +119,7 @@ class PixelTraits< unsigned int >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef unsigned int ValueType;
+  using ValueType = unsigned int;
 };
 
 template< >
@@ -127,7 +127,7 @@ class PixelTraits< long >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
@@ -135,7 +135,7 @@ class PixelTraits< unsigned long >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef unsigned long ValueType;
+  using ValueType = unsigned long;
 };
 
 
@@ -144,7 +144,7 @@ class PixelTraits< long long >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
@@ -152,7 +152,7 @@ class PixelTraits< unsigned long long >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
@@ -160,7 +160,7 @@ class PixelTraits< float >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
@@ -168,7 +168,7 @@ class PixelTraits< double >
 {
 public:
   itkStaticConstMacro(Dimension, unsigned int, 1);
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /// \endcond
@@ -195,7 +195,7 @@ template< typename TValue1, typename TValue2 >
 class JoinTraits
 {
 public:
-  typedef TValue1 ValueType;
+  using ValueType = TValue1;
 };
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
@@ -208,63 +208,63 @@ template< >
 class JoinTraits< bool, bool >
 {
 public:
-  typedef bool ValueType;
+  using ValueType = bool;
 };
 
 template< >
 class JoinTraits< bool, char >
 {
 public:
-  typedef char ValueType;
+  using ValueType = char;
 };
 
 template< >
 class JoinTraits< bool, unsigned char >
 {
 public:
-  typedef unsigned char ValueType;
+  using ValueType = unsigned char;
 };
 
 template< >
 class JoinTraits< bool, short >
 {
 public:
-  typedef short ValueType;
+  using ValueType = short;
 };
 
 template< >
 class JoinTraits< bool, unsigned short >
 {
 public:
-  typedef unsigned short ValueType;
+  using ValueType = unsigned short;
 };
 
 template< >
 class JoinTraits< bool, int >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< bool, unsigned int >
 {
 public:
-  typedef unsigned int ValueType;
+  using ValueType = unsigned int;
 };
 
 template< >
 class JoinTraits< bool, long >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< bool, unsigned long >
 {
 public:
-  typedef unsigned long ValueType;
+  using ValueType = unsigned long;
 };
 
 
@@ -272,28 +272,28 @@ template< >
 class JoinTraits< bool, long long >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< bool, unsigned long long >
 {
 public:
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
 class JoinTraits< bool, float >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< bool, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /**  \class PixelTraits<char>
@@ -304,42 +304,42 @@ template< >
 class JoinTraits< char, bool >
 {
 public:
-  typedef char ValueType;
+  using ValueType = char;
 };
 
 template< >
 class JoinTraits< char, char >
 {
 public:
-  typedef char ValueType;
+  using ValueType = char;
 };
 
 template< >
 class JoinTraits< char, unsigned char >
 {
 public:
-  typedef short ValueType;
+  using ValueType = short;
 };
 
 template< >
 class JoinTraits< char, short >
 {
 public:
-  typedef short ValueType;
+  using ValueType = short;
 };
 
 template< >
 class JoinTraits< char, unsigned short >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< char, int >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
@@ -347,49 +347,49 @@ class JoinTraits< char, unsigned int >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< char, long >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< char, unsigned long >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< char, long long >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< char, unsigned long long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< char, float >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< char, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /**  \class PixelTraits<unsigned char>
@@ -400,91 +400,91 @@ template< >
 class JoinTraits< unsigned char, bool >
 {
 public:
-  typedef unsigned char ValueType;
+  using ValueType = unsigned char;
 };
 
 template< >
 class JoinTraits< unsigned char, char >
 {
 public:
-  typedef short ValueType;
+  using ValueType = short;
 };
 
 template< >
 class JoinTraits< unsigned char, unsigned char >
 {
 public:
-  typedef unsigned char ValueType;
+  using ValueType = unsigned char;
 };
 
 template< >
 class JoinTraits< unsigned char, short >
 {
 public:
-  typedef short ValueType;
+  using ValueType = short;
 };
 
 template< >
 class JoinTraits< unsigned char, unsigned short >
 {
 public:
-  typedef unsigned short ValueType;
+  using ValueType = unsigned short;
 };
 
 template< >
 class JoinTraits< unsigned char, int >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< unsigned char, unsigned int >
 {
 public:
-  typedef unsigned int ValueType;
+  using ValueType = unsigned int;
 };
 
 template< >
 class JoinTraits< unsigned char, long >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< unsigned char, unsigned long >
 {
 public:
-  typedef unsigned long ValueType;
+  using ValueType = unsigned long;
 };
 
 template< >
 class JoinTraits< unsigned char, long long >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< unsigned char, unsigned long long >
 {
 public:
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
 class JoinTraits< unsigned char, float >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned char, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /**  \class PixelTraits<short>
@@ -495,42 +495,42 @@ template< >
 class JoinTraits< short, bool >
 {
 public:
-  typedef short ValueType;
+  using ValueType = short;
 };
 
 template< >
 class JoinTraits< short, char >
 {
 public:
-  typedef short ValueType;
+  using ValueType = short;
 };
 
 template< >
 class JoinTraits< short, unsigned char >
 {
 public:
-  typedef short ValueType;
+  using ValueType = short;
 };
 
 template< >
 class JoinTraits< short, short >
 {
 public:
-  typedef short ValueType;
+  using ValueType = short;
 };
 
 template< >
 class JoinTraits< short, unsigned short >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< short, int >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
@@ -538,49 +538,49 @@ class JoinTraits< short, unsigned int >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< short, long >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< short, unsigned long >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< short, long long >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< short, unsigned long long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< short, float >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< short, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /**  \class PixelTraits<unsigned short>
@@ -591,91 +591,91 @@ template< >
 class JoinTraits< unsigned short, bool >
 {
 public:
-  typedef unsigned short ValueType;
+  using ValueType = unsigned short;
 };
 
 template< >
 class JoinTraits< unsigned short, char >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< unsigned short, unsigned char >
 {
 public:
-  typedef unsigned short ValueType;
+  using ValueType = unsigned short;
 };
 
 template< >
 class JoinTraits< unsigned short, short >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< unsigned short, unsigned short >
 {
 public:
-  typedef unsigned short ValueType;
+  using ValueType = unsigned short;
 };
 
 template< >
 class JoinTraits< unsigned short, int >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< unsigned short, unsigned int >
 {
 public:
-  typedef unsigned int ValueType;
+  using ValueType = unsigned int;
 };
 
 template< >
 class JoinTraits< unsigned short, long >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< unsigned short, unsigned long >
 {
 public:
-  typedef unsigned long ValueType;
+  using ValueType = unsigned long;
 };
 
 template< >
 class JoinTraits< unsigned short, long long >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< unsigned short, unsigned long long >
 {
 public:
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
 class JoinTraits< unsigned short, float >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned short, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /**  \class PixelTraits<int>
@@ -686,42 +686,42 @@ template< >
 class JoinTraits< int, bool >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< int, char >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< int, unsigned char >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< int, short >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< int, unsigned short >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
 class JoinTraits< int, int >
 {
 public:
-  typedef int ValueType;
+  using ValueType = int;
 };
 
 template< >
@@ -729,49 +729,49 @@ class JoinTraits< int, unsigned int >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< int, long >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< int, unsigned long >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< int, long long >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< int, unsigned long long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< int, float >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< int, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /**  \class PixelTraits<unsigned int>
@@ -782,7 +782,7 @@ template< >
 class JoinTraits< unsigned int, bool >
 {
 public:
-  typedef unsigned int ValueType;
+  using ValueType = unsigned int;
 };
 
 template< >
@@ -790,14 +790,14 @@ class JoinTraits< unsigned int, char >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned int, unsigned char >
 {
 public:
-  typedef unsigned int ValueType;
+  using ValueType = unsigned int;
 };
 
 template< >
@@ -805,14 +805,14 @@ class JoinTraits< unsigned int, short >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned int, unsigned short >
 {
 public:
-  typedef unsigned int ValueType;
+  using ValueType = unsigned int;
 };
 
 template< >
@@ -820,56 +820,56 @@ class JoinTraits< unsigned int, int >
 {
 public:
   // unsigned int & unsigned long may be the same size, so promote to float
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned int, unsigned int >
 {
 public:
-  typedef unsigned int ValueType;
+  using ValueType = unsigned int;
 };
 
 template< >
 class JoinTraits< unsigned int, long >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned int, unsigned long >
 {
 public:
-  typedef unsigned long ValueType;
+  using ValueType = unsigned long;
 };
 
 template< >
 class JoinTraits< unsigned int, long long >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< unsigned int, unsigned long long >
 {
 public:
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
 class JoinTraits< unsigned int, float >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned int, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /** \class PixelTraits<long>
@@ -880,63 +880,63 @@ template< >
 class JoinTraits< long, bool >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< long, char >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< long, unsigned char >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< long, short >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< long, unsigned short >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< long, int >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< long, unsigned int >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< long, long >
 {
 public:
-  typedef long ValueType;
+  using ValueType = long;
 };
 
 template< >
 class JoinTraits< long, unsigned long >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 
@@ -944,28 +944,28 @@ template< >
 class JoinTraits< long, long long >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< long, unsigned long long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< long, float >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< long, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /** \class PixelTraits<unsigned long>
@@ -976,91 +976,91 @@ template< >
 class JoinTraits< unsigned long, bool >
 {
 public:
-  typedef unsigned long ValueType;
+  using ValueType = unsigned long;
 };
 
 template< >
 class JoinTraits< unsigned long, char >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned long, unsigned char >
 {
 public:
-  typedef unsigned long ValueType;
+  using ValueType = unsigned long;
 };
 
 template< >
 class JoinTraits< unsigned long, short >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned long, unsigned short >
 {
 public:
-  typedef unsigned long ValueType;
+  using ValueType = unsigned long;
 };
 
 template< >
 class JoinTraits< unsigned long, int >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned long, unsigned int >
 {
 public:
-  typedef unsigned long ValueType;
+  using ValueType = unsigned long;
 };
 
 template< >
 class JoinTraits< unsigned long, long >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned long, unsigned long >
 {
 public:
-  typedef unsigned long ValueType;
+  using ValueType = unsigned long;
 };
 
 template< >
 class JoinTraits< unsigned long, long long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< unsigned long, unsigned long long >
 {
 public:
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
 class JoinTraits< unsigned long, float >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< unsigned long, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 
@@ -1072,91 +1072,91 @@ template< >
 class JoinTraits< long long, bool >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< long long, char >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< long long, unsigned char >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< long long, short >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< long long, unsigned short >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< long long, int >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< long long, unsigned int >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< long long, long >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< long long, unsigned long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< long long, long long >
 {
 public:
-  typedef long long ValueType;
+  using ValueType = long long;
 };
 
 template< >
 class JoinTraits< long long, unsigned long long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< long long, float >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< long long, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /** \class PixelTraits<unsigned long long>
@@ -1167,91 +1167,91 @@ template< >
 class JoinTraits< unsigned long long, bool >
 {
 public:
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
 class JoinTraits< unsigned long long, char >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< unsigned long long, unsigned char >
 {
 public:
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
 class JoinTraits< unsigned long long, short >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< unsigned long long, unsigned short >
 {
 public:
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
 class JoinTraits< unsigned long long, int >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< unsigned long long, unsigned int >
 {
 public:
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
 class JoinTraits< unsigned long long, long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< unsigned long long, unsigned long >
 {
 public:
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
 class JoinTraits< unsigned long long, long long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< unsigned long long, unsigned long long >
 {
 public:
-  typedef unsigned long long ValueType;
+  using ValueType = unsigned long long;
 };
 
 template< >
 class JoinTraits< unsigned long long, float >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< unsigned long long, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 
@@ -1263,91 +1263,91 @@ template< >
 class JoinTraits< float, bool >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< float, char >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< float, unsigned char >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< float, short >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< float, unsigned short >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< float, int >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< float, unsigned int >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< float, long >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< float, unsigned long >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< float, long long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< float, unsigned long long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< float, float >
 {
 public:
-  typedef float ValueType;
+  using ValueType = float;
 };
 
 template< >
 class JoinTraits< float, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /** \class PixelTraits<double>
@@ -1358,91 +1358,91 @@ template< >
 class JoinTraits< double, bool >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, char >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, unsigned char >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, short >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, unsigned short >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, int >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, unsigned int >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, unsigned long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, long long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, unsigned long long >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, float >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 template< >
 class JoinTraits< double, double >
 {
 public:
-  typedef double ValueType;
+  using ValueType = double;
 };
 
 /// \endcond

@@ -22,11 +22,11 @@
 int itkQuadEdgeMeshDeletePointAndReorderIDsTest( int , char* [] )
 {
 
-  typedef double PixelType;
+  using PixelType = double;
   const unsigned int Dimension = 3;
-  typedef itk::QuadEdgeMesh< PixelType, Dimension > MeshType;
-  typedef MeshType::CellType                        CellType;
-  typedef itk::QuadEdgeMeshPolygonCell< CellType >  QEPolygonCellType;
+  using MeshType = itk::QuadEdgeMesh< PixelType, Dimension >;
+  using CellType = MeshType::CellType;
+  using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell< CellType >;
 
   MeshType::Pointer  mesh = MeshType::New();
   MeshType::PointType pts[ 5 ];

@@ -28,10 +28,10 @@
 //Sample classifier test using Gaussian Mixture model and EM estimator
 int itkSampleClassifierFilterTest7(int argc, char* argv[] )
 {
-  typedef itk::PointSet< double, 2 > PointSetType;
-  typedef itk::Statistics::PointSetToListSampleAdaptor< PointSetType > DataSampleType;
-  typedef itk::Statistics::ExpectationMaximizationMixtureModelEstimator< DataSampleType > EstimatorType;
-  typedef itk::Statistics::GaussianMixtureModelComponent< DataSampleType > ComponentType;
+  using PointSetType = itk::PointSet< double, 2 >;
+  using DataSampleType = itk::Statistics::PointSetToListSampleAdaptor< PointSetType >;
+  using EstimatorType = itk::Statistics::ExpectationMaximizationMixtureModelEstimator< DataSampleType >;
+  using ComponentType = itk::Statistics::GaussianMixtureModelComponent< DataSampleType >;
 
   if (argc < 3)
     {
@@ -45,7 +45,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   const int maximumIteration = 200;
   const double minStandardDeviation =28.54746;
   const unsigned int numberOfClasses = 2;
-  typedef itk::Array< double > ParametersType;
+  using ParametersType = itk::Array< double >;
   std::vector< ParametersType > trueParameters(numberOfClasses);
   ParametersType params(6);
   params[0] = 99.261;
@@ -128,7 +128,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   sample->SetPointSet(pointSet.GetPointer());
 
   /* Preparing the gaussian mixture components */
-  typedef ComponentType::Pointer ComponentPointer;
+  using ComponentPointer = ComponentType::Pointer;
   std::vector< ComponentPointer > components;
   for ( unsigned int i = 0; i < numberOfClasses; i++ )
     {
@@ -181,18 +181,18 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
     }
 
   //Set up a classifier
-  typedef itk::Statistics::SampleClassifierFilter< DataSampleType > FilterType;
+  using FilterType = itk::Statistics::SampleClassifierFilter< DataSampleType >;
   FilterType::Pointer filter = FilterType::New();
 
-  typedef FilterType::ClassLabelVectorObjectType               ClassLabelVectorObjectType;
-  typedef FilterType::ClassLabelVectorType                     ClassLabelVectorType;
+  using ClassLabelVectorObjectType = FilterType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = FilterType::ClassLabelVectorType;
 
   ClassLabelVectorObjectType::Pointer  classLabelsObject = ClassLabelVectorObjectType::New();
 
   // Add class labels
   ClassLabelVectorType & classLabelVector  = classLabelsObject->Get();
 
-  typedef FilterType::ClassLabelType        ClassLabelType;
+  using ClassLabelType = FilterType::ClassLabelType;
 
   ClassLabelType  class1 = 0;
   classLabelVector.push_back( class1 );
@@ -201,7 +201,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   classLabelVector.push_back( class2 );
 
   //Set a decision rule type
-  typedef itk::Statistics::MaximumDecisionRule  DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
 
   DecisionRuleType::Pointer    decisionRule = DecisionRuleType::New();
 

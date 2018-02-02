@@ -40,7 +40,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::SpatialObject<3> SpatialObjectType;
+  using SpatialObjectType = itk::SpatialObject<3>;
 
   SpatialObjectType::Pointer object1 = SpatialObjectType ::New();
   object1->GetProperty()->SetName("First Object");

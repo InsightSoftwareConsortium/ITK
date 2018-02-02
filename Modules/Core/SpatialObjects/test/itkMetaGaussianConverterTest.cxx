@@ -48,11 +48,11 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
     }
 
 
-  // typedefs
+  // type alias
   const unsigned int Dimensions = 3;
-  typedef itk::GaussianSpatialObject<Dimensions>    SpatialObjectType;
-  typedef itk::GroupSpatialObject<Dimensions>       SpatialObjectParentType;
-  typedef itk::MetaGaussianConverter<Dimensions>    ConverterType;
+  using SpatialObjectType = itk::GaussianSpatialObject<Dimensions>;
+  using SpatialObjectParentType = itk::GroupSpatialObject<Dimensions>;
+  using ConverterType = itk::MetaGaussianConverter<Dimensions>;
 
 
   // Instantiate new converter object

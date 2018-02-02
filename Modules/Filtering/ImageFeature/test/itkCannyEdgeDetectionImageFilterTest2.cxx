@@ -33,12 +33,12 @@ int itkCannyEdgeDetectionImageFilterTest2( int argc, char * argv[] )
     }
 
   const unsigned int Dimension = 2;
-  typedef float                                    InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension >  InputImage;
-  typedef unsigned char                            OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImage;
-  typedef itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>
-    CannyEdgeDetectionImageFilterType;
+  using InputPixelType = float;
+  using InputImage = itk::Image< InputPixelType, Dimension >;
+  using OutputPixelType = unsigned char;
+  using OutputImage = itk::Image< OutputPixelType, Dimension >;
+  using CannyEdgeDetectionImageFilterType =
+      itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>;
 
   itk::ImageFileReader<InputImage>::Pointer reader =
     itk::ImageFileReader<InputImage>::New();

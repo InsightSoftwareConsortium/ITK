@@ -89,7 +89,7 @@ namespace itk
  * \b Example: The following code generates a mesh consisting of two
  * triangles sharing an edge.
  * \code
- *  typedef itk::AutomaticTopologyMeshSource< MeshType >  MeshSourceType;
+ *  using MeshSourceType = itk::AutomaticTopologyMeshSource< MeshType >;
  *  MeshSourceType::Pointer meshSource = MeshSourceType::New();
  *  meshSource->AddTriangle(
  *    meshSource->AddPoint(0, 0, 0),
@@ -111,42 +111,42 @@ template< typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT AutomaticTopologyMeshSource:public MeshSource< TOutputMesh >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef AutomaticTopologyMeshSource Self;
-  typedef MeshSource< TOutputMesh >   Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = AutomaticTopologyMeshSource;
+  using Superclass = MeshSource< TOutputMesh >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef          TOutputMesh               MeshType;
-  typedef typename MeshType::PointHashType   PointHashType;
-  typedef typename MeshType::PointType       PointType;
-  typedef typename MeshType::CellType        CellType;
-  typedef typename MeshType::Pointer         MeshPointer;
-  typedef typename PointType::CoordRepType   CoordinateType;
-  typedef typename CellType::CellAutoPointer CellAutoPointer;
+  using MeshType = TOutputMesh;
+  using PointHashType = typename MeshType::PointHashType;
+  using PointType = typename MeshType::PointType;
+  using CellType = typename MeshType::CellType;
+  using MeshPointer = typename MeshType::Pointer;
+  using CoordinateType = typename PointType::CoordRepType;
+  using CellAutoPointer = typename CellType::CellAutoPointer;
 
   /** Different kinds of cells. */
-  typedef::itk::VertexCell< CellType >        VertexCell;
-  typedef::itk::LineCell< CellType >          LineCell;
-  typedef::itk::TriangleCell< CellType >      TriangleCell;
-  typedef::itk::QuadrilateralCell< CellType > QuadrilateralCell;
-  typedef::itk::TetrahedronCell< CellType >   TetrahedronCell;
-  typedef::itk::HexahedronCell< CellType >    HexahedronCell;
+  using VertexCell = ::itk::VertexCell<CellType>;
+  using LineCell = ::itk::LineCell<CellType>;
+  using TriangleCell = ::itk::TriangleCell<CellType>;
+  using QuadrilateralCell = ::itk::QuadrilateralCell<CellType>;
+  using TetrahedronCell = ::itk::TetrahedronCell<CellType>;
+  using HexahedronCell = ::itk::HexahedronCell<CellType>;
 
   /** This class requires that the mesh being built use ::itk::IdentifierType
    * as the identifier type for all its elements. */
-  typedef ::itk::IdentifierType IdentifierType;
+  using IdentifierType = ::itk::IdentifierType;
 
   /** Array of IdentifierType objects used to specify cells. */
-  typedef Array< IdentifierType > IdentifierArrayType;
+  using IdentifierArrayType = Array< IdentifierType >;
 
-  /** hash_map typedefs. */
+  /** hash_map type alias. */
 
-  typedef itksys::hash_map<
+  using PointHashMap = itksys::hash_map<
     PointType,
     IdentifierType,
-    StructHashFunction< PointHashType > >          PointHashMap;
+    StructHashFunction< PointHashType > >;
 
   /** The dimension of the output mesh. */
   itkStaticConstMacro(PointDimension, unsigned int,
@@ -336,7 +336,7 @@ public:
 public:
     IdentifierType operator()(Array< IdentifierType > identifierArray) const
     {
-      typedef IdentifierType IdType;
+      using IdType = IdentifierType;
 
       IdType size = identifierArray.Size();
 
@@ -363,7 +363,7 @@ public:
       Array< IdentifierType > identifierArray2
       ) const
     {
-      typedef IdentifierType IdType;
+      using IdType = IdentifierType;
 
       IdType size1 = identifierArray1.Size();
       IdType size2 = identifierArray2.Size();
@@ -390,11 +390,11 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AutomaticTopologyMeshSource);
 
-  typedef itksys::hash_map<
+  using CellHashMap = itksys::hash_map<
     Array< IdentifierType >,
     IdentifierType,
     IdentifierArrayHashFunction,
-    IdentifierArrayEqualsFunction >          CellHashMap;
+    IdentifierArrayEqualsFunction >;
 
   PointHashMap m_PointsHashTable;
   CellHashMap  m_CellsHashTable;

@@ -34,22 +34,22 @@ int main( int argc, char* argv[] )
     }
 
 
-  typedef signed short    PixelType;
+  using PixelType = signed short;
   const unsigned int      Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >         ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageSeriesReader< ImageType >        ReaderType;
+  using ReaderType = itk::ImageSeriesReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
 
 
-  typedef itk::GDCMImageIO       ImageIOType;
+  using ImageIOType = itk::GDCMImageIO;
   ImageIOType::Pointer dicomIO = ImageIOType::New();
 
   reader->SetImageIO( dicomIO );
 
 
-  typedef itk::GDCMSeriesFileNames NamesGeneratorType;
+  using NamesGeneratorType = itk::GDCMSeriesFileNames;
   NamesGeneratorType::Pointer nameGenerator = NamesGeneratorType::New();
 
   nameGenerator->SetUseSeriesDetails( true );
@@ -66,7 +66,7 @@ int main( int argc, char* argv[] )
     std::cout << std::endl << std::endl;
 
 
-    typedef std::vector< std::string >    SeriesIdContainer;
+    using SeriesIdContainer = std::vector< std::string >;
 
     const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
 
@@ -97,7 +97,7 @@ int main( int argc, char* argv[] )
     std::cout << std::endl << std::endl;
 
 
-    typedef std::vector< std::string >   FileNamesContainer;
+    using FileNamesContainer = std::vector< std::string >;
     FileNamesContainer fileNames;
 
     fileNames = nameGenerator->GetFileNames( seriesIdentifier );
@@ -117,7 +117,7 @@ int main( int argc, char* argv[] )
       }
 
 
-    typedef itk::SmoothingRecursiveGaussianImageFilter< ImageType, ImageType >  FilterType;
+    using FilterType = itk::SmoothingRecursiveGaussianImageFilter< ImageType, ImageType >;
 
     FilterType::Pointer filter = FilterType::New();
 
@@ -126,7 +126,7 @@ int main( int argc, char* argv[] )
     const double sigma = atof( argv[3] );
     filter->SetSigma( sigma );
 
-    typedef itk::ImageFileWriter< ImageType > WriterType;
+    using WriterType = itk::ImageFileWriter< ImageType >;
     WriterType::Pointer writer = WriterType::New();
 
     writer->SetFileName( argv[2] );

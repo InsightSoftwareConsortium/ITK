@@ -63,10 +63,10 @@ class ScalarChanAndVeseLevelSetFunctionData:
 {
 public:
 
-  typedef ScalarChanAndVeseLevelSetFunctionData                         Self;
-  typedef RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage > Superclass;
-  typedef SmartPointer< Self >                                          Pointer;
-  typedef SmartPointer< const Self >                                    ConstPointer;
+  using Self = ScalarChanAndVeseLevelSetFunctionData;
+  using Superclass = RegionBasedLevelSetFunctionData< TInputImage, TFeatureImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
 
@@ -75,28 +75,28 @@ public:
 
   itkTypeMacro(ScalarChanAndVeseLevelSetFunctionData, RegionBasedLevelSetFunctionData);
 
-  typedef TInputImage                                 InputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename Superclass::InputPixelType         InputPixelType;
-  typedef typename Superclass::InputRegionType        InputRegionType;
-  typedef typename Superclass::InputSizeType          InputSizeType;
-  typedef typename Superclass::InputSizeValueType     InputSizeValueType;
-  typedef typename Superclass::InputSpacingType       InputSpacingType;
-  typedef typename Superclass::InputIndexType         InputIndexType;
-  typedef typename Superclass::InputIndexValueType    InputIndexValueType;
-  typedef typename Superclass::InputPointType         InputPointType;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
+  using InputPixelType = typename Superclass::InputPixelType;
+  using InputRegionType = typename Superclass::InputRegionType;
+  using InputSizeType = typename Superclass::InputSizeType;
+  using InputSizeValueType = typename Superclass::InputSizeValueType;
+  using InputSpacingType = typename Superclass::InputSpacingType;
+  using InputIndexType = typename Superclass::InputIndexType;
+  using InputIndexValueType = typename Superclass::InputIndexValueType;
+  using InputPointType = typename Superclass::InputPointType;
 
-  typedef TFeatureImage                                 FeatureImageType;
-  typedef typename Superclass::FeatureImagePointer      FeatureImagePointer;
-  typedef typename Superclass::FeatureImageConstPointer FeatureImageConstPointer;
-  typedef typename Superclass::FeaturePixelType         FeaturePixelType;
-  typedef typename Superclass::FeatureRegionType        FeatureRegionType;
-  typedef typename Superclass::FeatureSizeType          FeatureSizeType;
-  typedef typename Superclass::FeatureSizeValueType     FeatureSizeValueType;
-  typedef typename Superclass::FeatureSpacingType       FeatureSpacingType;
-  typedef typename Superclass::FeatureIndexType         FeatureIndexType;
-  typedef typename Superclass::FeaturePointType         FeaturePointType;
+  using FeatureImageType = TFeatureImage;
+  using FeatureImagePointer = typename Superclass::FeatureImagePointer;
+  using FeatureImageConstPointer = typename Superclass::FeatureImageConstPointer;
+  using FeaturePixelType = typename Superclass::FeaturePixelType;
+  using FeatureRegionType = typename Superclass::FeatureRegionType;
+  using FeatureSizeType = typename Superclass::FeatureSizeType;
+  using FeatureSizeValueType = typename Superclass::FeatureSizeValueType;
+  using FeatureSpacingType = typename Superclass::FeatureSpacingType;
+  using FeatureIndexType = typename Superclass::FeatureIndexType;
+  using FeaturePointType = typename Superclass::FeaturePointType;
 
   double m_BackgroundConstantValues;
   double m_ForegroundConstantValues;

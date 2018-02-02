@@ -31,19 +31,19 @@ namespace itk
 class ITKIOImageBase_EXPORT ImageIOFactory:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageIOFactory             Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageIOFactory;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Class Methods used to interface with the registered factories */
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageIOFactory, Object);
 
-  /** Convenient typedefs. */
-  typedef::itk::ImageIOBase::Pointer ImageIOBasePointer;
+  /** Convenient type alias. */
+  using ImageIOBasePointer = ::itk::ImageIOBase::Pointer;
 
   /** Mode in which the files is intended to be used */
   typedef enum { ReadMode, WriteMode } FileModeType;

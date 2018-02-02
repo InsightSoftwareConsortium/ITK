@@ -50,26 +50,26 @@ class SingleValuedCostFunctionv4Template:
   public CostFunctionTemplate< TInternalComputationValueType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SingleValuedCostFunctionv4Template                    Self;
-  typedef CostFunctionTemplate< TInternalComputationValueType > Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SingleValuedCostFunctionv4Template;
+  using Superclass = CostFunctionTemplate< TInternalComputationValueType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SingleValuedCostFunctionv4Template, CostFunctionTemplate);
 
-  /**  MeasureType typedef.
+  /**  MeasureType type alias.
    *  It defines a type used to return the cost function value. */
-  typedef TInternalComputationValueType                  MeasureType;
+  using MeasureType = TInternalComputationValueType;
 
-  /**  ParametersType typedef.
+  /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  typedef typename Superclass::ParametersType      ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
-  /** DerivativeType typedef.
+  /** DerivativeType type alias.
    *  It defines a type used to return the cost function derivative.  */
-  typedef Array< TInternalComputationValueType > DerivativeType;
+  using DerivativeType = Array< TInternalComputationValueType >;
 
   /** This method returns the value of the cost function corresponding
     * to the specified parameters.    */
@@ -90,7 +90,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef SingleValuedCostFunctionv4Template<double> SingleValuedCostFunctionv4;
+using SingleValuedCostFunctionv4 = SingleValuedCostFunctionv4Template<double>;
 
 } // end namespace itk
 

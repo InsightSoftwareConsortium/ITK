@@ -31,11 +31,11 @@ namespace itk
 class ITKCommon_EXPORT CreateObjectFunctionBase:public Object
 {
 public:
-  /** Standard typedefs. */
-  typedef CreateObjectFunctionBase   Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard type alias. */
+  using Self = CreateObjectFunctionBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Create an object and return a pointer to it as an
    * itk::LightObject. */
@@ -60,9 +60,9 @@ template< typename T >
 class CreateObjectFunction:public CreateObjectFunctionBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef CreateObjectFunction Self;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = CreateObjectFunction;
+  using Pointer = SmartPointer< Self >;
 
   /** Methods from itk:LightObject. */
   itkFactorylessNewMacro(Self);

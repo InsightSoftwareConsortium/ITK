@@ -63,8 +63,8 @@ int main(int, char* [])
 
 
   // Software Guide : BeginCodeSnippet
-  typedef int                          NodeType;
-  typedef itk::TreeContainer<NodeType> TreeType;
+  using NodeType = int;
+  using TreeType = itk::TreeContainer<NodeType>;
   TreeType::Pointer tree = TreeType::New();
   // Software Guide : EndCodeSnippet
 
@@ -262,8 +262,8 @@ int main(int, char* [])
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::TreeIteratorBase<TreeType>      IteratorType;
-  typedef itk::TreeIteratorClone<IteratorType> IteratorCloneType;
+  using IteratorType = itk::TreeIteratorBase<TreeType>;
+  using IteratorCloneType = itk::TreeIteratorClone<IteratorType>;
   IteratorCloneType anotherChildItClone = childIt;
   // Software Guide : EndCodeSnippet
 

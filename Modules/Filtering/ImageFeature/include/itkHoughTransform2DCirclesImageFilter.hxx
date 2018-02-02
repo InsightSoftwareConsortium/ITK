@@ -88,7 +88,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   this->AllocateOutputs();
   outputImage->FillBuffer(0);
 
-  typedef GaussianDerivativeImageFunction< InputImageType > DoGFunctionType;
+  using DoGFunctionType = GaussianDerivativeImageFunction< InputImageType >;
   typename DoGFunctionType::Pointer DoGFunction = DoGFunctionType::New();
   DoGFunction->SetInputImage(inputImage);
   DoGFunction->SetSigma(m_SigmaGradient);
@@ -201,14 +201,14 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
   if ( m_NumberOfCircles > 0 )
     {
     // Blur the accumulator in order to find the maximum
-    typedef Image< float, 2 > InternalImageType;
+    using InternalImageType = Image< float, 2 >;
 
     // The variable "outputImage" is only used as input to gaussianFilter.
     // It should not be modified, because GetOutput(0) should not be changed.
     const OutputImagePointer outputImage = OutputImageType::New();
     outputImage->Graft(this->GetOutput(0));
 
-    typedef DiscreteGaussianImageFilter< OutputImageType, InternalImageType > GaussianFilterType;
+    using GaussianFilterType = DiscreteGaussianImageFilter< OutputImageType, InternalImageType >;
     const typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
     gaussianFilter->SetInput(outputImage); // The output is the accumulator image
@@ -216,7 +216,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
     gaussianFilter->Update();
     const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
-    typedef MinimumMaximumImageCalculator< InternalImageType > MinMaxCalculatorType;
+    using MinMaxCalculatorType = MinimumMaximumImageCalculator< InternalImageType >;
     typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
     ImageRegionIterator< InternalImageType > it_input( postProcessImage,
       postProcessImage->GetLargestPossibleRegion() );

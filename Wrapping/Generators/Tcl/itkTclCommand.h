@@ -39,10 +39,10 @@ class TclCommand : public Command
 {
 public:
   ///! Standard "Self" typedef.
-  typedef TclCommand         Self;
+  using Self = TclCommand;
 
-  ///! Smart pointer typedef support.
-  typedef SmartPointer<Self>  Pointer;
+  ///! Smart pointer type alias support
+  using Pointer = SmartPointer<Self>;
 
   ///! Run-time type information (and related methods).
   itkTypeMacro(TclCommand,Command);

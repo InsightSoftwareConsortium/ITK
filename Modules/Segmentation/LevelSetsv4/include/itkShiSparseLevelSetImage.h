@@ -38,11 +38,11 @@ class ITK_TEMPLATE_EXPORT ShiSparseLevelSetImage :
     public LevelSetSparseImage< int8_t, VDimension >
 {
 public:
-  typedef ShiSparseLevelSetImage                  Self;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
-  typedef LevelSetSparseImage< int8_t, VDimension >
-                                                  Superclass;
+  using Self = ShiSparseLevelSetImage;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass =
+      LevelSetSparseImage< int8_t, VDimension >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,30 +52,30 @@ public:
 
   itkStaticConstMacro ( Dimension, unsigned int, VDimension );
 
-  typedef typename Superclass::InputType        InputType;
-  typedef typename Superclass::OutputType       OutputType;
-  typedef typename Superclass::OutputRealType   OutputRealType;
-  typedef typename Superclass::GradientType     GradientType;
-  typedef typename Superclass::HessianType      HessianType;
-  typedef typename Superclass::LevelSetDataType LevelSetDataType;
+  using InputType = typename Superclass::InputType;
+  using OutputType = typename Superclass::OutputType;
+  using OutputRealType = typename Superclass::OutputRealType;
+  using GradientType = typename Superclass::GradientType;
+  using HessianType = typename Superclass::HessianType;
+  using LevelSetDataType = typename Superclass::LevelSetDataType;
 
-  typedef typename Superclass::LayerIdType            LayerIdType;
-  typedef typename Superclass::LabelObjectType        LabelObjectType;
-  typedef typename Superclass::LabelObjectPointer     LabelObjectPointer;
-  typedef typename Superclass::LabelObjectLengthType  LabelObjectLengthType;
-  typedef typename Superclass::LabelObjectLineType    LabelObjectLineType;
+  using LayerIdType = typename Superclass::LayerIdType;
+  using LabelObjectType = typename Superclass::LabelObjectType;
+  using LabelObjectPointer = typename Superclass::LabelObjectPointer;
+  using LabelObjectLengthType = typename Superclass::LabelObjectLengthType;
+  using LabelObjectLineType = typename Superclass::LabelObjectLineType;
 
-  typedef typename Superclass::LabelMapType     LabelMapType;
-  typedef typename Superclass::LabelMapPointer  LabelMapPointer;
-  typedef typename Superclass::RegionType       RegionType;
+  using LabelMapType = typename Superclass::LabelMapType;
+  using LabelMapPointer = typename Superclass::LabelMapPointer;
+  using RegionType = typename Superclass::RegionType;
 
-  typedef typename Superclass::LayerType          LayerType;
-  typedef typename Superclass::LayerIterator      LayerIterator;
-  typedef typename Superclass::LayerConstIterator LayerConstIterator;
+  using LayerType = typename Superclass::LayerType;
+  using LayerIterator = typename Superclass::LayerIterator;
+  using LayerConstIterator = typename Superclass::LayerConstIterator;
 
-  typedef typename Superclass::LayerMapType           LayerMapType;
-  typedef typename Superclass::LayerMapIterator       LayerMapIterator;
-  typedef typename Superclass::LayerMapConstIterator  LayerMapConstIterator;
+  using LayerMapType = typename Superclass::LayerMapType;
+  using LayerMapIterator = typename Superclass::LayerMapIterator;
+  using LayerMapConstIterator = typename Superclass::LayerMapConstIterator;
 
   /** Returns the value of the level set function at a given location inputIndex */
   using Superclass::Evaluate;

@@ -26,24 +26,24 @@ int itkTriangleMeshToBinaryImageFilterTest2( int argc, char * argv [] )
 {
 
   // Declare the type of the input and output mesh
-  typedef itk::DefaultStaticMeshTraits<double, 3, 3, double, double, double>
-                                                        TriangleMeshTraits;
-  typedef itk::DefaultStaticMeshTraits<double, 3, 3, double, double, double>
-                                                        SimplexMeshTraits;
-  typedef itk::Mesh<double,3,TriangleMeshTraits>        TriangleMeshType;
-  typedef itk::SimplexMesh<double,3, SimplexMeshTraits> SimplexMeshType;
+  using TriangleMeshTraits =
+      itk::DefaultStaticMeshTraits<double, 3, 3, double, double, double>;
+  using SimplexMeshTraits =
+      itk::DefaultStaticMeshTraits<double, 3, 3, double, double, double>;
+  using TriangleMeshType = itk::Mesh<double,3,TriangleMeshTraits>;
+  using SimplexMeshType = itk::SimplexMesh<double,3, SimplexMeshTraits>;
 
-  typedef itk::Image<unsigned char, 3> ImageType;
+  using ImageType = itk::Image<unsigned char, 3>;
   // declare triangle mesh source
-  typedef itk::RegularSphereMeshSource<TriangleMeshType> SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType                PointType;
-  typedef SphereMeshSourceType::VectorType               VectorType;
+  using SphereMeshSourceType = itk::RegularSphereMeshSource<TriangleMeshType>;
+  using PointType = SphereMeshSourceType::PointType;
+  using VectorType = SphereMeshSourceType::VectorType;
 
   // Declare the type of the gradient image
-  typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>  SimplexFilterType;
+  using SimplexFilterType = itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>;
 
-  typedef itk::SimplexMeshToTriangleMeshFilter<SimplexMeshType,TriangleMeshType>  TriangleFilterType;
-  typedef TriangleMeshType::Pointer                                               TriangleMeshPointer;
+  using TriangleFilterType = itk::SimplexMeshToTriangleMeshFilter<SimplexMeshType,TriangleMeshType>;
+  using TriangleMeshPointer = TriangleMeshType::Pointer;
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
   PointType center; center.Fill(50);
   PointType::ValueType scaleInit[3] = {10,10,10};
@@ -82,7 +82,7 @@ int itkTriangleMeshToBinaryImageFilterTest2( int argc, char * argv [] )
 
   triangleMesh->DisconnectPipeline();
 
-  typedef  itk::TriangleMeshToBinaryImageFilter<TriangleMeshType, ImageType>  TriangleImageType;
+  using TriangleImageType = itk::TriangleMeshToBinaryImageFilter<TriangleMeshType, ImageType>;
 
   TriangleImageType::Pointer imageFilter = TriangleImageType::New();
 
@@ -105,7 +105,7 @@ int itkTriangleMeshToBinaryImageFilterTest2( int argc, char * argv [] )
 
   if( argc > 1 )
     {
-    typedef itk::ImageFileWriter<ImageType > WriterType;
+    using WriterType = itk::ImageFileWriter<ImageType >;
 
     WriterType::Pointer ImageWriter = WriterType::New();
     ImageWriter->SetInput(imageFilter->GetOutput() );

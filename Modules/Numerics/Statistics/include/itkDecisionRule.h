@@ -47,21 +47,21 @@ namespace Statistics
 class ITKStatistics_EXPORT DecisionRule : public Object
 {
 public:
-  /** Standard class typedefs */
-  typedef DecisionRule               Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = DecisionRule;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(DecisionRule, Object);
 
   /** Types for discriminant values and vectors. */
-  typedef double                             MembershipValueType;
-  typedef std::vector< MembershipValueType > MembershipVectorType;
+  using MembershipValueType = double;
+  using MembershipVectorType = std::vector< MembershipValueType >;
 
   /** Types for class identifiers. */
-  typedef MembershipVectorType::size_type ClassIdentifierType;
+  using ClassIdentifierType = MembershipVectorType::size_type;
 
   /**
    * Evaluate the decision rule. The return value of this function is

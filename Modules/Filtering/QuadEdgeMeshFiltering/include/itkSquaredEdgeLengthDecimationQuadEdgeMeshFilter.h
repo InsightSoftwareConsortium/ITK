@@ -32,11 +32,11 @@ class ITK_TEMPLATE_EXPORT SquaredEdgeLengthDecimationQuadEdgeMeshFilter:
   public EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >
 {
 public:
-  typedef SquaredEdgeLengthDecimationQuadEdgeMeshFilter Self;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
-  typedef EdgeDecimationQuadEdgeMeshFilter<
-    TInput, TOutput, TCriterion >                       Superclass;
+  using Self = SquaredEdgeLengthDecimationQuadEdgeMeshFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = EdgeDecimationQuadEdgeMeshFilter<
+    TInput, TOutput, TCriterion >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(SquaredEdgeLengthDecimationQuadEdgeMeshFilter, EdgeDecimationQuadEdgeMeshFilter);
@@ -44,30 +44,30 @@ public:
   /** New macro for creation of through a Smart Pointer   */
   itkNewMacro(Self);
 
-  typedef TInput                          InputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
+  using InputMeshType = TInput;
+  using InputMeshPointer = typename InputMeshType::Pointer;
 
-  typedef TOutput                                         OutputMeshType;
-  typedef typename OutputMeshType::Pointer                OutputMeshPointer;
-  typedef typename OutputMeshType::PointIdentifier        OutputPointIdentifier;
-  typedef typename OutputMeshType::PointType              OutputPointType;
-  typedef typename OutputMeshType::QEType                 OutputQEType;
-  typedef typename OutputMeshType::EdgeCellType           OutputEdgeCellType;
-  typedef typename OutputMeshType::CellsContainerIterator OutputCellsContainerIterator;
+  using OutputMeshType = TOutput;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;
+  using OutputPointType = typename OutputMeshType::PointType;
+  using OutputQEType = typename OutputMeshType::QEType;
+  using OutputEdgeCellType = typename OutputMeshType::EdgeCellType;
+  using OutputCellsContainerIterator = typename OutputMeshType::CellsContainerIterator;
 
-  typedef TCriterion                          CriterionType;
-  typedef typename CriterionType::MeasureType MeasureType;
+  using CriterionType = TCriterion;
+  using MeasureType = typename CriterionType::MeasureType;
 
-  typedef typename Superclass::PriorityType          PriorityType;
-  typedef typename Superclass::PriorityQueueItemType PriorityQueueItemType;
-  typedef typename Superclass::PriorityQueueType     PriorityQueueType;
-  typedef typename Superclass::PriorityQueuePointer  PriorityQueuePointer;
+  using PriorityType = typename Superclass::PriorityType;
+  using PriorityQueueItemType = typename Superclass::PriorityQueueItemType;
+  using PriorityQueueType = typename Superclass::PriorityQueueType;
+  using PriorityQueuePointer = typename Superclass::PriorityQueuePointer;
 
-  typedef typename Superclass::QueueMapType     QueueMapType;
-  typedef typename Superclass::QueueMapIterator QueueMapIterator;
+  using QueueMapType = typename Superclass::QueueMapType;
+  using QueueMapIterator = typename Superclass::QueueMapIterator;
 
-  typedef typename Superclass::OperatorType    OperatorType;
-  typedef typename Superclass::OperatorPointer OperatorPointer;
+  using OperatorType = typename Superclass::OperatorType;
+  using OperatorPointer = typename Superclass::OperatorPointer;
 
 protected:
   SquaredEdgeLengthDecimationQuadEdgeMeshFilter();

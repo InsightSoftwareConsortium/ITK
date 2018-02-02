@@ -20,10 +20,10 @@
 #include "itkImageToImageFilter.h"
 #include "itkTestingMacros.h"
 
-typedef itk::Image<std::string,3> ImageType;
+using ImageType = itk::Image<std::string,3>;
 
-typedef itk::OrientImageFilter<ImageType,ImageType>  OrientImageFilterType;
-typedef OrientImageFilterType::PermuteOrderArrayType PermuteOrderArrayType;
+using OrientImageFilterType = itk::OrientImageFilter<ImageType,ImageType>;
+using PermuteOrderArrayType = OrientImageFilterType::PermuteOrderArrayType;
 
 static void PrintImg(ImageType::Pointer img,
                      const OrientImageFilterType::PermuteOrderArrayType &permute)

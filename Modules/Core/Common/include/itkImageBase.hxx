@@ -367,7 +367,7 @@ void
 ImageBase< VImageDimension >
 ::Graft(const DataObject *data)
 {
-  typedef ImageBase< VImageDimension > ImageBaseType;
+  using ImageBaseType = ImageBase< VImageDimension >;
 
   const ImageBaseType *image = dynamic_cast< const ImageBaseType * >( data );
 

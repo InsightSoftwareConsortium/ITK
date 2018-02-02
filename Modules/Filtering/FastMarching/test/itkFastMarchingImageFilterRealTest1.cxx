@@ -45,16 +45,16 @@ int itkFastMarchingImageFilterRealTest1(int argc, char* argv[] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   // create a fastmarching object
-  typedef float PixelType;
+  using PixelType = float;
   const unsigned Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension > FloatImageType;
+  using FloatImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::FastMarchingThresholdStoppingCriterion< FloatImageType, FloatImageType >
-      CriterionType;
+  using CriterionType =
+      itk::FastMarchingThresholdStoppingCriterion< FloatImageType, FloatImageType >;
 
-  typedef itk::FastMarchingImageFilterBase< FloatImageType, FloatImageType >
-    FastMarchingType;
+  using FastMarchingType =
+      itk::FastMarchingImageFilterBase< FloatImageType, FloatImageType >;
 
   CriterionType::Pointer criterion = CriterionType::New();
   criterion->SetThreshold( 100. );
@@ -69,9 +69,9 @@ int itkFastMarchingImageFilterRealTest1(int argc, char* argv[] )
                                &ShowProgressObject::ShowProgress);
   marcher->AddObserver( itk::ProgressEvent(), command);
 
-  typedef FastMarchingType::NodePairType  NodePairType;
-//  typedef FastMarchingType::NodeContainerType NodeContainerType;
-  typedef FastMarchingType::NodePairContainerType NodePairContainerType;
+  using NodePairType = FastMarchingType::NodePairType;
+//  using NodeContainerType = FastMarchingType::NodeContainerType;
+  using NodePairContainerType = FastMarchingType::NodePairContainerType;
 
   // setup alive points
   NodePairContainerType::Pointer alive = NodePairContainerType::New();

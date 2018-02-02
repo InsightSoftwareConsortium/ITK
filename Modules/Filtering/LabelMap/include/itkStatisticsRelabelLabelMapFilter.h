@@ -46,21 +46,21 @@ class ITK_TEMPLATE_EXPORT StatisticsRelabelLabelMapFilter:
   public ShapeRelabelLabelMapFilter< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef StatisticsRelabelLabelMapFilter      Self;
-  typedef ShapeRelabelLabelMapFilter< TImage > Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = StatisticsRelabelLabelMapFilter;
+  using Superclass = ShapeRelabelLabelMapFilter< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TImage                              ImageType;
-  typedef typename ImageType::Pointer         ImagePointer;
-  typedef typename ImageType::ConstPointer    ImageConstPointer;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::IndexType       IndexType;
-  typedef typename ImageType::LabelObjectType LabelObjectType;
+  /** Some convenient type alias. */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using IndexType = typename ImageType::IndexType;
+  using LabelObjectType = typename ImageType::LabelObjectType;
 
-  typedef typename LabelObjectType::AttributeType AttributeType;
+  using AttributeType = typename LabelObjectType::AttributeType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int,

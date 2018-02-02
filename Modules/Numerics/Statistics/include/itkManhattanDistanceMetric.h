@@ -38,15 +38,15 @@ class ITK_TEMPLATE_EXPORT ManhattanDistanceMetric:
   public DistanceMetric< TVector >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef ManhattanDistanceMetric    Self;
-  typedef DistanceMetric< TVector >  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = ManhattanDistanceMetric;
+  using Superclass = DistanceMetric< TVector >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
 
-  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ManhattanDistanceMetric, DistanceMetric);

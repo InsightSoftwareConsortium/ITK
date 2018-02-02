@@ -180,12 +180,12 @@ class ITK_TEMPLATE_EXPORT MultiphaseSparseFiniteDifferenceImageFilter:
                                                 TFeatureImage, TOutputImage, TFunction, TIdCell >
 {
 public:
-  /** Standard class typedefs */
-  typedef MultiphaseSparseFiniteDifferenceImageFilter Self;
-  typedef MultiphaseFiniteDifferenceImageFilter< TInputImage,
-                                                 TFeatureImage, TOutputImage, TFunction, TIdCell >     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = MultiphaseSparseFiniteDifferenceImageFilter;
+  using Superclass = MultiphaseFiniteDifferenceImageFilter< TInputImage,
+                                                 TFeatureImage, TOutputImage, TFunction, TIdCell >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -196,87 +196,83 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /**Typedefs from the superclass */
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** Information derived from the image types. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::InputRegionType        InputRegionType;
-  typedef typename Superclass::InputSizeType          InputSizeType;
-  typedef typename Superclass::InputSizeValueType     InputSizeValueType;
-  typedef typename Superclass::InputIndexType         InputIndexType;
-  typedef typename Superclass::InputIndexValueType    InputIndexValueType;
-  typedef typename Superclass::InputPixelType         InputPixelType;
-  typedef typename Superclass::InputPointType         InputPointType;
-  typedef typename Superclass::InputSpacingType       InputSpacingType;
-  typedef typename Superclass::InputOffsetValueType   InputOffsetValueType;
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputRegionType = typename Superclass::InputRegionType;
+  using InputSizeType = typename Superclass::InputSizeType;
+  using InputSizeValueType = typename Superclass::InputSizeValueType;
+  using InputIndexType = typename Superclass::InputIndexType;
+  using InputIndexValueType = typename Superclass::InputIndexValueType;
+  using InputPixelType = typename Superclass::InputPixelType;
+  using InputPointType = typename Superclass::InputPointType;
+  using InputSpacingType = typename Superclass::InputSpacingType;
+  using InputOffsetValueType = typename Superclass::InputOffsetValueType;
 
-  typedef typename Superclass::FeatureImageType    FeatureImageType;
-  typedef typename Superclass::FeatureSizeType     FeatureSizeType;
-  typedef typename Superclass::FeatureImagePointer FeatureImagePointer;
-  typedef typename Superclass::FeatureRegionType   FeatureRegionType;
-  typedef typename Superclass::FeatureSpacingType  FeatureSpacingType;
-  typedef typename Superclass::FeaturePointType    FeaturePointType;
+  using FeatureImageType = typename Superclass::FeatureImageType;
+  using FeatureSizeType = typename Superclass::FeatureSizeType;
+  using FeatureImagePointer = typename Superclass::FeatureImagePointer;
+  using FeatureRegionType = typename Superclass::FeatureRegionType;
+  using FeatureSpacingType = typename Superclass::FeatureSpacingType;
+  using FeaturePointType = typename Superclass::FeaturePointType;
 
-  typedef typename Superclass::OutputImageType      OutputImageType;
-  typedef typename Superclass::OutputImagePointer   OutputImagePointer;
-  typedef typename Superclass::OutputRegionType     OutputRegionType;
-  typedef typename Superclass::OutputSizeType       OutputSizeType;
-  typedef typename Superclass::OutputIndexType      OutputIndexType;
-  typedef typename Superclass::OutputIndexValueType OutputIndexValueType;
-  typedef typename Superclass::OutputPixelType      OutputPixelType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using OutputRegionType = typename Superclass::OutputRegionType;
+  using OutputSizeType = typename Superclass::OutputSizeType;
+  using OutputIndexType = typename Superclass::OutputIndexType;
+  using OutputIndexValueType = typename Superclass::OutputIndexValueType;
+  using OutputPixelType = typename Superclass::OutputPixelType;
 
-  typedef typename InputImageType::ValueType ValueType;
-  typedef typename Superclass::IdCellType    IdCellType;
+  using ValueType = typename InputImageType::ValueType;
+  using IdCellType = typename Superclass::IdCellType;
 
-  typedef typename Superclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
-  typedef typename Superclass::FiniteDifferenceFunctionPointer
-  FiniteDifferenceFunctionPointer;
-  typedef typename FiniteDifferenceFunctionType::FloatOffsetType
-  FiniteDifferenceFunctionFloatOffsetType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using FiniteDifferenceFunctionPointer = typename Superclass::FiniteDifferenceFunctionPointer;
+  using FiniteDifferenceFunctionFloatOffsetType = typename FiniteDifferenceFunctionType::FloatOffsetType;
 
   /** Node type used in sparse field layer lists. */
-  typedef SparseFieldLevelSetNode< OutputIndexType > LayerNodeType;
+  using LayerNodeType = SparseFieldLevelSetNode< OutputIndexType >;
 
   /** A list type used in the algorithm. */
-  typedef SparseFieldLayer< LayerNodeType > LayerType;
-  typedef typename LayerType::Pointer       LayerPointerType;
-  typedef typename LayerType::Iterator      LayerIterator;
-  typedef typename LayerType::ConstIterator LayerConstIterator;
+  using LayerType = SparseFieldLayer< LayerNodeType >;
+  using LayerPointerType = typename LayerType::Pointer;
+  using LayerIterator = typename LayerType::Iterator;
+  using LayerConstIterator = typename LayerType::ConstIterator;
 
   /** A type for a list of LayerPointerTypes */
-  typedef std::vector< LayerPointerType >        LayerListType;
-  typedef typename LayerListType::iterator       LayerListIterator;
-  typedef typename LayerListType::const_iterator LayerListConstIterator;
+  using LayerListType = std::vector< LayerPointerType >;
+  using LayerListIterator = typename LayerListType::iterator;
+  using LayerListConstIterator = typename LayerListType::const_iterator;
 
   /** Type used for storing status information */
-  typedef signed char StatusType;
+  using StatusType = signed char;
 
   /** The type of the image used to index status information.  Necessary for
    *  the internals of the algorithm. */
-  typedef Image< StatusType, itkGetStaticConstMacro(ImageDimension) >
-  StatusImageType;
-  typedef typename StatusImageType::Pointer StatusImagePointer;
+  using StatusImageType =
+      Image< StatusType, itkGetStaticConstMacro(ImageDimension) >;
+  using StatusImagePointer = typename StatusImageType::Pointer;
 
-  typedef ZeroCrossingImageFilter< InputImageType, InputImageType >
-  ZeroCrossingFilterType;
-  typedef typename ZeroCrossingFilterType::Pointer
-  ZeroCrossingFilterPointer;
+  using ZeroCrossingFilterType =
+      ZeroCrossingImageFilter< InputImageType, InputImageType >;
+  using ZeroCrossingFilterPointer = typename ZeroCrossingFilterType::Pointer;
 
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< StatusImageType > BFCType;
+  using BFCType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< StatusImageType >;
 
   /** Memory pre-allocator used to manage layer nodes in a multi-threaded
    *  environment. */
-  typedef ObjectStore< LayerNodeType >           LayerNodeStorageType;
-  typedef typename LayerNodeStorageType::Pointer LayerNodeStoragePointer;
+  using LayerNodeStorageType = ObjectStore< LayerNodeType >;
+  using LayerNodeStoragePointer = typename LayerNodeStorageType::Pointer;
 
   /** Container type used to store updates to the active layer. */
-  typedef std::vector< ValueType >                  UpdateBufferType;
-  typedef typename UpdateBufferType::const_iterator UpdateBufferConstIterator;
+  using UpdateBufferType = std::vector< ValueType >;
+  using UpdateBufferConstIterator = typename UpdateBufferType::const_iterator;
 
-  typedef SparseFieldCityBlockNeighborList< NeighborhoodIterator< OutputImageType > > NeighborListType;
-  typedef typename NeighborListType::OffsetType                                       OffsetType;
+  using NeighborListType = SparseFieldCityBlockNeighborList< NeighborhoodIterator< OutputImageType > >;
+  using OffsetType = typename NeighborListType::OffsetType;
 
   /** Set/Get the number of layers to use in the sparse field.  Argument is the
    *  number of layers on ONE side of the active layer, so the total layers in

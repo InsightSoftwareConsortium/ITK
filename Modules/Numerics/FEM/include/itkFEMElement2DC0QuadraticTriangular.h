@@ -58,12 +58,12 @@ namespace fem
 class ITKFEM_EXPORT Element2DC0QuadraticTriangular : public ElementStd<6, 2>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element2DC0QuadraticTriangular Self;
-  typedef ElementStd<6, 2>               TemplatedParentClass;
-  typedef TemplatedParentClass           Superclass;
-  typedef SmartPointer<Self>             Pointer;
-  typedef SmartPointer<const Self>       ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element2DC0QuadraticTriangular;
+  using TemplatedParentClass = ElementStd<6, 2>;
+  using Superclass = TemplatedParentClass;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Element2DC0QuadraticTriangular, TemplatedParentClass);

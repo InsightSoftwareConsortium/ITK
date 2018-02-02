@@ -21,7 +21,7 @@
 
 int itkImageToImageToleranceTest( int, char * [] )
 {
-  typedef itk::Image<unsigned char,3> ImageType;
+  using ImageType = itk::Image<unsigned char,3>;
 
   ImageType::Pointer image1 = ImageType::New();
   ImageType::Pointer image2 = ImageType::New();
@@ -44,7 +44,7 @@ int itkImageToImageToleranceTest( int, char * [] )
 
   // test coordinate tolerance
 
-  typedef itk::AddImageFilter<ImageType,ImageType,ImageType> AddImageFilterType;
+  using AddImageFilterType = itk::AddImageFilter<ImageType,ImageType,ImageType>;
 
   AddImageFilterType::Pointer addImageFilter =
     AddImageFilterType::New();

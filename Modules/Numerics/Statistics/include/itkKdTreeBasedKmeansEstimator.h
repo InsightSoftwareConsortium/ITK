@@ -78,11 +78,11 @@ class ITK_TEMPLATE_EXPORT KdTreeBasedKmeansEstimator:
   public Object
 {
 public:
-  /** Standard Self typedef. */
-  typedef KdTreeBasedKmeansEstimator Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard Self type alias. */
+  using Self = KdTreeBasedKmeansEstimator;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -91,37 +91,33 @@ public:
   itkTypeMacro(KdTreeBasedKmeansEstimator, Object);
 
   /** Types for the KdTree data structure */
-  typedef typename TKdTree::KdTreeNodeType        KdTreeNodeType;
-  typedef typename TKdTree::MeasurementType       MeasurementType;
-  typedef typename TKdTree::MeasurementVectorType MeasurementVectorType;
-  typedef typename TKdTree::InstanceIdentifier    InstanceIdentifier;
-  typedef typename TKdTree::SampleType            SampleType;
-  typedef typename KdTreeNodeType::CentroidType   CentroidType;
+  using KdTreeNodeType = typename TKdTree::KdTreeNodeType;
+  using MeasurementType = typename TKdTree::MeasurementType;
+  using MeasurementVectorType = typename TKdTree::MeasurementVectorType;
+  using InstanceIdentifier = typename TKdTree::InstanceIdentifier;
+  using SampleType = typename TKdTree::SampleType;
+  using CentroidType = typename KdTreeNodeType::CentroidType;
 
   /** Typedef for the length of a measurement vector */
-  typedef unsigned int MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = unsigned int;
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  typedef Array< double >              ParameterType;
-  typedef std::vector< ParameterType > InternalParametersType;
-  typedef Array< double >              ParametersType;
+  using ParameterType = Array< double >;
+  using InternalParametersType = std::vector< ParameterType >;
+  using ParametersType = Array< double >;
 
   /** Typedef requried to generate dataobject decorated output that can
    * be plugged into SampleClassifierFilter */
-  typedef DistanceToCentroidMembershipFunction< MeasurementVectorType >
-  DistanceToCentroidMembershipFunctionType;
+  using DistanceToCentroidMembershipFunctionType = DistanceToCentroidMembershipFunction<MeasurementVectorType>;
 
-  typedef typename DistanceToCentroidMembershipFunctionType::Pointer
-  DistanceToCentroidMembershipFunctionPointer;
+  using DistanceToCentroidMembershipFunctionPointer = typename DistanceToCentroidMembershipFunctionType::Pointer;
 
-  typedef MembershipFunctionBase< MeasurementVectorType > MembershipFunctionType;
-  typedef typename MembershipFunctionType::ConstPointer   MembershipFunctionPointer;
-  typedef std::vector< MembershipFunctionPointer >        MembershipFunctionVectorType;
-  typedef SimpleDataObjectDecorator<
-    MembershipFunctionVectorType >                        MembershipFunctionVectorObjectType;
-  typedef typename
-  MembershipFunctionVectorObjectType::Pointer MembershipFunctionVectorObjectPointer;
+  using MembershipFunctionType = MembershipFunctionBase< MeasurementVectorType >;
+  using MembershipFunctionPointer = typename MembershipFunctionType::ConstPointer;
+  using MembershipFunctionVectorType = std::vector< MembershipFunctionPointer >;
+  using MembershipFunctionVectorObjectType = SimpleDataObjectDecorator<MembershipFunctionVectorType>;
+  using MembershipFunctionVectorObjectPointer = typename MembershipFunctionVectorObjectType::Pointer;
 
   /** Output Membership function vector containing the membership functions with
     * the final optimized parameters */
@@ -156,7 +152,7 @@ public:
    * of changes in centroid positions)  */
   void StartOptimization();
 
-  typedef itksys::hash_map< InstanceIdentifier, unsigned int > ClusterLabelsType;
+  using ClusterLabelsType = itksys::hash_map< InstanceIdentifier, unsigned int >;
 
   itkSetMacro(UseClusterLabels, bool);
   itkGetConstMacro(UseClusterLabels, bool);

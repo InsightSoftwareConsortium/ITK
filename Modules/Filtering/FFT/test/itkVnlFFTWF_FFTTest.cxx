@@ -28,9 +28,9 @@
 // and double.
 int itkVnlFFTWF_FFTTest(int argc, char *argv[])
 {
-  typedef itk::Image< float, 1>               ImageF1;
-  typedef itk::Image< float, 2>               ImageF2;
-  typedef itk::Image< float, 3>               ImageF3;
+  using ImageF1 = itk::Image< float, 1>;
+  using ImageF2 = itk::Image< float, 2>;
+  using ImageF3 = itk::Image< float, 3>;
 
   itk::FFTWGlobalConfiguration::SetPlanRigor(FFTW_EXHAUSTIVE);
   itk::FFTWGlobalConfiguration::SetWriteWisdomCache(true);

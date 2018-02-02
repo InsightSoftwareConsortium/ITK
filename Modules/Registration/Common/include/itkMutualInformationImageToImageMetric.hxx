@@ -109,7 +109,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::SampleFixedImageDomain(
   SpatialSampleContainer & samples) const
 {
-  typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
+  using RandomIterator = ImageRandomConstIteratorWithIndex<FixedImageType>;
   RandomIterator randIter( this->m_FixedImage, this->GetFixedImageRegion() );
   if (this->m_ReseedIterator)
     {
@@ -224,7 +224,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 
   // calculate the mutual information
 
-  typedef CompensatedSummation< double > SumType;
+  using SumType = CompensatedSummation< double >;
   SumType dLogSumFixed;
   SumType dLogSumMoving;
   SumType dLogSumJoint;
@@ -324,7 +324,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   this->SampleFixedImageDomain(m_SampleB);
 
   // calculate the mutual information
-  typedef CompensatedSummation< double > SumType;
+  using SumType = CompensatedSummation< double >;
   SumType dLogSumFixed;
   SumType dLogSumMoving;
   SumType dLogSumJoint;
@@ -338,7 +338,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   typename SpatialSampleContainer::const_iterator bend = m_SampleB.end();
 
   // precalculate all the image derivatives for sample A
-  typedef std::vector<DerivativeType> DerivativeContainer;
+  using DerivativeContainer = std::vector<DerivativeType>;
   DerivativeContainer sampleADerivatives;
   sampleADerivatives.resize(m_NumberOfSpatialSamples);
 

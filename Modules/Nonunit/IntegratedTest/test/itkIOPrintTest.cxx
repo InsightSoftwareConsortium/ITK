@@ -33,7 +33,7 @@
 
 int itkIOPrintTest(int , char* [])
 {
-  typedef itk::Image<unsigned char,2> ImageType;
+  using ImageType = itk::Image<unsigned char,2>;
   itk::ImageFileReader<ImageType>::Pointer reader =
     itk::ImageFileReader<ImageType>::New();
 

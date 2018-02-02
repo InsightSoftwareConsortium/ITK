@@ -43,10 +43,10 @@ template< typename TInputImage,
 class ITK_TEMPLATE_EXPORT LevelSetEquationTermContainer : public Object
 {
 public:
-  typedef LevelSetEquationTermContainer     Self;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
-  typedef Object                            Superclass;
+  using Self = LevelSetEquationTermContainer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = Object;
 
   /** Method for creation through object factory */
   itkNewMacro( Self );
@@ -55,29 +55,28 @@ public:
   itkTypeMacro( LevelSetEquationTermContainer,
                 Object );
 
-  typedef unsigned int                      TermIdType;
+  using TermIdType = unsigned int;
 
-  typedef TInputImage                       InputImageType;
-  typedef typename InputImageType::Pointer  InputImagePointer;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
 
-  typedef TLevelSetContainer                                LevelSetContainerType;
-  typedef typename LevelSetContainerType::Pointer           LevelSetContainerPointer;
+  using LevelSetContainerType = TLevelSetContainer;
+  using LevelSetContainerPointer = typename LevelSetContainerType::Pointer;
 
-  typedef typename LevelSetContainerType::LevelSetType      LevelSetType;
-  typedef typename LevelSetContainerType::LevelSetPointer   LevelSetPointer;
+  using LevelSetType = typename LevelSetContainerType::LevelSetType;
+  using LevelSetPointer = typename LevelSetContainerType::LevelSetPointer;
 
-  typedef typename LevelSetContainerType::LevelSetIdentifierType
-                                                            LevelSetIdentifierType;
-  typedef typename LevelSetContainerType::OutputType        LevelSetOutputPixelType;
-  typedef typename LevelSetContainerType::OutputRealType    LevelSetOutputRealType;
-  typedef typename LevelSetContainerType::LevelSetDataType  LevelSetDataType;
-  typedef typename LevelSetContainerType::InputIndexType    LevelSetInputIndexType;
-  typedef typename LevelSetContainerType::GradientType      LevelSetGradientType;
-  typedef typename LevelSetContainerType::HessianType       LevelSetHessianType;
+  using LevelSetIdentifierType = typename LevelSetContainerType::LevelSetIdentifierType;
+  using LevelSetOutputPixelType = typename LevelSetContainerType::OutputType;
+  using LevelSetOutputRealType = typename LevelSetContainerType::OutputRealType;
+  using LevelSetDataType = typename LevelSetContainerType::LevelSetDataType;
+  using LevelSetInputIndexType = typename LevelSetContainerType::InputIndexType;
+  using LevelSetGradientType = typename LevelSetContainerType::GradientType;
+  using LevelSetHessianType = typename LevelSetContainerType::HessianType;
 
-  typedef LevelSetEquationTermBase< InputImageType, LevelSetContainerType >
-                                                                       TermType;
-  typedef typename TermType::Pointer                                   TermPointer;
+  using TermType =
+      LevelSetEquationTermBase< InputImageType, LevelSetContainerType >;
+  using TermPointer = typename TermType::Pointer;
 
   /** Set/Get the input image to be segmented. */
   itkSetObjectMacro( Input, InputImageType );
@@ -129,9 +128,9 @@ public:
 
 protected:
 
-  typedef std::map< TermIdType, TermPointer >           MapTermContainerType;
-  typedef typename MapTermContainerType::iterator       MapTermContainerIteratorType;
-  typedef typename MapTermContainerType::const_iterator MapTermContainerConstIteratorType;
+  using MapTermContainerType = std::map< TermIdType, TermPointer >;
+  using MapTermContainerIteratorType = typename MapTermContainerType::iterator;
+  using MapTermContainerConstIteratorType = typename MapTermContainerType::const_iterator;
 
 public:
   class Iterator;
@@ -278,18 +277,18 @@ protected:
 
   InputImagePointer         m_Input;
 
-  typedef itksys::hash_map< std::string, TermPointer > HashMapStringTermContainerType;
+  using HashMapStringTermContainerType = itksys::hash_map< std::string, TermPointer >;
 
   HashMapStringTermContainerType m_NameContainer;
 
-  typedef typename TermType::RequiredDataType RequiredDataType;
+  using RequiredDataType = typename TermType::RequiredDataType;
   RequiredDataType  m_RequiredData;
 
   MapTermContainerType  m_Container;
 
-  typedef std::map< TermIdType, LevelSetOutputRealType >  MapCFLContainerType;
-  typedef typename MapCFLContainerType::iterator          MapCFLContainerIterator;
-  typedef typename MapCFLContainerType::const_iterator    MapCFLContainerConstIterator;
+  using MapCFLContainerType = std::map< TermIdType, LevelSetOutputRealType >;
+  using MapCFLContainerIterator = typename MapCFLContainerType::iterator;
+  using MapCFLContainerConstIterator = typename MapCFLContainerType::const_iterator;
 
   MapCFLContainerType   m_TermContribution;
 

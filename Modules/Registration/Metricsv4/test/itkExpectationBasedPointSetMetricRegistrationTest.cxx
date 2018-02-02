@@ -29,10 +29,10 @@ template<typename TFilter>
 class itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate : public itk::Command
 {
 public:
-  typedef itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate   Self;
+  using Self = itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate;
 
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -68,9 +68,9 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
     numberOfIterations = atoi( argv[1] );
     }
 
-  typedef itk::PointSet<unsigned char, Dimension> PointSetType;
+  using PointSetType = itk::PointSet<unsigned char, Dimension>;
 
-  typedef PointSetType::PointType PointType;
+  using PointType = PointSetType::PointType;
 
   PointSetType::Pointer fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
@@ -131,12 +131,12 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
     count++;
     }
 
-  typedef itk::AffineTransform<double, Dimension> AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<double, Dimension>;
   AffineTransformType::Pointer transform = AffineTransformType::New();
   transform->SetIdentity();
 
   // Instantiate the metric
-  typedef itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetMetricType = itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType>;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetFixedPointSet( fixedPoints );
   metric->SetMovingPointSet( movingPoints );
@@ -146,21 +146,21 @@ int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
   metric->Initialize();
 
   // scales estimator
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< PointSetMetricType > RegistrationParameterScalesFromShiftType;
+  using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift< PointSetMetricType >;
   RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric( metric );
   // needed with pointset metrics
   shiftScaleEstimator->SetVirtualDomainPointSet( metric->GetVirtualTransformedPointSet() );
 
   // optimizer
-  typedef itk::GradientDescentOptimizerv4  OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizerv4;
   OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
   optimizer->SetScalesEstimator( shiftScaleEstimator );
   optimizer->SetMaximumStepSizeInPhysicalUnits( 3.0 );
 
-  typedef itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType> CommandType;
+  using CommandType = itkExpectationBasedPointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType>;
   CommandType::Pointer observer = CommandType::New();
   optimizer->AddObserver( itk::IterationEvent(), observer );
 

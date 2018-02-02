@@ -30,23 +30,22 @@ int itkResampleImageTest5(int argc, char * argv [] )
   // Resample an RGB image
   const unsigned int NDimensions = 2;
 
-  typedef unsigned char                PixelType;
-  typedef itk::RGBPixel<unsigned char> RGBPixelType;
-  typedef itk::Image<RGBPixelType, 2 > ImageType;
+  using PixelType = unsigned char;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using ImageType = itk::Image<RGBPixelType, 2 >;
 
-  typedef ImageType::IndexType         ImageIndexType;
-  typedef ImageType::Pointer           ImagePointerType;
-  typedef ImageType::RegionType        ImageRegionType;
-  typedef ImageType::SizeType          ImageSizeType;
+  using ImageIndexType = ImageType::IndexType;
+  using ImagePointerType = ImageType::Pointer;
+  using ImageRegionType = ImageType::RegionType;
+  using ImageSizeType = ImageType::SizeType;
 
-  typedef double                       CoordRepType;
+  using CoordRepType = double;
 
-  typedef itk::AffineTransform<CoordRepType,NDimensions>
-                                       AffineTransformType;
-  typedef itk::LinearInterpolateImageFunction<ImageType,CoordRepType>
-                                       InterpolatorType;
-  typedef itk::ImageFileWriter<ImageType>
-                                       WriterType;
+  using AffineTransformType =
+      itk::AffineTransform<CoordRepType,NDimensions>;
+  using InterpolatorType =
+      itk::LinearInterpolateImageFunction<ImageType,CoordRepType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   if (argc < 2)
     {

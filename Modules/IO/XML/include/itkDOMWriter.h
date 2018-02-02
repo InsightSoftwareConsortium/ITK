@@ -66,18 +66,18 @@ template< typename TInput >
 class ITK_TEMPLATE_EXPORT DOMWriter : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef DOMWriter Self;
+  /** Standard class type aliases. */
+  using Self = DOMWriter;
 
   itkTypeMacro(DOMWriter, Object);
 
-  typedef TInput                            InputType;
+  using InputType = TInput;
 
-  typedef DOMNode                           DOMNodeType;
-  typedef typename DOMNodeType::Pointer     DOMNodePointer;
+  using DOMNodeType = DOMNode;
+  using DOMNodePointer = typename DOMNodeType::Pointer;
 
-  typedef Logger                            LoggerType;
-  typedef typename LoggerType::Pointer      LoggerPointer;
+  using LoggerType = Logger;
+  using LoggerPointer = typename LoggerType::Pointer;
 
   /** Set the output XML filename. */
   itkSetStringMacro(FileName);

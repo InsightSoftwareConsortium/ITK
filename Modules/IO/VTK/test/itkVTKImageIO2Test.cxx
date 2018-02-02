@@ -82,12 +82,12 @@ public:
       {
       ++m_CallNumber;
 
-      typedef TPixelType                              PixelType;
-      typedef itk::Image<PixelType,VImageDimension>   ImageType;
+      using PixelType = TPixelType;
+      using ImageType = itk::Image<PixelType,VImageDimension>;
 
 
       // force use of VTKImageIO
-      typedef itk::VTKImageIO IOType;
+      using IOType = itk::VTKImageIO;
       IOType::Pointer vtkIO = IOType::New();
       if (ascii)
         {
@@ -98,7 +98,7 @@ public:
         vtkIO->SetFileTypeToBinary();
         }
 
-      typedef itk::ImageFileWriter<ImageType> ImageFileWriterType;
+      using ImageFileWriterType = itk::ImageFileWriter<ImageType>;
       typename ImageFileWriterType::Pointer writer = ImageFileWriterType::New();
       writer->SetImageIO( vtkIO );
 
@@ -165,14 +165,14 @@ public:
     {
     try
       {
-      typedef TPixelType                              PixelType;
-      typedef itk::Image<PixelType,VImageDimension>   ImageType;
+      using PixelType = TPixelType;
+      using ImageType = itk::Image<PixelType,VImageDimension>;
 
-      typedef itk::ImageFileReader<ImageType> ImageFileReaderType;
+      using ImageFileReaderType = itk::ImageFileReader<ImageType>;
       typename ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
 
       // force use of VTKImageIO
-      typedef itk::VTKImageIO IOType;
+      using IOType = itk::VTKImageIO;
       IOType::Pointer vtkIO = IOType::New();
       reader->SetImageIO(vtkIO);
 
@@ -292,7 +292,7 @@ public:
                    const std::string &fileExtension,
                    std::string &outputPath )
     {
-    typedef itk::VTKImageIO IOType;
+    using IOType = itk::VTKImageIO;
     IOType::Pointer vtkIO = IOType::New();
 
     std::string fileName =
@@ -306,7 +306,7 @@ public:
                     const std::string &fileExtension,
                     std::string &outputPath )
     {
-    typedef itk::VTKImageIO IOType;
+    using IOType = itk::VTKImageIO;
     IOType::Pointer vtkIO = IOType::New();
 
     std::string fileName =
@@ -442,7 +442,7 @@ int itkVTKImageIO2Test(int argc, char* argv[])
   //
   // use print methods
   //
-  typedef itk::VTKImageIO IOType;
+  using IOType = itk::VTKImageIO;
   IOType::Pointer vtkIO = IOType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( vtkIO, VTKImageIO, StreamingImageIOBase );

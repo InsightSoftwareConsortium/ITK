@@ -142,8 +142,8 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   m_Count.Fill(0);
 
   // Compute Signed distance from non-zero pixels in the second image
-  typedef SignedMaurerDistanceMapImageFilter< InputImage2Type, DistanceMapType >
-  FilterType;
+  using FilterType =
+      SignedMaurerDistanceMapImageFilter< InputImage2Type, DistanceMapType >;
 
   typename FilterType::Pointer filter = FilterType::New();
 
@@ -197,8 +197,8 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
   SizeType radius;
   radius.Fill(1);
 
-  typedef typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImage1Type >::FaceListType
-    FaceListType;
+  using FaceListType = typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<
+                                  InputImage1Type >::FaceListType;
 
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImage1Type > bC;
   FaceListType faceList = bC(input, outputRegionForThread, radius);

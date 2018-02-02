@@ -44,11 +44,11 @@ class ITK_TEMPLATE_EXPORT ScaleTransform : public MatrixOffsetTransformBase<TPar
                                                         NDimensions>
 {
 public:
-  /** Standard class typedefs.   */
-  typedef ScaleTransform                                                            Self;
-  typedef MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                                        Pointer;
-  typedef SmartPointer<const Self>                                                  ConstPointer;
+  /** Standard class type aliases.   */
+  using Self = ScaleTransform;
+  using Superclass = MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a smart pointer. */
   itkNewMacro(Self);
@@ -61,40 +61,40 @@ public:
   itkStaticConstMacro(ParametersDimension, unsigned int, NDimensions);
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Parameters type. */
-  typedef typename Superclass::FixedParametersType FixedParametersType;
-  typedef typename Superclass::ParametersType      ParametersType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Standard vector type for this class. */
-  typedef FixedArray<TParametersValueType, NDimensions> ScaleType;
+  using ScaleType = FixedArray<TParametersValueType, NDimensions>;
 
   /** Standard vector type for this class. */
-  typedef Vector<TParametersValueType, NDimensions> InputVectorType;
-  typedef Vector<TParametersValueType, NDimensions> OutputVectorType;
+  using InputVectorType = Vector<TParametersValueType, NDimensions>;
+  using OutputVectorType = Vector<TParametersValueType, NDimensions>;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TParametersValueType, NDimensions> InputCovariantVectorType;
-  typedef CovariantVector<TParametersValueType, NDimensions> OutputCovariantVectorType;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, NDimensions>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, NDimensions>;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TParametersValueType, NDimensions> InputVnlVectorType;
-  typedef vnl_vector_fixed<TParametersValueType, NDimensions> OutputVnlVectorType;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, NDimensions>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, NDimensions>;
 
   /** Standard coordinate point type for this class. */
-  typedef Point<TParametersValueType, NDimensions> InputPointType;
-  typedef Point<TParametersValueType, NDimensions> OutputPointType;
+  using InputPointType = Point<TParametersValueType, NDimensions>;
+  using OutputPointType = Point<TParametersValueType, NDimensions>;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/
-  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
-  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+  using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
+  using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
-  typedef typename Superclass::MatrixType MatrixType;
+  using MatrixType = typename Superclass::MatrixType;
 
   /** Set parameters.  This method sets the parameters for the transform value
    *  specified by the user. The parameters are organized as scale[i] =

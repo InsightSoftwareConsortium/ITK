@@ -71,11 +71,11 @@ template< typename TInputImage, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT BinaryMask3DMeshSource:public ImageToMeshFilter< TInputImage, TOutputMesh >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef BinaryMask3DMeshSource                        Self;
-  typedef ImageToMeshFilter< TInputImage, TOutputMesh > Superclass;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = BinaryMask3DMeshSource;
+  using Superclass = ImageToMeshFilter< TInputImage, TOutputMesh >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -84,44 +84,44 @@ public:
   itkTypeMacro(BinaryMask3DMeshSource, ImageToMeshFilter);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TOutputMesh                         OutputMeshType;
-  typedef typename OutputMeshType::MeshTraits OMeshTraits;
-  typedef typename OutputMeshType::PointType  OPointType;
-  typedef typename OMeshTraits::PixelType     OPixelType;
+  using OutputMeshType = TOutputMesh;
+  using OMeshTraits = typename OutputMeshType::MeshTraits;
+  using OPointType = typename OutputMeshType::PointType;
+  using OPixelType = typename OMeshTraits::PixelType;
 
-  /** Some convenient typedefs. */
-  typedef typename OutputMeshType::Pointer                OutputMeshPointer;
-  typedef typename OutputMeshType::CellTraits             CellTraits;
-  typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer        PointsContainer;
-  typedef typename OutputMeshType::CellsContainerPointer  CellsContainerPointer;
-  typedef typename OutputMeshType::CellsContainer         CellsContainer;
-  typedef CovariantVector< double, 2 >                    doubleVector;
-  typedef CovariantVector< int, 2 >                       intVector;
+  /** Some convenient type alias. */
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using CellTraits = typename OutputMeshType::CellTraits;
+  using PointsContainerPointer = typename OutputMeshType::PointsContainerPointer;
+  using PointsContainer = typename OutputMeshType::PointsContainer;
+  using CellsContainerPointer = typename OutputMeshType::CellsContainerPointer;
+  using CellsContainer = typename OutputMeshType::CellsContainer;
+  using doubleVector = CovariantVector< double, 2 >;
+  using intVector = CovariantVector< int, 2 >;
 
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
-  typedef CellInterface< OPixelType, CellTraits > TCellInterface;
-  typedef TriangleCell< TCellInterface >          TriCell;
-  typedef typename TriCell::SelfAutoPointer       TriCellAutoPointer;
+  using TCellInterface = CellInterface< OPixelType, CellTraits >;
+  using TriCell = TriangleCell< TCellInterface >;
+  using TriCellAutoPointer = typename TriCell::SelfAutoPointer;
 
   /** Input Image Type Definition. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::PixelType    InputPixelType;
-  typedef typename InputImageType::SpacingType  SpacingType;
-  typedef typename InputImageType::PointType    OriginType;
-  typedef typename InputImageType::RegionType   RegionType;
-  typedef typename InputImageType::SizeType     SizeType;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputPixelType = typename InputImageType::PixelType;
+  using SpacingType = typename InputImageType::SpacingType;
+  using OriginType = typename InputImageType::PointType;
+  using RegionType = typename InputImageType::RegionType;
+  using SizeType = typename InputImageType::SizeType;
 
   /** Type definition for the classified image index type. */
-  typedef typename InputImageType::IndexType           InputImageIndexType;
+  using InputImageIndexType = typename InputImageType::IndexType;
 
-  typedef ImageRegionConstIterator< InputImageType > InputImageIterator;
+  using InputImageIterator = ImageRegionConstIterator< InputImageType >;
 
-  typedef itk::IdentifierType                   IdentifierType;
-  typedef itk::SizeValueType                    SizeValueType;
+  using IdentifierType = itk::IdentifierType;
+  using SizeValueType = itk::SizeValueType;
 
   itkSetMacro(ObjectValue, InputPixelType);
 
@@ -160,7 +160,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMask3DMeshSource);
 
-  typedef typename InputImageType::SizeType InputImageSizeType;
+  using InputImageSizeType = typename InputImageType::SizeType;
 
   void CreateMesh();
 

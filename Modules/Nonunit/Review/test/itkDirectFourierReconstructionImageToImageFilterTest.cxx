@@ -24,35 +24,35 @@
 
 #include "itkDirectFourierReconstructionImageToImageFilter.h"
 
-typedef double    InternalPixelType;
-typedef short int TestOutputPixelType;
+using InternalPixelType = double;
+using TestOutputPixelType = short int;
 
-typedef itk::Image< TestOutputPixelType, 3 > OutputImageType;
-typedef itk::Image< InternalPixelType, 3 >   InternalImageType;
+using OutputImageType = itk::Image< TestOutputPixelType, 3 >;
+using InternalImageType = itk::Image< InternalPixelType, 3 >;
 
-typedef itk::DirectFourierReconstructionImageToImageFilter< InternalImageType, InternalImageType > ReconstructionFilterType;
+using ReconstructionFilterType = itk::DirectFourierReconstructionImageToImageFilter< InternalImageType, InternalImageType >;
 
-typedef itk::RecursiveGaussianImageFilter< InternalImageType, InternalImageType > SmootherType;
-typedef itk::RescaleIntensityImageFilter< InternalImageType, OutputImageType >    RescalerType;
-typedef itk::RegionOfInterestImageFilter< OutputImageType, OutputImageType >      ROIFilterType;
-typedef itk::ImageFileReader< InternalImageType >                                 ReaderType;
-typedef itk::ImageFileWriter< OutputImageType >                                   WriterType;
+using SmootherType = itk::RecursiveGaussianImageFilter< InternalImageType, InternalImageType >;
+using RescalerType = itk::RescaleIntensityImageFilter< InternalImageType, OutputImageType >;
+using ROIFilterType = itk::RegionOfInterestImageFilter< OutputImageType, OutputImageType >;
+using ReaderType = itk::ImageFileReader< InternalImageType >;
+using WriterType = itk::ImageFileWriter< OutputImageType >;
 
 
 class CommandProgressUpdate : public itk::Command
 {
 public:
-  typedef CommandProgressUpdate Self;
-  typedef itk::Command          Superclass;
+  using Self = CommandProgressUpdate;
+  using Superclass = itk::Command;
 
-  typedef itk::SmartPointer< Self > Pointer;
+  using Pointer = itk::SmartPointer< Self >;
 
   itkNewMacro( Self );
 
 protected:
   CommandProgressUpdate() {};
 
-  typedef const ReconstructionFilterType * ReconstructionFilterPointer;
+  using ReconstructionFilterPointer = const ReconstructionFilterType *;
 
   void Execute(itk::Object * caller, const itk::EventObject & event ) override
     {

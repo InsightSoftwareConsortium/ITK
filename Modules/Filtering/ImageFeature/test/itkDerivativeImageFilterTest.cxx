@@ -36,24 +36,24 @@ int itkDerivativeImageFilterTest(int argc, char *argv [] )
 
   // Test using an unsigned integral pixel type and generate a signed
   // integral pixel type
-  typedef   unsigned short  InputPixelType;
-  typedef   short           OutputPixelType;
+  using InputPixelType = unsigned short;
+  using OutputPixelType = short;
 
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetFileName( argv[1] );
 
   // Define the filter
-  typedef itk::DerivativeImageFilter<
-               InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::DerivativeImageFilter<
+               InputImageType, OutputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -67,13 +67,13 @@ int itkDerivativeImageFilterTest(int argc, char *argv [] )
   filter->SetInput( reader->GetOutput() );
 
   // Write the output
-  typedef itk::Image< unsigned char, Dimension >  WriteImageType;
+  using WriteImageType = itk::Image< unsigned char, Dimension >;
 
-  typedef itk::RescaleIntensityImageFilter<
+  using NormalizeFilterType = itk::RescaleIntensityImageFilter<
                                   OutputImageType,
-                                  WriteImageType >    NormalizeFilterType;
+                                  WriteImageType >;
 
-  typedef itk::ImageFileWriter< WriteImageType >       NormalizedWriterType;
+  using NormalizedWriterType = itk::ImageFileWriter< WriteImageType >;
 
   NormalizeFilterType::Pointer normalizer = NormalizeFilterType::New();
   NormalizedWriterType::Pointer normalizedWriter = NormalizedWriterType::New();

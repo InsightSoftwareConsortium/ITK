@@ -20,7 +20,7 @@
 #include "itkRGBPixel.h"
 #include "itkTextOutput.h" // Needed to see warnings
 
-typedef itk::ImportImageContainer<unsigned long,short>::Pointer myPointer;
+using myPointer = itk::ImportImageContainer<unsigned long,short>::Pointer;
 bool TestNew2(myPointer v, const char* expectedClassName)
 {
 
@@ -38,10 +38,10 @@ bool TestNew2(myPointer v, const char* expectedClassName)
 template<typename T>
 void MakeImage(const int count, T pixel)
 {
-  typedef itk::Image<T, 3>               ImageType;
-  typedef typename ImageType::IndexType  IndexType;
-  typedef typename ImageType::RegionType RegionType;
-  typedef typename ImageType::SizeType   SizeType;
+  using ImageType = itk::Image<T, 3>;
+  using IndexType = typename ImageType::IndexType;
+  using RegionType = typename ImageType::RegionType;
+  using SizeType = typename ImageType::SizeType;
 
   typename ImageType::Pointer  testImage    = ImageType::New();
 
@@ -65,8 +65,8 @@ void MakeImage(const int count, T pixel)
 
 void ReallocateImage()
 {
-  typedef itk::Image<double, 2> ImageType;
-  typedef ImageType::SizeType   SizeType;
+  using ImageType = itk::Image<double, 2>;
+  using SizeType = ImageType::SizeType;
 
   ImageType::Pointer testImage = ImageType::New();
 

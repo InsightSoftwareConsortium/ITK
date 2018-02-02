@@ -42,13 +42,13 @@ class AsinPixelAccessor
 {
 public:
 
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
    *  that this class will exhibit. */
-  typedef TExternalType ExternalType;
+  using ExternalType = TExternalType;
 
-  /** Internal typedef. It defines the internal real
+  /** Internal type alias. It defines the internal real
    * representation of data. */
-  typedef TInternalType InternalType;
+  using InternalType = TInternalType;
 
   static inline void Set(TInternalType & output, const TExternalType & input)
   { output = (TInternalType)std::asin( (double)input ); }
@@ -76,13 +76,13 @@ class AsinImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef AsinImageAdaptor Self;
-  typedef ImageAdaptor< TImage,
-                        Accessor::AsinPixelAccessor< typename TImage::PixelType, TOutputPixelType > > Superclass;
+  /** Standard class type aliases. */
+  using Self = AsinImageAdaptor;
+  using Superclass = ImageAdaptor< TImage,
+                        Accessor::AsinPixelAccessor< typename TImage::PixelType, TOutputPixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(AsinImageAdaptor, ImageAdaptor);

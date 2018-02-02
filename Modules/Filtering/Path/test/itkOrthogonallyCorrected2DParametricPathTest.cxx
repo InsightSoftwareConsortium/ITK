@@ -25,13 +25,13 @@ int itkOrthogonallyCorrected2DParametricPathTest( int, char*[] )
 {
   const unsigned int Dimension = 2;
 
-  typedef itk::OrthogonallyCorrected2DParametricPath  PathType;
-  typedef itk::PolyLineParametricPath< Dimension >    OriginalPathType;
-  typedef PathType::InputType                         InputType;
-  typedef PathType::OffsetType                        OffsetType;
-  typedef OriginalPathType::VertexType                VertexType;
-  typedef PathType::OrthogonalCorrectionTableType     OrthogonalCorrectionTableType;
-  typedef PathType::OrthogonalCorrectionTablePointer  OrthogonalCorrectionTablePointer;
+  using PathType = itk::OrthogonallyCorrected2DParametricPath;
+  using OriginalPathType = itk::PolyLineParametricPath< Dimension >;
+  using InputType = PathType::InputType;
+  using OffsetType = PathType::OffsetType;
+  using VertexType = OriginalPathType::VertexType;
+  using OrthogonalCorrectionTableType = PathType::OrthogonalCorrectionTableType;
+  using OrthogonalCorrectionTablePointer = PathType::OrthogonalCorrectionTablePointer;
 
   bool passed = true;
 

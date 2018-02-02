@@ -24,9 +24,9 @@ int itkChainCodePathTest( int, char*[] )
 {
   const unsigned int Dimension = 2;
 
-  typedef itk::ChainCodePath< Dimension > PathType;
-  typedef PathType::IndexType             IndexType;
-  typedef PathType::OffsetType            OffsetType;
+  using PathType = itk::ChainCodePath< Dimension >;
+  using IndexType = PathType::IndexType;
+  using OffsetType = PathType::OffsetType;
 
   bool passed = true;
 

@@ -28,11 +28,11 @@ class ScalarRegionBasedLevelSetFunctionTestHelper :
  public ScalarRegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ScalarRegionBasedLevelSetFunctionTestHelper                       Self;
-  typedef ScalarRegionBasedLevelSetFunction<TInput,TFeature,TSharedData>    Superclass;
-  typedef SmartPointer<Self>                                                Pointer;
-  typedef SmartPointer<const Self>                                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ScalarRegionBasedLevelSetFunctionTestHelper;
+  using Superclass = ScalarRegionBasedLevelSetFunction<TInput,TFeature,TSharedData>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
@@ -41,9 +41,9 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro( ScalarRegionBasedLevelSetFunctionTestHelper, ScalarRegionBasedLevelSetFunction );
 
-  typedef typename Superclass::ScalarValueType     ScalarValueType;
-  typedef typename Superclass::FeaturePixelType    FeaturePixelType;
-  typedef typename Superclass::FeatureIndexType    FeatureIndexType;
+  using ScalarValueType = typename Superclass::ScalarValueType;
+  using FeaturePixelType = typename Superclass::FeaturePixelType;
+  using FeatureIndexType = typename Superclass::FeatureIndexType;
 
   ScalarValueType ComputeInternalTerm(const FeaturePixelType &,
     const FeatureIndexType & ) override
@@ -85,11 +85,11 @@ template <unsigned int NDimension>
 class ScalarRegionBasedLevelSetFunctionSharedDataHelper : public DataObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef ScalarRegionBasedLevelSetFunctionSharedDataHelper   Self;
-  typedef DataObject                                          Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ScalarRegionBasedLevelSetFunctionSharedDataHelper;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   itkNewMacro(Self);
 
@@ -98,14 +98,14 @@ public:
 
   unsigned long       m_FunctionCount;
 
-  typedef Index< NDimension >                 IndexType;
-  typedef std::list< unsigned int >           ListPixelType;
+  using IndexType = Index< NDimension >;
+  using ListPixelType = std::list< unsigned int >;
 
-  typedef Image< ListPixelType, NDimension > ImageType;
+  using ImageType = Image< ListPixelType, NDimension >;
   typename ImageType::Pointer   m_NearestNeighborListImage;
 
-  typedef double                              PixelType;
-  typedef Image< PixelType, NDimension >      InputImageType;
+  using PixelType = double;
+  using InputImageType = Image< PixelType, NDimension >;
 
   struct SingleData
     {
@@ -139,14 +139,14 @@ int itkScalarRegionBasedLevelSetFunctionTest( int, char* [] )
 {
   const unsigned int Dimension = 3;
 
-  typedef double                                  PixelType;
-  typedef itk::Image< PixelType, Dimension >      ImageType;
-  typedef itk::Image< float, Dimension >          FeatureImageType;
+  using PixelType = double;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using FeatureImageType = itk::Image< float, Dimension >;
 
-  typedef itk::ScalarRegionBasedLevelSetFunctionSharedDataHelper<Dimension>      DataHelperType;
+  using DataHelperType = itk::ScalarRegionBasedLevelSetFunctionSharedDataHelper<Dimension>;
 
-  typedef itk::ScalarRegionBasedLevelSetFunctionTestHelper<
-    ImageType, FeatureImageType, DataHelperType >      RegionBasedLevelSetFunctionType;
+  using RegionBasedLevelSetFunctionType = itk::ScalarRegionBasedLevelSetFunctionTestHelper<
+    ImageType, FeatureImageType, DataHelperType >;
 
   RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
   if( function.IsNull() )

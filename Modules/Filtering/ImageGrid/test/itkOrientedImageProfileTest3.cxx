@@ -24,19 +24,19 @@ int itkOrientedImageProfileTest3( int , char *[] )
 {
 
   const unsigned int Dimension = 3;
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
   //
   //  Yes, on purpose we are using here the itk::VectorImage, so we can compare it
   //  against the itk::Image used in itkOrientedImageProfileTest1.
   //
-  typedef itk::VectorImage<PixelType, Dimension>      ImageType;
+  using ImageType = itk::VectorImage<PixelType, Dimension>;
 
-  typedef ImageType::IndexType                        IndexType;
-  typedef ImageType::SizeType                         SizeType;
-  typedef ImageType::PointType                        PointType;
-  typedef ImageType::RegionType                       RegionType;
-  typedef ImageType::SpacingType                      SpacingType;
+  using IndexType = ImageType::IndexType;
+  using SizeType = ImageType::SizeType;
+  using PointType = ImageType::PointType;
+  using RegionType = ImageType::RegionType;
+  using SpacingType = ImageType::SpacingType;
 
   IndexType start;
   SizeType  size;
@@ -67,7 +67,7 @@ int itkOrientedImageProfileTest3( int , char *[] )
 
   image->SetOrigin( origin );
 
-  typedef itk::ImageRegionConstIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionConstIteratorWithIndex< ImageType >;
 
   IteratorType itr( image, region );
 

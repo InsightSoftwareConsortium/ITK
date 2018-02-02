@@ -46,11 +46,11 @@ template <typename TData>
 class ITK_TEMPLATE_EXPORT CSVArray2DDataObject:public DataObject
 {
 public:
-  /* Standard class typedefs */
-  typedef CSVArray2DDataObject        Self;
-  typedef DataObject                  Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  /* Standard class type aliases */
+  using Self = CSVArray2DDataObject;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -58,12 +58,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(CSVArray2DDataObject, DataObject);
 
-  /* Vector typedefs. */
-  typedef typename std::vector<TData>              NumericVectorType;
-  typedef typename std::vector<std::string>        StringVectorType;
+  /* Vector type alias. */
+  using NumericVectorType = typename std::vector<TData>;
+  using StringVectorType = typename std::vector<std::string>;
 
   /** Typedef for the Array2D object. */
-  typedef typename itk::Array2D<TData>  MatrixType;
+  using MatrixType = typename itk::Array2D<TData>;
 
   /** Set macros */
   itkSetMacro(HasColumnHeaders,bool);

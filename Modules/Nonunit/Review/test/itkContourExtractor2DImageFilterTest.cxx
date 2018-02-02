@@ -21,14 +21,14 @@
 namespace itkContourExtractor2DImageFilterTestNamespace
 {
 const unsigned int Dimension = 2;
-typedef unsigned char                                   PixelType;
-typedef itk::Image<PixelType, Dimension>                ImageType;
-typedef itk::ImageFileReader<ImageType>                 ReaderType;
-typedef itk::ContourExtractor2DImageFilter<ImageType>   ExtractorType;
-typedef ExtractorType::VertexType                       VertexType;
-typedef std::pair<double, double>                       MyVertexType;
-typedef std::vector<MyVertexType>                       MyVertexListType;
-typedef std::vector<MyVertexListType>                   MyVertexListList;
+using PixelType = unsigned char;
+using ImageType = itk::Image<PixelType, Dimension>;
+using ReaderType = itk::ImageFileReader<ImageType>;
+using ExtractorType = itk::ContourExtractor2DImageFilter<ImageType>;
+using VertexType = ExtractorType::VertexType;
+using MyVertexType = std::pair<double, double>;
+using MyVertexListType = std::vector<MyVertexType>;
+using MyVertexListList = std::vector<MyVertexListType>;
 const float FLOAT_EPSILON = 0.0001;
 }
 

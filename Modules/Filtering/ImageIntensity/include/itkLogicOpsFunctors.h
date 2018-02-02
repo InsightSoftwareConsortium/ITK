@@ -33,16 +33,15 @@ namespace Functor
  *
  * The derived classes can be used as follows:
  *
- *  typedef itk::BinaryFunctorImageFilter<
+ *  using myFilterType = itk::BinaryFunctorImageFilter<
  *    myImageType1,
  *    myImageType2,
  *    myImageType3,
  *    itk::Functor::Equal2<myImageType1::PixelType,
  *                          myImageType2::PixelType,
- *                          myImageType3::PixelType>
- *  >       myFilterType;
+ *                          myImageType3::PixelType> >;
  *
- *  typedef myFilterType::Pointer   myFilterTypePointer;
+ *  using myFilterTypePointer = myFilterType::Pointer;
  *
  *  myFilterTypePointer filter = myFilterType::New();
  *
@@ -59,7 +58,7 @@ template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class ITK_TEMPLATE_EXPORT LogicOpBase
 {
 public:
-  typedef LogicOpBase Self;
+  using Self = LogicOpBase;
   LogicOpBase()
   {
     m_ForegroundValue=itk::NumericTraits<TOutput>::OneValue();
@@ -115,7 +114,7 @@ template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class ITK_TEMPLATE_EXPORT Equal : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
-  typedef Equal Self;
+  using Self = Equal;
 
   Equal()
   {};
@@ -153,7 +152,7 @@ template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class ITK_TEMPLATE_EXPORT NotEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
-  typedef NotEqual Self;
+  using Self = NotEqual;
 
   NotEqual() {};
   ~NotEqual() {};
@@ -189,7 +188,7 @@ template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class ITK_TEMPLATE_EXPORT GreaterEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
-  typedef GreaterEqual Self;
+  using Self = GreaterEqual;
   GreaterEqual() {};
   ~GreaterEqual() {};
 
@@ -225,7 +224,7 @@ template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class ITK_TEMPLATE_EXPORT Greater : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
-  typedef Greater Self;
+  using Self = Greater;
   Greater() {};
   ~Greater() {};
   bool operator!=( const Self & ) const
@@ -259,7 +258,7 @@ template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class ITK_TEMPLATE_EXPORT LessEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
-  typedef LessEqual Self;
+  using Self = LessEqual;
 
   LessEqual(){};
   ~LessEqual(){};
@@ -295,7 +294,7 @@ template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class ITK_TEMPLATE_EXPORT Less : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
-  typedef Less Self;
+  using Self = Less;
   Less() {};
   ~Less() {};
   bool operator!=( const Self  & ) const

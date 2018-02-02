@@ -35,9 +35,9 @@ LandmarkDisplacementFieldSource< TOutputImage >
   m_OutputOrigin.Fill(0.0);
   m_OutputDirection.SetIdentity();
 
-  typedef ThinPlateSplineKernelTransform<
+  using DefaultTransformType = ThinPlateSplineKernelTransform<
     double,
-    itkGetStaticConstMacro(ImageDimension) >  DefaultTransformType;
+    itkGetStaticConstMacro(ImageDimension) >;
 
   m_KernelTransform = DefaultTransformType::New();
 }
@@ -147,8 +147,7 @@ LandmarkDisplacementFieldSource< TOutputImage >
   outputPtr->Allocate();
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageRegionIteratorWithIndex<
-    TOutputImage > OutputIterator;
+  using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
   OutputImageRegionType region = outputPtr->GetRequestedRegion();
 
@@ -158,8 +157,8 @@ LandmarkDisplacementFieldSource< TOutputImage >
   // to an output pixel
   OutputIndexType outputIndex;         // Index to current output pixel
 
-  typedef typename KernelTransformType::InputPointType  InputPointType;
-  typedef typename KernelTransformType::OutputPointType OutputPointType;
+  using InputPointType = typename KernelTransformType::InputPointType;
+  using OutputPointType = typename KernelTransformType::OutputPointType;
 
   InputPointType outputPoint;    // Coordinates of current output pixel
 

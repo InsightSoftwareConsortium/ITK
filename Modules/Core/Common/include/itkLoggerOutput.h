@@ -50,18 +50,18 @@ namespace itk
 class ITKCommon_EXPORT LoggerOutput:public OutputWindow
 {
 public:
-  /** Standard class typedefs. */
-  typedef LoggerOutput               Self;
-  typedef OutputWindow               Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LoggerOutput;
+  using Superclass = OutputWindow;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoggerOutput, OutputWindow);
 
   itkNewMacro(LoggerOutput);
 
-  typedef Logger *LoggerType;
+  using LoggerType = Logger *;
 
   /** Send a string to display. */
   void DisplayText(const char *t) override;

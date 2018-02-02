@@ -79,23 +79,20 @@ template< typename TComponent >
 class ITK_TEMPLATE_EXPORT DiffusionTensor3D:public SymmetricSecondRankTensor< TComponent, 3 >
 {
 public:
-  /** Standard class typedefs. */
-  typedef DiffusionTensor3D                          Self;
-  typedef SymmetricSecondRankTensor< TComponent, 3 > Superclass;
+  /** Standard class type aliases. */
+  using Self = DiffusionTensor3D;
+  using Superclass = SymmetricSecondRankTensor< TComponent, 3 >;
 
-  /** Propagating some typedef from the superclass */
-  typedef typename Superclass::ValueType     ValueType;
-  typedef typename Superclass::ComponentType ComponentType;
-#if defined( __GNUC__ ) && !defined( __INTEL_COMPILER ) && ( __GNUC__ == 3 )
-  typedef ComponentType ComponentArrayType[6];
-#else
-  typedef typename Superclass::ComponentArrayType ComponentArrayType;
-#endif
-  typedef typename Superclass::AccumulateValueType AccumulateValueType;
-  typedef typename Superclass::RealValueType       RealValueType;
+  /** Propagating some type alias from the superclass */
+  using ValueType = typename Superclass::ValueType;
+  using ComponentType = typename Superclass::ComponentType;
+  using ComponentArrayType = typename Superclass::ComponentArrayType;
 
-  typedef typename Superclass::EigenValuesArrayType   EigenValuesArrayType;
-  typedef typename Superclass::EigenVectorsMatrixType EigenVectorsMatrixType;
+  using AccumulateValueType = typename Superclass::AccumulateValueType;
+  using RealValueType = typename Superclass::RealValueType;
+
+  using EigenValuesArrayType = typename Superclass::EigenValuesArrayType;
+  using EigenVectorsMatrixType = typename Superclass::EigenVectorsMatrixType;
 
   /** Default Constructor. */
   DiffusionTensor3D();

@@ -38,11 +38,11 @@ int itkGDCMImageReadSeriesWriteTest( int argc, char* argv[] )
   const char * outputDirectory = argv[2];
   const char * singleOutputImage = argv[3];
 
-  typedef signed short    PixelType;
+  using PixelType = signed short;
   const unsigned int      Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
-  typedef itk::ImageFileReader< ImageType  > ReaderType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType  >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -50,18 +50,18 @@ int itkGDCMImageReadSeriesWriteTest( int argc, char* argv[] )
 
   TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
-  typedef itk::GDCMImageIO            ImageIOType;
-  typedef itk::NumericSeriesFileNames NamesGeneratorType;
+  using ImageIOType = itk::GDCMImageIO;
+  using NamesGeneratorType = itk::NumericSeriesFileNames;
 
   ImageIOType::Pointer gdcmIO = ImageIOType::New();
 
   itksys::SystemTools::MakeDirectory( outputDirectory );
 
-  typedef signed short    OutputPixelType;
+  using OutputPixelType = signed short;
   const unsigned int      OutputDimension = 2;
 
-  typedef itk::Image< OutputPixelType, OutputDimension >    Image2DType;
-  typedef itk::ImageSeriesWriter< ImageType, Image2DType >  SeriesWriterType;
+  using Image2DType = itk::Image< OutputPixelType, OutputDimension >;
+  using SeriesWriterType = itk::ImageSeriesWriter< ImageType, Image2DType >;
 
   NamesGeneratorType::Pointer namesGenerator = NamesGeneratorType::New();
 
@@ -101,11 +101,11 @@ int itkGDCMImageReadSeriesWriteTest( int argc, char* argv[] )
 
 
   // Now read back in and write out as 3D image for comparison with the input.
-  typedef itk::ImageSeriesReader< ImageType > SeriesReaderType;
+  using SeriesReaderType = itk::ImageSeriesReader< ImageType >;
   SeriesReaderType::Pointer seriesReader = SeriesReaderType::New();
   seriesReader->SetFileNames( namesGenerator->GetFileNames() );
 
-  typedef itk::ImageFileWriter< ImageType > SingleWriterType;
+  using SingleWriterType = itk::ImageFileWriter< ImageType >;
   SingleWriterType::Pointer singleWriter = SingleWriterType::New();
   singleWriter->SetInput( seriesReader->GetOutput() );
   singleWriter->SetFileName( singleOutputImage );

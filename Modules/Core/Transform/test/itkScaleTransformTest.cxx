@@ -24,7 +24,7 @@ int itkScaleTransformTest(int ,char * [] )
 {
 
 
-  typedef itk::ScaleTransform<double>  TransformType;
+  using TransformType = itk::ScaleTransform<double>;
 
 
   const double epsilon = 1e-10;
@@ -226,7 +226,7 @@ int itkScaleTransformTest(int ,char * [] )
 
     // Exercise Set/Get Center methods
     {
-      typedef TransformType::InputPointType  CenterType;
+      using CenterType = TransformType::InputPointType;
       CenterType center;
       center[0] = 5;
       center[1] = 6;

@@ -49,17 +49,17 @@ public:
 
   /**  Vector type defines a generic vector type that is used
    *  for the matricial operations performed during estimation. */
-  typedef vnl_vector_fixed< T, VEstimatorDimension > VectorType;
+  using VectorType = vnl_vector_fixed< T, VEstimatorDimension >;
 
   /**  Matrix type defines a generic matrix type that is used
    *  for the matricial operations performed during estimation. */
-  typedef vnl_matrix_fixed< T, VEstimatorDimension, VEstimatorDimension > MatrixType;
+  using MatrixType = vnl_matrix_fixed< T, VEstimatorDimension, VEstimatorDimension >;
 
   /** Type is the type associated with the parameters to be estimated.
    * All the parameters are of the same type. Natural choices could be
    * floats and doubles, because Type also is used for all the internal
    * computations. */
-  typedef T ValueType;
+  using ValueType = T;
 
   /** Update the estimation using the information provided by a new measure
    * along with a new line of the linear predictor. This method is the one

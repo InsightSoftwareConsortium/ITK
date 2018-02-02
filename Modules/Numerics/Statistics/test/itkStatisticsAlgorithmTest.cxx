@@ -31,8 +31,8 @@ int itkStatisticsAlgorithmTest( int, char * [] )
 
   const unsigned int measurementVectorSize = 2;
 
-  typedef itk::Array< float > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Array< float >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
   SampleType::Pointer sample = SampleType::New();
 

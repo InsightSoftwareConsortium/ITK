@@ -40,11 +40,11 @@ class ITK_TEMPLATE_EXPORT GradientDescentOptimizerBasev4Template
   : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef GradientDescentOptimizerBasev4Template                       Self;
-  typedef ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType> Superclass;
-  typedef SmartPointer< Self >                                         Pointer;
-  typedef SmartPointer< const Self >                                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GradientDescentOptimizerBasev4Template;
+  using Superclass = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientDescentOptimizerBasev4Template, Superclass);
@@ -61,31 +61,30 @@ public:
     } StopConditionType;
 
   /** Stop condition return string type */
-  typedef typename Superclass::StopConditionReturnStringType StopConditionReturnStringType;
+  using StopConditionReturnStringType = typename Superclass::StopConditionReturnStringType;
 
   /** Stop condition internal string type */
-  typedef typename Superclass::StopConditionDescriptionType  StopConditionDescriptionType;
+  using StopConditionDescriptionType = typename Superclass::StopConditionDescriptionType;
 
   /** It should be possible to derive the internal computation type from the class object. */
-  typedef TInternalComputationValueType          InternalComputationValueType;
+  using InternalComputationValueType = TInternalComputationValueType;
 
   /** Metric type over which this class is templated */
-  typedef typename Superclass::MetricType                    MetricType;
-  typedef typename MetricType::Pointer                       MetricTypePointer;
+  using MetricType = typename Superclass::MetricType;
+  using MetricTypePointer = typename MetricType::Pointer;
 
   /** Derivative type */
-  typedef typename Superclass::DerivativeType                DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
   /** Measure type */
-  typedef typename Superclass::MeasureType                   MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
-  typedef typename Superclass::ScalesType                    ScalesType;
+  using ScalesType = typename Superclass::ScalesType;
 
-  typedef typename Superclass::ParametersType                ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Type for the convergence checker */
-  typedef itk::Function::WindowConvergenceMonitoringFunction<TInternalComputationValueType>
-  ConvergenceMonitoringType;
+  using ConvergenceMonitoringType = itk::Function::WindowConvergenceMonitoringFunction<TInternalComputationValueType>;
 
   /** Get the most recent gradient values. */
   itkGetConstReferenceMacro( Gradient, DerivativeType );
@@ -146,7 +145,7 @@ public:
   virtual void ModifyGradientByScales();
   virtual void ModifyGradientByLearningRate();
 
-  typedef ThreadedIndexedContainerPartitioner::IndexRangeType IndexRangeType;
+  using IndexRangeType = ThreadedIndexedContainerPartitioner::IndexRangeType;
 
   /** Derived classes define this worker method to modify the gradient by scales.
    * Modifications must be performed over the index range defined in
@@ -223,7 +222,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef GradientDescentOptimizerBasev4Template<double> GradientDescentOptimizerBasev4;
+using GradientDescentOptimizerBasev4 = GradientDescentOptimizerBasev4Template<double>;
 
 } // end namespace itk
 

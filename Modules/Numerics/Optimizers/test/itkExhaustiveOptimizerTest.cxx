@@ -43,17 +43,17 @@ class RSGCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef RSGCostFunction                 Self;
-  typedef itk::SingleValuedCostFunction   Superclass;
-  typedef itk::SmartPointer<Self>         Pointer;
-  typedef itk::SmartPointer<const Self>   ConstPointer;
+  using Self = RSGCostFunction;
+  using Superclass = itk::SingleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType      ParametersType;
-  typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
   RSGCostFunction()
   {
@@ -105,15 +105,15 @@ public:
 class IndexObserver : public itk::Command
 {
 public:
-  typedef IndexObserver              Self;
-  typedef itk::Command               Superclass;
-  typedef itk::SmartPointer < Self > Pointer;
+  using Self = IndexObserver;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer < Self >;
 
   itkNewMacro ( IndexObserver );
 
   void  Execute ( const itk::Object *caller, const itk::EventObject &) override
   {
-    typedef itk::ExhaustiveOptimizer OptimizerType;
+    using OptimizerType = itk::ExhaustiveOptimizer;
     const OptimizerType *optimizer = dynamic_cast < const OptimizerType * > ( caller );
 
     if ( nullptr != optimizer )
@@ -143,9 +143,9 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   std::cout << "ExhaustiveOptimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::ExhaustiveOptimizer  OptimizerType;
+  using OptimizerType = itk::ExhaustiveOptimizer;
 
-  typedef  OptimizerType::ScalesType            ScalesType;
+  using ScalesType = OptimizerType::ScalesType;
 
 
   // Declaration of a itkOptimizer
@@ -161,7 +161,7 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
 
-  typedef RSGCostFunction::ParametersType    ParametersType;
+  using ParametersType = RSGCostFunction::ParametersType;
 
 
   const unsigned int spaceDimension =
@@ -185,7 +185,7 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   itkOptimizer->SetStepLength( 1.0 );
 
 
-  typedef OptimizerType::StepsType  StepsType;
+  using StepsType = OptimizerType::StepsType;
   StepsType steps( 2 );
   steps[0] = 10;
   steps[1] = 10;

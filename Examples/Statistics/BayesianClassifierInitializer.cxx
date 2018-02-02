@@ -69,13 +69,12 @@ int main(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image< unsigned char, Dimension > ImageType;
-  typedef itk::BayesianClassifierInitializationImageFilter< ImageType >
-                                                BayesianInitializerType;
+  using ImageType = itk::Image< unsigned char, Dimension >;
+  using BayesianInitializerType = itk::BayesianClassifierInitializationImageFilter<ImageType>;
   BayesianInitializerType::Pointer bayesianInitializer
                                           = BayesianInitializerType::New();
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
@@ -95,8 +94,7 @@ int main(int argc, char *argv[])
 
   // TODO add test where we specify membership functions
 
-  typedef itk::ImageFileWriter<
-    BayesianInitializerType::OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter<BayesianInitializerType::OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( bayesianInitializer->GetOutput() );
   writer->SetFileName( argv[2] );
@@ -125,9 +123,9 @@ int main(int argc, char *argv[])
 
   if( argv[4] && argv[5] )
     {
-    typedef BayesianInitializerType::OutputImageType MembershipImageType;
-    typedef itk::Image< MembershipImageType::InternalPixelType,
-                        Dimension > ExtractedComponentImageType;
+    using MembershipImageType = BayesianInitializerType::OutputImageType;
+    using ExtractedComponentImageType = itk::Image< MembershipImageType::InternalPixelType,
+                        Dimension >;
     ExtractedComponentImageType::Pointer extractedComponentImage =
                                     ExtractedComponentImageType::New();
     extractedComponentImage->CopyInformation(
@@ -135,8 +133,8 @@ int main(int argc, char *argv[])
     extractedComponentImage->SetBufferedRegion( bayesianInitializer->GetOutput()->GetBufferedRegion() );
     extractedComponentImage->SetRequestedRegion( bayesianInitializer->GetOutput()->GetRequestedRegion() );
     extractedComponentImage->Allocate();
-    typedef itk::ImageRegionConstIterator< MembershipImageType > ConstIteratorType;
-    typedef itk::ImageRegionIterator< ExtractedComponentImageType > IteratorType;
+    using ConstIteratorType = itk::ImageRegionConstIterator< MembershipImageType >;
+    using IteratorType = itk::ImageRegionIterator< ExtractedComponentImageType >;
     ConstIteratorType cit( bayesianInitializer->GetOutput(),
                      bayesianInitializer->GetOutput()->GetBufferedRegion() );
     IteratorType it( extractedComponentImage,
@@ -153,15 +151,14 @@ int main(int argc, char *argv[])
       }
 
     // Write out the rescaled extracted component
-    typedef itk::Image< unsigned char, Dimension > OutputImageType;
-    typedef itk::RescaleIntensityImageFilter<
-      ExtractedComponentImageType, OutputImageType > RescalerType;
+    using OutputImageType = itk::Image< unsigned char, Dimension >;
+    using RescalerType = itk::RescaleIntensityImageFilter<
+      ExtractedComponentImageType, OutputImageType >;
     RescalerType::Pointer rescaler = RescalerType::New();
     rescaler->SetInput( extractedComponentImage );
     rescaler->SetOutputMinimum( 0 );
     rescaler->SetOutputMaximum( 255 );
-    typedef itk::ImageFileWriter<  OutputImageType
-                        >  ExtractedComponentWriterType;
+    using ExtractedComponentWriterType = itk::ImageFileWriter<OutputImageType>;
     ExtractedComponentWriterType::Pointer
                rescaledImageWriter = ExtractedComponentWriterType::New();
     rescaledImageWriter->SetInput( rescaler->GetOutput() );

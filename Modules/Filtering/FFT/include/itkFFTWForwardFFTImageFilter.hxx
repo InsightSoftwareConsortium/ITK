@@ -117,7 +117,7 @@ FFTWForwardFFTImageFilter< TInputImage, TOutputImage >
   FFTWProxyType::DestroyPlan(plan);
 
   // Expand the half image to the full image size
-  typedef HalfToFullHermitianImageFilter< OutputImageType > HalfToFullFilterType;
+  using HalfToFullFilterType = HalfToFullHermitianImageFilter< OutputImageType >;
   typename HalfToFullFilterType::Pointer halfToFullFilter = HalfToFullFilterType::New();
   halfToFullFilter->SetActualXDimensionIsOdd( inputSize[0] % 2 != 0 );
   halfToFullFilter->SetInput( fftwOutput );

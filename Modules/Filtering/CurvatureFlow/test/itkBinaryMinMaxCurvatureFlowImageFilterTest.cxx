@@ -96,11 +96,11 @@ int testBinaryMinMaxCurvatureFlow(
 )
 {
 
-  typedef float PixelType;
+  using PixelType = float;
   enum { ImageDimension = VImageDimension };
-  typedef itk::Image<PixelType, ImageDimension>                          ImageType;
-  typedef itk::ImageRegionIterator<ImageType>                            IteratorType;
-  typedef itk::BinaryMinMaxCurvatureFlowImageFilter<ImageType,ImageType> DenoiserType;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
+  using IteratorType = itk::ImageRegionIterator<ImageType>;
+  using DenoiserType = itk::BinaryMinMaxCurvatureFlowImageFilter<ImageType,ImageType>;
 
   typename DenoiserType::Pointer denoiser = DenoiserType::New();
 
@@ -256,7 +256,7 @@ int testBinaryMinMaxCurvatureFlow(
  /**
   * Exercise error handling
   */
-  typedef itk::CurvatureFlowFunction<ImageType> WrongFunctionType;
+  using WrongFunctionType = itk::CurvatureFlowFunction<ImageType>;
   typename WrongFunctionType::Pointer wrongFunction = WrongFunctionType::New();
 
   passed = false;

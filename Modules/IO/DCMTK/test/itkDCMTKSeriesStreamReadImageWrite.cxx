@@ -52,10 +52,10 @@ int itkDCMTKSeriesStreamReadImageWrite( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned short,3>            ImageType;
-  typedef itk::ImageSeriesReader< ImageType >     ReaderType;
-  typedef itk::DCMTKImageIO                       ImageIOType;
-  typedef itk::DCMTKSeriesFileNames               SeriesFileNames;
+  using ImageType = itk::Image<unsigned short,3>;
+  using ReaderType = itk::ImageSeriesReader< ImageType >;
+  using ImageIOType = itk::DCMTKImageIO;
+  using SeriesFileNames = itk::DCMTKSeriesFileNames;
 
 
   unsigned int numberOfDataPieces = 4;
@@ -91,11 +91,11 @@ int itkDCMTKSeriesStreamReadImageWrite( int argc, char* argv[] )
   reader->SetImageIO( gdcmIO );
 
 
-  typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
+  using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
   monitor->SetInput( reader->GetOutput() );
 
-  typedef itk::StreamingImageFilter<ImageType, ImageType> StreamingFilter;
+  using StreamingFilter = itk::StreamingImageFilter<ImageType, ImageType>;
   StreamingFilter::Pointer streamer = StreamingFilter::New();
   streamer->SetInput( monitor->GetOutput() );
   streamer->SetNumberOfStreamDivisions( numberOfDataPieces );
@@ -170,7 +170,7 @@ int itkDCMTKSeriesStreamReadImageWrite( int argc, char* argv[] )
     }
 
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[2] );

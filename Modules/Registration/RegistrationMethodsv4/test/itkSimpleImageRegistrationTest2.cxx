@@ -33,21 +33,21 @@ template <unsigned int TImageDimension>
 class RigidTransformTraits
 {
 public:
-  typedef itk::AffineTransform<double, TImageDimension> TransformType;
+  using TransformType = itk::AffineTransform<double, TImageDimension>;
 };
 
 template <>
 class RigidTransformTraits<2>
 {
 public:
-  typedef itk::Euler2DTransform<double> TransformType;
+  using TransformType = itk::Euler2DTransform<double>;
 };
 
 template <>
 class RigidTransformTraits<3>
 {
 public:
-  typedef itk::Euler3DTransform<double> TransformType;
+  using TransformType = itk::Euler3DTransform<double>;
 };
 
 
@@ -55,9 +55,9 @@ template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate   Self;
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -83,7 +83,7 @@ public:
     typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
     const itk::ObjectToObjectOptimizerBase* optimizerBase = filter->GetOptimizer();
-    typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+    using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
     typename GradientDescentOptimizerv4Type::ConstPointer optimizer = dynamic_cast<const GradientDescentOptimizerv4Type *>(optimizerBase);
     if( !optimizer )
       {
@@ -131,11 +131,11 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
     exit( 1 );
     }
 
-  typedef double                                 PixelType;
-  typedef itk::Image<PixelType, VImageDimension> FixedImageType;
-  typedef itk::Image<PixelType, VImageDimension> MovingImageType;
+  using PixelType = double;
+  using FixedImageType = itk::Image<PixelType, VImageDimension>;
+  using MovingImageType = itk::Image<PixelType, VImageDimension>;
 
-  typedef itk::ImageFileReader<FixedImageType> ImageReaderType;
+  using ImageReaderType = itk::ImageFileReader<FixedImageType>;
 
   typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName( argv[2] );
@@ -152,7 +152,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   movingImage->DisconnectPipeline();
 
   // Set up MI metric
-  typedef itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> MIMetricType;
+  using MIMetricType = itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
   typename MIMetricType::Pointer mutualInformationMetric = MIMetricType::New();
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );
   mutualInformationMetric->SetUseMovingImageGradientFilter( false );
@@ -160,17 +160,17 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   mutualInformationMetric->SetUseFixedSampledPointSet( false );
 
   // Set up CC metric
-  typedef itk::CorrelationImageToImageMetricv4<FixedImageType, MovingImageType> GlobalCorrelationMetricType;
+  using GlobalCorrelationMetricType = itk::CorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;
   typename GlobalCorrelationMetricType::Pointer gCorrelationMetric = GlobalCorrelationMetricType::New();
 
 
   // Stage1: Rigid registration
   //
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> RegistrationType;
+  using RegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
   typename RegistrationType::Pointer rigidRegistration = RegistrationType::New();
   rigidRegistration->SetObjectName("RigidSimple");
   // Set up rigid multi metric: It only has one metric component
-  typedef itk::ObjectToObjectMultiMetricv4<VImageDimension, VImageDimension> MultiMetricType;
+  using MultiMetricType = itk::ObjectToObjectMultiMetricv4<VImageDimension, VImageDimension>;
 
   typename MultiMetricType::Pointer rigidMultiMetric = MultiMetricType::New();
   rigidMultiMetric->AddMetric( mutualInformationMetric );
@@ -180,7 +180,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   rigidRegistration->SetMovingImage( movingImage );
 
   // Rigid transform that is set to be optimized
-  typedef typename RigidTransformTraits<VImageDimension>::TransformType   RigidTransformType;
+  using RigidTransformType = typename RigidTransformTraits<VImageDimension>::TransformType;
   typename RigidTransformType::Pointer rigidTransform = RigidTransformType::New();
   rigidRegistration->SetInitialTransform( rigidTransform );
   rigidRegistration->InPlaceOn();
@@ -197,12 +197,12 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   rigidRegistration->SetMetricSamplingStrategy( rigidSamplingStrategy );
   rigidRegistration->SetMetricSamplingPercentage( rigidSamplingPercentage );
 
-  typedef itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType> RigidScalesEstimatorType;
+  using RigidScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType>;
   typename RigidScalesEstimatorType::Pointer rigidScalesEstimator = RigidScalesEstimatorType::New();
   rigidScalesEstimator->SetMetric( mutualInformationMetric );
   rigidScalesEstimator->SetTransformForward( true );
 
-  typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+  using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
   GradientDescentOptimizerv4Type * rigidOptimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( rigidRegistration->GetModifiableOptimizer() );
   if( !rigidOptimizer )
     {
@@ -218,7 +218,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   rigidOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
   rigidOptimizer->SetScalesEstimator( rigidScalesEstimator );
 
-  typedef CommandIterationUpdate<RegistrationType> CommandType;
+  using CommandType = CommandIterationUpdate<RegistrationType>;
   typename CommandType::Pointer rigidObserver = CommandType::New();
   rigidRegistration->AddObserver( itk::MultiResolutionIterationEvent(), rigidObserver );
 
@@ -247,14 +247,14 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   affineSimple->SetFixedImage( 1, fixedImage );
   affineSimple->SetMovingImage( 1, movingImage );
 
-  typedef itk::AffineTransform<double, VImageDimension> AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<double, VImageDimension>;
   typename AffineTransformType::Pointer   affineTransform  = AffineTransformType::New();
   affineSimple->SetInitialTransform(  affineTransform  );
   affineSimple->InPlaceOn();
 
   affineSimple->SetMovingInitialTransformInput( rigidRegistration->GetTransformOutput() );
 
-  typedef itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType> AffineScalesEstimatorType;
+  using AffineScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType>;
   typename AffineScalesEstimatorType::Pointer scalesEstimator1 = AffineScalesEstimatorType::New();
   scalesEstimator1->SetMetric( mutualInformationMetric );
   scalesEstimator1->SetTransformForward( true );
@@ -315,12 +315,12 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
             << std::endl << " optimizer: " << affineOptimizer->GetNumberOfThreads() << std::endl;
   }
 
-  typedef itk::CompositeTransform< double, VImageDimension >  CompositeTransformType;
+  using CompositeTransformType = itk::CompositeTransform< double, VImageDimension >;
   typename CompositeTransformType::Pointer compositeTransform  = CompositeTransformType::New();
   compositeTransform->AddTransform( rigidTransform );
   compositeTransform->AddTransform( affineTransform );
 
-  typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
   resampler->SetTransform( compositeTransform );
   resampler->SetInput( movingImage );
@@ -331,7 +331,7 @@ int PerformSimpleImageRegistration2( int argc, char *argv[] )
   resampler->SetDefaultPixelValue( 0 );
   resampler->Update();
 
-  typedef itk::ImageFileWriter<FixedImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<FixedImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[4] );
   writer->SetInput( resampler->GetOutput() );

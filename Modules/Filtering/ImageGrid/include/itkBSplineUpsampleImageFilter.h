@@ -85,11 +85,11 @@ class ITK_TEMPLATE_EXPORT BSplineUpsampleImageFilter:
   public ResamplerType
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineUpsampleImageFilter Self;
-  typedef ResamplerType              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineUpsampleImageFilter;
+  using Superclass = ResamplerType;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineUpsampleImageFilter, ReamplerType);
@@ -97,17 +97,17 @@ public:
   /** New macro for creation of through a Smart Pointer */
   itkNewMacro(Self);
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = typename Superclass::InputImageType;
 
-  /** InputImagePointer typedef support. */
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  /** InputImagePointer type alias support */
+  using InputImagePointer = typename Superclass::InputImagePointer;
 
-  /** OutputImageIterator typedef support. */
-  typedef typename Superclass::OutputImageIterator OutputImageIterator;
+  /** OutputImageIterator type alias support */
+  using OutputImageIterator = typename Superclass::OutputImageIterator;
 
-  /** OutputImagePointer typedef support. */
-  typedef typename Superclass::OutputImagePointer OutputImagePointer;
+  /** OutputImagePointer type alias support */
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
 
   /** Creates an image twice the size of the input image with spacing half the
     * input image. */

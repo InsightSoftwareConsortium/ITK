@@ -21,7 +21,7 @@
 #include "itkParticleSwarmOptimizerTestFunctions.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 
-typedef  itk::ParticleSwarmOptimizer  OptimizerType;
+using OptimizerType = itk::ParticleSwarmOptimizer;
 static OptimizerType::RandomVariateGeneratorType::IntegerType seedOffset = 0;
 
 /**

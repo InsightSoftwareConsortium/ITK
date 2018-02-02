@@ -76,7 +76,7 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, 
   this->PrepareInput( this->GetInput(), m_TransformedInput, progress,
                       0.5f * progressWeight );
 
-  typedef ImageDuplicator< InternalComplexImageType > DuplicatorType;
+  using DuplicatorType = ImageDuplicator< InternalComplexImageType >;
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
   duplicator->SetInputImage( m_TransformedInput );
   duplicator->Update();
@@ -127,9 +127,8 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, 
 
   // Compute the convolution of the difference with the flipped and
   // normalized version of the current image estimate
-  typedef HalfHermitianToRealInverseFFTImageFilter< InternalComplexImageType,
-                                                    InternalImageType >
-    InverseFFTFilterType;
+  using InverseFFTFilterType = HalfHermitianToRealInverseFFTImageFilter< InternalComplexImageType,
+                                                    InternalImageType >;
   typename InverseFFTFilterType::Pointer ifft = InverseFFTFilterType::New();
   ifft->SetActualXDimensionIsOdd( this->GetXDimensionIsOdd() );
   ifft->SetInput( m_TransformedCurrentEstimate );
@@ -137,7 +136,7 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, 
 
   // Shift the image by negative one half the input size in each
   // dimension
-  typedef CyclicShiftImageFilter< InternalImageType > EstimateShiftFilterType;
+  using EstimateShiftFilterType = CyclicShiftImageFilter< InternalImageType >;
   typename EstimateShiftFilterType::Pointer estimateShifter =
     EstimateShiftFilterType::New();
   typename EstimateShiftFilterType::OffsetType shift;
@@ -152,22 +151,21 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, 
   estimateShifter->SetInput( ifft->GetOutput() );
 
   // Normalize the image so that it sums to 1
-  typedef NormalizeToConstantImageFilter< InternalImageType, InternalImageType >
-    NormalizeEstimateFilterType;
+  using NormalizeEstimateFilterType =
+      NormalizeToConstantImageFilter< InternalImageType, InternalImageType >;
   typename NormalizeEstimateFilterType::Pointer normalizer =
     NormalizeEstimateFilterType::New();
   normalizer->SetConstant( 1.0 );
   normalizer->SetInput( estimateShifter->GetOutput() );
 
   // Take the DFT of the shifted image
-  typedef RealToHalfHermitianForwardFFTImageFilter< InternalImageType,
-                                                    InternalComplexImageType >
-    ForwardFFTFilterType;
+  using ForwardFFTFilterType = RealToHalfHermitianForwardFFTImageFilter< InternalImageType,
+                                                    InternalComplexImageType >;
   typename ForwardFFTFilterType::Pointer fft = ForwardFFTFilterType::New();
   fft->SetInput( normalizer->GetOutput() );
   fft->UpdateLargestPossibleRegion();
 
-  typedef ComplexConjugateImageAdaptor< InternalComplexImageType > ComplexAdaptorType;
+  using ComplexAdaptorType = ComplexConjugateImageAdaptor< InternalComplexImageType >;
   typename ComplexAdaptorType::Pointer complexAdaptor = ComplexAdaptorType::New();
   complexAdaptor->SetImage( fft->GetOutput() );
 
@@ -176,7 +174,7 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, 
   // changes) in preparation for computing the derivative of the
   // objective function with respect to the parameters of the
   // parametric kernel
-  typedef MultiplyImageFilter< InternalComplexImageType, ComplexAdaptorType > MultiplyFilterType;
+  using MultiplyFilterType = MultiplyImageFilter< InternalComplexImageType, ComplexAdaptorType >;
   typename MultiplyFilterType::Pointer multiplier = MultiplyFilterType::New();
   multiplier->SetInput1( m_DifferenceFilter->GetOutput() );
   multiplier->SetInput2( complexAdaptor );
@@ -195,8 +193,8 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, 
 
   for (unsigned int i = 0; i < parameters.Size(); ++i)
     {
-    typedef typename KernelSourceType::OutputImageType InternalKernelImageType;
-    typedef typename InternalKernelImageType::Pointer  InternalKernelImagePointer;
+    using InternalKernelImageType = typename KernelSourceType::OutputImageType;
+    using InternalKernelImagePointer = typename InternalKernelImageType::Pointer;
     typename KernelSourceType::ParametersValueType theta = parameters[i];
     double deltaTheta = 0.0001;
     double thetaPlus  = theta + deltaTheta;
@@ -253,9 +251,8 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter< TInputImage, TKernelImage, 
 ::Finish(ProgressAccumulator * progress, float progressWeight)
 {
   // Take the inverse Fourier transform of the current estimate
-  typedef HalfHermitianToRealInverseFFTImageFilter< InternalComplexImageType,
-                                                    InternalImageType >
-    InverseFFTFilterType;
+  using InverseFFTFilterType = HalfHermitianToRealInverseFFTImageFilter< InternalComplexImageType,
+                                                    InternalImageType >;
   typename InverseFFTFilterType::Pointer ifft = InverseFFTFilterType::New();
   ifft->SetActualXDimensionIsOdd( this->GetXDimensionIsOdd() );
   ifft->SetInput( m_TransformedCurrentEstimate );

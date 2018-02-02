@@ -74,19 +74,19 @@ int itkMeasurementVectorTraitsTest(int, char* [] )
 
   const unsigned int length1 = 7;
 
-  typedef itk::FixedArray< float, length1 >                MeasurementVectorType1;
-  typedef itk::Array< float >                              MeasurementVectorType2;
-  typedef itk::VariableLengthVector< float >               MeasurementVectorType3;
-  typedef std::vector< float >                             MeasurementVectorType4;
-  typedef itk::NumericTraits<float>::MeasurementVectorType MeasurementVectorType5;
+  using MeasurementVectorType1 = itk::FixedArray< float, length1 >;
+  using MeasurementVectorType2 = itk::Array< float >;
+  using MeasurementVectorType3 = itk::VariableLengthVector< float >;
+  using MeasurementVectorType4 = std::vector< float >;
+  using MeasurementVectorType5 = itk::NumericTraits<float>::MeasurementVectorType;
 
   const unsigned int length2 = 9;
 
-  typedef itk::FixedArray< float, length2 >                MeasurementVectorType1b;
-  typedef itk::Array< float >                              MeasurementVectorType2b;
-  typedef itk::VariableLengthVector< float >               MeasurementVectorType3b;
-  typedef std::vector< float >                             MeasurementVectorType4b;
-  typedef itk::NumericTraits<float>::MeasurementVectorType MeasurementVectorType5b;
+  using MeasurementVectorType1b = itk::FixedArray< float, length2 >;
+  using MeasurementVectorType2b = itk::Array< float >;
+  using MeasurementVectorType3b = itk::VariableLengthVector< float >;
+  using MeasurementVectorType4b = std::vector< float >;
+  using MeasurementVectorType5b = itk::NumericTraits<float>::MeasurementVectorType;
 
 
   MeasurementVectorType1 measure1;

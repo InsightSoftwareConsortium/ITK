@@ -30,10 +30,10 @@ int itkBinaryImageToShiSparseLevelSetAdaptorTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char InputPixelType;
+  using InputPixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType, Dimension > InputImageType;
-  typedef itk::ImageFileReader< InputImageType >  InputReaderType;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using InputReaderType = itk::ImageFileReader< InputImageType >;
 
   InputReaderType::Pointer reader = InputReaderType::New();
   reader->SetFileName( argv[1] );
@@ -49,28 +49,28 @@ int itkBinaryImageToShiSparseLevelSetAdaptorTest( int argc, char* argv[] )
   InputImageType::Pointer input = reader->GetOutput();
   std::cout << "Input image read" << std::endl;
 
-  typedef itk::ShiSparseLevelSetImage< Dimension > LevelSetType;
+  using LevelSetType = itk::ShiSparseLevelSetImage< Dimension >;
 
-  typedef itk::BinaryImageToLevelSetImageAdaptor< InputImageType,
-      LevelSetType > BinaryToSparseAdaptorType;
+  using BinaryToSparseAdaptorType = itk::BinaryImageToLevelSetImageAdaptor< InputImageType,
+      LevelSetType >;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage( input );
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
-  typedef LevelSetType::LayerIdType             LayerIdType;
+  using LayerIdType = LevelSetType::LayerIdType;
 
   LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
-  typedef itk::Image< char, Dimension >   StatusImageType;
+  using StatusImageType = itk::Image< char, Dimension >;
   StatusImageType::Pointer statusImage = StatusImageType::New();
   statusImage->SetRegions( input->GetLargestPossibleRegion() );
   statusImage->CopyInformation( input );
   statusImage->Allocate();
   statusImage->FillBuffer( 0 );
 
-  typedef itk::ImageRegionIteratorWithIndex< StatusImageType > StatusIteratorType;
+  using StatusIteratorType = itk::ImageRegionIteratorWithIndex< StatusImageType >;
   StatusIteratorType sIt( statusImage, statusImage->GetLargestPossibleRegion() );
   sIt.GoToBegin();
 
@@ -83,7 +83,7 @@ int itkBinaryImageToShiSparseLevelSetAdaptorTest( int argc, char* argv[] )
     ++sIt;
     }
 
-  typedef itk::ImageFileWriter< StatusImageType >     StatusWriterType;
+  using StatusWriterType = itk::ImageFileWriter< StatusImageType >;
   StatusWriterType::Pointer writer = StatusWriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( statusImage );
@@ -114,8 +114,8 @@ int itkBinaryImageToShiSparseLevelSetAdaptorTest( int argc, char* argv[] )
     std::cout << std::endl;
     }
 
-  typedef itk::LabelObject< unsigned long, 2 >  LabelObjectType;
-  typedef LabelObjectType::Pointer              LabelObjectPointer;
+  using LabelObjectType = itk::LabelObject< unsigned long, 2 >;
+  using LabelObjectPointer = LabelObjectType::Pointer;
 
   LabelObjectPointer labelObject = LabelObjectType::New();
   LabelObjectPointer labelObjectSrc = sparseLevelSet->GetAsLabelObject<unsigned long>();

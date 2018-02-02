@@ -24,7 +24,7 @@
 
 int itkCylinderSpatialObjectTest(int, char* [])
 {
-  typedef itk::CylinderSpatialObject   CylinderType;
+  using CylinderType = itk::CylinderSpatialObject;
 
   CylinderType::Pointer myCylinder = CylinderType::New();
   double radius = 3.0;

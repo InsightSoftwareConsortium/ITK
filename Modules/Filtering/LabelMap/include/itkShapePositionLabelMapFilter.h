@@ -39,21 +39,21 @@ class ITK_TEMPLATE_EXPORT ShapePositionLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ShapePositionLabelMapFilter   Self;
-  typedef InPlaceLabelMapFilter<TImage> Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ShapePositionLabelMapFilter;
+  using Superclass = InPlaceLabelMapFilter<TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  /** Some convenient typedefs. */
-  typedef TImage                              ImageType;
-  typedef typename ImageType::Pointer         ImagePointer;
-  typedef typename ImageType::ConstPointer    ImageConstPointer;
-  typedef typename ImageType::PixelType       PixelType;
-  typedef typename ImageType::IndexType       IndexType;
-  typedef typename ImageType::LabelObjectType LabelObjectType;
+  /** Some convenient type alias. */
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using IndexType = typename ImageType::IndexType;
+  using LabelObjectType = typename ImageType::LabelObjectType;
 
-  typedef typename LabelObjectType::AttributeType AttributeType;
+  using AttributeType = typename LabelObjectType::AttributeType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -97,13 +97,13 @@ protected:
   template< typename TAttributeAccessor >
   void TemplatedThreadedProcessLabelObject( const TAttributeAccessor & accessor, bool physical, LabelObjectType * labelObject )
   {
-    typedef typename TAttributeAccessor::AttributeValueType AttributeValueType;
+    using AttributeValueType = typename TAttributeAccessor::AttributeValueType;
     AttributeValueType position = accessor( labelObject );
     // change it to an index position if it is physical
     IndexType idx;
     if( physical )
       {
-      typedef double CoordinateType;
+      using CoordinateType = double;
       Point< CoordinateType, ImageDimension > point;
       // copy the position to a point, required by TransformPhysicalPointToIndex
       for(unsigned int i=0; i<ImageDimension; i++ )

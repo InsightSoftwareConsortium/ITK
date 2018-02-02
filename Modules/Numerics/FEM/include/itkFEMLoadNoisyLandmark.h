@@ -38,15 +38,15 @@ namespace fem
 class ITKFEM_EXPORT LoadNoisyLandmark : public LoadLandmark
 {
 public:
-  /** Standard class typedefs. */
-  typedef LoadNoisyLandmark             Self;
-  typedef LoadLandmark                  Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LoadNoisyLandmark;
+  using Superclass = LoadLandmark;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  /** Some convenient typedefs */
-  typedef  Element::VectorType          VectorType;
-  typedef  Element::MatrixType          MatrixType;
+  /** Some convenient type alias */
+  using VectorType = Element::VectorType;
+  using MatrixType = Element::MatrixType;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

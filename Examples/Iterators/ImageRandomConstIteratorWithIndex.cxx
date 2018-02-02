@@ -66,13 +66,12 @@ int main( int argc, char *argv[] )
 // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
-  typedef unsigned short                                      PixelType;
-  typedef itk::Image< PixelType, Dimension >                  ImageType;
-  typedef itk::ImageRandomConstIteratorWithIndex<
-                                          ImageType > ConstIteratorType;
+  using PixelType = unsigned short;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ConstIteratorType = itk::ImageRandomConstIteratorWithIndex<ImageType>;
 // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ImageType::ConstPointer inputImage;
   ReaderType::Pointer reader = ReaderType::New();

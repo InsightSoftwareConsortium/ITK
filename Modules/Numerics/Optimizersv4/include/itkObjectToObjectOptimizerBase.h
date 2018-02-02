@@ -82,40 +82,40 @@ template< typename TInternalComputationValueType = double>
 class ITK_TEMPLATE_EXPORT ObjectToObjectOptimizerBaseTemplate : public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ObjectToObjectOptimizerBaseTemplate         Self;
-  typedef Object                                      Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ObjectToObjectOptimizerBaseTemplate;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ObjectToObjectOptimizerBaseTemplate, Object);
 
   /**  Scale type. */
-  typedef OptimizerParameters< TInternalComputationValueType >                      ScalesType;
-  typedef OptimizerParameterScalesEstimatorTemplate<TInternalComputationValueType>  ScalesEstimatorType;
+  using ScalesType = OptimizerParameters< TInternalComputationValueType >;
+  using ScalesEstimatorType = OptimizerParameterScalesEstimatorTemplate<TInternalComputationValueType>;
 
   /**  Parameters type. */
-  typedef OptimizerParameters< TInternalComputationValueType >          ParametersType;
+  using ParametersType = OptimizerParameters< TInternalComputationValueType >;
 
   /** Metric function type */
-  typedef ObjectToObjectMetricBaseTemplate< TInternalComputationValueType >  MetricType;
-  typedef typename MetricType::Pointer                                      MetricTypePointer;
+  using MetricType = ObjectToObjectMetricBaseTemplate< TInternalComputationValueType >;
+  using MetricTypePointer = typename MetricType::Pointer;
 
   /** Derivative type */
-  typedef typename MetricType::DerivativeType                DerivativeType;
+  using DerivativeType = typename MetricType::DerivativeType;
 
   /** Number of parameters type */
-  typedef typename MetricType::NumberOfParametersType        NumberOfParametersType;
+  using NumberOfParametersType = typename MetricType::NumberOfParametersType;
 
   /** Measure type */
-  typedef typename MetricType::MeasureType                   MeasureType;
+  using MeasureType = typename MetricType::MeasureType;
 
   /** Stop condition return string type */
-  typedef std::string         StopConditionReturnStringType;
+  using StopConditionReturnStringType = std::string;
 
   /** Stop condition internal string type */
-  typedef std::ostringstream  StopConditionDescriptionType;
+  using StopConditionDescriptionType = std::ostringstream;
 
   /** Accessors for Metric */
   itkSetObjectMacro( Metric, MetricType );
@@ -260,7 +260,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef ObjectToObjectOptimizerBaseTemplate<double> ObjectToObjectOptimizerBase;
+using ObjectToObjectOptimizerBase = ObjectToObjectOptimizerBaseTemplate<double>;
 
 } // end namespace itk
 

@@ -47,11 +47,11 @@ int main( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageMaskSpatialObject<3>      ImageMaskSpatialObject;
+  using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<3>;
 
-  typedef ImageMaskSpatialObject::ImageType   ImageType;
-  typedef ImageType::RegionType               RegionType;
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
+  using ImageType = ImageMaskSpatialObject::ImageType;
+  using RegionType = ImageType::RegionType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 

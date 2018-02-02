@@ -66,10 +66,10 @@ class ITK_TEMPLATE_EXPORT Relabeler:
 {
 public:
   /** Define smart pointers for this object */
-  typedef Relabeler                  Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = Relabeler;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -78,15 +78,15 @@ public:
   /** Expose the ImageDimension template parameter at run time */
   itkStaticConstMacro(ImageDimension, unsigned int, TImageDimension);
 
-  /** Some convenient typedefs */
-  typedef TScalar                                           ScalarType;
-  typedef Image< IdentifierType, TImageDimension >          ImageType;
-  typedef SegmentTree< ScalarType >                         SegmentTreeType;
-  typedef Segmenter< Image< ScalarType, TImageDimension > > SegmenterType;
-  typedef DataObject::Pointer                               DataObjectPointer;
+  /** Some convenient type alias */
+  using ScalarType = TScalar;
+  using ImageType = Image< IdentifierType, TImageDimension >;
+  using SegmentTreeType = SegmentTree< ScalarType >;
+  using SegmenterType = Segmenter< Image< ScalarType, TImageDimension > >;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Standard itk::ProcessObject subclass method. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

@@ -39,11 +39,11 @@ int itkBorderQuadEdgeMeshFilterTest2( int argc, char* argv[] )
 
 
   // ** TYPEDEF **
-  typedef double Coord;
+  using Coord = double;
 
-  typedef itk::QuadEdgeMesh< Coord, 3 >                       MeshType;
-  typedef itk::RegularSphereMeshSource< MeshType >            SourceType;
-  typedef itk::BorderQuadEdgeMeshFilter< MeshType, MeshType > BorderTransformType;
+  using MeshType = itk::QuadEdgeMesh< Coord, 3 >;
+  using SourceType = itk::RegularSphereMeshSource< MeshType >;
+  using BorderTransformType = itk::BorderQuadEdgeMeshFilter< MeshType, MeshType >;
 
   SourceType::Pointer source = SourceType::New();
 

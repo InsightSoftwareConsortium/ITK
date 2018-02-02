@@ -59,9 +59,9 @@ template< typename TComponent = unsigned short >
 class ITK_TEMPLATE_EXPORT RGBAPixel:public FixedArray< TComponent, 4 >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RGBAPixel                   Self;
-  typedef FixedArray< TComponent, 4 > Superclass;
+  /** Standard class type aliases. */
+  using Self = RGBAPixel;
+  using Superclass = FixedArray< TComponent, 4 >;
 
   /** Dimension of the vector space. */
   itkStaticConstMacro(Dimension, unsigned int, 4);
@@ -69,12 +69,12 @@ public:
   /** Length of the pixel. */
   itkStaticConstMacro(Length, unsigned int, 4);
 
-  /** Convenience typedefs. */
-  typedef FixedArray< TComponent, 4 > BaseArray;
+  /** Convenience type alias. */
+  using BaseArray = FixedArray< TComponent, 4 >;
 
   /**  Define the component type. */
-  typedef TComponent                                        ComponentType;
-  typedef typename NumericTraits< ComponentType >::RealType LuminanceType;
+  using ComponentType = TComponent;
+  using LuminanceType = typename NumericTraits< ComponentType >::RealType;
 
   /** Default constructor has nothing to do. */
   RGBAPixel() { this->Fill(0); }

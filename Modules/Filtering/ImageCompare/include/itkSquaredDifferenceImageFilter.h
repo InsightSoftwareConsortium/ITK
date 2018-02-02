@@ -90,18 +90,18 @@ class SquaredDifferenceImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SquaredDifferenceImageFilter Self;
-  typedef BinaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = SquaredDifferenceImageFilter;
+  using Superclass = BinaryFunctorImageFilter<
     TInputImage1, TInputImage2, TOutputImage,
     Functor::SquaredDifference2<
       typename TInputImage1::PixelType,
       typename TInputImage2::PixelType,
       typename TOutputImage::PixelType >
-    >                                   Superclass;
+    >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

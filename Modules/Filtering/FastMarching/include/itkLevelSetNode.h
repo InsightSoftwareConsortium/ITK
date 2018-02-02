@@ -45,17 +45,17 @@ template< typename TPixel, unsigned int VSetDimension = 2 >
 class LevelSetNode
 {
 public:
-  /** Standard class typedefs. */
-  typedef LevelSetNode Self;
+  /** Standard class type aliases. */
+  using Self = LevelSetNode;
 
-  /** Pixel typedef. */
-  typedef TPixel PixelType;
+  /** Pixel type alias. */
+  using PixelType = TPixel;
 
   /** Level set dimension. */
   itkStaticConstMacro(SetDimension, unsigned int, VSetDimension);
 
-  /** Index typedef. */
-  typedef Index< VSetDimension > IndexType;
+  /** Index type alias. */
+  using IndexType = Index< VSetDimension >;
 
   /** Operator >. A LevelSetNode is sorted by its value field. */
   bool operator>(const Self & node) const

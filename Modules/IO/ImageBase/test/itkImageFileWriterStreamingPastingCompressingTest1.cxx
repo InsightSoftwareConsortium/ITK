@@ -25,10 +25,10 @@
 
 
 const unsigned int VDimension = 3;
-typedef unsigned char                     PixelType;
-typedef itk::Image<PixelType,VDimension>  ImageType;
-typedef ImageType::Pointer                ImagePointer;
-typedef ImageType::SpacingType            SpacingType;
+using PixelType = unsigned char;
+using ImageType = itk::Image<PixelType,VDimension>;
+using ImagePointer = ImageType::Pointer;
+using SpacingType = ImageType::SpacingType;
 
 namespace {
 
@@ -41,7 +41,7 @@ bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
 
   // NOTE ALEX: it look slike this filter does not take the spacing
   // into account, to check later.
-  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
+  using DiffType = itk::Testing::ComparisonImageFilter<ImageType,ImageType>;
   DiffType::Pointer diff = DiffType::New();
   diff->SetValidInput( baselineImage );
   diff->SetTestInput( testImage );
@@ -73,7 +73,7 @@ bool SameImage(ImagePointer testImage, ImagePointer baselineImage)
 // NOTE ALEX: why this function is not a wrapper of the above?
 bool SameImage(std::string testImageFileName, ImagePointer baselineImage)
 {
-  typedef itk::ImageFileReader<ImageType>    ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer readerTestImage = ReaderType::New();
   readerTestImage->SetFileName( testImageFileName );
 
@@ -111,11 +111,11 @@ ActualTest(
   // NOTE ALEX: should we check it exists first?
   itksys::SystemTools::RemoveFile(outputFileName.c_str());
 
-  typedef unsigned char             PixelType;
-  typedef itk::Image<PixelType,3>   ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType,3>;
 
-  typedef itk::ImageFileReader<ImageType>  ReaderType;
-  typedef itk::ImageFileWriter<ImageType>  WriterType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFileName.c_str() );
@@ -140,7 +140,7 @@ ActualTest(
   // TODO: drew, check and save the spacing of the input image here
 
   // ??
-  typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
+  using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
   MonitorFilter::Pointer monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 
@@ -202,7 +202,7 @@ ActualTest(
   // correct image - This is the TEST !!
   if (pasteWriting)
     {
-    typedef itk::ExtractImageFilter<ImageType, ImageType> ExtractImageFilterType;
+    using ExtractImageFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
     ExtractImageFilterType::Pointer extractBaselineImage = ExtractImageFilterType::New();
     extractBaselineImage->SetDirectionCollapseToSubmatrix();
     extractBaselineImage->SetInput( reader->GetOutput() );

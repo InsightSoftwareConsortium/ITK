@@ -40,11 +40,11 @@ template <typename TPixel, unsigned int VImageDimension = 2>
 class ITK_TEMPLATE_EXPORT GPUImage : public Image<TPixel,VImageDimension>
 {
 public:
-  typedef GPUImage                      Self;
-  typedef Image<TPixel,VImageDimension> Superclass;
-  typedef SmartPointer<Self>            Pointer;
-  typedef SmartPointer<const Self>      ConstPointer;
-  typedef WeakPointer<const Self>       ConstWeakPointer;
+  using Self = GPUImage;
+  using Superclass = Image<TPixel,VImageDimension>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+  using ConstWeakPointer = WeakPointer<const Self>;
 
   itkNewMacro(Self);
 
@@ -52,25 +52,24 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  typedef typename Superclass::PixelType         PixelType;
-  typedef typename Superclass::ValueType         ValueType;
-  typedef typename Superclass::InternalPixelType InternalPixelType;
-  typedef typename Superclass::IOPixelType       IOPixelType;
-  typedef typename Superclass::DirectionType     DirectionType;
-  typedef typename Superclass::SpacingType       SpacingType;
-  typedef typename Superclass::PixelContainer    PixelContainer;
-  typedef typename Superclass::SizeType          SizeType;
-  typedef typename Superclass::IndexType         IndexType;
-  typedef typename Superclass::OffsetType        OffsetType;
-  typedef typename Superclass::RegionType        RegionType;
-  typedef typename PixelContainer::Pointer       PixelContainerPointer;
-  typedef typename PixelContainer::ConstPointer  PixelContainerConstPointer;
-  typedef typename Superclass::AccessorType      AccessorType;
+  using PixelType = typename Superclass::PixelType;
+  using ValueType = typename Superclass::ValueType;
+  using InternalPixelType = typename Superclass::InternalPixelType;
+  using IOPixelType = typename Superclass::IOPixelType;
+  using DirectionType = typename Superclass::DirectionType;
+  using SpacingType = typename Superclass::SpacingType;
+  using PixelContainer = typename Superclass::PixelContainer;
+  using SizeType = typename Superclass::SizeType;
+  using IndexType = typename Superclass::IndexType;
+  using OffsetType = typename Superclass::OffsetType;
+  using RegionType = typename Superclass::RegionType;
+  using PixelContainerPointer = typename PixelContainer::Pointer;
+  using PixelContainerConstPointer = typename PixelContainer::ConstPointer;
+  using AccessorType = typename Superclass::AccessorType;
 
-  typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
+  using AccessorFunctorType = DefaultPixelAccessorFunctor< Self >;
 
-  typedef NeighborhoodAccessorFunctor< Self > NeighborhoodAccessorFunctorType;
-  //typedef typename Superclass::NeighborhoodAccessorFunctorType
+  using NeighborhoodAccessorFunctorType = NeighborhoodAccessorFunctor< Self >;
   // NeighborhoodAccessorFunctorType;
 
   //
@@ -191,10 +190,10 @@ private:
 class ITK_TEMPLATE_EXPORT GPUImageFactory : public itk::ObjectFactoryBase
 {
 public:
-  typedef GPUImageFactory               Self;
-  typedef itk::ObjectFactoryBase        Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = GPUImageFactory;
+  using Superclass = itk::ObjectFactoryBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
   const char* GetITKSourceVersion() const override {
@@ -262,14 +261,14 @@ template <typename T>
 class ITK_TEMPLATE_EXPORT GPUTraits
 {
 public:
-  typedef T Type;
+  using Type = T;
 };
 
 template <typename TPixelType, unsigned int NDimension>
 class ITK_TEMPLATE_EXPORT GPUTraits< Image< TPixelType, NDimension > >
 {
 public:
-  typedef GPUImage<TPixelType,NDimension> Type;
+  using Type = GPUImage<TPixelType,NDimension>;
 };
 
 } // end namespace itk

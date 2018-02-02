@@ -33,25 +33,25 @@ class DecimationQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInput, TOutput >
 {
 public:
-  typedef DecimationQuadEdgeMeshFilter                        Self;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter< TInput, TOutput > Superclass;
+  using Self = DecimationQuadEdgeMeshFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInput, TOutput >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(DecimationQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
 
-  typedef TInput                          InputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
+  using InputMeshType = TInput;
+  using InputMeshPointer = typename InputMeshType::Pointer;
 
-  typedef TOutput                          OutputMeshType;
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  using OutputMeshType = TOutput;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
-  typedef TCriterion                                       CriterionType;
-  typedef typename CriterionType::Pointer                  CriterionPointer;
-  typedef typename CriterionType::MeasureType              MeasureType;
-  typedef typename CriterionType::PriorityType             PriorityType;
-  typedef typename CriterionType::PriorityQueueWrapperType PriorityQueueItemType;
+  using CriterionType = TCriterion;
+  using CriterionPointer = typename CriterionType::Pointer;
+  using MeasureType = typename CriterionType::MeasureType;
+  using PriorityType = typename CriterionType::PriorityType;
+  using PriorityQueueItemType = typename CriterionType::PriorityQueueWrapperType;
 
   itkSetObjectMacro(Criterion, CriterionType);
 

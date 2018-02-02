@@ -31,8 +31,8 @@ int itkReleaseDataFilterTest(int, char* [] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
 
-  typedef itk::Image<float,2>                        ImageType;
-  typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
+  using ImageType = itk::Image<float,2>;
+  using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
 
 
   // use all the static GlobalReleaseData methods
@@ -40,7 +40,7 @@ int itkReleaseDataFilterTest(int, char* [] )
   ImageType::GlobalReleaseDataFlagOff();
   ImageType::GlobalReleaseDataFlagOn();
 
-  typedef itk::RandomImageSource<ImageType> RandomImageSourceType;
+  using RandomImageSourceType = itk::RandomImageSource<ImageType>;
   RandomImageSourceType::Pointer random = RandomImageSourceType::New();
   random->SetMin(0.0);
   random->SetMax(1000.0);
@@ -65,7 +65,7 @@ int itkReleaseDataFilterTest(int, char* [] )
   // pipeline a
 
   // Create a mean image
-  typedef itk::MeanImageFilter<ImageType, ImageType> MeanImageFilterType;
+  using MeanImageFilterType = itk::MeanImageFilter<ImageType, ImageType>;
   MeanImageFilterType::Pointer mean1 = MeanImageFilterType::New();
   mean1->SetInput( monitor1->GetOutput() );
 
@@ -79,13 +79,13 @@ int itkReleaseDataFilterTest(int, char* [] )
 
 
   // pipeline b
-  typedef itk::ShiftScaleImageFilter<ImageType, ImageType> ShiftScaleImageFilterType;
+  using ShiftScaleImageFilterType = itk::ShiftScaleImageFilter<ImageType, ImageType>;
   ShiftScaleImageFilterType::Pointer shiftscale = ShiftScaleImageFilterType::New();
   shiftscale->SetInput( monitor1->GetOutput() );
   shiftscale->SetScale( 2.0 );
   shiftscale->SetShift( -100.0 );
 
-  typedef itk::ShrinkImageFilter<ImageType, ImageType> ShrinkImageFilterType;
+  using ShrinkImageFilterType = itk::ShrinkImageFilter<ImageType, ImageType>;
   ShrinkImageFilterType::Pointer shrinker = ShrinkImageFilterType::New();
   shrinker->SetInput( shiftscale->GetOutput() );
   shrinker->SetShrinkFactors( 2 );
@@ -93,7 +93,7 @@ int itkReleaseDataFilterTest(int, char* [] )
   MonitorFilter::Pointer monitor2b = MonitorFilter::New();
   monitor2b->SetInput( shrinker->GetOutput() );
 
-  typedef itk::StreamingImageFilter<ImageType, ImageType> StreamingImageFilterType;
+  using StreamingImageFilterType = itk::StreamingImageFilter<ImageType, ImageType>;
   StreamingImageFilterType::Pointer streamer = StreamingImageFilterType::New();
   streamer->SetInput( monitor2b->GetOutput() );
   streamer->SetNumberOfStreamDivisions( 4 );

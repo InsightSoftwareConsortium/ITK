@@ -50,11 +50,11 @@ class ITK_TEMPLATE_EXPORT LevelSetEquationCurvatureTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:
-  typedef LevelSetEquationCurvatureTerm         Self;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
-  typedef LevelSetEquationTermBase< TInput, TLevelSetContainer >
-                                                Superclass;
+  using Self = LevelSetEquationCurvatureTerm;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass =
+      LevelSetEquationTermBase< TInput, TLevelSetContainer >;
 
   /** Method for creation through object factory */
   itkNewMacro( Self );
@@ -63,31 +63,31 @@ public:
   itkTypeMacro( LevelSetEquationCurvatureTerm,
                 LevelSetEquationTermBase );
 
-  typedef typename Superclass::InputImageType     InputImageType;
-  typedef typename Superclass::InputImagePointer  InputImagePointer;
-  typedef typename Superclass::InputPixelType     InputPixelType;
-  typedef typename Superclass::InputPixelRealType InputPixelRealType;
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputPixelType = typename Superclass::InputPixelType;
+  using InputPixelRealType = typename Superclass::InputPixelRealType;
 
-  typedef typename Superclass::LevelSetContainerType      LevelSetContainerType;
-  typedef typename Superclass::LevelSetContainerPointer   LevelSetContainerPointer;
-  typedef typename Superclass::LevelSetType               LevelSetType;
-  typedef typename Superclass::LevelSetPointer            LevelSetPointer;
-  typedef typename Superclass::LevelSetOutputPixelType    LevelSetOutputPixelType;
-  typedef typename Superclass::LevelSetOutputRealType     LevelSetOutputRealType;
-  typedef typename Superclass::LevelSetInputIndexType     LevelSetInputIndexType;
-  typedef typename Superclass::LevelSetGradientType       LevelSetGradientType;
-  typedef typename Superclass::LevelSetHessianType        LevelSetHessianType;
-  typedef typename Superclass::LevelSetIdentifierType     LevelSetIdentifierType;
+  using LevelSetContainerType = typename Superclass::LevelSetContainerType;
+  using LevelSetContainerPointer = typename Superclass::LevelSetContainerPointer;
+  using LevelSetType = typename Superclass::LevelSetType;
+  using LevelSetPointer = typename Superclass::LevelSetPointer;
+  using LevelSetOutputPixelType = typename Superclass::LevelSetOutputPixelType;
+  using LevelSetOutputRealType = typename Superclass::LevelSetOutputRealType;
+  using LevelSetInputIndexType = typename Superclass::LevelSetInputIndexType;
+  using LevelSetGradientType = typename Superclass::LevelSetGradientType;
+  using LevelSetHessianType = typename Superclass::LevelSetHessianType;
+  using LevelSetIdentifierType = typename Superclass::LevelSetIdentifierType;
 
-  typedef typename Superclass::HeavisideType         HeavisideType;
-  typedef typename Superclass::HeavisideConstPointer HeavisideConstPointer;
+  using HeavisideType = typename Superclass::HeavisideType;
+  using HeavisideConstPointer = typename Superclass::HeavisideConstPointer;
 
-  typedef typename Superclass::LevelSetDataType LevelSetDataType;
+  using LevelSetDataType = typename Superclass::LevelSetDataType;
 
   itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
 
-  typedef TCurvatureImage                       CurvatureImageType;
-  typedef typename CurvatureImageType::Pointer  CurvatureImagePointer;
+  using CurvatureImageType = TCurvatureImage;
+  using CurvatureImagePointer = typename CurvatureImageType::Pointer;
 
   /** Set/Get the propagation image. By default, if no PropagationImage has
   been set, it casts the input image and uses it in the term contribution
@@ -100,11 +100,11 @@ public:
   itkBooleanMacro( UseCurvatureImage );
 
   /** Neighborhood radius type */
-  typedef ZeroFluxNeumannBoundaryCondition< InputImageType > DefaultBoundaryConditionType;
-  typedef typename ConstNeighborhoodIterator< InputImageType >::RadiusType RadiusType;
-  typedef ConstNeighborhoodIterator< InputImageType, DefaultBoundaryConditionType > NeighborhoodType;
+  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< InputImageType >;
+  using RadiusType = typename ConstNeighborhoodIterator< InputImageType >::RadiusType;
+  using NeighborhoodType = ConstNeighborhoodIterator< InputImageType, DefaultBoundaryConditionType >;
 
-  typedef Vector< LevelSetOutputRealType, itkGetStaticConstMacro(ImageDimension) > NeighborhoodScalesType;
+  using NeighborhoodScalesType = Vector< LevelSetOutputRealType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Update the term parameter values at end of iteration */
   void Update() override;

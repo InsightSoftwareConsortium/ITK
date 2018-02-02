@@ -37,14 +37,14 @@ namespace itk
 class ITKIOMesh_EXPORT BYUMeshIO:public MeshIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef BYUMeshIO                  Self;
-  typedef MeshIOBase                 Superclass;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef SmartPointer< Self >       Pointer;
+  /** Standard class type aliases. */
+  using Self = BYUMeshIO;
+  using Superclass = MeshIOBase;
+  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer< Self >;
 
-  typedef Superclass::StreamOffsetType StreamOffsetType;
-  typedef Superclass::SizeValueType    SizeValueType;
+  using StreamOffsetType = Superclass::StreamOffsetType;
+  using SizeValueType = Superclass::SizeValueType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

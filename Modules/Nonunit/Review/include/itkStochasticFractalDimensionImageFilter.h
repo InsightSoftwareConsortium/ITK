@@ -56,11 +56,11 @@ class ITK_TEMPLATE_EXPORT StochasticFractalDimensionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef StochasticFractalDimensionImageFilter           Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = StochasticFractalDimensionImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -68,11 +68,11 @@ public:
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  /** Some convenient typedefs. */
-  typedef float        RealType;
-  typedef TInputImage  InputImageType;
-  typedef TMaskImage   MaskImageType;
-  typedef TOutputImage OutputImageType;
+  /** Some convenient type alias. */
+  using RealType = float;
+  using InputImageType = TInputImage;
+  using MaskImageType = TMaskImage;
+  using OutputImageType = TOutputImage;
 
   /** Runtime information support. */
   itkTypeMacro(StochasticFractalDimensionImageFilter, ImageToImageFilter);
@@ -86,8 +86,8 @@ public:
 
   /** Type of the neighborhood iterator used to evaluate similarity between the
    * image pixels. */
-  typedef ConstNeighborhoodIterator< InputImageType >        ConstNeighborhoodIteratorType;
-  typedef typename ConstNeighborhoodIteratorType::RadiusType RadiusType;
+  using ConstNeighborhoodIteratorType = ConstNeighborhoodIterator< InputImageType >;
+  using RadiusType = typename ConstNeighborhoodIteratorType::RadiusType;
 
   /** Manhattan radius used for evaluating the fractal dimension. */
   itkSetMacro(NeighborhoodRadius, RadiusType);

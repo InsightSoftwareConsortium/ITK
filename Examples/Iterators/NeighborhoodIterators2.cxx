@@ -66,12 +66,12 @@ int main( int argc, char ** argv )
       return EXIT_FAILURE;
     }
 
-  typedef float                             PixelType;
-  typedef itk::Image< PixelType, 2 >        ImageType;
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, 2 >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
-  typedef itk::ConstNeighborhoodIterator< ImageType > NeighborhoodIteratorType;
-  typedef itk::ImageRegionIterator< ImageType>        IteratorType;
+  using NeighborhoodIteratorType = itk::ConstNeighborhoodIterator< ImageType >;
+  using IteratorType = itk::ImageRegionIterator< ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
@@ -156,12 +156,12 @@ int main( int argc, char ** argv )
   //
   // Software Guide : EndLatex
 
-  typedef unsigned char                          WritePixelType;
-  typedef itk::Image< WritePixelType, 2 >        WriteImageType;
-  typedef itk::ImageFileWriter< WriteImageType > WriterType;
+  using WritePixelType = unsigned char;
+  using WriteImageType = itk::Image< WritePixelType, 2 >;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
 
-  typedef itk::RescaleIntensityImageFilter<
-               ImageType, WriteImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
+               ImageType, WriteImageType >;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 

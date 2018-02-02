@@ -213,7 +213,7 @@ void
 RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 ::BeforeThreadedGenerateData()
 {
-  typedef ImageRegion< TInputImage::ImageDimension > RegionType;
+  using RegionType = ImageRegion< TInputImage::ImageDimension >;
 
   typename TInputImage::ConstPointer inputImage( this->GetInputImage () );
   typename TOutputImage::Pointer     outputImage( this->GetOutput() );
@@ -255,12 +255,12 @@ void
 RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
 {
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  typedef ImageLinearConstIteratorWithIndex< TInputImage > InputConstIteratorType;
-  typedef ImageLinearIteratorWithIndex< TOutputImage >     OutputIteratorType;
+  using InputConstIteratorType = ImageLinearConstIteratorWithIndex< TInputImage >;
+  using OutputIteratorType = ImageLinearIteratorWithIndex< TOutputImage >;
 
-  typedef ImageRegion< TInputImage::ImageDimension > RegionType;
+  using RegionType = ImageRegion< TInputImage::ImageDimension >;
 
   typename TInputImage::ConstPointer inputImage( this->GetInputImage () );
   typename TOutputImage::Pointer     outputImage( this->GetOutput() );

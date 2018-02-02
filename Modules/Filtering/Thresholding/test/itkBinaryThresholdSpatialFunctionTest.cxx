@@ -37,13 +37,13 @@
  */
 int itkBinaryThresholdSpatialFunctionTest( int, char *[])
 {
-  typedef double CoordRep;
+  using CoordRep = double;
   const unsigned int Dimension = 2;
 
-  typedef itk::SphereSignedDistanceFunction<CoordRep,Dimension>   SphereFunctionType;
-  typedef itk::BinaryThresholdSpatialFunction<SphereFunctionType> FunctionType;
-  typedef SphereFunctionType::PointType                           PointType;
-  typedef SphereFunctionType::ParametersType                      ParametersType;
+  using SphereFunctionType = itk::SphereSignedDistanceFunction<CoordRep,Dimension>;
+  using FunctionType = itk::BinaryThresholdSpatialFunction<SphereFunctionType>;
+  using PointType = SphereFunctionType::PointType;
+  using ParametersType = SphereFunctionType::ParametersType;
 
   SphereFunctionType::Pointer sphere = SphereFunctionType::New();
 
@@ -100,7 +100,7 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
    * the sphere.
    */
   // set up a dummy image
-  typedef itk::Image<unsigned char,Dimension> ImageType;
+  using ImageType = itk::Image<unsigned char,Dimension>;
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size;
   size.Fill( 10 );
@@ -109,9 +109,9 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
   image->FillBuffer( 255 );
 
   // set up the conditional iterator
-  typedef itk::FloodFilledSpatialFunctionConditionalConstIterator<
+  using IteratorType = itk::FloodFilledSpatialFunctionConditionalConstIterator<
                                           ImageType,
-                                          FunctionType> IteratorType;
+                                          FunctionType>;
 
   IteratorType iterator( image, function );
   iterator.SetOriginInclusionStrategy();

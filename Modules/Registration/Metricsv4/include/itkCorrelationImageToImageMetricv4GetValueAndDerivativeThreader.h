@@ -34,39 +34,39 @@ class ITK_TEMPLATE_EXPORT CorrelationImageToImageMetricv4GetValueAndDerivativeTh
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:
-  /** Standard class typedefs. */
-  typedef CorrelationImageToImageMetricv4GetValueAndDerivativeThreader                                      Self;
-  typedef ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric > Superclass;
-  typedef SmartPointer< Self >                                                                         Pointer;
-  typedef SmartPointer< const Self >                                                                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = CorrelationImageToImageMetricv4GetValueAndDerivativeThreader;
+  using Superclass = ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro( CorrelationImageToImageMetricv4GetValueAndDerivativeThreader, ImageToImageMetricv4GetValueAndDerivativeThreader );
 
   itkNewMacro( Self );
 
-  typedef typename Superclass::DomainType    DomainType;
-  typedef typename Superclass::AssociateType AssociateType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
 
-  typedef typename Superclass::ImageToImageMetricv4Type ImageToImageMetricv4Type;
-  typedef typename Superclass::VirtualIndexType         VirtualIndexType;
-  typedef typename Superclass::VirtualPointType         VirtualPointType;
-  typedef typename Superclass::FixedImagePointType      FixedImagePointType;
-  typedef typename Superclass::FixedImagePixelType      FixedImagePixelType;
-  typedef typename Superclass::FixedImageGradientType   FixedImageGradientType;
-  typedef typename Superclass::MovingImagePointType     MovingImagePointType;
-  typedef typename Superclass::MovingImagePixelType     MovingImagePixelType;
-  typedef typename Superclass::MovingImageGradientType  MovingImageGradientType;
-  typedef typename Superclass::MeasureType              MeasureType;
-  typedef typename Superclass::DerivativeType           DerivativeType;
-  typedef typename Superclass::DerivativeValueType      DerivativeValueType;
+  using ImageToImageMetricv4Type = typename Superclass::ImageToImageMetricv4Type;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using FixedImagePointType = typename Superclass::FixedImagePointType;
+  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
+  using FixedImageGradientType = typename Superclass::FixedImageGradientType;
+  using MovingImagePointType = typename Superclass::MovingImagePointType;
+  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
+  using MovingImageGradientType = typename Superclass::MovingImageGradientType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using DerivativeValueType = typename Superclass::DerivativeValueType;
 
-  typedef typename ImageToImageMetricv4Type::FixedTransformType      FixedTransformType;
-  typedef typename FixedTransformType::OutputPointType               FixedOutputPointType;
-  typedef typename ImageToImageMetricv4Type::MovingTransformType     MovingTransformType;
-  typedef typename MovingTransformType::OutputPointType              MovingOutputPointType;
+  using FixedTransformType = typename ImageToImageMetricv4Type::FixedTransformType;
+  using FixedOutputPointType = typename FixedTransformType::OutputPointType;
+  using MovingTransformType = typename ImageToImageMetricv4Type::MovingTransformType;
+  using MovingOutputPointType = typename MovingTransformType::OutputPointType;
 
-  typedef typename Superclass::InternalComputationValueType InternalComputationValueType;
-  typedef typename Superclass::NumberOfParametersType       NumberOfParametersType;
+  using InternalComputationValueType = typename Superclass::InternalComputationValueType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
 protected:
   CorrelationImageToImageMetricv4GetValueAndDerivativeThreader();

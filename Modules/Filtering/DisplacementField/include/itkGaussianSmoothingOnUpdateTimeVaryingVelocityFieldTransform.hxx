@@ -58,7 +58,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
   const typename VelocityFieldType::RegionType & bufferedRegion = velocityField->GetBufferedRegion();
   const SizeValueType numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
-  typedef ImportImageFilter<DisplacementVectorType, NDimensions + 1> ImporterType;
+  using ImporterType = ImportImageFilter<DisplacementVectorType, NDimensions + 1>;
   const bool importFilterWillReleaseMemory = false;
 
   //
@@ -142,19 +142,19 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
     return field;
     }
 
-  typedef ImageDuplicator<VelocityFieldType> DuplicatorType;
+  using DuplicatorType = ImageDuplicator<VelocityFieldType>;
   typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
   duplicator->SetInputImage( field );
   duplicator->Update();
 
   TimeVaryingVelocityFieldPointer smoothField = duplicator->GetOutput();
 
-  typedef VectorNeighborhoodOperatorImageFilter<VelocityFieldType, VelocityFieldType> SmootherType;
+  using SmootherType = VectorNeighborhoodOperatorImageFilter<VelocityFieldType, VelocityFieldType>;
   typename SmootherType::Pointer smoother = SmootherType::New();
 
   for( unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++ )
     {
-    typedef GaussianOperator<DisplacementVectorValueType, NDimensions + 1> GaussianType;
+    using GaussianType = GaussianOperator<DisplacementVectorValueType, NDimensions + 1>;
     GaussianType gaussian;
     if( d < NDimensions )
       {
@@ -192,8 +192,8 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
     }
   ScalarType weight2 = 1.0 - weight1;
 
-  typedef typename VelocityFieldType::SizeType TimeVaryingVelocityFieldSizeType;
-  typedef typename VelocityFieldType::IndexType TimeVaryingVelocityFieldIndexType;
+  using TimeVaryingVelocityFieldSizeType = typename VelocityFieldType::SizeType;
+  using TimeVaryingVelocityFieldIndexType = typename VelocityFieldType::IndexType;
 
   TimeVaryingVelocityFieldSizeType size = field->GetLargestPossibleRegion().GetSize();
   TimeVaryingVelocityFieldIndexType startIndex = field->GetLargestPossibleRegion().GetIndex();

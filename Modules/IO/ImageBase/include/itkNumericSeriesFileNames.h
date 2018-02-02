@@ -54,10 +54,10 @@ namespace itk
 class ITKIOImageBase_EXPORT NumericSeriesFileNames:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef NumericSeriesFileNames Self;
-  typedef Object                 Superclass;
-  typedef SmartPointer< Self >   Pointer;
+  /** Standard class type aliases. */
+  using Self = NumericSeriesFileNames;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

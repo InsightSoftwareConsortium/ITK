@@ -53,15 +53,15 @@ void
 ParametricSpaceToImageSpaceMeshFilter< TInputMesh, TOutputMesh >
 ::GenerateData(void)
 {
-  typedef typename TInputMesh::PointsContainer  InputPointsContainer;
-  typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
+  using InputPointsContainer = typename TInputMesh::PointsContainer;
+  using OutputPointsContainer = typename TOutputMesh::PointsContainer;
 
-  typedef typename TOutputMesh::PointsContainerPointer OutputPointsContainerPointer;
+  using OutputPointsContainerPointer = typename TOutputMesh::PointsContainerPointer;
 
-  typedef typename TInputMesh::PointDataContainer  InputPointDataContainer;
-  typedef typename TOutputMesh::PointDataContainer OutputPointDataContainer;
+  using InputPointDataContainer = typename TInputMesh::PointDataContainer;
+  using OutputPointDataContainer = typename TOutputMesh::PointDataContainer;
 
-  typedef typename TOutputMesh::PointDataContainerPointer OutputPointDataContainerPointer;
+  using OutputPointDataContainerPointer = typename TOutputMesh::PointDataContainerPointer;
 
   const InputMeshType *inputMesh    =  this->GetInput();
   OutputMeshPointer    outputMesh     =  this->GetOutput();

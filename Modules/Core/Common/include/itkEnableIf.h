@@ -57,7 +57,7 @@ namespace mpl
  */
 template <bool V, typename TType = void> struct EnableIfC {};
 /// \cond SPECIALIZATION_IMPLEMENTATION
-template <typename TType> struct EnableIfC<true, TType> { typedef TType Type; };
+template <typename TType> struct EnableIfC<true, TType> { using Type = TType; };
 /// \endcond
 
 
@@ -70,7 +70,7 @@ template <typename TType> struct EnableIfC<true, TType> { typedef TType Type; };
  */
 template <bool V, typename TType = void> struct DisableIfC {};
 /// \cond SPECIALIZATION_IMPLEMENTATION
-template <typename TType> struct DisableIfC<false, TType> { typedef TType Type; };
+template <typename TType> struct DisableIfC<false, TType> { using Type = TType; };
 /// \endcond
 
 /** \brief simplified way to dispose of \c enable_if.

@@ -43,17 +43,17 @@ class ExhaustiveOptv4Metric : public itk::ObjectToObjectMetricBase
 {
 public:
 
-  typedef ExhaustiveOptv4Metric           Self;
-  typedef itk::ObjectToObjectMetricBase   Superclass;
-  typedef itk::SmartPointer<Self>         Pointer;
-  typedef itk::SmartPointer<const Self>   ConstPointer;
+  using Self = ExhaustiveOptv4Metric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType      ParametersType;
-  typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
 
   ExhaustiveOptv4Metric()
@@ -144,15 +144,15 @@ private:
 class IndexObserver : public itk::Command
 {
 public:
-  typedef IndexObserver              Self;
-  typedef itk::Command               Superclass;
-  typedef itk::SmartPointer < Self > Pointer;
+  using Self = IndexObserver;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer < Self >;
 
   itkNewMacro ( IndexObserver );
 
   void  Execute ( const itk::Object *caller, const itk::EventObject &) override
   {
-    typedef itk::ExhaustiveOptimizerv4<double> OptimizerType;
+    using OptimizerType = itk::ExhaustiveOptimizerv4<double>;
     const OptimizerType *optimizer = dynamic_cast < const OptimizerType * > ( caller );
 
     if ( nullptr != optimizer )
@@ -184,9 +184,9 @@ int itkExhaustiveOptimizerv4Test(int, char* [] )
   std::cout << "ExhaustiveOptimizerv4 Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::ExhaustiveOptimizerv4<double> OptimizerType;
+  using OptimizerType = itk::ExhaustiveOptimizerv4<double>;
 
-  typedef  OptimizerType::ScalesType          ScalesType;
+  using ScalesType = OptimizerType::ScalesType;
 
 
   // Declaration of a itkOptimizer
@@ -202,7 +202,7 @@ int itkExhaustiveOptimizerv4Test(int, char* [] )
   itkOptimizer->SetMetric( metric.GetPointer() );
 
 
-  typedef ExhaustiveOptv4Metric::ParametersType    ParametersType;
+  using ParametersType = ExhaustiveOptv4Metric::ParametersType;
 
 
   const unsigned int spaceDimension =
@@ -229,7 +229,7 @@ int itkExhaustiveOptimizerv4Test(int, char* [] )
   itkOptimizer->SetStepLength( 1.0 );
 
 
-  typedef OptimizerType::StepsType  StepsType;
+  using StepsType = OptimizerType::StepsType;
   StepsType steps( spaceDimension );
   steps[0] = 10;
   steps[1] = 10;

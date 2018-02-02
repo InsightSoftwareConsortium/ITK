@@ -58,10 +58,10 @@ public:
   /**
    * Standard "Self" & Superclass typedef.
    */
-  typedef BinaryContourImageFilter                        Self;
-  typedef InPlaceImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  using Self = BinaryContourImageFilter;
+  using Superclass = InPlaceImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**
    * Run-time type information (and related methods)
@@ -74,25 +74,25 @@ public:
   itkNewMacro(Self);
 
   /**
-   * Image typedef support
+   * Image type alias support
    */
-  typedef TInputImage                                 InputImageType;
-  typedef typename InputImageType::Pointer            InputImagePointer;
-  typedef typename InputImageType::ConstPointer       InputImageConstPointer;
-  typedef typename InputImageType::IndexType          IndexType;
-  typedef typename InputImageType::SizeType           SizeType;
-  typedef typename InputImageType::OffsetType         OffsetType;
-  typedef typename InputImageType::PixelType          InputImagePixelType;
-  typedef typename InputImageType::InternalPixelType  InputInternalPixelType;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using IndexType = typename InputImageType::IndexType;
+  using SizeType = typename InputImageType::SizeType;
+  using OffsetType = typename InputImageType::OffsetType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using InputInternalPixelType = typename InputImageType::InternalPixelType;
 
-  typedef TOutputImage                                OutputImageType;
-  typedef typename OutputImageType::Pointer           OutputImagePointer;
-  typedef typename OutputImageType::RegionType        RegionType;
-  typedef typename OutputImageType::IndexType         OutputIndexType;
-  typedef typename OutputImageType::SizeType          OutputSizeType;
-  typedef typename OutputImageType::OffsetType        OutputOffsetType;
-  typedef typename OutputImageType::PixelType         OutputImagePixelType;
-  typedef typename OutputImageType::InternalPixelType OutputInternalPixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using RegionType = typename OutputImageType::RegionType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using OutputOffsetType = typename OutputImageType::OffsetType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using OutputInternalPixelType = typename OutputImageType::InternalPixelType;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       OutputImageType::ImageDimension);
@@ -176,14 +176,14 @@ private:
     IndexType       m_Where;
   };
 
-  typedef std::vector< runLength >                  LineEncodingType;
-  typedef typename LineEncodingType::iterator       LineEncodingIterator;
-  typedef typename LineEncodingType::const_iterator LineEncodingConstIterator;
+  using LineEncodingType = std::vector< runLength >;
+  using LineEncodingIterator = typename LineEncodingType::iterator;
+  using LineEncodingConstIterator = typename LineEncodingType::const_iterator;
 
   // the map storing lines
-  typedef std::vector< LineEncodingType > LineMapType;
+  using LineMapType = std::vector< LineEncodingType >;
 
-  typedef std::vector< OffsetValueType > OffsetVec;
+  using OffsetVec = std::vector< OffsetValueType >;
 
   bool CheckNeighbors(const OutputIndexType & A,
                       const OutputIndexType & B);

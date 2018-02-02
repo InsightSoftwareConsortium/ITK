@@ -104,12 +104,12 @@ class ITK_TEMPLATE_EXPORT MultiphaseDenseFiniteDifferenceImageFilter:
                                                 TOutputImage, TFunction, TIdCell >
 {
 public:
-  /** Standard class typedefs */
-  typedef MultiphaseDenseFiniteDifferenceImageFilter Self;
-  typedef MultiphaseFiniteDifferenceImageFilter< TInputImage,
-                                                 TFeatureImage, TOutputImage, TFunction, TIdCell >       Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases */
+  using Self = MultiphaseDenseFiniteDifferenceImageFilter;
+  using Superclass = MultiphaseFiniteDifferenceImageFilter< TInputImage,
+                                                 TFeatureImage, TOutputImage, TFunction, TIdCell >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(MultiphaseDenseFiniteDifferenceImageFilter, ImageToImageFilter);
@@ -118,53 +118,53 @@ public:
    * It is inherited from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
-  /** Convenient typedefs */
-  typedef typename Superclass::InputImageType      InputImageType;
-  typedef typename Superclass::InputImagePointer   InputImagePointer;
-  typedef typename Superclass::InputRegionType     InputRegionType;
-  typedef typename Superclass::InputSizeType       InputSizeType;
-  typedef typename Superclass::InputSizeValueType  InputSizeValueType;
-  typedef typename Superclass::InputIndexType      InputIndexType;
-  typedef typename Superclass::InputIndexValueType InputIndexValueType;
-  typedef typename Superclass::InputPixelType      InputPixelType;
-  typedef typename Superclass::InputPointType      InputPointType;
-  typedef typename Superclass::InputSpacingType    InputSpacingType;
-  typedef typename InputImageType::ValueType       ValueType;
+  /** Convenient type alias */
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputRegionType = typename Superclass::InputRegionType;
+  using InputSizeType = typename Superclass::InputSizeType;
+  using InputSizeValueType = typename Superclass::InputSizeValueType;
+  using InputIndexType = typename Superclass::InputIndexType;
+  using InputIndexValueType = typename Superclass::InputIndexValueType;
+  using InputPixelType = typename Superclass::InputPixelType;
+  using InputPointType = typename Superclass::InputPointType;
+  using InputSpacingType = typename Superclass::InputSpacingType;
+  using ValueType = typename InputImageType::ValueType;
 
-  typedef typename Superclass::FeatureImageType    FeatureImageType;
-  typedef typename Superclass::FeatureSizeType     FeatureSizeType;
-  typedef typename Superclass::FeatureImagePointer FeatureImagePointer;
-  typedef typename Superclass::FeatureRegionType   FeatureRegionType;
-  typedef typename Superclass::FeatureSpacingType  FeatureSpacingType;
-  typedef typename Superclass::FeaturePointType    FeaturePointType;
-  typedef typename Superclass::FeaturePixelType    FeaturePixelType;
+  using FeatureImageType = typename Superclass::FeatureImageType;
+  using FeatureSizeType = typename Superclass::FeatureSizeType;
+  using FeatureImagePointer = typename Superclass::FeatureImagePointer;
+  using FeatureRegionType = typename Superclass::FeatureRegionType;
+  using FeatureSpacingType = typename Superclass::FeatureSpacingType;
+  using FeaturePointType = typename Superclass::FeaturePointType;
+  using FeaturePixelType = typename Superclass::FeaturePixelType;
 
-  typedef typename Superclass::OutputImageType      OutputImageType;
-  typedef typename Superclass::OutputImagePointer   OutputImagePointer;
-  typedef typename Superclass::OutputRegionType     OutputRegionType;
-  typedef typename Superclass::OutputSizeType       OutputSizeType;
-  typedef typename Superclass::OutputSizeValueType  SizeValueType;
-  typedef typename Superclass::OutputIndexType      OutputIndexType;
-  typedef typename Superclass::OutputIndexValueType OutputIndexValueType;
-  typedef typename OutputImageType::PixelType       OutputPixelType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using OutputRegionType = typename Superclass::OutputRegionType;
+  using OutputSizeType = typename Superclass::OutputSizeType;
+  using SizeValueType = typename Superclass::OutputSizeValueType;
+  using OutputIndexType = typename Superclass::OutputIndexType;
+  using OutputIndexValueType = typename Superclass::OutputIndexValueType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-  typedef typename Superclass::IdCellType IdCellType;
+  using IdCellType = typename Superclass::IdCellType;
 
-  typedef BinaryThresholdImageFilter< InputImageType, InputImageType > ThresholdFilterType;
-  typedef typename ThresholdFilterType::Pointer                        ThresholdFilterPointer;
+  using ThresholdFilterType = BinaryThresholdImageFilter< InputImageType, InputImageType >;
+  using ThresholdFilterPointer = typename ThresholdFilterType::Pointer;
 
-  typedef SignedMaurerDistanceMapImageFilter< InputImageType, InputImageType > MaurerType;
-  typedef typename MaurerType::Pointer                                         MaurerPointer;
+  using MaurerType = SignedMaurerDistanceMapImageFilter< InputImageType, InputImageType >;
+  using MaurerPointer = typename MaurerType::Pointer;
 
-  typedef typename Superclass::FiniteDifferenceFunctionType       FiniteDifferenceFunctionType;
-  typedef typename Superclass::FiniteDifferenceFunctionPointer    FiniteDifferenceFunctionPointer;
-  typedef typename FiniteDifferenceFunctionType::NeighborhoodType NeighborhoodIteratorType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using FiniteDifferenceFunctionPointer = typename Superclass::FiniteDifferenceFunctionPointer;
+  using NeighborhoodIteratorType = typename FiniteDifferenceFunctionType::NeighborhoodType;
 
   /** The value type of a time step.  Inherited from the superclass. */
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > FaceCalculatorType;
-  typedef typename FaceCalculatorType::FaceListType                             FaceListType;
+  using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >;
+  using FaceListType = typename FaceCalculatorType::FaceListType;
 
   void SetFunctionCount(const IdCellType & n);
 

@@ -81,32 +81,32 @@ class ITK_TEMPLATE_EXPORT RegionGrowImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegionGrowImageFilter                           Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegionGrowImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(RegionGrowImageFilter, ImageToImageFilter);
 
   /** Type definition for the input image. */
-  typedef TInputImage                        InputImageType;
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType InputImagePixelType;
+  using InputImagePixelType = typename TInputImage::PixelType;
 
   /** Type definition for the output image. */
-  typedef TOutputImage                   OutputImageType;
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TOutputImage::PixelType OutputImagePixelType;
+  using OutputImagePixelType = typename TOutputImage::PixelType;
 
   /** Type definition for the initial grid. */
-  typedef typename TInputImage::SizeType GridSizeType;
+  using GridSizeType = typename TInputImage::SizeType;
 
   /** Set/Get the initial grid. */
   itkSetMacro(GridSize, GridSizeType);

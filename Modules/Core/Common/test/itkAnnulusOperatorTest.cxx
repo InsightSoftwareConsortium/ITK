@@ -27,8 +27,8 @@ int itkAnnulusOperatorTest(int, char* [] )
   itk::StdStreamStateSave coutState(std::cout);
 
   const unsigned int Dimension = 2;
-  typedef float                                        PixelType;
-  typedef itk::AnnulusOperator< PixelType, Dimension > OperatorType;
+  using PixelType = float;
+  using OperatorType = itk::AnnulusOperator< PixelType, Dimension >;
 
 
   OperatorType normalizedAnnulus;

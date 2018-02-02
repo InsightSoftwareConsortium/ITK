@@ -38,10 +38,10 @@ namespace itk
 class ITKCommon_EXPORT StoppingCriterionBase : public Object
 {
 public:
-  typedef StoppingCriterionBase       Self;
-  typedef Object                      Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  using Self = StoppingCriterionBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro(StoppingCriterionBase, Object);
 

@@ -171,7 +171,7 @@ GaussianSpatialObject< TDimension >
 
     bb->ComputeBoundingBox();
 
-    typedef typename BoundingBoxType::PointsContainer PointsContainer;
+    using PointsContainer = typename BoundingBoxType::PointsContainer;
     const PointsContainer *corners = bb->GetCorners();
     typename BoundingBoxType::PointsContainer::const_iterator
     it = corners->begin();
@@ -226,7 +226,7 @@ typename EllipseSpatialObject< TDimension >::Pointer
 GaussianSpatialObject< TDimension >
 ::GetEllipsoid() const
 {
-  typedef itk::EllipseSpatialObject< TDimension > EllipseType;
+  using EllipseType = itk::EllipseSpatialObject< TDimension >;
   typename EllipseType::Pointer ellipse = EllipseType::New();
 
   ellipse->SetRadius(m_Radius);

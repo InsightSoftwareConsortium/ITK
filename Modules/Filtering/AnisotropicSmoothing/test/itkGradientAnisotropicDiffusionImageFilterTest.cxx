@@ -28,7 +28,7 @@ int itkGradientAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char *i
 {
   try
     {
-      typedef itk::Image<float, 2> ImageType;
+      using ImageType = itk::Image<float, 2>;
 
       // Set up filter
       itk::GradientAnisotropicDiffusionImageFilter<ImageType, ImageType>

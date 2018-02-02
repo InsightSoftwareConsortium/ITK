@@ -27,19 +27,19 @@ int itkHistogramTest( int, char* [] )
   bool pass = true;
   std::string whereFail = "";
 
-  typedef float MeasurementType;
+  using MeasurementType = float;
   const unsigned int numberOfComponents = 3;
 
   // create a histogram with 3 components measurement vectors
-  typedef itk::Statistics::Histogram< MeasurementType,
-          itk::Statistics::DenseFrequencyContainer2 > HistogramType;
+  using HistogramType = itk::Statistics::Histogram< MeasurementType,
+          itk::Statistics::DenseFrequencyContainer2 >;
   HistogramType::Pointer histogram = HistogramType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( histogram, Histogram, Sample );
 
-  typedef HistogramType::MeasurementVectorType MeasurementVectorType;
-  typedef HistogramType::InstanceIdentifier    InstanceIdentifier;
-  typedef HistogramType::IndexType             IndexType;
+  using MeasurementVectorType = HistogramType::MeasurementVectorType;
+  using InstanceIdentifier = HistogramType::InstanceIdentifier;
+  using IndexType = HistogramType::IndexType;
 
   // initializes a 64 x 64 x 64 histogram with equal size interval
   HistogramType::SizeType size( numberOfComponents );
@@ -252,8 +252,8 @@ int itkHistogramTest( int, char* [] )
 
 
   // Histogram with SparseFrequencyContainer2
-  typedef itk::Statistics::Histogram< MeasurementType,
-    itk::Statistics::SparseFrequencyContainer2 > SparseHistogramType;
+  using SparseHistogramType = itk::Statistics::Histogram< MeasurementType,
+    itk::Statistics::SparseFrequencyContainer2 >;
   SparseHistogramType::Pointer sparseHistogram = SparseHistogramType::New();
 
   sparseHistogram->SetMeasurementVectorSize( numberOfComponents );
@@ -710,7 +710,7 @@ int itkHistogramTest( int, char* [] )
 
   // Testing methods specific to Iterators
     {
-    typedef HistogramType::Iterator IteratorType;
+    using IteratorType = HistogramType::Iterator;
     IteratorType iter = histogram->Begin();
     IteratorType iter2 = histogram->End();
 
@@ -766,7 +766,7 @@ int itkHistogramTest( int, char* [] )
 
   // Testing methods specific to ConstIterators
     {
-    typedef HistogramType::ConstIterator ConstIteratorType;
+    using ConstIteratorType = HistogramType::ConstIterator;
     ConstIteratorType iter = histogram->Begin();
     ConstIteratorType iter2 = histogram->End();
 

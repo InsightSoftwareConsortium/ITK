@@ -138,7 +138,7 @@ BoxSpatialObject< TDimension >
     bb->ComputeBoundingBox();
 
     // Next Transform the corners of the bounding box
-    typedef typename BoundingBoxType::PointsContainer PointsContainer;
+    using PointsContainer = typename BoundingBoxType::PointsContainer;
     const PointsContainer *corners = bb->GetCorners();
     typename PointsContainer::Pointer transformedCorners = PointsContainer::New();
     transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>( corners->size() ));

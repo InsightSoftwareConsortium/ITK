@@ -35,33 +35,33 @@ int itkShapePositionLabelMapFilterTest1(int argc, char * argv[])
 
   // declare the dimension used, and the type of the input image
   const int dim = 3;
-  typedef unsigned char            PType;
-  typedef itk::Image< PType, dim > IType;
+  using PType = unsigned char;
+  using IType = itk::Image< PType, dim >;
 
   // We read the input image.
-  typedef itk::ImageFileReader< IType > ReaderType;
+  using ReaderType = itk::ImageFileReader< IType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   // And convert it to a LabelMap, with the shape attribute computed.
   // We use the default label object type.
-  typedef itk::LabelImageToShapeLabelMapFilter< IType > I2LType;
+  using I2LType = itk::LabelImageToShapeLabelMapFilter< IType >;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
-  typedef itk::ShapePositionLabelMapFilter< I2LType::OutputImageType > OpeningType;
+  using OpeningType = itk::ShapePositionLabelMapFilter< I2LType::OutputImageType >;
   OpeningType::Pointer opening = OpeningType::New();
   opening->SetInput( i2l->GetOutput() );
   opening->SetAttribute( argv[3] );
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
   // the label map is then converted back to an label image.
-  typedef itk::LabelMapToLabelImageFilter< I2LType::OutputImageType, IType > L2IType;
+  using L2IType = itk::LabelMapToLabelImageFilter< I2LType::OutputImageType, IType >;
   L2IType::Pointer l2i = L2IType::New();
   l2i->SetInput( opening->GetOutput() );
 
   // write the result
-  typedef itk::ImageFileWriter< IType > WriterType;
+  using WriterType = itk::ImageFileWriter< IType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );
   writer->SetFileName( argv[2] );

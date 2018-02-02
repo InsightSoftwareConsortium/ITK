@@ -61,11 +61,11 @@ class ITKOptimizersv4_EXPORT AmoebaOptimizerv4:
   public SingleValuedNonLinearVnlOptimizerv4
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef AmoebaOptimizerv4                   Self;
-  typedef SingleValuedNonLinearVnlOptimizerv4 Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = AmoebaOptimizerv4;
+  using Superclass = SingleValuedNonLinearVnlOptimizerv4;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,10 +75,10 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  typedef Superclass::ParametersType ParametersType;
+  using ParametersType = Superclass::ParametersType;
 
-  /** InternalParameters typedef. */
-  typedef   vnl_vector< double > InternalParametersType;
+  /** InternalParameters type alias. */
+  using InternalParametersType = vnl_vector< double >;
 
   /** Start optimization with an initial value. */
   void StartOptimization(bool doOnlyInitialization = false) override;
@@ -139,7 +139,7 @@ protected:
   ~AmoebaOptimizerv4() override;
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
+  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AmoebaOptimizerv4);

@@ -74,33 +74,30 @@ class ITK_TEMPLATE_EXPORT ObjectMorphologyImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard Self typedef */
-  typedef ObjectMorphologyImageFilter                     Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard Self type alias */
+  using Self = ObjectMorphologyImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Runtime information support. */
   itkTypeMacro(ObjectMorphologyImageFilter, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef TInputImage                      InputImageType;
-  typedef TOutputImage                     OutputImageType;
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::PixelType  PixelType;
+  /** Image related type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
 
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  typedef ImageBoundaryCondition< InputImageType > *
-  ImageBoundaryConditionPointerType;
-  typedef ImageBoundaryCondition< InputImageType > const *
-  ImageBoundaryConditionConstPointerType;
-  typedef ConstantBoundaryCondition< InputImageType >
-  DefaultBoundaryConditionType;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition<InputImageType> *;
+  using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<InputImageType> *;
+  using DefaultBoundaryConditionType = ConstantBoundaryCondition<InputImageType>;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
@@ -109,19 +106,17 @@ public:
                       TKernel::NeighborhoodDimension);
 
   /** Neighborhood iterator type. */
-  typedef ConstNeighborhoodIterator< TInputImage >
-  InputNeighborhoodIteratorType;
-  typedef NeighborhoodIterator< TOutputImage >
-  OutputNeighborhoodIteratorType;
+  using InputNeighborhoodIteratorType = ConstNeighborhoodIterator<TInputImage>;
+  using OutputNeighborhoodIteratorType = NeighborhoodIterator<TOutputImage>;
 
-  /** Kernel typedef. */
-  typedef TKernel KernelType;
+  /** Kernel type alias. */
+  using KernelType = TKernel;
 
   /** Kernel (structuring element) iterator. */
-  typedef typename KernelType::ConstIterator KernelIteratorType;
+  using KernelIteratorType = typename KernelType::ConstIterator;
 
   /** n-dimensional Kernel radius. */
-  typedef typename KernelType::SizeType RadiusType;
+  using RadiusType = typename KernelType::SizeType;
 
   /** Set kernel (structuring element). */
   itkSetMacro(Kernel, KernelType);

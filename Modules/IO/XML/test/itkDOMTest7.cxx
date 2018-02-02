@@ -70,7 +70,7 @@ void testFancyStringWithBasicType()
 {
   // for unsigned char
     {
-    typedef unsigned char DataType;
+    using DataType = unsigned char;
 
     itk::FancyString s;
 
@@ -93,7 +93,7 @@ void testFancyStringWithBasicType()
 
   // for short
     {
-    typedef short DataType;
+    using DataType = short;
 
     itk::FancyString s;
 
@@ -116,7 +116,7 @@ void testFancyStringWithBasicType()
 
   // for double
     {
-    typedef double DataType;
+    using DataType = double;
 
     itk::FancyString s;
 
@@ -229,7 +229,7 @@ void testFancyStringWithStdVector()
 // test for itk::Array<T>
 void testFancyStringWithItkArray()
 {
-  typedef itk::Array<double> DataType;
+  using DataType = itk::Array<double>;
 
   itk::FancyString svalue;
   itk::FancyString s;

@@ -153,9 +153,9 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
-      typedef typename OutputPointType::CoordRepType CoordRepType;
-      typedef ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>
-      MovingImageContinuousIndexType;
+      using CoordRepType = typename OutputPointType::CoordRepType;
+      using MovingImageContinuousIndexType =
+          ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>;
 
       MovingImageContinuousIndexType tempIndex;
       this->m_MovingImage->TransformPhysicalPointToContinuousIndex(transformedPoint, tempIndex);
@@ -258,9 +258,9 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
-      typedef typename OutputPointType::CoordRepType CoordRepType;
-      typedef ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>
-      MovingImageContinuousIndexType;
+      using CoordRepType = typename OutputPointType::CoordRepType;
+      using MovingImageContinuousIndexType =
+          ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>;
 
       MovingImageContinuousIndexType tempIndex;
       this->m_MovingImage->TransformPhysicalPointToContinuousIndex(transformedPoint, tempIndex);

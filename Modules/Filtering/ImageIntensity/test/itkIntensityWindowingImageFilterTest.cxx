@@ -27,10 +27,10 @@
 int itkIntensityWindowingImageFilterTest( int, char* [] )
 {
   const unsigned int Dimension = 3;
-  typedef float PixelType;
+  using PixelType = float;
 
-  typedef itk::Image< PixelType, Dimension > TestInputImage;
-  typedef itk::Image< PixelType, Dimension > TestOutputImage;
+  using TestInputImage = itk::Image< PixelType, Dimension >;
+  using TestOutputImage = itk::Image< PixelType, Dimension >;
 
   TestInputImage::RegionType region;
 
@@ -44,14 +44,14 @@ int itkIntensityWindowingImageFilterTest( int, char* [] )
   region.SetSize (size);
 
 
-  typedef itk::IntensityWindowingImageFilter< TestInputImage, TestOutputImage > FilterType;
+  using FilterType = itk::IntensityWindowingImageFilter< TestInputImage, TestOutputImage >;
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, IntensityWindowingImageFilter,
     UnaryFunctorImageFilter );
 
   // Generate a real image
-  typedef itk::RandomImageSource< TestInputImage > SourceType;
+  using SourceType = itk::RandomImageSource< TestInputImage >;
   SourceType::Pointer source = SourceType::New();
   TestInputImage::SizeValueType randomSize[3] = {17, 8, 20};
 
@@ -106,7 +106,7 @@ int itkIntensityWindowingImageFilterTest( int, char* [] )
 
   TRY_EXPECT_NO_EXCEPTION( filter->SetFunctor( filter->GetFunctor() ) );
 
-  typedef itk::MinimumMaximumImageCalculator< TestOutputImage > CalculatorType;
+  using CalculatorType = itk::MinimumMaximumImageCalculator< TestOutputImage >;
   CalculatorType::Pointer calculator = CalculatorType::New();
 
   calculator->SetImage( filter->GetOutput() );

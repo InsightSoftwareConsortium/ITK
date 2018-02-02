@@ -53,22 +53,22 @@ class ITK_TEMPLATE_EXPORT VectorContainer:
   private std::vector< TElement >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorContainer            Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VectorContainer;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Save the template parameters. */
-  typedef TElementIdentifier ElementIdentifier;
-  typedef TElement           Element;
+  using ElementIdentifier = TElementIdentifier;
+  using Element = TElement;
 
 private:
   /** Quick access to the STL vector type that was inherited. */
-  typedef std::vector< Element >              VectorType;
-  typedef typename VectorType::size_type      size_type;
-  typedef typename VectorType::iterator       VectorIterator;
-  typedef typename VectorType::const_iterator VectorConstIterator;
+  using VectorType = std::vector< Element >;
+  using size_type = typename VectorType::size_type;
+  using VectorIterator = typename VectorType::iterator;
+  using VectorConstIterator = typename VectorType::const_iterator;
 
 protected:
   /** Provide pass-through constructors corresponding to all the STL
@@ -89,7 +89,7 @@ protected:
 public:
 
   /** This type is provided to Adapt this container as an STL container */
-  typedef VectorType                     STLContainerType;
+  using STLContainerType = VectorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -97,7 +97,7 @@ public:
   /** Standard part of every itk Object. */
   itkTypeMacro(VectorContainer, Object);
 
-  /** Convenient typedefs for the iterator and const iterator. */
+  /** Convenient type alias for the iterator and const iterator. */
   class Iterator;
   class ConstIterator;
 
@@ -166,11 +166,11 @@ public:
   class Iterator
   {
 public:
-    typedef typename VectorIterator::iterator_category iterator_category;
-    typedef typename VectorIterator::value_type        value_type;
-    typedef typename VectorIterator::difference_type   difference_type;
-    typedef typename VectorIterator::pointer           pointer;
-    typedef typename VectorIterator::reference         reference;
+    using iterator_category = typename VectorIterator::iterator_category;
+    using value_type = typename VectorIterator::value_type;
+    using difference_type = typename VectorIterator::difference_type;
+    using pointer = typename VectorIterator::pointer;
+    using reference = typename VectorIterator::reference;
 
     Iterator() : m_Pos(0) {}
     Iterator(size_type d, const VectorIterator & i):m_Pos(d), m_Iter(i) {}
@@ -216,11 +216,11 @@ private:
   class ConstIterator
   {
 public:
-    typedef typename VectorConstIterator::iterator_category iterator_category;
-    typedef typename VectorConstIterator::value_type        value_type;
-    typedef typename VectorConstIterator::difference_type   difference_type;
-    typedef typename VectorConstIterator::pointer           pointer;
-    typedef typename VectorConstIterator::reference         reference;
+    using iterator_category = typename VectorConstIterator::iterator_category;
+    using value_type = typename VectorConstIterator::value_type;
+    using difference_type = typename VectorConstIterator::difference_type;
+    using pointer = typename VectorConstIterator::pointer;
+    using reference = typename VectorConstIterator::reference;
 
     ConstIterator():m_Pos(0) {}
     ConstIterator(size_type d, const VectorConstIterator & i):m_Pos(d), m_Iter(i) {}

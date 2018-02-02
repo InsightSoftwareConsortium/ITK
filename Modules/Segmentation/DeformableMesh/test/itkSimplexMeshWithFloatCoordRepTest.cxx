@@ -22,12 +22,12 @@ int itkSimplexMeshWithFloatCoordRepTest(int, char* [])
 {
    const unsigned int Dimension = 3;
 
-   typedef float                                                    PixelType;
-   typedef float                                                    CoordRepType;
-   typedef itk::DefaultDynamicMeshTraits<
-     PixelType,Dimension,Dimension,CoordRepType >                   MeshTraits;
-   typedef itk::SimplexMesh< PixelType,Dimension,MeshTraits >       MeshType;
-   typedef itk::DeformableSimplexMesh3DFilter < MeshType,MeshType > DeformType;
+   using PixelType = float;
+   using CoordRepType = float;
+   using MeshTraits = itk::DefaultDynamicMeshTraits<
+     PixelType,Dimension,Dimension,CoordRepType >;
+   using MeshType = itk::SimplexMesh< PixelType,Dimension,MeshTraits >;
+   using DeformType = itk::DeformableSimplexMesh3DFilter < MeshType,MeshType >;
 
    DeformType::Pointer deform = DeformType::New();
    deform->Print(std::cout);

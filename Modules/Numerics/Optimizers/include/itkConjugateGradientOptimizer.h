@@ -36,11 +36,11 @@ class ITKOptimizers_EXPORT ConjugateGradientOptimizer:
 
 {
 public:
-  /** Standard class typedefs. */
-  typedef ConjugateGradientOptimizer        Self;
-  typedef SingleValuedNonLinearVnlOptimizer Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ConjugateGradientOptimizer;
+  using Superclass = SingleValuedNonLinearVnlOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -48,11 +48,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ConjugateGradientOptimizer, SingleValuedNonLinearOptimizer);
 
-  /** InternalParameters typedef. */
-  typedef   vnl_vector< double > InternalParametersType;
+  /** InternalParameters type alias. */
+  using InternalParametersType = vnl_vector< double >;
 
   /** Internal Optimizer Type */
-  typedef   vnl_conjugate_gradient InternalOptimizerType;
+  using InternalOptimizerType = vnl_conjugate_gradient;
 
   /** Method for getting access to the internal optimizer */
   vnl_conjugate_gradient * GetOptimizer();
@@ -75,7 +75,7 @@ protected:
   ConjugateGradientOptimizer();
   ~ConjugateGradientOptimizer() override;
 
-  typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
+  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConjugateGradientOptimizer);

@@ -61,80 +61,80 @@ public:
    * of the image. */
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef ImageAdaptor                                        Self;
-  typedef ImageBase< itkGetStaticConstMacro(ImageDimension) > Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
-  typedef WeakPointer< const Self >                           ConstWeakPointer;
+  /** Standard class type aliases. */
+  using Self = ImageAdaptor;
+  using Superclass = ImageBase< itkGetStaticConstMacro(ImageDimension) >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageAdaptor, ImageBase);
 
   /** Typedef of unadapted image */
-  typedef TImage InternalImageType;
+  using InternalImageType = TImage;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Pixel typedef support. Used to declare pixel type in filters
+  /** Pixel type alias support Used to declare pixel type in filters
    * or other operations. */
-  typedef typename TAccessor::ExternalType PixelType;
+  using PixelType = typename TAccessor::ExternalType;
 
-  /** Pixel typedef support. Used to declare pixel type in filters
+  /** Pixel type alias support Used to declare pixel type in filters
    * or other operations. */
-  typedef typename TAccessor::InternalType InternalPixelType;
+  using InternalPixelType = typename TAccessor::InternalType;
 
-  typedef PixelType IOPixelType;
+  using IOPixelType = PixelType;
 
   /**  Accessor type that convert data between internal and external
    *  representations. */
-  typedef   TAccessor AccessorType;
+  using AccessorType = TAccessor;
 
-  /** typedef of the functor that chooses the appropriate accessor
+  /** type alias of the functor that chooses the appropriate accessor
    * Image or VectorImage. */
-  typedef typename InternalImageType::AccessorFunctorType::template Rebind< Self >::Type AccessorFunctorType;
+  using AccessorFunctorType = typename InternalImageType::AccessorFunctorType::template Rebind< Self >::Type;
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef typename Superclass::IndexType     IndexType;
-  typedef typename IndexType::IndexValueType IndexValueType;
+  /** Index type alias support An index is used to access pixel values. */
+  using IndexType = typename Superclass::IndexType;
+  using IndexValueType = typename IndexType::IndexValueType;
 
-  /** Size typedef support. A size is used to define region bounds. */
-  typedef typename Superclass::SizeType    SizeType;
-  typedef typename SizeType::SizeValueType SizeValueType;
+  /** Size type alias support A size is used to define region bounds. */
+  using SizeType = typename Superclass::SizeType;
+  using SizeValueType = typename SizeType::SizeValueType;
 
-  /** Offset typedef support. */
-  typedef typename Superclass::OffsetType      OffsetType;
-  typedef typename OffsetType::OffsetValueType OffsetValueType;
+  /** Offset type alias support */
+  using OffsetType = typename Superclass::OffsetType;
+  using OffsetValueType = typename OffsetType::OffsetValueType;
 
-  /** Region typedef support. A region is used to specify a subset of
+  /** Region type alias support A region is used to specify a subset of
    *  an image. */
-  typedef typename Superclass::RegionType RegionType;
+  using RegionType = typename Superclass::RegionType;
 
-  /** Spacing typedef support.  Spacing holds the size of a pixel.  The
+  /** Spacing type alias support  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
-  typedef typename Superclass::SpacingType SpacingType;
+  using SpacingType = typename Superclass::SpacingType;
 
-  /** Origin typedef support.  The origin is the geometric coordinates
+  /** Origin type alias support  The origin is the geometric coordinates
    * of the index (0,0). */
-  typedef typename Superclass::PointType PointType;
+  using PointType = typename Superclass::PointType;
 
-  /** Direction typedef support.  The Direction is a matix of
+  /** Direction type alias support  The Direction is a matix of
    * direction cosines that specify the direction between samples.
    * */
-  typedef typename Superclass::DirectionType DirectionType;
+  using DirectionType = typename Superclass::DirectionType;
 
 
   /**
    * example usage:
-   * typedef typename ImageAdaptorType::template Rebind< float >::Type OutputImageType;
+   * using OutputImageType = typename ImageAdaptorType::template Rebind< float >::Type;
    *
    * \deprecated Use RebindImageType instead
    */
   template <typename UPixelType, unsigned int UImageDimension =  TImage::ImageDimension>
   struct Rebind
     {
-      typedef Image<UPixelType, UImageDimension>  Type;
+      using Type = Image<UPixelType, UImageDimension>;
     };
 
   template <typename UPixelType, unsigned int NUImageDimension = TImage::ImageDimension>
@@ -215,11 +215,11 @@ public:
   /** Compute  Index given an Offset */
   IndexType ComputeIndex(OffsetValueType offset) const;
 
-  /** PixelContainer typedef support. Used to construct a container for
+  /** PixelContainer type alias support Used to construct a container for
    * the pixel data. */
-  typedef typename TImage::PixelContainer             PixelContainer;
-  typedef typename TImage::PixelContainerPointer      PixelContainerPointer;
-  typedef typename TImage::PixelContainerConstPointer PixelContainerConstPointer;
+  using PixelContainer = typename TImage::PixelContainer;
+  using PixelContainerPointer = typename TImage::PixelContainerPointer;
+  using PixelContainerConstPointer = typename TImage::PixelContainerConstPointer;
 
   /** Return a pointer to the container. */
   PixelContainerPointer GetPixelContainer()
@@ -244,8 +244,8 @@ public:
    * and then copies over the pixel container. */
   virtual void Graft(const Self *imgData);
 
-  /** Convenient typedef. */
-  typedef InternalPixelType *InternalPixelPointerType;
+  /** Convenient type alias. */
+  using InternalPixelPointerType = InternalPixelType *;
 
   /** Return a pointer to the beginning of the buffer.  This is used by
    * the image iterator class. */

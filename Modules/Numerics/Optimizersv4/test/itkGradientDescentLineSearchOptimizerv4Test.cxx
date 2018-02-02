@@ -42,19 +42,19 @@ class GradientDescentLineSearchOptimizerv4TestMetric
 {
 public:
 
-  typedef GradientDescentLineSearchOptimizerv4TestMetric  Self;
-  typedef itk::ObjectToObjectMetricBase                   Superclass;
-  typedef itk::SmartPointer<Self>                         Pointer;
-  typedef itk::SmartPointer<const Self>                   ConstPointer;
+  using Self = GradientDescentLineSearchOptimizerv4TestMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( GradientDescentLineSearchOptimizerv4TestMetric, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType        ParametersType;
-  typedef Superclass::ParametersValueType   ParametersValueType;
-  typedef Superclass::DerivativeType        DerivativeType;
-  typedef Superclass::MeasureType           MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using ParametersValueType = Superclass::ParametersValueType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
   GradientDescentLineSearchOptimizerv4TestMetric()
   {
@@ -166,7 +166,7 @@ int GradientDescentLineSearchOptimizerv4RunTest(
     return EXIT_FAILURE;
     }
 
-  typedef GradientDescentLineSearchOptimizerv4TestMetric::ParametersType    ParametersType;
+  using ParametersType = GradientDescentLineSearchOptimizerv4TestMetric::ParametersType;
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ",";
@@ -195,9 +195,9 @@ int itkGradientDescentLineSearchOptimizerv4Test(int, char* [] )
   std::cout << "Gradient Descent Object Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::GradientDescentLineSearchOptimizerv4  OptimizerType;
+  using OptimizerType = itk::GradientDescentLineSearchOptimizerv4;
 
-  typedef OptimizerType::ScalesType             ScalesType;
+  using ScalesType = OptimizerType::ScalesType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -207,7 +207,7 @@ int itkGradientDescentLineSearchOptimizerv4Test(int, char* [] )
 
   itkOptimizer->SetMetric( metric );
 
-  typedef GradientDescentLineSearchOptimizerv4TestMetric::ParametersType    ParametersType;
+  using ParametersType = GradientDescentLineSearchOptimizerv4TestMetric::ParametersType;
 
   const unsigned int spaceDimension =
                       metric->GetNumberOfParameters();

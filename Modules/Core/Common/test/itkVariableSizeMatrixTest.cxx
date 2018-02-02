@@ -21,8 +21,8 @@
 
 int itkVariableSizeMatrixTest(int, char*[])
 {
-  typedef itk::VariableSizeMatrix<float>   FloatVariableSizeMatrixType;
-  typedef itk::VariableSizeMatrix<double>  DoubleVariableSizeMatrixType;
+  using FloatVariableSizeMatrixType = itk::VariableSizeMatrix<float>;
+  using DoubleVariableSizeMatrixType = itk::VariableSizeMatrix<double>;
 
   FloatVariableSizeMatrixType f( 3, 2 );
     f(0,0)=1.0; f(0,1) = 2.0;

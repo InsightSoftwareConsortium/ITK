@@ -41,12 +41,12 @@ class ITKCommon_EXPORT MultipleLogOutput:public LogOutput
 {
 public:
 
-  typedef MultipleLogOutput          Self;
-  typedef LogOutput                  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = MultipleLogOutput;
+  using Superclass = LogOutput;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef LogOutput OutputType;
+  using OutputType = LogOutput;
 
   itkTypeMacro(MultipleLogOutput, LogOutput);
   itkNewMacro(MultipleLogOutput);
@@ -80,7 +80,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultipleLogOutput);
 
-  typedef std::set< OutputType::Pointer > ContainerType;
+  using ContainerType = std::set< OutputType::Pointer >;
 
   ContainerType m_Output;
 };

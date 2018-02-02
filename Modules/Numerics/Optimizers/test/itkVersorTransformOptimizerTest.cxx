@@ -45,26 +45,26 @@ class versorCostFunction : public itk::SingleValuedCostFunction
 {
 public:
 
-  typedef versorCostFunction            Self;
-  typedef itk::SingleValuedCostFunction Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = versorCostFunction;
+  using Superclass = itk::SingleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
-  typedef itk::VersorTransform<double>   TransformType;
+  using TransformType = itk::VersorTransform<double>;
 
   itkNewMacro( Self );
   itkTypeMacro( versorCostFunction, SingleValuedCostFunction );
 
   enum { SpaceDimension = 3 };
 
-  typedef Superclass::ParametersType              ParametersType;
-  typedef Superclass::DerivativeType              DerivativeType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
 
-  typedef itk::Versor< double >                   VersorType;
-  typedef VersorType::VectorType                  AxisType;
-  typedef itk::Vector< double,  SpaceDimension >  VectorType;
+  using VersorType = itk::Versor< double >;
+  using AxisType = VersorType::VectorType;
+  using VectorType = itk::Vector< double,  SpaceDimension >;
 
-  typedef double MeasureType;
+  using MeasureType = double;
 
 
   versorCostFunction()
@@ -183,9 +183,9 @@ int itkVersorTransformOptimizerTest(int, char* [] )
   std::cout << "VersorTransform Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::VersorTransformOptimizer  OptimizerType;
+  using OptimizerType = itk::VersorTransformOptimizer;
 
-  typedef  OptimizerType::ScalesType            ScalesType;
+  using ScalesType = OptimizerType::ScalesType;
 
 
   // Declaration of a itkOptimizer
@@ -199,9 +199,9 @@ int itkVersorTransformOptimizerTest(int, char* [] )
   itkOptimizer->SetCostFunction( costFunction );
 
 
-  typedef versorCostFunction::ParametersType    ParametersType;
+  using ParametersType = versorCostFunction::ParametersType;
 
-  typedef OptimizerType::VersorType      VersorType;
+  using VersorType = OptimizerType::VersorType;
 
   // We start with a null rotation
   VersorType::VectorType axis;

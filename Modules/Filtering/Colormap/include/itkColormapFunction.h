@@ -47,18 +47,18 @@ class ColormapFunction:public Object
 {
 public:
 
-  typedef ColormapFunction            Self;
-  typedef Object                      Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  using Self = ColormapFunction;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ColormapFunction, Object);
 
-  typedef TRGBPixel                                      RGBPixelType;
-  typedef typename TRGBPixel::ComponentType              RGBComponentType;
-  typedef TScalar                                        ScalarType;
-  typedef typename NumericTraits< ScalarType >::RealType RealType;
+  using RGBPixelType = TRGBPixel;
+  using RGBComponentType = typename TRGBPixel::ComponentType;
+  using ScalarType = TScalar;
+  using RealType = typename NumericTraits< ScalarType >::RealType;
 
   itkSetMacro(MinimumRGBComponentValue, RGBComponentType);
   itkGetConstMacro(MinimumRGBComponentValue, RGBComponentType);

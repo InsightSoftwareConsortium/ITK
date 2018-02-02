@@ -26,9 +26,9 @@ template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate  Self;
-  typedef itk::Command            Superclass;
-  typedef itk::SmartPointer<Self> Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -117,12 +117,12 @@ std::vector<TValue> ConvertVector( std::string optionString )
 template<unsigned int ImageDimension>
 int N4( int argc, char *argv[] )
 {
-  typedef float RealType;
+  using RealType = float;
 
-  typedef itk::Image<RealType, ImageDimension>  ImageType;
-  typedef typename ImageType::Pointer           ImagePointer;
+  using ImageType = itk::Image<RealType, ImageDimension>;
+  using ImagePointer = typename ImageType::Pointer;
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
   reader->Update();
@@ -131,12 +131,12 @@ int N4( int argc, char *argv[] )
   inputImage->DisconnectPipeline();
 
   // handle the mask image
-  typedef itk::Image<unsigned char, ImageDimension> MaskImageType;
+  using MaskImageType = itk::Image<unsigned char, ImageDimension>;
   typename MaskImageType::Pointer maskImage = nullptr;
 
   if( argc > 6 )
     {
-    typedef itk::ImageFileReader<MaskImageType> MaskReaderType;
+    using MaskReaderType = itk::ImageFileReader<MaskImageType>;
     typename MaskReaderType::Pointer maskreader = MaskReaderType::New();
     maskreader->SetFileName( argv[6] );
     try
@@ -154,8 +154,8 @@ int N4( int argc, char *argv[] )
   if( !maskImage )
     {
     std::cout << "Mask not read.  Creating Otsu mask." << std::endl;
-    typedef itk::OtsuThresholdImageFilter<ImageType, MaskImageType>
-    ThresholderType;
+    using ThresholderType =
+        itk::OtsuThresholdImageFilter<ImageType, MaskImageType>;
     typename ThresholderType::Pointer otsu = ThresholderType::New();
     otsu->SetInput( inputImage );
     // otsu->SetNumberOfHistogramBins( 200 );
@@ -168,8 +168,8 @@ int N4( int argc, char *argv[] )
     }
 
   // instantiate N4 and assign variables not exposed to the user in this test.
-  typedef itk::N4BiasFieldCorrectionImageFilter<ImageType, MaskImageType,
-                                                ImageType> CorrecterType;
+  using CorrecterType = itk::N4BiasFieldCorrectionImageFilter<ImageType, MaskImageType,
+                                                ImageType>;
   typename CorrecterType::Pointer correcter = CorrecterType::New();
   correcter->SetSplineOrder( 3 );
   correcter->SetWienerFilterNoise( 0.01 );
@@ -229,7 +229,7 @@ int N4( int argc, char *argv[] )
     numberOfControlPoints[d] = numberOfSpans + correcter->GetSplineOrder();
     }
 
-  typedef itk::ConstantPadImageFilter<ImageType, ImageType> PadderType;
+  using PadderType = itk::ConstantPadImageFilter<ImageType, ImageType>;
   typename PadderType::Pointer padder = PadderType::New();
   padder->SetInput( inputImage );
   padder->SetPadLowerBound( lowerBound );
@@ -240,8 +240,8 @@ int N4( int argc, char *argv[] )
   inputImage = padder->GetOutput();
   inputImage->DisconnectPipeline();
 
-  typedef itk::ConstantPadImageFilter<MaskImageType, MaskImageType>
-  MaskPadderType;
+  using MaskPadderType =
+      itk::ConstantPadImageFilter<MaskImageType, MaskImageType>;
   typename MaskPadderType::Pointer maskPadder = MaskPadderType::New();
   maskPadder->SetInput( maskImage );
   maskPadder->SetPadLowerBound( lowerBound );
@@ -255,13 +255,13 @@ int N4( int argc, char *argv[] )
   correcter->SetNumberOfControlPoints( numberOfControlPoints );
 
   // handle the shrink factor
-  typedef itk::ShrinkImageFilter<ImageType, ImageType> ShrinkerType;
+  using ShrinkerType = itk::ShrinkImageFilter<ImageType, ImageType>;
   typename ShrinkerType::Pointer shrinker = ShrinkerType::New();
   shrinker->SetInput( inputImage );
   shrinker->SetShrinkFactors( 1 );
 
-  typedef itk::ShrinkImageFilter<MaskImageType, MaskImageType>
-  MaskShrinkerType;
+  using MaskShrinkerType =
+      itk::ShrinkImageFilter<MaskImageType, MaskImageType>;
   typename MaskShrinkerType::Pointer maskshrinker = MaskShrinkerType::New();
   maskshrinker->SetInput( maskImage );
   maskshrinker->SetShrinkFactors( 1 );
@@ -283,7 +283,7 @@ int N4( int argc, char *argv[] )
   correcter->SetInput( inputImage );
   correcter->SetMaskImage( maskImage );
 
-  typedef CommandIterationUpdate<CorrecterType> CommandType;
+  using CommandType = CommandIterationUpdate<CorrecterType>;
   typename CommandType::Pointer observer = CommandType::New();
   correcter->AddObserver( itk::IterationEvent(), observer );
 
@@ -303,9 +303,9 @@ int N4( int argc, char *argv[] )
   // Test the reconstruction of the log bias field
   ImagePointer originalInputImage = reader->GetOutput();
   reader->UpdateOutputInformation();
-  typedef itk::BSplineControlPointImageFilter
+  using BSplinerType = itk::BSplineControlPointImageFilter
   <typename CorrecterType::BiasFieldControlPointLatticeType, typename
-   CorrecterType::ScalarImageType> BSplinerType;
+   CorrecterType::ScalarImageType>;
   typename BSplinerType::Pointer bspliner = BSplinerType::New();
   bspliner->SetInput( correcter->GetLogBiasFieldControlPointLattice() );
   bspliner->SetSplineOrder( correcter->GetSplineOrder() );
@@ -318,8 +318,7 @@ int N4( int argc, char *argv[] )
 
 
   // output the log bias field control point lattice
-  typedef itk::ImageFileWriter<
-    typename CorrecterType::BiasFieldControlPointLatticeType> WriterType;
+  using WriterType = itk::ImageFileWriter<typename CorrecterType::BiasFieldControlPointLatticeType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( correcter->GetLogBiasFieldControlPointLattice() );

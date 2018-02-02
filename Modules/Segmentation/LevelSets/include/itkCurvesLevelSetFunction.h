@@ -63,13 +63,13 @@ class ITK_TEMPLATE_EXPORT CurvesLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef CurvesLevelSetFunction                                        Self;
-  typedef SegmentationLevelSetFunction< TImageType, TFeatureImageType > Superclass;
-  typedef LevelSetFunction< TImageType >                                SuperSuperclass;
-  typedef SmartPointer< Self >                                          Pointer;
-  typedef SmartPointer< const Self >                                    ConstPointer;
-  typedef TFeatureImageType                                             FeatureImageType;
+  /** Standard class type aliases. */
+  using Self = CurvesLevelSetFunction;
+  using Superclass = SegmentationLevelSetFunction< TImageType, TFeatureImageType >;
+  using SuperSuperclass = LevelSetFunction< TImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using FeatureImageType = TFeatureImageType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -78,15 +78,15 @@ public:
   itkTypeMacro(CurvesLevelSetFunction, SegmentationLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
-  typedef typename SuperSuperclass::PixelType        PixelType;
-  typedef typename Superclass::ImageType             ImageType;
-  typedef typename Superclass::NeighborhoodType      NeighborhoodType;
-  typedef typename Superclass::ScalarValueType       ScalarValueType;
-  typedef typename Superclass::FeatureScalarType     FeatureScalarType;
-  typedef typename Superclass::RadiusType            RadiusType;
-  typedef typename SuperSuperclass::FloatOffsetType  FloatOffsetType;
-  typedef typename SuperSuperclass::GlobalDataStruct GlobalDataStruct;
-  typedef typename Superclass::VectorImageType       VectorImageType;
+  using PixelType = typename SuperSuperclass::PixelType;
+  using ImageType = typename Superclass::ImageType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using ScalarValueType = typename Superclass::ScalarValueType;
+  using FeatureScalarType = typename Superclass::FeatureScalarType;
+  using RadiusType = typename Superclass::RadiusType;
+  using FloatOffsetType = typename SuperSuperclass::FloatOffsetType;
+  using GlobalDataStruct = typename SuperSuperclass::GlobalDataStruct;
+  using VectorImageType = typename Superclass::VectorImageType;
 
   /** Extract some parameters from the superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,

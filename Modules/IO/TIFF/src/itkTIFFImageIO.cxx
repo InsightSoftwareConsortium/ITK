@@ -1238,7 +1238,7 @@ void TIFFImageIO::ReadGenericImage(void *_out,
                                    unsigned int width,
                                    unsigned int height)
 {
-  typedef TComponent ComponentType;
+  using ComponentType = TComponent;
 
 #ifdef TIFF_INT64_T // detect if libtiff4
   uint64_t isize = TIFFScanlineSize64(m_InternalImage->m_Image);
@@ -1485,7 +1485,7 @@ void TIFFImageIO::PutPaletteScalar( TType *to, TFromType * from,
 template <typename TComponent>
 void  TIFFImageIO::RGBAImageToBuffer( void *out, const uint32_t *tempImage )
 {
-  typedef TComponent ComponentType;
+  using ComponentType = TComponent;
 
   const int width  = m_InternalImage->m_Width;
   const int height = m_InternalImage->m_Height;

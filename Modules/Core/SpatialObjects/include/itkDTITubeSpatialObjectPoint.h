@@ -39,13 +39,13 @@ class ITK_TEMPLATE_EXPORT DTITubeSpatialObjectPoint:
 {
 public:
 
-  typedef DTITubeSpatialObjectPoint                  Self;
-  typedef SpatialObjectPoint< TPointDimension >      Superclass;
-  typedef Point< double, TPointDimension >           PointType;
-  typedef Vector< double, TPointDimension >          VectorType;
-  typedef CovariantVector< double, TPointDimension > CovariantVectorType;
-  typedef std::pair< std::string, float >            FieldType;
-  typedef std::vector< FieldType >                   FieldListType;
+  using Self = DTITubeSpatialObjectPoint;
+  using Superclass = SpatialObjectPoint< TPointDimension >;
+  using PointType = Point< double, TPointDimension >;
+  using VectorType = Vector< double, TPointDimension >;
+  using CovariantVectorType = CovariantVector< double, TPointDimension >;
+  using FieldType = std::pair< std::string, float >;
+  using FieldListType = std::vector< FieldType >;
 
   // If you add a type here you need to modify the TranslateEnumToChar
   // to translate the enum to a string

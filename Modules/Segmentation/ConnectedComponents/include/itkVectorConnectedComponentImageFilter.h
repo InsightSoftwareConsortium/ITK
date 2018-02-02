@@ -71,7 +71,7 @@ public:
 
   bool operator()(const TInput & a, const TInput & b) const
   {
-    typedef typename NumericTraits<typename TInput::ValueType>::RealType RealValueType;
+    using RealValueType = typename NumericTraits<typename TInput::ValueType>::RealType;
     RealValueType dotProduct = NumericTraits<RealValueType>::ZeroValue();
     for ( unsigned int i = 0; i < NumericTraits<TInput>::GetLength(a); ++i)
       {
@@ -101,13 +101,13 @@ class VectorConnectedComponentImageFilter:
                                                TMaskImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorConnectedComponentImageFilter Self;
-  typedef ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = VectorConnectedComponentImageFilter;
+  using Superclass = ConnectedComponentFunctorImageFilter< TInputImage, TOutputImage,
                                                 Functor::SimilarVectorsFunctor< typename TInputImage::ValueType >,
-                                                TMaskImage >                      Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                                                TMaskImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -115,7 +115,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorConnectedComponentImageFilter, ConnectedComponentFunctorImageFilter);
 
-  typedef typename TInputImage::PixelType::ValueType InputValueType;
+  using InputValueType = typename TInputImage::PixelType::ValueType;
 
   virtual void SetDistanceThreshold(const InputValueType & thresh)
   { this->GetFunctor().SetDistanceThreshold(thresh); }

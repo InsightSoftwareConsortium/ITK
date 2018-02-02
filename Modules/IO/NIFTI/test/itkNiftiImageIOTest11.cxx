@@ -41,7 +41,7 @@ int itkNiftiImageIOTest11(int ac, char *av[])
     {
     return EXIT_FAILURE;
     }
-  typedef  itk::Image<char,3> ImageType;
+  using ImageType = itk::Image<char,3>;
   ImageType::RegionType imageRegion;
   ImageType::SizeType size;
   ImageType::IndexType index;

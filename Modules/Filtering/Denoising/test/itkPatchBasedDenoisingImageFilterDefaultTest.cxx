@@ -27,13 +27,13 @@
 template< typename ImageT >
 int doDenoising( const std::string & inputFileName, const std::string & outputFileName )
 {
-  typedef itk::ImageFileReader< ImageT > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageT >;
 
-  typedef itk::PatchBasedDenoisingImageFilter< ImageT, ImageT > FilterType;
+  using FilterType = itk::PatchBasedDenoisingImageFilter< ImageT, ImageT >;
 
-  typedef typename FilterType::OutputImageType OutputImageType;
+  using OutputImageType = typename FilterType::OutputImageType;
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   // Read the noisy image to be denoised
   typename ReaderType::Pointer reader = ReaderType::New();
@@ -78,9 +78,9 @@ int itkPatchBasedDenoisingImageFilterDefaultTest( int argc, char * argv [] )
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  typedef float                                                       PixelType;
-  typedef itk::Image< PixelType, 3 >                                  ImageType;
-  typedef itk::PatchBasedDenoisingImageFilter< ImageType, ImageType > FilterType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, 3 >;
+  using FilterType = itk::PatchBasedDenoisingImageFilter< ImageType, ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -94,12 +94,12 @@ int itkPatchBasedDenoisingImageFilterDefaultTest( int argc, char * argv [] )
 
   const unsigned int numDimensions = atoi( argv[3] );
 
-  typedef float PixelComponentType;
+  using PixelComponentType = float;
 
-  typedef PixelComponentType                           OneComponentType;
+  using OneComponentType = PixelComponentType;
 
-  typedef itk::Image< OneComponentType, 2 > OneComponent2DImage;
-  typedef itk::Image< OneComponentType, 3 > OneComponent3DImage;
+  using OneComponent2DImage = itk::Image< OneComponentType, 2 >;
+  using OneComponent3DImage = itk::Image< OneComponentType, 3 >;
 
   if( numDimensions == 2 )
     {

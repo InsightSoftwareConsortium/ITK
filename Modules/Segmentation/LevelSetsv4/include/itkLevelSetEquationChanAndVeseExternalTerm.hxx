@@ -65,7 +65,7 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
       }
     const LevelSetIdentifierType id = this->m_CacheImage->GetPixel( iP );
 
-    typedef typename DomainMapImageFilterType::DomainMapType DomainMapType;
+    using DomainMapType = typename DomainMapImageFilterType::DomainMapType;
     const DomainMapType domainMap = this->m_DomainMapImageFilter->GetDomainMap();
     typename DomainMapType::const_iterator levelSetMapItr = domainMap.find(id);
 

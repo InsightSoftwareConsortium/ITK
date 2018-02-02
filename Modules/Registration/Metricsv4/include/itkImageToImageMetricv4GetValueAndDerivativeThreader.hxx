@@ -31,7 +31,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitione
                       const ThreadIdType threadId )
 {
   typename VirtualImageType::ConstPointer virtualImage = this->m_Associate->GetVirtualImage();
-  typedef ImageRegionConstIteratorWithIndex< VirtualImageType > IteratorType;
+  using IteratorType = ImageRegionConstIteratorWithIndex< VirtualImageType >;
   VirtualPointType virtualPoint;
   for( IteratorType it( virtualImage, imageSubRegion ); !it.IsAtEnd(); ++it )
     {
@@ -50,7 +50,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerParti
                       const ThreadIdType threadId )
 {
   typename TImageToImageMetricv4::VirtualPointSetType::ConstPointer virtualSampledPointSet = this->m_Associate->GetVirtualSampledPointSet();
-  typedef typename TImageToImageMetricv4::VirtualPointSetType::MeshTraits::PointIdentifier ElementIdentifierType;
+  using ElementIdentifierType = typename TImageToImageMetricv4::VirtualPointSetType::MeshTraits::PointIdentifier;
   const ElementIdentifierType begin = indexSubRange[0];
   const ElementIdentifierType end   = indexSubRange[1];
   VirtualIndexType virtualIndex;

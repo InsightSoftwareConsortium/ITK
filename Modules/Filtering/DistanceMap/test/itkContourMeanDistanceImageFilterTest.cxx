@@ -22,12 +22,12 @@
 int itkContourMeanDistanceImageFilterTest(int, char* [] )
 {
 
-  typedef unsigned int  Pixel1Type;
-  typedef float         Pixel2Type;
+  using Pixel1Type = unsigned int;
+  using Pixel2Type = float;
   enum { ImageDimension = 3 };
 
-  typedef itk::Image<Pixel1Type,ImageDimension> Image1Type;
-  typedef itk::Image<Pixel2Type,ImageDimension> Image2Type;
+  using Image1Type = itk::Image<Pixel1Type,ImageDimension>;
+  using Image2Type = itk::Image<Pixel2Type,ImageDimension>;
 
   Image1Type::Pointer image1 = Image1Type::New();
   Image2Type::Pointer image2 = Image2Type::New();
@@ -44,11 +44,11 @@ int itkContourMeanDistanceImageFilterTest(int, char* [] )
   image1->FillBuffer( itk::NumericTraits<Pixel1Type>::ZeroValue() );
   image2->FillBuffer( itk::NumericTraits<Pixel2Type>::ZeroValue() );
 
-  typedef Image1Type::RegionType RegionType;
+  using RegionType = Image1Type::RegionType;
   RegionType region1;
   RegionType region2;
 
-  typedef Image1Type::IndexType IndexType;
+  using IndexType = Image1Type::IndexType;
   IndexType index;
 
   size.Fill( 20 );
@@ -79,7 +79,7 @@ int itkContourMeanDistanceImageFilterTest(int, char* [] )
 
   // compute the directed Mean distance h(image1,image2)
   {
-  typedef itk::ContourMeanDistanceImageFilter<Image1Type,Image2Type> FilterType;
+  using FilterType = itk::ContourMeanDistanceImageFilter<Image1Type,Image2Type>;
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher watcher(filter, "filter");
 
@@ -107,7 +107,7 @@ int itkContourMeanDistanceImageFilterTest(int, char* [] )
 
   // compute the directed Mean distance h(image2,image1)
   {
-  typedef itk::ContourMeanDistanceImageFilter<Image2Type,Image1Type> FilterType;
+  using FilterType = itk::ContourMeanDistanceImageFilter<Image2Type,Image1Type>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput1( image2 );
@@ -131,7 +131,7 @@ int itkContourMeanDistanceImageFilterTest(int, char* [] )
 
   // compute the directed Mean distance h(image2,image1) with different pixel sizes
   {
-    typedef itk::ContourMeanDistanceImageFilter<Image2Type,Image1Type> FilterType;
+    using FilterType = itk::ContourMeanDistanceImageFilter<Image2Type,Image1Type>;
     FilterType::Pointer filter = FilterType::New();
     Image1Type::SpacingType spacing1 = image1->GetSpacing();
     spacing1[0]=spacing1[0]/2;

@@ -41,11 +41,11 @@ class StructHashFunction
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef StructHashFunction Self;
+  /** Standard class type aliases. */
+  using Self = StructHashFunction;
 
   /** Input type */
-  typedef TInput InputType;
+  using InputType = TInput;
 
   IdentifierType operator()(const InputType & key) const;
 };

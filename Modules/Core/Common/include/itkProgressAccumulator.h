@@ -40,15 +40,15 @@ namespace itk
 class ITKCommon_EXPORT ProgressAccumulator:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ProgressAccumulator        Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ProgressAccumulator;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Typedef for inputting filters */
-  typedef ProcessObject              GenericFilterType;
-  typedef GenericFilterType::Pointer GenericFilterPointer;
+  using GenericFilterType = ProcessObject;
+  using GenericFilterPointer = GenericFilterType::Pointer;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -118,8 +118,8 @@ protected:
 
 private:
   /**  Command for observing progress of pipeline filters */
-  typedef MemberCommand< Self > CommandType;
-  typedef CommandType::Pointer  CommandPointer;
+  using CommandType = MemberCommand< Self >;
+  using CommandPointer = CommandType::Pointer;
 
   /** Structure associated with each filter in the pipeline */
   struct FilterRecord {
@@ -141,7 +141,7 @@ private:
   GenericFilterPointer m_MiniPipelineFilter;
 
   /** An array of record structures */
-  typedef std::vector< struct FilterRecord > FilterRecordVector;
+  using FilterRecordVector = std::vector< struct FilterRecord >;
 
   /** The total accumulated progress */
   float m_AccumulatedProgress;

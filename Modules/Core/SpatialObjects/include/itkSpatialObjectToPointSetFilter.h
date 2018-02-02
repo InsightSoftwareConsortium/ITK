@@ -34,17 +34,17 @@ template< typename TInputSpatialObject, typename TOutputPointSet >
 class ITK_TEMPLATE_EXPORT SpatialObjectToPointSetFilter:public MeshSource< TOutputPointSet >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SpatialObjectToPointSetFilter Self;
-  typedef MeshSource< TOutputPointSet > Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer< const Self >    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SpatialObjectToPointSetFilter;
+  using Superclass = MeshSource< TOutputPointSet >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TOutputPointSet                      OutputPointSetType;
-  typedef typename OutputPointSetType::Pointer OutputPointSetPointer;
+  using OutputPointSetType = TOutputPointSet;
+  using OutputPointSetPointer = typename OutputPointSetType::Pointer;
 
   /** Smart Pointer type to a DataObject. */
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,18 +52,18 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpatialObjectToPointSetFilter, ProcessObject);
 
-  /** Some convenient typedefs. */
-  typedef TInputSpatialObject                            InputSpatialObjectType;
-  typedef typename InputSpatialObjectType::Pointer       InputSpatialObjectPointer;
-  typedef typename InputSpatialObjectType::ConstPointer  InputSpatialObjectConstPointer;
-  typedef typename TInputSpatialObject::ChildrenListType ChildrenListType;
+  /** Some convenient type alias. */
+  using InputSpatialObjectType = TInputSpatialObject;
+  using InputSpatialObjectPointer = typename InputSpatialObjectType::Pointer;
+  using InputSpatialObjectConstPointer = typename InputSpatialObjectType::ConstPointer;
+  using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
 
   /** Dimension constants */
   itkStaticConstMacro(ObjectDimension, unsigned int,
                       InputSpatialObjectType::ObjectDimension);
 
-  typedef itk::SpatialObjectPoint< itkGetStaticConstMacro(ObjectDimension) >      PointType;
-  typedef itk::PointBasedSpatialObject< itkGetStaticConstMacro(ObjectDimension) > PointBasedSpatialObjectType;
+  using PointType = itk::SpatialObjectPoint< itkGetStaticConstMacro(ObjectDimension) >;
+  using PointBasedSpatialObjectType = itk::PointBasedSpatialObject< itkGetStaticConstMacro(ObjectDimension) >;
 
   /** Set/Get the PointSet input of this process object.  */
   using Superclass::SetInput;

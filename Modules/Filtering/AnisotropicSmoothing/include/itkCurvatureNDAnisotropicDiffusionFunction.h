@@ -76,11 +76,11 @@ class ITK_TEMPLATE_EXPORT CurvatureNDAnisotropicDiffusionFunction:
   public ScalarAnisotropicDiffusionFunction< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef CurvatureNDAnisotropicDiffusionFunction      Self;
-  typedef ScalarAnisotropicDiffusionFunction< TImage > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = CurvatureNDAnisotropicDiffusionFunction;
+  using Superclass = ScalarAnisotropicDiffusionFunction< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,14 +90,14 @@ public:
                ScalarAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::ImageType        ImageType;
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::TimeStepType     TimeStepType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelType = typename Superclass::PixelType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
 
-  typedef typename NeighborhoodType::SizeValueType NeighborhoodSizeValueType;
+  using NeighborhoodSizeValueType = typename NeighborhoodType::SizeValueType;
 
   /** Inherit some parameters from the superclass type. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);

@@ -48,8 +48,8 @@ namespace itk
 class ITKCommon_EXPORT SimpleMutexLock
 {
 public:
-  /** Standard class typedefs.  */
-  typedef SimpleMutexLock Self;
+  /** Standard class type aliases.  */
+  using Self = SimpleMutexLock;
 
   /** Constructor and destructor left public purposely. */
   SimpleMutexLock();
@@ -102,11 +102,11 @@ protected:
 class ITKCommon_EXPORT MutexLock:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef MutexLock                  Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MutexLock;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation. */
   itkNewMacro(Self);

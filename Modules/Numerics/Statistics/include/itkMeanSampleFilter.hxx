@@ -144,10 +144,10 @@ MeanSampleFilter< TSample >
   NumericTraits<MeasurementVectorRealType>::SetLength( output, this->GetMeasurementVectorSize() );
 
   // algorithm start
-  typedef CompensatedSummation< MeasurementRealType > MeasurementRealAccumulateType;
+  using MeasurementRealAccumulateType = CompensatedSummation< MeasurementRealType >;
   std::vector< MeasurementRealAccumulateType > sum( measurementVectorSize );
 
-  typedef typename SampleType::TotalAbsoluteFrequencyType TotalFrequencyType;
+  using TotalFrequencyType = typename SampleType::TotalAbsoluteFrequencyType;
   TotalFrequencyType totalFrequency = NumericTraits< TotalFrequencyType >::ZeroValue();
 
   typename SampleType::ConstIterator iter =      input->Begin();

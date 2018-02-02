@@ -63,7 +63,7 @@ typename TImage::PixelType foregnd,
 typename TImage::PixelType backgnd )
 {
 
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator it( image, image->GetBufferedRegion() );
 
   it.GoToBegin();
@@ -90,7 +90,7 @@ typename TImage::PixelType backgnd )
     ++it;
     }
 
-  typedef itk::SmoothingRecursiveGaussianImageFilter< TImage, TImage > SmoothingFilterType;
+  using SmoothingFilterType = itk::SmoothingRecursiveGaussianImageFilter< TImage, TImage >;
   typename SmoothingFilterType::Pointer smoother = SmoothingFilterType::New();
   smoother->SetInput( image );
   smoother->SetSigma( 1.0 );
@@ -108,7 +108,7 @@ CopyImageBuffer(
 TImage *input,
 TImage *output )
 {
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator outIt( output, output->GetBufferedRegion() );
   for( Iterator inIt( input, output->GetBufferedRegion() ); !inIt.IsAtEnd(); ++inIt, ++outIt )
     {
@@ -120,14 +120,14 @@ TImage *output )
 int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
 {
 
-  typedef float PixelType;
+  using PixelType = float;
   enum {ImageDimension = 2};
-  typedef itk::Image<PixelType,ImageDimension>  ImageType;
-  typedef itk::Vector<float,ImageDimension>     VectorType;
-  typedef itk::Image<VectorType,ImageDimension> FieldType;
-  typedef ImageType::IndexType                  IndexType;
-  typedef ImageType::SizeType                   SizeType;
-  typedef ImageType::RegionType                 RegionType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using VectorType = itk::Vector<float,ImageDimension>;
+  using FieldType = itk::Image<VectorType,ImageDimension>;
+  using IndexType = ImageType::IndexType;
+  using SizeType = ImageType::SizeType;
+  using RegionType = ImageType::RegionType;
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
@@ -178,7 +178,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   zeroVec.Fill( 0.0 );
   initField->FillBuffer( zeroVec );
 
-  typedef itk::VectorCastImageFilter<FieldType,FieldType> CasterType;
+  using CasterType = itk::VectorCastImageFilter<FieldType,FieldType>;
   CasterType::Pointer caster = CasterType::New();
   caster->SetInput( initField );
   caster->InPlaceOff();
@@ -186,8 +186,8 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
-  typedef itk::LevelSetMotionRegistrationFilter<ImageType,ImageType,FieldType>
-    RegistrationType;
+  using RegistrationType =
+      itk::LevelSetMotionRegistrationFilter<ImageType,ImageType,FieldType>;
   RegistrationType::Pointer registrator = RegistrationType::New();
 
   registrator->SetInitialDisplacementField( caster->GetOutput() );
@@ -206,7 +206,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   // turn on/off use image spacing
   registrator->UseImageSpacingOn();
 
-  typedef RegistrationType::LevelSetMotionFunctionType FunctionType;
+  using FunctionType = RegistrationType::LevelSetMotionFunctionType;
 
   FunctionType * fptr =
     dynamic_cast<FunctionType *>( registrator->GetDifferenceFunction().GetPointer() );
@@ -227,7 +227,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
     }
   registrator->SetStandardDeviations( v );
 
-  typedef ShowProgressObject<RegistrationType> ProgressType;
+  using ProgressType = ShowProgressObject<RegistrationType>;
   ProgressType progressWatch(registrator);
 
   itk::SimpleMemberCommand<ProgressType>::Pointer command;
@@ -238,12 +238,12 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
   registrator->AddObserver( itk::ProgressEvent(), command);
 
   // warp moving image
-  typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
+  using WarperType = itk::WarpImageFilter<ImageType,ImageType,FieldType>;
   WarperType::Pointer warper = WarperType::New();
 
-  typedef WarperType::CoordRepType CoordRepType;
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
-    InterpolatorType;
+  using CoordRepType = WarperType::CoordRepType;
+  using InterpolatorType =
+      itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
 
@@ -259,7 +259,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
 
   warper->Update();
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   if( argc > 1 )

@@ -28,9 +28,9 @@ char * itkNotUsed(argv) [] )
 {
   try
     {
-      typedef  itk::Vector<double, 2>    VectorType;
-      typedef  VectorType::ValueType     ScalarValueType;
-      typedef  itk::Image<VectorType, 3> ImageType;
+      using VectorType = itk::Vector<double, 2>;
+      using ScalarValueType = VectorType::ValueType;
+      using ImageType = itk::Image<VectorType, 3>;
       // Set up operator
       itk::DerivativeOperator<ScalarValueType, 3> oper;
       oper.SetOrder(2);

@@ -87,7 +87,7 @@ VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
   typename KernelType::DecompType decomposition = this->GetKernel().GetLines();
   BresType BresLine;
 
-  typedef typename KernelType::LType KernelLType;
+  using KernelLType = typename KernelType::LType;
 
   for ( unsigned i = 0; i < decomposition.size(); i++ )
     {
@@ -113,7 +113,7 @@ VanHerkGilWermanErodeDilateImageFilter< TImage, TKernel, TFunction1 >
     }
 
   // copy internal buffer to output
-  typedef ImageRegionIterator< InputImageType > IterType;
+  using IterType = ImageRegionIterator< InputImageType >;
   IterType oit(this->GetOutput(), OReg);
   IterType iit(internalbuffer, OReg);
   for ( oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit )

@@ -42,11 +42,11 @@ namespace fem
 class ITKFEM_EXPORT Element3DC0LinearTriangularLaplaceBeltrami : public Element3DMembrane1DOF<Element3DC0LinearTriangular>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element3DC0LinearTriangularLaplaceBeltrami         Self;
-  typedef Element3DMembrane1DOF<Element3DC0LinearTriangular> Superclass;
-  typedef SmartPointer<Self>                                 Pointer;
-  typedef SmartPointer<const Self>                           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element3DC0LinearTriangularLaplaceBeltrami;
+  using Superclass = Element3DMembrane1DOF<Element3DC0LinearTriangular>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

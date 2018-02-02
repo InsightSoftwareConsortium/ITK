@@ -107,11 +107,11 @@ template<typename TImageType, typename THistogramFrequencyContainer =
 class ITK_TEMPLATE_EXPORT ScalarImageToRunLengthMatrixFilter : public ProcessObject
 {
 public:
-  /** Standard typedefs */
-  typedef ScalarImageToRunLengthMatrixFilter  Self;
-  typedef ProcessObject                       Superclass;
-  typedef SmartPointer<Self>                  Pointer;
-  typedef SmartPointer<const Self>            ConstPointer;
+  /** Standard type alias */
+  using Self = ScalarImageToRunLengthMatrixFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( ScalarImageToRunLengthMatrixFilter, ProcessObject );
@@ -119,26 +119,26 @@ public:
   /** standard New() method support */
   itkNewMacro( Self );
 
-  typedef TImageType                                      ImageType;
-  typedef typename ImageType::Pointer                     ImagePointer;
-  typedef typename ImageType::ConstPointer                ImageConstPointer;
-  typedef typename ImageType::PixelType                   PixelType;
-  typedef typename ImageType::IndexType                   IndexType;
-  typedef typename ImageType::RegionType                  RegionType;
-  typedef typename ImageType::SizeType                    RadiusType;
-  typedef typename ImageType::OffsetType                  OffsetType;
-  typedef VectorContainer<unsigned char, OffsetType>      OffsetVector;
-  typedef typename OffsetVector::Pointer                  OffsetVectorPointer;
-  typedef typename ImageType::PointType                   PointType;
+  using ImageType = TImageType;
+  using ImagePointer = typename ImageType::Pointer;
+  using ImageConstPointer = typename ImageType::ConstPointer;
+  using PixelType = typename ImageType::PixelType;
+  using IndexType = typename ImageType::IndexType;
+  using RegionType = typename ImageType::RegionType;
+  using RadiusType = typename ImageType::SizeType;
+  using OffsetType = typename ImageType::OffsetType;
+  using OffsetVector = VectorContainer<unsigned char, OffsetType>;
+  using OffsetVectorPointer = typename OffsetVector::Pointer;
+  using PointType = typename ImageType::PointType;
 
-  typedef typename NumericTraits<PixelType>::RealType     MeasurementType;
-  typedef typename NumericTraits<PixelType>::RealType     RealType;
+  using MeasurementType = typename NumericTraits<PixelType>::RealType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
 
-  typedef Histogram<MeasurementType, THistogramFrequencyContainer>
-                                                          HistogramType;
-  typedef typename HistogramType::Pointer                 HistogramPointer;
-  typedef typename HistogramType::ConstPointer            HistogramConstPointer;
-  typedef typename HistogramType::MeasurementVectorType   MeasurementVectorType;
+  using HistogramType =
+      Histogram<MeasurementType, THistogramFrequencyContainer>;
+  using HistogramPointer = typename HistogramType::Pointer;
+  using HistogramConstPointer = typename HistogramType::ConstPointer;
+  using MeasurementVectorType = typename HistogramType::MeasurementVectorType;
 
   /** ImageDimension constants */
   itkStaticConstMacro( ImageDimension, unsigned int,
@@ -237,9 +237,9 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const override;
 
   /** Standard itk::ProcessObject subclass method. */
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) override;
 

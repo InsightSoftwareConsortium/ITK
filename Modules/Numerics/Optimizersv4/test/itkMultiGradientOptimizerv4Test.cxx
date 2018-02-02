@@ -46,20 +46,20 @@ class MultiGradientOptimizerv4TestMetric
 {
 public:
 
-  typedef MultiGradientOptimizerv4TestMetric Self;
-  typedef itk::ObjectToObjectMetricBase      Superclass;
-  typedef itk::SmartPointer<Self>            Pointer;
-  typedef itk::SmartPointer<const Self>      ConstPointer;
+  using Self = MultiGradientOptimizerv4TestMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( MultiGradientOptimizerv4TestMetric, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType        ParametersType;
-  typedef Superclass::ParametersType*       ParametersPointer;
-  typedef Superclass::ParametersValueType   ParametersValueType;
-  typedef Superclass::DerivativeType        DerivativeType;
-  typedef Superclass::MeasureType           MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using ParametersPointer = Superclass::ParametersType*;
+  using ParametersValueType = Superclass::ParametersValueType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
   MultiGradientOptimizerv4TestMetric() :
     m_Parameters(nullptr)
@@ -151,20 +151,20 @@ class MultiGradientOptimizerv4TestMetric2
 {
 public:
 
-  typedef MultiGradientOptimizerv4TestMetric2 Self;
-  typedef itk::ObjectToObjectMetricBase       Superclass;
-  typedef itk::SmartPointer<Self>             Pointer;
-  typedef itk::SmartPointer<const Self>       ConstPointer;
+  using Self = MultiGradientOptimizerv4TestMetric2;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( MultiGradientOptimizerv4TestMetric2, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType        ParametersType;
-  typedef Superclass::ParametersType*       ParametersPointer;
-  typedef Superclass::ParametersValueType   ParametersValueType;
-  typedef Superclass::DerivativeType        DerivativeType;
-  typedef Superclass::MeasureType           MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using ParametersPointer = Superclass::ParametersType*;
+  using ParametersValueType = Superclass::ParametersValueType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
   MultiGradientOptimizerv4TestMetric2() :
     m_Parameters(nullptr)
@@ -273,7 +273,7 @@ int MultiGradientOptimizerv4RunTest( itk::MultiGradientOptimizerv4::Pointer & it
     return EXIT_FAILURE;
     }
 
-  typedef MultiGradientOptimizerv4TestMetric::ParametersType    ParametersType;
+  using ParametersType = MultiGradientOptimizerv4TestMetric::ParametersType;
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
 
   std::cout << "Solution        = (";
@@ -305,8 +305,8 @@ int itkMultiGradientOptimizerv4Test(int, char* [] )
   std::cout << "MultiGradient descent Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::MultiGradientOptimizerv4                     OptimizerType;
-  typedef MultiGradientOptimizerv4TestMetric::ParametersType ParametersType;
+  using OptimizerType = itk::MultiGradientOptimizerv4;
+  using ParametersType = MultiGradientOptimizerv4TestMetric::ParametersType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();

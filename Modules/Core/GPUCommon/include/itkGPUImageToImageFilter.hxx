@@ -64,7 +64,7 @@ template< typename TInputImage, typename TOutputImage, typename TParentImageFilt
 void
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GraftOutput(typename itk::GPUTraits< TOutputImage >::Type *output)
 {
-  typedef typename itk::GPUTraits< TOutputImage >::Type GPUOutputImage;
+  using GPUOutputImage = typename itk::GPUTraits< TOutputImage >::Type;
   typename GPUOutputImage::Pointer gpuImage = dynamic_cast< GPUOutputImage * >( this->GetOutput() );
 
   gpuImage->Graft( output );
@@ -74,7 +74,7 @@ template< typename TInputImage, typename TOutputImage, typename TParentImageFilt
 void
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GraftOutput(DataObject *output)
 {
-  typedef typename itk::GPUTraits< TOutputImage >::Type GPUOutputImage;
+  using GPUOutputImage = typename itk::GPUTraits< TOutputImage >::Type;
   GPUOutputImage* gpuImage = dynamic_cast<GPUOutputImage*>(output);
   if(gpuImage)
     {
@@ -92,7 +92,7 @@ template< typename TInputImage, typename TOutputImage, typename TParentImageFilt
 void
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GraftOutput(const DataObjectIdentifierType & key, typename itk::GPUTraits< TOutputImage >::Type *output)
 {
-  typedef typename itk::GPUTraits< TOutputImage >::Type GPUOutputImage;
+  using GPUOutputImage = typename itk::GPUTraits< TOutputImage >::Type;
   typename GPUOutputImage::Pointer gpuImage = dynamic_cast< GPUOutputImage * >( this->ProcessObject::GetOutput(key) );
 
   gpuImage->Graft( output );
@@ -102,7 +102,7 @@ template< typename TInputImage, typename TOutputImage, typename TParentImageFilt
 void
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GraftOutput(const DataObjectIdentifierType & key, DataObject *output)
 {
-  typedef typename itk::GPUTraits< TOutputImage >::Type GPUOutputImage;
+  using GPUOutputImage = typename itk::GPUTraits< TOutputImage >::Type;
   GPUOutputImage* gpuImage = dynamic_cast<GPUOutputImage*>(output);
   if(gpuImage)
     {

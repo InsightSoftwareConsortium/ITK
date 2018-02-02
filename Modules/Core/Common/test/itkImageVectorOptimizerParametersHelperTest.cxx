@@ -23,21 +23,19 @@
 
 namespace{
 
-typedef double                                        ValueType;
+using ValueType = double;
 const   itk::SizeValueType                            ImageDimension = 2;
 const   itk::SizeValueType                            VectorDimension = 4;
-typedef itk::Vector< ValueType, VectorDimension >     VectorPixelType;
-typedef itk::Image< VectorPixelType, ImageDimension > ImageVectorType;
-typedef ImageVectorType::Pointer                      ImageVectorPointer;
-typedef ImageVectorType::RegionType                   RegionType;
-typedef RegionType::SizeType                          SizeType;
-typedef ImageVectorType::IndexType                    IndexType;
-typedef ImageVectorType::PixelContainer               VectorPixelContainer;
-typedef itk::OptimizerParameters< ValueType >         OptimizerParametersType;
-typedef itk::ImageVectorOptimizerParametersHelper< ValueType,
-                                        VectorDimension,
-                                        ImageDimension >
-                                      ImageVectorOptimizerParametersHelperType;
+using VectorPixelType = itk::Vector< ValueType, VectorDimension >;
+using ImageVectorType = itk::Image< VectorPixelType, ImageDimension >;
+using ImageVectorPointer = ImageVectorType::Pointer;
+using RegionType = ImageVectorType::RegionType;
+using SizeType = RegionType::SizeType;
+using IndexType = ImageVectorType::IndexType;
+using VectorPixelContainer = ImageVectorType::PixelContainer;
+using OptimizerParametersType = itk::OptimizerParameters< ValueType >;
+using ImageVectorOptimizerParametersHelperType = itk::ImageVectorOptimizerParametersHelper<
+                                                   ValueType, VectorDimension, ImageDimension >;
 
 int testMemoryAccess( OptimizerParametersType& params,
                       ImageVectorPointer imageOfVectors,
@@ -159,7 +157,7 @@ int itkImageVectorOptimizerParametersHelperTest(int, char *[])
   TRY_EXPECT_EXCEPTION( params.MoveDataPointer( array.data_block() ) );
 
   //Test setting an image of wrong type
-  typedef itk::Image<char, 2>  BadImageType;
+  using BadImageType = itk::Image<char, 2>;
   BadImageType::Pointer badImage = BadImageType::New();
   TRY_EXPECT_EXCEPTION( params.SetParametersObject( badImage ) );
 

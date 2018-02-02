@@ -41,9 +41,9 @@ class ITKFEM_EXPORT ItpackSparseMatrix
 {
 public:
 
-  /** typedefs from f2c.h  */
-  typedef long   integer;
-  typedef double doublereal;
+  /** type alias from f2c.h  */
+  using integer = long;
+  using doublereal = double;
 
   /** Constructor */
   ItpackSparseMatrix();
@@ -277,9 +277,9 @@ class ITK_ABI_EXPORT FEMExceptionItpackSparseMatrixSbagn : public FEMException
 {
 public:
 
-  /** typedefs from f2c.h  */
-  typedef long   integer;
-  typedef double doublereal;
+  /** type alias from f2c.h  */
+  using integer = long;
+  using doublereal = double;
 
   /**
    * Constructor. In order to construct this exception object, five parameters
@@ -307,9 +307,9 @@ public:
 class ITK_ABI_EXPORT FEMExceptionItpackSparseMatrixSbsij : public FEMException
 {
 public:
-  /** typedefs from f2c.h  */
-  typedef long   integer;
-  typedef double doublereal;
+  /** type alias from f2c.h  */
+  using integer = long;
+  using doublereal = double;
 
   /**
    * Constructor. In order to construct this exception object, five parameters

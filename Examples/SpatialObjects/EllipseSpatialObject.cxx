@@ -41,7 +41,7 @@ int main( int , char *[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::EllipseSpatialObject<3>   EllipseType;
+  using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer myEllipse = EllipseType::New();
 // Software Guide : EndCodeSnippet
 

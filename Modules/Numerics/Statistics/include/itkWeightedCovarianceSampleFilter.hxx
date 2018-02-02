@@ -102,7 +102,7 @@ WeightedCovarianceSampleFilter< TSample >
   // calculate mean
   const WeightingFunctionType * const weightingFunction = this->GetWeightingFunction();
 
-  typedef WeightedMeanSampleFilter< SampleType > WeightedMeanFilterType;
+  using WeightedMeanFilterType = WeightedMeanSampleFilter< SampleType >;
   typename WeightedMeanFilterType::Pointer meanFilter = WeightedMeanFilterType::New();
 
   meanFilter->SetInput( input );
@@ -203,7 +203,7 @@ WeightedCovarianceSampleFilter< TSample >
   // calculate mean
   const WeightArrayType & weightsArray = this->GetWeights();
 
-  typedef WeightedMeanSampleFilter< SampleType > WeightedMeanFilterType;
+  using WeightedMeanFilterType = WeightedMeanSampleFilter< SampleType >;
   typename WeightedMeanFilterType::Pointer meanFilter = WeightedMeanFilterType::New();
 
   meanFilter->SetInput( input );

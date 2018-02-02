@@ -45,53 +45,48 @@ class ITK_TEMPLATE_EXPORT SampleClassifierFilter:
   public ProcessObject
 {
 public:
-  /** Standard class typedef */
-  typedef SampleClassifierFilter     Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type alias */
+  using Self = SampleClassifierFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(SampleClassifierFilter, ProcessObject);
   itkNewMacro(Self);
 
   /** Type of the input Sample */
-  typedef TSample SampleType;
+  using SampleType = TSample;
 
-  /** typedefs Output type */
-  typedef MembershipSample< SampleType >         MembershipSampleType;
-  typedef typename MembershipSampleType::Pointer MembershipSampleObjectPointer;
+  /** type alias Output type */
+  using MembershipSampleType = MembershipSample< SampleType >;
+  using MembershipSampleObjectPointer = typename MembershipSampleType::Pointer;
 
-  /** typedefs from SampleType object */
-  typedef typename SampleType::MeasurementType       MeasurementType;
-  typedef typename SampleType::MeasurementVectorType MeasurementVectorType;
+  /** type alias from SampleType object */
+  using MeasurementType = typename SampleType::MeasurementType;
+  using MeasurementVectorType = typename SampleType::MeasurementVectorType;
 
-  /** typedef for the MembershipFunction */
-  typedef MembershipFunctionBase< MeasurementVectorType > MembershipFunctionType;
-  typedef typename MembershipFunctionType::ConstPointer   MembershipFunctionPointer;
-  typedef std::vector< MembershipFunctionPointer >        MembershipFunctionVectorType;
-  typedef SimpleDataObjectDecorator<
-    MembershipFunctionVectorType >                        MembershipFunctionVectorObjectType;
-  typedef typename
-  MembershipFunctionVectorObjectType::Pointer MembershipFunctionVectorObjectPointer;
+  /** type alias for the MembershipFunction */
+  using MembershipFunctionType = MembershipFunctionBase< MeasurementVectorType >;
+  using MembershipFunctionPointer = typename MembershipFunctionType::ConstPointer;
+  using MembershipFunctionVectorType = std::vector< MembershipFunctionPointer >;
+  using MembershipFunctionVectorObjectType = SimpleDataObjectDecorator<MembershipFunctionVectorType>;
+  using MembershipFunctionVectorObjectPointer = typename MembershipFunctionVectorObjectType::Pointer;
 
-  /** typedef for membership functions weight proprtion */
-  typedef Array< double > MembershipFunctionsWeightsArrayType;
+  /** type alias for membership functions weight proprtion */
+  using MembershipFunctionsWeightsArrayType = Array< double >;
 
-  typedef SimpleDataObjectDecorator<
-    MembershipFunctionsWeightsArrayType >                 MembershipFunctionsWeightsArrayObjectType;
-  typedef typename
-  MembershipFunctionsWeightsArrayObjectType::Pointer MembershipFunctionsWeightsArrayPointer;
+  using MembershipFunctionsWeightsArrayObjectType = SimpleDataObjectDecorator<MembershipFunctionsWeightsArrayType>;
+  using MembershipFunctionsWeightsArrayPointer = typename MembershipFunctionsWeightsArrayObjectType::Pointer;
 
-  typedef IdentifierType                ClassLabelType;
-  typedef std::vector< ClassLabelType > ClassLabelVectorType;
-  typedef SimpleDataObjectDecorator<
-    ClassLabelVectorType >                            ClassLabelVectorObjectType;
-  typedef ClassLabelVectorObjectType::Pointer ClassLabelVectorObjectPointer;
+  using ClassLabelType = IdentifierType;
+  using ClassLabelVectorType = std::vector< ClassLabelType >;
+  using ClassLabelVectorObjectType = SimpleDataObjectDecorator<ClassLabelVectorType>;
+  using ClassLabelVectorObjectPointer = ClassLabelVectorObjectType::Pointer;
 
   /** type of the decision rule */
-  typedef DecisionRule                   DecisionRuleType;
-  typedef DecisionRuleType::ConstPointer DecisionRulePointer;
+  using DecisionRuleType = DecisionRule;
+  using DecisionRulePointer = DecisionRuleType::ConstPointer;
 
   /** Sets the input sample that will be classified by this filter. */
   using Superclass::SetInput;
@@ -141,7 +136,7 @@ protected:
    * called.
    * \sa ProcessObject
    */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

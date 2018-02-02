@@ -53,11 +53,11 @@ class ITK_TEMPLATE_EXPORT LevelSetFunctionWithRefitTerm:
   public LevelSetFunction< TImageType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LevelSetFunctionWithRefitTerm  Self;
-  typedef LevelSetFunction< TImageType > Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LevelSetFunctionWithRefitTerm;
+  using Superclass = LevelSetFunction< TImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(LevelSetFunctionWithRefitTerm, LevelSetFunction);
@@ -66,27 +66,27 @@ public:
   itkNewMacro (Self);
 
   /** Extract some parameters from the superclass. */
-  typedef typename Superclass::ImageType              ImageType;
-  typedef typename Superclass::FloatOffsetType        FloatOffsetType;
-  typedef typename Superclass::ScalarValueType        ScalarValueType;
-  typedef typename Superclass::GlobalDataStruct       GlobalDataStruct;
-  typedef typename Superclass::NeighborhoodType       NeighborhoodType;
-  typedef typename Superclass::NeighborhoodScalesType NeighborhoodScalesType;
-  typedef typename Superclass::TimeStepType           TimeStepType;
+  using ImageType = typename Superclass::ImageType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using ScalarValueType = typename Superclass::ScalarValueType;
+  using GlobalDataStruct = typename Superclass::GlobalDataStruct;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
-  typedef typename NeighborhoodType::SizeValueType    NeighborhoodSizeValueType;
+  using NeighborhoodSizeValueType = typename NeighborhoodType::SizeValueType;
 
   /** Index type derived from the ImageType. */
-  typedef typename ImageType::IndexType IndexType;
+  using IndexType = typename ImageType::IndexType;
 
   /** The sparse image type used for the curvature target. */
-  typedef TSparseImageType SparseImageType;
+  using SparseImageType = TSparseImageType;
 
   /** The node type of the sparse image. */
-  typedef typename SparseImageType::NodeType NodeType;
+  using NodeType = typename SparseImageType::NodeType;
 
   /** The type for the normal vectors of the level set image. */
-  typedef typename NodeType::NodeDataType NormalVectorType;
+  using NormalVectorType = typename NodeType::NodeDataType;
 
   /** Set the relative weight of the refitting term. */
   void SetRefitWeight(const ScalarValueType w)

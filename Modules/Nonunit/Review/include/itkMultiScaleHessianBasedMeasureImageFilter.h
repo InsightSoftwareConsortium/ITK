@@ -69,40 +69,40 @@ class ITK_TEMPLATE_EXPORT MultiScaleHessianBasedMeasureImageFilter:
   ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultiScaleHessianBasedMeasureImageFilter        Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  /** Standard class type aliases. */
+  using Self = MultiScaleHessianBasedMeasureImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TInputImage   InputImageType;
-  typedef TOutputImage  OutputImageType;
-  typedef THessianImage HessianImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using HessianImageType = THessianImage;
 
-  typedef ImageToImageFilter< HessianImageType, OutputImageType  > HessianToMeasureFilterType;
+  using HessianToMeasureFilterType = ImageToImageFilter< HessianImageType, OutputImageType  >;
 
-  typedef typename TInputImage::PixelType   InputPixelType;
-  typedef typename TOutputImage::PixelType  OutputPixelType;
-  typedef typename TOutputImage::RegionType OutputRegionType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputRegionType = typename TOutputImage::RegionType;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,  InputImageType ::ImageDimension);
 
   /** Types for Scales image */
-  typedef float                                                            ScalesPixelType;
-  typedef Image< ScalesPixelType, itkGetStaticConstMacro(ImageDimension) > ScalesImageType;
+  using ScalesPixelType = float;
+  using ScalesImageType = Image< ScalesPixelType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Hessian computation filter. */
-  typedef HessianRecursiveGaussianImageFilter< InputImageType, HessianImageType > HessianFilterType;
+  using HessianFilterType = HessianRecursiveGaussianImageFilter< InputImageType, HessianImageType >;
 
   /** Update image buffer that holds the best objectness response. This is not redundant from
    the output image because the latter may not be of float type, which is required for the comparisons
    between responses at different scales. */
-  typedef Image< double, itkGetStaticConstMacro(ImageDimension) > UpdateBufferType;
-  typedef typename UpdateBufferType::ValueType                    BufferValueType;
+  using UpdateBufferType = Image< double, itkGetStaticConstMacro(ImageDimension) >;
+  using BufferValueType = typename UpdateBufferType::ValueType;
 
-  typedef typename Superclass::DataObjectPointer DataObjectPointer;
+  using DataObjectPointer = typename Superclass::DataObjectPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -174,7 +174,7 @@ public:
   itkBooleanMacro(GenerateHessianOutput);
 
   /** This is overloaded to create the Scales and Hessian output images */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
 
 protected:
   MultiScaleHessianBasedMeasureImageFilter();

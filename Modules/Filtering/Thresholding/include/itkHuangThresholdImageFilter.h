@@ -53,12 +53,12 @@ class HuangThresholdImageFilter :
     public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
-  /** Standard Self typedef */
-  typedef HuangThresholdImageFilter                                   Self;
-  typedef HistogramThresholdImageFilter<TInputImage,TOutputImage,
-                                        TMaskImage>                   Superclass;
-  typedef SmartPointer<Self>                                          Pointer;
-  typedef SmartPointer<const Self>                                    ConstPointer;
+  /** Standard Self type alias */
+  using Self = HuangThresholdImageFilter;
+  using Superclass = HistogramThresholdImageFilter<TInputImage,TOutputImage,
+                                        TMaskImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,33 +66,33 @@ public:
   /** Runtime information support. */
   itkTypeMacro(HuangThresholdImageFilter, HistogramThresholdImageFilter);
 
-  typedef TInputImage                       InputImageType;
-  typedef TOutputImage                      OutputImageType;
-  typedef TMaskImage                        MaskImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using MaskImageType = TMaskImage;
 
-  /** Image pixel value typedef. */
-  typedef typename InputImageType::PixelType   InputPixelType;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename MaskImageType::PixelType    MaskPixelType;
+  /** Image pixel value type alias. */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using MaskPixelType = typename MaskImageType::PixelType;
 
-  /** Image related typedefs. */
-  typedef typename InputImageType::Pointer  InputImagePointer;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  /** Image related type alias. */
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
-  typedef typename InputImageType::SizeType    InputSizeType;
-  typedef typename InputImageType::IndexType   InputIndexType;
-  typedef typename InputImageType::RegionType  InputImageRegionType;
-  typedef typename OutputImageType::SizeType   OutputSizeType;
-  typedef typename OutputImageType::IndexType  OutputIndexType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
-  typedef typename MaskImageType::SizeType     MaskSizeType;
-  typedef typename MaskImageType::IndexType    MaskIndexType;
-  typedef typename MaskImageType::RegionType   MaskImageRegionType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using InputIndexType = typename InputImageType::IndexType;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using MaskSizeType = typename MaskImageType::SizeType;
+  using MaskIndexType = typename MaskImageType::IndexType;
+  using MaskImageRegionType = typename MaskImageType::RegionType;
 
-  typedef typename Superclass::HistogramType                        HistogramType;
-  typedef HuangThresholdCalculator< HistogramType, InputPixelType > CalculatorType;
+  using HistogramType = typename Superclass::HistogramType;
+  using CalculatorType = HuangThresholdCalculator< HistogramType, InputPixelType >;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       InputImageType::ImageDimension );
   itkStaticConstMacro(OutputImageDimension, unsigned int,

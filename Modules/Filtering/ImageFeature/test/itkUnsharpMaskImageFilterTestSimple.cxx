@@ -26,19 +26,19 @@ int itkUnsharpMaskImageFilterTestSimple( int, char* [] )
   const unsigned int Dimension = 2;
 
   // Define the pixel types of the images
-  typedef float                PixelType;
+  using PixelType = float;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension > InputImageType;
+  using InputImageType = itk::Image< PixelType, Dimension >;
 
   // Declare the type of the index to access images
-  typedef itk::Index< Dimension > IndexType;
+  using IndexType = itk::Index< Dimension >;
 
   // Declare the type of the size
-  typedef itk::Size< Dimension > SizeType;
+  using SizeType = itk::Size< Dimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< Dimension > RegionType;
+  using RegionType = itk::ImageRegion< Dimension >;
 
   // Create the input image
   InputImageType::Pointer inputImage = InputImageType::New();
@@ -62,8 +62,7 @@ int itkUnsharpMaskImageFilterTestSimple( int, char* [] )
   inputImage->Allocate();
 
   // Declare an Iterator type for the input image
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType >
-    InputImageIteratorType;
+  using InputImageIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
   // Create one iterator for the input Image (this is a light object)
   InputImageIteratorType it( inputImage, inputImage->GetRequestedRegion() );
@@ -84,11 +83,9 @@ int itkUnsharpMaskImageFilterTestSimple( int, char* [] )
     }
 
   // Declare the type for the itk::UnsharpMaskImageFilter
-  typedef itk::UnsharpMaskImageFilter< InputImageType >
-    UnsharpMaskImageFilterFilterType;
+  using UnsharpMaskImageFilterFilterType = itk::UnsharpMaskImageFilter<InputImageType>;
 
-  typedef UnsharpMaskImageFilterFilterType::OutputImageType
-    GradientImageType;
+  using GradientImageType = UnsharpMaskImageFilterFilterType::OutputImageType;
 
   // Create the filter
   UnsharpMaskImageFilterFilterType::Pointer filter =

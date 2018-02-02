@@ -48,11 +48,11 @@ class ITK_TEMPLATE_EXPORT ConjugateGradientLineSearchOptimizerv4Template
 : public GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ConjugateGradientLineSearchOptimizerv4Template                        Self;
-  typedef GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType> Superclass;
-  typedef SmartPointer< Self >                                                  Pointer;
-  typedef SmartPointer< const Self >                                            ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ConjugateGradientLineSearchOptimizerv4Template;
+  using Superclass = GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ConjugateGradientLineSearchOptimizerv4Template, Superclass);
@@ -61,16 +61,16 @@ public:
   itkNewMacro(Self);
 
   /** It should be possible to derive the internal computation type from the class object. */
-  typedef TInternalComputationValueType            InternalComputationValueType;
+  using InternalComputationValueType = TInternalComputationValueType;
 
   /** Derivative type */
-  typedef typename Superclass::DerivativeType      DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
   /** Metric type over which this class is templated */
-  typedef typename Superclass::MeasureType                  MeasureType;
+  using MeasureType = typename Superclass::MeasureType;
 
   /** Type for the convergence checker */
-  typedef itk::Function::WindowConvergenceMonitoringFunction<TInternalComputationValueType> ConvergenceMonitoringType;
+  using ConvergenceMonitoringType = itk::Function::WindowConvergenceMonitoringFunction<TInternalComputationValueType>;
 
   void StartOptimization( bool doOnlyInitialization = false ) override;
 
@@ -98,7 +98,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef ConjugateGradientLineSearchOptimizerv4Template<double> ConjugateGradientLineSearchOptimizerv4;
+using ConjugateGradientLineSearchOptimizerv4 = ConjugateGradientLineSearchOptimizerv4Template<double>;
 
 } // end namespace itk
 

@@ -50,23 +50,23 @@ class ExampleImageFilter:
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard "Self" type alias.
    */
-  typedef ExampleImageFilter Self;
+  using Self = ExampleImageFilter;
 
   /**
-   * Standard "Superclass" typedef.
+   * Standard "Superclass" type alias.
    */
-  typedef itk::ImageToImageFilter<TInputImage, TOutputImage> Superclass;
+  using Superclass = itk::ImageToImageFilter<TInputImage, TOutputImage>;
 
   /**
-   * Smart pointer typedef support
+   * Smart pointer type alias support
    */
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
   enum { ImageDimension = InputImageType::ImageDimension };
 
   void Update(void) override;
@@ -209,16 +209,16 @@ int itkFilterDispatchTest(int, char* [] )
   bool passed = true;
 
   // Define an image of each dimension.
-  typedef itk::Image<float, 2> Image2d;
-  typedef itk::Image<float, 3> Image3d;
-  typedef itk::Image<float, 4> Image4d;
-  typedef itk::Image<float, 5> Image5d;
+  using Image2d = itk::Image<float, 2>;
+  using Image3d = itk::Image<float, 3>;
+  using Image4d = itk::Image<float, 4>;
+  using Image5d = itk::Image<float, 5>;
 
   // Define a filter of each dimension.
-  typedef ExampleImageFilter<Image2d, Image2d>  Filter2d;
-  typedef ExampleImageFilter<Image3d, Image3d>  Filter3d;
-  typedef ExampleImageFilter<Image4d, Image4d>  Filter4d;
-  typedef ExampleImageFilter<Image5d, Image5d>  Filter5d;
+  using Filter2d = ExampleImageFilter<Image2d, Image2d>;
+  using Filter3d = ExampleImageFilter<Image3d, Image3d>;
+  using Filter4d = ExampleImageFilter<Image4d, Image4d>;
+  using Filter5d = ExampleImageFilter<Image5d, Image5d>;
 
   // Instantiate a filter of each dimension.
   Filter2d::Pointer filter2d = Filter2d::New();

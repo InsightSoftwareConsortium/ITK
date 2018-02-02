@@ -23,15 +23,15 @@
 
 int itkMeshSpatialObjectTest(int, char * [] )
 {
-  typedef itk::DefaultDynamicMeshTraits< float , 3, 3 > MeshTrait;
-  typedef itk::Mesh<float,3,MeshTrait>                  MeshType;
-  typedef MeshType::CellTraits                          CellTraits;
-  typedef itk::CellInterface< float, CellTraits >       CellInterfaceType;
-  typedef itk::TetrahedronCell<CellInterfaceType>       TetraCellType;
-  typedef itk::MeshSpatialObject<MeshType>              MeshSpatialObjectType;
-  typedef MeshType::PointType                           PointType;
-  typedef MeshType::CellType                            CellType;
-  typedef CellType::CellAutoPointer                     CellAutoPointer;
+  using MeshTrait = itk::DefaultDynamicMeshTraits< float , 3, 3 >;
+  using MeshType = itk::Mesh<float,3,MeshTrait>;
+  using CellTraits = MeshType::CellTraits;
+  using CellInterfaceType = itk::CellInterface< float, CellTraits >;
+  using TetraCellType = itk::TetrahedronCell<CellInterfaceType>;
+  using MeshSpatialObjectType = itk::MeshSpatialObject<MeshType>;
+  using PointType = MeshType::PointType;
+  using CellType = MeshType::CellType;
+  using CellAutoPointer = CellType::CellAutoPointer;
 
   // Create an itkMesh
   MeshType::Pointer mesh = MeshType::New();
@@ -135,7 +135,7 @@ int itkMeshSpatialObjectTest(int, char * [] )
 
   // Testing IsInside() for triangle mesh
   std::cout << "Testing IsInside() Triangle: ";
-  typedef itk::TriangleCell<CellInterfaceType>          TriangleCellType;
+  using TriangleCellType = itk::TriangleCell<CellInterfaceType>;
 
   // Create an itkMesh
   MeshType::Pointer meshTriangle = MeshType::New();

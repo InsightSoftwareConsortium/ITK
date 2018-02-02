@@ -39,12 +39,12 @@ int itkBMPImageIOTestPalette( int argc, char* argv[] )
     }
 
   const unsigned int    Dimension = 2;
-  typedef unsigned char ScalarPixelType;
+  using ScalarPixelType = unsigned char;
 
-  typedef itk::Image< ScalarPixelType, Dimension >  ScalarImageType;
-  typedef itk::ImageFileReader< ScalarImageType >   ReaderType;
-  typedef itk::ImageFileWriter< ScalarImageType >   WriterType;
-  typedef itk::BMPImageIO                           IOType;
+  using ScalarImageType = itk::Image< ScalarPixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ScalarImageType >;
+  using WriterType = itk::ImageFileWriter< ScalarImageType >;
+  using IOType = itk::BMPImageIO;
 
   IOType::Pointer io = IOType::New();
 

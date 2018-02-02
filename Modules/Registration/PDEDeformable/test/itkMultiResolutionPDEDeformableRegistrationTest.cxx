@@ -75,7 +75,7 @@ TImage * image,
 typename TImage::PixelType value )
 {
 
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator it( image, image->GetBufferedRegion() );
   it.GoToBegin();
 
@@ -99,7 +99,7 @@ typename TImage::PixelType foregnd,
 typename TImage::PixelType backgnd )
 {
 
- typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+ using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
  Iterator it( image, image->GetBufferedRegion() );
  it.GoToBegin();
 
@@ -129,7 +129,7 @@ CopyImageBuffer(
 TImage *input,
 TImage *output )
 {
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator outIt( output, output->GetBufferedRegion() );
   for( Iterator inIt( input, output->GetBufferedRegion() ); !inIt.IsAtEnd(); ++inIt, ++outIt )
     {
@@ -141,14 +141,14 @@ TImage *output )
 int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
 {
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   enum {ImageDimension = 2};
-  typedef itk::Image<PixelType,ImageDimension>  ImageType;
-  typedef itk::Vector<float,ImageDimension>     VectorType;
-  typedef itk::Image<VectorType,ImageDimension> FieldType;
-  typedef ImageType::IndexType                  IndexType;
-  typedef ImageType::SizeType                   SizeType;
-  typedef ImageType::RegionType                 RegionType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using VectorType = itk::Vector<float,ImageDimension>;
+  using FieldType = itk::Image<VectorType,ImageDimension>;
+  using IndexType = ImageType::IndexType;
+  using SizeType = ImageType::SizeType;
+  using RegionType = ImageType::RegionType;
 
   if(argc < 2)
     {
@@ -223,8 +223,8 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   //----------------------------------------------------------------
   std::cout << "Run registration." << std::endl;
 
-  typedef itk::MultiResolutionPDEDeformableRegistration<ImageType,
-    ImageType, FieldType> RegistrationType;
+  using RegistrationType = itk::MultiResolutionPDEDeformableRegistration<ImageType,
+    ImageType, FieldType>;
 
   RegistrationType::Pointer registrator = RegistrationType::New();
 
@@ -248,7 +248,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
 
   registrator->Print(std::cout);
 
-  typedef itk::SimpleMemberCommand<ShowProgressPDEObject> CommandType;
+  using CommandType = itk::SimpleMemberCommand<ShowProgressPDEObject>;
 
   ShowProgressPDEObject progressWatch(registrator);
   CommandType::Pointer command = CommandType::New();
@@ -257,8 +257,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   registrator->AddObserver(itk::IterationEvent(), command );
 
   PDERegistrationController<RegistrationType> controller(registrator);
-  typedef itk::SimpleMemberCommand< PDERegistrationController<RegistrationType> >
-    ControllerType;
+  using ControllerType = itk::SimpleMemberCommand<PDERegistrationController<RegistrationType> >;
   ControllerType::Pointer controllerCommand = ControllerType::New();
   controllerCommand->SetCallbackFunction(
     &controller, &PDERegistrationController<RegistrationType>::ShowProgress );
@@ -281,12 +280,12 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   // -------------------------------------------------------
   std::cout << "Warp moving image" << std::endl;
 
-  typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
+  using WarperType = itk::WarpImageFilter<ImageType,ImageType,FieldType>;
   WarperType::Pointer warper = WarperType::New();
 
-  typedef WarperType::CoordRepType CoordRepType;
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
-    InterpolatorType;
+  using CoordRepType = WarperType::CoordRepType;
+  using InterpolatorType =
+      itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
 
@@ -298,7 +297,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
 
   warper->Update();
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( warper->GetOutput() );
   writer->SetFileName( argv[1] );
@@ -360,7 +359,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   // Exercise error handling
   bool passed;
 
-  typedef RegistrationType::RegistrationType InternalRegistrationType;
+  using InternalRegistrationType = RegistrationType::RegistrationType;
   InternalRegistrationType::Pointer demons = registrator->GetModifiableRegistrationFilter();
 
   try
@@ -383,7 +382,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
     std::cout << "Test failed" << std::endl;
     }
 
-  typedef RegistrationType::FixedImagePyramidType FixedImagePyramidType;
+  using FixedImagePyramidType = RegistrationType::FixedImagePyramidType;
   FixedImagePyramidType::Pointer fixedPyramid = registrator->GetModifiableFixedImagePyramid();
 
   try
@@ -407,7 +406,7 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
     return EXIT_FAILURE;
    }
 
-  typedef RegistrationType::MovingImagePyramidType MovingImagePyramidType;
+  using MovingImagePyramidType = RegistrationType::MovingImagePyramidType;
   MovingImagePyramidType::Pointer movingPyramid = registrator->GetModifiableMovingImagePyramid();
 
   try

@@ -41,17 +41,17 @@ class ITK_TEMPLATE_EXPORT VnlComplexToComplexFFTImageFilter:
   public ComplexToComplexFFTImageFilter< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VnlComplexToComplexFFTImageFilter        Self;
-  typedef ComplexToComplexFFTImageFilter< TImage > Superclass;
-  typedef SmartPointer< Self >                     Pointer;
-  typedef SmartPointer< const Self >               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VnlComplexToComplexFFTImageFilter;
+  using Superclass = ComplexToComplexFFTImageFilter< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TImage                               ImageType;
-  typedef typename ImageType::PixelType        PixelType;
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using ImageType = TImage;
+  using PixelType = typename ImageType::PixelType;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

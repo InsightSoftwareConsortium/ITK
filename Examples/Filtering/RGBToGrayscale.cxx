@@ -56,28 +56,28 @@ int main( int argc, char * argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef   itk::RGBPixel< unsigned char >            InputPixelType;
-  typedef   itk::Image< InputPixelType, Dimension >   InputImageType;
-  typedef   itk::Image< unsigned char,  Dimension >   OutputImageType;
+  using InputPixelType = itk::RGBPixel< unsigned char >;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using OutputImageType = itk::Image< unsigned char,  Dimension >;
 
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetFileName( argv[1] );
 
 
-  typedef itk::RGBToLuminanceImageFilter<
+  using FilterType = itk::RGBToLuminanceImageFilter<
                                  InputImageType,
-                                 OutputImageType >  FilterType;
+                                 OutputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput( reader->GetOutput() );
 
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

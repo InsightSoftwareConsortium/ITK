@@ -28,9 +28,9 @@ int itkWatershedImageFilterTest( int, char* [] )
 
   const unsigned int Dimension = 2;
 
-  typedef float                                         PixelType;
-  typedef itk::Image< PixelType, Dimension >            ImageType2D;
-  typedef itk::Image< itk::IdentifierType, Dimension >  LongImageType2D;
+  using PixelType = float;
+  using ImageType2D = itk::Image< PixelType, Dimension >;
+  using LongImageType2D = itk::Image< itk::IdentifierType, Dimension >;
 
 
   itk::ImageRegion< Dimension > region;

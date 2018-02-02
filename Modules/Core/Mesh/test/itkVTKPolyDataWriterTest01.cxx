@@ -28,16 +28,16 @@ int itkVTKPolyDataWriterTest01(int argc, char* argv[])
 
   const unsigned int PointDimension = 3;
 
-  typedef float             PointType;
+  using PointType = float;
 
-  typedef itk::Mesh< PointType, PointDimension >  MeshType;
+  using MeshType = itk::Mesh< PointType, PointDimension >;
 
-  typedef MeshType::CellTraits                        CellTraits;
-  typedef itk::CellInterface< PointType, CellTraits > CellInterfaceType;
-  typedef itk::TriangleCell< CellInterfaceType >      TriangleCellType;
-  typedef itk::LineCell< CellInterfaceType >          LineCellType;
+  using CellTraits = MeshType::CellTraits;
+  using CellInterfaceType = itk::CellInterface< PointType, CellTraits >;
+  using TriangleCellType = itk::TriangleCell< CellInterfaceType >;
+  using LineCellType = itk::LineCell< CellInterfaceType >;
 
-  typedef itk::VTKPolyDataWriter<MeshType>   WriterType;
+  using WriterType = itk::VTKPolyDataWriter<MeshType>;
 
   MeshType::Pointer mesh = MeshType::New();
 

@@ -26,7 +26,7 @@
 #include "itkTestingMacros.h"
 #include "itkVideoIOBase.h"
 
-typedef itk::SizeValueType SizeValueType;
+using SizeValueType = itk::SizeValueType;
 
 
 int test_FileListVideoIO( const char* input,
@@ -39,10 +39,10 @@ int test_FileListVideoIO( const char* input,
                            double inFpS )
 {
 
-  // ITK typedefs
-  typedef itk::RGBPixel<char>                  PixelType;
-  typedef itk::Image<PixelType, 2>             ImageType;
-  typedef itk::ImageFileReader<ImageType>      ReaderType;
+  // ITK type alias
+  using PixelType = itk::RGBPixel<char>;
+  using ImageType = itk::Image<PixelType, 2>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   int ret = EXIT_SUCCESS;
 

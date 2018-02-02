@@ -28,13 +28,13 @@ int itkSampleClassifierFilterTest2( int, char * [] )
 {
 
   const unsigned int numberOfComponents = 1;
-  typedef float      MeasurementType;
+  using MeasurementType = float;
 
   const unsigned int numberOfClasses = 2;
 
-  typedef itk::Array< MeasurementType >                         MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType >  SampleType;
-  typedef itk::Statistics::SampleClassifierFilter< SampleType > FilterType;
+  using MeasurementVectorType = itk::Array< MeasurementType >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using FilterType = itk::Statistics::SampleClassifierFilter< SampleType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -49,17 +49,16 @@ int itkSampleClassifierFilterTest2( int, char * [] )
     return EXIT_FAILURE;
     }
 
-  typedef FilterType::ClassLabelVectorObjectType               ClassLabelVectorObjectType;
-  typedef FilterType::ClassLabelVectorType                     ClassLabelVectorType;
-  typedef FilterType::MembershipFunctionVectorObjectType       MembershipFunctionVectorObjectType;
-  typedef FilterType::MembershipFunctionVectorType             MembershipFunctionVectorType;
+  using ClassLabelVectorObjectType = FilterType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = FilterType::ClassLabelVectorType;
+  using MembershipFunctionVectorObjectType = FilterType::MembershipFunctionVectorObjectType;
+  using MembershipFunctionVectorType = FilterType::MembershipFunctionVectorType;
 
-  typedef itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >
-                                                       MembershipFunctionType;
-  typedef MembershipFunctionType::MeanVectorType       MeanVectorType;
-  typedef MembershipFunctionType::CovarianceMatrixType CovarianceMatrixType;
+  using MembershipFunctionType = itk::Statistics::GaussianMembershipFunction<MeasurementVectorType>;
+  using MeanVectorType = MembershipFunctionType::MeanVectorType;
+  using CovarianceMatrixType = MembershipFunctionType::CovarianceMatrixType;
 
-  typedef MembershipFunctionType::Pointer              MembershipFunctionPointer;
+  using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
   ClassLabelVectorObjectType::Pointer  classLabelsObject = ClassLabelVectorObjectType::New();
   filter->SetClassLabels( classLabelsObject );
@@ -102,7 +101,7 @@ int itkSampleClassifierFilterTest2( int, char * [] )
   // Add class labels
   ClassLabelVectorType & classLabelVector  = classLabelsObject->Get();
 
-  typedef FilterType::ClassLabelType        ClassLabelType;
+  using ClassLabelType = FilterType::ClassLabelType;
 
   ClassLabelType  class1 = 0;
   classLabelVector.push_back( class1 );
@@ -111,7 +110,7 @@ int itkSampleClassifierFilterTest2( int, char * [] )
   classLabelVector.push_back( class2 );
 
   //Set a decision rule type
-  typedef itk::Statistics::MaximumDecisionRule  DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
 
   DecisionRuleType::Pointer    decisionRule = DecisionRuleType::New();
   filter->SetDecisionRule( decisionRule );
@@ -121,7 +120,7 @@ int itkSampleClassifierFilterTest2( int, char * [] )
   //All the samples should be labeled by the classifier as
   //the first class
 
-  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
+  using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
 
   normalGenerator->Initialize( 101 );

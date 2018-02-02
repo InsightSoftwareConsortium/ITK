@@ -28,7 +28,7 @@ int itkSpatialFunctionImageEvaluatorFilterTest(int, char* [] )
   const unsigned int dim = 3;
 
   // Image typedef
-  typedef itk::Image< unsigned char, dim > ImageType;
+  using ImageType = itk::Image< unsigned char, dim >;
 
   //-----------------Create a new input image--------------------
   // Image size and spacing parameters
@@ -59,11 +59,11 @@ int itkSpatialFunctionImageEvaluatorFilterTest(int, char* [] )
   sourceImage->Allocate();
 
   // Create and initialize a new Gaussian function
-  typedef itk::GaussianSpatialFunction<char, dim> FunctionType;
+  using FunctionType = itk::GaussianSpatialFunction<char, dim>;
   FunctionType::Pointer pFunc = FunctionType::New();
 
   // Run the image evaluator filter
-  typedef itk::SpatialFunctionImageEvaluatorFilter<FunctionType, ImageType, ImageType> TFilter;
+  using TFilter = itk::SpatialFunctionImageEvaluatorFilter<FunctionType, ImageType, ImageType>;
   TFilter::Pointer pFilter = TFilter::New();
 
   pFilter->SetInput(sourceImage);

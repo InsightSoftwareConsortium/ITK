@@ -33,14 +33,14 @@ int itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadEdgeMesh< double, 3 > MeshType;
+  using MeshType = itk::QuadEdgeMesh< double, 3 >;
 
-  typedef itk::ConformalFlatteningMeshFilter<MeshType, MeshType>  FilterType;
+  using FilterType = itk::ConformalFlatteningMeshFilter<MeshType, MeshType>;
 
-  typedef itk::MeshFileReader<MeshType>  ReaderType;
-  typedef itk::MeshFileWriter<MeshType>  WriterType;
+  using ReaderType = itk::MeshFileReader<MeshType>;
+  using WriterType = itk::MeshFileWriter<MeshType>;
 
-  typedef MeshType::CellIdentifier  CellIdentifier;
+  using CellIdentifier = MeshType::CellIdentifier;
 
   //
   // Read mesh file

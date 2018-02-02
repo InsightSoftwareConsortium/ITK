@@ -53,11 +53,11 @@ class ITK_TEMPLATE_EXPORT IterativeInverseDisplacementFieldImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef IterativeInverseDisplacementFieldImageFilter    Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = IterativeInverseDisplacementFieldImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,31 +65,31 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(IterativeInverseDisplacementFieldImageFilter, ImageToImageFilter);
 
-  /** Some typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::PointType       InputImagePointType;
-  typedef typename InputImageType::RegionType      InputImageRegionType;
-  typedef typename InputImageType::SpacingType     InputImageSpacingType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  typedef typename OutputImageType::PointType      OutputImagePointType;
-  typedef typename OutputImageType::IndexType      OutputImageIndexType;
-  typedef typename OutputImagePixelType::ValueType OutputImageValueType;
+  /** Some type alias. */
+  using InputImageType = TInputImage;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImagePointType = typename InputImageType::PointType;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImageSpacingType = typename InputImageType::SpacingType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using OutputImagePointType = typename OutputImageType::PointType;
+  using OutputImageIndexType = typename OutputImageType::IndexType;
+  using OutputImageValueType = typename OutputImagePixelType::ValueType;
 
-  typedef TimeProbe TimeType;
+  using TimeType = TimeProbe;
 
-  typedef ImageRegionConstIterator< InputImageType > InputConstIterator;
-  typedef ImageRegionIterator< InputImageType >      InputIterator;
-  typedef ImageRegionIterator< OutputImageType >     OutputIterator;
+  using InputConstIterator = ImageRegionConstIterator< InputImageType >;
+  using InputIterator = ImageRegionIterator< InputImageType >;
+  using OutputIterator = ImageRegionIterator< OutputImageType >;
 
-  typedef WarpVectorImageFilter< TOutputImage, TInputImage, TOutputImage > VectorWarperType;
+  using VectorWarperType = WarpVectorImageFilter< TOutputImage, TInputImage, TOutputImage >;
 
-  typedef VectorLinearInterpolateImageFunction< TInputImage, double > FieldInterpolatorType;
-  typedef typename FieldInterpolatorType::Pointer                     FieldInterpolatorPointer;
-  typedef typename FieldInterpolatorType::OutputType                  FieldInterpolatorOutputType;
+  using FieldInterpolatorType = VectorLinearInterpolateImageFunction< TInputImage, double >;
+  using FieldInterpolatorPointer = typename FieldInterpolatorType::Pointer;
+  using FieldInterpolatorOutputType = typename FieldInterpolatorType::OutputType;
 
   itkSetMacro(NumberOfIterations, unsigned int);
   itkGetConstMacro(NumberOfIterations, unsigned int);

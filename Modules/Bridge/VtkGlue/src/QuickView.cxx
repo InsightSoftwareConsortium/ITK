@@ -43,19 +43,19 @@
 #include "itkImageToVTKImageFilter.h"
 
 
-typedef itk::Image<itk::RGBPixel<unsigned char>, 2>  UnsignedCharRGBImageType;
-typedef itk::Image<itk::RGBPixel<float>, 2>          FloatRGBImageType;
+using UnsignedCharRGBImageType = itk::Image<itk::RGBPixel<unsigned char>, 2>;
+using FloatRGBImageType = itk::Image<itk::RGBPixel<float>, 2>;
 
-typedef itk::Image<unsigned char, 2>   UnsignedCharImageType;
-typedef itk::Image<char, 2>            CharImageType;
-typedef itk::Image<unsigned short, 2>  UnsignedShortImageType;
-typedef itk::Image<short, 2>           ShortImageType;
-typedef itk::Image<unsigned int, 2>    UnsignedIntImageType;
-typedef itk::Image<int, 2>             IntImageType;
-typedef itk::Image<unsigned long, 2>   UnsignedLongImageType;
-typedef itk::Image<long, 2>            LongImageType;
-typedef itk::Image<float, 2>           FloatImageType;
-typedef itk::Image<double, 2>          DoubleImageType;
+using UnsignedCharImageType = itk::Image<unsigned char, 2>;
+using CharImageType = itk::Image<char, 2>;
+using UnsignedShortImageType = itk::Image<unsigned short, 2>;
+using ShortImageType = itk::Image<short, 2>;
+using UnsignedIntImageType = itk::Image<unsigned int, 2>;
+using IntImageType = itk::Image<int, 2>;
+using UnsignedLongImageType = itk::Image<unsigned long, 2>;
+using LongImageType = itk::Image<long, 2>;
+using FloatImageType = itk::Image<float, 2>;
+using DoubleImageType = itk::Image<double, 2>;
 
 template void ITKVtkGlue_EXPORT QuickView::AddImage<CharImageType>(
   CharImageType *image,
@@ -102,7 +102,7 @@ void ITKVtkGlue_EXPORT QuickView::AddImage<UnsignedCharImageType>(
 {
   if (FlipVertical)
     {
-    typedef itk::FlipImageFilter< UnsignedCharImageType> FlipFilterType;
+    using FlipFilterType = itk::FlipImageFilter< UnsignedCharImageType>;
     FlipFilterType::Pointer flipper = FlipFilterType::New();
     bool flipAxes[3] = { false, true, false };
     flipper = FlipFilterType::New();
@@ -125,8 +125,8 @@ void ITKVtkGlue_EXPORT QuickView::AddImage(
   bool FlipVertical,
   std::string Description)
 {
-  typedef itk::RescaleIntensityImageFilter<TImage, UnsignedCharImageType >
-    rescaleFilterType;
+  using rescaleFilterType =
+      itk::RescaleIntensityImageFilter<TImage, UnsignedCharImageType >;
 
   typename rescaleFilterType::Pointer rescaler = rescaleFilterType::New();
   rescaler->SetOutputMinimum(0);
@@ -145,7 +145,7 @@ void ITKVtkGlue_EXPORT QuickView::AddImage<UnsignedCharRGBImageType>(
 {
   if (FlipVertical)
     {
-    typedef itk::FlipImageFilter< UnsignedCharRGBImageType> FlipFilterType;
+    using FlipFilterType = itk::FlipImageFilter< UnsignedCharRGBImageType>;
     FlipFilterType::Pointer flipper = FlipFilterType::New();
     bool flipAxes[3] = { false, true, false };
     flipper = FlipFilterType::New();
@@ -170,7 +170,7 @@ void ITKVtkGlue_EXPORT QuickView::AddRGBImage<UnsignedCharRGBImageType>(
 {
   if (FlipVertical)
     {
-    typedef itk::FlipImageFilter< UnsignedCharRGBImageType> FlipFilterType;
+    using FlipFilterType = itk::FlipImageFilter< UnsignedCharRGBImageType>;
     FlipFilterType::Pointer flipper = FlipFilterType::New();
     bool flipAxes[3] = { false, true, false };
     flipper = FlipFilterType::New();
@@ -193,11 +193,11 @@ void ITKVtkGlue_EXPORT QuickView::AddRGBImage<FloatRGBImageType>(
   bool FlipVertical,
   std::string Description)
 {
-  typedef itk::RGBToVectorImageAdaptor<FloatRGBImageType> AdaptorType;
+  using AdaptorType = itk::RGBToVectorImageAdaptor<FloatRGBImageType>;
   AdaptorType::Pointer adaptor = AdaptorType::New();
   adaptor->SetImage(image);
 
-  typedef itk::VectorRescaleIntensityImageFilter<AdaptorType, UnsignedCharRGBImageType > rescaleFilterType;
+  using rescaleFilterType = itk::VectorRescaleIntensityImageFilter<AdaptorType, UnsignedCharRGBImageType >;
   rescaleFilterType::Pointer rescaler = rescaleFilterType::New();
   rescaler->SetOutputMaximumMagnitude(255);
   rescaler->SetInput(adaptor);
@@ -211,11 +211,11 @@ void ITKVtkGlue_EXPORT QuickView::AddImage<FloatRGBImageType>(
   bool FlipVertical,
   std::string Description)
 {
-  typedef itk::RGBToVectorImageAdaptor<FloatRGBImageType> AdaptorType;
+  using AdaptorType = itk::RGBToVectorImageAdaptor<FloatRGBImageType>;
   AdaptorType::Pointer adaptor = AdaptorType::New();
   adaptor->SetImage(image);
 
-  typedef itk::VectorRescaleIntensityImageFilter<AdaptorType, UnsignedCharRGBImageType > rescaleFilterType;
+  using rescaleFilterType = itk::VectorRescaleIntensityImageFilter<AdaptorType, UnsignedCharRGBImageType >;
   rescaleFilterType::Pointer rescaler = rescaleFilterType::New();
   rescaler->SetOutputMaximumMagnitude(255);
   rescaler->SetInput(adaptor);
@@ -247,10 +247,10 @@ void QuickView::Visualize(bool interact)
   // Render all of the images
   std::vector<double*> viewports;
 
-  typedef itk::ImageToVTKImageFilter<itk::Image<unsigned char, 2> >
-    ConnectorType;
-  typedef itk::ImageToVTKImageFilter<itk::Image<itk::RGBPixel<unsigned char>, 2> >
-    RGBConnectorType;
+  using ConnectorType =
+      itk::ImageToVTKImageFilter<itk::Image<unsigned char, 2> >;
+  using RGBConnectorType =
+      itk::ImageToVTKImageFilter<itk::Image<itk::RGBPixel<unsigned char>, 2> >;
   std::vector<ConnectorType::Pointer>    connectors; // Force the connectors to persist (not lose scope) after each iteration of the loop
   std::vector<RGBConnectorType::Pointer> RGBconnectors; // Force the connectors to persist after each iteration of the loop
 

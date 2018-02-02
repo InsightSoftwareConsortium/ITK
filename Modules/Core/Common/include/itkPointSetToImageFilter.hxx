@@ -152,11 +152,11 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   double   origin[InputPointSetDimension];
   SizeType size;
 
-  typedef BoundingBox<
+  using BoundingBoxType = BoundingBox<
     typename InputPointSetType::PointIdentifier,
     InputPointSetDimension,
     typename InputPointSetType::CoordRepType,
-    typename InputPointSetType::PointsContainer>  BoundingBoxType;
+    typename InputPointSetType::PointsContainer>;
   typename BoundingBoxType::Pointer bb = BoundingBoxType::New();
   bb->SetPoints( InputPointSet->GetPoints() );
   bb->ComputeBoundingBox();
@@ -238,7 +238,7 @@ PointSetToImageFilter< TInputPointSet, TOutputImage >
   OutputImage->Allocate();                // allocate the image
   OutputImage->FillBuffer(m_OutsideValue);
 
-  typedef typename InputPointSetType::PointsContainer::ConstIterator PointIterator;
+  using PointIterator = typename InputPointSetType::PointsContainer::ConstIterator;
   PointIterator pointItr = InputPointSet->GetPoints()->Begin();
   PointIterator pointEnd = InputPointSet->GetPoints()->End();
 

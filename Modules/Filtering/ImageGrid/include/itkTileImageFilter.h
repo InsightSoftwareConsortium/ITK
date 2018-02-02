@@ -53,11 +53,11 @@ class ITK_TEMPLATE_EXPORT TileImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard Self typedef */
-  typedef TileImageFilter                                 Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard Self type alias */
+  using Self = TileImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,22 +65,22 @@ public:
   /** Runtime information support. */
   itkTypeMacro(TileImageFilter, ImageToImageFilter);
 
-  /** Image pixel value typedef. */
-  typedef typename TInputImage::PixelType  InputPixelType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  /** Image pixel value type alias. */
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  /** Image related typedefs. */
-  typedef typename TInputImage::Pointer  InputImagePointer;
-  typedef typename TOutputImage::Pointer OutputImagePointer;
+  /** Image related type alias. */
+  using InputImagePointer = typename TInputImage::Pointer;
+  using OutputImagePointer = typename TOutputImage::Pointer;
 
-  typedef typename TInputImage::SizeType    InputSizeType;
-  typedef typename TInputImage::IndexType   InputIndexType;
-  typedef typename TInputImage::RegionType  InputImageRegionType;
-  typedef typename TOutputImage::SizeType   OutputSizeType;
-  typedef typename TOutputImage::IndexType  OutputIndexType;
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using InputSizeType = typename TInputImage::SizeType;
+  using InputIndexType = typename TInputImage::IndexType;
+  using InputImageRegionType = typename TInputImage::RegionType;
+  using OutputSizeType = typename TOutputImage::SizeType;
+  using OutputIndexType = typename TOutputImage::IndexType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
@@ -97,10 +97,10 @@ public:
     TileInfo():m_ImageNumber(-1) {}
   };
 
-  typedef Image< TileInfo, itkGetStaticConstMacro(OutputImageDimension) > TileImageType;
+  using TileImageType = Image< TileInfo, itkGetStaticConstMacro(OutputImageDimension) >;
 
   /** LayoutArray type. */
-  typedef FixedArray< unsigned int, itkGetStaticConstMacro(OutputImageDimension) > LayoutArrayType;
+  using LayoutArrayType = FixedArray< unsigned int, itkGetStaticConstMacro(OutputImageDimension) >;
 
   /** Set/Get the layout of the tiles. If the last Layout value is 0,
    * the filter will compute a value that will acoomodate all of the

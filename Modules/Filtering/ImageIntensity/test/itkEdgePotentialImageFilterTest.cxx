@@ -27,23 +27,23 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef itk::CovariantVector<double,ImageDimension> VectorType;
-  typedef itk::Image<VectorType, ImageDimension>      InputImageType;
-  typedef itk::Image<float, ImageDimension>           OutputImageType;
+  using VectorType = itk::CovariantVector<double,ImageDimension>;
+  using InputImageType = itk::Image<VectorType, ImageDimension>;
+  using OutputImageType = itk::Image<float, ImageDimension>;
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIterator<InputImageType>  InputIteratorType;
-  typedef itk::ImageRegionIterator<OutputImageType> OutputIteratorType;
+  using InputIteratorType = itk::ImageRegionIterator<InputImageType>;
+  using OutputIteratorType = itk::ImageRegionIterator<OutputImageType>;
 
 
   // Declare the type of the index to access images
-  typedef itk::Index<ImageDimension>         IndexType;
+  using IndexType = itk::Index<ImageDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<ImageDimension>          SizeType;
+  using SizeType = itk::Size<ImageDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<ImageDimension>   RegionType;
+  using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
   InputImageType::Pointer inputImage  = InputImageType::New();
@@ -88,8 +88,8 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
   }
 
   // create an EdgePotentialImageFilter
-  typedef itk::EdgePotentialImageFilter< InputImageType,
-                               OutputImageType  >  FilterType;
+  using FilterType = itk::EdgePotentialImageFilter< InputImageType,
+                               OutputImageType  >;
 
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher watcher(filter);

@@ -32,21 +32,21 @@ class RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric:
   public itk::PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric    Self;
-  typedef itk::PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>  Superclass;
-  typedef itk::SmartPointer< Self >                                         Pointer;
-  typedef itk::SmartPointer< const Self >                                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric;
+  using Superclass = itk::PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet>;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
-  typedef typename Superclass::MeasureType          MeasureType;
-  typedef typename Superclass::DerivativeType       DerivativeType;
-  typedef typename Superclass::ParametersType       ParametersType;
-  typedef typename Superclass::ParametersValueType  ParametersValueType;
-  typedef typename Superclass::PointType            PointType;
-  typedef typename Superclass::PixelType            PixelType;
-  typedef typename Superclass::LocalDerivativeType  LocalDerivativeType;
-  typedef typename Superclass::FixedPointSetType    FixedPointSetType;
-  typedef typename Superclass::MovingPointSetType   MovingPointSetType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using PointType = typename Superclass::PointType;
+  using PixelType = typename Superclass::PixelType;
+  using LocalDerivativeType = typename Superclass::LocalDerivativeType;
+  using FixedPointSetType = typename Superclass::FixedPointSetType;
+  using MovingPointSetType = typename Superclass::MovingPointSetType;
 
   itkTypeMacro(RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric, PointSetToPointSetMetricv4);
 
@@ -70,12 +70,12 @@ private:
 int itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int , char* [])
 {
   const itk::SizeValueType    Dimension = 2;
-  typedef double              PixelType;
-  typedef double              FloatType;
+  using PixelType = double;
+  using FloatType = double;
 
   // PointSets
-  typedef itk::PointSet<PixelType, Dimension> PointSetType;
-  typedef PointSetType::PointType             PointType;
+  using PointSetType = itk::PointSet<PixelType, Dimension>;
+  using PointType = PointSetType::PointType;
 
   PointSetType::Pointer fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
@@ -108,16 +108,16 @@ int itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int , char* [])
   movingPoints->SetPoint(2, testPoint + offset);
 
   // Transforms
-  typedef itk::AffineTransform<double, Dimension>      MovingTransformType;
+  using MovingTransformType = itk::AffineTransform<double, Dimension>;
   MovingTransformType::Pointer movingTransform =  MovingTransformType::New();
   movingTransform->SetIdentity();
 
-  typedef itk::TranslationTransform<double, Dimension> FixedTransformType;
+  using FixedTransformType = itk::TranslationTransform<double, Dimension>;
   FixedTransformType::Pointer fixedTransform =    FixedTransformType::New();
   fixedTransform->SetIdentity();
 
   // Metric
-  typedef RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric <PointSetType, PointSetType>   MetricType;
+  using MetricType = RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric <PointSetType, PointSetType>;
   MetricType::Pointer metric = MetricType::New();
 
   metric->SetFixedPointSet( fixedPoints );
@@ -128,7 +128,7 @@ int itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int , char* [])
   //
   // Testing RegistrationParameterScalesFromPhysicalShift
   //
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< MetricType >  RegistrationParameterScalesFromPhysicalShiftType;
+  using RegistrationParameterScalesFromPhysicalShiftType = itk::RegistrationParameterScalesFromPhysicalShift< MetricType >;
   RegistrationParameterScalesFromPhysicalShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromPhysicalShiftType::New();
 
   shiftScaleEstimator->SetMetric(metric);
@@ -269,14 +269,14 @@ int itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int , char* [])
   //
   // Testing local scales for a transform with local support, ex. DisplacementFieldTransform
   //
-  typedef itk::DisplacementFieldTransform<double, Dimension>  DisplacementTransformType;
-  typedef DisplacementTransformType::DisplacementFieldType    FieldType;
-  typedef itk::Vector<double, Dimension>                      VectorType;
+  using DisplacementTransformType = itk::DisplacementFieldTransform<double, Dimension>;
+  using FieldType = DisplacementTransformType::DisplacementFieldType;
+  using VectorType = itk::Vector<double, Dimension>;
 
   VectorType zero;
   zero.Fill(0.0);
 
-  typedef itk::ImageRegion<Dimension> RegionType;
+  using RegionType = itk::ImageRegion<Dimension>;
   RegionType region;
   region.SetSize( virtualDomainSize );
   RegionType::IndexType index;

@@ -37,8 +37,8 @@ template< typename TInputPix, typename TCompare >
 class ITK_TEMPLATE_EXPORT AnchorErodeDilateLine
 {
 public:
-  /** Some convenient typedefs. */
-  typedef TInputPix InputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImagePixelType = TInputPix;
 
   void DoLine(std::vector<TInputPix> & buffer, std::vector<TInputPix> & inbuffer,
               unsigned bufflength);
@@ -58,7 +58,7 @@ public:
 private:
   unsigned int m_Size;
 
-  typedef Function::MorphologyHistogram< InputImagePixelType, TCompare >              HistogramType;
+  using HistogramType = Function::MorphologyHistogram< InputImagePixelType, TCompare >;
 
   bool StartLine(std::vector<TInputPix> & buffer,
                  std::vector<TInputPix> & inbuffer,

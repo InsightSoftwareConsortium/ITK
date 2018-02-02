@@ -27,8 +27,8 @@
 int
 itkSpatialObjectTreeContainerIteratorTest(int, char* [])
 {
-  typedef itk::SpatialObjectTreeContainer<3>     SOTreeType;
-  typedef itk::PostOrderTreeIterator<SOTreeType> PostOrderItType;
+  using SOTreeType = itk::SpatialObjectTreeContainer<3>;
+  using PostOrderItType = itk::PostOrderTreeIterator<SOTreeType>;
 
   SOTreeType::Pointer tree = SOTreeType::New();
 

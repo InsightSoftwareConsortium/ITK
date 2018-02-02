@@ -34,11 +34,11 @@ class ITK_TEMPLATE_EXPORT VoronoiPartitioningImageFilter:
   public VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VoronoiPartitioningImageFilter                                  Self;
-  typedef VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                            Pointer;
-  typedef SmartPointer< const Self >                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VoronoiPartitioningImageFilter;
+  using Superclass = VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -47,21 +47,21 @@ public:
   itkTypeMacro(VoronoiPartitioningImageFilter,
                VoronoiSegmentationImageFilterBase);
 
-  /** Convenient typedefs. */
-  typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
-  typedef typename Superclass::IndexList         IndexList;
-  typedef typename Superclass::IndexType         IndexType;
-  typedef typename Superclass::RegionType        RegionType;
-  typedef typename Superclass::InputImageType    InputImageType;
-  typedef typename Superclass::OutputImageType   OutputImageType;
-  typedef typename Superclass::OutputPixelType   OutputPixelType;
+  /** Convenient type alias. */
+  using BinaryObjectImage = typename Superclass::BinaryObjectImage;
+  using IndexList = typename Superclass::IndexList;
+  using IndexType = typename Superclass::IndexType;
+  using RegionType = typename Superclass::RegionType;
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputPixelType = typename Superclass::OutputPixelType;
 
-  typedef typename Superclass::PointType          PointType;
-  typedef typename Superclass::PointTypeDeque     PointTypeDeque;
-  typedef typename Superclass::PointIdIterator    PointIdIterator;
-  typedef typename Superclass::CellAutoPointer    CellAutoPointer;
-  typedef typename Superclass::EdgeIterator       EdgeIterator;
-  typedef typename Superclass::NeighborIdIterator NeighborIdIterator;
+  using PointType = typename Superclass::PointType;
+  using PointTypeDeque = typename Superclass::PointTypeDeque;
+  using PointIdIterator = typename Superclass::PointIdIterator;
+  using CellAutoPointer = typename Superclass::CellAutoPointer;
+  using EdgeIterator = typename Superclass::EdgeIterator;
+  using NeighborIdIterator = typename Superclass::NeighborIdIterator;
 
   /** Create the output results.  */
   void MakeSegmentBoundary(void) override;

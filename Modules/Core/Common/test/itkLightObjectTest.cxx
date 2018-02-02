@@ -23,7 +23,7 @@ int itkLightObjectTest(int, char* [] )
 {
 
 
-  typedef itk::LightObject    ObjectType;
+  using ObjectType = itk::LightObject;
 
   ObjectType::Pointer light = ObjectType::New();
 

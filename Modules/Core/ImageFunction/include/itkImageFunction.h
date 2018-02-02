@@ -63,45 +63,45 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef ImageFunction Self;
+  /** Standard class type aliases. */
+  using Self = ImageFunction;
 
-  typedef FunctionBase<
+  using Superclass = FunctionBase<
     Point< TCoordRep,
            itkGetStaticConstMacro(ImageDimension) >,
-           TOutput >                 Superclass;
+           TOutput >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageFunction, FunctionBase);
 
-  /** InputImageType typedef support. */
-  typedef TInputImage InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = TInputImage;
 
-  /** InputPixel typedef support */
-  typedef typename InputImageType::PixelType InputPixelType;
+  /** InputPixel type alias support */
+  using InputPixelType = typename InputImageType::PixelType;
 
-  /** InputImagePointer typedef support */
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
+  /** InputImagePointer type alias support */
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
 
-  /** OutputType typedef support. */
-  typedef TOutput OutputType;
+  /** OutputType type alias support */
+  using OutputType = TOutput;
 
-  /** CoordRepType typedef support. */
-  typedef TCoordRep CoordRepType;
+  /** CoordRepType type alias support */
+  using CoordRepType = TCoordRep;
 
   /** Index Type. */
-  typedef typename InputImageType::IndexType      IndexType;
-  typedef typename InputImageType::IndexValueType IndexValueType;
+  using IndexType = typename InputImageType::IndexType;
+  using IndexValueType = typename InputImageType::IndexValueType;
 
   /** ContinuousIndex Type. */
-  typedef ContinuousIndex< TCoordRep,
-                           itkGetStaticConstMacro(ImageDimension) > ContinuousIndexType;
+  using ContinuousIndexType = ContinuousIndex< TCoordRep,
+                           itkGetStaticConstMacro(ImageDimension) >;
 
   /** Point Type. */
-  typedef Point< TCoordRep, itkGetStaticConstMacro(ImageDimension) > PointType;
+  using PointType = Point< TCoordRep, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Set the input image.
    * \warning this method caches BufferedRegion information.

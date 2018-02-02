@@ -31,16 +31,16 @@ int itkLevelSetDomainPartitionImageTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned short                                    InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension >           InputImageType;
-  typedef itk::IdentifierType                               IdentifierType;
+  using InputPixelType = unsigned short;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using IdentifierType = itk::IdentifierType;
 
-  typedef itk::LevelSetDomainPartitionImage< InputImageType > DomainPartitionSourceType;
-  typedef DomainPartitionSourceType::ListImageType            ListImageType;
-  typedef DomainPartitionSourceType::LevelSetDomainRegionVectorType LevelSetDomainRegionVectorType;
+  using DomainPartitionSourceType = itk::LevelSetDomainPartitionImage< InputImageType >;
+  using ListImageType = DomainPartitionSourceType::ListImageType;
+  using LevelSetDomainRegionVectorType = DomainPartitionSourceType::LevelSetDomainRegionVectorType;
 
-  typedef ListImageType::PixelType                                ListType;
-  typedef itk::ImageRegionConstIteratorWithIndex< ListImageType > ListImageIteratorType;
+  using ListType = ListImageType::PixelType;
+  using ListImageIteratorType = itk::ImageRegionConstIteratorWithIndex< ListImageType >;
 
   // load binary mask
   InputImageType::SizeType size;

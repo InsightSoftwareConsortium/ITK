@@ -93,11 +93,11 @@ class ITK_TEMPLATE_EXPORT WarpVectorImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef WarpVectorImageFilter                           Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = WarpVectorImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -106,20 +106,20 @@ public:
   itkTypeMacro(WarpVectorImageFilter, ImageToImageFilter);
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Inherit some types from the superclass. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::OutputImageType        OutputImageType;
-  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
 
-  typedef typename OutputImageType::IndexType            IndexType;
-  typedef typename OutputImageType::SizeType             SizeType;
-  typedef typename OutputImageType::PixelType            PixelType;
-  typedef typename OutputImageType::SpacingType          SpacingType;
-  typedef typename OutputImageType::PixelType::ValueType ValueType;
+  using IndexType = typename OutputImageType::IndexType;
+  using SizeType = typename OutputImageType::SizeType;
+  using PixelType = typename OutputImageType::PixelType;
+  using SpacingType = typename OutputImageType::SpacingType;
+  using ValueType = typename OutputImageType::PixelType::ValueType;
 
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -129,23 +129,23 @@ public:
   itkStaticConstMacro(PixelDimension, unsigned int,
                       PixelType::Dimension);
 
-  /** Displacement field typedef support. */
-  typedef TDisplacementField                        DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer   DisplacementFieldPointer;
-  typedef typename DisplacementFieldType::PixelType DisplacementType;
+  /** Displacement field type alias support */
+  using DisplacementFieldType = TDisplacementField;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
+  using DisplacementType = typename DisplacementFieldType::PixelType;
 
-  /** Interpolator typedef support. */
-  typedef double                                                         CoordRepType;
-  typedef VectorInterpolateImageFunction< InputImageType, CoordRepType > InterpolatorType;
-  typedef typename InterpolatorType::Pointer                             InterpolatorPointer;
-  typedef VectorLinearInterpolateImageFunction< InputImageType, CoordRepType >
-  DefaultInterpolatorType;
+  /** Interpolator type alias support */
+  using CoordRepType = double;
+  using InterpolatorType = VectorInterpolateImageFunction< InputImageType, CoordRepType >;
+  using InterpolatorPointer = typename InterpolatorType::Pointer;
+  using DefaultInterpolatorType =
+      VectorLinearInterpolateImageFunction< InputImageType, CoordRepType >;
 
   /** Point type */
-  typedef Point< CoordRepType, itkGetStaticConstMacro(ImageDimension) > PointType;
+  using PointType = Point< CoordRepType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Type for representing the direction of the output image */
-  typedef typename TOutputImage::DirectionType DirectionType;
+  using DirectionType = typename TOutputImage::DirectionType;
 
   /** Set the displacement field. */
   void SetDisplacementField(const DisplacementFieldType *field);

@@ -22,11 +22,11 @@
 int itkVectorMagnitudeImageFilterTest(int, char* [] )
 {
   // Declare the type of the pixels
-  typedef itk::CovariantVector<float, 3> VectorPixelType;
+  using VectorPixelType = itk::CovariantVector<float, 3>;
 
   // Declare the types of the images
-  typedef itk::Image<VectorPixelType, 2>           VectorImageType;
-  typedef itk::Image<float, 2>                     FloatImageType;
+  using VectorImageType = itk::Image<VectorPixelType, 2>;
+  using FloatImageType = itk::Image<float, 2>;
 
   // Define the size start index of the image
   VectorImageType::SizeType size;
@@ -50,15 +50,15 @@ int itkVectorMagnitudeImageFilterTest(int, char* [] )
   image->FillBuffer(pixel);
 
   // Declare Iterator type for the input image
-  typedef itk::ImageRegionIterator<VectorImageType>  VectorIteratorType;
+  using VectorIteratorType = itk::ImageRegionIterator<VectorImageType>;
 
   // Create an iterator for the image
   VectorIteratorType imageIterator( image, image->GetRequestedRegion() );
 
   // Declare the vector magnitude image filter
-  typedef itk::VectorMagnitudeImageFilter<
+  using myMagnitudeFilterType = itk::VectorMagnitudeImageFilter<
                                   VectorImageType,
-                                  FloatImageType >         myMagnitudeFilterType;
+                                  FloatImageType >;
 
   // Create the filter
   myMagnitudeFilterType::Pointer magnitude = myMagnitudeFilterType::New();
@@ -81,8 +81,7 @@ int itkVectorMagnitudeImageFilterTest(int, char* [] )
   FloatImageType::Pointer outputImage = magnitude->GetOutput();
 
   // Declare Iterator type for the output image
-  typedef itk::ImageRegionIterator<
-                                 FloatImageType>  myOutputIteratorType;
+  using myOutputIteratorType = itk::ImageRegionIterator<FloatImageType>;
 
   // Create an iterator for going through the output image
   myOutputIteratorType outputIterator( outputImage,

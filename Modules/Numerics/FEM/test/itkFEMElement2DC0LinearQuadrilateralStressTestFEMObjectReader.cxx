@@ -35,19 +35,19 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char
   //the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  typedef itk::SpatialObject<2>      SpatialObjectType;
-  typedef SpatialObjectType::Pointer SpatialObjectPointer;
+  using SpatialObjectType = itk::SpatialObject<2>;
+  using SpatialObjectPointer = SpatialObjectType::Pointer;
   SpatialObjectPointer Spatial = SpatialObjectType::New();
 
-  typedef itk::FEMSpatialObjectReader<2>      FEMSpatialObjectReaderType;
-  typedef FEMSpatialObjectReaderType::Pointer FEMSpatialObjectReaderPointer;
+  using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
+  using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
   // SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/SpatialObjects.meta");
   SpatialReader->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/Trial.meta");
   SpatialReader->Update();
 
-  typedef itk::FEMSpatialObjectWriter<2>      FEMSpatialObjectWriterType;
-  typedef FEMSpatialObjectWriterType::Pointer FEMSpatialObjectWriterPointer;
+  using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<2>;
+  using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
   FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
   SpatialWriter->SetInput(SpatialReader->GetScene() );
   SpatialWriter->SetFileName("C:/Research/ITKGit/ITK/Testing/Data/Input/FEM/TrialWrite.meta");
@@ -62,8 +62,8 @@ int itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char
   std::cout << " [PASSED]" << std::endl;
 
   // Testing the fe mesh validity
-  typedef itk::FEMObjectSpatialObject<2>      FEMObjectSpatialObjectType;
-  typedef FEMObjectSpatialObjectType::Pointer FEMObjectSpatialObjectPointer;
+  using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
+  using FEMObjectSpatialObjectPointer = FEMObjectSpatialObjectType::Pointer;
 
   FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
   if( strcmp( (*(children->begin() ) )->GetTypeName(), "FEMObjectSpatialObject") )

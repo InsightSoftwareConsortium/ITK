@@ -36,8 +36,8 @@ int itkCentralDifferenceImageFunctionSpeedTest(int argc, char* argv[] )
   std::cout << "imageSize: " << imageSize << " reps: " << reps << " doEAI, doEACI, doE: " << doEAI << ", " << doEACI << ", " << doE << std::endl;
 
   const unsigned int                            ImageDimension = 2;
-  typedef unsigned int                          PixelType;
-  typedef itk::Image<PixelType,ImageDimension>  ImageType;
+  using PixelType = unsigned int;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size;
@@ -48,7 +48,7 @@ int itkCentralDifferenceImageFunctionSpeedTest(int argc, char* argv[] )
   image->Allocate();
 
   // make a test image
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter( image, region );
   iter.GoToBegin();
   unsigned int counter = 0;
@@ -61,9 +61,9 @@ int itkCentralDifferenceImageFunctionSpeedTest(int argc, char* argv[] )
     }
 
   // set up central difference calculator
-  typedef float CoordRepType;
-  typedef itk::CentralDifferenceImageFunction<ImageType,CoordRepType> FunctionType;
-  typedef FunctionType::OutputType  OutputType;
+  using CoordRepType = float;
+  using FunctionType = itk::CentralDifferenceImageFunction<ImageType,CoordRepType>;
+  using OutputType = FunctionType::OutputType;
 
   FunctionType::Pointer function = FunctionType::New();
 

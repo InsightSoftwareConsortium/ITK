@@ -64,13 +64,13 @@ template< typename TLabel, unsigned int VImageDimension >
 class ITK_TEMPLATE_EXPORT LabelObject:public LightObject
 {
 public:
-  /** Standard class typedefs */
-  typedef LabelObject                Self;
-  typedef LightObject                Superclass;
-  typedef Self                       LabelObjectType;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef WeakPointer< const Self >  ConstWeakPointer;
+  /** Standard class type aliases */
+  using Self = LabelObject;
+  using Superclass = LightObject;
+  using LabelObjectType = Self;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -80,13 +80,13 @@ public:
 
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  typedef Index< VImageDimension >           IndexType;
-  typedef Offset< VImageDimension >          OffsetType;
-  typedef TLabel                             LabelType;
-  typedef LabelObjectLine< VImageDimension > LineType;
-  typedef typename LineType::LengthType      LengthType;
-  typedef unsigned int                       AttributeType;
-  typedef itk::SizeValueType                 SizeValueType;
+  using IndexType = Index< VImageDimension >;
+  using OffsetType = Offset< VImageDimension >;
+  using LabelType = TLabel;
+  using LineType = LabelObjectLine< VImageDimension >;
+  using LengthType = typename LineType::LengthType;
+  using AttributeType = unsigned int;
+  using SizeValueType = itk::SizeValueType;
 
   itkStaticConstMacro(LABEL, AttributeType, 0);
 
@@ -250,8 +250,8 @@ public:
     }
 
   private:
-    typedef typename std::deque< LineType >            LineContainerType;
-    typedef typename LineContainerType::const_iterator InternalIteratorType;
+    using LineContainerType = typename std::deque< LineType >;
+    using InternalIteratorType = typename LineContainerType::const_iterator;
     InternalIteratorType m_Iterator;
     InternalIteratorType m_Begin;
     InternalIteratorType m_End;
@@ -345,8 +345,8 @@ public:
 
   private:
 
-    typedef typename std::deque< LineType >            LineContainerType;
-    typedef typename LineContainerType::const_iterator InternalIteratorType;
+    using LineContainerType = typename std::deque< LineType >;
+    using InternalIteratorType = typename LineContainerType::const_iterator;
     void NextValidLine()
     {
       // search for the next valid position
@@ -373,7 +373,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelObject);
 
-  typedef typename std::deque< LineType >    LineContainerType;
+  using LineContainerType = typename std::deque< LineType >;
 
   LineContainerType m_LineContainer;
   LabelType         m_Label;

@@ -32,14 +32,14 @@ int itkLabelMapFilterTest(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef itk::LabelObject< unsigned long, dim > LabelObjectType;
-  typedef LabelObjectType::IndexType             IndexType;
-  typedef itk::LabelMap< LabelObjectType >       LabelMapType;
-  typedef LabelMapType::RegionType               RegionType;
-  typedef LabelMapType::SizeType                 SizeType;
-  typedef itk::Image< unsigned char, dim >       ImageType;
+  using LabelObjectType = itk::LabelObject< unsigned long, dim >;
+  using IndexType = LabelObjectType::IndexType;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
+  using RegionType = LabelMapType::RegionType;
+  using SizeType = LabelMapType::SizeType;
+  using ImageType = itk::Image< unsigned char, dim >;
 
-  typedef itk::LabelMapFilter<LabelMapType, ImageType> LabelMapFilterType;
+  using LabelMapFilterType = itk::LabelMapFilter<LabelMapType, ImageType>;
 
   LabelMapType::Pointer map = LabelMapType::New();
 

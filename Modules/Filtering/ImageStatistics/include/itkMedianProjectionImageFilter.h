@@ -71,7 +71,7 @@ public:
 
   inline TInputPixel GetValue()
   {
-    typedef typename std::vector< TInputPixel >::iterator ContainerIterator;
+    using ContainerIterator = typename std::vector< TInputPixel >::iterator;
     ContainerIterator medianIterator = m_Values.begin() +  m_Values.size() / 2;
     std::nth_element( m_Values.begin(), medianIterator, m_Values.end() );
     return *medianIterator;
@@ -87,13 +87,13 @@ class MedianProjectionImageFilter:public
                          Functor::MedianAccumulator< typename TInputImage::PixelType > >
 {
 public:
-  typedef MedianProjectionImageFilter Self;
-  typedef ProjectionImageFilter< TInputImage, TOutputImage,
+  using Self = MedianProjectionImageFilter;
+  using Superclass = ProjectionImageFilter< TInputImage, TOutputImage,
                                  Functor::MedianAccumulator<
-                                   typename TInputImage::PixelType > > Superclass;
+                                   typename TInputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Runtime information support. */
   itkTypeMacro(MedianProjectionImageFilter, ProjectionImageFilter);

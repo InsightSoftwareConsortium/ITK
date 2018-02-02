@@ -64,10 +64,10 @@ class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilter:
 {
 public:
   /** Standard class typdedefs. */
-  typedef FastMarchingUpwindGradientImageFilter             Self;
-  typedef FastMarchingImageFilter< TLevelSet, TSpeedImage > Superclass;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
+  using Self = FastMarchingUpwindGradientImageFilter;
+  using Superclass = FastMarchingImageFilter< TLevelSet, TSpeedImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -75,24 +75,24 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastMarchingUpwindGradientImageFilter, FastMarchingImageFilter);
 
-  /** Inherited typedefs. */
-  typedef typename Superclass::LevelSetType           LevelSetType;
-  typedef typename Superclass::SpeedImageType         SpeedImageType;
-  typedef typename Superclass::LevelSetImageType      LevelSetImageType;
-  typedef typename Superclass::LevelSetPointer        LevelSetPointer;
-  typedef typename Superclass::SpeedImageConstPointer SpeedImageConstPointer;
-  typedef typename Superclass::LabelImageType         LabelImageType;
-  typedef typename Superclass::PixelType              PixelType;
-  typedef typename Superclass::AxisNodeType           AxisNodeType;
-  typedef typename Superclass::NodeType               NodeType;
-  typedef typename Superclass::NodeContainer          NodeContainer;
-  typedef typename Superclass::NodeContainerPointer   NodeContainerPointer;
+  /** Inherited type alias. */
+  using LevelSetType = typename Superclass::LevelSetType;
+  using SpeedImageType = typename Superclass::SpeedImageType;
+  using LevelSetImageType = typename Superclass::LevelSetImageType;
+  using LevelSetPointer = typename Superclass::LevelSetPointer;
+  using SpeedImageConstPointer = typename Superclass::SpeedImageConstPointer;
+  using LabelImageType = typename Superclass::LabelImageType;
+  using PixelType = typename Superclass::PixelType;
+  using AxisNodeType = typename Superclass::AxisNodeType;
+  using NodeType = typename Superclass::NodeType;
+  using NodeContainer = typename Superclass::NodeContainer;
+  using NodeContainerPointer = typename Superclass::NodeContainerPointer;
 
-  typedef typename Superclass::IndexType         IndexType;
-  typedef typename Superclass::OutputSpacingType OutputSpacingType;
-  typedef typename Superclass::LevelSetIndexType LevelSetIndexType;
+  using IndexType = typename Superclass::IndexType;
+  using OutputSpacingType = typename Superclass::OutputSpacingType;
+  using LevelSetIndexType = typename Superclass::LevelSetIndexType;
 
-  typedef typename Superclass::OutputPointType PointType;
+  using PointType = typename Superclass::OutputPointType;
 
   /** The dimension of the level set. */
   itkStaticConstMacro(SetDimension, unsigned int, Superclass::SetDimension);
@@ -114,16 +114,16 @@ public:
   NodeContainerPointer GetReachedTargetPoints()
   { return m_ReachedTargetPoints; }
 
-  /** GradientPixel typedef support. */
-  typedef CovariantVector< PixelType,
-                           itkGetStaticConstMacro(SetDimension) > GradientPixelType;
+  /** GradientPixel type alias support */
+  using GradientPixelType = CovariantVector< PixelType,
+                           itkGetStaticConstMacro(SetDimension) >;
 
-  /** GradientImage typedef support. */
-  typedef Image< GradientPixelType,
-                 itkGetStaticConstMacro(SetDimension) > GradientImageType;
+  /** GradientImage type alias support */
+  using GradientImageType = Image< GradientPixelType,
+                 itkGetStaticConstMacro(SetDimension) >;
 
-  /** GradientImagePointer typedef support. */
-  typedef typename GradientImageType::Pointer GradientImagePointer;
+  /** GradientImagePointer type alias support */
+  using GradientImagePointer = typename GradientImageType::Pointer;
 
   /** Get the gradient image. */
   GradientImagePointer GetGradientImage() const

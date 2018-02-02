@@ -68,8 +68,8 @@ template< typename TImage, typename TPath >
 class ITK_TEMPLATE_EXPORT PathIterator:public PathConstIterator< TImage, TPath >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PathIterator Self;
+  /** Standard class type aliases. */
+  using Self = PathIterator;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
@@ -79,21 +79,21 @@ public:
                       TImage::ImageDimension);
 
   /** Define the superclass */
-  typedef PathConstIterator< TImage, TPath > Superclass;
+  using Superclass = PathConstIterator< TImage, TPath >;
 
   /** Inherit types from the superclass */
-  typedef typename Superclass::IndexType             IndexType;
-  typedef typename Superclass::OffsetType            OffsetType;
-  typedef typename Superclass::SizeType              SizeType;
-  typedef typename Superclass::ImageType             ImageType;
-  typedef typename Superclass::PixelContainer        PixelContainer;
-  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
-  typedef typename Superclass::InternalPixelType     InternalPixelType;
-  typedef typename Superclass::PixelType             PixelType;
-  typedef typename Superclass::AccessorType          AccessorType;
-  typedef typename Superclass::PathType              PathType;
-  typedef typename Superclass::PathInputType         PathInputType;
-  typedef typename Superclass::PathOutputType        PathOutputType;
+  using IndexType = typename Superclass::IndexType;
+  using OffsetType = typename Superclass::OffsetType;
+  using SizeType = typename Superclass::SizeType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelContainer = typename Superclass::PixelContainer;
+  using PixelContainerPointer = typename Superclass::PixelContainerPointer;
+  using InternalPixelType = typename Superclass::InternalPixelType;
+  using PixelType = typename Superclass::PixelType;
+  using AccessorType = typename Superclass::AccessorType;
+  using PathType = typename Superclass::PathType;
+  using PathInputType = typename Superclass::PathInputType;
+  using PathOutputType = typename Superclass::PathOutputType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(PathIterator, PathConstIterator);

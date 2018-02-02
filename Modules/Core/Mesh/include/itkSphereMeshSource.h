@@ -41,11 +41,11 @@ template< typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT SphereMeshSource:public MeshSource< TOutputMesh >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef SphereMeshSource           Self;
-  typedef MeshSource< TOutputMesh >  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = SphereMeshSource;
+  using Superclass = MeshSource< TOutputMesh >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -54,23 +54,23 @@ public:
   itkTypeMacro(SphereMeshSource, MeshSource);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TOutputMesh                         OutputMeshType;
-  typedef typename OutputMeshType::MeshTraits OMeshTraits;
-  typedef typename OutputMeshType::PointType  OPointType;
-  typedef typename OMeshTraits::PixelType     OPixelType;
+  using OutputMeshType = TOutputMesh;
+  using OMeshTraits = typename OutputMeshType::MeshTraits;
+  using OPointType = typename OutputMeshType::PointType;
+  using OPixelType = typename OMeshTraits::PixelType;
 
-  /** Some convenient typedefs. */
-  typedef typename OutputMeshType::Pointer                OutputMeshPointer;
-  typedef typename OutputMeshType::CellTraits             CellTraits;
-  typedef typename OutputMeshType::PointsContainerPointer PointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainer        PointsContainer;
+  /** Some convenient type alias. */
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using CellTraits = typename OutputMeshType::CellTraits;
+  using PointsContainerPointer = typename OutputMeshType::PointsContainerPointer;
+  using PointsContainer = typename OutputMeshType::PointsContainer;
 
   /** Define the triangular cell types which forms the surface of the model
    * and will be used in FEM application. */
-  typedef CellInterface< OPixelType, CellTraits > CellInterfaceType;
-  typedef TriangleCell< CellInterfaceType >       TriCellType;
-  typedef typename TriCellType::SelfAutoPointer   TriCellAutoPointer;
-  typedef typename TriCellType::CellAutoPointer   CellAutoPointer;
+  using CellInterfaceType = CellInterface< OPixelType, CellTraits >;
+  using TriCellType = TriangleCell< CellInterfaceType >;
+  using TriCellAutoPointer = typename TriCellType::SelfAutoPointer;
+  using CellAutoPointer = typename TriCellType::CellAutoPointer;
 
   /** All these parameter setting function are public temporarily to make the
    * test easier */

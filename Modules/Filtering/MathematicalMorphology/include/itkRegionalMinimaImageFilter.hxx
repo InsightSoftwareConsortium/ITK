@@ -99,7 +99,7 @@ RegionalMinimaImageFilter< TInputImage, TOutputImage >
       output->GetRequestedRegion().GetNumberOfPixels(),
       33, 0.67, 0.33);
 
-    typedef ImageRegionIterator< TOutputImage > IteratorType;
+    using IteratorType = ImageRegionIterator< TOutputImage >;
 
     IteratorType outIt( output, output->GetRequestedRegion() );
 
@@ -122,7 +122,7 @@ RegionalMinimaImageFilter< TInputImage, TOutputImage >
     }
   else
     {
-    typedef BinaryThresholdImageFilter< InputImageType, OutputImageType > ThresholdType;
+    using ThresholdType = BinaryThresholdImageFilter< InputImageType, OutputImageType >;
     typename ThresholdType::Pointer threshold = ThresholdType::New();
 
     threshold->SetInput( regionalMin->GetOutput() );

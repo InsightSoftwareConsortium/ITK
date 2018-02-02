@@ -56,14 +56,14 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMesh:public Mesh< TPixel, VDimension, TTraits 
 {
 public:
   /** Input template parameters. */
-  typedef TTraits Traits;
-  typedef TPixel  PixelType;
+  using Traits = TTraits;
+  using PixelType = TPixel;
 
-  /** Standard typedefs. */
-  typedef QuadEdgeMesh                       Self;
-  typedef Mesh< TPixel, VDimension, Traits > Superclass;
-  typedef SmartPointer< Self >               Pointer;
-  typedef SmartPointer< const Self >         ConstPointer;
+  /** Standard type alias. */
+  using Self = QuadEdgeMesh;
+  using Superclass = Mesh< TPixel, VDimension, Traits >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Convenient constants obtained from MeshTraits. */
   itkStaticConstMacro(PointDimension, unsigned int,
@@ -72,106 +72,89 @@ public:
                       Traits::MaxTopologicalDimension);
 
   /** Types defined in superclass. */
-  typedef typename Superclass::CellPixelType   CellPixelType;
-  typedef typename Superclass::CoordRepType    CoordRepType;
-  typedef typename Superclass::PointIdentifier PointIdentifier;
-  typedef typename Superclass::PointHashType   PointHashType;
-  typedef typename Superclass::PointType       PointType;
-  typedef typename Superclass::CellTraits      CellTraits;
+  using CellPixelType = typename Superclass::CellPixelType;
+  using CoordRepType = typename Superclass::CoordRepType;
+  using PointIdentifier = typename Superclass::PointIdentifier;
+  using PointHashType = typename Superclass::PointHashType;
+  using PointType = typename Superclass::PointType;
+  using CellTraits = typename Superclass::CellTraits;
 
-  typedef typename CellTraits::PointIdInternalIterator PointIdInternalIterator;
-  typedef typename CellTraits::PointIdIterator         PointIdIterator;
+  using PointIdInternalIterator = typename CellTraits::PointIdInternalIterator;
+  using PointIdIterator = typename CellTraits::PointIdIterator;
 
   // Point section:
-  typedef typename Superclass::PointsContainer        PointsContainer;
-  typedef typename Superclass::PointsContainerPointer PointsContainerPointer;
-  typedef CoordRepType                                CoordRepArrayType[
-    itkGetStaticConstMacro(PointDimension)];
+  using PointsContainer = typename Superclass::PointsContainer;
+  using PointsContainerPointer = typename Superclass::PointsContainerPointer;
+  typedef CoordRepType CoordRepArrayType[itkGetStaticConstMacro(PointDimension)];
 
   // Point data section:
-  typedef typename Superclass::PointDataContainer PointDataContainer;
-  typedef typename Superclass::PointDataContainerPointer
-  PointDataContainerPointer;
-  typedef typename Superclass::PointDataContainerIterator
-  PointDataContainerIterator;
-  typedef typename Superclass::PointsContainerConstIterator
-  PointsContainerConstIterator;
-  typedef typename Superclass::PointsContainerIterator
-  PointsContainerIterator;
+  using PointDataContainer = typename Superclass::PointDataContainer;
+  using PointDataContainerPointer = typename Superclass::PointDataContainerPointer;
+  using PointDataContainerIterator = typename Superclass::PointDataContainerIterator;
+  using PointsContainerConstIterator = typename Superclass::PointsContainerConstIterator;
+  using PointsContainerIterator = typename Superclass::PointsContainerIterator;
 
   // Cell section:
-  typedef typename Superclass::CellIdentifier        CellIdentifier;
-  typedef typename Superclass::CellType              CellType;
-  typedef typename Superclass::CellAutoPointer       CellAutoPointer;
-  typedef typename Superclass::CellFeatureIdentifier CellFeatureIdentifier;
-  typedef typename Superclass::CellFeatureCount      CellFeatureCount;
-  typedef typename Superclass::CellMultiVisitorType  CellMultiVisitorType;
-  typedef typename Superclass::CellsContainer        CellsContainer;
-  typedef typename Superclass::CellsContainerPointer CellsContainerPointer;
+  using CellIdentifier = typename Superclass::CellIdentifier;
+  using CellType = typename Superclass::CellType;
+  using CellAutoPointer = typename Superclass::CellAutoPointer;
+  using CellFeatureIdentifier = typename Superclass::CellFeatureIdentifier;
+  using CellFeatureCount = typename Superclass::CellFeatureCount;
+  using CellMultiVisitorType = typename Superclass::CellMultiVisitorType;
+  using CellsContainer = typename Superclass::CellsContainer;
+  using CellsContainerPointer = typename Superclass::CellsContainerPointer;
 
-  typedef typename Superclass::CellsContainerConstIterator
-  CellsContainerConstIterator;
-  typedef typename Superclass::CellsContainerIterator
-  CellsContainerIterator;
+  using CellsContainerConstIterator = typename Superclass::CellsContainerConstIterator;
+  using CellsContainerIterator = typename Superclass::CellsContainerIterator;
 
-  typedef typename Superclass::CellLinksContainer CellLinksContainer;
-  typedef typename Superclass::CellLinksContainerPointer
-  CellLinksContainerPointer;
-  typedef typename Superclass::CellLinksContainerIterator
-  CellLinksContainerIterator;
+  using CellLinksContainer = typename Superclass::CellLinksContainer;
+  using CellLinksContainerPointer = typename Superclass::CellLinksContainerPointer;
+  using CellLinksContainerIterator = typename Superclass::CellLinksContainerIterator;
 
   // Cell data section:
-  typedef typename Superclass::CellDataContainer CellDataContainer;
-  typedef typename Superclass::CellDataContainerPointer
-  CellDataContainerPointer;
-  typedef typename Superclass::CellDataContainerIterator
-  CellDataContainerIterator;
+  using CellDataContainer = typename Superclass::CellDataContainer;
+  using CellDataContainerPointer = typename Superclass::CellDataContainerPointer;
+  using CellDataContainerIterator = typename Superclass::CellDataContainerIterator;
 
   // Point / Cell correspondance section:
-  typedef typename Superclass::PointCellLinksContainer
-  PointCellLinksContainer;
-  typedef typename Superclass::PointCellLinksContainerIterator
-  PointCellLinksContainerIterator;
+  using PointCellLinksContainer = typename Superclass::PointCellLinksContainer;
+  using PointCellLinksContainerIterator = typename Superclass::PointCellLinksContainerIterator;
 
   // BoundaryAssignMents section:
-  typedef typename Superclass::BoundaryAssignmentsContainer
-  BoundaryAssignmentsContainer;
-  typedef typename Superclass::BoundaryAssignmentsContainerPointer
-  BoundaryAssignmentsContainerPointer;
-  typedef typename Superclass::BoundaryAssignmentsContainerVector
-  BoundaryAssignmentsContainerVector;
+  using BoundaryAssignmentsContainer = typename Superclass::BoundaryAssignmentsContainer;
+  using BoundaryAssignmentsContainerPointer = typename Superclass::BoundaryAssignmentsContainerPointer;
+  using BoundaryAssignmentsContainerVector = typename Superclass::BoundaryAssignmentsContainerVector;
 
   // Miscellaneous section:
-  typedef typename Superclass::BoundingBoxPointer BoundingBoxPointer;
-  typedef typename Superclass::BoundingBoxType    BoundingBoxType;
-  typedef typename Superclass::RegionType         RegionType;
-  typedef typename Superclass::InterpolationWeightType
-  InterpolationWeightType;
+  using BoundingBoxPointer = typename Superclass::BoundingBoxPointer;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using RegionType = typename Superclass::RegionType;
+  using InterpolationWeightType = typename Superclass::InterpolationWeightType;
 
   /** Specific types for a quad-edge structure. */
-  typedef typename Traits::PrimalDataType PrimalDataType;
-  typedef typename Traits::DualDataType   DualDataType;
-  typedef typename Traits::QEPrimal       QEPrimal;
-  typedef typename Traits::QEDual         QEDual;
-  typedef typename Traits::QEPrimal       QEType;
+  using PrimalDataType = typename Traits::PrimalDataType;
+  using DualDataType = typename Traits::DualDataType;
+  using QEPrimal = typename Traits::QEPrimal;
+  using QEDual = typename Traits::QEDual;
+  using QEType = typename Traits::QEPrimal;
   // See the TODO entry dated from 2005-05-28
   // struct QEType : public QEPrimal, public QEDual {}
-  typedef typename Traits::VertexRefType VertexRefType;
-  typedef typename Traits::FaceRefType   FaceRefType;
-  typedef typename Traits::VectorType    VectorType;
+  using VertexRefType = typename Traits::VertexRefType;
+  using FaceRefType = typename Traits::FaceRefType;
+  using VectorType = typename Traits::VectorType;
 
   /** Possible specialized cell types. */
-  typedef QuadEdgeMeshLineCell< CellType >    EdgeCellType;
-  typedef QuadEdgeMeshPolygonCell< CellType > PolygonCellType;
+  using EdgeCellType = QuadEdgeMeshLineCell< CellType >;
+  using PolygonCellType = QuadEdgeMeshPolygonCell< CellType >;
 
   /** Free insertion indexes. */
-  typedef std::queue< PointIdentifier > FreePointIndexesType;
-  typedef std::queue< CellIdentifier >  FreeCellIndexesType;
+  using FreePointIndexesType = std::queue< PointIdentifier >;
+  using FreeCellIndexesType = std::queue< CellIdentifier >;
 
   /** Auxiliary types. */
-  typedef std::vector< PointIdentifier > PointIdList;
-  typedef std::list< QEPrimal * >        EdgeListType;
-  typedef EdgeListType *                 EdgeListPointerType;
+  using PointIdList = std::vector< PointIdentifier >;
+  using EdgeListType = std::list< QEPrimal * >;
+  using EdgeListPointerType = EdgeListType *;
 
   /** Reserved PointIdentifier designated to represent the absence of Point */
   static const PointIdentifier m_NoPoint;

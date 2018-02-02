@@ -58,38 +58,38 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef VectorInterpolateImageFunction Self;
-  typedef ImageFunction< TInputImage,
+  /** Standard class type aliases. */
+  using Self = VectorInterpolateImageFunction;
+  using Superclass = ImageFunction< TInputImage,
                          typename NumericTraits< typename TInputImage::PixelType >::RealType,
-                         TCoordRep >                          Superclass;
+                         TCoordRep >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorInterpolateImageFunction, ImageFunction);
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType           InputImageType;
-  typedef typename InputImageType::PixelType            PixelType;
-  typedef typename PixelType::ValueType                 ValueType;
-  typedef typename NumericTraits< ValueType >::RealType RealType;
+  /** InputImageType type alias support */
+  using InputImageType = typename Superclass::InputImageType;
+  using PixelType = typename InputImageType::PixelType;
+  using ValueType = typename PixelType::ValueType;
+  using RealType = typename NumericTraits< ValueType >::RealType;
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support */
+  using PointType = typename Superclass::PointType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType      IndexType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   /** Output type is RealType of TInputImage::PixelType. */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
-  /** CoordRep typedef support. */
-  typedef TCoordRep CoordRepType;
+  /** CoordRep type alias support */
+  using CoordRepType = TCoordRep;
 
   /** Returns the interpolated image intensity at a
    * specified point position. No bounds checking is done.

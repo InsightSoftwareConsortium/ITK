@@ -27,10 +27,10 @@ template<typename TFilter>
 class itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate : public itk::Command
 {
 public:
-  typedef itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate   Self;
+  using Self = itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate;
 
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -61,7 +61,7 @@ public:
 };
 
 // Transform type
-typedef itk::Transform<double, 2, 2> itkEuclideanDistancePointSetMetricRegistrationTestTransformType;
+using itkEuclideanDistancePointSetMetricRegistrationTestTransformType = itk::Transform<double, 2, 2>;
 
 /////////////////////////////////////////////////////////
 template< typename TTransform, typename TMetric, typename TPointSet >
@@ -69,9 +69,9 @@ int itkEuclideanDistancePointSetMetricRegistrationTestRun(
   unsigned int numberOfIterations, double maximumPhysicalStepSize, double pointMax,
   typename TTransform::Pointer & transform, typename TMetric::Pointer & metric )
 {
-  typedef TPointSet                        PointSetType;
-  typedef typename PointSetType::PointType PointType;
-  typedef typename PointType::CoordRepType CoordRepType;
+  using PointSetType = TPointSet;
+  using PointType = typename PointSetType::PointType;
+  using CoordRepType = typename PointType::CoordRepType;
 
   typename PointSetType::Pointer fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
@@ -117,21 +117,21 @@ int itkEuclideanDistancePointSetMetricRegistrationTestRun(
   metric->Initialize();
 
   // scales estimator
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< TMetric > RegistrationParameterScalesFromShiftType;
+  using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift< TMetric >;
   typename RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric( metric );
   // needed with pointset metrics
   shiftScaleEstimator->SetVirtualDomainPointSet( metric->GetVirtualTransformedPointSet() );
 
   // optimizer
-  typedef itk::GradientDescentOptimizerv4  OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizerv4;
   typename OptimizerType::Pointer  optimizer = OptimizerType::New();
   optimizer->SetMetric( metric );
   optimizer->SetNumberOfIterations( numberOfIterations );
   optimizer->SetScalesEstimator( shiftScaleEstimator );
   optimizer->SetMaximumStepSizeInPhysicalUnits( maximumPhysicalStepSize );
 
-  typedef itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType> CommandType;
+  using CommandType = itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType>;
   typename CommandType::Pointer observer = CommandType::New();
   //optimizer->AddObserver( itk::IterationEvent(), observer );
 
@@ -217,12 +217,12 @@ int itkEuclideanDistancePointSetMetricRegistrationTest( int argc, char *argv[] )
   //
 
   // metric
-  typedef itk::PointSet<unsigned char, Dimension> PointSetType;
-  typedef itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetType = itk::PointSet<unsigned char, Dimension>;
+  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
 
   // transform
-  typedef itk::AffineTransform<double, Dimension> AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<double, Dimension>;
   AffineTransformType::Pointer affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
   std::cout << "XX Test with affine transform: " << std::endl;
@@ -238,15 +238,15 @@ int itkEuclideanDistancePointSetMetricRegistrationTest( int argc, char *argv[] )
   //Displacement field transform
   //
 
-  typedef itk::DisplacementFieldTransform<double, Dimension> DisplacementFieldTransformType;
+  using DisplacementFieldTransformType = itk::DisplacementFieldTransform<double, Dimension>;
   DisplacementFieldTransformType::Pointer displacementTransform = DisplacementFieldTransformType::New();
 
   // Setup the physical space to match the point set virtual domain,
   // which is defined by the fixed point set since the fixed transform
   // is identity.
-  typedef DisplacementFieldTransformType::DisplacementFieldType FieldType;
-  typedef FieldType::RegionType                                 RegionType;
-  typedef DisplacementFieldTransformType::ScalarType            RealType;
+  using FieldType = DisplacementFieldTransformType::DisplacementFieldType;
+  using RegionType = FieldType::RegionType;
+  using RealType = DisplacementFieldTransformType::ScalarType;
 
   FieldType::SpacingType spacing;
   spacing.Fill( static_cast<RealType>( 1.0 ) );
@@ -283,7 +283,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTest( int argc, char *argv[] )
   displacementTransform->SetDisplacementField( displacementField );
 
   // metric
-  typedef itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   PointSetMetricType::Pointer metric2 = PointSetMetricType::New();
   //If we don't set the virtual domain when using a displacement field transform, the
   // metric takes it from the transform during initialization.

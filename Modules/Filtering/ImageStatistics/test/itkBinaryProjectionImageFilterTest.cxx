@@ -35,16 +35,16 @@ int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
 
   const int dim = 3;
 
-  typedef unsigned char                PixelType;
-  typedef itk::Image< PixelType, dim > ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, dim >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   // produce an image with 3 labels: 0 (background), 100 and 200
 
-  typedef itk::ThresholdLabelerImageFilter< ImageType, ImageType > LabelerType;
+  using LabelerType = itk::ThresholdLabelerImageFilter< ImageType, ImageType >;
   LabelerType::Pointer labeler = LabelerType::New();
   labeler->SetInput( reader->GetOutput() );
   LabelerType::RealThresholdVector thresholds;
@@ -52,13 +52,13 @@ int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
   thresholds.push_back( 200 );
   labeler->SetRealThresholds( thresholds );
 
-  typedef itk::ChangeLabelImageFilter< ImageType, ImageType > ChangeType;
+  using ChangeType = itk::ChangeLabelImageFilter< ImageType, ImageType >;
   ChangeType::Pointer change = ChangeType::New();
   change->SetInput( labeler->GetOutput() );
   change->SetChange( 1, 100 );
   change->SetChange( 2, 200 );
 
-  typedef itk::BinaryProjectionImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::BinaryProjectionImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( change->GetOutput() );
 
@@ -87,7 +87,7 @@ int itkBinaryProjectionImageFilterTest(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );

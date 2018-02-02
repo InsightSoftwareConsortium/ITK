@@ -55,15 +55,15 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Convenient typedefs for simplifying declarations. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  /** Convenient type alias for simplifying declarations. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
-  /** Standard class typedefs. */
-  typedef MeanImageFilter                                   Self;
-  typedef BoxImageFilter< InputImageType, OutputImageType > Superclass;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MeanImageFilter;
+  using Superclass = BoxImageFilter< InputImageType, OutputImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -71,15 +71,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeanImageFilter, BoxImageFilter);
 
-  /** Image typedef support. */
-  typedef typename InputImageType::PixelType                 InputPixelType;
-  typedef typename OutputImageType::PixelType                OutputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType InputRealType;
+  /** Image type alias support */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using InputRealType = typename NumericTraits< InputPixelType >::RealType;
 
-  typedef typename InputImageType::RegionType  InputImageRegionType;
-  typedef typename OutputImageType::RegionType OutputImageRegionType;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
-  typedef typename InputImageType::SizeType InputSizeType;
+  using InputSizeType = typename InputImageType::SizeType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

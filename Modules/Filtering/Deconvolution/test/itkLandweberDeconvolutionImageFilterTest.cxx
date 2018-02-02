@@ -35,11 +35,11 @@ int itkLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  typedef float                              PixelType;
+  using PixelType = float;
   const unsigned int                         Dimension = 2;
-  typedef itk::Image< PixelType, Dimension > ImageType;
-  typedef itk::ImageFileReader< ImageType >  ReaderType;
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer inputReader = ReaderType::New();
   inputReader->SetFileName( argv[1] );
@@ -50,14 +50,14 @@ int itkLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
   kernelReader->Update();
 
   // Generate a convolution of the input image with the kernel image
-  typedef itk::FFTConvolutionImageFilter< ImageType > ConvolutionFilterType;
+  using ConvolutionFilterType = itk::FFTConvolutionImageFilter< ImageType >;
   ConvolutionFilterType::Pointer convolutionFilter = ConvolutionFilterType::New();
   convolutionFilter->SetInput( inputReader->GetOutput() );
   convolutionFilter->NormalizeOn();
   convolutionFilter->SetKernelImage( kernelReader->GetOutput() );
 
   // Test the deconvolution algorithm
-  typedef itk::LandweberDeconvolutionImageFilter< ImageType > DeconvolutionFilterType;
+  using DeconvolutionFilterType = itk::LandweberDeconvolutionImageFilter< ImageType >;
   DeconvolutionFilterType::Pointer deconvolutionFilter = DeconvolutionFilterType::New();
   deconvolutionFilter->SetInput( convolutionFilter->GetOutput() );
   deconvolutionFilter->SetKernelImage( kernelReader->GetOutput() );
@@ -73,7 +73,7 @@ int itkLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
   deconvolutionFilter->SetNumberOfIterations( iterations );
 
   // Add an observer to report on filter iteration progress
-  typedef itk::DeconvolutionIterationCommand< DeconvolutionFilterType > IterationCommandType;
+  using IterationCommandType = itk::DeconvolutionIterationCommand< DeconvolutionFilterType >;
   IterationCommandType::Pointer observer = IterationCommandType::New();
   deconvolutionFilter->AddObserver( itk::IterationEvent(), observer );
 
@@ -103,14 +103,14 @@ int itkLandweberDeconvolutionImageFilterTest(int argc, char* argv[])
   deconvolutionFilter->Print( std::cout );
 
   // Instantiate types with non-default template parameters
-  typedef itk::Image< float, Dimension >  FloatImageType;
-  typedef itk::Image< double, Dimension > DoubleImageType;
-  typedef itk::Image< int, Dimension >    IntImageType;
+  using FloatImageType = itk::Image< float, Dimension >;
+  using DoubleImageType = itk::Image< double, Dimension >;
+  using IntImageType = itk::Image< int, Dimension >;
 
-  typedef itk::LandweberDeconvolutionImageFilter< FloatImageType,
+  using FilterType = itk::LandweberDeconvolutionImageFilter< FloatImageType,
                                                   DoubleImageType,
                                                   IntImageType,
-                                                  float > FilterType;
+                                                  float >;
   FilterType::Pointer filter = FilterType::New();
   filter->Print( std::cout );
 

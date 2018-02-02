@@ -63,15 +63,15 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef float                                     PixelType;
+  using PixelType = float;
   const unsigned int                                ImageDimension = 2;
 
-  typedef itk::Image<PixelType,ImageDimension>      ImageType;
-  typedef itk::Vector<float,ImageDimension>         VectorType;
-  typedef itk::Image<VectorType,ImageDimension>     FieldType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using VectorType = itk::Vector<float,ImageDimension>;
+  using FieldType = itk::Image<VectorType,ImageDimension>;
 
-  typedef itk::ImageFileReader< ImageType >         ReaderType;
-  typedef itk::ImageFileWriter< ImageType >         WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer  fixedReader  = ReaderType::New();
   ReaderType::Pointer  movingReader = ReaderType::New();
@@ -97,8 +97,8 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
-  typedef itk::DiffeomorphicDemonsRegistrationFilter<
-    ImageType,ImageType,FieldType>                      RegistrationType;
+  using RegistrationType = itk::DiffeomorphicDemonsRegistrationFilter<
+    ImageType,ImageType,FieldType>;
 
   RegistrationType::Pointer registrator = RegistrationType::New();
 
@@ -121,7 +121,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
 
   const int gradientType = atoi( argv[1] );
 
-  typedef RegistrationType::DemonsRegistrationFunctionType FunctionType;
+  using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
 
   switch( gradientType )
     {
@@ -174,7 +174,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
     }
   registrator->SetStandardDeviations( v );
 
-  typedef ShowProgressObject<RegistrationType> ProgressType;
+  using ProgressType = ShowProgressObject<RegistrationType>;
   ProgressType progressWatch(registrator);
   itk::SimpleMemberCommand<ProgressType>::Pointer command;
   command = itk::SimpleMemberCommand<ProgressType>::New();
@@ -183,12 +183,12 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
   registrator->AddObserver( itk::ProgressEvent(), command);
 
   // warp moving image
-  typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
+  using WarperType = itk::WarpImageFilter<ImageType,ImageType,FieldType>;
   WarperType::Pointer warper = WarperType::New();
 
-  typedef WarperType::CoordRepType CoordRepType;
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
-    InterpolatorType;
+  using CoordRepType = WarperType::CoordRepType;
+  using InterpolatorType =
+      itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   const ImageType * fixed  = fixedReader->GetOutput();

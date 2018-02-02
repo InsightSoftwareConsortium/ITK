@@ -83,20 +83,19 @@ class ITK_TEMPLATE_EXPORT HDF5TransformIOTemplate:public TransformIOBaseTemplate
 private HDF5CommonPathNames
 {
 public:
-  typedef HDF5TransformIOTemplate                          Self;
-  typedef TransformIOBaseTemplate<TParametersValueType>    Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef typename Superclass::TransformType               TransformType;
-  typedef typename Superclass::TransformPointer            TransformPointer;
-  typedef typename Superclass::TransformListType           TransformListType;
-  typedef typename TransformType::ParametersType           ParametersType;
-  typedef typename TransformType::ParametersValueType      ParametersValueType;
-  typedef typename TransformType::FixedParametersType      FixedParametersType;
-  typedef typename TransformType::FixedParametersValueType FixedParametersValueType;
+  using Self = HDF5TransformIOTemplate;
+  using Superclass = TransformIOBaseTemplate<TParametersValueType>;
+  using Pointer = SmartPointer<Self>;
+  using TransformType = typename Superclass::TransformType;
+  using TransformPointer = typename Superclass::TransformPointer;
+  using TransformListType = typename Superclass::TransformListType;
+  using ParametersType = typename TransformType::ParametersType;
+  using ParametersValueType = typename TransformType::ParametersValueType;
+  using FixedParametersType = typename TransformType::FixedParametersType;
+  using FixedParametersValueType = typename TransformType::FixedParametersValueType;
 
-  typedef typename TransformIOBaseTemplate
-                      <ParametersValueType>::ConstTransformListType
-                                                                ConstTransformListType;
+  using ConstTransformListType = typename TransformIOBaseTemplate
+                      <ParametersValueType>::ConstTransformListType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( HDF5TransformIOTemplate, TransformIOBaseTemplate );
@@ -144,7 +143,7 @@ private:
 const std::string ITKIOTransformHDF5_EXPORT GetTransformName(int);
 
 /** This helps to meet backward compatibility */
-typedef HDF5TransformIOTemplate<double> HDF5TransformIO;
+using HDF5TransformIO = HDF5TransformIOTemplate<double>;
 
 } // end namespace itk
 

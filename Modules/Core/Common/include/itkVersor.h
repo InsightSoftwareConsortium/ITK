@@ -50,33 +50,33 @@ template< typename T >
 class ITK_TEMPLATE_EXPORT Versor
 {
 public:
-  /** Standard class typedefs. */
-  typedef Versor Self;
+  /** Standard class type aliases. */
+  using Self = Versor;
 
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in a Versor.   */
-  typedef T ValueType;
+  using ValueType = T;
 
   /** Type used for computations on the versor components */
-  typedef typename NumericTraits< ValueType >::RealType RealType;
+  using RealType = typename NumericTraits< ValueType >::RealType;
 
   /** Vector type used to represent the axis. */
-  typedef  Vector< T, 3 > VectorType;
+  using VectorType = Vector< T, 3 >;
 
   /** Point type.  */
-  typedef  Point< T, 3 > PointType;
+  using PointType = Point< T, 3 >;
 
   /** CovariantVector type.  */
-  typedef  CovariantVector< T, 3 > CovariantVectorType;
+  using CovariantVectorType = CovariantVector< T, 3 >;
 
   /** Vnl Vector type.  */
-  typedef  vnl_vector_fixed< T, 3 > VnlVectorType;
+  using VnlVectorType = vnl_vector_fixed< T, 3 >;
 
   /** Vnl Quaternion type.  */
-  typedef  vnl_quaternion< T > VnlQuaternionType;
+  using VnlQuaternionType = vnl_quaternion< T >;
 
   /** Type of the rotation matrix equivalent to the Versor */
-  typedef  Matrix< T, 3, 3 > MatrixType;
+  using MatrixType = Matrix< T, 3, 3 >;
 
   /** Get a vnl_quaternion with a copy of the internal memory block. */
   vnl_quaternion< T > GetVnlQuaternion() const;

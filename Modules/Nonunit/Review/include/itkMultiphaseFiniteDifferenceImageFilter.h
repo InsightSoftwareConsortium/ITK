@@ -166,11 +166,11 @@ class ITK_TEMPLATE_EXPORT MultiphaseFiniteDifferenceImageFilter:
   public InPlaceImageFilter< TFeatureImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MultiphaseFiniteDifferenceImageFilter             Self;
-  typedef InPlaceImageFilter< TFeatureImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                              Pointer;
-  typedef SmartPointer< const Self >                        ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MultiphaseFiniteDifferenceImageFilter;
+  using Superclass = InPlaceImageFilter< TFeatureImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(MultiphaseFiniteDifferenceImageFilter, InPlaceImageFilter);
@@ -179,55 +179,55 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
   /** Input and output image types. */
-  typedef TInputImage                               InputImageType;
-  typedef typename InputImageType::Pointer          InputImagePointer;
-  typedef typename InputImageType::PointType        InputPointType;
-  typedef typename InputPointType::CoordRepType     InputCoordRepType;
-  typedef typename InputImageType::IndexType        InputIndexType;
-  typedef typename InputIndexType::IndexValueType   InputIndexValueType;
-  typedef typename InputImageType::SizeType         InputSizeType;
-  typedef typename InputSizeType::SizeValueType     InputSizeValueType;
-  typedef typename InputImageType::RegionType       InputRegionType;
-  typedef typename InputImageType::PixelType        InputPixelType;
-  typedef typename InputImageType::SpacingType      InputSpacingType;
-  typedef typename InputImageType::OffsetValueType  InputOffsetValueType;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputPointType = typename InputImageType::PointType;
+  using InputCoordRepType = typename InputPointType::CoordRepType;
+  using InputIndexType = typename InputImageType::IndexType;
+  using InputIndexValueType = typename InputIndexType::IndexValueType;
+  using InputSizeType = typename InputImageType::SizeType;
+  using InputSizeValueType = typename InputSizeType::SizeValueType;
+  using InputRegionType = typename InputImageType::RegionType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using InputSpacingType = typename InputImageType::SpacingType;
+  using InputOffsetValueType = typename InputImageType::OffsetValueType;
 
-  typedef TFeatureImage                          FeatureImageType;
-  typedef typename FeatureImageType::Pointer     FeatureImagePointer;
-  typedef typename FeatureImageType::RegionType  FeatureRegionType;
-  typedef typename FeatureImageType::SizeType    FeatureSizeType;
-  typedef typename FeatureImageType::SpacingType FeatureSpacingType;
-  typedef typename FeatureImageType::PointType   FeaturePointType;
-  typedef typename FeatureImageType::PixelType   FeaturePixelType;
+  using FeatureImageType = TFeatureImage;
+  using FeatureImagePointer = typename FeatureImageType::Pointer;
+  using FeatureRegionType = typename FeatureImageType::RegionType;
+  using FeatureSizeType = typename FeatureImageType::SizeType;
+  using FeatureSpacingType = typename FeatureImageType::SpacingType;
+  using FeaturePointType = typename FeatureImageType::PointType;
+  using FeaturePixelType = typename FeatureImageType::PixelType;
 
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::PixelType      OutputPixelType;
-  typedef typename OutputImageType::RegionType     OutputRegionType;
-  typedef typename OutputImageType::SizeType       OutputSizeType;
-  typedef typename OutputImageType::SizeValueType  OutputSizeValueType;
-  typedef typename OutputImageType::IndexType      OutputIndexType;
-  typedef typename OutputImageType::IndexValueType OutputIndexValueType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputRegionType = typename OutputImageType::RegionType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using OutputSizeValueType = typename OutputImageType::SizeValueType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using OutputIndexValueType = typename OutputImageType::IndexValueType;
 
-  typedef TIdCell                   IdCellType;
-  typedef std::vector< IdCellType > VectorIdCellType;
+  using IdCellType = TIdCell;
+  using VectorIdCellType = std::vector< IdCellType >;
 
   /** The value type of the time step.  This is distinct from PixelType
    * because PixelType may often be a vector value, while the TimeStep is
    * a scalar value. */
-  typedef TFiniteDifferenceFunction                           FiniteDifferenceFunctionType;
-  typedef typename FiniteDifferenceFunctionType::Pointer      FiniteDifferenceFunctionPointer;
-  typedef typename FiniteDifferenceFunctionType::TimeStepType TimeStepType;
-  typedef typename std::vector< TimeStepType >                TimeStepVectorType;
-  typedef typename FiniteDifferenceFunctionType::RadiusType   RadiusType;
+  using FiniteDifferenceFunctionType = TFiniteDifferenceFunction;
+  using FiniteDifferenceFunctionPointer = typename FiniteDifferenceFunctionType::Pointer;
+  using TimeStepType = typename FiniteDifferenceFunctionType::TimeStepType;
+  using TimeStepVectorType = typename std::vector< TimeStepType >;
+  using RadiusType = typename FiniteDifferenceFunctionType::RadiusType;
 
-  typedef Vector< float, itkGetStaticConstMacro(ImageDimension) >
-  CentroidVectorType;
-  typedef Statistics::ListSample< CentroidVectorType > SampleType;
-  typedef Statistics::KdTreeGenerator< SampleType >    KdTreeGeneratorType;
-  typedef typename KdTreeGeneratorType::Pointer        KdTreeGeneratorPointer;
-  typedef typename KdTreeGeneratorType::KdTreeType     KdTreeType;
-  typedef typename KdTreeType::Pointer                 KdTreePointer;
+  using CentroidVectorType =
+      Vector< float, itkGetStaticConstMacro(ImageDimension) >;
+  using SampleType = Statistics::ListSample< CentroidVectorType >;
+  using KdTreeGeneratorType = Statistics::KdTreeGenerator< SampleType >;
+  using KdTreeGeneratorPointer = typename KdTreeGeneratorType::Pointer;
+  using KdTreeType = typename KdTreeGeneratorType::KdTreeType;
+  using KdTreePointer = typename KdTreeType::Pointer;
 
   /** This method returns a pointer to a FiniteDifferenceFunction object that
    * will be used by the filter to calculate updates at image pixels.
@@ -365,7 +365,7 @@ public:
 
     IdCellType k = 1;
 
-    typedef typename std::vector< IdCellType >::iterator VectorIteratorType;
+    using VectorIteratorType = typename std::vector< IdCellType >::iterator;
 
     VectorIteratorType it = this->m_Lookup.begin();
 

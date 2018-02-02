@@ -71,7 +71,7 @@ public:
 class RandomPermutation
 {
 public:
-  typedef Statistics::MersenneTwisterRandomVariateGenerator::Pointer GeneratorPointer;
+  using GeneratorPointer = typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer;
   NodeOfPermutation *m_Permutation;
   GeneratorPointer   m_Generator;
   SizeValueType      m_Size;
@@ -215,24 +215,24 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageRandomNonRepeatingConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageRandomNonRepeatingConstIteratorWithIndex Self;
-  typedef ImageConstIteratorWithIndex< TImage >         Superclass;
+  /** Standard class type aliases. */
+  using Self = ImageRandomNonRepeatingConstIteratorWithIndex;
+  using Superclass = ImageConstIteratorWithIndex< TImage >;
 
   /** Inherit types from the superclass */
-  typedef typename Superclass::IndexType             IndexType;
-  typedef typename Superclass::SizeType              SizeType;
-  typedef typename Superclass::OffsetType            OffsetType;
-  typedef typename Superclass::RegionType            RegionType;
-  typedef typename Superclass::ImageType             ImageType;
-  typedef typename Superclass::PixelContainer        PixelContainer;
-  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
-  typedef typename Superclass::InternalPixelType     InternalPixelType;
-  typedef typename Superclass::PixelType             PixelType;
-  typedef typename Superclass::AccessorType          AccessorType;
-  typedef typename Superclass::IndexValueType        IndexValueType;
-  typedef typename Superclass::OffsetValueType       OffsetValueType;
-  typedef typename Superclass::SizeValueType         SizeValueType;
+  using IndexType = typename Superclass::IndexType;
+  using SizeType = typename Superclass::SizeType;
+  using OffsetType = typename Superclass::OffsetType;
+  using RegionType = typename Superclass::RegionType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelContainer = typename Superclass::PixelContainer;
+  using PixelContainerPointer = typename Superclass::PixelContainerPointer;
+  using InternalPixelType = typename Superclass::InternalPixelType;
+  using PixelType = typename Superclass::PixelType;
+  using AccessorType = typename Superclass::AccessorType;
+  using IndexValueType = typename Superclass::IndexValueType;
+  using OffsetValueType = typename Superclass::OffsetValueType;
+  using SizeValueType = typename Superclass::SizeValueType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomNonRepeatingConstIteratorWithIndex();
@@ -291,7 +291,7 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
 
   /** Image with priorities */
-  typedef itk::Image< SizeValueType, itkGetStaticConstMacro(ImageDimension) > PriorityImageType;
+  using PriorityImageType = itk::Image< SizeValueType, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Set the priority image.  The priority image controls the order
       of the random selection.  Pixels of the same priority will be

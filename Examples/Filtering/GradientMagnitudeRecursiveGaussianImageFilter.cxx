@@ -95,8 +95,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef    float    InputPixelType;
-  typedef    float    OutputPixelType;
+  using InputPixelType = float;
+  using OutputPixelType = float;
   // Software Guide : EndCodeSnippet
 
 
@@ -107,12 +107,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< InputPixelType,  2 >   InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  2 >;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
 
   //  Software Guide : BeginLatex
@@ -125,8 +125,8 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::GradientMagnitudeRecursiveGaussianImageFilter<
-                        InputImageType, OutputImageType >  FilterType;
+  using FilterType = itk::GradientMagnitudeRecursiveGaussianImageFilter<
+                        InputImageType, OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -201,18 +201,18 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
 
-  typedef unsigned char                   WritePixelType;
-  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  using WritePixelType = unsigned char;
+  using WriteImageType = itk::Image< WritePixelType, 2 >;
 
-  typedef itk::RescaleIntensityImageFilter<
-                   OutputImageType, WriteImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
+                   OutputImageType, WriteImageType >;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
 
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

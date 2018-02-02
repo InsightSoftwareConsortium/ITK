@@ -37,11 +37,11 @@ int itkVTKImageIOTest2(int argc, char* argv[] )
 
   // Testing to write images of vectors as VTK images.
 
-  typedef float                                            PixelComponentType;
-  typedef itk::Vector< PixelComponentType, Dimension >     PixelType;
-  typedef itk::Image< PixelType, Dimension >               ImageType;
-  typedef itk::ImageFileReader< ImageType >                ReaderType;
-  typedef itk::ImageFileWriter< ImageType >                WriterType;
+  using PixelComponentType = float;
+  using PixelType = itk::Vector< PixelComponentType, Dimension >;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();

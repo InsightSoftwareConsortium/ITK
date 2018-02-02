@@ -26,7 +26,7 @@ int HilbertPathTestHelper( unsigned int maxHilbertPathOder )
 {
   int testStatus = EXIT_SUCCESS;
 
-  typedef typename PathType::IndexType IndexType;
+  using IndexType = typename PathType::IndexType;
 
   typename PathType::Pointer path = PathType::New();
 
@@ -80,7 +80,7 @@ int HilbertPathTestHelper( unsigned int maxHilbertPathOder )
 
 int itkHilbertPathTest( int, char*[] )
 {
-  typedef unsigned int IndexValueType;
+  using IndexValueType = unsigned int;
 
   int testStatus = EXIT_SUCCESS;
 
@@ -88,7 +88,7 @@ int itkHilbertPathTest( int, char*[] )
   const unsigned int maxHilbertPathOder = 5;
 
   // Test dimension = 2
-  typedef itk::HilbertPath< IndexValueType, 2 > HilbertPathType2D;
+  using HilbertPathType2D = itk::HilbertPath< IndexValueType, 2 >;
   HilbertPathType2D::Pointer path2D = HilbertPathType2D::New();
 
   // Exercise basic object methods
@@ -99,7 +99,7 @@ int itkHilbertPathTest( int, char*[] )
   testStatus = HilbertPathTestHelper< HilbertPathType2D >( maxHilbertPathOder );
 
   // Test dimension = 3
-  typedef itk::HilbertPath< IndexValueType, 3 > HilbertPathType3D;
+  using HilbertPathType3D = itk::HilbertPath< IndexValueType, 3 >;
   HilbertPathType3D::Pointer path3D = HilbertPathType3D::New();
 
   // Exercise basic object methods
@@ -110,7 +110,7 @@ int itkHilbertPathTest( int, char*[] )
   testStatus = HilbertPathTestHelper< HilbertPathType3D >( maxHilbertPathOder );
 
   // Test dimension = 4
-  typedef itk::HilbertPath< IndexValueType, 4 > HilbertPathType4D;
+  using HilbertPathType4D = itk::HilbertPath< IndexValueType, 4 >;
   HilbertPathType4D::Pointer path4D = HilbertPathType4D::New();
 
   // Exercise basic object methods

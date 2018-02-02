@@ -35,11 +35,11 @@ int itkNormalizedCorrelationImageFilterTest(int ac, char* av[] )
     }
 
   const unsigned int Dimension = 2;
-  typedef unsigned char PixelType;
-  typedef float         CorrelationPixelType;
+  using PixelType = unsigned char;
+  using CorrelationPixelType = float;
 
-  typedef itk::Image<PixelType, Dimension>            InputImageType;
-  typedef itk::Image<CorrelationPixelType, Dimension> CorrelationImageType;
+  using InputImageType = itk::Image<PixelType, Dimension>;
+  using CorrelationImageType = itk::Image<CorrelationPixelType, Dimension>;
 
   itk::ImageFileReader<InputImageType>::Pointer input
     = itk::ImageFileReader<InputImageType>::New();
@@ -47,7 +47,7 @@ int itkNormalizedCorrelationImageFilterTest(int ac, char* av[] )
   input->Update();
 
   // define an operator
-  typedef itk::AnnulusOperator<CorrelationPixelType, Dimension> AnnulusType;
+  using AnnulusType = itk::AnnulusOperator<CorrelationPixelType, Dimension>;
   AnnulusType annulus;
   annulus.SetInnerRadius( 5 );
   annulus.SetThickness( 2 );
@@ -61,21 +61,21 @@ int itkNormalizedCorrelationImageFilterTest(int ac, char* av[] )
   mask->SetFileName(av[2]);
 
   // resample the mask to be the size of the input
-  typedef itk::NearestNeighborInterpolateImageFunction<InputImageType> InterpolatorType;
+  using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<InputImageType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   if( interpolator.IsNull() )
     {
     return EXIT_FAILURE;
     }
 
-  typedef itk::ResampleImageFilter<InputImageType, InputImageType> ResampleType;
+  using ResampleType = itk::ResampleImageFilter<InputImageType, InputImageType>;
   ResampleType::Pointer resample = ResampleType::New();
   resample->SetInput(mask->GetOutput());
   resample->SetOutputParametersFromImage( input->GetOutput() );
 
 
   // Create a filter
-  typedef itk::NormalizedCorrelationImageFilter<InputImageType, InputImageType, CorrelationImageType> FilterType;
+  using FilterType = itk::NormalizedCorrelationImageFilter<InputImageType, InputImageType, CorrelationImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   itk::SimpleFilterWatcher watcher(filter, "Normalized correlation");
@@ -85,7 +85,7 @@ int itkNormalizedCorrelationImageFilterTest(int ac, char* av[] )
   filter->SetMaskImage( resample->GetOutput() );
 
 
-  typedef itk::BinaryThresholdImageFilter<CorrelationImageType, InputImageType> ThresholdType;
+  using ThresholdType = itk::BinaryThresholdImageFilter<CorrelationImageType, InputImageType>;
   ThresholdType::Pointer threshold = ThresholdType::New();
   threshold->SetInput( filter->GetOutput() );
   threshold->SetLowerThreshold( 0.1 );

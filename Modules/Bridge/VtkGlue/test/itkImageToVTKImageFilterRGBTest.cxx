@@ -35,15 +35,15 @@ int itkImageToVTKImageFilterRGBTest(int argc, char *argv[])
   const char * inputFileName = argv[1];
 
   const unsigned int Dimension = 2;
-  typedef unsigned char                       PixelComponentType;
-  typedef itk::RGBPixel< PixelComponentType > PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelComponentType = unsigned char;
+  using PixelType = itk::RGBPixel< PixelComponentType >;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFileName );
 
-  typedef itk::ImageToVTKImageFilter< ImageType > ConnectorType;
+  using ConnectorType = itk::ImageToVTKImageFilter< ImageType >;
   ConnectorType::Pointer connector = ConnectorType::New();
   connector->SetInput( reader->GetOutput() );
 

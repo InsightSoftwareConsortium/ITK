@@ -28,8 +28,8 @@ int itkImageFileReaderTest1(int ac, char* av[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<short,2>               ImageNDType;
-  typedef itk::ImageFileReader<ImageNDType> ReaderType;
+  using ImageNDType = itk::Image<short,2>;
+  using ReaderType = itk::ImageFileReader<ImageNDType>;
 
   // Try an empty read
   int status = 1;

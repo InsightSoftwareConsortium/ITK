@@ -21,10 +21,10 @@
 
 int itkAtanRegularizedHeavisideStepFunctionTest1( int, char* [] )
 {
-  typedef double    InputType;
-  typedef double    OutputType;
+  using InputType = double;
+  using OutputType = double;
 
-  typedef itk::AtanRegularizedHeavisideStepFunction< InputType, OutputType >  HeavisideFunctionBaseType;
+  using HeavisideFunctionBaseType = itk::AtanRegularizedHeavisideStepFunction< InputType, OutputType >;
 
   HeavisideFunctionBaseType::Pointer functionBase0 = HeavisideFunctionBaseType::New();
 

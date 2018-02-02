@@ -34,28 +34,28 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionMesh :
 {
 public:
 
-  typedef LevelSetDomainPartitionMesh           Self;
-  typedef LevelSetDomainPartitionBase< TMesh >  Superclass;
-  typedef SmartPointer< Self >                  Pointer;
-  typedef SmartPointer< const Self >            ConstPointer;
+  using Self = LevelSetDomainPartitionMesh;
+  using Superclass = LevelSetDomainPartitionBase< TMesh >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkStaticConstMacro( PointDimension, unsigned int, TMesh::PointDimension);
 
   itkTypeMacro( LevelSetDomainPartitionMesh,
                 LevelSetDomainPartitionBase );
 
-  typedef TMesh                                     MeshType;
-  typedef typename MeshType::Pointer                MeshPointer;
-  typedef typename MeshType::ConstPointer           MeshConstPointer;
-  typedef typename MeshType::PointType              PointType;
-  typedef typename MeshType::PointIdentifierType    PointIdentifierType;
+  using MeshType = TMesh;
+  using MeshPointer = typename MeshType::Pointer;
+  using MeshConstPointer = typename MeshType::ConstPointer;
+  using PointType = typename MeshType::PointType;
+  using PointIdentifierType = typename MeshType::PointIdentifierType;
 
-  typedef typename MeshType::PointsContainerConstPointer  PointsContainerConstPointer;
-  typedef typename MeshType::PointsContainerConstIterator PointsContainerConstIterator;
+  using PointsContainerConstPointer = typename MeshType::PointsContainerConstPointer;
+  using PointsContainerConstIterator = typename MeshType::PointsContainerConstIterator;
 
-  typedef typename Superclass::IdentifierListType IdentifierListType;
+  using IdentifierListType = typename Superclass::IdentifierListType;
 
-  typedef std::map< PointIdentifierType, IdentifierListType > ListMeshType;
+  using ListMeshType = std::map< PointIdentifierType, IdentifierListType >;
 
   itkSetObjectMacro( Mesh, MeshType );
 

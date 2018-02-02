@@ -52,11 +52,11 @@ template <typename THistogram, typename TOutput=double>
 class ITK_TEMPLATE_EXPORT HuangThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
-  /** Standard class typedefs. */
-  typedef HuangThresholdCalculator                          Self;
-  typedef HistogramThresholdCalculator<THistogram, TOutput> Superclass;
-  typedef SmartPointer<Self>                                Pointer;
-  typedef SmartPointer<const Self>                          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = HuangThresholdCalculator;
+  using Superclass = HistogramThresholdCalculator<THistogram, TOutput>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,8 +65,8 @@ public:
   itkTypeMacro(HuangThresholdCalculator, HistogramThresholdCalculator);
 
   /** Type definition for the input image. */
-  typedef THistogram  HistogramType;
-  typedef TOutput     OutputType;
+  using HistogramType = THistogram;
+  using OutputType = TOutput;
 
 protected:
   HuangThresholdCalculator() { m_FirstBin = 0; m_LastBin = 0; m_Size = 0; }
@@ -75,11 +75,11 @@ protected:
 
   void PrintSelf(std::ostream& os, Indent indent) const override;
 
-  typedef typename HistogramType::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
-  typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;
-  typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;
-  typedef typename HistogramType::SizeValueType               SizeValueType;
-  typedef typename HistogramType::MeasurementType             MeasurementType;
+  using TotalAbsoluteFrequencyType = typename HistogramType::TotalAbsoluteFrequencyType;
+  using AbsoluteFrequencyType = typename HistogramType::AbsoluteFrequencyType;
+  using InstanceIdentifier = typename HistogramType::InstanceIdentifier;
+  using SizeValueType = typename HistogramType::SizeValueType;
+  using MeasurementType = typename HistogramType::MeasurementType;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HuangThresholdCalculator);

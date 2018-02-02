@@ -243,7 +243,7 @@ TriangleHelper< TPoint >::ComputeMixedArea(const PointType & iP1,
                                       const PointType & iP2,
                                       const PointType & iP3)
 {
-  typedef TriangleHelper< TPoint > TriangleType;
+  using TriangleType = TriangleHelper< TPoint >;
 
   if ( !TriangleType::IsObtuse(iP1, iP2, iP3) )
     {

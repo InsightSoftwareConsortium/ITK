@@ -79,27 +79,27 @@ class ITK_TEMPLATE_EXPORT SegmentTreeGenerator:public ProcessObject
 {
 public:
   /**  Standard itk smart pointer declarations    */
-  typedef SegmentTreeGenerator       Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = SegmentTreeGenerator;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmentTreeGenerator, ProcessObject);
 
   /** Convenient type definitions */
-  typedef TScalar                    ScalarType;
-  typedef SegmentTable< ScalarType > SegmentTableType;
-  typedef SegmentTree< ScalarType >  SegmentTreeType;
-  typedef EquivalencyTable           EquivalencyTableType;
-  typedef OneWayEquivalencyTable     OneWayEquivalencyTableType;
-  typedef DataObject::Pointer        DataObjectPointer;
+  using ScalarType = TScalar;
+  using SegmentTableType = SegmentTable< ScalarType >;
+  using SegmentTreeType = SegmentTree< ScalarType >;
+  using EquivalencyTableType = EquivalencyTable;
+  using OneWayEquivalencyTableType = OneWayEquivalencyTable;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Typedefs to avoid internal compiler error bug on Microsoft VC++ */
-  typedef typename SegmentTableType::Pointer           SegmentTableTypePointer;
-  typedef typename OneWayEquivalencyTableType::Pointer OneWayEquivalencyTableTypePointer;
-  typedef typename SegmentTreeType::Pointer            SegmentTreeTypePointer;
+  using SegmentTableTypePointer = typename SegmentTableType::Pointer;
+  using OneWayEquivalencyTableTypePointer = typename OneWayEquivalencyTableType::Pointer;
+  using SegmentTreeTypePointer = typename SegmentTreeType::Pointer;
 
   /** Get/Set the input table of segments to process */
   SegmentTableType * GetInputSegmentTable()
@@ -188,7 +188,7 @@ public:
                                  ScalarType);
 
   /** Standard itk::ProcessObject subclass method. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 
@@ -219,8 +219,8 @@ private:
   double m_FloodLevel;
   bool   m_ConsumeInput;
 
-  typedef itksys::hash_map< IdentifierType, bool,
-                            itksys::hash< IdentifierType > >  HashMapType;
+  using HashMapType = itksys::hash_map< IdentifierType, bool,
+                            itksys::hash< IdentifierType > >;
 
   OneWayEquivalencyTableType::Pointer m_MergedSegmentsTable;
 

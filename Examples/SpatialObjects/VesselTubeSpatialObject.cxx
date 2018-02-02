@@ -48,8 +48,8 @@ int main( int , char *[] )
   unsigned int i;
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::VesselTubeSpatialObject<3>            VesselTubeType;
-  typedef itk::VesselTubeSpatialObjectPoint<3>       VesselTubePointType;
+  using VesselTubeType = itk::VesselTubeSpatialObject<3>;
+  using VesselTubePointType = itk::VesselTubeSpatialObjectPoint<3>;
 
   VesselTubeType::Pointer VesselTube = VesselTubeType::New();
 // Software Guide : EndCodeSnippet

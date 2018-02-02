@@ -29,15 +29,15 @@
 #include "opencv2/imgproc/imgproc_c.h" // cvCvtColor, CV_RGB2BGR, ...
 #endif
 
-// ITK typedefs
-typedef unsigned char                                 ScalarPixelType;
-typedef itk::Image<ScalarPixelType, 2>                ScalarFrameType;
-typedef itk::VideoStream< ScalarFrameType >           ScalarVideoStreamType;
-typedef itk::VideoFileReader< ScalarVideoStreamType > scalarReaderType;
-typedef itk::RGBPixel<unsigned char>                  RGBPixelType;
-typedef itk::Image<RGBPixelType, 2>                   RGBFrameType;
-typedef itk::VideoStream< RGBFrameType >              RGBVideoStreamType;
-typedef itk::VideoFileReader< RGBVideoStreamType >    rgbReaderType;
+// ITK type alias
+using ScalarPixelType = unsigned char;
+using ScalarFrameType = itk::Image<ScalarPixelType, 2>;
+using ScalarVideoStreamType = itk::VideoStream< ScalarFrameType >;
+using scalarReaderType = itk::VideoFileReader< ScalarVideoStreamType >;
+using RGBPixelType = itk::RGBPixel<unsigned char>;
+using RGBFrameType = itk::Image<RGBPixelType, 2>;
+using RGBVideoStreamType = itk::VideoStream< RGBFrameType >;
+using rgbReaderType = itk::VideoFileReader< RGBVideoStreamType >;
 
 //
 // Main test
@@ -66,7 +66,7 @@ int itkOpenCVVideoCaptureTest ( int argc, char *argv[] )
   scalarReader->SetFileName(argv[1]);
 
   // Set up OpenCVVideoCapture
-  typedef itk::OpenCVVideoCapture<ScalarVideoStreamType> ScalarCaptureType;
+  using ScalarCaptureType = itk::OpenCVVideoCapture<ScalarVideoStreamType>;
   ScalarCaptureType* scalarCap = new ScalarCaptureType();
   scalarCap->open(scalarReader->GetOutput());
 
@@ -125,7 +125,7 @@ int itkOpenCVVideoCaptureTest ( int argc, char *argv[] )
   rgbReader->SetFileName(argv[1]);
 
   // Set up OpenCVVideoCapture
-  typedef itk::OpenCVVideoCapture<RGBVideoStreamType> RGBCaptureType;
+  using RGBCaptureType = itk::OpenCVVideoCapture<RGBVideoStreamType>;
   RGBCaptureType* rgbCap = new RGBCaptureType();
   rgbCap->open(rgbReader->GetOutput());
 

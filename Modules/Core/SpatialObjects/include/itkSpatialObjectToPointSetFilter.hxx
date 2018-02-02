@@ -82,7 +82,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
   const InputSpatialObjectType *inputObject  = this->GetInput();
   typename OutputPointSetType::Pointer outputPointSet = this->GetOutput();
 
-  typedef typename OutputPointSetType::PointIdentifier  PointIdentifier;
+  using PointIdentifier = typename OutputPointSetType::PointIdentifier;
 
   const PointBasedSpatialObjectType * inputPointSO =
     dynamic_cast< const PointBasedSpatialObjectType * >( inputObject );
@@ -107,7 +107,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
       }
     }
 
-  typedef typename OutputPointSetType::PointDataContainer DataContainer;
+  using DataContainer = typename OutputPointSetType::PointDataContainer;
   outputPointSet->SetPointData( DataContainer::New() );
 
   outputPointSet->GetPoints()->Reserve(numberOfPoints);

@@ -94,7 +94,7 @@ SolverCrankNicolson<VDimension>
   this->m_NMFC = 0; // number of MFC in a system
 
   // Temporary storage for pointers to LoadBCMFC objects
-  typedef std::vector<LoadBCMFC::Pointer> MFCArray;
+  using MFCArray = std::vector<LoadBCMFC::Pointer>;
   MFCArray mfcLoads;
 
   //
@@ -234,7 +234,7 @@ SolverCrankNicolson<VDimension>
 
   this->AssembleF(dim); // assuming assemblef uses index 0 in vector!
 
-  typedef std::map<Element::DegreeOfFreedomIDType, Float> BCTermType;
+  using BCTermType = std::map<Element::DegreeOfFreedomIDType, Float>;
   BCTermType bcterm;
 
   int numLoads = this->m_FEMObject->GetLoadContainer()->Size();

@@ -36,13 +36,13 @@ namespace itk
 class ITKIOMesh_EXPORT FreeSurferAsciiMeshIO:public MeshIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef FreeSurferAsciiMeshIO      Self;
-  typedef MeshIOBase                 Superclass;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef SmartPointer< Self >       Pointer;
+  /** Standard class type aliases. */
+  using Self = FreeSurferAsciiMeshIO;
+  using Superclass = MeshIOBase;
+  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer< Self >;
 
-  typedef Superclass::SizeValueType    SizeValueType;
+  using SizeValueType = Superclass::SizeValueType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -39,7 +39,7 @@ void GenerateImage( typename TImage::Pointer ioImage )
   region.SetIndex( index );
   region.SetSize( size );
 
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   ioImage->SetRegions( region );
   ioImage->Allocate();
@@ -64,20 +64,20 @@ void GenerateImage( typename TImage::Pointer ioImage )
 
 int itkVTKVisualize3DWhitakerLevelSetTest( int , char* [] )
 {
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   const unsigned int Dimension = 3;
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   ImageType::Pointer image = ImageType::New();
   GenerateImage< ImageType >( image );
 
-  typedef double LevelSetOutputType;
+  using LevelSetOutputType = double;
 
-  typedef itk::WhitakerSparseLevelSetImage< LevelSetOutputType, Dimension >
-      LevelSetType;
+  using LevelSetType =
+      itk::WhitakerSparseLevelSetImage< LevelSetOutputType, Dimension >;
 
-  typedef itk::BinaryImageToLevelSetImageAdaptor< ImageType, LevelSetType >
-      BinaryToSparseAdaptorType;
+  using BinaryToSparseAdaptorType =
+      itk::BinaryImageToLevelSetImageAdaptor< ImageType, LevelSetType >;
 
   BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage( image );
@@ -85,8 +85,8 @@ int itkVTKVisualize3DWhitakerLevelSetTest( int , char* [] )
 
   LevelSetType::Pointer levelSet = adaptor->GetModifiableLevelSet();
 
-  typedef itk::VTKVisualizeImageLevelSetIsoValues< ImageType, LevelSetType >
-      VisualizationType;
+  using VisualizationType =
+      itk::VTKVisualizeImageLevelSetIsoValues< ImageType, LevelSetType >;
   VisualizationType::Pointer viewer = VisualizationType::New();
   viewer->SetInputImage( image );
   viewer->SetLevelSet( levelSet );

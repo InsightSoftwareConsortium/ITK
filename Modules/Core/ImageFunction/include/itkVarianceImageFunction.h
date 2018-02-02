@@ -45,13 +45,13 @@ class ITK_TEMPLATE_EXPORT VarianceImageFunction:
                         TCoordRep >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VarianceImageFunction Self;
-  typedef ImageFunction< TInputImage, typename NumericTraits< typename TInputImage::PixelType >::RealType,
-                         TCoordRep > Superclass;
+  /** Standard class type aliases. */
+  using Self = VarianceImageFunction;
+  using Superclass = ImageFunction< TInputImage, typename NumericTraits< typename TInputImage::PixelType >::RealType,
+                         TCoordRep >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VarianceImageFunction, ImageFunction);
@@ -59,28 +59,28 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** InputImageType typedef support. */
-  typedef TInputImage InputImageType;
+  /** InputImageType type alias support */
+  using InputImageType = TInputImage;
 
   /** OutputType typdef support. */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType IndexType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support */
+  using PointType = typename Superclass::PointType;
 
   /** Dimension of the underlying image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);
 
   /** Datatype used for the variance */
-  typedef typename NumericTraits< typename InputImageType::PixelType >::RealType
-  RealType;
+  using RealType = typename NumericTraits<
+                      typename InputImageType::PixelType >::RealType;
 
   /** Evalulate the function at specified index */
   RealType EvaluateAtIndex(const IndexType & index) const override;

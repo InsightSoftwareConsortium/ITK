@@ -53,8 +53,8 @@ static ::itk::TimeStamp::GlobalTimeStampType * initializedGlobalTimeStamp = ::it
 class GlobalTimeStampInitializer
 {
 public:
-  typedef GlobalTimeStampInitializer            Self;
-  typedef ::itk::TimeStamp::GlobalTimeStampType GlobalTimeStampType;
+  using Self = GlobalTimeStampInitializer;
+  using GlobalTimeStampType = ::itk::TimeStamp::GlobalTimeStampType;
 
   GlobalTimeStampInitializer() {}
 

@@ -32,27 +32,27 @@
 #include "itkBSplineUpsampleImageFilter.h"
 #include "itkFilterWatcher.h"
 
-typedef double InputPixelType;
-typedef int    IntInputPixelType;
+using InputPixelType = double;
+using IntInputPixelType = int;
 
 // Set up for 2D Images
 enum { ImageDimension2D = 2 };
 
-typedef itk::Image< InputPixelType, ImageDimension2D > ImageType2D;
-typedef ImageType2D::Pointer                           ImageTypePtr2D;
-typedef ImageType2D::SizeType                          SizeType2D;
-typedef itk::ImageRegionIterator<ImageType2D>          InputIterator;
+using ImageType2D = itk::Image< InputPixelType, ImageDimension2D >;
+using ImageTypePtr2D = ImageType2D::Pointer;
+using SizeType2D = ImageType2D::SizeType;
+using InputIterator = itk::ImageRegionIterator<ImageType2D>;
 
-typedef itk::Image< IntInputPixelType, ImageDimension2D > IntImageType2D;
-typedef IntImageType2D::Pointer                           IntImageTypePtr2D;
-typedef IntImageType2D::SizeType                          IntSizeType2D;
-typedef itk::ImageRegionIterator<IntImageType2D>          IntInputIterator;
+using IntImageType2D = itk::Image< IntInputPixelType, ImageDimension2D >;
+using IntImageTypePtr2D = IntImageType2D::Pointer;
+using IntSizeType2D = IntImageType2D::SizeType;
+using IntInputIterator = itk::ImageRegionIterator<IntImageType2D>;
 
 void set2DData(ImageType2D::Pointer);
 
 void PrintImageData(ImageTypePtr2D imgPtr)
 {
-  typedef itk::ImageLinearIteratorWithIndex<ImageType2D> Iterator;
+  using Iterator = itk::ImageLinearIteratorWithIndex<ImageType2D>;
 
   std::cout << "Size: " << imgPtr->GetLargestPossibleRegion().GetSize() << std::endl;
   int dim = ImageType2D::ImageDimension;
@@ -267,8 +267,8 @@ int test2D_Standard_l2_NthOrderSpline_filter(unsigned int splineOrder)
                               2.784775, 3.223312, 3.663641, 3.751054};
 
   // l2 norm resampler.
-  typedef itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D> DownsamplerType2D;
-  typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D> UpsamplerType2D;
+  using DownsamplerType2D = itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D>;
+  using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D>;
 
   DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
   FilterWatcher downWatcher(downSampler, "test2D_Standard_l2_filter");
@@ -337,9 +337,9 @@ int test2D_Standard_L2_NthOrderSpline_filter(unsigned int splineOrder)
                               2.787102, 3.221627, 3.657944, 3.744552};
 
   // L2 norm resampler.
-  typedef itk::BSplineL2ResampleImageFilterBase<ImageType2D, ImageType2D> ResamplerType;
-  typedef itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> DownsamplerType2D;
-  typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> UpsamplerType2D;
+  using ResamplerType = itk::BSplineL2ResampleImageFilterBase<ImageType2D, ImageType2D>;
+  using DownsamplerType2D = itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D,ResamplerType>;
+  using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType>;
 
   DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
   FilterWatcher downWatcher(downSampler, "test2D_Standard_L2_filter");
@@ -407,9 +407,9 @@ int test2D_Centered_l2_NthOrderSpline_filter(unsigned int splineOrder)
                               1.691146, 3.411135, 3.468862, 3.507621};
 
   // L2 norm resampler.
-  typedef itk::BSplineCenteredResampleImageFilterBase<ImageType2D, ImageType2D> ResamplerType;
-  typedef itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> DownsamplerType2D;
-  typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> UpsamplerType2D;
+  using ResamplerType = itk::BSplineCenteredResampleImageFilterBase<ImageType2D, ImageType2D>;
+  using DownsamplerType2D = itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D,ResamplerType>;
+  using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType>;
 
   DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
   FilterWatcher downWatcher(downSampler, "test2D_Centered_l2_filter");
@@ -480,11 +480,11 @@ int testIntInputDoubleOutput()
                               1.691146, 3.411135, 3.468862, 3.507621};
 
   // L2 norm resampler.
-  typedef itk::BSplineCenteredResampleImageFilterBase<IntImageType2D, ImageType2D> ResamplerType;
-  typedef itk::BSplineDownsampleImageFilter<IntImageType2D,ImageType2D,ResamplerType> DownsamplerType2D;
-  typedef itk::BSplineCenteredResampleImageFilterBase<ImageType2D, ImageType2D> ResamplerType2;
+  using ResamplerType = itk::BSplineCenteredResampleImageFilterBase<IntImageType2D, ImageType2D>;
+  using DownsamplerType2D = itk::BSplineDownsampleImageFilter<IntImageType2D,ImageType2D,ResamplerType>;
+  using ResamplerType2 = itk::BSplineCenteredResampleImageFilterBase<ImageType2D, ImageType2D>;
 
-  typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType2> UpsamplerType2D;
+  using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType2>;
 
   DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
   UpsamplerType2D::Pointer   upSampler =   UpsamplerType2D::New();
@@ -533,9 +533,9 @@ int test2D_Centered_L2_NthOrderSpline_filter(unsigned int splineOrder)
                               1.690034, 3.409774, 3.468826, 3.507932};
 
   // L2 norm resampler.
-  typedef itk::BSplineCenteredL2ResampleImageFilterBase<ImageType2D, ImageType2D> ResamplerType;
-  typedef itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> DownsamplerType2D;
-  typedef itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType> UpsamplerType2D;
+  using ResamplerType = itk::BSplineCenteredL2ResampleImageFilterBase<ImageType2D, ImageType2D>;
+  using DownsamplerType2D = itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D,ResamplerType>;
+  using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType>;
 
   DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
   FilterWatcher downWatcher(downSampler, "test2D_Centered_L2_filter");

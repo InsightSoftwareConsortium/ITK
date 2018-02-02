@@ -33,12 +33,12 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
     }
 
   const     unsigned int    Dimension = 2;
-  typedef   unsigned char   PixelComponentType;
+  using PixelComponentType = unsigned char;
 
-  typedef itk::RGBPixel< PixelComponentType > PixelType;
-  typedef itk::Image< PixelType,  Dimension > ImageType;
+  using PixelType = itk::RGBPixel< PixelComponentType >;
+  using ImageType = itk::Image< PixelType,  Dimension >;
 
-  typedef itk::VectorResampleImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::VectorResampleImageFilter< ImageType, ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -47,15 +47,15 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
 
   FilterWatcher watcher(filter);
 
-  typedef itk::VectorLinearInterpolateImageFunction<
-    ImageType, double > InterpolatorType;
+  using InterpolatorType = itk::VectorLinearInterpolateImageFunction<
+    ImageType, double >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   filter->SetInterpolator( interpolator );
   TEST_SET_GET_VALUE( interpolator, filter->GetInterpolator() );
 
-  typedef itk::IdentityTransform< double, Dimension > TransformType;
+  using TransformType = itk::IdentityTransform< double, Dimension >;
   TransformType::Pointer transform = TransformType::New();
 
   filter->SetTransform( transform );
@@ -147,7 +147,7 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Write an image for regression testing
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput (filter->GetOutput());
   writer->SetFileName( argv[1] );

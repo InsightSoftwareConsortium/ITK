@@ -43,25 +43,25 @@ public:
   /**
    * Standard Self typedef
    */
-  typedef FEMPArray Self;
+  using Self = FEMPArray;
 
   /**
    * Standard Superclass typedef
    */
-  typedef std::vector<FEMP<T> > Superclass;
+  using Superclass = std::vector<FEMP<T> >;
 
   /**
-   * Dumb pointer typedef support.
+   * Dumb pointer type alias support
    */
-  typedef Self *     Pointer;
-  typedef const Self *ConstPointer;
+  using Pointer = Self *;
+  using ConstPointer = const Self *;
 
   /**
    * Easy access to the base class of objects inside the array.
    */
-  typedef T                                ClassType;
-  typedef typename ClassType::Pointer      ClassTypePointer;
-  typedef typename ClassType::ConstPointer ClassTypeConstPointer;
+  using ClassType = T;
+  using ClassTypePointer = typename ClassType::Pointer;
+  using ClassTypeConstPointer = typename ClassType::ConstPointer;
 
   /**
    * Finds and returns a pointer to the object with specific global number
@@ -103,7 +103,7 @@ template <typename T>
 typename FEMPArray<T>::ClassTypePointer
 FEMPArray<T>::Find(int gn)
 {
-  typedef typename Superclass::iterator Iterator;
+  using Iterator = typename Superclass::iterator;
 
   Iterator it   = this->begin();
   Iterator iend = this->end();
@@ -137,7 +137,7 @@ template <typename T>
 typename FEMPArray<T>::ClassTypeConstPointer
 FEMPArray<T>::Find(int gn) const
 {
-  typedef typename Superclass::const_iterator ConstIterator;
+  using ConstIterator = typename Superclass::const_iterator;
 
   ConstIterator it   = this->begin();
   ConstIterator iend = this->end();

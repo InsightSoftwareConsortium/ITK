@@ -25,11 +25,11 @@ namespace DecisionRuleTest {
 class MyDecisionRule : public DecisionRule
 {
 public:
-  /** Standard class typedef. */
-  typedef MyDecisionRule                   Self;
-  typedef DecisionRule                     Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer<const Self>         ConstPointer;
+  /** Standard class type alias. */
+  using Self = MyDecisionRule;
+  using Superclass = DecisionRule;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard macros */
   itkTypeMacro(MyDecisionRule, DecisionRule);
@@ -38,11 +38,11 @@ public:
   itkNewMacro(Self);
 
   /** Types for discriminant values and vectors. */
-  typedef Superclass::MembershipValueType  MembershipValueType;
-  typedef Superclass::MembershipVectorType MembershipVectorType;
+  using MembershipValueType = Superclass::MembershipValueType;
+  using MembershipVectorType = Superclass::MembershipVectorType;
 
   /** Types for class identifiers. */
-  typedef Superclass::ClassIdentifierType ClassIdentifierType;
+  using ClassIdentifierType = Superclass::ClassIdentifierType;
 
   /** Evaluate membership score */
   ClassIdentifierType Evaluate(const MembershipVectorType &scoreVector) const override
@@ -68,9 +68,9 @@ public:
 }
 int itkDecisionRuleTest(int, char* [] )
 {
-  typedef itk::Statistics::DecisionRuleTest::MyDecisionRule DecisionRuleType;
+  using DecisionRuleType = itk::Statistics::DecisionRuleTest::MyDecisionRule;
 
-  typedef DecisionRuleType::MembershipVectorType MembershipVectorType;
+  using MembershipVectorType = DecisionRuleType::MembershipVectorType;
 
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 

@@ -29,17 +29,17 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2( int, char * 
   try
     {
     const unsigned int ImageDimension = 2;
-    typedef unsigned char PixelType;
+    using PixelType = unsigned char;
 
-    typedef itk::Image<PixelType, ImageDimension> ImageType;
-    typedef ImageType::RegionType                 RegionType;
-    typedef ImageType::IndexType                  IndexType;
+    using ImageType = itk::Image<PixelType, ImageDimension>;
+    using RegionType = ImageType::RegionType;
+    using IndexType = ImageType::IndexType;
 
-    typedef itk::BinaryThresholdImageFunction<ImageType> FunctionType;
-    typedef itk::FloodFilledImageFunctionConditionalConstIterator<
-      ImageType, FunctionType> FloodFilledIteratorType;
-    typedef itk::ShapedFloodFilledImageFunctionConditionalConstIterator<
-      ImageType, FunctionType> ShapedFloodFilledIteratorType;
+    using FunctionType = itk::BinaryThresholdImageFunction<ImageType>;
+    using FloodFilledIteratorType = itk::FloodFilledImageFunctionConditionalConstIterator<
+      ImageType, FunctionType>;
+    using ShapedFloodFilledIteratorType = itk::ShapedFloodFilledImageFunctionConditionalConstIterator<
+      ImageType, FunctionType>;
 
     std::vector<IndexType> seedList;
 

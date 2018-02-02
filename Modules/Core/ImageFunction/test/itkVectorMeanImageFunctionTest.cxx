@@ -23,13 +23,13 @@ int itkVectorMeanImageFunctionTest(int, char* [] )
 {
 
   const unsigned int Dimension = 3;
-  typedef unsigned char   PixelComponentType;
+  using PixelComponentType = unsigned char;
   const unsigned int VectorDimension = 4;
 
-  typedef itk::FixedArray< PixelComponentType, VectorDimension > PixelType;
+  using PixelType = itk::FixedArray< PixelComponentType, VectorDimension >;
 
-  typedef itk::Image< PixelType, Dimension >        ImageType;
-  typedef itk::VectorMeanImageFunction< ImageType > FunctionType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using FunctionType = itk::VectorMeanImageFunction< ImageType >;
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();

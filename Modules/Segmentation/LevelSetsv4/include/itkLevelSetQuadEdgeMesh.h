@@ -40,16 +40,16 @@ class ITK_TEMPLATE_EXPORT LevelSetQuadEdgeMesh :
       TMesh >
 {
 public:
-  typedef TMesh                   MeshType;
-  typedef typename TMesh::Pointer MeshPointer;
+  using MeshType = TMesh;
+  using MeshPointer = typename TMesh::Pointer;
 
-  typedef LevelSetQuadEdgeMesh            Self;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
-  typedef LevelSetBase< typename MeshType::PointIdentifier,
+  using Self = LevelSetQuadEdgeMesh;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = LevelSetBase< typename MeshType::PointIdentifier,
     MeshType::PointDimension,
     typename MeshType::PixelType,
-    MeshType                    >         Superclass;
+    MeshType                    >;
 
   /** Method for creation through object factory */
   itkNewMacro ( Self );
@@ -57,12 +57,12 @@ public:
   /** Run-time type information */
   itkTypeMacro ( LevelSetQuadEdgeMesh, LevelSetBase );
 
-  typedef typename Superclass::InputType        InputType;
-  typedef typename Superclass::OutputType       OutputType;
-  typedef typename Superclass::OutputRealType   OutputRealType;
-  typedef typename Superclass::GradientType     GradientType;
-  typedef typename Superclass::HessianType      HessianType;
-  typedef typename Superclass::LevelSetDataType LevelSetDataType;
+  using InputType = typename Superclass::InputType;
+  using OutputType = typename Superclass::OutputType;
+  using OutputRealType = typename Superclass::OutputRealType;
+  using GradientType = typename Superclass::GradientType;
+  using HessianType = typename Superclass::HessianType;
+  using LevelSetDataType = typename Superclass::LevelSetDataType;
 
   itkSetObjectMacro( Mesh, MeshType );
   itkGetModifiableObjectMacro(Mesh, MeshType );

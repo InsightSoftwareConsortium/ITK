@@ -47,11 +47,11 @@ int itkBSplineDeformableTransformTest1()
 
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
-  typedef double CoordinateRepType;
-  typedef itk::BSplineDeformableTransform
-  <CoordinateRepType,SpaceDimension, SplineOrder> TransformType;
+  using CoordinateRepType = double;
+  using TransformType = itk::BSplineDeformableTransform
+  <CoordinateRepType,SpaceDimension, SplineOrder>;
 
-  typedef TransformType::ParametersType ParametersType;
+  using ParametersType = TransformType::ParametersType;
 
   unsigned int j;
 
@@ -59,18 +59,18 @@ int itkBSplineDeformableTransformTest1()
    * Define the deformable grid region, spacing and origin
    */
 
-  typedef TransformType::OriginType OriginType;
+  using OriginType = TransformType::OriginType;
   OriginType origin;
   origin.Fill( 0.0 );
 
-  typedef TransformType::RegionType RegionType;
+  using RegionType = TransformType::RegionType;
   RegionType region;
   RegionType::SizeType   size;
   size.Fill( 10 );
   region.SetSize( size );
   std::cout << region << std::endl;
 
-  typedef TransformType::SpacingType SpacingType;
+  using SpacingType = TransformType::SpacingType;
   SpacingType spacing;
   spacing.Fill( 2.0 );
 
@@ -96,8 +96,8 @@ int itkBSplineDeformableTransformTest1()
    * flat array into N images.
    * Initialize by setting all elements to zero
    */
-  typedef ParametersType::ValueType                   CoefficientType;
-  typedef itk::Image<CoefficientType, SpaceDimension> CoefficientImageType;
+  using CoefficientType = ParametersType::ValueType;
+  using CoefficientImageType = itk::Image<CoefficientType, SpaceDimension>;
 
   CoefficientImageType::Pointer  coeffImage[SpaceDimension];
   unsigned int numberOfControlPoints = region.GetNumberOfPixels();
@@ -134,7 +134,7 @@ int itkBSplineDeformableTransformTest1()
   /**
    * Set a bulk transform
    */
-  typedef itk::VersorRigid3DTransform<CoordinateRepType> BulkTransformType;
+  using BulkTransformType = itk::VersorRigid3DTransform<CoordinateRepType>;
   BulkTransformType::Pointer bulkTransform = BulkTransformType::New();
 
   // optional: set bulk transform parameters
@@ -145,7 +145,7 @@ int itkBSplineDeformableTransformTest1()
   /**
    * Transform some points
    */
-  typedef TransformType::InputPointType PointType;
+  using PointType = TransformType::InputPointType;
 
   PointType inputPoint;
   PointType outputPoint;
@@ -202,8 +202,8 @@ int itkBSplineDeformableTransformTest1()
   transform->SetBulkTransform( nullptr );
 
   // use the other version of TransformPoint
-  typedef TransformType::WeightsType             WeightsType;
-  typedef TransformType::ParameterIndexArrayType IndexArrayType;
+  using WeightsType = TransformType::WeightsType;
+  using IndexArrayType = TransformType::ParameterIndexArrayType;
 
   WeightsType    weights( transform->GetNumberOfWeights() );
   IndexArrayType indices( transform->GetNumberOfWeights() );
@@ -253,7 +253,7 @@ int itkBSplineDeformableTransformTest1()
   /**
    * Compute the Jacobian for various points
    */
-  typedef TransformType::JacobianType JacobianType;
+  using JacobianType = TransformType::JacobianType;
 
 #define PRINT_VALUE(R, C) \
   std::cout << "Jacobian[" #R "," #C "] = "; \
@@ -290,7 +290,7 @@ int itkBSplineDeformableTransformTest1()
    * transform and should throw exceptions
    */
     {
-    typedef TransformType::InputVectorType VectorType;
+    using VectorType = TransformType::InputVectorType;
     VectorType vector;
     vector.Fill( 1.0 );
 
@@ -314,7 +314,7 @@ int itkBSplineDeformableTransformTest1()
     }
 
     {
-    typedef TransformType::InputCovariantVectorType VectorType;
+    using VectorType = TransformType::InputCovariantVectorType;
     VectorType vector;
     vector.Fill( 1.0 );
 
@@ -338,7 +338,7 @@ int itkBSplineDeformableTransformTest1()
     }
 
     {
-    typedef TransformType::InputVnlVectorType VectorType;
+    using VectorType = TransformType::InputVnlVectorType;
     VectorType vector;
     vector.fill( 1.0 );
 
@@ -391,8 +391,8 @@ int itkBSplineDeformableTransformTest1()
   std::cout << transform->GetGridOrigin() << std::endl;
   std::cout << transform->GetValidRegion() << std::endl;
 
-  typedef itk::BSplineDeformableTransform<CoordinateRepType, SpaceDimension, 2>
-  EvenOrderTransformType;
+  using EvenOrderTransformType =
+      itk::BSplineDeformableTransform<CoordinateRepType, SpaceDimension, 2>;
   EvenOrderTransformType::Pointer evenOrderTransform = EvenOrderTransformType::New();
   if( evenOrderTransform.IsNull() )
     {
@@ -457,9 +457,9 @@ int itkBSplineDeformableTransformTest2()
 
   // Set up the transform
   const unsigned int SplineOrder = 3;
-  typedef double CoordRep;
-  typedef itk::BSplineDeformableTransform<CoordRep, Dimension, SplineOrder> TransformType;
-  typedef TransformType::ImageType ImageType;
+  using CoordRep = double;
+  using TransformType = itk::BSplineDeformableTransform<CoordRep, Dimension, SplineOrder>;
+  using ImageType = TransformType::ImageType;
   TransformType::InputPointType  inputPoint;
   TransformType::OutputPointType outputPoint;
 
@@ -586,11 +586,11 @@ int itkBSplineDeformableTransformTest3()
 
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
-  typedef double CoordinateRepType;
-  typedef itk::BSplineDeformableTransform
-  <CoordinateRepType, SpaceDimension, SplineOrder> TransformType;
+  using CoordinateRepType = double;
+  using TransformType = itk::BSplineDeformableTransform
+  <CoordinateRepType, SpaceDimension, SplineOrder>;
 
-  typedef TransformType::ParametersType ParametersType;
+  using ParametersType = TransformType::ParametersType;
 
   unsigned int j;
 
@@ -598,18 +598,18 @@ int itkBSplineDeformableTransformTest3()
    * Define the deformable grid region, spacing and origin
    */
 
-  typedef TransformType::OriginType OriginType;
+  using OriginType = TransformType::OriginType;
   OriginType origin;
   origin.Fill( 0.0 );
 
-  typedef TransformType::RegionType RegionType;
+  using RegionType = TransformType::RegionType;
   RegionType region;
   RegionType::SizeType   size;
   size.Fill( 10 );
   region.SetSize( size );
   std::cout << region << std::endl;
 
-  typedef TransformType::SpacingType SpacingType;
+  using SpacingType = TransformType::SpacingType;
   SpacingType spacing;
   spacing.Fill( 2.0 );
   /**
@@ -633,8 +633,8 @@ int itkBSplineDeformableTransformTest3()
    * flat array into N images.
    * Initialize by setting all elements to zero
    */
-  typedef ParametersType::ValueType                   CoefficientType;
-  typedef itk::Image<CoefficientType, SpaceDimension> CoefficientImageType;
+  using CoefficientType = ParametersType::ValueType;
+  using CoefficientImageType = itk::Image<CoefficientType, SpaceDimension>;
 
   CoefficientImageType::Pointer  coeffImage[SpaceDimension];
   unsigned int numberOfControlPoints = region.GetNumberOfPixels();
@@ -665,7 +665,7 @@ int itkBSplineDeformableTransformTest3()
   /**
    * Transform some points
    */
-  typedef TransformType::InputPointType PointType;
+  using PointType = TransformType::InputPointType;
 
   PointType inputPoint;
   PointType outputPoint;

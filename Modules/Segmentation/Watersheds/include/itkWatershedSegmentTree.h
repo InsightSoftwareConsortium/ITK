@@ -48,13 +48,13 @@ class ITK_TEMPLATE_EXPORT SegmentTree:public DataObject
 {
 public:
   /** Define itk Smart Pointers for this object */
-  typedef SegmentTree                Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = SegmentTree;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
   itkNewMacro(Self);
   itkTypeMacro(WatershedSegmentTree, DataObject);
-  typedef TScalar ScalarType;
+  using ScalarType = TScalar;
 
   /** Elements of the list (nodes of the tree).  A record of a merge
    * between two segments (IdentifierType labels) at a particular
@@ -66,10 +66,10 @@ public:
   };
 
   /** Define the container type used in this list data structure */
-  typedef std::deque< merge_t >              DequeType;
-  typedef typename DequeType::iterator       Iterator;
-  typedef typename DequeType::const_iterator ConstIterator;
-  typedef typename DequeType::value_type     ValueType;
+  using DequeType = std::deque< merge_t >;
+  using Iterator = typename DequeType::iterator;
+  using ConstIterator = typename DequeType::const_iterator;
+  using ValueType = typename DequeType::value_type;
 
   /** Boolean comparison functor for use in sorting functions.  */
   struct merge_comp:public std:: binary_function< bool, const merge_t &,

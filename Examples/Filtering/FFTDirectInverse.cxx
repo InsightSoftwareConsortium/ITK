@@ -54,16 +54,16 @@ int main( int argc, char * argv[] )
 
 // Software Guide : BeginCodeSnippet
   const   unsigned int      Dimension = 2;
-  typedef unsigned short    IOPixelType;
-  typedef float             WorkPixelType;
+  using IOPixelType = unsigned short;
+  using WorkPixelType = float;
 
-  typedef itk::Image< IOPixelType,  Dimension >  IOImageType;
-  typedef itk::Image< WorkPixelType, Dimension > WorkImageType;
+  using IOImageType = itk::Image< IOPixelType,  Dimension >;
+  using WorkImageType = itk::Image< WorkPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
   // File handling
-  typedef itk::ImageFileReader< IOImageType > ReaderType;
-  typedef itk::ImageFileWriter< IOImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< IOImageType >;
+  using WriterType = itk::ImageFileWriter< IOImageType >;
 
   ReaderType::Pointer inputreader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -72,9 +72,9 @@ int main( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
 
   // Handle padding of the image with resampling
-  typedef itk::ResampleImageFilter<
+  using ResamplerType = itk::ResampleImageFilter<
                               IOImageType,
-                              WorkImageType >  ResamplerType;
+                              WorkImageType >;
 
   ResamplerType::Pointer inputresampler = ResamplerType::New();
   inputresampler->SetDefaultPixelValue(0);
@@ -107,20 +107,20 @@ int main( int argc, char * argv[] )
   inputresampler->SetInput( inputreader->GetOutput() );
 
   // Forward FFT filter
-  typedef itk::VnlForwardFFTImageFilter < WorkImageType > FFTFilterType;
+  using FFTFilterType = itk::VnlForwardFFTImageFilter < WorkImageType >;
   FFTFilterType::Pointer fftinput = FFTFilterType::New();
   fftinput->SetInput( inputresampler->GetOutput() );
 
   // This is the output type from the FFT filters
-  typedef FFTFilterType::OutputImageType ComplexImageType;
+  using ComplexImageType = FFTFilterType::OutputImageType;
 
   // Do the inverse transform = forward transform / num voxels
-  typedef itk::VnlInverseFFTImageFilter < ComplexImageType > invFFTFilterType;
+  using invFFTFilterType = itk::VnlInverseFFTImageFilter < ComplexImageType >;
   invFFTFilterType::Pointer fftoutput = invFFTFilterType::New();
   fftoutput->SetInput(fftinput->GetOutput()); // try to recover the input image
 
   // undo the padding
-  typedef itk::ResampleImageFilter<WorkImageType, IOImageType> ResampleOutType;
+  using ResampleOutType = itk::ResampleImageFilter<WorkImageType, IOImageType>;
   ResampleOutType::Pointer outputResampler = ResampleOutType::New();
   outputResampler->SetDefaultPixelValue( 0 );
   outputResampler->SetSize( inputsize );

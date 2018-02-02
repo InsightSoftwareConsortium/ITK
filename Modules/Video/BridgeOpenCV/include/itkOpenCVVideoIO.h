@@ -46,15 +46,15 @@ namespace itk
 class ITKVideoBridgeOpenCV_EXPORT OpenCVVideoIO : public VideoIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef OpenCVVideoIO                  Self;
-  typedef VideoIOBase                    Superclass;
-  typedef SmartPointer< Self >           Pointer;
+  /** Standard class type aliases. */
+  using Self = OpenCVVideoIO;
+  using Superclass = VideoIOBase;
+  using Pointer = SmartPointer< Self >;
 
-  typedef Superclass::TemporalOffsetType TemporalOffsetType;
-  typedef Superclass::FrameOffsetType    FrameOffsetType;
-  typedef Superclass::TemporalRatioType  TemporalRatioType;
-  typedef Superclass::CameraIDType       CameraIDType;
+  using TemporalOffsetType = Superclass::TemporalOffsetType;
+  using FrameOffsetType = Superclass::FrameOffsetType;
+  using TemporalRatioType = Superclass::TemporalRatioType;
+  using CameraIDType = Superclass::CameraIDType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

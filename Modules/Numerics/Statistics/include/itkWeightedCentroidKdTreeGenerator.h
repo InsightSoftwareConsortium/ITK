@@ -67,11 +67,11 @@ class ITK_TEMPLATE_EXPORT WeightedCentroidKdTreeGenerator:
   public KdTreeGenerator< TSample >
 {
 public:
-  /** Standard class typedefs */
-  typedef WeightedCentroidKdTreeGenerator Self;
-  typedef KdTreeGenerator< TSample >      Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard class type aliases */
+  using Self = WeightedCentroidKdTreeGenerator;
+  using Superclass = KdTreeGenerator< TSample >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(WeightedCentroidKdTreeGenerator, KdTreeGenerator);
@@ -79,13 +79,13 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** typedef alias for the source data container */
-  typedef typename Superclass::MeasurementVectorType MeasurementVectorType;
-  typedef typename Superclass::MeasurementType       MeasurementType;
-  typedef typename Superclass::SubsampleType         SubsampleType;
-  typedef typename Superclass::SubsamplePointer      SubsamplePointer;
-  typedef typename Superclass::KdTreeType            KdTreeType;
-  typedef typename Superclass::KdTreeNodeType        KdTreeNodeType;
+  /** type alias alias for the source data container */
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using MeasurementType = typename Superclass::MeasurementType;
+  using SubsampleType = typename Superclass::SubsampleType;
+  using SubsamplePointer = typename Superclass::SubsamplePointer;
+  using KdTreeType = typename Superclass::KdTreeType;
+  using KdTreeNodeType = typename Superclass::KdTreeNodeType;
 
 protected:
   /** Constructor */

@@ -57,10 +57,10 @@ TestImageOfVectors(const std::string &fname)
 {
   const int dimsize = 2;
   /** Deformation field pixel type. */
-  typedef typename itk::Vector<ScalarType,TVecLength> FieldPixelType;
+  using FieldPixelType = typename itk::Vector<ScalarType,TVecLength>;
 
   /** Deformation field type. */
-  typedef typename itk::Image<FieldPixelType,TDimension> VectorImageType;
+  using VectorImageType = typename itk::Image<FieldPixelType,TDimension>;
 
   //
   // swizzle up a random vector image.

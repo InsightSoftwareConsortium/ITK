@@ -73,10 +73,10 @@ template <typename TValue> class VariableLengthVector;
 class ITKIOImageBase_EXPORT ImageIOBase:public LightProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageIOBase          Self;
-  typedef LightProcessObject   Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = ImageIOBase;
+  using Superclass = LightProcessObject;
+  using Pointer = SmartPointer< Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageIOBase, Superclass);
@@ -86,8 +86,8 @@ public:
   itkGetStringMacro(FileName);
 
   /** Types for managing image size and image index components. */
-  typedef ::itk::IndexValueType  IndexValueType;
-  typedef ::itk::SizeValueType   SizeValueType;
+  using IndexValueType = ::itk::IndexValueType;
+  using SizeValueType = ::itk::SizeValueType;
 
   /**
    * \class UnknownType
@@ -290,11 +290,11 @@ public:
   std::string GetByteOrderAsString(ByteOrder) const;
 
   /** Type for representing size of bytes, and or positions along a file */
-  typedef ::itk::intmax_t          SizeType;
+  using SizeType = ::itk::intmax_t;
 
   /** Type for representing size of bytes, and or positions along a memory
     buffer */
-  typedef ::itk::OffsetValueType   BufferSizeType;
+  using BufferSizeType = ::itk::OffsetValueType;
 
   /** Convenient method for accessing the number of bytes to get to
    * the next pixel. Returns m_Strides[1];
@@ -424,7 +424,7 @@ public:
                                                  const ImageIORegion & largestPossibleRegion);
 
   /** Type for the list of strings to be used for extensions.  */
-  typedef  std::vector< std::string > ArrayOfExtensionsType;
+  using ArrayOfExtensionsType = std::vector< std::string >;
 
   /** This method returns an array with the list of filename extensions
    * supported for reading by this ImageIO class. This is intended to

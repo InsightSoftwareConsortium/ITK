@@ -43,24 +43,24 @@ class ITK_TEMPLATE_EXPORT NeighborhoodOperatorImageFunction:
 {
 public:
 
-  /**Standard "Self" typedef */
-  typedef NeighborhoodOperatorImageFunction Self;
+  /**Standard "Self" type alias */
+  using Self = NeighborhoodOperatorImageFunction;
 
-  /** Standard "Superclass" typedef */
-  typedef ImageFunction< TInputImage, TOutput > Superclass;
+  /** Standard "Superclass" type alias */
+  using Superclass = ImageFunction< TInputImage, TOutput >;
 
-  /** Smart pointer typedef support. */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** InputImageType typedef support. */
-  typedef TInputImage                              InputImageType;
-  typedef typename InputImageType::PixelType       InputPixelType;
-  typedef typename Superclass::IndexType           IndexType;
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** InputImageType type alias support */
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
+  using IndexType = typename Superclass::IndexType;
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NeighborhoodOperatorImageFunction, ImageFunction);
@@ -69,10 +69,10 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       InputImageType::ImageDimension);
 
-  typedef Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension) > NeighborhoodType;
+  using NeighborhoodType = Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension) >;
 
-  /** Point typedef support. */
-  typedef typename Superclass::PointType PointType;
+  /** Point type alias support */
+  using PointType = typename Superclass::PointType;
 
   /** Set the input image. */
   //virtual void SetInputImage( InputImageType * ptr );

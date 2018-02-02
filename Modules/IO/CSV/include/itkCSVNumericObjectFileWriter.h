@@ -61,11 +61,11 @@ template <typename TValue, unsigned int NRows = 0, unsigned int NColumns = 0>
 class ITK_TEMPLATE_EXPORT CSVNumericObjectFileWriter:public LightProcessObject
 {
 public:
-  /** Standard class typedefs */
-  typedef CSVNumericObjectFileWriter    Self;
-  typedef LightProcessObject            Superclass;
-  typedef SmartPointer <Self>           Pointer;
-  typedef SmartPointer <const Self>     ConstPointer;
+  /** Standard class type aliases */
+  using Self = CSVNumericObjectFileWriter;
+  using Superclass = LightProcessObject;
+  using Pointer = SmartPointer <Self>;
+  using ConstPointer = SmartPointer <const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,13 +74,13 @@ public:
   itkTypeMacro(CSVNumericObjectFileWriter, LightProcessObject);
 
   // Matrix types
-  typedef vnl_matrix<TValue>                        vnlMatrixType;
-  typedef vnl_matrix_fixed<TValue, NRows, NColumns> vnlFixedMatrixType;
-  typedef itk::Matrix<TValue,NRows,NColumns>        itkMatrixType;
+  using vnlMatrixType = vnl_matrix<TValue>;
+  using vnlFixedMatrixType = vnl_matrix_fixed<TValue, NRows, NColumns>;
+  using itkMatrixType = itk::Matrix<TValue,NRows,NColumns>;
 
-  typedef std::vector<std::string> StringVectorType;
+  using StringVectorType = std::vector<std::string>;
 
-  typedef itk::Size<2>::SizeValueType SizeValueType;
+  using SizeValueType = itk::Size<2>::SizeValueType;
 
   /* Specify the name of the output file */
   itkSetStringMacro(FileName);

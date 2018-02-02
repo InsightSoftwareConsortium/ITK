@@ -107,9 +107,9 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageRegionConstIterator:public ImageConstIterator< TImage >
 {
 public:
-  /** Standard class typedef. */
-  typedef ImageRegionConstIterator     Self;
-  typedef ImageConstIterator< TImage > Superclass;
+  /** Standard class type alias. */
+  using Self = ImageRegionConstIterator;
+  using Superclass = ImageConstIterator< TImage >;
 
   /** Dimension of the image that the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to
@@ -119,20 +119,20 @@ public:
                       Superclass::ImageIteratorDimension);
 
   /**
-   * Index typedef support. While these were already typdef'ed in the superclass,
+   * Index type alias support While these were already typdef'ed in the superclass,
    * they need to be redone here for this subclass to compile properly with gcc.
    */
   /** Types inherited from the Superclass */
-  typedef typename Superclass::IndexType             IndexType;
-  typedef typename Superclass::SizeType              SizeType;
-  typedef typename Superclass::OffsetType            OffsetType;
-  typedef typename Superclass::RegionType            RegionType;
-  typedef typename Superclass::ImageType             ImageType;
-  typedef typename Superclass::PixelContainer        PixelContainer;
-  typedef typename Superclass::PixelContainerPointer PixelContainerPointer;
-  typedef typename Superclass::InternalPixelType     InternalPixelType;
-  typedef typename Superclass::PixelType             PixelType;
-  typedef typename Superclass::AccessorType          AccessorType;
+  using IndexType = typename Superclass::IndexType;
+  using SizeType = typename Superclass::SizeType;
+  using OffsetType = typename Superclass::OffsetType;
+  using RegionType = typename Superclass::RegionType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelContainer = typename Superclass::PixelContainer;
+  using PixelContainerPointer = typename Superclass::PixelContainerPointer;
+  using InternalPixelType = typename Superclass::InternalPixelType;
+  using PixelType = typename Superclass::PixelType;
+  using AccessorType = typename Superclass::AccessorType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageRegionConstIterator, ImageConstIterator);

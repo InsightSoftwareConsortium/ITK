@@ -46,19 +46,19 @@ int itkScalarChanAndVeseDenseLevelSetImageFilterTest2( int argc, char * argv [] 
   double l2 = 1.;
 
   const unsigned int Dimension = 2;
-  typedef float ScalarPixelType;
+  using ScalarPixelType = float;
 
-  typedef itk::Image< ScalarPixelType, Dimension > LevelSetImageType;
-  typedef itk::Image< ScalarPixelType, Dimension > FeatureImageType;
+  using LevelSetImageType = itk::Image< ScalarPixelType, Dimension >;
+  using FeatureImageType = itk::Image< ScalarPixelType, Dimension >;
 
-  typedef itk::ScalarChanAndVeseDenseLevelSetImageFilter< LevelSetImageType,
-    FeatureImageType, LevelSetImageType > MultiLevelSetType;
+  using MultiLevelSetType = itk::ScalarChanAndVeseDenseLevelSetImageFilter< LevelSetImageType,
+    FeatureImageType, LevelSetImageType >;
 
-  typedef itk::ImageFileReader< LevelSetImageType >     LevelSetReaderType;
-  typedef itk::ImageFileReader< FeatureImageType >      FeatureReaderType;
-  typedef itk::ImageFileWriter< LevelSetImageType >     WriterType;
+  using LevelSetReaderType = itk::ImageFileReader< LevelSetImageType >;
+  using FeatureReaderType = itk::ImageFileReader< FeatureImageType >;
+  using WriterType = itk::ImageFileWriter< LevelSetImageType >;
 
-  typedef itk::AtanRegularizedHeavisideStepFunction< ScalarPixelType, ScalarPixelType >  DomainFunctionType;
+  using DomainFunctionType = itk::AtanRegularizedHeavisideStepFunction< ScalarPixelType, ScalarPixelType >;
 
   DomainFunctionType::Pointer domainFunction = DomainFunctionType::New();
 

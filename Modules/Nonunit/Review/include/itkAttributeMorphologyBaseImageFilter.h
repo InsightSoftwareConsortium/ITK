@@ -67,45 +67,45 @@ public:
   /**
    * Standard "Self" & Superclass typedef.
    */
-  typedef AttributeMorphologyBaseImageFilter              Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  using Self = AttributeMorphologyBaseImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
 
   /**
    * Types from the Superclass
    */
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  using InputImagePointer = typename Superclass::InputImagePointer;
 
   /**
    * Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same.
    */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename TInputImage::PixelType          InputPixelType;
-  typedef typename TInputImage::InternalPixelType  InputInternalPixelType;
-  typedef typename TInputImage::IndexType          IndexType;
-  typedef typename TInputImage::OffsetType         OffsetType;
-  typedef typename TInputImage::SizeType           SizeType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using InputInternalPixelType = typename TInputImage::InternalPixelType;
+  using IndexType = typename TInputImage::IndexType;
+  using OffsetType = typename TInputImage::OffsetType;
+  using SizeType = typename TInputImage::SizeType;
 
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
   /**
-   * Image typedef support
+   * Image type alias support
    */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
-//   typedef   typename TInputImage::IndexType       IndexType;
-//   typedef   typename TInputImage::SizeType        SizeType;
-  typedef   typename TOutputImage::RegionType RegionType;
-  typedef   std::list< IndexType >            ListType;
-  typedef TAttribute                          AttributeType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+//   using IndexType = typename TInputImage::IndexType;
+//   using SizeType = typename TInputImage::SizeType;
+  using RegionType = typename TOutputImage::RegionType;
+  using ListType = std::list< IndexType >;
+  using AttributeType = TAttribute;
 
   /**
-   * Smart pointer typedef support
+   * Smart pointer type alias support
    */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**
    * Run-time type information (and related methods)
@@ -178,9 +178,9 @@ private:
   // Just used for area/volume openings at the moment
   AttributeType *m_AuxData;
 
-  typedef std::vector< OffsetType > OffsetVecType;
+  using OffsetVecType = std::vector< OffsetType >;
   // offset in the linear array.
-  typedef std::vector< OffsetValueType > OffsetDirectVecType;
+  using OffsetDirectVecType = std::vector< OffsetValueType >;
 
   void SetupOffsetVec(OffsetDirectVecType & PosOffsets, OffsetVecType & Offsets);
 

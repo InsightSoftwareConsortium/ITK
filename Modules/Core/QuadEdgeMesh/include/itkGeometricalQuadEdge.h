@@ -62,33 +62,33 @@ template< typename TVRef,  typename TFRef,
 class ITK_TEMPLATE_EXPORT GeometricalQuadEdge:public QuadEdge
 {
 public:
-  /** Hierarchy typedefs. */
-  typedef GeometricalQuadEdge Self;
-  typedef QuadEdge            Superclass;
-  typedef Self *              RawPointer;
+  /** Hierarchy type alias. */
+  using Self = GeometricalQuadEdge;
+  using Superclass = QuadEdge;
+  using RawPointer = Self *;
 
   /**
    * Dual type, basically the same type with swapped template
    * parameters.
    *
    */
-  typedef GeometricalQuadEdge< TFRef, TVRef,
-                               TDualData, TPrimalData, !PrimalDual >         DualType;
+  using DualType = GeometricalQuadEdge< TFRef, TVRef,
+                               TDualData, TPrimalData, !PrimalDual >;
 
   /** Input template parameters & values convenient renaming. */
-  typedef TVRef       OriginRefType;
-  typedef TFRef       DualOriginRefType;
-  typedef TPrimalData PrimalDataType;
-  typedef TDualData   DualDataType;
+  using OriginRefType = TVRef;
+  using DualOriginRefType = TFRef;
+  using PrimalDataType = TPrimalData;
+  using DualDataType = TDualData;
   // Line Cell Id in Mesh Cell Container
   // used to go up to LineCell level
-  typedef TFRef LineCellIdentifier;
+  using LineCellIdentifier = TFRef;
 
 public:
 
   /** Iterator types. */
-  typedef QuadEdgeMeshIteratorGeom< Self >      IteratorGeom;
-  typedef QuadEdgeMeshConstIteratorGeom< Self > ConstIteratorGeom;
+  using IteratorGeom = QuadEdgeMeshIteratorGeom< Self >;
+  using ConstIteratorGeom = QuadEdgeMeshConstIteratorGeom< Self >;
 
   /** Basic iterators methods. */
   inline itkQEDefineIteratorGeomMethodsMacro(Onext);

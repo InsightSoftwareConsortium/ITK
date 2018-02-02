@@ -95,36 +95,36 @@ class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilter:
 {
 public:
   /** Basic types. */
-  typedef LaplacianDeformationQuadEdgeMeshFilter                      Self;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh > Superclass;
-  typedef SmartPointer< Self >                                        Pointer;
-  typedef SmartPointer< const Self >                                  ConstPointer;
+  using Self = LaplacianDeformationQuadEdgeMeshFilter;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter)
 
   /** Input types. */
-  typedef TInputMesh                                        InputMeshType;
-  typedef typename Superclass::InputPointType               InputPointType;
+  using InputMeshType = TInputMesh;
+  using InputPointType = typename Superclass::InputPointType;
 
   itkStaticConstMacro(InputPointDimension, unsigned int, InputMeshType::PointDimension);
 
   /** Output types. */
-  typedef TOutputMesh                                        OutputMeshType;
-  typedef typename Superclass::OutputCoordRepType            OutputCoordRepType;
-  typedef typename Superclass::OutputPointType               OutputPointType;
-  typedef typename Superclass::OutputPointIdentifier         OutputPointIdentifier;
-  typedef typename Superclass::OutputQEPrimal                OutputQEPrimal;
-  typedef typename Superclass::OutputVectorType              OutputVectorType;
-  typedef typename Superclass::OutputQEIterator              OutputQEIterator;
+  using OutputMeshType = TOutputMesh;
+  using OutputCoordRepType = typename Superclass::OutputCoordRepType;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using OutputPointIdentifier = typename Superclass::OutputPointIdentifier;
+  using OutputQEPrimal = typename Superclass::OutputQEPrimal;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using OutputQEIterator = typename Superclass::OutputQEIterator;
 
   itkStaticConstMacro(OutputPointDimension, unsigned int, OutputMeshType::PointDimension);
 
-  typedef TSolverTraits                     SolverTraits;
-  typedef typename SolverTraits::ValueType  ValueType;
-  typedef typename SolverTraits::MatrixType MatrixType;
-  typedef typename SolverTraits::VectorType VectorType;
+  using SolverTraits = TSolverTraits;
+  using ValueType = typename SolverTraits::ValueType;
+  using MatrixType = typename SolverTraits::MatrixType;
+  using VectorType = typename SolverTraits::VectorType;
 
-  typedef MatrixCoefficients< OutputMeshType > CoefficientsComputationType;
+  using CoefficientsComputationType = MatrixCoefficients< OutputMeshType >;
 
   /** Set the coefficient method to compute the Laplacian matrix of the input mesh*/
   void SetCoefficientsMethod(CoefficientsComputationType *iMethod)
@@ -133,7 +133,7 @@ public:
     this->Modified();
   }
 
-  typedef TriangleHelper< OutputPointType > TriangleType;
+  using TriangleType = TriangleHelper< OutputPointType >;
 
   /** Constrain vertex vId to the given location iP */
   void SetConstrainedNode(OutputPointIdentifier vId, const OutputPointType & iP);
@@ -178,12 +178,12 @@ protected:
   LaplacianDeformationQuadEdgeMeshFilter();
   ~LaplacianDeformationQuadEdgeMeshFilter() override {}
 
-  typedef itksys::hash_map< OutputPointIdentifier, OutputPointIdentifier >  OutputMapPointIdentifier;
-  typedef typename OutputMapPointIdentifier::iterator                       OutputMapPointIdentifierIterator;
-  typedef typename OutputMapPointIdentifier::const_iterator                 OutputMapPointIdentifierConstIterator;
+  using OutputMapPointIdentifier = itksys::hash_map< OutputPointIdentifier, OutputPointIdentifier >;
+  using OutputMapPointIdentifierIterator = typename OutputMapPointIdentifier::iterator;
+  using OutputMapPointIdentifierConstIterator = typename OutputMapPointIdentifier::const_iterator;
 
-  typedef itksys::hash_map< OutputPointIdentifier, OutputVectorType > ConstraintMapType;
-  typedef typename ConstraintMapType::const_iterator                  ConstraintMapConstIterator;
+  using ConstraintMapType = itksys::hash_map< OutputPointIdentifier, OutputVectorType >;
+  using ConstraintMapConstIterator = typename ConstraintMapType::const_iterator;
 
   struct HashOutputQEPrimal
   {
@@ -193,15 +193,15 @@ protected:
     }
   };
 
-  typedef itksys::hash_map< OutputQEPrimal*, OutputCoordRepType, HashOutputQEPrimal > CoefficientMapType;
-  typedef typename CoefficientMapType::const_iterator                                 CoefficientMapConstIterator;
+  using CoefficientMapType = itksys::hash_map< OutputQEPrimal*, OutputCoordRepType, HashOutputQEPrimal >;
+  using CoefficientMapConstIterator = typename CoefficientMapType::const_iterator;
 
-  typedef itksys::hash_map< OutputPointIdentifier, OutputCoordRepType > AreaMapType;
-  typedef typename AreaMapType::const_iterator                          AreaMapConstIterator;
+  using AreaMapType = itksys::hash_map< OutputPointIdentifier, OutputCoordRepType >;
+  using AreaMapConstIterator = typename AreaMapType::const_iterator;
 
-  typedef itksys::hash_map< OutputPointIdentifier, OutputCoordRepType > RowType;
-  typedef typename RowType::iterator                                    RowIterator;
-  typedef typename RowType::const_iterator                              RowConstIterator;
+  using RowType = itksys::hash_map< OutputPointIdentifier, OutputCoordRepType >;
+  using RowIterator = typename RowType::iterator;
+  using RowConstIterator = typename RowType::const_iterator;
 
   OutputMapPointIdentifier  m_InternalMap;
   ConstraintMapType         m_Constraints;

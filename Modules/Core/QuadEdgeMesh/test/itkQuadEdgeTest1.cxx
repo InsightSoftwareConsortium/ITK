@@ -22,12 +22,12 @@
 
 int itkQuadEdgeTest1( int , char* [] )
 {
-  typedef itk::QuadEdge        QuadEdgeType;
+  using QuadEdgeType = itk::QuadEdge;
 
   // Throughout the tests, create AutoPointers to manage the lifetimes of
   // QuadEdgeType instances. The AutoPointers are created in addition to the raw
   // pointers. This avoids the need to call GetPointer() in every comparison.
-  typedef itk::AutoPointer< QuadEdgeType > QuadEdgeTypePointer;
+  using QuadEdgeTypePointer = itk::AutoPointer< QuadEdgeType >;
 
   // Tests for the GetRot() SetRot() methods
     { // create a local scope for these tests

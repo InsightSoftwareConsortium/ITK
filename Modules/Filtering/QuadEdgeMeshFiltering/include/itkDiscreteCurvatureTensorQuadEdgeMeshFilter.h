@@ -34,11 +34,11 @@ class DiscreteCurvatureTensorQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  typedef DiscreteCurvatureTensorQuadEdgeMeshFilter     Self;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
-                                                        Superclass;
+  using Self = DiscreteCurvatureTensorQuadEdgeMeshFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass =
+      QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(DiscreteCurvatureTensorQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);

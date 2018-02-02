@@ -62,12 +62,12 @@ class VectorGradientAnisotropicDiffusionImageFilter:
   public AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorGradientAnisotropicDiffusionImageFilter Self;
-  typedef AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >
-  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VectorGradientAnisotropicDiffusionImageFilter;
+  using Superclass =
+      AnisotropicDiffusionImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Instantiation through the object factory. */
   itkNewMacro(Self);
@@ -77,7 +77,7 @@ public:
                AnisotropicDiffusionImageFilter);
 
   /** Extract information from the superclass. */
-  typedef typename Superclass::UpdateBufferType UpdateBufferType;
+  using UpdateBufferType = typename Superclass::UpdateBufferType;
 
   /** Determine the image dimension from the  superclass. */
   itkStaticConstMacro(ImageDimension, unsigned int,

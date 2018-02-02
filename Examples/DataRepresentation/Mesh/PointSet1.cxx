@@ -62,7 +62,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::PointSet< unsigned short, 3 > PointSetType;
+  using PointSetType = itk::PointSet< unsigned short, 3 >;
   // Software Guide : EndCodeSnippet
 
 
@@ -103,7 +103,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef PointSetType::PointType     PointType;
+  using PointType = PointSetType::PointType;
   // Software Guide : EndCodeSnippet
 
 

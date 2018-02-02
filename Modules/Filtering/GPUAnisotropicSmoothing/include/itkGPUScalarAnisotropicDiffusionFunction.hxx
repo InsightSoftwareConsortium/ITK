@@ -64,7 +64,7 @@ GPUScalarAnisotropicDiffusionFunction< TImage >
 ::GPUCalculateAverageGradientMagnitudeSquared(TImage *ip)
 {
   // GPU kernel to compute Average Squared Gradient Magnitude
-  typedef typename itk::GPUTraits< TImage >::Type GPUImageType;
+  using GPUImageType = typename itk::GPUTraits< TImage >::Type;
   typename GPUImageType::Pointer  inPtr =  dynamic_cast< GPUImageType * >( ip );
   typename GPUImageType::SizeType outSize = inPtr->GetLargestPossibleRegion().GetSize();
 

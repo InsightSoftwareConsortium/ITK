@@ -25,8 +25,8 @@ template< typename TForwardFFT, typename TInverseFFT >
 bool ForwardInverseFullFFTTest(const char * inputFileName)
 {
   double tolerance = 1.e-3;
-  typedef typename TForwardFFT::InputImageType ImageType;
-  typedef itk::ImageFileReader< ImageType >    ReaderType;
+  using ImageType = typename TForwardFFT::InputImageType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFileName );
 
@@ -36,15 +36,15 @@ bool ForwardInverseFullFFTTest(const char * inputFileName)
   typename TInverseFFT::Pointer ifft = TInverseFFT::New();
   ifft->SetInput( fft->GetOutput() );
 
-  typedef itk::AbsoluteValueDifferenceImageFilter< ImageType, ImageType, ImageType >
-    AbsDiffFilterType;
+  using AbsDiffFilterType =
+      itk::AbsoluteValueDifferenceImageFilter< ImageType, ImageType, ImageType >;
   typename AbsDiffFilterType::Pointer diffFilter = AbsDiffFilterType::New();
   diffFilter->SetInput1( reader->GetOutput() );
   diffFilter->SetInput2( ifft->GetOutput() );
   diffFilter->UpdateLargestPossibleRegion();
 
   bool success = true;
-  typedef itk::ImageRegionConstIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionConstIteratorWithIndex< ImageType >;
   IteratorType it( diffFilter->GetOutput(),
                    diffFilter->GetOutput()->GetLargestPossibleRegion() );
   while ( !it.IsAtEnd() )
@@ -68,8 +68,8 @@ template< typename TForwardFFT, typename TInverseFFT >
 bool ForwardInverseHalfFFTTest(const char * inputFileName)
 {
   double tolerance = 1.e-3;
-  typedef typename TForwardFFT::InputImageType ImageType;
-  typedef itk::ImageFileReader< ImageType >    ReaderType;
+  using ImageType = typename TForwardFFT::InputImageType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFileName );
   reader->UpdateLargestPossibleRegion();
@@ -82,15 +82,15 @@ bool ForwardInverseHalfFFTTest(const char * inputFileName)
   ifft->SetActualXDimensionIsOdd( xIsOdd );
   ifft->SetInput( fft->GetOutput() );
 
-  typedef itk::AbsoluteValueDifferenceImageFilter< ImageType, ImageType, ImageType >
-    AbsDiffFilterType;
+  using AbsDiffFilterType =
+      itk::AbsoluteValueDifferenceImageFilter< ImageType, ImageType, ImageType >;
   typename AbsDiffFilterType::Pointer diffFilter = AbsDiffFilterType::New();
   diffFilter->SetInput1( reader->GetOutput() );
   diffFilter->SetInput2( ifft->GetOutput() );
   diffFilter->UpdateLargestPossibleRegion();
 
   bool success = true;
-  typedef itk::ImageRegionConstIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionConstIteratorWithIndex< ImageType >;
   IteratorType it( diffFilter->GetOutput(),
                    diffFilter->GetOutput()->GetLargestPossibleRegion() );
   while ( !it.IsAtEnd() )

@@ -35,8 +35,8 @@ int TestUnknowMetaDataBug( const std::string &fname )
 
   try
     {
-    typedef unsigned short           PixelType;
-    typedef itk::Image<PixelType, 2> ImageType;
+    using PixelType = unsigned short;
+    using ImageType = itk::Image<PixelType, 2>;
 
     ImageType::RegionType region;
     ImageType::SizeType size = {{32,32}};
@@ -52,7 +52,7 @@ int TestUnknowMetaDataBug( const std::string &fname )
     itk::EncapsulateMetaData<float>(dict,"ASimpleFloatInitalized",static_cast<float>(1.234560F));
     itk::EncapsulateMetaData<std::complex<float> >(dict,"AnUnsuportedComplexInitalized",std::complex<float>(1.234560F));
 
-    typedef itk::Testing::HashImageFilter<ImageType> Hasher;
+    using Hasher = itk::Testing::HashImageFilter<ImageType>;
     Hasher::Pointer hasher = Hasher::New();
     hasher->SetInput( image );
     hasher->InPlaceOff();

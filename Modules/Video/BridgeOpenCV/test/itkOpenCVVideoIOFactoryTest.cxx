@@ -30,7 +30,7 @@
 #include "opencv2/videoio/videoio_c.h"
 #endif
 
-typedef itk::SizeValueType SizeValueType;
+using SizeValueType = itk::SizeValueType;
 
 ///////////////////////////////////////////////////////////////////////////////
 // This tests all of the functionality of the OpenCVVideoIO

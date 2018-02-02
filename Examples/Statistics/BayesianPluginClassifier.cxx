@@ -115,13 +115,13 @@ int main( int,  char *[])
 
   // Software Guide : BeginCodeSnippet
   const unsigned int measurementVectorLength = 1;
-  typedef itk::Vector< double, measurementVectorLength > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Vector< double, measurementVectorLength >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   // length of measurement vectors in the sample.
   sample->SetMeasurementVectorSize( measurementVectorLength );
 
-  typedef itk::Statistics::Subsample< SampleType > ClassSampleType;
+  using ClassSampleType = itk::Statistics::Subsample< SampleType >;
   std::vector< ClassSampleType::Pointer > classSamples;
   for ( unsigned int i = 0; i < 2; ++i )
     {
@@ -150,7 +150,7 @@ int main( int,  char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::NormalVariateGenerator NormalGeneratorType;
+  using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
   NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
 
   normalGenerator->Initialize( 101 );
@@ -189,8 +189,7 @@ int main( int,  char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::CovarianceSampleFilter< ClassSampleType >
-    CovarianceEstimatorType;
+  using CovarianceEstimatorType = itk::Statistics::CovarianceSampleFilter<ClassSampleType>;
 
   std::vector< CovarianceEstimatorType::Pointer > covarianceEstimators;
 
@@ -248,9 +247,8 @@ int main( int,  char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::GaussianMembershipFunction< MeasurementVectorType >
-                                                    MembershipFunctionType;
-  typedef itk::Statistics::MaximumRatioDecisionRule DecisionRuleType;
+  using MembershipFunctionType = itk::Statistics::GaussianMembershipFunction<MeasurementVectorType>;
+  using DecisionRuleType = itk::Statistics::MaximumRatioDecisionRule;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
   DecisionRuleType::PriorProbabilityVectorType aPrioris;
@@ -260,16 +258,15 @@ int main( int,  char *[])
                       / (double)sample->GetTotalFrequency() );
   decisionRule->SetPriorProbabilities( aPrioris );
 
-  typedef itk::Statistics::SampleClassifierFilter< SampleType > ClassifierType;
+  using ClassifierType = itk::Statistics::SampleClassifierFilter< SampleType >;
   ClassifierType::Pointer classifier = ClassifierType::New();
 
   classifier->SetDecisionRule( decisionRule);
   classifier->SetInput( sample );
   classifier->SetNumberOfClasses( 2 );
 
-  typedef ClassifierType::ClassLabelVectorObjectType
-                                               ClassLabelVectorObjectType;
-  typedef ClassifierType::ClassLabelVectorType ClassLabelVectorType;
+  using ClassLabelVectorObjectType = ClassifierType::ClassLabelVectorObjectType;
+  using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
 
   ClassLabelVectorObjectType::Pointer classLabelVectorObject =
     ClassLabelVectorObjectType::New();
@@ -308,10 +305,8 @@ int main( int,  char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef ClassifierType::MembershipFunctionVectorObjectType
-    MembershipFunctionVectorObjectType;
-  typedef ClassifierType::MembershipFunctionVectorType
-    MembershipFunctionVectorType;
+  using MembershipFunctionVectorObjectType = ClassifierType::MembershipFunctionVectorObjectType;
+  using MembershipFunctionVectorType = ClassifierType::MembershipFunctionVectorType;
 
   MembershipFunctionVectorObjectType::Pointer membershipFunctionVectorObject =
     MembershipFunctionVectorObjectType::New();

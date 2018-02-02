@@ -230,10 +230,10 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >::TimeStepType
 DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 ::ThreadedCalculateChange(const ThreadRegionType & regionToProcess, ThreadIdType)
 {
-  typedef typename OutputImageType::SizeType                      SizeType;
-  typedef typename FiniteDifferenceFunctionType::NeighborhoodType NeighborhoodIteratorType;
+  using SizeType = typename OutputImageType::SizeType;
+  using NeighborhoodIteratorType = typename FiniteDifferenceFunctionType::NeighborhoodType;
 
-  typedef ImageRegionIterator< UpdateBufferType > UpdateIteratorType;
+  using UpdateIteratorType = ImageRegionIterator< UpdateBufferType >;
 
   typename OutputImageType::Pointer output = this->GetOutput();
 
@@ -253,10 +253,9 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   // Break the input into a series of regions.  The first region is free
   // of boundary conditions, the rest with boundary conditions.  We operate
   // on the output region because input has been copied to output.
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< OutputImageType >
-  FaceCalculatorType;
+  using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>;
 
-  typedef typename FaceCalculatorType::FaceListType FaceListType;
+  using FaceListType = typename FaceCalculatorType::FaceListType;
 
   FaceCalculatorType faceCalculator;
 

@@ -21,9 +21,9 @@
 
 int itkMinimumDecisionRuleTest(int, char* [] )
 {
-  typedef itk::Statistics::MinimumDecisionRule      MinimumDecisionRuleType;
+  using MinimumDecisionRuleType = itk::Statistics::MinimumDecisionRule;
 
-  typedef MinimumDecisionRuleType::MembershipVectorType MembershipVectorType;
+  using MembershipVectorType = MinimumDecisionRuleType::MembershipVectorType;
 
   MinimumDecisionRuleType::Pointer decisionRule = MinimumDecisionRuleType::New();
 

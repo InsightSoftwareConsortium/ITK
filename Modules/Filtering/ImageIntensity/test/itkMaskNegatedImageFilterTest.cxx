@@ -27,18 +27,18 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
   const unsigned int myDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>           InputImageType;
-  typedef itk::Image<unsigned short, myDimension>  MaskImageType;
-  typedef itk::Image<float, myDimension>           OutputImageType;
+  using InputImageType = itk::Image<float, myDimension>;
+  using MaskImageType = itk::Image<unsigned short, myDimension>;
+  using OutputImageType = itk::Image<float, myDimension>;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create two images
   InputImageType::Pointer inputImage  = InputImageType::New();
@@ -73,9 +73,9 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
 
 
   // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<InputImageType>  InputIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<MaskImageType>   MaskIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<OutputImageType> OutputIteratorType;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
+  using MaskIteratorType = itk::ImageRegionIteratorWithIndex<MaskImageType>;
+  using OutputIteratorType = itk::ImageRegionIteratorWithIndex<OutputImageType>;
 
   // Create one iterator for Image A (this is a light object)
   InputIteratorType inputIterator( inputImage, inputImage->GetBufferedRegion() );
@@ -113,10 +113,10 @@ int itkMaskNegatedImageFilterTest(int, char* [] )
     }
 
   // Declare the type for the MaskNegated filter
-  typedef itk::MaskNegatedImageFilter<
+  using myFilterType = itk::MaskNegatedImageFilter<
                            InputImageType,
                            MaskImageType,
-                           OutputImageType  >       myFilterType;
+                           OutputImageType  >;
 
 
   // Create an MaskNegated Filter

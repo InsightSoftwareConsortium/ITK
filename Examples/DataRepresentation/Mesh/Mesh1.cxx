@@ -62,7 +62,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   float   PixelType;
+  using PixelType = float;
   // Software Guide : EndCodeSnippet
 
 
@@ -82,7 +82,7 @@ int main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 3;
-  typedef itk::Mesh< PixelType, Dimension > MeshType;
+  using MeshType = itk::Mesh< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
@@ -174,7 +174,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::PointsContainer::Iterator PointsIterator;
+  using PointsIterator = MeshType::PointsContainer::Iterator;
   // Software Guide : EndCodeSnippet
 
 

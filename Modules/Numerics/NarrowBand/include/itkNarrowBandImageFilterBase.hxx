@@ -37,7 +37,7 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::CopyInputToOutput()
 {
   //   First need to subtract the iso-surface value from the input image.
-  typedef ShiftScaleImageFilter< InputImageType, OutputImageType > ShiftScaleFilterType;
+  using ShiftScaleFilterType = ShiftScaleImageFilter< InputImageType, OutputImageType >;
   typename ShiftScaleFilterType::Pointer shiftScaleFilter = ShiftScaleFilterType::New();
   shiftScaleFilter->SetInput( this->GetInput() );
   shiftScaleFilter->SetShift(-m_IsoSurfaceValue);
@@ -302,10 +302,9 @@ NarrowBandImageFilterBase< TInputImage, TOutputImage >
 ::ThreadedCalculateChange( const ThreadRegionType & regionToProcess,
                            ThreadIdType itkNotUsed(threadId) )
 {
-  typedef typename OutputImageType::SizeType OutputSizeType;
+  using OutputSizeType = typename OutputImageType::SizeType;
 
-  typedef typename FiniteDifferenceFunctionType::NeighborhoodType
-  NeighborhoodIteratorType;
+  using NeighborhoodIteratorType = typename FiniteDifferenceFunctionType::NeighborhoodType;
 
   typename OutputImageType::Pointer output = this->GetOutput();
   TimeStepType timeStep;

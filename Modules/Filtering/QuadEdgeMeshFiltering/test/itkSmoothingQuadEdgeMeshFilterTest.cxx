@@ -36,12 +36,12 @@ int itkSmoothingQuadEdgeMeshFilterTest( int argc, char* argv[] )
     }
 
   // ** TYPEDEF **
-  typedef float Coord;
+  using Coord = float;
   const unsigned int Dimension = 3;
 
-  typedef itk::QuadEdgeMesh< Coord, Dimension >  MeshType;
-  typedef itk::MeshFileReader< MeshType >        ReaderType;
-  typedef itk::MeshFileWriter< MeshType >        WriterType;
+  using MeshType = itk::QuadEdgeMesh< Coord, Dimension >;
+  using ReaderType = itk::MeshFileReader< MeshType >;
+  using WriterType = itk::MeshFileWriter< MeshType >;
 
   // ** READ THE FILE IN **
   ReaderType::Pointer reader = ReaderType::New( );
@@ -73,7 +73,7 @@ int itkSmoothingQuadEdgeMeshFilterTest( int argc, char* argv[] )
 
   itk::OnesMatrixCoefficients< MeshType > coeff0;
 
-  typedef itk::SmoothingQuadEdgeMeshFilter< MeshType, MeshType > SmoothingType;
+  using SmoothingType = itk::SmoothingQuadEdgeMeshFilter< MeshType, MeshType >;
   SmoothingType::Pointer filter = SmoothingType::New( );
   filter->SetInput( mesh );
   filter->SetNumberOfIterations( nb_iter );

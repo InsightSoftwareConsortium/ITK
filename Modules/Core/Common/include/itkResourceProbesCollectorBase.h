@@ -38,8 +38,8 @@ template< typename TProbe >
 class ITK_TEMPLATE_EXPORT ResourceProbesCollectorBase
 {
 public:
-  typedef std::string                IdType;
-  typedef std::map< IdType, TProbe > MapType;
+  using IdType = std::string;
+  using MapType = std::map< IdType, TProbe >;
 
   /** destructor */
   virtual ~ResourceProbesCollectorBase();

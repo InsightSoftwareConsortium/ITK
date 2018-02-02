@@ -54,50 +54,47 @@ class ITK_TEMPLATE_EXPORT ConstNeighborhoodIterator:
 {
 public:
   /** Extract image type information. */
-  typedef typename TImage::InternalPixelType InternalPixelType;
-  typedef typename TImage::PixelType         PixelType;
+  using InternalPixelType = typename TImage::InternalPixelType;
+  using PixelType = typename TImage::PixelType;
 
   /** Type used to refer to space dimensions */
-  typedef unsigned int                  DimensionValueType;
+  using DimensionValueType = unsigned int;
 
   /** Save the image dimension. */
   itkStaticConstMacro(Dimension, DimensionValueType, TImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef ConstNeighborhoodIterator Self;
-  typedef Neighborhood< InternalPixelType *,
-                        itkGetStaticConstMacro(Dimension) >    Superclass;
+  /** Standard class type aliases. */
+  using Self = ConstNeighborhoodIterator;
+  using Superclass = Neighborhood< InternalPixelType *,
+                        itkGetStaticConstMacro(Dimension) >;
 
-  /** Inherit typedefs from superclass */
-  typedef typename Superclass::OffsetType      OffsetType;
-  typedef typename Superclass::RadiusType      RadiusType;
-  typedef typename Superclass::SizeType        SizeType;
-  typedef typename Superclass::Iterator        Iterator;
-  typedef typename Superclass::ConstIterator   ConstIterator;
+  /** Inherit type alias from superclass */
+  using OffsetType = typename Superclass::OffsetType;
+  using RadiusType = typename Superclass::RadiusType;
+  using SizeType = typename Superclass::SizeType;
+  using Iterator = typename Superclass::Iterator;
+  using ConstIterator = typename Superclass::ConstIterator;
 
   /** Typedef support for common objects */
-  typedef TImage                                     ImageType;
-  typedef typename TImage::RegionType                RegionType;
-  typedef Index< itkGetStaticConstMacro(Dimension) > IndexType;
-  typedef Neighborhood< PixelType, itkGetStaticConstMacro(Dimension) >
-  NeighborhoodType;
+  using ImageType = TImage;
+  using RegionType = typename TImage::RegionType;
+  using IndexType = Index< itkGetStaticConstMacro(Dimension) >;
+  using NeighborhoodType = Neighborhood< PixelType, itkGetStaticConstMacro(Dimension) >;
 
   /** Type used to refer to the elements in the list of neighbor pixels. */
-  typedef typename NeighborhoodType::NeighborIndexType  NeighborIndexType;
+  using NeighborIndexType = typename NeighborhoodType::NeighborIndexType;
 
   /** Typedef for the functor used to access neighborhoods of pixel pointers.
    * This is obtained as a trait from the image and is different for Image
    * and VectorImage. */
-  typedef typename ImageType::NeighborhoodAccessorFunctorType
-  NeighborhoodAccessorFunctorType;
+  using NeighborhoodAccessorFunctorType = typename ImageType::NeighborhoodAccessorFunctorType;
 
   /** Typedef for boundary condition type. */
-  typedef TBoundaryCondition BoundaryConditionType;
+  using BoundaryConditionType = TBoundaryCondition;
 
   /** Typedef for generic boundary condition pointer */
-  typedef ImageBoundaryCondition< ImageType > *ImageBoundaryConditionPointerType;
-  typedef ImageBoundaryCondition< ImageType > const *
-  ImageBoundaryConditionConstPointerType;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition<ImageType> *;
+  using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<ImageType> *;
 
   /** Default constructor */
   ConstNeighborhoodIterator();

@@ -28,12 +28,12 @@ int itkExtractMeshConnectedRegionsTest(int, char* [])
 {
 
   /**
-   * Some typedefs to make things easier.
+   * Some type alias to make things easier.
    */
 
-  typedef itk::Mesh< int >                                   MeshType;
-  typedef itk::ConnectedRegionsMeshFilter<MeshType,MeshType> ConnectFilterType;
-  typedef itk::Point<float,3>                                PointType;
+  using MeshType = itk::Mesh< int >;
+  using ConnectFilterType = itk::ConnectedRegionsMeshFilter<MeshType,MeshType>;
+  using PointType = itk::Point<float,3>;
 
   // Define a simple mesh of three connected pieces. The mesh consists
   // of several different cell types.
@@ -75,7 +75,7 @@ int itkExtractMeshConnectedRegionsTest(int, char* [])
   connect->Update();
 
   // Create a Sphere for running the filter on real input data.
-  typedef itk::SphereMeshSource< MeshType >  SphereMeshSourceType;
+  using SphereMeshSourceType = itk::SphereMeshSource< MeshType >;
 
   SphereMeshSourceType::Pointer meshSource = SphereMeshSourceType::New();
 

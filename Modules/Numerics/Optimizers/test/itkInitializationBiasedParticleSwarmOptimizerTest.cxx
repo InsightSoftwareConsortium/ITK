@@ -21,7 +21,7 @@
 #include "itkInitializationBiasedParticleSwarmOptimizer.h"
 #include "itkParticleSwarmOptimizerTestFunctions.h"
 
-typedef  itk::InitializationBiasedParticleSwarmOptimizer OptimizerType;
+using OptimizerType = itk::InitializationBiasedParticleSwarmOptimizer;
 static OptimizerType::RandomVariateGeneratorType::IntegerType seedOffset = 0;
 
 /**

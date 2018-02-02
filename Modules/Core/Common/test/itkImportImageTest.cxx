@@ -32,10 +32,10 @@ int itkImportImageTest( int, char* [] )
     }
   // typdefs to simplify the syntax
   const unsigned int Dimension = 2;
-  typedef short PixelType;
+  using PixelType = short;
 
-  typedef itk::ImportImageFilter< PixelType, Dimension > ImportImageFilter;
-  typedef itk::Image< PixelType, Dimension >             ShortImage;
+  using ImportImageFilter = itk::ImportImageFilter< PixelType, Dimension >;
+  using ShortImage = itk::Image< PixelType, Dimension >;
 
   // Create an ImportImageFilter filter
   ImportImageFilter::Pointer basicImport = ImportImageFilter::New();

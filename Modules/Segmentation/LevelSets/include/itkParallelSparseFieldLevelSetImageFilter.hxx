@@ -34,7 +34,7 @@ template< typename TNeighborhoodType >
 ParallelSparseFieldCityBlockNeighborList< TNeighborhoodType >
 ::ParallelSparseFieldCityBlockNeighborList()
 {
-  typedef typename NeighborhoodType::ImageType ImageType;
+  using ImageType = typename NeighborhoodType::ImageType;
   typename ImageType::Pointer dummy_image = ImageType::New();
 
   unsigned int i, nCenter;
@@ -202,7 +202,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // position of the zero level set.
 
   // First need to subtract the iso-surface value from the input image.
-  typedef ShiftScaleImageFilter< InputImageType, OutputImageType > ShiftScaleFilterType;
+  using ShiftScaleFilterType = ShiftScaleImageFilter< InputImageType, OutputImageType >;
   typename ShiftScaleFilterType::Pointer shiftScaleFilter = ShiftScaleFilterType::New();
   shiftScaleFilter->SetInput( this->GetInput() );
   shiftScaleFilter->SetShift(-m_IsoSurfaceValue);
@@ -249,8 +249,8 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // Initialize the boundary pixels in the status images to
   // m_StatusBoundaryPixel values.  Uses the face calculator to find all of the
   // region faces.
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< StatusImageType >
-  BFCType;
+  using BFCType =
+      NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< StatusImageType >;
 
   BFCType faceCalculator;
   typename BFCType::FaceListType faceList;
@@ -387,7 +387,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
     m_OutputImage->GetRequestedRegion().GetSize();
   typename OutputImageType::IndexType startIndex =
     m_OutputImage->GetRequestedRegion().GetIndex();
-  typedef IndexValueType StartIndexValueType;
+  using StartIndexValueType = IndexValueType;
 
   for ( outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt )
     {
@@ -2249,7 +2249,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   m_BoundaryChanged = false;
 
   // work load division based on the nodes on the active layer (layer-0)
-  typedef IndexValueType NodeCounterType;
+  using NodeCounterType = IndexValueType;
   NodeCounterType min = NumericTraits< NodeCounterType >::max();
   NodeCounterType max = 0;
   NodeCounterType total = 0; // the total nodes in the active layer of the surface

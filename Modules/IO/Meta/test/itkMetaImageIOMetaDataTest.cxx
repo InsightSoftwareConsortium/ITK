@@ -30,7 +30,7 @@ template <typename TImage>
 typename TImage::Pointer ReadImage( const std::string &fileName )
 {
   typename TImage::Pointer image;
-  typedef itk::ImageFileReader<TImage> ReaderType;
+  using ReaderType = itk::ImageFileReader<TImage>;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( fileName.c_str() );
 
@@ -62,7 +62,7 @@ void
 WriteImage(typename ImageType::Pointer &image,
            const std::string &fileName)
 {
-  typedef itk::ImageFileWriter<ImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   typename  WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( fileName.c_str() );
@@ -161,9 +161,9 @@ itkMetaImageIOMetaDataTest(int argc, char * argv [] )
   // the image data is irrelevant
   const int Dim(2);
 
-  typedef unsigned char                     PixelType;
-  typedef itk::Image<PixelType,Dim>         ImageType;
-  typedef itk::RandomImageSource<ImageType> SourceType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType,Dim>;
+  using SourceType = itk::RandomImageSource<ImageType>;
 
   SourceType::Pointer source = SourceType::New();
   ImageType::SizeValueType size[Dim] = { 32,32 };

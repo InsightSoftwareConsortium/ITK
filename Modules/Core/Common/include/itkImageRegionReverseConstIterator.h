@@ -103,44 +103,44 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageRegionReverseConstIterator:public ImageReverseConstIterator< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageRegionReverseConstIterator     Self;
-  typedef ImageReverseConstIterator< TImage > Superclass;
+  /** Standard class type aliases. */
+  using Self = ImageRegionReverseConstIterator;
+  using Superclass = ImageReverseConstIterator< TImage >;
 
-  /** Index typedef support. While this was already typdef'ed in the superclass
+  /** Index type alias support While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::IndexType      IndexType;
+  using IndexType = typename Superclass::IndexType;
 
-  /** Size typedef support. While this was already typdef'ed in the superclass
+  /** Size type alias support While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::SizeType      SizeType;
+  using SizeType = typename Superclass::SizeType;
 
-  /** Offset typedef support. While this was already typdef'ed in the superclass
+  /** Offset type alias support While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::OffsetType      OffsetType;
+  using OffsetType = typename Superclass::OffsetType;
 
-  /** Region typedef support. */
-  typedef typename Superclass::RegionType RegionType;
+  /** Region type alias support */
+  using RegionType = typename Superclass::RegionType;
 
-  /** Image typedef support. While this was already typdef'ed in the superclass
+  /** Image type alias support While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::ImageType ImageType;
+  using ImageType = typename Superclass::ImageType;
 
-  /** PixelContainer typedef support. Used to refer to the container for
+  /** PixelContainer type alias support Used to refer to the container for
    * the pixel data. While this was already typdef'ed in the superclass
    * it needs to be redone here for this subclass to compile properly with gcc. */
-  typedef typename Superclass::PixelContainer PixelContainer;
-  typedef typename PixelContainer::Pointer    PixelContainerPointer;
+  using PixelContainer = typename Superclass::PixelContainer;
+  using PixelContainerPointer = typename PixelContainer::Pointer;
 
   /** Internal Pixel Type */
-  typedef typename Superclass::InternalPixelType InternalPixelType;
+  using InternalPixelType = typename Superclass::InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename Superclass::PixelType PixelType;
+  using PixelType = typename Superclass::PixelType;
 
   /**  Accessor type that convert data between internal and external
    *  representations. */
-  typedef typename Superclass::AccessorType AccessorType;
+  using AccessorType = typename Superclass::AccessorType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageRegionReverseConstIterator, ImageReverseConstIterator);

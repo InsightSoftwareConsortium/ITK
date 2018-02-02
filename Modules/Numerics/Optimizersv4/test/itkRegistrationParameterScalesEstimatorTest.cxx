@@ -32,17 +32,17 @@ class RegistrationParameterScalesEstimatorTestMetric:
   public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegistrationParameterScalesEstimatorTestMetric                  Self;
-  typedef itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
-                             TInternalComputationValueType,TMetricTraits> Superclass;
-  typedef itk::SmartPointer< Self >                                       Pointer;
-  typedef itk::SmartPointer< const Self >                                 ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegistrationParameterScalesEstimatorTestMetric;
+  using Superclass = itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage,
+                             TInternalComputationValueType,TMetricTraits>;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
-  typedef typename Superclass::MeasureType          MeasureType;
-  typedef typename Superclass::DerivativeType       DerivativeType;
-  typedef typename Superclass::ParametersType       ParametersType;
-  typedef typename Superclass::ParametersValueType  ParametersValueType;
+  using MeasureType = typename Superclass::MeasureType;
+  using DerivativeType = typename Superclass::DerivativeType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
 
   itkTypeMacro(RegistrationParameterScalesEstimatorTestMetric, ImageToImageMetricv4);
 
@@ -78,14 +78,14 @@ public:
   ParametersType  m_Parameters;
 
   // Image related types
-  typedef TFixedImage                             FixedImageType;
-  typedef TMovingImage                            MovingImageType;
-  typedef TVirtualImage                           VirtualImageType;
+  using FixedImageType = TFixedImage;
+  using MovingImageType = TMovingImage;
+  using VirtualImageType = TVirtualImage;
 
-  typedef typename FixedImageType::ConstPointer   FixedImageConstPointer;
-  typedef typename MovingImageType::ConstPointer  MovingImageConstPointer;
-  typedef typename VirtualImageType::Pointer      VirtualImagePointer;
-  typedef typename VirtualImageType::RegionType   VirtualRegionType;
+  using FixedImageConstPointer = typename FixedImageType::ConstPointer;
+  using MovingImageConstPointer = typename MovingImageType::ConstPointer;
+  using VirtualImagePointer = typename VirtualImageType::Pointer;
+  using VirtualRegionType = typename VirtualImageType::RegionType;
 
   /* Image dimension accessors */
   itkStaticConstMacro(FixedImageDimension, itk::SizeValueType,
@@ -111,29 +111,29 @@ class RegistrationParameterScalesEstimatorTest:
   public itk::RegistrationParameterScalesEstimator< TMetric >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RegistrationParameterScalesEstimatorTest                    Self;
-  typedef itk::RegistrationParameterScalesEstimator< TMetric >        Superclass;
-  typedef itk::SmartPointer< Self >                                   Pointer;
-  typedef itk::SmartPointer< const Self >                             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RegistrationParameterScalesEstimatorTest;
+  using Superclass = itk::RegistrationParameterScalesEstimator< TMetric >;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
   itkNewMacro(Self);
 
   itkTypeMacro(RegistrationParameterScalesEstimatorTest, RegistrationParameterScalesEstimator);
 
   /** Type of scales */
-  typedef typename Superclass::ScalesType                ScalesType;
+  using ScalesType = typename Superclass::ScalesType;
   /** Type of parameters of the optimizer */
-  typedef typename Superclass::ParametersType            ParametersType;
+  using ParametersType = typename Superclass::ParametersType;
   /** Type of float */
-  typedef typename Superclass::FloatType                 FloatType;
+  using FloatType = typename Superclass::FloatType;
 
-  typedef typename Superclass::VirtualPointType          VirtualPointType;
-  typedef typename Superclass::VirtualIndexType          VirtualIndexType;
-  typedef typename Superclass::MovingTransformType       MovingTransformType;
-  typedef typename Superclass::FixedTransformType        FixedTransformType;
-  typedef typename Superclass::JacobianType              JacobianType;
-  typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
+  using VirtualPointType = typename Superclass::VirtualPointType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using MovingTransformType = typename Superclass::MovingTransformType;
+  using FixedTransformType = typename Superclass::FixedTransformType;
+  using JacobianType = typename Superclass::JacobianType;
+  using VirtualImageConstPointer = typename Superclass::VirtualImageConstPointer;
 
   /** Estimate parameter scales with maximum squared norms of Jacobians. */
   void EstimateScales(ScalesType &parameterScales) override
@@ -208,12 +208,12 @@ int itkRegistrationParameterScalesEstimatorTest(int , char* [])
 
   // Image begins
   const itk::SizeValueType ImageDimension = 2;
-  typedef double           PixelType;
+  using PixelType = double;
 
   // Image Types
-  typedef itk::Image<PixelType,ImageDimension>           FixedImageType;
-  typedef itk::Image<PixelType,ImageDimension>           MovingImageType;
-  typedef itk::Image<PixelType,ImageDimension>           VirtualImageType;
+  using FixedImageType = itk::Image<PixelType,ImageDimension>;
+  using MovingImageType = itk::Image<PixelType,ImageDimension>;
+  using VirtualImageType = itk::Image<PixelType,ImageDimension>;
 
   FixedImageType::Pointer  fixedImage  = FixedImageType::New();
   MovingImageType::Pointer movingImage = MovingImageType::New();
@@ -227,18 +227,18 @@ int itkRegistrationParameterScalesEstimatorTest(int , char* [])
   // Image done
 
   // Transform begins
-  typedef itk::AffineTransform<double, ImageDimension>      MovingTransformType;
+  using MovingTransformType = itk::AffineTransform<double, ImageDimension>;
   MovingTransformType::Pointer movingTransform =  MovingTransformType::New();
   movingTransform->SetIdentity();
 
-  typedef itk::TranslationTransform<double, ImageDimension> FixedTransformType;
+  using FixedTransformType = itk::TranslationTransform<double, ImageDimension>;
   FixedTransformType::Pointer fixedTransform =    FixedTransformType::New();
   fixedTransform->SetIdentity();
   // Transform done
 
   // Metric begins
-  typedef RegistrationParameterScalesEstimatorTestMetric
-    <FixedImageType, MovingImageType> MetricType;
+  using MetricType = RegistrationParameterScalesEstimatorTestMetric
+    <FixedImageType, MovingImageType>;
   MetricType::Pointer metric = MetricType::New();
 
   metric->SetVirtualDomainFromImage( virtualImage );
@@ -250,8 +250,7 @@ int itkRegistrationParameterScalesEstimatorTest(int , char* [])
   // Metric done
 
   // Scales for the affine transform from max squared norm of transform jacobians
-  typedef RegistrationParameterScalesEstimatorTest< MetricType >
-    RegistrationParameterScalesEstimatorTestType;
+  using RegistrationParameterScalesEstimatorTestType = RegistrationParameterScalesEstimatorTest<MetricType>;
   RegistrationParameterScalesEstimatorTestType::Pointer jacobianScaleEstimator
     = RegistrationParameterScalesEstimatorTestType::New();
 

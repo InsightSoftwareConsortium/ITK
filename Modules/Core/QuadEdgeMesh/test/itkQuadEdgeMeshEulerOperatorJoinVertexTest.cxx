@@ -51,15 +51,15 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
     return EXIT_FAILURE;
   }
 
-  typedef itk::QuadEdgeMesh< double, 3 >                      MeshType;
-  typedef MeshType::Pointer                                   MeshPointer;
-  typedef MeshType::QEType                                    QEType;
-  typedef MeshType::PointIdentifier                           PointIdentifier;
-  typedef MeshType::CellType                                  CellType;
-  typedef itk::QuadEdgeMeshLineCell< CellType >               LineCellType;
+  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshPointer = MeshType::Pointer;
+  using QEType = MeshType::QEType;
+  using PointIdentifier = MeshType::PointIdentifier;
+  using CellType = MeshType::CellType;
+  using LineCellType = itk::QuadEdgeMeshLineCell< CellType >;
 
-  typedef itk::QuadEdgeMeshEulerOperatorJoinVertexFunction< MeshType, QEType>
-    JoinVertexType;
+  using JoinVertexType =
+      itk::QuadEdgeMeshEulerOperatorJoinVertexFunction< MeshType, QEType>;
 
   MeshPointer mesh = MeshType::New();
   PointIdentifier start_id( 12 );
@@ -238,7 +238,7 @@ int itkQuadEdgeMeshEulerOperatorJoinVertexTest( int argc, char * argv[] )
   QEType* qe = mesh->FindEdge( start_id );
   int kk( 0 );
 
-  typedef itk::QuadEdgeMeshTopologyChecker< MeshType > CheckerType;
+  using CheckerType = itk::QuadEdgeMeshTopologyChecker< MeshType >;
   CheckerType::Pointer check = CheckerType::New();
 
   while( qe != nullptr )

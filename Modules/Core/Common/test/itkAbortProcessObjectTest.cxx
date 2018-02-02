@@ -56,8 +56,8 @@ void onAbort( itk::Object *, const itk::EventObject &, void *)
 
 int itkAbortProcessObjectTest(int, char* [] )
 {
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   ShortImage;
+  // type alias to simplify the syntax
+  using ShortImage = itk::Image<short, 2>;
   ShortImage::Pointer img = ShortImage::New();
 
   // fill in an image

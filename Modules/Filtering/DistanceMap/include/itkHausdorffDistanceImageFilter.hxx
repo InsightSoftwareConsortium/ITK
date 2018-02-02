@@ -123,16 +123,16 @@ HausdorffDistanceImageFilter< TInputImage1, TInputImage2 >
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  typedef DirectedHausdorffDistanceImageFilter< InputImage1Type, InputImage2Type >
-  Filter12Type;
+  using Filter12Type =
+      DirectedHausdorffDistanceImageFilter< InputImage1Type, InputImage2Type >;
   typename Filter12Type::Pointer filter12 = Filter12Type::New();
   filter12->SetInput1( this->GetInput1() );
   filter12->SetInput2( this->GetInput2() );
   filter12->SetNumberOfThreads( nbthreads );
   filter12->SetUseImageSpacing(m_UseImageSpacing);
 
-  typedef DirectedHausdorffDistanceImageFilter< InputImage2Type, InputImage1Type >
-  Filter21Type;
+  using Filter21Type =
+      DirectedHausdorffDistanceImageFilter< InputImage2Type, InputImage1Type >;
   typename Filter21Type::Pointer filter21 = Filter21Type::New();
   filter21->SetInput1( this->GetInput2() );
   filter21->SetInput2( this->GetInput1() );

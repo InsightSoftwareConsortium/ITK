@@ -39,8 +39,8 @@ template< typename TInput, typename TOutput >
 class RGBToLuminance
 {
 public:
-  typedef typename TInput::ComponentType                         ComponentType;
-  typedef typename itk::NumericTraits< ComponentType >::RealType RealType;
+  using ComponentType = typename TInput::ComponentType;
+  using RealType = typename itk::NumericTraits< ComponentType >::RealType;
 
   RGBToLuminance() {}
   ~RGBToLuminance() {}
@@ -68,15 +68,15 @@ class RGBToLuminanceImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef RGBToLuminanceImageFilter Self;
-  typedef UnaryFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = RGBToLuminanceImageFilter;
+  using Superclass = UnaryFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::RGBToLuminance< typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType > >  Superclass;
+                             typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

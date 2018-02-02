@@ -34,16 +34,16 @@
 
 int main(int , char* [])
 {
-  typedef itk::Image<float,2>          InputType;
-  typedef itk::Image<float,2>          OutputType;
-  typedef itk::Image<unsigned short,3> UShortImageType3D;
+  using InputType = itk::Image<float,2>;
+  using OutputType = itk::Image<float,2>;
+  using UShortImageType3D = itk::Image<unsigned short,3>;
 
-  typedef itk::Vector<float,2>      VectorType;
-  typedef itk::Image<VectorType, 2> VectorImageType;
-  typedef itk::Image<VectorType, 3> VectorImageType3D;
+  using VectorType = itk::Vector<float,2>;
+  using VectorImageType = itk::Image<VectorType, 2>;
+  using VectorImageType3D = itk::Image<VectorType, 3>;
 
   // Used for NormalizedCorrelationPointSetToImageMetric
-  typedef itk::PointSet<float,2> PointSetType;
+  using PointSetType = itk::PointSet<float,2>;
 
   itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::Pointer MattesMutualInformationImageToImageMetricObj =
     itk::MattesMutualInformationImageToImageMetric<InputType,InputType>::New();
@@ -87,7 +87,7 @@ int main(int , char* [])
     itk::NormalizedCorrelationPointSetToImageMetric<PointSetType,InputType>::New();
   std:: cout << "-------------NormalizedCorrelationPointSetToImageMetric " << NormalizedCorrelationPointSetToImageMetricObj;
 
-  typedef itk::Statistics::Histogram< double > HistogramType;
+  using HistogramType = itk::Statistics::Histogram< double >;
   itk::OtsuThresholdCalculator<HistogramType>::Pointer OtsuThresholdCalculatorObj =
     itk::OtsuThresholdCalculator<HistogramType>::New();
   std:: cout << "-------------OtsuThresholdCalculator " << OtsuThresholdCalculatorObj;

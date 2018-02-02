@@ -24,15 +24,14 @@
 int itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest( int , char* [] )
 {
   const unsigned int Dimension = 2;
-  typedef float ValueType;
+  using ValueType = float;
 
-  typedef itk::WhitakerSparseLevelSetImage< ValueType, Dimension > LevelSetType;
+  using LevelSetType = itk::WhitakerSparseLevelSetImage< ValueType, Dimension >;
 
-  typedef itk::LevelSetContainerBase< itk::IdentifierType, LevelSetType >
-                                                            LevelSetContainerType;
+  using LevelSetContainerType =
+      itk::LevelSetContainerBase< itk::IdentifierType, LevelSetType >;
 
-  typedef itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >
-      StoppingCriterionType;
+  using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations( 5 );
 

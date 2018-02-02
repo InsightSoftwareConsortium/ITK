@@ -123,19 +123,19 @@ template< typename TImage >
 class ITK_TEMPLATE_EXPORT ImageRandomConstIteratorWithOnlyIndex:public ImageConstIteratorWithOnlyIndex< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageRandomConstIteratorWithOnlyIndex     Self;
-  typedef ImageConstIteratorWithOnlyIndex< TImage > Superclass;
+  /** Standard class type aliases. */
+  using Self = ImageRandomConstIteratorWithOnlyIndex;
+  using Superclass = ImageConstIteratorWithOnlyIndex< TImage >;
 
   /** Inherit types from the superclass */
-  typedef typename Superclass::IndexType             IndexType;
-  typedef typename Superclass::SizeType              SizeType;
-  typedef typename Superclass::OffsetType            OffsetType;
-  typedef typename Superclass::RegionType            RegionType;
-  typedef typename Superclass::ImageType             ImageType;
-  typedef typename Superclass::IndexValueType        IndexValueType;
-  typedef typename Superclass::OffsetValueType       OffsetValueType;
-  typedef typename Superclass::SizeValueType         SizeValueType;
+  using IndexType = typename Superclass::IndexType;
+  using SizeType = typename Superclass::SizeType;
+  using OffsetType = typename Superclass::OffsetType;
+  using RegionType = typename Superclass::RegionType;
+  using ImageType = typename Superclass::ImageType;
+  using IndexValueType = typename Superclass::IndexValueType;
+  using OffsetValueType = typename Superclass::OffsetValueType;
+  using SizeValueType = typename Superclass::SizeValueType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRandomConstIteratorWithOnlyIndex();
@@ -213,7 +213,7 @@ public:
 private:
   void RandomJump();
 
-  typedef Statistics::MersenneTwisterRandomVariateGenerator::Pointer GeneratorPointer;
+  using GeneratorPointer = typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer;
   GeneratorPointer m_Generator;
   SizeValueType    m_NumberOfSamplesRequested;
   SizeValueType    m_NumberOfSamplesDone;

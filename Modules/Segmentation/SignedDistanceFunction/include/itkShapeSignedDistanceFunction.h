@@ -53,34 +53,34 @@ class ShapeSignedDistanceFunction:
   public SpatialFunction< double, VSpaceDimension, Point< TCoordRep, VSpaceDimension > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ShapeSignedDistanceFunction Self;
-  typedef SpatialFunction< double, VSpaceDimension,
-                           Point< TCoordRep, VSpaceDimension > > Superclass;
+  /** Standard class type aliases. */
+  using Self = ShapeSignedDistanceFunction;
+  using Superclass = SpatialFunction< double, VSpaceDimension,
+                           Point< TCoordRep, VSpaceDimension > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapeSignedDistanceFunction, SpatialFunction);
 
-  /** OutputType typedef support. */
-  typedef typename Superclass::OutputType OutputType;
+  /** OutputType type alias support */
+  using OutputType = typename Superclass::OutputType;
 
-  /** InputType typedef support. */
-  typedef typename Superclass::InputType InputType;
+  /** InputType type alias support */
+  using InputType = typename Superclass::InputType;
 
   /** Dimension underlying input image. */
   itkStaticConstMacro(SpaceDimension, unsigned int, VSpaceDimension);
 
-  /** CoordRep typedef support. */
-  typedef TCoordRep CoordRepType;
+  /** CoordRep type alias support */
+  using CoordRepType = TCoordRep;
 
-  /** Point typedef support. */
-  typedef InputType PointType;
+  /** Point type alias support */
+  using PointType = InputType;
 
   /** Type of the shape parameters. */
-  typedef OptimizerParameters< double > ParametersType;
+  using ParametersType = OptimizerParameters< double >;
 
   /** A shape is defined by a set of shape parameters. */
   virtual void SetParameters(const ParametersType &) = 0;

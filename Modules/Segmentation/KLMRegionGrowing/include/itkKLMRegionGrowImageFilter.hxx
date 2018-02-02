@@ -137,7 +137,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   // each pixel is updated with the mean approximation value.
 
   OutputImagePointer outputImage = this->GetOutput();
-  typedef typename TOutputImage::RegionType OutputRegionType;
+  using OutputRegionType = typename TOutputImage::RegionType;
   OutputRegionType region;
   region.SetSize(gridSize);   // Constant grid size
 
@@ -152,7 +152,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
 
     MeanRegionIntensityType tmpMeanValue;
     OutputImageVectorType   outMeanValue;
-    typedef typename OutputImagePixelType::ValueType OutputValueType;
+    using OutputValueType = typename OutputImagePixelType::ValueType;
 
     tmpMeanValue = m_RegionsPointer[iregion]->GetMeanRegionIntensity();
 
@@ -727,7 +727,7 @@ KLMRegionGrowImageFilter< TInputImage, TOutputImage >
   // between the final region (and label) and the initial regions.
 
   // Set up the unique label container class
-  typedef std::vector< RegionLabelType > UnsignedIntVectorType;
+  using UnsignedIntVectorType = std::vector< RegionLabelType >;
   UnsignedIntVectorType uniqueLabelsVec;
 
   // Resolve region labels to contain only unique labels.

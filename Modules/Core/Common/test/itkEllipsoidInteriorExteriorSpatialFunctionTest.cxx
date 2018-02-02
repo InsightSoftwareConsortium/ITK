@@ -25,11 +25,11 @@ int itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char* [] )
   // Test will create an ellipsoid (3-dimensional)
   const unsigned int dimension = 3;
 
-  // Ellipsoid spatial function typedef
-  typedef itk::EllipsoidInteriorExteriorSpatialFunction<3> TEllipsoidFunctionType;
+  // Ellipsoid spatial function type alias
+  using TEllipsoidFunctionType = itk::EllipsoidInteriorExteriorSpatialFunction<3>;
 
-  // Point position typedef
-  typedef TEllipsoidFunctionType::InputType TEllipsoidFunctionVectorType;
+  // Point position type alias
+  using TEllipsoidFunctionVectorType = TEllipsoidFunctionType::InputType;
 
   // Create an ellipsoid spatial function for the source image
   TEllipsoidFunctionType::Pointer spatialFunc = TEllipsoidFunctionType::New();

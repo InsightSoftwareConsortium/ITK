@@ -45,15 +45,15 @@ template< typename TElementIdentifier, typename TElement >
 class ITK_TEMPLATE_EXPORT ImportImageContainer:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImportImageContainer       Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImportImageContainer;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Save the template parameters. */
-  typedef TElementIdentifier ElementIdentifier;
-  typedef TElement           Element;
+  using ElementIdentifier = TElementIdentifier;
+  using Element = TElement;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

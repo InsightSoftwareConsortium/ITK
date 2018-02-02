@@ -65,7 +65,7 @@ int WriteNiftiTestFiles(const std::string & prefix)
 int TestNiftiByteSwap(const std::string & prefix)
 {
   int rval;
-  typedef itk::Image<double, 3> ImageType;
+  using ImageType = itk::Image<double, 3>;
   if(WriteNiftiTestFiles(prefix) == -1)
     {
       return EXIT_FAILURE;

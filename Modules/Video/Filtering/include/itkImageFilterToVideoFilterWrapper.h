@@ -43,19 +43,19 @@ class ITK_TEMPLATE_EXPORT ImageFilterToVideoFilterWrapper :
 {
 public:
 
-  /** Standard class typedefs */
-  typedef TImageToImageFilter                                ImageFilterType;
-  typedef typename ImageFilterType::InputImageType           InputFrameType;
-  typedef typename ImageFilterType::OutputImageType          OutputFrameType;
-  typedef itk::VideoStream< InputFrameType >                 InputVideoStreamType;
-  typedef itk::VideoStream< OutputFrameType >                OutputVideoStreamType;
+  /** Standard class type aliases */
+  using ImageFilterType = TImageToImageFilter;
+  using InputFrameType = typename ImageFilterType::InputImageType;
+  using OutputFrameType = typename ImageFilterType::OutputImageType;
+  using InputVideoStreamType = itk::VideoStream< InputFrameType >;
+  using OutputVideoStreamType = itk::VideoStream< OutputFrameType >;
 
-  typedef ImageFilterToVideoFilterWrapper< ImageFilterType > Self;
-  typedef VideoToVideoFilter< InputVideoStreamType,
-                              OutputVideoStreamType >        Superclass;
-  typedef SmartPointer< Self >                               Pointer;
-  typedef SmartPointer< const Self >                         ConstPointer;
-  typedef WeakPointer< const Self >                          ConstWeakPointer;
+  using Self = ImageFilterToVideoFilterWrapper< ImageFilterType >;
+  using Superclass = VideoToVideoFilter< InputVideoStreamType,
+                              OutputVideoStreamType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
   itkNewMacro(Self);
 

@@ -837,7 +837,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
     }                                                                                                         \
   virtual void Set##name(const type &_arg)                           \
     {                                                                \
-    typedef SimpleDataObjectDecorator< type > DecoratorType;         \
+    using DecoratorType = SimpleDataObjectDecorator< type >;         \
     itkDebugMacro("setting input " #name " to " << _arg);            \
     const DecoratorType *oldInput =                                  \
       itkDynamicCastInDebugMode< const DecoratorType * >(            \
@@ -864,7 +864,7 @@ CLANG_PRAGMA_POP                                                     \
   virtual const type & Get##name() const                             \
     {                                                                \
     itkDebugMacro("Getting input " #name);                           \
-    typedef SimpleDataObjectDecorator< type > DecoratorType;         \
+    using DecoratorType = SimpleDataObjectDecorator< type >;         \
     const DecoratorType *input =                                     \
       itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetInput(#name) );                      \
@@ -897,7 +897,7 @@ CLANG_PRAGMA_POP                                                     \
     }                                                                                                   \
   virtual void Set##name(const type * _arg)                          \
     {                                                                \
-    typedef DataObjectDecorator< type > DecoratorType;               \
+    using DecoratorType = DataObjectDecorator< type >;               \
     itkDebugMacro("setting input " #name " to " << _arg);            \
     const DecoratorType *oldInput =                                  \
       itkDynamicCastInDebugMode< const DecoratorType * >(            \
@@ -924,7 +924,7 @@ CLANG_PRAGMA_POP                                                     \
   virtual const type * Get##name() const                             \
     {                                                                \
     itkDebugMacro("Getting input " #name);                           \
-    typedef DataObjectDecorator< type > DecoratorType;               \
+    using DecoratorType = DataObjectDecorator< type >;               \
     const DecoratorType *input =                                     \
       itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetInput(#name) );                      \
@@ -1271,7 +1271,7 @@ class kernel                                \
     }                                                                                                         \
   virtual void Set##name(const type &_arg)                                \
     {                                                                     \
-    typedef SimpleDataObjectDecorator< type > DecoratorType;              \
+    using DecoratorType = SimpleDataObjectDecorator< type >;              \
     itkDebugMacro("setting output " #name " to " << _arg);                \
     DecoratorType *output = itkDynamicCastInDebugMode< DecoratorType * >( \
         this->ProcessObject::GetOutput(#name) );                          \
@@ -1304,7 +1304,7 @@ class kernel                                \
   virtual const type & Get##name() const                             \
     {                                                                \
     itkDebugMacro("Getting output " #name);                          \
-    typedef SimpleDataObjectDecorator< type > DecoratorType;         \
+    using DecoratorType = SimpleDataObjectDecorator< type >;         \
     const DecoratorType *output =                                    \
       itkDynamicCastInDebugMode< const DecoratorType * >(            \
         this->ProcessObject::GetOutput(#name) );                     \

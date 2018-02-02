@@ -52,21 +52,21 @@ class ITK_TEMPLATE_EXPORT HistogramToImageFilter:
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef TFunction                                           FunctorType;
-  typedef HistogramToImageFilter                              Self;
-  typedef ImageSource< TImage >                               Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  /** Standard class type aliases. */
+  using FunctorType = TFunction;
+  using Self = HistogramToImageFilter;
+  using Superclass = ImageSource< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TImage                                              OutputImageType;
-  typedef typename Superclass::Pointer                        OutputImagePointer;
-  typedef typename OutputImageType::SpacingType               SpacingType;
-  typedef typename OutputImageType::PointType                 PointType;
-  typedef typename OutputImageType::PixelType                 OutputPixelType;
+  using OutputImageType = TImage;
+  using OutputImagePointer = typename Superclass::Pointer;
+  using SpacingType = typename OutputImageType::SpacingType;
+  using PointType = typename OutputImageType::PointType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
   // Define an iterator to iterate through the image
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType > ImageIteratorType;
+  using ImageIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -74,14 +74,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(HistogramToImageFilter, ImageSource);
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  /** Some convenient typedefs. */
-  typedef THistogram                                    HistogramType;
-  typedef typename HistogramType::MeasurementVectorType MeasurementVectorType;
-  typedef typename HistogramType::SizeType              HistogramSizeType;
-  typedef typename OutputImageType::SizeType            SizeType;
+  /** Some convenient type alias. */
+  using HistogramType = THistogram;
+  using MeasurementVectorType = typename HistogramType::MeasurementVectorType;
+  using HistogramSizeType = typename HistogramType::SizeType;
+  using SizeType = typename OutputImageType::SizeType;
 
   /** Determine the image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int, OutputImageType::ImageDimension);

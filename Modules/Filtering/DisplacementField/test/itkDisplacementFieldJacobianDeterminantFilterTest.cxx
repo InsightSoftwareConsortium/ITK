@@ -26,11 +26,11 @@ static bool TestDisplacementJacobianDeterminantValue(void)
   bool testPassed = true;
   const unsigned int ImageDimension = 2;
 
-  typedef itk::Vector<float,ImageDimension>     VectorType;
-  typedef itk::Image<VectorType,ImageDimension> FieldType;
+  using VectorType = itk::Vector<float,ImageDimension>;
+  using FieldType = itk::Image<VectorType,ImageDimension>;
 
   // In this case, the image to be warped is also a vector field.
-  typedef FieldType                   VectorImageType;
+  using VectorImageType = FieldType;
 
   //=============================================================
 
@@ -49,7 +49,7 @@ static bool TestDisplacementJacobianDeterminantValue(void)
   VectorType values;
   values[0]=0;
   values[1]=0;
-  typedef itk::ImageRegionIteratorWithIndex<VectorImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<VectorImageType>;
   for( Iterator inIter( dispacementfield, region ); !inIter.IsAtEnd(); ++inIter )
     {
     const unsigned int i=inIter.GetIndex()[0];
@@ -108,13 +108,13 @@ itkDisplacementFieldJacobianDeterminantFilterTest(int , char * [] )
   bool ValueTestPassed=TestDisplacementJacobianDeterminantValue();
   try
     {
-    typedef itk::Vector<float, 3>      VectorType;
-    typedef itk::Image< VectorType, 3> VectorImageType;
-    typedef itk::Image< float, 3>      ScalarVectorImageType;
+    using VectorType = itk::Vector<float, 3>;
+    using VectorImageType = itk::Image< VectorType, 3>;
+    using ScalarVectorImageType = itk::Image< float, 3>;
 
     // Set up filter
 
-    typedef itk::DisplacementFieldJacobianDeterminantFilter<VectorImageType,float> FilterType;
+    using FilterType = itk::DisplacementFieldJacobianDeterminantFilter<VectorImageType,float>;
     FilterType::Pointer filter = FilterType::New();
     filter->Print(std::cout);
 

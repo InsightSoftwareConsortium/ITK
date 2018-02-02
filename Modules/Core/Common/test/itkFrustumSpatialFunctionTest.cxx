@@ -27,14 +27,13 @@ int itkFrustumSpatialFunctionTest( int, char *[] )
   const unsigned int PointDimension = 3;
 
   // Define the point coordinate representation type
-  typedef float PointCoordRepType;
+  using PointCoordRepType = float;
 
   // Define the point type
-  typedef itk::Point< PointCoordRepType, PointDimension > PointType;
+  using PointType = itk::Point< PointCoordRepType, PointDimension >;
 
   // Define the type for the frustum spatial function
-  typedef itk::FrustumSpatialFunction< PointDimension, PointType >
-    FrustumSpatialFunctionType;
+  using FrustumSpatialFunctionType = itk::FrustumSpatialFunction< PointDimension, PointType >;
 
   // Create the frustum spatial function
   FrustumSpatialFunctionType::Pointer frustrumSpatialFunction =

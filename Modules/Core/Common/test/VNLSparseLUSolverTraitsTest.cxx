@@ -51,10 +51,10 @@ int VNLSparseLUSolverTraitsTest(int, char* [] )
    * Define an sparse LU solver traits type that operates over sparse matrices and
    * vectors of type "double"
    */
-  typedef double                                    CoordinateType;
-  typedef VNLSparseLUSolverTraits< CoordinateType > SolverTraits;
-  typedef SolverTraits::MatrixType                  MatrixType;
-  typedef SolverTraits::VectorType                  VectorType;
+  using CoordinateType = double;
+  using SolverTraits = VNLSparseLUSolverTraits< CoordinateType >;
+  using MatrixType = SolverTraits::MatrixType;
+  using VectorType = SolverTraits::VectorType;
 
   /**
    * Build the linear system to solve

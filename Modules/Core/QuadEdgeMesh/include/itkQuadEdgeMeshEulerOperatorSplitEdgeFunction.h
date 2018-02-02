@@ -36,24 +36,24 @@ class QuadEdgeMeshEulerOperatorSplitEdgeFunction:
   public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:
-  /** Standard class typedefs. */
-  typedef QuadEdgeMeshEulerOperatorSplitEdgeFunction   Self;
-  typedef QuadEdgeMeshFunctionBase< TMesh, TQEType * > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = QuadEdgeMeshEulerOperatorSplitEdgeFunction;
+  using Superclass = QuadEdgeMeshFunctionBase< TMesh, TQEType * >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro(Self);
   /** Run-time type information (and related methods). */
   itkTypeMacro(QuadEdgeMeshEulerOperatorSplitEdgeFunction, QuadEdgeMeshFunctionBase);
 
   /** Type of QuadEdge with which to apply slicing. */
-  typedef TQEType QEType;
+  using QEType = TQEType;
 
-  typedef typename Superclass::MeshType      MeshType;
-  typedef typename Superclass::OutputType    OutputType;
-  typedef typename MeshType::PointIdentifier PointIdentifier;
+  using MeshType = typename Superclass::MeshType;
+  using OutputType = typename Superclass::OutputType;
+  using PointIdentifier = typename MeshType::PointIdentifier;
 
-  typedef QuadEdgeMeshEulerOperatorSplitVertexFunction< MeshType, QEType > SplitVertex;
+  using SplitVertex = QuadEdgeMeshEulerOperatorSplitVertexFunction< MeshType, QEType >;
 
   /** Evaluate at the specified input position */
   virtual OutputType Evaluate(QEType *e)

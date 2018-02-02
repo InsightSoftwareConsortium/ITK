@@ -30,7 +30,7 @@ int itkEuler3DTransformTest(int, char *[] )
   const unsigned int N = 3;
   bool               Ok = true;
 
-  typedef itk::Euler3DTransform<double> EulerTransformType;
+  using EulerTransformType = itk::Euler3DTransform<double>;
   EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
 
   // Testing Identity
@@ -371,8 +371,8 @@ int itkEuler3DTransformTest(int, char *[] )
     // Testing SetMatrix()
     std::cout << "Testing SetMatrix() ... ";
 
-    typedef itk::Euler3DTransform<double> TransformType;
-    typedef TransformType::MatrixType     MatrixType;
+    using TransformType = itk::Euler3DTransform<double>;
+    using MatrixType = TransformType::MatrixType;
 
     MatrixType             matrix;
     TransformType::Pointer t = TransformType::New();
@@ -443,7 +443,7 @@ int itkEuler3DTransformTest(int, char *[] )
       }
 
     // Check the computed parameters
-    typedef TransformType::ParametersType ParametersType;
+    using ParametersType = TransformType::ParametersType;
     ParametersType e( t->GetNumberOfParameters() );
     e.Fill( 0.0 );
     e[2] = a;

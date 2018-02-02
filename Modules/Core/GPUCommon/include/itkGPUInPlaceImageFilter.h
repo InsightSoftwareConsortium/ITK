@@ -38,32 +38,32 @@ template< typename TInputImage, typename TOutputImage = TInputImage, typename TP
 class ITK_TEMPLATE_EXPORT GPUInPlaceImageFilter : public GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUInPlaceImageFilter                                                  Self;
-  typedef GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter > GPUSuperclass;
-  typedef TParentImageFilter                                                     CPUSuperclass;
-  typedef SmartPointer< Self >                                                   Pointer;
-  typedef SmartPointer< const Self >                                             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUInPlaceImageFilter;
+  using GPUSuperclass = GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
+  using CPUSuperclass = TParentImageFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GPUInPlaceImageFilter, GPUImageToImageFilter);
 
-  /** Superclass typedefs. */
-  typedef typename GPUSuperclass::OutputImageType       OutputImageType;
-  typedef typename GPUSuperclass::OutputImagePointer    OutputImagePointer;
-  typedef typename GPUSuperclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename GPUSuperclass::OutputImagePixelType  OutputImagePixelType;
+  /** Superclass type alias. */
+  using OutputImageType = typename GPUSuperclass::OutputImageType;
+  using OutputImagePointer = typename GPUSuperclass::OutputImagePointer;
+  using OutputImageRegionType = typename GPUSuperclass::OutputImageRegionType;
+  using OutputImagePixelType = typename GPUSuperclass::OutputImagePixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
 protected:
   GPUInPlaceImageFilter();

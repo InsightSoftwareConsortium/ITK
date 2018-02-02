@@ -33,9 +33,9 @@ int itkScalarImageToTextureFeaturesFilterTest(int, char* [] )
   //------------------------------------------------------
   //Create a simple test images
   //------------------------------------------------------
-  typedef itk::Image<unsigned char, NDIMENSION> InputImageType;
+  using InputImageType = itk::Image<unsigned char, NDIMENSION>;
 
-  typedef itk::ImageRegionIterator< InputImageType > InputImageIterator;
+  using InputImageIterator = itk::ImageRegionIterator< InputImageType >;
 
 
   InputImageType::Pointer image = InputImageType::New();
@@ -100,8 +100,7 @@ int itkScalarImageToTextureFeaturesFilterTest(int, char* [] )
   try
     {
 
-    typedef itk::Statistics::ScalarImageToTextureFeaturesFilter<
-      InputImageType> TextureFilterType;
+    using TextureFilterType = itk::Statistics::ScalarImageToTextureFeaturesFilter<InputImageType>;
 
     // First test: just use the defaults.
     TextureFilterType::Pointer texFilter = TextureFilterType::New();
@@ -310,7 +309,7 @@ int itkScalarImageToTextureFeaturesFilterTest(int, char* [] )
       }
 
     //Test Set/Get Requested features
-    typedef TextureFilterType::TextureFeaturesFilterType   TextureFeaturesFilterType;
+    using TextureFeaturesFilterType = TextureFilterType::TextureFeaturesFilterType;
 
     TextureFilterType::FeatureNameVectorPointer requestedFeatures =
                                                 TextureFilterType::FeatureNameVector::New();

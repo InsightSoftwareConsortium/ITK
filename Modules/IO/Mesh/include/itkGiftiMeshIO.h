@@ -39,19 +39,19 @@ namespace itk
 class ITKIOMesh_EXPORT GiftiMeshIO:public MeshIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef GiftiMeshIO                         Self;
-  typedef MeshIOBase                          Superclass;
-  typedef SmartPointer< const Self >          ConstPointer;
-  typedef SmartPointer< Self >                Pointer;
+  /** Standard class type aliases. */
+  using Self = GiftiMeshIO;
+  using Superclass = MeshIOBase;
+  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer< Self >;
 
-  typedef Superclass::SizeValueType           SizeValueType;
-  typedef Matrix< double, 4, 4 >              DirectionType;
-  typedef RGBAPixel<float>                    RGBAPixelType;
-  typedef MapContainer<int, RGBAPixelType>    LabelColorContainer;
-  typedef MapContainer<int, std::string>      LabelNameContainer;
-  typedef LabelColorContainer::Pointer        LabelColorContainerPointer;
-  typedef LabelNameContainer::Pointer         LabelNameContainerPointer;
+  using SizeValueType = Superclass::SizeValueType;
+  using DirectionType = Matrix< double, 4, 4 >;
+  using RGBAPixelType = RGBAPixel<float>;
+  using LabelColorContainer = MapContainer<int, RGBAPixelType>;
+  using LabelNameContainer = MapContainer<int, std::string>;
+  using LabelColorContainerPointer = LabelColorContainer::Pointer;
+  using LabelNameContainerPointer = LabelNameContainer::Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

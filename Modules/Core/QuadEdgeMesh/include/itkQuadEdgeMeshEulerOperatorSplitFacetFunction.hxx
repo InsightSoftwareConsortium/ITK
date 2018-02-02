@@ -73,7 +73,7 @@ QuadEdgeMeshEulerOperatorSplitFacetFunction< TMesh, TQEType >::Evaluate(QEType *
     return ( (QEType *)nullptr );
     }
 
-  typedef typename MeshType::VertexRefType VertexRefType;
+  using VertexRefType = typename MeshType::VertexRefType;
 
   this->m_Mesh->DeleteFace( h->GetLeft() );
   VertexRefType orgPid  = h->GetDestination();

@@ -269,7 +269,7 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
       itkExceptionMacro("Output image is nullptr");
       }
 
-    typedef typename TOutputImage::SpacingType SpacingType;
+    using SpacingType = typename TOutputImage::SpacingType;
     const SpacingType & spacing = outputImage->GetSpacing();
 
     for ( unsigned int i = 0; i < ImageDimension; i++ )

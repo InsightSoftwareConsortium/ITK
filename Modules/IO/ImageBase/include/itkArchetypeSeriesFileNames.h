@@ -68,10 +68,10 @@ namespace itk
 class ITKIOImageBase_EXPORT ArchetypeSeriesFileNames:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef ArchetypeSeriesFileNames Self;
-  typedef Object                   Superclass;
-  typedef SmartPointer< Self >     Pointer;
+  /** Standard class type aliases. */
+  using Self = ArchetypeSeriesFileNames;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -87,14 +87,14 @@ public:
 
   itkGetStringMacro(Archetype);
 
-  typedef  size_t VectorSizeType;
+  using VectorSizeType = size_t;
 
   /** Get the number of groupings that match the Archetype */
   VectorSizeType GetNumberOfGroupings();
 
   /** Helper types for managing the groups of filenames and their sizes */
-  typedef std::vector< int >         IntVectorType;
-  typedef std::vector< std::string > StringVectorType;
+  using IntVectorType = std::vector< int >;
+  using StringVectorType = std::vector< std::string >;
 
   /** Returns a vector containing the series' file names. The file
     * names are ordered by Index. Defaults to returning the filenames

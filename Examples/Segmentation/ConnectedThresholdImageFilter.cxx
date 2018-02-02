@@ -113,22 +113,22 @@ int main( int argc, char *argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   float           InternalPixelType;
+  using InternalPixelType = float;
   const     unsigned int    Dimension = 2;
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
-  typedef unsigned char                            OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::CastImageFilter< InternalImageType, OutputImageType >
-                                                   CastingFilterType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using CastingFilterType =
+      itk::CastImageFilter< InternalImageType, OutputImageType >;
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
   // We instantiate reader and writer types
   //
-  typedef  itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
+  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -146,8 +146,8 @@ int main( int argc, char *argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >
-    CurvatureFlowImageFilterType;
+  using CurvatureFlowImageFilterType =
+      itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -172,8 +172,8 @@ int main( int argc, char *argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ConnectedThresholdImageFilter< InternalImageType,
-                                    InternalImageType > ConnectedFilterType;
+  using ConnectedFilterType = itk::ConnectedThresholdImageFilter< InternalImageType,
+                                    InternalImageType >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

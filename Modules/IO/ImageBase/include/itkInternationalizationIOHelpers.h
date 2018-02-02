@@ -253,8 +253,8 @@ public:
   {}
 };
 #else
-typedef std::ofstream I18nOfstream;
-typedef std::ifstream I18nIfstream;
+using I18nOfstream = std::ofstream;
+using I18nIfstream = std::ifstream;
 #endif
 } // end namespace
 } // end namespace

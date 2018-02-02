@@ -34,8 +34,8 @@ template <class TInputImage, class TOutputImage>
 FFTPadImageFilter<TInputImage, TOutputImage>
 ::FFTPadImageFilter()
 {
-  typedef Image< float, TInputImage::ImageDimension > RealImageType;
-  typedef ForwardFFTImageFilter< RealImageType >      FFTFilterType;
+  using RealImageType = Image< float, TInputImage::ImageDimension >;
+  using FFTFilterType = ForwardFFTImageFilter< RealImageType >;
   m_SizeGreatestPrimeFactor = FFTFilterType::New()->GetSizeGreatestPrimeFactor();
   Self::InternalSetBoundaryCondition( &m_DefaultBoundaryCondition );
 }

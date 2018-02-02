@@ -87,18 +87,17 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
   typename ShapedNeighborhoodIteratorType::RadiusType radius;
   radius.Fill(1);
 
-  typedef itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<
-    ImageType > FaceCalculatorType;
+  using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 
   FaceCalculatorType faceCalculator;
   typename FaceCalculatorType::FaceListType faceList;
   typename FaceCalculatorType::FaceListType::iterator fit;
 
-  typedef typename ShapedNeighborhoodIteratorType::ConstIterator ShapeNeighborhoodIterator;
+  using ShapeNeighborhoodIterator = typename ShapedNeighborhoodIteratorType::ConstIterator;
 
-  typedef typename ImageType::PixelType PixelType;
+  using PixelType = typename ImageType::PixelType;
 
-  typedef typename OffsetTable::iterator OffsetIterator;
+  using OffsetIterator = typename OffsetTable::iterator;
 
   typename SampleType::MeasurementVectorType coords;
 

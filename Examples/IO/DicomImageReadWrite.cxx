@@ -62,10 +62,10 @@ int main( int argc, char* argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef signed short InputPixelType;
+  using InputPixelType = signed short;
   const unsigned int   InputDimension = 2;
 
-  typedef itk::Image< InputPixelType, InputDimension > InputImageType;
+  using InputImageType = itk::Image< InputPixelType, InputDimension >;
 // Software Guide : EndCodeSnippet
 
 // Software Guide : BeginLatex
@@ -76,7 +76,7 @@ int main( int argc, char* argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< InputImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
@@ -91,7 +91,7 @@ int main( int argc, char* argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::GDCMImageIO           ImageIOType;
+  using ImageIOType = itk::GDCMImageIO;
 
   ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
 
@@ -139,7 +139,7 @@ int main( int argc, char* argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< InputImageType >  Writer1Type;
+  using Writer1Type = itk::ImageFileWriter< InputImageType >;
 
   Writer1Type::Pointer writer1 = Writer1Type::New();
 
@@ -192,12 +192,12 @@ int main( int argc, char* argv[] )
 // Software Guide : EndLatex
 
 //  Software Guide : BeginCodeSnippet
-  typedef unsigned char WritePixelType;
+  using WritePixelType = unsigned char;
 
-  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  using WriteImageType = itk::Image< WritePixelType, 2 >;
 
-  typedef itk::RescaleIntensityImageFilter<
-               InputImageType, WriteImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<
+               InputImageType, WriteImageType >;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
@@ -216,7 +216,7 @@ int main( int argc, char* argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< WriteImageType >  Writer2Type;
+  using Writer2Type = itk::ImageFileWriter< WriteImageType >;
 
   Writer2Type::Pointer writer2 = Writer2Type::New();
 
@@ -254,7 +254,7 @@ int main( int argc, char* argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< WriteImageType >  Writer3Type;
+  using Writer3Type = itk::ImageFileWriter< WriteImageType >;
 
   Writer3Type::Pointer writer3 = Writer3Type::New();
 

@@ -34,17 +34,17 @@ class CylinderSpatialObject:
 {
 public:
 
-  typedef CylinderSpatialObject                        Self;
-  typedef double                                       ScalarType;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
-  typedef SpatialObject< 3 >                           Superclass;
-  typedef SmartPointer< Superclass >                   SuperclassPointer;
-  typedef Superclass::PointType                        PointType;
-  typedef Superclass::TransformType                    TransformType;
-  typedef Superclass::BoundingBoxType                  BoundingBoxType;
-  typedef VectorContainer< IdentifierType, PointType > PointContainerType;
-  typedef SmartPointer< PointContainerType >           PointContainerPointer;
+  using Self = CylinderSpatialObject;
+  using ScalarType = double;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = SpatialObject< 3 >;
+  using SuperclassPointer = SmartPointer< Superclass >;
+  using PointType = Superclass::PointType;
+  using TransformType = Superclass::TransformType;
+  using BoundingBoxType = Superclass::BoundingBoxType;
+  using PointContainerType = VectorContainer< IdentifierType, PointType >;
+  using PointContainerPointer = SmartPointer< PointContainerType >;
 
   itkStaticConstMacro(NumberOfDimension, unsigned int,
                       3);

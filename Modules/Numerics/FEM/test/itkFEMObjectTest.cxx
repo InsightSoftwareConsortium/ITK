@@ -31,12 +31,12 @@ int itkFEMObjectTest(int, char *[])
 
 
   // Testing the fe mesh validity
-  typedef itk::fem::FEMObject<2>      FEMObjectType;
-  typedef FEMObjectType::Pointer      FEMObjectTypePointer;
+  using FEMObjectType = itk::fem::FEMObject<2>;
+  using FEMObjectTypePointer = FEMObjectType::Pointer;
 
   FEMObjectTypePointer femObject = FEMObjectType::New();
 
-  typedef itk::fem::Element::Node NodeType;
+  using NodeType = itk::fem::Element::Node;
 
   NodeType::Pointer n1;
 

@@ -41,11 +41,11 @@ template< typename TInputImage, typename TGradientImage >
 class ITK_TEMPLATE_EXPORT RobustAutomaticThresholdCalculator:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef RobustAutomaticThresholdCalculator Self;
-  typedef Object                             Superclass;
-  typedef SmartPointer< Self >               Pointer;
-  typedef SmartPointer< const Self >         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = RobustAutomaticThresholdCalculator;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -58,16 +58,16 @@ public:
                       TInputImage::ImageDimension);
 
   /** Standard image type within this class. */
-  typedef TInputImage    InputImageType;
-  typedef TGradientImage GradientImageType;
+  using InputImageType = TInputImage;
+  using GradientImageType = TGradientImage;
 
   /** Standard image type pointer within this class. */
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename InputImageType::ConstPointer    InputImageConstPointer;
-  typedef typename GradientImageType::Pointer      GradientImagePointer;
-  typedef typename GradientImageType::ConstPointer GradientImageConstPointer;
-  typedef typename InputImageType::PixelType       InputPixelType;
-  typedef typename GradientImageType::PixelType    GradientPixelType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using GradientImagePointer = typename GradientImageType::Pointer;
+  using GradientImageConstPointer = typename GradientImageType::ConstPointer;
+  using InputPixelType = typename InputImageType::PixelType;
+  using GradientPixelType = typename GradientImageType::PixelType;
 
   /** Set the input image. */
   virtual void SetInput(const InputImageType *image)

@@ -40,17 +40,17 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
 {
   const unsigned int ImageDimension = 2;
 
-  typedef double                   PixelType;
+  using PixelType = double;
 
-  typedef double                   CoordinateRepresentationType;
+  using CoordinateRepresentationType = double;
 
-  typedef itk::Image< PixelType, ImageDimension >   MovingImageType;
-  typedef itk::Image< PixelType, ImageDimension >   FixedImageType;
+  using MovingImageType = itk::Image< PixelType, ImageDimension >;
+  using FixedImageType = itk::Image< PixelType, ImageDimension >;
 
-  typedef itk::testhelper::ImageRegistrationMethodImageSource<
+  using ImageSourceType = itk::testhelper::ImageRegistrationMethodImageSource<
     PixelType,
     PixelType,
-    ImageDimension > ImageSourceType;
+    ImageDimension >;
 
   ImageSourceType::Pointer imageSource = ImageSourceType::New();
 
@@ -67,7 +67,7 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
   // Create the point set and load it with data by sampling
   // the fixed image.
   //
-  typedef itk::PointSet< float, ImageDimension > FixedPointSetType;
+  using FixedPointSetType = itk::PointSet< float, ImageDimension >;
   FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
 
   const unsigned int numberOfPoints = 10000;
@@ -77,7 +77,7 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
   fixedPointSet->GetPoints()->Reserve( numberOfPoints );
   fixedPointSet->GetPointData()->Reserve( numberOfPoints );
 
-  typedef itk::ImageRegionConstIterator< FixedImageType > ImageIteratorType;
+  using ImageIteratorType = itk::ImageRegionConstIterator< FixedImageType >;
 
   ImageIteratorType it( fixedImage, fixedImage->GetBufferedRegion() );
 
@@ -109,38 +109,38 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
     }
 
   // Set up the Metric
-  typedef itk::NormalizedCorrelationPointSetToImageMetric< FixedPointSetType,
-    MovingImageType > MetricType;
+  using MetricType = itk::NormalizedCorrelationPointSetToImageMetric< FixedPointSetType,
+    MovingImageType >;
 
-  typedef MetricType::TransformType                 TransformBaseType;
-  typedef TransformBaseType::ParametersType         ParametersType;
+  using TransformBaseType = MetricType::TransformType;
+  using ParametersType = TransformBaseType::ParametersType;
 
   MetricType::Pointer metric = MetricType::New();
 
   // Set up the Transform
-  typedef itk::TranslationTransform< CoordinateRepresentationType,
-    ImageDimension > TransformType;
+  using TransformType = itk::TranslationTransform< CoordinateRepresentationType,
+    ImageDimension >;
   TransformType::Pointer transform = TransformType::New();
 
   // Set up the Interpolator
-  typedef itk::LinearInterpolateImageFunction< MovingImageType, double >
-    InterpolatorType;
+  using InterpolatorType =
+      itk::LinearInterpolateImageFunction< MovingImageType, double >;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   // Set up the Optimizer
-  typedef itk::RegularStepGradientDescentOptimizer OptimizerType;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   OptimizerType::Pointer optimizer = OptimizerType::New();
 
   // Set up the Registration method
-  typedef itk::PointSetToImageRegistrationMethod< FixedPointSetType,
-    MovingImageType > RegistrationType;
+  using RegistrationType = itk::PointSetToImageRegistrationMethod< FixedPointSetType,
+    MovingImageType >;
 
   RegistrationType::Pointer registration = RegistrationType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( registration, PointSetToImageRegistrationMethod,
     ProcessObject );
 
-  typedef itk::CommandIterationUpdate< OptimizerType > CommandIterationType;
+  using CommandIterationType = itk::CommandIterationUpdate< OptimizerType >;
 
   // Instantiate an Observer to report the progress of the Optimization
   CommandIterationType::Pointer iterationCommand = CommandIterationType::New();

@@ -23,12 +23,12 @@
 
 int itkFastMarchingQuadEdgeMeshFilterBaseTest2( int , char * [] )
 {
-  typedef float   PixelType;
-  typedef double  CoordType;
+  using PixelType = float;
+  using CoordType = double;
 
   const unsigned int Dimension = 3;
 
-  typedef itk::QuadEdgeMeshExtendedTraits <
+  using Traits = itk::QuadEdgeMeshExtendedTraits <
     PixelType,  // type of data for vertices
     Dimension,  // geometrical dimension of space
     2,          // Mac topological dimension of a cell
@@ -37,19 +37,19 @@ int itkFastMarchingQuadEdgeMeshFilterBaseTest2( int , char * [] )
     PixelType,  // type of data for cell
     bool,       // type of data for primal edges
     bool        // type of data for dual edges
-  > Traits;
+  >;
 
-  typedef itk::QuadEdgeMesh< PixelType, Dimension, Traits > MeshType;
+  using MeshType = itk::QuadEdgeMesh< PixelType, Dimension, Traits >;
 
-  typedef itk::FastMarchingQuadEdgeMeshFilterBase< MeshType, MeshType > FastMarchingType;
+  using FastMarchingType = itk::FastMarchingQuadEdgeMeshFilterBase< MeshType, MeshType >;
 
-  typedef FastMarchingType::InputMeshType MeshType;
+  using MeshType = FastMarchingType::InputMeshType;
 
-  typedef MeshType::PointsContainer PointsContainer;
-  typedef PointsContainer::Pointer  PointsContainerPointer;
+  using PointsContainer = MeshType::PointsContainer;
+  using PointsContainerPointer = PointsContainer::Pointer;
 
-  typedef MeshType::PointDataContainer PointDataContainer;
-  typedef PointDataContainer::Pointer  PointDataContainerPointer;
+  using PointDataContainer = MeshType::PointDataContainer;
+  using PointDataContainerPointer = PointDataContainer::Pointer;
 
   // Let's create here a plane!
   MeshType::Pointer plane = MeshType::New();
@@ -94,17 +94,17 @@ int itkFastMarchingQuadEdgeMeshFilterBaseTest2( int , char * [] )
     k++;
     }
 
-  typedef FastMarchingType::NodePairType  NodePairType;
-//  typedef FastMarchingType::NodeContainerType NodeContainerType;
-  typedef FastMarchingType::NodePairContainerType NodePairContainerType;
+  using NodePairType = FastMarchingType::NodePairType;
+//  using NodeContainerType = FastMarchingType::NodeContainerType;
+  using NodePairContainerType = FastMarchingType::NodePairContainerType;
 
   NodePairContainerType::Pointer trial = NodePairContainerType::New();
 
   NodePairType node_pair( 0, 0. );
   trial->push_back( node_pair );
 
-  typedef itk::FastMarchingThresholdStoppingCriterion< MeshType, MeshType >
-      CriterionType;
+  using CriterionType =
+      itk::FastMarchingThresholdStoppingCriterion< MeshType, MeshType >;
   CriterionType::Pointer criterion = CriterionType::New();
   criterion->SetThreshold( 100. );
 
@@ -151,7 +151,7 @@ int itkFastMarchingQuadEdgeMeshFilterBaseTest2( int , char * [] )
     ++o_data_it;
     }
 
-  typedef itk::MeshFileWriter< MeshType > WriterType;
+  using WriterType = itk::MeshFileWriter< MeshType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( output );
   writer->SetFileName( "itkFastMarchingQuadEdgeMeshFilterBaseTest2.vtk" );

@@ -43,11 +43,11 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDens
   : public DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LevelSetEvolutionUpdateLevelSetsThreader                                                       Self;
-  typedef DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution > Superclass;
-  typedef SmartPointer< Self >                                                                           Pointer;
-  typedef SmartPointer< const Self >                                                                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LevelSetEvolutionUpdateLevelSetsThreader;
+  using Superclass = DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run time type information. */
   itkTypeMacro( LevelSetEvolutionUpdateLevelSetsThreader, DomainThreader );
@@ -56,15 +56,15 @@ public:
   itkNewMacro( Self );
 
   /** Superclass types. */
-  typedef typename Superclass::DomainType    DomainType;
-  typedef typename Superclass::AssociateType AssociateType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
 
   /** Types of the associate class. */
-  typedef TLevelSetEvolution                                     LevelSetEvolutionType;
-  typedef typename LevelSetEvolutionType::LevelSetContainerType  LevelSetContainerType;
-  typedef typename LevelSetEvolutionType::LevelSetType           LevelSetType;
-  typedef typename LevelSetEvolutionType::LevelSetImageType      LevelSetImageType;
-  typedef typename LevelSetEvolutionType::LevelSetOutputRealType LevelSetOutputRealType;
+  using LevelSetEvolutionType = TLevelSetEvolution;
+  using LevelSetContainerType = typename LevelSetEvolutionType::LevelSetContainerType;
+  using LevelSetType = typename LevelSetEvolutionType::LevelSetType;
+  using LevelSetImageType = typename LevelSetEvolutionType::LevelSetImageType;
+  using LevelSetOutputRealType = typename LevelSetEvolutionType::LevelSetOutputRealType;
 
 protected:
   LevelSetEvolutionUpdateLevelSetsThreader();
@@ -75,8 +75,8 @@ protected:
 
   void AfterThreadedExecution() override;
 
-  typedef CompensatedSummation< LevelSetOutputRealType > RMSChangeAccumulatorType;
-  typedef std::vector< RMSChangeAccumulatorType > RMSChangeAccumulatorPerThreadType;
+  using RMSChangeAccumulatorType = CompensatedSummation< LevelSetOutputRealType >;
+  using RMSChangeAccumulatorPerThreadType = std::vector< RMSChangeAccumulatorType >;
 
   RMSChangeAccumulatorPerThreadType m_RMSChangeAccumulatorPerThread;
 

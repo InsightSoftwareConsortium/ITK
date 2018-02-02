@@ -41,11 +41,11 @@ namespace fem
 class ITKFEM_EXPORT Element3DC0LinearTriangularMembrane : public Element3DMembrane<Element3DC0LinearTriangular>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element3DC0LinearTriangularMembrane            Self;
-  typedef Element3DMembrane<Element3DC0LinearTriangular> Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element3DC0LinearTriangularMembrane;
+  using Superclass = Element3DMembrane<Element3DC0LinearTriangular>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

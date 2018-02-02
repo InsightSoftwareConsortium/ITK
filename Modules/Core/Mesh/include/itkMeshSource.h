@@ -49,11 +49,11 @@ template< typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT MeshSource:public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef MeshSource                 Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MeshSource;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,12 +61,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MeshSource, ProcessObject);
 
-  /** Some convenient typedefs. */
-  typedef DataObject::Pointer              DataObjectPointer;
-  typedef TOutputMesh                      OutputMeshType;
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  /** Some convenient type alias. */
+  using DataObjectPointer = DataObject::Pointer;
+  using OutputMeshType = TOutputMesh;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
-  typedef Superclass::DataObjectIdentifierType DataObjectIdentifierType;
+  using DataObjectIdentifierType = Superclass::DataObjectIdentifierType;
 
   /** Get the mesh output of this process object.  */
   OutputMeshType * GetOutput();
@@ -137,7 +137,7 @@ public:
    * SmartPointer to a DataObject. If a subclass of MeshSource has
    * multiple outputs of different types, then that class must provide
    * an implementation of MakeOutput(). */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

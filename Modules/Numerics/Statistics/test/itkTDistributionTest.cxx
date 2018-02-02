@@ -28,7 +28,7 @@ int itkTDistributionTest(int, char* [] )
 
   std::cout << "itkTDistribution Test \n \n";
 
-  typedef itk::Statistics::TDistribution DistributionType;
+  using DistributionType = itk::Statistics::TDistribution;
 
   DistributionType::Pointer distributionFunction = DistributionType::New();
 

@@ -27,10 +27,9 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
   const unsigned int                  numberOfMeasurementVectors = 3;
   unsigned int                        counter;
 
-  typedef itk::FixedArray<
-    float, MeasurementVectorSize >             MeasurementVectorType;
-  typedef itk::Statistics::ListSample<
-    MeasurementVectorType >                    SampleType;
+  using MeasurementVectorType = itk::FixedArray<
+    float, MeasurementVectorSize >;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
   SampleType::Pointer sample = SampleType::New();
 
@@ -51,10 +50,9 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
     counter++;
     }
 
-  typedef itk::Statistics::CovarianceSampleFilter< SampleType >
-    FilterType;
+  using FilterType = itk::Statistics::CovarianceSampleFilter<SampleType>;
 
-  typedef FilterType::MatrixType          CovarianceMatrixType;
+  using CovarianceMatrixType = FilterType::MatrixType;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -81,7 +79,7 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
 
   //Check the results
 
-  typedef FilterType::MeasurementVectorRealType   MeasurementVectorRealType;
+  using MeasurementVectorRealType = FilterType::MeasurementVectorRealType;
   MeasurementVectorRealType  meanExpected;
 
   itk::NumericTraits<MeasurementVectorRealType>::SetLength( meanExpected, MeasurementVectorSize );

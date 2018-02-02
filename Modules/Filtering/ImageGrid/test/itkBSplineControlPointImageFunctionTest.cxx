@@ -28,9 +28,9 @@ int itkBSplineControlPointImageFunctionTest( int, char * [] )
   const unsigned int ParametricDimension = 1;
   const unsigned int DataDimension = 1;
 
-  typedef float                                         RealType;
-  typedef itk::Vector<RealType, DataDimension>          VectorType;
-  typedef itk::Image<VectorType, ParametricDimension>   VectorImageType;
+  using RealType = float;
+  using VectorType = itk::Vector<RealType, DataDimension>;
+  using VectorImageType = itk::Image<VectorType, ParametricDimension>;
 
   VectorImageType::Pointer phiLattice = VectorImageType::New();
 
@@ -59,8 +59,7 @@ int itkBSplineControlPointImageFunctionTest( int, char * [] )
   value.Fill( 1.0 );
   phiLattice->SetPixel( index, value );
 
-  typedef itk::BSplineControlPointImageFunction<VectorImageType>
-    BSplinerType;
+  using BSplinerType = itk::BSplineControlPointImageFunction<VectorImageType>;
   BSplinerType::Pointer bspliner = BSplinerType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( bspliner, BSplineControlPointImageFunction,

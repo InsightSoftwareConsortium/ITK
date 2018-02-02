@@ -32,9 +32,9 @@ template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef CommandIterationUpdate   Self;
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -70,7 +70,7 @@ public:
       typename TFilter::TransformParametersAdaptorsContainerType adaptors = filter->GetTransformParametersAdaptorsPerLevel();
 
       const itk::ObjectToObjectOptimizerBase* optimizerBase = filter->GetOptimizer();
-      typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+      using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
       typename GradientDescentOptimizerv4Type::ConstPointer optimizer = dynamic_cast<const GradientDescentOptimizerv4Type *>(optimizerBase);
       if( !optimizer )
         {
@@ -113,11 +113,11 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     exit( 1 );
     }
 
-  typedef TPixel                                 PixelType;
-  typedef itk::Image<PixelType, VImageDimension> FixedImageType;
-  typedef itk::Image<PixelType, VImageDimension> MovingImageType;
+  using PixelType = TPixel;
+  using FixedImageType = itk::Image<PixelType, VImageDimension>;
+  using MovingImageType = itk::Image<PixelType, VImageDimension>;
 
-  typedef itk::ImageFileReader<FixedImageType> ImageReaderType;
+  using ImageReaderType = itk::ImageFileReader<FixedImageType>;
 
   typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName( argv[3] );
@@ -133,10 +133,10 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   movingImage->Update();
   movingImage->DisconnectPipeline();
 
-  typedef itk::AffineTransform<double, VImageDimension> AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<double, VImageDimension>;
   typename AffineTransformType::Pointer affineTransform = AffineTransformType::New();
 
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> AffineRegistrationType;
+  using AffineRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
   typename AffineRegistrationType::Pointer affineSimple = AffineRegistrationType::New();
   affineSimple->SetObjectName("affineSimple");
   affineSimple->SetFixedImage( fixedImage );
@@ -154,7 +154,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType> MIMetricType;
+  using MIMetricType = itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
   typename MIMetricType::Pointer mutualInformationMetric = MIMetricType::New();
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );
   mutualInformationMetric->SetUseMovingImageGradientFilter( false );
@@ -163,7 +163,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   mutualInformationMetric->SetVirtualDomainFromImage( fixedImage );
   affineSimple->SetMetric( mutualInformationMetric );
 
-  typedef itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType> AffineScalesEstimatorType;
+  using AffineScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType>;
   typename AffineScalesEstimatorType::Pointer scalesEstimator1 = AffineScalesEstimatorType::New();
   scalesEstimator1->SetMetric( mutualInformationMetric );
   scalesEstimator1->SetTransformForward( true );
@@ -187,7 +187,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   affineSimple->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
   }
 
-  typedef itk::GradientDescentOptimizerv4 GradientDescentOptimizerv4Type;
+  using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
   typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
     dynamic_cast<GradientDescentOptimizerv4Type * >( affineSimple->GetModifiableOptimizer() );
   if( !affineOptimizer )
@@ -203,12 +203,12 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   affineOptimizer->SetDoEstimateLearningRateAtEachIteration( true );
   affineOptimizer->SetScalesEstimator( scalesEstimator1 );
 
-  typedef CommandIterationUpdate<AffineRegistrationType> AffineCommandType;
+  using AffineCommandType = CommandIterationUpdate<AffineRegistrationType>;
   typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
   affineSimple->AddObserver( itk::MultiResolutionIterationEvent(), affineObserver );
 
   {
-  typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
+  using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
   typename ImageMetricType::Pointer imageMetric = dynamic_cast<ImageMetricType*>( affineSimple->GetModifiableMetric() );
   //imageMetric->SetUseFloatingPointCorrection(true);
   imageMetric->SetFloatingPointCorrectionResolution(1e4);
@@ -220,29 +220,29 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   // the composite transform.
   //
 
-  typedef typename AffineRegistrationType::RealType RealType;
+  using RealType = typename AffineRegistrationType::RealType;
 
-  typedef itk::Vector<RealType, VImageDimension> VectorType;
+  using VectorType = itk::Vector<RealType, VImageDimension>;
   VectorType zeroVector( 0.0 );
-  typedef itk::Image<VectorType, VImageDimension> DisplacementFieldType;
+  using DisplacementFieldType = itk::Image<VectorType, VImageDimension>;
   typename DisplacementFieldType::Pointer displacementField = DisplacementFieldType::New();
   displacementField->CopyInformation( fixedImage );
   displacementField->SetRegions( fixedImage->GetBufferedRegion() );
   displacementField->Allocate();
   displacementField->FillBuffer( zeroVector );
 
-  typedef itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<RealType, VImageDimension> DisplacementFieldTransformType;
+  using DisplacementFieldTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<RealType, VImageDimension>;
 
   typename DisplacementFieldTransformType::Pointer fieldTransform =  DisplacementFieldTransformType::New();
   fieldTransform->SetGaussianSmoothingVarianceForTheUpdateField( 0 );
   fieldTransform->SetGaussianSmoothingVarianceForTheTotalField( 1.5 );
   fieldTransform->SetDisplacementField( displacementField );
 
-  typedef itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType> DisplacementFieldRegistrationType;
+  using DisplacementFieldRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
   typename DisplacementFieldRegistrationType::Pointer displacementFieldSimple = DisplacementFieldRegistrationType::New();
   displacementFieldSimple->SetObjectName("displacementFieldSimple");
 
-  typedef itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType> CorrelationMetricType;
+  using CorrelationMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;
   typename CorrelationMetricType::Pointer correlationMetric = CorrelationMetricType::New();
   typename CorrelationMetricType::RadiusType radius;
   radius.Fill( 4 );
@@ -253,7 +253,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   //correlationMetric->SetUseFloatingPointCorrection(true);
   //correlationMetric->SetFloatingPointCorrectionResolution(1e4);
 
-  typedef itk::RegistrationParameterScalesFromPhysicalShift<CorrelationMetricType> ScalesEstimatorType;
+  using ScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<CorrelationMetricType>;
   typename ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
   scalesEstimator->SetMetric( correlationMetric );
   scalesEstimator->SetTransformForward( true );
@@ -303,7 +303,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   smoothingSigmasPerLevel[2] = 1;
   displacementFieldSimple->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
 
-  typedef itk::GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<DisplacementFieldTransformType> DisplacementFieldTransformAdaptorType;
+  using DisplacementFieldTransformAdaptorType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<DisplacementFieldTransformType>;
 
   typename DisplacementFieldRegistrationType::TransformParametersAdaptorsContainerType adaptors;
 
@@ -313,7 +313,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     // domain at each level.  To speed up calculation and avoid unnecessary memory
     // usage, we could calculate these fixed parameters directly.
 
-    typedef itk::ShrinkImageFilter<DisplacementFieldType, DisplacementFieldType> ShrinkFilterType;
+    using ShrinkFilterType = itk::ShrinkImageFilter<DisplacementFieldType, DisplacementFieldType>;
     typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors( shrinkFactorsPerLevel[level] );
     shrinkFilter->SetInput( displacementField );
@@ -329,7 +329,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     }
   displacementFieldSimple->SetTransformParametersAdaptorsPerLevel( adaptors );
 
-  typedef CommandIterationUpdate<DisplacementFieldRegistrationType> DisplacementFieldRegistrationCommandType;
+  using DisplacementFieldRegistrationCommandType = CommandIterationUpdate<DisplacementFieldRegistrationType>;
   typename DisplacementFieldRegistrationCommandType::Pointer displacementFieldObserver = DisplacementFieldRegistrationCommandType::New();
   displacementFieldSimple->AddObserver( itk::IterationEvent(), displacementFieldObserver );
 
@@ -344,7 +344,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageToImageMetricv4<FixedImageType, MovingImageType> ImageMetricType;
+  using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
   typename ImageMetricType::ConstPointer imageMetric = dynamic_cast<const ImageMetricType*>( affineSimple->GetMetric());
   std::cout << " Affine parameters after registration: " << std::endl
             << affineOptimizer->GetCurrentPosition() << std::endl
@@ -364,12 +364,12 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
             << "  metric: " << correlationMetric->GetNumberOfThreadsUsed()
             << "  optimizer: " << displacementFieldSimple->GetOptimizer()->GetNumberOfThreads() << std::endl;
 
-  typedef itk::CompositeTransform<RealType, VImageDimension> CompositeTransformType;
+  using CompositeTransformType = itk::CompositeTransform<RealType, VImageDimension>;
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
   compositeTransform->AddTransform( affineSimple->GetModifiableTransform() );
   compositeTransform->AddTransform( displacementFieldSimple->GetModifiableTransform() );
 
-  typedef itk::ResampleImageFilter<MovingImageType, FixedImageType> ResampleFilterType;
+  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
   resampler->SetTransform( compositeTransform );
   resampler->SetInput( movingImage );
@@ -380,7 +380,7 @@ int PerformSimpleImageRegistration( int argc, char *argv[] )
   resampler->SetDefaultPixelValue( 0 );
   resampler->Update();
 
-  typedef itk::ImageFileWriter<FixedImageType> WriterType;
+  using WriterType = itk::ImageFileWriter<FixedImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[5] );
   writer->SetInput( resampler->GetOutput() );

@@ -44,41 +44,41 @@ class ITK_TEMPLATE_EXPORT ShapedFloodFilledFunctionConditionalConstIterator:
   public ConditionalConstIterator< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ShapedFloodFilledFunctionConditionalConstIterator Self;
+  /** Standard class type aliases. */
+  using Self = ShapedFloodFilledFunctionConditionalConstIterator;
 
   /** Type of function */
-  typedef TFunction FunctionType;
+  using FunctionType = TFunction;
 
   /** Type of vector used to store location info in the spatial function */
-  typedef typename TFunction::InputType FunctionInputType;
+  using FunctionInputType = typename TFunction::InputType;
 
-  /** Index typedef support. */
-  typedef typename TImage::IndexType IndexType;
+  /** Index type alias support */
+  using IndexType = typename TImage::IndexType;
 
   /** Index Container Type */
-  typedef typename std::vector< IndexType > SeedsContainerType;
+  using SeedsContainerType = typename std::vector< IndexType >;
 
-  /** Offset typedef support. */
-  typedef typename TImage::OffsetType OffsetType;
+  /** Offset type alias support */
+  using OffsetType = typename TImage::OffsetType;
 
-  /** Size typedef support. */
-  typedef typename TImage::SizeType SizeType;
+  /** Size type alias support */
+  using SizeType = typename TImage::SizeType;
 
-  /** Region typedef support */
-  typedef typename TImage::RegionType RegionType;
+  /** Region type alias support */
+  using RegionType = typename TImage::RegionType;
 
-  /** Image typedef support. */
-  typedef TImage ImageType;
+  /** Image type alias support */
+  using ImageType = TImage;
 
   /** Internal Pixel Type */
-  typedef typename TImage::InternalPixelType InternalPixelType;
+  using InternalPixelType = typename TImage::InternalPixelType;
 
   /** External Pixel Type */
-  typedef typename TImage::PixelType PixelType;
+  using PixelType = typename TImage::PixelType;
 
   /** Internal Neighborhood Iterator Type */
-  typedef typename itk::ShapedNeighborhoodIterator< ImageType > NeighborhoodIteratorType;
+  using NeighborhoodIteratorType = typename itk::ShapedNeighborhoodIterator< ImageType >;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * that functions that are templated over image iterator type (as opposed to
@@ -233,7 +233,7 @@ protected: //made protected so other iterators can access
    * 1 = pixel is not inside the function
    * 2 = pixel is inside the function, neighbor check incomplete
    * 3 = pixel is inside the function, neighbor check complete */
-  typedef Image< unsigned char, itkGetStaticConstMacro(NDimensions) > TTempImage;
+  using TTempImage = Image< unsigned char, itkGetStaticConstMacro(NDimensions) >;
 
   typename TTempImage::Pointer m_TempPtr;
 

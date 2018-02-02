@@ -55,22 +55,22 @@ class ITK_TEMPLATE_EXPORT VTKVisualize2DSparseLevelSetLayersBase :
     public VTKVisualizeImageLevelSet< TInputImage, ImageToRGBVTKImageFilter< TInputImage > >
 {
 public:
-  typedef ImageToRGBVTKImageFilter< TInputImage > ConverterType;
-  typedef typename ConverterType::Pointer         ConverterPointer;
+  using ConverterType = ImageToRGBVTKImageFilter< TInputImage >;
+  using ConverterPointer = typename ConverterType::Pointer;
 
-  typedef VTKVisualize2DSparseLevelSetLayersBase                  Self;
-  typedef VTKVisualizeImageLevelSet< TInputImage, ConverterType > Superclass;
-  typedef itk::SmartPointer< Self >                               Pointer;
-  typedef itk::SmartPointer< const Self >                         ConstPointer;
+  using Self = VTKVisualize2DSparseLevelSetLayersBase;
+  using Superclass = VTKVisualizeImageLevelSet< TInputImage, ConverterType >;
+  using Pointer = itk::SmartPointer< Self >;
+  using ConstPointer = itk::SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKVisualize2DSparseLevelSetLayersBase, VTKVisualizeImageLevelSet );
 
-  typedef TInputImage                         InputImageType;
-  typedef typename InputImageType::PixelType  InputPixelType;
+  using InputImageType = TInputImage;
+  using InputPixelType = typename InputImageType::PixelType;
 
-  typedef TLevelSet                       LevelSetType;
-  typedef typename LevelSetType::Pointer  LevelSetPointer;
+  using LevelSetType = TLevelSet;
+  using LevelSetPointer = typename LevelSetType::Pointer;
 
   void SetInputImage( const InputImageType* image ) override;
   void SetLevelSet( LevelSetType * levelSet );

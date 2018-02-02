@@ -53,11 +53,11 @@ class ITK_TEMPLATE_EXPORT NormalVectorFunctionBase:
   public FiniteDifferenceSparseImageFunction< TSparseImageType >
 {
 public:
-  /** Standard class typedef. */
-  typedef NormalVectorFunctionBase                                Self;
-  typedef FiniteDifferenceSparseImageFunction< TSparseImageType > Superclass;
-  typedef SmartPointer< Self >                                    Pointer;
-  typedef SmartPointer< const Self >                              ConstPointer;
+  /** Standard class type alias. */
+  using Self = NormalVectorFunctionBase;
+  using Superclass = FiniteDifferenceSparseImageFunction< TSparseImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(NormalVectorFunctionBase, FiniteDifferenceSparseImageFunction);
@@ -66,21 +66,21 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Typedefs from the superclass. */
-  typedef typename Superclass::TimeStepType     TimeStepType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
-  typedef typename Superclass::IndexType        IndexType;
-  typedef typename Superclass::SparseImageType  SparseImageType;
+  using TimeStepType = typename Superclass::TimeStepType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using IndexType = typename Superclass::IndexType;
+  using SparseImageType = typename Superclass::SparseImageType;
 
   /** The node type for the sparse image. */
-  typedef typename SparseImageType::NodeType NodeType;
+  using NodeType = typename SparseImageType::NodeType;
 
   /** The basic floating point type for the variables. */
-  typedef typename NodeType::NodeValueType NodeValueType;
+  using NodeValueType = typename NodeType::NodeValueType;
 
   /** The vector type for the normals. */
-  typedef typename NodeType::NodeDataType NormalVectorType;
+  using NormalVectorType = typename NodeType::NodeDataType;
 
   /** Globaldata methods are not needed in this class. */
   void * GetGlobalDataPointer() const override { return nullptr; }

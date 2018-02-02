@@ -64,7 +64,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
 
   i = ObjectFactoryBase::CreateInstance( value.c_str() );
 
-  typedef itk::SpatialObject< TInputSpatialObject::ObjectDimension > SOType;
+  using SOType = itk::SpatialObject< TInputSpatialObject::ObjectDimension >;
 
   SOType *newSO = dynamic_cast< SOType * >( i.GetPointer() );
   if ( newSO == nullptr )
@@ -81,7 +81,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   newSO->CopyInformation(source);
   destination->AddSpatialObject(newSO);
 
-  typedef typename TInputSpatialObject::ChildrenListType ChildrenListType;
+  using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
   ChildrenListType *children = source->GetChildren(0);
   typename ChildrenListType::const_iterator it = children->begin();
   while ( it != children->end() )
@@ -136,7 +136,7 @@ SpatialObjectDuplicator< TInputSpatialObject >
   m_DuplicateSpatialObject->CopyInformation(m_Input);
 
   // Create the children
-  typedef typename TInputSpatialObject::ChildrenListType ChildrenListType;
+  using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
   ChildrenListType *children = m_Input->GetChildren(0);
   typename ChildrenListType::const_iterator it = children->begin();
   while ( it != children->end() )

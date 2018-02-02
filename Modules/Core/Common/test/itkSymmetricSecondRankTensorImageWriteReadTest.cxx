@@ -30,8 +30,8 @@ int itkSymmetricSecondRankTensorImageWriteReadTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::SymmetricSecondRankTensor<float, 2>    TensorPixelType;
-  typedef itk::Image<TensorPixelType, 2>              TensorImageType;
+  using TensorPixelType = itk::SymmetricSecondRankTensor<float, 2>;
+  using TensorImageType = itk::Image<TensorPixelType, 2>;
 
   TensorImageType::Pointer tensorImageInput = TensorImageType::New();
 
@@ -66,7 +66,7 @@ int itkSymmetricSecondRankTensorImageWriteReadTest( int ac, char* av[] )
     ++itr;
     }
 
-  typedef itk::ImageFileWriter< TensorImageType > TensorWriterType;
+  using TensorWriterType = itk::ImageFileWriter< TensorImageType >;
 
   TensorWriterType::Pointer tensorWriter = TensorWriterType::New();
 
@@ -83,7 +83,7 @@ int itkSymmetricSecondRankTensorImageWriteReadTest( int ac, char* av[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageFileReader< TensorImageType > TensorReaderType;
+  using TensorReaderType = itk::ImageFileReader< TensorImageType >;
 
   TensorReaderType::Pointer tensorReader = TensorReaderType::New();
 

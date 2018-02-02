@@ -41,26 +41,26 @@ class ITK_TEMPLATE_EXPORT GenerateImageSource
   : public ImageSource< TOutputImage >
 {
 public:
-  typedef GenerateImageSource         Self;
-  typedef ImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self>   ConstPointer;
+  using Self = GenerateImageSource;
+  using Superclass = ImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self>;
 
-  /** Output image typedefs */
-  typedef TOutputImage                            OutputImageType;
-  typedef typename OutputImageType::Pointer       OutputImagePointer;
-  typedef typename OutputImageType::PixelType     PixelType;
-  typedef typename OutputImageType::RegionType    RegionType;
-  typedef typename OutputImageType::SpacingType   SpacingType;
-  typedef typename OutputImageType::PointType     PointType;
-  typedef typename OutputImageType::DirectionType DirectionType;
-  typedef typename OutputImageType::IndexType     IndexType;
+  /** Output image type alias */
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using PixelType = typename OutputImageType::PixelType;
+  using RegionType = typename OutputImageType::RegionType;
+  using SpacingType = typename OutputImageType::SpacingType;
+  using PointType = typename OutputImageType::PointType;
+  using DirectionType = typename OutputImageType::DirectionType;
+  using IndexType = typename OutputImageType::IndexType;
 
   /** Typedef the reference image type to be the ImageBase of the OutputImageType */
-  typedef ImageBase<TOutputImage::ImageDimension> ReferenceImageBaseType;
+  using ReferenceImageBaseType = ImageBase<TOutputImage::ImageDimension>;
 
-  typedef typename TOutputImage::SizeType      SizeType;
-  typedef typename TOutputImage::SizeValueType SizeValueType;
+  using SizeType = typename TOutputImage::SizeType;
+  using SizeValueType = typename TOutputImage::SizeValueType;
 
   /** Dimensionality of the output image */
   itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);

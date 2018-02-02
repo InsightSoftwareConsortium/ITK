@@ -73,7 +73,7 @@ template<> itk::ImageBase<4>::DirectionType PreFillDirection<4> ();
 template <typename T>
 int MakeNiftiImage(void)
 {
-  typedef itk::Image<T, 3> ImageType;
+  using ImageType = itk::Image<T, 3>;
   const char *filename = "test.nii";
   //Allocate Images
   enum { ImageDimension = ImageType::ImageDimension };
@@ -249,10 +249,10 @@ TestImageOfSymMats(const std::string &fname)
 
   const int dimsize = 2;
   /** Deformation field pixel type. */
-//  typedef typename itk::DiffusionTenor3D<ScalarType>    PixelType;
+//  using PixelType = typename itk::DiffusionTenor3D<ScalarType>;
 
   /** Deformation field type. */
-  typedef typename itk::Image<PixelType,VDimension>      DtiImageType;
+  using DtiImageType = typename itk::Image<PixelType,VDimension>;
 
   //
   // swizzle up a random vector image.
@@ -473,7 +473,7 @@ int RGBTest(int ac, char *av[])
     }
   char * tmpImage = *++av;
   int success(EXIT_SUCCESS);
-  typedef typename itk::Image<RGBPixelType,3> RGBImageType;
+  using RGBImageType = typename itk::Image<RGBPixelType,3>;
   typename RGBImageType::RegionType imageRegion;
   typename RGBImageType::SizeType size;
   typename RGBImageType::IndexType index;

@@ -75,11 +75,11 @@ template <unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT  FEMObject : public DataObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef FEMObject                Self;
-  typedef DataObject               Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FEMObject;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -90,44 +90,36 @@ public:
   itkStaticConstMacro(FEMDimension, unsigned int, VDimension);
   itkStaticConstMacro(MaxDimensions, unsigned int, 3);
 
-  typedef unsigned long ElementIdentifier;
-  typedef unsigned long NodeIdentifier;
-  typedef unsigned long LoadIdentifier;
-  typedef unsigned long MaterialIdentifier;
+  using ElementIdentifier = unsigned long;
+  using NodeIdentifier = unsigned long;
+  using LoadIdentifier = unsigned long;
+  using MaterialIdentifier = unsigned long;
 
   /** Vector containers for 1) Load, 2) Material, 3) Element and 4) Node. */
-  typedef VectorContainer<LoadIdentifier, Load::Pointer>          LoadContainerType;
-  typedef VectorContainer<MaterialIdentifier, Material::Pointer>  MaterialContainerType;
-  typedef VectorContainer<ElementIdentifier, Element::Pointer>    ElementContainerType;
-  typedef VectorContainer<NodeIdentifier, Element::Node::Pointer> NodeContainerType;
+  using LoadContainerType = VectorContainer<LoadIdentifier, Load::Pointer>;
+  using MaterialContainerType = VectorContainer<MaterialIdentifier, Material::Pointer>;
+  using ElementContainerType = VectorContainer<ElementIdentifier, Element::Pointer>;
+  using NodeContainerType = VectorContainer<NodeIdentifier, Element::Node::Pointer>;
 
   /** Create types that are pointers to each of the container types. */
-  typedef typename ElementContainerType::Pointer       ElementContainerPointer;
-  typedef typename ElementContainerType::ConstPointer  ElementContainerConstPointer;
-  typedef typename NodeContainerType::Pointer          NodeContainerPointer;
-  typedef typename NodeContainerType::ConstPointer     NodeContainerConstPointer;
-  typedef typename LoadContainerType::Pointer          LoadContainerPointer;
-  typedef typename LoadContainerType::ConstPointer     LoadContainerConstPointer;
-  typedef typename MaterialContainerType::Pointer      MaterialContainerPointer;
-  typedef typename MaterialContainerType::ConstPointer MaterialContainerConstPointer;
+  using ElementContainerPointer = typename ElementContainerType::Pointer;
+  using ElementContainerConstPointer = typename ElementContainerType::ConstPointer;
+  using NodeContainerPointer = typename NodeContainerType::Pointer;
+  using NodeContainerConstPointer = typename NodeContainerType::ConstPointer;
+  using LoadContainerPointer = typename LoadContainerType::Pointer;
+  using LoadContainerConstPointer = typename LoadContainerType::ConstPointer;
+  using MaterialContainerPointer = typename MaterialContainerType::Pointer;
+  using MaterialContainerConstPointer = typename MaterialContainerType::ConstPointer;
 
   /** Create types that are iterators for each of the container types. */
-  typedef typename
-  ElementContainerType::ConstIterator         ElementContainerConstIterator;
-  typedef typename
-  ElementContainerType::Iterator              ElementContainerIterator;
-  typedef typename
-  NodeContainerType::ConstIterator            NodeContainerConstIterator;
-  typedef typename
-  NodeContainerType::Iterator                 NodeContainerIterator;
-  typedef typename
-  LoadContainerType::ConstIterator            LoadContainerConstIterator;
-  typedef typename
-  LoadContainerType::Iterator                 LoadContainerIterator;
-  typedef typename
-  MaterialContainerType::ConstIterator        MaterialContainerConstIterator;
-  typedef typename
-  MaterialContainerType::Iterator             MaterialContainerIterator;
+  using ElementContainerConstIterator = typename ElementContainerType::ConstIterator;
+  using ElementContainerIterator = typename ElementContainerType::Iterator;
+  using NodeContainerConstIterator = typename NodeContainerType::ConstIterator;
+  using NodeContainerIterator = typename NodeContainerType::Iterator;
+  using LoadContainerConstIterator = typename LoadContainerType::ConstIterator;
+  using LoadContainerIterator = typename LoadContainerType::Iterator;
+  using MaterialContainerConstIterator = typename MaterialContainerType::ConstIterator;
+  using MaterialContainerIterator = typename MaterialContainerType::Iterator;
 
   // Copy the contents
   void DeepCopy(FEMObject *Copy);

@@ -45,11 +45,11 @@ namespace fem
 class ITKFEM_EXPORT Element3DC0LinearHexahedronStrain : public Element3DStrain<Element3DC0LinearHexahedron>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element3DC0LinearHexahedronStrain            Self;
-  typedef Element3DStrain<Element3DC0LinearHexahedron> Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element3DC0LinearHexahedronStrain;
+  using Superclass = Element3DStrain<Element3DC0LinearHexahedron>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

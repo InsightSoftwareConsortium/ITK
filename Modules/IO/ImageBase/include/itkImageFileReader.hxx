@@ -253,7 +253,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
   // VectorLength before allocate
   if ( strcmp(output->GetNameOfClass(), "VectorImage") == 0 )
     {
-    typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
+    using AccessorFunctorType = typename TOutputImage::AccessorFunctorType;
     AccessorFunctorType::SetVectorLength( output, m_ImageIO->GetNumberOfComponents() );
     }
 
@@ -310,7 +310,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
   ImageRegionType imageRequestedRegion = out->GetRequestedRegion();
   ImageIORegion   ioRequestedRegion(TOutputImage::ImageDimension);
 
-  typedef ImageIORegionAdaptor< TOutputImage::ImageDimension > ImageIOAdaptor;
+  using ImageIOAdaptor = ImageIORegionAdaptor< TOutputImage::ImageDimension >;
 
   ImageIOAdaptor::Convert( imageRequestedRegion, ioRequestedRegion, largestRegion.GetIndex() );
 

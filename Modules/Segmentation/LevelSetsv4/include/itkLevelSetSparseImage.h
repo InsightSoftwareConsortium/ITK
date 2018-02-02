@@ -41,45 +41,44 @@ class ITK_TEMPLATE_EXPORT LevelSetSparseImage :
   public DiscreteLevelSetImage< TOutput, VDimension >
 {
 public:
-  typedef LevelSetSparseImage                           Self;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
-  typedef DiscreteLevelSetImage< TOutput, VDimension >  Superclass;
+  using Self = LevelSetSparseImage;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = DiscreteLevelSetImage< TOutput, VDimension >;
 
   /** Run-time type information */
   itkTypeMacro ( LevelSetSparseImage, DiscreteLevelSetImage );
 
   itkStaticConstMacro ( Dimension, unsigned int, Superclass::Dimension );
 
-  typedef typename Superclass::InputType        InputType;
-  typedef typename Superclass::OutputType       OutputType;
-  typedef typename Superclass::OutputRealType   OutputRealType;
-  typedef typename Superclass::GradientType     GradientType;
-  typedef typename Superclass::HessianType      HessianType;
-  typedef typename Superclass::LevelSetDataType LevelSetDataType;
+  using InputType = typename Superclass::InputType;
+  using OutputType = typename Superclass::OutputType;
+  using OutputRealType = typename Superclass::OutputRealType;
+  using GradientType = typename Superclass::GradientType;
+  using HessianType = typename Superclass::HessianType;
+  using LevelSetDataType = typename Superclass::LevelSetDataType;
 
-  typedef int8_t                                  LayerIdType;
-  typedef std::list< LayerIdType >                LayerIdListType;
+  using LayerIdType = int8_t;
+  using LayerIdListType = std::list< LayerIdType >;
 
-  typedef LabelObject< LayerIdType, VDimension >  LabelObjectType;
-  typedef typename LabelObjectType::Pointer       LabelObjectPointer;
-  typedef typename LabelObjectType::LengthType    LabelObjectLengthType;
-  typedef typename LabelObjectType::LineType      LabelObjectLineType;
+  using LabelObjectType = LabelObject< LayerIdType, VDimension >;
+  using LabelObjectPointer = typename LabelObjectType::Pointer;
+  using LabelObjectLengthType = typename LabelObjectType::LengthType;
+  using LabelObjectLineType = typename LabelObjectType::LineType;
 
-  typedef LabelMap< LabelObjectType >         LabelMapType;
-  typedef typename LabelMapType::Pointer      LabelMapPointer;
-  typedef typename LabelMapType::ConstPointer LabelMapConstPointer;
-  typedef typename LabelMapType::RegionType   RegionType;
+  using LabelMapType = LabelMap< LabelObjectType >;
+  using LabelMapPointer = typename LabelMapType::Pointer;
+  using LabelMapConstPointer = typename LabelMapType::ConstPointer;
+  using RegionType = typename LabelMapType::RegionType;
 
-  typedef std::map< InputType, OutputType,
-                    Functor::IndexLexicographicCompare< VDimension > >
-                                                  LayerType;
-  typedef typename LayerType::iterator            LayerIterator;
-  typedef typename LayerType::const_iterator      LayerConstIterator;
+  using LayerType = std::map< InputType, OutputType,
+                    Functor::IndexLexicographicCompare< VDimension > >;
+  using LayerIterator = typename LayerType::iterator;
+  using LayerConstIterator = typename LayerType::const_iterator;
 
-  typedef std::map< LayerIdType, LayerType >      LayerMapType;
-  typedef typename LayerMapType::iterator         LayerMapIterator;
-  typedef typename LayerMapType::const_iterator   LayerMapConstIterator;
+  using LayerMapType = std::map< LayerIdType, LayerType >;
+  using LayerMapIterator = typename LayerMapType::iterator;
+  using LayerMapConstIterator = typename LayerMapType::const_iterator;
 
   /** Returns the layer affiliation of a given location inputIndex */
   virtual LayerIdType Status( const InputType& inputIndex ) const;

@@ -109,7 +109,7 @@ MINCTransformIOTemplate<TParametersValueType>
 
       if(xfm->inverse_flag)
         {
-        typedef AffineTransform<TParametersValueType, 3> AffineTransformType;
+        using AffineTransformType = AffineTransform<TParametersValueType, 3>;
         typename AffineTransformType::Pointer tmp = AffineTransformType::New();
         tmp->SetParametersByValue(parameterArray);
         tmp->GetInverse(static_cast< AffineTransformType* >( transform.GetPointer()) );
@@ -140,9 +140,9 @@ MINCTransformIOTemplate<TParametersValueType>
     {
       if(xfm->displacement_volume_file)
         {
-        typedef DisplacementFieldTransform<TParametersValueType, 3> DisplacementFieldTransformType;
-        typedef typename DisplacementFieldTransformType::DisplacementFieldType GridImageType;
-        typedef ImageFileReader< GridImageType >                               MincReaderType;
+        using DisplacementFieldTransformType = DisplacementFieldTransform<TParametersValueType, 3>;
+        using GridImageType = typename DisplacementFieldTransformType::DisplacementFieldType;
+        using MincReaderType = ImageFileReader< GridImageType >;
 
         MINCImageIO::Pointer mincIO             = MINCImageIO::New();
         typename MincReaderType::Pointer reader = MincReaderType::New();
@@ -252,9 +252,9 @@ MINCTransformIOTemplate<TParametersValueType>
              && curTransform->GetFixedParameters().Size() == 18 )
       {
       bool _inverse_grid=false;
-      typedef DisplacementFieldTransform<TParametersValueType, 3> DisplacementFieldTransformType;
-      typedef typename DisplacementFieldTransformType::DisplacementFieldType GridImageType;
-      typedef ImageFileWriter< GridImageType > MincWriterType;
+      using DisplacementFieldTransformType = DisplacementFieldTransform<TParametersValueType, 3>;
+      using GridImageType = typename DisplacementFieldTransformType::DisplacementFieldType;
+      using MincWriterType = ImageFileWriter< GridImageType >;
       DisplacementFieldTransformType* _grid_transform = static_cast< DisplacementFieldTransformType* >( const_cast< TransformType* >( curTransform ));
       char tmp[1024];
       sprintf(tmp,"%s_grid_%d.mnc",xfm_file_base,serial);

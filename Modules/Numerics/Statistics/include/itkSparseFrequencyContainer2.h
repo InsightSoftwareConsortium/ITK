@@ -41,35 +41,34 @@ namespace Statistics
 class ITKStatistics_EXPORT SparseFrequencyContainer2:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef SparseFrequencyContainer2  Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SparseFrequencyContainer2;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(SparseFrequencyContainer2, Object);
   itkNewMacro(Self);
 
   /** instance idenfitifer alias */
-  typedef MeasurementVectorTraits::InstanceIdentifier InstanceIdentifier;
+  using InstanceIdentifier = MeasurementVectorTraits::InstanceIdentifier;
 
   /** Absolute frequency type alias */
-  typedef MeasurementVectorTraits::AbsoluteFrequencyType AbsoluteFrequencyType;
+  using AbsoluteFrequencyType = MeasurementVectorTraits::AbsoluteFrequencyType;
 
   /** Absolute Total frequency type */
-  typedef MeasurementVectorTraits::TotalAbsoluteFrequencyType TotalAbsoluteFrequencyType;
+  using TotalAbsoluteFrequencyType = MeasurementVectorTraits::TotalAbsoluteFrequencyType;
 
   /** Relative frequency type alias */
-  typedef MeasurementVectorTraits::RelativeFrequencyType RelativeFrequencyType;
+  using RelativeFrequencyType = MeasurementVectorTraits::RelativeFrequencyType;
 
   /** Relative Relative frequency type */
-  typedef MeasurementVectorTraits::TotalRelativeFrequencyType TotalRelativeFrequencyType;
+  using TotalRelativeFrequencyType = MeasurementVectorTraits::TotalRelativeFrequencyType;
 
-  /** Histogram typedef support */
-  typedef std::map< InstanceIdentifier, AbsoluteFrequencyType > FrequencyContainerType;
-  typedef FrequencyContainerType::const_iterator
-  FrequencyContainerConstIterator;
+  /** Histogram type alias support */
+  using FrequencyContainerType = std::map< InstanceIdentifier, AbsoluteFrequencyType >;
+  using FrequencyContainerConstIterator = FrequencyContainerType::const_iterator;
 
   /** prepares the frequency container */
   void Initialize(SizeValueType length);

@@ -22,28 +22,27 @@
 
 int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
 {
-  typedef short int          ReferencePixelType;
-  typedef short int          GradientPixelType;
-  typedef double             TensorPrecisionType;
+  using ReferencePixelType = short int;
+  using GradientPixelType = short int;
+  using TensorPrecisionType = double;
 
   int result(EXIT_SUCCESS);
 
   for(unsigned pass = 0; pass < 2; pass++)
     {
-    typedef itk::DiffusionTensor3DReconstructionImageFilter<
-      ReferencePixelType, GradientPixelType, TensorPrecisionType >
-      TensorReconstructionImageFilterType;
-    typedef TensorReconstructionImageFilterType::GradientImageType GradientImageType;
+    using TensorReconstructionImageFilterType = itk::DiffusionTensor3DReconstructionImageFilter<
+      ReferencePixelType, GradientPixelType, TensorPrecisionType >;
+    using GradientImageType = TensorReconstructionImageFilterType::GradientImageType;
     TensorReconstructionImageFilterType::Pointer tensorReconstructionFilter =
       TensorReconstructionImageFilterType::New();
 
     // Create a reference image
     //
-    typedef TensorReconstructionImageFilterType::ReferenceImageType ReferenceImageType;
+    using ReferenceImageType = TensorReconstructionImageFilterType::ReferenceImageType;
     ReferenceImageType::Pointer referenceImage = ReferenceImageType::New();
-    typedef ReferenceImageType::RegionType ReferenceRegionType;
-    typedef ReferenceRegionType::IndexType ReferenceIndexType;
-    typedef ReferenceRegionType::SizeType  ReferenceSizeType;
+    using ReferenceRegionType = ReferenceImageType::RegionType;
+    using ReferenceIndexType = ReferenceRegionType::IndexType;
+    using ReferenceSizeType = ReferenceRegionType::SizeType;
     ReferenceSizeType  sizeReferenceImage  = {{ 4, 4, 4 }};
     ReferenceIndexType indexReferenceImage = {{ 0, 0, 0 }};
     ReferenceRegionType     regionReferenceImage;
@@ -71,11 +70,11 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
 
     // Create gradient images
     //
-    typedef TensorReconstructionImageFilterType::GradientImageType GradientImageType;
-    typedef GradientImageType::RegionType  GradientRegionType;
-    typedef GradientRegionType::IndexType  GradientIndexType;
-    typedef GradientRegionType::SizeType   GradientSizeType;
-    typedef ReferenceRegionType::IndexType ReferenceIndexType;
+    using GradientImageType = TensorReconstructionImageFilterType::GradientImageType;
+    using GradientRegionType = GradientImageType::RegionType;
+    using GradientIndexType = GradientRegionType::IndexType;
+    using GradientSizeType = GradientRegionType::SizeType;
+    using ReferenceIndexType = ReferenceRegionType::IndexType;
 
     for( unsigned int i=0; i < numberOfGradientImages; i++ )
       {
@@ -113,8 +112,7 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
       // Create a mask image
       // With all pixels set to 255, it won't actually suppress any voxels
       // from processing, but it will at least exercise the mask code.
-      typedef TensorReconstructionImageFilterType::MaskImageType
-        MaskImageType;
+      using MaskImageType = TensorReconstructionImageFilterType::MaskImageType;
       MaskImageType::Pointer maskImage = MaskImageType::New();
       maskImage->SetRegions(regionReferenceImage);
       maskImage->Allocate();
@@ -139,9 +137,9 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
 
     tensorReconstructionFilter->Update();
 
-    typedef TensorReconstructionImageFilterType::TensorImageType TensorImageType;
+    using TensorImageType = TensorReconstructionImageFilterType::TensorImageType;
     TensorImageType::Pointer tensorImage = tensorReconstructionFilter->GetOutput();
-    typedef TensorImageType::IndexType TensorImageIndexType;
+    using TensorImageIndexType = TensorImageType::IndexType;
 
     TensorImageIndexType tensorImageIndex    = {{3,3,3}};
     GradientIndexType    gradientImageIndex  = {{3,3,3}};

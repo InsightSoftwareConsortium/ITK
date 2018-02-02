@@ -32,12 +32,12 @@ int itkVideoFileReaderWriterTest( int argc, char *argv[] )
     }
 
   // Instantiate a new reader
-  typedef itk::RGBPixel<unsigned char> PixelType;
+  using PixelType = itk::RGBPixel<unsigned char>;
   const unsigned int NumberOfDimensions =             2;
-  typedef itk::Image< PixelType, NumberOfDimensions > FrameType;
-  typedef itk::VideoStream< FrameType >               VideoType;
-  typedef itk::VideoFileReader< VideoType >           VideoReaderType;
-  typedef itk::VideoFileWriter< VideoType >           VideoWriterType;
+  using FrameType = itk::Image< PixelType, NumberOfDimensions >;
+  using VideoType = itk::VideoStream< FrameType >;
+  using VideoReaderType = itk::VideoFileReader< VideoType >;
+  using VideoWriterType = itk::VideoFileWriter< VideoType >;
 
   std::string inFile = "";
   for( int i = 1; i <= 5; ++i )

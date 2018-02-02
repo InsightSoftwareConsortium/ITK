@@ -46,25 +46,25 @@ int itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
   const unsigned int ParametricDimension = 2;
   const unsigned int DataDimension = 2;
 
-  typedef float                                         RealType;
-  typedef itk::Vector<RealType, DataDimension>          VectorType;
-  typedef itk::Matrix<RealType, DataDimension,
-      DataDimension>                                    MatrixType;
-  typedef itk::Image<VectorType, ParametricDimension>   DeformationFieldType;
-  typedef itk::PointSet
-    <VectorType, ParametricDimension>                   FeaturePointSetType;
-  typedef itk::PointSet
-    <MatrixType, ParametricDimension>                   TensorPointSetType;
-  typedef itk::PointSet
-    <RealType, ParametricDimension>                     ConfidencePointSetType;
-  typedef itk::Mesh< VectorType, ParametricDimension >  MeshType;
-  typedef FeaturePointSetType::PointType                PointType;
+  using RealType = float;
+  using VectorType = itk::Vector<RealType, DataDimension>;
+  using MatrixType = itk::Matrix<RealType, DataDimension,
+      DataDimension>;
+  using DeformationFieldType = itk::Image<VectorType, ParametricDimension>;
+  using FeaturePointSetType = itk::PointSet
+    <VectorType, ParametricDimension>;
+  using TensorPointSetType = itk::PointSet
+    <MatrixType, ParametricDimension>;
+  using ConfidencePointSetType = itk::PointSet
+    <RealType, ParametricDimension>;
+  using MeshType = itk::Mesh< VectorType, ParametricDimension >;
+  using PointType = FeaturePointSetType::PointType;
 
-  typedef itk::fem::FEMScatteredDataPointSetToImageFilter
+  using FilterType = itk::fem::FEMScatteredDataPointSetToImageFilter
     <FeaturePointSetType, MeshType, DeformationFieldType, ConfidencePointSetType,
-    TensorPointSetType>                FilterType;
+    TensorPointSetType>;
 
-  typedef itk::ImageRegionConstIterator< DeformationFieldType > ConstIteratorType;
+  using ConstIteratorType = itk::ImageRegionConstIterator< DeformationFieldType >;
 
   FilterType::Pointer filter = FilterType::New();
 

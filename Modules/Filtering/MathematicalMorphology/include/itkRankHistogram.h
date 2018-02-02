@@ -53,7 +53,7 @@ class RankHistogram
 {
 public:
 
-  typedef std::less< TInputPixel > Compare;
+  using Compare = std::less< TInputPixel >;
 
   RankHistogram()
   {
@@ -247,7 +247,7 @@ protected:
   float m_Rank;
 
 private:
-  typedef typename std::map< TInputPixel, SizeValueType, Compare > MapType;
+  using MapType = typename std::map< TInputPixel, SizeValueType, Compare >;
 
   MapType       m_Map;
   SizeValueType m_Below;
@@ -266,7 +266,7 @@ template< typename TInputPixel >
 class VectorRankHistogram
 {
 public:
-  typedef std::less< TInputPixel > Compare;
+  using Compare = std::less< TInputPixel >;
 
   VectorRankHistogram()
   {
@@ -361,7 +361,7 @@ protected:
   float m_Rank;
 
 private:
-  typedef typename std::vector< SizeValueType > VecType;
+  using VecType = typename std::vector< SizeValueType >;
 
   VecType       m_Vec;
   SizeValueType m_Size;

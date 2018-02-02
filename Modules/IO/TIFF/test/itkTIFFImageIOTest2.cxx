@@ -30,8 +30,8 @@ int itkTIFFImageIOTest2( int argc, char* argv[] )
     }
 
   const unsigned int                          Dimension = 2;
-  typedef unsigned char                       PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   ImageType::Pointer image = ImageType::New();
 
@@ -58,7 +58,7 @@ int itkTIFFImageIOTest2( int argc, char* argv[] )
 
   image->SetSpacing( spacing );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[1] );
 
@@ -66,7 +66,7 @@ int itkTIFFImageIOTest2( int argc, char* argv[] )
 
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 

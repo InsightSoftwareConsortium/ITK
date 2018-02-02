@@ -28,21 +28,21 @@
 // the array.  The data types used are float and double.
 int itkVnlRealFFTTest(int, char *[])
 {
-  typedef itk::Image< float, 1>               ImageF1;
-  typedef itk::Image< std::complex<float>, 1> ImageCF1;
-  typedef itk::Image< float, 2>               ImageF2;
-  typedef itk::Image< std::complex<float>, 2> ImageCF2;
-  typedef itk::Image< float, 3>               ImageF3;
-  typedef itk::Image< std::complex<float>, 3> ImageCF3;
-  typedef itk::Image< float, 4>               ImageF4;
-  typedef itk::Image< std::complex<float>, 4> ImageCF4;
+  using ImageF1 = itk::Image< float, 1>;
+  using ImageCF1 = itk::Image< std::complex<float>, 1>;
+  using ImageF2 = itk::Image< float, 2>;
+  using ImageCF2 = itk::Image< std::complex<float>, 2>;
+  using ImageF3 = itk::Image< float, 3>;
+  using ImageCF3 = itk::Image< std::complex<float>, 3>;
+  using ImageF4 = itk::Image< float, 4>;
+  using ImageCF4 = itk::Image< std::complex<float>, 4>;
 
-  typedef itk::Image< double, 1>               ImageD1;
-  typedef itk::Image< std::complex<double>, 1> ImageCD1;
-  typedef itk::Image< double, 2>               ImageD2;
-  typedef itk::Image< std::complex<double>, 2> ImageCD2;
-  typedef itk::Image< double, 3>               ImageD3;
-  typedef itk::Image< std::complex<double>, 3> ImageCD3;
+  using ImageD1 = itk::Image< double, 1>;
+  using ImageCD1 = itk::Image< std::complex<double>, 1>;
+  using ImageD2 = itk::Image< double, 2>;
+  using ImageCD2 = itk::Image< std::complex<double>, 2>;
+  using ImageD3 = itk::Image< double, 3>;
+  using ImageCD3 = itk::Image< std::complex<double>, 3>;
 
   unsigned int SizeOfDimensions1[] = { 4,4,4,4 };
   unsigned int SizeOfDimensions2[] = { 3,5,4 };

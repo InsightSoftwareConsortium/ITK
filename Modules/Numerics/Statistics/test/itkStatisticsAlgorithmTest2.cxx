@@ -23,11 +23,11 @@
 #include <vector>
 #include <algorithm>
 
-typedef itk::FixedArray< int, 3 >  PixelType;
-typedef itk::Image< PixelType, 3 > ImageType;
+using PixelType = itk::FixedArray< int, 3 >;
+using ImageType = itk::Image< PixelType, 3 >;
 
-typedef itk::Statistics::ImageToListSampleAdaptor< ImageType > SampleType;
-typedef itk::Statistics::Subsample< SampleType >               SubsampleType;
+using SampleType = itk::Statistics::ImageToListSampleAdaptor< ImageType >;
+using SubsampleType = itk::Statistics::Subsample< SampleType >;
 
 const unsigned int testDimension = 1;
 

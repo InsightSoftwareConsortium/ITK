@@ -38,22 +38,22 @@ int itkShapeUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 3;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  using ImageType = itk::Image< PixelType, dim >;
 
-  typedef itk::ShapeLabelObject< PixelType, dim >           ShapeLabelObjectType;
-  typedef itk::LabelMap< ShapeLabelObjectType >             LabelMapType;
+  using ShapeLabelObjectType = itk::ShapeLabelObject< PixelType, dim >;
+  using LabelMapType = itk::LabelMap< ShapeLabelObjectType >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType> I2LType;
+  using I2LType = itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType>;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
-  typedef itk::ShapeUniqueLabelMapFilter< LabelMapType > LabelUniqueType;
+  using LabelUniqueType = itk::ShapeUniqueLabelMapFilter< LabelMapType >;
   LabelUniqueType::Pointer Unique = LabelUniqueType::New();
 
   //testing get and set macros for ReverseOrdering
@@ -77,11 +77,11 @@ int itkShapeUniqueLabelMapFilterTest1(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(Unique, "filter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
+  using L2IType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   L2IType::Pointer l2i = L2IType::New();
   l2i->SetInput( Unique->GetOutput() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( l2i->GetOutput() );

@@ -49,15 +49,15 @@ template< typename TInputImage, typename TOutputImage, typename TInternalPixel =
 class ITK_TEMPLATE_EXPORT GradientVectorFlowImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef GradientVectorFlowImageFilter Self;
+  /** Standard "Self" type alias. */
+  using Self = GradientVectorFlowImageFilter;
 
-  /** Standard "Superclass" typedef. */
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  /** Standard "Superclass" type alias. */
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
 
-  /** Smart pointer typedef support */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
@@ -65,20 +65,20 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientVectorFlowImageFilter, ImageToImageFilter);
 
-  /** Some typedefs. */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  /** Some type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
-  typedef typename TInputImage::IndexType      IndexType;
-  typedef typename TInputImage::SizeType       SizeType;
-  typedef typename TInputImage::PixelType      PixelType;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::RegionType RegionType;
+  using IndexType = typename TInputImage::IndexType;
+  using SizeType = typename TInputImage::SizeType;
+  using PixelType = typename TInputImage::PixelType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using RegionType = typename OutputImageType::RegionType;
 
   /** Image and Image iterator definition. */
-  typedef ImageRegionIterator< InputImageType >               InputImageIterator;
-  typedef ImageRegionConstIterator< InputImageType >          InputImageConstIterator;
-  typedef ImageRegionIterator< OutputImageType >              OutputImageIterator;
+  using InputImageIterator = ImageRegionIterator< InputImageType >;
+  using InputImageConstIterator = ImageRegionConstIterator< InputImageType >;
+  using OutputImageIterator = ImageRegionIterator< OutputImageType >;
 
   /** Image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
@@ -86,14 +86,14 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  typedef TInternalPixel                                                          InternalPixelType;
-  typedef itk::Image< InternalPixelType, itkGetStaticConstMacro(ImageDimension) > InternalImageType;
-  typedef typename InternalImageType::Pointer                                     InternalImagePointer;
-  typedef ImageRegionIterator< InternalImageType >                                InternalImageIterator;
-  typedef ImageRegionConstIterator< InternalImageType >                           InternalImageConstIterator;
+  using InternalPixelType = TInternalPixel;
+  using InternalImageType = itk::Image< InternalPixelType, itkGetStaticConstMacro(ImageDimension) >;
+  using InternalImagePointer = typename InternalImageType::Pointer;
+  using InternalImageIterator = ImageRegionIterator< InternalImageType >;
+  using InternalImageConstIterator = ImageRegionConstIterator< InternalImageType >;
 
-  typedef LaplacianImageFilter< InternalImageType, InternalImageType > LaplacianFilterType;
-  typedef typename LaplacianFilterType::Pointer                        LaplacianFilterPointer;
+  using LaplacianFilterType = LaplacianImageFilter< InternalImageType, InternalImageType >;
+  using LaplacianFilterPointer = typename LaplacianFilterType::Pointer;
 
   /** Routines. */
 

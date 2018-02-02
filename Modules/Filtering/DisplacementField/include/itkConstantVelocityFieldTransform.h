@@ -38,11 +38,11 @@ class ITK_TEMPLATE_EXPORT ConstantVelocityFieldTransform :
   public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ConstantVelocityFieldTransform                                Self;
-  typedef DisplacementFieldTransform<TParametersValueType, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                            Pointer;
-  typedef SmartPointer<const Self>                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ConstantVelocityFieldTransform;
+  using Superclass = DisplacementFieldTransform<TParametersValueType, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( ConstantVelocityFieldTransform, DisplacementFieldTransform );
@@ -51,36 +51,36 @@ public:
   itkNewMacro( Self );
 
   /** InverseTransform type. */
-  typedef typename Superclass:: InverseTransformBasePointer InverseTransformBasePointer;
+  using InverseTransformBasePointer = typename Superclass:: InverseTransformBasePointer;
 
   /** Scalar type. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Type of the input parameters. */
-  typedef typename Superclass::FixedParametersType      FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
-  typedef typename Superclass::ParametersType           ParametersType;
-  typedef typename Superclass::ParametersValueType      ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
 
   /** Transform category type. */
-  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+  using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** The number of parameters defininig this transform. */
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard coordinate point type for this class. */
-  typedef typename Superclass::InputPointType  InputPointType;
-  typedef typename Superclass::OutputPointType OutputPointType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
 
   /** Standard vector type for this class. */
-  typedef typename Superclass::InputVectorType  InputVectorType;
-  typedef typename Superclass::OutputVectorType OutputVectorType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
 
-  typedef typename Superclass::InputVectorPixelType  InputVectorPixelType;
-  typedef typename Superclass::OutputVectorPixelType OutputVectorPixelType;
+  using InputVectorPixelType = typename Superclass::InputVectorPixelType;
+  using OutputVectorPixelType = typename Superclass::OutputVectorPixelType;
 
   /** Derivative type */
-  typedef typename Superclass::DerivativeType DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
   /** Dimension of the constant velocity field . */
   itkStaticConstMacro( ConstantVelocityFieldDimension, unsigned int, NDimensions );
@@ -89,32 +89,31 @@ public:
   itkStaticConstMacro( Dimension, unsigned int, NDimensions );
 
   /** Define the displacement field type and corresponding interpolator type. */
-  typedef typename Superclass::DisplacementFieldType   DisplacementFieldType;
-  typedef typename DisplacementFieldType::Pointer      DisplacementFieldPointer;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** Define the displacement field type and corresponding interpolator type. */
-  typedef Image<OutputVectorType, ConstantVelocityFieldDimension>    ConstantVelocityFieldType;
-  typedef typename ConstantVelocityFieldType::Pointer                ConstantVelocityFieldPointer;
+  using ConstantVelocityFieldType = Image<OutputVectorType, ConstantVelocityFieldDimension>;
+  using ConstantVelocityFieldPointer = typename ConstantVelocityFieldType::Pointer;
 
   /** Standard types for the velocity Field */
-  typedef typename ConstantVelocityFieldType::IndexType      IndexType;
-  typedef typename ConstantVelocityFieldType::RegionType     RegionType;
-  typedef typename ConstantVelocityFieldType::SizeType       SizeType;
-  typedef typename ConstantVelocityFieldType::SpacingType    SpacingType;
-  typedef typename ConstantVelocityFieldType::DirectionType  DirectionType;
-  typedef typename ConstantVelocityFieldType::PointType      PointType;
-  typedef typename ConstantVelocityFieldType::PixelType      PixelType;
+  using IndexType = typename ConstantVelocityFieldType::IndexType;
+  using RegionType = typename ConstantVelocityFieldType::RegionType;
+  using SizeType = typename ConstantVelocityFieldType::SizeType;
+  using SpacingType = typename ConstantVelocityFieldType::SpacingType;
+  using DirectionType = typename ConstantVelocityFieldType::DirectionType;
+  using PointType = typename ConstantVelocityFieldType::PointType;
+  using PixelType = typename ConstantVelocityFieldType::PixelType;
 
-  typedef ConstantVelocityFieldType                         VelocityFieldType;
+  using VelocityFieldType = ConstantVelocityFieldType;
 
-  typedef VectorInterpolateImageFunction<ConstantVelocityFieldType, ScalarType>
-    ConstantVelocityFieldInterpolatorType;
-  typedef typename ConstantVelocityFieldInterpolatorType::Pointer
-    ConstantVelocityFieldInterpolatorPointer;
+  using ConstantVelocityFieldInterpolatorType =
+      VectorInterpolateImageFunction<ConstantVelocityFieldType, ScalarType>;
+  using ConstantVelocityFieldInterpolatorPointer = typename ConstantVelocityFieldInterpolatorType::Pointer;
 
   /** Define the internal parameter helper used to access the field */
-  typedef ImageVectorOptimizerParametersHelper<ScalarType, Dimension, ConstantVelocityFieldDimension>
-    OptimizerParametersHelperType;
+  using OptimizerParametersHelperType =
+      ImageVectorOptimizerParametersHelper<ScalarType, Dimension, ConstantVelocityFieldDimension>;
 
   /** Get/Set the velocity field.
    * Set the displacement field. Create special set accessor to update

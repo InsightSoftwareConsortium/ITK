@@ -87,8 +87,8 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();
 
-  typedef typename TOutputMesh::PointsContainer OutputPointsContainer;
-  typedef typename TInputMesh::PointsContainer  InputPointsContainer;
+  using OutputPointsContainer = typename TOutputMesh::PointsContainer;
+  using InputPointsContainer = typename TInputMesh::PointsContainer;
 
   typename OutputPointsContainer::Pointer outputPoints = OutputPointsContainer::New();
   const InputPointsContainer *inputPoints = inputMesh->GetPoints();
@@ -121,8 +121,8 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();
 
-  typedef typename TOutputMesh::PointDataContainer OutputPointDataContainer;
-  typedef typename TInputMesh::PointDataContainer  InputPointDataContainer;
+  using OutputPointDataContainer = typename TOutputMesh::PointDataContainer;
+  using InputPointDataContainer = typename TInputMesh::PointDataContainer;
 
   typename OutputPointDataContainer::Pointer outputPointData = OutputPointDataContainer::New();
   const InputPointDataContainer *inputPointData = inputMesh->GetPointData();
@@ -155,8 +155,8 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();
 
-  typedef typename TOutputMesh::CellLinksContainer OutputCellLinksContainer;
-  typedef typename TInputMesh::CellLinksContainer  InputCellLinksContainer;
+  using OutputCellLinksContainer = typename TOutputMesh::CellLinksContainer;
+  using InputCellLinksContainer = typename TInputMesh::CellLinksContainer;
 
   typename OutputCellLinksContainer::Pointer outputCellLinks = OutputCellLinksContainer::New();
   const InputCellLinksContainer *inputCellLinks = inputMesh->GetCellLinks();
@@ -189,9 +189,9 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();
 
-  typedef typename TOutputMesh::CellsContainer  OutputCellsContainer;
-  typedef typename TInputMesh::CellsContainer   InputCellsContainer;
-  typedef typename TOutputMesh::CellAutoPointer CellAutoPointer;
+  using OutputCellsContainer = typename TOutputMesh::CellsContainer;
+  using InputCellsContainer = typename TInputMesh::CellsContainer;
+  using CellAutoPointer = typename TOutputMesh::CellAutoPointer;
 
   outputMesh->SetCellsAllocationMethod(OutputMeshType::CellsAllocatedDynamicallyCellByCell);
 
@@ -233,8 +233,8 @@ MeshToMeshFilter< TInputMesh, TOutputMesh >
   const InputMeshType *inputMesh   =  this->GetInput();
   OutputMeshPointer    outputMesh   =  this->GetOutput();
 
-  typedef typename TOutputMesh::CellDataContainer OutputCellDataContainer;
-  typedef typename TInputMesh::CellDataContainer  InputCellDataContainer;
+  using OutputCellDataContainer = typename TOutputMesh::CellDataContainer;
+  using InputCellDataContainer = typename TInputMesh::CellDataContainer;
 
   typename OutputCellDataContainer::Pointer outputCellData = OutputCellDataContainer::New();
   const InputCellDataContainer *inputCellData = inputMesh->GetCellData();

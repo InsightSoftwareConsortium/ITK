@@ -86,9 +86,9 @@ template< typename TDataContainer >
 class ITK_TEMPLATE_EXPORT ClassifierBase:public LightProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef ClassifierBase     Self;
-  typedef LightProcessObject Superclass;
+  /** Standard class type aliases. */
+  using Self = ClassifierBase;
+  using Superclass = LightProcessObject;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ClassifierBase, LightProcessObject);
@@ -100,17 +100,16 @@ public:
   itkGetConstReferenceMacro(NumberOfClasses, unsigned int);
 
   /**Sets the decision rule */
-  typedef typename TDataContainer::ValueType MeasurementVectorType;
+  using MeasurementVectorType = typename TDataContainer::ValueType;
 
   /** Typedefs for membership funciton */
-  typedef Statistics::MembershipFunctionBase< MeasurementVectorType > MembershipFunctionType;
-  typedef typename MembershipFunctionType::Pointer                    MembershipFunctionPointer;
+  using MembershipFunctionType = Statistics::MembershipFunctionBase< MeasurementVectorType >;
+  using MembershipFunctionPointer = typename MembershipFunctionType::Pointer;
 
-  typedef std::vector< MembershipFunctionPointer >
-  MembershipFunctionPointerVector;
+  using MembershipFunctionPointerVector = std::vector<MembershipFunctionPointer>;
 
   /** Type alias for decision rule */
-  typedef Statistics::DecisionRule DecisionRuleType;
+  using DecisionRuleType = Statistics::DecisionRule;
 
   /** Sets the pointer to the decision rule.
    * Stores the decision rule that makes the real decision using

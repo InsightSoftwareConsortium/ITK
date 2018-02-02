@@ -31,17 +31,17 @@ int itkImageToHistogramFilterTest2( int argc, char * argv [] )
     }
 
 
-  typedef unsigned char                         PixelComponentType;
+  using PixelComponentType = unsigned char;
 
-  typedef itk::RGBPixel< PixelComponentType >   RGBPixelType;
+  using RGBPixelType = itk::RGBPixel< PixelComponentType >;
 
   const unsigned int                            Dimension = 2;
 
-  typedef itk::Image< RGBPixelType, Dimension > RGBImageType;
+  using RGBImageType = itk::Image< RGBPixelType, Dimension >;
 
   const unsigned int                            MeasurementVectorSize = 3; // RGB
 
-  typedef itk::ImageFileReader< RGBImageType >  ReaderType;
+  using ReaderType = itk::ImageFileReader< RGBImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 
@@ -59,12 +59,12 @@ int itkImageToHistogramFilterTest2( int argc, char * argv [] )
     }
 
 
-  typedef itk::Statistics::ImageToHistogramFilter< RGBImageType >   HistogramFilterType;
+  using HistogramFilterType = itk::Statistics::ImageToHistogramFilter< RGBImageType >;
 
   HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
   itk::SimpleFilterWatcher watcher(histogramFilter, "filter");
 
-  typedef HistogramFilterType::HistogramMeasurementVectorType  HistogramMeasurementVectorType;
+  using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
 
   // Setting bin mins and max
   HistogramMeasurementVectorType histogramBinMinimum( MeasurementVectorSize );
@@ -81,7 +81,7 @@ int itkImageToHistogramFilterTest2( int argc, char * argv [] )
   histogramFilter->SetHistogramBinMaximum( histogramBinMaximum );
 
 
-  typedef HistogramFilterType::HistogramSizeType   SizeType;
+  using SizeType = HistogramFilterType::HistogramSizeType;
 
   SizeType size( MeasurementVectorSize );
 
@@ -106,7 +106,7 @@ int itkImageToHistogramFilterTest2( int argc, char * argv [] )
     }
 
 
-  typedef HistogramFilterType::HistogramType  HistogramType;
+  using HistogramType = HistogramFilterType::HistogramType;
   const HistogramType * histogram = histogramFilter->GetOutput();
 
   std::ofstream outputFile;

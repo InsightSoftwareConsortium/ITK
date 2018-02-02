@@ -25,12 +25,12 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
 {
   std::cout << "Creating an image" << std::endl;
   const unsigned int Dimension = 4;
-  typedef itk::Index<Dimension>             PixelType;
-  typedef itk::Image<PixelType,Dimension>   ImageType;
-  typedef itk::Image<int,Dimension>         ImageVisitsType;
+  using PixelType = itk::Index<Dimension>;
+  using ImageType = itk::Image<PixelType,Dimension>;
+  using ImageVisitsType = itk::Image<int,Dimension>;
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType>       IteratorType;
-  typedef itk::ImageRegionIteratorWithIndex<ImageVisitsType> IteratorVisitsType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
+  using IteratorVisitsType = itk::ImageRegionIteratorWithIndex<ImageVisitsType>;
 
   ImageType::Pointer myImage = ImageType::New();
 
@@ -73,12 +73,10 @@ int itkReflectiveImageRegionIteratorTest(int, char* [] )
     }
 
 
-  typedef itk::ReflectiveImageRegionConstIterator< ImageType >
-                                                  ReflectiveIteratorType;
+  using ReflectiveIteratorType = itk::ReflectiveImageRegionConstIterator<ImageType>;
   ReflectiveIteratorType rit( myImage, region );
 
-  typedef itk::ReflectiveImageRegionIterator< ImageVisitsType >
-                                                  ReflectiveVisitsIteratorType;
+  using ReflectiveVisitsIteratorType = itk::ReflectiveImageRegionIterator<ImageVisitsType>;
 
   ReflectiveVisitsIteratorType rvt( visitImage, region );
 

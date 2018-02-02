@@ -93,13 +93,13 @@ SobelEdgeDetectionImageFilter< TInputImage, TOutputImage >
     }
 
   // Define the filter types used.
-  typedef NeighborhoodOperatorImageFilter< InputImageType,
-                                           OutputImageType >                                           OpFilter;
-  typedef MultiplyImageFilter< OutputImageType,
+  using OpFilter = NeighborhoodOperatorImageFilter< InputImageType,
+                                           OutputImageType >;
+  using MultFilter = MultiplyImageFilter< OutputImageType,
                                OutputImageType,
-                               OutputImageType >                                           MultFilter;
-  typedef NaryAddImageFilter< OutputImageType, OutputImageType > AddFilter;
-  typedef SqrtImageFilter< OutputImageType, OutputImageType >    SqrtFilter;
+                               OutputImageType >;
+  using AddFilter = NaryAddImageFilter< OutputImageType, OutputImageType >;
+  using SqrtFilter = SqrtImageFilter< OutputImageType, OutputImageType >;
 
   unsigned int i;
 

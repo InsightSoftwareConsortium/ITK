@@ -40,20 +40,20 @@ int main( int argc, char * argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::RGBPixel<unsigned char>  InputPixelType;
-  typedef unsigned char                 OutputPixelType;
+  using InputPixelType = itk::RGBPixel<unsigned char>;
+  using OutputPixelType = unsigned char;
   const   unsigned int                  Dimension = 2;
 
-  typedef itk::Image< InputPixelType,  Dimension >    InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >    OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< InputImageType  >     ReaderType;
-  typedef itk::VectorIndexSelectionCastImageFilter<
-                  InputImageType, OutputImageType  >  FilterType;
-  typedef itk::ImageFileWriter< OutputImageType >     WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using FilterType = itk::VectorIndexSelectionCastImageFilter<
+                  InputImageType, OutputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   // Software Guide : EndCodeSnippet
 
 

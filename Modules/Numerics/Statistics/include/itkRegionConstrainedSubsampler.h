@@ -51,32 +51,32 @@ template < typename TSample, typename TRegion >
 class ITK_TEMPLATE_EXPORT RegionConstrainedSubsampler : public SubsamplerBase<TSample>
 {
 public:
-  /** Standard class typedefs */
-  typedef RegionConstrainedSubsampler<TSample, TRegion>  Self;
-  typedef SubsamplerBase<TSample>                        Superclass;
-  typedef typename Superclass::Baseclass                 Baseclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  /** Standard class type aliases */
+  using Self = RegionConstrainedSubsampler<TSample, TRegion>;
+  using Superclass = SubsamplerBase<TSample>;
+  using Baseclass = typename Superclass::Baseclass;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(RegionConstrainedSubsampler, SubsamplerBase);
 
-  /** typedef alias for the source data container */
-  typedef TSample                                          SampleType;
-  typedef typename SampleType::ConstPointer                SampleConstPointer;
-  typedef typename TSample::MeasurementVectorType          MeasurementVectorType;
-  typedef typename TSample::InstanceIdentifier             InstanceIdentifier;
+  /** type alias alias for the source data container */
+  using SampleType = TSample;
+  using SampleConstPointer = typename SampleType::ConstPointer;
+  using MeasurementVectorType = typename TSample::MeasurementVectorType;
+  using InstanceIdentifier = typename TSample::InstanceIdentifier;
 
-  typedef Subsample<TSample>                               SubsampleType;
-  typedef typename SubsampleType::Pointer                  SubsamplePointer;
-  typedef typename SubsampleType::ConstIterator            SubsampleConstIterator;
-  typedef typename SubsampleType::InstanceIdentifierHolder InstanceIdentifierHolder;
+  using SubsampleType = Subsample<TSample>;
+  using SubsamplePointer = typename SubsampleType::Pointer;
+  using SubsampleConstIterator = typename SubsampleType::ConstIterator;
+  using InstanceIdentifierHolder = typename SubsampleType::InstanceIdentifierHolder;
 
-  /** typedefs related to image region */
-  typedef TRegion                              RegionType;
-  typedef typename RegionType::IndexType       IndexType;
-  typedef typename IndexType::IndexValueType   IndexValueType;
-  typedef typename RegionType::SizeType        SizeType;
+  /** type alias related to image region */
+  using RegionType = TRegion;
+  using IndexType = typename RegionType::IndexType;
+  using IndexValueType = typename IndexType::IndexValueType;
+  using SizeType = typename RegionType::SizeType;
 
   /** Method to set the sample domain.
    * This should correspond to the entire region of the input sample. */

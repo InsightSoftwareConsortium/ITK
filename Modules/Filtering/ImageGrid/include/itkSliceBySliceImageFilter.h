@@ -82,14 +82,14 @@ class ITK_TEMPLATE_EXPORT SliceBySliceImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef SliceBySliceImageFilter                         Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SliceBySliceImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::InputImagePointer InputImagePointer;
+  /** Superclass type alias. */
+  using InputImagePointer = typename Superclass::InputImagePointer;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -97,33 +97,33 @@ public:
   /** Runtime information support. */
   itkTypeMacro(SliceBySliceImageFilter, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef TInputImage                      InputImageType;
-  typedef typename TInputImage::RegionType RegionType;
-  typedef typename TInputImage::SizeType   SizeType;
-  typedef typename TInputImage::IndexType  IndexType;
-  typedef typename TInputImage::PixelType  PixelType;
-  typedef typename TInputImage::OffsetType OffsetType;
+  /** Image related type alias. */
+  using InputImageType = TInputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
+  using OffsetType = typename TInputImage::OffsetType;
 
-  typedef TOutputImage                     OutputImageType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  typedef TInputFilter  InputFilterType;
-  typedef TOutputFilter OutputFilterType;
+  using InputFilterType = TInputFilter;
+  using OutputFilterType = TOutputFilter;
 
-  typedef TInternalInputImage                            InternalInputImageType;
-  typedef typename InternalInputImageType::RegionType    InternalRegionType;
-  typedef typename InternalInputImageType::SizeType      InternalSizeType;
-  typedef typename InternalInputImageType::IndexType     InternalIndexType;
-  typedef typename InternalInputImageType::OffsetType    InternalOffsetType;
-  typedef typename InternalInputImageType::PixelType     InternalInputPixelType;
-  typedef typename InternalInputImageType::SpacingType   InternalSpacingType;
-  typedef typename InternalInputImageType::PointType     InternalPointType;
+  using InternalInputImageType = TInternalInputImage;
+  using InternalRegionType = typename InternalInputImageType::RegionType;
+  using InternalSizeType = typename InternalInputImageType::SizeType;
+  using InternalIndexType = typename InternalInputImageType::IndexType;
+  using InternalOffsetType = typename InternalInputImageType::OffsetType;
+  using InternalInputPixelType = typename InternalInputImageType::PixelType;
+  using InternalSpacingType = typename InternalInputImageType::SpacingType;
+  using InternalPointType = typename InternalInputImageType::PointType;
 
-  typedef TInternalOutputImage                        InternalOutputImageType;
-  typedef typename InternalOutputImageType::PixelType InternalOutputPixelType;
+  using InternalOutputImageType = TInternalOutputImage;
+  using InternalOutputPixelType = typename InternalOutputImageType::PixelType;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 

@@ -21,7 +21,7 @@
 #include "itkFEMLinearSystemWrapperDenseVNL.h"
 #include "itkFEMLinearSystemWrapperItpack.h"
 
-typedef itk::fem::Solver<2> Solver2DType;
+using Solver2DType = itk::fem::Solver<2>;
 
 bool CheckDisplacements1(Solver2DType *S, int s, double *expectedResults, double tolerance);
 
@@ -47,8 +47,8 @@ int itkFEMElement2DTest(int argc, char *argv[])
   // Solvers being tested
   int numsolvers = 3;
 
-  typedef itk::FEMSpatialObjectReader<2>      FEMSpatialObjectReaderType;
-  typedef FEMSpatialObjectReaderType::Pointer FEMSpatialObjectReaderPointer;
+  using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
+  using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
   SpatialReader->SetFileName( argv[1] );
   SpatialReader->Update();
@@ -67,7 +67,7 @@ int itkFEMElement2DTest(int argc, char *argv[])
     }
 
   // Testing the fe mesh validity
-  typedef itk::FEMObjectSpatialObject<2>      FEMObjectSpatialObjectType;
+  using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<2>;
 
   FEMObjectSpatialObjectType::ChildrenListType* children = SpatialReader->GetGroup()->GetChildren();
 

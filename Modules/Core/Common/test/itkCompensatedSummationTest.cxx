@@ -28,19 +28,19 @@ int itkCompensatedSummationTest( int, char * [] )
 // scope.
   itk::StdStreamStateSave coutState(std::cout);
 
-  typedef float FloatType;
+  using FloatType = float;
   long int seedValue = 17;
 
   const FloatType expectedMean = 0.5;
 
   const itk::SizeValueType accumSize = 50000000;
 
-  typedef itk::Statistics::MersenneTwisterRandomVariateGenerator GeneratorType;
+  using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
   GeneratorType::Pointer generator = GeneratorType::New();
   generator->Initialize( seedValue );
 
   FloatType vanillaSum = 0.0;
-  typedef itk::CompensatedSummation< FloatType > CompensatedSummationType;
+  using CompensatedSummationType = itk::CompensatedSummation< FloatType >;
   CompensatedSummationType floatAccumulator;
   FloatType randomNumber;
   for( itk::SizeValueType ii = 0; ii < accumSize; ++ii )

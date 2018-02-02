@@ -25,12 +25,12 @@ int itkCovarianceImageFunctionTest( int, char* [] )
 {
 
   const unsigned int Dimension = 3;
-  typedef unsigned char PixelComponentType;
+  using PixelComponentType = unsigned char;
   const unsigned int VectorDimension = 4;
 
-  typedef itk::FixedArray< PixelComponentType, VectorDimension > PixelType;
-  typedef itk::Image< PixelType, Dimension >                     ImageType;
-  typedef itk::CovarianceImageFunction< ImageType >              FunctionType;
+  using PixelType = itk::FixedArray< PixelComponentType, VectorDimension >;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using FunctionType = itk::CovarianceImageFunction< ImageType >;
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();

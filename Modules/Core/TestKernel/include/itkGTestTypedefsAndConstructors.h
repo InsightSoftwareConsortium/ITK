@@ -35,7 +35,7 @@ namespace TypedefsAndConstructors
 {
 
 /** \namespace itk::GTest::TypedefsAndConstructors::Dimension2
- * \brief Contains commonly used typedefs for working with 2-D Images,
+ * \brief Contains commonly used type alias for working with 2-D Images,
  * and utility functions to construct commonly used objects.
  */
 namespace Dimension2
@@ -43,14 +43,14 @@ namespace Dimension2
 
 const unsigned int Dimension = 2;
 
-typedef itk::ImageBase< Dimension> ImageBaseType;
+using ImageBaseType = itk::ImageBase< Dimension>;
 
 
-typedef ImageBaseType::SizeType      SizeType;
-typedef ImageBaseType::IndexType     IndexType;
-typedef ImageBaseType::PointType     PointType;
-typedef ImageBaseType::DirectionType DirectionType;
-typedef ImageBaseType::SpacingType   VectorType;
+using SizeType = ImageBaseType::SizeType;
+using IndexType = ImageBaseType::IndexType;
+using PointType = ImageBaseType::PointType;
+using DirectionType = ImageBaseType::DirectionType;
+using VectorType = ImageBaseType::SpacingType;
 
 
 inline static PointType MakePoint(PointType::ValueType p1,
@@ -87,7 +87,7 @@ inline static SizeType MakeSize(SizeType::SizeValueType s1,
 
 
 /** \namespace itk::GTest::TypedefsAndConstructors::Dimension3
- * \brief Contains commonly used typedefs for working with 3-D Images,
+ * \brief Contains commonly used type alias for working with 3-D Images,
  * and utility functions to construct commonly used objects.
  */
 namespace Dimension3
@@ -95,14 +95,14 @@ namespace Dimension3
 
 const unsigned int Dimension = 3;
 
-typedef itk::ImageBase< Dimension> ImageBaseType;
+using ImageBaseType = itk::ImageBase< Dimension>;
 
 
-typedef ImageBaseType::SizeType      SizeType;
-typedef ImageBaseType::IndexType     IndexType;
-typedef ImageBaseType::PointType     PointType;
-typedef ImageBaseType::DirectionType DirectionType;
-typedef ImageBaseType::SpacingType   VectorType;
+using SizeType = ImageBaseType::SizeType;
+using IndexType = ImageBaseType::IndexType;
+using PointType = ImageBaseType::PointType;
+using DirectionType = ImageBaseType::DirectionType;
+using VectorType = ImageBaseType::SpacingType;
 
 
 inline static PointType MakePoint(PointType::ValueType p1,

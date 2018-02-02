@@ -76,13 +76,13 @@ class ITK_TEMPLATE_EXPORT WienerDeconvolutionImageFilter :
   public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
-  typedef WienerDeconvolutionImageFilter                         Self;
-  typedef InverseDeconvolutionImageFilter< TInputImage,
+  using Self = WienerDeconvolutionImageFilter;
+  using Superclass = InverseDeconvolutionImageFilter< TInputImage,
                                            TKernelImage,
                                            TOutputImage,
-                                           TInternalPrecision >  Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
-  typedef SmartPointer< const Self >                             ConstPointer;
+                                           TInternalPrecision >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -94,29 +94,29 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef TInputImage                           InputImageType;
-  typedef TOutputImage                          OutputImageType;
-  typedef TKernelImage                          KernelImageType;
-  typedef typename Superclass::InputPixelType   InputPixelType;
-  typedef typename Superclass::OutputPixelType  OutputPixelType;
-  typedef typename Superclass::KernelPixelType  KernelPixelType;
-  typedef typename Superclass::InputIndexType   InputIndexType;
-  typedef typename Superclass::OutputIndexType  OutputIndexType;
-  typedef typename Superclass::KernelIndexType  KernelIndexType;
-  typedef typename Superclass::InputSizeType    InputSizeType;
-  typedef typename Superclass::OutputSizeType   OutputSizeType;
-  typedef typename Superclass::KernelSizeType   KernelSizeType;
-  typedef typename Superclass::SizeValueType    SizeValueType;
-  typedef typename Superclass::InputRegionType  InputRegionType;
-  typedef typename Superclass::OutputRegionType OutputRegionType;
-  typedef typename Superclass::KernelRegionType KernelRegionType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using KernelImageType = TKernelImage;
+  using InputPixelType = typename Superclass::InputPixelType;
+  using OutputPixelType = typename Superclass::OutputPixelType;
+  using KernelPixelType = typename Superclass::KernelPixelType;
+  using InputIndexType = typename Superclass::InputIndexType;
+  using OutputIndexType = typename Superclass::OutputIndexType;
+  using KernelIndexType = typename Superclass::KernelIndexType;
+  using InputSizeType = typename Superclass::InputSizeType;
+  using OutputSizeType = typename Superclass::OutputSizeType;
+  using KernelSizeType = typename Superclass::KernelSizeType;
+  using SizeValueType = typename Superclass::SizeValueType;
+  using InputRegionType = typename Superclass::InputRegionType;
+  using OutputRegionType = typename Superclass::OutputRegionType;
+  using KernelRegionType = typename Superclass::KernelRegionType;
 
   /** Internal image types. */
-  typedef typename Superclass::InternalImageType               InternalImageType;
-  typedef typename Superclass::InternalImagePointerType        InternalImagePointerType;
-  typedef typename Superclass::InternalComplexType             InternalComplexType;
-  typedef typename Superclass::InternalComplexImageType        InternalComplexImageType;
-  typedef typename Superclass::InternalComplexImagePointerType InternalComplexImagePointerType;
+  using InternalImageType = typename Superclass::InternalImageType;
+  using InternalImagePointerType = typename Superclass::InternalImagePointerType;
+  using InternalComplexType = typename Superclass::InternalComplexType;
+  using InternalComplexImageType = typename Superclass::InternalComplexImageType;
+  using InternalComplexImagePointerType = typename Superclass::InternalComplexImagePointerType;
 
   /** Set/get the variance of the zero-mean Gaussian white noise
    * assumed to be added to the input. */

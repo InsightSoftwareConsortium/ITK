@@ -53,11 +53,11 @@ namespace itk
 class ITKCommon_EXPORT Win32OutputWindow:public OutputWindow
 {
 public:
-  /** Standard class typedefs. */
-  typedef Win32OutputWindow          Self;
-  typedef OutputWindow               Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Win32OutputWindow;
+  using Superclass = OutputWindow;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

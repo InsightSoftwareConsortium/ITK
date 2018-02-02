@@ -40,17 +40,17 @@ class PowellBoundedMetric : public itk::ObjectToObjectMetricBase
 {
 public:
 
-  typedef PowellBoundedMetric             Self;
-  typedef itk::ObjectToObjectMetricBase   Superclass;
-  typedef itk::SmartPointer<Self>         Pointer;
-  typedef itk::SmartPointer<const Self>   ConstPointer;
+  using Self = PowellBoundedMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType      ParametersType;
-  typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
 
   PowellBoundedMetric()
@@ -137,7 +137,7 @@ int itkPowellOptimizerv4Test(int, char* [] )
   std::cout << "PowellOptimizerv4 Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::PowellOptimizerv4<double>  OptimizerType;
+  using OptimizerType = itk::PowellOptimizerv4<double>;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -150,7 +150,7 @@ int itkPowellOptimizerv4Test(int, char* [] )
   itkOptimizer->SetMetric( metric.GetPointer() );
 
 
-  typedef PowellBoundedMetric::ParametersType    ParametersType;
+  using ParametersType = PowellBoundedMetric::ParametersType;
 
   const unsigned int spaceDimension =
                       metric->GetNumberOfParameters();

@@ -50,12 +50,12 @@ class ITK_TEMPLATE_EXPORT GPUNeighborhoodOperatorImageFilter :
   public GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:
-  /** Standard "Self" & Superclass typedef. */
-  typedef GPUNeighborhoodOperatorImageFilter                                     Self;
-  typedef TParentImageFilter                                                     CPUSuperclass;
-  typedef GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter > GPUSuperclass;
-  typedef SmartPointer< Self >                                                   Pointer;
-  typedef SmartPointer< const Self >                                             ConstPointer;
+  /** Standard "Self" & Superclass type alias. */
+  using Self = GPUNeighborhoodOperatorImageFilter;
+  using CPUSuperclass = TParentImageFilter;
+  using GPUSuperclass = GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -65,40 +65,39 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename  TInputImage::PixelType         InputPixelType;
-  typedef typename  TInputImage::InternalPixelType InputInternalPixelType;
-  typedef TOperatorValueType                       OperatorValueType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using InputPixelType = typename  TInputImage::PixelType;
+  using InputInternalPixelType = typename  TInputImage::InternalPixelType;
+  using OperatorValueType = TOperatorValueType;
 
-  typedef typename NumericTraits<InputPixelType>::ValueType InputPixelValueType;
-  typedef typename NumericTraits<OutputPixelType>::RealType ComputingPixelType;
+  using InputPixelValueType = typename NumericTraits<InputPixelType>::ValueType;
+  using ComputingPixelType = typename NumericTraits<OutputPixelType>::RealType;
 
-  typedef GPUImage<TOperatorValueType,itkGetStaticConstMacro(ImageDimension)> NeighborhoodGPUBufferType;
+  using NeighborhoodGPUBufferType = GPUImage<TOperatorValueType,itkGetStaticConstMacro(ImageDimension)>;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
 
-  /** Image typedef support. */
-  typedef TInputImage                      InputImageType;
-  typedef TOutputImage                     OutputImageType;
-  typedef typename InputImageType::Pointer InputImagePointer;
+  /** Image type alias support */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
 
   /** Typedef for generic boundary condition pointer. */
-  typedef ImageBoundaryCondition< InputImageType > *
-  ImageBoundaryConditionPointerType;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition< InputImageType > *;
 
   /** Typedef for the default boundary condition */
-  typedef ZeroFluxNeumannBoundaryCondition< InputImageType > DefaultBoundaryCondition;
+  using DefaultBoundaryCondition = ZeroFluxNeumannBoundaryCondition< InputImageType >;
 
-  /** Superclass typedefs. */
-  typedef typename GPUSuperclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename GPUSuperclass::OutputImageRegionType;
 
   /** Neighborhood types */
-  typedef Neighborhood< OperatorValueType,
-                        itkGetStaticConstMacro(ImageDimension) > OutputNeighborhoodType;
+  using OutputNeighborhoodType = Neighborhood< OperatorValueType,
+                        itkGetStaticConstMacro(ImageDimension) >;
 
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUNeighborhoodOperatorImageFilterKernel);

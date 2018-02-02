@@ -21,10 +21,10 @@
 int itkShiSparseLevelSetImageTest( int , char* [] )
 {
   const unsigned int Dimension = 2;
-  typedef itk::ShiSparseLevelSetImage< Dimension > SparseLevelSetType;
+  using SparseLevelSetType = itk::ShiSparseLevelSetImage< Dimension >;
 
-  typedef SparseLevelSetType::LabelMapType LabelMapType;
-  typedef LabelMapType::IndexType          IndexType;
+  using LabelMapType = SparseLevelSetType::LabelMapType;
+  using IndexType = LabelMapType::IndexType;
 
   IndexType index;
   index.Fill( 3 );

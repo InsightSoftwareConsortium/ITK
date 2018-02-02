@@ -38,16 +38,16 @@ template< typename TInput, typename TAccessor >
 class AccessorFunctor
 {
 public:
-  /** Standard class typedefs. */
-  typedef AccessorFunctor Self;
-  typedef TAccessor       AccessorType;
+  /** Standard class type aliases. */
+  using Self = AccessorFunctor;
+  using AccessorType = TAccessor;
 
   /** Constructor and destructor. */
   AccessorFunctor():m_Accessor() {}
   ~AccessorFunctor() {}
 
   /** operator().  This is the "call" method of the functor. */
-  typedef typename TAccessor::ExternalType OutputType;
+  using OutputType = typename TAccessor::ExternalType;
   inline OutputType operator()(const TInput & A) const
   {
     return m_Accessor.Get(A);
@@ -125,24 +125,24 @@ class AdaptImageFilter:
                                   Functor::AccessorFunctor< typename TInputImage::PixelType, TAccessor > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef AdaptImageFilter Self;
+  /** Standard class type aliases. */
+  using Self = AdaptImageFilter;
 
-  typedef UnaryFunctorImageFilter< TInputImage,
+  using Superclass = UnaryFunctorImageFilter< TInputImage,
                                    TOutputImage,
                                    Functor::AccessorFunctor<
                                      typename TInputImage::PixelType,
-                                     TAccessor > >  Superclass;
+                                     TAccessor > >;
 
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
-  typedef typename Superclass::FunctorType FunctorType;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = typename Superclass::FunctorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Typedef for the accessor type */
-  typedef TAccessor AccessorType;
+  using AccessorType = TAccessor;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(AdaptImageFilter, UnaryFunctorImageFilter);

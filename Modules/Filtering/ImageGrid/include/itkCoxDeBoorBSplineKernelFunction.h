@@ -58,13 +58,13 @@ class ITK_TEMPLATE_EXPORT CoxDeBoorBSplineKernelFunction:
   public KernelFunctionBase<TRealValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef CoxDeBoorBSplineKernelFunction     Self;
-  typedef KernelFunctionBase<TRealValueType> Superclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = CoxDeBoorBSplineKernelFunction;
+  using Superclass = KernelFunctionBase<TRealValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef typename Superclass::RealType  RealType;
+  using RealType = typename Superclass::RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -72,9 +72,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( CoxDeBoorBSplineKernelFunction, KernelFunctionBase );
 
-  typedef vnl_vector<TRealValueType> VectorType;
-  typedef vnl_real_polynomial        PolynomialType;
-  typedef vnl_matrix<TRealValueType> MatrixType;
+  using VectorType = vnl_vector<TRealValueType>;
+  using PolynomialType = vnl_real_polynomial;
+  using MatrixType = vnl_matrix<TRealValueType>;
 
   /** Set the spline order. */
   void SetSplineOrder( const unsigned int );

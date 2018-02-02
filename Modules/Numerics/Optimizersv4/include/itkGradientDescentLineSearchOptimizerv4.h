@@ -60,11 +60,11 @@ class ITK_TEMPLATE_EXPORT GradientDescentLineSearchOptimizerv4Template
 : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef GradientDescentLineSearchOptimizerv4Template                 Self;
-  typedef  GradientDescentOptimizerv4Template<TInternalComputationValueType> Superclass;
-  typedef SmartPointer< Self >                                         Pointer;
-  typedef SmartPointer< const Self >                                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GradientDescentLineSearchOptimizerv4Template;
+  using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GradientDescentLineSearchOptimizerv4Template, Superclass);
@@ -73,17 +73,17 @@ public:
   itkNewMacro(Self);
 
   /** It should be possible to derive the internal computation type from the class object. */
-  typedef TInternalComputationValueType            InternalComputationValueType;
+  using InternalComputationValueType = TInternalComputationValueType;
 
   /** Derivative type */
-  typedef typename Superclass::DerivativeType      DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
   /** Metric type over which this class is templated */
-  typedef typename Superclass::MeasureType         MeasureType;
-  typedef typename Superclass::ParametersType      ParametersType;
+  using MeasureType = typename Superclass::MeasureType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Type for the convergence checker */
-  typedef itk::Function::WindowConvergenceMonitoringFunction<TInternalComputationValueType> ConvergenceMonitoringType;
+  using ConvergenceMonitoringType = itk::Function::WindowConvergenceMonitoringFunction<TInternalComputationValueType>;
 
   /** The epsilon determines the accuracy of the line search
    *  i.e. the energy alteration that is considered convergent.
@@ -139,7 +139,7 @@ private:
 };
 
 /** This helps to meet backward compatibility */
-typedef GradientDescentLineSearchOptimizerv4Template<double> GradientDescentLineSearchOptimizerv4;
+using GradientDescentLineSearchOptimizerv4 = GradientDescentLineSearchOptimizerv4Template<double>;
 
 } // end namespace itk
 

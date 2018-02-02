@@ -72,16 +72,13 @@ class ITK_TEMPLATE_EXPORT GPUDemonsRegistrationFilter :
                                              TDisplacementField, TParentImageFilter >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUDemonsRegistrationFilter Self;
-  typedef GPUPDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField,
-                                              TParentImageFilter > GPUSuperclass;
-  typedef TParentImageFilter
-  CPUSuperclass;
-  typedef SmartPointer< Self >
-  Pointer;
-  typedef SmartPointer< const Self >
-  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUDemonsRegistrationFilter;
+  using GPUSuperclass = GPUPDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField,
+                                              TParentImageFilter >;
+  using CPUSuperclass = TParentImageFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -91,29 +88,26 @@ public:
                GPUPDEDeformableRegistrationFilter);
 
   /** Inherit types from GPUSuperclass. */
-  typedef typename GPUSuperclass::TimeStepType TimeStepType;
+  using TimeStepType = typename GPUSuperclass::TimeStepType;
 
   /** FixedImage image type. */
-  typedef typename GPUSuperclass::FixedImageType    FixedImageType;
-  typedef typename GPUSuperclass::FixedImagePointer FixedImagePointer;
+  using FixedImageType = typename GPUSuperclass::FixedImageType;
+  using FixedImagePointer = typename GPUSuperclass::FixedImagePointer;
 
   /** MovingImage image type. */
-  typedef typename GPUSuperclass::MovingImageType    MovingImageType;
-  typedef typename GPUSuperclass::MovingImagePointer MovingImagePointer;
+  using MovingImageType = typename GPUSuperclass::MovingImageType;
+  using MovingImagePointer = typename GPUSuperclass::MovingImagePointer;
 
   /** Deformation field type. */
-  typedef typename GPUSuperclass::DisplacementFieldType
-  DisplacementFieldType;
-  typedef typename GPUSuperclass::DisplacementFieldPointer
-  DisplacementFieldPointer;
+  using DisplacementFieldType = typename GPUSuperclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename GPUSuperclass::DisplacementFieldPointer;
 
   /** FiniteDifferenceFunction type. */
-  typedef typename GPUSuperclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
+  using FiniteDifferenceFunctionType = typename GPUSuperclass::FiniteDifferenceFunctionType;
 
   /** GPUDemonsRegistrationFilterFunction type. */
-  typedef GPUDemonsRegistrationFunction< FixedImageType, MovingImageType,
-                                         DisplacementFieldType >  GPUDemonsRegistrationFunctionType;
+  using GPUDemonsRegistrationFunctionType = GPUDemonsRegistrationFunction< FixedImageType, MovingImageType,
+                                         DisplacementFieldType >;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image
@@ -156,10 +150,10 @@ private:
 class GPUDemonsRegistrationFilterFactory : public itk::ObjectFactoryBase
 {
 public:
-  typedef GPUDemonsRegistrationFilterFactory Self;
-  typedef ObjectFactoryBase                  GPUSuperclass;
-  typedef SmartPointer<Self>                 Pointer;
-  typedef SmartPointer<const Self>           ConstPointer;
+  using Self = GPUDemonsRegistrationFilterFactory;
+  using GPUSuperclass = ObjectFactoryBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
   const char* GetITKSourceVersion() const override
@@ -190,10 +184,10 @@ private:
 
 #define OverrideDemonsRegistrationFilterTypeMacro(ipt,opt,dm) \
     { \
-    typedef GPUImage<ipt,dm>                 InputImageType; \
-    typedef GPUImage<opt,dm>                 OutputImageType; \
-    typedef Vector< float, dm >              VectorPixelType; \
-    typedef GPUImage<  VectorPixelType, dm > DisplacementFieldType; \
+    using InputImageType = GPUImage<ipt,dm>; \
+    using OutputImageType = GPUImage<opt,dm>; \
+    using VectorPixelType = Vector< float, dm >; \
+    using DisplacementFieldType = GPUImage<  VectorPixelType, dm >; \
     this->RegisterOverride( \
       typeid(DemonsRegistrationFilter<InputImageType,OutputImageType,DisplacementFieldType>).name(), \
       typeid(GPUDemonsRegistrationFilter<InputImageType,OutputImageType,DisplacementFieldType>).name(), \

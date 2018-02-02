@@ -35,8 +35,8 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
   //the initializaiton of the itk::FEMFactoryBase::GetFactory()
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  typedef itk::Image<unsigned char, 3>    ImageType;
-  typedef itk::ImageFileReader<ImageType> ImageFileReaderType;
+  using ImageType = itk::Image<unsigned char, 3>;
+  using ImageFileReaderType = itk::ImageFileReader<ImageType>;
   double tolerance = 0.001;
 
   vnl_vector<unsigned int> pixelsPerElement;
@@ -55,7 +55,7 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
   reader->Update();
 
   /* Define the Material and Element Type to be used */
-  typedef itk::fem::MaterialLinearElasticity ElasticityType;
+  using ElasticityType = itk::fem::MaterialLinearElasticity;
   ElasticityType::Pointer m;
   m = ElasticityType::New();
   m->SetGlobalNumber(0);
@@ -63,7 +63,7 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
   m->SetCrossSectionalArea(0.02);
   m->SetMomentOfInertia(0.004);
 
-  typedef itk::fem::Element3DC0LinearHexahedronMembrane MembraneElementType;
+  using MembraneElementType = itk::fem::Element3DC0LinearHexahedronMembrane;
   MembraneElementType::Pointer e0 = MembraneElementType::New();
   e0->SetGlobalNumber(0);
   if ( dynamic_cast<ElasticityType *>( m.GetPointer() ))
@@ -71,7 +71,7 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
     e0->SetMaterial( dynamic_cast<ElasticityType *>( m.GetPointer() ) );
     }
 
-  typedef itk::fem::ImageToRectilinearFEMObjectFilter<ImageType> MeshFilterType;
+  using MeshFilterType = itk::fem::ImageToRectilinearFEMObjectFilter<ImageType>;
   MeshFilterType::Pointer meshFilter = MeshFilterType::New();
   meshFilter->SetInput( reader->GetOutput() );
   meshFilter->SetPixelsPerElement( pixelsPerElement );
@@ -79,7 +79,7 @@ int itkImageToRectilinearFEMObjectFilter3DTest(int argc, char *argv[])
   meshFilter->SetMaterial( m );
   meshFilter->Update();
 
-  typedef itk::fem::FEMObject<3> FEMObjectType;
+  using FEMObjectType = itk::fem::FEMObject<3>;
   FEMObjectType::Pointer femObject = meshFilter->GetOutput();
   std::cout << "FEM Object Generation Test:";
   if( !femObject )

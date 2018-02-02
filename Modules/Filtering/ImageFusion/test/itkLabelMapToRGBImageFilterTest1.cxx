@@ -35,26 +35,26 @@ int itkLabelMapToRGBImageFilterTest1(int argc, char * argv[])
 
   const int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > IType;
+  using IType = itk::Image< unsigned char, dim >;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  using ReaderType = itk::ImageFileReader< IType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToLabelMapFilter< IType > ConverterType;
+  using ConverterType = itk::LabelImageToLabelMapFilter< IType >;
   ConverterType::Pointer converter = ConverterType::New();
   converter->SetInput( reader->GetOutput() );
 
-//  typedef itk::RGBPixel< unsigned char > RGBPixelType;
-//  typedef itk::Image< RGBPixelType, dim > RGBImageType;
+//  using RGBPixelType = itk::RGBPixel< unsigned char >;
+//  using RGBImageType = itk::Image< RGBPixelType, dim >;
 
-  typedef itk::LabelMapToRGBImageFilter< ConverterType::OutputImageType > ColorizerType;
+  using ColorizerType = itk::LabelMapToRGBImageFilter< ConverterType::OutputImageType >;
   ColorizerType::Pointer colorizer = ColorizerType::New();
   colorizer->SetInput( converter->GetOutput() );
 
   itk::SimpleFilterWatcher watcher(colorizer, "filter");
 
-  typedef itk::ImageFileWriter< ColorizerType::OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ColorizerType::OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( colorizer->GetOutput() );
   writer->SetFileName( argv[2] );

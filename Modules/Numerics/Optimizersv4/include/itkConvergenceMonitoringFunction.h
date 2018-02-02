@@ -45,22 +45,22 @@ class ConvergenceMonitoringFunction
 {
 public:
 
-  typedef ConvergenceMonitoringFunction                      Self;
-  typedef Object                                             Superclass;
-  typedef SmartPointer<Self>                                 Pointer;
-  typedef SmartPointer<const Self>                           ConstPointer;
+  using Self = ConvergenceMonitoringFunction;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( ConvergenceMonitoringFunction, Object );
 
-  typedef TScalar                                            ScalarType;
-  typedef typename NumericTraits<ScalarType>::RealType       RealType;
+  using ScalarType = TScalar;
+  using RealType = typename NumericTraits<ScalarType>::RealType;
 
-  typedef TEnergyValue                                       EnergyValueType;
-  typedef std::deque<EnergyValueType>                        EnergyValueContainerType;
-  typedef typename EnergyValueContainerType::size_type       EnergyValueContainerSizeType;
-  typedef typename EnergyValueContainerType::iterator        EnergyValueIterator;
-  typedef typename EnergyValueContainerType::const_iterator  EnergyValueConstIterator;
+  using EnergyValueType = TEnergyValue;
+  using EnergyValueContainerType = std::deque<EnergyValueType>;
+  using EnergyValueContainerSizeType = typename EnergyValueContainerType::size_type;
+  using EnergyValueIterator = typename EnergyValueContainerType::iterator;
+  using EnergyValueConstIterator = typename EnergyValueContainerType::const_iterator;
 
   /* Add energy value to the end of the profile. */
   virtual void AddEnergyValue( const EnergyValueType value )

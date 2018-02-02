@@ -32,11 +32,11 @@ int itkBMPImageIOTest2( int argc, char* argv[] )
     }
 
   const unsigned int    Dimension = 2;
-  typedef unsigned char ComponentType;
+  using ComponentType = unsigned char;
 
-  typedef itk::RGBAPixel< ComponentType >     PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
+  using PixelType = itk::RGBAPixel< ComponentType >;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using ReaderType = itk::ImageFileReader< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
 

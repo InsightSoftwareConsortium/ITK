@@ -24,9 +24,9 @@
 int
 itkMinimumMaximumImageFilterTest(int , char *[] )
 {
-  typedef itk::Size<3>                              SizeType;
-  typedef itk::Image<float, 3>                      ImageType;
-  typedef itk::MinimumMaximumImageFilter<ImageType> MinMaxFilterType;
+  using SizeType = itk::Size<3>;
+  using ImageType = itk::Image<float, 3>;
+  using MinMaxFilterType = itk::MinimumMaximumImageFilter<ImageType>;
 
   /* Define the image size and physical coordinates */
   SizeType size = {{20, 20, 20}};

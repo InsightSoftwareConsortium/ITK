@@ -92,7 +92,7 @@ AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
     typename KernelType::LType ThisLine = decomposition[i];
     typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
 
-    typedef typename KernelType::LType KernelLType;
+    using KernelLType = typename KernelType::LType;
 
     unsigned int SELength = GetLinePixels< KernelLType >(ThisLine);
 
@@ -124,7 +124,7 @@ AnchorErodeDilateImageFilter< TImage, TKernel, TFunction1 >
     }
 
   // copy internal buffer to output
-  typedef ImageRegionIterator< InputImageType > IterType;
+  using IterType = ImageRegionIterator< InputImageType >;
   IterType oit(this->GetOutput(), OReg);
   IterType iit(internalbuffer, OReg);
   for ( oit.GoToBegin(), iit.GoToBegin(); !oit.IsAtEnd(); ++oit, ++iit )

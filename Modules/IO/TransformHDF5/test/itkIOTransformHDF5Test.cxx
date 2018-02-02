@@ -44,7 +44,7 @@ static int ReadWriteTest(const char * const fileName, const bool isRealDisplacem
   const double requiredSpacing = 1.2 + aNumberThatCanNotBeRepresentedInFloatingPoint;
   const double requiredOrigin = 23.0 + aNumberThatCanNotBeRepresentedInFloatingPoint;
   typename DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
-  typedef typename DisplacementTransformType::DisplacementFieldType FieldType;
+  using FieldType = typename DisplacementTransformType::DisplacementFieldType;
   typename FieldType::Pointer knownField = FieldType::New(); //This is based on itk::Image
     {
     const int dimLength = 20;
@@ -74,11 +74,11 @@ static int ReadWriteTest(const char * const fileName, const bool isRealDisplacem
 
   // Now test reading/writing many different transform types.
 
-  typedef itk::TransformFileReaderTemplate<TParametersValueType> TransformReaderType;
+  using TransformReaderType = itk::TransformFileReaderTemplate<TParametersValueType>;
   typename TransformReaderType::Pointer reader = TransformReaderType::New();
   reader->SetFileName( fileName );
 
-  typedef itk::HDF5TransformIOTemplate<TParametersValueType> TransformIOType;
+  using TransformIOType = itk::HDF5TransformIOTemplate<TParametersValueType>;
   typename TransformIOType::Pointer transformIO = TransformIOType::New();
   reader->SetTransformIO( transformIO );
   if( reader->GetTransformIO() != transformIO.GetPointer() )
@@ -87,7 +87,7 @@ static int ReadWriteTest(const char * const fileName, const bool isRealDisplacem
     return EXIT_FAILURE;
     }
 
-  typedef itk::TransformFileWriterTemplate<TParametersValueType> TransformWriterType;
+  using TransformWriterType = itk::TransformFileWriterTemplate<TParametersValueType>;
   typename TransformWriterType::Pointer writer = TransformWriterType::New();
   writer->SetFileName( fileName );
   writer->SetTransformIO( transformIO );
@@ -178,8 +178,8 @@ static int ReadWriteTest(const char * const fileName, const bool isRealDisplacem
 template<typename TParametersValueType>
 static int oneTest(const char *const goodname,const char *const badname)
 {
-  typedef typename itk::AffineTransform<TParametersValueType,4>  AffineTransformType;
-  typedef typename itk::AffineTransform<TParametersValueType,10> AffineTransformTypeNotRegistered;
+  using AffineTransformType = typename itk::AffineTransform<TParametersValueType,4>;
+  using AffineTransformTypeNotRegistered = typename itk::AffineTransform<TParametersValueType,10>;
   typename AffineTransformType::Pointer        affine = AffineTransformType::New();
 
   itk::ObjectFactoryBase::RegisterFactory(itk::HDF5TransformIOFactory::New() );

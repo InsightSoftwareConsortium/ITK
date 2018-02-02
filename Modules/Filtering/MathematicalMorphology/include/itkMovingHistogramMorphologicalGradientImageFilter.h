@@ -39,7 +39,7 @@ public:
 
   inline void RemoveBoundary() {}
 
-  typedef std::map< TInputPixel, SizeValueType > MapType;
+  using MapType = std::map< TInputPixel, SizeValueType >;
 
   inline void AddPixel(const TInputPixel & p)
   {
@@ -228,13 +228,13 @@ class MovingHistogramMorphologicalGradientImageFilter:
                                                                                          PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MovingHistogramMorphologicalGradientImageFilter Self;
-  typedef MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel,
+  /** Standard class type aliases. */
+  using Self = MovingHistogramMorphologicalGradientImageFilter;
+  using Superclass = MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel,
                                       typename  Function::MorphologicalGradientHistogram< typename TInputImage::
-                                                                                          PixelType > >  Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                                                                                          PixelType > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -243,20 +243,20 @@ public:
   itkTypeMacro(MovingHistogramMorphologicalGradientImageFilter,
                ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef TInputImage                                InputImageType;
-  typedef TOutputImage                               OutputImageType;
-  typedef typename TInputImage::RegionType           RegionType;
-  typedef typename TInputImage::SizeType             SizeType;
-  typedef typename TInputImage::IndexType            IndexType;
-  typedef typename TInputImage::PixelType            PixelType;
-  typedef typename TInputImage::OffsetType           OffsetType;
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename TOutputImage::PixelType           OutputPixelType;
+  /** Image related type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using PixelType = typename TInputImage::PixelType;
+  using OffsetType = typename TInputImage::OffsetType;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  typedef Function::MorphologicalGradientHistogram< PixelType > HistogramType;
+  using HistogramType = Function::MorphologicalGradientHistogram< PixelType >;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 

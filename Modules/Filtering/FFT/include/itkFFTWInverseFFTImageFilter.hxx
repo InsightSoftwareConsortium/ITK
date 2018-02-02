@@ -73,7 +73,7 @@ FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
     }
 
   // Cut the full complex image to just the portion needed by FFTW.
-  typedef FullToHalfHermitianImageFilter< InputImageType > FullToHalfFilterType;
+  using FullToHalfFilterType = FullToHalfHermitianImageFilter< InputImageType >;
   typename FullToHalfFilterType::Pointer fullToHalfFilter = FullToHalfFilterType::New();
   fullToHalfFilter->SetInput( this->GetInput() );
   fullToHalfFilter->SetNumberOfThreads( this->GetNumberOfThreads() );
@@ -104,7 +104,7 @@ void
 FFTWInverseFFTImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) )
 {
-  typedef ImageRegionIterator< OutputImageType > IteratorType;
+  using IteratorType = ImageRegionIterator< OutputImageType >;
   unsigned long totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
   IteratorType it( this->GetOutput(), outputRegionForThread );
   while( !it.IsAtEnd() )

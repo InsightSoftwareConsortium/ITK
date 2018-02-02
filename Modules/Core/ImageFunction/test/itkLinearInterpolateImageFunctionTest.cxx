@@ -34,42 +34,38 @@
 template< unsigned int TDimension >
 int RunTest( void )
  {
- typedef float                                         PixelType;
+ using PixelType = float;
  const   unsigned int                                  Dimensions = TDimension;
  const   unsigned int                                  VectorDimension = 4;
- typedef itk::Vector< PixelType, VectorDimension >     VectorPixelType;
- typedef itk::Image< PixelType, Dimensions >           ImageType;
- typedef itk::Image< VectorPixelType, Dimensions >     VectorImageType;
- typedef itk::VectorImage< PixelType, Dimensions >     VariableVectorImageType;
- typedef typename VariableVectorImageType::PixelType   VariablePixelType;
- typedef typename ImageType::RegionType                RegionType;
- typedef typename RegionType::SizeType                 SizeType;
- typedef typename ImageType::IndexType                 IndexType;
+ using VectorPixelType = itk::Vector< PixelType, VectorDimension >;
+ using ImageType = itk::Image< PixelType, Dimensions >;
+ using VectorImageType = itk::Image< VectorPixelType, Dimensions >;
+ using VariableVectorImageType = itk::VectorImage< PixelType, Dimensions >;
+ using VariablePixelType = typename VariableVectorImageType::PixelType;
+ using RegionType = typename ImageType::RegionType;
+ using SizeType = typename RegionType::SizeType;
+ using IndexType = typename ImageType::IndexType;
 
- typedef float                                         CoordRepType;
- typedef typename itk::ContinuousIndex<CoordRepType, Dimensions>
-                                                       ContinuousIndexType;
+ using CoordRepType = float;
+ using ContinuousIndexType =
+     typename itk::ContinuousIndex<CoordRepType, Dimensions>;
 
- typedef typename ContinuousIndexType::ValueType       AccumulatorType;
+ using AccumulatorType = typename ContinuousIndexType::ValueType;
 
- typedef typename itk::Point<CoordRepType,Dimensions>  PointType;
+ using PointType = typename itk::Point<CoordRepType,Dimensions>;
 
- typedef typename itk::LinearInterpolateImageFunction<
+ using InterpolatorType = typename itk::LinearInterpolateImageFunction<
                                                       ImageType,
-                                                      CoordRepType >
-                                                      InterpolatorType;
- typedef typename itk::LinearInterpolateImageFunction<
+                                                      CoordRepType >;
+ using VectorInterpolatorType = typename itk::LinearInterpolateImageFunction<
                                                       VectorImageType,
-                                                      CoordRepType >
-                                                      VectorInterpolatorType;
- typedef typename itk::LinearInterpolateImageFunction<
+                                                      CoordRepType >;
+ using VariableVectorInterpolatorType = typename itk::LinearInterpolateImageFunction<
                                                       VariableVectorImageType,
-                                                      CoordRepType >
-                                               VariableVectorInterpolatorType;
+                                                      CoordRepType >;
 
- typedef typename VectorInterpolatorType::OutputType  InterpolatedVectorType;
- typedef typename VariableVectorInterpolatorType::OutputType
-                                               InterpolatedVariableVectorType;
+ using InterpolatedVectorType = typename VectorInterpolatorType::OutputType;
+ using InterpolatedVariableVectorType = typename VariableVectorInterpolatorType::OutputType;
 
  typename ImageType::Pointer image = ImageType::New();
  typename VectorImageType::Pointer vectorimage = VectorImageType::New();

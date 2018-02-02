@@ -66,8 +66,8 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   const unsigned int MeasurementVectorLength = 3;
-  typedef itk::Vector< float, MeasurementVectorLength > MeasurementVectorType;
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using MeasurementVectorType = itk::Vector< float, MeasurementVectorLength >;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize( MeasurementVectorLength );
   MeasurementVectorType mv;
@@ -111,7 +111,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::MeanSampleFilter< SampleType > MeanAlgorithmType;
+  using MeanAlgorithmType = itk::Statistics::MeanSampleFilter< SampleType >;
 
   MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New();
 
@@ -131,8 +131,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::CovarianceSampleFilter< SampleType >
-    CovarianceAlgorithmType;
+  using CovarianceAlgorithmType = itk::Statistics::CovarianceSampleFilter<SampleType>;
   CovarianceAlgorithmType::Pointer covarianceAlgorithm =
     CovarianceAlgorithmType::New();
 

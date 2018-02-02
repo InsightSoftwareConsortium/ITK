@@ -103,15 +103,15 @@ BoxAccumulateFunction(const TInputImage *inputImage,
                       typename TOutputImage::RegionType outputRegion,
                       ProgressReporter & progress)
 {
-  // typedefs
-  typedef TInputImage                      InputImageType;
-  typedef typename TInputImage::OffsetType OffsetType;
-  typedef TOutputImage                     OutputImageType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  // type alias
+  using InputImageType = TInputImage;
+  using OffsetType = typename TInputImage::OffsetType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
-  typedef ImageRegionConstIterator< TInputImage > InputIterator;
+  using InputIterator = ImageRegionConstIterator< TInputImage >;
 
-  typedef ShapedNeighborhoodIterator< TOutputImage > NOutputIterator;
+  using NOutputIterator = ShapedNeighborhoodIterator< TOutputImage >;
   InputIterator inIt(inputImage, inputRegion);
   typename TInputImage::SizeType kernelRadius;
   kernelRadius.Fill(1);
@@ -169,7 +169,7 @@ template< typename TImage >
 std::vector< typename TImage::OffsetType >
 CornerOffsets(const TImage *im)
 {
-  typedef ShapedNeighborhoodIterator< TImage > NIterator;
+  using NIterator = ShapedNeighborhoodIterator< TImage >;
   typename TImage::SizeType unitradius;
   unitradius.Fill(1);
   NIterator    n1( unitradius, im, im->GetRequestedRegion() );
@@ -206,18 +206,18 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
                           typename TInputImage::SizeType radius,
                           ProgressReporter & progress)
 {
-  // typedefs
-  typedef TInputImage                           InputImageType;
-  typedef typename TInputImage::RegionType      RegionType;
-  typedef typename TInputImage::SizeType        SizeType;
-  typedef typename TInputImage::IndexType       IndexType;
-  typedef typename TInputImage::OffsetType      OffsetType;
-  typedef TOutputImage                          OutputImageType;
-  typedef typename TOutputImage::PixelType      OutputPixelType;
+  // type alias
+  using InputImageType = TInputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using OffsetType = typename TInputImage::OffsetType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename TOutputImage::PixelType;
   // use the face generator for speed
-  typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > FaceCalculatorType;
-  typedef typename FaceCalculatorType::FaceListType                             FaceListType;
-  typedef typename FaceCalculatorType::FaceListType::iterator                   FaceListTypeIt;
+  using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >;
+  using FaceListType = typename FaceCalculatorType::FaceListType;
+  using FaceListTypeIt = typename FaceCalculatorType::FaceListType::iterator;
   FaceCalculatorType faceCalculator;
 
   FaceListType                                    faceList;
@@ -238,7 +238,7 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
     regionLimit[i] = inputRegion.GetSize()[i] + regionStart[i] - 1;
     }
 
-  typedef typename NumericTraits< OutputPixelType >::RealType AccPixType;
+  using AccPixType = typename NumericTraits< OutputPixelType >::RealType;
   // get a set of offsets to corners for a unit hypercube in this image
   std::vector< OffsetType > unitCorners = CornerOffsets< TInputImage >(accImage);
   std::vector< OffsetType > realCorners;
@@ -279,10 +279,10 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
         pixelscount *= (AccPixType)( 2 * radius[i] + 1 );
         }
 
-      typedef ImageRegionIterator< OutputImageType >     OutputIteratorType;
-      typedef ImageRegionConstIterator< InputImageType > InputIteratorType;
+      using OutputIteratorType = ImageRegionIterator< OutputImageType >;
+      using InputIteratorType = ImageRegionConstIterator< InputImageType >;
 
-      typedef std::vector< InputIteratorType > CornerItVecType;
+      using CornerItVecType = std::vector< InputIteratorType >;
       CornerItVecType cornerItVec;
       // set up the iterators for each corner
       for ( unsigned int k = 0; k < realCorners.size(); k++ )
@@ -313,7 +313,7 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
     else
       {
       // now we need to deal with the border regions
-      typedef ImageRegionIteratorWithIndex< OutputImageType > OutputIteratorType;
+      using OutputIteratorType = ImageRegionIteratorWithIndex< OutputImageType >;
       OutputIteratorType oIt(outputImage, *fit);
       // now do the work
       for ( oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt )
@@ -388,19 +388,19 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
                            typename TInputImage::SizeType radius,
                            ProgressReporter & progress)
 {
-  // typedefs
-  typedef TInputImage                           InputImageType;
-  typedef typename TInputImage::RegionType      RegionType;
-  typedef typename TInputImage::SizeType        SizeType;
-  typedef typename TInputImage::IndexType       IndexType;
-  typedef typename TInputImage::OffsetType      OffsetType;
-  typedef TOutputImage                          OutputImageType;
-  typedef typename TOutputImage::PixelType      OutputPixelType;
-  typedef typename TInputImage::PixelType       InputPixelType;
+  // type alias
+  using InputImageType = TInputImage;
+  using RegionType = typename TInputImage::RegionType;
+  using SizeType = typename TInputImage::SizeType;
+  using IndexType = typename TInputImage::IndexType;
+  using OffsetType = typename TInputImage::OffsetType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage::PixelType;
   // use the face generator for speed
-  typedef typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > FaceCalculatorType;
-  typedef typename FaceCalculatorType::FaceListType                                      FaceListType;
-  typedef typename FaceCalculatorType::FaceListType::iterator                            FaceListTypeIt;
+  using FaceCalculatorType = typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >;
+  using FaceListType = typename FaceCalculatorType::FaceListType;
+  using FaceListTypeIt = typename FaceCalculatorType::FaceListType::iterator;
   FaceCalculatorType faceCalculator;
 
   FaceListType                                    faceList;
@@ -420,7 +420,7 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
     regionLimit[i] = inputRegion.GetSize()[i] + regionStart[i] - 1;
     }
 
-  typedef typename NumericTraits< OutputPixelType >::RealType AccPixType;
+  using AccPixType = typename NumericTraits< OutputPixelType >::RealType;
   // get a set of offsets to corners for a unit hypercube in this image
   std::vector< OffsetType > unitCorners = CornerOffsets< TInputImage >(accImage);
   std::vector< OffsetType > realCorners;
@@ -461,10 +461,10 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
         pixelscount *= (AccPixType)( 2 * radius[i] + 1 );
         }
 
-      typedef ImageRegionIterator< OutputImageType >     OutputIteratorType;
-      typedef ImageRegionConstIterator< InputImageType > InputIteratorType;
+      using OutputIteratorType = ImageRegionIterator< OutputImageType >;
+      using InputIteratorType = ImageRegionConstIterator< InputImageType >;
 
-      typedef std::vector< InputIteratorType > CornerItVecType;
+      using CornerItVecType = std::vector< InputIteratorType >;
       CornerItVecType cornerItVec;
       // set up the iterators for each corner
       for ( unsigned int k = 0; k < realCorners.size(); k++ )
@@ -499,7 +499,7 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
     else
       {
       // now we need to deal with the border regions
-      typedef ImageRegionIteratorWithIndex< OutputImageType > OutputIteratorType;
+      using OutputIteratorType = ImageRegionIteratorWithIndex< OutputImageType >;
       OutputIteratorType oIt(outputImage, *fit);
       // now do the work
       for ( oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt )
@@ -577,17 +577,17 @@ BoxSquareAccumulateFunction(const TInputImage *inputImage,
                             typename TOutputImage::RegionType outputRegion,
                             ProgressReporter & progress)
 {
-  // typedefs
-  typedef TInputImage                         InputImageType;
-  typedef typename TInputImage::OffsetType    OffsetType;
-  typedef TOutputImage                        OutputImageType;
-  typedef typename TOutputImage::PixelType    OutputPixelType;
-  typedef typename OutputPixelType::ValueType ValueType;
-  typedef typename TInputImage::PixelType     InputPixelType;
+  // type alias
+  using InputImageType = TInputImage;
+  using OffsetType = typename TInputImage::OffsetType;
+  using OutputImageType = TOutputImage;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using ValueType = typename OutputPixelType::ValueType;
+  using InputPixelType = typename TInputImage::PixelType;
 
-  typedef ImageRegionConstIterator< TInputImage > InputIterator;
+  using InputIterator = ImageRegionConstIterator< TInputImage >;
 
-  typedef ShapedNeighborhoodIterator< TOutputImage > NOutputIterator;
+  using NOutputIterator = ShapedNeighborhoodIterator< TOutputImage >;
   InputIterator inIt(inputImage, inputRegion);
   typename TInputImage::SizeType kernelRadius;
   kernelRadius.Fill(1);

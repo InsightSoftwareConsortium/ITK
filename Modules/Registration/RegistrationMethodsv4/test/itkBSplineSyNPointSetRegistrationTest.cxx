@@ -25,17 +25,17 @@ int itkBSplineSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNot
 {
   const unsigned int Dimension = 2;
 
-  typedef itk::PointSet<unsigned int, Dimension> PointSetType;
+  using PointSetType = itk::PointSet<unsigned int, Dimension>;
 
-  typedef itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
 
-  typedef PointSetMetricType::FixedPointSetType    PointSetType;
-  typedef PointSetType::PointType                  PointType;
+  using PointSetType = PointSetMetricType::FixedPointSetType;
+  using PointType = PointSetType::PointType;
 
-  typedef double                           PixelType;
-  typedef itk::Image<PixelType, Dimension> FixedImageType;
-  typedef itk::Image<PixelType, Dimension> MovingImageType;
+  using PixelType = double;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
+  using MovingImageType = itk::Image<PixelType, Dimension>;
 
 
   PointSetType::Pointer fixedPoints = PointSetType::New();
@@ -98,7 +98,7 @@ int itkBSplineSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNot
   fixedImage->SetSpacing( fixedImageSpacing );
   fixedImage->Allocate();
 
-  typedef itk::AffineTransform<double, PointSetType::PointDimension> AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<double, PointSetType::PointDimension>;
   AffineTransformType::Pointer transform = AffineTransformType::New();
   transform->SetIdentity();
 
@@ -110,10 +110,10 @@ int itkBSplineSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNot
 
   // Create the SyN deformable registration method
 
-  typedef itk::Vector<double, Dimension> VectorType;
+  using VectorType = itk::Vector<double, Dimension>;
   VectorType zeroVector( 0.0 );
 
-  typedef itk::Image<VectorType, Dimension> DisplacementFieldType;
+  using DisplacementFieldType = itk::Image<VectorType, Dimension>;
   DisplacementFieldType::Pointer displacementField = DisplacementFieldType::New();
   displacementField->CopyInformation( fixedImage );
   displacementField->SetRegions( fixedImage->GetBufferedRegion() );
@@ -126,10 +126,10 @@ int itkBSplineSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNot
   inverseDisplacementField->Allocate();
   inverseDisplacementField->FillBuffer( zeroVector );
 
-  typedef itk::BSplineSyNImageRegistrationMethod<FixedImageType, MovingImageType> DisplacementFieldRegistrationType;
+  using DisplacementFieldRegistrationType = itk::BSplineSyNImageRegistrationMethod<FixedImageType, MovingImageType>;
   DisplacementFieldRegistrationType::Pointer displacementFieldRegistration = DisplacementFieldRegistrationType::New();
 
-  typedef DisplacementFieldRegistrationType::OutputTransformType OutputTransformType;
+  using OutputTransformType = DisplacementFieldRegistrationType::OutputTransformType;
   OutputTransformType::Pointer outputTransform = OutputTransformType::New();
   outputTransform->SetDisplacementField( displacementField );
   outputTransform->SetInverseDisplacementField( inverseDisplacementField );
@@ -137,7 +137,7 @@ int itkBSplineSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNot
   displacementFieldRegistration->SetInitialTransform( outputTransform );
   displacementFieldRegistration->InPlaceOn();
 
-  typedef itk::BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<OutputTransformType> DisplacementFieldTransformAdaptorType;
+  using DisplacementFieldTransformAdaptorType = itk::BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<OutputTransformType>;
   DisplacementFieldRegistrationType::TransformParametersAdaptorsContainerType adaptors;
 
   OutputTransformType::ArrayType updateMeshSize;
@@ -176,7 +176,7 @@ int itkBSplineSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNot
     // domain at each level.  To speed up calculation and avoid unnecessary memory
     // usage, we could calculate these fixed parameters directly.
 
-    typedef itk::ShrinkImageFilter<DisplacementFieldType, DisplacementFieldType> ShrinkFilterType;
+    using ShrinkFilterType = itk::ShrinkImageFilter<DisplacementFieldType, DisplacementFieldType>;
     ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors( shrinkFactorsPerLevel[level] );
     shrinkFilter->SetInput( displacementField );

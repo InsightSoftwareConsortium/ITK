@@ -24,7 +24,7 @@
 class itkTestObject
 {
 public:
-  typedef itk::SmartPointer<itkTestObject> Pointer;
+  using Pointer = itk::SmartPointer<itkTestObject>;
   static itkTestObject::Pointer New();
   virtual void Register()
     {
@@ -79,7 +79,7 @@ itkTestObject::Pointer itkTestObject::New()
 class itkTestObjectSubClass : public itkTestObject
 {
 public:
-  typedef itk::SmartPointer<itkTestObjectSubClass> Pointer;
+  using Pointer = itk::SmartPointer<itkTestObjectSubClass>;
   static Pointer New();
 };
 

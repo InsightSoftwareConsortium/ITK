@@ -40,7 +40,7 @@ namespace itk
 class ITKCommon_EXPORT MetaDataDictionary
 {
 public:
-  typedef MetaDataDictionary Self;
+  using Self = MetaDataDictionary;
   /**
    * Defines the default behavior for printing out this element
    * \param os An output stream
@@ -49,9 +49,9 @@ public:
 
   // Declare the datastructure that will be used to hold the
   // dictionary.
-  typedef std::map< std::string, MetaDataObjectBase::Pointer >  MetaDataDictionaryMapType;
-  typedef MetaDataDictionaryMapType::iterator                   Iterator;
-  typedef MetaDataDictionaryMapType::const_iterator             ConstIterator;
+  using MetaDataDictionaryMapType = std::map< std::string, MetaDataObjectBase::Pointer >;
+  using Iterator = MetaDataDictionaryMapType::iterator;
+  using ConstIterator = MetaDataDictionaryMapType::const_iterator;
 
   // Constructor
   MetaDataDictionary();

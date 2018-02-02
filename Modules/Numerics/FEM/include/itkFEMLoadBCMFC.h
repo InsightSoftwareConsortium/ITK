@@ -55,11 +55,11 @@ namespace fem
 class ITKFEM_EXPORT LoadBCMFC : public Load
 {
 public:
-  /** Standard class typedefs. */
-  typedef LoadBCMFC                Self;
-  typedef Load                     Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LoadBCMFC;
+  using Superclass = Load;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);
@@ -107,7 +107,7 @@ public:
   /**
    * Left hand side of the MFC constraint equation
    */
-  typedef std::vector<MFCTerm> LhsType;
+  using LhsType = std::vector<MFCTerm>;
 
   /** Default constructor */
   LoadBCMFC() : m_Index(0), m_LeftHandSide(), m_RightHandSide()  {}

@@ -36,11 +36,11 @@ template< typename TImageType >
 class ITK_TEMPLATE_EXPORT ScalarImageToHistogramGenerator:public Object
 {
 public:
-  /** Standard typedefs */
-  typedef ScalarImageToHistogramGenerator Self;
-  typedef Object                          Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /** Standard type alias */
+  using Self = ScalarImageToHistogramGenerator;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarImageToHistogramGenerator, Object);
@@ -48,19 +48,19 @@ public:
   /** standard New() method support */
   itkNewMacro(Self);
 
-  typedef TImageType                                             ImageType;
-  typedef itk::Statistics::ImageToListSampleAdaptor< ImageType > AdaptorType;
-  typedef typename AdaptorType::Pointer                          AdaptorPointer;
-  typedef typename ImageType::PixelType                          PixelType;
-  typedef typename NumericTraits< PixelType >::RealType          RealPixelType;
+  using ImageType = TImageType;
+  using AdaptorType = itk::Statistics::ImageToListSampleAdaptor< ImageType >;
+  using AdaptorPointer = typename AdaptorType::Pointer;
+  using PixelType = typename ImageType::PixelType;
+  using RealPixelType = typename NumericTraits< PixelType >::RealType;
 
-  typedef itk::Statistics::Histogram< double >                                   HistogramType;
-  typedef itk::Statistics::SampleToHistogramFilter< AdaptorType, HistogramType > GeneratorType;
+  using HistogramType = itk::Statistics::Histogram< double >;
+  using GeneratorType = itk::Statistics::SampleToHistogramFilter< AdaptorType, HistogramType >;
 
-  typedef typename GeneratorType::Pointer GeneratorPointer;
+  using GeneratorPointer = typename GeneratorType::Pointer;
 
-  typedef typename HistogramType::Pointer      HistogramPointer;
-  typedef typename HistogramType::ConstPointer HistogramConstPointer;
+  using HistogramPointer = typename HistogramType::Pointer;
+  using HistogramConstPointer = typename HistogramType::ConstPointer;
 
 public:
 

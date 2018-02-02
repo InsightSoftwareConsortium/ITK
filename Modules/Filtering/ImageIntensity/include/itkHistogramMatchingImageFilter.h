@@ -69,11 +69,11 @@ class ITK_TEMPLATE_EXPORT HistogramMatchingImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef HistogramMatchingImageFilter                    Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = HistogramMatchingImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -88,22 +88,22 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Typedef to describe the output image region type. */
-  typedef typename TOutputImage::RegionType OutputImageRegionType;
+  using OutputImageRegionType = typename TOutputImage::RegionType;
 
-  /** Inherited typedefs. */
-  typedef typename Superclass::InputImageType         InputImageType;
-  typedef typename Superclass::InputImagePointer      InputImagePointer;
-  typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
-  typedef typename Superclass::OutputImageType        OutputImageType;
-  typedef typename Superclass::OutputImagePointer     OutputImagePointer;
+  /** Inherited type alias. */
+  using InputImageType = typename Superclass::InputImageType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
 
-  /** Pixel related typedefs. */
-  typedef typename InputImageType::PixelType  InputPixelType;
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  /** Pixel related type alias. */
+  using InputPixelType = typename InputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-  /** Histogram related typedefs. */
-  typedef Statistics::Histogram< THistogramMeasurement > HistogramType;
-  typedef typename HistogramType::Pointer                HistogramPointer;
+  /** Histogram related type alias. */
+  using HistogramType = Statistics::Histogram< THistogramMeasurement >;
+  using HistogramPointer = typename HistogramType::Pointer;
 
   /** Set/Get the source image. */
   void SetSourceImage(const InputImageType *source)
@@ -217,10 +217,10 @@ private:
   HistogramPointer m_ReferenceHistogram;
   HistogramPointer m_OutputHistogram;
 
-  typedef vnl_matrix< double > TableType;
+  using TableType = vnl_matrix< double >;
   TableType m_QuantileTable;
 
-  typedef vnl_vector< double > GradientArrayType;
+  using GradientArrayType = vnl_vector< double >;
   GradientArrayType m_Gradients;
   double            m_LowerGradient;
   double            m_UpperGradient;

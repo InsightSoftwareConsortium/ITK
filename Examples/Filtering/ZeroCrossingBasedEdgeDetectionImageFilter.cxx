@@ -61,22 +61,22 @@ int main( int argc, char * argv[] )
     }
 
   // Software Guide : BeginCodeSnippet
-  typedef double        InputPixelType;
-  typedef double        OutputPixelType;
-  typedef unsigned char CharPixelType;
+  using InputPixelType = double;
+  using OutputPixelType = double;
+  using CharPixelType = unsigned char;
 
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
-  typedef itk::Image< CharPixelType, Dimension >     CharImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using CharImageType = itk::Image< CharPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< CharImageType >    WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< CharImageType >;
 
-  typedef itk::RescaleIntensityImageFilter< OutputImageType, CharImageType>
-                                                            RescaleFilterType;
+  using RescaleFilterType =
+      itk::RescaleIntensityImageFilter< OutputImageType, CharImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -86,7 +86,7 @@ int main( int argc, char * argv[] )
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
 
-  typedef itk::ZeroCrossingBasedEdgeDetectionImageFilter< InputImageType, OutputImageType>  FilterType;
+  using FilterType = itk::ZeroCrossingBasedEdgeDetectionImageFilter< InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
 

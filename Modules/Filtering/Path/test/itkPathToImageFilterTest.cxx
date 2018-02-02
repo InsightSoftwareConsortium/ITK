@@ -25,13 +25,13 @@
 int itkPathToImageFilterTest( int, char* [] )
 {
   const unsigned int Dimension = 2;
-  typedef double PixelType;
+  using PixelType = double;
 
-  typedef itk::Image< PixelType, Dimension >                              ImageType;
-  typedef itk::PolyLineParametricPath< Dimension >                        PolyLineParametricPathType;
-  typedef PolyLineParametricPathType::VertexType                          VertexType;
-  typedef itk::PathToImageFilter< PolyLineParametricPathType, ImageType >
-    PathToImageFilterType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using PolyLineParametricPathType = itk::PolyLineParametricPath< Dimension >;
+  using VertexType = PolyLineParametricPathType::VertexType;
+  using PathToImageFilterType =
+      itk::PathToImageFilter< PolyLineParametricPathType, ImageType >;
 
 
   // Set up the path

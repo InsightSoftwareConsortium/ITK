@@ -22,12 +22,12 @@
 int itkQuadEdgeMeshEulerOperatorFlipTest( int , char * [] )
 {
 
-  typedef itk::QuadEdgeMesh< double, 3 >                      MeshType;
-  typedef MeshType::Pointer                                   MeshPointer;
-  typedef MeshType::QEType                                    QEType;
+  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshPointer = MeshType::Pointer;
+  using QEType = MeshType::QEType;
 
-  typedef itk::QuadEdgeMeshEulerOperatorFlipEdgeFunction< MeshType, QEType>
-    FlipEdge;
+  using FlipEdge =
+      itk::QuadEdgeMeshEulerOperatorFlipEdgeFunction< MeshType, QEType>;
 
   MeshPointer  mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>( mesh );

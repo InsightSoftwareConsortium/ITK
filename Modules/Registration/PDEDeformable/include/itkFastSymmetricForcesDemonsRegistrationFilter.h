@@ -75,11 +75,11 @@ class ITK_TEMPLATE_EXPORT FastSymmetricForcesDemonsRegistrationFilter:
                                           TDisplacementField >
 {
 public:
-  /** Standard class typedefs. */
-  typedef FastSymmetricForcesDemonsRegistrationFilter                                     Self;
-  typedef PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField > Superclass;
-  typedef SmartPointer< Self >                                                            Pointer;
-  typedef SmartPointer< const Self >                                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FastSymmetricForcesDemonsRegistrationFilter;
+  using Superclass = PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -89,16 +89,16 @@ public:
                PDEDeformableRegistrationFilter);
 
   /** FixedImage image type. */
-  typedef typename Superclass::FixedImageType    FixedImageType;
-  typedef typename Superclass::FixedImagePointer FixedImagePointer;
+  using FixedImageType = typename Superclass::FixedImageType;
+  using FixedImagePointer = typename Superclass::FixedImagePointer;
 
   /** MovingImage image type. */
-  typedef typename Superclass::MovingImageType    MovingImageType;
-  typedef typename Superclass::MovingImagePointer MovingImagePointer;
+  using MovingImageType = typename Superclass::MovingImageType;
+  using MovingImagePointer = typename Superclass::MovingImagePointer;
 
   /** Deformation field type. */
-  typedef typename Superclass::DisplacementFieldType    DisplacementFieldType;
-  typedef typename Superclass::DisplacementFieldPointer DisplacementFieldPointer;
+  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
 
   itkStaticConstMacro(
     ImageDimension, unsigned int, FixedImageType::ImageDimension);
@@ -116,11 +116,11 @@ public:
    *  FIXME: Why is this the only permissible function ?
    *
    */
-  typedef ESMDemonsRegistrationFunction<
+  using DemonsRegistrationFunctionType = ESMDemonsRegistrationFunction<
     FixedImageType,
-    MovingImageType, DisplacementFieldType >                DemonsRegistrationFunctionType;
+    MovingImageType, DisplacementFieldType >;
 
-  typedef typename DemonsRegistrationFunctionType::GradientType GradientType;
+  using GradientType = typename DemonsRegistrationFunctionType::GradientType;
   virtual void SetUseGradientType(GradientType gtype);
 
   virtual GradientType GetUseGradientType() const;
@@ -150,28 +150,26 @@ protected:
   void AllocateUpdateBuffer() override;
 
   /** FiniteDifferenceFunction type. */
-  typedef typename
-  Superclass::FiniteDifferenceFunctionType FiniteDifferenceFunctionType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
   /** Take timestep type from the FiniteDifferenceFunction. */
-  typedef typename
-  FiniteDifferenceFunctionType::TimeStepType TimeStepType;
+  using TimeStepType = typename FiniteDifferenceFunctionType::TimeStepType;
 
   /** Apply update. */
   void ApplyUpdate(const TimeStepType& dt) override;
 
-  /** other typedefs */
-  typedef MultiplyImageFilter<
+  /** other type alias */
+  using MultiplyByConstantType = MultiplyImageFilter<
     DisplacementFieldType,
     itk::Image<TimeStepType, ImageDimension>,
-    DisplacementFieldType >                                MultiplyByConstantType;
+    DisplacementFieldType >;
 
-  typedef AddImageFilter<
+  using AdderType = AddImageFilter<
     DisplacementFieldType,
-    DisplacementFieldType, DisplacementFieldType >          AdderType;
+    DisplacementFieldType, DisplacementFieldType >;
 
-  typedef typename MultiplyByConstantType::Pointer MultiplyByConstantPointer;
-  typedef typename AdderType::Pointer              AdderPointer;
+  using MultiplyByConstantPointer = typename MultiplyByConstantType::Pointer;
+  using AdderPointer = typename AdderType::Pointer;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastSymmetricForcesDemonsRegistrationFilter);

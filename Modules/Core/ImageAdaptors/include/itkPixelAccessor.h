@@ -54,13 +54,13 @@ template< typename TInternalType, typename TExternalType >
 class PixelAccessor
 {
 public:
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
    * that this class will exhibit. */
-  typedef TExternalType ExternalType;
+  using ExternalType = TExternalType;
 
-  /** Internal typedef. It defines the internal real
+  /** Internal type alias. It defines the internal real
    * representation of data. */
-  typedef TInternalType InternalType;
+  using InternalType = TInternalType;
 
   inline void Set(TInternalType & output, const TExternalType & input) const
   { output = (TInternalType)input; }

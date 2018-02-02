@@ -122,7 +122,7 @@ ThreadedGenerateData(const OutputFrameSpatialRegionType& outputRegionForThread,
     }
 
   // Get iterators for the input frames
-  typedef ImageRegionConstIterator<InputFrameType> ConstIterType;
+  using ConstIterType = ImageRegionConstIterator<InputFrameType>;
   OutputFrameSpatialRegionType inputRegion;
   inputRegion.SetSize(outputRegionForThread.GetSize());
   inputRegion.SetIndex(outputRegionForThread.GetIndex());
@@ -134,7 +134,7 @@ ThreadedGenerateData(const OutputFrameSpatialRegionType& outputRegionForThread,
   itk::ImageRegionIterator<OutputFrameType> outIter(outFrame, outputRegionForThread);
 
   // Average the input frames at each pixel of the output region
-  typedef typename NumericTraits<InputPixelType>::RealType InputPixelRealType;
+  using InputPixelRealType = typename NumericTraits<InputPixelType>::RealType;
   while(!outIter.IsAtEnd())
     {
     // Compute the signed difference as a real value

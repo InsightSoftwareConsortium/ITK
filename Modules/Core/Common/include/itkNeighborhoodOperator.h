@@ -67,20 +67,20 @@ class ITK_TEMPLATE_EXPORT NeighborhoodOperator:
   public Neighborhood< TPixel, VDimension, TAllocator >
 {
 public:
-  /**  Standard class typedefs. */
-  typedef NeighborhoodOperator                           Self;
-  typedef Neighborhood< TPixel, VDimension, TAllocator > Superclass;
+  /**  Standard class type aliases. */
+  using Self = NeighborhoodOperator;
+  using Superclass = Neighborhood< TPixel, VDimension, TAllocator >;
 
   itkTypeMacro(NeighborhoodOperator, NeighborhoodOperator);
 
-  /** Size object typedef support */
-  typedef typename Superclass::SizeType      SizeType;
+  /** Size object type alias support */
+  using SizeType = typename Superclass::SizeType;
 
   /** External support for pixel type */
-  typedef TPixel PixelType;
+  using PixelType = TPixel;
 
-  /** Slice iterator typedef support */
-  typedef SliceIterator< TPixel, Self > SliceIteratorType;
+  /** Slice iterator type alias support */
+  using SliceIteratorType = SliceIterator< TPixel, Self >;
 
   /** Constructor. */
   NeighborhoodOperator()
@@ -137,7 +137,7 @@ public:
     Superclass::PrintSelf( os, i.GetNextIndent() );
   }
 
-  typedef typename NumericTraits< TPixel >::RealType PixelRealType;
+  using PixelRealType = typename NumericTraits< TPixel >::RealType;
 
   /** Multiplies all of the coefficients of the kernel by a single scalar value.
     */
@@ -146,7 +146,7 @@ public:
 protected:
   /** Typedef support  for coefficient vector type.  Necessary
    * to fix bug in the microsoft VC++ compiler. */
-  typedef std::vector< PixelRealType > CoefficientVector;
+  using CoefficientVector = std::vector< PixelRealType >;
 
   /** A subclass-specific algorithm that computes the coefficients
    * of the operator. */

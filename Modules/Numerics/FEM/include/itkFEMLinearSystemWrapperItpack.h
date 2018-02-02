@@ -26,15 +26,12 @@
 #include <vector>
 
 /** Array of pointers to available solver functions */
-/** typedefs from f2c.h  */
-typedef long   integer;
-typedef double doublereal;
+/** type alias from f2c.h  */
+using integer = long;
+using doublereal = double;
 
 extern "C" {
-typedef
-int ( *ItkItpackSolverFunction )(integer *, integer *, integer *, doublereal *, doublereal *, doublereal *, integer *,
-                                 integer *, doublereal *,
-                                 integer *, doublereal *, integer *);
+using ItkItpackSolverFunction = int (*)(integer *, integer *, integer *, doublereal *, doublereal *, doublereal *, integer *, integer *, doublereal *, integer *, doublereal *, integer *);
 }
 
 namespace itk
@@ -52,23 +49,23 @@ class ITKFEM_EXPORT LinearSystemWrapperItpack : public LinearSystemWrapper
 {
 public:
 
-  /** Standard "Self" typedef. */
-  typedef LinearSystemWrapperItpack Self;
+  /** Standard "Self" type alias. */
+  using Self = LinearSystemWrapperItpack;
 
-  /** Standard "Superclass" typedef. */
-  typedef LinearSystemWrapper Superclass;
+  /** Standard "Superclass" type alias. */
+  using Superclass = LinearSystemWrapper;
 
-  /** matrix representatin typedef */
-  typedef ItpackSparseMatrix MatrixRepresentation;
+  /** matrix representatin type alias */
+  using MatrixRepresentation = ItpackSparseMatrix;
 
-  /** vector of matrices typedef */
-  typedef std::vector<MatrixRepresentation> MatrixHolder;
+  /** vector of matrices type alias */
+  using MatrixHolder = std::vector<MatrixRepresentation>;
 
-  /** vector representation typedef */
-  typedef double *VectorRepresentation;
+  /** vector representation type alias */
+  using VectorRepresentation = double *;
 
-  /** vector of vector typedef */
-  typedef std::vector<VectorRepresentation> VectorHolder;
+  /** vector of vector type alias */
+  using VectorHolder = std::vector<VectorRepresentation>;
 
   /* -----------------------------------------------------------------
    *
@@ -672,8 +669,8 @@ private:
 class ITK_ABI_EXPORT FEMExceptionItpackSolver : public FEMException
 {
 public:
-  /** typedefs from f2c.h  */
-  typedef long integer;
+  /** type alias from f2c.h  */
+  using integer = long;
 
   /**
    * Constructor. In order to construct this exception object, four parameters

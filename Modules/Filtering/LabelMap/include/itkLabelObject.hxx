@@ -86,7 +86,7 @@ bool
 LabelObject< TLabel, VImageDimension >
 ::HasIndex(const IndexType & idx) const
 {
-  typedef typename LineContainerType::const_iterator LineContainerConstIteratorType;
+  using LineContainerConstIteratorType = typename LineContainerType::const_iterator;
   LineContainerConstIteratorType end = m_LineContainer.end();
 
   for ( LineContainerConstIteratorType it = m_LineContainer.begin();

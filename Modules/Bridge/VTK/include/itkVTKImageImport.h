@@ -56,10 +56,10 @@ template< typename TOutputImage >
 class ITK_TEMPLATE_EXPORT VTKImageImport:public ImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VTKImageImport              Self;
-  typedef ImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
+  /** Standard class type aliases. */
+  using Self = VTKImageImport;
+  using Superclass = ImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,13 +67,13 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageImport, ImageSource);
 
-  /** Convenient typedefs from the output image. */
-  typedef TOutputImage                         OutputImageType;
-  typedef typename OutputImageType::Pointer    OutputImagePointer;
-  typedef typename OutputImageType::PixelType  OutputPixelType;
-  typedef typename OutputImageType::SizeType   OutputSizeType;
-  typedef typename OutputImageType::IndexType  OutputIndexType;
-  typedef typename OutputImageType::RegionType OutputRegionType;
+  /** Convenient type alias from the output image. */
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputSizeType = typename OutputImageType::SizeType;
+  using OutputIndexType = typename OutputImageType::IndexType;
+  using OutputRegionType = typename OutputImageType::RegionType;
 
   /** The output image dimension. */
   itkStaticConstMacro(OutputImageDimension, unsigned int,
@@ -81,21 +81,21 @@ public:
 
   /** These are function pointer types for the pipeline connection
    * callbacks. */
-  typedef void ( *        UpdateInformationCallbackType )(void *);
-  typedef int ( *         PipelineModifiedCallbackType )(void *);
-  typedef int * ( *       WholeExtentCallbackType )(void *);
-  typedef double * ( *    SpacingCallbackType )(void *);
-  typedef double * ( *    OriginCallbackType )(void *);
-  typedef const char * ( *ScalarTypeCallbackType )(void *);
-  typedef int ( *         NumberOfComponentsCallbackType )(void *);
-  typedef void ( *        PropagateUpdateExtentCallbackType )(void *, int *);
-  typedef void ( *        UpdateDataCallbackType )(void *);
-  typedef int * ( *       DataExtentCallbackType )(void *);
-  typedef void * ( *      BufferPointerCallbackType )(void *);
+  using UpdateInformationCallbackType = void ( * )(void *);
+  using PipelineModifiedCallbackType = int ( * )(void *);
+  using WholeExtentCallbackType = int * ( * )(void *);
+  using SpacingCallbackType = double * ( * )(void *);
+  using OriginCallbackType = double * ( * )(void *);
+  using ScalarTypeCallbackType = const char * ( * )(void *);
+  using NumberOfComponentsCallbackType = int ( * )(void *);
+  using PropagateUpdateExtentCallbackType = void ( * )(void *, int *);
+  using UpdateDataCallbackType = void ( * )(void *);
+  using DataExtentCallbackType = int * ( * )(void *);
+  using BufferPointerCallbackType = void * ( * )(void *);
 
   /** Compatibility for VTK older than 4.4.  */
-  typedef float * ( *FloatSpacingCallbackType )(void *);
-  typedef float * ( *FloatOriginCallbackType )(void *);
+  using FloatSpacingCallbackType = float * ( * )(void *);
+  using FloatOriginCallbackType  = float * ( * )(void *);
 
   /** What to do when receiving UpdateInformation(). */
   itkSetMacro(UpdateInformationCallback, UpdateInformationCallbackType);

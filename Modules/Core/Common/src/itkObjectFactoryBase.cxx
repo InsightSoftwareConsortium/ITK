@@ -48,7 +48,7 @@ namespace itk
 
 namespace
 {
-typedef std::list< ::itk::ObjectFactoryBase * > FactoryListType;
+using FactoryListType = std::list< ::itk::ObjectFactoryBase * >;
 
 // This ensures that m_ObjectFactoryBasePrivate is has been initialized once
 // the library has been loaded. In some cases, this call will perform the
@@ -66,7 +66,7 @@ static ::itk::ObjectFactoryBasePrivate *
 class ObjectFactoryBasePrivateInitializer
 {
 public:
-  typedef ObjectFactoryBasePrivateInitializer            Self;
+  using Self = ObjectFactoryBasePrivateInitializer;
 
   ObjectFactoryBasePrivateInitializer() {}
 
@@ -186,8 +186,7 @@ namespace itk
  * and a pointer member can be used.  This avoids other
  * classes including <map> and getting long symbol warnings.
  */
-typedef std::multimap< std::string, ObjectFactoryBase::OverrideInformation >
-StringOverMapType;
+using StringOverMapType = std::multimap< std::string, ObjectFactoryBase::OverrideInformation >;
 
 /** \class OverRideMap
  * \brief Internal implementation class for ObjectFactorBase.
@@ -439,10 +438,10 @@ CreateFullPath(const char *path, const char *file)
 #endif // ITK_DYNAMIC_LOADING
 
 /**
- * A file scope typedef to make the cast code to the load
+ * A file scope type alias to make the cast code to the load
  * function cleaner to read.
  */
-typedef ObjectFactoryBase * ( *ITK_LOAD_FUNCTION )();
+using ITK_LOAD_FUNCTION = ObjectFactoryBase *(*)();
 
 /**
  * A file scoped function to determine if a file has
@@ -694,7 +693,7 @@ ObjectFactoryBase
       const size_t numberOfFactories = factoryBase->m_RegisteredFactories->size();
       if( position < numberOfFactories )
         {
-        typedef FactoryListType::iterator    FactoryIterator;
+        using FactoryIterator = FactoryListType::iterator;
         FactoryIterator fitr = factoryBase->m_RegisteredFactories->begin();
 
         while( position-- )

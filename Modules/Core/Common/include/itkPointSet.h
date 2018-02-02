@@ -47,7 +47,7 @@ namespace itk
  * and storage.  A "MeshTraits" structure is used to define the container
  * and identifier to access the points.  See DefaultStaticMeshTraits
  * for the set of type definitions needed.  All types that are defined
- * in the "MeshTraits" structure will have duplicate typedefs in the resulting
+ * in the "MeshTraits" structure will have duplicate type alias in the resulting
  * mesh itself.
  *
  * PointSet has two template parameters.  The first is the pixel type, or the
@@ -84,11 +84,11 @@ template<
 class ITK_TEMPLATE_EXPORT PointSet:public DataObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef PointSet                   Self;
-  typedef DataObject                 Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PointSet;
+  using Superclass = DataObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -97,33 +97,33 @@ public:
   itkTypeMacro(PointSet, Object);
 
   /** Hold on to the type information specified by the template parameters. */
-  typedef TMeshTraits                    MeshTraits;
-  typedef typename MeshTraits::PixelType PixelType;
+  using MeshTraits = TMeshTraits;
+  using PixelType = typename MeshTraits::PixelType;
 
-  /** Convenient typedefs obtained from TMeshTraits template parameter. */
-  typedef typename MeshTraits::CoordRepType       CoordRepType;
-  typedef typename MeshTraits::PointIdentifier    PointIdentifier;
-  typedef typename MeshTraits::PointType          PointType;
-  typedef typename MeshTraits::PointsContainer    PointsContainer;
-  typedef typename MeshTraits::PointDataContainer PointDataContainer;
+  /** Convenient type alias obtained from TMeshTraits template parameter. */
+  using CoordRepType = typename MeshTraits::CoordRepType;
+  using PointIdentifier = typename MeshTraits::PointIdentifier;
+  using PointType = typename MeshTraits::PointType;
+  using PointsContainer = typename MeshTraits::PointsContainer;
+  using PointDataContainer = typename MeshTraits::PointDataContainer;
 
-  /** Convenient typedefs obtained from TMeshTraits template parameter. */
+  /** Convenient type alias obtained from TMeshTraits template parameter. */
   itkStaticConstMacro(PointDimension, unsigned int,
                       TMeshTraits::PointDimension);
 
   /** Create types that are pointers to each of the container types. */
-  typedef typename PointsContainer::Pointer         PointsContainerPointer;
-  typedef typename PointsContainer::ConstPointer    PointsContainerConstPointer;
-  typedef typename PointDataContainer::Pointer      PointDataContainerPointer;
-  typedef typename PointDataContainer::ConstPointer PointDataContainerConstPointer;
+  using PointsContainerPointer = typename PointsContainer::Pointer;
+  using PointsContainerConstPointer = typename PointsContainer::ConstPointer;
+  using PointDataContainerPointer = typename PointDataContainer::Pointer;
+  using PointDataContainerConstPointer = typename PointDataContainer::ConstPointer;
 
   /** Create types that are iterators for each of the container types. */
-  typedef typename PointsContainer::ConstIterator    PointsContainerConstIterator;
-  typedef typename PointsContainer::Iterator         PointsContainerIterator;
-  typedef typename PointDataContainer::ConstIterator PointDataContainerIterator;
+  using PointsContainerConstIterator = typename PointsContainer::ConstIterator;
+  using PointsContainerIterator = typename PointsContainer::Iterator;
+  using PointDataContainerIterator = typename PointDataContainer::ConstIterator;
 
   /** Type used to define Regions */
-  typedef long RegionType;
+  using RegionType = long;
 
   /** Get the maximum number of regions that this data can be
    * separated into. */

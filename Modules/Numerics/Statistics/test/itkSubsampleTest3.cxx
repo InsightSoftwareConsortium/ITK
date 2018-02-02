@@ -28,10 +28,9 @@ int itkSubsampleTest3(int, char* [] )
   const unsigned int                  numberOfMeasurementVectors = 5;
   unsigned int                        counter;
 
-  typedef itk::FixedArray<
-    float, MeasurementVectorSize >             MeasurementVectorType;
-  typedef itk::Statistics::ListSample<
-    MeasurementVectorType >                    SampleType;
+  using MeasurementVectorType = itk::FixedArray<
+    float, MeasurementVectorSize >;
+  using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
   SampleType::Pointer sample = SampleType::New();
 
@@ -52,7 +51,7 @@ int itkSubsampleTest3(int, char* [] )
     counter++;
     }
 
-  typedef itk::Statistics::Subsample< SampleType >  SubsampleType;
+  using SubsampleType = itk::Statistics::Subsample< SampleType >;
 
   SubsampleType::Pointer subsample = SubsampleType::New();
 
@@ -61,8 +60,7 @@ int itkSubsampleTest3(int, char* [] )
   //Initialize the subsample with all the samples
   subsample->InitializeWithAllInstances();
 
-  typedef itk::Statistics::MeanSampleFilter< SubsampleType >
-    FilterType;
+  using FilterType = itk::Statistics::MeanSampleFilter<SubsampleType>;
 
   FilterType::Pointer filter = FilterType::New();
 

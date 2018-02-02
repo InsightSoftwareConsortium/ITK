@@ -21,7 +21,7 @@
 #include "itkQuadEdgeMeshTopologyChecker.h"
 #include "itkQuadEdgeMeshPolygonCell.h"
 
-typedef unsigned long IdentifierType;
+using IdentifierType = unsigned long;
 
 template<typename TMesh >
 bool AssertTopologicalInvariants( TMesh *mesh,
@@ -31,7 +31,7 @@ bool AssertTopologicalInvariants( TMesh *mesh,
                                   IdentifierType NumBorders,
                                   IdentifierType Genus)
 {
-  typedef itk::QuadEdgeMeshTopologyChecker< TMesh > CheckerType;
+  using CheckerType = itk::QuadEdgeMeshTopologyChecker< TMesh >;
   typename CheckerType::Pointer check = CheckerType::New();
   check->SetMesh( mesh );
   check->SetExpectedNumberOfPoints( NumVertices );
@@ -47,8 +47,8 @@ template< typename TMesh >
 std::vector< typename TMesh::PointType >
 GeneratePointCoordinates( const unsigned int& iN )
 {
-  typedef typename TMesh::PointType        PointType;
-  typedef typename PointType::CoordRepType CoordRepType;
+  using PointType = typename TMesh::PointType;
+  using CoordRepType = typename PointType::CoordRepType;
   std::vector< PointType > oPt( iN * iN );
 
   for( unsigned int i = 0; i < iN; i++ )
@@ -68,10 +68,10 @@ GeneratePointCoordinates( const unsigned int& iN )
 template< typename TMesh >
 void CreateSquareQuadMesh( typename TMesh::Pointer mesh )
 {
-  typedef TMesh                         MeshType;
-  typedef typename MeshType::CellType   CellType;
+  using MeshType = TMesh;
+  using CellType = typename MeshType::CellType;
 
-  typedef itk::QuadEdgeMeshPolygonCell< CellType > QEPolygonCellType;
+  using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell< CellType >;
 
   if( mesh->GetNumberOfPoints( ) )
     {
@@ -100,7 +100,7 @@ void CreateSquareQuadMesh( typename TMesh::Pointer mesh )
     17, 18, 23, 22,
     18, 19, 24, 23 };
 
-  typedef typename MeshType::PointType PointType;
+  using PointType = typename MeshType::PointType;
 
   std::vector< PointType > pts = GeneratePointCoordinates< MeshType >( 5 );
 
@@ -128,10 +128,10 @@ void CreateSquareQuadMesh( typename TMesh::Pointer mesh )
 template< typename TMesh >
 void CreateSquareTriangularMesh( typename TMesh::Pointer mesh )
 {
-  typedef TMesh                         MeshType;
-  typedef typename MeshType::CellType   CellType;
+  using MeshType = TMesh;
+  using CellType = typename MeshType::CellType;
 
-  typedef itk::QuadEdgeMeshPolygonCell< CellType > QEPolygonCellType;
+  using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell< CellType >;
 
   if( mesh->GetNumberOfPoints( ) )
     {
@@ -176,7 +176,7 @@ void CreateSquareTriangularMesh( typename TMesh::Pointer mesh )
     18, 19, 24,
     18, 24, 23 };
 
-  typedef typename TMesh::PointType PointType;
+  using PointType = typename TMesh::PointType;
   std::vector< PointType > pts = GeneratePointCoordinates< TMesh >( 5 );
 
   for(int i=0; i<expectedNumPts; i++)
@@ -202,10 +202,10 @@ void CreateSquareTriangularMesh( typename TMesh::Pointer mesh )
 template< typename TMesh >
 void CreateTetraedronMesh( typename TMesh::Pointer mesh )
 {
-  typedef TMesh                         MeshType;
-  typedef typename MeshType::CellType   CellType;
+  using MeshType = TMesh;
+  using CellType = typename MeshType::CellType;
 
-  typedef itk::QuadEdgeMeshPolygonCell< CellType > QEPolygonCellType;
+  using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell< CellType >;
 
   if( mesh->GetNumberOfPoints( ) )
     {
@@ -222,7 +222,7 @@ void CreateTetraedronMesh( typename TMesh::Pointer mesh )
      1,  3,  2,
      2,  3,  0 };
 
-  typedef typename TMesh::PointType PointType;
+  using PointType = typename TMesh::PointType;
   std::vector< PointType > pts( 4 );
   int i(0);
   pts[i][0] = 0.; pts[i][1] = 1.; pts[i++][2] = 0.;
@@ -254,10 +254,10 @@ void CreateTetraedronMesh( typename TMesh::Pointer mesh )
 template< typename TMesh >
 void CreateSamosa( typename TMesh::Pointer mesh )
 {
-  typedef TMesh                         MeshType;
-  typedef typename MeshType::CellType   CellType;
+  using MeshType = TMesh;
+  using CellType = typename MeshType::CellType;
 
-  typedef itk::QuadEdgeMeshPolygonCell< CellType > QEPolygonCellType;
+  using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell< CellType >;
 
   if( mesh->GetNumberOfPoints( ) )
     {
@@ -272,7 +272,7 @@ void CreateSamosa( typename TMesh::Pointer mesh )
   {  0,  1,  2,
      1,  0,  2 };
 
-  typedef typename TMesh::PointType PointType;
+  using PointType = typename TMesh::PointType;
   std::vector< PointType > pts( 3 );
   int i(0);
   pts[i][0] = 0.; pts[i][1] = 1.; pts[i++][2] = 0.;

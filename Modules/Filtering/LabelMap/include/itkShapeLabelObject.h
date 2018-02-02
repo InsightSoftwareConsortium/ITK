@@ -42,13 +42,13 @@ template< typename TLabel, unsigned int VImageDimension >
 class ShapeLabelObject:public LabelObject< TLabel, VImageDimension >
 {
 public:
-  /** Standard class typedefs */
-  typedef ShapeLabelObject                       Self;
-  typedef LabelObject< TLabel, VImageDimension > Superclass;
-  typedef typename Superclass::LabelObjectType   LabelObjectType;
-  typedef SmartPointer< Self >                   Pointer;
-  typedef SmartPointer< const Self >             ConstPointer;
-  typedef WeakPointer< const Self >              ConstWeakPointer;
+  /** Standard class type aliases */
+  using Self = ShapeLabelObject;
+  using Superclass = LabelObject< TLabel, VImageDimension >;
+  using LabelObjectType = typename Superclass::LabelObjectType;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using ConstWeakPointer = WeakPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,19 +56,19 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShapeLabelObject, LabelObject);
 
-  typedef LabelMap< Self > LabelMapType;
+  using LabelMapType = LabelMap< Self >;
 
   itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
 
-  typedef typename Superclass::IndexType IndexType;
+  using IndexType = typename Superclass::IndexType;
 
-  typedef TLabel LabelType;
+  using LabelType = TLabel;
 
-  typedef typename Superclass::LineType LineType;
+  using LineType = typename Superclass::LineType;
 
-  typedef typename Superclass::LengthType LengthType;
+  using LengthType = typename Superclass::LengthType;
 
-  typedef typename Superclass::AttributeType AttributeType;
+  using AttributeType = typename Superclass::AttributeType;
 
   /** The number of pixels. */
   itkStaticConstMacro(NUMBER_OF_PIXELS, AttributeType, 100);
@@ -309,13 +309,13 @@ public:
     return name;
   }
 
-  typedef ImageRegion< VImageDimension > RegionType;
+  using RegionType = ImageRegion< VImageDimension >;
 
-  typedef Point< double, VImageDimension > CentroidType;
+  using CentroidType = Point< double, VImageDimension >;
 
-  typedef Matrix< double, VImageDimension, VImageDimension > MatrixType;
+  using MatrixType = Matrix< double, VImageDimension, VImageDimension >;
 
-  typedef Vector< double, VImageDimension > VectorType;
+  using VectorType = Vector< double, VImageDimension >;
 
 
 private:
@@ -334,13 +334,13 @@ private:
 
 public:
 
-  typedef MatrixType                       OrientedBoundingBoxDirectionType;
+  using OrientedBoundingBoxDirectionType = MatrixType;
 
-  typedef Point< double, VImageDimension > OrientedBoundingBoxPointType;
+  using OrientedBoundingBoxPointType = Point< double, VImageDimension >;
 
-  typedef Vector<double, VImageDimension>  OrientedBoundingBoxSizeType;
+  using OrientedBoundingBoxSizeType = Vector<double, VImageDimension>;
 
-  typedef FixedArray<OrientedBoundingBoxPointType, IntegerPow<2,ImageDimension>::Result> OrientedBoundingBoxVerticesType;
+  using OrientedBoundingBoxVerticesType = FixedArray<OrientedBoundingBoxPointType, IntegerPow<2,ImageDimension>::Result>;
 
 
   const RegionType & GetBoundingBox() const
@@ -596,8 +596,8 @@ public:
   }
 
   /** Affine transform for mapping to and from principal axis */
-  typedef AffineTransform< double, VImageDimension > AffineTransformType;
-  typedef typename AffineTransformType::Pointer      AffineTransformPointer;
+  using AffineTransformType = AffineTransform< double, VImageDimension >;
+  using AffineTransformPointer = typename AffineTransformType::Pointer;
 
   /** Get the affine transform from principal axes to physical axes
    * This method returns an affine transform which transforms from

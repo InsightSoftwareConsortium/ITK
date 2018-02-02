@@ -38,13 +38,13 @@ template< typename TIteratingFilter, typename TFilterToUpdate >
 class ITK_TEMPLATE_EXPORT LevelSetIterationUpdateCommand : public Command
 {
 public:
-  typedef LevelSetIterationUpdateCommand  Self;
-  typedef Command                         Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  using Self = LevelSetIterationUpdateCommand;
+  using Superclass = Command;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef TIteratingFilter  IteratingFilterType;
-  typedef TFilterToUpdate   FilterToUpdateType;
+  using IteratingFilterType = TIteratingFilter;
+  using FilterToUpdateType = TFilterToUpdate;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( LevelSetIterationUpdateCommand, Command );

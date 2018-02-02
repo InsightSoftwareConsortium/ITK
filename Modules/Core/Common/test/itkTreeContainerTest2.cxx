@@ -121,16 +121,16 @@ std::istream& operator>>( std::istream& i, TestData& t )
 }
 
 
-typedef TestData*                           NodePointerType;
-typedef std::list<NodePointerType>          NodeListType;
-typedef itk::TreeContainer<NodePointerType> TreeType;
+using NodePointerType = TestData*;
+using NodeListType = std::list<NodePointerType>;
+using TreeType = itk::TreeContainer<NodePointerType>;
 
 class TreeChangeListener : public itk::Command
 {
 public:
-  typedef TreeChangeListener             Self;
-  typedef itk::SmartPointer<Self>        Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  using Self = TreeChangeListener;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro(Self);
 
   void Execute( itk::Object*, const itk::EventObject& event ) override

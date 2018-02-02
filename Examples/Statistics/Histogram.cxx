@@ -63,13 +63,13 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float                                         MeasurementType;
-  typedef itk::Statistics::DenseFrequencyContainer2     FrequencyContainerType;
-  typedef FrequencyContainerType::AbsoluteFrequencyType FrequencyType;
+  using MeasurementType = float;
+  using FrequencyContainerType = itk::Statistics::DenseFrequencyContainer2;
+  using FrequencyType = FrequencyContainerType::AbsoluteFrequencyType;
 
   const unsigned int numberOfComponents = 2;
-  typedef itk::Statistics::Histogram< MeasurementType,
-    FrequencyContainerType > HistogramType;
+  using HistogramType = itk::Statistics::Histogram< MeasurementType,
+    FrequencyContainerType >;
 
   HistogramType::Pointer histogram = HistogramType::New();
   histogram->SetMeasurementVectorSize( numberOfComponents );

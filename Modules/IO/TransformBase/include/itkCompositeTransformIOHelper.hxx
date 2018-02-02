@@ -150,7 +150,7 @@ CompositeTransformIOHelperTemplate<TParametersValueType>
 {
   //
   // see if we've found the right type
-  typedef CompositeTransform<TParametersValueType, VDimension> CompositeType;
+  using CompositeType = CompositeTransform<TParametersValueType, VDimension>;
 
   const std::string CompositeTransformTypeName = transform->GetTransformTypeAsString();
   if(CompositeTransformTypeName.find("CompositeTransform") == std::string::npos || CompositeTransformTypeName.find(GetTransformDimensionAsString<VDimension>()) == std::string::npos)
@@ -184,8 +184,8 @@ CompositeTransformIOHelperTemplate<TParametersValueType>
 {
   //
   // local composite transform type
-  typedef itk::CompositeTransform<TParametersValueType, VDimension> CompositeType;
-  typedef typename CompositeType::TransformType              ComponentTransformType;
+  using CompositeType = itk::CompositeTransform<TParametersValueType, VDimension>;
+  using ComponentTransformType = typename CompositeType::TransformType;
 
   //
   // see if we've found the right type

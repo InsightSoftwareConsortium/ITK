@@ -25,29 +25,29 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
 {
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                                       InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension >             InputImageType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImageType > InputIteratorType;
+  using InputPixelType = unsigned char;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
+  using InputIteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
 
-  typedef float                                PixelType;
-  typedef itk::Image< PixelType, Dimension >   ImageType;
-  typedef itk::LevelSetDenseImage< ImageType > LevelSetType;
-  typedef LevelSetType::OutputRealType         LevelSetOutputRealType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using LevelSetType = itk::LevelSetDenseImage< ImageType >;
+  using LevelSetOutputRealType = LevelSetType::OutputRealType;
 
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
-  typedef itk::IdentifierType                            IdentifierType;
-  typedef std::list< IdentifierType >                    IdListType;
-  typedef itk::Image< IdListType, Dimension >            IdListImageType;
-  typedef itk::Image< short, Dimension >                 CacheImageType;
-  typedef itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >
-                                                         DomainMapImageFilterType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
+  using IdentifierType = itk::IdentifierType;
+  using IdListType = std::list< IdentifierType >;
+  using IdListImageType = itk::Image< IdListType, Dimension >;
+  using CacheImageType = itk::Image< short, Dimension >;
+  using DomainMapImageFilterType =
+      itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >;
 
-  typedef itk::LevelSetContainer< IdentifierType, LevelSetType >  LevelSetContainerType;
-  typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType > ChanAndVeseTermType;
-  typedef itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType > TermContainerType;
+  using LevelSetContainerType = itk::LevelSetContainer< IdentifierType, LevelSetType >;
+  using ChanAndVeseTermType = itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >;
+  using TermContainerType = itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >;
 
-  typedef itk::AtanRegularizedHeavisideStepFunction<
-      LevelSetOutputRealType, LevelSetOutputRealType >  HeavisideFunctionBaseType;
+  using HeavisideFunctionBaseType = itk::AtanRegularizedHeavisideStepFunction<
+      LevelSetOutputRealType, LevelSetOutputRealType >;
 
   ImageType::IndexType index;
   index[0] = 0;
@@ -177,8 +177,8 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
   termContainer->AddTerm( 0, cvTerm );
   std::cout << "Term container created" << std::endl;
 
-  typedef DomainMapImageFilterType::DomainMapType DomainMapType;
-  typedef DomainMapType::const_iterator           DomainIteratorType;
+  using DomainMapType = DomainMapImageFilterType::DomainMapType;
+  using DomainIteratorType = DomainMapType::const_iterator;
   const DomainMapType domainMap = domainMapFilter->GetDomainMap();
   DomainIteratorType map_it     = domainMap.begin();
   DomainIteratorType map_end    = domainMap.end();

@@ -98,16 +98,16 @@ int main(int argc, char* argv[])
 
   //  Software Guide : BeginCodeSnippet
   const   unsigned int  Dimension = 2;
-  typedef unsigned char CharPixelType;  //  IO
-  typedef double        RealPixelType;  //  Operations
+  using CharPixelType = unsigned char;  //  IO
+  using RealPixelType = double;  //  Operations
 
-  typedef itk::Image< CharPixelType, Dimension > CharImageType;
-  typedef itk::Image< RealPixelType, Dimension > RealImageType;
+  using CharImageType = itk::Image< CharPixelType, Dimension >;
+  using RealImageType = itk::Image< RealPixelType, Dimension >;
 
   //  Software Guide : EndCodeSnippet
 
-  typedef itk::ImageFileReader< CharImageType > ReaderType;
-  typedef itk::ImageFileWriter< CharImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< CharImageType >;
+  using WriterType = itk::ImageFileWriter< CharImageType >;
 
   //  Software Guide : BeginLatex
   //
@@ -119,12 +119,9 @@ int main(int argc, char* argv[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  typedef itk::CastImageFilter< CharImageType, RealImageType >
-    CastToRealFilterType;
-  typedef itk::CannyEdgeDetectionImageFilter< RealImageType, RealImageType >
-    CannyFilterType;
-  typedef itk::RescaleIntensityImageFilter< RealImageType, CharImageType >
-    RescaleFilterType;
+  using CastToRealFilterType = itk::CastImageFilter< CharImageType, RealImageType >;
+  using CannyFilterType = itk::CannyEdgeDetectionImageFilter< RealImageType, RealImageType >;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< RealImageType, CharImageType >;
 
   //  Software Guide : EndCodeSnippet
 

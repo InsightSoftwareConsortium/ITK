@@ -66,28 +66,28 @@ class ITK_TEMPLATE_EXPORT GrayscaleGeodesicErodeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GrayscaleGeodesicErodeImageFilter               Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GrayscaleGeodesicErodeImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                            MarkerImageType;
-  typedef typename MarkerImageType::Pointer      MarkerImagePointer;
-  typedef typename MarkerImageType::ConstPointer MarkerImageConstPointer;
-  typedef typename MarkerImageType::RegionType   MarkerImageRegionType;
-  typedef typename MarkerImageType::PixelType    MarkerImagePixelType;
-  typedef TInputImage                            MaskImageType;
-  typedef typename MaskImageType::Pointer        MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer   MaskImageConstPointer;
-  typedef typename MaskImageType::RegionType     MaskImageRegionType;
-  typedef typename MaskImageType::PixelType      MaskImagePixelType;
-  typedef TOutputImage                           OutputImageType;
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+  /** Some convenient type alias. */
+  using MarkerImageType = TInputImage;
+  using MarkerImagePointer = typename MarkerImageType::Pointer;
+  using MarkerImageConstPointer = typename MarkerImageType::ConstPointer;
+  using MarkerImageRegionType = typename MarkerImageType::RegionType;
+  using MarkerImagePixelType = typename MarkerImageType::PixelType;
+  using MaskImageType = TInputImage;
+  using MaskImagePointer = typename MaskImageType::Pointer;
+  using MaskImageConstPointer = typename MaskImageType::ConstPointer;
+  using MaskImageRegionType = typename MaskImageType::RegionType;
+  using MaskImagePixelType = typename MaskImageType::PixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(MarkerImageDimension, unsigned int,

@@ -53,11 +53,11 @@ class ITK_TEMPLATE_EXPORT CenteredRigid2DTransform :
   public Rigid2DTransform<TParametersValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef CenteredRigid2DTransform               Self;
-  typedef Rigid2DTransform<TParametersValueType> Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = CenteredRigid2DTransform;
+  using Superclass = Rigid2DTransform<TParametersValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -71,42 +71,40 @@ public:
   itkStaticConstMacro(ParametersDimension, unsigned int, 5);
 
   /** Parameters type. */
-  typedef typename Superclass::ScalarType               ScalarType;
-  typedef typename Superclass::FixedParametersType      FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType FixedParametersValueType;
-  typedef typename Superclass::ParametersType           ParametersType;
-  typedef typename Superclass::ParametersValueType      ParametersValueType;
+  using ScalarType = typename Superclass::ScalarType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
 
   /** Jacobian type. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Offset type. */
-  typedef typename Superclass::OffsetType OffsetType;
+  using OffsetType = typename Superclass::OffsetType;
 
   /** Point type. */
-  typedef typename Superclass::InputPointType      InputPointType;
-  typedef typename Superclass::OutputPointType     OutputPointType;
-  typedef typename Superclass::InputPointValueType InputPointValueType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using InputPointValueType = typename Superclass::InputPointValueType;
 
   /** Vector type. */
-  typedef typename Superclass::InputVectorType       InputVectorType;
-  typedef typename Superclass::OutputVectorType      OutputVectorType;
-  typedef typename Superclass::OutputVectorValueType OutputVectorValueType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using OutputVectorValueType = typename Superclass::OutputVectorValueType;
 
   /** CovariantVector type. */
-  typedef typename Superclass::InputCovariantVectorType
-  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType
-  OutputCovariantVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
 
   /** VnlVector type. */
-  typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost. */
-  typedef typename Superclass::InverseTransformBaseType InverseTransformBaseType;
-  typedef typename InverseTransformBaseType::Pointer    InverseTransformBasePointer;
+  using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
+  using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /** Set the transformation from a container of parameters
    * This is typically used by optimizers.

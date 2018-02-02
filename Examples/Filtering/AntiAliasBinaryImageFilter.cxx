@@ -77,17 +77,17 @@ int main(int argc, char* argv[])
     }
 
 
-  typedef unsigned char    CharPixelType;  //  IO
-  typedef double           RealPixelType;  //  Operations
+  using CharPixelType = unsigned char;  //  IO
+  using RealPixelType = double;  //  Operations
   const   unsigned int     Dimension = 3;
 
-  typedef itk::Image<CharPixelType, Dimension>    CharImageType;
-  typedef itk::Image<RealPixelType, Dimension>    RealImageType;
+  using CharImageType = itk::Image<CharPixelType, Dimension>;
+  using RealImageType = itk::Image<RealPixelType, Dimension>;
 
-  typedef itk::ImageFileReader< CharImageType >  ReaderType;
-  typedef itk::ImageFileWriter< CharImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< CharImageType >;
+  using WriterType = itk::ImageFileWriter< CharImageType >;
 
-  typedef itk::ImageFileWriter< RealImageType >  RealWriterType;
+  using RealWriterType = itk::ImageFileWriter< RealImageType >;
 
   //  Software Guide : BeginLatex
   //
@@ -100,11 +100,11 @@ int main(int argc, char* argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CastImageFilter< CharImageType,
-          RealImageType> CastToRealFilterType;
+  using CastToRealFilterType = itk::CastImageFilter< CharImageType,
+          RealImageType>;
   // Software Guide : EndCodeSnippet
 
-  typedef itk::RescaleIntensityImageFilter<RealImageType, CharImageType > RescaleFilter;
+  using RescaleFilter = itk::RescaleIntensityImageFilter<RealImageType, CharImageType >;
 
 
   //  Software Guide : BeginLatex
@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
   //  Software Guide : EndLatex
 
 
-  typedef itk::AntiAliasBinaryImageFilter<RealImageType, RealImageType> AntiAliasFilterType;
+  using AntiAliasFilterType = itk::AntiAliasBinaryImageFilter<RealImageType, RealImageType>;
 
   //Setting the IO
 

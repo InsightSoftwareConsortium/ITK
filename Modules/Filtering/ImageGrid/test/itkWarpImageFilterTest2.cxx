@@ -22,13 +22,13 @@
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkMath.h"
 
-typedef itk::Image<float,3>                    ImageType;
-typedef itk::Image<itk::Vector<double,3> , 3 > DisplacementFieldType;
-typedef itk::WarpImageFilter<ImageType,
+using ImageType = itk::Image<float,3>;
+using DisplacementFieldType = itk::Image<itk::Vector<double,3> , 3 >;
+using WarpFilterType = itk::WarpImageFilter<ImageType,
                              ImageType,
-                             DisplacementFieldType> WarpFilterType;
+                             DisplacementFieldType>;
 
-typedef itk::PipelineMonitorImageFilter<ImageType> MonitorFilter;
+using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
 #define AllocateImageFromRegionAndSpacing(ImageType,rval,region,spacing) \
 { \
   rval = ImageType::New(); \
@@ -42,7 +42,7 @@ namespace {
 ImageType::Pointer
 MakeCheckerboard()
 {
-  typedef itk::ImageRegionIterator<ImageType> IteratorType;
+  using IteratorType = itk::ImageRegionIterator<ImageType>;
   ImageType::SizeType size = {{16,16,16}};
   ImageType::SpacingType spacing;
   spacing[0] = spacing[1] = spacing[2] = 1.0;
@@ -73,7 +73,7 @@ MakeCheckerboard()
 template <long unsigned int TImageIndexSpaceSize>
 typename DisplacementFieldType::Pointer MakeDisplacementField(void)
 {
-  typedef itk::ImageRegionIterator<DisplacementFieldType> IteratorType;
+  using IteratorType = itk::ImageRegionIterator<DisplacementFieldType>;
   const DisplacementFieldType::SizeType size = {{TImageIndexSpaceSize,TImageIndexSpaceSize,TImageIndexSpaceSize}};
   DisplacementFieldType::SpacingType spacing;
   spacing[0] = spacing[1] = spacing[2] = 16.0/(double)TImageIndexSpaceSize;
@@ -155,7 +155,7 @@ itkWarpImageFilterTest2(int, char * [])
   MonitorFilter::Pointer monitor2 = MonitorFilter::New();
   monitor2->SetInput(filter2->GetOutput());
 
-  typedef itk::StreamingImageFilter<ImageType,ImageType> StreamerType;
+  using StreamerType = itk::StreamingImageFilter<ImageType,ImageType>;
   StreamerType::Pointer streamer = StreamerType::New();
   streamer->SetInput(monitor2->GetOutput());
   streamer->SetNumberOfStreamDivisions(4);

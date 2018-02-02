@@ -82,19 +82,19 @@ int main( int argc, char *argv[] )
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                           PixelComponentType;
-  typedef itk::RGBPixel< PixelComponentType >     InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension > InputImageType;
+  using PixelComponentType = unsigned char;
+  using InputPixelType = itk::RGBPixel< PixelComponentType >;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
-  typedef unsigned char                            OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
 
   // We instantiate reader and writer types
   //
-  typedef itk::ImageFileReader< InputImageType >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -111,8 +111,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::VectorConfidenceConnectedImageFilter< InputImageType,
-                                   OutputImageType > ConnectedFilterType;
+  using ConnectedFilterType = itk::VectorConfidenceConnectedImageFilter< InputImageType,
+                                   OutputImageType >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -306,8 +306,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef ConnectedFilterType::MeanVectorType       MeanVectorType;
-  typedef ConnectedFilterType::CovarianceMatrixType CovarianceMatrixType;
+  using MeanVectorType = ConnectedFilterType::MeanVectorType;
+  using CovarianceMatrixType = ConnectedFilterType::CovarianceMatrixType;
 
   const MeanVectorType & mean = confidenceConnected->GetMean();
   const CovarianceMatrixType & covariance

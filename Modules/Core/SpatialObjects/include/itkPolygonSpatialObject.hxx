@@ -35,7 +35,7 @@ PolygonSpatialObject< TDimension >
     }
 
   PolygonGroupOrientation plane;
-  // local typedef to shut up the compiler...
+  // local type alias to shut up the compiler...
 
   const PointListType & points = this->GetPoints();
   typename PointListType::const_iterator it = points.begin();

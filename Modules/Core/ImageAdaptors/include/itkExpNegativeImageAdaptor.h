@@ -40,13 +40,13 @@ template< typename TInternalType, typename TExternalType >
 class ExpNegativePixelAccessor
 {
 public:
-  /** External typedef. It defines the external aspect
+  /** External type alias. It defines the external aspect
     * that this class will exhibit. */
-  typedef TExternalType ExternalType;
+  using ExternalType = TExternalType;
 
-  /** Internal typedef. It defines the internal real
+  /** Internal type alias. It defines the internal real
    * representation of data. */
-  typedef TInternalType InternalType;
+  using InternalType = TInternalType;
 
   static inline void Set(TInternalType & output, const TExternalType & input)
   { output = static_cast< TInternalType >( std::exp( -static_cast< double >( input ) ) ); }
@@ -72,14 +72,14 @@ class ExpNegativeImageAdaptor:public
                   TOutputPixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ExpNegativeImageAdaptor Self;
-  typedef ImageAdaptor<
+  /** Standard class type aliases. */
+  using Self = ExpNegativeImageAdaptor;
+  using Superclass = ImageAdaptor<
     TImage, Accessor::ExpNegativePixelAccessor<
-      typename TImage::PixelType, TOutputPixelType > >     Superclass;
+      typename TImage::PixelType, TOutputPixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

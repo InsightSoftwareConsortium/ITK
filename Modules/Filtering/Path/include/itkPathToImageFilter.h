@@ -36,11 +36,11 @@ template< typename TInputPath, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT PathToImageFilter:public ImageSource< TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PathToImageFilter           Self;
-  typedef ImageSource< TOutputImage > Superclass;
-  typedef SmartPointer< Self >        Pointer;
-  typedef SmartPointer< const Self >  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PathToImageFilter;
+  using Superclass = ImageSource< TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -48,15 +48,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PathToImageFilter, ImageSource);
 
-  /** Some convenient typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef          TInputPath                        InputPathType;
-  typedef typename InputPathType::Pointer            InputPathPointer;
-  typedef typename InputPathType::ConstPointer       InputPathConstPointer;
-  typedef          TOutputImage                      OutputImageType;
-  typedef typename OutputImageType::Pointer          OutputImagePointer;
-  typedef typename OutputImageType::SizeType         SizeType;
-  typedef typename OutputImageType::ValueType        ValueType;
+  /** Some convenient type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using InputPathType = TInputPath;
+  using InputPathPointer = typename InputPathType::Pointer;
+  using InputPathConstPointer = typename InputPathType::ConstPointer;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using SizeType = typename OutputImageType::SizeType;
+  using ValueType = typename OutputImageType::ValueType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(OutputImageDimension, unsigned int,

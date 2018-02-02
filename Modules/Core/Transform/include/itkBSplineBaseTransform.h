@@ -37,11 +37,11 @@ class ITK_TEMPLATE_EXPORT BSplineBaseTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineBaseTransform                                      Self;
-  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                                        Pointer;
-  typedef SmartPointer<const Self>                                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineBaseTransform;
+  using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( BSplineBaseTransform, Transform );
@@ -56,36 +56,36 @@ public:
   itkCloneMacro(Self);
 
   /** Standard scalar type for this class. */
-  typedef typename Superclass::ScalarType ScalarType;
+  using ScalarType = typename Superclass::ScalarType;
 
   /** Standard parameters container. */
-  typedef typename Superclass::FixedParametersType FixedParametersType;
-  typedef typename Superclass::ParametersType      ParametersType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using ParametersType = typename Superclass::ParametersType;
 
   /** Standard Jacobian container. */
-  typedef typename Superclass::JacobianType JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Transform category type. */
-  typedef typename Superclass::TransformCategoryType TransformCategoryType;
+  using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** The number of parameters defininig this transform. */
-  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> InputVectorType;
-  typedef Vector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> OutputVectorType;
+  using InputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
+  using OutputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> InputCovariantVectorType;
-  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> OutputCovariantVectorType;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TParametersValueType, SpaceDimension> InputVnlVectorType;
-  typedef vnl_vector_fixed<TParametersValueType, SpaceDimension> OutputVnlVectorType;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, SpaceDimension>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, SpaceDimension>;
 
   /** Standard coordinate point type for this class. */
-  typedef Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> InputPointType;
-  typedef Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )> OutputPointType;
+  using InputPointType = Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
+  using OutputPointType = Point <TParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
 
   /** This method sets the parameters of the transform.
    * For a BSpline deformation transform, the parameters are the BSpline
@@ -167,10 +167,10 @@ public:
   const FixedParametersType & GetFixedParameters() const override;
 
   /** Parameters as SpaceDimension number of images. */
-  typedef typename ParametersType::ValueType           ParametersValueType;
-  typedef Image<ParametersValueType, itkGetStaticConstMacro( SpaceDimension )> ImageType;
-  typedef typename ImageType::Pointer                  ImagePointer;
-  typedef FixedArray<ImagePointer, NDimensions>        CoefficientImageArray;
+  using ParametersValueType = typename ParametersType::ValueType;
+  using ImageType = Image<ParametersValueType, itkGetStaticConstMacro( SpaceDimension )>;
+  using ImagePointer = typename ImageType::Pointer;
+  using CoefficientImageArray = FixedArray<ImagePointer, NDimensions>;
 
   /** Set the array of coefficient images.
    *
@@ -191,7 +191,7 @@ public:
     return this->m_CoefficientImages;
   }
 
-  typedef typename Superclass::DerivativeType DerivativeType;
+  using DerivativeType = typename Superclass::DerivativeType;
 
   /** Update the transform's parameters by the adding values in \c update
    * to current parameter values.
@@ -206,27 +206,27 @@ public:
   void UpdateTransformParameters( const DerivativeType & update, TParametersValueType factor = 1.0 ) override;
 
   /** Typedefs for specifying the extent of the grid. */
-  typedef ImageRegion<itkGetStaticConstMacro( SpaceDimension )> RegionType;
+  using RegionType = ImageRegion<itkGetStaticConstMacro( SpaceDimension )>;
 
-  typedef typename RegionType::IndexType    IndexType;
-  typedef typename RegionType::SizeType     SizeType;
-  typedef typename ImageType::SpacingType   SpacingType;
-  typedef typename ImageType::DirectionType DirectionType;
-  typedef typename ImageType::PointType     OriginType;
+  using IndexType = typename RegionType::IndexType;
+  using SizeType = typename RegionType::SizeType;
+  using SpacingType = typename ImageType::SpacingType;
+  using DirectionType = typename ImageType::DirectionType;
+  using OriginType = typename ImageType::PointType;
 
   /** Transform points by a BSpline deformable transformation. */
   OutputPointType  TransformPoint( const InputPointType & point ) const override;
 
   /** Interpolation weights function type. */
-  typedef BSplineInterpolationWeightFunction<ScalarType,
+  using WeightsFunctionType = BSplineInterpolationWeightFunction<ScalarType,
     itkGetStaticConstMacro( SpaceDimension ),
-     itkGetStaticConstMacro( SplineOrder )> WeightsFunctionType;
+     itkGetStaticConstMacro( SplineOrder )>;
 
-  typedef typename WeightsFunctionType::WeightsType         WeightsType;
-  typedef typename WeightsFunctionType::ContinuousIndexType ContinuousIndexType;
+  using WeightsType = typename WeightsFunctionType::WeightsType;
+  using ContinuousIndexType = typename WeightsFunctionType::ContinuousIndexType;
 
   /** Parameter index array type. */
-  typedef Array<unsigned long> ParameterIndexArrayType;
+  using ParameterIndexArrayType = Array<unsigned long>;
 
   /**
    * Transform points by a BSpline deformable transformation.
@@ -294,10 +294,10 @@ public:
 
   unsigned int GetNumberOfAffectedWeights() const;
 
-  typedef typename ImageType::SpacingType   PhysicalDimensionsType;
-  typedef typename ImageType::PixelType     PixelType;
+  using PhysicalDimensionsType = typename ImageType::SpacingType;
+  using PixelType = typename ImageType::PixelType;
 
-  typedef SizeType MeshSizeType;
+  using MeshSizeType = SizeType;
 
   /** Return the number of local parameters */
   NumberOfParametersType GetNumberOfLocalParameters() const override

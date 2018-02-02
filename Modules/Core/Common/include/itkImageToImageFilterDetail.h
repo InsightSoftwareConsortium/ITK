@@ -102,8 +102,8 @@ template< bool B1, bool B2 >
 struct BinaryBooleanDispatch {
   /** Typedefs to extract the unique types for the first and second
         template parameters (true/false) */
-  typedef BooleanDispatch< B1 > FirstType;
-  typedef BooleanDispatch< B2 > SecondType;
+  using FirstType = BooleanDispatch< B1 >;
+  using SecondType = BooleanDispatch< B2 >;
 };
 
 /** \struct BinaryIntDispatch
@@ -116,8 +116,8 @@ template< int D1, int D2 >
 struct BinaryIntDispatch {
   /** Typedefs to extract the unique types for the first and second
         template parameters (unique type for the integer value) */
-  typedef IntDispatch< D1 > FirstType;
-  typedef IntDispatch< D2 > SecondType;
+  using FirstType = IntDispatch< D1 >;
+  using SecondType = IntDispatch< D2 >;
 };
 
 /** \struct BinaryUnsignedIntDispatch
@@ -135,8 +135,8 @@ template< unsigned int D1, unsigned int D2 >
 struct BinaryUnsignedIntDispatch:public DispatchBase {
   /** Typedefs to extract the unique types for the first and second
       template parameters (unique type for the unsigned integer value) */
-  typedef UnsignedIntDispatch< D1 > FirstType;
-  typedef UnsignedIntDispatch< D2 > SecondType;
+  using FirstType = UnsignedIntDispatch< D1 >;
+  using SecondType = UnsignedIntDispatch< D2 >;
 
   /** Helper types to determine whether the two integers are the same,
    * the first greater than the second, or the first less than the second.
@@ -149,14 +149,14 @@ struct BinaryUnsignedIntDispatch:public DispatchBase {
    * IntDispatch<-1> means the first integer is less than the second
    *
    * The FirstEqualsSecondType, FirstGreaterThanSecondType,
-   * FirstLessThanSecondType typedefs are provided as convenience types
+   * FirstLessThanSecondType type alias are provided as convenience types
    * which can be used to declare arguments to functions.  They themselves
    * do not indicate the relationship between D1 and D2.
    */
-  typedef IntDispatch < ( D1 > D2 ) - ( D1 < D2 ) > ComparisonType;
-  typedef IntDispatch< 0 >                          FirstEqualsSecondType;
-  typedef IntDispatch< 1 >                          FirstGreaterThanSecondType;
-  typedef IntDispatch< -1 >                         FirstLessThanSecondType;
+  using ComparisonType = IntDispatch < ( D1 > D2 ) - ( D1 < D2 ) >;
+  using FirstEqualsSecondType = IntDispatch< 0 >;
+  using FirstGreaterThanSecondType = IntDispatch< 1 >;
+  using FirstLessThanSecondType = IntDispatch< -1 >;
 };
 
 /**
@@ -319,7 +319,7 @@ public:
   virtual void operator()(ImageRegion< D1 > & destRegion,
                           const ImageRegion< D2 > & srcRegion) const
   {
-    typedef typename BinaryUnsignedIntDispatch< D1, D2 >::ComparisonType ComparisonType;
+    using ComparisonType = typename BinaryUnsignedIntDispatch< D1, D2 >::ComparisonType;
     ImageToImageFilterDefaultCopyRegion< D1, D2 >(
       ComparisonType(),
       destRegion, srcRegion);
@@ -364,8 +364,8 @@ void ImageToImageFilterDefaultCopyInformation(const typename
                                               ImageBase< D1 >* destImage,
                                               const ImageBase< D2 >* srcImage)
 {
-  typedef ImageBase<D1> DestinationImageType;
-  typedef ImageBase<D2> SourceImageType;
+  using DestinationImageType = ImageBase<D1>;
+  using SourceImageType = ImageBase<D2>;
 
   // Copy what we can from the image from spacing and origin of the input
   // This logic needs to be augmented with logic that select which
@@ -441,7 +441,7 @@ public:
   virtual void operator()(ImageBase< D1 > * destImage,
                           const ImageBase< D2 > * srcImage) const
   {
-    typedef typename BinaryUnsignedIntDispatch< D1, D2 >::ComparisonType ComparisonType;
+    using ComparisonType = typename BinaryUnsignedIntDispatch< D1, D2 >::ComparisonType;
     ImageToImageFilterDefaultCopyInformation< D1, D2 >(
       ComparisonType(),
       destImage, srcImage);

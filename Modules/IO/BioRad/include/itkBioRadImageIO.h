@@ -50,10 +50,10 @@ namespace itk
 class ITKIOBioRad_EXPORT BioRadImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef BioRadImageIO        Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = BioRadImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

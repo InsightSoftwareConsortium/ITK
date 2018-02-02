@@ -88,14 +88,14 @@ int itkMirrorPadImageTest(int, char* [] )
 
 //  itk::MultiThreader::SetGlobalDefaultNumberOfThreads(8);
 
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   SimpleImage;
+  // type alias to simplify the syntax
+  using SimpleImage = itk::Image<short, 2>;
   SimpleImage::Pointer simpleImage = SimpleImage::New();
   std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", "
             << simpleImage->GetSpacing()[1] << std::endl;
 
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   ShortImage;
+  // type alias to simplify the syntax
+  using ShortImage = itk::Image<short, 2>;
 
   // Test the creation of an image with native type
   ShortImage::Pointer if2 = ShortImage::New();
@@ -127,8 +127,8 @@ int itkMirrorPadImageTest(int, char* [] )
 
   mirrorPad->SetInput( if2 );
 
-  typedef ShortImage::SizeValueType    SizeValueType;
-  typedef ShortImage::IndexValueType   IndexValueType;
+  using SizeValueType = ShortImage::SizeValueType;
+  using IndexValueType = ShortImage::IndexValueType;
 
   SizeValueType upperfactors[2] = { 0, 0};
   SizeValueType lowerfactors[2] = { 0, 0};

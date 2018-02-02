@@ -78,7 +78,7 @@ template <typename T>
 class AtomicInt
 {
 private:
-  typedef Detail::AtomicOps<sizeof(T)> Impl;
+  using Impl = Detail::AtomicOps<sizeof(T)>;
   itkConceptMacro( SupportedInteger, ( Detail::IsAtomicSupportedIntegralType<T> ) );
 
 public:
@@ -164,7 +164,7 @@ template <typename T>
 class AtomicInt<T*>
 {
 private:
-  typedef Detail::AtomicOps<sizeof(T*)> Impl;
+  using Impl = Detail::AtomicOps<sizeof(T*)>;
 
 public:
   AtomicInt() : m_Object(0)
@@ -252,7 +252,7 @@ private:
 template <> class AtomicInt<void*>
 {
 private:
-  typedef Detail::AtomicOps<sizeof(void*)> Impl;
+  using Impl = Detail::AtomicOps<sizeof(void*)>;
 
 public:
   AtomicInt() : m_Object(0)
@@ -308,8 +308,8 @@ template <typename T>
 class AtomicInt
 {
 private:
-  typedef Detail::AtomicOps<sizeof(T)> Impl;
-  typedef typename Impl::ValueType     ValueType;
+  using Impl = Detail::AtomicOps<sizeof(T)>;
+  using ValueType = typename Impl::ValueType;
   itkConceptMacro( SupportedInteger, ( Detail::IsAtomicSupportedIntegralType<T> ) );
 
 public:
@@ -393,8 +393,8 @@ template <typename T>
 class AtomicInt<T*>
 {
 private:
-  typedef Detail::AtomicOps<sizeof(T*)> Impl;
-  typedef typename Impl::ValueType      ValueType;
+  using Impl = Detail::AtomicOps<sizeof(T*)>;
+  using ValueType = typename Impl::ValueType;
 
 public:
   AtomicInt() : m_Object(0)
@@ -476,8 +476,8 @@ public:
 template <> class AtomicInt<void*>
 {
 private:
-  typedef Detail::AtomicOps<sizeof(void*)> Impl;
-  typedef Impl::ValueType         ValueType;
+  using Impl = Detail::AtomicOps<sizeof(void*)>;
+  using ValueType = Impl::ValueType;
 
 public:
   AtomicInt() : m_Object(0)

@@ -290,7 +290,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   if( this->m_CorrelationAssociate->GetComputeDerivative() )
     {
     /* Use a pre-allocated jacobian object for efficiency */
-    typedef typename TImageToImageMetric::JacobianType & JacobianReferenceType;
+    using JacobianReferenceType = typename TImageToImageMetric::JacobianType &;
     JacobianReferenceType jacobian = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobian;
     JacobianReferenceType jacobianPositional = this->m_GetValueAndDerivativePerThreadVariables[threadId].MovingTransformJacobianPositional;
 

@@ -52,8 +52,8 @@
 class RedChannelPixelAccessor
 {
 public:
-  typedef itk::RGBPixel<float>   InternalType;
-  typedef               float    ExternalType;
+  using InternalType = itk::RGBPixel<float>;
+  using ExternalType = float;
 
   static ExternalType Get( const InternalType & input )
     {
@@ -100,12 +100,12 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef RedChannelPixelAccessor::InternalType  InputPixelType;
+  using InputPixelType = RedChannelPixelAccessor::InternalType;
   const   unsigned int   Dimension = 2;
-  typedef itk::Image< InputPixelType, Dimension >   ImageType;
+  using ImageType = itk::Image< InputPixelType, Dimension >;
 
-  typedef itk::ImageAdaptor<  ImageType,
-                              RedChannelPixelAccessor > ImageAdaptorType;
+  using ImageAdaptorType = itk::ImageAdaptor<  ImageType,
+                              RedChannelPixelAccessor >;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
   // Software Guide : EndCodeSnippet
@@ -120,7 +120,7 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
 
@@ -144,13 +144,13 @@ int main( int argc, char *argv[] )
 
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned char, Dimension >   OutputImageType;
-  typedef itk::RescaleIntensityImageFilter< ImageAdaptorType,
-                                            OutputImageType
-                                               >   RescalerType;
+  using OutputImageType = itk::Image< unsigned char, Dimension >;
+  using RescalerType = itk::RescaleIntensityImageFilter<
+                                            ImageAdaptorType,
+                                            OutputImageType >;
 
   RescalerType::Pointer rescaler = RescalerType::New();
-  typedef itk::ImageFileWriter< OutputImageType >   WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
   WriterType::Pointer writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -213,8 +213,8 @@ int main( int argc, char *argv[] )
   class GreenChannelPixelAccessor
   {
   public:
-    typedef itk::RGBPixel<float>   InternalType;
-    typedef               float    ExternalType;
+    using InternalType = itk::RGBPixel<float>;
+    using ExternalType = float;
 
     static ExternalType Get( const InternalType & input )
       {
@@ -237,8 +237,8 @@ int main( int argc, char *argv[] )
   class BlueChannelPixelAccessor
     {
   public:
-    typedef itk::RGBPixel<float>   InternalType;
-    typedef               float    ExternalType;
+    using InternalType = itk::RGBPixel<float>;
+    using ExternalType = float;
 
     static ExternalType Get( const InternalType & input )
       {

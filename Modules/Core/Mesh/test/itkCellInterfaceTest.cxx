@@ -28,16 +28,16 @@
  * Define a mesh type that stores a PixelType of "int".  Use the defaults
  * for the other template parameters.
  */
-typedef itk::Mesh<int>                        MeshType;
-typedef MeshType::CellTraits                  CellTraits;
-typedef itk::CellInterface< int, CellTraits > CellInterfaceType;
+using MeshType = itk::Mesh<int>;
+using CellTraits = MeshType::CellTraits;
+using CellInterfaceType = itk::CellInterface< int, CellTraits >;
 
 /**
  * Typedef the generic cell type for the mesh.  It is an abstract class,
  * so we can only use information from it, like get its pointer type.
  */
-typedef MeshType::CellType              CellType;
-typedef CellType::CellAutoPointer       CellAutoPointer;
+using CellType = MeshType::CellType;
+using CellAutoPointer = CellType::CellAutoPointer;
 
 // Test the cell interface
 
@@ -83,7 +83,7 @@ template<typename TCell> int TestCellInterface(std::string name, TCell *aCell)
   // Add point ids
   std::cout << "    SetPointIds" << std::endl;
 
-  typedef typename TCell::PointIdentifier   PointIdentifier;
+  using PointIdentifier = typename TCell::PointIdentifier;
 
   PointIdentifier *pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
 
@@ -141,70 +141,70 @@ int itkCellInterfaceTest(int, char* [] )
 {
   int status;
 
-  typedef itk::VertexCell<CellInterfaceType> VertexCellType;
+  using VertexCellType = itk::VertexCell<CellInterfaceType>;
   status = TestCellInterface("Vertex", new VertexCellType);
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
-  typedef itk::LineCell<CellInterfaceType> LineCellType;
+  using LineCellType = itk::LineCell<CellInterfaceType>;
   status = TestCellInterface("Line", new LineCellType);
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
-  typedef itk::TriangleCell<CellInterfaceType> TriangleCellType;
+  using TriangleCellType = itk::TriangleCell<CellInterfaceType>;
   status = TestCellInterface("Triangle", new TriangleCellType);
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
-  typedef itk::HexahedronCell<CellInterfaceType> HexahedronCellType;
+  using HexahedronCellType = itk::HexahedronCell<CellInterfaceType>;
   status = TestCellInterface("HexahedronCell", new HexahedronCellType);
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
-  typedef itk::TetrahedronCell<CellInterfaceType> TetrahedronCellType;
+  using TetrahedronCellType = itk::TetrahedronCell<CellInterfaceType>;
   status = TestCellInterface("TetrahedronCell", new TetrahedronCellType);
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadraticEdgeCell<CellInterfaceType> QuadraticEdgeCellType;
+  using QuadraticEdgeCellType = itk::QuadraticEdgeCell<CellInterfaceType>;
   status = TestCellInterface("QuadraticEdgeCell", new QuadraticEdgeCellType);
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadraticTriangleCell<CellInterfaceType> QuadraticTriangleCellType;
+  using QuadraticTriangleCellType = itk::QuadraticTriangleCell<CellInterfaceType>;
   status = TestCellInterface("QuadraticTriangleCell", new QuadraticTriangleCellType);
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadrilateralCell<CellInterfaceType> QuadrilateralCellType;
+  using QuadrilateralCellType = itk::QuadrilateralCell<CellInterfaceType>;
   status = TestCellInterface("QuadrilateralCell", new QuadrilateralCellType);
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
-  typedef itk::PolygonCell<CellInterfaceType> PolygonCellType;
+  using PolygonCellType = itk::PolygonCell<CellInterfaceType>;
   status = TestCellInterface("PolygonCell with 0 vertices", new PolygonCellType());
   if (status != 0)
     {
     return EXIT_FAILURE;
     }
 
-  typedef itk::PolygonCell<CellInterfaceType> PolygonCellType;
+  using PolygonCellType = itk::PolygonCell<CellInterfaceType>;
   status = TestCellInterface("PolygonCell with 5 vertices", new PolygonCellType(5));
   if (status != 0)
     {

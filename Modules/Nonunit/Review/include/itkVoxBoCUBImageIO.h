@@ -50,10 +50,10 @@ class GenericCUBFileAdaptor;
 class VoxBoCUBImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef VoxBoCUBImageIO      Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = VoxBoCUBImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -105,9 +105,9 @@ private:
   void InitializeOrientationMap();
 
   // Orientation stuff
-  typedef SpatialOrientation::ValidCoordinateOrientationFlags OrientationFlags;
-  typedef std::map< std::string, OrientationFlags >           OrientationMap;
-  typedef std::map< OrientationFlags, std::string >           InverseOrientationMap;
+  using OrientationFlags = SpatialOrientation::ValidCoordinateOrientationFlags;
+  using OrientationMap = std::map< std::string, OrientationFlags >;
+  using InverseOrientationMap = std::map< OrientationFlags, std::string >;
 
   OrientationMap        m_OrientationMap;
   InverseOrientationMap m_InverseOrientationMap;

@@ -36,7 +36,7 @@ template< typename TInput, typename TMask, typename TOutput = TInput >
 class MaskInput
 {
 public:
-  typedef typename NumericTraits< TInput >::AccumulateType AccumulatorType;
+  using AccumulatorType = typename NumericTraits< TInput >::AccumulateType;
 
   MaskInput()
   {
@@ -152,17 +152,16 @@ class MaskImageFilter:
 
 {
 public:
-  /** Standard class typedefs. */
-  typedef MaskImageFilter Self;
-  typedef BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = MaskImageFilter;
+  using Superclass = BinaryFunctorImageFilter< TInputImage, TMaskImage, TOutputImage,
                                     Functor::MaskInput<
                                       typename TInputImage::PixelType,
                                       typename TMaskImage::PixelType,
-                                      typename TOutputImage::PixelType >
-                                    >                                 Superclass;
+                                      typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -172,7 +171,7 @@ public:
                BinaryFunctorImageFilter);
 
   /** Typedefs **/
-  typedef TMaskImage MaskImageType;
+  using MaskImageType = TMaskImage;
 
   /** Set/Get the mask image. Pixels set in the mask image will retain
    *  the original value of the input image while pixels not set in
@@ -221,7 +220,7 @@ public:
 
   void BeforeThreadedGenerateData() override
   {
-    typedef typename TOutputImage::PixelType PixelType;
+    using PixelType = typename TOutputImage::PixelType;
     this->CheckOutsideValue( static_cast<PixelType*>(nullptr) );
   }
 

@@ -135,9 +135,9 @@ class RegistrationInterfaceCommand : public itk::Command
   // Software Guide : BeginCodeSnippet
 
 public:
-  typedef  RegistrationInterfaceCommand   Self;
-  typedef  itk::Command                   Superclass;
-  typedef  itk::SmartPointer<Self>        Pointer;
+  using Self = RegistrationInterfaceCommand;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -153,10 +153,10 @@ protected:
   // Software Guide : BeginCodeSnippet
 
 public:
-  typedef   TRegistration                              RegistrationType;
-  typedef   RegistrationType *                         RegistrationPointer;
-  typedef   itk::RegularStepGradientDescentOptimizer   OptimizerType;
-  typedef   OptimizerType *                            OptimizerPointer;
+  using RegistrationType = TRegistration;
+  using RegistrationPointer = RegistrationType *;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
+  using OptimizerPointer = OptimizerType *;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -253,17 +253,17 @@ public:
 class CommandIterationUpdate : public itk::Command
 {
 public:
-  typedef  CommandIterationUpdate   Self;
-  typedef  itk::Command             Superclass;
-  typedef  itk::SmartPointer<Self>  Pointer;
+  using Self = CommandIterationUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
   CommandIterationUpdate() {};
 
 public:
-  typedef   itk::RegularStepGradientDescentOptimizer  OptimizerType;
-  typedef   const OptimizerType *                     OptimizerPointer;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
+  using OptimizerPointer = const OptimizerType *;
 
   void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
@@ -299,7 +299,7 @@ int main( int argc, const char *argv[] )
     }
 
   const    unsigned int    Dimension = 2;
-  typedef  unsigned short  PixelType;
+  using PixelType = unsigned short;
 
   const std::string fixedImageFile  = argv[1];
   const std::string movingImageFile = argv[2];
@@ -311,8 +311,8 @@ int main( int argc, const char *argv[] )
   const int numberOfBins               = (argc >8 )? atoi(argv[8]): 0;
   const int numberOfSamples            = (argc >9 )? atoi(argv[9]): 0;
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
 
   //  Software Guide : BeginLatex
   //
@@ -324,8 +324,8 @@ int main( int argc, const char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef   float                                    InternalPixelType;
-  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
+  using InternalPixelType = float;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -335,17 +335,17 @@ int main( int argc, const char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::TranslationTransform< double, Dimension > TransformType;
-  typedef itk::RegularStepGradientDescentOptimizer       OptimizerType;
-  typedef itk::LinearInterpolateImageFunction<
+  using TransformType = itk::TranslationTransform< double, Dimension >;
+  using OptimizerType = itk::RegularStepGradientDescentOptimizer;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
                                     InternalImageType,
-                                    double             > InterpolatorType;
-  typedef itk::MattesMutualInformationImageToImageMetric<
+                                    double             >;
+  using MetricType = itk::MattesMutualInformationImageToImageMetric<
                                     InternalImageType,
-                                    InternalImageType >   MetricType;
-  typedef itk::MultiResolutionImageRegistrationMethod<
+                                    InternalImageType >;
+  using RegistrationType = itk::MultiResolutionImageRegistrationMethod<
                                     InternalImageType,
-                                    InternalImageType >   RegistrationType;
+                                    InternalImageType >;
   // Software Guide: EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -360,10 +360,10 @@ int main( int argc, const char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::MultiResolutionPyramidImageFilter<
-            InternalImageType, InternalImageType >   FixedImagePyramidType;
-  typedef itk::MultiResolutionPyramidImageFilter<
-            InternalImageType, InternalImageType >   MovingImagePyramidType;
+  using FixedImagePyramidType = itk::MultiResolutionPyramidImageFilter<
+            InternalImageType, InternalImageType >;
+  using MovingImagePyramidType = itk::MultiResolutionPyramidImageFilter<
+            InternalImageType, InternalImageType >;
   // Software Guide: EndCodeSnippet
 
 
@@ -389,8 +389,8 @@ int main( int argc, const char *argv[] )
   registration->SetMovingImagePyramid( movingImagePyramid );
 
 
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   FixedImageReaderType::Pointer  fixedImageReader  = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
@@ -407,10 +407,10 @@ int main( int argc, const char *argv[] )
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  typedef itk::CastImageFilter<
-            FixedImageType, InternalImageType >  FixedCastFilterType;
-  typedef itk::CastImageFilter<
-            MovingImageType, InternalImageType > MovingCastFilterType;
+  using FixedCastFilterType = itk::CastImageFilter<
+            FixedImageType, InternalImageType >;
+  using MovingCastFilterType = itk::CastImageFilter<
+            MovingImageType, InternalImageType >;
 
   FixedCastFilterType::Pointer fixedCaster   = FixedCastFilterType::New();
   MovingCastFilterType::Pointer movingCaster = MovingCastFilterType::New();
@@ -438,7 +438,7 @@ int main( int argc, const char *argv[] )
        fixedCaster->GetOutput()->GetBufferedRegion() );
 
 
-  typedef RegistrationType::ParametersType ParametersType;
+  using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters( transform->GetNumberOfParameters() );
 
   initialParameters[0] = 0.0;  // Initial offset in mm along X
@@ -506,7 +506,7 @@ int main( int argc, const char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef RegistrationInterfaceCommand<RegistrationType> CommandType;
+  using CommandType = RegistrationInterfaceCommand<RegistrationType>;
   CommandType::Pointer command = CommandType::New();
   registration->AddObserver( itk::IterationEvent(), command );
   // Software Guide : EndCodeSnippet
@@ -602,9 +602,9 @@ int main( int argc, const char *argv[] )
   //
   //  Software Guide : EndLatex
 
-  typedef itk::ResampleImageFilter<
+  using ResampleFilterType = itk::ResampleImageFilter<
                             MovingImageType,
-                            FixedImageType >    ResampleFilterType;
+                            FixedImageType >;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
@@ -626,15 +626,15 @@ int main( int argc, const char *argv[] )
   resample->SetDefaultPixelValue( backgroundGrayLevel );
 
 
-  typedef  unsigned char  OutputPixelType;
+  using OutputPixelType = unsigned char;
 
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::CastImageFilter<
+  using CastFilterType = itk::CastImageFilter<
                         FixedImageType,
-                        OutputImageType > CastFilterType;
+                        OutputImageType >;
 
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
 
   WriterType::Pointer      writer =  WriterType::New();
@@ -651,7 +651,7 @@ int main( int argc, const char *argv[] )
   //
   // Generate checkerboards before and after registration
   //
-  typedef itk::CheckerBoardImageFilter< FixedImageType > CheckerBoardFilterType;
+  using CheckerBoardFilterType = itk::CheckerBoardImageFilter< FixedImageType >;
 
   CheckerBoardFilterType::Pointer checker = CheckerBoardFilterType::New();
 

@@ -62,10 +62,10 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
   std::cout<< "Test ITK Chamfer Distance Image Filter" << std::endl;
   std::cout << "Compute the distance map of a 32^d image" << std::endl;
 
-  typedef float PixelType;
+  using PixelType = float;
 
-  typedef itk::Image<PixelType,VDimension> ImageType;
-  typedef itk::Point<double,VDimension>    PointType;
+  using ImageType = itk::Image<PixelType,VDimension>;
+  using PointType = itk::Point<double,VDimension>;
 
   typename ImageType::SizeType size;
   size.Fill( 32 );
@@ -81,7 +81,7 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
   IteratorType it(inputImage,region);
 
   // Set the image to 0
@@ -94,8 +94,8 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
     }
 
   /* Create Fast Chamfer Distance filter */
-  typedef itk::FastChamferDistanceImageFilter<
-                                ImageType,ImageType> ChamferFilterType;
+  using ChamferFilterType = itk::FastChamferDistanceImageFilter<
+                                ImageType,ImageType>;
   typename ChamferFilterType::Pointer filter = ChamferFilterType::New();
 
   filter->SetInput(inputImage);
@@ -116,7 +116,7 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
   filter->Print(std::cout);
 
   //Create NarrowBand
-  typedef typename ChamferFilterType::NarrowBandType  NarrowBandType;
+  using NarrowBandType = typename ChamferFilterType::NarrowBandType;
 
   typename NarrowBandType::Pointer band = NarrowBandType::New();
   band->SetTotalRadius(4);
@@ -129,7 +129,7 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
   std::cout<<"Band size: "<<band->Size()<<std::endl;
 
   //Loop through the band
-  typedef typename NarrowBandType::ConstIterator itNBType;
+  using itNBType = typename NarrowBandType::ConstIterator;
   itNBType itNB = band->Begin();
   itNBType itNBend = band->End();
 
@@ -200,7 +200,7 @@ int FastChamferDistanceImageFilterTest( unsigned int iPositive,
     returnVal = EXIT_FAILURE;
     }
   /* For debugging write the result
-  typedef itk::ImageFileWriter< ImageType >  WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName("chamferoutput.mhd");

@@ -24,26 +24,26 @@ int itkQuadEdgeMeshPointTest1( int , char* [] )
   std::cout << "Testing points..." << std::endl;
 
   //
-  // These typedefs are taken from a traditional itk mesh just
+  // These type alias are taken from a traditional itk mesh just
   // to get definitions that are consistent with the derived class.
   //
-  typedef itk::Mesh< float, 3 >                   NonQuadEdgeMeshType;
-  typedef NonQuadEdgeMeshType::PointIdentifier    PointIdentifier;
-  typedef NonQuadEdgeMeshType::CellIdentifier     FaceIdentifier;
+  using NonQuadEdgeMeshType = itk::Mesh< float, 3 >;
+  using PointIdentifier = NonQuadEdgeMeshType::PointIdentifier;
+  using FaceIdentifier = NonQuadEdgeMeshType::CellIdentifier;
 
-  typedef bool PrimalDataType;
-  typedef bool DualDataType;
+  using PrimalDataType = bool;
+  using DualDataType = bool;
 
   const bool ThisIsDual = true;
 
-  typedef itk::GeometricalQuadEdge<
+  using QuadEdgeType = itk::GeometricalQuadEdge<
     PointIdentifier, FaceIdentifier,
     PrimalDataType, DualDataType,
-    ThisIsDual >                             QuadEdgeType;
+    ThisIsDual >;
 
-  typedef itk::QuadEdgeMeshPoint< float, 3, QuadEdgeType >  PointType;
+  using PointType = itk::QuadEdgeMeshPoint< float, 3, QuadEdgeType >;
 
-  typedef PointType::Superclass             SuperclassPointType;
+  using SuperclassPointType = PointType::Superclass;
 
 
   PointType p0; // Test default constructor

@@ -63,14 +63,13 @@ class ITKOptimizers_EXPORT PowellOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef PowellOptimizer                Self;
-  typedef SingleValuedNonLinearOptimizer Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = PowellOptimizer;
+  using Superclass = SingleValuedNonLinearOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef SingleValuedNonLinearOptimizer::ParametersType
-  ParametersType;
+  using ParametersType = SingleValuedNonLinearOptimizer::ParametersType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,8 +78,8 @@ public:
   itkTypeMacro(PowellOptimizer, SingleValuedNonLinearOptimizer);
 
   /** Type of the Cost Function   */
-  typedef  SingleValuedCostFunction  CostFunctionType;
-  typedef  CostFunctionType::Pointer CostFunctionPointer;
+  using CostFunctionType = SingleValuedCostFunction;
+  using CostFunctionPointer = CostFunctionType::Pointer;
 
   /** Set if the Optimizer should Maximize the metric */
   itkSetMacro(Maximize, bool);

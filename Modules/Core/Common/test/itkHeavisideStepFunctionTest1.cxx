@@ -20,10 +20,10 @@
 
 int itkHeavisideStepFunctionTest1( int, char* [] )
 {
-  typedef double    InputType;
-  typedef double    OutputType;
+  using InputType = double;
+  using OutputType = double;
 
-  typedef itk::HeavisideStepFunction< InputType, OutputType >  HeavisideFunctionBaseType;
+  using HeavisideFunctionBaseType = itk::HeavisideStepFunction< InputType, OutputType >;
 
   HeavisideFunctionBaseType::Pointer functionBase0 = HeavisideFunctionBaseType::New();
 

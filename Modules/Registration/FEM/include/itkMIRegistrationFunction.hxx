@@ -115,10 +115,10 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   //
   // NOTE : must estimate sigma for each pdf
 
-  typedef std::vector< double >              sampleContainerType;
-  typedef std::vector< CovariantVectorType > gradContainerType;
-  typedef std::vector< double >              gradMagContainerType;
-  typedef std::vector< unsigned int >        inImageIndexContainerType;
+  using sampleContainerType = std::vector< double >;
+  using gradContainerType = std::vector< CovariantVectorType >;
+  using gradMagContainerType = std::vector< double >;
+  using inImageIndexContainerType = std::vector< unsigned int >;
 
   PixelType update;
   PixelType derivative;
@@ -198,7 +198,7 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
       fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
       // Get moving image related information
-      typedef typename DisplacementFieldType::PixelType DeformationPixelType;
+      using DeformationPixelType = typename DisplacementFieldType::PixelType;
       const DeformationPixelType itvec = this->GetDisplacementField()->GetPixel(index);
 
       PointType mappedPoint;
@@ -293,7 +293,7 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
           fgm += fixedGradient[j] * fixedGradient[j];
           }
         // Get moving image related information
-        typedef typename DisplacementFieldType::PixelType DeformationPixelType;
+        using DeformationPixelType = typename DisplacementFieldType::PixelType;
         const DeformationPixelType itvec = this->GetDisplacementField()->GetPixel(index);
         PointType mappedPoint;
         this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);

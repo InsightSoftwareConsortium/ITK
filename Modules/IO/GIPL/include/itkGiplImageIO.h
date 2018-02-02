@@ -39,10 +39,10 @@ class GiplImageIOInternals;
 class ITKIOGIPL_EXPORT GiplImageIO:public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef GiplImageIO          Self;
-  typedef ImageIOBase          Superclass;
-  typedef SmartPointer< Self > Pointer;
+  /** Standard class type aliases. */
+  using Self = GiplImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -34,11 +34,11 @@ class ITKOptimizers_EXPORT RegularStepGradientDescentBaseOptimizer:
   public SingleValuedNonLinearOptimizer
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef RegularStepGradientDescentBaseOptimizer Self;
-  typedef SingleValuedNonLinearOptimizer          Superclass;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = RegularStepGradientDescentBaseOptimizer;
+  using Superclass = SingleValuedNonLinearOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -61,7 +61,7 @@ ScaleVersor3DTransform<TParametersValueType>
 ::SetMatrix(const MatrixType & matrix)
 {
   // Any matrix should work - bypass orthogonality testing
-  typedef MatrixOffsetTransformBase<TParametersValueType, 3, 3> Baseclass;
+  using Baseclass = MatrixOffsetTransformBase<TParametersValueType, 3, 3>;
   this->Baseclass::SetMatrix(matrix);
 }
 
@@ -71,7 +71,7 @@ ScaleVersor3DTransform<TParametersValueType>
 ::SetMatrix(const MatrixType & matrix, const TParametersValueType itkNotUsed( tolerance ))
 {
   // Any matrix should work - bypass orthogonality testing
-  typedef MatrixOffsetTransformBase<TParametersValueType, 3, 3> Baseclass;
+  using Baseclass = MatrixOffsetTransformBase<TParametersValueType, 3, 3>;
   this->Baseclass::SetMatrix(matrix);
 }
 
@@ -232,7 +232,7 @@ void
 ScaleVersor3DTransform<TParametersValueType>
 ::ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const
 {
-  typedef typename VersorType::ValueType ValueType;
+  using ValueType = typename VersorType::ValueType;
 
   // compute derivatives with respect to rotation
   const ValueType vx = this->GetVersor().GetX();

@@ -25,17 +25,17 @@ int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
   (void)argc;
   (void)argv;
 
-  typedef itk::QuadEdgeMesh< double, 3 >                      MeshType;
-  typedef MeshType::Pointer                                   MeshPointer;
-  typedef MeshType::QEType                                    QEType;
-  typedef MeshType::PointType                                 PointType;
-  typedef MeshType::CellType                                  CellType;
+  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshPointer = MeshType::Pointer;
+  using QEType = MeshType::QEType;
+  using PointType = MeshType::PointType;
+  using CellType = MeshType::CellType;
 
-  typedef itk::QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< MeshType,
-    QEType> DeleteCenterVertex;
+  using DeleteCenterVertex = itk::QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction< MeshType,
+    QEType>;
 
-  typedef itk::QuadEdgeMeshEulerOperatorCreateCenterVertexFunction< MeshType,
-    QEType> CreateCenterVertex;
+  using CreateCenterVertex = itk::QuadEdgeMeshEulerOperatorCreateCenterVertexFunction< MeshType,
+    QEType>;
 
   /////////////////////////////////////////
   //
@@ -120,7 +120,7 @@ int itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char* argv[] )
        1,  3,  2 };
 
     CellType::CellAutoPointer cellpointer;
-    typedef itk::QuadEdgeMeshPolygonCell< CellType > QEPolygonCellType;
+    using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell< CellType >;
     QEPolygonCellType *poly;
     for(int i=0; i<4; i++)
       {

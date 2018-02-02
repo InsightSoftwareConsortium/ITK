@@ -20,11 +20,11 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageToHistogramFilter.h"
 
-typedef itk::Size<3>                                        SizeType;
-typedef itk::Image<short, 3>                                ImageType;
-typedef itk::Statistics::ImageToHistogramFilter<ImageType>  HistogramGeneratorType;
-typedef HistogramGeneratorType::HistogramType               HistogramType;
-typedef itk::OtsuThresholdCalculator<HistogramType>         CalculatorType;
+using SizeType = itk::Size<3>;
+using ImageType = itk::Image<short, 3>;
+using HistogramGeneratorType = itk::Statistics::ImageToHistogramFilter<ImageType>;
+using HistogramType = HistogramGeneratorType::HistogramType;
+using CalculatorType = itk::OtsuThresholdCalculator<HistogramType>;
 namespace
 {
 
@@ -36,7 +36,7 @@ double origin [3] = { 0.0, 0.0, 0.0};
 
 int itkOtsuThresholdCalculatorTest(int, char* [] )
 {
-    typedef itk::ImageRegionIterator<ImageType> Iterator;
+    using Iterator = itk::ImageRegionIterator<ImageType>;
 
     int flag = 0;           /* Did this test program work? */
 

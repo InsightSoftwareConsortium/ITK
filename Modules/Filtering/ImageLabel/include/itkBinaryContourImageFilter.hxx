@@ -129,14 +129,12 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   InputImageConstPointer  input   = this->GetInput();
 
   // create a line iterator
-  typedef itk::ImageLinearConstIteratorWithIndex< InputImageType >
-    InputLineIteratorType;
+  using InputLineIteratorType = itk::ImageLinearConstIteratorWithIndex<InputImageType>;
 
   InputLineIteratorType inLineIt(input, outputRegionForThread);
   inLineIt.SetDirection(0);
 
-  typedef itk::ImageLinearIteratorWithIndex< OutputImageType >
-    OutputLineIteratorType;
+  using OutputLineIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
 
   OutputLineIteratorType outLineIt(output, outputRegionForThread);
   outLineIt.SetDirection(0);
@@ -309,11 +307,11 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
 
   const unsigned int PretendDimension = ImageDimension - 1;
 
-  typedef Image< OffsetValueType, PretendDimension >          PretendImageType;
-  typedef typename PretendImageType::Pointer                  PretendImagePointer;
-  typedef typename PretendImageType::RegionType               PretendImageRegionType;
-  typedef typename PretendImageType::RegionType::SizeType     PretendSizeType;
-  typedef typename PretendImageType::RegionType::IndexType    PretendIndexType;
+  using PretendImageType = Image< OffsetValueType, PretendDimension >;
+  using PretendImagePointer = typename PretendImageType::Pointer;
+  using PretendImageRegionType = typename PretendImageType::RegionType;
+  using PretendSizeType = typename PretendImageType::RegionType::SizeType;
+  using PretendIndexType = typename PretendImageType::RegionType::IndexType;
 
   PretendImagePointer fakeImage = PretendImageType::New();
 
@@ -336,7 +334,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   PretendSizeType kernelRadius;
   kernelRadius.Fill(1);
 
-  typedef ConstShapedNeighborhoodIterator< PretendImageType > LineNeighborhoodType;
+  using LineNeighborhoodType = ConstShapedNeighborhoodIterator< PretendImageType >;
   LineNeighborhoodType lnit(kernelRadius, fakeImage, LineRegion);
 
   setConnectivity(&lnit, m_FullyConnected);

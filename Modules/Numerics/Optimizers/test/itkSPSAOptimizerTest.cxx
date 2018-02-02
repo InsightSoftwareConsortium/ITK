@@ -38,17 +38,17 @@ class SPSACostFunction : public itk::SingleValuedCostFunction
 {
  public:
 
-  typedef SPSACostFunction               Self;
-  typedef itk::SingleValuedCostFunction  Superclass;
-  typedef itk::SmartPointer<Self>        Pointer;
-  typedef itk::SmartPointer<const Self>  ConstPointer;
+  using Self = SPSACostFunction;
+  using Superclass = itk::SingleValuedCostFunction;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType      ParametersType;
-  typedef Superclass::DerivativeType      DerivativeType;
-  typedef Superclass::MeasureType         MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
 
   SPSACostFunction()
@@ -104,8 +104,8 @@ int itkSPSAOptimizerTest(int, char* [] )
   std::cout << "SPSAOptimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::SPSAOptimizer                   OptimizerType;
-  typedef  OptimizerType::ScalesType            ScalesType;
+  using OptimizerType = itk::SPSAOptimizer;
+  using ScalesType = OptimizerType::ScalesType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -114,7 +114,7 @@ int itkSPSAOptimizerTest(int, char* [] )
   SPSACostFunction::Pointer costFunction = SPSACostFunction::New();
   itkOptimizer->SetCostFunction( costFunction.GetPointer() );
 
-  typedef SPSACostFunction::ParametersType    ParametersType;
+  using ParametersType = SPSACostFunction::ParametersType;
   const unsigned int spaceDimension =
     costFunction->GetNumberOfParameters();
 

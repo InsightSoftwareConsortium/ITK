@@ -51,15 +51,15 @@ class ITK_TEMPLATE_EXPORT PolygonGroupSpatialObject:
   public GroupSpatialObject< TDimension >
 {
 public:
-  typedef PolygonGroupSpatialObject< TDimension > Self;
-  typedef GroupSpatialObject< TDimension >        Superclass;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
-  typedef typename Superclass::PointType          PointType;
-  typedef typename Superclass::BoundingBoxType    BoundingBoxType;
-  typedef typename Superclass::ChildrenListType   ChildrenListType;
-  typedef typename Superclass::TreeNodeType       TreeNodeType;
-  typedef typename TreeNodeType::ChildrenListType TreeNodeChildrenListType;
+  using Self = PolygonGroupSpatialObject< TDimension >;
+  using Superclass = GroupSpatialObject< TDimension >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using PointType = typename Superclass::PointType;
+  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using ChildrenListType = typename Superclass::ChildrenListType;
+  using TreeNodeType = typename Superclass::TreeNodeType;
+  using TreeNodeChildrenListType = typename TreeNodeType::ChildrenListType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

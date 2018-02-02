@@ -274,13 +274,13 @@ protected:
 class ITK_FORCE_EXPORT_MACRO(ITKCommon) DataObject:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef DataObject                 Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DataObject;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef std::string                DataObjectIdentifierType;
+  using DataObjectIdentifierType = std::string;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(DataObject, Object);
@@ -305,7 +305,7 @@ public:
   const DataObjectIdentifierType & GetSourceOutputName() const;
 
   /** Which of the source's outputs corresponds to this data object? */
-  typedef std::vector< Pointer >::size_type DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = std::vector< Pointer >::size_type;
   DataObjectPointerArraySizeType GetSourceOutputIndex() const;
 
   /** Restore the data object to its initial state. This means releasing

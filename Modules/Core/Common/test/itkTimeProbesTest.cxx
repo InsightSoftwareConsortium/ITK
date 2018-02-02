@@ -114,15 +114,15 @@ int itkTimeProbesTest(int, char* [] )
     }
     collector.Stop("Loop2");
 
-    typedef itk::Image<float,3> Image3DType;
+    using Image3DType = itk::Image<float,3>;
 
     Image3DType::Pointer image3D = Image3DType::New();
     Image3DType::Pointer orientedImage3D = Image3DType::New();
 
     Image3DType::PointType point3D;
 
-    typedef itk::ImageRegion< 3 >   Region3DType;
-    typedef Region3DType::SizeType  Size3DType;
+    using Region3DType = itk::ImageRegion< 3 >;
+    using Size3DType = Region3DType::SizeType;
     Region3DType region3D;
     Size3DType size3D = {{ 1000, 1000, 1000 }};
 

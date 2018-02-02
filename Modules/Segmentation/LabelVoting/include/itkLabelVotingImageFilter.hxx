@@ -46,7 +46,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
 {
   InputPixelType maxLabel = 0;
 
-  typedef ImageRegionConstIterator< TInputImage > IteratorType;
+  using IteratorType = ImageRegionConstIterator< TInputImage >;
 
   // Record the number of indexed inputs
   const size_t numberOfInputIndexes = this->GetNumberOfIndexedInputs();
@@ -98,8 +98,8 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
 {
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
-  typedef ImageRegionConstIterator< TInputImage > IteratorType;
-  typedef ImageRegionIterator< TOutputImage >     OutIteratorType;
+  using IteratorType = ImageRegionConstIterator< TInputImage >;
+  using OutIteratorType = ImageRegionIterator< TOutputImage >;
 
   typename TOutputImage::Pointer output = this->GetOutput();
 

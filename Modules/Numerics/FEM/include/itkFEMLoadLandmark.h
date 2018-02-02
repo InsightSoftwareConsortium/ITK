@@ -39,11 +39,11 @@ namespace fem
 class ITKFEM_EXPORT LoadLandmark : public LoadElement
 {
 public:
-  /** Standard class typedefs. */
-  typedef LoadLandmark             Self;
-  typedef LoadElement              Superclass;
-  typedef SmartPointer<Self>       Pointer;
-  typedef SmartPointer<const Self> ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LoadLandmark;
+  using Superclass = LoadElement;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

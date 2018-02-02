@@ -28,36 +28,36 @@ int itkMultiLevelSetEvolutionTest( int , char* [] )
 {
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                                       InputPixelType;
-  typedef itk::Image< InputPixelType, Dimension >             InputImageType;
+  using InputPixelType = unsigned char;
+  using InputImageType = itk::Image< InputPixelType, Dimension >;
 
-  typedef float                                          PixelType;
-  typedef itk::Image< PixelType, Dimension >             ImageType;
-  typedef itk::LevelSetDenseImage< ImageType >           LevelSetType;
-  typedef LevelSetType::OutputRealType                   LevelSetOutputRealType;
-  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
-  typedef itk::IdentifierType                            IdentifierType;
-  typedef std::list< IdentifierType >                    IdListType;
-  typedef itk::Image< IdListType, Dimension >            IdListImageType;
-  typedef itk::Image< short, Dimension >                 CacheImageType;
-  typedef itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >
-                                                         DomainMapImageFilterType;
+  using PixelType = float;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using LevelSetType = itk::LevelSetDenseImage< ImageType >;
+  using LevelSetOutputRealType = LevelSetType::OutputRealType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex< ImageType >;
+  using IdentifierType = itk::IdentifierType;
+  using IdListType = std::list< IdentifierType >;
+  using IdListImageType = itk::Image< IdListType, Dimension >;
+  using CacheImageType = itk::Image< short, Dimension >;
+  using DomainMapImageFilterType =
+      itk::LevelSetDomainMapImageFilter< IdListImageType, CacheImageType >;
 
-  typedef itk::LevelSetContainer< IdentifierType, LevelSetType >
-      LevelSetContainerType;
-  typedef itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >
-      ChanAndVeseInternalTermType;
-  typedef itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >
-      ChanAndVeseExternalTermType;
-  typedef itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >
-      TermContainerType;
+  using LevelSetContainerType =
+      itk::LevelSetContainer< IdentifierType, LevelSetType >;
+  using ChanAndVeseInternalTermType =
+      itk::LevelSetEquationChanAndVeseInternalTerm< InputImageType, LevelSetContainerType >;
+  using ChanAndVeseExternalTermType =
+      itk::LevelSetEquationChanAndVeseExternalTerm< InputImageType, LevelSetContainerType >;
+  using TermContainerType =
+      itk::LevelSetEquationTermContainer< InputImageType, LevelSetContainerType >;
 
-  typedef itk::LevelSetEquationContainer< TermContainerType >     EquationContainerType;
+  using EquationContainerType = itk::LevelSetEquationContainer< TermContainerType >;
 
-  typedef itk::LevelSetEvolution< EquationContainerType, LevelSetType > LevelSetEvolutionType;
+  using LevelSetEvolutionType = itk::LevelSetEvolution< EquationContainerType, LevelSetType >;
 
-  typedef itk::AtanRegularizedHeavisideStepFunction<
-      LevelSetOutputRealType, LevelSetOutputRealType > HeavisideFunctionBaseType;
+  using HeavisideFunctionBaseType = itk::AtanRegularizedHeavisideStepFunction<
+      LevelSetOutputRealType, LevelSetOutputRealType >;
 
   ImageType::IndexType index;
   index[0] = 0;
@@ -218,8 +218,7 @@ int itkMultiLevelSetEvolutionTest( int , char* [] )
   termContainer1->AddTerm( 1, cvExternalTerm1 );
   std::cout << "Term container 1 created" << std::endl;
 
-  typedef itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion< LevelSetContainerType >
-      StoppingCriterionType;
+  using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations( 2 );
 

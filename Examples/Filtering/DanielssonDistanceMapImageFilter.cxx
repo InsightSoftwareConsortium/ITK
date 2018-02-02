@@ -77,12 +77,12 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char                    InputPixelType;
-  typedef  unsigned short                   OutputPixelType;
-  typedef  unsigned char                    VoronoiPixelType;
-  typedef itk::Image< InputPixelType,  2 >  InputImageType;
-  typedef itk::Image< OutputPixelType, 2 >  OutputImageType;
-  typedef itk::Image< VoronoiPixelType, 2 > VoronoiImageType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned short;
+  using VoronoiPixelType = unsigned char;
+  using InputImageType = itk::Image< InputPixelType,  2 >;
+  using OutputImageType = itk::Image< OutputPixelType, 2 >;
+  using VoronoiImageType = itk::Image< VoronoiPixelType, 2 >;
   // Software Guide : EndCodeSnippet
 
 
@@ -98,30 +98,30 @@ int main( int argc, char * argv[] )
   //
   //  Software Guide : EndLatex
 
-  typedef itk::ConnectedComponentImageFilter<
-               InputImageType, InputImageType > LabelerType;
+  using LabelerType = itk::ConnectedComponentImageFilter<
+               InputImageType, InputImageType >;
   LabelerType::Pointer labeler = LabelerType::New();
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::DanielssonDistanceMapImageFilter<
-               InputImageType, OutputImageType, VoronoiImageType >  FilterType;
+  using FilterType = itk::DanielssonDistanceMapImageFilter<
+               InputImageType, OutputImageType, VoronoiImageType >;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
-  typedef itk::RescaleIntensityImageFilter<
-                   OutputImageType, OutputImageType > RescalerType;
+  using RescalerType = itk::RescaleIntensityImageFilter<
+                   OutputImageType, OutputImageType >;
   RescalerType::Pointer scaler = RescalerType::New();
 
-  typedef itk::RescaleIntensityImageFilter<
-                   VoronoiImageType, VoronoiImageType > VoronoiRescalerType;
+  using VoronoiRescalerType = itk::RescaleIntensityImageFilter<
+                   VoronoiImageType, VoronoiImageType >;
   VoronoiRescalerType::Pointer voronoiScaler = VoronoiRescalerType::New();
 
   //
   // Reader and Writer types are instantiated.
   //
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
-  typedef itk::ImageFileWriter< VoronoiImageType > VoronoiWriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using VoronoiWriterType = itk::ImageFileWriter< VoronoiImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -210,7 +210,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef FilterType::VectorImageType   OffsetImageType;
+  using OffsetImageType = FilterType::VectorImageType;
   // Software Guide : EndCodeSnippet
 
 
@@ -222,7 +222,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< OffsetImageType >  WriterOffsetType;
+  using WriterOffsetType = itk::ImageFileWriter< OffsetImageType >;
   WriterOffsetType::Pointer offsetWriter = WriterOffsetType::New();
   // Software Guide : EndCodeSnippet
 

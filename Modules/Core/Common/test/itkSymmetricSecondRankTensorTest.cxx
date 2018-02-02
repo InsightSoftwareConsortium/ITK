@@ -28,8 +28,8 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
   float val[6] = {1.8f, 0.2f, 0.5f, 3.4f, 2.0f, 1.2f};
 
-  typedef itk::SymmetricSecondRankTensor<float,3>         Float3DTensorType;
-  typedef itk::SymmetricSecondRankTensor<unsigned char,3> Uchar3DTensorType;
+  using Float3DTensorType = itk::SymmetricSecondRankTensor<float,3>;
+  using Uchar3DTensorType = itk::SymmetricSecondRankTensor<unsigned char,3>;
 
   Float3DTensorType pixel(val);
 
@@ -129,8 +129,8 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
   std::cout << "product by scalar = " << pc << std::endl;
 
   /** Create an Image of tensors  */
-  typedef Float3DTensorType           PixelType;
-  typedef itk::Image< PixelType, 3 >  ImageType;
+  using PixelType = Float3DTensorType;
+  using ImageType = itk::Image< PixelType, 3 >;
 
   ImageType::Pointer dti = ImageType::New();
 
@@ -176,7 +176,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
   dti->FillBuffer( tensor );
 
-  typedef itk::ImageRegionIterator< ImageType > IteratorType;
+  using IteratorType = itk::ImageRegionIterator< ImageType >;
 
   IteratorType it( dti, region );
   it.GoToBegin();
@@ -189,7 +189,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
   // Test Eigen values computation
   {
-    typedef itk::SymmetricSecondRankTensor<double,3>         Double3DTensorType;
+    using Double3DTensorType = itk::SymmetricSecondRankTensor<double,3>;
 
     Double3DTensorType tensor3D;
 
@@ -369,8 +369,8 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
   // Test GetTrace() method
   {
 
-    typedef itk::SymmetricSecondRankTensor<double,3>         Double3DTensorType;
-    typedef Double3DTensorType::AccumulateValueType          AccumulateValueType;
+    using Double3DTensorType = itk::SymmetricSecondRankTensor<double,3>;
+    using AccumulateValueType = Double3DTensorType::AccumulateValueType;
 
     Double3DTensorType tensor3D;
 
@@ -408,8 +408,8 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
   // Test Matrix * SymmetricSecondRankTensor function
   {
 
-    typedef itk::SymmetricSecondRankTensor<double,3>   Double3DTensorType;
-    typedef itk::Matrix<double, 3, 3>                  Double3DMatrixType;
+    using Double3DTensorType = itk::SymmetricSecondRankTensor<double,3>;
+    using Double3DMatrixType = itk::Matrix<double, 3, 3>;
 
     Double3DTensorType tensor3D;
 
@@ -467,7 +467,7 @@ int itkSymmetricSecondRankTensorTest(int, char* [] )
 
   //Test casting constructors
   {
-    typedef itk::SymmetricSecondRankTensor<int,3>     Int3DTensorType;
+    using Int3DTensorType = itk::SymmetricSecondRankTensor<int,3>;
 
     Int3DTensorType intTensor;
     intTensor[0] =   1;

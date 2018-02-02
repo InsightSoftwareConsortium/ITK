@@ -20,8 +20,8 @@
 
 int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
 {
-  typedef float                                         MeasurementType;
-  typedef itk::Statistics::Histogram< MeasurementType > HistogramType;
+  using MeasurementType = float;
+  using HistogramType = itk::Statistics::Histogram< MeasurementType >;
   HistogramType::Pointer histogram = HistogramType::New();
 
   // initialize histogram
@@ -39,7 +39,7 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
   histogram->Initialize(size, lowerBound, upperBound );
 
   // create vector of values.
-  typedef std::vector<MeasurementType> ValuesVectorType;
+  using ValuesVectorType = std::vector<MeasurementType>;
   ValuesVectorType values;
   values.push_back(8.0);
   values.push_back(16.0);
@@ -65,7 +65,7 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
   // Compute numberOfValues - 1 thresholds.
   size_t numberOfThresholds = values.size() - 1;
 
-  typedef itk::OtsuMultipleThresholdsCalculator<HistogramType>  OtsuMultipleThresholdCalculatorType;
+  using OtsuMultipleThresholdCalculatorType = itk::OtsuMultipleThresholdsCalculator<HistogramType>;
 
   OtsuMultipleThresholdCalculatorType::Pointer otsuThresholdCalculator = OtsuMultipleThresholdCalculatorType::New();
 

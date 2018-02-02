@@ -35,8 +35,8 @@ int itkGradientRecursiveGaussianFilterTest3Run( typename TImageType::PixelType &
                                                 typename TImageType::PixelType & myPixelFill,
                                                 typename TGradImageType::Pointer & outputImage, char * outputFilename )
 {
-  typedef TImageType      myImageType;
-  typedef TGradImageType  myGradImageType;
+  using myImageType = TImageType;
+  using myGradImageType = TGradImageType;
 
   const unsigned int myComponents = TComponents;
 
@@ -44,13 +44,13 @@ int itkGradientRecursiveGaussianFilterTest3Run( typename TImageType::PixelType &
   const unsigned int myDimension = myImageType::ImageDimension;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>             myIndexType;
+  using myIndexType = itk::Index<myDimension>;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>              mySizeType;
+  using mySizeType = itk::Size<myDimension>;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
   typename myImageType::Pointer inputImage  = myImageType::New();
@@ -76,7 +76,7 @@ int itkGradientRecursiveGaussianFilterTest3Run( typename TImageType::PixelType &
   inputImage->Allocate();
 
   // Declare Iterator type for the input image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
+  using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
   // Create one iterator for the Input Image A (this is a light object)
   myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
@@ -109,8 +109,8 @@ int itkGradientRecursiveGaussianFilterTest3Run( typename TImageType::PixelType &
     }
 
   // Declare the type for the
-  typedef itk::GradientRecursiveGaussianImageFilter<myImageType, myGradImageType >  myFilterType;
-  typedef typename myFilterType::OutputImageType                                    myGradientImageType;
+  using myFilterType = itk::GradientRecursiveGaussianImageFilter<myImageType, myGradImageType >;
+  using myGradientImageType = typename myFilterType::OutputImageType;
 
   // Create a  Filter
   typename myFilterType::Pointer filter = myFilterType::New();
@@ -131,7 +131,7 @@ int itkGradientRecursiveGaussianFilterTest3Run( typename TImageType::PixelType &
   outputImage = filter->GetOutput();
 
   // Write the output to file
-  typedef itk::ImageFileWriter< myGradientImageType >   WriterType;
+  using WriterType = itk::ImageFileWriter< myGradientImageType >;
 
   typename WriterType::Pointer      writer =  WriterType::New();
   writer->SetFileName( outputFilename );
@@ -194,12 +194,12 @@ int itkGradientRecursiveGaussianFilterTest3(int argc, char *argv[] )
 
   const unsigned int myDimension = 3;
   const unsigned int myComponents1D = 1;
-  typedef itk::Vector<float,myDimension*myComponents1D>   myGrad1DType;
-  typedef itk::Image<myGrad1DType, myDimension>           myGradImage1DType;
+  using myGrad1DType = itk::Vector<float,myDimension*myComponents1D>;
+  using myGradImage1DType = itk::Image<myGrad1DType, myDimension>;
 
   // Test with Image of 1D Vector
-  typedef itk::Vector<float, myComponents1D>          myVector1DType;
-  typedef itk::Image<myVector1DType, myDimension>     myImageVector1DType;
+  using myVector1DType = itk::Vector<float, myComponents1D>;
+  using myImageVector1DType = itk::Image<myVector1DType, myDimension>;
 
   myGradImage1DType::Pointer vector1DGradImage = nullptr;
   myVector1DType vector1Dborder;
@@ -214,8 +214,8 @@ int itkGradientRecursiveGaussianFilterTest3(int argc, char *argv[] )
     }
 
   // Test with Image of *scalar* pixels to verify same results
-  typedef float                                            myScalarPixelType;
-  typedef itk::Image<myScalarPixelType, myDimension>       myImageScalarType;
+  using myScalarPixelType = float;
+  using myImageScalarType = itk::Image<myScalarPixelType, myDimension>;
 
   myGradImage1DType::Pointer scalarPixelGradImage = nullptr;
   myScalarPixelType pixelBorder;
@@ -231,12 +231,12 @@ int itkGradientRecursiveGaussianFilterTest3(int argc, char *argv[] )
 
   // Test with Image of 2D Vector
   const unsigned int myComponents2D = 2;
-  typedef itk::Vector<float,myDimension*myComponents2D> myGrad2DType;
-  typedef itk::Image<myGrad2DType, myDimension>         myGradImage2DType;
-  typedef itk::Vector<float, myComponents2D>            myVector2DType;
-  typedef itk::Image<myVector2DType, myDimension>       myImage2DType;
-  typedef itk::VariableLengthVector<float>              myVarVector2DType;
-  typedef itk::Image<myVarVector2DType, myDimension>    myImageVar2DType;
+  using myGrad2DType = itk::Vector<float,myDimension*myComponents2D>;
+  using myGradImage2DType = itk::Image<myGrad2DType, myDimension>;
+  using myVector2DType = itk::Vector<float, myComponents2D>;
+  using myImage2DType = itk::Image<myVector2DType, myDimension>;
+  using myVarVector2DType = itk::VariableLengthVector<float>;
+  using myImageVar2DType = itk::Image<myVarVector2DType, myDimension>;
 
   myGradImage2DType::Pointer    vector2DGradImage = nullptr;
   myVector2DType                vector2Dborder;
@@ -276,7 +276,7 @@ int itkGradientRecursiveGaussianFilterTest3(int argc, char *argv[] )
     }
 
   // Test with 2D VectorImage
-  typedef itk::VectorImage<float, myDimension> myVecImageType;
+  using myVecImageType = itk::VectorImage<float, myDimension>;
   myGradImage2DType::Pointer    vectorImage2DGradImage = nullptr;
   runResult = itkGradientRecursiveGaussianFilterTest3Run<myVecImageType, myGradImage2DType, myComponents2D>( varVector2Dborder, varVector2Dfill, vectorImage2DGradImage, argv[5] );
   if( runResult == EXIT_FAILURE )
@@ -287,10 +287,10 @@ int itkGradientRecursiveGaussianFilterTest3(int argc, char *argv[] )
 
   // Test with Image of 3D Vector
   const unsigned int myComponents3D = 3;
-  typedef itk::Vector<float,myDimension*myComponents3D> myGrad3DType;
-  typedef itk::Image<myGrad3DType, myDimension>         myGradImage3DType;
-  typedef itk::Vector<float, myComponents3D>            myVector3DType;
-  typedef itk::Image<myVector3DType, myDimension>       myImage3DType;
+  using myGrad3DType = itk::Vector<float,myDimension*myComponents3D>;
+  using myGradImage3DType = itk::Image<myGrad3DType, myDimension>;
+  using myVector3DType = itk::Vector<float, myComponents3D>;
+  using myImage3DType = itk::Image<myVector3DType, myDimension>;
 
   myGradImage3DType::Pointer    vector3DGradImage = nullptr;
   myVector3DType                vector3Dborder;
@@ -315,8 +315,8 @@ int itkGradientRecursiveGaussianFilterTest3(int argc, char *argv[] )
     }
 
   // Test with 3D VectorImage
-  typedef itk::VectorImage<float, myDimension>          myVecImageType;
-  typedef itk::VariableLengthVector<float>              myVarVector3DType;
+  using myVecImageType = itk::VectorImage<float, myDimension>;
+  using myVarVector3DType = itk::VariableLengthVector<float>;
   myGradImage3DType::Pointer    vectorImage3DGradImage = nullptr;
   myVarVector3DType             varVector3Dborder;
   myVarVector3DType             varVector3Dfill;

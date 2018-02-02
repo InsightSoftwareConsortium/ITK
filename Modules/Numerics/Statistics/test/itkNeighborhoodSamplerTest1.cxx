@@ -26,15 +26,15 @@ int itkNeighborhoodSamplerTest1(int, char* [] )
 
   const unsigned int MeasurementVectorSize = 17;
 
-  typedef itk::FixedArray<
-    float, MeasurementVectorSize >  MeasurementVectorType;
+  using MeasurementVectorType = itk::FixedArray<
+    float, MeasurementVectorSize >;
 
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-  typedef itk::Statistics::NeighborhoodSampler< SampleType > FilterType;
+  using FilterType = itk::Statistics::NeighborhoodSampler< SampleType >;
 
-  typedef FilterType::RadiusType              RadiusType;
-  typedef FilterType::InputRadiusObjectType   InputRadiusObjectType;
+  using RadiusType = FilterType::RadiusType;
+  using InputRadiusObjectType = FilterType::InputRadiusObjectType;
 
   SampleType::Pointer sample = SampleType::New();
 

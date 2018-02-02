@@ -37,11 +37,11 @@ namespace itk
 class ITKVTK_EXPORT VTKImageExportBase:public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef VTKImageExportBase         Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VTKImageExportBase;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageExportBase, ProcessObject);
@@ -50,21 +50,21 @@ public:
   void * GetCallbackUserData();
 
   /** The function pointer type expected for a callback. */
-  typedef void ( *        UpdateInformationCallbackType )(void *);
-  typedef int ( *         PipelineModifiedCallbackType )(void *);
-  typedef int * ( *       WholeExtentCallbackType )(void *);
-  typedef double * ( *    SpacingCallbackType )(void *);
-  typedef double * ( *    OriginCallbackType )(void *);
-  typedef const char * ( *ScalarTypeCallbackType )(void *);
-  typedef int ( *         NumberOfComponentsCallbackType )(void *);
-  typedef void ( *        PropagateUpdateExtentCallbackType )(void *, int *);
-  typedef void ( *        UpdateDataCallbackType )(void *);
-  typedef int * ( *       DataExtentCallbackType )(void *);
-  typedef void * ( *      BufferPointerCallbackType )(void *);
+  using UpdateInformationCallbackType = void (*)(void *);
+  using PipelineModifiedCallbackType = int (*)(void *);
+  using WholeExtentCallbackType = int *(*)(void *);
+  using SpacingCallbackType = double *(*)(void *);
+  using OriginCallbackType = double *(*)(void *);
+  using ScalarTypeCallbackType = const char *(*)(void *);
+  using NumberOfComponentsCallbackType = int (*)(void *);
+  using PropagateUpdateExtentCallbackType = void (*)(void *, int *);
+  using UpdateDataCallbackType = void (*)(void *);
+  using DataExtentCallbackType = int *(*)(void *);
+  using BufferPointerCallbackType = void *(*)(void *);
 
   /** Compatibility for VTK older than 4.4.  */
-  typedef float * ( *FloatSpacingCallbackType )(void *);
-  typedef float * ( *FloatOriginCallbackType )(void *);
+  using FloatSpacingCallbackType = float *(*)(void *);
+  using FloatOriginCallbackType = float *(*)(void *);
 
   /** \class CallbackTypeProxy
    * \brief Provide compatibility between VTK 4.4 and earlier versions.
@@ -73,8 +73,8 @@ public:
   class CallbackTypeProxy
   {
 public:
-    typedef double * ( *DoubleCallbackType )(void *);
-    typedef float * ( * FloatCallbackType )(void *);
+    using DoubleCallbackType = double *(*)(void *);
+    using FloatCallbackType = float *(*)(void *);
     operator DoubleCallbackType()
     {
       return m_DoubleCallback;
@@ -120,7 +120,7 @@ protected:
   ~VTKImageExportBase() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   virtual void UpdateInformationCallback();
 

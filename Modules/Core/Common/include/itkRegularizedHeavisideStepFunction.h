@@ -54,15 +54,15 @@ class ITK_TEMPLATE_EXPORT RegularizedHeavisideStepFunction:
     public HeavisideStepFunctionBase< TInput, TOutput >
 {
 public:
-  typedef RegularizedHeavisideStepFunction             Self;
-  typedef HeavisideStepFunctionBase< TInput, TOutput > Superclass;
-  typedef SmartPointer< Self >                         Pointer;
-  typedef SmartPointer< const Self >                   ConstPointer;
+  using Self = RegularizedHeavisideStepFunction;
+  using Superclass = HeavisideStepFunctionBase< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::InputType  InputType;
-  typedef typename Superclass::OutputType OutputType;
+  using InputType = typename Superclass::InputType;
+  using OutputType = typename Superclass::OutputType;
 
-  typedef typename NumericTraits< InputType >::RealType RealType;
+  using RealType = typename NumericTraits< InputType >::RealType;
 
   void SetEpsilon(const RealType & ieps);
 

@@ -49,11 +49,11 @@ class ITKIOMRC_EXPORT MRCHeaderObject:
   public LightObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef MRCHeaderObject            Self;
-  typedef LightObject                Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MRCHeaderObject;
+  using Superclass = LightObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** plain old data structure of the MRC header as used by IMOD. This
    * header must be 1024 bytes.

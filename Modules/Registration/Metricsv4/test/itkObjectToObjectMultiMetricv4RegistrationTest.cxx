@@ -38,10 +38,10 @@ template<typename TFilter>
 class itkObjectToObjectMultiMetricv4RegistrationTestCommandIterationUpdate : public itk::Command
 {
 public:
-  typedef itkObjectToObjectMultiMetricv4RegistrationTestCommandIterationUpdate   Self;
+  using Self = itkObjectToObjectMultiMetricv4RegistrationTestCommandIterationUpdate;
 
-  typedef itk::Command             Superclass;
-  typedef itk::SmartPointer<Self>  Pointer;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -74,15 +74,15 @@ public:
 template<typename TImage>
 void ObjectToObjectMultiMetricv4RegistrationTestCreateImages( typename TImage::Pointer & fixedImage, typename TImage::Pointer & movingImage, typename TImage::OffsetType & imageShift )
 {
-  typedef typename TImage::PixelType  PixelType;
-  typedef PixelType                   CoordinateRepresentationType;
+  using PixelType = typename TImage::PixelType;
+  using CoordinateRepresentationType = PixelType;
 
   // Create two simple images
   itk::SizeValueType ImageSize = 100;
   itk::OffsetValueType boundary = 6;
 
    // Declare Gaussian Sources
-  typedef itk::GaussianImageSource< TImage >        GaussianImageSourceType;
+  using GaussianImageSourceType = itk::GaussianImageSource< TImage >;
 
   typename TImage::SizeType size;
   size.Fill( ImageSize );
@@ -121,7 +121,7 @@ void ObjectToObjectMultiMetricv4RegistrationTestCreateImages( typename TImage::P
     }
 
   // shift the fixed image to get the moving image
-  typedef itk::CyclicShiftImageFilter<TImage, TImage> CyclicShiftFilterType;
+  using CyclicShiftFilterType = itk::CyclicShiftImageFilter<TImage, TImage>;
   typename CyclicShiftFilterType::Pointer shiftFilter = CyclicShiftFilterType::New();
   typename CyclicShiftFilterType::OffsetValueType maxImageShift = boundary-1;
   imageShift.Fill( maxImageShift );
@@ -144,14 +144,14 @@ int ObjectToObjectMultiMetricv4RegistrationTestRun( typename TMetric::Pointer & 
   typename TMetric::MeasureType initialValue = metric->GetValue();
 
   // scales estimator
-  typedef itk::RegistrationParameterScalesFromPhysicalShift< TMetric > RegistrationParameterScalesFromShiftType;
+  using RegistrationParameterScalesFromShiftType = itk::RegistrationParameterScalesFromPhysicalShift< TMetric >;
   typename RegistrationParameterScalesFromShiftType::Pointer shiftScaleEstimator = RegistrationParameterScalesFromShiftType::New();
   shiftScaleEstimator->SetMetric(metric);
 
   //
   // optimizer
   //
-  typedef itk::GradientDescentOptimizerv4  OptimizerType;
+  using OptimizerType = itk::GradientDescentOptimizerv4;
   typename OptimizerType::Pointer  optimizer = OptimizerType::New();
 
   optimizer->SetMetric( metric );
@@ -161,7 +161,7 @@ int ObjectToObjectMultiMetricv4RegistrationTestRun( typename TMetric::Pointer & 
   optimizer->SetDoEstimateLearningRateOnce( estimateStepOnce );
   optimizer->SetDoEstimateLearningRateAtEachIteration( ! estimateStepOnce );
 
-  typedef itkObjectToObjectMultiMetricv4RegistrationTestCommandIterationUpdate<OptimizerType> CommandType;
+  using CommandType = itkObjectToObjectMultiMetricv4RegistrationTestCommandIterationUpdate<OptimizerType>;
   typename CommandType::Pointer observer = CommandType::New();
   //optimizer->AddObserver( itk::IterationEvent(), observer );
 
@@ -188,7 +188,7 @@ int ObjectToObjectMultiMetricv4RegistrationTestRun( typename TMetric::Pointer & 
 int itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char *argv[])
 {
   const int Dimension = 2;
-  typedef itk::Image< double, Dimension > ImageType;
+  using ImageType = itk::Image< double, Dimension >;
 
   int numberOfIterations = 30;
   if( argc > 1 )
@@ -197,7 +197,7 @@ int itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char *argv[])
     }
 
   // create an affine transform
-  typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
+  using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
   TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
   translationTransform->SetIdentity();
 
@@ -207,7 +207,7 @@ int itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char *argv[])
   imageShift.Fill(0);
   ObjectToObjectMultiMetricv4RegistrationTestCreateImages<ImageType>( fixedImage, movingImage, imageShift );
 
-  typedef itk::CorrelationImageToImageMetricv4<ImageType, ImageType> CorrelationMetricType;
+  using CorrelationMetricType = itk::CorrelationImageToImageMetricv4<ImageType, ImageType>;
   CorrelationMetricType::Pointer correlationMetric = CorrelationMetricType::New();
   correlationMetric->SetFixedImage( fixedImage );
   correlationMetric->SetMovingImage( movingImage );
@@ -228,7 +228,7 @@ int itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char *argv[])
   metric2->SetMovingImage( movingImage );
   metric2->SetMovingTransform( translationTransform );
 
-  typedef itk::ObjectToObjectMultiMetricv4<Dimension,Dimension> MultiMetricType;
+  using MultiMetricType = itk::ObjectToObjectMultiMetricv4<Dimension,Dimension>;
   MultiMetricType::Pointer multiMetric = MultiMetricType::New();
   multiMetric->AddMetric( correlationMetric );
   multiMetric->AddMetric( metric2 );
@@ -306,7 +306,7 @@ int itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char *argv[])
   //
   // Test with two different metric types
   //
-  typedef itk::MeanSquaresImageToImageMetricv4<ImageType, ImageType> MeanSquaresMetricType;
+  using MeanSquaresMetricType = itk::MeanSquaresImageToImageMetricv4<ImageType, ImageType>;
   MeanSquaresMetricType::Pointer meanSquaresMetric = MeanSquaresMetricType::New();
   meanSquaresMetric->SetFixedImage( fixedImage );
   meanSquaresMetric->SetMovingImage( movingImage );

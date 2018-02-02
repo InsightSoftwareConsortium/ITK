@@ -20,8 +20,8 @@
 
 int itkQuadEdgeMeshDeleteEdgeTest( int , char* [] )
 {
-  typedef double                            PixelType;
-  typedef itk::QuadEdgeMesh< PixelType, 3 > MeshType;
+  using PixelType = double;
+  using MeshType = itk::QuadEdgeMesh< PixelType, 3 >;
   std::string indent = "    ";
 
   MeshType::Pointer mesh = MeshType::New( );

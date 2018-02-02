@@ -21,8 +21,8 @@
 
 int itkQuadEdgeMeshIteratorTest( int , char* [] )
 {
-  typedef itk::QuadEdgeMesh< double, 3 >   MeshType;
-  typedef MeshType::QEPrimal::IteratorGeom IteratorGeom;
+  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using IteratorGeom = MeshType::QEPrimal::IteratorGeom;
 
   MeshType::Pointer mesh = MeshType::New( );
 

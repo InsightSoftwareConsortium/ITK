@@ -53,11 +53,11 @@ class ITKOptimizers_EXPORT VersorTransformOptimizer:
   public RegularStepGradientDescentBaseOptimizer
 {
 public:
-  /** Standard class typedefs. */
-  typedef VersorTransformOptimizer                Self;
-  typedef RegularStepGradientDescentBaseOptimizer Superclass;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VersorTransformOptimizer;
+  using Superclass = RegularStepGradientDescentBaseOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,8 +67,8 @@ public:
                RegularStepGradientDescentBaseOptimizer);
 
   /**  Versor Type  */
-  typedef Versor< double >       VersorType;
-  typedef VersorType::VectorType VectorType;
+  using VersorType = Versor< double >;
+  using VectorType = VersorType::VectorType;
 
   /** Advance one step following the gradient direction. */
   void StepAlongGradient(double factor,

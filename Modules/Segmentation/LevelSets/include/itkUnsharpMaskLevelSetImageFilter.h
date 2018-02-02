@@ -68,11 +68,11 @@ class ITK_TEMPLATE_EXPORT UnsharpMaskLevelSetImageFilter:
   public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs */
-  typedef UnsharpMaskLevelSetImageFilter                                         Self;
-  typedef SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                                                   Pointer;
-  typedef SmartPointer< const Self >                                             ConstPointer;
+  /** Standard class type aliases */
+  using Self = UnsharpMaskLevelSetImageFilter;
+  using Superclass = SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(UnsharpMaskLevelSetImageFilter,
@@ -82,14 +82,14 @@ public:
   itkNewMacro(Self);
 
   /** The sparse image type used in LevelSetFunctionWithRefitTerm */
-  typedef typename Superclass::SparseImageType SparseImageType;
+  using SparseImageType = typename Superclass::SparseImageType;
 
   /** The level set function class with a refit term that forces the curvature
       of the moving front to match a prescribed curvature image. */
-  typedef LevelSetFunctionWithRefitTerm< TOutputImage, SparseImageType > FunctionType;
+  using FunctionType = LevelSetFunctionWithRefitTerm< TOutputImage, SparseImageType >;
 
   /** The radius type for the neighborhoods. */
-  typedef typename FunctionType::RadiusType RadiusType;
+  using RadiusType = typename FunctionType::RadiusType;
 
   itkGetConstMacro(MaxFilterIteration, unsigned int);
   itkSetMacro(MaxFilterIteration, unsigned int);

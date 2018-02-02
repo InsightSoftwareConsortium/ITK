@@ -62,13 +62,13 @@ class ITK_TEMPLATE_EXPORT DanielssonDistanceMapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef DanielssonDistanceMapImageFilter                Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = DanielssonDistanceMapImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef DataObject::Pointer                             DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -77,57 +77,57 @@ public:
   itkTypeMacro(DanielssonDistanceMapImageFilter, ImageToImageFilter);
 
   /** Type for input image. */
-  typedef   TInputImage InputImageType;
+  using InputImageType = TInputImage;
 
   /** Type for input image pixel.*/
-  typedef typename InputImageType::PixelType InputPixelType;
+  using InputPixelType = typename InputImageType::PixelType;
 
   /** Type for the region of the input image. */
-  typedef typename InputImageType::RegionType RegionType;
+  using RegionType = typename InputImageType::RegionType;
 
   /** Type for the index of the input image. */
-  typedef typename RegionType::IndexType IndexType;
+  using IndexType = typename RegionType::IndexType;
 
   /** Type for the index of the input image. */
-  typedef typename InputImageType::OffsetType OffsetType;
+  using OffsetType = typename InputImageType::OffsetType;
 
   /** Type for the spacing of the input image. */
-  typedef typename InputImageType::SpacingType      SpacingType;
-  typedef typename InputImageType::SpacingValueType SpacingValueType;
+  using SpacingType = typename InputImageType::SpacingType;
+  using SpacingValueType = typename InputImageType::SpacingValueType;
 
   /** Type for the size of the input image. */
-  typedef typename RegionType::SizeType SizeType;
+  using SizeType = typename RegionType::SizeType;
 
   /** Type for one size element of the input image.*/
-  typedef typename SizeType::SizeValueType SizeValueType;
+  using SizeValueType = typename SizeType::SizeValueType;
 
   /** Type for two of the three output images: the VoronoiMap and the
    * DistanceMap.  */
-  typedef   TOutputImage OutputImageType;
+  using OutputImageType = TOutputImage;
 
   /** Type for output image pixel.*/
-  typedef typename OutputImageType::PixelType OutputPixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-  typedef TVoronoiImage                         VoronoiImageType;
-  typedef typename VoronoiImageType::Pointer    VoronoiImagePointer;
-  typedef typename VoronoiImageType::PixelType  VoronoiPixelType;
+  using VoronoiImageType = TVoronoiImage;
+  using VoronoiImagePointer = typename VoronoiImageType::Pointer;
+  using VoronoiPixelType = typename VoronoiImageType::PixelType;
 
   /** The dimension of the input and output images. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       InputImageType::ImageDimension);
 
   /** Pointer Type for the vector distance image */
-  typedef Image< OffsetType,
-                 itkGetStaticConstMacro(InputImageDimension) > VectorImageType;
+  using VectorImageType = Image< OffsetType,
+                 itkGetStaticConstMacro(InputImageDimension) >;
 
   /** Pointer Type for input image. */
-  typedef typename InputImageType::ConstPointer InputImagePointer;
+  using InputImagePointer = typename InputImageType::ConstPointer;
 
   /** Pointer Type for the output image. */
-  typedef typename OutputImageType::Pointer OutputImagePointer;
+  using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Pointer Type for the vector distance image. */
-  typedef typename VectorImageType::Pointer VectorImagePointer;
+  using VectorImagePointer = typename VectorImageType::Pointer;
 
   /** Set if the distance should be squared. */
   itkSetMacro(SquaredDistance, bool);
@@ -181,7 +181,7 @@ public:
   VectorImageType * GetVectorDistanceMap();
 
   /** Standard itk::ProcessObject subclass method. */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) override;
 

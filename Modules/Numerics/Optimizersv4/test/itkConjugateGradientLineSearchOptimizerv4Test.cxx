@@ -40,19 +40,19 @@ class ConjugateGradientLineSearchOptimizerv4TestMetric
 {
 public:
 
-  typedef ConjugateGradientLineSearchOptimizerv4TestMetric  Self;
-  typedef itk::ObjectToObjectMetricBase                     Superclass;
-  typedef itk::SmartPointer<Self>                           Pointer;
-  typedef itk::SmartPointer<const Self>                     ConstPointer;
+  using Self = ConjugateGradientLineSearchOptimizerv4TestMetric;
+  using Superclass = itk::ObjectToObjectMetricBase;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkNewMacro( Self );
   itkTypeMacro( ConjugateGradientLineSearchOptimizerv4TestMetric, ObjectToObjectMetricBase );
 
   enum { SpaceDimension=2 };
 
-  typedef Superclass::ParametersType        ParametersType;
-  typedef Superclass::ParametersValueType   ParametersValueType;
-  typedef Superclass::DerivativeType        DerivativeType;
-  typedef Superclass::MeasureType           MeasureType;
+  using ParametersType = Superclass::ParametersType;
+  using ParametersValueType = Superclass::ParametersValueType;
+  using DerivativeType = Superclass::DerivativeType;
+  using MeasureType = Superclass::MeasureType;
 
   ConjugateGradientLineSearchOptimizerv4TestMetric()
   {
@@ -164,7 +164,7 @@ int ConjugateGradientLineSearchOptimizerv4RunTest(
     return EXIT_FAILURE;
     }
 
-  typedef ConjugateGradientLineSearchOptimizerv4TestMetric::ParametersType    ParametersType;
+  using ParametersType = ConjugateGradientLineSearchOptimizerv4TestMetric::ParametersType;
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
   std::cout << "Solution        = (";
   std::cout << finalPosition[0] << ",";
@@ -193,9 +193,9 @@ int itkConjugateGradientLineSearchOptimizerv4Test(int, char* [] )
   std::cout << "Gradient Descent Object Optimizer Test ";
   std::cout << std::endl << std::endl;
 
-  typedef  itk::ConjugateGradientLineSearchOptimizerv4  OptimizerType;
+  using OptimizerType = itk::ConjugateGradientLineSearchOptimizerv4;
 
-  typedef OptimizerType::ScalesType             ScalesType;
+  using ScalesType = OptimizerType::ScalesType;
 
   // Declaration of a itkOptimizer
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
@@ -205,7 +205,7 @@ int itkConjugateGradientLineSearchOptimizerv4Test(int, char* [] )
 
   itkOptimizer->SetMetric( metric );
 
-  typedef ConjugateGradientLineSearchOptimizerv4TestMetric::ParametersType    ParametersType;
+  using ParametersType = ConjugateGradientLineSearchOptimizerv4TestMetric::ParametersType;
 
   const unsigned int spaceDimension =
                       metric->GetNumberOfParameters();

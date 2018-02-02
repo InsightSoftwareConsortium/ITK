@@ -48,15 +48,15 @@ template<typename TParametersValueType=double, unsigned int NInputDimensions=3,u
   class MINCTransformAdapter : public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 {
 public:
-  /** Standard class typedefs. */
-  typedef MINCTransformAdapter  Self;
+  /** Standard class type aliases. */
+  using Self = MINCTransformAdapter;
 
-  typedef Transform<TParametersValueType, NInputDimensions, NOutputDimensions> Superclass;
+  using Superclass = Transform<TParametersValueType, NInputDimensions, NOutputDimensions>;
 
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  typedef typename Superclass::NumberOfParametersType  NumberOfParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** New method for creating an object using a factory. */
   itkNewMacro(Self);
@@ -69,36 +69,36 @@ public:
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, NOutputDimensions);
 
   /** Type of the input parameters. */
-  typedef  double ScalarType;
+  using ScalarType = double;
 
   /** Type of the input parameters. */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::FixedParametersType FixedParametersType;
+  using ParametersType = typename Superclass::ParametersType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
 
   /** Type of the Jacobian matrix. */
-  typedef typename Superclass::JacobianType  JacobianType;
+  using JacobianType = typename Superclass::JacobianType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>  InputVectorType;
-  typedef Vector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputVectorType;
+  using InputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>;
+  using OutputVectorType = Vector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)>;
 
   /** Standard variable length vector type for this class
   *  this provides an interface for the VectorImage class */
-  typedef VariableLengthVector<TParametersValueType> InputVectorPixelType;
-  typedef VariableLengthVector<TParametersValueType> OutputVectorPixelType;
+  using InputVectorPixelType = VariableLengthVector<TParametersValueType>;
+  using OutputVectorPixelType = VariableLengthVector<TParametersValueType>;
 
   /** Standard covariant vector type for this class */
-  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>  InputCovariantVectorType;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro(InputSpaceDimension)>;
 
-  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)> OutputCovariantVectorType;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, itkGetStaticConstMacro(OutputSpaceDimension)>;
 
   /** Standard coordinate point type for this class */
-  typedef Point<TParametersValueType,NInputDimensions > InputPointType;
-  typedef Point<TParametersValueType,NInputDimensions > OutputPointType;
+  using InputPointType = Point<TParametersValueType,NInputDimensions >;
+  using OutputPointType = Point<TParametersValueType,NInputDimensions >;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TParametersValueType, NInputDimensions>  InputVnlVectorType;
-  typedef vnl_vector_fixed<TParametersValueType, NOutputDimensions> OutputVnlVectorType;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, NInputDimensions>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, NOutputDimensions>;
 
   /**  Method to transform a point. */
   OutputPointType TransformPoint(const InputPointType  &point ) const override

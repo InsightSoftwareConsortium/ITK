@@ -74,17 +74,17 @@ template< typename TInputImage, typename TPolyline,
 void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
 ::GenerateData()
 {
-  typedef  LineIterator< TOutputImage >                 LineIteratorType;
-  typedef  ImageLinearIteratorWithIndex< TOutputImage > ImageLineIteratorType;
+  using LineIteratorType = LineIterator< TOutputImage >;
+  using ImageLineIteratorType = ImageLinearIteratorWithIndex< TOutputImage >;
 
-  typedef ImageRegionConstIterator< TInputImage > InputImageConstIteratorType;
+  using InputImageConstIteratorType = ImageRegionConstIterator< TInputImage >;
 
-  typedef typename TOutputImage::IndexType    ImageIndexType;
-  typedef typename TOutputImage::PixelType    PixelType;
-  typedef ImageRegionIterator< TOutputImage > OutputImageIteratorType;
+  using ImageIndexType = typename TOutputImage::IndexType;
+  using PixelType = typename TOutputImage::PixelType;
+  using OutputImageIteratorType = ImageRegionIterator< TOutputImage >;
 
-  typedef typename TPolyline::VertexType     VertexType;
-  typedef typename TPolyline::VertexListType VertexListType;
+  using VertexType = typename TPolyline::VertexType;
+  using VertexListType = typename TPolyline::VertexListType;
 
   typename TInputImage::ConstPointer inputImagePtr(
     dynamic_cast< const TInputImage  * >(

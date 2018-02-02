@@ -40,20 +40,20 @@ class ITK_TEMPLATE_EXPORT VideoFileWriter : public TemporalProcessObject
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef VideoFileWriter< TInputVideoStream>         Self;
-  typedef TemporalProcessObject                       Superclass;
-  typedef SmartPointer<Self>                          Pointer;
+  /** Standard class type aliases. */
+  using Self = VideoFileWriter< TInputVideoStream>;
+  using Superclass = TemporalProcessObject;
+  using Pointer = SmartPointer<Self>;
 
-  typedef VideoIOBase                                 IOBaseType;
-  typedef typename VideoIOBase::Pointer               IOBasePointer;
-  typedef typename IOBaseType::SizeValueType          SizeValueType;
-  typedef typename IOBaseType::TemporalRatioType      TemporalRatioType;
+  using IOBaseType = VideoIOBase;
+  using IOBasePointer = typename VideoIOBase::Pointer;
+  using SizeValueType = typename IOBaseType::SizeValueType;
+  using TemporalRatioType = typename IOBaseType::TemporalRatioType;
 
-  typedef TInputVideoStream                           VideoStreamType;
-  typedef typename VideoStreamType::Pointer           VideoStreamPointer;
-  typedef typename VideoStreamType::FrameType         FrameType;
-  typedef typename FrameType::PixelType               PixelType;
+  using VideoStreamType = TInputVideoStream;
+  using VideoStreamPointer = typename VideoStreamType::Pointer;
+  using FrameType = typename VideoStreamType::FrameType;
+  using PixelType = typename FrameType::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

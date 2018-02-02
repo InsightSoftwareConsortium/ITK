@@ -33,12 +33,10 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 ::ImageToImageMetricv4()
 {
   /* Interpolators. Default to linear. */
-  typedef LinearInterpolateImageFunction< FixedImageType,
-                                          CoordinateRepresentationType >
-                                                  FixedLinearInterpolatorType;
-  typedef LinearInterpolateImageFunction< MovingImageType,
-                                          CoordinateRepresentationType >
-                                                  MovingLinearInterpolatorType;
+  using FixedLinearInterpolatorType = LinearInterpolateImageFunction< FixedImageType,
+                                          CoordinateRepresentationType >;
+  using MovingLinearInterpolatorType = LinearInterpolateImageFunction< MovingImageType,
+                                          CoordinateRepresentationType >;
   this->m_FixedInterpolator  = FixedLinearInterpolatorType::New();
   this->m_MovingInterpolator = MovingLinearInterpolatorType::New();
 
@@ -524,7 +522,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   this->m_VirtualSampledPointSet = VirtualPointSetType::New();
   this->m_VirtualSampledPointSet->Initialize();
 
-  typedef typename FixedSampledPointSetType::PointsContainer PointsContainer;
+  using PointsContainer = typename FixedSampledPointSetType::PointsContainer;
   typename PointsContainer::ConstPointer
     points = this->m_FixedSampledPointSet->GetPoints();
   if( points.IsNull() )

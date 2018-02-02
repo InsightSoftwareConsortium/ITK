@@ -25,11 +25,11 @@
 template<unsigned int Dimension>
 int itkLabeledPointSetMetricTestRun()
 {
-  typedef unsigned int LabelType;
+  using LabelType = unsigned int;
 
-  typedef itk::PointSet<LabelType, Dimension> PointSetType;
+  using PointSetType = itk::PointSet<LabelType, Dimension>;
 
-  typedef typename PointSetType::PointType PointType;
+  using PointType = typename PointSetType::PointType;
 
   typename PointSetType::Pointer fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
@@ -79,12 +79,12 @@ int itkLabeledPointSetMetricTestRun()
   //
   // Simple translation transform for moving point set
   //
-  typedef itk::TranslationTransform<double, Dimension> TranslationTransformType;
+  using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
   typename TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
   translationTransform->SetIdentity();
 
   // Instantiate the metric
-  typedef itk::LabeledPointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetMetricType = itk::LabeledPointSetToPointSetMetricv4<PointSetType>;
   typename PointSetMetricType::Pointer metric = PointSetMetricType::New();
   metric->SetFixedPointSet( fixedPoints );
   metric->SetMovingPointSet( movingPoints );

@@ -54,18 +54,18 @@ class ITK_TEMPLATE_EXPORT SinRegularizedHeavisideStepFunction:
   public RegularizedHeavisideStepFunction< TInput, TOutput >
 {
 public:
-  typedef SinRegularizedHeavisideStepFunction                 Self;
-  typedef RegularizedHeavisideStepFunction< TInput, TOutput > Superclass;
-  typedef SmartPointer< Self >                                Pointer;
-  typedef SmartPointer< const Self >                          ConstPointer;
+  using Self = SinRegularizedHeavisideStepFunction;
+  using Superclass = RegularizedHeavisideStepFunction< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro(Self);
 
   itkTypeMacro(SinRegularizedHeavisideStepFunction, RegularizedHeavisideStepFunction);
 
-  typedef typename Superclass::InputType  InputType;
-  typedef typename Superclass::OutputType OutputType;
-  typedef typename Superclass::RealType   RealType;
+  using InputType = typename Superclass::InputType;
+  using OutputType = typename Superclass::OutputType;
+  using RealType = typename Superclass::RealType;
 
   /** Evaluate at the specified input position */
   OutputType Evaluate(const InputType & input) const override;

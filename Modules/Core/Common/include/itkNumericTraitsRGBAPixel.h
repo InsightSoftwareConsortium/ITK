@@ -44,40 +44,40 @@ class NumericTraits< RGBAPixel< T > >
 {
 private:
 
-  typedef typename NumericTraits< T >::AbsType        ElementAbsType;
-  typedef typename NumericTraits< T >::AccumulateType ElementAccumulateType;
-  typedef typename NumericTraits< T >::FloatType      ElementFloatType;
-  typedef typename NumericTraits< T >::PrintType      ElementPrintType;
-  typedef typename NumericTraits< T >::RealType       ElementRealType;
+  using ElementAbsType = typename NumericTraits< T >::AbsType;
+  using ElementAccumulateType = typename NumericTraits< T >::AccumulateType;
+  using ElementFloatType = typename NumericTraits< T >::FloatType;
+  using ElementPrintType = typename NumericTraits< T >::PrintType;
+  using ElementRealType = typename NumericTraits< T >::RealType;
 
 public:
 
   /** Return the type of the native component type. */
-  typedef T ValueType;
+  using ValueType = T;
 
-  typedef RGBAPixel< T > Self;
+  using Self = RGBAPixel< T >;
 
   /** Unsigned component type */
-  typedef RGBAPixel< ElementAbsType > AbsType;
+  using AbsType = RGBAPixel< ElementAbsType >;
 
   /** Accumulation of addition and multiplication. */
-  typedef RGBAPixel< ElementAccumulateType > AccumulateType;
+  using AccumulateType = RGBAPixel< ElementAccumulateType >;
 
   /** Typedef for operations that use floating point instead of real precision
     */
-  typedef RGBAPixel< ElementFloatType > FloatType;
+  using FloatType = RGBAPixel< ElementFloatType >;
 
   /** Return the type that can be printed. */
-  typedef RGBAPixel< ElementPrintType > PrintType;
+  using PrintType = RGBAPixel< ElementPrintType >;
 
   /** Type for real-valued scalar operations. */
-  typedef RGBAPixel< ElementRealType > RealType;
+  using RealType = RGBAPixel< ElementRealType >;
 
   /** Type for real-valued scalar operations. */
-  typedef                                    ElementRealType ScalarRealType;
+  using ScalarRealType = ElementRealType;
 
   /** Measurement vector type */
-  typedef Self MeasurementVectorType;
+  using MeasurementVectorType = Self;
 
   /** Component wise defined elements
    *

@@ -171,7 +171,7 @@ template <typename TPixel, unsigned int VImageDimension>
 void
 GPUImage< TPixel, VImageDimension >::Graft(const Self *data)
 {
-  typedef GPUImageDataManager< GPUImage >              GPUImageDataManagerType;
+  using GPUImageDataManagerType = GPUImageDataManager< GPUImage >;
 
   GPUImageDataManagerType* ptr = const_cast<GPUImageDataManagerType*>( data->GetDataManager() );
 

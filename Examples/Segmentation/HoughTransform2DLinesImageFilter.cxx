@@ -63,12 +63,12 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef   unsigned char   PixelType;
-  typedef   float           AccumulatorPixelType;
+  using PixelType = unsigned char;
+  using AccumulatorPixelType = float;
   const     unsigned int    Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >            ImageType;
-  typedef itk::Image< AccumulatorPixelType, Dimension > AccumulatorImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
+  using AccumulatorImageType = itk::Image< AccumulatorPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -78,7 +78,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
 
   reader->SetFileName( argv[1] );
@@ -105,14 +105,14 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CastImageFilter< ImageType, AccumulatorImageType >
-    CastingFilterType;
+  using CastingFilterType =
+      itk::CastImageFilter< ImageType, AccumulatorImageType >;
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
   std::cout << "Applying gradient magnitude filter" << std::endl;
 
-  typedef itk::GradientMagnitudeImageFilter<AccumulatorImageType,
-               AccumulatorImageType > GradientFilterType;
+  using GradientFilterType = itk::GradientMagnitudeImageFilter<AccumulatorImageType,
+               AccumulatorImageType >;
   GradientFilterType::Pointer gradFilter =  GradientFilterType::New();
 
   caster->SetInput(localImage);
@@ -131,7 +131,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   std::cout << "Thresholding" << std::endl;
-  typedef itk::ThresholdImageFilter<AccumulatorImageType> ThresholdFilterType;
+  using ThresholdFilterType = itk::ThresholdImageFilter<AccumulatorImageType>;
   ThresholdFilterType::Pointer threshFilter = ThresholdFilterType::New();
 
   threshFilter->SetInput( gradFilter->GetOutput());
@@ -150,8 +150,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
   std::cout << "Computing Hough Map" << std::endl;
-  typedef itk::HoughTransform2DLinesImageFilter<AccumulatorPixelType,
-                              AccumulatorPixelType>  HoughTransformFilterType;
+  using HoughTransformFilterType = itk::HoughTransform2DLinesImageFilter<AccumulatorPixelType,
+                              AccumulatorPixelType>;
 
   HoughTransformFilterType::Pointer houghFilter
                                             = HoughTransformFilterType::New();
@@ -208,8 +208,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  unsigned char                            OutputPixelType;
-  typedef  itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
   OutputImageType::Pointer  localOutputImage = OutputImageType::New();
 
@@ -227,7 +227,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef HoughTransformFilterType::LinesListType::const_iterator LineIterator;
+  using LineIterator = HoughTransformFilterType::LinesListType::const_iterator;
   LineIterator itLines = lines.begin();
   while( itLines != lines.end() )
     {
@@ -242,7 +242,7 @@ int main( int argc, char *argv[] )
     //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    typedef HoughTransformFilterType::LineType::PointListType  PointListType;
+    using PointListType = HoughTransformFilterType::LineType::PointListType;
 
     PointListType                   pointsList = (*itLines)->GetPoints();
     PointListType::const_iterator   itPoints = pointsList.begin();
@@ -295,7 +295,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( localOutputImage );

@@ -299,8 +299,8 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   OutputImagePointer     output = this->GetOutput();
 
   // Transform the source image and write to output.
-  typedef ImageRegionConstIterator< InputImageType > InputConstIterator;
-  typedef ImageRegionIterator< OutputImageType >     OutputIterator;
+  using InputConstIterator = ImageRegionConstIterator< InputImageType >;
+  using OutputIterator = ImageRegionIterator< OutputImageType >;
 
   InputConstIterator inIter(input, outputRegionForThread);
   OutputIterator     outIter(output, outputRegionForThread);
@@ -369,7 +369,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
   THistogramMeasurement & maxValue,
   THistogramMeasurement & meanValue)
 {
-  typedef ImageRegionConstIterator< InputImageType > ConstIterator;
+  using ConstIterator = ImageRegionConstIterator< InputImageType >;
   ConstIterator iter( image, image->GetBufferedRegion() );
 
   double        sum = 0.0;
@@ -427,13 +427,13 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 
   typename HistogramType::IndexType index(1);
   typename HistogramType::MeasurementVectorType measurement(1);
-  typedef typename HistogramType::MeasurementType MeasurementType;
+  using MeasurementType = typename HistogramType::MeasurementType;
   measurement[0] = NumericTraits< MeasurementType >::ZeroValue();
 
     {
 
     // put each image pixel into the histogram
-    typedef ImageRegionConstIterator< InputImageType > ConstIterator;
+    using ConstIterator = ImageRegionConstIterator< InputImageType >;
     ConstIterator iter( image, image->GetBufferedRegion() );
 
     iter.GoToBegin();

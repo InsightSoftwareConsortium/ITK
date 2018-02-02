@@ -26,21 +26,21 @@
 // Typedefs used for registration
 const unsigned int ImageDimension = 3;
 
-typedef unsigned char InputImagePixelType;
-typedef float         DeformationFieldPixelType;
+using InputImagePixelType = unsigned char;
+using DeformationFieldPixelType = float;
 
-typedef itk::Image< InputImagePixelType, ImageDimension >         InputImageType;
-typedef itk::Vector< DeformationFieldPixelType, ImageDimension >  DeformationFieldVectorType;
-typedef itk::Image< DeformationFieldVectorType, ImageDimension >  DeformationFieldImageType;
+using InputImageType = itk::Image< InputImagePixelType, ImageDimension >;
+using DeformationFieldVectorType = itk::Vector< DeformationFieldPixelType, ImageDimension >;
+using DeformationFieldImageType = itk::Image< DeformationFieldVectorType, ImageDimension >;
 
-typedef itk::fem::Element3DC0LinearHexahedronMembrane ElementType;
+using ElementType = itk::fem::Element3DC0LinearHexahedronMembrane;
 
 
 // Template function to fill in an image with a value.
 template< typename TImage >
 void FillImage( TImage * image, typename TImage::PixelType value )
 {
-  typedef itk::ImageRegionIteratorWithIndex< TImage > Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex< TImage >;
   Iterator it( image, image->GetBufferedRegion() );
 
   for( it.GoToBegin(); !it.IsAtEnd(); ++it )
@@ -54,7 +54,7 @@ template< typename TImage >
 void FillWithCircle( TImage * image, double * center, double radius,
   typename TImage::PixelType foregnd, typename TImage::PixelType backgnd )
 {
-  typedef itk::ImageRegionIteratorWithIndex< TImage > Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex< TImage >;
   Iterator it( image, image->GetBufferedRegion() );
 
   typename TImage::IndexType index;
@@ -81,9 +81,9 @@ void FillWithCircle( TImage * image, double * center, double radius,
 
 int itkFEMRegistrationFilterTest( int argc, char *argv[] )
 {
-  typedef InputImageType::IndexType   IndexType;
-  typedef InputImageType::SizeType    SizeType;
-  typedef InputImageType::RegionType  RegionType;
+  using IndexType = InputImageType::IndexType;
+  using SizeType = InputImageType::SizeType;
+  using RegionType = InputImageType::RegionType;
 
 
   // Generate input images and initial deformation field
@@ -147,10 +147,10 @@ int itkFEMRegistrationFilterTest( int argc, char *argv[] )
   FillImage< DeformationFieldImageType >( initField, zeroVec );
 
 
-  typedef itk::fem::FEMObject<ImageDimension> FEMObjectType;
-  typedef itk::fem::FEMRegistrationFilter< InputImageType,
+  using FEMObjectType = itk::fem::FEMObject<ImageDimension>;
+  using RegistrationType = itk::fem::FEMRegistrationFilter< InputImageType,
                                           InputImageType,
-                                          FEMObjectType > RegistrationType;
+                                          FEMObjectType >;
 
   // Run registration and warp moving
   for( unsigned int met = 0; met < 4; ++met )
@@ -318,7 +318,7 @@ int itkFEMRegistrationFilterTest( int argc, char *argv[] )
       ss << met;
       outFileName += ss.str();
       outFileName += ".mhd";
-      typedef itk::ImageFileWriter< RegistrationType::FieldType > ImageWriterType;
+      using ImageWriterType = itk::ImageFileWriter< RegistrationType::FieldType >;
       ImageWriterType::Pointer writer = ImageWriterType::New();
       writer->SetFileName( outFileName );
       writer->SetInput( registrator->GetDisplacementField() );
@@ -332,7 +332,7 @@ int itkFEMRegistrationFilterTest( int argc, char *argv[] )
       ss << met;
       outFileName += ss.str();
       outFileName += ".mhd";
-      typedef itk::ImageFileWriter< InputImageType > ImageWriterType;
+      using ImageWriterType = itk::ImageFileWriter< InputImageType >;
       ImageWriterType::Pointer writer = ImageWriterType::New();
       writer->SetFileName( outFileName );
       writer->SetInput( registrator->GetWarpedImage() );

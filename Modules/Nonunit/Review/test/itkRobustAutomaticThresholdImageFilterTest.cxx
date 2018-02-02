@@ -39,25 +39,25 @@ int itkRobustAutomaticThresholdImageFilterTest( int argc, char *argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned short                      PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = unsigned short;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef float                                   RealPixelType;
-  typedef itk::Image< RealPixelType, Dimension >  RealImageType;
+  using RealPixelType = float;
+  using RealImageType = itk::Image< RealPixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::GradientMagnitudeRecursiveGaussianImageFilter< ImageType, RealImageType >
-    GradientType;
+  using GradientType =
+      itk::GradientMagnitudeRecursiveGaussianImageFilter< ImageType, RealImageType >;
   GradientType::Pointer gradient = GradientType::New();
   gradient->SetInput( reader->GetOutput() );
   gradient->SetSigma( 10 );
   gradient->Update();
 
-  typedef itk::RobustAutomaticThresholdImageFilter< ImageType, RealImageType >
-    FilterType;
+  using FilterType =
+      itk::RobustAutomaticThresholdImageFilter< ImageType, RealImageType >;
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter,
@@ -107,7 +107,7 @@ int itkRobustAutomaticThresholdImageFilterTest( int argc, char *argv[] )
     }
 
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );

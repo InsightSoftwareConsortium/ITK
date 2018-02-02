@@ -36,8 +36,8 @@ template< typename TVector >
 class CrossHelper
 {
 public:
-  typedef TVector                        VectorType;
-  typedef typename VectorType::ValueType ValueType;
+  using VectorType = TVector;
+  using ValueType = typename VectorType::ValueType;
 
   itkStaticConstMacro (Dimension, unsigned int, VectorType::Dimension);
 

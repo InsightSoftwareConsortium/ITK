@@ -67,11 +67,11 @@ namespace itk
 class ITKIOCSV_EXPORT CSVFileReaderBase:public LightProcessObject
 {
 public:
-  /** Standard class typedefs */
-  typedef CSVFileReaderBase         Self;
-  typedef LightProcessObject        Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  /** Standard class type aliases */
+  using Self = CSVFileReaderBase;
+  using Superclass = LightProcessObject;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(CSVFileReaderBase, LightProcessObject);

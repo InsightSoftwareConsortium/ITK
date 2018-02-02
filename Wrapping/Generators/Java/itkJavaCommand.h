@@ -18,7 +18,7 @@
 #ifndef itkJavaCommand_h
 #define itkJavaCommand_h
 #include "itkCommand.h"
-typedef itk::Command itkCommand;
+using itkCommand = itk::Command;
 
 namespace itk
 {

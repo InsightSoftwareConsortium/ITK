@@ -42,10 +42,10 @@ class FastMarchingNumberOfElementsStoppingCriterion :
 public FastMarchingStoppingCriterionBase< TInput, TOutput >
 {
 public:
-  typedef FastMarchingNumberOfElementsStoppingCriterion         Self;
-  typedef FastMarchingStoppingCriterionBase< TInput, TOutput >  Superclass;
-  typedef SmartPointer< Self >                                  Pointer;
-  typedef SmartPointer< const Self >                            ConstPointer;
+  using Self = FastMarchingNumberOfElementsStoppingCriterion;
+  using Superclass = FastMarchingStoppingCriterionBase< TInput, TOutput >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -54,8 +54,8 @@ public:
   itkTypeMacro(FastMarchingNumberOfElementsStoppingCriterion,
                 FastMarchingStoppingCriterionBase );
 
-  typedef typename Superclass::OutputPixelType  OutputPixelType;
-  typedef typename Superclass::NodeType         NodeType;
+  using OutputPixelType = typename Superclass::OutputPixelType;
+  using NodeType = typename Superclass::NodeType;
 
   /** Get/set the threshold used by the stopping criteria. */
   itkSetMacro( TargetNumberOfElements, IdentifierType );

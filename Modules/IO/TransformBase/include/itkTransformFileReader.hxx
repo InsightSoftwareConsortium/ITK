@@ -44,7 +44,7 @@ struct KernelTransformHelper
     {
     if( transform->GetInputSpaceDimension() == Dimension)
       {
-      typedef typename itk::KernelTransform< TParameterType, Dimension > KernelTransformType;
+      using KernelTransformType = typename itk::KernelTransform< TParameterType, Dimension >;
       KernelTransformType* kernelTransform = static_cast<KernelTransformType*>(transform.GetPointer());
       kernelTransform->ComputeWMatrix();
       return 0;
@@ -95,7 +95,7 @@ void TransformFileReaderTemplate<TParametersValueType>
 
   if( m_TransformIO.IsNull() )
     {
-    typedef TransformIOFactoryTemplate< TParametersValueType > TransformFactoryIOType;
+    using TransformFactoryIOType = TransformIOFactoryTemplate< TParametersValueType >;
     m_TransformIO = TransformFactoryIOType::CreateTransformIO( m_FileName.c_str(), /*TransformIOFactoryTemplate<TParametersValueType>::*/ ReadMode );
     if ( m_TransformIO.IsNull() )
       {

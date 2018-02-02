@@ -26,7 +26,7 @@
 
 int itkVoronoiPartitioningImageFilterTest(int argc, char* argv[])
 {
-  typedef itk::Image<float,2>          FloatImage;
+  using FloatImage = itk::Image<float,2>;
 
   if (argc != 4)
     {
@@ -54,8 +54,8 @@ int itkVoronoiPartitioningImageFilterTest(int argc, char* argv[])
 
   // Try the Voronoi partitioning
   //
-  typedef itk::VoronoiPartitioningImageFilter<FloatImage, FloatImage>
-    VoronoiSegmentationType;
+  using VoronoiSegmentationType =
+      itk::VoronoiPartitioningImageFilter<FloatImage, FloatImage>;
 
   VoronoiSegmentationType::Pointer voronoi=VoronoiSegmentationType::New();
   voronoi->SetInput( gaussian3->GetOutput() );
@@ -69,14 +69,12 @@ int itkVoronoiPartitioningImageFilterTest(int argc, char* argv[])
   FilterWatcher voronoiWatcher(voronoi);
 
   // Write out an image of the voronoi diagram
-  typedef itk::RGBPixel<unsigned char>   RGBPixelType;
-  typedef itk::Image<RGBPixelType, 2>    RGBImageType;
-  typedef itk::Functor::ScalarToRGBPixelFunctor<float>
-                                         ColorMapFunctorType;
-  typedef itk::UnaryFunctorImageFilter<FloatImage,
-    RGBImageType, ColorMapFunctorType>   ColorMapFilterType;
-  typedef itk::ImageFileWriter<  RGBImageType  >
-                                         WriterType;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image<RGBPixelType, 2>;
+  using ColorMapFunctorType = itk::Functor::ScalarToRGBPixelFunctor<float>;
+  using ColorMapFilterType = itk::UnaryFunctorImageFilter<FloatImage,
+    RGBImageType, ColorMapFunctorType>;
+  using WriterType = itk::ImageFileWriter<RGBImageType>;
 
   WriterType::Pointer writer = WriterType::New();
   ColorMapFilterType::Pointer colormapper = ColorMapFilterType::New();

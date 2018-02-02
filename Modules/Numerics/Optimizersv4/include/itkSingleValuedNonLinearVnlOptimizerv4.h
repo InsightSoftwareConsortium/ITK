@@ -38,11 +38,11 @@ class ITKOptimizersv4_EXPORT SingleValuedNonLinearVnlOptimizerv4 :
     public ObjectToObjectOptimizerBaseTemplate<double>
 {
 public:
-  /** Standard class typedefs. */
-  typedef SingleValuedNonLinearVnlOptimizerv4 Self;
-  typedef ObjectToObjectOptimizerBase         Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SingleValuedNonLinearVnlOptimizerv4;
+  using Superclass = ObjectToObjectOptimizerBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(SingleValuedNonLinearVnlOptimizerv4, ObjectToObjectOptimizerBase)
@@ -51,18 +51,18 @@ public:
    * adaptor in order to generate iteration events. This will allow to overcome
    * the limitation of VNL optimizers not offering callbacks for every
    * iteration */
-  typedef ReceptorMemberCommand< Self >   CommandType;
+  using CommandType = ReceptorMemberCommand< Self >;
 
-  typedef Superclass::MetricType     MetricType;
-  typedef Superclass::DerivativeType DerivativeType;
-  typedef Superclass::ParametersType ParametersType;
-  typedef Superclass::ScalesType     ScalesType;
+  using MetricType = Superclass::MetricType;
+  using DerivativeType = Superclass::DerivativeType;
+  using ParametersType = Superclass::ParametersType;
+  using ScalesType = Superclass::ScalesType;
 
   /** Stop condition return string type */
-  typedef Superclass::StopConditionReturnStringType StopConditionReturnStringType;
+  using StopConditionReturnStringType = Superclass::StopConditionReturnStringType;
 
   /** Stop condition internal string type */
-  typedef Superclass::StopConditionDescriptionType  StopConditionDescriptionType;
+  using StopConditionDescriptionType = Superclass::StopConditionDescriptionType;
 
   void StartOptimization(bool doOnlyInitialization = false) override;
 
@@ -89,7 +89,7 @@ protected:
   SingleValuedNonLinearVnlOptimizerv4();
   ~SingleValuedNonLinearVnlOptimizerv4() override;
 
-  typedef SingleValuedVnlCostFunctionAdaptorv4 CostFunctionAdaptorType;
+  using CostFunctionAdaptorType = SingleValuedVnlCostFunctionAdaptorv4;
 
   void SetCostFunctionAdaptor(CostFunctionAdaptorType *adaptor);
 

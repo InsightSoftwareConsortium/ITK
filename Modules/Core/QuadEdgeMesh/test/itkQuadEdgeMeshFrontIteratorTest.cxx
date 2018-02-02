@@ -32,17 +32,17 @@
 
 int itkQuadEdgeMeshFrontIteratorTest( int , char *[] )
 {
-  typedef itk::QuadEdgeMesh< double, 3 >      MeshType;
-  typedef MeshType::Pointer                   MeshPointer;
+  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using MeshPointer = MeshType::Pointer;
 
-  typedef MeshType::PointIdentifier   PointIdentifier;
-  typedef std::set< PointIdentifier > PointIdSet;
+  using PointIdentifier = MeshType::PointIdentifier;
+  using PointIdSet = std::set< PointIdentifier >;
 
-  typedef MeshType::CellType                        CellType;
-  typedef itk::QuadEdgeMeshPolygonCell< CellType >  QEPolygonCellType;
+  using CellType = MeshType::CellType;
+  using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell< CellType >;
 
-  typedef MeshType::FrontIterator FrontIterator;
-  typedef FrontIterator::QEType   QEType;
+  using FrontIterator = MeshType::FrontIterator;
+  using QEType = FrontIterator::QEType;
 
   int expectedNumPts = 25;
   int expectedNumCells = 32;

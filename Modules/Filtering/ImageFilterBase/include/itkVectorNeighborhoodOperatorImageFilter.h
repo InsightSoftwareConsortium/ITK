@@ -59,11 +59,11 @@ class ITK_TEMPLATE_EXPORT VectorNeighborhoodOperatorImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorNeighborhoodOperatorImageFilter           Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef       SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VectorNeighborhoodOperatorImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,27 +73,27 @@ public:
 
   /** Extract some information from the image types.  Dimensionality
    * of the two images is assumed to be the same. */
-  typedef typename TInputImage::Pointer            InputImagePointer;
-  typedef typename TOutputImage::Pointer           OutputImagePointer;
-  typedef typename TOutputImage::PixelType         OutputPixelType;
-  typedef typename TOutputImage::InternalPixelType OutputInternalPixelType;
-  typedef typename  TInputImage::PixelType         InputPixelType;
-  typedef typename  TInputImage::InternalPixelType InputInternalPixelType;
-  typedef typename OutputPixelType::ValueType      ScalarValueType;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using OutputImagePointer = typename TOutputImage::Pointer;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using OutputInternalPixelType = typename TOutputImage::InternalPixelType;
+  using InputPixelType = typename  TInputImage::PixelType;
+  using InputInternalPixelType = typename  TInputImage::InternalPixelType;
+  using ScalarValueType = typename OutputPixelType::ValueType;
 
   /** Determine image dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TOutputImage::ImageDimension);
 
-  /** Image typedef support */
-  typedef TInputImage  InputImageType;
-  typedef TOutputImage OutputImageType;
+  /** Image type alias support */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
   /** Typedef for generic boundary condition pointer */
-  typedef ImageBoundaryCondition< OutputImageType > *ImageBoundaryConditionPointerType;
+  using ImageBoundaryConditionPointerType = ImageBoundaryCondition<OutputImageType> *;
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Sets the operator that is used to filter the image. Note
    * that the operator is stored as an internal COPY (it

@@ -145,7 +145,7 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
 //     std::cout << "BasicErodeImageFilter" << std::endl;
     if ( m_SafeBorder )
       {
-      typedef ConstantPadImageFilter< InputImageType, InputImageType > PadType;
+      using PadType = ConstantPadImageFilter< InputImageType, InputImageType >;
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
@@ -159,7 +159,7 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
       m_BasicErodeFilter->SetInput( m_BasicDilateFilter->GetOutput() );
       progress->RegisterInternalFilter(m_BasicErodeFilter, 0.4f);
 
-      typedef CropImageFilter< TOutputImage, TOutputImage > CropType;
+      using CropType = CropImageFilter< TOutputImage, TOutputImage >;
       typename CropType::Pointer crop = CropType::New();
       crop->SetInput( m_BasicErodeFilter->GetOutput() );
       crop->SetUpperBoundaryCropSize( this->GetKernel().GetRadius() );
@@ -188,7 +188,7 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
     // std::cout << "MovingHistogramErodeImageFilter" << std::endl;
     if ( m_SafeBorder )
       {
-      typedef ConstantPadImageFilter< InputImageType, InputImageType > PadType;
+      using PadType = ConstantPadImageFilter< InputImageType, InputImageType >;
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
@@ -202,7 +202,7 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
       m_HistogramErodeFilter->SetInput( m_HistogramDilateFilter->GetOutput() );
       progress->RegisterInternalFilter(m_HistogramErodeFilter, 0.4f);
 
-      typedef CropImageFilter< TOutputImage, TOutputImage > CropType;
+      using CropType = CropImageFilter< TOutputImage, TOutputImage >;
       typename CropType::Pointer crop = CropType::New();
       crop->SetInput( m_HistogramErodeFilter->GetOutput() );
       crop->SetUpperBoundaryCropSize( this->GetKernel().GetRadius() );
@@ -231,7 +231,7 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
     // std::cout << "VanHerkGilWermanErodeImageFilter" << std::endl;
     if ( m_SafeBorder )
       {
-      typedef ConstantPadImageFilter< InputImageType, InputImageType > PadType;
+      using PadType = ConstantPadImageFilter< InputImageType, InputImageType >;
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
@@ -245,7 +245,7 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
       m_VanHerkGilWermanErodeFilter->SetInput( m_VanHerkGilWermanDilateFilter->GetOutput() );
       progress->RegisterInternalFilter(m_VanHerkGilWermanErodeFilter, 0.4f);
 
-      typedef CropImageFilter< TOutputImage, TOutputImage > CropType;
+      using CropType = CropImageFilter< TOutputImage, TOutputImage >;
       typename CropType::Pointer crop = CropType::New();
       crop->SetInput( m_VanHerkGilWermanErodeFilter->GetOutput() );
       crop->SetUpperBoundaryCropSize( this->GetKernel().GetRadius() );
@@ -274,7 +274,7 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
     // std::cout << "AnchorErodeImageFilter" << std::endl;
     if ( m_SafeBorder )
       {
-      typedef ConstantPadImageFilter< InputImageType, InputImageType > PadType;
+      using PadType = ConstantPadImageFilter< InputImageType, InputImageType >;
       typename PadType::Pointer pad = PadType::New();
       pad->SetPadLowerBound(this->GetKernel().GetRadius());
       pad->SetPadUpperBound(this->GetKernel().GetRadius());
@@ -285,7 +285,7 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
       m_AnchorFilter->SetInput( pad->GetOutput() );
       progress->RegisterInternalFilter(m_AnchorFilter, 0.8f);
 
-      typedef CropImageFilter< TInputImage, TOutputImage > CropType;
+      using CropType = CropImageFilter< TInputImage, TOutputImage >;
       typename CropType::Pointer crop = CropType::New();
       crop->SetInput( m_AnchorFilter->GetOutput() );
       crop->SetUpperBoundaryCropSize( this->GetKernel().GetRadius() );
@@ -301,7 +301,7 @@ GrayscaleMorphologicalClosingImageFilter< TInputImage, TOutputImage, TKernel >
       m_AnchorFilter->SetInput( this->GetInput() );
       progress->RegisterInternalFilter(m_AnchorFilter, 0.9f);
 
-      typedef CastImageFilter< TInputImage, TOutputImage > CastType;
+      using CastType = CastImageFilter< TInputImage, TOutputImage >;
       typename CastType::Pointer cast = CastType::New();
       cast->SetInput( m_AnchorFilter->GetOutput() );
       progress->RegisterInternalFilter(cast, 0.1f);

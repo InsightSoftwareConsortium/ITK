@@ -35,8 +35,8 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
   std::cout << "with a point at (1,6) (value=2)" << std::endl << std::endl;
 
 
-  typedef itk::Image<unsigned char, 2>  myImageType2D1;
-  typedef itk::Image<float, 2>          myImageType2D2;
+  using myImageType2D1 = itk::Image<unsigned char, 2>;
+  using myImageType2D2 = itk::Image<float, 2>;
 
   /* Allocate the 2D image */
   myImageType2D1::SizeType size2D = {{5,5}};
@@ -58,7 +58,7 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
    * The ClosestPoints computation is based on the value of the pixel.
    */
 
-  typedef  itk::ImageRegionIteratorWithIndex<myImageType2D1> myIteratorType2D1;
+  using myIteratorType2D1 = itk::ImageRegionIteratorWithIndex<myImageType2D1>;
 
   myIteratorType2D1 it2D1(inputImage2D,region2D);
 
@@ -77,9 +77,9 @@ int itkSignedDanielssonDistanceMapImageFilterTest11(int, char* [] )
   //inputImage2D->SetPixel( index2D, 2);
 
   /* Create SignedDanielssonDistance Map filter */
-  typedef itk::SignedDanielssonDistanceMapImageFilter<
+  using myFilterType2D = itk::SignedDanielssonDistanceMapImageFilter<
                                             myImageType2D1,
-                                            myImageType2D2 > myFilterType2D;
+                                            myImageType2D2 >;
 
   myFilterType2D::Pointer filter2D = myFilterType2D::New();
 

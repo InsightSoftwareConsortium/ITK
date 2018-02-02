@@ -77,13 +77,13 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
   if( this->m_LevelSetContainer->HasDomainMap() )
     {
     typename DomainMapImageFilterType::ConstPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
-    typedef typename DomainMapImageFilterType::DomainMapType DomainMapType;
+    using DomainMapType = typename DomainMapImageFilterType::DomainMapType;
     const DomainMapType domainMap = domainMapFilter->GetDomainMap();
     typename DomainMapType::const_iterator mapIt   = domainMap.begin();
     typename DomainMapType::const_iterator mapEnd  = domainMap.end();
 
     const ThreadIdType maximumNumberOfThreads = this->m_SplitDomainMapComputeIterationThreader->GetMaximumNumberOfThreads();
-    typedef typename SplitDomainMapComputeIterationThreaderType::DomainType DomainMapDomainType;
+    using DomainMapDomainType = typename SplitDomainMapComputeIterationThreaderType::DomainType;
     DomainMapDomainType subdomain;
     DomainMapDomainType completeDomain( mapIt, mapEnd );
     const typename SplitDomainMapComputeIterationThreaderType::DomainPartitionerType * domainParitioner = this->m_SplitDomainMapComputeIterationThreader->GetDomainPartitioner();
@@ -94,7 +94,7 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
       // split up each level set individually
       while( mapIt != mapEnd )
         {
-        typedef typename DomainMapImageFilterType::LevelSetDomain LevelSetListImageDomainType;
+        using LevelSetListImageDomainType = typename DomainMapImageFilterType::LevelSetDomain;
         const LevelSetListImageDomainType & levelSetListImageDomain = mapIt->second;
         this->m_IdListToProcessWhenThreading = levelSetListImageDomain.GetIdList();
 

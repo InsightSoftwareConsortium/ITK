@@ -43,11 +43,11 @@ class ITK_TEMPLATE_EXPORT BSplineTransformInitializer
 {
 public:
 
-  /** Standard class typedefs. */
-  typedef BSplineTransformInitializer Self;
-  typedef Object                      Superclass;
-  typedef SmartPointer<Self>          Pointer;
-  typedef SmartPointer<const Self>    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BSplineTransformInitializer;
+  using Superclass = Object;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro( Self );
@@ -56,25 +56,25 @@ public:
   itkTypeMacro( BSplineTransformInitializer, Object );
 
   /** Type of the transform to initialize. */
-  typedef TTransform TransformType;
+  using TransformType = TTransform;
 
   /** Types defined from the input image traits. */
-  typedef TImage                                   ImageType;
-  typedef typename ImageType::ConstPointer         ImagePointer;
-  typedef typename ImageType::IndexType            IndexType;
-  typedef typename ImageType::PointType            ImagePointType;
-  typedef typename ImagePointType::CoordRepType    ImagePointCoordRepType;
+  using ImageType = TImage;
+  using ImagePointer = typename ImageType::ConstPointer;
+  using IndexType = typename ImageType::IndexType;
+  using ImagePointType = typename ImageType::PointType;
+  using ImagePointCoordRepType = typename ImagePointType::CoordRepType;
 
   /** Types defined from transform traits. */
-  typedef typename TransformType::Pointer                 TransformPointer;
-  typedef typename TransformType::RegionType              RegionType;
-  typedef typename RegionType::SizeType                   SizeType;
-  typedef typename TransformType::SpacingType             SpacingType;
-  typedef typename TransformType::OriginType              OriginType;
-  typedef typename TransformType::DirectionType           DirectionType;
-  typedef typename TransformType::PhysicalDimensionsType  PhysicalDimensionsType;
-  typedef typename TransformType::MeshSizeType            MeshSizeType;
-  typedef typename SpacingType::ComponentType             SpacingComponentType;
+  using TransformPointer = typename TransformType::Pointer;
+  using RegionType = typename TransformType::RegionType;
+  using SizeType = typename RegionType::SizeType;
+  using SpacingType = typename TransformType::SpacingType;
+  using OriginType = typename TransformType::OriginType;
+  using DirectionType = typename TransformType::DirectionType;
+  using PhysicalDimensionsType = typename TransformType::PhysicalDimensionsType;
+  using MeshSizeType = typename TransformType::MeshSizeType;
+  using SpacingComponentType = typename SpacingType::ComponentType;
 
   /** Dimension of parameters. */
   itkStaticConstMacro( SpaceDimension, unsigned int,

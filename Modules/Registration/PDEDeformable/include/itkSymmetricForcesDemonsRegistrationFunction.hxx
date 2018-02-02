@@ -175,7 +175,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
   CovariantVectorType               movingGradient;
   const DisplacementFieldType *const field = this->GetDisplacementField();
 
-  typedef typename DisplacementFieldType::PixelType DisplacementPixelType;
+  using DisplacementPixelType = typename DisplacementFieldType::PixelType;
   PointType mappedCenterPoint;
   this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedCenterPoint);
   for ( unsigned int dim = 0; dim < ImageDimension; dim++ )

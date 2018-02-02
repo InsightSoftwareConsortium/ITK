@@ -46,10 +46,10 @@ class ITK_TEMPLATE_EXPORT ManifoldParzenWindowsPointSetFunction
 : public PointSetFunction<TPointSet, TOutput, TCoordRep>
 {
 public:
-  typedef ManifoldParzenWindowsPointSetFunction            Self;
-  typedef PointSetFunction<TPointSet, TOutput, TCoordRep>  Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
+  using Self = ManifoldParzenWindowsPointSetFunction;
+  using Superclass = PointSetFunction<TPointSet, TOutput, TCoordRep>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,30 +57,29 @@ public:
   /** Extract dimension from output image. */
   itkStaticConstMacro( PointDimension, unsigned int, TPointSet::PointDimension );
 
-  typedef typename Superclass::InputPointSetType   InputPointSetType;
-  typedef typename Superclass::InputPointType      InputPointType;
+  using InputPointSetType = typename Superclass::InputPointSetType;
+  using InputPointType = typename Superclass::InputPointType;
 
-  /** Point set typedef support. */
-  typedef TPointSet                                        PointSetType;
-  typedef typename PointSetType::PointType                 PointType;
-  typedef typename PointSetType::PointsContainer           PointsContainer;
-  typedef typename PointsContainer::ElementIdentifier      PointIdentifier;
+  /** Point set type alias support */
+  using PointSetType = TPointSet;
+  using PointType = typename PointSetType::PointType;
+  using PointsContainer = typename PointSetType::PointsContainer;
+  using PointIdentifier = typename PointsContainer::ElementIdentifier;
 
-  /** Other typedef */
-  typedef TOutput                                          RealType;
-  typedef TOutput                                          OutputType;
-  typedef TCoordRep                                        CoordRepType;
+  /** Other type alias */
+  using RealType = TOutput;
+  using OutputType = TOutput;
+  using CoordRepType = TCoordRep;
 
   /** Typedef for points locator class to speed up finding neighboring points */
-  typedef PointsLocator< PointsContainer>                       PointsLocatorType;
-  typedef typename PointsLocatorType::NeighborsIdentifierType   NeighborsIdentifierType;
+  using PointsLocatorType = PointsLocator< PointsContainer>;
+  using NeighborsIdentifierType = typename PointsLocatorType::NeighborsIdentifierType;
 
-  typedef typename Statistics::
-    GaussianMembershipFunction<PointType>                  GaussianType;
-  typedef typename GaussianType::Pointer                   GaussianPointer;
-  typedef typename GaussianType::ConstPointer              GaussianConstPointer;
-  typedef std::vector<GaussianPointer>                     GaussianContainerType;
-  typedef typename GaussianType::CovarianceMatrixType      CovarianceMatrixType;
+  using GaussianType = typename Statistics::GaussianMembershipFunction<PointType>;
+  using GaussianPointer = typename GaussianType::Pointer;
+  using GaussianConstPointer = typename GaussianType::ConstPointer;
+  using GaussianContainerType = std::vector<GaussianPointer>;
+  using CovarianceMatrixType = typename GaussianType::CovarianceMatrixType;
 
   /** Helper functions */
 

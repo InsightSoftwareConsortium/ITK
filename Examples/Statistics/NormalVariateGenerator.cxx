@@ -48,7 +48,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::NormalVariateGenerator GeneratorType;
+  using GeneratorType = itk::Statistics::NormalVariateGenerator;
   GeneratorType::Pointer generator = GeneratorType::New();
   generator->Initialize( (int) 2003 );
 

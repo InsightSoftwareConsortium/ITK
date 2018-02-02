@@ -50,21 +50,21 @@
   class CommandIterationUpdate : public itk::Command
   {
   public:
-    typedef  CommandIterationUpdate                     Self;
-    typedef  itk::Command                               Superclass;
-    typedef  itk::SmartPointer<CommandIterationUpdate>  Pointer;
+    using Self = CommandIterationUpdate;
+    using Superclass = itk::Command;
+    using Pointer = itk::SmartPointer<CommandIterationUpdate>;
     itkNewMacro( CommandIterationUpdate );
   protected:
     CommandIterationUpdate() {};
 
-    typedef itk::Image< float, 2 >            InternalImageType;
-    typedef itk::Vector< float, 2 >           VectorPixelType;
-    typedef itk::Image<  VectorPixelType, 2 > DisplacementFieldType;
+    using InternalImageType = itk::Image< float, 2 >;
+    using VectorPixelType = itk::Vector< float, 2 >;
+    using DisplacementFieldType = itk::Image<  VectorPixelType, 2 >;
 
-    typedef itk::SymmetricForcesDemonsRegistrationFilter<
+    using RegistrationFilterType = itk::SymmetricForcesDemonsRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
-                                DisplacementFieldType>   RegistrationFilterType;
+                                DisplacementFieldType>;
 
   public:
 
@@ -103,15 +103,15 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = 2;
-  typedef unsigned short PixelType;
+  using PixelType = unsigned short;
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  using FixedImageType = itk::Image< PixelType, Dimension >;
+  using MovingImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
   // Set up the file readers
-  typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
-  typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
+  using FixedImageReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingImageReaderType = itk::ImageFileReader< MovingImageType >;
 
   FixedImageReaderType::Pointer fixedImageReader   = FixedImageReaderType::New();
   MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
@@ -130,12 +130,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float                                      InternalPixelType;
-  typedef itk::Image< InternalPixelType, Dimension > InternalImageType;
-  typedef itk::CastImageFilter< FixedImageType,
-                                InternalImageType >  FixedImageCasterType;
-  typedef itk::CastImageFilter< MovingImageType,
-                                InternalImageType >  MovingImageCasterType;
+  using InternalPixelType = float;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
+  using FixedImageCasterType = itk::CastImageFilter< FixedImageType,
+                                InternalImageType >;
+  using MovingImageCasterType = itk::CastImageFilter< MovingImageType,
+                                InternalImageType >;
 
   FixedImageCasterType::Pointer fixedImageCaster = FixedImageCasterType::New();
   MovingImageCasterType::Pointer movingImageCaster
@@ -163,9 +163,9 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::HistogramMatchingImageFilter<
+  using MatchingFilterType = itk::HistogramMatchingImageFilter<
                                     InternalImageType,
-                                    InternalImageType >   MatchingFilterType;
+                                    InternalImageType >;
   MatchingFilterType::Pointer matcher = MatchingFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -228,12 +228,12 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Vector< float, Dimension >                VectorPixelType;
-  typedef itk::Image<  VectorPixelType, Dimension >      DisplacementFieldType;
-  typedef itk::SymmetricForcesDemonsRegistrationFilter<
+  using VectorPixelType = itk::Vector< float, Dimension >;
+  using DisplacementFieldType = itk::Image<  VectorPixelType, Dimension >;
+  using RegistrationFilterType = itk::SymmetricForcesDemonsRegistrationFilter<
                                 InternalImageType,
                                 InternalImageType,
-                                DisplacementFieldType> RegistrationFilterType;
+                                DisplacementFieldType>;
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -305,13 +305,13 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::WarpImageFilter<
+  using WarperType = itk::WarpImageFilter<
                           MovingImageType,
                           MovingImageType,
-                          DisplacementFieldType  >     WarperType;
-  typedef itk::LinearInterpolateImageFunction<
+                          DisplacementFieldType  >;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
                                    MovingImageType,
-                                   double          >  InterpolatorType;
+                                   double          >;
   WarperType::Pointer warper = WarperType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
@@ -341,12 +341,12 @@ int main( int argc, char *argv[] )
 
 
   // Write warped image out to file
-  typedef  unsigned char                           OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
-  typedef itk::CastImageFilter<
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using CastFilterType = itk::CastImageFilter<
                         MovingImageType,
-                        OutputImageType >          CastFilterType;
-  typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+                        OutputImageType >;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer      writer =  WriterType::New();
   CastFilterType::Pointer  caster =  CastFilterType::New();
@@ -395,7 +395,7 @@ int main( int argc, char *argv[] )
     {
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileWriter< DisplacementFieldType > FieldWriterType;
+  using FieldWriterType = itk::ImageFileWriter< DisplacementFieldType >;
 
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
   fieldWriter->SetFileName( argv[4] );

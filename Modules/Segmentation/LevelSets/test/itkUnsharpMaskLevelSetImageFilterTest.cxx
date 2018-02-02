@@ -61,7 +61,7 @@ void evaluate_function(itk::Image<float, 2> *im,
 
 int itkUnsharpMaskLevelSetImageFilterTest(int, char* [] )
 {
-  typedef itk::Image<float, 2> ImageType;
+  using ImageType = itk::Image<float, 2>;
 
   ImageType::Pointer im_init = ImageType::New();
 
@@ -77,8 +77,8 @@ int itkUnsharpMaskLevelSetImageFilterTest(int, char* [] )
   im_init->Allocate();
 
   evaluate_function(im_init, square);
-  typedef itk::UnsharpMaskLevelSetImageFilter<ImageType,
-    ImageType> FilterType;
+  using FilterType = itk::UnsharpMaskLevelSetImageFilter<ImageType,
+    ImageType>;
   FilterType::Pointer filter = FilterType::New();
   filter->SetMaxFilterIteration (99);
   filter->SetNormalProcessUnsharpWeight(1);

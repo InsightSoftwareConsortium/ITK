@@ -66,7 +66,7 @@ template< typename TPixel >
 int ColorTableTestSpecialConditionChecker(
   typename itk::ColorTable< TPixel >::Pointer colors, unsigned int numberOfColors )
 {
-  typedef itk::RGBPixel< TPixel > RGBPixelType;
+  using RGBPixelType = itk::RGBPixel< TPixel >;
 
   RGBPixelType zeroPixel;
   zeroPixel.Set( 0, 0, 0 );
@@ -140,7 +140,7 @@ int ColorTableTestHelper( const char *name, unsigned int numberOfColors )
 {
   int testStatus = EXIT_SUCCESS;
 
-  typedef itk::ColorTable< TPixel > ColorTableType;
+  using ColorTableType = itk::ColorTable< TPixel >;
   typename ColorTableType::Pointer colors = ColorTableType::New();
 
   std::cout << "Testing for type: " << name << std::endl;
@@ -185,7 +185,7 @@ int itkColorTableTest( int argc, char* argv[] )
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  typedef itk::ColorTable< unsigned char > ColorTableType;
+  using ColorTableType = itk::ColorTable< unsigned char >;
   ColorTableType::Pointer colors = ColorTableType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( colors, ColorTable, Object );
@@ -207,7 +207,7 @@ int itkColorTableTest( int argc, char* argv[] )
 
   // Find the closest color for a few colors
   unsigned int id;
-  typedef itk::RGBPixel< unsigned char > RGBPixelType;
+  using RGBPixelType = itk::RGBPixel< unsigned char >;
   RGBPixelType pixel;
   colors->UseRandomColors( 10000 );
   pixel.Set( 255, 0, 0 );

@@ -43,15 +43,15 @@ int itkValuedRegionalMaximaImageFilterTest( int argc, char * argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                       PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::ValuedRegionalMaximaImageFilter< ImageType, ImageType >
-    FilterType;
+  using FilterType =
+      itk::ValuedRegionalMaximaImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter,
@@ -68,7 +68,7 @@ int itkValuedRegionalMaximaImageFilterTest( int argc, char * argv[] )
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );
@@ -77,7 +77,7 @@ int itkValuedRegionalMaximaImageFilterTest( int argc, char * argv[] )
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // Produce the same output with other filters
-  typedef itk::HConvexImageFilter< ImageType, ImageType > ConvexFilterType;
+  using ConvexFilterType = itk::HConvexImageFilter< ImageType, ImageType >;
   ConvexFilterType::Pointer convexFilter = ConvexFilterType::New();
   convexFilter->SetInput( reader->GetOutput() );
   convexFilter->SetFullyConnected( fullyConnected );
@@ -85,14 +85,14 @@ int itkValuedRegionalMaximaImageFilterTest( int argc, char * argv[] )
 
   // Convex gives maxima with value=1 and others with value = 0
   // Rescale the image so we have maxima = 255 other = 0
-  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleFilterType;
+  using RescaleFilterType = itk::RescaleIntensityImageFilter< ImageType, ImageType >;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
   rescaler->SetInput( convexFilter->GetOutput() );
   rescaler->SetOutputMaximum( 255 );
   rescaler->SetOutputMinimum( 0 );
 
   // in the input image, select the values of the pixel at the minima
-  typedef itk::AndImageFilter< ImageType, ImageType, ImageType > AndFilterType;
+  using AndFilterType = itk::AndImageFilter< ImageType, ImageType, ImageType >;
   AndFilterType::Pointer andFilter = AndFilterType::New();
   andFilter->SetInput( 0, rescaler->GetOutput() );
   andFilter->SetInput( 1, reader->GetOutput() );

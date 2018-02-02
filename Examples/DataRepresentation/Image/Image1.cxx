@@ -45,7 +45,7 @@ int main(int, char *[])
   // Software Guide : EndLatex
   //
   // Software Guide : BeginCodeSnippet
-  typedef itk::Image< unsigned short, 3 > ImageType;
+  using ImageType = itk::Image< unsigned short, 3 >;
   // Software Guide : EndCodeSnippet
 
 

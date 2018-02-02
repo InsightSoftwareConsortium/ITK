@@ -25,15 +25,14 @@ namespace RGBInterpolate {
 
 enum{ ImageDimension = 3 };
 enum{ VectorDimension = 3 }; // RGB is a vector of dimension 3
-typedef itk::RGBPixel<unsigned short>         PixelType;
-typedef itk::Image<PixelType,ImageDimension>  ImageType;
-typedef double                                CoordRepType;
-typedef itk::VectorLinearInterpolateImageFunction<ImageType,CoordRepType>
-                                              InterpolatorType;
-typedef InterpolatorType::IndexType           IndexType;
-typedef InterpolatorType::PointType           PointType;
-typedef InterpolatorType::ContinuousIndexType ContinuousIndexType;
-typedef InterpolatorType::OutputType          OutputType;
+using PixelType = itk::RGBPixel<unsigned short>;
+using ImageType = itk::Image<PixelType,ImageDimension>;
+using CoordRepType = double;
+using InterpolatorType = itk::VectorLinearInterpolateImageFunction<ImageType,CoordRepType>;
+using IndexType = InterpolatorType::IndexType;
+using PointType = InterpolatorType::PointType;
+using ContinuousIndexType = InterpolatorType::ContinuousIndexType;
+using OutputType = InterpolatorType::OutputType;
 
 
 /**
@@ -161,14 +160,14 @@ int itkRGBInterpolateImageFunctionTest(int, char* [] )
 
   std::cout << "Testing vector image interpolation: " << std::endl;
 
-  typedef RGBInterpolate::ImageType           ImageType;
-  typedef RGBInterpolate::IndexType           IndexType;
-  typedef RGBInterpolate::PixelType           PixelType;
-  typedef RGBInterpolate::PointType           PointType;
-  typedef RGBInterpolate::OutputType          OutputType;
-  typedef RGBInterpolate::ContinuousIndexType ContinuousIndexType;
+  using ImageType = RGBInterpolate::ImageType;
+  using IndexType = RGBInterpolate::IndexType;
+  using PixelType = RGBInterpolate::PixelType;
+  using PointType = RGBInterpolate::PointType;
+  using OutputType = RGBInterpolate::OutputType;
+  using ContinuousIndexType = RGBInterpolate::ContinuousIndexType;
 
-  typedef RGBInterpolate::InterpolatorType    InterpolatorType;
+  using InterpolatorType = RGBInterpolate::InterpolatorType;
 
   const unsigned int ImageDimension = RGBInterpolate::ImageDimension;
 
@@ -190,7 +189,7 @@ int itkRGBInterpolateImageFunctionTest(int, char* [] )
   image->SetSpacing( spacing );
 
   // Write in a simple linear pattern
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter( image, region );
 
   IndexType index;

@@ -70,8 +70,8 @@ void ImageAlgorithm::DispatchedCopy( const InputImageType *inImage,
                                      const typename OutputImageType::RegionType &outRegion,
                                      TrueType )
 {
-  typedef typename InputImageType::RegionType _RegionType;
-  typedef typename InputImageType::IndexType  _IndexType;
+  using _RegionType = typename InputImageType::RegionType;
+  using _IndexType = typename InputImageType::IndexType;
 
   // Get the number of bytes of each pixel in the buffer.
   const size_t NumberOfInternalComponents = ImageAlgorithm::PixelSize<InputImageType>::Get( inImage );
@@ -186,7 +186,7 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
     {
     numberOfCorners *= 2;
     }
-  typedef ContinuousIndex<double, OutputImageType::ImageDimension> ContinuousIndexType;
+  using ContinuousIndexType = ContinuousIndex<double, OutputImageType::ImageDimension>;
   std::vector<ContinuousIndexType> corners(numberOfCorners);
 
   for (unsigned int count=0; count < numberOfCorners; ++count)
@@ -215,7 +215,7 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
       localCount /= 2;
       }
 
-    typedef Point< SpacePrecisionType, OutputImageType::ImageDimension > PointType;
+    using PointType = Point< SpacePrecisionType, OutputImageType::ImageDimension >;
     PointType point;
     inputImage->TransformContinuousIndexToPhysicalPoint(currentCornerIndex, point);
     outputImage->TransformPhysicalPointToContinuousIndex(point, corners[count]);

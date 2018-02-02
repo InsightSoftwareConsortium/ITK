@@ -111,10 +111,10 @@ class ITK_TEMPLATE_EXPORT FastMarchingImageFilter:
 {
 public:
   /** Standard class typdedefs. */
-  typedef FastMarchingImageFilter    Self;
-  typedef ImageSource< TLevelSet >   Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = FastMarchingImageFilter;
+  using Superclass = ImageSource< TLevelSet >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -123,19 +123,19 @@ public:
   itkTypeMacro(FastMarchingImageFilter, ImageToImageFilter);
 
   /** Typedef support of level set method types. */
-  typedef LevelSetTypeDefault< TLevelSet >            LevelSetType;
-  typedef typename LevelSetType::LevelSetImageType    LevelSetImageType;
-  typedef typename LevelSetType::LevelSetPointer      LevelSetPointer;
-  typedef typename LevelSetType::PixelType            PixelType;
-  typedef typename LevelSetType::NodeType             NodeType;
-  typedef typename NodeType::IndexType                NodeIndexType;
-  typedef typename LevelSetType::NodeContainer        NodeContainer;
-  typedef typename LevelSetType::NodeContainerPointer NodeContainerPointer;
-  typedef typename LevelSetImageType::SizeType        OutputSizeType;
-  typedef typename LevelSetImageType::RegionType      OutputRegionType;
-  typedef typename LevelSetImageType::SpacingType     OutputSpacingType;
-  typedef typename LevelSetImageType::DirectionType   OutputDirectionType;
-  typedef typename LevelSetImageType::PointType       OutputPointType;
+  using LevelSetType = LevelSetTypeDefault< TLevelSet >;
+  using LevelSetImageType = typename LevelSetType::LevelSetImageType;
+  using LevelSetPointer = typename LevelSetType::LevelSetPointer;
+  using PixelType = typename LevelSetType::PixelType;
+  using NodeType = typename LevelSetType::NodeType;
+  using NodeIndexType = typename NodeType::IndexType;
+  using NodeContainer = typename LevelSetType::NodeContainer;
+  using NodeContainerPointer = typename LevelSetType::NodeContainerPointer;
+  using OutputSizeType = typename LevelSetImageType::SizeType;
+  using OutputRegionType = typename LevelSetImageType::RegionType;
+  using OutputSpacingType = typename LevelSetImageType::SpacingType;
+  using OutputDirectionType = typename LevelSetImageType::DirectionType;
+  using OutputPointType = typename LevelSetImageType::PointType;
 
   class AxisNodeType:public NodeType
   {
@@ -150,12 +150,12 @@ private:
     int m_Axis;
   };
 
-  /** SpeedImage typedef support. */
-  typedef TSpeedImage SpeedImageType;
+  /** SpeedImage type alias support */
+  using SpeedImageType = TSpeedImage;
 
-  /** SpeedImagePointer typedef support. */
-  typedef typename SpeedImageType::Pointer      SpeedImagePointer;
-  typedef typename SpeedImageType::ConstPointer SpeedImageConstPointer;
+  /** SpeedImagePointer type alias support */
+  using SpeedImagePointer = typename SpeedImageType::Pointer;
+  using SpeedImageConstPointer = typename SpeedImageType::ConstPointer;
 
   /** Dimension of the level set and the speed image. */
   itkStaticConstMacro(SetDimension, unsigned int,
@@ -163,8 +163,8 @@ private:
   itkStaticConstMacro(SpeedImageDimension, unsigned int,
                       SpeedImageType::ImageDimension);
 
-  /** Index typedef support. */
-  typedef Index< itkGetStaticConstMacro(SetDimension) > IndexType;
+  /** Index type alias support */
+  using IndexType = Index< itkGetStaticConstMacro(SetDimension) >;
 
   /** Enum of Fast Marching algorithm point types. FarPoints represent far
    * away points; TrialPoints represent points within a narrowband of the
@@ -173,18 +173,17 @@ private:
   enum LabelType { FarPoint = 0, AlivePoint,
                    TrialPoint, InitialTrialPoint, OutsidePoint };
 
-  /** LabelImage typedef support. */
-  typedef Image< unsigned char, itkGetStaticConstMacro(SetDimension) > LabelImageType;
+  /** LabelImage type alias support */
+  using LabelImageType = Image< unsigned char, itkGetStaticConstMacro(SetDimension) >;
 
-  /** LabelImagePointer typedef support. */
-  typedef typename LabelImageType::Pointer LabelImagePointer;
+  /** LabelImagePointer type alias support */
+  using LabelImagePointer = typename LabelImageType::Pointer;
 
   template< typename TPixel >
   void SetBinaryMask( Image< TPixel, SetDimension >* iImage )
     {
-    typedef Image< TPixel, SetDimension > InternalImageType;
-    typedef ImageRegionConstIteratorWithIndex< InternalImageType >
-        InternalRegionIterator;
+    using InternalImageType = Image< TPixel, SetDimension >;
+    using InternalRegionIterator = ImageRegionConstIteratorWithIndex<InternalImageType>;
     InternalRegionIterator b_it( iImage, iImage->GetLargestPossibleRegion() );
     b_it.GoToBegin();
 
@@ -364,7 +363,7 @@ protected:
   itkGetConstReferenceMacro(LargeValue, PixelType);
 
   OutputRegionType m_BufferedRegion;
-  typedef typename LevelSetImageType::IndexType LevelSetIndexType;
+  using LevelSetIndexType = typename LevelSetImageType::IndexType;
   LevelSetIndexType m_StartIndex;
   LevelSetIndexType m_LastIndex;
 
@@ -399,10 +398,10 @@ private:
   /** Trial points are stored in a min-heap. This allow efficient access
    * to the trial point with minimum value which is the next grid point
    * the algorithm processes. */
-  typedef std::vector< AxisNodeType >  HeapContainer;
-  typedef std::greater< AxisNodeType > NodeComparer;
-  typedef std::priority_queue< AxisNodeType, HeapContainer, NodeComparer >
-  HeapType;
+  using HeapContainer = std::vector< AxisNodeType >;
+  using NodeComparer = std::greater< AxisNodeType >;
+  using HeapType =
+      std::priority_queue< AxisNodeType, HeapContainer, NodeComparer >;
 
   HeapType m_TrialHeap;
 

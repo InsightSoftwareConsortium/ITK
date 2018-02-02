@@ -52,15 +52,15 @@
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef float                             PixelType;
-  typedef itk::Mesh< PixelType, 3 >         MeshType;
+  using PixelType = float;
+  using MeshType = itk::Mesh< PixelType, 3 >;
 
-  typedef MeshType::CellType                CellType;
+  using CellType = MeshType::CellType;
 
-  typedef itk::VertexCell< CellType >       VertexType;
-  typedef itk::LineCell< CellType >         LineType;
-  typedef itk::TriangleCell< CellType >     TriangleType;
-  typedef itk::TetrahedronCell< CellType >  TetrahedronType;
+  using VertexType = itk::VertexCell< CellType >;
+  using LineType = itk::LineCell< CellType >;
+  using TriangleType = itk::TriangleCell< CellType >;
+  using TetrahedronType = itk::TetrahedronCell< CellType >;
   // Software Guide : EndCodeSnippet
 
 
@@ -90,7 +90,7 @@
 class CustomTriangleVisitor
 {
 public:
-  typedef itk::TriangleCell<CellType>      TriangleType;
+  using TriangleType = itk::TriangleCell<CellType>;
   void Visit(unsigned long cellId, TriangleType * t )
     {
     std::cout << "Cell # " << cellId << " is a TriangleType ";
@@ -237,12 +237,11 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::CellInterfaceVisitorImplementation<
+  using TriangleVisitorInterfaceType = itk::CellInterfaceVisitorImplementation<
                               PixelType,
                               MeshType::CellTraits,
                               TriangleType,
-                              CustomTriangleVisitor
-                                       > TriangleVisitorInterfaceType;
+                              CustomTriangleVisitor >;
   // Software Guide : EndCodeSnippet
 
 
@@ -276,7 +275,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef CellType::MultiVisitor CellMultiVisitorType;
+  using CellMultiVisitorType = CellType::MultiVisitor;
   CellMultiVisitorType::Pointer multiVisitor = CellMultiVisitorType::New();
   // Software Guide : EndCodeSnippet
 

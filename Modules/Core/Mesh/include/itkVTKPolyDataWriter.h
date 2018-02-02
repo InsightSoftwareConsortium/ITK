@@ -42,11 +42,11 @@ template< typename TInputMesh >
 class ITK_TEMPLATE_EXPORT VTKPolyDataWriter:public Object
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef VTKPolyDataWriter          Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = VTKPolyDataWriter;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);
@@ -62,27 +62,27 @@ public:
 
   /** Hold on to the type information specified by the template parameters.
    */
-  typedef TInputMesh                              InputMeshType;
-  typedef typename InputMeshType::PixelType       PixelType;
-  typedef typename InputMeshType::PointType       PointType;
-  typedef typename InputMeshType::CellType        CellType;
-  typedef typename InputMeshType::PointIdentifier PointIdentifier;
+  using InputMeshType = TInputMesh;
+  using PixelType = typename InputMeshType::PixelType;
+  using PointType = typename InputMeshType::PointType;
+  using CellType = typename InputMeshType::CellType;
+  using PointIdentifier = typename InputMeshType::PointIdentifier;
 
-  /** Some convenient typedefs. */
-  typedef typename InputMeshType::ConstPointer InputMeshPointer;
-  typedef typename InputMeshType::CellTraits   CellTraits;
+  /** Some convenient type alias. */
+  using InputMeshPointer = typename InputMeshType::ConstPointer;
+  using CellTraits = typename InputMeshType::CellTraits;
 
   /** Define the triangular cell types which form the surface  */
-  typedef CellInterface< PixelType, CellTraits > CellInterfaceType;
-  typedef TriangleCell< CellInterfaceType >      TriangleCellType;
+  using CellInterfaceType = CellInterface< PixelType, CellTraits >;
+  using TriangleCellType = TriangleCell< CellInterfaceType >;
 
-  typedef typename InputMeshType::PointsContainer PointsContainer;
-  typedef typename InputMeshType::CellsContainer  CellsContainer;
+  using PointsContainer = typename InputMeshType::PointsContainer;
+  using CellsContainer = typename InputMeshType::CellsContainer;
 
-  typedef typename PointsContainer::ConstIterator PointIterator;
-  typedef typename CellsContainer::ConstIterator  CellIterator;
+  using PointIterator = typename PointsContainer::ConstIterator;
+  using CellIterator = typename CellsContainer::ConstIterator;
 
-  typedef typename CellType::PointIdIterator PointIdIterator;
+  using PointIdIterator = typename CellType::PointIdIterator;
 
   /** Set the Input */
   void SetInput(const InputMeshType *input);

@@ -30,24 +30,24 @@ int itkDiscreteGaussianImageFilterTestA(int argc, char* argv[])
       return EXIT_FAILURE;
       }
 
-    typedef TIMAGE ImageType;
+    using ImageType = TIMAGE;
 
     const char * input_file_name = argv[3];
     float sigma = atof(argv[4]);
     const char * output_file_name = argv[5];
 
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     typename ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName(input_file_name);
 
-    typedef itk::DiscreteGaussianImageFilter<ImageType, ImageType> FilterType;
+    using FilterType = itk::DiscreteGaussianImageFilter<ImageType, ImageType>;
 
     typename FilterType::Pointer filter = FilterType::New();
     filter->SetInput(reader->GetOutput());
     filter->SetVariance(sigma);
     filter->Update();
 
-    typedef itk::ImageFileWriter<ImageType> WriterType;
+    using WriterType = itk::ImageFileWriter<ImageType>;
 
     typename WriterType::Pointer writer = WriterType::New();
     writer->SetFileName(output_file_name);
@@ -93,10 +93,10 @@ int itkDiscreteGaussianImageFilterTest2(int argc, char *argv[])
         return EXIT_FAILURE;
       }
 
-    typedef float                           ScalarPixelType;
-    typedef itk::Image<ScalarPixelType, 2>  ScalarImageType;
-    typedef itk::Vector<ScalarPixelType, 3> VectorPixelType;
-    typedef itk::Image<VectorPixelType, 2>  VectorImageType;
+    using ScalarPixelType = float;
+    using ScalarImageType = itk::Image<ScalarPixelType, 2>;
+    using VectorPixelType = itk::Vector<ScalarPixelType, 3>;
+    using VectorImageType = itk::Image<VectorPixelType, 2>;
 
     switch (vec_dim)
       {

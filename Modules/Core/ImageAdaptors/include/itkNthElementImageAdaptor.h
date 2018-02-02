@@ -48,11 +48,11 @@ template< typename TImage, typename TOutputPixelType >
 class NthElementImageAdaptorHelper
 {
 public:
-  typedef  NthElementPixelAccessor<
+  using PixelAccessor = NthElementPixelAccessor<
     TOutputPixelType,
-    typename TImage::PixelType > PixelAccessor;
+    typename TImage::PixelType >;
 
-  typedef  ImageAdaptor< TImage, PixelAccessor > Super;
+  using Super = ImageAdaptor< TImage, PixelAccessor >;
 };
 
 template< typename TImage, typename TOutputPixelType >
@@ -60,11 +60,11 @@ class NthElementImageAdaptor:
   public NthElementImageAdaptorHelper< TImage, TOutputPixelType >::Super
 {
 public:
-  /** Standard class typedefs. */
-  typedef NthElementImageAdaptor                                                   Self;
-  typedef typename NthElementImageAdaptorHelper< TImage, TOutputPixelType >::Super Superclass;
-  typedef SmartPointer< Self >                                                     Pointer;
-  typedef SmartPointer< const Self >                                               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = NthElementImageAdaptor;
+  using Superclass = typename NthElementImageAdaptorHelper< TImage, TOutputPixelType >::Super;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NthElementImageAdaptor, ImageAdaptor);

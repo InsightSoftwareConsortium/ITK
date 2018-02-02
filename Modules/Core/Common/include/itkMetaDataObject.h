@@ -73,11 +73,11 @@ template< typename MetaDataObjectType >
 class ITK_TEMPLATE_EXPORT MetaDataObject:public MetaDataObjectBase
 {
 public:
-  /** Smart pointer typedef support. */
-  typedef MetaDataObject             Self;
-  typedef MetaDataObjectBase         Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using Self = MetaDataObject;
+  using Superclass = MetaDataObjectBase;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkFactorylessNewMacro(Self);

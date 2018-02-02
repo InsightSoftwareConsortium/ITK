@@ -46,27 +46,27 @@ class ITK_TEMPLATE_EXPORT GPUMeanImageFilter : //public GPUImageToImageFilter<
   public GPUBoxImageFilter< TInputImage, TOutputImage, MeanImageFilter< TInputImage, TOutputImage > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUMeanImageFilter                                                                           Self;
-  typedef GPUBoxImageFilter< TInputImage, TOutputImage, MeanImageFilter< TInputImage, TOutputImage > > Superclass;
-  typedef SmartPointer< Self >                                                                         Pointer;
-  typedef SmartPointer< const Self >                                                                   ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUMeanImageFilter;
+  using Superclass = GPUBoxImageFilter< TInputImage, TOutputImage, MeanImageFilter< TInputImage, TOutputImage > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GPUMeanImageFilter, GPUBoxImageFilter);
 
-  /** Superclass typedefs. */
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
-  typedef typename Superclass::OutputImagePixelType  OutputImagePixelType;
+  /** Superclass type alias. */
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                           InputImageType;
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -99,10 +99,10 @@ private:
 class GPUMeanImageFilterFactory : public ObjectFactoryBase
 {
 public:
-  typedef GPUMeanImageFilterFactory Self;
-  typedef ObjectFactoryBase         Superclass;
-  typedef SmartPointer<Self>        Pointer;
-  typedef SmartPointer<const Self>  ConstPointer;
+  using Self = GPUMeanImageFilterFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Class methods used to interface with the registered factories. */
   const char* GetITKSourceVersion() const override
@@ -133,8 +133,8 @@ private:
 
 #define OverrideMeanFilterTypeMacro(ipt,opt,dm) \
     { \
-    typedef Image<ipt,dm> InputImageType; \
-    typedef Image<opt,dm> OutputImageType; \
+    using InputImageType = Image<ipt,dm>; \
+    using OutputImageType = Image<opt,dm>; \
     this->RegisterOverride( \
       typeid(MeanImageFilter<InputImageType,OutputImageType>).name(), \
       typeid(GPUMeanImageFilter<InputImageType,OutputImageType>).name(), \

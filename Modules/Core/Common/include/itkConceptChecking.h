@@ -59,7 +59,7 @@
 #define itkConceptConstraintsMacro()    \
   template< void (Constraints::*) ( ) > \
   struct Enforcer {};                   \
-  typedef Enforcer< & Constraints::constraints > EnforcerInstantiation
+  using EnforcerInstantiation = Enforcer< & Constraints::constraints >;
 #define itkConceptMacro(name, concept) enum { name = sizeof concept }
 
 #elif defined( ITK_CONCEPT_IMPLEMENTATION_VTABLE )
@@ -546,11 +546,11 @@ struct OStreamWritable {
 /** Concept requiring T to be signed. */
 template< typename T >
 struct Signed {
-  typedef Signed Self;
+  using Self = Signed;
   itkStaticConstMacro(IsSigned, bool, NumericTraits< T >::is_signed);
   struct Constraints {
-    typedef Detail::UniqueType_bool< true >                             TrueT;
-    typedef Detail::UniqueType_bool< itkGetStaticConstMacro(IsSigned) > SignedT;
+    using TrueT = Detail::UniqueType_bool< true >;
+    using SignedT = Detail::UniqueType_bool< itkGetStaticConstMacro(IsSigned) >;
     void constraints()
     {
       SignedT a = TrueT();
@@ -579,8 +579,8 @@ struct SameType {
 template< unsigned int D1, unsigned int D2 >
 struct SameDimension {
   struct Constraints {
-    typedef Detail::UniqueType_unsigned_int< D1 > DT1;
-    typedef Detail::UniqueType_unsigned_int< D2 > DT2;
+    using DT1 = Detail::UniqueType_unsigned_int< D1 >;
+    using DT2 = Detail::UniqueType_unsigned_int< D2 >;
     void constraints()
     {
       DT1 a = DT2();
@@ -686,8 +686,8 @@ struct HasJoinTraits {
 template< unsigned int D1, unsigned int D2 >
 struct SameDimensionOrMinusOne {
   struct Constraints {
-    typedef Detail::UniqueType_unsigned_int< D1 >     Type1;
-    typedef Detail::UniqueType_unsigned_int< D1 - 1 > Type2;
+    using Type1 = Detail::UniqueType_unsigned_int< D1 >;
+    using Type2 = Detail::UniqueType_unsigned_int< D1 - 1 >;
 
     void f(Type1) {}
     void f(Type2, int = 0) {}
@@ -705,9 +705,9 @@ struct SameDimensionOrMinusOne {
 template< unsigned int D1, unsigned int D2 >
 struct SameDimensionOrMinusOneOrTwo {
   struct Constraints {
-    typedef Detail::UniqueType_unsigned_int< D1 >     Type1;
-    typedef Detail::UniqueType_unsigned_int< D1 - 1 > Type2;
-    typedef Detail::UniqueType_unsigned_int< D1 - 2 > Type3;
+    using Type1 = Detail::UniqueType_unsigned_int< D1 >;
+    using Type2 = Detail::UniqueType_unsigned_int< D1 - 1 >;
+    using Type3 = Detail::UniqueType_unsigned_int< D1 - 2 >;
 
     void f(Type1) {}
     void f(Type2, int = 0) {}
@@ -725,11 +725,11 @@ struct SameDimensionOrMinusOneOrTwo {
 /** Concept requiring T to be integer. */
 template< typename T >
 struct IsInteger {
-  typedef IsInteger Self;
+  using Self = IsInteger;
   itkStaticConstMacro(Integral, bool, NumericTraits< T >::is_integer);
   struct Constraints {
-    typedef Detail::UniqueType_bool< true >                             TrueT;
-    typedef Detail::UniqueType_bool< itkGetStaticConstMacro(Integral) > IntegralT;
+    using TrueT = Detail::UniqueType_bool< true >;
+    using IntegralT = Detail::UniqueType_bool< itkGetStaticConstMacro(Integral) >;
     void constraints()
     {
       IntegralT a = TrueT();
@@ -745,11 +745,11 @@ struct IsInteger {
 /** Concept requiring T to be an unsigned integer. */
 template< typename T >
 struct IsUnsignedInteger {
-  typedef IsUnsignedInteger Self;
+  using Self = IsUnsignedInteger;
   itkStaticConstMacro(Unsigned, bool, !NumericTraits< T >::is_signed);
   struct Constraints {
-    typedef Detail::UniqueType_bool< true >                             TrueT;
-    typedef Detail::UniqueType_bool< itkGetStaticConstMacro(Unsigned) > UnsignedT;
+    using TrueT = Detail::UniqueType_bool< true >;
+    using UnsignedT = Detail::UniqueType_bool< itkGetStaticConstMacro(Unsigned) >;
     void constraints()
     {
       UnsignedT a = TrueT();
@@ -765,11 +765,11 @@ struct IsUnsignedInteger {
 /** Concept requiring T to be non-integer. */
 template< typename T >
 struct IsNonInteger {
-  typedef IsNonInteger Self;
+  using Self = IsNonInteger;
   itkStaticConstMacro(NonIntegral, bool, NumericTraits< T >::is_integer);
   struct Constraints {
-    typedef Detail::UniqueType_bool< false >                               FalseT;
-    typedef Detail::UniqueType_bool< itkGetStaticConstMacro(NonIntegral) > NonIntegralT;
+    using FalseT = Detail::UniqueType_bool< false >;
+    using NonIntegralT = Detail::UniqueType_bool< itkGetStaticConstMacro(NonIntegral) >;
     void constraints()
     {
       NonIntegralT a = FalseT();
@@ -784,13 +784,13 @@ struct IsNonInteger {
 /** Concept requiring T to be floating point. */
 template< typename T >
 struct IsFloatingPoint {
-  typedef IsFloatingPoint Self;
+  using Self = IsFloatingPoint;
   itkStaticConstMacro(Integral, bool, NumericTraits< T >::is_integer);
   itkStaticConstMacro(IsExact, bool, NumericTraits< T >::is_exact);
   struct Constraints {
-    typedef Detail::UniqueType_bool< false >                            FalseT;
-    typedef Detail::UniqueType_bool< itkGetStaticConstMacro(Integral) > IntegralT;
-    typedef Detail::UniqueType_bool< itkGetStaticConstMacro(IsExact) >  ExactT;
+    using FalseT = Detail::UniqueType_bool< false >;
+    using IntegralT = Detail::UniqueType_bool< itkGetStaticConstMacro(Integral) >;
+    using ExactT = Detail::UniqueType_bool< itkGetStaticConstMacro(IsExact) >;
     void constraints()
     {
       IntegralT a = FalseT();
@@ -807,14 +807,14 @@ struct IsFloatingPoint {
 /** Concept requiring T to be fixed point. */
 template< typename T >
 struct IsFixedPoint {
-  typedef IsFixedPoint Self;
+  using Self = IsFixedPoint;
   itkStaticConstMacro(Integral, bool, NumericTraits< T >::is_integer);
   itkStaticConstMacro(IsExact, bool, NumericTraits< T >::is_exact);
   struct Constraints {
-    typedef Detail::UniqueType_bool< true >                             TrueT;
-    typedef Detail::UniqueType_bool< false >                            FalseT;
-    typedef Detail::UniqueType_bool< itkGetStaticConstMacro(Integral) > IntegralT;
-    typedef Detail::UniqueType_bool< itkGetStaticConstMacro(IsExact) >  ExactT;
+    using TrueT = Detail::UniqueType_bool< true >;
+    using FalseT = Detail::UniqueType_bool< false >;
+    using IntegralT = Detail::UniqueType_bool< itkGetStaticConstMacro(Integral) >;
+    using ExactT = Detail::UniqueType_bool< itkGetStaticConstMacro(IsExact) >;
     void constraints()
     {
       IntegralT a = FalseT();

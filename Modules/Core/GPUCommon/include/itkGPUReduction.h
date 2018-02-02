@@ -41,11 +41,11 @@ class ITK_TEMPLATE_EXPORT GPUReduction :
   public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUReduction               Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUReduction;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -54,7 +54,7 @@ public:
   itkTypeMacro(GPUReduction,
                Object);
 
-  typedef GPUDataManager::Pointer GPUDataPointer;
+  using GPUDataPointer = GPUDataManager::Pointer;
 
   itkGetMacro(GPUDataManager, GPUDataPointer);
   itkGetMacro(GPUResult, TElement);

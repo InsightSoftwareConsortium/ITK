@@ -66,7 +66,7 @@ int main()
   // Software Guide :EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::PointSet< short > PointSetType;
+  using PointSetType = itk::PointSet< short >;
   PointSetType::Pointer pointSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 
@@ -120,8 +120,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::Statistics::PointSetToListSampleAdaptor<
-                                                     PointSetType > SampleType;
+  using SampleType = itk::Statistics::PointSetToListSampleAdaptor<PointSetType>;
   SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 

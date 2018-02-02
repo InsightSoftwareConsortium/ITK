@@ -39,26 +39,26 @@ class ITKOptimizers_EXPORT MultipleValuedVnlCostFunctionAdaptor:
 {
 public:
 
-  /** InternalParametersType typedef. */
-  typedef   vnl_vector< double > InternalParametersType;
+  /** InternalParametersType type alias. */
+  using InternalParametersType = vnl_vector< double >;
 
-  /** InternalMeasureType typedef. */
-  typedef   vnl_vector< double > InternalMeasureType;
+  /** InternalMeasureType type alias. */
+  using InternalMeasureType = vnl_vector< double >;
 
-  /** InternalGradientType typedef. */
-  typedef   vnl_matrix< double > InternalDerivativeType;
+  /** InternalGradientType type alias. */
+  using InternalDerivativeType = vnl_matrix< double >;
 
   /** MeasureType of the MultipleValuedCostFunction */
-  typedef MultipleValuedCostFunction::MeasureType MeasureType;
+  using MeasureType = MultipleValuedCostFunction::MeasureType;
 
   /** Parameters of the MultipleValuedCostFunction */
-  typedef MultipleValuedCostFunction::ParametersType ParametersType;
+  using ParametersType = MultipleValuedCostFunction::ParametersType;
 
   /** Derivatives of the MultipleValuedCostFunction */
-  typedef MultipleValuedCostFunction::DerivativeType DerivativeType;
+  using DerivativeType = MultipleValuedCostFunction::DerivativeType;
 
-  /** Scales typedef */
-  typedef Array< double > ScalesType;
+  /** Scales type alias */
+  using ScalesType = Array< double >;
 
   /** Constructor with size */
   MultipleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension,

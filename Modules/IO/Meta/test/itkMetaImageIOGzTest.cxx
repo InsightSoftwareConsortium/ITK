@@ -58,8 +58,8 @@ int itkMetaImageIOGzTest(int ac, char* av[])
     }
   gzclose(compressed);
 
-  typedef unsigned short           PixelType;
-  typedef itk::Image<PixelType, 3> myImage;
+  using PixelType = unsigned short;
+  using myImage = itk::Image<PixelType, 3>;
 
   itk::ImageFileReader<myImage>::Pointer reader
     = itk::ImageFileReader<myImage>::New();

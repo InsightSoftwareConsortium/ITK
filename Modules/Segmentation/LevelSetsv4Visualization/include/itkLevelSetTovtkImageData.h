@@ -46,13 +46,13 @@ class ITK_TEMPLATE_EXPORT LevelSetTovtkImageData< LevelSetDenseImage< TImage > >
     public LevelSetTovtkImageDataBase< LevelSetDenseImage< TImage > >
 {
 public:
-  typedef TImage                              ImageType;
-  typedef LevelSetDenseImage< ImageType >     LevelSetType;
+  using ImageType = TImage;
+  using LevelSetType = LevelSetDenseImage< ImageType >;
 
-  typedef LevelSetTovtkImageData                      Self;
-  typedef LevelSetTovtkImageDataBase< LevelSetType >  Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  using Self = LevelSetTovtkImageData;
+  using Superclass = LevelSetTovtkImageDataBase< LevelSetType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -60,7 +60,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( LevelSetTovtkImageData, LevelSetTovtkImageDataBase );
 
-  typedef typename LevelSetType::Pointer  LevelSetPointer;
+  using LevelSetPointer = typename LevelSetType::Pointer;
 
   vtkImageData* GetOutput() const override;
 
@@ -74,8 +74,8 @@ private:
   LevelSetTovtkImageData( const Self& );
   void operator = ( const Self& );
 
-  typedef ImageToVTKImageFilter< ImageType >  ConverterType;
-  typedef typename ConverterType::Pointer     ConverterPointer;
+  using ConverterType = ImageToVTKImageFilter< ImageType >;
+  using ConverterPointer = typename ConverterType::Pointer;
 
   ConverterPointer m_Converter;
 };
@@ -86,12 +86,12 @@ class ITK_TEMPLATE_EXPORT LevelSetTovtkImageData< WhitakerSparseLevelSetImage< T
     public LevelSetTovtkImageDataBase< WhitakerSparseLevelSetImage< TOutput, VDimension > >
 {
 public:
-  typedef WhitakerSparseLevelSetImage< TOutput, VDimension > LevelSetType;
+  using LevelSetType = WhitakerSparseLevelSetImage< TOutput, VDimension >;
 
-  typedef LevelSetTovtkImageData                      Self;
-  typedef LevelSetTovtkImageDataBase< LevelSetType >  Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  using Self = LevelSetTovtkImageData;
+  using Superclass = LevelSetTovtkImageDataBase< LevelSetType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -99,7 +99,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( LevelSetTovtkImageData, LevelSetTovtkImageDataBase );
 
-  typedef typename LevelSetType::Pointer  LevelSetPointer;
+  using LevelSetPointer = typename LevelSetType::Pointer;
 
   vtkImageData* GetOutput() const override;
 
@@ -113,11 +113,11 @@ private:
   LevelSetTovtkImageData( const Self& );
   void operator = ( const Self& );
 
-  typedef Image< TOutput, VDimension >  ImageType;
-  typedef typename ImageType::Pointer   ImagePointer;
+  using ImageType = Image< TOutput, VDimension >;
+  using ImagePointer = typename ImageType::Pointer;
 
-  typedef ImageToVTKImageFilter< ImageType >  ConverterType;
-  typedef typename ConverterType::Pointer     ConverterPointer;
+  using ConverterType = ImageToVTKImageFilter< ImageType >;
+  using ConverterPointer = typename ConverterType::Pointer;
 
   ImagePointer     m_InternalImage;
   ConverterPointer m_Converter;
@@ -130,12 +130,12 @@ class ITK_TEMPLATE_EXPORT LevelSetTovtkImageData< ShiSparseLevelSetImage< VDimen
     public LevelSetTovtkImageDataBase< ShiSparseLevelSetImage< VDimension > >
 {
 public:
-  typedef ShiSparseLevelSetImage< VDimension > LevelSetType;
+  using LevelSetType = ShiSparseLevelSetImage< VDimension >;
 
-  typedef LevelSetTovtkImageData                      Self;
-  typedef LevelSetTovtkImageDataBase< LevelSetType >  Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  using Self = LevelSetTovtkImageData;
+  using Superclass = LevelSetTovtkImageDataBase< LevelSetType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -143,7 +143,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( LevelSetTovtkImageData, LevelSetTovtkImageDataBase );
 
-  typedef typename LevelSetType::Pointer  LevelSetPointer;
+  using LevelSetPointer = typename LevelSetType::Pointer;
 
   vtkImageData* GetOutput() const override;
 
@@ -157,20 +157,20 @@ private:
   LevelSetTovtkImageData( const Self& );
   void operator = ( const Self& );
 
-  typedef typename LevelSetType::LabelMapType         LabelMapType;
-  typedef typename LevelSetType::LabelMapPointer      LabelMapPointer;
-  typedef typename LevelSetType::LabelMapConstPointer LabelMapConstPointer;
+  using LabelMapType = typename LevelSetType::LabelMapType;
+  using LabelMapPointer = typename LevelSetType::LabelMapPointer;
+  using LabelMapConstPointer = typename LevelSetType::LabelMapConstPointer;
 
-  typedef Image< int8_t, VDimension >   ImageType;
-  typedef typename ImageType::Pointer   ImagePointer;
+  using ImageType = Image< int8_t, VDimension >;
+  using ImagePointer = typename ImageType::Pointer;
 
-  typedef LabelMapToLabelImageFilter< LabelMapType, ImageType >   LabelMapToLabelImageFilterType;
-  typedef typename LabelMapToLabelImageFilterType::Pointer        LabelMapToLabelImageFilterPointer;
+  using LabelMapToLabelImageFilterType = LabelMapToLabelImageFilter< LabelMapType, ImageType >;
+  using LabelMapToLabelImageFilterPointer = typename LabelMapToLabelImageFilterType::Pointer;
 
   LabelMapToLabelImageFilterPointer   m_LabelMapToLabelImageFilter;
 
-  typedef ImageToVTKImageFilter< ImageType >  ConverterType;
-  typedef typename ConverterType::Pointer     ConverterPointer;
+  using ConverterType = ImageToVTKImageFilter< ImageType >;
+  using ConverterPointer = typename ConverterType::Pointer;
 
   ConverterPointer                    m_Converter;
 };
@@ -181,12 +181,12 @@ class ITK_TEMPLATE_EXPORT LevelSetTovtkImageData< MalcolmSparseLevelSetImage< VD
     public LevelSetTovtkImageDataBase< MalcolmSparseLevelSetImage< VDimension > >
 {
 public:
-  typedef MalcolmSparseLevelSetImage< VDimension > LevelSetType;
+  using LevelSetType = MalcolmSparseLevelSetImage< VDimension >;
 
-  typedef LevelSetTovtkImageData                      Self;
-  typedef LevelSetTovtkImageDataBase< LevelSetType >  Superclass;
-  typedef SmartPointer< Self >                        Pointer;
-  typedef SmartPointer< const Self >                  ConstPointer;
+  using Self = LevelSetTovtkImageData;
+  using Superclass = LevelSetTovtkImageDataBase< LevelSetType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -194,7 +194,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( LevelSetTovtkImageData, LevelSetTovtkImageDataBase );
 
-  typedef typename LevelSetType::Pointer  LevelSetPointer;
+  using LevelSetPointer = typename LevelSetType::Pointer;
 
   vtkImageData* GetOutput() const override;
 
@@ -208,19 +208,19 @@ private:
   LevelSetTovtkImageData( const Self& );
   void operator = ( const Self& );
 
-  typedef typename LevelSetType::LabelMapType     LabelMapType;
-  typedef typename LevelSetType::LabelMapPointer  LabelMapPointer;
+  using LabelMapType = typename LevelSetType::LabelMapType;
+  using LabelMapPointer = typename LevelSetType::LabelMapPointer;
 
-  typedef Image< int8_t, VDimension >   ImageType;
-  typedef typename ImageType::Pointer   ImagePointer;
+  using ImageType = Image< int8_t, VDimension >;
+  using ImagePointer = typename ImageType::Pointer;
 
-  typedef LabelMapToLabelImageFilter< LabelMapType, ImageType >   LabelMapToLabelImageFilterType;
-  typedef typename LabelMapToLabelImageFilterType::Pointer        LabelMapToLabelImageFilterPointer;
+  using LabelMapToLabelImageFilterType = LabelMapToLabelImageFilter< LabelMapType, ImageType >;
+  using LabelMapToLabelImageFilterPointer = typename LabelMapToLabelImageFilterType::Pointer;
 
   LabelMapToLabelImageFilterPointer   m_LabelMapToLabelImageFilter;
 
-  typedef ImageToVTKImageFilter< ImageType >  ConverterType;
-  typedef typename ConverterType::Pointer     ConverterPointer;
+  using ConverterType = ImageToVTKImageFilter< ImageType >;
+  using ConverterPointer = typename ConverterType::Pointer;
 
   ConverterPointer                    m_Converter;
 };

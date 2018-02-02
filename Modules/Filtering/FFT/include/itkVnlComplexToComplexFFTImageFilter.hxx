@@ -60,7 +60,7 @@ VnlComplexToComplexFFTImageFilter< TImage >
   // Copy the input to the output, and we will work in place on the output.
   ImageAlgorithm::Copy< ImageType, ImageType >( input, output, bufferedRegion, bufferedRegion );
 
-  typedef std::complex< typename PixelType::value_type > VclPixelType;
+  using VclPixelType = std::complex< typename PixelType::value_type >;
   VclPixelType * outputBuffer = static_cast< VclPixelType * >( output->GetBufferPointer() );
 
   // call the proper transform, based on compile type template parameter
@@ -86,7 +86,7 @@ VnlComplexToComplexFFTImageFilter< TImage >
   //
   if ( this->GetTransformDirection() == Superclass::INVERSE )
     {
-    typedef ImageRegionIterator< OutputImageType >   IteratorType;
+    using IteratorType = ImageRegionIterator< OutputImageType >;
     SizeValueType totalOutputSize = this->GetOutput()->GetRequestedRegion().GetNumberOfPixels();
     IteratorType it(this->GetOutput(), outputRegionForThread);
     while( !it.IsAtEnd() )

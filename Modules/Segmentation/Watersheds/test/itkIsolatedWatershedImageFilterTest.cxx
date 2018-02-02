@@ -44,8 +44,8 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char                       PixelType;
-  typedef itk::Image< PixelType, Dimension >  ImageType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
   itk::ImageFileReader< ImageType >::Pointer reader =
     itk::ImageFileReader< ImageType >::New();
@@ -56,7 +56,7 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
 
 
   // Create the IsolatedWatershedImageFilter object
-  typedef itk::IsolatedWatershedImageFilter< ImageType, ImageType > FilterType;
+  using FilterType = itk::IsolatedWatershedImageFilter< ImageType, ImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -130,7 +130,7 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
   std::cout << "IsolatedValue: " << isolatedValue << std::endl;
 
   // Write the filter output
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[2] );

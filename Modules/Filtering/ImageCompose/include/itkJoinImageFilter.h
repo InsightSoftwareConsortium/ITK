@@ -51,13 +51,13 @@ public:
   JoinFunctor() {}
   ~JoinFunctor() {}
 
-  /** Standard typedefs */
-  typedef JoinFunctor Self;
+  /** Standard type alias */
+  using Self = JoinFunctor;
 
   /** Typedefs for the output join type. */
-  typedef typename PixelTraits< TPixel1 >::ValueType               ValueType1;
-  typedef typename PixelTraits< TPixel2 >::ValueType               ValueType2;
-  typedef typename JoinTraits< ValueType1, ValueType2 >::ValueType JoinValueType;
+  using ValueType1 = typename PixelTraits< TPixel1 >::ValueType;
+  using ValueType2 = typename PixelTraits< TPixel2 >::ValueType;
+  using JoinValueType = typename JoinTraits< ValueType1, ValueType2 >::ValueType;
 
   /** Capture the dimensions of the image. */
   itkStaticConstMacro(Dimension1, unsigned int,
@@ -68,7 +68,7 @@ public:
                       Dimension1 + Dimension2);
 
   /** A vector of the join dimension. */
-  typedef Vector< JoinValueType, itkGetStaticConstMacro(JoinDimension) > JoinType;
+  using JoinType = Vector< JoinValueType, itkGetStaticConstMacro(JoinDimension) >;
 
   bool operator!=(const JoinFunctor &) const
   {
@@ -165,10 +165,10 @@ private:
 
 template< typename TImage1, typename TImage2 >
 struct MakeJoin {
-  typedef JoinFunctor< typename TImage1::PixelType,
-                       typename TImage2::PixelType > FunctorType;
-  typedef Image< typename FunctorType::JoinType,
-                  TImage1 ::ImageDimension > ImageType;
+  using FunctorType = JoinFunctor< typename TImage1::PixelType,
+                       typename TImage2::PixelType >;
+  using ImageType = Image< typename FunctorType::JoinType,
+                  TImage1 ::ImageDimension >;
 };
 } //namespace functor
 
@@ -216,22 +216,22 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TInputImage1::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef JoinImageFilter Self;
+  /** Standard class type aliases. */
+  using Self = JoinImageFilter;
 
-  /** Output typedefs. */
-  typedef typename Functor::MakeJoin< TInputImage1,
-                                      TInputImage2 >::FunctorType FunctorType;
-  typedef typename Functor::MakeJoin< TInputImage1,
-                                      TInputImage2 >::ImageType OutputImageType;
-  typedef typename FunctorType::JoinType OutputImagePixelType;
+  /** Output type alias. */
+  using FunctorType = typename Functor::MakeJoin< TInputImage1,
+                                      TInputImage2 >::FunctorType;
+  using OutputImageType = typename Functor::MakeJoin< TInputImage1,
+                                      TInputImage2 >::ImageType;
+  using OutputImagePixelType = typename FunctorType::JoinType;
 
-  /** Standard class typedefs. */
-  typedef BinaryFunctorImageFilter< TInputImage1, TInputImage2, OutputImageType,
-                                    FunctorType > Superclass;
+  /** Standard class type aliases. */
+  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, OutputImageType,
+                                    FunctorType >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

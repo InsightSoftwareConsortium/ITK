@@ -26,12 +26,12 @@
 int itkSceneSpatialObjectTest(int, char* [])
 {
   // Create the SceneSpatialObject
-  typedef itk::SceneSpatialObject<3>  SceneSpatialObjectType;
+  using SceneSpatialObjectType = itk::SceneSpatialObject<3>;
   SceneSpatialObjectType::Pointer SceneSpatialObject = SceneSpatialObjectType::New();
   SceneSpatialObject->Print(std::cout);
 
   // Create two ellipses to put in the SceneSpatialObject
-  typedef itk::EllipseSpatialObject<3>   EllipseType;
+  using EllipseType = itk::EllipseSpatialObject<3>;
   EllipseType::Pointer ellipse1 = EllipseType::New();
   EllipseType::Pointer ellipse2 = EllipseType::New();
 
@@ -50,7 +50,7 @@ int itkSceneSpatialObjectTest(int, char* [])
   std::cout << SceneSpatialObject << std::endl;
 
   // Test spatial objects for coverage
-  typedef itk::GroupSpatialObject<3> SpatialObjectType;
+  using SpatialObjectType = itk::GroupSpatialObject<3>;
   SpatialObjectType::Pointer object = SpatialObjectType::New();
 
   std::cout << "Testing Typename: ";

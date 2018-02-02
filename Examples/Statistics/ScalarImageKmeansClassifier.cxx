@@ -67,12 +67,12 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef signed short       PixelType;
+  using PixelType = signed short;
   const unsigned int         Dimension = 2;
 
-  typedef itk::Image<PixelType, Dimension > ImageType;
+  using ImageType = itk::Image<PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputImageFileName );
   // Software Guide : EndCodeSnippet
@@ -87,7 +87,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef itk::ScalarImageKmeansImageFilter< ImageType > KMeansFilterType;
+  using KMeansFilterType = itk::ScalarImageKmeansImageFilter< ImageType >;
 
   KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
 
@@ -168,9 +168,9 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef KMeansFilterType::OutputImageType  OutputImageType;
+  using OutputImageType = KMeansFilterType::OutputImageType;
 
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

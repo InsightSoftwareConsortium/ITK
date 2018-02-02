@@ -45,10 +45,10 @@ int main( int , char *[] )
   unsigned int i;
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::TubeSpatialObject<3>            TubeType;
-  typedef TubeType::Pointer                    TubePointer;
-  typedef itk::TubeSpatialObjectPoint<3>       TubePointType;
-  typedef TubePointType::CovariantVectorType   VectorType;
+  using TubeType = itk::TubeSpatialObject<3>;
+  using TubePointer = TubeType::Pointer;
+  using TubePointType = itk::TubeSpatialObjectPoint<3>;
+  using VectorType = TubePointType::CovariantVectorType;
 
   TubePointer tube = TubeType::New();
 // Software Guide : EndCodeSnippet

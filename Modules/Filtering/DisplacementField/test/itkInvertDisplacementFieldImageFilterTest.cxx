@@ -23,8 +23,8 @@ int itkInvertDisplacementFieldImageFilterTest( int, char * [] )
 {
   const unsigned int   ImageDimension = 2;
 
-  typedef itk::Vector<float, ImageDimension>       VectorType;
-  typedef itk::Image<VectorType, ImageDimension>   DisplacementFieldType;
+  using VectorType = itk::Vector<float, ImageDimension>;
+  using DisplacementFieldType = itk::Image<VectorType, ImageDimension>;
 
   // Create a displacement field
   DisplacementFieldType::PointType     origin;
@@ -82,7 +82,7 @@ int itkInvertDisplacementFieldImageFilterTest( int, char * [] )
   float        maxTolerance = 0.1;
   float        meanTolerance = 0.001;
 
-  typedef itk::InvertDisplacementFieldImageFilter<DisplacementFieldType> InverterType;
+  using InverterType = itk::InvertDisplacementFieldImageFilter<DisplacementFieldType>;
   InverterType::Pointer inverter = InverterType::New();
   inverter->SetInput( field );
   inverter->SetMaximumNumberOfIterations( numberOfIterations );

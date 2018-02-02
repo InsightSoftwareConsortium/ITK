@@ -55,11 +55,11 @@ class ITK_TEMPLATE_EXPORT VectorLinearInterpolateNearestNeighborExtrapolateImage
   public VectorInterpolateImageFunction< TInputImage, TCoordRep >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VectorLinearInterpolateNearestNeighborExtrapolateImageFunction Self;
-  typedef VectorInterpolateImageFunction< TInputImage, TCoordRep >       Superclass;
-  typedef SmartPointer< Self >                                           Pointer;
-  typedef SmartPointer< const Self >                                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VectorLinearInterpolateNearestNeighborExtrapolateImageFunction;
+  using Superclass = VectorInterpolateImageFunction< TInputImage, TCoordRep >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,13 +68,13 @@ public:
   itkTypeMacro(VectorLinearInterpolateNearestNeighborExtrapolateImageFunction,
                VectorInterpolateImageFunction);
 
-  /** InputImageType typedef support. */
-  typedef typename Superclass::InputImageType InputImageType;
-  typedef typename Superclass::PixelType      PixelType;
-  typedef typename Superclass::ValueType      ValueType;
-  typedef typename Superclass::RealType       RealType;
+  /** InputImageType type alias support */
+  using InputImageType = typename Superclass::InputImageType;
+  using PixelType = typename Superclass::PixelType;
+  using ValueType = typename Superclass::ValueType;
+  using RealType = typename Superclass::RealType;
 
-  typedef typename Superclass::PointType PointType;
+  using PointType = typename Superclass::PointType;
 
   /** Grab the vector dimension from the superclass. */
   //itkStaticConstMacro(Dimension, unsigned int,
@@ -83,15 +83,15 @@ public:
   /** Dimension underlying input image. */
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
-  /** Index typedef support. */
-  typedef typename Superclass::IndexType      IndexType;
-  typedef typename Superclass::IndexValueType IndexValueType;
+  /** Index type alias support */
+  using IndexType = typename Superclass::IndexType;
+  using IndexValueType = typename Superclass::IndexValueType;
 
-  /** ContinuousIndex typedef support. */
-  typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
+  /** ContinuousIndex type alias support */
+  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   /** Output type is Vector<double,Dimension> */
-  typedef typename Superclass::OutputType OutputType;
+  using OutputType = typename Superclass::OutputType;
 
   /** Should check if an index is inside the image buffer, however we
    * require that it answers true to use the extrapolation possibility. */

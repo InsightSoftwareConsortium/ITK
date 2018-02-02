@@ -54,38 +54,38 @@ class ITK_TEMPLATE_EXPORT LabelMapOverlayImageFilter :
     public LabelMapFilter<TLabelMap, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelMapOverlayImageFilter                Self;
-  typedef LabelMapFilter<TLabelMap, TOutputImage>   Superclass;
-  typedef SmartPointer<Self>                        Pointer;
-  typedef SmartPointer<const Self>                  ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LabelMapOverlayImageFilter;
+  using Superclass = LabelMapFilter<TLabelMap, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  /** Some convenient typedefs. */
-  typedef TLabelMap                                LabelMapType;
-  typedef typename LabelMapType::Pointer           LabelMapPointer;
-  typedef typename LabelMapType::ConstPointer      LabelMapConstPointer;
-  typedef typename LabelMapType::RegionType        LabelMapRegionType;
-  typedef typename LabelMapType::PixelType         LabelMapPixelType;
-  typedef typename LabelMapType::LabelObjectType   LabelObjectType;
-  typedef typename LabelObjectType::LabelType      LabelType;
-  typedef typename LabelObjectType::LengthType     LengthType;
+  /** Some convenient type alias. */
+  using LabelMapType = TLabelMap;
+  using LabelMapPointer = typename LabelMapType::Pointer;
+  using LabelMapConstPointer = typename LabelMapType::ConstPointer;
+  using LabelMapRegionType = typename LabelMapType::RegionType;
+  using LabelMapPixelType = typename LabelMapType::PixelType;
+  using LabelObjectType = typename LabelMapType::LabelObjectType;
+  using LabelType = typename LabelObjectType::LabelType;
+  using LengthType = typename LabelObjectType::LengthType;
 
-  typedef TFeatureImage                             FeatureImageType;
-  typedef typename FeatureImageType::Pointer        FeatureImagePointer;
-  typedef typename FeatureImageType::ConstPointer   FeatureImageConstPointer;
-  typedef typename FeatureImageType::RegionType     FeatureImageRegionType;
-  typedef typename FeatureImageType::PixelType      FeatureImagePixelType;
+  using FeatureImageType = TFeatureImage;
+  using FeatureImagePointer = typename FeatureImageType::Pointer;
+  using FeatureImageConstPointer = typename FeatureImageType::ConstPointer;
+  using FeatureImageRegionType = typename FeatureImageType::RegionType;
+  using FeatureImagePixelType = typename FeatureImageType::PixelType;
 
-  typedef TOutputImage                             OutputImageType;
-  typedef typename OutputImageType::Pointer        OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer   OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  typedef typename OutputImageType::IndexType      IndexType;
-  typedef typename OutputImageType::SizeType       SizeType;
-  typedef typename OutputImageType::RegionType     RegionType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using IndexType = typename OutputImageType::IndexType;
+  using SizeType = typename OutputImageType::SizeType;
+  using RegionType = typename OutputImageType::RegionType;
 
-  typedef typename Functor::LabelOverlayFunctor<FeatureImagePixelType, LabelMapPixelType, OutputImagePixelType> FunctorType;
+  using FunctorType = typename Functor::LabelOverlayFunctor<FeatureImagePixelType, LabelMapPixelType, OutputImagePixelType>;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,

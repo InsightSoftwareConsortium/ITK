@@ -25,13 +25,13 @@
 
 int itkJoinSeriesImageFilterStreamingTest(int argc, char* argv[] )
 {
-  typedef itk::Image< unsigned char, 3> ImageType;
-  typedef itk::Image< unsigned char, 2> SliceImageType;
+  using ImageType = itk::Image< unsigned char, 3>;
+  using SliceImageType = itk::Image< unsigned char, 2>;
 
-  typedef itk::ImageFileReader<ImageType>                       ImageFileReaderType;
-  typedef itk::ExtractImageFilter<ImageType,SliceImageType>     SliceExtractorFilterType;
-  typedef itk::JoinSeriesImageFilter<SliceImageType, ImageType> JoinSeriesFilterType;
-  typedef itk::ImageFileWriter<ImageType>                       ImageFileWriterType;
+  using ImageFileReaderType = itk::ImageFileReader<ImageType>;
+  using SliceExtractorFilterType = itk::ExtractImageFilter<ImageType,SliceImageType>;
+  using JoinSeriesFilterType = itk::JoinSeriesImageFilter<SliceImageType, ImageType>;
+  using ImageFileWriterType = itk::ImageFileWriter<ImageType>;
 
 
   if ( argc < 3 )

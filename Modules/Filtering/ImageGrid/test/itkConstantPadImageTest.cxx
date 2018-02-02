@@ -24,9 +24,9 @@
 
 int itkConstantPadImageTest(int, char* [] )
 {
-  // typedefs to simplify the syntax
-  typedef itk::Image< short, 2 > ShortImage;
-  typedef itk::Image< float, 2 > FloatImage;
+  // type alias to simplify the syntax
+  using ShortImage = itk::Image< short, 2 >;
+  using FloatImage = itk::Image< float, 2 >;
 
   // Test the creation of an image with native type
   ShortImage::Pointer image = ShortImage::New();
@@ -51,13 +51,13 @@ int itkConstantPadImageTest(int, char* [] )
     }
 
   // Create a filter
-  typedef itk::ConstantPadImageFilter< ShortImage, FloatImage > PadFilterType;
+  using PadFilterType = itk::ConstantPadImageFilter< ShortImage, FloatImage >;
   PadFilterType::Pointer constantPad = PadFilterType::New();
   FilterWatcher watch( constantPad );
   constantPad->SetInput( image );
 
-  typedef ShortImage::SizeValueType   SizeValueType;
-  typedef ShortImage::IndexValueType  IndexValueType;
+  using SizeValueType = ShortImage::SizeValueType;
+  using IndexValueType = ShortImage::IndexValueType;
 
   SizeValueType upperFactors[2] = { 0, 0 };
   SizeValueType lowerFactors[2] = { 0, 0 };
@@ -149,7 +149,7 @@ int itkConstantPadImageTest(int, char* [] )
   constantPad->SetPadUpperBound( upperFactors );
 
   // Create a stream
-  typedef itk::StreamingImageFilter< FloatImage, FloatImage > StreamingFilter;
+  using StreamingFilter = itk::StreamingImageFilter< FloatImage, FloatImage >;
   StreamingFilter::Pointer stream = StreamingFilter::New();
   stream->SetInput( constantPad->GetOutput() );
   stream->SetNumberOfStreamDivisions( 2 );

@@ -42,25 +42,25 @@ int itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int arg
   int numberOfThresholds = 1;
 
   const unsigned int ImageDimension = 2;
-  typedef itk::Image<unsigned short, ImageDimension>    InputImageType;
-  typedef itk::ImageFileReader< InputImageType >        ReaderType;
+  using InputImageType = itk::Image<unsigned short, ImageDimension>;
+  using ReaderType = itk::ImageFileReader< InputImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputImageName );
   reader->Update();
 
-  typedef itk::Statistics::ScalarImageToHistogramGenerator< InputImageType > HistogramGeneratorType;
-  typedef HistogramGeneratorType::HistogramType HistogramType;
+  using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator< InputImageType >;
+  using HistogramType = HistogramGeneratorType::HistogramType;
   HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
   histogramGenerator->SetInput( reader->GetOutput() );
 
   // Compute the OtsuThreshold for the input image.
-  typedef itk::OtsuThresholdCalculator<HistogramType> OtsuCalculatorType;
+  using OtsuCalculatorType = itk::OtsuThresholdCalculator<HistogramType>;
   OtsuCalculatorType::Pointer otsuCalculator = OtsuCalculatorType::New();
   otsuCalculator->SetInput(histogramGenerator->GetOutput());
 
   // Compute the OtsuMultipleThresholds for the input image
-  typedef itk::OtsuMultipleThresholdsCalculator< HistogramType >  OtsuMultipleCalculatorType;
+  using OtsuMultipleCalculatorType = itk::OtsuMultipleThresholdsCalculator< HistogramType >;
   OtsuMultipleCalculatorType::Pointer otsuMultipleCalculator = OtsuMultipleCalculatorType::New();
   otsuMultipleCalculator->SetInputHistogram( histogramGenerator->GetOutput() );
   otsuMultipleCalculator->SetNumberOfThresholds(numberOfThresholds);

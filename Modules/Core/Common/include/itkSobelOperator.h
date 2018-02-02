@@ -97,9 +97,9 @@ class ITK_TEMPLATE_EXPORT SobelOperator:
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:
-  /** Standard typedefs */
-  typedef SobelOperator                                          Self;
-  typedef NeighborhoodOperator< TPixel, VDimension, TAllocator > Superclass;
+  /** Standard type alias */
+  using Self = SobelOperator;
+  using Superclass = NeighborhoodOperator< TPixel, VDimension, TAllocator >;
 
   itkTypeMacro(SobelOperator, NeighborhoodOperator);
 
@@ -146,8 +146,8 @@ protected:
    * Typedef support for coefficient vector type.  Necessary to
    * work around compiler bug on VC++.
    */
-  typedef typename Superclass::CoefficientVector CoefficientVector;
-  typedef typename Superclass::PixelType         PixelType;
+  using CoefficientVector = typename Superclass::CoefficientVector;
+  using PixelType = typename Superclass::PixelType;
 
   /**
    * Calculates operator coefficients.

@@ -34,9 +34,9 @@ int itkJPEGImageIOTest( int ac, char* av[] )
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image<PixelType, 2> myImage;
+  using myImage = itk::Image<PixelType, 2>;
 
   itk::ImageFileReader<myImage>::Pointer reader
                                   = itk::ImageFileReader<myImage>::New();

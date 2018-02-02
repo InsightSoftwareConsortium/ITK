@@ -41,10 +41,10 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
 //------------------------------------------------------------
 
   //Allocate Images
-  typedef itk::Image<unsigned char,2>           MovingImageType;
-  typedef itk::Image<unsigned char,2>           FixedImageType;
-  typedef itk::Image<unsigned char,2>           TrainingMovingImageType;
-  typedef itk::Image<unsigned char,2>           TrainingFixedImageType;
+  using MovingImageType = itk::Image<unsigned char,2>;
+  using FixedImageType = itk::Image<unsigned char,2>;
+  using TrainingMovingImageType = itk::Image<unsigned char,2>;
+  using TrainingFixedImageType = itk::Image<unsigned char,2>;
 
   enum { ImageDimension = MovingImageType::ImageDimension };
 
@@ -79,14 +79,10 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
   imgTrainingFixed->Allocate();
 
   // Fill images with a 2D gaussian
-  typedef  itk::ImageRegionIterator<MovingImageType>
-    ReferenceIteratorType;
-  typedef  itk::ImageRegionIterator<FixedImageType>
-    TargetIteratorType;
-  typedef  itk::ImageRegionIterator<TrainingMovingImageType>
-    TrainingReferenceIteratorType;
-  typedef  itk::ImageRegionIterator<TrainingFixedImageType>
-    TrainingTargetIteratorType;
+  using ReferenceIteratorType = itk::ImageRegionIterator<MovingImageType>;
+  using TargetIteratorType = itk::ImageRegionIterator<FixedImageType>;
+  using TrainingReferenceIteratorType = itk::ImageRegionIterator<TrainingMovingImageType>;
+  using TrainingTargetIteratorType = itk::ImageRegionIterator<TrainingFixedImageType>;
 
   itk::Point<double,2> center;
   center[0] = (double)region.GetSize()[0]/2.0;
@@ -166,8 +162,8 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
 //-----------------------------------------------------------
 // Set up a transformer
 //-----------------------------------------------------------
-  typedef itk::AffineTransform< double, ImageDimension > TransformType;
-  typedef TransformType::ParametersType                  ParametersType;
+  using TransformType = itk::AffineTransform< double, ImageDimension >;
+  using ParametersType = TransformType::ParametersType;
 
   TransformType::Pointer transformer    = TransformType::New();
   TransformType::Pointer TrainingTransform = TransformType::New();
@@ -177,8 +173,8 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
 //------------------------------------------------------------
 // Set up a interpolator
 //------------------------------------------------------------
-  typedef itk::LinearInterpolateImageFunction< MovingImageType, double >
-    InterpolatorType;
+  using InterpolatorType =
+      itk::LinearInterpolateImageFunction< MovingImageType, double >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   InterpolatorType::Pointer TrainingInterpolator = InterpolatorType::New();
@@ -186,8 +182,8 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
 //------------------------------------------------------------
 // Set up the metric
 //------------------------------------------------------------
-  typedef itk::KullbackLeiblerCompareHistogramImageToImageMetric<
-    FixedImageType, MovingImageType > MetricType;
+  using MetricType = itk::KullbackLeiblerCompareHistogramImageToImageMetric<
+    FixedImageType, MovingImageType >;
 
   MetricType::Pointer metric = MetricType::New();
 
@@ -216,7 +212,7 @@ int itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char* [] )
   metric->SetHistogramSize(histSize);
 
   // Set scales for derivative calculation.
-  typedef MetricType::ScalesType ScalesType;
+  using ScalesType = MetricType::ScalesType;
   ScalesType scales(transformer->GetNumberOfParameters());
 
   for (unsigned int k = 0; k < transformer ->GetNumberOfParameters(); k++)

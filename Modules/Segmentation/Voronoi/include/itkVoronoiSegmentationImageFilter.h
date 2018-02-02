@@ -54,12 +54,12 @@ class ITK_TEMPLATE_EXPORT VoronoiSegmentationImageFilter:
   public VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef VoronoiSegmentationImageFilter Self;
-  typedef VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage,
-                                              TBinaryPriorImage >                       Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VoronoiSegmentationImageFilter;
+  using Superclass = VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage,
+                                              TBinaryPriorImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,12 +68,12 @@ public:
   itkTypeMacro(VoronoiSegmentationImageFilter,
                VoronoiSegmentationImageFilterBase);
 
-  /** Convenient typedefs. */
-  typedef typename Superclass::BinaryObjectImage BinaryObjectImage;
-  typedef typename Superclass::IndexList         IndexList;
-  typedef typename Superclass::IndexType         IndexType;
-  typedef typename Superclass::RegionType        RegionType;
-  typedef typename Superclass::InputImageType    InputImageType;
+  /** Convenient type alias. */
+  using BinaryObjectImage = typename Superclass::BinaryObjectImage;
+  using IndexList = typename Superclass::IndexList;
+  using IndexType = typename Superclass::IndexType;
+  using RegionType = typename Superclass::RegionType;
+  using InputImageType = typename Superclass::InputImageType;
 
   /** Set/Get the Estimation of the mean pixel value for the object. */
   itkSetMacro(Mean, double);

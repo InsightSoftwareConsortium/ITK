@@ -46,11 +46,11 @@ class ITK_TEMPLATE_EXPORT LabelOverlapMeasuresImageFilter :
     public ImageToImageFilter<TLabelImage, TLabelImage>
 {
 public:
-  /** Standard Self typedef */
-  typedef LabelOverlapMeasuresImageFilter                Self;
-  typedef ImageToImageFilter<TLabelImage,TLabelImage>    Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  /** Standard Self type alias */
+  using Self = LabelOverlapMeasuresImageFilter;
+  using Superclass = ImageToImageFilter<TLabelImage,TLabelImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
@@ -58,19 +58,19 @@ public:
   /** Runtime information support. */
   itkTypeMacro( LabelOverlapMeasuresImageFilter, ImageToImageFilter );
 
-  /** Image related typedefs. */
-  typedef TLabelImage                                   LabelImageType;
-  typedef typename TLabelImage::Pointer                 LabelImagePointer;
-  typedef typename TLabelImage::ConstPointer            LabelImageConstPointer;
+  /** Image related type alias. */
+  using LabelImageType = TLabelImage;
+  using LabelImagePointer = typename TLabelImage::Pointer;
+  using LabelImageConstPointer = typename TLabelImage::ConstPointer;
 
-  typedef typename TLabelImage::RegionType              RegionType;
-  typedef typename TLabelImage::SizeType                SizeType;
-  typedef typename TLabelImage::IndexType               IndexType;
+  using RegionType = typename TLabelImage::RegionType;
+  using SizeType = typename TLabelImage::SizeType;
+  using IndexType = typename TLabelImage::IndexType;
 
-  typedef typename TLabelImage::PixelType               LabelType;
+  using LabelType = typename TLabelImage::PixelType;
 
   /** Type to use for computations. */
-  typedef typename NumericTraits<LabelType>::RealType RealType;
+  using RealType = typename NumericTraits<LabelType>::RealType;
 
   /** \class LabelSetMeasures
    * \brief Metrics stored per label
@@ -114,11 +114,11 @@ public:
     };
 
   /** Type of the map used to store data per label */
-  typedef itksys::hash_map<LabelType, LabelSetMeasures> MapType;
-  typedef typename MapType::iterator                    MapIterator;
-  typedef typename MapType::const_iterator              MapConstIterator;
+  using MapType = itksys::hash_map<LabelType, LabelSetMeasures>;
+  using MapIterator = typename MapType::iterator;
+  using MapConstIterator = typename MapType::const_iterator;
 
-  /** Image related typedefs. */
+  /** Image related type alias. */
   itkStaticConstMacro( ImageDimension, unsigned int,
     TLabelImage::ImageDimension );
 

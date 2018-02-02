@@ -67,7 +67,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 ::StartOptimization()
 {
   // This transform is used for the fixed image
-  typedef itk::IdentityTransform<RealType, ImageDimension> IdentityTransformType;
+  using IdentityTransformType = itk::IdentityTransform<RealType, ImageDimension>;
   typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
@@ -164,7 +164,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   velocityFieldWeights->Initialize();
 
   // Monitor the convergence
-  typedef itk::Function::WindowConvergenceMonitoringFunction<RealType> ConvergenceMonitoringType;
+  using ConvergenceMonitoringType = itk::Function::WindowConvergenceMonitoringFunction<RealType>;
   typename ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
   convergenceMonitoring->SetWindowSize( this->m_ConvergenceWindowSize );
 
@@ -307,7 +307,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
         typename TimeVaryingVelocityFieldType::SizeType radius;
         radius.Fill( 1 );
 
-        typedef NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TimeVaryingVelocityFieldType> FaceCalculatorType;
+        using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TimeVaryingVelocityFieldType>;
         FaceCalculatorType faceCalculator;
         typename FaceCalculatorType::FaceListType faceList = faceCalculator( velocityField, velocityField->GetLargestPossibleRegion(), radius );
 
@@ -382,7 +382,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
       }
 
     // This transform gets used for the moving image
-    typedef ImageDuplicator<DisplacementFieldType> DisplacementFieldDuplicatorType;
+    using DisplacementFieldDuplicatorType = ImageDuplicator<DisplacementFieldType>;
     typename DisplacementFieldDuplicatorType::Pointer fieldDuplicator = DisplacementFieldDuplicatorType::New();
     fieldDuplicator->SetInputImage( this->m_OutputTransform->GetDisplacementField() );
     fieldDuplicator->Update();
@@ -643,7 +643,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
         }
       else if( multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::IMAGE_METRIC )
         {
-        typedef ResampleImageFilter<FixedImageType, FixedImageType, RealType> FixedResamplerType;
+        using FixedResamplerType = ResampleImageFilter<FixedImageType, FixedImageType, RealType>;
         typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
         fixedResampler->SetInput( fixedImages[n] );
         fixedResampler->SetTransform( fixedTransform );
@@ -652,7 +652,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
         fixedResampler->SetDefaultPixelValue( 0 );
         fixedResampler->Update();
 
-        typedef ResampleImageFilter<MovingImageType, MovingImageType, RealType> MovingResamplerType;
+        using MovingResamplerType = ResampleImageFilter<MovingImageType, MovingImageType, RealType>;
         typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
         movingResampler->SetInput( movingImages[n] );
         movingResampler->SetTransform( movingTransform );
@@ -675,7 +675,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     }
   else if( this->m_Metric->GetMetricCategory() == MetricType::IMAGE_METRIC )
     {
-    typedef ResampleImageFilter<FixedImageType, FixedImageType, RealType> FixedResamplerType;
+    using FixedResamplerType = ResampleImageFilter<FixedImageType, FixedImageType, RealType>;
     typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
     fixedResampler->SetInput( fixedImages[0] );
     fixedResampler->SetTransform( fixedTransform );
@@ -684,7 +684,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
     fixedResampler->SetDefaultPixelValue( 0 );
     fixedResampler->Update();
 
-    typedef ResampleImageFilter<MovingImageType, MovingImageType, RealType> MovingResamplerType;
+    using MovingResamplerType = ResampleImageFilter<MovingImageType, MovingImageType, RealType>;
     typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
     movingResampler->SetInput( movingImages[0] );
     movingResampler->SetTransform( movingTransform );
@@ -734,7 +734,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   typename WeightedMaskImageType::Pointer  fixedWeightedImageMask = nullptr;
   if( fixedImageMasks[0] )
     {
-    typedef ResampleImageFilter<MaskImageType, WeightedMaskImageType, RealType> FixedMaskResamplerType;
+    using FixedMaskResamplerType = ResampleImageFilter<MaskImageType, WeightedMaskImageType, RealType>;
     typename FixedMaskResamplerType::Pointer fixedMaskResampler = FixedMaskResamplerType::New();
     fixedMaskResampler->SetTransform( fixedTransform );
     fixedMaskResampler->SetInput( dynamic_cast<ImageMaskSpatialObjectType *>( const_cast<FixedImageMaskType *>( fixedImageMasks[0].GetPointer() ) )->GetImage() );

@@ -42,23 +42,23 @@ int itkGrayscaleConnectedClosingImageFilterTest( int argc, char * argv[] )
   //
   const unsigned int Dimension = 2;
 
-  typedef unsigned char   InputPixelType;
-  typedef unsigned char   OutputPixelType;
-  typedef unsigned char   WritePixelType;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = unsigned char;
+  using WritePixelType = unsigned char;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
-  typedef itk::Image< WritePixelType, Dimension >    WriteImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
+  using WriteImageType = itk::Image< WritePixelType, Dimension >;
 
 
   // readers/writers
-  typedef itk::ImageFileReader< InputImageType  > ReaderType;
-  typedef itk::ImageFileWriter< WriteImageType >  WriterType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
+  using WriterType = itk::ImageFileWriter< WriteImageType >;
 
   // define the connected closing filter
-  typedef itk::GrayscaleConnectedClosingImageFilter<
+  using ConnectedClosingFilterType = itk::GrayscaleConnectedClosingImageFilter<
                             InputImageType,
-                            OutputImageType >  ConnectedClosingFilterType;
+                            OutputImageType >;
 
 
   // Creation of Reader and Writer filters

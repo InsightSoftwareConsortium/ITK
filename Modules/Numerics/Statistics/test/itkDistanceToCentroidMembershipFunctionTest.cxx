@@ -24,11 +24,10 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
 
   const unsigned int MeasurementVectorSize = 3;
 
-  typedef itk::FixedArray<
-    float, MeasurementVectorSize >  MeasurementVectorType;
+  using MeasurementVectorType = itk::FixedArray<
+    float, MeasurementVectorSize >;
 
-  typedef itk::Statistics::DistanceToCentroidMembershipFunction<
-    MeasurementVectorType >   MembershipFunctionType;
+  using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction<MeasurementVectorType>;
 
   MembershipFunctionType::Pointer function = MembershipFunctionType::New();
 
@@ -36,8 +35,8 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
 
 
   //set the distance metric type
-  typedef itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType >  DistanceMetricType;
-  typedef DistanceMetricType::MeasurementVectorSizeType MeasurementVectorSizeType;
+  using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType >;
+  using MeasurementVectorSizeType = DistanceMetricType::MeasurementVectorSizeType;
 
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
   function->SetDistanceMetric( distanceMetric );

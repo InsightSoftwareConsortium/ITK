@@ -52,20 +52,20 @@ class ITK_TEMPLATE_EXPORT FFTPadImageFilter :
     public PadImageFilterBase<TInputImage, TOutputImage>
 {
 public:
-  /** Standard class typedefs. */
-  typedef FFTPadImageFilter                             Self;
-  typedef PadImageFilterBase<TInputImage, TOutputImage> Superclass;
-  typedef SmartPointer<Self>                            Pointer;
-  typedef SmartPointer<const Self>                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = FFTPadImageFilter;
+  using Superclass = PadImageFilterBase<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                              InputImageType;
-  typedef TOutputImage                             OutputImageType;
-  typedef typename InputImageType::PixelType       InputImagePixelType;
-  typedef typename OutputImageType::PixelType      OutputImagePixelType;
-  typedef typename InputImageType::RegionType      RegionType;
-  typedef typename InputImageType::IndexType       IndexType;
-  typedef typename InputImageType::SizeType        SizeType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using RegionType = typename InputImageType::RegionType;
+  using IndexType = typename InputImageType::IndexType;
+  using SizeType = typename InputImageType::SizeType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -95,9 +95,9 @@ public:
   itkSetMacro(SizeGreatestPrimeFactor, SizeValueType);
 
   /** Typedef to describe the boundary condition. */
-  typedef ImageBoundaryCondition< TInputImage, TOutputImage >           BoundaryConditionType;
-  typedef BoundaryConditionType *                                       BoundaryConditionPointerType;
-  typedef ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage > DefaultBoundaryConditionType;
+  using BoundaryConditionType = ImageBoundaryCondition< TInputImage, TOutputImage >;
+  using BoundaryConditionPointerType = BoundaryConditionType *;
+  using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< TInputImage, TOutputImage >;
 
 protected:
   FFTPadImageFilter();

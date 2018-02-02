@@ -55,11 +55,11 @@ std::string GetCastTypeName()
 template < typename TInputPixelType, typename TOutputPixelType >
 bool TestCastFromTo()
 {
-  typedef itk::Image< TInputPixelType, 3 >                        InputImageType;
-  typedef itk::Image< TOutputPixelType, 3 >                       OutputImageType;
-  typedef itk::CastImageFilter< InputImageType, OutputImageType > FilterType;
+  using InputImageType = itk::Image< TInputPixelType, 3 >;
+  using OutputImageType = itk::Image< TOutputPixelType, 3 >;
+  using FilterType = itk::CastImageFilter< InputImageType, OutputImageType >;
 
-  typedef itk::RandomImageSource< InputImageType > SourceType;
+  using SourceType = itk::RandomImageSource< InputImageType >;
   typename SourceType::Pointer source = SourceType::New();
 
   typename InputImageType::SizeValueType randomSize[3] = {18, 17, 23};
@@ -69,8 +69,8 @@ bool TestCastFromTo()
   filter->SetInput( source->GetOutput() );
   filter->UpdateLargestPossibleRegion();
 
-  typedef itk::ImageRegionConstIterator< InputImageType >  InputIteratorType;
-  typedef itk::ImageRegionConstIterator< OutputImageType > OutputIteratorType;
+  using InputIteratorType = itk::ImageRegionConstIterator< InputImageType >;
+  using OutputIteratorType = itk::ImageRegionConstIterator< OutputImageType >;
 
   InputIteratorType  it( source->GetOutput(),
                          source->GetOutput()->GetLargestPossibleRegion() );
@@ -147,8 +147,8 @@ bool TestVectorImageCast()
   std::cout << "Casting from a VectorImage<float, 2> \
                 to VectorImage<unsigned char, 2> ..." << std::endl;
 
-  typedef itk::VectorImage<unsigned char, 2>  UnsignedCharVectorImageType;
-  typedef itk::VectorImage<float, 2>          FloatVectorImageType;
+  using UnsignedCharVectorImageType = itk::VectorImage<unsigned char, 2>;
+  using FloatVectorImageType = itk::VectorImage<float, 2>;
 
   // Create a 1x3 image of 2D vectors
   FloatVectorImageType::Pointer image = FloatVectorImageType::New();
@@ -171,8 +171,8 @@ bool TestVectorImageCast()
   vec[1] = 5.3;
   image->FillBuffer(vec);
 
-  typedef itk::CastImageFilter< FloatVectorImageType,
-               UnsignedCharVectorImageType > CastImageFilterType;
+  using CastImageFilterType = itk::CastImageFilter< FloatVectorImageType,
+               UnsignedCharVectorImageType >;
   CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
   castImageFilter->SetInput(image);
   castImageFilter->Update();

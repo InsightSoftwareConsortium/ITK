@@ -82,11 +82,11 @@ template<typename TParametersValueType,
 class ITK_TEMPLATE_EXPORT Transform : public TransformBaseTemplate<TParametersValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Transform                                   Self;
-  typedef TransformBaseTemplate<TParametersValueType> Superclass;
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Transform;
+  using Superclass = TransformBaseTemplate<TParametersValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Transform, TransformBaseTemplate);
@@ -111,76 +111,73 @@ public:
   }
 
   /** Type of the input parameters. */
-  typedef  typename Superclass::FixedParametersType      FixedParametersType;
-  typedef  typename Superclass::FixedParametersValueType FixedParametersValueType;
-  typedef  typename Superclass::ParametersType           ParametersType;
-  typedef  typename Superclass::ParametersValueType      ParametersValueType;
-  typedef  Array<ParametersValueType>                    DerivativeType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using DerivativeType = Array<ParametersValueType>;
 
   /** Type of the scalar representing coordinate and vector elements. */
-  typedef  ParametersValueType ScalarType;
+  using ScalarType = ParametersValueType;
 
   /** Type of the Jacobian matrix. */
-  typedef  Array2D<ParametersValueType> JacobianType;
+  using JacobianType = Array2D<ParametersValueType>;
 
   /** Standard vector type for this class. */
-  typedef Vector<TParametersValueType, NInputDimensions>  InputVectorType;
-  typedef Vector<TParametersValueType, NOutputDimensions> OutputVectorType;
+  using InputVectorType = Vector<TParametersValueType, NInputDimensions>;
+  using OutputVectorType = Vector<TParametersValueType, NOutputDimensions>;
 
   /** Standard variable length vector type for this class
    *  this provides an interface for the VectorImage class */
-  typedef VariableLengthVector<TParametersValueType> InputVectorPixelType;
-  typedef VariableLengthVector<TParametersValueType> OutputVectorPixelType;
+  using InputVectorPixelType = VariableLengthVector<TParametersValueType>;
+  using OutputVectorPixelType = VariableLengthVector<TParametersValueType>;
 
   /* Standard symmetric second rank tenosr type for this class */
-  typedef SymmetricSecondRankTensor<TParametersValueType,NInputDimensions>
-    InputSymmetricSecondRankTensorType;
-  typedef SymmetricSecondRankTensor<TParametersValueType,NOutputDimensions>
-    OutputSymmetricSecondRankTensorType;
+  using InputSymmetricSecondRankTensorType =
+      SymmetricSecondRankTensor<TParametersValueType,NInputDimensions>;
+  using OutputSymmetricSecondRankTensorType =
+      SymmetricSecondRankTensor<TParametersValueType,NOutputDimensions>;
 
   /* Standard tensor type for this class */
-  typedef DiffusionTensor3D<TParametersValueType> InputDiffusionTensor3DType;
-  typedef DiffusionTensor3D<TParametersValueType> OutputDiffusionTensor3DType;
+  using InputDiffusionTensor3DType = DiffusionTensor3D<TParametersValueType>;
+  using OutputDiffusionTensor3DType = DiffusionTensor3D<TParametersValueType>;
 
   /** Standard covariant vector type for this class */
-  typedef CovariantVector<TParametersValueType, NInputDimensions>
-  InputCovariantVectorType;
-  typedef CovariantVector<TParametersValueType, NOutputDimensions>
-  OutputCovariantVectorType;
+  using InputCovariantVectorType =
+      CovariantVector<TParametersValueType, NInputDimensions>;
+  using OutputCovariantVectorType =
+      CovariantVector<TParametersValueType, NOutputDimensions>;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TParametersValueType, NInputDimensions>  InputVnlVectorType;
-  typedef vnl_vector_fixed<TParametersValueType, NOutputDimensions> OutputVnlVectorType;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, NInputDimensions>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, NOutputDimensions>;
 
   /** Standard coordinate point type for this class */
-  typedef Point<TParametersValueType, NInputDimensions>  InputPointType;
-  typedef Point<TParametersValueType, NOutputDimensions> OutputPointType;
+  using InputPointType = Point<TParametersValueType, NInputDimensions>;
+  using OutputPointType = Point<TParametersValueType, NOutputDimensions>;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost. */
-  typedef Transform<TParametersValueType,
-                     NOutputDimensions, NInputDimensions> InverseTransformBaseType;
+  using InverseTransformBaseType = Transform<TParametersValueType,
+                     NOutputDimensions, NInputDimensions>;
 
-  typedef typename InverseTransformBaseType::Pointer InverseTransformBasePointer;
+  using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
-  typedef Matrix<TParametersValueType,
+  using MatrixType = Matrix<TParametersValueType,
                  itkGetStaticConstMacro(OutputSpaceDimension),
-                 itkGetStaticConstMacro(InputSpaceDimension)>     MatrixType;
+                 itkGetStaticConstMacro(InputSpaceDimension)>;
 
-  typedef Matrix<double,
+  using OutputDirectionMatrix = Matrix<double,
                  itkGetStaticConstMacro(OutputSpaceDimension),
-                 itkGetStaticConstMacro(OutputSpaceDimension)>
-  OutputDirectionMatrix;
-  typedef Matrix<double,
+                 itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using InputDirectionMatrix = Matrix<double,
                  itkGetStaticConstMacro(InputSpaceDimension),
-                 itkGetStaticConstMacro(InputSpaceDimension)>
-  InputDirectionMatrix;
-  typedef Matrix<double,
+                 itkGetStaticConstMacro(InputSpaceDimension)>;
+  using DirectionChangeMatrix = Matrix<double,
                  itkGetStaticConstMacro(OutputSpaceDimension),
-                 itkGetStaticConstMacro(InputSpaceDimension)>
-  DirectionChangeMatrix;
+                 itkGetStaticConstMacro(InputSpaceDimension)>;
 
-  typedef typename Superclass::NumberOfParametersType    NumberOfParametersType;
+  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /**  Method to transform a point.
    * \warning This method must be thread-safe. See, e.g., its use
@@ -448,7 +445,7 @@ public:
   /** Generate a platform independent name */
   std::string GetTransformTypeAsString() const override;
 
-  typedef typename Superclass::TransformCategoryType    TransformCategoryType;
+  using TransformCategoryType = typename Superclass::TransformCategoryType;
 
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.

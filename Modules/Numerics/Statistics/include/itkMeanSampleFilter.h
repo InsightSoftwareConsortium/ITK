@@ -48,31 +48,31 @@ template< typename TSample >
 class ITK_TEMPLATE_EXPORT MeanSampleFilter : public ProcessObject
 {
 public:
-  /**Standard class typedefs. */
-  typedef MeanSampleFilter           Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-  typedef TSample                    SampleType;
+  /**Standard class type aliases. */
+  using Self = MeanSampleFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using SampleType = TSample;
 
   /**Standard Macros */
   itkTypeMacro(MeanSampleFilter, ProcessObject);
   itkNewMacro(Self);
 
   /** Type of each measurement vector in sample */
-  typedef typename SampleType::MeasurementVectorType                  MeasurementVectorType;
+  using MeasurementVectorType = typename SampleType::MeasurementVectorType;
 
   /** Type of the length of each measurement vector */
-  typedef typename SampleType::MeasurementVectorSizeType              MeasurementVectorSizeType;
+  using MeasurementVectorSizeType = typename SampleType::MeasurementVectorSizeType;
 
   /** Type of measurement vector component value */
-  typedef typename SampleType::MeasurementType                        MeasurementType;
+  using MeasurementType = typename SampleType::MeasurementType;
 
   /** Type of a measurement vector, holding floating point values */
-  typedef typename NumericTraits< MeasurementVectorType >::RealType   MeasurementVectorRealType;
+  using MeasurementVectorRealType = typename NumericTraits< MeasurementVectorType >::RealType;
 
   /** Type of a floating point measurement component value */
-  typedef typename NumericTraits< MeasurementType >::RealType         MeasurementRealType;
+  using MeasurementRealType = typename NumericTraits< MeasurementType >::RealType;
 
 
   /** Method to set the sample */
@@ -88,9 +88,9 @@ public:
 
   /** MeasurementVector is not a DataObject, we need to decorate it to push it down
    * a ProcessObject's pipeline */
-  typedef SimpleDataObjectDecorator< MeasurementVectorRealType > MeasurementVectorDecoratedType;
+  using MeasurementVectorDecoratedType = SimpleDataObjectDecorator< MeasurementVectorRealType >;
   const MeasurementVectorDecoratedType * GetOutput() const;
-  typedef MeasurementVectorDecoratedType                         OutputType;
+  using OutputType = MeasurementVectorDecoratedType;
 
 
   MeasurementVectorSizeType GetMeasurementVectorSize() const;
@@ -101,9 +101,9 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DataObject pointer */
-  typedef DataObject::Pointer DataObjectPointer;
+  using DataObjectPointer = DataObject::Pointer;
 
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

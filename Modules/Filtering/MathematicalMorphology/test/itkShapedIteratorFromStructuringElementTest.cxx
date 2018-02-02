@@ -18,7 +18,7 @@
 #include "itkShapedNeighborhoodIterator.h"
 #include "itkBinaryBallStructuringElement.h"
 
-typedef itk::Image<int, 2>  LocalImageType;
+using LocalImageType = itk::Image<int, 2>;
 void CreateImagex(LocalImageType::Pointer& image)
 {
   LocalImageType::IndexType start;
@@ -36,14 +36,14 @@ void CreateImagex(LocalImageType::Pointer& image)
 
 int itkShapedIteratorFromStructuringElementTest(int, char*[])
 {
-  typedef itk::Image<int, 2>   ImageType;
-  typedef ImageType::PixelType PixelType;
+  using ImageType = itk::Image<int, 2>;
+  using PixelType = ImageType::PixelType;
 
   ImageType::Pointer image = ImageType::New();
   CreateImagex(image);
 
-  typedef itk::BinaryBallStructuringElement<PixelType, 2>
-    StructuringElementType;
+  using StructuringElementType =
+      itk::BinaryBallStructuringElement<PixelType, 2>;
   StructuringElementType::RadiusType elementRadius;
   elementRadius.Fill(2);
 
@@ -51,7 +51,7 @@ int itkShapedIteratorFromStructuringElementTest(int, char*[])
     structuringElement.SetRadius(elementRadius);
     structuringElement.CreateStructuringElement();
 
-  typedef itk::ShapedNeighborhoodIterator<ImageType> IteratorType;
+  using IteratorType = itk::ShapedNeighborhoodIterator<ImageType>;
   IteratorType siterator(structuringElement.GetRadius(),
                          image,
                          image->GetLargestPossibleRegion());
@@ -70,7 +70,7 @@ int itkShapedIteratorFromStructuringElementTest(int, char*[])
     }
 
   // Now show the results
-  typedef itk::ImageRegionConstIterator<ImageType> ImageIteratorType;
+  using ImageIteratorType = itk::ImageRegionConstIterator<ImageType>;
   ImageIteratorType imit(image, image->GetLargestPossibleRegion());
   imit.GoToBegin();
   unsigned int col = 0;

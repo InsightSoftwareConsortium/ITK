@@ -30,24 +30,24 @@ int itkAddImageFilterTest( int, char* [] )
   const unsigned int Dimension = 3;
 
   // Declare the pixel types of the images
-  typedef float                               PixelType;
+  using PixelType = float;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension >  InputImageType1;
-  typedef itk::Image< PixelType, Dimension >  InputImageType2;
-  typedef itk::Image< PixelType, Dimension >  OutputImageType;
+  using InputImageType1 = itk::Image< PixelType, Dimension >;
+  using InputImageType2 = itk::Image< PixelType, Dimension >;
+  using OutputImageType = itk::Image< PixelType, Dimension >;
 
   // Declare appropriate Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType > OutputImageIteratorType;
+  using OutputImageIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
 
   // Declare the type of the index to access images
-  typedef itk::Index< Dimension >         IndexType;
+  using IndexType = itk::Index< Dimension >;
 
   // Declare the type of the size
-  typedef itk::Size< Dimension >          SizeType;
+  using SizeType = itk::Size< Dimension >;
 
   // Declare the type of the region
-  typedef itk::ImageRegion< Dimension >   RegionType;
+  using RegionType = itk::ImageRegion< Dimension >;
 
   // Create two images
   InputImageType1::Pointer inputImageA = InputImageType1::New();
@@ -90,10 +90,10 @@ int itkAddImageFilterTest( int, char* [] )
 
 
   // Declare the type for the itk::AddImageFilter
-  typedef itk::AddImageFilter<
+  using FilterType = itk::AddImageFilter<
                                InputImageType1,
                                InputImageType2,
-                               OutputImageType > FilterType;
+                               OutputImageType >;
 
 
   // Create the filter
@@ -141,25 +141,25 @@ int itkAddImageFilterTest( int, char* [] )
   // Instantiate the filter with other pixel types
   //
   {
-  typedef double                    PixelType2;
-  typedef itk::Image< PixelType2 >  ImageType2;
+  using PixelType2 = double;
+  using ImageType2 = itk::Image< PixelType2 >;
 
-  typedef itk::AddImageFilter< ImageType2, ImageType2, ImageType2 > FilterType2;
+  using FilterType2 = itk::AddImageFilter< ImageType2, ImageType2, ImageType2 >;
   FilterType2::Pointer filter2 = FilterType2::New();
 
   TEST_EXPECT_TRUE( !filter2.IsNull() );
   }
 
   {
-  typedef float                       PixelType3;
-  typedef std::complex< PixelType3 >  ComplexPixelType;
+  using PixelType3 = float;
+  using ComplexPixelType = std::complex< PixelType3 >;
 
-  typedef itk::Image< PixelType3 >        ImageType3;
-  typedef itk::Image< ComplexPixelType >  ComplexImageType;
+  using ImageType3 = itk::Image< PixelType3 >;
+  using ComplexImageType = itk::Image< ComplexPixelType >;
 
-  typedef itk::AddImageFilter< ImageType3,
+  using FilterType3 = itk::AddImageFilter< ImageType3,
                               ComplexImageType,
-                              ComplexImageType > FilterType3;
+                              ComplexImageType >;
 
   FilterType3::Pointer filter3 = FilterType3::New();
 

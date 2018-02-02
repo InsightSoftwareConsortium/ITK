@@ -26,7 +26,7 @@
 int itkMersenneTwisterRandomVariateGeneratorTest( int, char* [] )
 {
 
-  typedef itk::Statistics::MersenneTwisterRandomVariateGenerator Twister;
+  using Twister = itk::Statistics::MersenneTwisterRandomVariateGenerator;
 
   Twister::IntegerType seed = 1234;
 

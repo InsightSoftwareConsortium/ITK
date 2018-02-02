@@ -49,8 +49,8 @@ int TestMattesMetricWithAffineTransform(
 //------------------------------------------------------------
 
   //Allocate Images
-  typedef TImage           MovingImageType;
-  typedef TImage           FixedImageType;
+  using MovingImageType = TImage;
+  using FixedImageType = TImage;
   enum { ImageDimension = MovingImageType::ImageDimension };
 
   typename MovingImageType::SizeType size = {{100,100}};
@@ -84,10 +84,8 @@ int TestMattesMetricWithAffineTransform(
   imgFixed->SetOrigin( imgOrigin );
 
   // Fill images with a 2D gaussian
-  typedef  itk::ImageRegionIterator<MovingImageType>
-    ReferenceIteratorType;
-  typedef  itk::ImageRegionIterator<FixedImageType>
-    TargetIteratorType;
+  using ReferenceIteratorType = itk::ImageRegionIterator<MovingImageType>;
+  using TargetIteratorType = itk::ImageRegionIterator<FixedImageType>;
 
   itk::Point<double,2> center;
   center[0] = (double)region.GetSize()[0]/2.0;
@@ -176,16 +174,16 @@ int TestMattesMetricWithAffineTransform(
 //-----------------------------------------------------------
 // Set up a transformer
 //-----------------------------------------------------------
-  typedef itk::AffineTransform< double, ImageDimension > TransformType;
-  typedef typename TransformType::ParametersType         ParametersType;
+  using TransformType = itk::AffineTransform< double, ImageDimension >;
+  using ParametersType = typename TransformType::ParametersType;
 
   typename TransformType::Pointer transformer = TransformType::New();
 
 //------------------------------------------------------------
 // Set up the metric
 //------------------------------------------------------------
-  typedef itk::MattesMutualInformationImageToImageMetric<
-    FixedImageType, MovingImageType > MetricType;
+  using MetricType = itk::MattesMutualInformationImageToImageMetric<
+    FixedImageType, MovingImageType >;
 
   typename MetricType::Pointer metric = MetricType::New();
 
@@ -225,7 +223,7 @@ int TestMattesMetricWithAffineTransform(
       // and it will be truncated to the size of the image.
 
       // convert mask image to mask
-      typedef itk::ImageMaskSpatialObject<ImageDimension> ImageMaskSpatialObjectType;
+      using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<ImageDimension>;
       typename ImageMaskSpatialObjectType::Pointer soMovingMask  = ImageMaskSpatialObjectType::New();
       soMovingMask->SetImage( imgMovingMask );
       soMovingMask->ComputeObjectToWorldTransform();
@@ -424,8 +422,8 @@ int TestMattesMetricWithBSplineTransform(
 //------------------------------------------------------------
 
   //Allocate Images
-  typedef TImage           MovingImageType;
-  typedef TImage           FixedImageType;
+  using MovingImageType = TImage;
+  using FixedImageType = TImage;
   enum { ImageDimension = MovingImageType::ImageDimension };
 
   typename MovingImageType::SizeType size = {{100,100}};
@@ -459,10 +457,8 @@ int TestMattesMetricWithBSplineTransform(
   imgFixed->SetOrigin( imgOrigin );
 
   // Fill images with a 2D gaussian
-  typedef  itk::ImageRegionIterator<MovingImageType>
-    ReferenceIteratorType;
-  typedef  itk::ImageRegionIterator<FixedImageType>
-    TargetIteratorType;
+  using ReferenceIteratorType = itk::ImageRegionIterator<MovingImageType>;
+  using TargetIteratorType = itk::ImageRegionIterator<FixedImageType>;
 
   itk::Point<double,2> center;
   center[0] = (double)region.GetSize()[0]/2.0;
@@ -508,8 +504,8 @@ int TestMattesMetricWithBSplineTransform(
 //-----------------------------------------------------------
 // Set up a transformer
 //-----------------------------------------------------------
-  typedef itk::BSplineTransform< double, ImageDimension, 3 > TransformType;
-  typedef typename TransformType::ParametersType             ParametersType;
+  using TransformType = itk::BSplineTransform< double, ImageDimension, 3 >;
+  using ParametersType = typename TransformType::ParametersType;
   typename TransformType::PhysicalDimensionsType dimensions;
   for( unsigned int dim = 0; dim < ImageDimension; dim++ )
     {
@@ -531,8 +527,8 @@ int TestMattesMetricWithBSplineTransform(
 //------------------------------------------------------------
 // Set up the metric
 //------------------------------------------------------------
-  typedef itk::MattesMutualInformationImageToImageMetric<
-    FixedImageType, MovingImageType > MetricType;
+  using MetricType = itk::MattesMutualInformationImageToImageMetric<
+    FixedImageType, MovingImageType >;
 
   typename MetricType::Pointer metric = MetricType::New();
 
@@ -691,15 +687,15 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
     }
 
   int failed;
-  typedef itk::Image<unsigned char,2> ImageType;
+  using ImageType = itk::Image<unsigned char,2>;
 
   bool useSampling = true;
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   // Test metric with a linear interpolator
-  typedef itk::LinearInterpolateImageFunction< ImageType, double >
-    LinearInterpolatorType;
+  using LinearInterpolatorType =
+      itk::LinearInterpolateImageFunction< ImageType, double >;
 
   LinearInterpolatorType::Pointer linearInterpolator
     = LinearInterpolatorType::New();
@@ -724,8 +720,8 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
     }
 
   // Test metric with a BSpline interpolator
-  typedef itk::BSplineInterpolateImageFunction< ImageType, double >
-    BSplineInterpolatorType;
+  using BSplineInterpolatorType =
+      itk::BSplineInterpolateImageFunction< ImageType, double >;
 
   BSplineInterpolatorType::Pointer bSplineInterpolator
     = BSplineInterpolatorType::New();

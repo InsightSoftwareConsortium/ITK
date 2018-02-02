@@ -87,7 +87,7 @@ public:
 
   bool operator()(const TInput & a, const TInput & b) const
   {
-    typedef typename NumericTraits< TInput >::RealType InputRealType;
+    using InputRealType = typename NumericTraits< TInput >::RealType;
     TInput absDifference = static_cast< TInput >( itk::Math::abs(
                                                     static_cast< InputRealType >( a )
                                                     - static_cast< InputRealType >( b ) ) );
@@ -113,15 +113,15 @@ class ScalarConnectedComponentImageFilter:
                                                TMaskImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ScalarConnectedComponentImageFilter Self;
-  typedef ConnectedComponentFunctorImageFilter<
+  /** Standard class type aliases. */
+  using Self = ScalarConnectedComponentImageFilter;
+  using Superclass = ConnectedComponentFunctorImageFilter<
     TInputImage, TOutputImage,
     Functor::SimilarPixelsFunctor< typename TInputImage::ValueType >,
-    TMaskImage >                               Superclass;
+    TMaskImage >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -129,7 +129,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ScalarConnectedComponentImageFilter, ConnectedComponentFunctorImageFilter);
 
-  typedef typename TInputImage::PixelType InputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
 
   virtual void SetDistanceThreshold(const InputPixelType & thresh)
   { this->GetFunctor().SetDistanceThreshold(thresh); }

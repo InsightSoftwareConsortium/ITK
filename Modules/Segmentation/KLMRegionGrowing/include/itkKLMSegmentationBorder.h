@@ -139,11 +139,11 @@ class ITK_FORWARD_EXPORT KLMSegmentationRegion;
 class ITKKLMRegionGrowing_EXPORT KLMSegmentationBorder:public SegmentationBorder
 {
 public:
-  /** Standard class typedefs. */
-  typedef KLMSegmentationBorder      Self;
-  typedef SegmentationBorder         Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = KLMSegmentationBorder;
+  using Superclass = SegmentationBorder;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

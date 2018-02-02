@@ -25,13 +25,13 @@
 #include "itkStatisticsImageFilter.h"
 #include "itkMath.h"
 
-typedef short                             PixelType;
-typedef itk::Image< PixelType, 3 >        ImageType;
-typedef ImageType::DirectionType          DirectionType;
-typedef ImageType::SpacingType            SpacingType;
-typedef ImageType::PointType              PointType;
-typedef itk::ImageFileReader< ImageType > ReaderType;
-typedef itk::DCMTKImageIO                 ImageIOType;
+using PixelType = short;
+using ImageType = itk::Image< PixelType, 3 >;
+using DirectionType = ImageType::DirectionType;
+using SpacingType = ImageType::SpacingType;
+using PointType = ImageType::PointType;
+using ReaderType = itk::ImageFileReader< ImageType >;
+using ImageIOType = itk::DCMTKImageIO;
 
 namespace
 {

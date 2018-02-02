@@ -28,12 +28,12 @@ class ITK_TEMPLATE_EXPORT LeafTreeIterator:public TreeIteratorBase< TTreeType >
 public:
 
   /** Typedefs */
-  typedef LeafTreeIterator                    Self;
-  typedef TreeIteratorBase< TTreeType >       Superclass;
-  typedef TTreeType                           TreeType;
-  typedef typename TreeType::ValueType        ValueType;
-  typedef typename Superclass::TreeNodeType   TreeNodeType;
-  typedef typename Superclass::NodeType       NodeType;
+  using Self = LeafTreeIterator;
+  using Superclass = TreeIteratorBase< TTreeType >;
+  using TreeType = TTreeType;
+  using ValueType = typename TreeType::ValueType;
+  using TreeNodeType = typename Superclass::TreeNodeType;
+  using NodeType = typename Superclass::NodeType;
 
   /** Constructor */
   LeafTreeIterator(const TreeType *tree);

@@ -30,10 +30,10 @@
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
-typedef itk::Image<signed short, 3>       ImageType;
-typedef ImageType::Pointer                ImagePointer;
-typedef itk::ImageFileReader< ImageType > ImageReaderType;
-typedef itk::ImageFileWriter< ImageType > ImageWriterType;
+using ImageType = itk::Image<signed short, 3>;
+using ImagePointer = ImageType::Pointer;
+using ImageReaderType = itk::ImageFileReader< ImageType >;
+using ImageWriterType = itk::ImageFileWriter< ImageType >;
 
 int itkGEImageIOFactoryTest(int ac, char * av[])
 {

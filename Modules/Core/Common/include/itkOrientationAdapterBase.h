@@ -44,11 +44,11 @@ template< typename OrientationType, unsigned int Dimension = 3 >
 class ITK_TEMPLATE_EXPORT OrientationAdapterBase
 {
 public:
-  /** typedef for matching ImageBase */
-  typedef ImageBase< Dimension > ImageType;
+  /** type alias for matching ImageBase */
+  using ImageType = ImageBase< Dimension >;
 
-  /** typedef for matching Direction Cosines type */
-  typedef typename ImageType::DirectionType DirectionType;
+  /** type alias for matching Direction Cosines type */
+  using DirectionType = typename ImageType::DirectionType;
 
   /** Convert direction cosines to the Orientation type */
   virtual OrientationType FromDirectionCosines(const DirectionType & Dir) = 0;

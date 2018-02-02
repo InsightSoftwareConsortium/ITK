@@ -72,7 +72,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   this->m_CompositeTransform = CompositeTransformType::New();
 
-  typedef MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType> DefaultMetricType;
+  using DefaultMetricType = MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType>;
   typename DefaultMetricType::Pointer mutualInformationMetric = DefaultMetricType::New();
   mutualInformationMetric->SetNumberOfHistogramBins( 20 );
   mutualInformationMetric->SetUseMovingImageGradientFilter( false );
@@ -80,12 +80,12 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   mutualInformationMetric->SetUseFixedSampledPointSet( false );
   this->m_Metric = mutualInformationMetric;
 
-  typedef RegistrationParameterScalesFromPhysicalShift<DefaultMetricType> DefaultScalesEstimatorType;
+  using DefaultScalesEstimatorType = RegistrationParameterScalesFromPhysicalShift<DefaultMetricType>;
   typename DefaultScalesEstimatorType::Pointer scalesEstimator = DefaultScalesEstimatorType::New();
   scalesEstimator->SetMetric( mutualInformationMetric );
   scalesEstimator->SetTransformForward( true );
 
-  typedef GradientDescentOptimizerv4Template<RealType> DefaultOptimizerType;
+  using DefaultOptimizerType = GradientDescentOptimizerv4Template<RealType>;
   typename DefaultOptimizerType::Pointer optimizer = DefaultOptimizerType::New();
   optimizer->SetLearningRate( 1.0 );
   optimizer->SetNumberOfIterations( 1000 );
@@ -264,7 +264,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     this->m_OptimizerWeightsAreIdentity = true;
     if( this->m_OptimizerWeights.Size() > 0 )
       {
-      typedef typename OptimizerWeightsType::ValueType OptimizerWeightsValueType;
+      using OptimizerWeightsValueType = typename OptimizerWeightsType::ValueType;
       OptimizerWeightsValueType tolerance = static_cast<OptimizerWeightsValueType>( 1e-4 );
 
       for( SizeValueType i = 0; i < this->m_OptimizerWeights.Size(); i++ )
@@ -484,7 +484,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       }
     else
       {
-      typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
+      using IdentityTransformType = IdentityTransform<RealType, ImageDimension>;
       typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
       multiMetric->SetFixedTransform( defaultFixedInitialTransform );
       }
@@ -514,7 +514,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
           // This casting is a hack as all the metrics should be coordinated such that
           // they have identical virtual image types.
 
-          typedef CastImageFilter<VirtualImageType, typename PointSetMetricType::VirtualImageType> CasterType;
+          using CasterType = CastImageFilter<VirtualImageType, typename PointSetMetricType::VirtualImageType>;
           typename CasterType::Pointer caster = CasterType::New();
           caster->SetInput( currentLevelVirtualDomainImage );
           caster->Update();
@@ -533,7 +533,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       }
     else
       {
-      typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
+      using IdentityTransformType = IdentityTransform<RealType, ImageDimension>;
       typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
       imageMetric->SetFixedTransform( defaultFixedInitialTransform );
       }
@@ -553,7 +553,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       }
     else
       {
-      typedef IdentityTransform<RealType, ImageDimension> IdentityTransformType;
+      using IdentityTransformType = IdentityTransform<RealType, ImageDimension>;
       typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
       pointSetMetric->SetFixedTransform( defaultFixedInitialTransform );
       }
@@ -563,7 +563,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       // This casting is a hack as all the metrics should be coordinated such that
       // they have identical virtual image types.
 
-      typedef CastImageFilter<VirtualImageType, typename PointSetMetricType::VirtualImageType> CasterType;
+      using CasterType = CastImageFilter<VirtualImageType, typename PointSetMetricType::VirtualImageType>;
       typename CasterType::Pointer caster = CasterType::New();
       caster->SetInput( currentLevelVirtualDomainImage );
       caster->Update();
@@ -602,7 +602,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         ( this->m_Metric->GetMetricCategory() == MetricType::MULTI_METRIC &&
           multiMetric->GetMetricQueue()[n]->GetMetricCategory() == MetricType::IMAGE_METRIC ) )
       {
-      typedef DiscreteGaussianImageFilter<FixedImageType, FixedImageType> FixedImageSmoothingFilterType;
+      using FixedImageSmoothingFilterType = DiscreteGaussianImageFilter<FixedImageType, FixedImageType>;
       typename FixedImageSmoothingFilterType::Pointer fixedImageSmoothingFilter = FixedImageSmoothingFilterType::New();
       if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
         {
@@ -620,7 +620,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       this->m_FixedSmoothImages[n]->Update();
       this->m_FixedSmoothImages[n]->DisconnectPipeline();
 
-      typedef DiscreteGaussianImageFilter<MovingImageType, MovingImageType> MovingImageSmoothingFilterType;
+      using MovingImageSmoothingFilterType = DiscreteGaussianImageFilter<MovingImageType, MovingImageType>;
       typename MovingImageSmoothingFilterType::Pointer movingImageSmoothingFilter = MovingImageSmoothingFilterType::New();
       if( this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true )
         {
@@ -702,7 +702,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   if( ( this->m_Optimizer->GetScales() ).Size() != this->m_OutputTransform->GetNumberOfLocalParameters() )
     {
-    typedef typename OptimizerType::ScalesType ScalesType;
+    using ScalesType = typename OptimizerType::ScalesType;
     ScalesType scales;
     scales.SetSize( this->m_OutputTransform->GetNumberOfLocalParameters() );
     scales.Fill( NumericTraits<typename ScalesType::ValueType>::OneValue() );
@@ -883,8 +883,8 @@ void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
 ::SetMetricSamplePoints()
 {
-  typedef typename ImageMetricType::VirtualImageType    VirtualDomainImageType;
-  typedef typename VirtualDomainImageType::RegionType   VirtualDomainRegionType;
+  using VirtualDomainImageType = typename ImageMetricType::VirtualImageType;
+  using VirtualDomainRegionType = typename VirtualDomainImageType::RegionType;
 
   const VirtualDomainImageType * virtualImage = nullptr;
   const FixedImageMaskType * fixedMaskImage = nullptr;
@@ -935,9 +935,9 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     typename MetricSamplePointSetType::Pointer samplePointSet = MetricSamplePointSetType::New();
     samplePointSet->Initialize();
 
-    typedef typename MetricSamplePointSetType::PointType SamplePointType;
+    using SamplePointType = typename MetricSamplePointSetType::PointType;
 
-    typedef typename Statistics::MersenneTwisterRandomVariateGenerator RandomizerType;
+    using RandomizerType = Statistics::MersenneTwisterRandomVariateGenerator;
     typename RandomizerType::Pointer randomizer = RandomizerType::New();
     if (m_ReseedIterator)
       {
@@ -1037,8 +1037,8 @@ void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
 ::InitializeCenterOfLinearOutputTransform()
 {
-  typedef MatrixOffsetTransformBase<typename OutputTransformType::ScalarType,
-    ImageDimension, ImageDimension> MatrixOffsetTransformType;
+  using MatrixOffsetTransformType = MatrixOffsetTransformBase<typename OutputTransformType::ScalarType,
+    ImageDimension, ImageDimension>;
 
   MatrixOffsetTransformType *matrixOffsetOutputTransform =
     dynamic_cast<MatrixOffsetTransformType *>( this->GetModifiableTransform() );

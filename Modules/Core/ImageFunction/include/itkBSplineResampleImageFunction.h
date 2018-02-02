@@ -58,13 +58,13 @@ class BSplineResampleImageFunction:
     TImageType, TCoordRep, typename TImageType::PixelType >
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineResampleImageFunction Self;
-  typedef BSplineInterpolateImageFunction<
-    TImageType, TCoordRep, typename TImageType::PixelType >  Superclass;
+  /** Standard class type aliases. */
+  using Self = BSplineResampleImageFunction;
+  using Superclass = BSplineInterpolateImageFunction<
+    TImageType, TCoordRep, typename TImageType::PixelType >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(BSplineResampleImageFunction,

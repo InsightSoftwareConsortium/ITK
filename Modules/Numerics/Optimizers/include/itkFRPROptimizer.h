@@ -51,13 +51,13 @@ class ITKOptimizers_EXPORT FRPROptimizer:
   public PowellOptimizer
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef FRPROptimizer              Self;
-  typedef PowellOptimizer            Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = FRPROptimizer;
+  using Superclass = PowellOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef SingleValuedNonLinearOptimizer::ParametersType ParametersType;
+  using ParametersType = SingleValuedNonLinearOptimizer::ParametersType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -66,8 +66,8 @@ public:
   itkTypeMacro(FRPROptimizer, PowellOptimizer);
 
   /** Type of the Cost Function   */
-  typedef  SingleValuedCostFunction  CostFunctionType;
-  typedef  CostFunctionType::Pointer CostFunctionPointer;
+  using CostFunctionType = SingleValuedCostFunction;
+  using CostFunctionPointer = CostFunctionType::Pointer;
 
   /** Convert gradient to a unit length vector */
   itkSetMacro(UseUnitLengthGradient, bool);

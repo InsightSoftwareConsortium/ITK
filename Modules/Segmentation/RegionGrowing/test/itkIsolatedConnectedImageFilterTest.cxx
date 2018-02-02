@@ -30,13 +30,13 @@ int itkIsolatedConnectedImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
-  typedef unsigned char            PixelType;
-  typedef itk::Image<PixelType, 2> myImage;
+  using PixelType = unsigned char;
+  using myImage = itk::Image<PixelType, 2>;
   itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
   input->SetFileName(av[1]);
 
   // Create a filter
-  typedef itk::IsolatedConnectedImageFilter<myImage,myImage> FilterType;
+  using FilterType = itk::IsolatedConnectedImageFilter<myImage,myImage>;
 
   FilterType::Pointer filter = FilterType::New();
   FilterWatcher watcher(filter);

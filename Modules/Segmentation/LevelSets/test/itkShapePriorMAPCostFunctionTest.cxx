@@ -39,23 +39,23 @@
 int itkShapePriorMAPCostFunctionTest( int, char *[])
 {
 
-  typedef float PixelType;
+  using PixelType = float;
   const unsigned int Dimension = 2;
-  typedef itk::Image<PixelType,Dimension> ImageType;
+  using ImageType = itk::Image<PixelType,Dimension>;
 
   /**
    * Set up the shape signed distance function
    */
-  typedef itk::SphereSignedDistanceFunction<double,Dimension> ShapeFunctionType;
+  using ShapeFunctionType = itk::SphereSignedDistanceFunction<double,Dimension>;
   ShapeFunctionType::Pointer shape = ShapeFunctionType::New();
   shape->Initialize();
 
  /**
    * Set up a statistical model of the shape parameters.
    */
-  typedef itk::ShapePriorMAPCostFunction<ImageType,PixelType> CostFunctionType;
-  typedef CostFunctionType::NodeType                          NodeType;
-  typedef CostFunctionType::NodeContainerType                 NodeContainerType;
+  using CostFunctionType = itk::ShapePriorMAPCostFunction<ImageType,PixelType>;
+  using NodeType = CostFunctionType::NodeType;
+  using NodeContainerType = CostFunctionType::NodeContainerType;
   CostFunctionType::ParametersType mean( shape->GetNumberOfParameters() );
   CostFunctionType::ParametersType stddev( shape->GetNumberOfParameters() );
 
@@ -93,7 +93,7 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   NodeContainerType::Pointer activeRegion  = NodeContainerType::New();
 
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator iter( input, region );
   iter.GoToBegin();
 
@@ -183,13 +183,13 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
   std::cout << "FeatureImage: ";
   std::cout << costFunction->GetFeatureImage() << std::endl;
 
-  typedef CostFunctionType::Superclass GenericCostFunctionType;
+  using GenericCostFunctionType = CostFunctionType::Superclass;
   std::cout << costFunction->GenericCostFunctionType::GetNameOfClass() << std::endl;
 
   /**
    * Attempt to plug the cost function into an optimizer
    */
-  typedef itk::AmoebaOptimizer OptimizerType;
+  using OptimizerType = itk::AmoebaOptimizer;
   OptimizerType::Pointer optimizer = OptimizerType::New();
 
   optimizer->SetCostFunction( costFunction );

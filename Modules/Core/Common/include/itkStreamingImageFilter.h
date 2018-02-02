@@ -44,11 +44,11 @@ template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT StreamingImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef StreamingImageFilter                            Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = StreamingImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -56,17 +56,17 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(StreamingImageFilter, ImageToImageFilter);
 
-  /** Some typedefs for the input and output. */
-  typedef TInputImage                         InputImageType;
-  typedef typename InputImageType::Pointer    InputImagePointer;
-  typedef typename InputImageType::RegionType InputImageRegionType;
-  typedef typename InputImageType::PixelType  InputImagePixelType;
+  /** Some type alias for the input and output. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
 
-  typedef TOutputImage                           OutputImageType;
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
-  typedef typename Superclass::DataObjectPointer DataObjectPointer;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
+  using DataObjectPointer = typename Superclass::DataObjectPointer;
 
   /** Dimension of input image. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -75,8 +75,8 @@ public:
                       OutputImageType::ImageDimension);
 
   /** SmartPointer to a region splitting object */
-  typedef ImageRegionSplitterBase        SplitterType;
-  typedef typename SplitterType::Pointer RegionSplitterPointer;
+  using SplitterType = ImageRegionSplitterBase;
+  using RegionSplitterPointer = typename SplitterType::Pointer;
 
   /** Set the number of pieces to divide the input.  The upstream pipeline
    * will be executed this many times. */

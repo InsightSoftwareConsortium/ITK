@@ -46,40 +46,40 @@ class NumericTraits< DiffusionTensor3D< T > >
 {
 private:
 
-  typedef typename NumericTraits< T >::AbsType        ElementAbsType;
-  typedef typename NumericTraits< T >::AccumulateType ElementAccumulateType;
-  typedef typename NumericTraits< T >::FloatType      ElementFloatType;
-  typedef typename NumericTraits< T >::PrintType      ElementPrintType;
-  typedef typename NumericTraits< T >::RealType       ElementRealType;
+  using ElementAbsType = typename NumericTraits< T >::AbsType;
+  using ElementAccumulateType = typename NumericTraits< T >::AccumulateType;
+  using ElementFloatType = typename NumericTraits< T >::FloatType;
+  using ElementPrintType = typename NumericTraits< T >::PrintType;
+  using ElementRealType = typename NumericTraits< T >::RealType;
 
 public:
 
   /** Return the type of the native component type. */
-  typedef T ValueType;
+  using ValueType = T;
 
-  typedef DiffusionTensor3D< T > Self;
+  using Self = DiffusionTensor3D< T >;
 
   /** Unsigned component type */
-  typedef DiffusionTensor3D< ElementAbsType > AbsType;
+  using AbsType = DiffusionTensor3D< ElementAbsType >;
 
   /** Accumulation of addition and multiplication. */
-  typedef DiffusionTensor3D< ElementAccumulateType > AccumulateType;
+  using AccumulateType = DiffusionTensor3D< ElementAccumulateType >;
 
   /** Typedef for operations that use floating point instead of real precision
     */
-  typedef DiffusionTensor3D< ElementFloatType > FloatType;
+  using FloatType = DiffusionTensor3D< ElementFloatType >;
 
   /** Return the type that can be printed. */
-  typedef DiffusionTensor3D< ElementPrintType > PrintType;
+  using PrintType = DiffusionTensor3D< ElementPrintType >;
 
   /** Type for real-valued scalar operations. */
-  typedef DiffusionTensor3D< ElementRealType > RealType;
+  using RealType = DiffusionTensor3D< ElementRealType >;
 
   /** Type for real-valued scalar operations. */
-  typedef ElementRealType ScalarRealType;
+  using ScalarRealType = ElementRealType;
 
   /** Measurement vector type */
-  typedef Self MeasurementVectorType;
+  using MeasurementVectorType = Self;
 
   /** Component wise defined element
    *

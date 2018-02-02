@@ -36,11 +36,11 @@ namespace itk
 class ParticleSwarmOptimizerSAXWriter : public XMLWriterBase<ParticleSwarmOptimizer>
 {
 public:
-  /** Standard class typedefs. */
-  typedef ParticleSwarmOptimizerSAXWriter         Self;
-  typedef XMLWriterBase<ParticleSwarmOptimizer>   Superclass;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ParticleSwarmOptimizerSAXWriter;
+  using Superclass = XMLWriterBase<ParticleSwarmOptimizer>;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

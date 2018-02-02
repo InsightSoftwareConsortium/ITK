@@ -31,13 +31,13 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
   itk::FEMFactoryBase::RegisterDefaultTypes();
 
   const unsigned int Dimension = 2;
-  typedef itk::fem::Solver<Dimension> Solver2DType;
+  using Solver2DType = itk::fem::Solver<Dimension>;
   Solver2DType::Pointer solver = Solver2DType::New();
 
-  typedef itk::fem::FEMObject<Dimension> FEMObjectType;
+  using FEMObjectType = itk::fem::FEMObject<Dimension>;
   FEMObjectType::Pointer femObject = FEMObjectType::New();
 
-  typedef itk::fem::Element::Node NodeType;
+  using NodeType = itk::fem::Element::Node;
   NodeType::Pointer n1;
 
   n1 = NodeType::New();
@@ -151,12 +151,12 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
 
   // to write the deformed mesh
   // Testing the fe mesh validity
-  typedef itk::FEMObjectSpatialObject<Dimension> FEMObjectSpatialObjectType;
+  using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<Dimension>;
   FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
   femSODef->SetFEMObject(solver->GetOutput() );
 
-  typedef itk::FEMSpatialObjectWriter<Dimension> FEMSpatialObjectWriterType;
-  typedef FEMSpatialObjectWriterType::Pointer    FEMSpatialObjectWriterPointer;
+  using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<Dimension>;
+  using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;
   FEMSpatialObjectWriterPointer SpatialWriter = FEMSpatialObjectWriterType::New();
   SpatialWriter->SetInput(femSODef);
   SpatialWriter->SetFileName( argv[1] );

@@ -67,11 +67,11 @@ struct ITKIOMINC_HIDDEN MINCImageIOPImpl;
 class ITKIOMINC_EXPORT MINCImageIO : public ImageIOBase
 {
 public:
-  /** Standard class typedefs. */
-  typedef MINCImageIO           Self;
-  typedef ImageIOBase           Superclass;
-  typedef SmartPointer< Self >  Pointer;
-  typedef Matrix< float, 3, 3 > MatrixType;
+  /** Standard class type aliases. */
+  using Self = MINCImageIO;
+  using Superclass = ImageIOBase;
+  using Pointer = SmartPointer< Self >;
+  using MatrixType = Matrix< float, 3, 3 >;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

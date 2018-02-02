@@ -53,7 +53,7 @@ LevelSetSparseImage< TOutput, VDimension >
 {
   this->m_LabelMap = labelMap;
 
-  typedef typename LabelMapType::SpacingType SpacingType;
+  using SpacingType = typename LabelMapType::SpacingType;
 
   const SpacingType spacing = m_LabelMap->GetSpacing();
 
@@ -186,7 +186,7 @@ typename LabelObject< TLabel, VDimension >::Pointer
 LevelSetSparseImage< TOutput, VDimension >
 ::GetAsLabelObject()
 {
-  typedef LabelObject< TLabel, Dimension > OutputLabelObjectType;
+  using OutputLabelObjectType = LabelObject< TLabel, Dimension >;
   typename OutputLabelObjectType::Pointer object = OutputLabelObjectType::New();
 
   if( this->m_InternalLabelList.empty() )

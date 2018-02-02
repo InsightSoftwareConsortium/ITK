@@ -37,13 +37,13 @@ class ITK_TEMPLATE_EXPORT SpatialObjectProperty:
 {
 public:
 
-  typedef SpatialObjectProperty< TComponentType > Self;
-  typedef LightObject                             Superclass;
-  typedef RGBAPixel< TComponentType >             PixelType;
-  typedef std::string                             StringType;
+  using Self = SpatialObjectProperty< TComponentType >;
+  using Superclass = LightObject;
+  using PixelType = RGBAPixel< TComponentType >;
+  using StringType = std::string;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkNewMacro(Self);
   itkTypeMacro(SpatialObjectProperty, LightObject);

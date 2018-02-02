@@ -35,16 +35,16 @@ class TkImageViewer2D : public ProcessObject
 {
 public:
   /** Standard ITK class members.  */
-  typedef TkImageViewer2D    Self;
-  typedef SmartPointer<Self> Pointer;
-  typedef ProcessObject      Superclass;
+  using Self = TkImageViewer2D;
+  using Pointer = SmartPointer<Self>;
+  using Superclass = ProcessObject;
   itkTypeMacro(TkImageViewer2D, ProcessObject);
 
   /** Method for creation through the object factory.  */
   itkNewMacro(Self);
 
   /** The type of the input image.  */
-  typedef Image<unsigned short, 2> InputImageType;
+  using InputImageType = Image<unsigned short, 2>;
 
   /** Set/Get the Tcl interpreter.  */
   void SetInterpreter(Tcl_Interp* interp);
@@ -77,13 +77,12 @@ protected:
   std::string m_CanvasName;
 
   // The filter to flip the Y-axis.
-  typedef FlipImageFilter<InputImageType> FlipFilter;
+  using FlipFilter = FlipImageFilter<InputImageType>;
   FlipFilter::Pointer m_FlipFilter;
 
   // The filter to scale the image to 256 shades of gray.
-  typedef RescaleIntensityImageFilter<FlipFilter::OutputImageType,
-                                      itk::Image<unsigned char, 2> >
-          RescaleFilter;
+  using RescaleFilter = RescaleIntensityImageFilter<FlipFilter::OutputImageType,
+                                      itk::Image<unsigned char, 2> >;
   RescaleFilter::Pointer m_RescaleFilter;
 
 private:

@@ -55,21 +55,21 @@ template< typename TMesh, typename TOutput >
 class QuadEdgeMeshFunctionBase:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef QuadEdgeMeshFunctionBase   Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = QuadEdgeMeshFunctionBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(QuadEdgeMeshFunctionBase, Object);
 
   /** Mesh type that must be modified */
-  typedef TMesh                           MeshType;
-  typedef typename MeshType::EdgeCellType EdgeCellType;
+  using MeshType = TMesh;
+  using EdgeCellType = typename MeshType::EdgeCellType;
 
   /** Output type */
-  typedef TOutput OutputType;
+  using OutputType = TOutput;
 
   /** Set the mesh to be modified */
   virtual void SetInput(MeshType *input)

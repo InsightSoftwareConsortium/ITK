@@ -36,27 +36,27 @@ class DiscreteCurvatureQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  typedef DiscreteCurvatureQuadEdgeMeshFilter                         Self;
-  typedef SmartPointer< Self >                                        Pointer;
-  typedef SmartPointer< const Self >                                  ConstPointer;
-  typedef QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh > Superclass;
+  using Self = DiscreteCurvatureQuadEdgeMeshFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >;
 
-  typedef TInputMesh                      InputMeshType;
-  typedef typename InputMeshType::Pointer InputMeshPointer;
+  using InputMeshType = TInputMesh;
+  using InputMeshPointer = typename InputMeshType::Pointer;
 
-  typedef TOutputMesh                                      OutputMeshType;
-  typedef typename OutputMeshType::Pointer                 OutputMeshPointer;
-  typedef typename OutputMeshType::PointsContainerPointer  OutputPointsContainerPointer;
-  typedef typename OutputMeshType::PointsContainerIterator OutputPointsContainerIterator;
-  typedef typename OutputMeshType::PointType               OutputPointType;
-  typedef typename OutputPointType::CoordRepType           OutputCoordType;
-  typedef typename OutputMeshType::PointIdentifier         OutputPointIdentifier;
-  typedef typename OutputMeshType::CellIdentifier          OutputCellIdentifier;
-  typedef typename OutputMeshType::QEType                  OutputQEType;
-  typedef typename OutputMeshType::MeshTraits              OutputMeshTraits;
-  typedef typename OutputMeshTraits::PixelType             OutputCurvatureType;
+  using OutputMeshType = TOutputMesh;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
+  using OutputPointsContainerPointer = typename OutputMeshType::PointsContainerPointer;
+  using OutputPointsContainerIterator = typename OutputMeshType::PointsContainerIterator;
+  using OutputPointType = typename OutputMeshType::PointType;
+  using OutputCoordType = typename OutputPointType::CoordRepType;
+  using OutputPointIdentifier = typename OutputMeshType::PointIdentifier;
+  using OutputCellIdentifier = typename OutputMeshType::CellIdentifier;
+  using OutputQEType = typename OutputMeshType::QEType;
+  using OutputMeshTraits = typename OutputMeshType::MeshTraits;
+  using OutputCurvatureType = typename OutputMeshTraits::PixelType;
 
-  typedef TriangleHelper< OutputPointType > TriangleType;
+  using TriangleType = TriangleHelper< OutputPointType >;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(DiscreteCurvatureQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);

@@ -34,11 +34,11 @@ class ITKOptimizers_EXPORT LevenbergMarquardtOptimizer:
   public MultipleValuedNonLinearVnlOptimizer
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef LevenbergMarquardtOptimizer         Self;
-  typedef MultipleValuedNonLinearVnlOptimizer Superclass;
-  typedef SmartPointer< Self >                Pointer;
-  typedef SmartPointer< const Self >          ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = LevenbergMarquardtOptimizer;
+  using Superclass = MultipleValuedNonLinearVnlOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -46,11 +46,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LevenbergMarquardtOptimizer, MultipleValuedNonLinearVnlOptimizer);
 
-  /** InternalParameters typedef. */
-  typedef   vnl_vector< double > InternalParametersType;
+  /** InternalParameters type alias. */
+  using InternalParametersType = vnl_vector< double >;
 
   /** Internal optimizer type. */
-  typedef   vnl_levenberg_marquardt InternalOptimizerType;
+  using InternalOptimizerType = vnl_levenberg_marquardt;
 
   /** Method for getting access to the internal optimizer. */
   vnl_levenberg_marquardt * GetOptimizer() const;
@@ -78,7 +78,7 @@ protected:
   LevenbergMarquardtOptimizer();
   ~LevenbergMarquardtOptimizer() override;
 
-  typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
+  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevenbergMarquardtOptimizer);

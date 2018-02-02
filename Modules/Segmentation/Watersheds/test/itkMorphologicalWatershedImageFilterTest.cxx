@@ -43,16 +43,16 @@ int itkMorphologicalWatershedImageFilterTest( int argc, char * argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  using ImageType = itk::Image< PixelType, Dimension >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::MorphologicalWatershedImageFilter< ImageType, ImageType >
-    FilterType;
+  using FilterType =
+      itk::MorphologicalWatershedImageFilter< ImageType, ImageType >;
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, MorphologicalWatershedImageFilter,
@@ -78,13 +78,13 @@ int itkMorphologicalWatershedImageFilterTest( int argc, char * argv[] )
 
 
   // Rescale the output to have a better display
-  typedef itk::MinimumMaximumImageCalculator< ImageType > MaxCalculatorType;
+  using MaxCalculatorType = itk::MinimumMaximumImageCalculator< ImageType >;
   MaxCalculatorType::Pointer minMaxCalculator = MaxCalculatorType::New();
   minMaxCalculator->SetImage( filter->GetOutput() );
   minMaxCalculator->Compute();
 
-  typedef itk::IntensityWindowingImageFilter<
-    ImageType, ImageType > RescaleType;
+  using RescaleType = itk::IntensityWindowingImageFilter<
+    ImageType, ImageType >;
   RescaleType::Pointer rescaler = RescaleType::New();
   rescaler->SetInput( filter->GetOutput() );
   rescaler->SetWindowMinimum( itk::NumericTraits< PixelType >::ZeroValue() );
@@ -93,7 +93,7 @@ int itkMorphologicalWatershedImageFilterTest( int argc, char * argv[] )
   rescaler->SetOutputMinimum( itk::NumericTraits< PixelType >::ZeroValue() );
 
   // Write output image
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( rescaler->GetOutput() );
   writer->SetFileName( argv[2] );
@@ -102,17 +102,17 @@ int itkMorphologicalWatershedImageFilterTest( int argc, char * argv[] )
 
   if( argc > 6 )
     {
-    typedef itk::RGBPixel< PixelType >            RGBPixelType;
-    typedef itk::Image< RGBPixelType, Dimension > RGBImageType;
+    using RGBPixelType = itk::RGBPixel< PixelType >;
+    using RGBImageType = itk::Image< RGBPixelType, Dimension >;
 
-    typedef itk::LabelOverlayImageFilter<
-      ImageType, ImageType, RGBImageType> OverlayType;
+    using OverlayType = itk::LabelOverlayImageFilter<
+      ImageType, ImageType, RGBImageType>;
 
     OverlayType::Pointer overlay = OverlayType::New();
     overlay->SetInput( reader->GetOutput() );
     overlay->SetLabelImage( filter->GetOutput() );
 
-    typedef itk::ImageFileWriter< RGBImageType > RGBWriterType;
+    using RGBWriterType = itk::ImageFileWriter< RGBImageType >;
     RGBWriterType::Pointer rgbwriter = RGBWriterType::New();
     rgbwriter->SetInput( overlay->GetOutput() );
     rgbwriter->SetFileName( argv[6] );

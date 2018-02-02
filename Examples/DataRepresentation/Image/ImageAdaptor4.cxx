@@ -62,8 +62,8 @@ namespace itk
 class ThresholdingPixelAccessor
 {
 public:
-  typedef unsigned char      InternalType;
-  typedef unsigned char      ExternalType;
+  using InternalType = unsigned char;
+  using ExternalType = unsigned char;
 
   ThresholdingPixelAccessor() : m_Threshold(0) {};
 
@@ -128,9 +128,9 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ThresholdingPixelAccessor::InternalType     PixelType;
+  using PixelType = itk::ThresholdingPixelAccessor::InternalType;
   const   unsigned int   Dimension = 2;
-  typedef itk::Image< PixelType,  Dimension >   ImageType;
+  using ImageType = itk::Image< PixelType,  Dimension >;
 // Software Guide : EndCodeSnippet
 
 
@@ -144,8 +144,8 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageAdaptor< ImageType,
-                             itk::ThresholdingPixelAccessor > ImageAdaptorType;
+  using ImageAdaptorType = itk::ImageAdaptor< ImageType,
+                             itk::ThresholdingPixelAccessor >;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
 // Software Guide : EndCodeSnippet
@@ -176,7 +176,7 @@ int main( int argc, char *argv[] )
 
 
 // Software Guide : BeginCodeSnippet
-  typedef itk::ImageFileReader< ImageType >   ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
   reader->Update();
@@ -185,11 +185,11 @@ int main( int argc, char *argv[] )
 //  Software Guide : EndCodeSnippet
 
 
-  typedef itk::RescaleIntensityImageFilter< ImageAdaptorType,
-                                            ImageType > RescalerType;
+  using RescalerType = itk::RescaleIntensityImageFilter< ImageAdaptorType,
+                                            ImageType >;
 
   RescalerType::Pointer rescaler = RescalerType::New();
-  typedef itk::ImageFileWriter< ImageType >   WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
 

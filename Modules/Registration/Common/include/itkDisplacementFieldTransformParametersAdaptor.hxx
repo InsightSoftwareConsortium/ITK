@@ -209,15 +209,15 @@ DisplacementFieldTransformParametersAdaptor<TTransform>
   const SpacingType newFieldSpacing = this->GetRequiredSpacing();
   const DirectionType newFieldDirection = this->GetRequiredDirection();
 
-  typedef IdentityTransform<ParametersValueType, SpaceDimension> IdentityTransformType;
+  using IdentityTransformType = IdentityTransform<ParametersValueType, SpaceDimension>;
   typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
-  typedef VectorLinearInterpolateImageFunction<DisplacementFieldType, ParametersValueType> LinearInterpolatorType;
+  using LinearInterpolatorType = VectorLinearInterpolateImageFunction<DisplacementFieldType, ParametersValueType>;
   typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
   interpolator->SetInputImage( this->m_Transform->GetDisplacementField() );
 
-  typedef VectorResampleImageFilter<DisplacementFieldType, DisplacementFieldType, ParametersValueType> ResamplerType;
+  using ResamplerType = VectorResampleImageFilter<DisplacementFieldType, DisplacementFieldType, ParametersValueType>;
   typename ResamplerType::Pointer resampler = ResamplerType::New();
   resampler->SetInput( this->m_Transform->GetDisplacementField() );
   resampler->SetOutputDirection( newFieldDirection );

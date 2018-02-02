@@ -24,20 +24,20 @@ int itkSampleToHistogramFilterTest7( int, char * [] )
 {
 
   const unsigned int numberOfComponents = 3;
-  typedef signed int  MeasurementType;    // Exercise an integer type for the samples
+  using MeasurementType = signed int;    // Exercise an integer type for the samples
 
-  typedef itk::VariableLengthVector< float >  MeasurementVectorType;
+  using MeasurementVectorType = itk::VariableLengthVector< float >;
 
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-  typedef itk::Statistics::Histogram< MeasurementType,
-          itk::Statistics::DenseFrequencyContainer2 > HistogramType;
+  using HistogramType = itk::Statistics::Histogram< MeasurementType,
+          itk::Statistics::DenseFrequencyContainer2 >;
 
-  typedef itk::Statistics::SampleToHistogramFilter<
-    SampleType, HistogramType > FilterType;
+  using FilterType = itk::Statistics::SampleToHistogramFilter<
+    SampleType, HistogramType >;
 
-  typedef FilterType::HistogramSizeType              HistogramSizeType;
-  typedef FilterType::HistogramMeasurementVectorType HistogramMeasurementVectorType;
+  using HistogramSizeType = FilterType::HistogramSizeType;
+  using HistogramMeasurementVectorType = FilterType::HistogramMeasurementVectorType;
 
   FilterType::Pointer filter = FilterType::New();
   SampleType::Pointer sample = SampleType::New();

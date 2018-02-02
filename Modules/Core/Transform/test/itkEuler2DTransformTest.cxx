@@ -59,7 +59,7 @@ int itkEuler2DTransformTest(int argc, char *argv[] )
   const unsigned int N = 2;
   bool               Ok = true;
 
-  typedef itk::Euler2DTransform<double> EulerTransformType;
+  using EulerTransformType = itk::Euler2DTransform<double>;
   EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
 
   // Testing Identity
@@ -193,7 +193,7 @@ int itkEuler2DTransformTest(int argc, char *argv[] )
 
     {
     // Test instantiation, inverse computation, back transform etc.
-    typedef EulerTransformType TransformType;
+    using TransformType = EulerTransformType;
     TransformType::Pointer t1 = TransformType::New();
 
     // Set parameters
@@ -355,7 +355,7 @@ int itkEuler2DTransformTest(int argc, char *argv[] )
 
     {
     // Test Set/Get Matrix and Set/Get Offset
-    typedef EulerTransformType TransformType;
+    using TransformType = EulerTransformType;
     TransformType::Pointer t1 = TransformType::New();
     TransformType::Pointer t23 = TransformType::New();
 

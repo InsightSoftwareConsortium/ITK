@@ -161,18 +161,18 @@ template< typename TInputImage, typename TPolyline, typename TVector,
 void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
 ::GenerateData()
 {
-  typedef typename TInputImage::SizeType          InputImageSizeType;
-  typedef typename TInputImage::PointType         InputImagePointType;
-  typedef typename TInputImage::SpacingType       InputImageSpacingType;
-  typedef ImageRegionConstIterator< TInputImage > InputImageConstIteratorType;
+  using InputImageSizeType = typename TInputImage::SizeType;
+  using InputImagePointType = typename TInputImage::PointType;
+  using InputImageSpacingType = typename TInputImage::SpacingType;
+  using InputImageConstIteratorType = ImageRegionConstIterator< TInputImage >;
 
-  typedef typename TOutputImage::PixelType    PixelType;
-  typedef ImageRegionIterator< TOutputImage > OutputImageIteratorType;
+  using PixelType = typename TOutputImage::PixelType;
+  using OutputImageIteratorType = ImageRegionIterator< TOutputImage >;
 
-  typedef typename TPolyline::VertexType     VertexType;
-  typedef typename TPolyline::VertexListType VertexListType;
+  using VertexType = typename TPolyline::VertexType;
+  using VertexListType = typename TPolyline::VertexListType;
 
-  typedef Point< double, 3 > OriginType;
+  using OriginType = Point< double, 3 >;
 
   typename TInputImage::ConstPointer inputImagePtr(
     dynamic_cast< const TInputImage  * >(
@@ -199,8 +199,8 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   InputImageConstIteratorType inputIt( inputImagePtr, inputImagePtr->GetLargestPossibleRegion() );
   OutputImageIteratorType     outputIt( outputImagePtr, outputImagePtr->GetLargestPossibleRegion() );
 
-  typedef NearestNeighborInterpolateImageFunction< TInputImage, double > InterpolatorType;
-  typedef typename InterpolatorType::PointType InterpolatorPointType;
+  using InterpolatorType = NearestNeighborInterpolateImageFunction< TInputImage, double >;
+  using InterpolatorPointType = typename InterpolatorType::PointType;
 
   // Generate the transformation matrix
   this->GenerateRotationMatrix();
@@ -210,13 +210,13 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   ProjPlanePointType    outputPoint;
 
   // Generate a 2D image with the viewing polygon as a mask
-  typedef Image< PixelType, 2 >                        ProjectionImageType;
-  typedef typename ProjectionImageType::IndexType      ProjectionImageIndexType;
-  typedef typename ProjectionImageType::PointType      ProjectionImagePointType;
-  typedef typename ProjectionImageType::SpacingType    ProjectionImageSpacingType;
-  typedef typename ProjectionImageType::PixelType      ProjectionImagePixelType;
-  typedef typename ProjectionImageType::RegionType     ProjectionImageRegionType;
-  typedef typename ProjectionImageType::SizeType       ProjectionImageSizeType;
+  using ProjectionImageType = Image< PixelType, 2 >;
+  using ProjectionImageIndexType = typename ProjectionImageType::IndexType;
+  using ProjectionImagePointType = typename ProjectionImageType::PointType;
+  using ProjectionImageSpacingType = typename ProjectionImageType::SpacingType;
+  using ProjectionImagePixelType = typename ProjectionImageType::PixelType;
+  using ProjectionImageRegionType = typename ProjectionImageType::RegionType;
+  using ProjectionImageSizeType = typename ProjectionImageType::SizeType;
 
   ProjectionImageRegionType projectionRegion;
 
@@ -224,11 +224,11 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   // of the 3D input image
 
   InputImageSizeType inputImageSize;
-  typedef Point< double, 3 > CornerPointType;
-  typedef Point< double, 2 > CornerPointProjectionType;
+  using CornerPointType = Point< double, 3 >;
+  using CornerPointProjectionType = Point< double, 2 >;
 
-  typedef BoundingBox< unsigned long int, 2, double > BoundingBoxType;
-  typedef BoundingBoxType::PointsContainer            CornerPointProjectionContainer;
+  using BoundingBoxType = BoundingBox< unsigned long int, 2, double >;
+  using CornerPointProjectionContainer = BoundingBoxType::PointsContainer;
 
   CornerPointProjectionContainer::Pointer cornerPointProjectionlist = CornerPointProjectionContainer::New();
   CornerPointType                         cornerPoint;
@@ -352,7 +352,7 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   projectionImagePtr->SetLargestPossibleRegion(projectionRegion);
   projectionImagePtr->Allocate(true); // initialize buffer to zero
 
-  typedef ImageRegionIterator< ProjectionImageType > ProjectionImageIteratorType;
+  using ProjectionImageIteratorType = ImageRegionIterator< ProjectionImageType >;
   ProjectionImageIteratorType projectionIt( projectionImagePtr, projectionImagePtr->GetLargestPossibleRegion() );
 
   itkDebugMacro(<< "Rotation matrix" << m_RotationMatrix);
@@ -385,8 +385,8 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   ProjectionImageIndexType endImageIndex;
   ProjectionImageIndexType projectionImageIndex;
 
-  typedef LineIterator< ProjectionImageType >                 LineIteratorType;
-  typedef ImageLinearIteratorWithIndex< ProjectionImageType > ImageLineIteratorType;
+  using LineIteratorType = LineIterator< ProjectionImageType >;
+  using ImageLineIteratorType = ImageLinearIteratorWithIndex< ProjectionImageType >;
 
   ImageLineIteratorType imit( projectionImagePtr, projectionImagePtr->GetLargestPossibleRegion() );
   imit.SetDirection(0);

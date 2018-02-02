@@ -27,17 +27,17 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
 {
   const unsigned int Dimension = 2;
 
-  typedef itk::PointSet<unsigned int, Dimension> PointSetType;
+  using PointSetType = itk::PointSet<unsigned int, Dimension>;
 
-  typedef itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType> PointSetMetricType;
+  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   PointSetMetricType::Pointer metric = PointSetMetricType::New();
 
-  typedef PointSetMetricType::FixedPointSetType    PointSetType;
-  typedef PointSetType::PointType                  PointType;
+  using PointSetType = PointSetMetricType::FixedPointSetType;
+  using PointType = PointSetType::PointType;
 
-  typedef double                           PixelType;
-  typedef itk::Image<PixelType, Dimension> FixedImageType;
-  typedef itk::Image<PixelType, Dimension> MovingImageType;
+  using PixelType = double;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
+  using MovingImageType = itk::Image<PixelType, Dimension>;
 
 
   PointSetType::Pointer fixedPoints = PointSetType::New();
@@ -100,7 +100,7 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
   fixedImage->SetSpacing( fixedImageSpacing );
   fixedImage->Allocate();
 
-  typedef itk::AffineTransform<double, Dimension> AffineTransformType;
+  using AffineTransformType = itk::AffineTransform<double, Dimension>;
   AffineTransformType::Pointer transform = AffineTransformType::New();
   transform->SetIdentity();
 
@@ -112,10 +112,10 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
 
   // Create the deformable registration method
 
-  typedef itk::TimeVaryingBSplineVelocityFieldImageRegistrationMethod<FixedImageType, MovingImageType> VelocityFieldRegistrationType;
+  using VelocityFieldRegistrationType = itk::TimeVaryingBSplineVelocityFieldImageRegistrationMethod<FixedImageType, MovingImageType>;
   VelocityFieldRegistrationType::Pointer velocityFieldRegistration = VelocityFieldRegistrationType::New();
 
-  typedef VelocityFieldRegistrationType::OutputTransformType OutputTransformType;
+  using OutputTransformType = VelocityFieldRegistrationType::OutputTransformType;
   OutputTransformType::Pointer outputTransform = OutputTransformType::New();
   velocityFieldRegistration->SetInitialTransform( outputTransform );
   velocityFieldRegistration->InPlaceOn();
@@ -148,8 +148,8 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
   smoothingSigmasPerLevel.Fill( 0 );
   velocityFieldRegistration->SetSmoothingSigmasPerLevel( smoothingSigmasPerLevel );
 
-  typedef itk::Vector<PixelType, Dimension> VectorType;
-  typedef itk::Image<VectorType, Dimension+1> TimeVaryingVelocityFieldControlPointLatticeType;
+  using VectorType = itk::Vector<PixelType, Dimension>;
+  using TimeVaryingVelocityFieldControlPointLatticeType = itk::Image<VectorType, Dimension+1>;
   TimeVaryingVelocityFieldControlPointLatticeType::Pointer velocityFieldLattice = TimeVaryingVelocityFieldControlPointLatticeType::New();
 
   // Determine the parameters (size, spacing, etc) for the time-varying velocity field
@@ -178,9 +178,9 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
       }
     }
 
-  typedef VelocityFieldRegistrationType::OutputTransformType TransformType;
+  using TransformType = VelocityFieldRegistrationType::OutputTransformType;
 
-  typedef itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TransformType> VelocityFieldTransformAdaptorType;
+  using VelocityFieldTransformAdaptorType = itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TransformType>;
   VelocityFieldTransformAdaptorType::Pointer initialFieldTransformAdaptor = VelocityFieldTransformAdaptorType::New();
   initialFieldTransformAdaptor->SetSplineOrder( outputTransform->GetSplineOrder() );
   initialFieldTransformAdaptor->SetRequiredTransformDomainOrigin( transformDomainOrigin );
@@ -230,7 +230,7 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
 
   for( unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); level++ )
     {
-    typedef itk::ShrinkImageFilter<FixedImageType, FixedImageType> ShrinkFilterType;
+    using ShrinkFilterType = itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
     ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors( shrinkFactorsPerLevel[level] );
     shrinkFilter->SetInput( fixedImage );

@@ -36,7 +36,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
   int          q;
   int          m;
 
-  typedef unsigned short LabelType;
+  using LabelType = unsigned short;
 
   LabelType * equivalenceTable = new LabelType[NumericTraits < LabelType > ::max()];
   LabelType label = 0;

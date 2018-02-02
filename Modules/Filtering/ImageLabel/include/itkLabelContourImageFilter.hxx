@@ -116,13 +116,11 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   const InputImageType *input = this->GetInput();
 
   // create a line iterator
-  typedef itk::ImageLinearConstIteratorWithIndex< InputImageType >
-  InputLineIteratorType;
+  using InputLineIteratorType = itk::ImageLinearConstIteratorWithIndex<InputImageType>;
   InputLineIteratorType inLineIt(input, outputRegionForThread);
   inLineIt.SetDirection(0);
 
-  typedef itk::ImageLinearIteratorWithIndex< OutputImageType >
-  OutputLineIteratorType;
+  using OutputLineIteratorType = itk::ImageLinearIteratorWithIndex<OutputImageType>;
   OutputLineIteratorType outLineIt(output, outputRegionForThread);
   outLineIt.SetDirection(0);
 
@@ -266,11 +264,11 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 
   const unsigned int PretendDimension = ImageDimension - 1;
 
-  typedef Image< OffsetValueType, PretendDimension >      PretendImageType;
-  typedef typename PretendImageType::Pointer              PretendImagePointer;
-  typedef typename PretendImageType::RegionType           PretendRegionType;
-  typedef typename PretendRegionType::SizeType            PretendSizeType;
-  typedef typename PretendRegionType::IndexType           PretendIndexType;
+  using PretendImageType = Image< OffsetValueType, PretendDimension >;
+  using PretendImagePointer = typename PretendImageType::Pointer;
+  using PretendRegionType = typename PretendImageType::RegionType;
+  using PretendSizeType = typename PretendRegionType::SizeType;
+  using PretendIndexType = typename PretendRegionType::IndexType;
 
   PretendImagePointer fakeImage = PretendImageType::New();
 
@@ -291,13 +289,13 @@ LabelContourImageFilter< TInputImage, TOutputImage >
   PretendSizeType kernelRadius;
   kernelRadius.Fill(1);
 
-  typedef ConstShapedNeighborhoodIterator< PretendImageType > LineNeighborhoodType;
+  using LineNeighborhoodType = ConstShapedNeighborhoodIterator< PretendImageType >;
 
   LineNeighborhoodType lnit(kernelRadius, fakeImage, LineRegion);
 
   setConnectivity(&lnit, m_FullyConnected);
 
-  typedef typename LineNeighborhoodType::IndexListType  LineNeighborhoodIndexListType;
+  using LineNeighborhoodIndexListType = typename LineNeighborhoodType::IndexListType;
   LineNeighborhoodIndexListType ActiveIndexes = lnit.GetActiveIndexList();
 
   PretendIndexType idx = LineRegion.GetIndex();

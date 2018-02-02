@@ -37,16 +37,16 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
 
   // Test using an unsigned integral pixel type and generate a signed
   // integral pixel type
-  typedef   signed   short  InputPixelType;
-  typedef   unsigned short  OutputPixelType;
+  using InputPixelType = signed   short;
+  using OutputPixelType = unsigned short;
 
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< InputPixelType,  Dimension >   InputImageType;
-  typedef itk::Image< OutputPixelType, Dimension >   OutputImageType;
+  using InputImageType = itk::Image< InputPixelType,  Dimension >;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
 
-  typedef itk::ImageFileReader< InputImageType  >  ReaderType;
+  using ReaderType = itk::ImageFileReader< InputImageType  >;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   ReaderType::Pointer reader2 = ReaderType::New();
@@ -55,9 +55,9 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
   reader2->SetFileName( argv[2] );
 
   // Define the filter
-  typedef itk::Testing::ComparisonImageFilter<
+  using FilterType = itk::Testing::ComparisonImageFilter<
                              InputImageType,
-                             OutputImageType >  FilterType;
+                             OutputImageType >;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -72,7 +72,7 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
   filter->SetTestInput(  reader2->GetOutput() );
 
   // Write the output
-  typedef itk::ImageFileWriter< OutputImageType >       WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

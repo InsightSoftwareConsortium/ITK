@@ -23,7 +23,7 @@
 int itkSizeTest(int, char* [] )
 {
 
-  typedef itk::Size<4> SizeType;
+  using SizeType = itk::Size<4>;
 
   SizeType size1 = {{10, 20, 30, 40}};
   std::cout << "  SizeType size1 = {10, 20, 30, 40}; ";

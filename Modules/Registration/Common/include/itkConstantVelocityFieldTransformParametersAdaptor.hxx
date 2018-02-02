@@ -209,15 +209,15 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>
   const SpacingType newFieldSpacing = this->GetRequiredSpacing();
   const DirectionType newFieldDirection = this->GetRequiredDirection();
 
-  typedef IdentityTransform<ParametersValueType, ConstantVelocityFieldDimension> IdentityTransformType;
+  using IdentityTransformType = IdentityTransform<ParametersValueType, ConstantVelocityFieldDimension>;
   typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
-  typedef VectorLinearInterpolateImageFunction<ConstantVelocityFieldType, ParametersValueType> LinearInterpolatorType;
+  using LinearInterpolatorType = VectorLinearInterpolateImageFunction<ConstantVelocityFieldType, ParametersValueType>;
   typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
   interpolator->SetInputImage( this->m_Transform->GetConstantVelocityField() );
 
-  typedef VectorResampleImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType, ParametersValueType> ResamplerType;
+  using ResamplerType = VectorResampleImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType, ParametersValueType>;
   typename ResamplerType::Pointer resampler = ResamplerType::New();
   resampler->SetInput( this->m_Transform->GetConstantVelocityField() );
   resampler->SetOutputDirection( newFieldDirection );

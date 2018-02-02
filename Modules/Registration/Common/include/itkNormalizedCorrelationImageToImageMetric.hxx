@@ -48,7 +48,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
     itkExceptionMacro(<< "Fixed image has not been assigned");
     }
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
+  using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
 
@@ -60,7 +60,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
   this->SetTransformParameters(parameters);
 
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits<MeasureType>::AccumulateType;
 
   AccumulateType sff = NumericTraits<AccumulateType>::ZeroValue();
   AccumulateType smm = NumericTraits<AccumulateType>::ZeroValue();
@@ -151,7 +151,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
   const unsigned int dimension = FixedImageType::ImageDimension;
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
+  using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
 
@@ -161,7 +161,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
   this->SetTransformParameters(parameters);
 
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits<MeasureType>::AccumulateType;
 
   AccumulateType sff  = NumericTraits<AccumulateType>::ZeroValue();
   AccumulateType smm  = NumericTraits<AccumulateType>::ZeroValue();
@@ -258,9 +258,9 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
-      typedef typename OutputPointType::CoordRepType CoordRepType;
-      typedef ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>
-      MovingImageContinuousIndexType;
+      using CoordRepType = typename OutputPointType::CoordRepType;
+      using MovingImageContinuousIndexType =
+          ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>;
 
       MovingImageContinuousIndexType tempIndex;
       this->m_MovingImage->TransformPhysicalPointToContinuousIndex(transformedPoint, tempIndex);
@@ -341,7 +341,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
   const unsigned int dimension = FixedImageType::ImageDimension;
 
-  typedef  itk::ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
+  using FixedIteratorType = itk::ImageRegionConstIteratorWithIndex<FixedImageType>;
 
   FixedIteratorType ti( fixedImage, this->GetFixedImageRegion() );
 
@@ -351,7 +351,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
   this->SetTransformParameters(parameters);
 
-  typedef  typename NumericTraits<MeasureType>::AccumulateType AccumulateType;
+  using AccumulateType = typename NumericTraits<MeasureType>::AccumulateType;
 
   AccumulateType sff  = NumericTraits<AccumulateType>::ZeroValue();
   AccumulateType smm  = NumericTraits<AccumulateType>::ZeroValue();
@@ -450,9 +450,9 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>
 
       // Get the gradient by NearestNeighboorInterpolation:
       // which is equivalent to round up the point components.
-      typedef typename OutputPointType::CoordRepType CoordRepType;
-      typedef ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>
-      MovingImageContinuousIndexType;
+      using CoordRepType = typename OutputPointType::CoordRepType;
+      using MovingImageContinuousIndexType =
+          ContinuousIndex<CoordRepType, MovingImageType::ImageDimension>;
 
       MovingImageContinuousIndexType tempIndex;
       this->m_MovingImage->TransformPhysicalPointToContinuousIndex(transformedPoint, tempIndex);

@@ -213,24 +213,23 @@ class ITK_TEMPLATE_EXPORT NeighborhoodIterator:
   public ConstNeighborhoodIterator< TImage, TBoundaryCondition >
 {
 public:
-  /** Standard class typedefs. */
-  typedef NeighborhoodIterator                                    Self;
-  typedef ConstNeighborhoodIterator< TImage, TBoundaryCondition > Superclass;
+  /** Standard class type aliases. */
+  using Self = NeighborhoodIterator;
+  using Superclass = ConstNeighborhoodIterator< TImage, TBoundaryCondition >;
 
-  /** Extract typedefs from superclass. */
-  typedef typename Superclass::InternalPixelType InternalPixelType;
-  typedef typename Superclass::PixelType         PixelType;
-  typedef typename Superclass::SizeType          SizeType;
-  typedef typename Superclass::ImageType         ImageType;
-  typedef typename Superclass::RegionType        RegionType;
-  typedef typename Superclass::IndexType         IndexType;
-  typedef typename Superclass::OffsetType        OffsetType;
-  typedef typename Superclass::RadiusType        RadiusType;
-  typedef typename Superclass::NeighborhoodType  NeighborhoodType;
-  typedef typename Superclass::Iterator          Iterator;
-  typedef typename Superclass::ConstIterator     ConstIterator;
-  typedef typename Superclass::ImageBoundaryConditionPointerType
-  ImageBoundaryConditionPointerType;
+  /** Extract type alias from superclass. */
+  using InternalPixelType = typename Superclass::InternalPixelType;
+  using PixelType = typename Superclass::PixelType;
+  using SizeType = typename Superclass::SizeType;
+  using ImageType = typename Superclass::ImageType;
+  using RegionType = typename Superclass::RegionType;
+  using IndexType = typename Superclass::IndexType;
+  using OffsetType = typename Superclass::OffsetType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using Iterator = typename Superclass::Iterator;
+  using ConstIterator = typename Superclass::ConstIterator;
+  using ImageBoundaryConditionPointerType = typename Superclass::ImageBoundaryConditionPointerType;
 
   /** Default constructor. */
   NeighborhoodIterator():Superclass() {}

@@ -22,8 +22,8 @@
 int itkLabelObjectLineTest(int, char* [] )
 {
 
-  typedef itk::LabelObjectLine<2>            LabelObjectLineType;
-  typedef itk::LabelObjectLine<2>::IndexType IndexType;
+  using LabelObjectLineType = itk::LabelObjectLine<2>;
+  using IndexType = itk::LabelObjectLine<2>::IndexType;
   IndexType currentIndex;
   currentIndex[0] = 3;
   currentIndex[1] = 7;

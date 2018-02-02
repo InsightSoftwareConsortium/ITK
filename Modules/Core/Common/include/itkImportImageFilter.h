@@ -45,17 +45,17 @@ class ITK_TEMPLATE_EXPORT ImportImageFilter:
 {
 public:
   /** Typedef for the output image.   */
-  typedef Image< TPixel, VImageDimension >              OutputImageType;
-  typedef typename OutputImageType::Pointer             OutputImagePointer;
-  typedef typename OutputImageType::SpacingType         SpacingType;
-  typedef typename OutputImageType::PointType           OriginType;
-  typedef ImportImageContainer< SizeValueType, TPixel > ImportImageContainerType;
+  using OutputImageType = Image< TPixel, VImageDimension >;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using SpacingType = typename OutputImageType::SpacingType;
+  using OriginType = typename OutputImageType::PointType;
+  using ImportImageContainerType = ImportImageContainer< SizeValueType, TPixel >;
 
-  /** Standard class typedefs. */
-  typedef ImportImageFilter              Self;
-  typedef ImageSource< OutputImageType > Superclass;
-  typedef SmartPointer< Self >           Pointer;
-  typedef SmartPointer< const Self >     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImportImageFilter;
+  using Superclass = ImageSource< OutputImageType >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -63,18 +63,18 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImportImageFilter, ImageSource);
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef Index< VImageDimension > IndexType;
+  /** Index type alias support An index is used to access pixel values. */
+  using IndexType = Index< VImageDimension >;
 
-  /** Size typedef support. A size is used to define region bounds. */
-  typedef Size< VImageDimension > SizeType;
+  /** Size type alias support A size is used to define region bounds. */
+  using SizeType = Size< VImageDimension >;
 
-  /** Region typedef support. A region is used to specify a
+  /** Region type alias support A region is used to specify a
    * subset of an image. */
-  typedef ImageRegion< VImageDimension > RegionType;
+  using RegionType = ImageRegion< VImageDimension >;
 
   /** Type of the output image pixel type. */
-  typedef TPixel OutputImagePixelType;
+  using OutputImagePixelType = TPixel;
 
   /** Get the pointer from which the image data is imported. */
   TPixel * GetImportPointer();
@@ -115,7 +115,7 @@ public:
   itkGetConstReferenceMacro(Origin, OriginType);
   itkSetVectorMacro(Origin, const float, VImageDimension);
 
-  typedef Matrix< SpacePrecisionType, VImageDimension, VImageDimension > DirectionType;
+  using DirectionType = Matrix< SpacePrecisionType, VImageDimension, VImageDimension >;
 
   /** Set the direction of the image
    * \sa GetDirection() */

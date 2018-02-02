@@ -158,9 +158,9 @@ OrientImageFilter< TInputImage, TOutputImage >
     return;
     }
 
-  typedef PermuteAxesImageFilter< InputImageType >           PermuteFilterType;
-  typedef FlipImageFilter< InputImageType >                  FlipFilterType;
-  typedef CastImageFilter< InputImageType, OutputImageType > CastToOutputFilterType;
+  using PermuteFilterType = PermuteAxesImageFilter< InputImageType >;
+  using FlipFilterType = FlipImageFilter< InputImageType >;
+  using CastToOutputFilterType = CastImageFilter< InputImageType, OutputImageType >;
 
   typename PermuteFilterType::Pointer permute = PermuteFilterType::New();
   typename FlipFilterType::Pointer flip = FlipFilterType::New();
@@ -339,8 +339,7 @@ OrientImageFilter< TInputImage, TOutputImage >
 #if defined( __DEBUG_ORIENT__ )
 #define DEBUG_EXECUTE(X) X
 
-typedef itk::SpatialOrientation::ValidCoordinateOrientationFlags
-SO_OrientationType;
+using SO_OrientationType = itk::SpatialOrientation::ValidCoordinateOrientationFlags;
 std::string SO_OrientationToString(SO_OrientationType in)
 {
   switch ( in )
@@ -485,9 +484,9 @@ OrientImageFilter< TInputImage, TOutputImage >
   // No need to allocate the output since the minipipeline does it
   // this->AllocateOutputs();
 
-  typedef PermuteAxesImageFilter< InputImageType >           PermuteFilterType;
-  typedef FlipImageFilter< InputImageType >                  FlipFilterType;
-  typedef CastImageFilter< InputImageType, OutputImageType > CastToOutputFilterType;
+  using PermuteFilterType = PermuteAxesImageFilter< InputImageType >;
+  using FlipFilterType = FlipImageFilter< InputImageType >;
+  using CastToOutputFilterType = CastImageFilter< InputImageType, OutputImageType >;
 
   typename PermuteFilterType::Pointer permute = PermuteFilterType::New();
   typename FlipFilterType::Pointer flip = FlipFilterType::New();
@@ -585,9 +584,9 @@ OrientImageFilter< TInputImage, TOutputImage >
       ( SpatialOrientationAdapter().FromDirectionCosines( inputPtr->GetDirection() ) );
     }
 
-  typedef PermuteAxesImageFilter< InputImageType >           PermuteFilterType;
-  typedef FlipImageFilter< InputImageType >                  FlipFilterType;
-  typedef CastImageFilter< InputImageType, OutputImageType > CastToOutputFilterType;
+  using PermuteFilterType = PermuteAxesImageFilter< InputImageType >;
+  using FlipFilterType = FlipImageFilter< InputImageType >;
+  using CastToOutputFilterType = CastImageFilter< InputImageType, OutputImageType >;
 
   typename PermuteFilterType::Pointer permute = PermuteFilterType::New();
   typename FlipFilterType::Pointer flip = FlipFilterType::New();

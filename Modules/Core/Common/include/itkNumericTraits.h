@@ -73,32 +73,32 @@ class NumericTraits:public std::numeric_limits< T >
 {
 public:
   /** The type of this limits trait object. */
-  typedef std::numeric_limits< T > TraitsType;
+  using TraitsType = std::numeric_limits< T >;
 
   /** Return the type of this native type. */
-  typedef T ValueType;
+  using ValueType = T;
 
   /** Return the type that can be printed. */
-  typedef T PrintType;
+  using PrintType = T;
 
   /** Return value of std::abs(). */
-  typedef T AbsType;
+  using AbsType = T;
 
   /** Accumulation of addition and multiplication. */
-  typedef double AccumulateType;
+  using AccumulateType = double;
 
   /** Measurement vector type */
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   /** Typedef for operations that use floating point instead of real precision
    *  to save memory */
-  typedef float FloatType;
+  using FloatType = float;
 
   /** Type for real-valued scalar operations. */
-  typedef double RealType;
+  using RealType = double;
 
   /** Type for real-valued scalar operations. */
-  typedef RealType ScalarRealType;
+  using ScalarRealType = RealType;
 
   /** Additive identity. */
   static const T ITKCommon_EXPORT Zero;
@@ -230,14 +230,14 @@ template< >
 class NumericTraits< bool > :public std::numeric_limits< bool >
 {
 public:
-  typedef bool                     ValueType;
-  typedef bool                     PrintType;
-  typedef unsigned char            AbsType;
-  typedef unsigned char            AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = bool;
+  using PrintType = bool;
+  using AbsType = unsigned char;
+  using AccumulateType = unsigned char;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr bool ITKCommon_EXPORT Zero = false;
   static constexpr bool ITKCommon_EXPORT One = true;
@@ -287,14 +287,14 @@ template< >
 class NumericTraits< char > :public std::numeric_limits< char >
 {
 public:
-  typedef char                     ValueType;
-  typedef int                      PrintType;
-  typedef unsigned char            AbsType;
-  typedef short                    AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = char;
+  using PrintType = int;
+  using AbsType = unsigned char;
+  using AccumulateType = short;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr char ITKCommon_EXPORT Zero = 0;
   static constexpr char ITKCommon_EXPORT One = 1;
@@ -348,14 +348,14 @@ template< >
 class NumericTraits< signed char > :public std::numeric_limits< signed char >
 {
 public:
-  typedef signed char              ValueType;
-  typedef int                      PrintType;
-  typedef unsigned char            AbsType;
-  typedef short                    AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = signed char;
+  using PrintType = int;
+  using AbsType = unsigned char;
+  using AccumulateType = short;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr signed char ITKCommon_EXPORT Zero = 0;
   static constexpr signed char ITKCommon_EXPORT One = 1;
@@ -404,14 +404,14 @@ template< >
 class NumericTraits< unsigned char > :public std::numeric_limits< unsigned char >
 {
 public:
-  typedef unsigned char            ValueType;
-  typedef int                      PrintType;
-  typedef unsigned char            AbsType;
-  typedef unsigned short           AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = unsigned char;
+  using PrintType = int;
+  using AbsType = unsigned char;
+  using AccumulateType = unsigned short;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr unsigned char ITKCommon_EXPORT Zero = 0;
   static constexpr unsigned char ITKCommon_EXPORT One = 1;
@@ -457,14 +457,14 @@ template< >
 class NumericTraits< short > :public std::numeric_limits< short >
 {
 public:
-  typedef short                    ValueType;
-  typedef short                    PrintType;
-  typedef unsigned short           AbsType;
-  typedef int                      AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = short;
+  using PrintType = short;
+  using AbsType = unsigned short;
+  using AccumulateType = int;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr short ITKCommon_EXPORT Zero = 0;
   static constexpr short ITKCommon_EXPORT One = 1;
@@ -510,14 +510,14 @@ template< >
 class NumericTraits< unsigned short > :public std::numeric_limits< unsigned short >
 {
 public:
-  typedef unsigned short           ValueType;
-  typedef unsigned short           PrintType;
-  typedef unsigned short           AbsType;
-  typedef unsigned int             AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = unsigned short;
+  using PrintType = unsigned short;
+  using AbsType = unsigned short;
+  using AccumulateType = unsigned int;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr unsigned short ITKCommon_EXPORT Zero = 0;
   static constexpr unsigned short ITKCommon_EXPORT One = 1;
@@ -562,14 +562,14 @@ template< >
 class NumericTraits< int > :public std::numeric_limits< int >
 {
 public:
-  typedef int                      ValueType;
-  typedef int                      PrintType;
-  typedef unsigned int             AbsType;
-  typedef long                     AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = int;
+  using PrintType = int;
+  using AbsType = unsigned int;
+  using AccumulateType = long;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr int ITKCommon_EXPORT Zero = 0;
   static constexpr int ITKCommon_EXPORT One = 1;
@@ -615,14 +615,14 @@ template< >
 class NumericTraits< unsigned int > :public std::numeric_limits< unsigned int >
 {
 public:
-  typedef unsigned int             ValueType;
-  typedef unsigned int             PrintType;
-  typedef unsigned int             AbsType;
-  typedef unsigned int             AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = unsigned int;
+  using PrintType = unsigned int;
+  using AbsType = unsigned int;
+  using AccumulateType = unsigned int;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr unsigned int ITKCommon_EXPORT Zero = 0;
   static constexpr unsigned int ITKCommon_EXPORT One = 1;
@@ -671,14 +671,14 @@ template< >
 class NumericTraits< long > :public std::numeric_limits< long >
 {
 public:
-  typedef long                     ValueType;
-  typedef long                     PrintType;
-  typedef unsigned long            AbsType;
-  typedef long                     AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = long;
+  using PrintType = long;
+  using AbsType = unsigned long;
+  using AccumulateType = long;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr long ITKCommon_EXPORT Zero = 0L;
   static constexpr long ITKCommon_EXPORT One = 1L;
@@ -724,14 +724,14 @@ template< >
 class NumericTraits< unsigned long > :public std::numeric_limits< unsigned long >
 {
 public:
-  typedef unsigned long            ValueType;
-  typedef unsigned long            PrintType;
-  typedef unsigned long            AbsType;
-  typedef unsigned long            AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = unsigned long;
+  using PrintType = unsigned long;
+  using AbsType = unsigned long;
+  using AccumulateType = unsigned long;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr unsigned long ITKCommon_EXPORT Zero = 0UL;
   static constexpr unsigned long ITKCommon_EXPORT One = 1UL;
@@ -777,14 +777,14 @@ template< >
 class NumericTraits< float > :public std::numeric_limits< float >
 {
 public:
-  typedef float                    ValueType;
-  typedef float                    PrintType;
-  typedef float                    AbsType;
-  typedef double                   AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = float;
+  using PrintType = float;
+  using AbsType = float;
+  using AccumulateType = double;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
 
   static constexpr float ITKCommon_EXPORT Zero =0.0f;
@@ -831,14 +831,14 @@ template< >
 class NumericTraits< double > :public std::numeric_limits< double >
 {
 public:
-  typedef double                   ValueType;
-  typedef double                   PrintType;
-  typedef double                   AbsType;
-  typedef double                   AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = double;
+  using PrintType = double;
+  using AbsType = double;
+  using AccumulateType = double;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr double ITKCommon_EXPORT Zero = 0.0;
   static constexpr double ITKCommon_EXPORT One  = 1.0;
@@ -884,22 +884,22 @@ template< >
 class NumericTraits< long double > :public std::numeric_limits< long double >
 {
 public:
-  typedef long double ValueType;
+  using ValueType = long double;
 #if defined( __SUNPRO_CC ) && defined( _ILP32 )
   // sun studio in 32 bit mode is unable to print long double values: it
   // segfaults.
   // conversion to double will give usable results if the value is in the double
   // range - better than nothing.
-  typedef double                   PrintType;
+  using PrintType = double;
 #else
-  typedef long double              PrintType;
+  using PrintType = long double;
 #endif
-  typedef long double              AbsType;
-  typedef long double              AccumulateType;
-  typedef long double              RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using AbsType = long double;
+  using AccumulateType = long double;
+  using RealType = long double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr long double ITKCommon_EXPORT Zero = 0.0;
   static constexpr long double ITKCommon_EXPORT One = 1.0;
@@ -947,14 +947,14 @@ class NumericTraits< long long > :
   public std::numeric_limits< long long >
 {
 public:
-  typedef long long                ValueType;
-  typedef long long                PrintType;
-  typedef long long                AbsType;
-  typedef long long                AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = long long;
+  using PrintType = long long;
+  using AbsType = long long;
+  using AccumulateType = long long;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr ValueType ITKCommon_EXPORT Zero = 0LL;
   static constexpr ValueType ITKCommon_EXPORT One = 1LL;
@@ -1001,14 +1001,14 @@ class NumericTraits< unsigned long long > :
   public std::numeric_limits< unsigned long long >
 {
 public:
-  typedef unsigned long long       ValueType;
-  typedef unsigned long long       PrintType;
-  typedef unsigned long long       AbsType;
-  typedef unsigned long long       AccumulateType;
-  typedef double                   RealType;
-  typedef RealType                 ScalarRealType;
-  typedef float                    FloatType;
-  typedef FixedArray<ValueType, 1> MeasurementVectorType;
+  using ValueType = unsigned long long;
+  using PrintType = unsigned long long;
+  using AbsType = unsigned long long;
+  using AccumulateType = unsigned long long;
+  using RealType = double;
+  using ScalarRealType = RealType;
+  using FloatType = float;
+  using MeasurementVectorType = FixedArray<ValueType, 1>;
 
   static constexpr ValueType ITKCommon_EXPORT Zero = 0ULL;
   static constexpr ValueType ITKCommon_EXPORT One = 1ULL;
@@ -1055,17 +1055,17 @@ template< >
 class NumericTraits< std::complex< char > >
 {
 public:
-  typedef std::complex< char >   Self;
+  using Self = std::complex< char >;
   // for backward compatibility
-  typedef Self                   TheType;
-  typedef char                   ValueType;
-  typedef std::complex< int >    PrintType;
-  typedef double                 AbsType;
-  typedef Self                   AccumulateType;
-  typedef std::complex< double > RealType;
-  typedef double                 ScalarRealType;
-  typedef std::complex< float >  FloatType;
-  typedef FixedArray<char, 2>    MeasurementVectorType;
+  using TheType = Self;
+  using ValueType = char;
+  using PrintType = std::complex< int >;
+  using AbsType = double;
+  using AccumulateType = Self;
+  using RealType = std::complex< double >;
+  using ScalarRealType = double;
+  using FloatType = std::complex< float >;
+  using MeasurementVectorType = FixedArray<char, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
@@ -1124,17 +1124,17 @@ template< >
 class NumericTraits< std::complex< unsigned char > >
 {
 public:
-  typedef std::complex< unsigned char >   Self;
+  using Self = std::complex< unsigned char >;
   // for backward compatibility
-  typedef Self                         TheType;
-  typedef unsigned char                ValueType;
-  typedef std::complex< unsigned int > PrintType;
-  typedef double                       AbsType;
-  typedef Self                         AccumulateType;
-  typedef std::complex< double >       RealType;
-  typedef double                       ScalarRealType;
-  typedef std::complex< float >        FloatType;
-  typedef FixedArray<unsigned char, 2> MeasurementVectorType;
+  using TheType = Self;
+  using ValueType = unsigned char;
+  using PrintType = std::complex< unsigned int >;
+  using AbsType = double;
+  using AccumulateType = Self;
+  using RealType = std::complex< double >;
+  using ScalarRealType = double;
+  using FloatType = std::complex< float >;
+  using MeasurementVectorType = FixedArray<unsigned char, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
@@ -1187,17 +1187,17 @@ template< >
 class NumericTraits< std::complex< short > >
 {
 public:
-  typedef std::complex< short >  Self;
+  using Self = std::complex< short >;
   // for backward compatibility
-  typedef Self                   TheType;
-  typedef short                  ValueType;
-  typedef Self                   PrintType;
-  typedef double                 AbsType;
-  typedef Self                   AccumulateType;
-  typedef std::complex< double > RealType;
-  typedef double                 ScalarRealType;
-  typedef std::complex< float >  FloatType;
-  typedef FixedArray<short, 2>   MeasurementVectorType;
+  using TheType = Self;
+  using ValueType = short;
+  using PrintType = Self;
+  using AbsType = double;
+  using AccumulateType = Self;
+  using RealType = std::complex< double >;
+  using ScalarRealType = double;
+  using FloatType = std::complex< float >;
+  using MeasurementVectorType = FixedArray<short, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
@@ -1250,17 +1250,17 @@ template< >
 class NumericTraits< std::complex< unsigned short > >
 {
 public:
-  typedef std::complex< unsigned short >  Self;
+  using Self = std::complex< unsigned short >;
   // for backward compatibility
-  typedef Self                            TheType;
-  typedef unsigned short                  ValueType;
-  typedef Self                            PrintType;
-  typedef double                          AbsType;
-  typedef Self                            AccumulateType;
-  typedef std::complex< double >          RealType;
-  typedef double                          ScalarRealType;
-  typedef std::complex< float >           FloatType;
-  typedef FixedArray<unsigned short, 2>   MeasurementVectorType;
+  using TheType = Self;
+  using ValueType = unsigned short;
+  using PrintType = Self;
+  using AbsType = double;
+  using AccumulateType = Self;
+  using RealType = std::complex< double >;
+  using ScalarRealType = double;
+  using FloatType = std::complex< float >;
+  using MeasurementVectorType = FixedArray<unsigned short, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
@@ -1313,17 +1313,17 @@ template< >
 class NumericTraits< std::complex< int > >
 {
 public:
-  typedef std::complex< int >    Self;
+  using Self = std::complex< int >;
   // for backward compatibility
-  typedef Self                   TheType;
-  typedef int                    ValueType;
-  typedef Self                   PrintType;
-  typedef double                 AbsType;
-  typedef Self                   AccumulateType;
-  typedef std::complex< double > RealType;
-  typedef double                 ScalarRealType;
-  typedef std::complex< float >  FloatType;
-  typedef FixedArray<int, 2>     MeasurementVectorType;
+  using TheType = Self;
+  using ValueType = int;
+  using PrintType = Self;
+  using AbsType = double;
+  using AccumulateType = Self;
+  using RealType = std::complex< double >;
+  using ScalarRealType = double;
+  using FloatType = std::complex< float >;
+  using MeasurementVectorType = FixedArray<int, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
@@ -1376,17 +1376,17 @@ template< >
 class NumericTraits< std::complex< unsigned int > >
 {
 public:
-  typedef std::complex< unsigned int >  Self;
+  using Self = std::complex< unsigned int >;
   // for backward compatibility
-  typedef Self                          TheType;
-  typedef unsigned int                  ValueType;
-  typedef Self                          PrintType;
-  typedef double                        AbsType;
-  typedef Self                          AccumulateType;
-  typedef std::complex< double >        RealType;
-  typedef double                        ScalarRealType;
-  typedef std::complex< float >         FloatType;
-  typedef FixedArray<unsigned int, 2>   MeasurementVectorType;
+  using TheType = Self;
+  using ValueType = unsigned int;
+  using PrintType = Self;
+  using AbsType = double;
+  using AccumulateType = Self;
+  using RealType = std::complex< double >;
+  using ScalarRealType = double;
+  using FloatType = std::complex< float >;
+  using MeasurementVectorType = FixedArray<unsigned int, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
@@ -1439,17 +1439,17 @@ template< >
 class NumericTraits< std::complex< long > >
 {
 public:
-  typedef std::complex< long >    Self;
+  using Self = std::complex< long >;
   // for backward compatibility
-  typedef Self                   TheType;
-  typedef long                   ValueType;
-  typedef Self                   PrintType;
-  typedef double                 AbsType;
-  typedef Self                   AccumulateType;
-  typedef std::complex< double > RealType;
-  typedef double                 ScalarRealType;
-  typedef std::complex< float >  FloatType;
-  typedef FixedArray<long, 2>    MeasurementVectorType;
+  using TheType = Self;
+  using ValueType = long;
+  using PrintType = Self;
+  using AbsType = double;
+  using AccumulateType = Self;
+  using RealType = std::complex< double >;
+  using ScalarRealType = double;
+  using FloatType = std::complex< float >;
+  using MeasurementVectorType = FixedArray<long, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
@@ -1502,17 +1502,17 @@ template< >
 class NumericTraits< std::complex< unsigned long > >
 {
 public:
-  typedef std::complex< unsigned long >  Self;
+  using Self = std::complex< unsigned long >;
   // for backward compatibility
-  typedef Self                           TheType;
-  typedef unsigned long                  ValueType;
-  typedef Self                           PrintType;
-  typedef double                         AbsType;
-  typedef Self                           AccumulateType;
-  typedef std::complex< double >         RealType;
-  typedef double                         ScalarRealType;
-  typedef std::complex< float >          FloatType;
-  typedef FixedArray<unsigned long, 2>   MeasurementVectorType;
+  using TheType = Self;
+  using ValueType = unsigned long;
+  using PrintType = Self;
+  using AbsType = double;
+  using AccumulateType = Self;
+  using RealType = std::complex< double >;
+  using ScalarRealType = double;
+  using FloatType = std::complex< float >;
+  using MeasurementVectorType = FixedArray<unsigned long, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
@@ -1565,17 +1565,17 @@ template< >
 class NumericTraits< std::complex< float > >
 {
 public:
-  typedef std::complex< float >  Self;
+  using Self = std::complex< float >;
   // for backward compatibility
-  typedef Self                   TheType;
-  typedef float                  ValueType;
-  typedef Self                   PrintType;
-  typedef double                 AbsType;
-  typedef Self                   AccumulateType;
-  typedef std::complex< double > RealType;
-  typedef double                 ScalarRealType;
-  typedef std::complex< float >  FloatType;
-  typedef FixedArray<float, 2>   MeasurementVectorType;
+  using TheType = Self;
+  using ValueType = float;
+  using PrintType = Self;
+  using AbsType = double;
+  using AccumulateType = Self;
+  using RealType = std::complex< double >;
+  using ScalarRealType = double;
+  using FloatType = std::complex< float >;
+  using MeasurementVectorType = FixedArray<float, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
@@ -1628,17 +1628,17 @@ template< >
 class NumericTraits< std::complex< double > >
 {
 public:
-  typedef std::complex< double > Self;
+  using Self = std::complex< double >;
   // for backward compatibility
-  typedef Self                   TheType;
-  typedef double                 ValueType;
-  typedef Self                   PrintType;
-  typedef double                 AbsType;
-  typedef Self                   AccumulateType;
-  typedef std::complex< double > RealType;
-  typedef double                 ScalarRealType;
-  typedef std::complex< float >  FloatType;
-  typedef FixedArray<double, 2>  MeasurementVectorType;
+  using TheType = Self;
+  using ValueType = double;
+  using PrintType = Self;
+  using AbsType = double;
+  using AccumulateType = Self;
+  using RealType = std::complex< double >;
+  using ScalarRealType = double;
+  using FloatType = std::complex< float >;
+  using MeasurementVectorType = FixedArray<double, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;
@@ -1691,17 +1691,17 @@ template< >
 class NumericTraits< std::complex< long double > >
 {
 public:
-  typedef std::complex< long double > Self;
+  using Self = std::complex< long double >;
   // for backward compatibility
-  typedef Self                        TheType;
-  typedef long double                 ValueType;
-  typedef Self                        PrintType;
-  typedef long double                 AbsType;
-  typedef Self                        AccumulateType;
-  typedef std::complex< long double > RealType;
-  typedef long double                 ScalarRealType;
-  typedef std::complex< float >       FloatType;
-  typedef FixedArray<long double, 2>  MeasurementVectorType;
+  using TheType = Self;
+  using ValueType = long double;
+  using PrintType = Self;
+  using AbsType = long double;
+  using AccumulateType = Self;
+  using RealType = std::complex< long double >;
+  using ScalarRealType = long double;
+  using FloatType = std::complex< float >;
+  using MeasurementVectorType = FixedArray<long double, 2>;
 
   static const Self ITKCommon_EXPORT Zero;
   static const Self ITKCommon_EXPORT One;

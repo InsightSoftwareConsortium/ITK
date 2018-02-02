@@ -76,15 +76,15 @@ template< typename TInputMesh, typename TOutputMesh >
 class ITK_TEMPLATE_EXPORT DeformableSimplexMesh3DFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef DeformableSimplexMesh3DFilter Self;
+  /** Standard "Self" type alias. */
+  using Self = DeformableSimplexMesh3DFilter;
 
-  /** Standard "Superclass" typedef. */
-  typedef MeshToMeshFilter< TInputMesh, TOutputMesh > Superclass;
+  /** Standard "Superclass" type alias. */
+  using Superclass = MeshToMeshFilter< TInputMesh, TOutputMesh >;
 
-  /** Smart pointer typedef support */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Smart pointer type alias support */
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method of creation through the object factory. */
   itkNewMacro(Self);
@@ -92,51 +92,51 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DeformableSimplexMesh3DFilter, MeshToMeshFilter);
 
-  /** Some typedefs. */
-  typedef TInputMesh  InputMeshType;
-  typedef TOutputMesh OutputMeshType;
+  /** Some type alias. */
+  using InputMeshType = TInputMesh;
+  using OutputMeshType = TOutputMesh;
 
-  typedef typename InputMeshType::PointsContainerPointer         InputPointsContainerPointer;
-  typedef typename InputMeshType::PointsContainer                InputPointsContainer;
-  typedef typename InputMeshType::PointsContainer::ConstIterator InputPointsContainerConstIterator;
+  using InputPointsContainerPointer = typename InputMeshType::PointsContainerPointer;
+  using InputPointsContainer = typename InputMeshType::PointsContainer;
+  using InputPointsContainerConstIterator = typename InputMeshType::PointsContainer::ConstIterator;
 
   /** Other definitions. */
-  typedef typename SimplexMeshGeometry::PointType              PointType;
-  typedef typename PointType::VectorType                       VectorType;
-  typedef CovariantVector< typename VectorType::ValueType, 3 > CovariantVectorType;
-  typedef typename InputMeshType::PixelType                    PixelType;
+  using PointType = typename SimplexMeshGeometry::PointType;
+  using VectorType = typename PointType::VectorType;
+  using CovariantVectorType = CovariantVector< typename VectorType::ValueType, 3 >;
+  using PixelType = typename InputMeshType::PixelType;
 
   /** Image and Image iterator definition. */
-  typedef CovariantVector< PixelType, 3 > GradientType;
-  typedef Image< GradientType, 3 >        GradientImageType;
-  typedef Image< unsigned char, 3 >       BinaryOutput;
-  typedef Image< float, 3 >               MagnitudeOutput;
+  using GradientType = CovariantVector< PixelType, 3 >;
+  using GradientImageType = Image< GradientType, 3 >;
+  using BinaryOutput = Image< unsigned char, 3 >;
+  using MagnitudeOutput = Image< float, 3 >;
 
-  typedef typename GradientImageType::Pointer        GradientImagePointer;
-  typedef typename GradientImageType::IndexType      GradientIndexType;
-  typedef typename GradientImageType::PixelType      GradientPixelType;
-  typedef typename GradientIndexType::IndexValueType GradientIndexValueType;
-  typedef typename GradientImageType::SizeType       GradientImageSizeType;
+  using GradientImagePointer = typename GradientImageType::Pointer;
+  using GradientIndexType = typename GradientImageType::IndexType;
+  using GradientPixelType = typename GradientImageType::PixelType;
+  using GradientIndexValueType = typename GradientIndexType::IndexValueType;
+  using GradientImageSizeType = typename GradientImageType::SizeType;
 
   /* Mesh pointer definition. */
-  typedef typename InputMeshType::Pointer  InputMeshPointer;
-  typedef typename OutputMeshType::Pointer OutputMeshPointer;
+  using InputMeshPointer = typename InputMeshType::Pointer;
+  using OutputMeshPointer = typename OutputMeshType::Pointer;
 
-  typedef typename InputMeshType::PointType                  MeshPointType;
-  typedef typename InputMeshType::CellsContainerPointer      CellsContainerPointer;
-  typedef typename InputMeshType::CellsContainer::Iterator   CellsContainerIterator;
-  typedef typename InputMeshType::NeighborListType           InputNeighbors;
-  typedef typename InputMeshType::NeighborListType::iterator InputNeighborsIterator;
+  using MeshPointType = typename InputMeshType::PointType;
+  using CellsContainerPointer = typename InputMeshType::CellsContainerPointer;
+  using CellsContainerIterator = typename InputMeshType::CellsContainer::Iterator;
+  using InputNeighbors = typename InputMeshType::NeighborListType;
+  using InputNeighborsIterator = typename InputMeshType::NeighborListType::iterator;
 
-  typedef std::set< IdentifierType >                            NeighborSetType;
-  typedef std::set< IdentifierType >                            IndexSetType;
-  typedef itk::MapContainer< IdentifierType, NeighborSetType >  VertexNeighborListType;
-  typedef typename NeighborSetType::iterator                    NeighborSetIterator;
-  typedef typename IndexSetType::iterator                       IndexSetIterator;
+  using NeighborSetType = std::set< IdentifierType >;
+  using IndexSetType = std::set< IdentifierType >;
+  using VertexNeighborListType = itk::MapContainer< IdentifierType, NeighborSetType >;
+  using NeighborSetIterator = typename NeighborSetType::iterator;
+  using IndexSetIterator = typename IndexSetType::iterator;
 
-  typedef typename InputMeshType::GeometryMapType GeometryMapType;
-  typedef typename GeometryMapType::Pointer       GeometryMapPointer;
-  typedef typename GeometryMapType::Iterator      GeometryMapIterator;
+  using GeometryMapType = typename InputMeshType::GeometryMapType;
+  using GeometryMapPointer = typename GeometryMapType::Pointer;
+  using GeometryMapIterator = typename GeometryMapType::Iterator;
 
   /** Routines. */
 

@@ -35,11 +35,11 @@ namespace fem
 class ITKFEM_EXPORT Element2DC0LinearLineStress : public Element1DStress<Element2DC0LinearLine>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Element2DC0LinearLineStress            Self;
-  typedef Element1DStress<Element2DC0LinearLine> Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Element2DC0LinearLineStress;
+  using Superclass = Element1DStress<Element2DC0LinearLine>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkSimpleNewMacro(Self);

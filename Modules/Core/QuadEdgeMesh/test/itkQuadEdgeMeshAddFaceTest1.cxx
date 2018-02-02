@@ -27,12 +27,12 @@ int itkQuadEdgeMeshAddFaceTest1( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::QuadEdgeMesh< double, 3 > MeshType;
-  typedef MeshType::PointType            PointType;
-  typedef MeshType::PointIdentifier      PointIdentifier;
-  typedef std::vector< PointIdentifier > PointIdList;
+  using MeshType = itk::QuadEdgeMesh< double, 3 >;
+  using PointType = MeshType::PointType;
+  using PointIdentifier = MeshType::PointIdentifier;
+  using PointIdList = std::vector< PointIdentifier >;
 
-  typedef itk::QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType > BEFunctionType;
+  using BEFunctionType = itk::QuadEdgeMeshBoundaryEdgesMeshFunction< MeshType >;
 
   BEFunctionType::Pointer BoundaryEdges = BEFunctionType::New();
   std::cout << BoundaryEdges->GetNameOfClass() << std::endl;
@@ -63,7 +63,7 @@ int itkQuadEdgeMeshAddFaceTest1( int argc, char* argv[] )
 
   PointType::CoordRepType        a = std::sqrt( 3.0 ) / 2.0;
 
-  typedef PointType::ValueArrayType ValueArrayType;
+  using ValueArrayType = PointType::ValueArrayType;
 
   ValueArrayType pointCoordinates[NumPoints]=
   { {  0.0, 0.0, 0.0 },

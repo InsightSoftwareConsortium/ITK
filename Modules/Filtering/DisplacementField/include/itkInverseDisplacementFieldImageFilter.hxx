@@ -41,9 +41,9 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
     m_Size[i] = 0;
     }
 
-  typedef ThinPlateSplineKernelTransform<
+  using DefaultTransformType = ThinPlateSplineKernelTransform<
     double,
-    itkGetStaticConstMacro(ImageDimension) >  DefaultTransformType;
+    itkGetStaticConstMacro(ImageDimension) >;
 
   m_KernelTransform = DefaultTransformType::New();
 
@@ -108,8 +108,8 @@ void
 InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 ::PrepareKernelBaseSpline()
 {
-  typedef typename KernelTransformType::PointsContainer LandmarkContainer;
-  typedef typename LandmarkContainer::Pointer           LandmarkContainerPointer;
+  using LandmarkContainer = typename KernelTransformType::PointsContainer;
+  using LandmarkContainerPointer = typename LandmarkContainer::Pointer;
 
   // Source contains points with physical coordinates of the
   // destination displacement fields (the inverse field)
@@ -119,9 +119,9 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
   // displacement in the inverse direction.
   LandmarkContainerPointer target = LandmarkContainer::New();
 
-  typedef itk::VectorResampleImageFilter<
+  using ResamplerType = itk::VectorResampleImageFilter<
     InputImageType,
-    InputImageType  > ResamplerType;
+    InputImageType  >;
 
   typename ResamplerType::Pointer resampler = ResamplerType::New();
 
@@ -132,8 +132,8 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 
   typename InputImageType::SpacingType spacing = inputImage->GetSpacing();
 
-  typedef typename InputImageType::RegionType InputRegionType;
-  typedef typename InputImageType::SizeType   InputSizeType;
+  using InputRegionType = typename InputImageType::RegionType;
+  using InputSizeType = typename InputImageType::SizeType;
 
   InputRegionType region;
 
@@ -165,7 +165,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
 
   const InputImageType *sampledInput = resampler->GetOutput();
 
-  typedef ImageRegionConstIteratorWithIndex< InputImageType > IteratorType;
+  using IteratorType = ImageRegionConstIteratorWithIndex< InputImageType >;
 
   unsigned int landmarkId = 0;
 
@@ -230,8 +230,7 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
   outputPtr->Allocate();
 
   // Create an iterator that will walk the output region for this thread.
-  typedef ImageRegionIteratorWithIndex<
-    TOutputImage > OutputIterator;
+  using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
 
   OutputImageRegionType region = outputPtr->GetRequestedRegion();
 
@@ -241,8 +240,8 @@ InverseDisplacementFieldImageFilter< TInputImage, TOutputImage >
   // to an output pixel
   IndexType outputIndex;         // Index to current output pixel
 
-  typedef typename KernelTransformType::InputPointType  InputPointType;
-  typedef typename KernelTransformType::OutputPointType OutputPointType;
+  using InputPointType = typename KernelTransformType::InputPointType;
+  using OutputPointType = typename KernelTransformType::OutputPointType;
 
   InputPointType outputPoint;    // Coordinates of current output pixel
 

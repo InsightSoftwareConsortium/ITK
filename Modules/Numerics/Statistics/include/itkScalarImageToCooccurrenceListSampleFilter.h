@@ -52,28 +52,28 @@ class ITK_TEMPLATE_EXPORT ScalarImageToCooccurrenceListSampleFilter:
   public ProcessObject
 {
 public:
-  typedef TImage ImageType;
+  using ImageType = TImage;
 
-  typedef FixedArray< typename TImage::PixelType, 2 > MeasurementVectorType;
+  using MeasurementVectorType = FixedArray< typename TImage::PixelType, 2 >;
 
-  typedef itk::Statistics::ListSample< MeasurementVectorType > SampleType;
-  typedef typename SampleType::MeasurementVectorSizeType       MeasurementVectorSizeType;
+  using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
+  using MeasurementVectorSizeType = typename SampleType::MeasurementVectorSizeType;
 
-  /** Standard class typedefs */
-  typedef ScalarImageToCooccurrenceListSampleFilter Self;
-  typedef ProcessObject                             Superclass;
-  typedef SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                ConstPointer;
+  /** Standard class type aliases */
+  using Self = ScalarImageToCooccurrenceListSampleFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Neighborhood iterator type. */
-  typedef itk::ShapedNeighborhoodIterator<
+  using ShapedNeighborhoodIteratorType = itk::ShapedNeighborhoodIterator<
     TImage,
     ConstantBoundaryCondition< TImage >
-    > ShapedNeighborhoodIteratorType;
+    >;
 
   /** Offset type used for Neighborhoods */
-  typedef typename ShapedNeighborhoodIteratorType::OffsetType OffsetType;
-  typedef std::vector< OffsetType >                           OffsetTable;
+  using OffsetType = typename ShapedNeighborhoodIteratorType::OffsetType;
+  using OffsetTable = std::vector< OffsetType >;
 
   void UseNeighbor(const OffsetType & offset);
 
@@ -104,8 +104,8 @@ protected:
   ~ScalarImageToCooccurrenceListSampleFilter() override {}
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typedef DataObject::Pointer                           DataObjectPointer;
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointer = DataObject::Pointer;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

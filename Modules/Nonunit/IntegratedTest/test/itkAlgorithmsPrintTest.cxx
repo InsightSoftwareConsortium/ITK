@@ -27,14 +27,14 @@
 
 int main (int , char* [])
 {
-  typedef itk::Image<float,2>          InputType;
-  typedef itk::Image<float,3>          InputType3D;
-  typedef itk::Image<float,2>          OutputType;
+  using InputType = itk::Image<float,2>;
+  using InputType3D = itk::Image<float,3>;
+  using OutputType = itk::Image<float,2>;
 
-  typedef itk::Mesh<double>  MeshType;
+  using MeshType = itk::Mesh<double>;
 
-  typedef itk::Vector<float,2>      VectorType;
-  typedef itk::Image<VectorType, 2> VectorImageType;
+  using VectorType = itk::Vector<float,2>;
+  using VectorImageType = itk::Image<VectorType, 2>;
 
   itk::AntiAliasBinaryImageFilter<InputType,OutputType>::Pointer AntiAliasBinaryImageFilterObj =
     itk::AntiAliasBinaryImageFilter<InputType,OutputType>::New();

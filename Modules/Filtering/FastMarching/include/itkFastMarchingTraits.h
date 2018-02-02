@@ -50,32 +50,32 @@ class FastMarchingTraitsBase
   {
 public:
   /** Input Domain Type */
-  typedef TInputDomain                                        InputDomainType;
-  typedef typename InputDomainType::Pointer                   InputDomainPointer;
-  typedef typename InputDomainType::PixelType                 InputPixelType;
+  using InputDomainType = TInputDomain;
+  using InputDomainPointer = typename InputDomainType::Pointer;
+  using InputPixelType = typename InputDomainType::PixelType;
 
   /** Node type */
-  typedef TNode                                               NodeType;
+  using NodeType = TNode;
 
   /** Output Domain Type */
-  typedef TOutputDomain                                       OutputDomainType;
-  typedef typename OutputDomainType::Pointer                  OutputDomainPointer;
-  typedef typename OutputDomainType::PixelType                OutputPixelType;
+  using OutputDomainType = TOutputDomain;
+  using OutputDomainPointer = typename OutputDomainType::Pointer;
+  using OutputPixelType = typename OutputDomainType::PixelType;
 
-  typedef NodePair< NodeType, OutputPixelType >            NodePairType;
-  typedef VectorContainer< IdentifierType, NodePairType >  NodePairContainerType;
-  typedef typename NodePairContainerType::Pointer          NodePairContainerPointer;
-  typedef typename NodePairContainerType::Iterator         NodePairContainerIterator;
-  typedef typename NodePairContainerType::ConstIterator    NodePairContainerConstIterator;
+  using NodePairType = NodePair< NodeType, OutputPixelType >;
+  using NodePairContainerType = VectorContainer< IdentifierType, NodePairType >;
+  using NodePairContainerPointer = typename NodePairContainerType::Pointer;
+  using NodePairContainerIterator = typename NodePairContainerType::Iterator;
+  using NodePairContainerConstIterator = typename NodePairContainerType::ConstIterator;
 
   /*
-  typedef VectorContainer< IdentifierType, NodeType >      NodeContainerType;
-  typedef typename NodeContainerType::Pointer              NodeContainerPointer;
-  typedef typename NodeContainerType::Iterator             NodeContainerIterator;
-  typedef typename NodeContainerType::ConstIterator        NodeContainerConstIterator;
+  using NodeContainerType = VectorContainer< IdentifierType, NodeType >;
+  using NodeContainerPointer = typename NodeContainerType::Pointer;
+  using NodeContainerIterator = typename NodeContainerType::Iterator;
+  using NodeContainerConstIterator = typename NodeContainerType::ConstIterator;
   */
 
-  typedef TSuperclass                                      SuperclassType;
+  using SuperclassType = TSuperclass;
 
   /** \enum LabelType Fast Marching algorithm nodes types. */
   enum LabelType {

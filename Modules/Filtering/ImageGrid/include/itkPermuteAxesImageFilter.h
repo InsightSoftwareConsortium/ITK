@@ -52,11 +52,11 @@ class ITK_TEMPLATE_EXPORT PermuteAxesImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef PermuteAxesImageFilter               Self;
-  typedef ImageToImageFilter< TImage, TImage > Superclass;
-  typedef SmartPointer< Self >                 Pointer;
-  typedef SmartPointer< const Self >           ConstPointer;
+  /** Standard class type aliases. */
+  using Self = PermuteAxesImageFilter;
+  using Superclass = ImageToImageFilter< TImage, TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,12 +69,12 @@ public:
                       TImage::ImageDimension);
 
   /** Inherited types */
-  typedef typename Superclass::InputImagePointer     InputImagePointer;
-  typedef typename Superclass::OutputImagePointer    OutputImagePointer;
-  typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
+  using InputImagePointer = typename Superclass::InputImagePointer;
+  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** PermuteOrderArray type. */
-  typedef FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension) > PermuteOrderArrayType;
+  using PermuteOrderArrayType = FixedArray< unsigned int, itkGetStaticConstMacro(ImageDimension) >;
 
   /** Set the permutation order.  The elements of order must be
    * a rearrangement of the numbers from 0 to ImageDimension - 1. */

@@ -27,16 +27,16 @@
 int itkChainCodeToFourierSeriesPathFilterTest( int, char*[] )
 {
   const unsigned int Dimension = 2;
-  typedef itk::PolyLineParametricPath< Dimension >  PolyLinePathType;
-  typedef itk::ChainCodePath< Dimension >           ChainPathType;
-  typedef itk::FourierSeriesPath< Dimension >       FSPathType;
+  using PolyLinePathType = itk::PolyLineParametricPath< Dimension >;
+  using ChainPathType = itk::ChainCodePath< Dimension >;
+  using FSPathType = itk::FourierSeriesPath< Dimension >;
 
-  typedef PolyLinePathType::VertexType              VertexType;
+  using VertexType = PolyLinePathType::VertexType;
 
-  typedef itk::PathToChainCodePathFilter< PolyLinePathType, ChainPathType >
-    PathToChainCodePathFilterType;
-  typedef itk::ChainCodeToFourierSeriesPathFilter< ChainPathType, FSPathType >
-    ChainCodeToFSPathFilterType;
+  using PathToChainCodePathFilterType =
+      itk::PathToChainCodePathFilter< PolyLinePathType, ChainPathType >;
+  using ChainCodeToFSPathFilterType =
+      itk::ChainCodeToFourierSeriesPathFilter< ChainPathType, FSPathType >;
 
   bool passed = true;
 

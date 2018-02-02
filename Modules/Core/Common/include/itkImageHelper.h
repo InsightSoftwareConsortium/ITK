@@ -55,13 +55,13 @@ template< unsigned int NImageDimension, unsigned int NLoop >
 class ImageHelper
 {
 public:
-  typedef ImageBase< NImageDimension >              ImageType;
-  typedef typename ImageType::IndexType             IndexType;
-  typedef typename ImageType::OffsetType            OffsetType;
-  typedef typename ImageType::OffsetValueType       OffsetValueType;
-  typedef typename ImageType::IndexValueType        IndexValueType;
-  typedef Concept::Detail::UniqueType_bool< false > UniqueTypeBoolFalse;
-  typedef Concept::Detail::UniqueType_bool< true >  UniqueTypeBoolTrue;
+  using ImageType = ImageBase< NImageDimension >;
+  using IndexType = typename ImageType::IndexType;
+  using OffsetType = typename ImageType::OffsetType;
+  using OffsetValueType = typename ImageType::OffsetValueType;
+  using IndexValueType = typename ImageType::IndexValueType;
+  using UniqueTypeBoolFalse = Concept::Detail::UniqueType_bool< false >;
+  using UniqueTypeBoolTrue = Concept::Detail::UniqueType_bool< true >;
 
   /** ComputeIndex with recursive templates */
   inline static void ComputeIndex(const IndexType & bufferedRegionIndex,

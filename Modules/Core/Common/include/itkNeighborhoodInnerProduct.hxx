@@ -32,14 +32,13 @@ NeighborhoodInnerProduct< TImage, TOperator, TComputation >
 {
   typename OperatorType::ConstIterator o_it;
 
-  typedef typename TImage::PixelType                                    InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType            InputPixelRealType;
-  typedef typename NumericTraits< InputPixelRealType >::AccumulateType  AccumulateRealType;
+  using InputPixelType = typename TImage::PixelType;
+  using InputPixelRealType = typename NumericTraits< InputPixelType >::RealType;
+  using AccumulateRealType = typename NumericTraits< InputPixelRealType >::AccumulateType;
 
   AccumulateRealType sum = NumericTraits< AccumulateRealType >::ZeroValue();
 
-  typedef typename NumericTraits<OutputPixelType>::ValueType
-      OutputPixelValueType;
+  using OutputPixelValueType = typename NumericTraits<OutputPixelType>::ValueType;
 
   o_it = op.Begin();
   const typename OperatorType::ConstIterator op_end = op.End();
@@ -66,14 +65,13 @@ NeighborhoodInnerProduct< TImage, TOperator, TComputation >
 {
   typename OperatorType::ConstIterator o_it;
 
-  typedef typename TImage::PixelType                                    InputPixelType;
-  typedef typename NumericTraits< InputPixelType >::RealType            InputPixelRealType;
-  typedef typename NumericTraits< InputPixelRealType >::AccumulateType  AccumulateRealType;
+  using InputPixelType = typename TImage::PixelType;
+  using InputPixelRealType = typename NumericTraits< InputPixelType >::RealType;
+  using AccumulateRealType = typename NumericTraits< InputPixelRealType >::AccumulateType;
 
   AccumulateRealType sum = NumericTraits< AccumulateRealType >::ZeroValue();
 
-  typedef typename NumericTraits<OutputPixelType>::ValueType
-      OutputPixelValueType;
+  using OutputPixelValueType = typename NumericTraits<OutputPixelType>::ValueType;
 
   o_it = op.Begin();
   const typename OperatorType::ConstIterator op_end = op.End();

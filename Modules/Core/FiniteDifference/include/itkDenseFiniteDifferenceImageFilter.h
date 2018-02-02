@@ -70,22 +70,21 @@ class ITK_TEMPLATE_EXPORT DenseFiniteDifferenceImageFilter:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs */
-  typedef DenseFiniteDifferenceImageFilter Self;
-  typedef FiniteDifferenceImageFilter<
-    TInputImage, TOutputImage >                 Superclass;
+  /** Standard class type aliases */
+  using Self = DenseFiniteDifferenceImageFilter;
+  using Superclass = FiniteDifferenceImageFilter<
+    TInputImage, TOutputImage >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(DenseFiniteDifferenceImageFilter, ImageToImageFilter);
 
-  /** Convenient typedefs */
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-  typedef typename Superclass::FiniteDifferenceFunctionType
-  FiniteDifferenceFunctionType;
+  /** Convenient type alias */
+  using InputImageType = typename Superclass::InputImageType;
+  using OutputImageType = typename Superclass::OutputImageType;
+  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -93,13 +92,13 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  typedef typename Superclass::PixelType PixelType;
+  using PixelType = typename Superclass::PixelType;
 
   /** The value type of a time step.  Inherited from the superclass. */
-  typedef typename Superclass::TimeStepType TimeStepType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** The container type for the update buffer. */
-  typedef OutputImageType UpdateBufferType;
+  using UpdateBufferType = OutputImageType;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -145,7 +144,7 @@ protected:
   void AllocateUpdateBuffer() override;
 
   /** The type of region used for multithreading */
-  typedef typename UpdateBufferType::RegionType ThreadRegionType;
+  using ThreadRegionType = typename UpdateBufferType::RegionType;
 
   /**  Does the actual work of updating the output from the UpdateContainer over
    *  an output region supplied by the multithreading mechanism.

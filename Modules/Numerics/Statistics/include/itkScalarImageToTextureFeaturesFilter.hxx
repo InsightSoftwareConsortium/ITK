@@ -59,7 +59,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Scal
   // Set the offset directions to their defaults: half of all the possible
   // directions 1 pixel away. (The other half is included by symmetry.)
   // We use a neighborhood iterator to calculate the appropriate offsets.
-  typedef Neighborhood< typename ImageType::PixelType, ImageType::ImageDimension > NeighborhoodType;
+  using NeighborhoodType = Neighborhood< typename ImageType::PixelType, ImageType::ImageDimension >;
   NeighborhoodType hood;
   hood.SetRadius(1);
 
@@ -117,7 +117,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Full
   // For each offset, calculate each feature
   typename OffsetVector::ConstIterator offsetIt;
   size_t offsetNum, featureNum;
-  typedef typename TextureFeaturesFilterType::TextureFeatureName InternalTextureFeatureName;
+  using InternalTextureFeatureName = typename TextureFeaturesFilterType::TextureFeatureName;
 
   for ( offsetIt = m_Offsets->Begin(), offsetNum = 0;
         offsetIt != m_Offsets->End(); offsetIt++, offsetNum++ )
@@ -206,7 +206,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Fast
   this->m_GLCMGenerator->SetOffset( offsetIt.Value() );
   this->m_GLCMCalculator->Update();
 
-  typedef typename TextureFeaturesFilterType::TextureFeatureName InternalTextureFeatureName;
+  using InternalTextureFeatureName = typename TextureFeaturesFilterType::TextureFeatureName;
   m_FeatureMeans->clear();
   m_FeatureStandardDeviations->clear();
   typename FeatureNameVector::ConstIterator fnameIt;

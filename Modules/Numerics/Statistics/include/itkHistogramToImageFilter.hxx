@@ -147,8 +147,8 @@ HistogramToImageFilter< THistogram, TImage, TFunction >
   ProgressReporter progress( this, 0,
                              outputImage->GetRequestedRegion().GetNumberOfPixels() );
 
-  typedef typename HistogramType::ConstIterator         HistogramIterator;
-  typedef typename HistogramType::AbsoluteFrequencyType AbsoluteFrequencyType;
+  using HistogramIterator = typename HistogramType::ConstIterator;
+  using AbsoluteFrequencyType = typename HistogramType::AbsoluteFrequencyType;
 
   HistogramIterator hitr = inputHistogram->Begin();
 

@@ -46,11 +46,11 @@ class ITK_TEMPLATE_EXPORT ThreadedImageRegionPartitioner
   : public ThreadedDomainPartitioner< ImageRegion<VDimension> >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ThreadedImageRegionPartitioner                                   Self;
-  typedef ThreadedDomainPartitioner<ImageRegion<VDimension> >              Superclass;
-  typedef SmartPointer<Self>                                               Pointer;
-  typedef SmartPointer<const Self>                                         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ThreadedImageRegionPartitioner;
+  using Superclass = ThreadedDomainPartitioner<ImageRegion<VDimension> >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -59,13 +59,13 @@ public:
   itkTypeMacro(ThreadedImageRegionPartitioner, ThreadedDomainPartitioner);
 
   /** Type of the object being threaded over */
-  typedef typename Superclass::DomainType  DomainType;
+  using DomainType = typename Superclass::DomainType;
 
-  /** Deprecated typedefs. */
+  /** Deprecated type alias. */
   itkStaticConstMacro(ImageDimension, unsigned int, VDimension);
-  typedef typename Self::DomainType            ImageRegionType;
-  typedef typename Self::DomainType::SizeType  SizeType;
-  typedef typename Self::DomainType::IndexType IndexType;
+  using ImageRegionType = typename Self::DomainType;
+  using SizeType = typename Self::DomainType::SizeType;
+  using IndexType = typename Self::DomainType::IndexType;
 
   /** Split the ImageRegion \c completeRegion into up to \c requestedTotal
    * non-overlapping subregions, setting subregion number \c threadId as
@@ -88,7 +88,7 @@ protected:
   ThreadedImageRegionPartitioner();
   ~ThreadedImageRegionPartitioner() override;
 
-  typedef ImageRegionSplitterSlowDimension ImageRegionSplitterType;
+  using ImageRegionSplitterType = ImageRegionSplitterSlowDimension;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedImageRegionPartitioner);

@@ -98,11 +98,11 @@ class ITKBiasCorrection_EXPORT CompositeValleyFunction:public CacheableScalarFun
 public:
 
   /** Superclass to this class. */
-  typedef CacheableScalarFunction Superclass;
+  using Superclass = CacheableScalarFunction;
 
   /** Cost value type. */
-  typedef  Superclass::MeasureType      MeasureType;
-  typedef  Superclass::MeasureArrayType MeasureArrayType;
+  using MeasureType = Superclass::MeasureType;
+  using MeasureArrayType = Superclass::MeasureArrayType;
 
   /** Constructor. */
   CompositeValleyFunction(const MeasureArrayType & classMeans,

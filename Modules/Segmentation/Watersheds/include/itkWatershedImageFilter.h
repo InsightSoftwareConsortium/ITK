@@ -152,32 +152,32 @@ class ITK_TEMPLATE_EXPORT WatershedImageFilter:
                                                  TInputImage::ImageDimension > >
 {
 public:
-  /** Standard "Self" typedef.   */
-  typedef WatershedImageFilter Self;
+  /** Standard "Self" type alias.   */
+  using Self = WatershedImageFilter;
 
   /** The type of input image.   */
-  typedef TInputImage InputImageType;
+  using InputImageType = TInputImage;
 
   /** Dimension of the input and output images. */
   itkStaticConstMacro (ImageDimension, unsigned int,
                        TInputImage::ImageDimension);
 
   /** The type of output image.   */
-  typedef Image< IdentifierType, itkGetStaticConstMacro(ImageDimension) > OutputImageType;
+  using OutputImageType = Image< IdentifierType, itkGetStaticConstMacro(ImageDimension) >;
 
-  /** Other convenient typedefs   */
-  typedef typename InputImageType::RegionType RegionType;
-  typedef typename InputImageType::SizeType   SizeType;
-  typedef typename InputImageType::IndexType  IndexType;
+  /** Other convenient type alias   */
+  using RegionType = typename InputImageType::RegionType;
+  using SizeType = typename InputImageType::SizeType;
+  using IndexType = typename InputImageType::IndexType;
 
-  /** Standard super class typedef support. */
-  typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
+  /** Standard super class type alias support */
+  using Superclass = ImageToImageFilter< InputImageType, OutputImageType >;
 
   /** Typedef support for the input image scalar value type. */
-  typedef typename InputImageType::PixelType ScalarType;
+  using ScalarType = typename InputImageType::PixelType;
 
-  /** Smart pointer typedef support  */
-  typedef SmartPointer< Self > Pointer;
+  /** Smart pointer type alias support  */
+  using Pointer = SmartPointer< Self >;
 
   /** Run-time type information (and related methods) */
   itkTypeMacro(WatershedImageFilter, ImageToImageFilter);

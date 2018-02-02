@@ -20,8 +20,8 @@
 
 namespace NBTS {
 
-typedef itk::Image<float, 3> ImageType;
-typedef itk::Image<char, 3>  SeedImageType;
+using ImageType = itk::Image<float, 3>;
+using SeedImageType = itk::Image<char, 3>;
 
 const int V_WIDTH  = 64;
 const int V_HEIGHT = 64;
@@ -71,10 +71,10 @@ class NBRMSCommand : public Command
 {
 public:
   /** Smart pointer declaration methods */
-  typedef NBRMSCommand                  Self;
-  typedef Command                       Superclass;
-  typedef itk::SmartPointer<Self>       Pointer;
-  typedef itk::SmartPointer<const Self> ConstPointer;
+  using Self = NBRMSCommand;
+  using Superclass = Command;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
   itkTypeMacro( NBRMSCommand, Command );
   itkNewMacro(Self);
 
@@ -166,7 +166,7 @@ int itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
     std::cout << "Done second trial" << std::endl;
 
     //For Debugging
-    //typedef itk::ImageFileWriter< ::NBTS::ImageType> WriterType;
+    //using WriterType = itk::ImageFileWriter< ::NBTS::ImageType>;
     //WriterType::Pointer writer = WriterType::New();
     //writer->SetInput( filter->GetOutput() );
     //writer->SetFileName( "outputThreshold.mhd" );
@@ -177,7 +177,7 @@ int itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char * [] )
     //writer3->SetFileName("inputThreshold.mhd");
     //writer3->Write();
 
-    // typedef itk::ImageFileWriter< ::NBTS::SeedImageType> Writer2Type;
+    // using Writer2Type = itk::ImageFileWriter< ::NBTS::SeedImageType>;
     //Writer2Type::Pointer writer2 = Writer2Type::New();
     //writer2->SetInput(seedImage);
     //writer2->SetFileName("seedThreshold.mhd");

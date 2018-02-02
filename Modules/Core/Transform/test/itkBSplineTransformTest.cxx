@@ -46,11 +46,11 @@ int itkBSplineTransformTest1()
 
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
-  typedef double CoordinateRepType;
-  typedef itk::BSplineTransform
-  <CoordinateRepType, SpaceDimension, SplineOrder> TransformType;
+  using CoordinateRepType = double;
+  using TransformType = itk::BSplineTransform
+  <CoordinateRepType, SpaceDimension, SplineOrder>;
 
-  typedef TransformType::ParametersType ParametersType;
+  using ParametersType = TransformType::ParametersType;
 
   unsigned int j;
 
@@ -58,19 +58,19 @@ int itkBSplineTransformTest1()
    * Define the transformation domain
    */
 
-  typedef TransformType::OriginType OriginType;
+  using OriginType = TransformType::OriginType;
   OriginType origin;
   origin.Fill( 0.0 );
 
-  typedef TransformType::PhysicalDimensionsType PhysicalDimensionsType;
+  using PhysicalDimensionsType = TransformType::PhysicalDimensionsType;
   PhysicalDimensionsType dimensions;
   dimensions.Fill( 100 );
 
-  typedef TransformType::MeshSizeType MeshSizeType;
+  using MeshSizeType = TransformType::MeshSizeType;
   MeshSizeType meshSize;
   meshSize.Fill( 10 );
 
-  typedef TransformType::DirectionType DirectionType;
+  using DirectionType = TransformType::DirectionType;
   DirectionType direction;
   direction.SetIdentity();
 
@@ -142,8 +142,8 @@ int itkBSplineTransformTest1()
    * flat array into N images.
    * Initialize by setting all elements to zero
    */
-  typedef ParametersType::ValueType                   CoefficientType;
-  typedef itk::Image<CoefficientType, SpaceDimension> CoefficientImageType;
+  using CoefficientType = ParametersType::ValueType;
+  using CoefficientImageType = itk::Image<CoefficientType, SpaceDimension>;
 
   CoefficientImageType::Pointer  coeffImage[SpaceDimension];
   CoefficientImageType::SizeType size;
@@ -186,7 +186,7 @@ int itkBSplineTransformTest1()
   /**
    * Transform some points
    */
-  typedef TransformType::InputPointType PointType;
+  using PointType = TransformType::InputPointType;
 
   PointType inputPoint;
   PointType outputPoint;
@@ -240,8 +240,8 @@ int itkBSplineTransformTest1()
   std::cout << std::endl;
 
   // use the other version of TransformPoint
-  typedef TransformType::WeightsType             WeightsType;
-  typedef TransformType::ParameterIndexArrayType IndexArrayType;
+  using WeightsType = TransformType::WeightsType;
+  using IndexArrayType = TransformType::ParameterIndexArrayType;
 
   WeightsType    weights( transform->GetNumberOfWeights() );
   IndexArrayType indices( transform->GetNumberOfWeights() );
@@ -291,7 +291,7 @@ int itkBSplineTransformTest1()
   /**
    * Compute the Jacobian for various points
    */
-  typedef TransformType::JacobianType JacobianType;
+  using JacobianType = TransformType::JacobianType;
 
 #define PRINT_VALUE(R, C) \
   std::cout << "Jacobian[" #R "," #C "] = "; \
@@ -328,7 +328,7 @@ int itkBSplineTransformTest1()
    * transform and should throw exceptions
    */
     {
-    typedef TransformType::InputVectorType VectorType;
+    using VectorType = TransformType::InputVectorType;
     VectorType vector;
     vector.Fill( 1.0 );
 
@@ -352,7 +352,7 @@ int itkBSplineTransformTest1()
     }
 
     {
-    typedef TransformType::InputCovariantVectorType VectorType;
+    using VectorType = TransformType::InputCovariantVectorType;
     VectorType vector;
     vector.Fill( 1.0 );
 
@@ -376,7 +376,7 @@ int itkBSplineTransformTest1()
     }
 
     {
-    typedef TransformType::InputVnlVectorType VectorType;
+    using VectorType = TransformType::InputVnlVectorType;
     VectorType vector;
     vector.fill( 1.0 );
 
@@ -429,7 +429,7 @@ int itkBSplineTransformTest1()
   std::cout << transform->GetTransformDomainMeshSize() << std::endl;
   std::cout << transform->GetTransformDomainDirection() << std::endl;
 
-  typedef itk::BSplineTransform<CoordinateRepType, SpaceDimension, 2> EvenOrderTransformType;
+  using EvenOrderTransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, 2>;
   EvenOrderTransformType::Pointer evenOrderTransform = EvenOrderTransformType::New();
   if( evenOrderTransform.IsNull() )
     {
@@ -491,15 +491,15 @@ int itkBSplineTransformTest2()
    * Define a vector field as Dimension number of images
    */
   const unsigned int Dimension = 2;
-  typedef double PixelType;
+  using PixelType = double;
 
-  typedef itk::Image<PixelType, Dimension> ImageType;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   // Set up the transform
   const unsigned int SplineOrder = 3;
-  typedef double CoordRep;
+  using CoordRep = double;
 
-  typedef itk::BSplineTransform<CoordRep, Dimension, SplineOrder> TransformType;
+  using TransformType = itk::BSplineTransform<CoordRep, Dimension, SplineOrder>;
 
   TransformType::InputPointType  inputPoint;
   TransformType::OutputPointType outputPoint;
@@ -610,11 +610,11 @@ int itkBSplineTransformTest3()
 
   const unsigned int SpaceDimension = 3;
   const unsigned int SplineOrder = 3;
-  typedef double CoordinateRepType;
-  typedef itk::BSplineTransform
-  <CoordinateRepType, SpaceDimension, SplineOrder> TransformType;
+  using CoordinateRepType = double;
+  using TransformType = itk::BSplineTransform
+  <CoordinateRepType, SpaceDimension, SplineOrder>;
 
-  typedef TransformType::ParametersType ParametersType;
+  using ParametersType = TransformType::ParametersType;
 
   unsigned int j;
 
@@ -622,19 +622,19 @@ int itkBSplineTransformTest3()
    * Define the transformation domain
    */
 
-  typedef TransformType::OriginType OriginType;
+  using OriginType = TransformType::OriginType;
   OriginType origin;
   origin.Fill( 0.0 );
 
-  typedef TransformType::PhysicalDimensionsType PhysicalDimensionsType;
+  using PhysicalDimensionsType = TransformType::PhysicalDimensionsType;
   PhysicalDimensionsType dimensions;
   dimensions.Fill( 100 );
 
-  typedef TransformType::MeshSizeType MeshSizeType;
+  using MeshSizeType = TransformType::MeshSizeType;
   MeshSizeType meshSize;
   meshSize.Fill( 10 );
 
-  typedef TransformType::DirectionType DirectionType;
+  using DirectionType = TransformType::DirectionType;
   DirectionType direction;
   direction.SetIdentity();
 
@@ -662,8 +662,8 @@ int itkBSplineTransformTest3()
    * flat array into N images.
    * Initialize by setting all elements to zero
    */
-  typedef ParametersType::ValueType                   CoefficientType;
-  typedef itk::Image<CoefficientType, SpaceDimension> CoefficientImageType;
+  using CoefficientType = ParametersType::ValueType;
+  using CoefficientImageType = itk::Image<CoefficientType, SpaceDimension>;
 
   CoefficientImageType::Pointer  coeffImage[SpaceDimension];
   CoefficientImageType::SizeType size;
@@ -700,7 +700,7 @@ int itkBSplineTransformTest3()
   /**
    * Transform some points
    */
-  typedef TransformType::InputPointType PointType;
+  using PointType = TransformType::InputPointType;
 
   PointType inputPoint;
   PointType outputPoint;

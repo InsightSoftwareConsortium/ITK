@@ -58,11 +58,11 @@ int itkNaryAddImageFilterTest( int, char* [] )
   const unsigned int Dimension3D = 3;
 
   // Declare the pixel types of the images
-  typedef float PixelType;
+  using PixelType = float;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension3D > InputImageType;
-  typedef itk::Image< PixelType, Dimension3D > OutputImageType;
+  using InputImageType = itk::Image< PixelType, Dimension3D >;
+  using OutputImageType = itk::Image< PixelType, Dimension3D >;
 
   // Create some images
   InputImageType::Pointer inputImageA = InputImageType::New();
@@ -79,9 +79,9 @@ int itkNaryAddImageFilterTest( int, char* [] )
 
 
   // Declare the type for the itk::NaryAddImageFilter
-  typedef itk::NaryAddImageFilter<
+  using FilterType = itk::NaryAddImageFilter<
                               InputImageType,
-                              OutputImageType > FilterType;
+                              OutputImageType >;
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
@@ -104,8 +104,8 @@ int itkNaryAddImageFilterTest( int, char* [] )
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Test the validity of the output
-  typedef itk::ImageRegionConstIterator< InputImageType >  InputImageIteratorType;
-  typedef itk::ImageRegionConstIterator< OutputImageType > OutputImageIteratorType;
+  using InputImageIteratorType = itk::ImageRegionConstIterator< InputImageType >;
+  using OutputImageIteratorType = itk::ImageRegionConstIterator< OutputImageType >;
 
   InputImageIteratorType iterA( inputImageA, inputImageA->GetRequestedRegion() );
   InputImageIteratorType iterB( inputImageB, inputImageA->GetRequestedRegion() );
@@ -173,10 +173,10 @@ int itkNaryAddImageFilterTest( int, char* [] )
   const unsigned int Dimension2D = 2;
 
   // Declare the pixel types of the images
-  typedef int ElementPixelType;
+  using ElementPixelType = int;
 
-  typedef itk::Vector< ElementPixelType, Dimension2D >  VectorPixelType;
-  typedef itk::Image< VectorPixelType, Dimension2D >    VectorImageType;
+  using VectorPixelType = itk::Vector< ElementPixelType, Dimension2D >;
+  using VectorImageType = itk::Image< VectorPixelType, Dimension2D >;
 
   VectorImageType::Pointer vectorImageA = VectorImageType::New();
   VectorImageType::Pointer vectorImageB = VectorImageType::New();
@@ -202,9 +202,9 @@ int itkNaryAddImageFilterTest( int, char* [] )
 
 
   // Create an ADD Filter
-  typedef itk::NaryAddImageFilter<
+  using VectorAdderType = itk::NaryAddImageFilter<
                               VectorImageType,
-                              VectorImageType > VectorAdderType;
+                              VectorImageType >;
 
   VectorAdderType::Pointer vectorFilter = VectorAdderType::New();
 
@@ -226,7 +226,7 @@ int itkNaryAddImageFilterTest( int, char* [] )
 
 
   // Test the validity of the output
-  typedef itk::ImageRegionConstIterator< VectorImageType > VectorIteratorType;
+  using VectorIteratorType = itk::ImageRegionConstIterator< VectorImageType >;
 
   VectorIteratorType vIterA( vectorImageA, vectorImageA->GetRequestedRegion() );
   VectorIteratorType vIterB( vectorImageB, vectorImageA->GetRequestedRegion() );

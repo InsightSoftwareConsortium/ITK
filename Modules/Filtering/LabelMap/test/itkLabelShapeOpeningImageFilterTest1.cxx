@@ -36,13 +36,13 @@ int itkLabelShapeOpeningImageFilterTest1(int argc, char * argv[])
 
   const unsigned int dim = 2;
 
-  typedef itk::Image< unsigned char, dim > IType;
+  using IType = itk::Image< unsigned char, dim >;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  using ReaderType = itk::ImageFileReader< IType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelShapeOpeningImageFilter< IType > LabelOpeningType;
+  using LabelOpeningType = itk::LabelShapeOpeningImageFilter< IType >;
   LabelOpeningType::Pointer opening = LabelOpeningType::New();
 
   opening->SetInput( reader->GetOutput() );
@@ -76,7 +76,7 @@ int itkLabelShapeOpeningImageFilterTest1(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  using WriterType = itk::ImageFileWriter< IType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( opening->GetOutput() );
   writer->SetFileName( argv[2] );

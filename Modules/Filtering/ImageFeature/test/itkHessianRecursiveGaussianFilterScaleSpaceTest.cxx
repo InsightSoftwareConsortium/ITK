@@ -27,13 +27,13 @@
 int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
 {
   const unsigned int Dimension = 3;
-  typedef double                          PixelType;
-  typedef itk::Image<PixelType,Dimension> ImageType;
-  typedef itk::Index<Dimension>           IndexType;
-  typedef itk::Size<Dimension>            SizeType;
-  typedef itk::ImageRegion<Dimension>     RegionType;
-  typedef ImageType::PointType            PointType;
-  typedef ImageType::SpacingType          SpacingType;
+  using PixelType = double;
+  using ImageType = itk::Image<PixelType,Dimension>;
+  using IndexType = itk::Index<Dimension>;
+  using SizeType = itk::Size<Dimension>;
+  using RegionType = itk::ImageRegion<Dimension>;
+  using PointType = ImageType::PointType;
+  using SpacingType = ImageType::SpacingType;
 
   ImageType::Pointer inputImage = ImageType::New();
 
@@ -63,7 +63,7 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
   inputImage->SetRequestedRegion(region);
   inputImage->Allocate();
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> IteratorType;
+  using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
   const unsigned int numberOfScales = 4;
   double scales[numberOfScales];
@@ -93,9 +93,9 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
       }
 
     // Compute the hessian using NormalizeAcrossScale true
-    typedef itk::HessianRecursiveGaussianImageFilter<ImageType> FilterType;
+    using FilterType = itk::HessianRecursiveGaussianImageFilter<ImageType>;
 
-    typedef FilterType::OutputImageType HessianImageType;
+    using HessianImageType = FilterType::OutputImageType;
 
     FilterType::Pointer filter = FilterType::New();
     filter->SetInput(inputImage);
@@ -150,9 +150,9 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
       }
 
     // Compute the hessian using NormalizeAcrossScale true
-    typedef itk::HessianRecursiveGaussianImageFilter<ImageType> FilterType;
+    using FilterType = itk::HessianRecursiveGaussianImageFilter<ImageType>;
 
-    typedef FilterType::OutputImageType HessianImageType;
+    using HessianImageType = FilterType::OutputImageType;
 
     FilterType::Pointer filter = FilterType::New();
     filter->SetInput(inputImage);

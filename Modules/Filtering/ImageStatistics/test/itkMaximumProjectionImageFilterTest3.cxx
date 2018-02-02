@@ -34,17 +34,17 @@ int itkMaximumProjectionImageFilterTest3(int argc, char * argv[])
 
   int dim = atoi(argv[1]);
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
 
-  typedef itk::Image< PixelType, 3 > ImageType;
-  typedef itk::Image< PixelType, 2 > Image2DType;
+  using ImageType = itk::Image< PixelType, 3 >;
+  using Image2DType = itk::Image< PixelType, 2 >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
 
-  typedef itk::MaximumProjectionImageFilter<
-    ImageType, Image2DType > FilterType;
+  using FilterType = itk::MaximumProjectionImageFilter<
+    ImageType, Image2DType >;
 
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
@@ -52,7 +52,7 @@ int itkMaximumProjectionImageFilterTest3(int argc, char * argv[])
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< Image2DType > WriterType;
+  using WriterType = itk::ImageFileWriter< Image2DType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[3] );

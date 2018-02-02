@@ -48,11 +48,11 @@ class ITK_TEMPLATE_EXPORT Euler3DTransform :
   public Rigid3DTransform<TParametersValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef Euler3DTransform                       Self;
-  typedef Rigid3DTransform<TParametersValueType> Superclass;
-  typedef SmartPointer<Self>                     Pointer;
-  typedef SmartPointer<const Self>               ConstPointer;
+  /** Standard class type aliases. */
+  using Self = Euler3DTransform;
+  using Superclass = Rigid3DTransform<TParametersValueType>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
@@ -66,26 +66,26 @@ public:
   itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
   itkStaticConstMacro(ParametersDimension, unsigned int, 6);
 
-  typedef typename Superclass::ParametersType            ParametersType;
-  typedef typename Superclass::ParametersValueType       ParametersValueType;
-  typedef typename Superclass::FixedParametersType       FixedParametersType;
-  typedef typename Superclass::FixedParametersValueType  FixedParametersValueType;
-  typedef typename Superclass::JacobianType              JacobianType;
-  typedef typename Superclass::ScalarType                ScalarType;
-  typedef typename Superclass::InputVectorType           InputVectorType;
-  typedef typename Superclass::OutputVectorType          OutputVectorType;
-  typedef typename Superclass::InputCovariantVectorType  InputCovariantVectorType;
-  typedef typename Superclass::OutputCovariantVectorType OutputCovariantVectorType;
-  typedef typename Superclass::InputVnlVectorType        InputVnlVectorType;
-  typedef typename Superclass::OutputVnlVectorType       OutputVnlVectorType;
-  typedef typename Superclass::InputPointType            InputPointType;
-  typedef typename Superclass::OutputPointType           OutputPointType;
-  typedef typename Superclass::MatrixType                MatrixType;
-  typedef typename Superclass::InverseMatrixType         InverseMatrixType;
-  typedef typename Superclass::CenterType                CenterType;
-  typedef typename Superclass::TranslationType           TranslationType;
-  typedef typename Superclass::OffsetType                OffsetType;
-  typedef typename Superclass::ScalarType                AngleType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ParametersValueType = typename Superclass::ParametersValueType;
+  using FixedParametersType = typename Superclass::FixedParametersType;
+  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using JacobianType = typename Superclass::JacobianType;
+  using ScalarType = typename Superclass::ScalarType;
+  using InputVectorType = typename Superclass::InputVectorType;
+  using OutputVectorType = typename Superclass::OutputVectorType;
+  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
+  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
+  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
+  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
+  using InputPointType = typename Superclass::InputPointType;
+  using OutputPointType = typename Superclass::OutputPointType;
+  using MatrixType = typename Superclass::MatrixType;
+  using InverseMatrixType = typename Superclass::InverseMatrixType;
+  using CenterType = typename Superclass::CenterType;
+  using TranslationType = typename Superclass::TranslationType;
+  using OffsetType = typename Superclass::OffsetType;
+  using AngleType = typename Superclass::ScalarType;
 
   /** Set/Get the transformation from a container of parameters
    * This is typically used by optimizers.  There are 6 parameters. The first

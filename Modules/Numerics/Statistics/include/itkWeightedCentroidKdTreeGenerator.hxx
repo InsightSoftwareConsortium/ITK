@@ -129,7 +129,7 @@ WeightedCentroidKdTreeGenerator< TSample >
   KdTreeNodeType *   right = this->GenerateTreeLoop(beginRightIndex, endRighIndex, lowerBound, upperBound, level + 1);
   lowerBound[partitionDimension] = dimensionLowerBound;
 
-  typedef KdTreeWeightedCentroidNonterminalNode< TSample > KdTreeNonterminalNodeType;
+  using KdTreeNonterminalNodeType = KdTreeWeightedCentroidNonterminalNode< TSample >;
 
   KdTreeNonterminalNodeType *nonTerminalNode =
     new KdTreeNonterminalNodeType(partitionDimension,

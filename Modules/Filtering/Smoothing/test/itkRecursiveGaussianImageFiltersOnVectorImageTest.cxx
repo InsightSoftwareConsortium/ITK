@@ -29,10 +29,10 @@ int itkRecursiveGaussianImageFiltersOnVectorImageTest(int, char* [] )
   const double       tolerance = 0.001;
 
   const unsigned int NumberOfComponents = 4;
-  typedef double                                              PixelComponentType;
-  typedef itk::VectorImage< PixelComponentType, Dimension >   ImageType;
-  typedef ImageType::PixelType                                PixelType;
-  typedef itk::ImageLinearConstIteratorWithIndex< ImageType > ConstIteratorType;
+  using PixelComponentType = double;
+  using ImageType = itk::VectorImage< PixelComponentType, Dimension >;
+  using PixelType = ImageType::PixelType;
+  using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex< ImageType >;
 
   //Create ON and OFF vectors.
   PixelType vector0;
@@ -78,8 +78,8 @@ int itkRecursiveGaussianImageFiltersOnVectorImageTest(int, char* [] )
   //Gaussian filter this image now. Each component of the tensor
   // is filtered independently.
   //
-  typedef itk::RecursiveGaussianImageFilter<
-          ImageType, ImageType >  FilterType;
+  using FilterType = itk::RecursiveGaussianImageFilter<
+          ImageType, ImageType >;
   FilterType::Pointer filterX = FilterType::New();
   FilterType::Pointer filterY = FilterType::New();
   filterX->SetDirection( 0 );   // 0 --> X direction

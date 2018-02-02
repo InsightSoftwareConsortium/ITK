@@ -25,7 +25,7 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
 {
 
 
-  typedef itk::Rigid3DPerspectiveTransform<double>  TransformType;
+  using TransformType = itk::Rigid3DPerspectiveTransform<double>;
 
   const double epsilon = 1e-10;
   const unsigned int N = 3;
@@ -135,7 +135,7 @@ int itkRigid3DPerspectiveTransformTest(int ,char * [] )
     std::cout << "pure Translation test:  ";
     std::cout << offset << std::endl;
 
-    typedef TransformType::VersorType  VersorType;
+    using VersorType = TransformType::VersorType;
     VersorType rotation;
     VersorType::VectorType axis;
     VersorType::ValueType  angle = 30.0f * std::atan( 1.0f ) / 45.0f;

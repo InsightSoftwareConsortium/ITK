@@ -37,19 +37,19 @@ int itkWarpHarmonicEnergyCalculatorTest( int argc, char* argv[] )
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
 
-  typedef itk::Vector< double, ImageDimension > DeformationPixelType;
+  using DeformationPixelType = itk::Vector< double, ImageDimension >;
 
   // Declare the types of the images
-  typedef itk::Image< DeformationPixelType, ImageDimension > DisplacementFieldType;
+  using DisplacementFieldType = itk::Image< DeformationPixelType, ImageDimension >;
 
   // Declare the type of the index to access images
-  typedef itk::Index< ImageDimension >         IndexType;
+  using IndexType = itk::Index< ImageDimension >;
 
   // Declare the type of the size
-  typedef itk::Size< ImageDimension >          SizeType;
+  using SizeType = itk::Size< ImageDimension >;
 
   // Declare the type of the region
-  typedef itk::ImageRegion< ImageDimension >   RegionType;
+  using RegionType = itk::ImageRegion< ImageDimension >;
 
   // Create the input image
   DisplacementFieldType ::Pointer inputDisplacementField =
@@ -82,7 +82,7 @@ int itkWarpHarmonicEnergyCalculatorTest( int argc, char* argv[] )
   inputDisplacementField->FillBuffer( vectorValue );
 
   // Declare the type for the itk::WarpHarmonicEnergyCalculator
-  typedef itk::WarpHarmonicEnergyCalculator< DisplacementFieldType > CalculatorType;
+  using CalculatorType = itk::WarpHarmonicEnergyCalculator< DisplacementFieldType >;
 
 
   // Create the calculator

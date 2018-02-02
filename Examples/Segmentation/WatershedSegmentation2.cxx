@@ -44,20 +44,20 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef float                             InternalPixelType;
-  typedef itk::RGBPixel<unsigned char>      RGBPixelType;
+  using InternalPixelType = float;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
 
   const   unsigned int                      Dimension = 3;
 
-  typedef itk::Image< InternalPixelType,  Dimension >  InternalImageType;
-  typedef itk::Image< RGBPixelType,       Dimension >  RGBImageType;
+  using InternalImageType = itk::Image< InternalPixelType,  Dimension >;
+  using RGBImageType = itk::Image< RGBPixelType,       Dimension >;
 
 
   //
   // We instantiate reader and writer types
   //
-  typedef  itk::ImageFileReader< InternalImageType   >  ReaderType;
-  typedef  itk::ImageFileWriter< RGBImageType  >        WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType   >;
+  using WriterType = itk::ImageFileWriter< RGBImageType  >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -69,10 +69,9 @@ int main( int argc, char *argv[] )
   //
   //  Instantiate the GradientMagnitude image filter
   //
-  typedef   itk::GradientMagnitudeRecursiveGaussianImageFilter<
-                                                     InternalImageType,
-                                                     InternalImageType
-                                                          > GradientMagnitudeFilterType;
+  using GradientMagnitudeFilterType =
+           itk::GradientMagnitudeRecursiveGaussianImageFilter<
+               InternalImageType, InternalImageType >;
 
   GradientMagnitudeFilterType::Pointer gradienMagnitudeFilter = GradientMagnitudeFilterType::New();
 
@@ -84,9 +83,7 @@ int main( int argc, char *argv[] )
   //  Instantiate the Watershed filter
   //
 
-  typedef  itk::WatershedImageFilter<
-                              InternalImageType
-                                            > WatershedFilterType;
+  using WatershedFilterType = itk::WatershedImageFilter<InternalImageType>;
 
   WatershedFilterType::Pointer watershedFilter = WatershedFilterType::New();
 
@@ -101,17 +98,14 @@ int main( int argc, char *argv[] )
   //  into a color image (random color attribution).
   //
 
-  typedef itk::Functor::ScalarToRGBPixelFunctor<
-                                           unsigned long
-                                                    > ColorMapFunctorType;
+  using ColorMapFunctorType = itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
 
-  typedef WatershedFilterType::OutputImageType  LabeledImageType;
+  using LabeledImageType = WatershedFilterType::OutputImageType;
 
-  typedef itk::UnaryFunctorImageFilter<
+  using ColorMapFilterType = itk::UnaryFunctorImageFilter<
                                 LabeledImageType,
                                 RGBImageType,
-                                ColorMapFunctorType
-                                                > ColorMapFilterType;
+                                ColorMapFunctorType >;
 
   ColorMapFilterType::Pointer colorMapFilter = ColorMapFilterType::New();
 

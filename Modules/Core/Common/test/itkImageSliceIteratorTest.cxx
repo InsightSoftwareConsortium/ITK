@@ -26,9 +26,9 @@ int itkImageSliceIteratorTest(int, char* [] )
 
   const unsigned int ImageDimension = 3;
 
-  typedef itk::Index< ImageDimension >             PixelType;
+  using PixelType = itk::Index< ImageDimension >;
 
-  typedef itk::Image< PixelType, ImageDimension >  ImageType;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
 
   ImageType::Pointer myImage = ImageType::New();
@@ -51,9 +51,9 @@ int itkImageSliceIteratorTest(int, char* [] )
   myImage->SetRequestedRegion( region );
   myImage->Allocate();
 
-  typedef itk::ImageSliceIteratorWithIndex< ImageType > IteratorType;
+  using IteratorType = itk::ImageSliceIteratorWithIndex< ImageType >;
 
-  typedef itk::ImageSliceConstIteratorWithIndex< ImageType > ConstIteratorType;
+  using ConstIteratorType = itk::ImageSliceConstIteratorWithIndex< ImageType >;
 
   IteratorType it( myImage, region );
 

@@ -27,17 +27,17 @@
 
 int itkTubeSpatialObjectTest(int, char * [] )
 {
-  typedef double                                      ScalarType;
-  typedef itk::Vector< ScalarType, 3>                 Vector;
-  typedef itk::Point< ScalarType, 3>                  Point;
-  typedef itk::TubeSpatialObject<3>                   TubeType;
-  typedef itk::SmartPointer< TubeType >               TubePointer;
-  typedef itk::GroupSpatialObject<3>                  GroupType;
-  typedef itk::SmartPointer< GroupType >              GroupPointer;
-  typedef TubeType::TubePointType                     TubePointType;
-  typedef TubeType::PointListType                     TubePointListType;
-  typedef std::list< itk::SpatialObject<3>::Pointer > ChildrenListType;
-  typedef ChildrenListType *                          ChildrenListPointer;
+  using ScalarType = double;
+  using Vector = itk::Vector< ScalarType, 3>;
+  using Point = itk::Point< ScalarType, 3>;
+  using TubeType = itk::TubeSpatialObject<3>;
+  using TubePointer = itk::SmartPointer< TubeType >;
+  using GroupType = itk::GroupSpatialObject<3>;
+  using GroupPointer = itk::SmartPointer< GroupType >;
+  using TubePointType = TubeType::TubePointType;
+  using TubePointListType = TubeType::PointListType;
+  using ChildrenListType = std::list< itk::SpatialObject<3>::Pointer >;
+  using ChildrenListPointer = ChildrenListType *;
 
   Vector axis, translation;
   Point in, out;
@@ -471,7 +471,7 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   // For coverage only
   std::cout << "Testing PointBasedSO: ";
-  typedef itk::PointBasedSpatialObject<3> PointBasedType;
+  using PointBasedType = itk::PointBasedSpatialObject<3>;
   PointBasedType::Pointer pBSO = PointBasedType::New();
   pBSO->GetPoint(0);
   pBSO->ComputeBoundingBox();

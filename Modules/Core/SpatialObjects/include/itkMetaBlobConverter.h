@@ -35,11 +35,11 @@ class ITK_TEMPLATE_EXPORT MetaBlobConverter :
     public MetaConverterBase< NDimensions >
 {
 public:
-  /** Standard class typedefs */
-  typedef MetaBlobConverter                Self;
-  typedef MetaConverterBase< NDimensions > Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+  /** Standard class type aliases */
+  using Self = MetaBlobConverter;
+  using Superclass = MetaConverterBase< NDimensions >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -47,15 +47,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaBlobConverter, MetaConverterBase);
 
-  typedef typename Superclass::SpatialObjectType SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer    SpatialObjectPointer;
-  typedef typename Superclass::MetaObjectType    MetaObjectType;
+  using SpatialObjectType = typename Superclass::SpatialObjectType;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using MetaObjectType = typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  typedef BlobSpatialObject<NDimensions>               BlobSpatialObjectType;
-  typedef typename BlobSpatialObjectType::Pointer      BlobSpatialObjectPointer;
-  typedef typename BlobSpatialObjectType::ConstPointer BlobSpatialObjectConstPointer;
-  typedef MetaBlob                                     BlobMetaObjectType;
+  using BlobSpatialObjectType = BlobSpatialObject<NDimensions>;
+  using BlobSpatialObjectPointer = typename BlobSpatialObjectType::Pointer;
+  using BlobSpatialObjectConstPointer = typename BlobSpatialObjectType::ConstPointer;
+  using BlobMetaObjectType = MetaBlob;
 
 
   /** Convert the MetaObject to Spatial Object */

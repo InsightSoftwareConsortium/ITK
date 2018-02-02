@@ -204,7 +204,7 @@ WarpVectorImageFilter< TInputImage, TOutputImage, TDisplacementField >
     // get the interpolated value
     if ( m_Interpolator->IsInsideBuffer(point) )
       {
-      typedef typename InterpolatorType::OutputType OutputType;
+      using OutputType = typename InterpolatorType::OutputType;
       const OutputType interpolatedValue = m_Interpolator->Evaluate(point);
 
       for ( unsigned int k = 0; k < PixelDimension; k++ )

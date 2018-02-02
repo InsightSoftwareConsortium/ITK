@@ -34,23 +34,23 @@ int itkConstrainedValueDifferenceImageFilterTest( int argc, char* argv[] )
   const unsigned int Dimension = 3;
 
   // Define the pixel types
-  typedef float           InputImage1PixelType;
-  typedef float           InputImage2PixelType;
-  typedef unsigned short  OutputImagePixelType;
+  using InputImage1PixelType = float;
+  using InputImage2PixelType = float;
+  using OutputImagePixelType = unsigned short;
 
   // Declare the types of the images
-  typedef itk::Image< InputImage1PixelType, Dimension > InputImage1Type;
-  typedef itk::Image< InputImage2PixelType, Dimension > InputImage2Type;
-  typedef itk::Image< OutputImagePixelType, Dimension > OutputImageType;
+  using InputImage1Type = itk::Image< InputImage1PixelType, Dimension >;
+  using InputImage2Type = itk::Image< InputImage2PixelType, Dimension >;
+  using OutputImageType = itk::Image< OutputImagePixelType, Dimension >;
 
   // Declare the type of the index to access images
-  typedef itk::Index< Dimension >         IndexType;
+  using IndexType = itk::Index< Dimension >;
 
   // Declare the type of the size
-  typedef itk::Size< Dimension >          SizeType;
+  using SizeType = itk::Size< Dimension >;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion< Dimension >   RegionType;
+  using RegionType = itk::ImageRegion< Dimension >;
 
   // Create the two input images
   InputImage1Type::Pointer inputImageA = InputImage1Type::New();
@@ -84,8 +84,8 @@ int itkConstrainedValueDifferenceImageFilterTest( int argc, char* argv[] )
   inputImageB->Allocate();
 
   // Declare Iterator types for each image
-  typedef itk::ImageRegionIteratorWithIndex< InputImage1Type > InputImage1IteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< InputImage2Type > InputImage2IteratorType;
+  using InputImage1IteratorType = itk::ImageRegionIteratorWithIndex< InputImage1Type >;
+  using InputImage2IteratorType = itk::ImageRegionIteratorWithIndex< InputImage2Type >;
 
   // Create one iterator for Image A (this is a light object)
   InputImage1IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
@@ -111,10 +111,10 @@ int itkConstrainedValueDifferenceImageFilterTest( int argc, char* argv[] )
     valueB += 1.0;
     }
 
-  typedef itk::ConstrainedValueDifferenceImageFilter<
+  using ConstrainedValueDifferenceImageFilterType = itk::ConstrainedValueDifferenceImageFilter<
     InputImage1Type,
     InputImage2Type,
-    OutputImageType > ConstrainedValueDifferenceImageFilterType;
+    OutputImageType >;
 
   // Create the filter
   ConstrainedValueDifferenceImageFilterType::Pointer filter =
@@ -136,7 +136,7 @@ int itkConstrainedValueDifferenceImageFilterTest( int argc, char* argv[] )
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Write the result image
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< OutputImageType >;
 
   WriterType::Pointer writer = WriterType::New();
 

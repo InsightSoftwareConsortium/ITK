@@ -324,7 +324,7 @@ int itkConstShapedNeighborhoodIteratorTest(int, char* [] )
   // Iterate over a region, then change the region and iterate over the new region
   {
     // Create an image
-    typedef itk::Image<int, 2> ChangeRegionTestImageType;
+    using ChangeRegionTestImageType = itk::Image<int, 2>;
     ChangeRegionTestImageType::IndexType imageCorner;
     imageCorner.Fill(0);
 
@@ -375,7 +375,7 @@ int itkConstShapedNeighborhoodIteratorTest(int, char* [] )
     offset[1] = 0;
     offsets.push_back(offset);
 
-    typedef itk::ConstShapedNeighborhoodIterator<ChangeRegionTestImageType> ShapedNeighborhoodIteratorType;
+    using ShapedNeighborhoodIteratorType = itk::ConstShapedNeighborhoodIterator<ChangeRegionTestImageType>;
     ShapedNeighborhoodIteratorType shapedNeighborhoodIterator(neighborhoodRadius, image, region1);
 
     // Activate all of the offsets
@@ -448,11 +448,11 @@ template <typename ImageType>
 class MyDerivedCSNI : public itk::ConstShapedNeighborhoodIterator<ImageType>
 {
 public:
-  typedef typename itk::ConstShapedNeighborhoodIterator<ImageType> Superclass;
-  typedef typename Superclass::SizeType                            SizeType;
-  typedef typename Superclass::IndexType                           IndexType;
-  typedef typename Superclass::RadiusType                          RadiusType;
-  typedef typename Superclass::RegionType                          RegionType;
+  using Superclass = typename itk::ConstShapedNeighborhoodIterator<ImageType>;
+  using SizeType = typename Superclass::SizeType;
+  using IndexType = typename Superclass::IndexType;
+  using RadiusType = typename Superclass::RadiusType;
+  using RegionType = typename Superclass::RegionType;
 
   void TestNewExposedProtectedMembers();
   MyDerivedCSNI(const SizeType & radius,

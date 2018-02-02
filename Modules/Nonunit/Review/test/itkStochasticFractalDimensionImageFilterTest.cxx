@@ -31,15 +31,15 @@ public:
 
   static int Run( int argc, char *argv[] )
     {
-    typedef float                             PixelType;
-    typedef itk::Image<PixelType, NDimension> ImageType;
+    using PixelType = float;
+    using ImageType = itk::Image<PixelType, NDimension>;
 
-    typedef itk::ImageFileReader<ImageType> ReaderType;
+    using ReaderType = itk::ImageFileReader<ImageType>;
     typename ReaderType::Pointer imageReader = ReaderType::New();
     imageReader->SetFileName( argv[2] );
     imageReader->Update();
 
-    typedef itk::StochasticFractalDimensionImageFilter<ImageType> FractalFilterType;
+    using FractalFilterType = itk::StochasticFractalDimensionImageFilter<ImageType>;
     typename FractalFilterType::Pointer fractalFilter = FractalFilterType::New();
     fractalFilter->SetInput( imageReader->GetOutput() );
 
@@ -84,9 +84,9 @@ public:
       labelImageReader->SetFileName( argv[5] );
       labelImageReader->Update();
 
-      typedef typename FractalFilterType::MaskImageType MaskImageType;
+      using MaskImageType = typename FractalFilterType::MaskImageType;
 
-      typedef itk::BinaryThresholdImageFilter<ImageType, MaskImageType> ThresholderType;
+      using ThresholderType = itk::BinaryThresholdImageFilter<ImageType, MaskImageType>;
 
       typename ThresholderType::Pointer thresholder = ThresholderType::New();
       thresholder->SetInput( labelImageReader->GetOutput() );
@@ -117,7 +117,7 @@ public:
       return EXIT_FAILURE;
       }
 
-    typedef itk::ImageFileWriter<ImageType> WriterType;
+    using WriterType = itk::ImageFileWriter<ImageType>;
     typename WriterType::Pointer writer = WriterType::New();
     writer->SetInput( fractalFilter->GetOutput() );
     writer->SetFileName( argv[3] );

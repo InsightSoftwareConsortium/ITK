@@ -396,7 +396,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       ItPsi.Set( ItPhi.Get() + ItPsi.Get() );
       }
 
-    typedef ImageDuplicator<PointDataImageType> ImageDuplicatorType;
+    using ImageDuplicatorType = ImageDuplicator<PointDataImageType>;
     typename ImageDuplicatorType::Pointer duplicator =
       ImageDuplicatorType::New();
     duplicator->SetInputImage( this->m_PsiLattice );
@@ -710,7 +710,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     collapsedPhiLattices[i]->SetRegions( size );
     collapsedPhiLattices[i]->Allocate();
     }
-  typedef ImageDuplicator<PointDataImageType> ImageDuplicatorType;
+  using ImageDuplicatorType = ImageDuplicator<PointDataImageType>;
   typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
   duplicator->SetInputImage( this->m_PhiLattice );
   duplicator->Update();
@@ -1034,7 +1034,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       }
     }
 
-  typedef ImageDuplicator<PointDataImageType> ImageDuplicatorType;
+  using ImageDuplicatorType = ImageDuplicator<PointDataImageType>;
   typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
   duplicator->SetInputImage( refinedLattice );
   duplicator->Update();

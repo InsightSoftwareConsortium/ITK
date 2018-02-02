@@ -78,7 +78,7 @@ ArrowSpatialObject< 3 >
       }
     }
   const double angley = -asin(m_Direction[2]);
-  typedef itk::Euler3DTransform< double > EulerTransformType;
+  using EulerTransformType = itk::Euler3DTransform< double >;
   EulerTransformType::Pointer euler = EulerTransformType::New();
 
   euler->SetRotation(0, angley, anglez);

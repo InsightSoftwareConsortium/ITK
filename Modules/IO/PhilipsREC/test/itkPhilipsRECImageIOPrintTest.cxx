@@ -36,7 +36,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::PhilipsRECImageIO  PhilipsRECImageIOType;
+  using PhilipsRECImageIOType = itk::PhilipsRECImageIO;
 
   PhilipsRECImageIOType::Pointer imageIO = PhilipsRECImageIOType::New();
 
@@ -527,8 +527,7 @@ int itkPhilipsRECImageIOPrintTest( int argc, char * argv [] )
     }
   std::cout << "PAR_ScanningSequences = " << scanningSeq << std::endl;
 
-  typedef PhilipsRECImageIOType::ScanningSequenceImageTypeRescaleValuesContainerType::Pointer
-  ScanningSequenceImageTypeRescaleValuesContainerTypePtr;
+  using ScanningSequenceImageTypeRescaleValuesContainerTypePtr = PhilipsRECImageIOType::ScanningSequenceImageTypeRescaleValuesContainerType::Pointer;
 
   ScanningSequenceImageTypeRescaleValuesContainerTypePtr
     ptrToRescaleValues = nullptr;

@@ -23,14 +23,13 @@ int itkSparseFrequencyContainer2Test(int, char* [] )
 {
   std::cout << "SparseFrequencyContainer2 Test \n \n";
 
-  typedef  itk::Statistics::SparseFrequencyContainer2
-                                            SparseFrequencyContainer2Type;
+  using SparseFrequencyContainer2Type = itk::Statistics::SparseFrequencyContainer2;
 
 
   SparseFrequencyContainer2Type::Pointer container =
                                             SparseFrequencyContainer2Type::New();
 
-  typedef SparseFrequencyContainer2Type::AbsoluteFrequencyType  AbsoluteFrequencyType;
+  using AbsoluteFrequencyType = SparseFrequencyContainer2Type::AbsoluteFrequencyType;
 
   const unsigned int numberOfBins = 1250;
 

@@ -38,15 +38,15 @@ class ITKCommon_EXPORT LoggerBase:public Object
 {
 public:
 
-  typedef LoggerBase                 Self;
-  typedef Object                     Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Self = LoggerBase;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(LoggerBase, Object);
 
-  typedef  MultipleLogOutput::OutputType OutputType;
+  using OutputType = MultipleLogOutput::OutputType;
 
   /** Definition of types of messages. These codes will be used to regulate
     * the level of detail of messages reported to the final outputs */

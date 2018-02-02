@@ -54,25 +54,25 @@ class ITK_TEMPLATE_EXPORT DivideImageFilter:
 {
 public:
   /**
-   * Standard "Self" typedef.
+   * Standard "Self" type alias.
    */
-  typedef DivideImageFilter Self;
+  using Self = DivideImageFilter;
 
   /**
-   * Standard "Superclass" typedef.
+   * Standard "Superclass" type alias.
    */
-  typedef BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
+  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                                     Functor::Div<
                                       typename TInputImage1::PixelType,
                                       typename TInputImage2::PixelType,
                                       typename TOutputImage::PixelType >
-                                    > Superclass;
+                                    >;
 
   /**
-   * Smart pointer typedef support
+   * Smart pointer type alias support
    */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /**
    * Method for creation through the object factory.

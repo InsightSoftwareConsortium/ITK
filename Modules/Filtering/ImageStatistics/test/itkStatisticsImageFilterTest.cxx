@@ -30,7 +30,7 @@ int itkStatisticsImageFilterTest(int, char* [] )
   std::cout << "itkStatisticsImageFilterTest Start" << std::endl;
 
   int status = 0;
-  typedef itk::Image<int,3> FloatImage;
+  using FloatImage = itk::Image<int,3>;
 
   FloatImage::Pointer    image  = FloatImage::New();
   FloatImage::RegionType region;
@@ -48,7 +48,7 @@ int itkStatisticsImageFilterTest(int, char* [] )
 
   float sum = fillValue * static_cast<float>( region.GetNumberOfPixels() );
 
-  typedef itk::StatisticsImageFilter<FloatImage> FilterType;
+  using FilterType = itk::StatisticsImageFilter<FloatImage>;
   FilterType::Pointer filter = FilterType::New();
 
   FilterWatcher filterWatch(filter);
@@ -85,7 +85,7 @@ int itkStatisticsImageFilterTest(int, char* [] )
 
   // Now generate a real image
 
-  typedef itk::RandomImageSource<FloatImage> SourceType;
+  using SourceType = itk::RandomImageSource<FloatImage>;
   SourceType::Pointer source = SourceType::New();
 
   FloatImage::SizeValueType randomSize[3] = {17, 8, 20};
@@ -114,7 +114,7 @@ int itkStatisticsImageFilterTest(int, char* [] )
   double knownMean = 12.0;
   double knownVariance = 10.0;
 
-  typedef itk::Image<double,3> DoubleImage;
+  using DoubleImage = itk::Image<double,3>;
   DoubleImage::Pointer dImage = DoubleImage::New();
   DoubleImage::SizeType dsize;
   DoubleImage::IndexType dindex;
@@ -131,7 +131,7 @@ int itkStatisticsImageFilterTest(int, char* [] )
     it.Set(rvgen->GetNormalVariate(knownMean, knownVariance));
     ++it;
     }
-  typedef itk::StatisticsImageFilter<DoubleImage> DFilterType;
+  using DFilterType = itk::StatisticsImageFilter<DoubleImage>;
   DFilterType::Pointer dfilter = DFilterType::New();
   dfilter->SetInput(dImage);
   dfilter->UpdateLargestPossibleRegion();

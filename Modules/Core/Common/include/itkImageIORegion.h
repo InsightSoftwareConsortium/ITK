@@ -52,24 +52,24 @@ namespace itk
 class ITKCommon_EXPORT ImageIORegion:public Region
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageIORegion Self;
-  typedef Region        Superclass;
+  /** Standard class type aliases. */
+  using Self = ImageIORegion;
+  using Superclass = Region;
 
   /** these types correspond to those of itk::Size, itk::Offset and itk::Index
     */
-  typedef ::itk::SizeValueType    SizeValueType;
-  typedef ::itk::IndexValueType   IndexValueType;
-  typedef ::itk::OffsetValueType  OffsetValueType;
+  using SizeValueType = ::itk::SizeValueType;
+  using IndexValueType = ::itk::IndexValueType;
+  using OffsetValueType = ::itk::OffsetValueType;
 
-  /** Index typedef support. An index is used to access pixel values. */
-  typedef std::vector< IndexValueType > IndexType;
+  /** Index type alias support An index is used to access pixel values. */
+  using IndexType = std::vector< IndexValueType >;
 
-  /** Size typedef support. A size is used to define region bounds. */
-  typedef std::vector< SizeValueType > SizeType;
+  /** Size type alias support A size is used to define region bounds. */
+  using SizeType = std::vector< SizeValueType >;
 
   /** Region type taken from the superclass */
-  typedef Superclass::RegionType RegionType;
+  using RegionType = Superclass::RegionType;
 
   /** Standard part of all itk objects. */
   itkTypeMacro(ImageIORegion, Region);
@@ -174,11 +174,11 @@ template< unsigned int VDimension >
 class ImageIORegionAdaptor
 {
 public:
-  typedef ImageRegion< VDimension > ImageRegionType;
-  typedef ImageIORegion             ImageIORegionType;
+  using ImageRegionType = ImageRegion< VDimension >;
+  using ImageIORegionType = ImageIORegion;
 
-  typedef typename ImageRegionType::SizeType  ImageSizeType;
-  typedef typename ImageRegionType::IndexType ImageIndexType;
+  using ImageSizeType = typename ImageRegionType::SizeType;
+  using ImageIndexType = typename ImageRegionType::IndexType;
 
   static void Convert(const ImageRegionType & inImageRegion,
                       ImageIORegionType & outIORegion,

@@ -45,9 +45,9 @@
 class CommandProgressUpdate : public itk::Command
 {
 public:
-  typedef  CommandProgressUpdate   Self;
-  typedef  itk::Command            Superclass;
-  typedef  itk::SmartPointer<Self> Pointer;
+  using Self = CommandProgressUpdate;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<Self>;
   itkNewMacro( Self );
 
 protected:
@@ -87,14 +87,14 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginCodeSnippet
   const     unsigned int   ImageDimension = 2;
 
-  typedef   unsigned char                            PixelType;
-  typedef   itk::Image< PixelType, ImageDimension >  FixedImageType;
-  typedef   itk::Image< PixelType, ImageDimension >  MovingImageType;
+  using PixelType = unsigned char;
+  using FixedImageType = itk::Image< PixelType, ImageDimension >;
+  using MovingImageType = itk::Image< PixelType, ImageDimension >;
 
-  typedef   itk::ImageFileReader< FixedImageType  >  FixedReaderType;
-  typedef   itk::ImageFileReader< MovingImageType >  MovingReaderType;
+  using FixedReaderType = itk::ImageFileReader< FixedImageType  >;
+  using MovingReaderType = itk::ImageFileReader< MovingImageType >;
 
-  typedef   itk::ImageFileWriter< MovingImageType >  MovingWriterType;
+  using MovingWriterType = itk::ImageFileWriter< MovingImageType >;
 
 
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
@@ -122,13 +122,13 @@ int main( int argc, char * argv[] )
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
 
-  typedef itk::ResampleImageFilter< MovingImageType,
-                                    FixedImageType  >  FilterType;
+  using FilterType = itk::ResampleImageFilter< MovingImageType,
+                                    FixedImageType  >;
 
   FilterType::Pointer resampler = FilterType::New();
 
-  typedef itk::LinearInterpolateImageFunction<
-                       MovingImageType, double >  InterpolatorType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<
+                       MovingImageType, double >;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
@@ -171,12 +171,12 @@ int main( int argc, char * argv[] )
 
   const unsigned int SpaceDimension = ImageDimension;
   const unsigned int SplineOrder = 3;
-  typedef double CoordinateRepType;
+  using CoordinateRepType = double;
 
-  typedef itk::BSplineTransform<
+  using TransformType = itk::BSplineTransform<
                             CoordinateRepType,
                             SpaceDimension,
-                            SplineOrder >     TransformType;
+                            SplineOrder >;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
 
@@ -203,7 +203,7 @@ int main( int argc, char * argv[] )
   bsplineTransform->SetTransformDomainDirection( fixedDirection );
 
 
-  typedef TransformType::ParametersType     ParametersType;
+  using ParametersType = TransformType::ParametersType;
   const unsigned int numberOfParameters =
                bsplineTransform->GetNumberOfParameters();
 
@@ -290,8 +290,8 @@ int main( int argc, char * argv[] )
 //  Software Guide : EndCodeSnippet
 
 
-  typedef itk::Vector< float, ImageDimension >      VectorType;
-  typedef itk::Image< VectorType, ImageDimension >  DisplacementFieldType;
+  using VectorType = itk::Vector< float, ImageDimension >;
+  using DisplacementFieldType = itk::Image< VectorType, ImageDimension >;
 
   DisplacementFieldType::Pointer field = DisplacementFieldType::New();
   field->SetRegions( fixedRegion );
@@ -300,7 +300,7 @@ int main( int argc, char * argv[] )
   field->SetDirection( fixedDirection );
   field->Allocate();
 
-  typedef itk::ImageRegionIterator< DisplacementFieldType > FieldIterator;
+  using FieldIterator = itk::ImageRegionIterator< DisplacementFieldType >;
   FieldIterator fi( field, fixedRegion );
 
   fi.GoToBegin();
@@ -321,7 +321,7 @@ int main( int argc, char * argv[] )
     ++fi;
     }
 
-  typedef itk::ImageFileWriter< DisplacementFieldType >  FieldWriterType;
+  using FieldWriterType = itk::ImageFileWriter< DisplacementFieldType >;
   FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput( field );
@@ -346,7 +346,7 @@ int main( int argc, char * argv[] )
     fieldWriter->SetFileName( argv[6] );
     try
       {
-      typedef itk::TransformFileWriter    TransformWriterType;
+      using TransformWriterType = itk::TransformFileWriter;
       TransformWriterType::Pointer transformWriter = TransformWriterType::New();
       transformWriter->AddTransform( bsplineTransform );
       transformWriter->SetFileName( argv[6] );

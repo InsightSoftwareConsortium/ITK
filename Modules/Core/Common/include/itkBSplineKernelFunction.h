@@ -43,12 +43,12 @@ template< unsigned int VSplineOrder = 3, typename TRealValueType = double >
 class ITK_TEMPLATE_EXPORT BSplineKernelFunction:public KernelFunctionBase<TRealValueType>
 {
 public:
-  /** Standard class typedefs. */
-  typedef BSplineKernelFunction              Self;
-  typedef KernelFunctionBase<TRealValueType> Superclass;
-  typedef SmartPointer< Self >               Pointer;
+  /** Standard class type aliases. */
+  using Self = BSplineKernelFunction;
+  using Superclass = KernelFunctionBase<TRealValueType>;
+  using Pointer = SmartPointer< Self >;
 
-  typedef typename Superclass::RealType  RealType;
+  using RealType = typename Superclass::RealType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

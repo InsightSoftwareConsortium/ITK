@@ -38,10 +38,10 @@ int itkPermuteAxesImageFilterTest(int, char* [] )
 
   itk::OutputWindow::SetInstance( itk::TextOutput::New() );
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   enum { ImageDimension = 4 };
-  typedef itk::Image<PixelType,ImageDimension>   ImageType;
-  typedef itk::PermuteAxesImageFilter<ImageType> PermuterType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using PermuterType = itk::PermuteAxesImageFilter<ImageType>;
 
 
   // define a small input test
@@ -62,7 +62,7 @@ int itkPermuteAxesImageFilterTest(int, char* [] )
   inputImage->SetSpacing( spacing );
   inputImage->SetOrigin( origin );
 
-  typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
   Iterator inputIter( inputImage, inputImage->GetBufferedRegion() );
 
   PixelType counter = 0;

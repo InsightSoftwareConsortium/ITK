@@ -204,7 +204,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 
   RasterizeTriangles();
 
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType > myIteratorType;
+  using myIteratorType = itk::ImageRegionIteratorWithIndex< OutputImageType >;
 
   myIteratorType it( OutputImage, OutputImage->GetLargestPossibleRegion() );
 

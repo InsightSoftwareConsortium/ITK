@@ -51,11 +51,11 @@ template< typename TInputImage, typename TMaskImage >
 class ITK_TEMPLATE_EXPORT KappaSigmaThresholdImageCalculator:public Object
 {
 public:
-  /** Standard class typedefs. */
-  typedef KappaSigmaThresholdImageCalculator Self;
-  typedef Object                             Superclass;
-  typedef SmartPointer< Self >               Pointer;
-  typedef SmartPointer< const Self >         ConstPointer;
+  /** Standard class type aliases. */
+  using Self = KappaSigmaThresholdImageCalculator;
+  using Superclass = Object;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -68,17 +68,17 @@ public:
                       TInputImage::ImageDimension);
 
   /** Standard image type within this class. */
-  typedef TInputImage InputImageType;
-  typedef TMaskImage  MaskImageType;
+  using InputImageType = TInputImage;
+  using MaskImageType = TMaskImage;
 
   /** Standard image type pointer within this class. */
-  typedef typename InputImageType::Pointer      InputImagePointer;
-  typedef typename InputImageType::ConstPointer InputImageConstPointer;
-  typedef typename MaskImageType::Pointer       MaskImagePointer;
-  typedef typename MaskImageType::ConstPointer  MaskImageConstPointer;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using MaskImagePointer = typename MaskImageType::Pointer;
+  using MaskImageConstPointer = typename MaskImageType::ConstPointer;
 
-  typedef typename InputImageType::PixelType InputPixelType;
-  typedef typename MaskImageType::PixelType  MaskPixelType;
+  using InputPixelType = typename InputImageType::PixelType;
+  using MaskPixelType = typename MaskImageType::PixelType;
 
   /** Set the input image. */
   itkSetConstObjectMacro(Image, InputImageType);

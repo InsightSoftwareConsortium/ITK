@@ -55,22 +55,22 @@ class ITK_TEMPLATE_EXPORT LabelToRGBImageFilter:
                              typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef LabelToRGBImageFilter      Self;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = LabelToRGBImageFilter;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef UnaryFunctorImageFilter< TLabelImage, TOutputImage,
+  using Superclass = UnaryFunctorImageFilter< TLabelImage, TOutputImage,
                                    Functor::LabelToRGBFunctor<
                                      typename TLabelImage::PixelType,
-                                     typename TOutputImage::PixelType >   >  Superclass;
+                                     typename TOutputImage::PixelType > >;
 
-  typedef TOutputImage OutputImageType;
-  typedef TLabelImage  LabelImageType;
+  using OutputImageType = TOutputImage;
+  using LabelImageType = TLabelImage;
 
-  typedef typename TOutputImage::PixelType                     OutputPixelType;
-  typedef typename TLabelImage::PixelType                      LabelPixelType;
-  typedef typename NumericTraits< OutputPixelType >::ValueType OutputPixelValueType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using LabelPixelType = typename TLabelImage::PixelType;
+  using OutputPixelValueType = typename NumericTraits< OutputPixelType >::ValueType;
 
   /** Runtime information support. */
   itkTypeMacro(LabelToRGBImageFilter, UnaryFunctorImageFilter);
@@ -93,7 +93,7 @@ public:
   unsigned int GetNumberOfColors() const;
 
   /** Type of the color component */
-  typedef typename OutputPixelType::ComponentType ComponentType;
+  using ComponentType = typename OutputPixelType::ComponentType;
 
   /** Add color to the LUT container */
   void AddColor(ComponentType r, ComponentType g, ComponentType b);

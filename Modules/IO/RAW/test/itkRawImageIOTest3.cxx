@@ -26,17 +26,15 @@
 
 int itkRawImageIOTest3(int argc, char*argv[])
 {
-  typedef itk::Image<unsigned short,2>    ImageType;
-  typedef ImageType::PixelType            PixelType;
+  using ImageType = itk::Image<unsigned short,2>;
+  using PixelType = ImageType::PixelType;
 
-  typedef itk::ImageRegionIterator<
-                                  ImageType > ImageIteratorType;
+  using ImageIteratorType = itk::ImageRegionIterator<ImageType>;
 
-  typedef itk::ImageRegionConstIterator<
-                                  ImageType > ImageConstIteratorType;
+  using ImageConstIteratorType = itk::ImageRegionConstIterator<ImageType>;
 
-  typedef itk::RawImageIO<PixelType,
-                          ImageType::ImageDimension> RawImageIOType;
+  using RawImageIOType = itk::RawImageIO<PixelType,
+                          ImageType::ImageDimension>;
 
 
   if(argc < 3)

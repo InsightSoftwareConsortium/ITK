@@ -46,28 +46,28 @@ class ITK_TEMPLATE_EXPORT StatisticsRelabelImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef StatisticsRelabelImageFilter                   Self;
-  typedef ImageToImageFilter< TInputImage, TInputImage > Superclass;
-  typedef SmartPointer< Self >                           Pointer;
-  typedef SmartPointer< const Self >                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = StatisticsRelabelImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TInputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                            InputImageType;
-  typedef TInputImage                            OutputImageType;
-  typedef typename InputImageType::Pointer       InputImagePointer;
-  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
-  typedef typename InputImageType::RegionType    InputImageRegionType;
-  typedef typename InputImageType::PixelType     InputImagePixelType;
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
-  typedef TFeatureImage                           FeatureImageType;
-  typedef typename FeatureImageType::Pointer      FeatureImagePointer;
-  typedef typename FeatureImageType::ConstPointer FeatureImageConstPointer;
-  typedef typename FeatureImageType::PixelType    FeatureImagePixelType;
+  using FeatureImageType = TFeatureImage;
+  using FeatureImagePointer = typename FeatureImageType::Pointer;
+  using FeatureImageConstPointer = typename FeatureImageType::ConstPointer;
+  using FeatureImagePixelType = typename FeatureImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -77,13 +77,13 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  typedef StatisticsLabelObject< InputImagePixelType, itkGetStaticConstMacro(ImageDimension) > LabelObjectType;
-  typedef LabelMap< LabelObjectType >                                                          LabelMapType;
-  typedef LabelImageToLabelMapFilter< InputImageType, LabelMapType >                           LabelizerType;
-  typedef StatisticsLabelMapFilter< LabelMapType, TFeatureImage >                              LabelObjectValuatorType;
-  typedef typename LabelObjectType::AttributeType                                              AttributeType;
-  typedef StatisticsRelabelLabelMapFilter< LabelMapType >                                      RelabelType;
-  typedef LabelMapToLabelImageFilter< LabelMapType, OutputImageType >                          BinarizerType;
+  using LabelObjectType = StatisticsLabelObject< InputImagePixelType, itkGetStaticConstMacro(ImageDimension) >;
+  using LabelMapType = LabelMap< LabelObjectType >;
+  using LabelizerType = LabelImageToLabelMapFilter< InputImageType, LabelMapType >;
+  using LabelObjectValuatorType = StatisticsLabelMapFilter< LabelMapType, TFeatureImage >;
+  using AttributeType = typename LabelObjectType::AttributeType;
+  using RelabelType = StatisticsRelabelLabelMapFilter< LabelMapType >;
+  using BinarizerType = LabelMapToLabelImageFilter< LabelMapType, OutputImageType >;
 
   /** Standard New method. */
   itkNewMacro(Self);

@@ -48,13 +48,13 @@ class ITK_TEMPLATE_EXPORT MetaSceneConverter
 public:
 
   /** SpatialObject Scene types */
-  typedef itk::SceneSpatialObject< NDimensions > SceneType;
-  typedef typename  SceneType::Pointer           ScenePointer;
+  using SceneType = itk::SceneSpatialObject< NDimensions >;
+  using ScenePointer = typename  SceneType::Pointer;
 
   /** Typedef for auxiliary conversion classes */
-  typedef MetaConverterBase< NDimensions >              MetaConverterBaseType;
-  typedef typename MetaConverterBaseType::Pointer       MetaConverterPointer;
-  typedef std::map< std::string, MetaConverterPointer > ConverterMapType;
+  using MetaConverterBaseType = MetaConverterBase< NDimensions >;
+  using MetaConverterPointer = typename MetaConverterBaseType::Pointer;
+  using ConverterMapType = std::map< std::string, MetaConverterPointer >;
 
   MetaSceneConverter();
   ~MetaSceneConverter();
@@ -105,11 +105,11 @@ public:
 
 private:
 
-  typedef itk::SpatialObject< NDimensions >         SpatialObjectType;
-  typedef typename SpatialObjectType::Pointer       SpatialObjectPointer;
-  typedef typename SpatialObjectType::TransformType TransformType;
+  using SpatialObjectType = itk::SpatialObject< NDimensions >;
+  using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using TransformType = typename SpatialObjectType::TransformType;
 
-  typedef std::list< MetaObject * > MetaObjectListType;
+  using MetaObjectListType = std::list< MetaObject * >;
 
   template <typename TConverter>
     MetaObject *SpatialObjectToMetaObject(SpatialObjectPointer &so)

@@ -25,16 +25,16 @@
 template <unsigned int VImageDimension>
 int LabelOverlapMeasures( int , char * argv[] )
 {
-  typedef unsigned int                           PixelType;
-  typedef itk::Image<PixelType, VImageDimension> ImageType;
+  using PixelType = unsigned int;
+  using ImageType = itk::Image<PixelType, VImageDimension>;
 
-  typedef itk::ImageFileReader<ImageType>  ReaderType;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   typename ReaderType::Pointer reader1 = ReaderType::New();
   reader1->SetFileName( argv[2] );
   typename ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[3] );
 
-  typedef itk::LabelOverlapMeasuresImageFilter<ImageType> FilterType;
+  using FilterType = itk::LabelOverlapMeasuresImageFilter<ImageType>;
   typename FilterType::Pointer filter = FilterType::New();
   filter->SetSourceImage( reader1->GetOutput() );
   filter->SetTargetImage( reader2->GetOutput() );
@@ -165,11 +165,11 @@ int itkLabelOverlapMeasuresImageFilterTest( int argc, char *argv[] )
 
   // Instantiate the filter
   const unsigned int ImageDimension = 3;
-  typedef unsigned int                            PixelType;
-  typedef itk::Image< PixelType, ImageDimension > ImageType;
+  using PixelType = unsigned int;
+  using ImageType = itk::Image< PixelType, ImageDimension >;
 
-  typedef itk::LabelOverlapMeasuresImageFilter< ImageType >
-    LabelOverlapMeasuresImageFilterType;
+  using LabelOverlapMeasuresImageFilterType = itk::LabelOverlapMeasuresImageFilter<ImageType>;
+
   LabelOverlapMeasuresImageFilterType::Pointer labelOverlapMeasuresImageFilter =
     LabelOverlapMeasuresImageFilterType::New();
 

@@ -48,20 +48,20 @@ int main( int argc, char *argv[] )
     }
 
 
-  typedef   float           InternalPixelType;
+  using InternalPixelType = float;
   const     unsigned int    Dimension = 3;
-  typedef itk::Image< InternalPixelType, Dimension >  InternalImageType;
+  using InternalImageType = itk::Image< InternalPixelType, Dimension >;
 
-  typedef unsigned char                            OutputPixelType;
-  typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image< OutputPixelType, Dimension >;
 
-  typedef itk::CastImageFilter< InternalImageType, OutputImageType >
-    CastingFilterType;
+  using CastingFilterType =
+      itk::CastImageFilter< InternalImageType, OutputImageType >;
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
 
-  typedef  itk::ImageFileReader< InternalImageType > ReaderType;
-  typedef  itk::ImageFileWriter<  OutputImageType  > WriterType;
+  using ReaderType = itk::ImageFileReader< InternalImageType >;
+  using WriterType = itk::ImageFileWriter<  OutputImageType  >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
@@ -69,13 +69,13 @@ int main( int argc, char *argv[] )
   reader->SetFileName( argv[1] );
   writer->SetFileName( argv[2] );
 
-  typedef itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >
-    CurvatureFlowImageFilterType;
+  using CurvatureFlowImageFilterType =
+      itk::CurvatureFlowImageFilter< InternalImageType, InternalImageType >;
   CurvatureFlowImageFilterType::Pointer smoothing =
                          CurvatureFlowImageFilterType::New();
 
-  typedef itk::ConfidenceConnectedImageFilter<InternalImageType, InternalImageType>
-    ConnectedFilterType;
+  using ConnectedFilterType =
+      itk::ConfidenceConnectedImageFilter<InternalImageType, InternalImageType>;
   ConnectedFilterType::Pointer confidenceConnected = ConnectedFilterType::New();
 
   smoothing->SetInput( reader->GetOutput() );

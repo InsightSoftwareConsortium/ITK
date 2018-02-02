@@ -110,7 +110,7 @@ namespace itk
  *
  * Example filter usage:
  * \code
- * typedef itk::MaskedFFTNormalizedCorrelationImageFilter< ShortImageType, DoubleImageType > FilterType;
+ * using FilterType = itk::MaskedFFTNormalizedCorrelationImageFilter< ShortImageType, DoubleImageType >;
  * FilterType::Pointer filter = FilterType::New();
  * filter->SetFixedImage( fixedImage );
  * filter->SetMovingImage( movingImage );
@@ -140,11 +140,11 @@ class ITK_TEMPLATE_EXPORT MaskedFFTNormalizedCorrelationImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef MaskedFFTNormalizedCorrelationImageFilter                     Self;
-  typedef ImageToImageFilter < TInputImage, TOutputImage >              Superclass;
-  typedef SmartPointer<Self>                                            Pointer;
-  typedef SmartPointer<const Self>                                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = MaskedFFTNormalizedCorrelationImageFilter;
+  using Superclass = ImageToImageFilter < TInputImage, TOutputImage >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -158,30 +158,30 @@ public:
                       TOutputImage::ImageDimension);
 
   /** Extract some information from the image types. */
-  typedef TInputImage                               InputImageType;
-  typedef typename InputImageType::RegionType       InputRegionType;
-  typedef typename InputImageType::Pointer          InputImagePointer;
-  typedef typename InputImageType::ConstPointer     InputImageConstPointer;
-  typedef typename InputImageType::SizeType         InputSizeType;
-  typedef typename itk::SizeValueType               SizeValueType;
+  using InputImageType = TInputImage;
+  using InputRegionType = typename InputImageType::RegionType;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputSizeType = typename InputImageType::SizeType;
+  using SizeValueType = itk::SizeValueType;
 
-  typedef TOutputImage                              OutputImageType;
-  typedef typename OutputImageType::Pointer         OutputImagePointer;
-  typedef typename OutputImageType::PixelType       OutputPixelType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-  typedef OutputPixelType                           RealPixelType;
-  typedef Image< RealPixelType, ImageDimension>     RealImageType;
-  typedef typename RealImageType::Pointer           RealImagePointer;
-  typedef typename RealImageType::IndexType         RealIndexType;
-  typedef typename RealImageType::SizeType          RealSizeType;
-  typedef typename RealImageType::RegionType        RealRegionType;
-  typedef typename RealImageType::PointType         RealPointType;
+  using RealPixelType = OutputPixelType;
+  using RealImageType = Image< RealPixelType, ImageDimension>;
+  using RealImagePointer = typename RealImageType::Pointer;
+  using RealIndexType = typename RealImageType::IndexType;
+  using RealSizeType = typename RealImageType::SizeType;
+  using RealRegionType = typename RealImageType::RegionType;
+  using RealPointType = typename RealImageType::PointType;
 
-  typedef TMaskImage                                MaskImageType;
-  typedef typename MaskImageType::Pointer           MaskImagePointer;
+  using MaskImageType = TMaskImage;
+  using MaskImagePointer = typename MaskImageType::Pointer;
 
-  typedef Image< std::complex<RealPixelType>, ImageDimension >  FFTImageType;
-  typedef typename FFTImageType::Pointer                        FFTImagePointer;
+  using FFTImageType = Image< std::complex<RealPixelType>, ImageDimension >;
+  using FFTImagePointer = typename FFTImageType::Pointer;
 
   /** Set and get the fixed image */
   itkSetInputMacro(FixedImage, InputImageType);

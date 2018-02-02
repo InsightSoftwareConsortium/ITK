@@ -43,11 +43,11 @@ class ITK_TEMPLATE_EXPORT MinMaxCurvatureFlowFunction:
   public CurvatureFlowFunction< TImage >
 {
 public:
-  /**  Standard class typedefs. */
-  typedef MinMaxCurvatureFlowFunction     Self;
-  typedef CurvatureFlowFunction< TImage > Superclass;
-  typedef SmartPointer< Self >            Pointer;
-  typedef SmartPointer< const Self >      ConstPointer;
+  /**  Standard class type aliases. */
+  using Self = MinMaxCurvatureFlowFunction;
+  using Superclass = CurvatureFlowFunction< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -57,18 +57,18 @@ public:
                CurvatureFlowFunction);
 
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::ImageType        ImageType;
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::FloatOffsetType  FloatOffsetType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelType = typename Superclass::PixelType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using FloatOffsetType = typename Superclass::FloatOffsetType;
 
   /** Extract superclass dimension. */
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
   /** Typedef support for the stencil radius. */
-  typedef typename RadiusType::SizeValueType RadiusValueType;
+  using RadiusValueType = typename RadiusType::SizeValueType;
 
   /** Set/Get the stencil radius. */
   void SetStencilRadius(const RadiusValueType radius);
@@ -91,7 +91,7 @@ protected:
   MinMaxCurvatureFlowFunction();
   ~MinMaxCurvatureFlowFunction() override {}
 
-  typedef Neighborhood< PixelType, itkGetStaticConstMacro(ImageDimension) > StencilOperatorType;
+  using StencilOperatorType = Neighborhood< PixelType, itkGetStaticConstMacro(ImageDimension) >;
   StencilOperatorType m_StencilOperator;
 
   /** Initialize the stencil opearator to be an N-Dimensional sphere

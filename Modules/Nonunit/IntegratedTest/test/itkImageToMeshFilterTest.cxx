@@ -27,11 +27,11 @@ int itkImageToMeshFilterTest(int , char *[] )
 
   const unsigned int Dimension = 2;
 
-  typedef unsigned char  BinaryMaskPixelType;
+  using BinaryMaskPixelType = unsigned char;
 
-  typedef itk::Image<
+  using BinaryMaskImageType = itk::Image<
                         BinaryMaskPixelType,
-                        Dimension  >           BinaryMaskImageType;
+                        Dimension  >;
 
 
   //
@@ -78,12 +78,10 @@ int itkImageToMeshFilterTest(int , char *[] )
   //
   //  Set up the filter
   //
-  typedef itk::Mesh< float, Dimension >    MeshType;
+  using MeshType = itk::Mesh< float, Dimension >;
 
-  typedef itk::BinaryMaskToNarrowBandPointSetFilter<
-                                BinaryMaskImageType,
-                                MeshType
-                                            >  GeneratorType;
+  using GeneratorType = itk::BinaryMaskToNarrowBandPointSetFilter<
+                                BinaryMaskImageType, MeshType >;
 
   GeneratorType::Pointer narrowBandGenerator = GeneratorType::New();
 
@@ -103,15 +101,15 @@ int itkImageToMeshFilterTest(int , char *[] )
   //
   //  Checking the output
   //
-  typedef MeshType::PointType               PointType;
+  using PointType = MeshType::PointType;
 
-  typedef MeshType::PointsContainer         PointsContainer;
-  typedef PointsContainer::Pointer          PointsContainerPointer;
-  typedef PointsContainer::ConstIterator    PointsIterator;
+  using PointsContainer = MeshType::PointsContainer;
+  using PointsContainerPointer = PointsContainer::Pointer;
+  using PointsIterator = PointsContainer::ConstIterator;
 
-  typedef MeshType::PointDataContainer      PointDataContainer;
-  typedef PointDataContainer::Pointer       PointDataContainerPointer;
-  typedef PointDataContainer::ConstIterator PointDataIterator;
+  using PointDataContainer = MeshType::PointDataContainer;
+  using PointDataContainerPointer = PointDataContainer::Pointer;
+  using PointDataIterator = PointDataContainer::ConstIterator;
 
   MeshType::Pointer                     pointSet  = narrowBandGenerator->GetOutput();
 

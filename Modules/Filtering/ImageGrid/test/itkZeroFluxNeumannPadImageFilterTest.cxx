@@ -21,12 +21,12 @@
 #include "itkZeroFluxNeumannPadImageFilter.h"
 #include "itkStreamingImageFilter.h"
 
-typedef itk::Image< short, 2 >     ShortImage;
-typedef itk::Image< float, 2 >     FloatImage;
-typedef ShortImage::SizeValueType  SizeValueType;
-typedef ShortImage::IndexValueType IndexValueType;
+using ShortImage = itk::Image< short, 2 >;
+using FloatImage = itk::Image< float, 2 >;
+using SizeValueType = ShortImage::SizeValueType;
+using IndexValueType = ShortImage::IndexValueType;
 
-typedef itk::ZeroFluxNeumannPadImageFilter< ShortImage, FloatImage > FilterType;
+using FilterType = itk::ZeroFluxNeumannPadImageFilter< ShortImage, FloatImage >;
 
 static bool VerifyFilterOutput(const ShortImage * inputImage,
                                const FloatImage * outputImage)
@@ -159,7 +159,7 @@ static bool VerifyFilter(const ShortImage * inputImage,
   std::cout << "[PASSED]" << std::endl;
 
   // Create a streaming filter
-  typedef itk::StreamingImageFilter< FloatImage, FloatImage > StreamingFilter;
+  using StreamingFilter = itk::StreamingImageFilter< FloatImage, FloatImage >;
   StreamingFilter::Pointer stream = StreamingFilter::New();
   stream->SetInput( padFilter->GetOutput() );
   stream->SetNumberOfStreamDivisions( 3 );

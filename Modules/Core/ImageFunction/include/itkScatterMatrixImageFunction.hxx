@@ -56,10 +56,10 @@ ScatterMatrixImageFunction< TInputImage, TCoordRep >
 {
   RealType covariance;
 
-  typedef  typename TInputImage::PixelType PixelType;
-  typedef  typename PixelType::ValueType   PixelComponentType;
+  using PixelType = typename TInputImage::PixelType;
+  using PixelComponentType = typename PixelType::ValueType;
 
-  typedef  typename NumericTraits< PixelComponentType >::RealType PixelComponentRealType;
+  using PixelComponentRealType = typename NumericTraits< PixelComponentType >::RealType;
 
   const unsigned int VectorDimension = PixelType::Dimension;
 

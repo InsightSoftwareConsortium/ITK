@@ -26,19 +26,19 @@
 int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
 {
   // Declare the type of the input and output mesh
-  typedef itk::DefaultDynamicMeshTraits<double, 3, 3, double, double, double> MeshTraits;
+  using MeshTraits = itk::DefaultDynamicMeshTraits<double, 3, 3, double, double, double>;
 
-  typedef itk::Mesh<double,3,MeshTraits>        TriangleMeshType;
-  typedef itk::SimplexMesh<double,3,MeshTraits> SimplexMeshType;
+  using TriangleMeshType = itk::Mesh<double,3,MeshTraits>;
+  using SimplexMeshType = itk::SimplexMesh<double,3,MeshTraits>;
 
 
   // declare triangle mesh source
-  typedef itk::RegularSphereMeshSource<TriangleMeshType> SphereMeshSourceType;
-  typedef SphereMeshSourceType::PointType                PointType;
-  typedef SphereMeshSourceType::VectorType               VectorType;
+  using SphereMeshSourceType = itk::RegularSphereMeshSource<TriangleMeshType>;
+  using PointType = SphereMeshSourceType::PointType;
+  using VectorType = SphereMeshSourceType::VectorType;
 
   // Declare the type of the gradient image
-  typedef itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>  SimplexFilterType;
+  using SimplexFilterType = itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>;
 
   SphereMeshSourceType::Pointer  mySphereMeshSource = SphereMeshSourceType::New();
   PointType center; center.Fill(0);
@@ -51,8 +51,7 @@ int itkSimplexMeshVolumeCalculatorTest(int , char *[] )
   SimplexFilterType::Pointer simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput( mySphereMeshSource->GetOutput() );
 
-  typedef itk::SimplexMeshVolumeCalculator<
-                 SimplexMeshType > VolumeCalculatorType;
+  using VolumeCalculatorType = itk::SimplexMeshVolumeCalculator<SimplexMeshType>;
 
 
   VolumeCalculatorType::Pointer calculator = VolumeCalculatorType::New();

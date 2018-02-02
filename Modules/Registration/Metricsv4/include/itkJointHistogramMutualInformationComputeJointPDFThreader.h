@@ -53,24 +53,24 @@ class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationComputeJointPDFThreader
   : public JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedImageRegionPartitioner< TJointHistogramMetric::VirtualImageDimension >, TJointHistogramMetric >
 {
 public:
-  /** Standard class typedefs. */
-  typedef JointHistogramMutualInformationComputeJointPDFThreader Self;
-  typedef JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedImageRegionPartitioner< TJointHistogramMetric::VirtualImageDimension >, TJointHistogramMetric >
-                                                                 Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
-  typedef SmartPointer< const Self >                             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = JointHistogramMutualInformationComputeJointPDFThreader;
+  using Superclass =
+      JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedImageRegionPartitioner< TJointHistogramMetric::VirtualImageDimension >, TJointHistogramMetric >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro( JointHistogramMutualInformationComputeJointPDFThreader, JointHistogramMutualInformationComputeJointPDFThreaderBase );
 
   itkNewMacro( Self );
 
   /** Superclass types. */
-  typedef typename Superclass::DomainType    DomainType;
-  typedef typename Superclass::AssociateType AssociateType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
 
-  typedef typename Superclass::VirtualImageType VirtualImageType;
-  typedef typename Superclass::VirtualIndexType VirtualIndexType;
-  typedef typename Superclass::VirtualPointType VirtualPointType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
 
 protected:
   JointHistogramMutualInformationComputeJointPDFThreader() {}
@@ -92,27 +92,27 @@ class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationComputeJointPDFThreader
   : public JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedIndexedContainerPartitioner, TJointHistogramMetric >
 {
 public:
-  /** Standard class typedefs. */
-  typedef JointHistogramMutualInformationComputeJointPDFThreader Self;
-  typedef JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedIndexedContainerPartitioner, TJointHistogramMetric >
-                                                                 Superclass;
-  typedef SmartPointer< Self >                                   Pointer;
-  typedef SmartPointer< const Self >                             ConstPointer;
+  /** Standard class type aliases. */
+  using Self = JointHistogramMutualInformationComputeJointPDFThreader;
+  using Superclass =
+      JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedIndexedContainerPartitioner, TJointHistogramMetric >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro( JointHistogramMutualInformationComputeJointPDFThreader, JointHistogramMutualInformationComputeJointPDFThreaderBase );
 
   itkNewMacro( Self );
 
   /** Superclass types. */
-  typedef typename Superclass::DomainType    DomainType;
-  typedef typename Superclass::AssociateType AssociateType;
+  using DomainType = typename Superclass::DomainType;
+  using AssociateType = typename Superclass::AssociateType;
 
-  typedef typename Superclass::VirtualImageType VirtualImageType;
-  typedef typename Superclass::VirtualIndexType VirtualIndexType;
-  typedef typename Superclass::VirtualPointType VirtualPointType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using VirtualIndexType = typename Superclass::VirtualIndexType;
+  using VirtualPointType = typename Superclass::VirtualPointType;
 
-  typedef TJointHistogramMetric                                          JointHistogramMetricType;
-  typedef typename JointHistogramMetricType::VirtualPointSetType  VirtualPointSetType;
+  using JointHistogramMetricType = TJointHistogramMetric;
+  using VirtualPointSetType = typename JointHistogramMetricType::VirtualPointSetType;
 
 protected:
   JointHistogramMutualInformationComputeJointPDFThreader() {}

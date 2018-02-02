@@ -37,14 +37,14 @@ class ITK_TEMPLATE_EXPORT EuclideanSquareDistanceMetric:
   public DistanceMetric< TVector >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef EuclideanSquareDistanceMetric Self;
-  typedef DistanceMetric< TVector >     Superclass;
-  typedef SmartPointer< Self >          Pointer;
-  typedef SmartPointer< const Self >    ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = EuclideanSquareDistanceMetric;
+  using Superclass = DistanceMetric< TVector >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename Superclass::MeasurementVectorSizeType MeasurementVectorSizeType;
-  typedef typename Superclass::MeasurementVectorType     MeasurementVectorType;
+  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(EuclideanSquareDistanceMetric, DistanceMetric);

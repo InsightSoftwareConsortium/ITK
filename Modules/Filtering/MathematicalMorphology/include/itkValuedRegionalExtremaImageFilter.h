@@ -80,24 +80,24 @@ class ITK_TEMPLATE_EXPORT ValuedRegionalExtremaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ValuedRegionalExtremaImageFilter                Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ValuedRegionalExtremaImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  /** Some convenient typedefs. */
-  typedef TInputImage                            InputImageType;
-  typedef TOutputImage                           OutputImageType;
-  typedef typename InputImageType::Pointer       InputImagePointer;
-  typedef typename InputImageType::ConstPointer  InputImageConstPointer;
-  typedef typename InputImageType::RegionType    InputImageRegionType;
-  typedef typename InputImageType::PixelType     InputImagePixelType;
-  typedef typename InputImageType::SizeType      ISizeType;
-  typedef typename OutputImageType::Pointer      OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType   OutputImageRegionType;
-  typedef typename OutputImageType::PixelType    OutputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageConstPointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using ISizeType = typename InputImageType::SizeType;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageConstPointer = typename OutputImageType::ConstPointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,
@@ -164,11 +164,11 @@ private:
   bool m_FullyConnected;
   bool m_Flat;
 
-  typedef typename OutputImageType::IndexType               OutIndexType;
-  typedef typename InputImageType::IndexType                InIndexType;
-  typedef ConstShapedNeighborhoodIterator< InputImageType > ConstInputIterator;
-  typedef ShapedNeighborhoodIterator< OutputImageType >     NOutputIterator;
-  typedef std::stack< OutIndexType >                        IndexStack;
+  using OutIndexType = typename OutputImageType::IndexType;
+  using InIndexType = typename InputImageType::IndexType;
+  using ConstInputIterator = ConstShapedNeighborhoodIterator< InputImageType >;
+  using NOutputIterator = ShapedNeighborhoodIterator< OutputImageType >;
+  using IndexStack = std::stack< OutIndexType >;
 }; // end of class
 } // end namespace itk
 

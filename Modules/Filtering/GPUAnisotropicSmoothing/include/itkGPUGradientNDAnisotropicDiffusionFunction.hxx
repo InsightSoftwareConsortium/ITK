@@ -128,7 +128,7 @@ GPUGradientNDAnisotropicDiffusionFunction< TImage >
 {
   /** Launch GPU kernel to update buffer with output
    * GPU version of ComputeUpdate() - compute entire update buffer */
-  typedef typename itk::GPUTraits< TImage >::Type GPUImageType;
+  using GPUImageType = typename itk::GPUTraits< TImage >::Type;
 
   typename GPUImageType::Pointer  inPtr =  dynamic_cast< GPUImageType * >( output.GetPointer() );
   typename GPUImageType::Pointer  bfPtr =  dynamic_cast< GPUImageType * >( buffer.GetPointer() );

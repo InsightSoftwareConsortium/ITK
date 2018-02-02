@@ -52,12 +52,12 @@ InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInter
 
   this->PrepareInputs( localInput, kernelImage, input, kernel, progress, 0.7 );
 
-  typedef Functor::InverseDeconvolutionFunctor< InternalComplexType,
+  using FunctorType = Functor::InverseDeconvolutionFunctor< InternalComplexType,
                                                 InternalComplexType,
-                                                InternalComplexType> FunctorType;
-  typedef BinaryFunctorImageFilter< InternalComplexImageType,
+                                                InternalComplexType>;
+  using InverseFilterType = BinaryFunctorImageFilter< InternalComplexImageType,
                                     InternalComplexImageType,
-                                    InternalComplexImageType, FunctorType > InverseFilterType;
+                                    InternalComplexImageType, FunctorType >;
   typename InverseFilterType::Pointer inverseFilter = InverseFilterType::New();
   inverseFilter->SetInput1( input );
   inverseFilter->SetInput2( kernel );

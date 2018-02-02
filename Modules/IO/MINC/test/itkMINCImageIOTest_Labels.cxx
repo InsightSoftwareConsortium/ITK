@@ -36,10 +36,10 @@ int itkMINCImageIOTest_Labels( int argc, char * argv [] )
 
   itk::MINCImageIOFactory::RegisterOneFactory();
 
-  typedef itk::Image< unsigned char, 3 > ImageType;
+  using ImageType = itk::Image< unsigned char, 3 >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
+  using WriterType = itk::ImageFileWriter< ImageType >;
 
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();

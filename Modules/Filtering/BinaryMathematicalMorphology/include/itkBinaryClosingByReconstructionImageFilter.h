@@ -50,12 +50,12 @@ class ITK_TEMPLATE_EXPORT BinaryClosingByReconstructionImageFilter :
     public KernelImageFilter<TInputImage, TInputImage, TKernel>
 {
 public:
-  /** Standard class typedefs. */
-  typedef BinaryClosingByReconstructionImageFilter     Self;
-  typedef KernelImageFilter<TInputImage, TInputImage, TKernel>
-                                                       Superclass;
-  typedef SmartPointer<Self>                           Pointer;
-  typedef SmartPointer<const Self>                     ConstPointer;
+  /** Standard class type aliases. */
+  using Self = BinaryClosingByReconstructionImageFilter;
+  using Superclass =
+      KernelImageFilter<TInputImage, TInputImage, TKernel>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Standard New method. */
   itkNewMacro(Self);
@@ -64,17 +64,17 @@ public:
   itkTypeMacro(BinaryClosingByReconstructionImageFilter,
                KernelImageFilter);
 
-  typedef TInputImage                              InputImageType;
-  typedef TInputImage                              OutputImageType;
-  typedef typename InputImageType::Pointer         InputImagePointer;
-  typedef typename OutputImageType::RegionType     OutputImageRegionType;
+  using InputImageType = TInputImage;
+  using OutputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Declaration of pixel type. */
-  typedef typename TInputImage::PixelType          InputPixelType;
-  typedef typename TInputImage::PixelType          OutputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
+  using OutputPixelType = typename TInputImage::PixelType;
 
-  /** Kernel typedef. */
-  typedef TKernel KernelType;
+  /** Kernel type alias. */
+  using KernelType = TKernel;
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of InputPixelType. */

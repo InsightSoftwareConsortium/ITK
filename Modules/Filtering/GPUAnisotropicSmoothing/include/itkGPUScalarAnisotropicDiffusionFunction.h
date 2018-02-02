@@ -39,11 +39,11 @@ class ITK_TEMPLATE_EXPORT GPUScalarAnisotropicDiffusionFunction :
   public GPUAnisotropicDiffusionFunction< TImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef GPUScalarAnisotropicDiffusionFunction     Self;
-  typedef GPUAnisotropicDiffusionFunction< TImage > Superclass;
-  typedef SmartPointer< Self >                      Pointer;
-  typedef SmartPointer< const Self >                ConstPointer;
+  /** Standard class type aliases. */
+  using Self = GPUScalarAnisotropicDiffusionFunction;
+  using Superclass = GPUAnisotropicDiffusionFunction< TImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   itkTypeMacro(GPUScalarAnisotropicDiffusionFunction, GPUAnisotropicDiffusionFunction);
 
@@ -52,12 +52,12 @@ public:
                       Superclass::ImageDimension);
 
   /** Inherit some parameters from the superclass type. */
-  typedef typename Superclass::ImageType        ImageType;
-  typedef typename Superclass::PixelType        PixelType;
-  typedef typename Superclass::PixelRealType    PixelRealType;
-  typedef typename Superclass::RadiusType       RadiusType;
-  typedef typename Superclass::NeighborhoodType NeighborhoodType;
-  typedef typename Superclass::TimeStepType     TimeStepType;
+  using ImageType = typename Superclass::ImageType;
+  using PixelType = typename Superclass::PixelType;
+  using PixelRealType = typename Superclass::PixelRealType;
+  using RadiusType = typename Superclass::RadiusType;
+  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using TimeStepType = typename Superclass::TimeStepType;
 
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUScalarAnisotropicDiffusionFunctionKernel);

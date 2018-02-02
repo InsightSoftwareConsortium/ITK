@@ -48,11 +48,11 @@ class ITK_TEMPLATE_EXPORT RGBGibbsPriorFilter:public MRFImageFilter< TInputImage
                                                             TClassifiedImage >
 {
 public:
-  /** Standard "Self" typedef. */
-  typedef RGBGibbsPriorFilter                             Self;
-  typedef MRFImageFilter< TInputImage, TClassifiedImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard "Self" type alias. */
+  using Self = RGBGibbsPriorFilter;
+  using Superclass = MRFImageFilter< TInputImage, TClassifiedImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,43 +61,43 @@ public:
   itkTypeMacro(RGBGibbsPriorFilter, MRFImageFilter);
 
   /** Types from superclass.  */
-  typedef typename Superclass::InputImagePixelType           InputImagePixelType;
-  typedef typename Superclass::InputImageRegionConstIterator InputImageRegionConstIterator;
-  typedef typename Superclass::InputImageRegionIterator      InputImageRegionIterator;
-  typedef typename Superclass::LabelledImageRegionIterator   LabelledImageRegionIterator;
-  typedef typename Superclass::LabelledImagePixelType        LabelledImagePixelType;
-  typedef typename Superclass::IndexValueType                IndexValueType;
+  using InputImagePixelType = typename Superclass::InputImagePixelType;
+  using InputImageRegionConstIterator = typename Superclass::InputImageRegionConstIterator;
+  using InputImageRegionIterator = typename Superclass::InputImageRegionIterator;
+  using LabelledImageRegionIterator = typename Superclass::LabelledImageRegionIterator;
+  using LabelledImagePixelType = typename Superclass::LabelledImagePixelType;
+  using IndexValueType = typename Superclass::IndexValueType;
 
   /** A smart pointer to the input image type. */
-  typedef TInputImage                        InputImageType;
-  typedef typename TInputImage::Pointer      InputImagePointer;
-  typedef typename TInputImage::ConstPointer InputImageConstPointer;
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename TInputImage::Pointer;
+  using InputImageConstPointer = typename TInputImage::ConstPointer;
 
   /** Type definition for the input image pixel type. */
-  typedef typename TInputImage::PixelType InputPixelType;
+  using InputPixelType = typename TInputImage::PixelType;
 
   /** Type definitions for the training image. */
-  typedef TClassifiedImage                   ClassifiedImageType;
-  typedef typename TClassifiedImage::Pointer TrainingImageType;
+  using ClassifiedImageType = TClassifiedImage;
+  using TrainingImageType = typename TClassifiedImage::Pointer;
 
   /** Type definitions for the labelled image.
    *  It is derived from the training image. */
-  typedef typename TClassifiedImage::Pointer LabelledImageType;
+  using LabelledImageType = typename TClassifiedImage::Pointer;
 
   /** Type definition for the classified image index type. */
-  typedef typename TClassifiedImage::IndexType LabelledImageIndexType;
+  using LabelledImageIndexType = typename TClassifiedImage::IndexType;
 
   /** Type used as identifier for the Labels
    \warning -1 cannot be used as the identifier for unlabeled pixels
    the NumericTraits<>::max() value is used for indicating unlabeled pixels */
-  typedef unsigned int LabelType;
+  using LabelType = unsigned int;
 
   /** Type definitions for classifier to be used for the MRF lavbelling. */
-  typedef ImageClassifierBase< TInputImage, TClassifiedImage > ClassifierType;
+  using ClassifierType = ImageClassifierBase< TInputImage, TClassifiedImage >;
 
   /** The type of input pixel. */
-  typedef typename TInputImage::PixelType InputImageVecType;
-  typedef typename TInputImage::IndexType IndexType;
+  using InputImageVecType = typename TInputImage::PixelType;
+  using IndexType = typename TInputImage::IndexType;
 
   /** Set the image required for training type classifiers. */
   void SetTrainingImage(TrainingImageType image);
@@ -179,7 +179,7 @@ public:
   itkGetConstMacro(CliqueWeight_6, double);
 
   /** Specify the type of matrix to use. */
-  typedef vnl_matrix< double > MatrixType;
+  using MatrixType = vnl_matrix< double >;
 
 protected:
   RGBGibbsPriorFilter();
@@ -210,7 +210,7 @@ private:
   RGBGibbsPriorFilter(const Self &);
   void operator=(const Self &);
 
-  typedef typename TInputImage::SizeType InputImageSizeType;
+  using InputImageSizeType = typename TInputImage::SizeType;
 
   InputImageConstPointer m_InputImage;                /** the input */
   TrainingImageType      m_TrainingImage;             /** image to train the

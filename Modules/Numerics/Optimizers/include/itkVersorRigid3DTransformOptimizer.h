@@ -52,11 +52,11 @@ class ITKOptimizers_EXPORT VersorRigid3DTransformOptimizer:
   public RegularStepGradientDescentBaseOptimizer
 {
 public:
-  /** Standard class typedefs. */
-  typedef VersorRigid3DTransformOptimizer         Self;
-  typedef RegularStepGradientDescentBaseOptimizer Superclass;
-  typedef SmartPointer< Self >                    Pointer;
-  typedef SmartPointer< const Self >              ConstPointer;
+  /** Standard class type aliases. */
+  using Self = VersorRigid3DTransformOptimizer;
+  using Superclass = RegularStepGradientDescentBaseOptimizer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -69,8 +69,8 @@ public:
   itkStaticConstMacro(SpaceDimension, unsigned int, 6);
 
   /**  Versor Type  */
-  typedef Versor< double >       VersorType;
-  typedef VersorType::VectorType VectorType;
+  using VersorType = Versor< double >;
+  using VectorType = VersorType::VectorType;
 
   /** Advance one step following the gradient direction. */
   void StepAlongGradient(double factor,

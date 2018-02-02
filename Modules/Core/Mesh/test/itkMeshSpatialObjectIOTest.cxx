@@ -25,16 +25,16 @@
 
 int itkMeshSpatialObjectIOTest(int argc, char* argv[])
 {
-  typedef itk::DefaultDynamicMeshTraits< float , 3, 3 > MeshTrait;
-  typedef itk::Mesh<float,3,MeshTrait>                  MeshType;
-  typedef MeshType::CellTraits                          CellTraits;
-  typedef itk::CellInterface< float, CellTraits >       CellInterfaceType;
-  typedef itk::TetrahedronCell<CellInterfaceType>       TetraCellType;
-  typedef itk::HexahedronCell<CellInterfaceType>        HexaCellType;
-  typedef itk::MeshSpatialObject<MeshType>              MeshSpatialObjectType;
-  typedef MeshType::PointType                           PointType;
-  typedef MeshType::CellType                            CellType;
-  typedef CellType::CellAutoPointer                     CellAutoPointer;
+  using MeshTrait = itk::DefaultDynamicMeshTraits< float , 3, 3 >;
+  using MeshType = itk::Mesh<float,3,MeshTrait>;
+  using CellTraits = MeshType::CellTraits;
+  using CellInterfaceType = itk::CellInterface< float, CellTraits >;
+  using TetraCellType = itk::TetrahedronCell<CellInterfaceType>;
+  using HexaCellType = itk::HexahedronCell<CellInterfaceType>;
+  using MeshSpatialObjectType = itk::MeshSpatialObject<MeshType>;
+  using PointType = MeshType::PointType;
+  using CellType = MeshType::CellType;
+  using CellAutoPointer = CellType::CellAutoPointer;
 
   // Create an itkMesh
   std::cout << "Creating Mesh File: ";
@@ -67,7 +67,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   mesh->SetCell(1, testCell2 );
 
    // Add cell links
-  typedef MeshType::CellLinksContainer CellLinksContainerType;
+  using CellLinksContainerType = MeshType::CellLinksContainer;
   CellLinksContainerType::Pointer linkContainer = CellLinksContainerType::New();
   MeshType::PointCellLinksContainer pcl;
 
@@ -83,7 +83,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
 
 
   // Add point data
-  typedef MeshType::PointDataContainer PointDataContainer;
+  using PointDataContainer = MeshType::PointDataContainer;
   PointDataContainer::Pointer pointData = PointDataContainer::New();
 
   float data = 0.1;
@@ -95,7 +95,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   mesh->SetPointData(pointData);
 
   // Add cell data
-  typedef  MeshType::CellDataContainer CellDataContainer;
+  using CellDataContainer = MeshType::CellDataContainer;
   CellDataContainer::Pointer cellData = CellDataContainer::New();
 
   data = 0.9;
@@ -114,7 +114,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
 
   // Writing the file
   std::cout<<"Testing Writing MeshSpatialObject: ";
-  typedef itk::SpatialObjectWriter<3,float,MeshTrait> WriterType;
+  using WriterType = itk::SpatialObjectWriter<3,float,MeshTrait>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(meshSO);
   if((argc > 2) && (!strcmp(argv[2],"binary")))
@@ -128,7 +128,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
 
   // Reading the file
   std::cout<<"Testing Reading MeshSpatialObject: ";
-  typedef itk::SpatialObjectReader<3,float,MeshTrait> ReaderType;
+  using ReaderType = itk::SpatialObjectReader<3,float,MeshTrait>;
   ReaderType::Pointer reader = ReaderType::New();
   if((argc > 2) && (strcmp(argv[2],"binary")))
     {
@@ -232,7 +232,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   // Testing celllinks
   std::cout<<"Testing CellLinks : ";
   j=0;
-  typedef MeshType::CellLinksContainer  CellLinksContainer;
+  using CellLinksContainer = MeshType::CellLinksContainer;
   const CellLinksContainer* links = mesh2->GetCellLinks();
   MeshType::CellLinksContainer::ConstIterator it_celllinks = links->Begin();
 
@@ -268,7 +268,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   std::cout<<"Testing Pointdata : ";
   j=0;
   data = 0.1;
-  typedef  MeshType::PointDataContainer PointDataContainer;
+  using PointDataContainer = MeshType::PointDataContainer;
   const PointDataContainer* pd = mesh2->GetPointData();
   if(pd)
     {
@@ -306,7 +306,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
   std::cout<<"Testing Celldata : ";
   j=0;
   data = 0.9;
-  typedef  MeshType::CellDataContainer PointDataContainer;
+  using PointDataContainer = MeshType::CellDataContainer;
   const PointDataContainer* pc = mesh2->GetCellData();
   if(pc)
     {

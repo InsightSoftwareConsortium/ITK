@@ -46,25 +46,25 @@ template< typename TSample >
 class ITK_TEMPLATE_EXPORT SampleToSubsampleFilter:public ProcessObject
 {
 public:
-  /** Standard class typedefs. */
-  typedef SampleToSubsampleFilter    Self;
-  typedef ProcessObject              Superclass;
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  /** Standard class type aliases. */
+  using Self = SampleToSubsampleFilter;
+  using Superclass = ProcessObject;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Standard macros */
   itkTypeMacro(SampleToSubsampleFilter, ProcessObject);
 
   /** Typedefs for Measurement vector, measurement, Instance Identifier,
    * frequency, size, size element value from the template argument TSample */
-  typedef TSample                                    SampleType;
-  typedef typename SampleType::MeasurementVectorType MeasurementVectorType;
-  typedef typename SampleType::MeasurementType       MeasurementType;
-  typedef typename SampleType::InstanceIdentifier    InstanceIdentifier;
+  using SampleType = TSample;
+  using MeasurementVectorType = typename SampleType::MeasurementVectorType;
+  using MeasurementType = typename SampleType::MeasurementType;
+  using InstanceIdentifier = typename SampleType::InstanceIdentifier;
 
   /** Declare the output type */
-  typedef Subsample< SampleType > SubsampleType;
-  typedef SubsampleType           OutputType;
+  using SubsampleType = Subsample< SampleType >;
+  using OutputType = SubsampleType;
 
   /** Set/Get the input sample */
   using Superclass::SetInput;
@@ -86,7 +86,7 @@ protected:
    * called.
    * \sa ProcessObject
    */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) override;
 

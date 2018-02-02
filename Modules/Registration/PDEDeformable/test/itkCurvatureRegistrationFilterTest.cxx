@@ -56,7 +56,7 @@ typename TImage::PixelType foregnd,
 typename TImage::PixelType backgnd )
 {
 
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator it( image, image->GetBufferedRegion() );
   it.Begin();
 
@@ -86,7 +86,7 @@ CopyImageBuffer(
 TImage *input,
 TImage *output )
 {
-  typedef itk::ImageRegionIteratorWithIndex<TImage> Iterator;
+  using Iterator = itk::ImageRegionIteratorWithIndex<TImage>;
   Iterator outIt( output, output->GetBufferedRegion() );
   for( Iterator inIt( input, output->GetBufferedRegion() ); !inIt.IsAtEnd(); ++inIt, ++outIt )
     {
@@ -98,18 +98,18 @@ TImage *output )
 int itkCurvatureRegistrationFilterTest(int, char* [] )
 {
 
-  typedef unsigned char PixelType;
+  using PixelType = unsigned char;
   enum {ImageDimension = 2};
-  typedef itk::Image<PixelType,ImageDimension>  ImageType;
-  typedef itk::Vector<float,ImageDimension>     VectorType;
-  typedef itk::Image<VectorType,ImageDimension> FieldType;
-  typedef itk::FastSymmetricForcesDemonsRegistrationFunction<ImageType,ImageType,FieldType>
-                                                ForcesType;
-  typedef itk::Image<VectorType::ValueType,ImageDimension>
-                                                FloatImageType;
-  typedef ImageType::IndexType                  IndexType;
-  typedef ImageType::SizeType                   SizeType;
-  typedef ImageType::RegionType                 RegionType;
+  using ImageType = itk::Image<PixelType,ImageDimension>;
+  using VectorType = itk::Vector<float,ImageDimension>;
+  using FieldType = itk::Image<VectorType,ImageDimension>;
+  using ForcesType =
+      itk::FastSymmetricForcesDemonsRegistrationFunction<ImageType,ImageType,FieldType>;
+  using FloatImageType =
+      itk::Image<VectorType::ValueType,ImageDimension>;
+  using IndexType = ImageType::IndexType;
+  using SizeType = ImageType::SizeType;
+  using RegionType = ImageType::RegionType;
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
@@ -163,8 +163,8 @@ int itkCurvatureRegistrationFilterTest(int, char* [] )
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
-  typedef itk::CurvatureRegistrationFilter<ImageType,ImageType,FieldType,ForcesType>
-    RegistrationType;
+  using RegistrationType =
+      itk::CurvatureRegistrationFilter<ImageType,ImageType,FieldType,ForcesType>;
   RegistrationType::Pointer registrator = RegistrationType::New();
 
   registrator->SetInitialDisplacementField( initField );
@@ -176,7 +176,7 @@ int itkCurvatureRegistrationFilterTest(int, char* [] )
   registrator->Print( std::cout );
 
   std::cout << "\n\n\nPrinting function" << std::endl;
-  typedef RegistrationType::RegistrationFunctionType FunctionType;
+  using FunctionType = RegistrationType::RegistrationFunctionType;
   FunctionType * fptr;
   fptr = dynamic_cast<FunctionType *>(
     registrator->GetDifferenceFunction().GetPointer() );
@@ -193,12 +193,12 @@ int itkCurvatureRegistrationFilterTest(int, char* [] )
   registrator->AddObserver( itk::ProgressEvent(), command);
 
   // warp moving image
-  typedef itk::WarpImageFilter<ImageType,ImageType,FieldType> WarperType;
+  using WarperType = itk::WarpImageFilter<ImageType,ImageType,FieldType>;
   WarperType::Pointer warper = WarperType::New();
 
-  typedef WarperType::CoordRepType CoordRepType;
-  typedef itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>
-    InterpolatorType;
+  using CoordRepType = WarperType::CoordRepType;
+  using InterpolatorType =
+      itk::NearestNeighborInterpolateImageFunction<ImageType,CoordRepType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
 
@@ -241,7 +241,7 @@ int itkCurvatureRegistrationFilterTest(int, char* [] )
     {
     std::cout << "Test failed - too many pixels different." << std::endl;
 
-    typedef itk::ImageFileWriter< ImageType >  WriterType;
+    using WriterType = itk::ImageFileWriter< ImageType >;
     WriterType::Pointer      writer =  WriterType::New();
     writer->SetInput( warper->GetOutput() );
     writer->SetFileName( "warped.png" );

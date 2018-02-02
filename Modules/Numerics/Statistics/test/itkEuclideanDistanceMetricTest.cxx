@@ -22,9 +22,9 @@ int itkEuclideanDistanceMetricTest(int, char* [] )
 {
   const unsigned int MeasurementVectorSize = 3;
 
-  typedef itk::Array< float  >  MeasurementVectorType;
+  using MeasurementVectorType = itk::Array< float  >;
 
-  typedef itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType >   DistanceMetricType;
+  using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric< MeasurementVectorType >;
 
   DistanceMetricType::Pointer distance = DistanceMetricType::New();
 

@@ -35,12 +35,12 @@ int itkImageSpatialObjectTest(int, char* [])
 {
   #define NDimensions 3
 
-  typedef double                                     ScalarType;
-  typedef unsigned short                             Pixel;
-  typedef itk::Image<Pixel,NDimensions>              ImageType;
-  typedef itk::ImageSpatialObject<NDimensions,Pixel> ImageSpatialObject;
-  typedef itk::ImageRegionIterator<ImageType>        Iterator;
-  typedef itk::Point<ScalarType,NDimensions>         Point;
+  using ScalarType = double;
+  using Pixel = unsigned short;
+  using ImageType = itk::Image<Pixel,NDimensions>;
+  using ImageSpatialObject = itk::ImageSpatialObject<NDimensions,Pixel>;
+  using Iterator = itk::ImageRegionIterator<ImageType>;
+  using Point = itk::Point<ScalarType,NDimensions>;
 
   ImageType::Pointer image = ImageType::New();
   ImageType::SizeType size = {{ 10, 10, 10 }};
@@ -141,7 +141,7 @@ int itkImageSpatialObjectTest(int, char* [])
     }
 
   // Now testing the ValueAt() with an interpolator
-  typedef itk::LinearInterpolateImageFunction<ImageType> InterpolatorType;
+  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   imageSO->SetInterpolator(interpolator);
   expectedValue = 566.1;

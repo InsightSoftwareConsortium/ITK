@@ -67,7 +67,7 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels(), 1000 / this->GetNumberOfThreads() );
 
   // Calculator for computation of the eigen values
-  typedef SymmetricEigenAnalysis< InputPixelType, EigenValueArrayType > CalculatorType;
+  using CalculatorType = SymmetricEigenAnalysis< InputPixelType, EigenValueArrayType >;
   CalculatorType eigenCalculator(ImageDimension);
 
   // Walk the region of eigen values and get the objectness measure

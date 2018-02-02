@@ -39,19 +39,19 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
 
   const unsigned int Dimension = 3;
 
-  typedef unsigned char BinaryPixelType;
-  typedef unsigned char LabelPixelType;
+  using BinaryPixelType = unsigned char;
+  using LabelPixelType = unsigned char;
 
-  typedef itk::Image< BinaryPixelType, Dimension > ImageType;
+  using ImageType = itk::Image< BinaryPixelType, Dimension >;
 
-  typedef itk::LabelObject< LabelPixelType, Dimension >   LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >                LabelMapType;
+  using LabelObjectType = itk::LabelObject< LabelPixelType, Dimension >;
+  using LabelMapType = itk::LabelMap< LabelObjectType >;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  using ReaderType = itk::ImageFileReader< ImageType >;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::BinaryImageToLabelMapFilter< ImageType, LabelMapType > ImageToLabelType;
+  using ImageToLabelType = itk::BinaryImageToLabelMapFilter< ImageType, LabelMapType >;
   ImageToLabelType::Pointer imageToLabel = ImageToLabelType::New();
   // test the behavior without input
   TRY_EXPECT_EXCEPTION( imageToLabel->Update() );
@@ -63,10 +63,10 @@ int itkBinaryImageToLabelMapFilterTest( int argc, char * argv [] )
 
   itk::SimpleFilterWatcher watcher( imageToLabel );
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> LabelToImageType;
+  using LabelToImageType = itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>;
   LabelToImageType::Pointer labelToImage = LabelToImageType::New();
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
 
   writer->SetFileName( argv[2] );

@@ -48,19 +48,19 @@ class DivideOrZeroOutImageFilter :
                                      typename TOutputImage::PixelType > >
 {
 public:
-  /** Standard class typedefs. */
-  typedef DivideOrZeroOutImageFilter       Self;
-  typedef BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = DivideOrZeroOutImageFilter;
+  using Superclass = BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
     Functor::DivideOrZeroOut<
       typename TInputImage1::PixelType,
       typename TInputImage2::PixelType,
-      typename TOutputImage::PixelType > > Superclass;
-  typedef SmartPointer< Self >             Pointer;
-  typedef SmartPointer< const Self >       ConstPointer;
+      typename TOutputImage::PixelType > >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TInputImage1::PixelType NumeratorPixelType;
-  typedef typename TInputImage2::PixelType DenominatorPixelType;
-  typedef typename TOutputImage::PixelType OutputPixelType;
+  using NumeratorPixelType = typename TInputImage1::PixelType;
+  using DenominatorPixelType = typename TInputImage2::PixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

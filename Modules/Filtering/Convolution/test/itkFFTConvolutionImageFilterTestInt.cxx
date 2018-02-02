@@ -34,9 +34,9 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
 
   const int ImageDimension = 2;
 
-  typedef unsigned char                          PixelType;
-  typedef itk::Image<PixelType, ImageDimension>  ImageType;
-  typedef itk::ImageFileReader<ImageType>        ReaderType;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   reader1->SetFileName( argv[1] );
@@ -48,7 +48,7 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
 
   TRY_EXPECT_NO_EXCEPTION( reader2->Update() );
 
-  typedef itk::FFTConvolutionImageFilter<ImageType> ConvolutionFilterType;
+  using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
   ConvolutionFilterType::Pointer convolver = ConvolutionFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( convolver, FFTConvolutionImageFilter, ConvolutionImageFilterBase );
@@ -92,7 +92,7 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
 
   TRY_EXPECT_NO_EXCEPTION( convolver->Update() );
 
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  using WriterType = itk::ImageFileWriter< ImageType >;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( convolver->GetOutput() );

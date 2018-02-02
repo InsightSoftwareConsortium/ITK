@@ -39,15 +39,15 @@
 
 int main(int, char *[])
 {
-  typedef float                             PixelType;
-  typedef itk::Mesh< PixelType, 3 >         MeshType;
+  using PixelType = float;
+  using MeshType = itk::Mesh< PixelType, 3 >;
 
-  typedef MeshType::CellType                CellType;
+  using CellType = MeshType::CellType;
 
-  typedef itk::VertexCell< CellType >       VertexType;
-  typedef itk::LineCell< CellType >         LineType;
-  typedef itk::TriangleCell< CellType >     TriangleType;
-  typedef itk::TetrahedronCell< CellType >  TetrahedronType;
+  using VertexType = itk::VertexCell< CellType >;
+  using LineType = itk::LineCell< CellType >;
+  using TriangleType = itk::TriangleCell< CellType >;
+  using TetrahedronType = itk::TetrahedronCell< CellType >;
 
   MeshType::Pointer  mesh = MeshType::New();
 
@@ -180,7 +180,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef MeshType::CellsContainer::ConstIterator  CellIterator;
+  using CellIterator = MeshType::CellsContainer::ConstIterator;
 
   CellIterator cellIterator = mesh->GetCells()->Begin();
   CellIterator cellEnd      = mesh->GetCells()->End();

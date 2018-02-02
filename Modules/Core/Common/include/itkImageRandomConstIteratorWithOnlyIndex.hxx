@@ -87,7 +87,7 @@ void
 ImageRandomConstIteratorWithOnlyIndex< TImage >
 ::RandomJump()
 {
-  typedef IndexValueType PositionValueType;
+  using PositionValueType = IndexValueType;
 
   const PositionValueType randomPosition = static_cast< PositionValueType >( m_Generator->GetVariateWithOpenRange (static_cast< double >( m_NumberOfPixelsInRegion ) - 0.5) );
   PositionValueType position = randomPosition;

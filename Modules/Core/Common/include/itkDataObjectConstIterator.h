@@ -31,7 +31,7 @@ class DataObjectConstIterator
 {
 public:
 
-  typedef DataObject::DataObjectIdentifierType DataObjectIdentifierType;
+  using DataObjectIdentifierType = DataObject::DataObjectIdentifierType;
 
   DataObjectConstIterator() {}
 
@@ -97,7 +97,7 @@ public:
     }
 
 protected:
-  typedef ProcessObject::DataObjectPointerMap::const_iterator InternalIteratorType;
+  using InternalIteratorType = ProcessObject::DataObjectPointerMap::const_iterator;
   InternalIteratorType m_Iterator;
   InternalIteratorType m_Begin;
   InternalIteratorType m_End;

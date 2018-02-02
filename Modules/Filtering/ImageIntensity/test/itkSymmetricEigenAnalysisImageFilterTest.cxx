@@ -30,18 +30,17 @@ class SymmetricEigenAnalysisImageFilterHelper :
   public SymmetricEigenAnalysisImageFilter< TInputImage, TInternalImage >
 {
 public:
-  typedef SymmetricEigenAnalysisImageFilterHelper
-    Self;
-  typedef SymmetricEigenAnalysisImageFilter< TInputImage, TInternalImage >
-    Superclass;
+  using Self = SymmetricEigenAnalysisImageFilterHelper;
+  using Superclass =
+      SymmetricEigenAnalysisImageFilter< TInputImage, TInternalImage >;
 
-  typedef SmartPointer<Self>                          Pointer;
-  typedef SmartPointer<const Self>                    ConstPointer;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
 
-  typedef TInputImage                                 InputImageType;
-  typedef TInternalImage                              InternalImageType;
-  typedef TOutputImage                                OutputImageType;
+  using InputImageType = TInputImage;
+  using InternalImageType = TInternalImage;
+  using OutputImageType = TOutputImage;
 
 
   itkTypeMacro( SymmetricEigenAnalysisImageFilterHelper,
@@ -53,17 +52,17 @@ public:
     std::string outputFilename )
   {
 
-    typedef SymmetricEigenAnalysisImageFilter<
-      InputImageType, InternalImageType > SymmetricEigenAnalysisImageFilterType;
+    using SymmetricEigenAnalysisImageFilterType = SymmetricEigenAnalysisImageFilter<
+      InputImageType, InternalImageType >;
 
     // Declare the type of the index to access images
-    typedef itk::Index< InputImageType::ImageDimension >        IndexType;
+    using IndexType = itk::Index< InputImageType::ImageDimension >;
 
     // Declare the type of the size
-    typedef itk::Size< InputImageType::ImageDimension >         SizeType;
+    using SizeType = itk::Size< InputImageType::ImageDimension >;
 
     // Declare the type of the Region
-    typedef itk::ImageRegion< InputImageType::ImageDimension >  RegionType;
+    using RegionType = itk::ImageRegion< InputImageType::ImageDimension >;
 
     // Create the input image
     typename InputImageType::Pointer inputImage = InputImageType::New();
@@ -88,7 +87,7 @@ public:
     inputImage->Allocate();
 
     // Declare Iterator type for the input image
-    typedef itk::ImageRegionIteratorWithIndex< InputImageType >  IteratorType;
+    using IteratorType = itk::ImageRegionIteratorWithIndex< InputImageType >;
 
     // Create one iterator for the input image (this is a light object)
     IteratorType it( inputImage, inputImage->GetRequestedRegion() );
@@ -136,8 +135,8 @@ public:
     typename InternalImageType::Pointer internalImage = filter->GetOutput();
 
     // Get the output image to a writable format
-    typedef itk::CastImageFilter< InternalImageType, OutputImageType >
-      CastImageFilterType;
+    using CastImageFilterType =
+        itk::CastImageFilter< InternalImageType, OutputImageType >;
 
     typename CastImageFilterType::Pointer roundImageFilter =
       CastImageFilterType::New();
@@ -147,7 +146,7 @@ public:
     TRY_EXPECT_NO_EXCEPTION( roundImageFilter->Update() );
 
     // Write the result image
-    typedef itk::ImageFileWriter< OutputImageType > WriterType;
+    using WriterType = itk::ImageFileWriter< OutputImageType >;
 
     typename WriterType::Pointer writer = WriterType::New();
 
@@ -180,28 +179,28 @@ int itkSymmetricEigenAnalysisImageFilterTest( int argc, char* argv[] )
   const unsigned int Dimension = 3;
 
   // Declare the pixel type
-  typedef float                 InputPixelType;
-  typedef double                InternalPixelType;
-  typedef unsigned char         OutputPixelType;
+  using InputPixelType = float;
+  using InternalPixelType = double;
+  using OutputPixelType = unsigned char;
 
   // Define the symmetric tensor pixel type
-  typedef itk::SymmetricSecondRankTensor< InputPixelType, Dimension > TensorType;
+  using TensorType = itk::SymmetricSecondRankTensor< InputPixelType, Dimension >;
 
   // Declare the types of the images
-  typedef itk::Image< TensorType, Dimension >               InputImageType;
+  using InputImageType = itk::Image< TensorType, Dimension >;
 
   // Define the type for storing the eigen-value
-  typedef itk::FixedArray< InternalPixelType, Dimension >   InternalValueArray;
-  typedef itk::FixedArray< OutputPixelType, Dimension >     OutputValueArray;
+  using InternalValueArray = itk::FixedArray< InternalPixelType, Dimension >;
+  using OutputValueArray = itk::FixedArray< OutputPixelType, Dimension >;
 
   // Declare the types of the output images
-  typedef itk::Image< InternalValueArray, Dimension >       InternalImageType;
-  typedef itk::Image< OutputValueArray, Dimension >         OutputImageType;
+  using InternalImageType = itk::Image< InternalValueArray, Dimension >;
+  using OutputImageType = itk::Image< OutputValueArray, Dimension >;
 
   // Declare the type for the filter
-  typedef itk::SymmetricEigenAnalysisImageFilter<
+  using FilterType = itk::SymmetricEigenAnalysisImageFilter<
                                      InputImageType,
-                                     InternalImageType > FilterType;
+                                     InternalImageType >;
 
   // Create an instance to exercise basic object methods
   FilterType::Pointer filter = FilterType::New();

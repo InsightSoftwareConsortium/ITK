@@ -30,9 +30,9 @@ int itkScalarImageToCooccurrenceListSampleFilterTest( int , char *[] )
   //------------------------------------------------------
   //Create a simple test images
   //------------------------------------------------------
-  typedef itk::Image<int, NDIMENSION> InputImageType;
+  using InputImageType = itk::Image<int, NDIMENSION>;
 
-  typedef itk::ImageRegionIterator< InputImageType > InputImageIterator;
+  using InputImageIterator = itk::ImageRegionIterator< InputImageType >;
 
 
   InputImageType::Pointer image = InputImageType::New();
@@ -78,8 +78,7 @@ int itkScalarImageToCooccurrenceListSampleFilterTest( int , char *[] )
     }
 
 
-  typedef itk::Statistics::ScalarImageToCooccurrenceListSampleFilter <
-                                  InputImageType > CooccurrenceListType;
+  using CooccurrenceListType = itk::Statistics::ScalarImageToCooccurrenceListSampleFilter<InputImageType>;
 
   CooccurrenceListType::Pointer filter = CooccurrenceListType::New();
 
@@ -117,11 +116,11 @@ int itkScalarImageToCooccurrenceListSampleFilterTest( int , char *[] )
 
   const CooccurrenceListType::SampleType * sample = filter->GetOutput();
 
-  typedef CooccurrenceListType::SampleType::ConstIterator ConstIteratorType;
+  using ConstIteratorType = CooccurrenceListType::SampleType::ConstIterator;
 
   ConstIteratorType s_iter = sample->Begin();
 
-  typedef CooccurrenceListType::SampleType::MeasurementVectorType MeasurementVectorType;
+  using MeasurementVectorType = CooccurrenceListType::SampleType::MeasurementVectorType;
 
   std::vector< MeasurementVectorType > baselineVectorList;
 

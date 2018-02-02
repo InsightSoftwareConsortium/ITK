@@ -48,19 +48,19 @@ class ITK_TEMPLATE_EXPORT ModulusImageFilter:
                               typename TOutputImage::PixelType >   >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ModulusImageFilter Self;
-  typedef BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
+  /** Standard class type aliases. */
+  using Self = ModulusImageFilter;
+  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
                             Functor::Modulus<
                               typename TInputImage1::PixelType,
                               typename TInputImage2::PixelType,
-                              typename TOutputImage::PixelType > > Superclass;
+                              typename TOutputImage::PixelType > >;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
-  typedef typename TOutputImage::PixelType                    OutputPixelType;
-  typedef typename TInputImage1::PixelType                    InputPixelType;
+  using OutputPixelType = typename TOutputImage::PixelType;
+  using InputPixelType = typename TInputImage1::PixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

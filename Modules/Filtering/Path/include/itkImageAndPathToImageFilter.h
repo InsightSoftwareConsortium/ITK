@@ -40,11 +40,11 @@ class ITK_TEMPLATE_EXPORT ImageAndPathToImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
-  /** Standard class typedefs. */
-  typedef ImageAndPathToImageFilter                       Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-  typedef SmartPointer< Self >                            Pointer;
-  typedef SmartPointer< const Self >                      ConstPointer;
+  /** Standard class type aliases. */
+  using Self = ImageAndPathToImageFilter;
+  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Pointer = SmartPointer< Self >;
+  using ConstPointer = SmartPointer< const Self >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -52,22 +52,22 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageAndPathToImageFilter, ImageToImageFilter);
 
-  /** Some convenient typedefs. */
-  typedef          TInputImage                  InputImageType;
-  typedef typename InputImageType::ConstPointer InputImagePointer;
-  typedef typename InputImageType::RegionType   InputImageRegionType;
-  typedef typename InputImageType::PixelType    InputImagePixelType;
-  typedef          TInputPath                   InputPathType;
-  typedef typename InputPathType::Pointer       InputPathPointer;
-  typedef typename InputPathType::ConstPointer  InputPathConstPointer;
-  typedef typename InputPathType::InputType     InputPathInputType;
-  typedef typename InputPathType::OutputType    InputPathOutputType;
-  typedef typename InputPathType::IndexType     InputPathIndexType;
-  typedef typename InputPathType::OffsetType    InputPathOffsetType;
-  typedef          TOutputImage                 OutputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename OutputImageType::RegionType  OutputImageRegionType;
-  typedef typename OutputImageType::PixelType   OutputImagePixelType;
+  /** Some convenient type alias. */
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::ConstPointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using InputPathType = TInputPath;
+  using InputPathPointer = typename InputPathType::Pointer;
+  using InputPathConstPointer = typename InputPathType::ConstPointer;
+  using InputPathInputType = typename InputPathType::InputType;
+  using InputPathOutputType = typename InputPathType::OutputType;
+  using InputPathIndexType = typename InputPathType::IndexType;
+  using InputPathOffsetType = typename InputPathType::OffsetType;
+  using OutputImageType = TOutputImage;
+  using OutputImagePointer = typename OutputImageType::Pointer;
+  using OutputImageRegionType = typename OutputImageType::RegionType;
+  using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(InputImageDimension, unsigned int,

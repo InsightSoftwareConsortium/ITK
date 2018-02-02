@@ -39,24 +39,24 @@
 
 int itkReviewPrintTest(int , char* [])
 {
-  typedef itk::Image<float,2>           Input2DImageType;
-  typedef itk::Image<unsigned char,2>   CharType;
-  typedef itk::RGBPixel<unsigned char>  RGBPixelType;
-  typedef itk::Image< RGBPixelType, 2 > RGBImageType;
+  using Input2DImageType = itk::Image<float,2>;
+  using CharType = itk::Image<unsigned char,2>;
+  using RGBPixelType = itk::RGBPixel<unsigned char>;
+  using RGBImageType = itk::Image< RGBPixelType, 2 >;
 
-  typedef itk::Vector<float,2>      VectorType;
-  typedef itk::Image<VectorType, 2> VectorImageType;
+  using VectorType = itk::Vector<float,2>;
+  using VectorImageType = itk::Image<VectorType, 2>;
 
-  typedef itk::QuadEdgeMesh< double, 3 > QuadEdgeMeshType;
+  using QuadEdgeMeshType = itk::QuadEdgeMesh< double, 3 >;
 
-  typedef unsigned short         PixelType;
-  typedef itk::Mesh< float, 3 >  MeshType;
+  using PixelType = unsigned short;
+  using MeshType = itk::Mesh< float, 3 >;
 
-  typedef itk::NumericTraits< PixelType >::RealType                 RealPixelType;
-  typedef itk::SymmetricSecondRankTensor< RealPixelType, 3 >        HessianPixelType;
-  typedef itk::Image< HessianPixelType, 3         >                 HessianImageType;
-  typedef itk::Image< PixelType, 3 >                                Input3DImageType;
-  typedef itk::Image< PixelType, 3 >                                OutputImageType;
+  using RealPixelType = itk::NumericTraits< PixelType >::RealType;
+  using HessianPixelType = itk::SymmetricSecondRankTensor< RealPixelType, 3 >;
+  using HessianImageType = itk::Image< HessianPixelType, 3         >;
+  using Input3DImageType = itk::Image< PixelType, 3 >;
+  using OutputImageType = itk::Image< PixelType, 3 >;
 
   // Dummy variable just to force the full instantiation of the class
   CharType::Pointer dummyImage = CharType::New();

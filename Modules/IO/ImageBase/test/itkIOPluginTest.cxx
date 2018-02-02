@@ -79,9 +79,9 @@ int itkIOPluginTest(int argc, char *argv[])
     return EXIT_FAILURE;
     }
 
-  typedef itk::Image<unsigned char,2>       ImageNDType;
-  typedef itk::ImageFileReader<ImageNDType> ReaderType;
-  typedef itk::ImageFileWriter<ImageNDType> WriterType;
+  using ImageNDType = itk::Image<unsigned char,2>;
+  using ReaderType = itk::ImageFileReader<ImageNDType>;
+  using WriterType = itk::ImageFileWriter<ImageNDType>;
   ReaderType::Pointer reader = ReaderType::New();
   WriterType::Pointer writer = WriterType::New();
 
