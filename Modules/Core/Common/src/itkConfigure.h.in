@@ -103,8 +103,7 @@
 #cmakedefine ITK_HAS_CPP11_TYPETRAITS
 // defined if the compiler support GNU's __attribute__(( algined(x) )) extension
 #cmakedefine ITK_HAS_GNU_ATTRIBUTE_ALIGNED
-// defined if the STL implementation includes std::copy_n
-#cmakedefine ITK_HAS_STD_COPY_N
+
 // defined if the C library as the mallinfo struct
 #cmakedefine ITK_HAS_MALLINFO
 // defined if feenableexcept is available
