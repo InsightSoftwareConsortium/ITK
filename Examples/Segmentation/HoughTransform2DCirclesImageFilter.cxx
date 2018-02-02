@@ -215,9 +215,9 @@ int main( int argc, char *argv[] )
   while( itCircles != circles.end() )
     {
     std::cout << "Center: ";
-    std::cout << (*itCircles)->GetObjectToParentTransform()->GetOffset()
+    std::cout << itCircles->GetCenter()
               << std::endl;
-    std::cout << "Radius: " << (*itCircles)->GetRadius()[0] << std::endl;
+    std::cout << "Radius: " << itCircles->GetRadius() << std::endl;
     // Software Guide : EndCodeSnippet
 
     //  Software Guide : BeginLatex
@@ -231,16 +231,14 @@ int main( int argc, char *argv[] )
          angle <= itk::Math::twopi;
          angle += itk::Math::pi/60.0 )
       {
-      using TransformType = HoughTransformFilterType::CircleType::TransformType;
-      using OffsetType = TransformType::OutputVectorType;
-      const OffsetType offset =
-        (*itCircles)->GetObjectToParentTransform()->GetOffset();
+      const HoughTransformFilterType::Circle::CenterType center = itCircles->GetCenter();
+      using IndexValueType = HoughTransformFilterType::IndexType::IndexValueType;
       localIndex[0] =
-         itk::Math::Round<long int>(offset[0]
-                    + (*itCircles)->GetRadius()[0]*std::cos(angle));
+         itk::Math::Round<IndexValueType>(center[0]
+                    + itCircles->GetRadius()*std::cos(angle));
       localIndex[1] =
-         itk::Math::Round<long int>(offset[1]
-                    + (*itCircles)->GetRadius()[0]*std::sin(angle));
+         itk::Math::Round<IndexValueType>(center[1]
+                    + itCircles->GetRadius()*std::sin(angle));
       OutputImageType::RegionType outputRegion =
                                   localOutputImage->GetLargestPossibleRegion();
 

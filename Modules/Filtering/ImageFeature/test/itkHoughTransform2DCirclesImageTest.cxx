@@ -168,10 +168,8 @@ namespace
       return false;
     }
 
-    using CirclesListType = FilterType1::CirclesListType;
-
-    const CirclesListType& circles1 = filter1->GetCircles();
-    const CirclesListType& circles2 = filter2->GetCircles();
+    const auto& circles1 = filter1->GetCircles();
+    const auto& circles2 = filter2->GetCircles();
 
     if ( circles1.empty() || circles2.empty() )
     {
@@ -187,30 +185,13 @@ namespace
       return false;
     }
 
-    using CircleType = FilterType1::CircleType;
-
-    const CircleType* const circle1 = circles1.front().GetPointer();
-    const CircleType* const circle2 = circles2.front().GetPointer();
-
-    if ( (circle1 == nullptr) || (circle2 == nullptr) )
-    {
-      std::cout << "A Circle pointer appears to be incorrect!" << std::endl;
-      return false;
-    }
-
-    const CircleType::TransformType* const transform1 = circle1->GetObjectToParentTransform();
-    const CircleType::TransformType* const transform2 = circle2->GetObjectToParentTransform();
-
-    if ( (transform1 == nullptr) || (transform2 == nullptr) )
-    {
-      std::cout << "A GetObjectToParentTransform() call appears to be incorrect!" << std::endl;
-      return false;
-    }
+    const auto circle1 = circles1.front();
+    const auto circle2 = circles2.front();
 
     bool success = true;
 
-    const itk::Vector<double, 2>& center1 = transform1->GetOffset();
-    const itk::Vector<double, 2>& center2 = transform2->GetOffset();
+    const auto center1 = circle1.GetCenter();
+    const auto center2 = circle2.GetCenter();
 
     if (center1 != center2)
     {
@@ -220,8 +201,8 @@ namespace
       success = false;
     }
 
-    const double radius1 = circle1->GetRadius()[0];
-    const double radius2 = circle2->GetRadius()[0];
+    const double radius1 = circle1.GetRadius();
+    const double radius2 = circle2.GetRadius();
 
     if ( radius2 < radius1 )
     {
@@ -381,18 +362,18 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   unsigned int i = 0;
   while( it != circleList.end() )
     {
-      if( !itk::Math::FloatAlmostEqual( (double)( it->GetPointer()->GetRadius()[0] ),
+      if( !itk::Math::FloatAlmostEqual( (double)( it->GetRadius() ),
         radius[i], 10, radiusTolerance ) &&
-        !itk::Math::FloatAlmostEqual( (double)( it->GetPointer()->GetRadius()[0] ),
+        !itk::Math::FloatAlmostEqual( (double)( it->GetRadius() ),
         radius[i] * discRadiusRatio, 10, radiusTolerance ) )
       {
       std::cout << "Failure for circle #" << i << std::endl;
-      std::cout << "Expected radius: " << radius[i] << ", found " << it->GetPointer()->GetRadius() << std::endl;
+      std::cout << "Expected radius: " << radius[i] << ", found " << it->GetRadius() << std::endl;
       success = false;
       }
     else
       {
-      std::cout << "Circle #" << i << " radius: " << it->GetPointer()->GetRadius() << std::endl;
+      std::cout << "Circle #" << i << " radius: " << it->GetRadius() << std::endl;
       }
     ++it;
     ++i;

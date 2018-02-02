@@ -21,6 +21,9 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkEllipseSpatialObject.h"
+#include "itkIndex.h"
+#include <ostream>
+#include <vector>
 
 namespace itk
 {
@@ -66,6 +69,42 @@ class ITK_TEMPLATE_EXPORT HoughTransform2DCirclesImageFilter:
 {
 public:
 
+  /**
+  * \class Circle
+  * \brief Represents a circle by its center and its radius.
+  *
+  * \ingroup ITKImageFeature
+  */
+  class Circle
+  {
+  public:
+    using CenterType = Index<2>;
+    using RadiusType = TRadiusPixelType;
+
+    Circle();
+
+    Circle(const CenterType&, RadiusType);
+
+    RadiusType GetRadius() const;
+
+    void SetRadius(RadiusType);
+
+    CenterType GetCenter() const;
+
+    void SetCenter(const CenterType&);
+
+    void ToEllipseSpatialObject(EllipseSpatialObject<2>&) const;
+
+  private:
+    CenterType m_Center;
+    RadiusType m_Radius;
+
+    friend std::ostream & operator<<(std::ostream & os, const Circle & circle)
+    {
+      return os << circle.m_Center << ' ' << circle.m_Radius;
+    }
+  };
+
   /** Standard class type aliases. */
   using Self = HoughTransform2DCirclesImageFilter;
   using Superclass = ImageToImageFilter< Image< TInputPixelType, 2 >,
@@ -96,9 +135,7 @@ public:
   using OutputImageRegionType = typename InputImageType::RegionType;
 
   /** Circle type alias. */
-  using CircleType = EllipseSpatialObject< 2 >;
-  using CirclePointer = typename CircleType::Pointer;
-  using CirclesListType = std::list< CirclePointer >;
+  using CirclesListType = std::vector< Circle >;
 
   using CirclesListSizeType = typename CirclesListType::size_type;
 

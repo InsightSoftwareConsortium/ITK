@@ -24,9 +24,90 @@
 #include "itkGaussianDerivativeImageFunction.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMath.h"
+#include <cassert>
 
 namespace itk
 {
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
+::Circle::Circle()
+  :
+  m_Center{},
+  m_Radius{}
+{
+}
+
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
+::Circle::Circle(const CenterType& center, const RadiusType radius)
+  :
+  // Note: Use parentheses instead of curly braces to initialize m_Center, to avoid
+  // AppleClang 6.0.0.6000056 compilation error, "no viable conversion from
+  // 'const CenterType' (aka 'const Index<2>') to 'IndexValueType' (aka 'long').
+  m_Center( center ),
+  m_Radius{ radius }
+{
+  assert(radius >= 0.0);
+}
+
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+auto
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
+::Circle::GetCenter() const
+-> CenterType
+{
+  return m_Center;
+}
+
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+void
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
+::Circle::SetCenter(const CenterType& center)
+{
+  m_Center = center;
+}
+
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+auto
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
+::Circle::GetRadius() const
+-> RadiusType
+{
+  return m_Radius;
+}
+
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+void
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
+::Circle::SetRadius(const RadiusType radius)
+{
+  assert(radius >= 0.0);
+  m_Radius = radius;
+}
+
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+void
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
+::Circle::ToEllipseSpatialObject(EllipseSpatialObject<2>& ellipseSpatialObject) const
+{
+  auto* const transform = ellipseSpatialObject.GetObjectToParentTransform();
+
+  if (transform == nullptr)
+  {
+    assert(!"ellipseSpatialObject.GetObjectToParentTransform() should not return nullptr!");
+  }
+  else
+  {
+    EllipseSpatialObject<2>::TransformType::OffsetType offset;
+    offset[0] = m_Center[0];
+    offset[1] = m_Center[1];
+
+    transform->SetOffset(offset);
+  }
+  ellipseSpatialObject.SetRadius(m_Radius);
+}
+
+
 template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::HoughTransform2DCirclesImageFilter() :
@@ -223,8 +304,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 
     Index< 2 > index;
 
-    CirclesListSizeType circles = 0;
-
     // Find maxima
     // Break out of "forever loop" as soon as the requested number of circles is found.
     for(;;)
@@ -243,26 +322,17 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 
       const InternalImageType::IndexType indexOfMaximum = minMaxCalculator->GetIndexOfMaximum();
 
-      // Create a Circle Spatial Object
-      CirclePointer Circle = CircleType::New();
-      Circle->SetId(static_cast<int>( circles ));
-      Circle->SetRadius( m_RadiusImage->GetPixel( indexOfMaximum ) );
+      // Create a Circle
+      const TRadiusPixelType radius = m_RadiusImage->GetPixel(indexOfMaximum);
 
-      CircleType::VectorType center;
-      center[0] = indexOfMaximum[0];
-      center[1] = indexOfMaximum[1];
-      Circle->GetObjectToParentTransform()->SetOffset(center);
-      Circle->ComputeBoundingBox();
+      m_CirclesList.push_back(Circle{ indexOfMaximum, radius });
 
-      m_CirclesList.push_back(Circle);
-
-      circles++;
-      if ( circles >= m_NumberOfCircles ) { break; }
+      if ( m_CirclesList.size() >= m_NumberOfCircles ) { break; }
 
       // Remove a black disc from the Hough space domain
       for ( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
         {
-        for ( double length = 0; length < m_DiscRadiusRatio * Circle->GetRadius()[0]; length += 1 )
+        for ( double length = 0; length < m_DiscRadiusRatio * radius; length += 1 )
           {
           index[0] = Math::Round<IndexValueType>( indexOfMaximum[0] + length * std::cos(angle) );
           index[1] = Math::Round<IndexValueType>( indexOfMaximum[1] + length * std::sin(angle) );
