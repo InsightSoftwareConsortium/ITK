@@ -213,11 +213,7 @@ namespace itk
 //NOTE DEPRECATED should be ITK_NOEXCEPT
 #define ITK_NOEXCEPT_OR_THROW error "Replace ITK_NOEXCEPT_OR_THROW with ITK_NOEXCEPT"
 //NOTE DEPRECATED!  should be ITK_COMPILER_CXX_STATIC_ASSERT
-#define ITK_HAS_CXX11_STATIC_ASSERT error "Replace ITK_HAS_CXX11_STATIC_ASSERT with ITK_COMPILER_CXX_STATIC_ASSERT"
-//NOTE DEPRECATED!  should be ITK_DELETED_FUNCTION
 #define ITK_DELETE_FUNCTION error "Replace ITK_DELETE_FUNCTION with ITK_DELETED_FUNCTION"
-//NOTE DEPRECATED! should use ITK_COMPILER_CXX_ALIGNAS
-#define ITK_HAS_CPP11_ALIGNAS error "Replace ITK_HAS_CPP11_ALIGNAS with ITK_COMPILER_CXX_ALIGNAS"
 //-*-*-*
 
 // DEPRECATED: These macros are left here for compatibility with remote modules.
@@ -226,11 +222,9 @@ namespace itk
 #if defined ( ITK_FUTURE_LEGACY_REMOVE )
   #define ITK_CONSTEXPR_FUNC "Replace ITK_CONSTEXPR_FUNC with constexpr"
   #define ITK_CONSTEXPR_VAR  "Replace ITK_CONSTEXPR_VAR with constexpr"
-  #define ITK_HAS_CXX11_RVREF "The value of this variable is always TRUE in ITKv5"
 #else
   #define ITK_CONSTEXPR_FUNC constexpr
   #define ITK_CONSTEXPR_VAR constexpr
-  #define ITK_HAS_CXX11_RVREF
 #endif
 
 // Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,
