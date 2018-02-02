@@ -108,14 +108,10 @@ public:
   itkBooleanMacro(ComputeInverse);
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(PixelDimension, unsigned int,
-                      InputPixelType::Dimension);
-  itkStaticConstMacro(OutputPixelDimension, unsigned int,
-                      OutputPixelType::Dimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int PixelDimension = InputPixelType::Dimension;
+  static constexpr unsigned int OutputPixelDimension = OutputPixelType::Dimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

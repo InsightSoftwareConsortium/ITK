@@ -547,7 +547,7 @@ struct OStreamWritable {
 template< typename T >
 struct Signed {
   using Self = Signed;
-  itkStaticConstMacro(IsSigned, bool, NumericTraits< T >::is_signed);
+  static constexpr bool IsSigned = NumericTraits< T >::is_signed;
   struct Constraints {
     using TrueT = Detail::UniqueType_bool< true >;
     using SignedT = Detail::UniqueType_bool< itkGetStaticConstMacro(IsSigned) >;
@@ -726,7 +726,7 @@ struct SameDimensionOrMinusOneOrTwo {
 template< typename T >
 struct IsInteger {
   using Self = IsInteger;
-  itkStaticConstMacro(Integral, bool, NumericTraits< T >::is_integer);
+  static constexpr bool Integral = NumericTraits< T >::is_integer;
   struct Constraints {
     using TrueT = Detail::UniqueType_bool< true >;
     using IntegralT = Detail::UniqueType_bool< itkGetStaticConstMacro(Integral) >;
@@ -746,7 +746,7 @@ struct IsInteger {
 template< typename T >
 struct IsUnsignedInteger {
   using Self = IsUnsignedInteger;
-  itkStaticConstMacro(Unsigned, bool, !NumericTraits< T >::is_signed);
+  static constexpr bool Unsigned = !NumericTraits< T >::is_signed;
   struct Constraints {
     using TrueT = Detail::UniqueType_bool< true >;
     using UnsignedT = Detail::UniqueType_bool< itkGetStaticConstMacro(Unsigned) >;
@@ -766,7 +766,7 @@ struct IsUnsignedInteger {
 template< typename T >
 struct IsNonInteger {
   using Self = IsNonInteger;
-  itkStaticConstMacro(NonIntegral, bool, NumericTraits< T >::is_integer);
+  static constexpr bool NonIntegral = NumericTraits< T >::is_integer;
   struct Constraints {
     using FalseT = Detail::UniqueType_bool< false >;
     using NonIntegralT = Detail::UniqueType_bool< itkGetStaticConstMacro(NonIntegral) >;
@@ -785,8 +785,8 @@ struct IsNonInteger {
 template< typename T >
 struct IsFloatingPoint {
   using Self = IsFloatingPoint;
-  itkStaticConstMacro(Integral, bool, NumericTraits< T >::is_integer);
-  itkStaticConstMacro(IsExact, bool, NumericTraits< T >::is_exact);
+  static constexpr bool Integral = NumericTraits< T >::is_integer;
+  static constexpr bool IsExact = NumericTraits< T >::is_exact;
   struct Constraints {
     using FalseT = Detail::UniqueType_bool< false >;
     using IntegralT = Detail::UniqueType_bool< itkGetStaticConstMacro(Integral) >;
@@ -808,8 +808,8 @@ struct IsFloatingPoint {
 template< typename T >
 struct IsFixedPoint {
   using Self = IsFixedPoint;
-  itkStaticConstMacro(Integral, bool, NumericTraits< T >::is_integer);
-  itkStaticConstMacro(IsExact, bool, NumericTraits< T >::is_exact);
+  static constexpr bool Integral = NumericTraits< T >::is_integer;
+  static constexpr bool IsExact = NumericTraits< T >::is_exact;
   struct Constraints {
     using TrueT = Detail::UniqueType_bool< true >;
     using FalseT = Detail::UniqueType_bool< false >;

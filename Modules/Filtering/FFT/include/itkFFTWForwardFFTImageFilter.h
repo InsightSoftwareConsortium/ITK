@@ -83,7 +83,7 @@ public:
                ForwardFFTImageFilter);
 
   /** Define the image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   /** Set/Get the behavior of wisdom plan creation. The default is
    * provided by FFTWGlobalConfiguration::GetPlanRigor().

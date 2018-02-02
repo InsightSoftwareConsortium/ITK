@@ -59,8 +59,7 @@ public:
   using ValueType = typename OutputImageType::ValueType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Set/Get the path input of this process object.  */
   using Superclass::SetInput;

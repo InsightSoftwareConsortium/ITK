@@ -75,9 +75,8 @@ public:
   using InterpolationWeightType = TInterpolationWeight;
 
   /** Just save all the template parameters. */
-  itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
-  itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
-                      VMaxTopologicalDimension);
+  static constexpr unsigned int PointDimension = VPointDimension;
+  static constexpr unsigned int MaxTopologicalDimension = VMaxTopologicalDimension;
 
   /** The type to be used to identify a point.  This should be the index type
    * to the PointsContainer. */

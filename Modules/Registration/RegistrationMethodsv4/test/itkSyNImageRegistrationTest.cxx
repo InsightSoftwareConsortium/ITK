@@ -39,7 +39,7 @@ public:
   itkNewMacro( Self );
 
   using FixedImageType = typename TFilter::FixedImageType;
-  itkStaticConstMacro( ImageDimension, unsigned int, FixedImageType::ImageDimension ); /** ImageDimension constants */
+  static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension; /** ImageDimension constants */
 
   using ShrinkFilterType = itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
   using RealType = typename TFilter::OutputTransformType::ScalarType;

@@ -46,7 +46,7 @@ class PixelTraits
 {
 public:
   /** Dimension of the pixel (range). */
-  itkStaticConstMacro(Dimension, unsigned int, TPixelType::Length);
+  static constexpr unsigned int Dimension = TPixelType::Length;
 
   /** Type of a single component of a pixel. */
   using ValueType = typename TPixelType::ValueType;
@@ -62,7 +62,7 @@ template< >
 class PixelTraits< bool >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = bool;
 };
 
@@ -70,7 +70,7 @@ template< >
 class PixelTraits< char >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = char;
 };
 
@@ -78,7 +78,7 @@ template< >
 class PixelTraits< signed char >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = char;
 };
 
@@ -86,7 +86,7 @@ template< >
 class PixelTraits< unsigned char >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = unsigned char;
 };
 
@@ -94,7 +94,7 @@ template< >
 class PixelTraits< short >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = short;
 };
 
@@ -102,7 +102,7 @@ template< >
 class PixelTraits< unsigned short >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = unsigned short;
 };
 
@@ -110,7 +110,7 @@ template< >
 class PixelTraits< int >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = int;
 };
 
@@ -118,7 +118,7 @@ template< >
 class PixelTraits< unsigned int >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = unsigned int;
 };
 
@@ -126,7 +126,7 @@ template< >
 class PixelTraits< long >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = long;
 };
 
@@ -134,7 +134,7 @@ template< >
 class PixelTraits< unsigned long >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = unsigned long;
 };
 
@@ -143,7 +143,7 @@ template< >
 class PixelTraits< long long >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = long long;
 };
 
@@ -151,7 +151,7 @@ template< >
 class PixelTraits< unsigned long long >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = unsigned long long;
 };
 
@@ -159,7 +159,7 @@ template< >
 class PixelTraits< float >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = float;
 };
 
@@ -167,7 +167,7 @@ template< >
 class PixelTraits< double >
 {
 public:
-  itkStaticConstMacro(Dimension, unsigned int, 1);
+  static constexpr unsigned int Dimension = 1;
   using ValueType = double;
 };
 

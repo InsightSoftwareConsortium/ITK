@@ -47,7 +47,7 @@ public:
   /** Run-time type information */
   itkTypeMacro ( DiscreteLevelSetImage, LevelSetImage );
 
-  itkStaticConstMacro ( Dimension, unsigned int, Superclass::Dimension );
+  static constexpr unsigned int Dimension = Superclass::Dimension;
 
   using InputType = typename Superclass::InputType;
   using OutputType = typename Superclass::OutputType;

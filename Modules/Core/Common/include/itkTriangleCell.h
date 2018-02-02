@@ -62,10 +62,10 @@ public:
   using EdgeAutoPointer = typename EdgeType::SelfAutoPointer;
 
   /** Triangle-specific topology numbers. */
-  itkStaticConstMacro(NumberOfPoints, unsigned int, 3);
-  itkStaticConstMacro(NumberOfVertices, unsigned int, 3);
-  itkStaticConstMacro(NumberOfEdges, unsigned int, 3);
-  itkStaticConstMacro(CellDimension, unsigned int, 2);
+  static constexpr unsigned int NumberOfPoints = 3;
+  static constexpr unsigned int NumberOfVertices = 3;
+  static constexpr unsigned int NumberOfEdges = 3;
+  static constexpr unsigned int CellDimension = 2;
 
   /** Implement the standard CellInterface. */
   CellGeometry GetType(void) const override

@@ -68,10 +68,8 @@ public:
   using FixedPointSetConstPointer = typename FixedPointSetType::ConstPointer;
 
   /** Constants for the pointset dimensions */
-  itkStaticConstMacro(MovingPointSetDimension, unsigned int,
-                      TMovingPointSet::PointDimension);
-  itkStaticConstMacro(FixedPointSetDimension, unsigned int,
-                      TFixedPointSet::PointDimension);
+  static constexpr unsigned int MovingPointSetDimension = TMovingPointSet::PointDimension;
+  static constexpr unsigned int FixedPointSetDimension = TFixedPointSet::PointDimension;
 
   using FixedPointIterator = typename FixedPointSetType::PointsContainer::ConstIterator;
   using FixedPointDataIterator = typename FixedPointSetType::PointDataContainer::ConstIterator;

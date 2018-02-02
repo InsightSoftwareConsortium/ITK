@@ -76,12 +76,10 @@ public:
   using RegionType = typename TInputImage::RegionType;
 
   /** The dimensionality of the input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Length of the vector pixel type of the input image. */
-  itkStaticConstMacro(VectorDimension, unsigned int,
-                      PixelType::Dimension);
+  static constexpr unsigned int VectorDimension = PixelType::Dimension;
 
   /** Type of the iterator that will be used to move through the image.  Also
       the type which will be passed to the evaluate function */

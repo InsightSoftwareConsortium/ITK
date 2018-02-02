@@ -75,11 +75,10 @@ public:
                FastMarchingImageFilterBase);
 
   /** The dimension of the level set. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension );
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Number of auxiliary variables to be extended. */
-  itkStaticConstMacro(AuxDimension, unsigned int, VAuxDimension);
+  static constexpr unsigned int AuxDimension = VAuxDimension;
 
   /** AuxVarType type alias support */
   using AuxValueType = TAuxValue;

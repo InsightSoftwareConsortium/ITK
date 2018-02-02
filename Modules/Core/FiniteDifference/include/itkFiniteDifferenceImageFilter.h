@@ -147,7 +147,7 @@ public:
   using OutputImageType = TOutputImage;
 
   /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int, OutputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = OutputImageType::ImageDimension;
 
   /** The pixel type of the output image will be used in computations. */
   using OutputPixelType = typename TOutputImage::PixelType;

@@ -58,14 +58,11 @@ public:
 
   using AccumulateType = typename NumericTraits< PixelType >::AccumulateType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
-  itkStaticConstMacro(SampleDimension, unsigned int,
-                      TSampleDimension);
+  static constexpr unsigned int SampleDimension = TSampleDimension;
 
-  itkStaticConstMacro(ObjectDimension, unsigned int,
-                      TInputSpatialObject::ObjectDimension);
+  static constexpr unsigned int ObjectDimension = TInputSpatialObject::ObjectDimension;
 
   /** Type definitions for the input spatial object. */
   using SpatialObjectType = TInputSpatialObject;

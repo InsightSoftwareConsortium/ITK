@@ -66,10 +66,8 @@ public:
   using ConstPointer = SmartPointer< const Self >;
 
   /** Convenient constants obtained from MeshTraits. */
-  itkStaticConstMacro(PointDimension, unsigned int,
-                      Traits::PointDimension);
-  itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
-                      Traits::MaxTopologicalDimension);
+  static constexpr unsigned int PointDimension = Traits::PointDimension;
+  static constexpr unsigned int MaxTopologicalDimension = Traits::MaxTopologicalDimension;
 
   /** Types defined in superclass. */
   using CellPixelType = typename Superclass::CellPixelType;

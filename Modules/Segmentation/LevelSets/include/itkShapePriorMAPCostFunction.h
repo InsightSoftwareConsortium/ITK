@@ -75,7 +75,7 @@ public:
   using MeasureType = typename Superclass::MeasureType;
 
   /** Dimension constant. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 
   /** Type of pixel used to represent the level set. */
   using PixelType = typename Superclass::PixelType;

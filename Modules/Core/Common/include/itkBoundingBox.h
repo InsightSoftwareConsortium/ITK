@@ -100,7 +100,7 @@ public:
   using BoundsArrayType = FixedArray< CoordRepType, VPointDimension *2 >;
 
   /** Hold on to the dimensions specified by the template parameters. */
-  itkStaticConstMacro(PointDimension, unsigned int,  VPointDimension);
+  static constexpr unsigned int PointDimension = VPointDimension;
 
   /** Convenient type alias. */
   using PointsContainerConstIterator = typename PointsContainer::ConstIterator;

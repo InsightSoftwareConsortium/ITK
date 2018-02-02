@@ -53,8 +53,7 @@ class ITK_TEMPLATE_EXPORT ImageBoundaryCondition
 {
 public:
   /** Extract information from the image type */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard type alias. */
   using Self = ImageBoundaryCondition;

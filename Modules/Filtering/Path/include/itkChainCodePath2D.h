@@ -52,7 +52,7 @@ class ITK_TEMPLATE_EXPORT ChainCodePath2D:public
 {
 public:
   /** Dimension underlying input image. */
-  itkStaticConstMacro(Dimension, unsigned int, 2);
+  static constexpr unsigned int Dimension = 2;
 
   /** Standard class type aliases. */
   using Self = ChainCodePath2D;

@@ -137,7 +137,7 @@ public:
   itkNewMacro( Self );
 
   /** Extract dimension from the output image. */
-  itkStaticConstMacro( ImageDimension, unsigned int, TOutputImage::ImageDimension );
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Displacement point set type alias support */
   using PointSetType = TInputPointSet;

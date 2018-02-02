@@ -62,8 +62,7 @@ class ITK_TEMPLATE_EXPORT PointSetFunction :
 {
 public:
   /** Dimension underlying input point set. */
-  itkStaticConstMacro(Dimension, unsigned int,
-                      TInputPointSet::PointDimension);
+  static constexpr unsigned int Dimension = TInputPointSet::PointDimension;
 
   /** Standard class type aliases. */
   using Self = PointSetFunction;

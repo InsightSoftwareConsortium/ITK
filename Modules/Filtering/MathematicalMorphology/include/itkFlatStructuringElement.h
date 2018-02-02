@@ -113,7 +113,7 @@ public:
   using SliceIteratorType = typename Superclass::SliceIteratorType;
 
   /** External support for dimensionality. */
-  itkStaticConstMacro(NeighborhoodDimension, unsigned int, VDimension);
+  static constexpr unsigned int NeighborhoodDimension = VDimension;
 
   using LType = Vector< float, VDimension >;
   using DecompType = std::vector< LType >;

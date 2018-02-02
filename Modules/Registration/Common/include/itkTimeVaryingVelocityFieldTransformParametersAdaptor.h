@@ -92,7 +92,7 @@ public:
   using SpacingType = typename TimeVaryingVelocityFieldType::SpacingType;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro( TotalDimension, unsigned int, TransformType::Dimension + 1 );
+  static constexpr unsigned int TotalDimension = TransformType::Dimension + 1;
 
   /** Alternative method for setting the required size. */
   void SetRequiredSize( const SizeType & );

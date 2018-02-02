@@ -39,7 +39,7 @@ class ITK_TEMPLATE_EXPORT DifferenceOfGaussiansGradientImageFilter:
 {
 public:
   /** Number of dimensions. */
-  itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int NDimensions = TInputImage::ImageDimension;
 
   /** Standard class type aliases. */
   using Self = DifferenceOfGaussiansGradientImageFilter;

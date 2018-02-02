@@ -52,9 +52,8 @@ public:
   using CoordRepType = TCoordRep;
   using InterpolationWeightType = TInterpolationWeight;
 
-  itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
-  itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
-                      VPointDimension);
+  static constexpr unsigned int PointDimension = VPointDimension;
+  static constexpr unsigned int MaxTopologicalDimension = VPointDimension;
 
   using PointIdentifier = ::itk::IdentifierType;
   using CellIdentifier = ::itk::IdentifierType;

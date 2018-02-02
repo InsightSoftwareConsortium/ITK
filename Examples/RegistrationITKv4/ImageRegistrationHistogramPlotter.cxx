@@ -174,7 +174,7 @@ class HistogramWriter
 {
 public:
   using InternalPixelType = float;
-  itkStaticConstMacro( Dimension, unsigned int, 2);
+  static constexpr unsigned int Dimension = 2;
 
   using InternalImageType = itk::Image< InternalPixelType, Dimension >;
 

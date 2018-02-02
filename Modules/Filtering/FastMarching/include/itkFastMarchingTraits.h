@@ -121,7 +121,7 @@ class FastMarchingTraits<Image<TInputPixel, VDimension>, Image<TOutputPixel, VDi
     >
   {
 public:
-  itkStaticConstMacro(ImageDimension, unsigned int, VDimension);
+  static constexpr unsigned int ImageDimension = VDimension;
   };
 
 
@@ -142,7 +142,7 @@ class FastMarchingTraits<QuadEdgeMesh< TInputPixel, VDimension, TInputMeshTraits
     >
   {
 public:
-  itkStaticConstMacro(PointDimension, unsigned int, VDimension);
+  static constexpr unsigned int PointDimension = VDimension;
   };
 
 }

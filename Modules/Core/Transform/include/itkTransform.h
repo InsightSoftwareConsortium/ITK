@@ -92,8 +92,8 @@ public:
   itkTypeMacro(Transform, TransformBaseTemplate);
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, NInputDimensions);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, NOutputDimensions);
+  static constexpr unsigned int InputSpaceDimension = NInputDimensions;
+  static constexpr unsigned int OutputSpaceDimension = NOutputDimensions;
 
   /** define the Clone method */
   itkCloneMacro(Self);

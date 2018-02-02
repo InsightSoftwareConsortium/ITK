@@ -61,7 +61,7 @@ public:
   itkNewMacro(Self);
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** OutputType type alias support */
   using OutputType = typename Superclass::OutputType;

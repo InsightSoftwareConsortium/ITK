@@ -113,8 +113,7 @@ public:
   using VoronoiPixelType = typename VoronoiImageType::PixelType;
 
   /** The dimension of the input and output images. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
+  static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
 
   /** Pointer Type for the vector distance image */
   using VectorImageType = Image< OffsetType,
@@ -186,10 +185,8 @@ public:
   DataObjectPointer MakeOutput( DataObjectPointerArraySizeType idx ) override;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(VoronoiImageDimension, unsigned int,
-                      TVoronoiImage::ImageDimension);
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int VoronoiImageDimension = TVoronoiImage::ImageDimension;
 
   // Begin concept checking
   itkConceptMacro( InputOutputSameDimensionCheck,

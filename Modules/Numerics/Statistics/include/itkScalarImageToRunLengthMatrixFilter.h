@@ -141,11 +141,10 @@ public:
   using MeasurementVectorType = typename HistogramType::MeasurementVectorType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro( ImageDimension, unsigned int,
-    TImageType::ImageDimension );
+  static constexpr unsigned int ImageDimension = TImageType::ImageDimension;
 
   /** Specify the default number of bins per axis */
-  itkStaticConstMacro( DefaultBinsPerAxis, unsigned int, 256 );
+  static constexpr unsigned int DefaultBinsPerAxis = 256;
 
   /**
    * Set the offsets over which the intensity/distance pairs will be computed.

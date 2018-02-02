@@ -78,7 +78,7 @@ public:
   using MeshType = TMesh;
   using DeformationFieldType = TDeformationField;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** Not input specific type alias */
   using ImageRegionType = ImageRegion< ImageDimension >;

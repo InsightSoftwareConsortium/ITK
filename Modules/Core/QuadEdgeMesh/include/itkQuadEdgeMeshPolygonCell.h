@@ -67,8 +67,8 @@ public:
   using CellGeometry = typename Superclass::CellGeometry;
   using ParametricCoordArrayType = typename Superclass::ParametricCoordArrayType;
   using ShapeFunctionsArrayType = typename Superclass::ShapeFunctionsArrayType;
-  itkStaticConstMacro(PointDimension, unsigned int, Superclass::PointDimension);
-  itkStaticConstMacro(CellDimension, unsigned int, 2);
+  static constexpr unsigned int PointDimension = Superclass::PointDimension;
+  static constexpr unsigned int CellDimension = 2;
 
   /** Multivisitor type. */
   using MultiVisitor = typename CellType::MultiVisitor;

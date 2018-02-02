@@ -98,8 +98,7 @@ public:
   using InputImage2PixelType = typename TInputImage2::PixelType;
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage1::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage1::ImageDimension;
 
   /** Type to use form computations. */
   using RealType = typename NumericTraits< InputImage1PixelType >::RealType;

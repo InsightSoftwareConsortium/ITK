@@ -71,11 +71,9 @@ public:
   /**
    * Dimensionality of input data is assumed to be one more than the output
    * data the same. */
-  itkStaticConstMacro( InputImageDimension, unsigned int,
-    TTimeVaryingVelocityField::ImageDimension );
+  static constexpr unsigned int InputImageDimension = TTimeVaryingVelocityField::ImageDimension;
 
-  itkStaticConstMacro( OutputImageDimension, unsigned int,
-    TDisplacementField::ImageDimension );
+  static constexpr unsigned int OutputImageDimension = TDisplacementField::ImageDimension;
 
   using TimeVaryingVelocityFieldType = TTimeVaryingVelocityField;
   using DisplacementFieldType = TDisplacementField;

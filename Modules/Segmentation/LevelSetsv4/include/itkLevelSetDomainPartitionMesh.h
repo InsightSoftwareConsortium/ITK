@@ -39,7 +39,7 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
-  itkStaticConstMacro( PointDimension, unsigned int, TMesh::PointDimension);
+  static constexpr unsigned int PointDimension = TMesh::PointDimension;
 
   itkTypeMacro( LevelSetDomainPartitionMesh,
                 LevelSetDomainPartitionBase );

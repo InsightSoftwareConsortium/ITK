@@ -60,7 +60,7 @@ public:
   using SizeValueType = itk::SizeValueType;
 
   /** Dimension constant */
-  itkStaticConstMacro(Dimension, unsigned int, VDimension);
+  static constexpr unsigned int Dimension = VDimension;
 
   /** Get the dimension of the size object. */
   static unsigned int GetSizeDimension(void) { return VDimension; }

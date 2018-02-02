@@ -52,8 +52,7 @@ public:
   using PointContainerPointer = SmartPointer< PointContainerType >;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
 
-  itkStaticConstMacro(NumberOfDimension, unsigned int,
-                      TDimension);
+  static constexpr unsigned int NumberOfDimension = TDimension;
 
   itkNewMacro(Self);
   itkTypeMacro(PlaneSpatialObject, SpatialObject);

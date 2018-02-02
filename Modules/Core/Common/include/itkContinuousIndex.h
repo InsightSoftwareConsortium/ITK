@@ -55,7 +55,7 @@ public:
   using CoordRepType = TCoordRep;
 
   /** Dimension of the Space */
-  itkStaticConstMacro(IndexDimension, unsigned int, VIndexDimension);
+  static constexpr unsigned int IndexDimension = VIndexDimension;
 
   /** Corresponding discrete index type */
   using IndexType = Index< VIndexDimension >;

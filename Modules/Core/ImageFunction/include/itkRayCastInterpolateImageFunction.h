@@ -47,8 +47,7 @@ public:
   using ConstPointer = SmartPointer< const Self >;
 
   /** Constants for the image dimensions */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /**
    * Type of the Transform Base class
@@ -89,7 +88,7 @@ public:
   using RealType = typename Superclass::RealType;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Point type alias support */
   using PointType = typename Superclass::PointType;

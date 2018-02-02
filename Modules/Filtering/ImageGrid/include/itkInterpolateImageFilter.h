@@ -65,10 +65,8 @@ public:
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Number of dimensions. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(IntermediateImageDimension, unsigned int,
-                      TOutputImage::ImageDimension + 1);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int IntermediateImageDimension = TOutputImage::ImageDimension + 1;
 
   /** Interpolator type alias. */
   using InputPixelType = typename TInputImage::PixelType;

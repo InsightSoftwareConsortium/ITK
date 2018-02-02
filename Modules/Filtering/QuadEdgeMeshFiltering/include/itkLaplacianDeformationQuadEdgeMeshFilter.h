@@ -106,7 +106,7 @@ public:
   using InputMeshType = TInputMesh;
   using InputPointType = typename Superclass::InputPointType;
 
-  itkStaticConstMacro(InputPointDimension, unsigned int, InputMeshType::PointDimension);
+  static constexpr unsigned int InputPointDimension = InputMeshType::PointDimension;
 
   /** Output types. */
   using OutputMeshType = TOutputMesh;
@@ -117,7 +117,7 @@ public:
   using OutputVectorType = typename Superclass::OutputVectorType;
   using OutputQEIterator = typename Superclass::OutputQEIterator;
 
-  itkStaticConstMacro(OutputPointDimension, unsigned int, OutputMeshType::PointDimension);
+  static constexpr unsigned int OutputPointDimension = OutputMeshType::PointDimension;
 
   using SolverTraits = TSolverTraits;
   using ValueType = typename SolverTraits::ValueType;

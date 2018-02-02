@@ -73,7 +73,7 @@ public:
   itkTypeMacro(TransformToDisplacementFieldFilter, ImageSource);
 
   /** Number of dimensions. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Typedefs for transform. */
   using TransformType = Transform<TParametersValueType, ImageDimension, ImageDimension>;
@@ -148,8 +148,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkStaticConstMacro(PixelDimension, unsigned int,
-                      PixelType::Dimension);
+  static constexpr unsigned int PixelDimension = PixelType::Dimension;
   itkConceptMacro( SameDimensionCheck,
                    ( Concept::SameDimension< ImageDimension, PixelDimension > ) );
   // End concept checking

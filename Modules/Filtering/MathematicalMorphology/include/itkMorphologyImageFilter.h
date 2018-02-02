@@ -92,8 +92,7 @@ public:
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Typedef for boundary conditions. */
   using ImageBoundaryConditionPointerType = ImageBoundaryCondition< InputImageType > *;

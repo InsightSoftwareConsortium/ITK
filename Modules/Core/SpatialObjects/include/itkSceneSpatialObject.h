@@ -52,7 +52,7 @@ public:
 
   using ObjectListType = std::list< SpatialObjectPointer >;
 
-  itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
+  static constexpr unsigned int MaximumDepth = 9999999;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

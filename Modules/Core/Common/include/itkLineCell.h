@@ -54,9 +54,9 @@ public:
   using VertexAutoPointer = typename VertexType::SelfAutoPointer;
 
   /** Line-specific topology numbers. */
-  itkStaticConstMacro(NumberOfPoints, unsigned int, 2);
-  itkStaticConstMacro(NumberOfVertices, unsigned int, 2);
-  itkStaticConstMacro(CellDimension, unsigned int, 1);
+  static constexpr unsigned int NumberOfPoints = 2;
+  static constexpr unsigned int NumberOfVertices = 2;
+  static constexpr unsigned int CellDimension = 1;
 
   /** Implement the standard CellInterface. */
   CellGeometry GetType(void) const override

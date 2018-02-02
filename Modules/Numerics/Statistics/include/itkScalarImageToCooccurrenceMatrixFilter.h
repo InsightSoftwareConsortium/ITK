@@ -125,7 +125,7 @@ public:
   using HistogramConstPointer = typename HistogramType::ConstPointer;
   using MeasurementVectorType = typename HistogramType::MeasurementVectorType;
 
-  itkStaticConstMacro(DefaultBinsPerAxis, unsigned int, 256);
+  static constexpr unsigned int DefaultBinsPerAxis = 256;
 
   /** Get/Set the offset or offsets over which the co-occurrence pairs will be computed.
       Calling either of these methods clears the previous offsets. */

@@ -103,8 +103,7 @@ public:
   using InputImageConstIterator = ImageRegionConstIterator< TInputImage >;
 
   /** Input Image dimension */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** Type definition for the output image */
   using OutputImageType = TOutputImage;

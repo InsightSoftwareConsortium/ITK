@@ -75,7 +75,7 @@ public:
   using RealType = typename Superclass::RealType;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Index type alias support */
   using IndexType = typename Superclass::IndexType;

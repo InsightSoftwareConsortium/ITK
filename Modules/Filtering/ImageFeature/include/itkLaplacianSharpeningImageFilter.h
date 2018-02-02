@@ -65,8 +65,7 @@ public:
   using RealType = typename NumericTraits< OutputPixelType >::RealType;
   using InputPixelType = typename TInputImage::PixelType;
   using InputInternalPixelType = typename TInputImage::InternalPixelType;
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Image type alias support */
   using InputImageType = TInputImage;

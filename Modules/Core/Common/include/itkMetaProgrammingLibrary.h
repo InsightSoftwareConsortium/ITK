@@ -40,7 +40,7 @@ struct TrueType
   using ValueType = bool;
   using Type = TrueType;
 
-  itkStaticConstMacro(Value, ValueType, true);
+  static constexpr ValueType Value = true;
   operator ValueType() { return Value; }
 };
 
@@ -52,7 +52,7 @@ struct FalseType
 {
   using ValueType = bool;
   using Type = FalseType;
-  itkStaticConstMacro(Value, ValueType, false);
+  static constexpr ValueType Value = false;
   operator ValueType() { return Value; }
 };
 

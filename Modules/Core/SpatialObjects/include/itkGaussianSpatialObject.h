@@ -55,8 +55,7 @@ public:
   using TransformType = typename Superclass::TransformType;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
 
-  itkStaticConstMacro(NumberOfDimensions, unsigned int,
-                      TDimension);
+  static constexpr unsigned int NumberOfDimensions = TDimension;
 
   itkNewMacro(Self);
   itkTypeMacro(GaussianSpatialObject, SpatialObject);

@@ -71,7 +71,7 @@ public:
   itkTypeMacro(NormalVectorDiffusionFunction, NormalVectorFunctionBase);
 
   /** Image dimension derived from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Standard New macro. */
   itkNewMacro(Self);

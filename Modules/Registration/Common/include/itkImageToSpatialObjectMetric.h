@@ -77,12 +77,10 @@ public:
   using CoordinateRepresentationType = Superclass::ParametersValueType;
 
   /** Image dimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      FixedImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** Object dimension enumeration. */
-  itkStaticConstMacro(ObjectDimension, unsigned int,
-                      MovingSpatialObjectType::ObjectDimension);
+  static constexpr unsigned int ObjectDimension = MovingSpatialObjectType::ObjectDimension;
 
   /**  Type of the Transform Base class */
   using TransformType = Transform< CoordinateRepresentationType,

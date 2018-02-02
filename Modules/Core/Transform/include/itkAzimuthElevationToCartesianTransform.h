@@ -93,9 +93,8 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro( ParametersDimension, unsigned int,
-                       NDimensions * ( NDimensions + 1 ) );
+  static constexpr unsigned int SpaceDimension = NDimensions;
+  static constexpr unsigned int ParametersDimension = NDimensions * ( NDimensions + 1 );
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(AzimuthElevationToCartesianTransform, AffineTransform);

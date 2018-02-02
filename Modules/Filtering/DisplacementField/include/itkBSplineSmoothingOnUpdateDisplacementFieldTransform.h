@@ -66,7 +66,7 @@ public:
   itkNewMacro( Self );
 
   /** Dimension of the domain spaces. */
-  itkStaticConstMacro( Dimension, unsigned int, NDimensions );
+  static constexpr unsigned int Dimension = NDimensions;
 
   /** Types from superclass */
   using ScalarType = typename Superclass::ScalarType;

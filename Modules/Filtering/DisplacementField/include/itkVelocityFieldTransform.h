@@ -82,10 +82,10 @@ public:
   using DerivativeType = typename Superclass::DerivativeType;
 
   /** Dimension of the velocity field . */
-  itkStaticConstMacro( VelocityFieldDimension, unsigned int, NDimensions + 1 );
+  static constexpr unsigned int VelocityFieldDimension = NDimensions + 1;
 
   /** Dimension of the vector spaces. */
-  itkStaticConstMacro( Dimension, unsigned int, NDimensions );
+  static constexpr unsigned int Dimension = NDimensions;
 
   /** Define the displacement field type and corresponding interpolator type. */
   using DisplacementFieldType = typename Superclass::DisplacementFieldType;

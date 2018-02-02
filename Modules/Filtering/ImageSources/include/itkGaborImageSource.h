@@ -72,8 +72,7 @@ public:
   itkNewMacro(Self);
 
   /** Dimensionality of the output image */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      OutputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = OutputImageType::ImageDimension;
 
   /** Type used to store gabor parameters. */
   using ArrayType = FixedArray< double,

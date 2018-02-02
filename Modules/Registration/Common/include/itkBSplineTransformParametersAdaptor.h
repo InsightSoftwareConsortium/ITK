@@ -102,7 +102,7 @@ public:
   using CoefficientImageArray = typename TransformType::CoefficientImageArray;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro( SpaceDimension, unsigned int, TransformType::SpaceDimension );
+  static constexpr unsigned int SpaceDimension = TransformType::SpaceDimension;
 
   /** Alternative method for setting the required mesh size. */
   void SetRequiredTransformDomainMeshSize( const MeshSizeType & );

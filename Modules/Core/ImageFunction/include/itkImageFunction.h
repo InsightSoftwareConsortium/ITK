@@ -60,8 +60,7 @@ class ITK_TEMPLATE_EXPORT ImageFunction:
 {
 public:
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard class type aliases. */
   using Self = ImageFunction;

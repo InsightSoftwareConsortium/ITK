@@ -76,10 +76,10 @@ public:
   itkTypeMacro(Similarity2DTransform, Rigid2DTransform);
 
   /** Dimension of parameters. */
-  itkStaticConstMacro(SpaceDimension,           unsigned int, 2);
-  itkStaticConstMacro(InputSpaceDimension,      unsigned int, 2);
-  itkStaticConstMacro(OutputSpaceDimension,     unsigned int, 2);
-  itkStaticConstMacro(ParametersDimension,      unsigned int, 4);
+  static constexpr unsigned int SpaceDimension = 2;
+  static constexpr unsigned int InputSpaceDimension = 2;
+  static constexpr unsigned int OutputSpaceDimension = 2;
+  static constexpr unsigned int ParametersDimension = 4;
 
   using ScalarType = typename Superclass::ScalarType;
   using ScaleType = TParametersValueType;

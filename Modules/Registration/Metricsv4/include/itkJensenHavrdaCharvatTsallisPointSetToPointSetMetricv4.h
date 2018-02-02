@@ -89,7 +89,7 @@ public:
   using PointsContainer = typename PointSetType::PointsContainer;
   using PointsContainerConstIterator = typename PointsContainer::ConstIterator;
 
-  itkStaticConstMacro( PointDimension, unsigned int, TPointSet::PointDimension );
+  static constexpr unsigned int PointDimension = TPointSet::PointDimension;
 
   /** Types transferred from the base class */
   using MeasureType = typename Superclass::MeasureType;

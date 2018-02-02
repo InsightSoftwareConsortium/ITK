@@ -76,8 +76,7 @@ public:
   using NeighborhoodType = TNeighborhoodType;
   using OffsetType = typename NeighborhoodType::OffsetType;
   using RadiusType = typename NeighborhoodType::RadiusType;
-  itkStaticConstMacro(Dimension, unsigned int,
-                      NeighborhoodType::Dimension);
+  static constexpr unsigned int Dimension = NeighborhoodType::Dimension;
 
   const RadiusType & GetRadius() const
   { return m_Radius; }
@@ -251,8 +250,7 @@ public:
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
   using IndexType = typename OutputImageType::IndexType;
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** The data type used in numerical computations.  Derived from the output
    *  image type. */

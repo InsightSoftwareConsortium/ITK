@@ -94,8 +94,7 @@ public:
    * functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks. */
-  itkStaticConstMacro(ImageIteratorDimension, unsigned int,
-                      TImage::ImageDimension);
+  static constexpr unsigned int ImageIteratorDimension = TImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
   itkTypeMacroNoParent(ImageReverseConstIterator);

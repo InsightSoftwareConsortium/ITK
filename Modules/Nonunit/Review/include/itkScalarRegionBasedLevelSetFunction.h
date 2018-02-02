@@ -77,7 +77,7 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(ScalarRegionBasedLevelSetFunction, RegionBasedLevelSetFunction);
 
-  itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 
   using InputImageType = typename Superclass::InputImageType;
   using InputImageConstPointer = typename Superclass::InputImageConstPointer;

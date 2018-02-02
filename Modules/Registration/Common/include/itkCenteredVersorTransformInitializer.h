@@ -64,10 +64,8 @@ public:
   using TransformPointer = typename Superclass::TransformPointer;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro(InputSpaceDimension, unsigned int,
-                      Superclass::InputSpaceDimension);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int,
-                      Superclass::OutputSpaceDimension);
+  static constexpr unsigned int InputSpaceDimension = Superclass::InputSpaceDimension;
+  static constexpr unsigned int OutputSpaceDimension = Superclass::OutputSpaceDimension;
 
   /** Image Types to use in the initialization of the transform */
   using FixedImageType = typename Superclass::FixedImageType;

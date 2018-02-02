@@ -73,8 +73,7 @@ public:
   itkTypeMacro(BSplineControlPointImageFilter, ImageToImageFilter);
 
   /** Extract dimension from input image. */
-  itkStaticConstMacro( ImageDimension, unsigned int,
-                       TInputImage::ImageDimension );
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   using ControlPointLatticeType = TInputImage;
   using OutputImageType = TOutputImage;

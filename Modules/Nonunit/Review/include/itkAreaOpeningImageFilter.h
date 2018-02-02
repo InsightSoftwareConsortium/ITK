@@ -84,8 +84,7 @@ public:
   using SizeType = typename TInputImage::SizeType;
   using AttributeType = TAttribute;
 
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

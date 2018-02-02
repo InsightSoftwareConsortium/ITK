@@ -87,10 +87,8 @@ public:
   using SpacingType = typename OutputImageType::SpacingType;
 
   /** Determine the image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(DisplacementFieldDimension, unsigned int,
-                      TDisplacementField::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int DisplacementFieldDimension = TDisplacementField::ImageDimension;
 
   /** Deformation field type alias support */
   using DisplacementFieldType = TDisplacementField;

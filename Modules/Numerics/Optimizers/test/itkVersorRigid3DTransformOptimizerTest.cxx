@@ -61,7 +61,7 @@ public:
   itkNewMacro( Self );
   itkTypeMacro( versorRigid3DCostFunction, SingleValuedCostFunction );
 
-  itkStaticConstMacro( SpaceDimension, unsigned int, 6 );
+  static constexpr unsigned int SpaceDimension = 6;
 
   using ParametersType = Superclass::ParametersType;
   using DerivativeType = Superclass::DerivativeType;

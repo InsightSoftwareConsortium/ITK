@@ -96,8 +96,7 @@ public:
 
   itkNewMacro(Self);
   itkTypeMacro(BorderQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
-  itkStaticConstMacro(PointDimension, unsigned int,
-                      InputTraits::PointDimension);
+  static constexpr unsigned int PointDimension = InputTraits::PointDimension;
 
   using InputVectorPointType = std::vector< InputPointType >;
   using MapPointIdentifier = std::map< InputPointIdentifier, OutputPointIdentifier >;

@@ -95,8 +95,7 @@ public:
   using FixedConstPointer = typename FixedImageType::ConstPointer;
 
   /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      MovingImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = MovingImageType::ImageDimension;
 
   using MovingRegionIteratorType = ImageRegionIteratorWithIndex<MovingImageType>;
   using FixedRegionIteratorType = ImageRegionIteratorWithIndex<FixedImageType>;

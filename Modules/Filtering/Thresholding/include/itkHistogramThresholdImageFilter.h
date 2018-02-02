@@ -111,12 +111,9 @@ public:
    using CalculatorPointer = typename CalculatorType::Pointer;
 
   /** Image related type alias. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      InputImageType::ImageDimension );
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      OutputImageType::ImageDimension );
-  itkStaticConstMacro(MaskImageDimension, unsigned int,
-                      MaskImageType::ImageDimension );
+  static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
+  static constexpr unsigned int MaskImageDimension = MaskImageType::ImageDimension;
 
   /** Set and Get the mask image */
   itkSetInputMacro(MaskImage, TMaskImage);

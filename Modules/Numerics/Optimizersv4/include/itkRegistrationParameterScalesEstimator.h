@@ -83,9 +83,9 @@ public:
   using MovingTransformConstPointer = typename MovingTransformType::ConstPointer;
 
   /** dimension accessors */
-  itkStaticConstMacro(FixedDimension, SizeValueType, TMetric::FixedDimension );
-  itkStaticConstMacro(MovingDimension, SizeValueType, TMetric::MovingDimension );
-  itkStaticConstMacro(VirtualDimension, SizeValueType, TMetric::VirtualDimension );
+  static constexpr SizeValueType FixedDimension = TMetric::FixedDimension;
+  static constexpr SizeValueType MovingDimension = TMetric::MovingDimension;
+  static constexpr SizeValueType VirtualDimension = TMetric::VirtualDimension;
 
   using VirtualImageType = typename TMetric::VirtualImageType;
   using VirtualImageConstPointer = typename TMetric::VirtualImageConstPointer;

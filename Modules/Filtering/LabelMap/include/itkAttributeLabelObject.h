@@ -86,7 +86,7 @@ public:
 
   using LabelMapType = LabelMap< Self >;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
 
   using IndexType = typename Superclass::IndexType;
 

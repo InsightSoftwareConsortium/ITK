@@ -145,10 +145,10 @@ public:
   itkTypeMacro( BSplineDeformableTransform, BSplineBaseTransform );
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro( SpaceDimension, unsigned int, NDimensions );
+  static constexpr unsigned int SpaceDimension = NDimensions;
 
   /** The BSpline order. */
-  itkStaticConstMacro( SplineOrder, unsigned int, VSplineOrder );
+  static constexpr unsigned int SplineOrder = VSplineOrder;
 
   /** Standard scalar type for this class. */
   using ScalarType = TParametersValueType;

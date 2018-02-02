@@ -81,8 +81,8 @@ public:
   using Superclass = FixedArray< TComponent, NDimension *( NDimension + 1 ) / 2 >;
 
   /** Dimension of the vector space. */
-  itkStaticConstMacro(Dimension, unsigned int, NDimension);
-  itkStaticConstMacro( InternalDimension, unsigned int, ( NDimension * ( NDimension + 1 ) / 2 ) );
+  static constexpr unsigned int Dimension = NDimension;
+  static constexpr unsigned int InternalDimension =  NDimension * ( NDimension + 1 ) / 2;
 
   /** Convenience type alias. */
   using BaseArray = FixedArray< TComponent,

@@ -176,7 +176,7 @@ public:
   itkTypeMacro(MultiphaseFiniteDifferenceImageFilter, InPlaceImageFilter);
 
   /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Input and output image types. */
   using InputImageType = TInputImage;

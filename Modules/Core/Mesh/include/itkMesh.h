@@ -128,10 +128,8 @@ public:
   using CellPixelType = typename MeshTraits::CellPixelType;
 
   /** Convenient constants obtained from TMeshTraits template parameter. */
-  itkStaticConstMacro(PointDimension, unsigned int,
-                      TMeshTraits::PointDimension);
-  itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
-                      TMeshTraits::MaxTopologicalDimension);
+  static constexpr unsigned int PointDimension = TMeshTraits::PointDimension;
+  static constexpr unsigned int MaxTopologicalDimension = TMeshTraits::MaxTopologicalDimension;
 
   /** Enum defining the possible methods used to allocate memory for
    * the Cells */

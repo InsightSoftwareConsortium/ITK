@@ -57,7 +57,7 @@ public:
   using OutputPixelType = TComputation;
 
   /** Capture some type alias from the template parameters. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Operator type alias */
   using OperatorType = Neighborhood< OperatorPixelType,

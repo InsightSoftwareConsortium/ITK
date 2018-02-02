@@ -73,7 +73,7 @@ public:
   using PixelType = typename TInputImage::PixelType;
   using IndexType = typename TInputImage::IndexType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   itkSetConstObjectMacro(InputImage, ImageType);
 

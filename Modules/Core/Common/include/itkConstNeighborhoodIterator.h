@@ -61,7 +61,7 @@ public:
   using DimensionValueType = unsigned int;
 
   /** Save the image dimension. */
-  itkStaticConstMacro(Dimension, DimensionValueType, TImage::ImageDimension);
+  static constexpr DimensionValueType Dimension = TImage::ImageDimension;
 
   /** Standard class type aliases. */
   using Self = ConstNeighborhoodIterator;

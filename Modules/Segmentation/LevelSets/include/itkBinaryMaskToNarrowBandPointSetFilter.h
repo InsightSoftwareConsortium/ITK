@@ -91,8 +91,7 @@ public:
   using PointDataContainerIterator = typename PointDataContainer::Iterator;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Float image type to be used by the ReinitializeLevelSet image filter */
   using RealImageType = itk::Image< float,
@@ -116,8 +115,7 @@ public:
   using RescaleFilterPointer = typename RescaleFilterType::Pointer;
 
   /** The dimension of the output mesh. */
-  itkStaticConstMacro(PointDimension, unsigned int,
-                      TOutputMesh::PointDimension);
+  static constexpr unsigned int PointDimension = TOutputMesh::PointDimension;
 
   /** Some type alias associated with the output mesh. */
   void GenerateData(void) override;

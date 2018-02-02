@@ -85,7 +85,7 @@ public:
   using DisplacementFieldTypePointer = typename Superclass::DisplacementFieldTypePointer;
 
   /** Inherit some enums from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Inherit some enums from the superclass. */
   using PixelType = typename Superclass::PixelType;

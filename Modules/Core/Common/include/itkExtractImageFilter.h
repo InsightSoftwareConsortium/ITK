@@ -203,10 +203,8 @@ public:
 
 
   /** ImageDimension enumeration */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   using ExtractImageFilterRegionCopierType = ImageToImageFilterDetail::ExtractImageFilterRegionCopier<
     itkGetStaticConstMacro(InputImageDimension),

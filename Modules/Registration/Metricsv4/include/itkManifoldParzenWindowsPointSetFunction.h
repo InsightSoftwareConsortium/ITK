@@ -55,7 +55,7 @@ public:
   itkNewMacro(Self);
 
   /** Extract dimension from output image. */
-  itkStaticConstMacro( PointDimension, unsigned int, TPointSet::PointDimension );
+  static constexpr unsigned int PointDimension = TPointSet::PointDimension;
 
   using InputPointSetType = typename Superclass::InputPointSetType;
   using InputPointType = typename Superclass::InputPointType;

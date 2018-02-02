@@ -87,7 +87,7 @@ public:
   using OutputCellsContainerPointer = typename OutputMeshType::CellsContainerPointer;
   using OutputCellsContainerIterator = typename OutputMeshType::CellsContainerIterator;
 
-  itkStaticConstMacro(PointDimension, unsigned int, OutputMeshType::PointDimension);
+  static constexpr unsigned int PointDimension = OutputMeshType::PointDimension;
 
   using CoefficientsComputation = MatrixCoefficients< OutputMeshType >;
 

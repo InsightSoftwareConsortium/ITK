@@ -72,7 +72,7 @@ public:
   itkTypeMacro( BSplineControlPointImageFunction, ImageFunction );
 
   /** Extract dimension from input image. */
-  itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Image type alias support */
   using ControlPointLatticeType = TInputImage;

@@ -59,7 +59,7 @@ public:
   MetaSceneConverter();
   ~MetaSceneConverter();
 
-  itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
+  static constexpr unsigned int MaximumDepth = 9999999;
 
   /** Read a MetaFile and create a Scene SpatialObject */
   ScenePointer ReadMeta(const char *name);

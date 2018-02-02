@@ -80,13 +80,11 @@ public:
   using RadiusType = typename Superclass::RadiusType;
 
   /** Extract some parameters from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Extract the number of components in the vector pixel type . */
   using FeatureImagePixelType = typename FeatureImageType::PixelType;
-  itkStaticConstMacro(NumberOfComponents, unsigned int,
-                      FeatureImagePixelType::Dimension);
+  static constexpr unsigned int NumberOfComponents = FeatureImagePixelType::Dimension;
 
   using MahalanobisFunctionType = Statistics::MahalanobisDistanceMembershipFunction< FeatureScalarType >;
   using MahalanobisFunctionPointer = typename MahalanobisFunctionType::Pointer;

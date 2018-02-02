@@ -72,10 +72,8 @@ public:
   using SizeType = InputImageSizeType;
 
   /** ImageDimension constants. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      Superclass::InputImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      Superclass::OutputImageDimension);
+  static constexpr unsigned int InputImageDimension = Superclass::InputImageDimension;
+  static constexpr unsigned int OutputImageDimension = Superclass::OutputImageDimension;
 
   /** Set/Get the cropping sizes for the upper and lower boundaries. */
   itkSetMacro(UpperBoundaryCropSize, SizeType);

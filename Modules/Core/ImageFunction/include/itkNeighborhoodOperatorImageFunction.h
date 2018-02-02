@@ -66,8 +66,7 @@ public:
   itkTypeMacro(NeighborhoodOperatorImageFunction, ImageFunction);
 
   /** Dimension of the underlying image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   using NeighborhoodType = Neighborhood< TOutput, itkGetStaticConstMacro(ImageDimension) >;
 

@@ -111,7 +111,7 @@ public:
   using OutputQuadraticTriangleCellType = QuadraticTriangleCell< OutputCellType >;
 
   /** Define output point dimension */
-  itkStaticConstMacro(OutputPointDimension, unsigned int, OutputMeshType::PointDimension);
+  static constexpr unsigned int OutputPointDimension = OutputMeshType::PointDimension;
 
   /** Specify the file to read. This is forwarded to the IO instance. */
   itkSetStringMacro(FileName);

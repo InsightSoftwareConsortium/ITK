@@ -70,7 +70,7 @@ public:
   using HeavisideType = HeavisideStepFunctionBase< OutputRealType, OutputRealType >;
   using HeavisideConstPointer = typename HeavisideType::ConstPointer;
 
-  itkStaticConstMacro ( Dimension, unsigned int, LevelSetType::Dimension );
+  static constexpr unsigned int Dimension = LevelSetType::Dimension;
 
   using IdListType = std::list< LevelSetIdentifierType >;
   using IdListIterator = typename IdListType::iterator;

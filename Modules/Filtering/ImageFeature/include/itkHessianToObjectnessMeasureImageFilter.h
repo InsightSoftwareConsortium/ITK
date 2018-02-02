@@ -75,7 +75,7 @@ public:
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Image dimension */
-  itkStaticConstMacro(ImageDimension, unsigned int,  InputImageType ::ImageDimension);
+  static constexpr unsigned int ImageDimension = InputImageType ::ImageDimension;
 
   using EigenValueType = double;
   using EigenValueArrayType = itk::FixedArray< EigenValueType, itkGetStaticConstMacro(ImageDimension) >;

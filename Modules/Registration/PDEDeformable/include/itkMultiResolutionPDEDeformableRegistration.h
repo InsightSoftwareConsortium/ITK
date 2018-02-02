@@ -111,7 +111,7 @@ public:
   using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** ImageDimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** Internal float image type. */
   using FloatImageType = Image< TRealType, itkGetStaticConstMacro(ImageDimension) >;

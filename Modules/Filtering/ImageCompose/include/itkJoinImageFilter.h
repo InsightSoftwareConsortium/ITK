@@ -60,12 +60,9 @@ public:
   using JoinValueType = typename JoinTraits< ValueType1, ValueType2 >::ValueType;
 
   /** Capture the dimensions of the image. */
-  itkStaticConstMacro(Dimension1, unsigned int,
-                      PixelTraits< TPixel1 >::Dimension);
-  itkStaticConstMacro(Dimension2, unsigned int,
-                      PixelTraits< TPixel2 >::Dimension);
-  itkStaticConstMacro(JoinDimension, unsigned int,
-                      Dimension1 + Dimension2);
+  static constexpr unsigned int Dimension1 = PixelTraits< TPixel1 >::Dimension;
+  static constexpr unsigned int Dimension2 = PixelTraits< TPixel2 >::Dimension;
+  static constexpr unsigned int JoinDimension = Dimension1 + Dimension2;
 
   /** A vector of the join dimension. */
   using JoinType = Vector< JoinValueType, itkGetStaticConstMacro(JoinDimension) >;
@@ -213,8 +210,7 @@ class JoinImageFilter:
 {
 public:
   /** Capture the output image dimension. */
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TInputImage1::ImageDimension);
+  static constexpr unsigned int OutputImageDimension = TInputImage1::ImageDimension;
 
   /** Standard class type aliases. */
   using Self = JoinImageFilter;

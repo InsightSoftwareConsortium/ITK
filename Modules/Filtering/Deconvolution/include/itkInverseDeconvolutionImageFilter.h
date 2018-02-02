@@ -70,8 +70,7 @@ public:
   itkTypeMacro(InverseDeconvolutionImageFilter, FFTConvolutionImageFilter);
 
   /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;

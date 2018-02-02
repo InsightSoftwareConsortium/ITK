@@ -87,7 +87,7 @@ public:
   using NeighborhoodSizeValueType = SizeValueType;
 
   /** Inherit some parameters from the superclass type. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Compute the equation value. */
   PixelType ComputeUpdate(const NeighborhoodType & neighborhood,

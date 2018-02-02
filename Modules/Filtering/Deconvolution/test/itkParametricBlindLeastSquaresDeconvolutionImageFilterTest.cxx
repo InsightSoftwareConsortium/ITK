@@ -57,9 +57,7 @@ public:
   itkNewMacro(Self);
 
    /** ImageDimension constant */
-  itkStaticConstMacro(OutputImageDimension,
-                      unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ExampleImageSource, GaussianImageSource);

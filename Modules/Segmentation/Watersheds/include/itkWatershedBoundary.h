@@ -58,7 +58,7 @@ public:
    * of a set of planes, it has dimensionality 2.  If the boundary is
    * a set of lines, it has dimensionality 1.  Dimensionality is one less
    * than the image chunks from which the boundary is derived.   */
-  itkStaticConstMacro(Dimension, unsigned int, TDimension);
+  static constexpr unsigned int Dimension = TDimension;
 
   /** A pair of values used to index into the boundary data structure.
    * The IndexType.first is the dimension of the face and IndexType.second is a

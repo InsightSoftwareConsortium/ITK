@@ -66,8 +66,7 @@ public:
   using FeatureImagePixelType = typename FeatureImageType::PixelType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);

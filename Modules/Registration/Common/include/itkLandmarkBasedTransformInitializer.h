@@ -106,8 +106,8 @@ public:
   using TransformPointer = typename TransformType::Pointer;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, TransformType::InputSpaceDimension);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, TransformType::OutputSpaceDimension);
+  static constexpr unsigned int InputSpaceDimension = TransformType::InputSpaceDimension;
+  static constexpr unsigned int OutputSpaceDimension = TransformType::OutputSpaceDimension;
 
   /** Set the transform to be initialized */
   itkSetObjectMacro(Transform,   TransformType);
@@ -126,7 +126,7 @@ public:
   using MovingImagePointer = typename MovingImageType::ConstPointer;
 
   /** Determine the image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** Convenience type alias */
   using InputPointType = typename TransformType::InputPointType;

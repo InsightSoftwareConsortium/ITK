@@ -51,7 +51,7 @@ class ITK_TEMPLATE_EXPORT ChainCodePath:public
 {
 public:
   /** Dimension underlying input image. */
-  itkStaticConstMacro(Dimension, unsigned int, VDimension);
+  static constexpr unsigned int Dimension = VDimension;
 
   /** Standard class type aliases. */
   using Self = ChainCodePath< VDimension >;

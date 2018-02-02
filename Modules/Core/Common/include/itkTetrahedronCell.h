@@ -57,11 +57,11 @@ public:
   using FaceAutoPointer = typename FaceType::SelfAutoPointer;
 
   /** Tetrahedron-specific topology numbers. */
-  itkStaticConstMacro(NumberOfPoints, unsigned int, 4);
-  itkStaticConstMacro(NumberOfVertices, unsigned int, 4);
-  itkStaticConstMacro(NumberOfEdges, unsigned int, 6);
-  itkStaticConstMacro(NumberOfFaces, unsigned int, 4);
-  itkStaticConstMacro(CellDimension, unsigned int, 3);
+  static constexpr unsigned int NumberOfPoints = 4;
+  static constexpr unsigned int NumberOfVertices = 4;
+  static constexpr unsigned int NumberOfEdges = 6;
+  static constexpr unsigned int NumberOfFaces = 4;
+  static constexpr unsigned int CellDimension = 3;
 
   /** Implement the standard CellInterface. */
   CellGeometry GetType(void) const override

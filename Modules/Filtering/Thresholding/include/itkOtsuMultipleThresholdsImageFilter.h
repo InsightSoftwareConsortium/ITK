@@ -91,10 +91,8 @@ public:
   using ThresholdVectorType = typename OtsuCalculatorType::OutputType;
 
   /** Image related type alias. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Set/Get the number of histogram bins. Default is 128. */
   itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 1, NumericTraits< SizeValueType >::max() );

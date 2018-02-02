@@ -193,7 +193,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MultiphaseSparseFiniteDifferenceImageFilter, MultiphaseFiniteDifferenceImageFilter);
 
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /**Typedefs from the superclass */
   using TimeStepType = typename Superclass::TimeStepType;

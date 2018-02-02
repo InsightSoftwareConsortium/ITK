@@ -77,11 +77,10 @@ public:
   using PointType = typename Superclass::PointType;
 
   /** Grab the vector dimension from the superclass. */
-  //itkStaticConstMacro(Dimension, unsigned int,
-  //                    Superclass::Dimension);
+  //static constexpr unsigned int Dimension = //                    Superclass::Dimension;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Index type alias support */
   using IndexType = typename Superclass::IndexType;

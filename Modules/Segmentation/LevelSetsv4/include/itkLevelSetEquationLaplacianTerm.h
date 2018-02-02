@@ -82,7 +82,7 @@ public:
 
   using LevelSetDataType = typename Superclass::LevelSetDataType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   /** Neighborhood radius type */
   using DefaultBoundaryConditionType = ZeroFluxNeumannBoundaryCondition< InputImageType >;

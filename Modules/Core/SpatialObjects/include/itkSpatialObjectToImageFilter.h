@@ -70,11 +70,9 @@ public:
   using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ObjectDimension, unsigned int,
-                      InputSpatialObjectType::ObjectDimension);
+  static constexpr unsigned int ObjectDimension = InputSpatialObjectType::ObjectDimension;
 
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;

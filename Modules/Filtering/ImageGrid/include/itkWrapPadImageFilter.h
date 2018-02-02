@@ -87,8 +87,7 @@ public:
   using InputImageSizeType = typename Superclass::InputImageSizeType;
 
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

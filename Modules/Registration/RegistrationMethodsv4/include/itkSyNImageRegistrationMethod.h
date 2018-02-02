@@ -82,7 +82,7 @@ public:
   itkNewMacro( Self );
 
   /** ImageDimension constants */
-  itkStaticConstMacro( ImageDimension, unsigned int, TFixedImage::ImageDimension );
+  static constexpr unsigned int ImageDimension = TFixedImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro( SyNImageRegistrationMethod, SimpleImageRegistrationMethod );

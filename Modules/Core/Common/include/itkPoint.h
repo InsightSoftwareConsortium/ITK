@@ -64,7 +64,7 @@ public:
   using RealType = typename NumericTraits< ValueType >::RealType;
 
   /** Dimension of the Space */
-  itkStaticConstMacro(PointDimension, unsigned int, NPointDimension);
+  static constexpr unsigned int PointDimension = NPointDimension;
 
   /** The Array type from which this Vector is derived. */
   using BaseArray = FixedArray< TCoordRep, NPointDimension >;

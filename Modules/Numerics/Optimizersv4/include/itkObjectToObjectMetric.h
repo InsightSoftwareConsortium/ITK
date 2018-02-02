@@ -125,9 +125,9 @@ public:
   using DimensionType = SizeValueType;
 
   /** Object dimension accessors */
-  itkStaticConstMacro(FixedDimension, DimensionType, TFixedDimension);
-  itkStaticConstMacro(MovingDimension, DimensionType, TMovingDimension);
-  itkStaticConstMacro(VirtualDimension, DimensionType, TVirtualImage::ImageDimension);
+  static constexpr DimensionType FixedDimension = TFixedDimension;
+  static constexpr DimensionType MovingDimension = TMovingDimension;
+  static constexpr DimensionType VirtualDimension = TVirtualImage::ImageDimension;
 
   /** Types for the virtual domain */
   using VirtualImageType = TVirtualImage;

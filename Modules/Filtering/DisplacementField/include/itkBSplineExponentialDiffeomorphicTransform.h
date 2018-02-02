@@ -70,10 +70,10 @@ public:
   itkNewMacro( Self );
 
   /** Dimension of the velocity field . */
-  itkStaticConstMacro( ConstantVelocityFieldDimension, unsigned int, NDimensions );
+  static constexpr unsigned int ConstantVelocityFieldDimension = NDimensions;
 
   /** Dimension of the vector spaces. */
-  itkStaticConstMacro( Dimension, unsigned int, NDimensions );
+  static constexpr unsigned int Dimension = NDimensions;
 
   /** Types from superclass */
   using ScalarType = typename Superclass::ScalarType;

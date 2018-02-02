@@ -63,7 +63,7 @@ public:
   using OutputType = typename Superclass::OutputType;
 
   /** Spatial dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
 
   /** Evaluate the function at a given position. Remember, position is
   * represented by an n-d itk::Point object with data type double. */

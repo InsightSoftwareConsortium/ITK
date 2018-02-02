@@ -62,7 +62,7 @@ public:
   using AllocatorType = TAllocator;
 
   /** External support for dimensionality. */
-  itkStaticConstMacro(NeighborhoodDimension, unsigned int, VDimension);
+  static constexpr unsigned int NeighborhoodDimension = VDimension;
 
   /** Run-time type information (and related methods). */
   itkTypeMacroNoParent(Neighborhood);

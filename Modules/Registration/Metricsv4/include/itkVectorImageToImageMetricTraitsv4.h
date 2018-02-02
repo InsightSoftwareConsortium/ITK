@@ -63,12 +63,9 @@ public:
 
   /* Image dimension accessors */
   using ImageDimensionType = unsigned int;
-  itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
-      FixedImageType::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-      MovingImageType::ImageDimension);
-  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-      VirtualImageType::ImageDimension);
+  static constexpr ImageDimensionType FixedImageDimension = FixedImageType::ImageDimension;
+  static constexpr ImageDimensionType MovingImageDimension = MovingImageType::ImageDimension;
+  static constexpr ImageDimensionType VirtualImageDimension = VirtualImageType::ImageDimension;
 
   using FixedImageGradientType = Vector< CoordinateRepresentationType, FixedImageDimension*NumberOfComponents >;
   using MovingImageGradientType = Vector< CoordinateRepresentationType, MovingImageDimension*NumberOfComponents >;

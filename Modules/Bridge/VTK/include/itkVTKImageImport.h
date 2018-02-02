@@ -76,8 +76,7 @@ public:
   using OutputRegionType = typename OutputImageType::RegionType;
 
   /** The output image dimension. */
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      OutputImageType::ImageDimension);
+  static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
 
   /** These are function pointer types for the pipeline connection
    * callbacks. */

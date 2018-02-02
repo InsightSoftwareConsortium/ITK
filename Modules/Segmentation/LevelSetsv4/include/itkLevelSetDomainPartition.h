@@ -39,7 +39,7 @@ public:
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

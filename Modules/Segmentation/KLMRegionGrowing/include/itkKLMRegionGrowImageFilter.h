@@ -189,8 +189,7 @@ public:
   using InputImageVectorType = typename TInputImage::PixelType::VectorType;
 
   /** InputImageVectorDimension enumeration. */
-  itkStaticConstMacro(InputImageVectorDimension, unsigned int,
-                      InputImagePixelType::Dimension);
+  static constexpr unsigned int InputImageVectorDimension = InputImagePixelType::Dimension;
 
   /** Type definition for the input image index type. */
   using InputImageIndexType = typename TInputImage::IndexType;
@@ -211,12 +210,10 @@ public:
   using OutputImagePointer = typename TOutputImage::Pointer;
 
   /** InputImageDimension enumeration. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** OutputImageDimension enumeration. */
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Type definition for the output image pixel type. */
   using OutputImagePixelType = typename TOutputImage::PixelType;
@@ -225,8 +222,7 @@ public:
   using OutputImageVectorType = typename TOutputImage::PixelType::VectorType;
 
   /** OutputImageVectorDimension enumeration. */
-  itkStaticConstMacro(OutputImageVectorDimension, unsigned int,
-                      OutputImagePixelType::Dimension);
+  static constexpr unsigned int OutputImageVectorDimension = OutputImagePixelType::Dimension;
 
   /** Type definition for the output image index type. */
   using OutputImageIndexType = typename TOutputImage::IndexType;
@@ -238,8 +234,7 @@ public:
   using RegionLabelType = typename KLMSegmentationRegion::RegionLabelType;
 
   /** The dimension of the labelled image. */
-  itkStaticConstMacro(LabelImageDimension, RegionLabelType,
-                      InputImageDimension);
+  static constexpr RegionLabelType LabelImageDimension = InputImageDimension;
 
   /** Type definition for the labelled image pixel type. */
   using LabelImageType = Image< RegionLabelType, itkGetStaticConstMacro(LabelImageDimension) >;

@@ -73,7 +73,7 @@ public:
   itkTypeMacro(WatershedBoundaryResolver, ProcessObject);
 
   /** Expose the image dimension at run time. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TDimension);
+  static constexpr unsigned int ImageDimension = TDimension;
 
   /** Some convenient type alias.   */
   using PixelType = TPixelType;

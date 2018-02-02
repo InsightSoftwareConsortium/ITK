@@ -80,8 +80,7 @@ public:
   using PointType = typename Superclass::PointType;
 
   /** Dimension of the underlying image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   /** Evalulate the function at specified index */
   OutputType EvaluateAtIndex(const IndexType & index) const override;

@@ -67,7 +67,7 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(ComposeImageFilter, ImageToImageFilter);
 
-  itkStaticConstMacro(Dimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int Dimension = TInputImage::ImageDimension;
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;

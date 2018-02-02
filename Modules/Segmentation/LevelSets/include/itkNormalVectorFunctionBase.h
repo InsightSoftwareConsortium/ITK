@@ -63,7 +63,7 @@ public:
   itkTypeMacro(NormalVectorFunctionBase, FiniteDifferenceSparseImageFunction);
 
   /** Image dimension derived from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Typedefs from the superclass. */
   using TimeStepType = typename Superclass::TimeStepType;

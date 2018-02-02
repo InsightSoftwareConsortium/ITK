@@ -61,7 +61,7 @@ public:
   itkTypeMacro(PolygonCell, CellInterface);
 
   /** Save some template parameter information. */
-  itkStaticConstMacro(CellDimension, unsigned int, 2);
+  static constexpr unsigned int CellDimension = 2;
 
   /** The type of boundary for this triangle's vertices. */
   using VertexType = VertexCell< TCellInterface >;

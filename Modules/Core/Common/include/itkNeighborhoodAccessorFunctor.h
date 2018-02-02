@@ -48,7 +48,7 @@ public:
   using VectorLengthType = unsigned int;
   using OffsetType = typename ImageType::OffsetType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
   using NeighborhoodType = Neighborhood< InternalPixelType *, Self::ImageDimension >;
 
   using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<ImageType> *;

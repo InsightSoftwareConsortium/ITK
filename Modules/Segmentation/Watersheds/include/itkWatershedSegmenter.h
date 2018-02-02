@@ -94,8 +94,7 @@ public:
 
   /** Define image types and dimensionality  */
   using InputImageType = TInputImage;
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   using OutputImageType =
       Image< IdentifierType, itkGetStaticConstMacro(ImageDimension) >;
@@ -123,10 +122,10 @@ public:
   using BoundaryTypePointer = typename BoundaryType::Pointer;
 
   /** A constant used in the labeling algorithm.  */
-  itkStaticConstMacro(NULL_LABEL, IdentifierType, 0);
+  static constexpr IdentifierType NULL_LABEL = 0;
 
   /** A constant used in the labeling algorithm.  */
-  itkStaticConstMacro(NULL_FLOW, short, -1);
+  static constexpr short NULL_FLOW = -1;
 
   /** Get/Set the input image.   */
   InputImageType * GetInputImage(void)

@@ -144,8 +144,7 @@ public:
     PointSetToImageFilter );
 
   /** Extract dimension from the output image. */
-  itkStaticConstMacro( ImageDimension, unsigned int,
-    TOutputImage::ImageDimension );
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   using ImageType = TOutputImage;
   using PointSetType = TInputPointSet;

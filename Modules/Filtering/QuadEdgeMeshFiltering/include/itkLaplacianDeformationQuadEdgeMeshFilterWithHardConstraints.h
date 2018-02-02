@@ -52,7 +52,7 @@ public:
   /** Input types. */
   using InputMeshType = TInputMesh;
 
-  itkStaticConstMacro(InputPointDimension, unsigned int, InputMeshType::PointDimension);
+  static constexpr unsigned int InputPointDimension = InputMeshType::PointDimension;
 
   /** Output types. */
   using OutputMeshType = TOutputMesh;
@@ -60,7 +60,7 @@ public:
   using OutputCoordRepType = typename Superclass::OutputCoordRepType;
   using OutputPointIdentifier = typename Superclass::OutputPointIdentifier;
 
-  itkStaticConstMacro(OutputPointDimension, unsigned int, OutputMeshType::PointDimension);
+  static constexpr unsigned int OutputPointDimension = OutputMeshType::PointDimension;
 
   using SolverTraits = TSolverTraits;
   using ValueType = typename Superclass::ValueType;

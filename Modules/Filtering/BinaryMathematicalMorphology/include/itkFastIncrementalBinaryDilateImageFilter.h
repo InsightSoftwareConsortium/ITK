@@ -54,14 +54,11 @@ class FastIncrementalBinaryDilateImageFilter:
 {
 public:
   /** Extract dimension from input and output image. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Extract the dimension of the kernel */
-  itkStaticConstMacro(KernelDimension, unsigned int,
-                      TKernel::NeighborhoodDimension);
+  static constexpr unsigned int KernelDimension = TKernel::NeighborhoodDimension;
 
   /** Convenient type alias for simplifying declarations. */
   using InputImageType = TInputImage;

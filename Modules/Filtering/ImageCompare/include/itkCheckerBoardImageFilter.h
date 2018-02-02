@@ -65,8 +65,7 @@ public:
   itkTypeMacro(CheckerBoardImageFilter, ImageToImageFilter);
 
   /** Number of dimensions. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Type to hold the number of checker boxes per dimension. */
   using PatternArrayType = FixedArray< unsigned int,

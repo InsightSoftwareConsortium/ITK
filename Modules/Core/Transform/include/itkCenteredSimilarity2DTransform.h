@@ -69,10 +69,10 @@ public:
   itkTypeMacro(CenteredSimilarity2DTransform, Similarity2DTransform);
 
   /** Dimension of parameters. */
-  itkStaticConstMacro(SpaceDimension,           unsigned int, 2);
-  itkStaticConstMacro(InputSpaceDimension,      unsigned int, 2);
-  itkStaticConstMacro(OutputSpaceDimension,     unsigned int, 2);
-  itkStaticConstMacro(ParametersDimension,      unsigned int, 6);
+  static constexpr unsigned int SpaceDimension = 2;
+  static constexpr unsigned int InputSpaceDimension = 2;
+  static constexpr unsigned int OutputSpaceDimension = 2;
+  static constexpr unsigned int ParametersDimension = 6;
 
   /** Scalar type. */
   using ScalarType = typename Superclass::ScalarType;

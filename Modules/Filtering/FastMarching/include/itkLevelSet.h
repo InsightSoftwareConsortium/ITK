@@ -45,7 +45,7 @@ public:
   using LevelSetImageType = TLevelSet;
 
   /** SetDimension enumeration. */
-  itkStaticConstMacro(SetDimension, unsigned int, TLevelSet::ImageDimension);
+  static constexpr unsigned int SetDimension = TLevelSet::ImageDimension;
 
   /** LevelSetPointer type alias support */
   using LevelSetPointer = typename TLevelSet::Pointer;
@@ -96,10 +96,10 @@ public:
   using AuxValueType = TPixel;
 
   /** Auxiliary variable dimension. */
-  itkStaticConstMacro(AuxDimension, unsigned int, VAuxDimension);
+  static constexpr unsigned int AuxDimension = VAuxDimension;
 
   /** Level set dimension. */
-  itkStaticConstMacro(SetDimension, unsigned int, VSetDimension);
+  static constexpr unsigned int SetDimension = VSetDimension;
 
   /** AuxVector type alias support */
   using AuxValueVectorType = Vector< TPixel, VAuxDimension >;

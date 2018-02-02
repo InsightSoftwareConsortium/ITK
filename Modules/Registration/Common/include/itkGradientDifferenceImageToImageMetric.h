@@ -90,7 +90,7 @@ public:
   using FixedImagePixelType = typename TFixedImage::PixelType;
   using MovedImagePixelType = typename TMovingImage::PixelType;
 
-  itkStaticConstMacro(FixedImageDimension, unsigned int, TFixedImage::ImageDimension);
+  static constexpr unsigned int FixedImageDimension = TFixedImage::ImageDimension;
   /** Types for transforming the moving image */
   using TransformedMovingImageType = itk::Image< FixedImagePixelType,
                       itkGetStaticConstMacro(FixedImageDimension) >;
@@ -109,7 +109,7 @@ public:
 
   /** Sobel filters to compute the gradients of the Moved Image */
 
-  itkStaticConstMacro(MovedImageDimension, unsigned int, MovingImageType::ImageDimension);
+  static constexpr unsigned int MovedImageDimension = MovingImageType::ImageDimension;
 
   using MovedGradientImageType = itk::Image< RealType, itkGetStaticConstMacro(MovedImageDimension) >;
 

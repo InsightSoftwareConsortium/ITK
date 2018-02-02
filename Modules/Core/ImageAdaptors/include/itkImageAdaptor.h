@@ -59,7 +59,7 @@ public:
    * templated over image type (as opposed to being templated over pixel
    * type and dimension) when they need compile time access to the dimension
    * of the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Standard class type aliases. */
   using Self = ImageAdaptor;

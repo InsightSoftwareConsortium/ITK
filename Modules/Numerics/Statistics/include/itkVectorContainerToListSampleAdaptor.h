@@ -60,8 +60,7 @@ public:
   itkNewMacro( Self );
 
   /** the number of components in a measurement vector */
-  itkStaticConstMacro( MeasurementVectorSize, unsigned int,
-                       TVectorContainer::Element::Dimension );
+  static constexpr unsigned int MeasurementVectorSize = TVectorContainer::Element::Dimension;
 
   /** VectorContainer type alias */
   using VectorContainerType = TVectorContainer;

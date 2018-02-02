@@ -37,9 +37,8 @@ public:
   using PointType = TPoint;
   using CoordType = typename PointType::CoordRepType;
 
-  itkStaticConstMacro(PointDimension, unsigned int, PointType::PointDimension);
-  itkStaticConstMacro(NumberOfCoefficients, unsigned int,
-                      PointDimension * ( PointDimension + 1 ) / 2 + PointDimension + 1);
+  static constexpr unsigned int PointDimension = PointType::PointDimension;
+  static constexpr unsigned int NumberOfCoefficients = PointDimension * ( PointDimension + 1 / 2 + PointDimension + 1);
 
   using VectorType = typename PointType::VectorType;
   using VNLMatrixType = vnl_matrix< CoordType >;

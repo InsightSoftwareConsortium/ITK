@@ -62,7 +62,7 @@ public:
   using DomainType = typename Superclass::DomainType;
 
   /** Deprecated type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VDimension);
+  static constexpr unsigned int ImageDimension = VDimension;
   using ImageRegionType = typename Self::DomainType;
   using SizeType = typename Self::DomainType::SizeType;
   using IndexType = typename Self::DomainType::IndexType;

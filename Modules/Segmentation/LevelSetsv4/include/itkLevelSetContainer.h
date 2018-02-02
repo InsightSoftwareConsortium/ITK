@@ -68,7 +68,7 @@ public:
   using HeavisideType = typename Superclass::HeavisideType;
   using HeavisideConstPointer = typename Superclass::HeavisideConstPointer;
 
-  itkStaticConstMacro ( Dimension, unsigned int, LevelSetType::Dimension );
+  static constexpr unsigned int Dimension = LevelSetType::Dimension;
 
   using IdListType = typename Superclass::IdListType;
   using IdListIterator = typename Superclass::IdListIterator;
@@ -125,7 +125,7 @@ public:
   using HeavisideType = typename Superclass::HeavisideType;
   using HeavisideConstPointer = typename Superclass::HeavisideConstPointer;
 
-  itkStaticConstMacro ( Dimension, unsigned int, LevelSetType::Dimension );
+  static constexpr unsigned int Dimension = LevelSetType::Dimension;
 
   using IdListType = typename Superclass::IdListType;
   using IdListIterator = typename Superclass::IdListIterator;

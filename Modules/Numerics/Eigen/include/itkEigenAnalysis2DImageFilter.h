@@ -75,8 +75,7 @@ public:
   using EigenVectorImagePixelType = typename EigenVectorImageType::PixelType;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Connect the image containting the elements [0,0]
    * of the input 2D matrix */

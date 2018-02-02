@@ -98,12 +98,9 @@ public:
   using ImageDimensionType = typename Superclass::ImageDimensionType;
 
   /* Image dimension accessors */
-  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-      TVirtualImage::ImageDimension);
-  itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
-      TFixedImage::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-      TMovingImage::ImageDimension);
+  static constexpr ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;
+  static constexpr ImageDimensionType FixedImageDimension = TFixedImage::ImageDimension;
+  static constexpr ImageDimensionType MovingImageDimension = TMovingImage::ImageDimension;
 
   void Initialize(void) override;
 

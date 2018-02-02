@@ -78,10 +78,8 @@ public:
   using OutputImagePixelType = typename     OutputImageType::PixelType;
 
   /** ImageDimension enumeration */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Input and output images must be the same dimension, or the output's
       dimension must be one less than that of the input. */

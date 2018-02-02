@@ -72,7 +72,7 @@ public:
   using RealValueType = typename NumericTraits< ValueType >::RealType;
 
   /** Dimension of the vector space. */
-  itkStaticConstMacro(Dimension, unsigned int, NVectorDimension);
+  static constexpr unsigned int Dimension = NVectorDimension;
 
   /** I am a vector type. */
   using VectorType = Self;

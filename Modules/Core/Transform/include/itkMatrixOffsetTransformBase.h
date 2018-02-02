@@ -116,10 +116,9 @@ public:
   itkNewMacro(Self);
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, NInputDimensions);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, NOutputDimensions);
-  itkStaticConstMacro( ParametersDimension, unsigned int,
-                       NOutputDimensions * ( NInputDimensions + 1 ) );
+  static constexpr unsigned int InputSpaceDimension = NInputDimensions;
+  static constexpr unsigned int OutputSpaceDimension = NOutputDimensions;
+  static constexpr unsigned int ParametersDimension = NOutputDimensions * ( NInputDimensions + 1 );
 
   /** Parameters Type   */
   using FixedParametersType = typename Superclass::FixedParametersType;

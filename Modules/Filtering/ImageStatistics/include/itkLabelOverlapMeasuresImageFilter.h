@@ -119,8 +119,7 @@ public:
   using MapConstIterator = typename MapType::const_iterator;
 
   /** Image related type alias. */
-  itkStaticConstMacro( ImageDimension, unsigned int,
-    TLabelImage::ImageDimension );
+  static constexpr unsigned int ImageDimension = TLabelImage::ImageDimension;
 
   /** Set the source image. */
   void SetSourceImage( const LabelImageType * image )

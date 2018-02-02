@@ -99,8 +99,7 @@ public:
   using InputImageType = typename Superclass::InputImageType;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Index type alias support */
   using IndexType = typename TInputImage::IndexType;

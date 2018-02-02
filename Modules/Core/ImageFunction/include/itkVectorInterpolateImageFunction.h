@@ -51,12 +51,10 @@ class ITK_TEMPLATE_EXPORT VectorInterpolateImageFunction:
 {
 public:
   /** Extract the vector dimension from the pixel template parameter. */
-  itkStaticConstMacro(Dimension, unsigned int,
-                      TInputImage::PixelType::Dimension);
+  static constexpr unsigned int Dimension = TInputImage::PixelType::Dimension;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard class type aliases. */
   using Self = VectorInterpolateImageFunction;

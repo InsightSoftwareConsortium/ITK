@@ -55,7 +55,7 @@ class ITK_TEMPLATE_EXPORT EquivalenceRelabeler:
 {
 public:
   /** Expose templated image dimension parameter at run time */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImageDimension);
+  static constexpr unsigned int ImageDimension = TImageDimension;
 
   /**  Some convenient type alias.   */
   using ImageType = Image< IdentifierType, TImageDimension >;

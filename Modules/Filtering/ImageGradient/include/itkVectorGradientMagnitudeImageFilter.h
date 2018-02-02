@@ -164,12 +164,10 @@ public:
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** The dimensionality of the input and output images. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Length of the vector pixel type of the input image. */
-  itkStaticConstMacro(VectorDimension, unsigned int,
-                      InputPixelType::Dimension);
+  static constexpr unsigned int VectorDimension = InputPixelType::Dimension;
 
   /** Define the data type and the vector of data type used in calculations. */
   using RealType = TRealType;

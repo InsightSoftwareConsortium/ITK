@@ -95,10 +95,8 @@ public:
   using InputImagePixelType = typename InputImageType::PixelType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** In place operation can be turned on and off. Asking for
    * in-place operation, i.e. calling SetInplace(true) or InplaceOn(),

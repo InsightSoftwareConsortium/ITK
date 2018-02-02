@@ -56,10 +56,9 @@ public:
   using PixelType = typename InputImageType::PixelType;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  itkStaticConstMacro(NumberOfSmoothingFilters ,unsigned int, ImageDimension - 1);
+  static constexpr unsigned int NumberOfSmoothingFilters = ImageDimension - 1;
 
   using RealType = typename NumericTraits< PixelType >::RealType;
 

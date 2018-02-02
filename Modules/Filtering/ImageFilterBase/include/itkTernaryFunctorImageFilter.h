@@ -112,14 +112,10 @@ public:
   }
 
   /** Image dimensions */
-  itkStaticConstMacro(Input1ImageDimension, unsigned int,
-                      TInputImage1::ImageDimension);
-  itkStaticConstMacro(Input2ImageDimension, unsigned int,
-                      TInputImage2::ImageDimension);
-  itkStaticConstMacro(Input3ImageDimension, unsigned int,
-                      TInputImage3::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int Input1ImageDimension = TInputImage1::ImageDimension;
+  static constexpr unsigned int Input2ImageDimension = TInputImage2::ImageDimension;
+  static constexpr unsigned int Input3ImageDimension = TInputImage3::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

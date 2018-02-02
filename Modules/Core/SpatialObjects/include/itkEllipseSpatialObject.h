@@ -53,8 +53,7 @@ public:
   using PointContainerPointer = SmartPointer< PointContainerType >;
 
   using ArrayType = FixedArray< double, TDimension >;
-  itkStaticConstMacro(NumberOfDimension, unsigned int,
-                      TDimension);
+  static constexpr unsigned int NumberOfDimension = TDimension;
 
   itkNewMacro(Self);
   itkTypeMacro(EllipseSpatialObject, SpatialObject);

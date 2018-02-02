@@ -57,8 +57,8 @@ public:
   itkTypeMacro(BinomialBlurImageFilter, ImageToImageFilter);
 
   /** Number of dimensions */
-  itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
-  itkStaticConstMacro(NOutputDimensions, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int NDimensions = TInputImage::ImageDimension;
+  static constexpr unsigned int NOutputDimensions = TOutputImage::ImageDimension;
 
   /** Typedef for images */
   using InputImageType = TInputImage;

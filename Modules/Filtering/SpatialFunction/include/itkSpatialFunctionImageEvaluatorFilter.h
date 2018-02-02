@@ -57,8 +57,7 @@ public:
   itkTypeMacro(SpatialFunctionImageEvaluatorFilter, ImageToImageFilter);
 
   /** Number of dimensions. */
-  itkStaticConstMacro(NDimensions, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int NDimensions = TInputImage::ImageDimension;
 
   /** Image size type alias. */
   using SizeType = typename TInputImage::SizeType;

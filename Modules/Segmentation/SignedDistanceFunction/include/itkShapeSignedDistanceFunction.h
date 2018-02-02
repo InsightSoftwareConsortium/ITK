@@ -71,7 +71,7 @@ public:
   using InputType = typename Superclass::InputType;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, VSpaceDimension);
+  static constexpr unsigned int SpaceDimension = VSpaceDimension;
 
   /** CoordRep type alias support */
   using CoordRepType = TCoordRep;

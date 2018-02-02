@@ -46,8 +46,7 @@ public:
   using PointContainerType = VectorContainer< IdentifierType, PointType >;
   using PointContainerPointer = SmartPointer< PointContainerType >;
 
-  itkStaticConstMacro(NumberOfDimension, unsigned int,
-                      3);
+  static constexpr unsigned int NumberOfDimension = 3;
 
   itkNewMacro(Self);
   itkTypeMacro(CylinderSpatialObject, SpatialObject);

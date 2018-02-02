@@ -153,7 +153,7 @@ public:
   using DerivativeType = typename Superclass::DerivativeType;
 
   /** Dimension of the domain spaces. */
-  itkStaticConstMacro( Dimension, unsigned int, NDimensions );
+  static constexpr unsigned int Dimension = NDimensions;
 
   /** Define the displacement field type and corresponding interpolator type. */
   using DisplacementFieldType = Image<OutputVectorType,  Dimension>;

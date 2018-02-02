@@ -131,8 +131,7 @@ public:
   using KernelFunctionType = KernelFunctionBase<double>;
 
   /** Enum of the moving image dimension. */
-  itkStaticConstMacro(MovingImageDimension, unsigned int,
-                      MovingImageType::ImageDimension);
+  static constexpr unsigned int MovingImageDimension = MovingImageType::ImageDimension;
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(

@@ -71,10 +71,8 @@ public:
   using InputInternalPixelType = typename TInputImage::InternalPixelType;
   using OutputImageRegionType = typename TOutputImage::RegionType;
   using InputImageRegionType = typename TInputImage::RegionType;
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /**
    * Image type alias support

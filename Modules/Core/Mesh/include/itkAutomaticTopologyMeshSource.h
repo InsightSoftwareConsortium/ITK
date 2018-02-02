@@ -149,10 +149,8 @@ public:
     StructHashFunction< PointHashType > >;
 
   /** The dimension of the output mesh. */
-  itkStaticConstMacro(PointDimension, unsigned int,
-                      MeshType::PointDimension);
-  itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
-                      MeshType::MaxTopologicalDimension);
+  static constexpr unsigned int PointDimension = MeshType::PointDimension;
+  static constexpr unsigned int MaxTopologicalDimension = MeshType::MaxTopologicalDimension;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

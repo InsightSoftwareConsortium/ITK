@@ -71,7 +71,7 @@ public:
    * functions that are templated over image iterator type (as opposed to
    * being templated over pixel type and dimension) can have compile time
    * access to the dimension of the image that the iterator walks. */
-  itkStaticConstMacro(NDimensions, unsigned int, Superclass::NDimensions);
+  static constexpr unsigned int NDimensions = Superclass::NDimensions;
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses

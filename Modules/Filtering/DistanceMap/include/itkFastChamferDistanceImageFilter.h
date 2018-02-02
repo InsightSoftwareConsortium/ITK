@@ -90,10 +90,8 @@ public:
   using SizeType = typename RegionType::SizeType;
 
   /** The dimension of the input and output images. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      OutputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
 
   /** Pointer Type for input image. */
   using InputImagePointer = typename InputImageType::ConstPointer;

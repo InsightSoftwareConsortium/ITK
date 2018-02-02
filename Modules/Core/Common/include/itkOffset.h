@@ -60,7 +60,7 @@ public:
   using Self = Offset;
 
   /** Dimension constant */
-  itkStaticConstMacro(Dimension, unsigned int, VOffsetDimension);
+  static constexpr unsigned int Dimension = VOffsetDimension;
 
   /** Get the dimension (size) of the index. */
   static unsigned int GetOffsetDimension() { return VOffsetDimension; }

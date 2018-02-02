@@ -65,10 +65,8 @@ public:
   using MeshTraits = DefaultDynamicMeshTraits< TCoordType, 2, 2, TCoordType >;
 
   /** Dimensions of the points and topology. */
-  itkStaticConstMacro(PointDimension, unsigned int,
-                      MeshTraits::PointDimension);
-  itkStaticConstMacro(MaxTopologicalDimension, unsigned int,
-                      MeshTraits::MaxTopologicalDimension);
+  static constexpr unsigned int PointDimension = MeshTraits::PointDimension;
+  static constexpr unsigned int MaxTopologicalDimension = MeshTraits::MaxTopologicalDimension;
 
   /** Typedefs from itkMesh */
   using PixelType = typename MeshTraits::PixelType;

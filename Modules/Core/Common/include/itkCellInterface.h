@@ -78,7 +78,7 @@
   using CellGeometry = typename Superclass::CellGeometry;          \
   using ParametricCoordArrayType = typename Superclass::ParametricCoordArrayType; \
   using ShapeFunctionsArrayType = typename Superclass::ShapeFunctionsArrayType; \
-  itkStaticConstMacro(PointDimension, unsigned int, Superclass::PointDimension)
+  static constexpr unsigned int PointDimension = Superclass::PointDimension
 
 namespace itk
 {
@@ -127,7 +127,7 @@ public:
   using VectorType = typename PointType::VectorType;
 
   /** Save the dimension from the template parameters. */
-  itkStaticConstMacro(PointDimension, unsigned int, CellTraits::PointDimension);
+  static constexpr unsigned int PointDimension = CellTraits::PointDimension;
 
   /** An iterator through the UsingCellsContainer. */
   using UsingCellsContainerIterator = typename UsingCellsContainer::iterator;
@@ -469,7 +469,7 @@ template< int VPointDimension, typename TCoordRep,
 class ITK_TEMPLATE_EXPORT CellTraitsInfo
 {
 public:
-  itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
+  static constexpr unsigned int PointDimension = VPointDimension;
   using CoordRepType = TCoordRep;
   using InterpolationWeightType = TInterpolationWeight;
   using PointIdentifier = TPointIdentifier;

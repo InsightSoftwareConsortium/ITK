@@ -60,8 +60,7 @@ public:
   itkTypeMacro(VnlComplexToComplexFFTImageFilter,
                ComplexToComplexFFTImageFilter);
 
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
 protected:
   VnlComplexToComplexFFTImageFilter();

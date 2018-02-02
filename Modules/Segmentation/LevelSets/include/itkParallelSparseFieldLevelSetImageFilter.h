@@ -79,7 +79,7 @@ public:
   using OffsetType = typename NeighborhoodType::OffsetType;
   using RadiusType = typename NeighborhoodType::RadiusType;
 
-  itkStaticConstMacro(Dimension, unsigned int, NeighborhoodType::Dimension);
+  static constexpr unsigned int Dimension = NeighborhoodType::Dimension;
 
   const RadiusType & GetRadius() const
   {
@@ -273,7 +273,7 @@ public:
   using OutputImageType = TOutputImage;
   using IndexType = typename OutputImageType::IndexType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   using PixelType = typename OutputImageType::PixelType;
 

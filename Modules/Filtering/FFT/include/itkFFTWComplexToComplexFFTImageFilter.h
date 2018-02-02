@@ -87,8 +87,7 @@ public:
   itkTypeMacro(FFTWComplexToComplexFFTImageFilter,
                ComplexToComplexFFTImageFilter);
 
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   /** Image type type alias support */
   using ImageSizeType = typename ImageType::SizeType;

@@ -116,8 +116,7 @@ public:
   using OutputPixelType = typename TOutputImage::PixelType;
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Kernel type alias. */
   using KernelType = TKernel;

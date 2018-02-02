@@ -89,12 +89,9 @@ public:
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(MarkerImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(MaskImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int MarkerImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int MaskImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);

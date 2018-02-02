@@ -79,7 +79,7 @@ public:
   using SizeType = typename Superclass::SizeType;
   using RadiusType = typename RegionType::SizeType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, RegionType::ImageDimension);
+  static constexpr unsigned int ImageDimension = RegionType::ImageDimension;
   /** other helpful type alias */
   using ImageHelperType = ImageHelper<itkGetStaticConstMacro(ImageDimension),
                       itkGetStaticConstMacro(ImageDimension)>;

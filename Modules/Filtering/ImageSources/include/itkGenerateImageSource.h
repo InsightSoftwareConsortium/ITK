@@ -63,7 +63,7 @@ public:
   using SizeValueType = typename TOutputImage::SizeValueType;
 
   /** Dimensionality of the output image */
-  itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int NDimensions = TOutputImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GenerateImageSource, ImageSource);

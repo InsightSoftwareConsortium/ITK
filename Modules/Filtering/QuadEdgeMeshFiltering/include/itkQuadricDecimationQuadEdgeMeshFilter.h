@@ -59,7 +59,7 @@ public:
   using OutputPointsContainerPointer = typename OutputMeshType::PointsContainerPointer;
   using OutputPointsContainerIterator = typename OutputMeshType::PointsContainerIterator;
 
-  itkStaticConstMacro(OutputPointDimension, unsigned int, OutputMeshType::PointDimension);
+  static constexpr unsigned int OutputPointDimension = OutputMeshType::PointDimension;
 
   using CriterionType = TCriterion;
   using MeasureType = typename CriterionType::MeasureType;

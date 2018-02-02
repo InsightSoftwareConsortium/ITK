@@ -108,8 +108,7 @@ public:
   using PointDataContainer = typename MeshTraits::PointDataContainer;
 
   /** Convenient type alias obtained from TMeshTraits template parameter. */
-  itkStaticConstMacro(PointDimension, unsigned int,
-                      TMeshTraits::PointDimension);
+  static constexpr unsigned int PointDimension = TMeshTraits::PointDimension;
 
   /** Create types that are pointers to each of the container types. */
   using PointsContainerPointer = typename PointsContainer::Pointer;

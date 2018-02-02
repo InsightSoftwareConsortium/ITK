@@ -41,8 +41,7 @@ public:
   using Superclass = Point< TCoordRep, VPointDimension >;
 
   /** Types & values defined in superclass. */
-  itkStaticConstMacro(PointDimension, unsigned int,
-                      VPointDimension);
+  static constexpr unsigned int PointDimension = VPointDimension;
 
   using ValueType = typename Superclass::ValueType;
   using CoordRepType = typename Superclass::CoordRepType;

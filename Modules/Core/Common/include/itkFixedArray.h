@@ -52,10 +52,10 @@ class ITK_TEMPLATE_EXPORT FixedArray
 {
 public:
   /** Length constant */
-  itkStaticConstMacro(Length, unsigned int, VLength);
+  static constexpr unsigned int Length = VLength;
 
   /** Dimension constant */
-  itkStaticConstMacro(Dimension, unsigned int, VLength);
+  static constexpr unsigned int Dimension = VLength;
 
   /** The element type stored at each location in the FixedArray. */
   using ValueType = TValue;

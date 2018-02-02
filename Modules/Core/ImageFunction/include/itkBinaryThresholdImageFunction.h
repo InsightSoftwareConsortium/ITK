@@ -63,7 +63,7 @@ public:
   using PixelType = typename TInputImage::PixelType;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Point type alias support */
   using PointType = typename Superclass::PointType;

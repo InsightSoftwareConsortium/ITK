@@ -81,8 +81,7 @@ public:
   using OutputImageType = typename Superclass::OutputImageType;
 
   /** Image dimension, assumed to be the same for input and output data*/
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Type definition for the input image region and size type. */
   using InputImageRegionType = typename InputImageType::RegionType;
@@ -184,8 +183,7 @@ public:
   itkGetConstMacro(UseFastTensorComputations, bool);
 
   /** Maximum number of Newton-Raphson iterations for sigma update. */
-  itkStaticConstMacro(MaxSigmaUpdateIterations, unsigned int,
-                      20);
+  static constexpr unsigned int MaxSigmaUpdateIterations = 20;
 
   /** Set/Get the kernel bandwidth sigma multiplication factor used to modify the
    *  automatically-estimated kernel bandwidth sigma. At times, it may be desirable

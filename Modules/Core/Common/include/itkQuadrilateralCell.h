@@ -55,11 +55,11 @@ public:
   using EdgeAutoPointer = typename EdgeType::SelfAutoPointer;
 
   /** Quadrilateral-specific topology numbers. */
-  itkStaticConstMacro(NumberOfPoints, unsigned int, 4);
-  itkStaticConstMacro(NumberOfVertices, unsigned int, 4);
-  itkStaticConstMacro(NumberOfEdges, unsigned int, 4);
-  itkStaticConstMacro(CellDimension, unsigned int, 2);
-  itkStaticConstMacro(NumberOfDerivatives, unsigned int, 8);
+  static constexpr unsigned int NumberOfPoints = 4;
+  static constexpr unsigned int NumberOfVertices = 4;
+  static constexpr unsigned int NumberOfEdges = 4;
+  static constexpr unsigned int CellDimension = 2;
+  static constexpr unsigned int NumberOfDerivatives = 8;
 
   /** Implement the standard CellInterface. */
   CellGeometry GetType(void) const override

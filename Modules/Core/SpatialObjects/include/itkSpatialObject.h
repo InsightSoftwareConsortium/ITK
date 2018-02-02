@@ -64,7 +64,7 @@ public:
 
   using ScalarType = double;
 
-  itkStaticConstMacro(MaximumDepth, unsigned int, 9999999);
+  static constexpr unsigned int MaximumDepth = 9999999;
 
   /** Return the maximum depth that a tree of spatial objects can
    * have.  This provides convenient access to a static constant. */
@@ -129,7 +129,7 @@ public:
   /** Dimension of the object.  This constant is used by functions that are
    * templated over SpatialObject type when they need compile time access
    * to the dimension of the object. */
-  itkStaticConstMacro(ObjectDimension, unsigned int, VDimension);
+  static constexpr unsigned int ObjectDimension = VDimension;
 
   /** Get the dimensionality of the object */
   unsigned int GetObjectDimension(void) const { return VDimension; }

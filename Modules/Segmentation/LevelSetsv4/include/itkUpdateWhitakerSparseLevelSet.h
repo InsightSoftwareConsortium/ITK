@@ -56,7 +56,7 @@ public:
   /** Run-time type information */
   itkTypeMacro( UpdateWhitakerSparseLevelSet, Object );
 
-  itkStaticConstMacro( ImageDimension, unsigned int, VDimension );
+  static constexpr unsigned int ImageDimension = VDimension;
 
   using LevelSetOutputType = TLevelSetValueType;
 

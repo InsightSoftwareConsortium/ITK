@@ -37,7 +37,7 @@ public:
   using VectorType = typename PointType::VectorType;
   using CrossVectorType = CrossHelper< VectorType >;
 
-  itkStaticConstMacro(PointDimension, unsigned int, PointType::PointDimension);
+  static constexpr unsigned int PointDimension = PointType::PointDimension;
 
   /** \brief return true if (iA,iB,iC) forms an Obtuse angle (above 90
     degrees)*/

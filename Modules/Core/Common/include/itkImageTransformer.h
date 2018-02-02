@@ -78,8 +78,7 @@ public:
   using InputImagePixelType = typename InputImageType::PixelType;
 
   /** ImageDimension constant */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;

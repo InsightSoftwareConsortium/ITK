@@ -96,8 +96,7 @@ public:
   using GlobalDataStruct = typename Superclass::GlobalDataStruct;
 
   /** Extract some parameters from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   void CalculateSpeedImage() override;
 

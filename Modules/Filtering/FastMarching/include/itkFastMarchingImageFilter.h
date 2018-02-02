@@ -158,10 +158,8 @@ private:
   using SpeedImageConstPointer = typename SpeedImageType::ConstPointer;
 
   /** Dimension of the level set and the speed image. */
-  itkStaticConstMacro(SetDimension, unsigned int,
-                      LevelSetType::SetDimension);
-  itkStaticConstMacro(SpeedImageDimension, unsigned int,
-                      SpeedImageType::ImageDimension);
+  static constexpr unsigned int SetDimension = LevelSetType::SetDimension;
+  static constexpr unsigned int SpeedImageDimension = SpeedImageType::ImageDimension;
 
   /** Index type alias support */
   using IndexType = Index< itkGetStaticConstMacro(SetDimension) >;

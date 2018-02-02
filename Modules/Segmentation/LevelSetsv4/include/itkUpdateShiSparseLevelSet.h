@@ -54,7 +54,7 @@ public:
   /** Run-time type information */
   itkTypeMacro( UpdateShiSparseLevelSet, Object );
 
-  itkStaticConstMacro( ImageDimension, unsigned int, VDimension );
+  static constexpr unsigned int ImageDimension = VDimension;
 
   using LevelSetType = ShiSparseLevelSetImage< ImageDimension >;
   using LevelSetPointer = typename LevelSetType::Pointer;

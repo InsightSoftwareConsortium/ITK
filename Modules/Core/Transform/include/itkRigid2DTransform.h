@@ -70,9 +70,9 @@ public:
   itkNewMacro(Self);
 
   /** Dimension of the space. */
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, 2);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 2);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 3);
+  static constexpr unsigned int InputSpaceDimension = 2;
+  static constexpr unsigned int OutputSpaceDimension = 2;
+  static constexpr unsigned int ParametersDimension = 3;
 
   /** Scalar type. */
   using ScalarType = typename Superclass::ScalarType;

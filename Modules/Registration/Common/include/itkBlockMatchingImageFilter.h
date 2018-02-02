@@ -74,7 +74,7 @@ class ITK_TEMPLATE_EXPORT BlockMatchingImageFilter:
 public MeshToMeshFilter< TFeatures, TDisplacements>
 {
 public:
-  itkStaticConstMacro(ImageDimension, unsigned, TFixedImage::ImageDimension);
+  static constexpr unsigned ImageDimension = TFixedImage::ImageDimension;
 
   /** Not input specific type alias */
   using ImageRegionType = ImageRegion< ImageDimension >;

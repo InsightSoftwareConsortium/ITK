@@ -288,7 +288,7 @@ public:
   }
 
   /** The moving image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Image with priorities */
   using PriorityImageType = itk::Image< SizeValueType, itkGetStaticConstMacro(ImageDimension) >;

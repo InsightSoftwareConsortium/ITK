@@ -42,11 +42,8 @@ struct ImageJointDomainTraits {
   using PixelTraitsType = PixelTraits< typename TImage::PixelType >;
   using RangeDomainMeasurementType = typename PixelTraitsType::ValueType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
-  itkStaticConstMacro(Dimension,
-                      unsigned int,
-                      TImage::ImageDimension
-                      + PixelTraitsType::Dimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
+  static constexpr unsigned int Dimension = TImage::ImageDimension + PixelTraitsType::Dimension;
 
   using CoordinateRepType = float;
   using PointType = Point< CoordinateRepType, itkGetStaticConstMacro(ImageDimension) >;
@@ -117,8 +114,7 @@ public:
   itkNewMacro(Self);
 
   /** the number of components in a measurement vector */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int,
-                      ImageJointDomainTraitsType::Dimension);
+  static constexpr unsigned int MeasurementVectorSize = ImageJointDomainTraitsType::Dimension;
 
   using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
 
@@ -157,8 +153,7 @@ public:
   /** Get total frequency */
   TotalAbsoluteFrequencyType GetTotalFrequency() const override;
 
-  itkStaticConstMacro(RangeDomainDimension, unsigned int,
-                      itk::PixelTraits< typename TImage::PixelType >::Dimension);
+  static constexpr unsigned int RangeDomainDimension = itk::PixelTraits< typename TImage::PixelType >::Dimension;
 
   using RangeDomainMeasurementVectorType = FixedArray< RangeDomainMeasurementType,
                       itkGetStaticConstMacro(RangeDomainDimension) >;

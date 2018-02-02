@@ -95,9 +95,8 @@ public:
   using CoeffType = typename itk::NumericTraits< typename TOutputImage::PixelType >::RealType;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Iterator type alias support */
   using OutputLinearIterator = ImageLinearIteratorWithIndex< TOutputImage >;

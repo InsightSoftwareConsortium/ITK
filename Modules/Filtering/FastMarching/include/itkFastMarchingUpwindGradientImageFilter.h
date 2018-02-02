@@ -95,7 +95,7 @@ public:
   using PointType = typename Superclass::OutputPointType;
 
   /** The dimension of the level set. */
-  itkStaticConstMacro(SetDimension, unsigned int, Superclass::SetDimension);
+  static constexpr unsigned int SetDimension = Superclass::SetDimension;
 
   /** Set the container of Target Points.
    * If a target point is reached, the propagation stops.

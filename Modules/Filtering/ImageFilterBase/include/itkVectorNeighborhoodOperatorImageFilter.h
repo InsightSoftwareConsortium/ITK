@@ -82,8 +82,7 @@ public:
   using ScalarValueType = typename OutputPixelType::ValueType;
 
   /** Determine image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Image type alias support */
   using InputImageType = TInputImage;

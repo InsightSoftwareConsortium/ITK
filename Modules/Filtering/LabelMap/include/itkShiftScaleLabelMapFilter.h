@@ -59,7 +59,7 @@ public:
   using LabelObjectType = typename ImageType::LabelObjectType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);

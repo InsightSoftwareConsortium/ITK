@@ -49,7 +49,7 @@ public:
   /** Run-time type information */
   itkTypeMacro ( LevelSetBase, DataObject );
 
-  itkStaticConstMacro ( Dimension, unsigned int, VDimension );
+  static constexpr unsigned int Dimension = VDimension;
 
   using InputType = TInput;
   using OutputType = TOutput;

@@ -77,8 +77,7 @@ public:
   using SpacingComponentType = typename SpacingType::ComponentType;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro( SpaceDimension, unsigned int,
-    TransformType::SpaceDimension );
+  static constexpr unsigned int SpaceDimension = TransformType::SpaceDimension;
 
   /** Set/Get the transform to be initialized. */
   itkGetConstObjectMacro( Transform, TransformType );

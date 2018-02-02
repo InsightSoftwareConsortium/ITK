@@ -86,8 +86,7 @@ public:
   using InputImageDirectionType = typename InputImageType::DirectionType;
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   /** Image spacing, origin and direction type alias */
   using SpacingType = typename InputImageType::SpacingType;

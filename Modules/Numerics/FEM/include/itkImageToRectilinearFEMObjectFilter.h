@@ -55,7 +55,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToRectilinearFEMObjectFilter, ProcessObject);
 
-  itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int NDimensions = TInputImage::ImageDimension;
 
   /** Typedefs for Input Image */
   using InputImageType = TInputImage;

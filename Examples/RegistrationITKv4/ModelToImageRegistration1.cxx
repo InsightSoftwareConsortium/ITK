@@ -265,7 +265,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(SimpleImageToSpatialObjectMetric, ImageToSpatialObjectMetric);
 
-  itkStaticConstMacro( ParametricSpaceDimension, unsigned int, 3 );
+  static constexpr unsigned int ParametricSpaceDimension = 3;
 
   /** Specify the moving spatial object. */
   void SetMovingSpatialObject( const MovingSpatialObjectType * object) override

@@ -65,8 +65,8 @@ public:
   itkTypeMacro( MINCTransformAdapter, Transform );
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, NInputDimensions);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, NOutputDimensions);
+  static constexpr unsigned int InputSpaceDimension = NInputDimensions;
+  static constexpr unsigned int OutputSpaceDimension = NOutputDimensions;
 
   /** Type of the input parameters. */
   using ScalarType = double;

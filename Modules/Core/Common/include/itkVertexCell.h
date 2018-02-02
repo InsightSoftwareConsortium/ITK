@@ -47,8 +47,8 @@ public:
   itkTypeMacro(VertexCell, CellInterface);
 
   /** Vertex-specific topology numbers. */
-  itkStaticConstMacro(NumberOfPoints, unsigned int, 1);
-  itkStaticConstMacro(CellDimension, unsigned int, 0);
+  static constexpr unsigned int NumberOfPoints = 1;
+  static constexpr unsigned int CellDimension = 0;
 
   /** Implement the standard CellInterface. */
   CellGeometry GetType(void) const override
