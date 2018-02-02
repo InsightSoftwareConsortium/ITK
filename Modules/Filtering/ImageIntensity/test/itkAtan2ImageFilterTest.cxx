@@ -108,7 +108,7 @@ int itkAtan2ImageFilterTest( int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, Atan2ImageFilter,
-    BinaryFunctorImageFilter );
+    BinaryGeneratorImageFilter );
 
   // Set the input images
   filter->SetInput1( sinImage );

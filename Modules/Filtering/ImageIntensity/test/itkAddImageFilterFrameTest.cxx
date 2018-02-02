@@ -120,7 +120,6 @@ int itkAddImageFilterFrameTest(int, char* [] )
   filter->SetInput1( inputImageA );
   filter->SetInput2( inputImageB );
 
-  filter->SetFunctor(filter->GetFunctor());
 
   // Get the Smart Pointer to the Filter Output
   myImageType3Pointer outputImage = filter->GetOutput();

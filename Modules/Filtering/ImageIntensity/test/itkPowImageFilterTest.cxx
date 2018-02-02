@@ -70,12 +70,10 @@ int itkPowImageFilterTest(int, char* [] )
   // Create a PowFilter
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, PowImageFilter, BinaryFunctorImageFilter );
+  EXERCISE_BASIC_OBJECT_METHODS( filter, PowImageFilter, BinaryGeneratorImageFilter );
 
   // Check == and != operators
-  FilterType::FunctorType func2;
-  TEST_EXPECT_TRUE( func2 == filter->GetFunctor() );
-  TEST_EXPECT_EQUAL( func2 != filter->GetFunctor(), false );
+  //FilterType::FunctorType func2;
 
   // Connect the input images
   filter->SetInput1( inputImageA );

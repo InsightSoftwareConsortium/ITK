@@ -121,13 +121,12 @@ int itkConstrainedValueDifferenceImageFilterTest( int argc, char* argv[] )
     ConstrainedValueDifferenceImageFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, ConstrainedValueDifferenceImageFilter,
-    BinaryFunctorImageFilter );
+    BinaryGeneratorImageFilter );
 
   // Set the input images
   filter->SetInput1( inputImageA );
   filter->SetInput2( inputImageB );
 
-  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();

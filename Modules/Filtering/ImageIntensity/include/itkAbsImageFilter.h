@@ -18,7 +18,7 @@
 #ifndef itkAbsImageFilter_h
 #define itkAbsImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 #include "itkConceptChecking.h"
 
 namespace itk
@@ -68,31 +68,29 @@ public:
 template< typename TInputImage, typename TOutputImage >
 class AbsImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::Abs<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AbsImageFilter);
 
   /** Standard class type aliases. */
   using Self = AbsImageFilter;
-  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                                   Functor::Abs< typename TInputImage::PixelType,
-                                                 typename TOutputImage::PixelType > >;
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::Abs< typename TInputImage::PixelType,
+                                    typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(AbsImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
   using InputPixelType = typename TInputImage::PixelType;
   using OutputPixelType = typename TOutputImage::PixelType;
+
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -104,7 +102,12 @@ public:
 #endif
 
 protected:
-  AbsImageFilter() {}
+
+  AbsImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~AbsImageFilter() override {}
 };
 } // end namespace itk

@@ -18,7 +18,7 @@
 #ifndef itkDivideImageFilter_h
 #define itkDivideImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 #include "itkArithmeticOpsFunctors.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
@@ -46,11 +46,7 @@ namespace itk
 template< typename TInputImage1, typename TInputImage2, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT DivideImageFilter:
   public
-  BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                            Functor::Div<
-                              typename TInputImage1::PixelType,
-                              typename TInputImage2::PixelType,
-                              typename TOutputImage::PixelType >   >
+  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(DivideImageFilter);
@@ -63,18 +59,16 @@ public:
   /**
    * Standard "Superclass" type alias.
    */
-  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                                    Functor::Div<
-                                      typename TInputImage1::PixelType,
-                                      typename TInputImage2::PixelType,
-                                      typename TOutputImage::PixelType >
-                                    >;
+  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
 
   /**
    * Smart pointer type alias support
    */
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::Div< typename TInputImage1::PixelType,
+                                    typename TInputImage2::PixelType,
+                                    typename TOutputImage::PixelType >;
 
   /**
    * Method for creation through the object factory.
@@ -83,7 +77,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(DivideImageFilter,
-               BinaryFunctorImageFilter);
+               BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -97,24 +91,26 @@ public:
 #endif
 
 protected:
-  DivideImageFilter() {}
+  DivideImageFilter()
+    {
+    Superclass::SetFunctor(FunctorType());
+    }
+
   ~DivideImageFilter() override {}
 
-  void GenerateData() override
-    {
+  void VerifyPreconditions() override
+  {
+    Superclass::VerifyPreconditions();
+
     const auto *input
-       = dynamic_cast< const typename Superclass::DecoratedInput2ImagePixelType * >(
-        this->ProcessObject::GetInput(1) );
+       = dynamic_cast< const typename Superclass::DecoratedInput2ImagePixelType * >( this->ProcessObject::GetInput(1) );
     if( input != nullptr && itk::Math::AlmostEquals(input->Get(), itk::NumericTraits< typename TInputImage2::PixelType >::ZeroValue()) )
       {
       itkGenericExceptionMacro(<<"The constant value used as denominator should not be set to zero");
       }
-    else
-      {
-      Superclass::GenerateData();
-      }
-    }
+  }
 };
+
 } // end namespace itk
 
 #endif

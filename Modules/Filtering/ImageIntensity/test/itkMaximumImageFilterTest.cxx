@@ -107,7 +107,7 @@ int itkMaximumImageFilterTest( int, char*[] )
   MaximumImageFilterType::Pointer maximumImageFilter = MaximumImageFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( maximumImageFilter, MaximumImageFilter,
-    BinaryFunctorImageFilter);
+    BinaryGeneratorImageFilter);
 
   // Connect the input images
   maximumImageFilter->SetInput1( inputImageA );
@@ -116,7 +116,6 @@ int itkMaximumImageFilterTest( int, char*[] )
   // Get the Smart Pointer to the filter output
   ImageType::Pointer outputImage = maximumImageFilter->GetOutput();
 
-  maximumImageFilter->SetFunctor( maximumImageFilter->GetFunctor() );
 
   // Execute the filter
   maximumImageFilter->Update();

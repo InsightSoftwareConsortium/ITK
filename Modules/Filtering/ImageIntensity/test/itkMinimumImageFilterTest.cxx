@@ -107,7 +107,7 @@ int itkMinimumImageFilterTest( int, char* [] )
   MinimumFilterType::Pointer minimumImageFilter = MinimumFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( minimumImageFilter, MinimumImageFilter,
-    BinaryFunctorImageFilter);
+    BinaryGeneratorImageFilter);
 
   // Connect the input images
   minimumImageFilter->SetInput1( inputImageA );
@@ -116,7 +116,6 @@ int itkMinimumImageFilterTest( int, char* [] )
   // Get the Smart Pointer to the filter output
   ImageType::Pointer outputImage = minimumImageFilter->GetOutput();
 
-  minimumImageFilter->SetFunctor( minimumImageFilter->GetFunctor() );
 
   // Execute the filter
   minimumImageFilter->Update();

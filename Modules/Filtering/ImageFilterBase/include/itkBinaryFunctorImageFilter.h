@@ -36,6 +36,7 @@ namespace itk
  * the pipeline. The SetConstant() and GetConstant() methods are provided as shortcuts
  * to set or get the constant value without manipulating the decorator.
  *
+ * \sa BinaryGeneratorImagFilter
  * \sa UnaryFunctorImageFilter TernaryFunctorImageFilter
  *
  * \ingroup IntensityImageFilters   MultiThreaded

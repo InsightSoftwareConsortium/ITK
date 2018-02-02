@@ -122,7 +122,7 @@ int itkConstrainedValueAdditionImageFilterTest( int argc, char* argv[] )
     ConstrainedValueAdditionImageFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, ConstrainedValueAdditionImageFilter,
-    BinaryFunctorImageFilter );
+    BinaryGeneratorImageFilter );
 
   // Set the input images
   filter->SetInput1( inputImageA );

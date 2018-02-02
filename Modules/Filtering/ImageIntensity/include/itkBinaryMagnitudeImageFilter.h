@@ -18,7 +18,7 @@
 #ifndef itkBinaryMagnitudeImageFilter_h
 #define itkBinaryMagnitudeImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -84,31 +84,26 @@ public:
 template< typename TInputImage1, typename TInputImage2, typename TOutputImage >
 class BinaryMagnitudeImageFilter:
   public
-  BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                            Functor::Modulus2<
-                              typename TInputImage1::PixelType,
-                              typename TInputImage2::PixelType,
-                              typename TOutputImage::PixelType >   >
+  BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMagnitudeImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryMagnitudeImageFilter;
-  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage,
-                                    Functor::Modulus2<
-                                      typename TInputImage1::PixelType,
-                                      typename TInputImage2::PixelType,
-                                      typename TOutputImage::PixelType > >;
+  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::Modulus2< typename TInputImage1::PixelType,
+                                         typename TInputImage2::PixelType,
+                                         typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(BinaryMagnitudeImageFilter,
-               BinaryFunctorImageFilter);
+               BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -122,7 +117,11 @@ public:
 #endif
 
 protected:
-  BinaryMagnitudeImageFilter() {}
+  BinaryMagnitudeImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~BinaryMagnitudeImageFilter() override {}
 };
 } // end namespace itk

@@ -22,7 +22,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressAccumulator.h"
 #include "itkCastImageFilter.h"
-#include "itkAddImageFilter.h"
+#include "itkBinaryFunctorImageFilter.h"
 
 namespace itk
 {

@@ -28,7 +28,7 @@
 #ifndef itkBoundedReciprocalImageFilter_h
 #define itkBoundedReciprocalImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -69,30 +69,25 @@ public:
 template< typename TInputImage, typename TOutputImage >
 class BoundedReciprocalImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::BoundedReciprocal<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType > >
+  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoundedReciprocalImageFilter);
 
   /** Standard class type aliases. */
   using Self = BoundedReciprocalImageFilter;
-  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                                   Functor::BoundedReciprocal<
-                                     typename TInputImage::PixelType,
-                                     typename TOutputImage::PixelType > >;
-
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::BoundedReciprocal< typename TInputImage::PixelType,
+                                                  typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(BoundedReciprocalImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -104,7 +99,11 @@ public:
 #endif
 
 protected:
-  BoundedReciprocalImageFilter() {}
+  BoundedReciprocalImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~BoundedReciprocalImageFilter() override {}
 };
 } // end namespace itk

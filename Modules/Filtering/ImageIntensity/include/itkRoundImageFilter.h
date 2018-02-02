@@ -18,7 +18,7 @@
 #ifndef itkRoundImageFilter_h
 #define itkRoundImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 #include "itkMath.h"
 
 namespace itk
@@ -64,33 +64,32 @@ public:
  */
 template< typename TInputImage, typename TOutputImage >
 class RoundImageFilter:
-  public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::Round< typename TInputImage::PixelType,
-                                           typename TOutputImage::PixelType >   >
+    public UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RoundImageFilter);
 
   /** Standard class type aliases. */
   using Self = RoundImageFilter;
-  using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::Round< typename TInputImage::PixelType,
-                   typename TOutputImage::PixelType > >;
-
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType =  Functor::Round< typename TInputImage::PixelType,
+                                       typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(RoundImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
 protected:
-  RoundImageFilter() {}
+  RoundImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~RoundImageFilter() override {}
 };
 } // end namespace itk

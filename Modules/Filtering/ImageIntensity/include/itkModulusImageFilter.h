@@ -69,7 +69,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(ModulusImageFilter,
-               UnaryFunctorImageFilter);
+               BinaryFunctorImageFilter);
 
   /** Set/Get the dividend */
   virtual void SetDividend( InputPixelType _arg ) { this->SetConstant2(_arg); }

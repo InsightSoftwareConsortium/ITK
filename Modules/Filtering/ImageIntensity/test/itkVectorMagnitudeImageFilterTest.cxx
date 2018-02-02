@@ -68,7 +68,6 @@ int itkVectorMagnitudeImageFilterTest(int, char* [] )
   // Now compute the magnitude of the gradient
   try
     {
-    magnitude->SetFunctor(magnitude->GetFunctor());
     magnitude->Update();
     }
   catch(...)

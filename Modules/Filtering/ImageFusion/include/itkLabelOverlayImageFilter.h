@@ -19,7 +19,7 @@
 #define itkLabelOverlayImageFilter_h
 
 #include "itkLabelOverlayFunctor.h"
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 #include "itkConceptChecking.h"
 
 namespace itk
@@ -54,11 +54,7 @@ namespace itk
 template< typename  TInputImage, typename TLabelImage, typename  TOutputImage >
 class ITK_TEMPLATE_EXPORT LabelOverlayImageFilter:
   public
-  BinaryFunctorImageFilter< TInputImage, TLabelImage, TOutputImage,
-                            Functor::LabelOverlayFunctor<
-                              typename TInputImage::PixelType,
-                              typename TLabelImage::PixelType,
-                              typename TOutputImage::PixelType >   >
+  BinaryGeneratorImageFilter< TInputImage, TLabelImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelOverlayImageFilter);
@@ -66,11 +62,11 @@ public:
   /** Standard class type aliases. */
   using Self = LabelOverlayImageFilter;
 
-  using Superclass = BinaryFunctorImageFilter< TInputImage, TLabelImage, TOutputImage,
-                                    Functor::LabelOverlayFunctor<
-                                      typename TInputImage::PixelType,
-                                      typename TLabelImage::PixelType,
-                                      typename TOutputImage::PixelType > >;
+  using Superclass = BinaryGeneratorImageFilter< TInputImage, TLabelImage, TOutputImage >;
+
+  using FunctorType =  Functor::LabelOverlayFunctor< typename TInputImage::PixelType,
+                                                     typename TLabelImage::PixelType,
+                                                     typename TOutputImage::PixelType >;
 
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -84,7 +80,7 @@ public:
   using InputPixelType = typename TInputImage::PixelType;
 
   /** Runtime information support. */
-  itkTypeMacro(LabelOverlayImageFilter, BinaryFunctorImageFilter);
+  itkTypeMacro(LabelOverlayImageFilter, BinaryGeneratorImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -129,6 +125,10 @@ public:
   /** Add color to the LUT container */
   void AddColor(ComponentType r, ComponentType g, ComponentType b);
 
+
+  itkGetConstReferenceMacro(Functor, FunctorType);
+  FunctorType & GetFunctor() { return m_Functor; }
+
 protected:
   LabelOverlayImageFilter();
   ~LabelOverlayImageFilter() override {}
@@ -142,6 +142,8 @@ protected:
   void GenerateOutputInformation() override;
 
 private:
+
+  FunctorType    m_Functor;
   double         m_Opacity;
   LabelPixelType m_BackgroundValue;
 };

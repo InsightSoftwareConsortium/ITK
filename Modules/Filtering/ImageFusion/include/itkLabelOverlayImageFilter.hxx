@@ -65,6 +65,7 @@ LabelOverlayImageFilter< TInputImage, TLabelImage, TOutputImage >
 {
   this->GetFunctor().SetOpacity(m_Opacity);
   this->GetFunctor().SetBackgroundValue(m_BackgroundValue);
+  this->SetFunctor(this->GetFunctor());
 }
 
 /**

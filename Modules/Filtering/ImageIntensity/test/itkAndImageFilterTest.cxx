@@ -117,13 +117,12 @@ int itkAndImageFilterTest( int argc, char* argv[] )
   // Create the filter
   AndImageFilterType::Pointer filter = AndImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, AndImageFilter, BinaryFunctorImageFilter );
+  EXERCISE_BASIC_OBJECT_METHODS( filter, AndImageFilter, BinaryGeneratorImageFilter );
 
   // Set the input images
   filter->SetInput1( inputImageA );
   filter->SetInput2( inputImageB );
 
-  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();

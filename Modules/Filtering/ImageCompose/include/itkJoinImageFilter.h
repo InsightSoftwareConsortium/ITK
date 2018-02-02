@@ -18,7 +18,7 @@
 #ifndef itkJoinImageFilter_h
 #define itkJoinImageFilter_h
 
-#include "itkBinaryFunctorImageFilter.h"
+#include "itkBinaryGeneratorImageFilter.h"
 #include "itkPixelTraits.h"
 
 namespace itk
@@ -199,14 +199,11 @@ struct MakeJoin {
  */
 template< typename TInputImage1, typename TInputImage2 >
 class JoinImageFilter:
-  public BinaryFunctorImageFilter< TInputImage1,
+  public BinaryGeneratorImageFilter< TInputImage1,
                                    TInputImage2,
                                    typename
                                    Functor::MakeJoin< TInputImage1,
-                                                      TInputImage2 >::ImageType,
-                                   typename
-                                   Functor::MakeJoin< TInputImage1,
-                                                      TInputImage2 >::FunctorType >
+                                                      TInputImage2 >::ImageType >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(JoinImageFilter);
@@ -219,14 +216,13 @@ public:
 
   /** Output type alias. */
   using FunctorType = typename Functor::MakeJoin< TInputImage1,
-                                      TInputImage2 >::FunctorType;
+                                                  TInputImage2 >::FunctorType;
   using OutputImageType = typename Functor::MakeJoin< TInputImage1,
-                                      TInputImage2 >::ImageType;
+                                                      TInputImage2 >::ImageType;
   using OutputImagePixelType = typename FunctorType::JoinType;
 
   /** Standard class type aliases. */
-  using Superclass = BinaryFunctorImageFilter< TInputImage1, TInputImage2, OutputImageType,
-                                    FunctorType >;
+  using Superclass = BinaryGeneratorImageFilter< TInputImage1, TInputImage2, OutputImageType >;
 
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
@@ -235,7 +231,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(JoinImageFilter, BinaryFunctorImageFilter);
+  itkTypeMacro(JoinImageFilter, BinaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -250,7 +246,7 @@ public:
 #endif
 
 protected:
-  JoinImageFilter() {}
+  JoinImageFilter() {Superclass::SetFunctor(FunctorType());}
   ~JoinImageFilter() override {}
 };
 } // end namespace itk

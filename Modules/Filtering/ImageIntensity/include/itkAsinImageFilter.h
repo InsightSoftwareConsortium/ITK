@@ -18,7 +18,7 @@
 #ifndef itkAsinImageFilter_h
 #define itkAsinImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 #include "itkMath.h"
 
 namespace itk
@@ -82,30 +82,25 @@ public:
 template< typename TInputImage, typename TOutputImage >
 class AsinImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::Asin<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageFilter);
 
   /** Standard class type aliases. */
   using Self = AsinImageFilter;
-  using Superclass = UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                                   Functor::Asin<
-                                     typename TInputImage::PixelType,
-                                     typename TOutputImage::PixelType > >;
-
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::Asin< typename TInputImage::PixelType,
+                                     typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(AsinImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -117,7 +112,11 @@ public:
 #endif
 
 protected:
-  AsinImageFilter() {}
+  AsinImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
+
   ~AsinImageFilter() override {}
 };
 } // end namespace itk

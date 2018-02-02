@@ -18,7 +18,7 @@
 #ifndef itkRGBToLuminanceImageFilter_h
 #define itkRGBToLuminanceImageFilter_h
 
-#include "itkUnaryFunctorImageFilter.h"
+#include "itkUnaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -62,30 +62,25 @@ public:
 template< typename TInputImage, typename TOutputImage >
 class RGBToLuminanceImageFilter:
   public
-  UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                           Functor::RGBToLuminance<
-                             typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+  UnaryGeneratorImageFilter< TInputImage, TOutputImage >
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(RGBToLuminanceImageFilter);
 
   /** Standard class type aliases. */
   using Self = RGBToLuminanceImageFilter;
-  using Superclass = UnaryFunctorImageFilter<
-    TInputImage, TOutputImage,
-    Functor::RGBToLuminance< typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType > >;
-
+  using Superclass = UnaryGeneratorImageFilter< TInputImage, TOutputImage >;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
+  using FunctorType = Functor::RGBToLuminance< typename TInputImage::PixelType,
+                                               typename TOutputImage::PixelType >;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(RGBToLuminanceImageFilter,
-               UnaryFunctorImageFilter);
+               UnaryGeneratorImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -95,7 +90,10 @@ public:
 #endif
 
 protected:
-  RGBToLuminanceImageFilter() {}
+  RGBToLuminanceImageFilter()
+    {
+      Superclass::SetFunctor(FunctorType());
+    }
   ~RGBToLuminanceImageFilter() override {}
 };
 } // end namespace itk
