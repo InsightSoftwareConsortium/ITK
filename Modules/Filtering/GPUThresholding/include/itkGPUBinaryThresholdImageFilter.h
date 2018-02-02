@@ -102,7 +102,7 @@ class ITK_TEMPLATE_EXPORT GPUBinaryThresholdImageFilter :
 public:
   /** Standard class type aliases. */
   using Self = GPUBinaryThresholdImageFilter;
-  using GPUSuperclass = gPUUnaryFunctorImageFilter< TInputImage, TOutputImage,
+  using GPUSuperclass = GPUUnaryFunctorImageFilter< TInputImage, TOutputImage,
                                       Functor::GPUBinaryThreshold<
                                         typename TInputImage::PixelType,
                                         typename TOutputImage::PixelType >,
