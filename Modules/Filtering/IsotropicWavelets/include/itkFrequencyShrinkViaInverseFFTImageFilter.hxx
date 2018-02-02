@@ -164,15 +164,7 @@ FrequencyShrinkViaInverseFFTImageFilter<TImageType>::GenerateOutputInformation()
   // TODO Check if you want to modify metada in this filter.
   for (unsigned int i = 0; i < TImageType::ImageDimension; i++)
   {
-    // outputSpacing[i] *= m_ShrinkFactors[i];
-    // inputIndexOutputOrigin[i] = 0.5*(m_ShrinkFactors[i]-1);
-    // outputStartIndex[i] =
-    //   Math::Ceil<SizeValueType>(inputStartIndex[i]/static_cast<double>( m_ShrinkFactors[i]) );
-    // outputSize[i] = Math::Floor<SizeValueType>(
-    //     static_cast<double>( inputSize[i] -
-    //       outputStartIndex[i]*m_ShrinkFactors[i]+inputStartIndex[i])
-    //     / static_cast<double>(m_ShrinkFactors[i])
-    //     );
+    outputSpacing[i] *= m_ShrinkFactors[i];
     outputStartIndex[i] = inputStartIndex[i];
     outputSize[i] =
       Math::Floor<SizeValueType>(static_cast<double>(inputSize[i]) / static_cast<double>(m_ShrinkFactors[i]));

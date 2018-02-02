@@ -201,16 +201,8 @@ FrequencyExpandViaInverseFFTImageFilter<TImageType>::GenerateOutputInformation()
     outputSpacing[i] = inputSpacing[i] / m_ExpandFactors[i];
     outputSize[i] = inputSize[i] * static_cast<SizeValueType>(m_ExpandFactors[i]);
     outputStartIndex[i] = inputStartIndex[i];
-    // outputStartIndex[i] = inputStartIndex[i] * (IndexValueType)m_ExpandFactors[i];
-    // const double fraction = static_cast<double>( m_ExpandFactors[i] - 1 ) /
-    //   static_cast<double>(m_ExpandFactors[i]);
-    // inputOriginShift[i] = -( inputSpacing[i] / 2.0 ) * fraction;
   }
 
-  // const typename TImageType::DirectionType inputDirection    = inputPtr->GetDirection();
-  // const typename TImageType::SpacingType   outputOriginShift = inputDirection * inputOriginShift;
-  //
-  // outputOrigin = inputOrigin + outputOriginShift;
   outputOrigin = inputOrigin;
 
   outputPtr->SetSpacing(outputSpacing);
