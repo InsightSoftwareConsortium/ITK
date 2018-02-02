@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.7)
+cmake_minimum_required(VERSION 3.9.5)
 
 if(NOT UUID_NAMESPACE)
   set(UUID_NAMESPACE "UUID")
