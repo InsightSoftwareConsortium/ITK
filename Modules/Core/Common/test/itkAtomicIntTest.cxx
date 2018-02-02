@@ -41,7 +41,7 @@ int Total = 0;
 itk::uint64_t Total64 = 0;
 itk::AtomicInt<itk::uint32_t> TotalAtomic(0);
 itk::AtomicInt<itk::uint64_t> TotalAtomic64(0);
-const int Target = 1000000;
+constexpr int Target = 1000000;
 itk::int32_t Values32[Target+2];
 itk::int64_t Values64[Target+2];
 itk::AtomicInt<itk::int32_t*> AtomicPtr(Values32);

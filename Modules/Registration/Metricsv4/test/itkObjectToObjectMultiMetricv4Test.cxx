@@ -37,7 +37,7 @@
     takes N metrics and assigns a weight to each metric's result.
  */
 
-const unsigned int ObjectToObjectMultiMetricv4TestDimension = 2;
+constexpr unsigned int ObjectToObjectMultiMetricv4TestDimension = 2;
 using ObjectToObjectMultiMetricv4TestMultiMetricType = itk::ObjectToObjectMultiMetricv4<ObjectToObjectMultiMetricv4TestDimension,ObjectToObjectMultiMetricv4TestDimension>;
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

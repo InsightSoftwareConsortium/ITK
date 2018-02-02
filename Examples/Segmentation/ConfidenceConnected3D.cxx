@@ -49,7 +49,7 @@ int main( int argc, char *argv[] )
 
 
   using InternalPixelType = float;
-  const     unsigned int    Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using InternalImageType = itk::Image< InternalPixelType, Dimension >;
 
   using OutputPixelType = unsigned char;

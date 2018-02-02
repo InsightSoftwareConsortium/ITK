@@ -53,7 +53,7 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
     referenceImage->FillBuffer( 100 );
 
 
-    const unsigned int numberOfGradientImages = 6;
+    constexpr unsigned int numberOfGradientImages = 6;
 
     // Assign gradient directions
     //

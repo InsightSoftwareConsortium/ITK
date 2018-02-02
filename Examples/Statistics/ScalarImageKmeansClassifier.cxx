@@ -68,7 +68,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginCodeSnippet
   using PixelType = signed short;
-  const unsigned int         Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension >;
 
@@ -120,7 +120,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndCodeSnippet
 
 
-  const unsigned int argoffset = 5;
+  constexpr unsigned int argoffset = 5;
 
   if( static_cast<unsigned int>(argc) <
       numberOfInitialClasses + argoffset )

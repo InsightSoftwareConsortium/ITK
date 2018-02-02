@@ -57,7 +57,7 @@ public:
 
 int itkDerivativeOperatorTest(int, char* [] )
 {
-  const unsigned int  Dimension = 1;
+  constexpr unsigned int Dimension = 1;
   using PixelType = float;
 
   using OperatorType = itk::DerivativeOperatorTestHelper< PixelType, Dimension >;

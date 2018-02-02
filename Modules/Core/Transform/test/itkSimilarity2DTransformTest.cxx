@@ -50,7 +50,7 @@ int itkSimilarity2DTransformTest(int, char *[] )
   std::cout << "Testing Similarity 2D Transform" << std::endl << std::endl;
 
   const double       epsilon = 1e-10;
-  const unsigned int N = 2;
+  constexpr unsigned int N = 2;
   bool               Ok = true;
 
   using SimilarityTransformType = itk::CenteredSimilarity2DTransform<double>;
@@ -385,7 +385,7 @@ int itkSimilarity2DTransformTest(int, char *[] )
     TransformType::JacobianType approxJacobian = jacobian;
     for( unsigned int k = 0; k < t1->GetNumberOfParameters(); k++ )
       {
-      const double                  delta = 0.001;
+      constexpr double delta = 0.001;
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 
@@ -545,7 +545,7 @@ int itkSimilarity2DTransformTest(int, char *[] )
     TransformType::JacobianType approxJacobian = jacobian;
     for( unsigned int k = 0; k < t1->GetNumberOfParameters(); k++ )
       {
-      const double                  delta = 0.001;
+      constexpr double delta = 0.001;
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 

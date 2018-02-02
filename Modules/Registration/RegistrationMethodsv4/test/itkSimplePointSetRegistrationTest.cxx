@@ -96,8 +96,8 @@ public:
 
 int itkSimplePointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
-  const unsigned int Dimension = 2;
-  const unsigned int numberOfIterations = 20;
+  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int numberOfIterations = 20;
 
   using PointSetType = itk::PointSet<unsigned int, Dimension>;
 

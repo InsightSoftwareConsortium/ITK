@@ -62,7 +62,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using PixelType = unsigned char;
-  const unsigned int    Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
@@ -142,7 +142,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int numberOfPoints = 6;
+  constexpr unsigned int numberOfPoints = 6;
   PolygonType::PointType point;
   PolygonType::PointType::VectorType radial;
   radial[0] = 0.0;
@@ -154,7 +154,7 @@ int main( int argc, char *argv[] )
   center[1] = 50.0;
   center[2] =  0.0;
 
-  const double radius = 40.0;
+  constexpr double radius = 40.0;
 
   for( unsigned int i=0; i < numberOfPoints; i++ )
     {

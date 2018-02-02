@@ -28,7 +28,7 @@ int itkFastMarchingImageFilterRealWithNumberOfElementsTest(int , char* [] )
 {
   // create a fastmarching object
   using PixelType = float;
-  const unsigned Dimension = 2;
+  constexpr unsigned Dimension  = 2;
 
   using FloatImageType = itk::Image< PixelType, Dimension >;
 

@@ -85,7 +85,7 @@ int itkImageRegistrationMethodTest_17(int, char* [] )
 
   bool pass = true;
 
-  const unsigned int dimension = 3;
+  constexpr unsigned int dimension = 3;
   unsigned int j;
 
   using PixelType = float;
@@ -271,7 +271,7 @@ int itkImageRegistrationMethodTest_17(int, char* [] )
   /***********************************************************
    * Run the registration
    ************************************************************/
-  const unsigned int numberOfLoops = 2;
+  constexpr unsigned int numberOfLoops = 2;
   unsigned int iter[numberOfLoops] = { 50, 0 };
   double      rates[numberOfLoops] = { 1e-3, 5e-4 };
 
@@ -361,7 +361,7 @@ double F( itk::Vector<double,3> & v )
   double x = v[0];
   double y = v[1];
   double z = v[2];
-  const double s = 50;
+  constexpr double s = 50;
   double value = 200.0 * std::exp( - ( x*x + y*y + z*z )/(s*s) );
   x -= 8; y += 3; z += 0;
   double r = std::sqrt( x*x + y*y + z*z );

@@ -23,8 +23,8 @@ int itkCovarianceSampleFilterTest2(int, char* [] )
 {
   std::cout << "CovarianceSampleFilter test \n \n";
 
-  const unsigned int                  MeasurementVectorSize = 3;
-  const unsigned int                  numberOfMeasurementVectors = 3;
+  constexpr unsigned int MeasurementVectorSize = 3;
+  constexpr unsigned int numberOfMeasurementVectors = 3;
   unsigned int                        counter;
 
   using MeasurementVectorType = itk::FixedArray<

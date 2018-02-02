@@ -36,7 +36,7 @@ int itkVotingBinaryHoleFillingImageFilterTest( int argc, char* argv[] )
   }
 
   // Define the dimension of the images
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   // Declare the pixel types of the images
   using InputPixelType = unsigned short;

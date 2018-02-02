@@ -40,7 +40,7 @@ void test(int testIdx)
 // scope.
   itk::StdStreamStateSave coutState(std::cout);
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = float;
 
   using myImageType2D1 = itk::Image< unsigned char, Dimension >;

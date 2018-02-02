@@ -35,7 +35,7 @@ bool TemplatedRoundTest( void )
 {
    bool ok = true;
 
-   const unsigned int numberOfElements = 15;
+   constexpr unsigned int numberOfElements = 15;
 
   // input data for rounding methods
   float input[] =  {-8.4999f, -8.50f, -8.5001f,

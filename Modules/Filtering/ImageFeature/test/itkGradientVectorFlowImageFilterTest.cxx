@@ -24,7 +24,7 @@
 int itkGradientVectorFlowImageFilterTest(int , char *[])
 {
   // Define the dimension of the images
-  const unsigned int myDimension = 2;
+  constexpr unsigned int myDimension = 2;
 
   // Declare gradient type
   using myGradientType = itk::CovariantVector<double, myDimension>;

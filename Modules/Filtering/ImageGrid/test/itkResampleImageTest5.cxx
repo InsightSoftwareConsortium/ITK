@@ -28,7 +28,7 @@ int itkResampleImageTest5(int argc, char * argv [] )
 {
 
   // Resample an RGB image
-  const unsigned int NDimensions = 2;
+  constexpr unsigned int NDimensions = 2;
 
   using PixelType = unsigned char;
   using RGBPixelType = itk::RGBPixel<unsigned char>;

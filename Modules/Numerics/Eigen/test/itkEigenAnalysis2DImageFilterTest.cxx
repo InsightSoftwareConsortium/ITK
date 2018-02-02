@@ -21,7 +21,7 @@
 
 
 // Define the dimension of the images
-const unsigned int myDimension = 2;
+constexpr unsigned int myDimension = 2;
 
 // Declare type for Eigen Vectors
 using myVectorType = itk::Vector<double, myDimension>;

@@ -40,7 +40,7 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
   using InputPixelType = signed   short;
   using OutputPixelType = unsigned short;
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using InputImageType = itk::Image< InputPixelType,  Dimension >;
   using OutputImageType = itk::Image< OutputPixelType, Dimension >;

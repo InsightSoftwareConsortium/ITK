@@ -401,7 +401,7 @@ int itkListSampleTest(int argc, char *argv[] )
   VariableSizeListSampleType::Pointer variableSizeSample =
     VariableSizeListSampleType::New();
 
-  const unsigned int initialSize = 19;
+  constexpr unsigned int initialSize = 19;
     variableSizeSample->SetMeasurementVectorSize( initialSize );
 
   unsigned int returnedSize =
@@ -414,7 +414,7 @@ int itkListSampleTest(int argc, char *argv[] )
     }
 
   VariableSizeMeasurementVectorType variableLenghtVector;
-  const unsigned int newsize = 42;
+  constexpr unsigned int newsize = 42;
   variableLenghtVector.SetSize( newsize );
 
   variableSizeSample->Clear();
@@ -435,7 +435,7 @@ int itkListSampleTest(int argc, char *argv[] )
 
 
   // Now, verify that it can be changed
-  const unsigned int initialSize2 = 37;
+  constexpr unsigned int initialSize2 = 37;
   variableSizeSample->Clear();
   variableSizeSample->SetMeasurementVectorSize( initialSize2 );
 

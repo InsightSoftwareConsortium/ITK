@@ -23,7 +23,7 @@
 
 int itkBSplineSyNPointSetRegistrationTest( int itkNotUsed( argc ), char * itkNotUsed( argv )[] )
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using PointSetType = itk::PointSet<unsigned int, Dimension>;
 

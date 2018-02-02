@@ -196,7 +196,7 @@ int itkQuasiNewtonOptimizerv4TestTemplated(int numberOfIterations,
   // the end of the list of parameters.
   const unsigned int offsetOrder = finalParameters.Size()-actualParameters.Size();
 
-  const double tolerance = 1.0;  // equivalent to 1 pixel.
+  constexpr double tolerance = 1.0;  // equivalent to 1 pixel.
 
   for(unsigned int i=0; i<numbeOfParameters; i++)
     {
@@ -244,7 +244,7 @@ int itkQuasiNewtonOptimizerv4Test(int argc, char ** const argv)
     shiftOfStep = atof( argv[2] );
     }
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;

@@ -38,7 +38,7 @@ int itkGDCMImageIOTest(int argc, char* argv[])
   const char * rescaledDicomFileName = argv[4];
   const char * rescaledOutputImageFileName = argv[5];
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using InputPixelType = short;
   using InputImageType = itk::Image< InputPixelType, Dimension >;
 

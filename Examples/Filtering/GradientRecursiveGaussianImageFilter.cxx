@@ -60,7 +60,7 @@ int main( int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int  Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using InputPixelType = float;
   using OutputComponentPixelType = float;
 

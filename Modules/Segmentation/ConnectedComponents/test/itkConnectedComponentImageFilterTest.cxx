@@ -35,7 +35,7 @@ int itkConnectedComponentImageFilterTest(int argc, char* argv[] )
     }
 
   using InternalPixelType = unsigned short;
-  const     unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using InternalImageType = itk::Image< InternalPixelType, Dimension >;
   using OutputImageType = itk::Image<unsigned short,Dimension>;

@@ -87,7 +87,7 @@ int itkMatrixTest(int, char* [] )
   MatrixType matrix5;
   matrix5.Fill( 1.7 );
 
-  const NumericType value = 2;
+  constexpr NumericType value  = 2;
   matrix5[1][1] = value;
   if( itk::Math::NotExactlyEquals(matrix5[1][1], value) )
     {
@@ -96,7 +96,7 @@ int itkMatrixTest(int, char* [] )
     }
 
   // Test access with the operator()(row,col)
-  const NumericType value2 = 19;
+  constexpr NumericType value2  = 19;
   matrix5(1,1) = value2;
   if( itk::Math::NotExactlyEquals(matrix5[1][1], value2) )
     {
@@ -196,8 +196,8 @@ int itkMatrixTest(int, char* [] )
 
 
   { // Test for Matrix addition and subtraction
-    const unsigned int nc = 4;
-    const unsigned int nr = 3;
+    constexpr unsigned int nc = 4;
+    constexpr unsigned int nr = 3;
 
     using AddSubtractMatrixType = itk::Matrix<double, nr, nc>;
 

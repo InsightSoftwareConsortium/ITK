@@ -24,7 +24,7 @@
 
 int itkLabelToRGBImageFilterTest(int argc, char * argv[])
 {
-  const int Dimension = 2;
+  constexpr int Dimension = 2;
 
   if( argc < 3 )
     {

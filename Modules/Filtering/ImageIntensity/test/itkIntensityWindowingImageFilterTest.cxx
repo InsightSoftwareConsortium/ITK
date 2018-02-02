@@ -26,7 +26,7 @@
 
 int itkIntensityWindowingImageFilterTest( int, char* [] )
 {
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = float;
 
   using TestInputImage = itk::Image< PixelType, Dimension >;
@@ -67,7 +67,7 @@ int itkIntensityWindowingImageFilterTest( int, char* [] )
   filter->SetInput( source->GetOutput() );
 
   const double desiredMinimum = -1.0;
-  const double desiredMaximum =  1.0;
+  constexpr double desiredMaximum = 1.0;
 
   const float  windowMinimum = -50.0f;
   const float  windowMaximum =  50.0f;

@@ -29,7 +29,7 @@ int itkStatisticsAlgorithmTest( int, char * [] )
 {
   std::cout << "StatisticsAlgorithm Test \n \n";
 
-  const unsigned int measurementVectorSize = 2;
+  constexpr unsigned int measurementVectorSize = 2;
 
   using MeasurementVectorType = itk::Array< float >;
   using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
@@ -68,7 +68,7 @@ int itkStatisticsAlgorithmTest( int, char * [] )
   MeasurementVectorType realUpper( measurementVectorSize );
   MeasurementVectorType realLower( measurementVectorSize );
 
-  const unsigned int numberOfSamples = 25;
+  constexpr unsigned int numberOfSamples = 25;
 
   realLower.Fill( 1000 );
   realUpper.Fill(    0 );

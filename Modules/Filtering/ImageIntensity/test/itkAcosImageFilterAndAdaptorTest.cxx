@@ -28,7 +28,7 @@ int itkAcosImageFilterAndAdaptorTest( int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   // Declare the pixel types of the images
   using PixelType = float;

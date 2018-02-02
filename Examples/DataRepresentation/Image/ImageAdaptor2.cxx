@@ -101,7 +101,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using InputPixelType = RedChannelPixelAccessor::InternalType;
-  const   unsigned int   Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using ImageType = itk::Image< InputPixelType, Dimension >;
 
   using ImageAdaptorType = itk::ImageAdaptor<  ImageType,

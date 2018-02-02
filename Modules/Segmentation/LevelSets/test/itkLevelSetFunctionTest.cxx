@@ -203,7 +203,7 @@ int itkLevelSetFunctionTest(int, char* [] )
 {
   using ImageType = ::itk::Image<float, 2>;
 
-  const int n = 100;  // Number of iterations
+  constexpr int n = 100;  // Number of iterations
 
   ImageType::Pointer im_init = ImageType::New();
   ImageType::Pointer im_target = ImageType::New();

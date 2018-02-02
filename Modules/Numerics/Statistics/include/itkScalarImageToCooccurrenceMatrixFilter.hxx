@@ -37,7 +37,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
   this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
 
   // constant for a coocurrence matrix.
-  const unsigned int measurementVectorSize = 2;
+  constexpr unsigned int measurementVectorSize = 2;
 
   HistogramType *output = const_cast< HistogramType * >( this->GetOutput() );
 

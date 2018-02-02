@@ -81,11 +81,11 @@ int itkQuadrilateralCellTest(int, char* [] )
   MeshType::Pointer mesh = MeshType::New();
   mesh->DebugOn();
 
-  const unsigned int numberOfPoints = 6;
+  constexpr unsigned int numberOfPoints = 6;
   /**
    * Define the 3D geometric positions for 6 points in two neighbouring squares.
    */
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   // Test points are on a plane at an angle (3^2 + 4^2 = 5^2) with xy plane
   MeshType::CoordRepType testPointCoords[numberOfPoints][Dimension]
     = { {0,0,0}, {10,0,0}, {0,8,6}, {10,8,6}, {0,16,12}, {10,16,12} };

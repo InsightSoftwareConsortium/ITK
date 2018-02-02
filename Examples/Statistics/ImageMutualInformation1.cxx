@@ -104,7 +104,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginCodeSnippet
   using PixelComponentType = unsigned char;
-  const unsigned int                                    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image< PixelComponentType, Dimension >;
   // Software Guide : EndCodeSnippet

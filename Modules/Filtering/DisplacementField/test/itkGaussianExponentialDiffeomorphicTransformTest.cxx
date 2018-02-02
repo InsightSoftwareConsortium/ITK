@@ -31,7 +31,7 @@
 
 int itkGaussianExponentialDiffeomorphicTransformTest(int ,char *[] )
 {
-  const unsigned int dimensions = 2;
+  constexpr unsigned int dimensions = 2;
 
   using DisplacementTransformType = itk::GaussianExponentialDiffeomorphicTransform<double, dimensions>;
 

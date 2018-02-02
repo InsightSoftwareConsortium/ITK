@@ -819,7 +819,7 @@ BMPImageIO
     }
   this->Write32BitsInteger(fileSize);
 
-  const unsigned short applicationReservedValue = 0;
+  constexpr unsigned short applicationReservedValue = 0;
   this->Write16BitsInteger(applicationReservedValue);
   this->Write16BitsInteger(applicationReservedValue);
 
@@ -849,7 +849,7 @@ BMPImageIO
   //
   //  Finally the pixel data
   //
-  const unsigned int bitmapHeaderSize = 40;
+  constexpr unsigned int bitmapHeaderSize = 40;
   this->Write32BitsInteger(bitmapHeaderSize);
 
   // image width
@@ -859,7 +859,7 @@ BMPImageIO
   this->Write32BitsInteger(static_cast<unsigned int>(m_Dimensions[1]));
 
   // Set `planes'=1 (mandatory)
-  const unsigned short numberOfColorPlanes = 1;
+  constexpr unsigned short numberOfColorPlanes = 1;
   this->Write16BitsInteger(numberOfColorPlanes);
 
   // Set bits per pixel.
@@ -880,7 +880,7 @@ BMPImageIO
     }
   this->Write16BitsInteger(numberOfBitsPerPixel);
 
-  const unsigned int compressionMethod = 0;
+  constexpr unsigned int compressionMethod = 0;
   this->Write32BitsInteger(compressionMethod);
   this->Write32BitsInteger(rawImageDataSize);
 
@@ -896,11 +896,11 @@ BMPImageIO
   this->Write32BitsInteger(verticalResolution);
 
   // zero here defaults to 2^n colors in the palette
-  const unsigned int numberOfColorsInPalette = 0;
+  constexpr unsigned int numberOfColorsInPalette = 0;
   this->Write32BitsInteger(numberOfColorsInPalette);
 
   // zero here indicates that all colors in the palette are important.
-  const unsigned int numberOfImportantColorsInPalette = 0;
+  constexpr unsigned int numberOfImportantColorsInPalette = 0;
   this->Write32BitsInteger(numberOfImportantColorsInPalette);
   //
   // End of DIB header, 54 bytes written so far
@@ -929,7 +929,7 @@ BMPImageIO
   unsigned int i;
   for ( unsigned int h = 0; h < m_Dimensions[1]; h++ )
     {
-    const char  paddingValue = 0;
+    constexpr char paddingValue = 0;
     const char *ptr = static_cast< const char * >( buffer );
     ptr += ( m_Dimensions[1] - ( h + 1 ) ) * m_Dimensions[0] * bpp;
     if ( bpp == 1 )

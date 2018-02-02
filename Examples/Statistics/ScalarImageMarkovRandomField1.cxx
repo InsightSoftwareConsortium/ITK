@@ -87,7 +87,7 @@ int main( int argc, char * argv [] )
   const double       smoothingFactor    = atof( argv[5] );
   const unsigned int numberOfClasses    = atoi( argv[6] );
 
-  const unsigned int numberOfArgumentsBeforeMeans = 7;
+  constexpr unsigned int numberOfArgumentsBeforeMeans = 7;
 
   if( static_cast<unsigned int>(argc) <
       numberOfClasses + numberOfArgumentsBeforeMeans )
@@ -114,7 +114,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginCodeSnippet
   using PixelType = signed short;
-  const unsigned int          Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension >;
 

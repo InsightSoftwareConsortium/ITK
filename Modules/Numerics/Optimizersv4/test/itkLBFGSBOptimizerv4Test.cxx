@@ -224,14 +224,14 @@ int itkLBFGSBOptimizerv4Test(int, char *[])
 
   const double F_Convergence_Factor  = 1e+7;      // Function value tolerance
   const double Projected_G_Tolerance = 1e-5;      // Proj gradient tolerance
-  const int    Max_Iterations   =   25; // Maximum number of iterations
+  constexpr int Max_Iterations = 25; // Maximum number of iterations
 
   itkOptimizer->SetCostFunctionConvergenceFactor( F_Convergence_Factor );
   itkOptimizer->SetGradientConvergenceTolerance( Projected_G_Tolerance );
   itkOptimizer->SetNumberOfIterations( Max_Iterations );
   itkOptimizer->SetMaximumNumberOfFunctionEvaluations( 100 );
 
-  const unsigned int SpaceDimension = 2;
+  constexpr unsigned int SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
 
   // Starting point

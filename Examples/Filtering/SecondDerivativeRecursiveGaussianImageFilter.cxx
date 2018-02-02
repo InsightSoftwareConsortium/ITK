@@ -72,7 +72,7 @@ int main(int argc, char * argv [] )
   using PixelType = float;
   using OutputPixelType = float;
 
-  const unsigned int  Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   //  Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

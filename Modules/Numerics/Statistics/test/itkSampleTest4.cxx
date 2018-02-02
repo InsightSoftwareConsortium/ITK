@@ -122,7 +122,7 @@ private:
 int itkSampleTest4(int, char* [] )
 {
 
-  const unsigned int MeasurementVectorSize = 17;
+  constexpr unsigned int MeasurementVectorSize = 17;
 
   using MeasurementVectorType = std::vector< float >;
 

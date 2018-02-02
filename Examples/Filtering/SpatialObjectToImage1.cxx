@@ -97,7 +97,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using PixelType = signed short;
-  const unsigned int    Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
@@ -277,7 +277,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   const PixelType airHounsfieldUnits  = -1000;
-  const PixelType boneHounsfieldUnits =   800;
+  constexpr PixelType boneHounsfieldUnits  = 800;
 
   ellipse->SetDefaultInsideValue(   boneHounsfieldUnits );
   cylinder1->SetDefaultInsideValue( boneHounsfieldUnits );

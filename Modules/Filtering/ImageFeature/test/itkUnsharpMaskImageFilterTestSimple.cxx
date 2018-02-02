@@ -23,7 +23,7 @@
 int itkUnsharpMaskImageFilterTestSimple( int, char* [] )
 {
   // Define the dimension of the images
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   // Define the pixel types of the images
   using PixelType = float;

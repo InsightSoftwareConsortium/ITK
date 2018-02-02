@@ -67,7 +67,7 @@ int main()
   using FrequencyContainerType = itk::Statistics::DenseFrequencyContainer2;
   using FrequencyType = FrequencyContainerType::AbsoluteFrequencyType;
 
-  const unsigned int numberOfComponents = 2;
+  constexpr unsigned int numberOfComponents = 2;
   using HistogramType = itk::Statistics::Histogram< MeasurementType,
     FrequencyContainerType >;
 

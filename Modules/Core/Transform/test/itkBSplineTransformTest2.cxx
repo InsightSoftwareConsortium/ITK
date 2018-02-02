@@ -63,7 +63,7 @@ class BSplineTransformTest2Helper
 public:
 static int RunTest(int argc, char * argv [] )
 {
-  const     unsigned int   ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using PixelType = unsigned char;
   using FixedImageType = itk::Image< PixelType, ImageDimension >;

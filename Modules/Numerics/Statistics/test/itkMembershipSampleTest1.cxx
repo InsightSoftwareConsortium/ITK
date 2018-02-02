@@ -24,9 +24,9 @@
 int itkMembershipSampleTest1(int, char* [] )
 {
 
-  const unsigned int MeasurementVectorSize = 3;
+  constexpr unsigned int MeasurementVectorSize = 3;
 
-  const unsigned int numberOfClasses1 = 2;
+  constexpr unsigned int numberOfClasses1 = 2;
 
   using MeasurementVectorType = itk::FixedArray<
     float, MeasurementVectorSize >;

@@ -32,7 +32,7 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const int ImageDimension = 2;
+  constexpr int ImageDimension = 2;
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, ImageDimension>;

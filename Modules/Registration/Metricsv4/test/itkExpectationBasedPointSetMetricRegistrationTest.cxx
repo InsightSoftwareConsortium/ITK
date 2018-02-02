@@ -60,7 +60,7 @@ public:
 
 int itkExpectationBasedPointSetMetricRegistrationTest( int argc, char *argv[] )
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   unsigned int numberOfIterations = 10;
   if( argc > 1 )

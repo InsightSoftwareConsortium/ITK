@@ -33,7 +33,7 @@ int itkVTKImageIOTest2(int argc, char* argv[] )
     }
 
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   // Testing to write images of vectors as VTK images.
 

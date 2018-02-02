@@ -23,7 +23,7 @@
 
 namespace
 {
-const unsigned int Dimension = 3;
+constexpr unsigned int Dimension = 3;
 
 // This function assumes that the center of mass of both images is the
 // geometrical center.
@@ -193,7 +193,7 @@ void PopulateImage( itk::SmartPointer< TImage > image )
   SizeType   internalSize;
   IndexType  internalIndex;
 
-  const unsigned int border = 20;
+  constexpr unsigned int border = 20;
 
   assert( 2 * border < size[0] );
   assert( 2 * border < size[1] );

@@ -42,7 +42,7 @@ int itkGridImageSourceTest( int argc, char *argv[] )
     }
 
 
-  const unsigned int  ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using PixelType = float;
 
   using ImageType = itk::Image< PixelType, ImageDimension >;

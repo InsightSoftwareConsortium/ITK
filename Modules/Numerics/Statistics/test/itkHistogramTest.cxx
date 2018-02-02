@@ -28,7 +28,7 @@ int itkHistogramTest( int, char* [] )
   std::string whereFail = "";
 
   using MeasurementType = float;
-  const unsigned int numberOfComponents = 3;
+  constexpr unsigned int numberOfComponents = 3;
 
   // create a histogram with 3 components measurement vectors
   using HistogramType = itk::Statistics::Histogram< MeasurementType,
@@ -373,7 +373,7 @@ int itkHistogramTest( int, char* [] )
     whereFail = "Set/GetMeasurementVectorSize()";
     }
 
-  const unsigned int measurementVectorSize = 17;
+  constexpr unsigned int measurementVectorSize = 17;
 
   try
     {
@@ -416,7 +416,7 @@ int itkHistogramTest( int, char* [] )
       }
     }
 
-  const InstanceIdentifier instanceId = 0;
+  constexpr InstanceIdentifier instanceId  = 0;
   measurement = histogram->GetMeasurementVector( instanceId );
   for( unsigned kid2 = 0; kid2 < numberOfComponents; kid2++ )
     {

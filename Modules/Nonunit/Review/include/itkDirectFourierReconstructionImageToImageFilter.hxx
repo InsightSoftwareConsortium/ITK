@@ -29,7 +29,7 @@ template< typename TInputImage, typename TOutputImage >
 DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >::DirectFourierReconstructionImageToImageFilter():
   Superclass()
 {
-  const double RADIANS = 1.0;
+  constexpr double RADIANS = 1.0;
 
   m_ZeroPadding = 2;
   m_OverSampling = 2;

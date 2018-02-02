@@ -31,7 +31,7 @@ int itkImportImageTest( int, char* [] )
     rawImage[i] = i;
     }
   // typdefs to simplify the syntax
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = short;
 
   using ImportImageFilter = itk::ImportImageFilter< PixelType, Dimension >;

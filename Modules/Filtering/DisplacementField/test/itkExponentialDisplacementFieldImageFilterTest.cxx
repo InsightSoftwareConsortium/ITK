@@ -24,7 +24,7 @@
 int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
 {
   // Define the dimension of the images
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   using PixelType = itk::Vector< double, ImageDimension >;
 
@@ -225,7 +225,7 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
 
   // See if the output is consistent when the spacing is changed
   // (in an isotropic manner)
-  const double isospacing = 10;
+  constexpr double isospacing = 10;
   using SpacingType = ImageType::SpacingType;
   SpacingType spacing;
   for (unsigned int d=0; d<ImageDimension; ++d)
@@ -239,7 +239,7 @@ int itkExponentialDisplacementFieldImageFilterTest(int, char* [] )
 
   // Random number generator
   vnl_random rng;
-  const double power = 5.0;
+  constexpr double power = 5.0;
 
   it.GoToBegin();
   while( !it.IsAtEnd() )

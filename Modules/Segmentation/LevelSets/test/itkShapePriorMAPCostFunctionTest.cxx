@@ -40,7 +40,7 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
 {
 
   using PixelType = float;
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using ImageType = itk::Image<PixelType,Dimension>;
 
   /**

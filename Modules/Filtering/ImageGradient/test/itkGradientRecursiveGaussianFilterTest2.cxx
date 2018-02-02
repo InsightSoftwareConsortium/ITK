@@ -26,7 +26,7 @@ int itkGradientRecursiveGaussianFilterTest2(int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int myDimension = 1;
+  constexpr unsigned int myDimension = 1;
 
   // Declare the types of the images
   using myImageType = itk::Image<float, myDimension>;

@@ -166,7 +166,7 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimensions = 2;
+  constexpr unsigned int Dimensions = 2;
 
   using ParametersValueType = double;
 

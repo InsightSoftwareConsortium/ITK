@@ -84,7 +84,7 @@ int itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char *argv[])
 
   /** load the images **/
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = double;
 
   using FixedImageType = itk::Image< PixelType, Dimension >;

@@ -63,7 +63,7 @@ class BSplineDeformableTransformTest2Helper
 public:
 static int RunTest(int argc, char * argv [] )
 {
-  const     unsigned int   ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using PixelType = unsigned char;
   using FixedImageType = itk::Image< PixelType, ImageDimension >;
@@ -149,7 +149,7 @@ static int RunTest(int argc, char * argv [] )
 
   const unsigned int numberOfGridNodesOutsideTheImageSupport = VSplineOrder;
 
-  const unsigned int numberOfGridNodesInsideTheImageSupport = 5;
+  constexpr unsigned int numberOfGridNodesInsideTheImageSupport = 5;
 
   const unsigned int numberOfGridNodes =
                         numberOfGridNodesInsideTheImageSupport +

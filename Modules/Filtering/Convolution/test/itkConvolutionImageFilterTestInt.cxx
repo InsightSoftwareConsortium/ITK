@@ -33,7 +33,7 @@ int itkConvolutionImageFilterTestInt(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const int ImageDimension = 2;
+  constexpr int ImageDimension = 2;
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, ImageDimension>;
@@ -83,7 +83,7 @@ int itkConvolutionImageFilterTestInt(int argc, char * argv[])
   MonitorFilter::Pointer monitor = MonitorFilter::New();
   monitor->SetInput( convolver->GetOutput() );
 
-  const unsigned int numberOfStreamDivisions = 4;
+  constexpr unsigned int numberOfStreamDivisions = 4;
   itk::StreamingImageFilter< ImageType, ImageType >::Pointer streamingFilter =
     itk::StreamingImageFilter< ImageType, ImageType >::New();
   streamingFilter->SetNumberOfStreamDivisions( numberOfStreamDivisions );

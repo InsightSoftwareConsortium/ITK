@@ -21,7 +21,7 @@
 
 int itkScalarChanAndVeseDenseLevelSetImageFilterTest3( int, char* [] )
 {
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using PixelType = double;
   using ImageType = itk::Image< PixelType, Dimension >;

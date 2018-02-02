@@ -33,7 +33,7 @@ int itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
     }
 
   // declare the dimension used, and the type of the input image
-  const int dim = 2;
+  constexpr int dim = 2;
   using PType = unsigned char;
   using IType = itk::Image< PType, dim >;
 

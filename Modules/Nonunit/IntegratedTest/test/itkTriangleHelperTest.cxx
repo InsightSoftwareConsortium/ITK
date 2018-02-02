@@ -24,7 +24,7 @@ int itkTriangleHelperTest( int argc, char* argv[] )
   (void) argc;
   (void) argv;
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using CoordRepType = double;
   using PointType = itk::Point< CoordRepType, Dimension >;
   using VectorType = PointType::VectorType;

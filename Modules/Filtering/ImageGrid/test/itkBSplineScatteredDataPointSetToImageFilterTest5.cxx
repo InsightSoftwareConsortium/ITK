@@ -40,8 +40,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest5( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int ParametricDimension = 2;
-  const unsigned int DataDimension = 3;
+  constexpr unsigned int ParametricDimension = 2;
+  constexpr unsigned int DataDimension = 3;
 
   using RealType = double;
   using OutputPixelType = unsigned char;

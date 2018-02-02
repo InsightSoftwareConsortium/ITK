@@ -32,7 +32,7 @@
 int itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
 {
 
-  const unsigned int dimensions = 2;
+  constexpr unsigned int dimensions = 2;
   using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<
                                                   double, dimensions>;
 

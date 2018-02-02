@@ -48,7 +48,7 @@ int itkImageReverseIteratorTest(int, char* [] )
 {
 
   using PixelType = itk::Vector< unsigned short, 5 >;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using ImageType = itk::Image< PixelType, Dimension >;
 

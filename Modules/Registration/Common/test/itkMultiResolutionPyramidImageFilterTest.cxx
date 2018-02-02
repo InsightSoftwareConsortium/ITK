@@ -31,7 +31,7 @@ namespace
  */
 double F( double x, double y, double z )
 {
-  const double s = 50;
+  constexpr double s = 50;
   double value = 200.0 * std::exp( - ( x*x + y*y + z*z )/(s*s) );
   x -= 8; y += 3; z += 0;
   double r = std::sqrt( x*x + y*y + z*z );
@@ -342,7 +342,7 @@ int itkMultiResolutionPyramidImageFilterTest(int argc, char* argv[] )
       //if( OutputCenterOfMass != InputCenterOfMass )
         {
         OutputImageType::PointType::VectorType ErrorCenterOfMass=OutputCenterOfMass-InputCenterOfMass;
-        const double CenterOfMassEpsilonAllowed=0.001;
+        constexpr double CenterOfMassEpsilonAllowed = 0.001;
         const double ErrorPercentage=(ErrorCenterOfMass.GetNorm() / pyramid->GetOutput( testLevel )->GetSpacing().GetNorm() );
         if( ErrorPercentage > CenterOfMassEpsilonAllowed)
           {

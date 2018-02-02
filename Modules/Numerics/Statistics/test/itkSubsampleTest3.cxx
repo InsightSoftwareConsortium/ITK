@@ -24,8 +24,8 @@ int itkSubsampleTest3(int, char* [] )
 {
   std::cout << "MeanSampleFilter test \n \n";
 
-  const unsigned int                  MeasurementVectorSize = 2;
-  const unsigned int                  numberOfMeasurementVectors = 5;
+  constexpr unsigned int MeasurementVectorSize = 2;
+  constexpr unsigned int numberOfMeasurementVectors = 5;
   unsigned int                        counter;
 
   using MeasurementVectorType = itk::FixedArray<

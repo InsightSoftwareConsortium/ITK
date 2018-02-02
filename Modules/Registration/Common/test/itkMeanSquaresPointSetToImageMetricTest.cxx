@@ -45,7 +45,7 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
 // Create two simple images
 //------------------------------------------------------------
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using PixelType = double;
 
@@ -97,7 +97,7 @@ int itkMeanSquaresPointSetToImageMetricTest(int, char* [] )
   using FixedPointSetType = itk::PointSet< float, 2 >;
   FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
 
-  const unsigned int numberOfPoints = 100;
+  constexpr unsigned int numberOfPoints = 100;
 
   fixedPointSet->SetPointData( FixedPointSetType::PointDataContainer::New() );
 

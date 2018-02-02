@@ -183,8 +183,8 @@ int main(int argc, char *argv[])
   movingrescalefilter->SetInput(movingfilter->GetOutput());
   fixedrescalefilter->SetInput(fixedfilter->GetOutput());
 
-  const double desiredMinimum =  0.0;
-  const double desiredMaximum =  255.0;
+  constexpr double desiredMinimum = 0.0;
+  constexpr double desiredMaximum = 255.0;
 
   movingrescalefilter->SetOutputMinimum( desiredMinimum );
   movingrescalefilter->SetOutputMaximum( desiredMaximum );

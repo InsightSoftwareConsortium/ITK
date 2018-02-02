@@ -38,7 +38,7 @@ int itkChangeLabelLabelMapFilterTest( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImagePixelType = unsigned char;
   using LabelPixelType = unsigned char;
@@ -61,7 +61,7 @@ int itkChangeLabelLabelMapFilterTest( int argc, char * argv [] )
 
   changeFilter->SetInput( i2l->GetOutput() );
 
-  const unsigned int numberOfArgumentsBeforeLabels = 3;
+  constexpr unsigned int numberOfArgumentsBeforeLabels = 3;
   const unsigned int numberOfArguments = argc;
 
   using LabelPrintType = itk::NumericTraits< LabelPixelType >::PrintType;

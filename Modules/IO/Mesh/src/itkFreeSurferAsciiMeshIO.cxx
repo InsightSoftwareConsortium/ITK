@@ -102,8 +102,8 @@ FreeSurferAsciiMeshIO
   OpenFile();
 
   // Read the ASCII file information
-  const int          numberOfInfoLines = 1;
-  const unsigned int numberOfCellPoints = 3;
+  constexpr int numberOfInfoLines = 1;
+  constexpr unsigned int numberOfCellPoints = 3;
   std::string        line;
 
   for ( int ii = 0; ii < numberOfInfoLines; ii++ )
@@ -176,7 +176,7 @@ FreeSurferAsciiMeshIO
   // Get cell buffer
   m_InputFile.precision(12);
   SizeValueType      index = 0;
-  const unsigned int numberOfCellPoints = 3;
+  constexpr unsigned int numberOfCellPoints = 3;
   unsigned int *     data = new unsigned int[this->m_NumberOfCells * numberOfCellPoints];
   float              value;
 

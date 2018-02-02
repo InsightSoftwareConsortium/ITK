@@ -20,7 +20,7 @@
 
 int itkRegularSphereMeshSourceTest2(int, char* [] )
 {
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = float;
 
   using MeshType = itk::Mesh< PixelType, Dimension >;

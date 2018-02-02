@@ -90,12 +90,12 @@ RegularSphereMeshSource< TOutputMesh >
   outputMesh->SetPoint(idx++, p1);
 
   /* Six equidistant points lying on the unit sphere */
-  const IdentifierType XPLUS = 0;
-  const IdentifierType XMIN  = 1;
-  const IdentifierType YPLUS = 2;
-  const IdentifierType YMIN  = 3;
-  const IdentifierType ZPLUS = 4;
-  const IdentifierType ZMIN  = 5;
+  constexpr IdentifierType XPLUS  = 0;
+  constexpr IdentifierType XMIN   = 1;
+  constexpr IdentifierType YPLUS  = 2;
+  constexpr IdentifierType YMIN   = 3;
+  constexpr IdentifierType ZPLUS  = 4;
+  constexpr IdentifierType ZMIN   = 5;
 
   tripoints[0] = YPLUS; tripoints[1] = ZPLUS; tripoints[2] = XPLUS;
   this->AddCell(outputMesh, tripoints, 0);

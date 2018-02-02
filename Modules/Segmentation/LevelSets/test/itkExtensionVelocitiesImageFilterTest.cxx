@@ -115,7 +115,7 @@ SimpleVelocity( const TPoint & p )
 int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 {
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = float;
 
   using ImageType = itk::Image<PixelType,ImageDimension>;
@@ -182,7 +182,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
 */
 
   // Set up reinitialize level set image filter
-  const unsigned int AuxDimension = 2;
+  constexpr unsigned int AuxDimension = 2;
   using ReinitializerType = itk::ExtensionVelocitiesImageFilter<ImageType,float,AuxDimension>;
   ReinitializerType::Pointer reinitializer = ReinitializerType::New();
   reinitializer->SetInput( multiplier->GetOutput() );

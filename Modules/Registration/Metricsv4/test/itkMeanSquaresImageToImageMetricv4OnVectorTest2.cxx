@@ -27,8 +27,8 @@
 template<typename TMetric>
 int itkMeanSquaresImageToImageMetricv4OnVectorTest2Run( typename TMetric::MeasureType & measureReturn, typename TMetric::DerivativeType & derivativeReturn )
 {
-  const unsigned int imageSize = 5;
-  const unsigned int imageDimensionality = 3;
+  constexpr unsigned int imageSize = 5;
+  constexpr unsigned int imageDimensionality = 3;
 
   using ImageType = typename TMetric::FixedImageType;
 
@@ -139,8 +139,8 @@ int itkMeanSquaresImageToImageMetricv4OnVectorTest2Run( typename TMetric::Measur
 
 int itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
 {
-  const unsigned int imageDimensionality = 3;
-  const unsigned int vectorLength = 3;
+  constexpr unsigned int imageDimensionality = 3;
+  constexpr unsigned int vectorLength = 3;
 
   /* The vector metric */
   using VectorType = itk::Vector<double, vectorLength>;

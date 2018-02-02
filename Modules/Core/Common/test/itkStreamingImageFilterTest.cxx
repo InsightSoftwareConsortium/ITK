@@ -23,7 +23,7 @@
 
 int itkStreamingImageFilterTest(int, char* [] )
 {
-  const unsigned int numberOfStreamDivisions = 4;
+  constexpr unsigned int numberOfStreamDivisions = 4;
 
   // type alias to simplify the syntax
   using ShortImage = itk::Image<short, 2>;

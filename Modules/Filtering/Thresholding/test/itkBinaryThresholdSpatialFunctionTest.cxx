@@ -38,7 +38,7 @@
 int itkBinaryThresholdSpatialFunctionTest( int, char *[])
 {
   using CoordRep = double;
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using SphereFunctionType = itk::SphereSignedDistanceFunction<CoordRep,Dimension>;
   using FunctionType = itk::BinaryThresholdSpatialFunction<SphereFunctionType>;

@@ -35,7 +35,7 @@ int itkImageRandomIteratorTest2( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using PixelType = unsigned long;
 

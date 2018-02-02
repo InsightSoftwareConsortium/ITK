@@ -118,7 +118,7 @@ int itkKdTreeBasedKmeansEstimatorTest(int argc, char* argv[] )
 
   //Set the centroid position change threshold
   estimator->SetCentroidPositionChangesThreshold(0.0);
-  const double tolerance = 0.1;
+  constexpr double tolerance = 0.1;
   if( std::fabs(estimator->GetCentroidPositionChangesThreshold() - 0.0) > tolerance )
     {
     std::cerr << "Set/GetCentroidPositionChangesThreshold() " << std::endl;

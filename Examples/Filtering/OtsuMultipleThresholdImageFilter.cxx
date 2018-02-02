@@ -122,8 +122,8 @@ int main( int argc, char * argv[] )
   calculator->SetNumberOfThresholds( atoi( argv[4] ) );
   // Software Guide : EndCodeSnippet
 
-  const OutputPixelType outsideValue = 0;
-  const OutputPixelType insideValue = 255;
+  constexpr OutputPixelType outsideValue  = 0;
+  constexpr OutputPixelType insideValue  = 255;
 
   filter->SetOutsideValue( outsideValue );
   filter->SetInsideValue(  insideValue  );

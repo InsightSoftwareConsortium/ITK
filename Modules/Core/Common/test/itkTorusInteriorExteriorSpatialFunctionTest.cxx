@@ -24,7 +24,7 @@ int itkTorusInteriorExteriorSpatialFunctionTest( int, char *[] )
 {
 
   // Define the dimensionality
-  const unsigned int PointDimension = 3;
+  constexpr unsigned int PointDimension = 3;
 
   // Define the point coordinate representation type
   using PointCoordRepType = float;

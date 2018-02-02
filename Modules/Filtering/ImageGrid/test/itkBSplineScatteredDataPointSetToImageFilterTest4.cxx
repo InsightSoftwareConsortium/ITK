@@ -32,9 +32,9 @@
  */
 int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
 {
-  const unsigned int ParametricDimension = 3;
-  const unsigned int DataDimension = 3;
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int ParametricDimension = 3;
+  constexpr unsigned int DataDimension = 3;
+  constexpr unsigned int SplineOrder = 3;
 
   using RealType = float;
   using VectorType = itk::Vector<RealType, DataDimension>;

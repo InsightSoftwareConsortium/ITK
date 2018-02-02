@@ -19,7 +19,7 @@
 #include "itkWeightedCovarianceSampleFilter.h"
 #include "itkListSample.h"
 
-const unsigned int                  MeasurementVectorSize = 3;
+constexpr unsigned int MeasurementVectorSize = 3;
 unsigned int                        counter = 0;
 
 using MeasurementVectorType = itk::FixedArray<

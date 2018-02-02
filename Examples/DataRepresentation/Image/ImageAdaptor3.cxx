@@ -131,7 +131,7 @@ int main( int argc, char *argv[] )
 
 // Software Guide : BeginCodeSnippet
   using InputPixelType = unsigned char;
-  const   unsigned int   Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using InputImageType = itk::Image< InputPixelType,  Dimension  >;
   using VectorPixelType = itk::CovariantVector< float, Dimension  >;
   using VectorImageType = itk::Image< VectorPixelType, Dimension  >;

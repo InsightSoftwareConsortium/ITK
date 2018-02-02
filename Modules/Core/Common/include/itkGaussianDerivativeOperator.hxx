@@ -284,7 +284,7 @@ double
 GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
 ::ModifiedBesselI(int n, double y)
 {
-  const double DIGITS = 10.0;
+  constexpr double DIGITS = 10.0;
   int          j;
   double       qim, qi, qip, toy;
   double       accumulator;

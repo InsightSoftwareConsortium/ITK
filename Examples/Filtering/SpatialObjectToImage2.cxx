@@ -95,7 +95,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using PixelType = signed short;
-  const unsigned int    Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet

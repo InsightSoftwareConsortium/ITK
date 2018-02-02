@@ -221,8 +221,8 @@ int itkParallelSparseFieldLevelSetImageFilterTest(int argc, char* argv[])
 
   using ImageType = ::itk::Image<float, 3>;
 
-  const int n = 100;  // Number of iterations
-  const int numOfThreads= 3; // Number of threads to be used
+  constexpr int n = 100;  // Number of iterations
+  constexpr int numOfThreads = 3; // Number of threads to be used
 
   ImageType::Pointer im_init = ImageType::New();
   ImageType::Pointer im_target = ImageType::New();

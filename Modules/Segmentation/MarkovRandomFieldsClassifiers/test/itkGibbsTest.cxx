@@ -30,13 +30,13 @@ int itkGibbsTest(int, char*[] )
 {
   std::cout<< "Gibbs Prior Test Begins: " << std::endl;
 
-  const unsigned int IMGWIDTH     = 20;
-  const unsigned int IMGHEIGHT    = 20;
-  const unsigned int NFRAMES      = 1;
-  const unsigned int NumberOfBands  = 1;
-  const unsigned int ImageDimension = 3;
-  const unsigned int NUM_CLASSES  = 3;
-  const unsigned int MAX_NUM_ITER = 1;
+  constexpr unsigned int IMGWIDTH = 20;
+  constexpr unsigned int IMGHEIGHT = 20;
+  constexpr unsigned int NFRAMES = 1;
+  constexpr unsigned int NumberOfBands = 1;
+  constexpr unsigned int ImageDimension = 3;
+  constexpr unsigned int NUM_CLASSES = 3;
+  constexpr unsigned int MAX_NUM_ITER = 1;
 
   const unsigned short TestingImage [400]={
   297,277,317,289,300,312,306,283,282,308,308,342,335,325,315,300,304,318,307,308,

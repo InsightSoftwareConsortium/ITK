@@ -542,8 +542,8 @@ void
 KdTree<TSample>
 ::PrintTree( std::ostream & os ) const
 {
-  const unsigned int topLevel = 0;
-  const unsigned int activeDimension = 0;
+  constexpr unsigned int topLevel = 0;
+  constexpr unsigned int activeDimension = 0;
 
   this->PrintTree( this->m_Root, topLevel, activeDimension, os );
 }

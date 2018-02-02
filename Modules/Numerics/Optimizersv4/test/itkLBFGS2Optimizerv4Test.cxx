@@ -180,7 +180,7 @@ int itkLBFGS2Optimizerv4Test(int, char* [] )
   itkOptimizer->SetMetric( metric.GetPointer() );
 
 
-  const unsigned int SpaceDimension = 2;
+  constexpr unsigned int SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
 
   // We start not so far from  | 2 -2 |

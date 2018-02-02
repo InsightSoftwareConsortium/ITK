@@ -39,7 +39,7 @@ int itkPNGImageIOTestPalette( int argc, char * argv[] )
       << std::endl;
     return EXIT_FAILURE;
     }
-  const unsigned long                         Dimension = 2;
+  constexpr unsigned long                         Dimension  = 2;
   using ScalarPixelType = unsigned char;
 
   using ScalarImageType = itk::Image< ScalarPixelType, Dimension >;

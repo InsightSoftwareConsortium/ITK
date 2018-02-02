@@ -123,10 +123,10 @@ BinaryErodeImageFilter< TInputImage, TOutputImage, TKernel >
   //     one means pixel on but not treated
   //     two means border pixel
   //     three means inner pixel
-  const unsigned char backgroundTag  = 0;
-  const unsigned char onTag          = 1;
-  const unsigned char borderTag      = 2;
-  const unsigned char innerTag       = 3;
+  constexpr unsigned char backgroundTag = 0;
+  constexpr unsigned char onTag = 1;
+  constexpr unsigned char borderTag = 2;
+  constexpr unsigned char innerTag = 3;
 
   if ( !this->m_BoundaryToForeground )
     {

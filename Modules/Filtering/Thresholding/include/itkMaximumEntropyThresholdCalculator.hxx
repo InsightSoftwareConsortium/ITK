@@ -127,7 +127,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>
 
     // IJ.log(""+max_ent+"  "+tot_ent);
 
-    const double tol = 0.00001;
+    constexpr double tol = 0.00001;
 
     if ( max_ent < (tot_ent - tol) )
       {

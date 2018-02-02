@@ -23,7 +23,7 @@
 int itkImageRegionTest(int, char* [] )
 {
 
-  const unsigned int dimension = 3;
+  constexpr unsigned int dimension = 3;
 
   using TCoordRepType = double;
   using RegionType = itk::ImageRegion< dimension >;

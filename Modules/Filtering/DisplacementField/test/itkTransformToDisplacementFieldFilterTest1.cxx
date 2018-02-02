@@ -41,7 +41,7 @@ int itkTransformToDisplacementFieldFilterTest1( int argc, char *argv[] )
   const char * displacementFieldFileName = argv[2];
 
   /** Typedefs. */
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using ScalarPixelType = float;
   using CoordRepresentationType = double;
 

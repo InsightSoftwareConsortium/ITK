@@ -44,7 +44,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>
   this->SetNumberOfRequiredInputs( 1 );
   this->SetNumberOfRequiredOutputs( 1 );
 
-  const unsigned int measurementVectorSize = 2;
+  constexpr unsigned int measurementVectorSize = 2;
 
   this->ProcessObject::SetNthOutput( 0, this->MakeOutput( 0 ) );
   HistogramType *output = const_cast<HistogramType *>( this->GetOutput() );

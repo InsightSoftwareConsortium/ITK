@@ -36,7 +36,7 @@ int itkShapeOpeningLabelMapFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const unsigned int dim = 3;
+  constexpr unsigned int dim = 3;
 
   using PixelType = unsigned char;
 

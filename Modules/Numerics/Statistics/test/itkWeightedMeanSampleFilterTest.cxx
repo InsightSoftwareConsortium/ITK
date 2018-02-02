@@ -19,7 +19,7 @@
 #include "itkWeightedMeanSampleFilter.h"
 #include "itkListSample.h"
 
-const unsigned int                  MeasurementVectorSize = 2;
+constexpr unsigned int MeasurementVectorSize = 2;
 
 using MeasurementVectorType = itk::FixedArray<
     float, MeasurementVectorSize >;
@@ -74,7 +74,7 @@ int itkWeightedMeanSampleFilterTest(int, char* [] )
 {
   std::cout << "WeightedMeanSampleFilter test \n \n";
 
-  const unsigned int                  numberOfMeasurementVectors = 5;
+  constexpr unsigned int numberOfMeasurementVectors = 5;
   unsigned int                        counter;
 
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;

@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
   const char * outputFilename = argv[2];
 
   using CharPixelType = unsigned char;
-  const    unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using CharImageType = itk::Image<CharPixelType, Dimension>;
 

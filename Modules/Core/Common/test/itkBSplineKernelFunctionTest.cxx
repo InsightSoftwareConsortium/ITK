@@ -26,7 +26,7 @@ int itkBSplineKernelFunctionTest(int, char* [] )
 {
 
 // Externally generated results
-const unsigned int npoints = 49;
+constexpr unsigned int npoints = 49;
 
 const double x[npoints] = {
 -3, -2.875, -2.75, -2.625, -2.5,
@@ -118,7 +118,7 @@ const double b3[npoints] = {
 
   // Testing derivative spline order = 0
  {
-  const unsigned int SplineOrder = 0;
+  constexpr unsigned int SplineOrder = 0;
   using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
   DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
   derivFunction->Print( std::cout );
@@ -141,7 +141,7 @@ const double b3[npoints] = {
 
   // Testing derivative spline order = 1
  {
-  const unsigned int SplineOrder = 1;
+  constexpr unsigned int SplineOrder = 1;
   using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
   DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
 
@@ -168,7 +168,7 @@ const double b3[npoints] = {
 
   // Testing derivative spline order = 2
  {
-  const unsigned int SplineOrder = 2;
+  constexpr unsigned int SplineOrder = 2;
   using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
   DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
   derivFunction->Print( std::cout );
@@ -196,7 +196,7 @@ const double b3[npoints] = {
 
   // Testing derivative spline order = 3
  {
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder = 3;
   using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
   DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
   derivFunction->Print( std::cout );

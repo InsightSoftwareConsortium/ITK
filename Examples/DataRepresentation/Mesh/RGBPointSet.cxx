@@ -77,7 +77,7 @@ int main(int, char *[])
   PointSetType::PixelType   pixel;
   PointSetType::PointType   point;
   unsigned int pointId =  0;
-  const double radius = 3.0;
+  constexpr double radius = 3.0;
 
   for(unsigned int i=0; i<360; i++)
     {

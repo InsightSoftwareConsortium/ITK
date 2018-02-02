@@ -72,7 +72,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   unsigned int numberOfImages = 0;
   unsigned int numberOfGradientImages = 0;
   bool readb0 = false;

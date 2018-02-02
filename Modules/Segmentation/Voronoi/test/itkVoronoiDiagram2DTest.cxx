@@ -30,9 +30,9 @@ int itkVoronoiDiagram2DTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  const double height = 400;
-  const double width = 400;
-  const unsigned int numberOfSeeds = 20;
+  constexpr double height = 400;
+  constexpr double width = 400;
+  constexpr unsigned int numberOfSeeds = 20;
 
   using VoronoiDiagram = itk::VoronoiDiagram2D< double >;
   using VoronoiDiagramGenerator = itk::VoronoiDiagram2DGenerator< double >;

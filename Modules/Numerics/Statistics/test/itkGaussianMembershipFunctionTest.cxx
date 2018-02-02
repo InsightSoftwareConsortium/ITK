@@ -21,7 +21,7 @@
 
 int itkGaussianMembershipFunctionTest(int, char* [] )
 {
-  const unsigned int MeasurementVectorSize = 1;
+  constexpr unsigned int MeasurementVectorSize = 1;
 
   using MeasurementVectorType = itk::FixedArray<
     float, MeasurementVectorSize >;
@@ -67,7 +67,7 @@ int itkGaussianMembershipFunctionTest(int, char* [] )
   mean[0] = 1.5;
   function->SetMean( mean );
 
-  const double tolerance = 0.001;
+  constexpr double tolerance = 0.001;
 
   if( std::fabs( function->GetMean()[0] - mean[0]) > tolerance )
     {

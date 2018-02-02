@@ -28,7 +28,7 @@ int itkShiftLabelObjectTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const int dim = 2;
+  constexpr int dim = 2;
 
   using LabelObjectType = itk::LabelObject< unsigned long, dim >;
   using IndexType = LabelObjectType::IndexType;

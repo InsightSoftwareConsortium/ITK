@@ -37,7 +37,7 @@ int itkSmoothingQuadEdgeMeshFilterTest( int argc, char* argv[] )
 
   // ** TYPEDEF **
   using Coord = float;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using MeshType = itk::QuadEdgeMesh< Coord, Dimension >;
   using ReaderType = itk::MeshFileReader< MeshType >;

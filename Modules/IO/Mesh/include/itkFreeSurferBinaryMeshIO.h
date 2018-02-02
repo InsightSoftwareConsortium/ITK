@@ -121,7 +121,7 @@ protected:
   template< typename T >
   void WriteCells(T *buffer, std::ofstream & outputFile)
   {
-    const itk::uint32_t numberOfCellPoints = 3;
+    constexpr itk::uint32_t numberOfCellPoints  = 3;
 
     itk::uint32_t *data = new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints];
 

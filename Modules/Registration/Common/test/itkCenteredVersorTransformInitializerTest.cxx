@@ -32,7 +32,7 @@ int itkCenteredVersorTransformInitializerTest(int , char* [] )
 
   bool pass = true;
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   // Fixed Image Type
   using FixedImageType = itk::Image<unsigned char, Dimension>;

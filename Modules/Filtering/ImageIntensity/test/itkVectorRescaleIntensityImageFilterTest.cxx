@@ -25,12 +25,12 @@
 
 int itkVectorRescaleIntensityImageFilterTest( int, char* [] )
 {
-  const unsigned int VectorDimension = 3;
+  constexpr unsigned int VectorDimension = 3;
 
   using InputPixelType = itk::Vector< int,   VectorDimension >;
   using OutputPixelType = itk::Vector< float, VectorDimension >;
 
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   using InputImageType = itk::Image< InputPixelType, ImageDimension >;
   using OutputImageType = itk::Image< OutputPixelType,ImageDimension >;
@@ -66,7 +66,7 @@ int itkVectorRescaleIntensityImageFilterTest( int, char* [] )
 
   filter->SetInput( inputImage );
 
-  const double desiredMaximum = 2.0;
+  constexpr double desiredMaximum = 2.0;
   filter->SetOutputMaximumMagnitude( desiredMaximum );
   TEST_SET_GET_VALUE( desiredMaximum, filter->GetOutputMaximumMagnitude() );
 

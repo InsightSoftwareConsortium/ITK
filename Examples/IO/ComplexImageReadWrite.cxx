@@ -65,7 +65,7 @@ int main( int argc, char * argv [] )
 
 
 // Software Guide : BeginCodeSnippet
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using PixelType = std::complex< float >;
   using ImageType = itk::Image< PixelType, Dimension >;

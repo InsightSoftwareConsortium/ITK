@@ -136,7 +136,7 @@ int main( int argc, char *argv[] )
     std::cerr << " [sliceAfterRegistration] " << std::endl;
     return EXIT_FAILURE;
     }
-  const unsigned int                          Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = float;
   using FixedImageType = itk::Image< PixelType, Dimension >;
   using MovingImageType = itk::Image< PixelType, Dimension >;
@@ -274,7 +274,7 @@ int main( int argc, char *argv[] )
   axis[0] = 0.0;
   axis[1] = 0.0;
   axis[2] = 1.0;
-  const double angle = 0;
+  constexpr double angle = 0;
   rotation.Set(  axis, angle  );
   transform->SetRotation( rotation );
   // Software Guide : EndCodeSnippet

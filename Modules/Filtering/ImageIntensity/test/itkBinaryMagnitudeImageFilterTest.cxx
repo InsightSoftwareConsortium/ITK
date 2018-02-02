@@ -26,7 +26,7 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -85,7 +85,7 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   InputImage1IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const InputImageType1::PixelType input1Value = 3.0;
+  constexpr InputImageType1::PixelType input1Value  = 3.0;
   while( !it1.IsAtEnd() )
   {
     it1.Set( input1Value );
@@ -96,7 +96,7 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   InputImage2IteratorType it2( inputImageB, inputImageB->GetBufferedRegion() );
 
   // Initialize the content of Image B
-  const InputImageType2::PixelType input2Value = 4.0;
+  constexpr InputImageType2::PixelType input2Value  = 4.0;
   while( !it2.IsAtEnd() )
   {
     it2.Set( input2Value );
@@ -104,7 +104,7 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   }
 
   // Define the values of the output image
-  const OutputImageType::PixelType outputValue = 5.0;
+  constexpr OutputImageType::PixelType outputValue  = 5.0;
 
 
   // Declare the type for the BinaryMagnitudeImageFilter

@@ -68,7 +68,7 @@ int main(int argc, char* argv[] )
   const char * labelMapImageFileName    = argv[2];
 
   // setup reader
-  const unsigned int                                    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using InputPixelType = float;
   using InputImageType = itk::VectorImage< InputPixelType, Dimension >;
   using ReaderType = itk::ImageFileReader< InputImageType >;

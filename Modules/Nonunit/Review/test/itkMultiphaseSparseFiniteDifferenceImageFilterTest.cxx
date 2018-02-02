@@ -62,7 +62,7 @@ public:
 
 int itkMultiphaseSparseFiniteDifferenceImageFilterTest( int, char* [] )
 {
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using LevelSetImageType = itk::Image< double,        Dimension >;
   using FeatureImageType = itk::Image< float,         Dimension >;

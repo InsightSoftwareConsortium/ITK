@@ -23,7 +23,7 @@
 
 int itkTestingStretchIntensityImageFilterTest( int itkNotUsed( argc ), char* itkNotUsed( argv )[] )
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = signed short;
   using ImageType = itk::Image< PixelType, Dimension >;
   using StretchFilterType = itk::Testing::StretchIntensityImageFilter< ImageType >;

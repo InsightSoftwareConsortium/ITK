@@ -67,7 +67,7 @@ int main( int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  const     unsigned int   Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = float;
 
   using ImageType = itk::Image< PixelType, Dimension >;
@@ -188,8 +188,8 @@ int main( int argc, char * argv[] )
 // Software Guide : BeginCodeSnippet
   MetricType::MovingTransformParametersType displacement( Dimension );
 
-  const int rangex = 50;
-  const int rangey = 50;
+  constexpr int rangex = 50;
+  constexpr int rangey = 50;
 
   for( int dx = -rangex; dx <= rangex; dx++ )
     {

@@ -34,7 +34,7 @@ int itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const unsigned int dim = 2;
+  constexpr unsigned int dim = 2;
 
   using IType = itk::Image< unsigned char, dim >;
 

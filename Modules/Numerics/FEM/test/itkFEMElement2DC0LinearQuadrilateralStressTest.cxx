@@ -30,7 +30,7 @@ int itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char *argv[])
     }
   itk::FEMFactoryBase::RegisterDefaultTypes();
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using Solver2DType = itk::fem::Solver<Dimension>;
   Solver2DType::Pointer solver = Solver2DType::New();
 

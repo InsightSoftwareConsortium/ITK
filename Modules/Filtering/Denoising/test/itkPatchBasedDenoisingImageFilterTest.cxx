@@ -102,7 +102,7 @@ int doDenoising( const std::string & inputFileName, const std::string & outputFi
     computeConditionalDerivatives );
 
   // Patch radius is same for all dimensions of the image
-  const unsigned int patchRadius = 4;
+  constexpr unsigned int patchRadius = 4;
   filter->SetPatchRadius( patchRadius );
   TEST_SET_GET_VALUE( patchRadius, filter->GetPatchRadius() );
 

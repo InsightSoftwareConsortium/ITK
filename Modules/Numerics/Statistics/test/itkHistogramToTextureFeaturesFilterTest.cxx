@@ -21,7 +21,7 @@
 int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
 {
   //Data definitions
-  const unsigned int  HISTOGRAM_AXIS_LEN =  25;
+  constexpr unsigned int HISTOGRAM_AXIS_LEN = 25;
 
 
   //------------------------------------------------------
@@ -32,7 +32,7 @@ int itkHistogramToTextureFeaturesFilterTest(int, char* [] )
   using HistogramType = itk::Statistics::Histogram< MeasurementType >;
   HistogramType::Pointer histogram = HistogramType::New();
 
-  const unsigned int measurementVectorSize = 2;
+  constexpr unsigned int measurementVectorSize = 2;
 
   histogram->SetMeasurementVectorSize( measurementVectorSize );
 

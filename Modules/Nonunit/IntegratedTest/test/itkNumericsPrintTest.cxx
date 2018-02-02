@@ -63,8 +63,8 @@ int itkNumericsPrintTest(int , char* [])
   std::cout << "----------LevenbergMarquardtOptimizer " << LevenbergMarquardtOptimizerObj;
 
   using PolynomialType = itk::MultivariateLegendrePolynomial;
-  const unsigned int dimension = 3;
-  const unsigned int degree    = 3;
+  constexpr unsigned int dimension = 3;
+  constexpr unsigned int degree = 3;
   PolynomialType::DomainSizeType domainSize(dimension);
   itk::MultivariateLegendrePolynomial * MultivariateLegendrePolynomialObj =
     new itk::MultivariateLegendrePolynomial(dimension,degree,domainSize);

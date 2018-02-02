@@ -36,7 +36,7 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
     }
 
   // Define the dimension of the images
-  const unsigned char Dimension = 2;
+  constexpr unsigned char Dimension = 2;
 
   using PixelType = float;
 

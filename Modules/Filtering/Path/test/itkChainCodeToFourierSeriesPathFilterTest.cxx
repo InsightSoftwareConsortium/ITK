@@ -26,7 +26,7 @@
 
 int itkChainCodeToFourierSeriesPathFilterTest( int, char*[] )
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PolyLinePathType = itk::PolyLineParametricPath< Dimension >;
   using ChainPathType = itk::ChainCodePath< Dimension >;
   using FSPathType = itk::FourierSeriesPath< Dimension >;

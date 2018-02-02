@@ -26,7 +26,7 @@
 #include "itkImageRegionConstIterator.h"
 
 // type alias
-const unsigned int Dimension =                      2;
+constexpr unsigned int Dimension = 2;
 using PixelType = unsigned char;
 using FrameType = itk::Image< PixelType, Dimension >;
 using VideoType = itk::VideoStream< FrameType >;

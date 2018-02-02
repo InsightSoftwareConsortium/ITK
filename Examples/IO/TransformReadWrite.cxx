@@ -47,7 +47,7 @@ int main( int argc, char * argv[] )
   const char * transformFileName = argv[1];
 
   using ScalarType = double;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using CompositeTransformType = itk::CompositeTransform< ScalarType, Dimension >;
   CompositeTransformType::Pointer composite = CompositeTransformType::New();
@@ -60,7 +60,7 @@ int main( int argc, char * argv[] )
 
   composite->AddTransform( affine );
 
-  const unsigned int SplineOrder = 5;
+  constexpr unsigned int SplineOrder = 5;
   using BSplineTransformType =
       itk::BSplineTransform< ScalarType, Dimension, SplineOrder >;
   using BSplineTransformFType =

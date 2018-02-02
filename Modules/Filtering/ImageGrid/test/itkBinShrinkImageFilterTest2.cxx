@@ -65,7 +65,7 @@ bool CheckValueIsPhysicalPoint( const TImageType *img )
 int itkBinShrinkImageFilterTest2( int , char *[] )
 {
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using PixelType = itk::Vector<double, ImageDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;

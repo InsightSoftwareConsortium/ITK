@@ -50,8 +50,8 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
   using ValueIteratorType = itk::ImageRegionIteratorWithIndex< ValueImageType >;
   using IndexIteratorType = itk::ImageRegionIteratorWithIndex< IndexImageType >;
 
-  const unsigned char normalRegionValue    = 100;
-  const unsigned char exclusionRegionValue = 200;
+  constexpr unsigned char normalRegionValue = 100;
+  constexpr unsigned char exclusionRegionValue = 200;
 
   // Initialize the Image
   IndexIteratorType ii( myIndexImage, region );
@@ -255,7 +255,7 @@ static bool RunTest(const TRegion & region, const TRegion & exclusionRegion)
 
 int itkImageRegionExclusionIteratorWithIndexTest(int, char* [] )
 {
-  const unsigned int                    Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using SizeType = itk::Size< Dimension >;
   using IndexType = itk::Index< Dimension >;
   using RegionType = itk::ImageRegion< Dimension >;

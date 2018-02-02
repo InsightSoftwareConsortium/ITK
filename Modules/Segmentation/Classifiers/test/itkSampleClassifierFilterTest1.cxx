@@ -31,10 +31,10 @@
 int itkSampleClassifierFilterTest1( int, char * [] )
 {
 
-  const unsigned int numberOfComponents = 3;
+  constexpr unsigned int numberOfComponents = 3;
   using MeasurementType = float;
 
-  const unsigned int numberOfClasses = 3;
+  constexpr unsigned int numberOfClasses = 3;
 
   using MeasurementVectorType = itk::Array< MeasurementType >;
   using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;

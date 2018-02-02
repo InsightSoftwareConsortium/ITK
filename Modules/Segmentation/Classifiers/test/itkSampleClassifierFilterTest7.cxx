@@ -42,9 +42,9 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  const int maximumIteration = 200;
-  const double minStandardDeviation =28.54746;
-  const unsigned int numberOfClasses = 2;
+  constexpr int maximumIteration = 200;
+  constexpr double minStandardDeviation = 28.54746;
+  constexpr unsigned int numberOfClasses = 2;
   using ParametersType = itk::Array< double >;
   std::vector< ParametersType > trueParameters(numberOfClasses);
   ParametersType params(6);
@@ -93,7 +93,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   /* Loading point data */
   PointSetType::Pointer pointSet = PointSetType::New();
   PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
-  const int dataSizeBig = 2000;
+  constexpr int dataSizeBig = 2000;
   pointsContainer->Reserve(dataSizeBig);
   pointSet->SetPoints(pointsContainer.GetPointer());
 
@@ -260,7 +260,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   PointSetType::Pointer pointSet2 = PointSetType::New();
   PointSetType::PointsContainerPointer pointsContainer2 =
     PointSetType::PointsContainer::New();
-  const int dataSizeSmall = 200;
+  constexpr int dataSizeSmall = 200;
   pointsContainer2->Reserve(dataSizeSmall);
   pointSet2->SetPoints(pointsContainer2.GetPointer());
 

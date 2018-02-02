@@ -82,7 +82,7 @@ typename TImageType::Pointer RunFilter( const TImageType *img,
 
 TEST(SliceImageFilterTests, PhysicalPoint1)
 {
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = itk::Point<double, ImageDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
@@ -121,7 +121,7 @@ TEST(SliceImageFilterTests, PhysicalPoint1)
 
 TEST(SliceImageFilterTests, PhysicalPoint2)
 {
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = itk::Point<double, ImageDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
@@ -164,7 +164,7 @@ TEST(SliceImageFilterTests, PhysicalPoint2)
 
 TEST(SliceImageFilterTests, PhysicalPoint3)
 {
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = itk::Point<double, ImageDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
@@ -203,7 +203,7 @@ TEST(SliceImageFilterTests, PhysicalPoint3)
 
 TEST(SliceImageFilterTests,Empty)
 {
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = itk::Point<double, ImageDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
@@ -246,7 +246,7 @@ TEST(SliceImageFilterTests,Empty)
 
 TEST(SliceImageFilterTests,Coverage)
 {
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using ImageType = itk::Image<float, ImageDimension>;
 
   using FilterType = itk::SliceImageFilter<ImageType, ImageType>;
@@ -284,7 +284,7 @@ TEST(SliceImageFilterTests,Coverage)
 
 TEST(SliceImageFilterTests,Sizes)
 {
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using ImageType = itk::Image<float, ImageDimension>;
 
   using SourceType = itk::GaussianImageSource<ImageType>;
@@ -318,7 +318,7 @@ TEST(SliceImageFilterTests,Sizes)
 
 TEST(SliceImageFilterTests,ExceptionalCases)
 {
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using ImageType = itk::Image<float, ImageDimension>;
 
   using SourceType = itk::GaussianImageSource<ImageType>;

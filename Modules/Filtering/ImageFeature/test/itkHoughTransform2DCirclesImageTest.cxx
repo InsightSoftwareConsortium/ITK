@@ -58,7 +58,7 @@ namespace
     image->SetRegions(size);
     image->Allocate(true);
     const unsigned int center[] = { 16, 16 };
-    const double radius = 7.0;
+    constexpr double radius = 7.0;
     CreateCircle<ImageType>(image, center, radius);
 
     using FilterType = itk::HoughTransform2DCirclesImageFilter< PixelType, PixelType >;
@@ -131,7 +131,7 @@ namespace
     inputImage->Allocate();
     inputImage->FillBuffer(1);
     const unsigned int center[] = { 32, 32 };
-    const double radius = 8.5;
+    constexpr double radius = 8.5;
     CreateCircle<InputImageType>(inputImage, center, radius);
 
     using OutputPixelType = unsigned long;
@@ -232,7 +232,7 @@ namespace
       success = false;
     }
 
-    const double radiusTolerance = 1.0;
+    constexpr double radiusTolerance = 1.0;
 
     if (!itk::Math::FloatAlmostEqual(radius1, radius, 0, radiusTolerance))
     {
@@ -281,7 +281,7 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   image->Allocate( true ); // initialize buffer to zero
 
   // Create 3 circles
-  const unsigned int circles = 3;
+  constexpr unsigned int circles = 3;
 
   unsigned int center[circles][Dimension];
   double radius[circles];

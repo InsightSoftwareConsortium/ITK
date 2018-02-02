@@ -130,7 +130,7 @@ public:
     VersorType versorY;
     VersorType versorZ;
 
-    const double deltaAngle = 0.00175; // in radians = about 0.1 degree
+    constexpr double deltaAngle = 0.00175; // in radians = about 0.1 degree
 
     versorX.SetRotationAroundX( deltaAngle );
     versorY.SetRotationAroundY( deltaAngle );

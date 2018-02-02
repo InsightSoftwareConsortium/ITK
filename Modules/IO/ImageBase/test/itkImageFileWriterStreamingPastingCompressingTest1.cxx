@@ -24,7 +24,7 @@
 #include "itkPipelineMonitorImageFilter.h"
 
 
-const unsigned int VDimension = 3;
+constexpr unsigned int VDimension = 3;
 using PixelType = unsigned char;
 using ImageType = itk::Image<PixelType,VDimension>;
 using ImagePointer = ImageType::Pointer;
@@ -246,7 +246,7 @@ int itkImageFileWriterStreamingPastingCompressingTest1(int argc, char* argv[])
     }
 
   int expectException[8];
-  const int expectedExceptionOffset = 4;
+  constexpr int expectedExceptionOffset = 4;
   int i;
   for ( i = 0; i < 8; ++i)
     {

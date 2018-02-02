@@ -70,8 +70,8 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned short NUMBANDS = 1;
-  const unsigned short NDIMENSION = 3;
+  constexpr unsigned short NUMBANDS = 1;
+  constexpr unsigned short NDIMENSION = 3;
 
   using VecImageType = itk::Image<itk::Vector<unsigned short,NUMBANDS>,
                                                      NDIMENSION>;

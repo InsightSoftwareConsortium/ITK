@@ -34,7 +34,7 @@ int itkImageRegistrationMethodTest_1(int argc, char* argv[] )
 
   bool pass = true;
 
-  const unsigned int dimension = 2;
+  constexpr unsigned int dimension = 2;
 
   // Fixed Image Type
   using FixedImageType = itk::Image<float,dimension>;
@@ -173,7 +173,7 @@ int itkImageRegistrationMethodTest_1(int argc, char* argv[] )
   // the end of the list of parameters.
   const unsigned int offsetOrder = finalParameters.Size()-actualParameters.Size();
 
-  const double tolerance = 1.0;  // equivalent to 1 pixel.
+  constexpr double tolerance = 1.0;  // equivalent to 1 pixel.
 
   for(unsigned int i=0; i<numbeOfParameters; i++)
     {

@@ -67,7 +67,7 @@ int main( int argc, char * argv[] )
   using InputPixelType = unsigned char;
   using OutputPixelType = float;
   using VoronoiPixelType = unsigned short;
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using InputImageType = itk::Image< InputPixelType,  Dimension >;
   using OutputImageType = itk::Image< OutputPixelType, Dimension >;

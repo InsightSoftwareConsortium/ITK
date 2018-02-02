@@ -36,7 +36,7 @@ public:
 int itkJoinSeriesImageFilterTest( int, char* [] )
 {
 
-  const unsigned int streamDivisions = 2;
+  constexpr unsigned int streamDivisions = 2;
   using PixelType = unsigned char;
   using InputImageType = itk::Image< PixelType, 2 >;
   using OutputImageType = itk::Image< PixelType, 4 >;
@@ -65,11 +65,11 @@ int itkJoinSeriesImageFilterTest( int, char* [] )
   InputImageType::RegionType region;
   region.SetIndex( index );
   region.SetSize( size );
-  const double spacingValue = 1.3;
+  constexpr double spacingValue = 1.3;
   InputImageType::SpacingType spacing;
   spacing[0] = 1.1;
   spacing[1] = 1.2;
-  const double originValue = 0.3;
+  constexpr double originValue = 0.3;
   InputImageType::PointType origin;
   origin[0] = 0.1;
   origin[1] = 0.2;

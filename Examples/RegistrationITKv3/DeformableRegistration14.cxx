@@ -111,14 +111,14 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const    unsigned int    ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using PixelType = signed short;
 
   using FixedImageType = itk::Image< PixelType, ImageDimension >;
   using MovingImageType = itk::Image< PixelType, ImageDimension >;
 
   const unsigned int SpaceDimension = ImageDimension;
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 
   using TransformType = itk::BSplineTransform<

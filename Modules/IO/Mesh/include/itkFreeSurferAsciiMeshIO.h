@@ -115,7 +115,7 @@ protected:
   template< typename T >
   void WriteCells(T *buffer, std::ofstream & outputFile, T label = itk::NumericTraits< T >::ZeroValue())
   {
-    const unsigned int numberOfCellPoints = 3;
+    constexpr unsigned int numberOfCellPoints = 3;
     SizeValueType      index = 0;
 
     T *data = new T[this->m_NumberOfCells * numberOfCellPoints];

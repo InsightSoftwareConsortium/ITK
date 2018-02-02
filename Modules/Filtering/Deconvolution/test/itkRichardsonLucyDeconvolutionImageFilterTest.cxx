@@ -34,7 +34,7 @@ int itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char* argv[])
     }
 
   using PixelType = float;
-  const unsigned int                         Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using ImageType = itk::Image< PixelType, Dimension >;
   using ReaderType = itk::ImageFileReader< ImageType >;
   using WriterType = itk::ImageFileWriter< ImageType >;

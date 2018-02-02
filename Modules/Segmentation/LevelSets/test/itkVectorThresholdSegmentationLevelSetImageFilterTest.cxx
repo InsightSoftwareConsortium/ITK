@@ -34,7 +34,7 @@ int itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char* av[] )
     return -1;
     }
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using PixelComponentType = unsigned char;
   using RGBPixelType = itk::RGBPixel<PixelComponentType>;

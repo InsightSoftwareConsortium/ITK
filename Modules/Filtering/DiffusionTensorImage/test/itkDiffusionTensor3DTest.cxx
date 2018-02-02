@@ -380,7 +380,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
       }
 
     // Test the value of internal scalar product
-    const RealValueType expectedInternalScalarProduct = 1829;
+    constexpr RealValueType expectedInternalScalarProduct  = 1829;
 
     RealValueType computedInternalScalarProduct = tensor3.GetInnerScalarProduct();
     if( std::fabs( computedInternalScalarProduct - expectedInternalScalarProduct ) > tolerance )
@@ -393,7 +393,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
 
 
     // Test the value of Fractional Anisotropy
-    const RealValueType expectedFractionalAnisotropy = 0.349177;
+    constexpr RealValueType expectedFractionalAnisotropy  = 0.349177;
 
     RealValueType computedFractionalAnisotropy = tensor3.GetFractionalAnisotropy();
     if( std::fabs( computedFractionalAnisotropy - expectedFractionalAnisotropy ) > tolerance )
@@ -405,7 +405,7 @@ int itkDiffusionTensor3DTest(int, char* [] )
       }
 
     // Test the value of Relative Anisotropy
-    const RealValueType expectedRelativeAnisotropy = 1.9044;
+    constexpr RealValueType expectedRelativeAnisotropy  = 1.9044;
 
     RealValueType computedRelativeAnisotropy = tensor3.GetRelativeAnisotropy();
     if( std::fabs( computedRelativeAnisotropy - expectedRelativeAnisotropy ) > tolerance )

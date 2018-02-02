@@ -314,7 +314,7 @@ int itkMultiGradientOptimizerv4Test(int, char* [] )
   // Declaration of the Metric
   MultiGradientOptimizerv4TestMetric::Pointer metric = MultiGradientOptimizerv4TestMetric::New();
   MultiGradientOptimizerv4TestMetric2::Pointer metric2 = MultiGradientOptimizerv4TestMetric2::New();
-  const unsigned int spaceDimension = 2;
+  constexpr unsigned int spaceDimension = 2;
   itkOptimizer->SetMetric( metric );
   itkOptimizer->SetNumberOfIterations( 50 );
 

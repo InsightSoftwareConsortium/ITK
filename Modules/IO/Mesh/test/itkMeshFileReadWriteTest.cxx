@@ -30,7 +30,7 @@ int itkMeshFileReadWriteTest(int argc, char * argv[])
 
   bool IsBinary = ( argc > 3 );
 
-  const unsigned int dimension = 3;
+  constexpr unsigned int dimension = 3;
   using PixelType = float;
 
   using MeshType = itk::Mesh<PixelType, dimension>;

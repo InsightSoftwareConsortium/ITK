@@ -53,7 +53,7 @@ int itkNiftiImageIOTest4(int ac, char* av[])
   Test4ImageType::SizeType size;
   Test4ImageType::IndexType index;
   Test4ImageType::SpacingType spacing;
-  const unsigned dimsize = 2;
+  constexpr unsigned dimsize  = 2;
 
   for(unsigned i = 0; i < 3; i++)
     {

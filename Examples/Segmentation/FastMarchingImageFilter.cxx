@@ -208,7 +208,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   using InternalPixelType = float;
-  const     unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using InternalImageType = itk::Image< InternalPixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 
@@ -535,7 +535,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   NodeType node;
-  const double seedValue = 0.0;
+  constexpr double seedValue = 0.0;
 
   node.SetValue( seedValue );
   node.SetIndex( seedPosition );

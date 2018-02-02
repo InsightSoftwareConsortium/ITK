@@ -30,7 +30,7 @@
 int itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int ,char *[] )
 {
 
-  const unsigned int dimensions = 2;
+  constexpr unsigned int dimensions = 2;
   using DisplacementTransformType = itk::BSplineSmoothingOnUpdateDisplacementFieldTransform<
                                                   double, dimensions>;
 

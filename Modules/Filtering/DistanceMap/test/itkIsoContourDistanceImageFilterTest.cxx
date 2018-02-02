@@ -62,7 +62,7 @@ SimpleSignedDistance( const TPoint & p )
 
 int itkIsoContourDistanceImageFilterTest(int, char* [] )
 {
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = float;
 
   using ImageType = itk::Image<PixelType,ImageDimension>;

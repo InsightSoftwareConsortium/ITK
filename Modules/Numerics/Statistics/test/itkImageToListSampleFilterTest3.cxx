@@ -26,10 +26,10 @@
 
 int itkImageToListSampleFilterTest3(int, char* [] )
 {
-  const unsigned int MeasurementVectorSize = 8;
+  constexpr unsigned int MeasurementVectorSize = 8;
   using MeasurementComponentType = float;
 
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using ImageType = itk::VectorImage< MeasurementComponentType, ImageDimension >;
 
   using MaskImageType = itk::Image< unsigned char, ImageDimension >;

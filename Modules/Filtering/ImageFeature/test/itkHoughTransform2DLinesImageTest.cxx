@@ -119,7 +119,7 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
   bool success = true;
 
   // Define the dimension of the images
-  const unsigned Dimension = 2;
+  constexpr unsigned Dimension  = 2;
 
   // Declare the pixel types of the images
   using PixelType = unsigned char;
@@ -148,7 +148,7 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
   image->Allocate( true ); // initialize buffer to zero
 
   // Create a line
-  const unsigned int lines = 1;
+  constexpr unsigned int lines = 1;
   double theta = 0.20; // radians
   double radius = 50;
 

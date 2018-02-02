@@ -42,7 +42,7 @@ int itkVTKPolyDataWriterTest02( int argc, char * argv [] )
   PointType center;
   center.Fill( 7.4 );
 
-  const double radius = 1.5;
+  constexpr double radius = 1.5;
   const double tolerance = 1e-5;
 
   VectorType scale;

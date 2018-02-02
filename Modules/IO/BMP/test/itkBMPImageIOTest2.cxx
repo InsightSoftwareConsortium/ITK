@@ -31,7 +31,7 @@ int itkBMPImageIOTest2( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using ComponentType = unsigned char;
 
   using PixelType = itk::RGBAPixel< ComponentType >;

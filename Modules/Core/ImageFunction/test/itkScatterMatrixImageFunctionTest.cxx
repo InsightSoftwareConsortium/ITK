@@ -22,9 +22,9 @@
 int itkScatterMatrixImageFunctionTest(int, char* [] )
 {
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelComponentType = unsigned char;
-  const unsigned int VectorDimension = 4;
+  constexpr unsigned int VectorDimension = 4;
 
   using PixelType = itk::FixedArray< PixelComponentType, VectorDimension >;
   using ImageType = itk::Image< PixelType, Dimension >;

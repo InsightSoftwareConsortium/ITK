@@ -78,7 +78,7 @@ int itkTimeProbesTest(int, char* [] )
   const unsigned int N =  1000L;
   const unsigned int M = 10000L;
 
-  const unsigned int iteration = 3;
+  constexpr unsigned int iteration = 3;
 
   for(unsigned int it=0; it<iteration; ++it)
    {

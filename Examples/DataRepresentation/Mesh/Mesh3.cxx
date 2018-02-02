@@ -101,7 +101,7 @@ int main(int, char *[])
   using PointType = MeshType::PointType;
   PointType point;
 
-  const unsigned int numberOfPoints = 10;
+  constexpr unsigned int numberOfPoints = 10;
   for(unsigned int id=0; id<numberOfPoints; id++)
     {
     point[0] = static_cast<PointType::ValueType>( id ); // x

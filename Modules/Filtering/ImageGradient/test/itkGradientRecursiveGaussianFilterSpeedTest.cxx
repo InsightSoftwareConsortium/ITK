@@ -33,7 +33,7 @@ int itkGradientRecursiveGaussianFilterSpeedTest(int argc, char* argv[] )
   std::cout << "imageSize: " << imageSize << " reps: " << reps << std::endl;
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  constexpr unsigned int myDimension = 3;
 
   // Declare the types of the images
   using myImageType = itk::Image<float, myDimension>;

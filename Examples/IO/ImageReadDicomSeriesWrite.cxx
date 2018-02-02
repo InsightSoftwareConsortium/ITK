@@ -55,7 +55,7 @@ int main( int argc, char* argv[] )
 
 
   using PixelType = signed short;
-  const unsigned int      Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using ImageType = itk::Image< PixelType, Dimension >;
   using ReaderType = itk::ImageFileReader< ImageType >;
@@ -86,7 +86,7 @@ int main( int argc, char* argv[] )
 
 
   using OutputPixelType = signed short;
-  const unsigned int      OutputDimension = 2;
+  constexpr unsigned int OutputDimension = 2;
 
   using Image2DType = itk::Image< OutputPixelType, OutputDimension >;
 

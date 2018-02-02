@@ -64,7 +64,7 @@ int itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv [] )
     }
 
   using PixelType = float;
-  const unsigned int                                ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using ImageType = itk::Image<PixelType,ImageDimension>;
   using VectorType = itk::Vector<float,ImageDimension>;

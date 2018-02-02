@@ -22,7 +22,7 @@
 int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
 {
 
-  const unsigned int MeasurementVectorSize = 3;
+  constexpr unsigned int MeasurementVectorSize = 3;
 
   using MeasurementVectorType = itk::FixedArray<
     float, MeasurementVectorSize >;
@@ -81,7 +81,7 @@ int itkDistanceToCentroidMembershipFunctionTest(int, char* [] )
   origin[2] = 1.0;
   function->SetCentroid( origin );
 
-  const double tolerance = 0.001;
+  constexpr double tolerance = 0.001;
 
   if( std::fabs( function->GetCentroid()[0] - origin[0]) > tolerance ||
       std::fabs( function->GetCentroid()[1] - origin[1]) > tolerance ||

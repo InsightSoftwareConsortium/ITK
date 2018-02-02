@@ -150,7 +150,7 @@ public:
     VersorType versorY;
     VersorType versorZ;
 
-    const double deltaAngle = 0.00175; // in radians = about 0.1 degree
+    constexpr double deltaAngle = 0.00175; // in radians = about 0.1 degree
 
     versorX.SetRotationAroundX( deltaAngle );
     versorY.SetRotationAroundY( deltaAngle );
@@ -268,7 +268,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   initialPosition[5] = 0.0;
 
   ScalesType    parametersScale( parametersDimensions );
-  const double translationScaleFactor = 50.0;
+  constexpr double translationScaleFactor = 50.0;
   parametersScale[0] = 1.0;
   parametersScale[1] = 1.0;
   parametersScale[2] = 1.0;
@@ -304,7 +304,7 @@ int itkVersorRigid3DTransformOptimizerTest(int, char* [] )
   ParametersType finalPosition( parametersDimensions );
   finalPosition = itkOptimizer->GetCurrentPosition();
 
-  const unsigned int spaceDimensions = 3;
+  constexpr unsigned int spaceDimensions = 3;
 
   VersorType finalRotation;
   VersorType::VectorType finalRightPart;

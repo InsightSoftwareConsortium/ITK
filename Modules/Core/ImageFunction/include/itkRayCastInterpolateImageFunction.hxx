@@ -456,7 +456,7 @@ RayCastHelper< TInputImage, TCoordRep >
   bool   noInterceptFlag[6];
   double cubeIntercepts[6][3];
 
-  const unsigned int numSides = 6;  // =6 to allow truncation: =4 to remove truncated rays
+  constexpr unsigned int numSides = 6;  // =6 to allow truncation: =4 to remove truncated rays
 
   // Calculate intercept of ray with planes
   double interceptx[6];

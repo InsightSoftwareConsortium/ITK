@@ -59,7 +59,7 @@
 int main(int argc, char *argv[])
 {
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   if( argc < 4 )
     {
     std::cerr << "Usage arguments: InputImage MembershipImage numberOfClasses [componentToExtract ExtractedImage]" << std::endl;

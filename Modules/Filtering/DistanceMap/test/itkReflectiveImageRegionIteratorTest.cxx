@@ -24,7 +24,7 @@
 int itkReflectiveImageRegionIteratorTest(int, char* [] )
 {
   std::cout << "Creating an image" << std::endl;
-  const unsigned int Dimension = 4;
+  constexpr unsigned int Dimension = 4;
   using PixelType = itk::Index<Dimension>;
   using ImageType = itk::Image<PixelType,Dimension>;
   using ImageVisitsType = itk::Image<int,Dimension>;

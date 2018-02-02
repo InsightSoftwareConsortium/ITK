@@ -25,7 +25,7 @@ int itkCropImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   // Declare the pixel types of the images
   using PixelType = short;

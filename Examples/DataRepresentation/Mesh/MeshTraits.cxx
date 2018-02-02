@@ -103,8 +103,8 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int PointDimension = 3;
-  const unsigned int MaxTopologicalDimension = 2;
+  constexpr unsigned int PointDimension = 3;
+  constexpr unsigned int MaxTopologicalDimension = 2;
 
   using PixelType = itk::Vector<double,4>;
   using CellDataType = itk::Matrix<double,4,3>;
@@ -155,7 +155,7 @@ int main(int, char *[])
   using PointType = MeshType::PointType;
   PointType point;
 
-  const unsigned int numberOfPoints = 10;
+  constexpr unsigned int numberOfPoints = 10;
   for(unsigned int id=0; id<numberOfPoints; id++)
     {
     point[0] = 1.565;   // Initialize points here

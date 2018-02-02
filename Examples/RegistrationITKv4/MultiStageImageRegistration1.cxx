@@ -178,7 +178,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const    unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = float;
 
   using FixedImageType = itk::Image< PixelType, Dimension >;
@@ -329,7 +329,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int numberOfLevels1 = 1;
+  constexpr unsigned int numberOfLevels1 = 1;
 
   TRegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel1;
   shrinkFactorsPerLevel1.SetSize( numberOfLevels1 );
@@ -704,7 +704,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int numberOfLevels2 = 2;
+  constexpr unsigned int numberOfLevels2 = 2;
 
   ARegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel2;
   shrinkFactorsPerLevel2.SetSize( numberOfLevels2 );

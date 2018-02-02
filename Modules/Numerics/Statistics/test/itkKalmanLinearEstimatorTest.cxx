@@ -55,7 +55,7 @@ int itkKalmanLinearEstimatorTest(int, char* [] )
   planeEquation(4) = 4.0;
   planeEquation(5) = 6.0;
 
-  const unsigned int N = 10;
+  constexpr unsigned int N = 10;
 
   predictor(5)  =  1.0;
   for(unsigned int ax=0; ax < N; ax++)

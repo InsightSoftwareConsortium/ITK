@@ -93,7 +93,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const    unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = float;
 
   using FixedImageType = itk::Image< PixelType, Dimension >;
@@ -215,7 +215,7 @@ int main( int argc, char *argv[] )
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   const double translationScale = 1.0 / 128.0;
-  const double centerScale      = 1000.0; // prevents it from moving
+  constexpr double centerScale = 1000.0; // prevents it from moving
                                             // during the optimization
   optimizerScales[0] = 1.0;
   optimizerScales[1] = centerScale;
@@ -232,7 +232,7 @@ int main( int argc, char *argv[] )
 
   // One level registration process without shrinking and smoothing.
   //
-  const unsigned int numberOfLevels = 1;
+  constexpr unsigned int numberOfLevels = 1;
 
   RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
   shrinkFactorsPerLevel.SetSize( 1 );

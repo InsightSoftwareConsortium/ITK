@@ -25,7 +25,7 @@ int itkDiscreteGaussianImageFilterTest(int , char * [] )
 {
   try
     {
-      const unsigned int Dimension = 3;
+      constexpr unsigned int Dimension = 3;
       using ImageType = itk::Image<float, Dimension>;
 
       // Set up filter

@@ -99,7 +99,7 @@ int main( int argc, char* argv[] )
 
   // Software Guide : BeginCodeSnippet
   using PixelType = signed short;
-  const unsigned int      Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using ImageType = itk::Image< PixelType, Dimension >;
   using ReaderType = itk::ImageSeriesReader< ImageType >;
@@ -231,7 +231,7 @@ int main( int argc, char* argv[] )
 
   // Software Guide : BeginCodeSnippet
   using OutputPixelType = signed short;
-  const unsigned int      OutputDimension = 2;
+  constexpr unsigned int OutputDimension = 2;
 
   using Image2DType = itk::Image< OutputPixelType, OutputDimension >;
 

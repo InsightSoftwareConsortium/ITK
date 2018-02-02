@@ -53,7 +53,7 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   // Legacy compat with older MetaImages
   itk::MetaImageIO::SetDefaultDoublePrecision(6);
 
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   using InputPixelType = short;
   using InputImageType = itk::Image< InputPixelType,  ImageDimension >;

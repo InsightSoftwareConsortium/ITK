@@ -34,7 +34,7 @@ int itkTwoLevelSetDenseImage2DTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using InputPixelType = unsigned short;
   using InputImageType = itk::Image< InputPixelType, Dimension >;

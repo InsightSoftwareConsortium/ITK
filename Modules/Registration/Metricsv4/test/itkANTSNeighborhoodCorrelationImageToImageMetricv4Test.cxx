@@ -115,7 +115,7 @@ void ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImageP
 
 int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
 {
-  const itk::SizeValueType ImageDimension = 2;
+  constexpr itk::SizeValueType ImageDimension  = 2;
 
   using ImageType = itk::Image<double, ImageDimension>;
   using VectorType = itk::Vector<double, ImageDimension>;
@@ -145,7 +145,7 @@ int itkANTSNeighborhoodCorrelationImageToImageMetricv4Test( int, char ** const )
           CompositeTransformType::New();
 
 
-  const itk::SizeValueType imageSize = 6;
+  constexpr itk::SizeValueType imageSize  = 6;
 
   ImageType::SizeType size;
   size.Fill(imageSize);

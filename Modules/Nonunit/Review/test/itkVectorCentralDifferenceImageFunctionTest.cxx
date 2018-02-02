@@ -21,8 +21,8 @@
 
 int itkVectorCentralDifferenceImageFunctionTest(int, char* [] )
 {
-  const unsigned int ImageDimension = 2;
-  const unsigned int VectorDimension = 3;
+  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int VectorDimension = 3;
   using PixelType = itk::Vector<short,VectorDimension>;
   using ImageType = itk::Image<PixelType,ImageDimension>;
 

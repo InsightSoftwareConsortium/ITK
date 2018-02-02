@@ -142,7 +142,7 @@ void LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType 
   Solution::ConstPointer sol = this->GetSolution();
 
   // Determine the displacement at point pt
-  const unsigned int TotalSolutionIndex = 1;
+  constexpr unsigned int TotalSolutionIndex = 1;
   disp = element->InterpolateSolution(pt, ( *sol ), TotalSolutionIndex);
 
   // Convert the source to global coordinates

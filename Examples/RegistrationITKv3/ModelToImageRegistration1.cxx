@@ -620,7 +620,7 @@ int main( int argc, char *argv[] )
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  const double variance = 20;
+  constexpr double variance = 20;
   gaussianFilter->SetVariance(variance);
   gaussianFilter->Update();
   //  Software Guide : EndCodeSnippet

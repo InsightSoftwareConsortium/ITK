@@ -49,7 +49,7 @@ int itkRigid2DTransformTest(int ,char * [] )
   using TransformType = itk::Rigid2DTransform<double>;
 
   const double epsilon = 1e-10;
-  const unsigned int N = 2;
+  constexpr unsigned int N = 2;
 
 
   bool Ok = true;

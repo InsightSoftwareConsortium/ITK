@@ -64,7 +64,7 @@ int main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using PixelType = unsigned char;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using ImageType = itk::Image< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
@@ -165,7 +165,7 @@ int main(int argc, char * argv[])
   PixelType * localBuffer = new PixelType[ numberOfPixels ];
   // Software Guide : EndCodeSnippet
 
-  const double radius = 80.0;
+  constexpr double radius  = 80.0;
 
   // Software Guide : BeginLatex
   //
@@ -180,7 +180,7 @@ int main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const double radius2 = radius * radius;
+  constexpr double radius2 = radius * radius;
   PixelType * it = localBuffer;
 
   for(unsigned int z=0; z < size[2]; z++)

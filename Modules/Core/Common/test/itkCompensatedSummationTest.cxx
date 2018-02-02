@@ -31,9 +31,9 @@ int itkCompensatedSummationTest( int, char * [] )
   using FloatType = float;
   long int seedValue = 17;
 
-  const FloatType expectedMean = 0.5;
+  constexpr FloatType expectedMean  = 0.5;
 
-  const itk::SizeValueType accumSize = 50000000;
+  constexpr itk::SizeValueType accumSize  = 50000000;
 
   using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
   GeneratorType::Pointer generator = GeneratorType::New();

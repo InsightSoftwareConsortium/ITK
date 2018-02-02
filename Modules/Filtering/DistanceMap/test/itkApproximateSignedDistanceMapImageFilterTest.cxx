@@ -56,7 +56,7 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using InputPixelType = unsigned int;
   using OutputPixelType = float;
@@ -71,7 +71,7 @@ int itkApproximateSignedDistanceMapImageFilterTest( int argc, char* argv[] )
   // Make a binary input image based on the signed distance function
   // using the inside and outside values
   const InputPixelType insideValue =  atoi( argv[1] );
-  const InputPixelType outsideValue = 0;
+  constexpr InputPixelType outsideValue  = 0;
 
   InputImageType::Pointer image = InputImageType::New();
   InputImageType::SizeType size;

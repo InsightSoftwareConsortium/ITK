@@ -107,7 +107,7 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
     static_cast< SampleType * >( this->ProcessObject::GetOutput(0) );
 
   // constant for a coocurrence matrix.
-  const unsigned int measurementVectorSize = 2;
+  constexpr unsigned int measurementVectorSize = 2;
 
   output->SetMeasurementVectorSize(measurementVectorSize);
 

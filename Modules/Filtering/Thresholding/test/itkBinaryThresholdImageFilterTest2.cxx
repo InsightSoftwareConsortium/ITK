@@ -35,7 +35,7 @@ int itkBinaryThresholdImageFilterTest2(int ac, char* av[] )
   //
 
   // Define the dimension of the images
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   // Declare the types of the images
   using ImageType = itk::Image<unsigned char, ImageDimension>;

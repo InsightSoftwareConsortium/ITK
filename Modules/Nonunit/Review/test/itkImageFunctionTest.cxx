@@ -107,7 +107,7 @@ int itkImageFunctionTest( int , char*[] )
 
   bool result = EXIT_SUCCESS;
 
-  const   unsigned int                                  Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = float;
   using ImageType = itk::Image< PixelType, Dimension >;
   using RegionType = ImageType::RegionType;

@@ -122,7 +122,7 @@ int itkRigid3DTransformTest(int ,char * [] )
   using ParametersType = TransformType::ParametersType;
 
   const double epsilon = 1e-10;
-  const unsigned int N = 3;
+  constexpr unsigned int N = 3;
 
   bool Ok = true;
 

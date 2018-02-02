@@ -51,7 +51,7 @@ int main(int argc, char * argv[] )
     }
 
 // Software Guide : BeginCodeSnippet
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using PointSetType = itk::PointSet< float, Dimension >;
 
@@ -155,7 +155,7 @@ int main(int argc, char * argv[] )
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
   scales.Fill( 0.01 );
 
-  const unsigned long numberOfIterations =  100;
+  constexpr unsigned long numberOfIterations  = 100;
   const double        gradientTolerance  =  1e-5;    // convergence criterion
   const double        valueTolerance     =  1e-5;    // convergence criterion
   const double        epsilonFunction    =  1e-6;   // convergence criterion

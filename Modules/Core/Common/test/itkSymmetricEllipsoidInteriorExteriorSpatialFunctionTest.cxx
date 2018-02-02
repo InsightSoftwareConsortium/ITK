@@ -23,7 +23,7 @@ int itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char* [] )
   std::cout << "itkSymmetricEllipsoidInteriorExteriorSpatialFunction test start" << std::endl;
 
   // Test will create an ellipsoid (3-dimensional)
-  const unsigned int dimension = 3;
+  constexpr unsigned int dimension = 3;
 
   // Symmetric Ellipsoid spatial function type alias
   using TSymEllipsoidFunctionType = itk::SymmetricEllipsoidInteriorExteriorSpatialFunction<3>;

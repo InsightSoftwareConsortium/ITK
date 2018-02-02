@@ -94,8 +94,8 @@ int test2DInterpolateImagePointsFilter()
   image->SetSpacing(spacing);
 
   // Initialize the sample data
-  const int NPOINTS2 = 4;  // number of points
-  const double DEFAULTPIXELVALUE = 1.23;  // Arbitrary value to test setting
+  constexpr int NPOINTS2 = 4;  // number of points
+  constexpr double DEFAULTPIXELVALUE = 1.23;  // Arbitrary value to test setting
 
   double xcoord[NPOINTS2] = { 0.1, 3.4, 4.0, 2.0};
   double ycoord[NPOINTS2] = { 0.2, 5.8, 6.0, 7.0};

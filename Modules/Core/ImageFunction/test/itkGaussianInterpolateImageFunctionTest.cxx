@@ -60,7 +60,7 @@ int RunTest( void )
   start.Fill( 0 );
 
   SizeType size;
-  const int dimMaxLength = 3;
+  constexpr int dimMaxLength = 3;
   size.Fill( dimMaxLength );
 
   RegionType region;
@@ -154,7 +154,7 @@ int RunTest( void )
     itk::Math::FloatAlmostEqual( (float)interpolatedValue, (float)value );
     }
 
-  const AccumulatorType incr = 0.2;
+  constexpr AccumulatorType incr  = 0.2;
 
   const AccumulatorType tolerance = 5e-6;
 
@@ -213,7 +213,7 @@ int RunTest( void )
 int itkGaussianInterpolateImageFunctionTest( int, char*[] )
 {
   using PixelType = float;
-  const   unsigned int                                  Dimension = 1;
+  constexpr unsigned int Dimension = 1;
 
   using ImageType = itk::Image< PixelType, Dimension >;
   using CoordRepType = float;

@@ -37,10 +37,10 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
 {
   unsigned int i;
   using CoordRep = double;
-  const unsigned int Dimension    = 2;
-  const unsigned int ImageWidth   = 3;
-  const unsigned int ImageHeight  = 2;
-  const unsigned int NumberOfPCs  = 3;
+  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int ImageWidth = 3;
+  constexpr unsigned int ImageHeight = 2;
+  constexpr unsigned int NumberOfPCs = 3;
 
 
   // define a pca shape function

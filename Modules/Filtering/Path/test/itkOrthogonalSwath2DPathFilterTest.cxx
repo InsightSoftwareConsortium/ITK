@@ -35,7 +35,7 @@
 
 int itkOrthogonalSwath2DPathFilterTest( int, char*[] )
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using UCharPixelType = unsigned char;
   using DoublePixelType = double;
 

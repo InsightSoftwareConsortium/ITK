@@ -24,7 +24,7 @@
 static bool TestDisplacementJacobianDeterminantValue(void)
 {
   bool testPassed = true;
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using VectorType = itk::Vector<float,ImageDimension>;
   using FieldType = itk::Image<VectorType,ImageDimension>;

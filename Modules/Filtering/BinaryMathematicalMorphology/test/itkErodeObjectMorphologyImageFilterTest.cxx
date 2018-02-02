@@ -25,12 +25,12 @@ int itkErodeObjectMorphologyImageFilterTest(int, char* [] )
   unsigned int i;
 
   // Define the dimension of the images
-  const unsigned int myDimension = 2;
+  constexpr unsigned int myDimension = 2;
 
   // Define the values of the input images
-  const unsigned short fgValue = 25;
-  const unsigned short bgValue = 0;
-  const unsigned short randomValue = 10;
+  constexpr unsigned short fgValue = 25;
+  constexpr unsigned short bgValue = 0;
+  constexpr unsigned short randomValue = 10;
 
   // Declare the types of the images
   using myImageType = itk::Image<unsigned short, myDimension>;

@@ -27,7 +27,7 @@
 int itkStreamingImageFilterTest2(int, char* [] )
 {
 
-  const unsigned int numberOfStreamDivisions = 25;
+  constexpr unsigned int numberOfStreamDivisions = 25;
   itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
   logger->SetInstance(logger);
 

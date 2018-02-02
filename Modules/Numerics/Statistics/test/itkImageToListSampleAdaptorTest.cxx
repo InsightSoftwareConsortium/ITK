@@ -306,7 +306,7 @@ int itkImageToListSampleAdaptorTest(int, char* [] )
 {
   int returnValue = EXIT_SUCCESS;
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using VectorImageType = itk::VectorImage< float, Dimension >;
   returnValue += itkImageToListSampleAdaptorTestTemplate< VectorImageType >();

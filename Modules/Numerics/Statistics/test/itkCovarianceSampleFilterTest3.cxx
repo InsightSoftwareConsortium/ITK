@@ -60,7 +60,7 @@ int itkCovarianceSampleFilterTest3(int, char* [] )
   std::cout << "CovarianceSampleFilter test \n \n";
 
   using MeasurementType = double;
-  const unsigned int                  MeasurementVectorSize = 3;
+  constexpr unsigned int MeasurementVectorSize = 3;
 
   using HistogramType = itk::Statistics::Histogram< MeasurementType,
           itk::Statistics::DenseFrequencyContainer2 >;

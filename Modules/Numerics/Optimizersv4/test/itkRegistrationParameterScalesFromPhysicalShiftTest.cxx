@@ -100,7 +100,7 @@ int itkRegistrationParameterScalesFromPhysicalShiftTest(int , char* [])
 {
 
   // Image begins
-  const itk::SizeValueType    ImageDimension = 2;
+  constexpr itk::SizeValueType    ImageDimension  = 2;
   using PixelType = double;
   using FloatType = double;
 

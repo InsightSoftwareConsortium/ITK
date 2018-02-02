@@ -56,7 +56,7 @@ int itkEuler2DTransformTest(int argc, char *argv[] )
   std::cout << "Testing Euler Angles 2D Transform" << std::endl << std::endl;
 
   const double       epsilon = 1e-10;
-  const unsigned int N = 2;
+  constexpr unsigned int N = 2;
   bool               Ok = true;
 
   using EulerTransformType = itk::Euler2DTransform<double>;
@@ -316,7 +316,7 @@ int itkEuler2DTransformTest(int argc, char *argv[] )
     TransformType::JacobianType approxJacobian = jacobian2;
     for( unsigned int k = 0; k < t1->GetNumberOfParameters(); k++ )
       {
-      const double                  delta = 0.001;
+      constexpr double delta = 0.001;
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 

@@ -24,7 +24,7 @@ int itkAddImageAdaptorTest(int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   // Declare the pixel type
   using PixelType = int;

@@ -105,7 +105,7 @@ int itkFastMarchingBaseTest( int argc, char* argv[] )
 
   if( atoi( argv[1] ) == 0 )
     {
-    const unsigned Dimension = 3;
+    constexpr unsigned Dimension  = 3;
     using ImageType = itk::Image<PixelType, Dimension>;
 
     ImageType::Pointer input = ImageType::New();

@@ -259,7 +259,7 @@ int itkImageToSpatialObjectRegistrationTest(int, char* [] )
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
   gaussianFilter->SetInput(image);
-  const double variance = 20;
+  constexpr double variance = 20;
   gaussianFilter->SetVariance(variance);
   gaussianFilter->Update();
   image = gaussianFilter->GetOutput();

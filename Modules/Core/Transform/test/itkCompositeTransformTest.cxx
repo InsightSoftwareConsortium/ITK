@@ -102,7 +102,7 @@ bool testVectorArray( const TVector & v1, const TVector & v2 )
 
 int itkCompositeTransformTest(int, char *[] )
 {
-  const unsigned int NDimensions = 2;
+  constexpr unsigned int NDimensions = 2;
 
   /* Create composite transform */
   using CompositeType = itk::CompositeTransform<double, NDimensions>;

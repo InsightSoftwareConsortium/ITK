@@ -112,7 +112,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   std::cout << "Testing Landmark alignment with VersorRigid3DTransform" << std::endl;
 
   using PixelType = unsigned char;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using FixedImageType = itk::Image< PixelType, Dimension >;
   using MovingImageType = itk::Image< PixelType, Dimension >;
@@ -220,7 +220,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   std::cout << "Testing Landmark alignment with Rigid2DTransform" << std::endl;
 
   using PixelType = unsigned char;
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using FixedImageType = itk::Image< PixelType, Dimension >;
   using MovingImageType = itk::Image< PixelType, Dimension >;
@@ -379,7 +379,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
 
   {
   using PixelType = unsigned char;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using ImageType = itk::Image<PixelType,Dimension>;
   ImageType::Pointer fixedImage   = ImageType::New();
   ImageType::Pointer movingImage = ImageType::New();
@@ -467,7 +467,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
 
   { //First Test with working Landmarks
     // These landmark should match properly
-  const unsigned int numWorkingLandmark=6;
+  constexpr unsigned int numWorkingLandmark = 6;
   TransformInitializerType::LandmarkPointContainer fixedLandmarks;
   TransformInitializerType::LandmarkPointContainer movingLandmarks;
   TransformInitializerType::LandmarkWeightType landmarkWeights;
@@ -539,7 +539,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
 
   { // Test with dummy points
     // dummy points should not matched based on given weights
-  const unsigned int numDummyLandmark=8;
+  constexpr unsigned int numDummyLandmark = 8;
   TransformInitializerType::LandmarkPointContainer fixedLandmarks;
   TransformInitializerType::LandmarkPointContainer movingLandmarks;
   TransformInitializerType::LandmarkWeightType landmarkWeights;
@@ -615,7 +615,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   std::cout << "\nTesting Landmark alignment with BSplineTransform..." << std::endl;
 
   using PixelType = unsigned char;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using FixedImageType = itk::Image< PixelType, Dimension >;
   using MovingImageType = itk::Image< PixelType, Dimension >;
@@ -655,7 +655,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   fixedImage->SetOrigin( origin );
 
   // Set the transform type
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder = 3;
   using TransformType = itk::BSplineTransform< double, FixedImageType::ImageDimension, SplineOrder>;
   TransformType::Pointer transform = TransformType::New();
 
@@ -669,7 +669,7 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   TransformInitializerType::LandmarkPointContainer movingLandmarks;
   Init3DPoints<TransformInitializerType>(fixedLandmarks,movingLandmarks);
 
-  const unsigned int numLandmarks = 4;
+  constexpr unsigned int numLandmarks = 4;
   double weights[numLandmarks] = { 1, 3, 0.01, 0.5 };
 
   TransformInitializerType::LandmarkWeightType landmarkWeights;

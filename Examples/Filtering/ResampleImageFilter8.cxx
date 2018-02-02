@@ -61,7 +61,7 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  const     unsigned int   Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 
@@ -127,7 +127,7 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   using BoundaryConditionType = itk::ConstantBoundaryCondition<InputImageType>;
 
-  const unsigned int WindowRadius = 5;
+  constexpr unsigned int WindowRadius = 5;
 
   using WindowFunctionType = itk::Function::HammingWindowFunction<WindowRadius>;
 

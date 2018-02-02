@@ -180,7 +180,7 @@ int itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int numberOfIt
   // the end of the list of parameters.
   const unsigned int offsetOrder = finalParameters.Size()-actualParameters.Size();
 
-  const double tolerance = 1.0;  // equivalent to 1 pixel.
+  constexpr double tolerance = 1.0;  // equivalent to 1 pixel.
 
   for(unsigned int i=0; i<numbeOfParameters; i++)
     {
@@ -228,7 +228,7 @@ int itkAutoScaledGradientDescentRegistrationOnVectorTest(int argc, char ** const
     shiftOfStep = atof( argv[2] );
     }
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   std::cout << std::endl << "Optimizing translation transform with shift scales" << std::endl;
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;

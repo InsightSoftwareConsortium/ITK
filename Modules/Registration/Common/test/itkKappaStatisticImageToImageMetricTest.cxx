@@ -33,7 +33,7 @@
 int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 {
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using FixedImagePixelType = unsigned char;
   using MovingImagePixelType = unsigned char;

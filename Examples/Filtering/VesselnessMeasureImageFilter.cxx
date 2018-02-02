@@ -33,7 +33,7 @@ int main( int argc, char *argv[] )
     std::cerr << "Usage: inputImage outputImage [sigma] [alpha_1] [alpha_2]" << std::endl;
     }
 
-  const unsigned int Dimension       = 3;
+  constexpr unsigned int Dimension = 3;
   using InputPixelType = double;
   using OutputPixelType = float;
 

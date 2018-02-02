@@ -41,7 +41,7 @@ int itkNrrdImageIOTest(int ac, char* av[])
     {
     inputFile = std::string("null");
     }
-  const int sz = 10;
+  constexpr int sz = 10;
   int ret = EXIT_SUCCESS;
 
   ret += itkNrrdImageIOTestReadWriteTest<unsigned char, 2>(std::string(av[1]), sz, inputFile);

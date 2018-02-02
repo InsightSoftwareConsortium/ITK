@@ -55,7 +55,7 @@ int itkNaryAddImageFilterTest( int, char* [] )
   bool testStatus = true;
 
   // Define the dimension of the images
-  const unsigned int Dimension3D = 3;
+  constexpr unsigned int Dimension3D = 3;
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -70,9 +70,9 @@ int itkNaryAddImageFilterTest( int, char* [] )
   InputImageType::Pointer inputImageC = InputImageType::New();
 
 
-  const InputImageType::PixelType valueA = 12;
+  constexpr InputImageType::PixelType valueA  = 12;
   InitializeImage< InputImageType >( inputImageA, valueA );
-  const InputImageType::PixelType valueB = 17;
+  constexpr InputImageType::PixelType valueB  = 17;
   InitializeImage< InputImageType >( inputImageB, valueB );
   const InputImageType::PixelType valueC = -4;
   InitializeImage< InputImageType >( inputImageC, valueC );
@@ -170,7 +170,7 @@ int itkNaryAddImageFilterTest( int, char* [] )
   //
 
   // Define the dimension of the images
-  const unsigned int Dimension2D = 2;
+  constexpr unsigned int Dimension2D = 2;
 
   // Declare the pixel types of the images
   using ElementPixelType = int;
@@ -184,11 +184,11 @@ int itkNaryAddImageFilterTest( int, char* [] )
 
   VectorPixelType vectorImageValueA, vectorImageValueB, vectorImageValueC;
 
-  const VectorImageType::PixelType::ValueType vectorValueA = 12;
+  constexpr VectorImageType::PixelType::ValueType vectorValueA  = 12;
   vectorImageValueA.Fill( vectorValueA );
   vectorImageValueA[0] = 5;
 
-  const VectorImageType::PixelType::ValueType  vectorValueB = 17;
+  constexpr VectorImageType::PixelType::ValueType  vectorValueB  = 17;
   vectorImageValueB.Fill( vectorValueB );
   vectorImageValueB[0] = 9;
 

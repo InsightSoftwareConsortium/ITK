@@ -21,7 +21,7 @@
 #include "itkTestingMacros.h"
 
 // type alias for test
-const unsigned int Dimension =                          2;
+constexpr unsigned int Dimension = 2;
 using InputPixelType = unsigned char;
 using InputFrameType = itk::Image< InputPixelType, Dimension >;
 using InputVideoType = itk::VideoStream< InputFrameType >;
