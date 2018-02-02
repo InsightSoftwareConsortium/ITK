@@ -12,6 +12,7 @@ set(BoneEnhancementTests
   itkDescoteauxEigenToScalarFunctorTest.cxx
   itkDescoteauxEigenToScalarFunctorImageTest.cxx
   itkDescoteauxEigenToScalarImageFilterTest.cxx
+  itkHessianGaussianImageFilterTest.cxx
   )
 
 CreateTestDriver(BoneEnhancement "${BoneEnhancement-Test_LIBRARIES}" "${BoneEnhancementTests}")
@@ -58,4 +59,8 @@ itk_add_test(NAME itkDescoteauxEigenToScalarFunctorImageTest
   
 itk_add_test(NAME itkDescoteauxEigenToScalarImageFilterTest
   COMMAND BoneEnhancementTestDriver itkDescoteauxEigenToScalarImageFilterTest 
+  )
+
+itk_add_test(NAME itkHessianGaussianImageFilterTest
+  COMMAND BoneEnhancementTestDriver itkHessianGaussianImageFilterTest 
   )
