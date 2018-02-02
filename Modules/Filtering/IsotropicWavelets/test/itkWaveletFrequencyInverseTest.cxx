@@ -28,6 +28,7 @@
 #include "itkShannonIsotropicWavelet.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"
+#include "itkChangeInformationImageFilter.h"
 #include "itkTestingMacros.h"
 
 #include <memory>
@@ -133,11 +134,20 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
   inverseFFT->SetInput(inverseWavelet->GetOutput());
   inverseFFT->Update();
 
+  // Restore InputImage Metadata for comparisson
+  typedef itk::ChangeInformationImageFilter<ImageType> ChangeInformationFilterType;
+  typename ChangeInformationFilterType::Pointer        changeInfo = ChangeInformationFilterType::New();
+  changeInfo->SetReferenceImage(reader->GetOutput());
+  changeInfo->UseReferenceImageOn();
+  changeInfo->ChangeAll();
+  changeInfo->SetInput(inverseFFT->GetOutput());
+  changeInfo->Update();
+
   // Write output image
   typedef itk::ImageFileWriter<ImageType> WriterType;
   typename WriterType::Pointer            writer = WriterType::New();
   writer->SetFileName(outputImage);
-  writer->SetInput(inverseFFT->GetOutput());
+  writer->SetInput(changeInfo->GetOutput());
 
   TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
