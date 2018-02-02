@@ -51,6 +51,7 @@ public:
   { return static_cast<TOutput>( A * A + B * B + C * C ); }
 };
 }
+
 /** \class TernaryMagnitudeSquaredImageFilter
  * \brief Compute the pixel-wise squared magnitude of three images.
  *

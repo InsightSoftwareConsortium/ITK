@@ -52,6 +52,7 @@ public:
   }
 };
 }
+
 /** \class ExpImageFilter
  * \brief Computes the exponential function of each pixel.
  *

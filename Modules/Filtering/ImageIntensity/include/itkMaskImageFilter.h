@@ -108,6 +108,7 @@ private:
   TMask   m_MaskingValue;
 };
 }
+
 /** \class MaskImageFilter
  * \brief Mask an image with a mask.
  *

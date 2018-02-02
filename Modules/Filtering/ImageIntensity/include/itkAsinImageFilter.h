@@ -56,6 +56,7 @@ public:
   }
 };
 }
+
 /** \class AsinImageFilter
  * \brief Computes the sine of each pixel.
  *

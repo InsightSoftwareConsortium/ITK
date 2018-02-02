@@ -77,6 +77,7 @@ private:
   RealType m_Beta;     // auxiliary var to avoid a subtraction at every pixel
 };
 }
+
 /** \class WeightedAddImageFilter
  * \brief Computes a weighted sum of two images pixel-wise.
  *

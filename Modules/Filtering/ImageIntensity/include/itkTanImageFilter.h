@@ -50,6 +50,7 @@ public:
   { return static_cast<TOutput>( std::tan( static_cast<double>( A ) ) ); }
 };
 }
+
 /** \class TanImageFilter
  * \brief Computes the tangent of each input pixel.
  *

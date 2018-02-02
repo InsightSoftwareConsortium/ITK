@@ -52,6 +52,7 @@ public:
   }
 };
 }
+
 /** \class Log10ImageFilter
  * \brief Computes the log10 of each pixel.
  *

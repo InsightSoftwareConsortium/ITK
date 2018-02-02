@@ -65,6 +65,7 @@ public:
   }
 };
 }
+
 /** \class NaryMaximumImageFilter
  * \brief Computes the pixel-wise maximum of several images.
  *

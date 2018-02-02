@@ -72,6 +72,7 @@ private:
   double m_Factor;
 };
 }
+
 /** \class ExpNegativeImageFilter
  * \brief Computes the function exp(-K.x) for each input pixel.
  *
