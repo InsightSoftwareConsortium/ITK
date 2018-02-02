@@ -52,6 +52,7 @@ public:
   }
 };
 }
+
 /** \class RoundImageFilter
  * \brief Rounds the value of each pixel.
  *

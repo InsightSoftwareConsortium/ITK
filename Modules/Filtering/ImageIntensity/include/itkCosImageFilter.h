@@ -52,6 +52,7 @@ public:
   }
 };
 }
+
 /** \class CosImageFilter
  * \brief Computes the cosine of each pixel.
  *

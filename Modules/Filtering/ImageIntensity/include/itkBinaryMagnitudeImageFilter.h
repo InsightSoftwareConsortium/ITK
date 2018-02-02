@@ -55,6 +55,7 @@ public:
   }
 };
 }
+
 /** \class BinaryMagnitudeImageFilter
  * \brief Computes the square root of the sum of squares of corresponding input pixels.
  *

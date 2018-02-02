@@ -61,6 +61,7 @@ public:
   }
 };
 }
+
 /** \class ConstrainedValueAdditionImageFilter
  * \brief Implements pixel-wise the computation of constrained value addition.
  *

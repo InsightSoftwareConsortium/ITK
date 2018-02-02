@@ -52,6 +52,7 @@ public:
   }
 };
 }
+
 /** \class SqrtImageFilter
  * \brief Computes the square root of each pixel.
  *

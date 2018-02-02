@@ -49,6 +49,7 @@ public:
   { return static_cast< TOutput >( ( A < B ) ? A : B ); }
 };
 }
+
 /** \class MinimumImageFilter
  * \brief Implements a pixel-wise operator Min(a,b) between two images.
  *

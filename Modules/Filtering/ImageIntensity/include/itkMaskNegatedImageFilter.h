@@ -93,6 +93,7 @@ private:
   TMask   m_MaskingValue;
 };
 }
+
 /** \class MaskNegatedImageFilter
  * \brief Mask an image with the negation (or logical compliment) of a mask.
  *

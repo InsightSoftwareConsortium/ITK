@@ -58,6 +58,7 @@ public:
   }
 };
 }
+
 /** \class MaximumImageFilter
  * \brief Implements a pixel-wise operator Max(a,b) between two images.
  *

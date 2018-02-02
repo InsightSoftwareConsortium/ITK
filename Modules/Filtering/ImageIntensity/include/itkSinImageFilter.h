@@ -50,6 +50,7 @@ public:
   { return static_cast<TOutput>(std::sin( static_cast<double>( A ) ) ); }
 };
 }
+
 /** \class SinImageFilter
  * \brief Computes the sine of each pixel.
  *

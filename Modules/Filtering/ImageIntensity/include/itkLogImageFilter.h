@@ -52,6 +52,7 @@ public:
   }
 };
 }
+
 /** \class LogImageFilter
  * \brief Computes the log() of each pixel.
  *

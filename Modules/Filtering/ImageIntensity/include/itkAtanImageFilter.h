@@ -52,6 +52,7 @@ public:
   }
 };
 }
+
 /** \class AtanImageFilter
  * \brief Computes the one-argument inverse tangent of each pixel.
  *

@@ -56,6 +56,7 @@ public:
   }
 };
 }
+
 /** \class Atan2ImageFilter
  * \brief Computes two argument inverse tangent.
  *

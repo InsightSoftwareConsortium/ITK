@@ -51,6 +51,7 @@ public:
   { return static_cast<TOutput>(std::sqrt( static_cast<double>( A * A + B * B + C * C ) ) ); }
 };
 }
+
 /** \class TernaryMagnitudeImageFilter
  * \brief Compute the pixel-wise magnitude of three images.
  *

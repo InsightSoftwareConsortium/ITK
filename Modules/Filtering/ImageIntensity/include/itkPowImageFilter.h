@@ -56,6 +56,7 @@ public:
   }
 };
 }
+
 /** \class PowImageFilter
  * \brief Computes the powers of 2 images
  *

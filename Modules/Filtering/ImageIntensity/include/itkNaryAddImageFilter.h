@@ -59,6 +59,7 @@ public:
   }
 };
 }
+
 /** \class NaryAddImageFilter
  * \brief Pixel-wise addition of N images.
  *
