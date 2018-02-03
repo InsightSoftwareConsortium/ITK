@@ -20,19 +20,7 @@
 
 #include "itkImageRegionIterator.h"
 
-#ifdef ITK_HAS_STLTR1_TYPE_TRAITS
-#  include <type_traits>
-#elif defined ITK_HAS_STLTR1_TR1_TYPE_TRAITS
-#  include <tr1/type_traits>
-#else
-#  include "itkIsSame.h"
-#endif
-
-#ifdef ITK_HAS_CPP11_TYPETRAITS
-#  define ITK_STD_TR1_NAMESPACE std
-#else
-#  define ITK_STD_TR1_NAMESPACE std::tr1
-#endif
+#include <type_traits>
 
 namespace itk
 {
@@ -53,13 +41,8 @@ template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
 struct ImageAlgorithm
 {
 
-#if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
-    using TrueType = ITK_STD_TR1_NAMESPACE::true_type;
-    using FalseType = ITK_STD_TR1_NAMESPACE::false_type;
-#else
-    using TrueType = itk::TrueType;
-    using FalseType = itk::FalseType;
-#endif
+    using TrueType = std::true_type;
+    using FalseType = std::false_type;
 
 /**
  * \brief This generic function copies a region from one image to
@@ -99,16 +82,9 @@ struct ImageAlgorithm
   {
     using _ImageType1 = Image<TPixel1, VImageDimension>;
     using _ImageType2 = Image<TPixel2, VImageDimension>;
-    ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion
-#if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
-                                   , ITK_STD_TR1_NAMESPACE::is_convertible<typename _ImageType1::PixelType,
-                                   typename _ImageType2::PixelType>()
-#else
-                                   // note the above trait is
-                                   // primarily used to get a better
-                                   // error message
-                                   , TrueType()
-#endif
+    ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion,
+                                    std::is_convertible<typename _ImageType1::PixelType,
+                                    typename _ImageType2::PixelType>()
                                    );
   }
 
@@ -120,13 +96,9 @@ struct ImageAlgorithm
   {
     using _ImageType1 = VectorImage<TPixel1, VImageDimension>;
     using _ImageType2 = VectorImage<TPixel2, VImageDimension>;
-    ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion
-#if defined(ITK_HAS_STLTR1_TR1_TYPE_TRAITS) || defined(ITK_HAS_STLTR1_TYPE_TRAITS)
-                                   , ITK_STD_TR1_NAMESPACE::is_convertible<typename _ImageType1::PixelType,
-                                   typename _ImageType2::PixelType>()
-#else
-                                   , TrueType()
-#endif
+    ImageAlgorithm::DispatchedCopy( inImage, outImage, inRegion, outRegion,
+                                    std::is_convertible<typename _ImageType1::PixelType,
+                                    typename _ImageType2::PixelType>()
                                    );
   }
 

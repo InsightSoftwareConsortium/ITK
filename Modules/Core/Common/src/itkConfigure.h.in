@@ -92,12 +92,13 @@
 #cmakedefine ITK_TEMPLATE_VISIBILITY_DEFAULT
 #cmakedefine USE_COMPILER_HIDDEN_VISIBILITY
 
-// defined if the system has <tr1/type_traits> header
-#cmakedefine ITK_HAS_STLTR1_TR1_TYPE_TRAITS
-// defined if the system has <type_traits> header
-#cmakedefine ITK_HAS_STLTR1_TYPE_TRAITS
-// defined if std type traits are with C++11 ( no tr1 namespace )
-#cmakedefine ITK_HAS_CPP11_TYPETRAITS
+// C++11 should be assumed now, defines always true for C++11 will be
+// removed in the future.
+#ifndef ITK_LEGACY_REMOVE
+// defined if std type traits are with C++11
+# define ITK_HAS_CPP11_TYPETRAITS
+#endif
+
 // defined if the compiler support GNU's __attribute__(( algined(x) )) extension
 #cmakedefine ITK_HAS_GNU_ATTRIBUTE_ALIGNED
 
