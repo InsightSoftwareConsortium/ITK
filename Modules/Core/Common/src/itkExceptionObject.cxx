@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <utility>
+
 #include "itkLightObject.h"
 
 
@@ -31,12 +33,12 @@ class ExceptionObject::ExceptionData:public ReferenceCounterInterface
 protected:
   // Constructor. Might throw an exception.
   ExceptionData(
-    const std::string & file, unsigned int line,
-    const std::string & description,
-    const std::string & location):
-    m_Location(location),
-    m_Description(description),
-    m_File(file),
+    std::string  file, unsigned int line,
+    std::string  description,
+    std::string  location):
+    m_Location(std::move(location)),
+    m_Description(std::move(description)),
+    m_File(std::move(file)),
     m_Line(line)
     {
     std::ostringstream loc;

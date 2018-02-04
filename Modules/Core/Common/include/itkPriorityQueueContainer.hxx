@@ -19,6 +19,8 @@
 #ifndef itkPriorityQueueContainer_hxx
 #define itkPriorityQueueContainer_hxx
 
+#include <utility>
+
 #include "itkNumericTraits.h"
 #include "itkPriorityQueueContainer.h"
 
@@ -143,7 +145,7 @@ MinPriorityQueueElementWrapper() :
 // -----------------------------------------------------------------------------
 template<  typename TElement,  typename TElementPriority, typename TElementIdentifier > MinPriorityQueueElementWrapper< TElement, TElementPriority, TElementIdentifier >::
 MinPriorityQueueElementWrapper(ElementType element, ElementPriorityType priority):
-  m_Element(element), m_Priority(priority), m_Location( Superclass::m_ElementNotFound )
+  m_Element(element), m_Priority(std::move(priority)), m_Location( Superclass::m_ElementNotFound )
 {}
 // -----------------------------------------------------------------------------
 

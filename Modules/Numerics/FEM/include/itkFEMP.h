@@ -19,6 +19,7 @@
 #define itkFEMP_h
 
 #include <iostream>
+#include <utility>
 #include "itkMacro.h"
 
 namespace itk
@@ -86,7 +87,7 @@ public:
    * If you want to create a copy of object and take ownership of that,
    * use: FEMP(x->Clone()) instead of FEMP(x).
    */
-  explicit FEMP(typename T::Pointer x) : m_Data(x)
+  explicit FEMP(typename T::Pointer x) : m_Data(std::move(x))
   {
   }
 

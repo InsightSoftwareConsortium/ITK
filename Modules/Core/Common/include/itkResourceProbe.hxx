@@ -33,6 +33,7 @@
 #include <sstream>
 #include <algorithm>
 #include <functional>
+#include <utility>
 
 #include "itkResourceProbe.h"
 #include "itkNumericTraits.h"
@@ -46,8 +47,8 @@ namespace itk
 
 template< typename ValueType, typename MeanType >
 ResourceProbe< ValueType, MeanType >
-::ResourceProbe(const std::string & type, const std::string & unit):
-  m_TypeString(type), m_UnitString(unit)
+::ResourceProbe(std::string  type, std::string  unit):
+  m_TypeString(std::move(type)), m_UnitString(std::move(unit))
 {
   this->GetSystemInformation();
   this->Reset();

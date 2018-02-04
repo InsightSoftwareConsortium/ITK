@@ -28,6 +28,8 @@
         #include <share.h>
 #else
         #include <sys/file.h>
+
+#include <utility>
 #endif
 
 # include "itkObjectFactory.h"
@@ -47,8 +49,8 @@ WisdomFilenameGeneratorBase
 }
 
 ManualWisdomFilenameGenerator
-::ManualWisdomFilenameGenerator(const std::string &wfn)
-  : m_WisdomFilename(wfn)
+::ManualWisdomFilenameGenerator(std::string wfn)
+  : m_WisdomFilename(std::move(wfn))
 {
 }
 

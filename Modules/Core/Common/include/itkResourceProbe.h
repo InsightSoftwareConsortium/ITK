@@ -51,7 +51,7 @@ public:
 public:
 
   /** Constructor */
-  ResourceProbe(const std::string & type, const std::string & unit);
+  ResourceProbe(std::string  type, std::string  unit);
 
   /** Destructor */
   virtual ~ResourceProbe();
