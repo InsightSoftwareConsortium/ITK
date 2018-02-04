@@ -138,8 +138,7 @@ private:
   using InputImageSizeType = typename TInputImage::SizeType;
 
   /** Dimension of each individual pixel vector. */
-  itkStaticConstMacro(VectorDimension, unsigned int,
-                      InputImagePixelType::Dimension);
+  static constexpr unsigned int VectorDimension = InputImagePixelType::Dimension;
 
   MatrixType  m_NumberOfSamples;
   MatrixType  m_Means;

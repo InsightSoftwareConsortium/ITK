@@ -106,10 +106,10 @@ public:
   using DerivativeType = typename Superclass::DerivativeType;
 
   /** Dimension of the domain spaces. */
-  itkStaticConstMacro( Dimension, unsigned int, NDimensions );
+  static constexpr unsigned int Dimension = NDimensions;
 
   /** Dimension of the time varying velocity field. */
-  itkStaticConstMacro( VelocityFieldDimension, unsigned int, NDimensions + 1 );
+  static constexpr unsigned int VelocityFieldDimension = NDimensions + 1;
 
   using VelocityFieldPointType = typename VelocityFieldType::PointType;
   using VelocityFieldSizeType = typename VelocityFieldType::SizeType;

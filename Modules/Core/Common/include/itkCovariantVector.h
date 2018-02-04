@@ -80,7 +80,7 @@ public:
   using ComponentType = T;
 
   /** Dimension of the Space */
-  itkStaticConstMacro(Dimension, unsigned int, NVectorDimension);
+  static constexpr unsigned int Dimension = NVectorDimension;
 
   /** I am a covariant vector. */
   using CovariantVectorType = Self;

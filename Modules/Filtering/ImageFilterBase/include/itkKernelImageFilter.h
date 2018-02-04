@@ -69,8 +69,7 @@ public:
   using KernelType = TKernel;
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   /** Kernel type used to create box kernel, in SetRadius() method */
   using FlatKernelType = FlatStructuringElement<(Self::ImageDimension)>;
   /** n-dimensional Kernel radius. */

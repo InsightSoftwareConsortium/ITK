@@ -84,7 +84,7 @@ public:
   itkNewMacro(Self);
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
+  static constexpr unsigned int SpaceDimension = Superclass::SpaceDimension;
 
   /** CoordRep type alias support */
   using CoordRepType = typename Superclass::CoordRepType;

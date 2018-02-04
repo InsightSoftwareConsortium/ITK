@@ -70,7 +70,7 @@ public:
 
   using InputCellsContainerIterator = typename InputMeshType::CellsContainerIterator;
 
-  itkStaticConstMacro(PointDimension, unsigned int, InputMeshType::PointDimension);
+  static constexpr unsigned int PointDimension = InputMeshType::PointDimension;
 
   using OutputMeshType = TOutputMesh;
   using OutputMeshPointer = typename Superclass::OutputMeshPointer;

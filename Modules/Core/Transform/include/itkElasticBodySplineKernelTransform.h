@@ -67,7 +67,7 @@ public:
   using JacobianType = typename Superclass::JacobianType;
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
+  static constexpr unsigned int SpaceDimension = Superclass::SpaceDimension;
 
   /** Set alpha.  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
    * \f$\alpha = 12 ( 1 - \nu ) - 1\f$

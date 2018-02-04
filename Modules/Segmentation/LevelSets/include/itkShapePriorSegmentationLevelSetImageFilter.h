@@ -79,8 +79,7 @@ class ITK_TEMPLATE_EXPORT ShapePriorSegmentationLevelSetImageFilter:
 public:
 
   /** Dimension of the input/level set image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard class type aliases */
   using Self = ShapePriorSegmentationLevelSetImageFilter;

@@ -92,12 +92,9 @@ public:
   using FunctorType = typename Functor::LabelOverlayFunctor<FeatureImagePixelType, LabelMapPixelType, OutputImagePixelType>;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(LabelMapDimension, unsigned int,
-                      TLabelMap::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int LabelMapDimension = TLabelMap::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   enum
     {

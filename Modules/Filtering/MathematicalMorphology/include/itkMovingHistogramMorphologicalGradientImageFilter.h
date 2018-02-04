@@ -257,8 +257,7 @@ public:
   using HistogramType = Function::MorphologicalGradientHistogram< PixelType >;
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Return true if the vector based algorithm is used, and
    * false if the map based algorithm is used */

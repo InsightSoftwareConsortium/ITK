@@ -167,7 +167,7 @@ public:
                SparseFieldLevelSetImageFilter);
 
   /** Standard image dimension macro. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Typedefs derived from the superclass. */
   using OutputImageType = typename Superclass::OutputImageType;

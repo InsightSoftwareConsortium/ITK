@@ -93,7 +93,7 @@ public:
   using SpacingType = typename DisplacementFieldType::SpacingType;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro( SpaceDimension, unsigned int, TransformType::Dimension );
+  static constexpr unsigned int SpaceDimension = TransformType::Dimension;
 
   /** Alternative method for setting the required size. */
   void SetRequiredSize( const SizeType & );

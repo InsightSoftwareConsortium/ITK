@@ -66,9 +66,9 @@ public:
   itkTypeMacro(CenteredRigid2DTransform, Rigid2DTransform);
 
   /** Dimension of parameters. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, 2);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 2);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 5);
+  static constexpr unsigned int SpaceDimension = 2;
+  static constexpr unsigned int OutputSpaceDimension = 2;
+  static constexpr unsigned int ParametersDimension = 5;
 
   /** Parameters type. */
   using ScalarType = typename Superclass::ScalarType;

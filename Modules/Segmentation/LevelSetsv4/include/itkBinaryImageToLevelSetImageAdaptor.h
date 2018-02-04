@@ -83,8 +83,7 @@ public:
   using InputImageRegionType = typename InputImageType::RegionType;
   using InputPixelRealType = typename NumericTraits<InputImagePixelType>::RealType;
 
-  itkStaticConstMacro ( ImageDimension, unsigned int,
-                       InputImageType::ImageDimension );
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   using LevelSetPointer = typename LevelSetType::Pointer;
   using LevelSetImageType = typename LevelSetType::ImageType;
@@ -144,8 +143,7 @@ public:
   using InputImageRegionType = typename Superclass::InputImageRegionType;
   using InputPixelRealType = typename Superclass::InputPixelRealType;
 
-  itkStaticConstMacro ( ImageDimension, unsigned int,
-                       InputImageType::ImageDimension );
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   using LevelSetType = typename Superclass::LevelSetType;
   using LevelSetPointer = typename Superclass::LevelSetPointer;
@@ -225,8 +223,7 @@ public:
   using InputImageRegionType = typename Superclass::InputImageRegionType;
   using InputPixelRealType = typename Superclass::InputPixelRealType;
 
-  itkStaticConstMacro ( ImageDimension, unsigned int,
-                        InputImageType::ImageDimension );
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   using LevelSetPointer = typename Superclass::LevelSetPointer;
 
@@ -315,8 +312,7 @@ public:
   using InputImageRegionType = typename Superclass::InputImageRegionType;
   using InputPixelRealType = typename Superclass::InputPixelRealType;
 
-  itkStaticConstMacro ( ImageDimension, unsigned int,
-                       InputImageType::ImageDimension );
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
 //  using LevelSetType = typename Superclass::LevelSetType;
   using LevelSetPointer = typename Superclass::LevelSetPointer;
@@ -399,8 +395,7 @@ public:
   using InputImageRegionType = typename Superclass::InputImageRegionType;
   using InputPixelRealType = typename Superclass::InputPixelRealType;
 
-  itkStaticConstMacro ( ImageDimension, unsigned int,
-                       InputImageType::ImageDimension );
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
 
   using LevelSetPointer = typename Superclass::LevelSetPointer;

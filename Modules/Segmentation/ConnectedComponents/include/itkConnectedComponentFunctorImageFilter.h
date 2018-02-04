@@ -75,10 +75,8 @@ public:
   using InputPixelType = typename TInputImage::PixelType;
   using InputInternalPixelType = typename TInputImage::InternalPixelType;
   using MaskPixelType = typename TMaskImage::PixelType;
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /**
    * Image type alias support

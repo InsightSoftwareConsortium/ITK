@@ -77,10 +77,8 @@ public:
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Image related type alias. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Type of the input Sample */
   using SampleType = TSample;

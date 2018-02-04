@@ -124,8 +124,7 @@ public:
                                                 DisplacementFieldType >;
 
   /** Inherit some enums and type alias from the GPUSuperclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      GPUSuperclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = GPUSuperclass::ImageDimension;
 
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUPDEDeformableRegistrationFilterKernel);

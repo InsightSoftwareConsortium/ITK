@@ -78,7 +78,7 @@ public:
   using NodeContainerPointer = typename LevelSetType::NodeContainerPointer;
 
   /** The dimension of the level set. */
-  itkStaticConstMacro(SetDimension, unsigned int, LevelSetType::SetDimension);
+  static constexpr unsigned int SetDimension = LevelSetType::SetDimension;
 
   /** AuxVarType type alias support */
   using AuxVarType = AuxVarTypeDefault< TAuxValue, VAuxDimension,
@@ -91,7 +91,7 @@ public:
   using AuxImageConstPointer = typename AuxVarType::AuxImageConstPointer;
 
   /** Number of velocity images to be extended. */
-  itkStaticConstMacro(AuxDimension, unsigned int, VAuxDimension);
+  static constexpr unsigned int AuxDimension = VAuxDimension;
 
   /** Set/Get one of the input velocity images to be extended. */
   void SetInputVelocityImage(const AuxImageType *ptr, unsigned int idx = 0);

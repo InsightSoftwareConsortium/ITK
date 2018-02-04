@@ -67,8 +67,7 @@ public:
                KernelImageFilter);
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Image related type alias. */
   using InputImageType = TInputImage;

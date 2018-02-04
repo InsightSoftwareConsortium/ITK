@@ -82,7 +82,7 @@ public:
   /** The cost value type. */
   using MeasureType = Superclass::MeasureType;
 
-  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
+  static constexpr unsigned int SpaceDimension = 3;
 
   /** The type of the internal energy function. */
   using InternalEnergyFunction = CompositeValleyFunction;
@@ -236,8 +236,7 @@ public:
   itkTypeMacro(MRIBiasFieldCorrectionFilter, ImageToImageFilter);
 
   /** The dimension of the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Input and output image related type definitions. */
   using OutputImageType = TOutputImage;

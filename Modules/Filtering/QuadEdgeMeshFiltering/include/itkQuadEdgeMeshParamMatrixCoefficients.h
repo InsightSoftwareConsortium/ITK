@@ -280,8 +280,7 @@ public:
   using InputPointIdentifier = typename InputMeshType::PointIdentifier;
   using InputQEType = typename InputMeshType::QEType;
 
-  itkStaticConstMacro(PointDimension, unsigned int,
-                      InputPointType::PointDimension);
+  static constexpr unsigned int PointDimension = InputPointType::PointDimension;
 
   HarmonicMatrixCoefficients() {}
 

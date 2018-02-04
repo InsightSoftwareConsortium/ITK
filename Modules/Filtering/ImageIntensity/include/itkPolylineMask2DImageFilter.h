@@ -62,10 +62,8 @@ public:
   itkTypeMacro(PolylineMask2DImageFilter, ImageToImageFilter);
 
   /** Number of dimensions. */
-  itkStaticConstMacro(NDimensions, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(NOutputDimensions, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int NDimensions = TInputImage::ImageDimension;
+  static constexpr unsigned int NOutputDimensions = TOutputImage::ImageDimension;
 
   /** Some convenient type alias for input image */
   using InputImageType = TInputImage;

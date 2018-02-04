@@ -68,10 +68,8 @@ public:
   using ScalarValueType = typename PixelType::ValueType;
 
   /** Extract the image and vector dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
-  itkStaticConstMacro(VectorDimension, unsigned int,
-                      Superclass::VectorDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
+  static constexpr unsigned int VectorDimension = Superclass::VectorDimension;
 
   /** Compute the equation value. */
   PixelType ComputeUpdate(const NeighborhoodType & neighborhood,

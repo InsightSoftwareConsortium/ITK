@@ -49,8 +49,7 @@ public:
   using ConstPointer = SmartPointer< const Self >;
 
   /** Inherit some parameters from the superclass type. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Inherit some parameters from the superclass type. */
   using ImageType = typename Superclass::ImageType;

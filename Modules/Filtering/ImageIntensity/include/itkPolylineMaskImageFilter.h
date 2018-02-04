@@ -51,10 +51,9 @@ public:
   itkTypeMacro(PolylineMaskImageFilter, ImageToImageFilter);
 
   /** Number of dimensions. */
-  itkStaticConstMacro(NDimensions, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int NDimensions = TInputImage::ImageDimension;
 
-  itkStaticConstMacro(InputDimension, unsigned int, 3);
+  static constexpr unsigned int InputDimension = 3;
 
   /** Some convenient type alias for input image. */
   using InputImageType = TInputImage;

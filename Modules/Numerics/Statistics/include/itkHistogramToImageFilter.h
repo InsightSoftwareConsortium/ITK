@@ -84,7 +84,7 @@ public:
   using SizeType = typename OutputImageType::SizeType;
 
   /** Determine the image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, OutputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = OutputImageType::ImageDimension;
 
   /** Set/Get the input of this process object.  */
   using Superclass::SetInput;

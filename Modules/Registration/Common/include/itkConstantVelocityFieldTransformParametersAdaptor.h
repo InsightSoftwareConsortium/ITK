@@ -91,7 +91,7 @@ public:
   using SpacingType = typename ConstantVelocityFieldType::SpacingType;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro( ConstantVelocityFieldDimension, unsigned int, TransformType::ConstantVelocityFieldDimension );
+  static constexpr unsigned int ConstantVelocityFieldDimension = TransformType::ConstantVelocityFieldDimension;
 
   /** Alternative method for setting the required size. */
   void SetRequiredSize( const SizeType & );

@@ -110,7 +110,7 @@ public:
 
   using LabelType = typename Superclass::LabelType;
 
-  itkStaticConstMacro( ImageDimension, unsigned int, Traits::ImageDimension );
+  static constexpr unsigned int ImageDimension = Traits::ImageDimension;
 
 
   using LabelImageType = Image< unsigned char, ImageDimension >;

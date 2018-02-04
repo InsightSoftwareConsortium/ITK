@@ -59,8 +59,7 @@ public:
   using ChildrenListType = typename TInputSpatialObject::ChildrenListType;
 
   /** Dimension constants */
-  itkStaticConstMacro(ObjectDimension, unsigned int,
-                      InputSpatialObjectType::ObjectDimension);
+  static constexpr unsigned int ObjectDimension = InputSpatialObjectType::ObjectDimension;
 
   using PointType = itk::SpatialObjectPoint< itkGetStaticConstMacro(ObjectDimension) >;
   using PointBasedSpatialObjectType = itk::PointBasedSpatialObject< itkGetStaticConstMacro(ObjectDimension) >;

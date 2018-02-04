@@ -76,12 +76,8 @@ public:
   using FixedImageRegionType = typename FixedImageType::RegionType;
 
   /** Constants for the image dimensions */
-  itkStaticConstMacro(MovingImageDimension,
-                      unsigned int,
-                      TMovingImage::ImageDimension);
-  itkStaticConstMacro(FixedImageDimension,
-                      unsigned int,
-                      TFixedImage::ImageDimension);
+  static constexpr unsigned int MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr unsigned int FixedImageDimension = TFixedImage::ImageDimension;
 
   /**  Type of the Transform Base class */
   using TransformType = Transform< CoordinateRepresentationType,
@@ -409,7 +405,7 @@ public:
     * of parameter in the support region (per dimension ). */
   SizeValueType m_NumBSplineWeights;
 
-  itkStaticConstMacro(DeformationSplineOrder, unsigned int, 3);
+  static constexpr unsigned int DeformationSplineOrder = 3;
 
   using BSplineTransformType = BSplineBaseTransform< CoordinateRepresentationType,
                                        FixedImageType ::ImageDimension,

@@ -107,7 +107,7 @@ public:
   using InterpolationGridIndexType = typename Superclass::InterpolationGridIndexType;
   using InterpolationGridDirectionType = typename InterpolationGridType::DirectionType;
 
-  itkStaticConstMacro(FEMDimension, unsigned int, VDimension);
+  static constexpr unsigned int FEMDimension = VDimension;
 
   using FEMObjectType = typename Superclass::FEMObjectType;
 

@@ -39,7 +39,7 @@ public:
   using VectorType = TVector;
   using ValueType = typename VectorType::ValueType;
 
-  itkStaticConstMacro (Dimension, unsigned int, VectorType::Dimension);
+  static constexpr unsigned int Dimension = VectorType::Dimension;
 
   /**
    * \param[in] iU

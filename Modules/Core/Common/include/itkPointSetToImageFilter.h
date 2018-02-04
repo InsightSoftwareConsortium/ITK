@@ -59,10 +59,8 @@ public:
   using InputPointSetConstPointer = typename InputPointSetType::ConstPointer;
 
   /** Dimension constants */
-  itkStaticConstMacro(InputPointSetDimension, unsigned int,
-                      InputPointSetType::PointDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int InputPointSetDimension = InputPointSetType::PointDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Image spacing and origin type alias */
   using SpacingType = typename TOutputImage::SpacingType;

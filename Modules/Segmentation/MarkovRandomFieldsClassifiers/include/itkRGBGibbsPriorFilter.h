@@ -155,8 +155,7 @@ public:
   itkSetMacro(ObjectLabel, LabelType);
 
   /** Extract the input image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   itkSetMacro(StartPoint, IndexType);
 

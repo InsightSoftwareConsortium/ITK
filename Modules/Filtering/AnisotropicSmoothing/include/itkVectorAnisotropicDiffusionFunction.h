@@ -72,9 +72,8 @@ public:
   using NeighborhoodType = typename Superclass::NeighborhoodType;
 
   /** Inherit some parameters from the superclass type */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
-  itkStaticConstMacro(VectorDimension, unsigned int, PixelType::Dimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
+  static constexpr unsigned int VectorDimension = PixelType::Dimension;
 
   /** Compute the average gradient magnitude squared. */
   void CalculateAverageGradientMagnitudeSquared(TImage *) override;

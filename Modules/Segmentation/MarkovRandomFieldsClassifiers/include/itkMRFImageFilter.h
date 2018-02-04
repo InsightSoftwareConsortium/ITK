@@ -155,8 +155,7 @@ public:
   using InputImageRegionConstIterator = ImageRegionConstIterator< TInputImage >;
 
   /** Image dimension */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** Type definitions for the training image. */
   using TrainingImagePointer = typename TClassifiedImage::Pointer;
@@ -187,8 +186,7 @@ public:
   using LabelledImageRegionIterator = ImageRegionIterator< TClassifiedImage >;
 
   /** Labelled Image dimension */
-  itkStaticConstMacro(ClassifiedImageDimension, unsigned int,
-                      TClassifiedImage::ImageDimension);
+  static constexpr unsigned int ClassifiedImageDimension = TClassifiedImage::ImageDimension;
 
   /** Type definitions for classifier to be used for the MRF lavbelling. */
   using ClassifierType = ImageClassifierBase< TInputImage, TClassifiedImage >;

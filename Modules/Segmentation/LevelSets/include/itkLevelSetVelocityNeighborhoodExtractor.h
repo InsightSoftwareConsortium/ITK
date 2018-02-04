@@ -76,8 +76,7 @@ public:
   using LevelSetType = LevelSetTypeDefault< TLevelSet >;
 
   /** The dimension of the level set. */
-  itkStaticConstMacro(SetDimension, unsigned int,
-                      LevelSetType::SetDimension);
+  static constexpr unsigned int SetDimension = LevelSetType::SetDimension;
 
   /** Index type alias support */
   using Index = ::itk::Index< itkGetStaticConstMacro(SetDimension) >;

@@ -84,8 +84,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(Solver, ProcessObject);
 
-  itkStaticConstMacro(FEMDimension, unsigned int, VDimension);
-  itkStaticConstMacro(MaxDimensions, unsigned int, 3);
+  static constexpr unsigned int FEMDimension = VDimension;
+  static constexpr unsigned int MaxDimensions = 3;
 
   /** Smart Pointer type to a DataObject. */
   using FEMObjectType = typename itk::fem::FEMObject<VDimension>;

@@ -70,10 +70,8 @@ public:
   using FixedPointSetConstPointer = typename FixedPointSetType::ConstPointer;
 
   /** Constants for the image dimensions */
-  itkStaticConstMacro(MovingImageDimension, unsigned int,
-                      TMovingImage::ImageDimension);
-  itkStaticConstMacro(FixedPointSetDimension, unsigned int,
-                      TFixedPointSet::PointDimension);
+  static constexpr unsigned int MovingImageDimension = TMovingImage::ImageDimension;
+  static constexpr unsigned int FixedPointSetDimension = TFixedPointSet::PointDimension;
 
   using PointIterator = typename FixedPointSetType::PointsContainer::ConstIterator;
   using PointDataIterator = typename FixedPointSetType::PointDataContainer::ConstIterator;

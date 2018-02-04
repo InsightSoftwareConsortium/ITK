@@ -78,8 +78,7 @@ public:
   using PointDataContainerIterator = typename PointDataContainer::Iterator;
 
   /** The dimension of the output mesh. */
-  itkStaticConstMacro(PointDimension, unsigned int,
-                      TOutputMesh::PointDimension);
+  static constexpr unsigned int PointDimension = TOutputMesh::PointDimension;
 
   /** Some type alias associated with the output mesh. */
   void GenerateData() override;

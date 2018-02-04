@@ -91,8 +91,7 @@ public:
   itkTypeMacro(VectorExpandImageFilter, ImageToImageFilter);
 
   /** ImageDimension enumeration */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Inherit some types from superclass */
   using InputImageType = typename Superclass::InputImageType;

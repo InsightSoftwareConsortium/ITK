@@ -76,10 +76,8 @@ public:
   itkTypeMacro(ConformalFlatteningMeshFilter, MeshToMeshFilter);
 
   /** Convenient constants obtained from TMeshTraits template parameter. */
-  itkStaticConstMacro(InputPointDimension, unsigned int,
-                      TInputMesh::PointDimension);
-  itkStaticConstMacro(OutputPointDimension, unsigned int,
-                      TOutputMesh::PointDimension);
+  static constexpr unsigned int InputPointDimension = TInputMesh::PointDimension;
+  static constexpr unsigned int OutputPointDimension = TOutputMesh::PointDimension;
 
   using PointsContainer = typename InputMeshType::PointsContainer;
   using CellsContainer = typename InputMeshType::CellsContainer;

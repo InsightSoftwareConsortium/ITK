@@ -84,7 +84,7 @@ public:
 
   using LevelSetDataType = typename Superclass::LevelSetDataType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   using CurvatureImageType = TCurvatureImage;
   using CurvatureImagePointer = typename CurvatureImageType::Pointer;

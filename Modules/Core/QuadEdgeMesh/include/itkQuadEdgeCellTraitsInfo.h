@@ -48,7 +48,7 @@ template< int VPointDimension,
 class QuadEdgeMeshCellTraitsInfo
 {
 public:
-  itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);
+  static constexpr unsigned int PointDimension = VPointDimension;
   using CoordRepType = TCoordRep;
   using InterpolationWeightType = TInterpolationWeight;
   using PointIdentifier = TPointIdentifier;

@@ -67,10 +67,8 @@ public:
   using FloatOffsetType = typename Superclass::FloatOffsetType;
 
   /** Extract vector and image dimension from superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
-  itkStaticConstMacro(VectorDimension, unsigned int,
-                      Superclass::VectorDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
+  static constexpr unsigned int VectorDimension = Superclass::VectorDimension;
 
   /** Type of a value in a vector (double, float, etc.) */
   using ScalarValueType = typename PixelType::ValueType;

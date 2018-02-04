@@ -50,7 +50,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShiSparseLevelSetImage, LevelSetSparseImage);
 
-  itkStaticConstMacro ( Dimension, unsigned int, VDimension );
+  static constexpr unsigned int Dimension = VDimension;
 
   using InputType = typename Superclass::InputType;
   using OutputType = typename Superclass::OutputType;

@@ -71,7 +71,7 @@ public:
   /*-PUBLIC METHODS----------------------------------------------------------*/
 
   /** Access the spacial dimensionality of the frames */
-  itkStaticConstMacro(OutputFrameDimension, unsigned int, OutputFrameType::ImageDimension);
+  static constexpr unsigned int OutputFrameDimension = OutputFrameType::ImageDimension;
   static unsigned int GetOutputFrameDimension()
   {
     return OutputFrameType::ImageDimension;

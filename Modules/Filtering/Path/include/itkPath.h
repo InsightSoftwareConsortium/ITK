@@ -60,7 +60,7 @@ public:
   using ConstPointer = SmartPointer< const Self >;
 
   /** Path dimension. The dimension of a path is fixed at construction. */
-  itkStaticConstMacro(PathDimension, unsigned int, VDimension);
+  static constexpr unsigned int PathDimension = VDimension;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(Path, FunctionBase);

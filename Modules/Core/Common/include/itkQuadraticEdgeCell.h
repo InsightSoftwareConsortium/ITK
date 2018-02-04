@@ -49,9 +49,9 @@ public:
   using VertexAutoPointer = typename VertexType::SelfAutoPointer;
 
   /** QuadraticEdge-specific topology numbers. */
-  itkStaticConstMacro(NumberOfPoints, unsigned int, 3);
-  itkStaticConstMacro(NumberOfVertices, unsigned int, 2);
-  itkStaticConstMacro(CellDimension, unsigned int, 1);
+  static constexpr unsigned int NumberOfPoints = 3;
+  static constexpr unsigned int NumberOfVertices = 2;
+  static constexpr unsigned int CellDimension = 1;
 
   /** Implement the standard CellInterface. */
   CellGeometry GetType(void) const override

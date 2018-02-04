@@ -103,8 +103,7 @@ public:
   using InputImageType = typename Superclass::InputImageType;
 
   /** Dimension of the input image. */
-  itkStaticConstMacro(Dimension, unsigned int,
-                       InputImageType ::ImageDimension);
+  static constexpr unsigned int Dimension = InputImageType ::ImageDimension;
 
   using OutputImageType = Image< TLabelsType,
                  itkGetStaticConstMacro(Dimension) >;

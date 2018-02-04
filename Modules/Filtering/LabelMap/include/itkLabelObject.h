@@ -78,7 +78,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LabelObject, LightObject);
 
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
 
   using IndexType = Index< VImageDimension >;
   using OffsetType = Offset< VImageDimension >;
@@ -88,7 +88,7 @@ public:
   using AttributeType = unsigned int;
   using SizeValueType = itk::SizeValueType;
 
-  itkStaticConstMacro(LABEL, AttributeType, 0);
+  static constexpr AttributeType LABEL = 0;
 
   static AttributeType GetAttributeFromName(const std::string & s);
 

@@ -166,9 +166,7 @@ private:
   /** Typedef for filter pixel type.  */
   using FilterPixelType = unsigned int;
 
-  itkStaticConstMacro(ImageDimension,
-                      unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   using FilterImageType =
       itk::Image< FilterPixelType, itkGetStaticConstMacro(ImageDimension) >;

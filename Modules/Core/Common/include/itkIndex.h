@@ -80,7 +80,7 @@ public:
   using IndexValueType = ::itk::IndexValueType;
 
   /** Dimension constant */
-  itkStaticConstMacro(Dimension, unsigned int, VIndexDimension);
+  static constexpr unsigned int Dimension = VIndexDimension;
 
   /** Get the dimension (size) of the index. */
   static unsigned int GetIndexDimension() { return VIndexDimension; }

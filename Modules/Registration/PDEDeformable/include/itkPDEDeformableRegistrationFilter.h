@@ -112,8 +112,7 @@ public:
                                              DisplacementFieldType >;
 
   /** Inherit some enums and type alias from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Set the fixed image. */
   itkSetInputMacro(FixedImage, FixedImageType);

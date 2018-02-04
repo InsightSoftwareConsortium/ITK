@@ -69,7 +69,7 @@ public:
   using SpacingMapType = typename std::map<SizeValueType, SpacingType>;
 
   /** Access the spacial dimensionality of the frames */
-  itkStaticConstMacro(FrameDimension, unsigned int, FrameType::ImageDimension);
+  static constexpr unsigned int FrameDimension = FrameType::ImageDimension;
   static unsigned int GetFrameDimension()
   {
     return FrameType::ImageDimension;

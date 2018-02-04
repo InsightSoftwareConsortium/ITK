@@ -73,8 +73,7 @@ public:
   using RealType = typename NumericTraits< OutputImagePixelType >::RealType;
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ShiftScaleImageFilter, ImageToImageFilter);

@@ -81,10 +81,8 @@ public:
   using OutputImageIterator = ImageRegionIterator< OutputImageType >;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   using InternalPixelType = TInternalPixel;
   using InternalImageType = itk::Image< InternalPixelType, itkGetStaticConstMacro(ImageDimension) >;

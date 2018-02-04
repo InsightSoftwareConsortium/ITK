@@ -64,8 +64,7 @@ public:
   using FloatOffsetType = typename Superclass::FloatOffsetType;
 
   /** Extract superclass dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Typedef support for the stencil radius. */
   using RadiusValueType = typename RadiusType::SizeValueType;

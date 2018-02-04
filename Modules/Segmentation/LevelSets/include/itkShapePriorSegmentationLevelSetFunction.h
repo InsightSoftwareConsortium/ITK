@@ -84,8 +84,7 @@ public:
   using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   /** Extract some parameters from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** ShapeFunction type alias support */
   using ShapeFunctionType = ShapeSignedDistanceFunction< double,

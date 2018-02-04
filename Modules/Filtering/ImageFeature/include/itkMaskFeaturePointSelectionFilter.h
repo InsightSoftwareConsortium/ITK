@@ -74,7 +74,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MaskFeaturePointSelectionFilter, ImageToMeshFilter);
 
-  itkStaticConstMacro(ImageDimension, unsigned, 3u);
+  static constexpr unsigned ImageDimension = 3u;
 
   /** Not input specific type alias */
   using RegionType = ImageRegion< ImageDimension >;

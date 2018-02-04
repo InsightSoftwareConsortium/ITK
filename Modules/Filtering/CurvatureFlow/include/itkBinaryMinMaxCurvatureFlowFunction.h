@@ -64,7 +64,7 @@ public:
   using ImageType = typename Superclass::ImageType;
 
   /** Extract superclass dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Set/Get the threshold value. */
   void SetThreshold(const double thresh)

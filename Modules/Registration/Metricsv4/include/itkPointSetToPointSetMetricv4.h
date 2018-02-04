@@ -127,7 +127,7 @@ public:
   using FixedPixelType = typename TFixedPointSet::PixelType;
   using FixedPointsContainer = typename TFixedPointSet::PointsContainer;
 
-  itkStaticConstMacro( FixedPointDimension, DimensionType, Superclass::FixedDimension );
+  static constexpr DimensionType FixedPointDimension = Superclass::FixedDimension;
 
   /**  Type of the moving point set. */
   using MovingPointSetType = TMovingPointSet;
@@ -135,7 +135,7 @@ public:
   using MovingPixelType = typename TMovingPointSet::PixelType;
   using MovingPointsContainer = typename TMovingPointSet::PointsContainer;
 
-  itkStaticConstMacro( MovingPointDimension, DimensionType, Superclass::MovingDimension );
+  static constexpr DimensionType MovingPointDimension = Superclass::MovingDimension;
 
   /**
    * typedefs for the data types used in the point set metric calculations.
@@ -143,7 +143,7 @@ public:
    * point dimension, are the same for the "common space" in which the metric
    * calculation occurs.
    */
-  itkStaticConstMacro( PointDimension, DimensionType, Superclass::FixedDimension );
+  static constexpr DimensionType PointDimension = Superclass::FixedDimension;
 
   using PointType = FixedPointType;
   using PixelType = FixedPixelType;

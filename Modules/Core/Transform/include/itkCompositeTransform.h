@@ -150,8 +150,8 @@ public:
   using TransformsToOptimizeFlagsType = std::deque<bool>;
 
   /** Dimension of the domain spaces. */
-  itkStaticConstMacro( InputDimension, unsigned int, NDimensions );
-  itkStaticConstMacro( OutputDimension, unsigned int, NDimensions );
+  static constexpr unsigned int InputDimension = NDimensions;
+  static constexpr unsigned int OutputDimension = NDimensions;
 
   /** Active Transform state manipulation */
 

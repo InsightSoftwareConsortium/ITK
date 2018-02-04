@@ -159,8 +159,7 @@ public:
   using InputImageType = TInputImage;
 
   /** Dimension of the input and output images. */
-  itkStaticConstMacro (ImageDimension, unsigned int,
-                       TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** The type of output image.   */
   using OutputImageType = Image< IdentifierType, itkGetStaticConstMacro(ImageDimension) >;

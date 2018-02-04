@@ -50,11 +50,10 @@ public:
   itkNewMacro(Self);
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro( ParametersDimension, unsigned int,
-                       NDimensions * ( NDimensions + 1 ) );
+  static constexpr unsigned int InputSpaceDimension = NDimensions;
+  static constexpr unsigned int OutputSpaceDimension = NDimensions;
+  static constexpr unsigned int SpaceDimension = NDimensions;
+  static constexpr unsigned int ParametersDimension = NDimensions * ( NDimensions + 1 );
 
   /** Types taken from the Superclass */
   using ParametersType = typename Superclass::ParametersType;

@@ -61,8 +61,8 @@ public:
   using ComponentType = T;
 
   /** Number Of Columns and Rows. */
-  itkStaticConstMacro(RowDimensions,    unsigned int, NRows);
-  itkStaticConstMacro(ColumnDimensions, unsigned int, NColumns);
+  static constexpr unsigned int RowDimensions = NRows;
+  static constexpr unsigned int ColumnDimensions = NColumns;
 
   /** Internal matrix type */
   using InternalMatrixType = vnl_matrix_fixed< T, NRows, NColumns >;

@@ -80,7 +80,7 @@ public:
   itkTypeMacro(LevelSetFunction, FiniteDifferenceFunction);
 
   /** Extract some parameters from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Convenient type alias. */
   using TimeStepType = double;

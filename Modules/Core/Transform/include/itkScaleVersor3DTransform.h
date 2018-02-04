@@ -62,9 +62,9 @@ public:
   itkTypeMacro(ScaleVersor3DTransform, VersorRigid3DTransform);
 
   /** Dimension of parameters. */
-  itkStaticConstMacro(InputSpaceDimension,  unsigned int,  3);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int,  3);
-  itkStaticConstMacro(ParametersDimension,  unsigned int,  9);
+  static constexpr unsigned int InputSpaceDimension = 3;
+  static constexpr unsigned int OutputSpaceDimension = 3;
+  static constexpr unsigned int ParametersDimension = 9;
 
   /** Parameters Type   */
   using ParametersType = typename Superclass::ParametersType;

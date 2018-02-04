@@ -64,8 +64,8 @@ public:
   itkTypeMacro(IdentityTransform, Transform);
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, NDimensions);
+  static constexpr unsigned int InputSpaceDimension = NDimensions;
+  static constexpr unsigned int OutputSpaceDimension = NDimensions;
 
   /** Type of the input parameters. */
   using ParametersType = typename Superclass::ParametersType;

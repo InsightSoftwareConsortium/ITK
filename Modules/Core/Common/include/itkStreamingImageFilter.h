@@ -69,10 +69,8 @@ public:
   using DataObjectPointer = typename Superclass::DataObjectPointer;
 
   /** Dimension of input image. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      OutputImageType::ImageDimension);
+  static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
 
   /** SmartPointer to a region splitting object */
   using SplitterType = ImageRegionSplitterBase;

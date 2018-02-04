@@ -49,8 +49,7 @@ public:
   using SpatialObjectPointer = typename TInputSpatialObject::Pointer;
   using SpatialObjectConstPointer = typename TInputSpatialObject::ConstPointer;
 
-  itkStaticConstMacro(ObjectDimension, unsigned int,
-                      SpatialObjectType::ObjectDimension);
+  static constexpr unsigned int ObjectDimension = SpatialObjectType::ObjectDimension;
 
   using InternalSpatialObjectType =
       SpatialObject< itkGetStaticConstMacro(ObjectDimension) >;

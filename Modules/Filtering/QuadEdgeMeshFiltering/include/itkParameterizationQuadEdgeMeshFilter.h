@@ -78,7 +78,7 @@ public:
   using InputPixelType = typename InputMeshType::PixelType;
   using InputTraits = typename InputMeshType::Traits;
 
-  itkStaticConstMacro(InputVDimension, unsigned int, InputMeshType::PointDimension);
+  static constexpr unsigned int InputVDimension = InputMeshType::PointDimension;
 
   using InputPointsContainer = typename InputMeshType::PointsContainer;
   using InputPointsContainerConstIterator = typename InputMeshType::PointsContainerConstIterator;
@@ -105,7 +105,7 @@ public:
   using OutputQEIterator = typename OutputQEType::IteratorGeom;
   using OutputPointsContainerIterator = typename OutputMeshType::PointsContainerIterator;
 
-  itkStaticConstMacro(OutputVDimension, unsigned int, OutputMeshType::PointDimension);
+  static constexpr unsigned int OutputVDimension = OutputMeshType::PointDimension;
 
   using SolverTraits = TSolverTraits;
   using ValueType = typename SolverTraits::ValueType;

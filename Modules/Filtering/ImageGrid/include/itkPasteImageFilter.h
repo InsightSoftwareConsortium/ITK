@@ -90,12 +90,9 @@ public:
   using SourceImageSizeType = typename SourceImageType::SizeType;
 
   /** ImageDimension enumeration */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      OutputImageType::ImageDimension);
-  itkStaticConstMacro(SourceImageDimension, unsigned int,
-                      SourceImageType::ImageDimension);
+  static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
+  static constexpr unsigned int SourceImageDimension = SourceImageType::ImageDimension;
 
   /** Set/Get the destination index (where in the first input the second
    * input will be pasted. */

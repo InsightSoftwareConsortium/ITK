@@ -68,10 +68,10 @@ public:
   itkTypeMacro(BSplineInterpolationWeightFunction, FunctionBase);
 
   /** Space dimension. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, VSpaceDimension);
+  static constexpr unsigned int SpaceDimension = VSpaceDimension;
 
   /** Spline order. */
-  itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
+  static constexpr unsigned int SplineOrder = VSplineOrder;
 
   /** OutputType type alias support. */
   using WeightsType = Array< double >;

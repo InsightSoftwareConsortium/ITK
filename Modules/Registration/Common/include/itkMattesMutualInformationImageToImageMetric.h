@@ -152,8 +152,7 @@ public:
   using OffsetValueType = typename FixedImageType::OffsetValueType;
 
   /** The moving image dimension. */
-  itkStaticConstMacro(MovingImageDimension, unsigned int,
-                      MovingImageType::ImageDimension);
+  static constexpr unsigned int MovingImageDimension = MovingImageType::ImageDimension;
 
   /**
    *  Initialize the Metric by

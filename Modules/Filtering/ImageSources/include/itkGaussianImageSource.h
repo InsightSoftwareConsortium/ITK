@@ -73,7 +73,7 @@ public:
   using DirectionType = typename TOutputImage::DirectionType;
 
   /** Dimensionality of the output image */
-  itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int NDimensions = TOutputImage::ImageDimension;
 
   /** Type used to store Gaussian parameters. */
   using ArrayType = FixedArray< double, itkGetStaticConstMacro(NDimensions) >;

@@ -85,8 +85,7 @@ public:
   using ProbabilityPrecisionType = TProbabilityPrecisionType;
 
   /** Dimension of the input image */
-  itkStaticConstMacro(Dimension, unsigned int,
-                       InputImageType ::ImageDimension);
+  static constexpr unsigned int Dimension = InputImageType ::ImageDimension;
 
   using OutputImageType = VectorImage< ProbabilityPrecisionType,
                        itkGetStaticConstMacro(Dimension) >;

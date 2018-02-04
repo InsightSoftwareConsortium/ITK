@@ -69,8 +69,7 @@ public:
                FastMarchingImageFilterBase);
 
   /** The dimension of the level set. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension );
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   using NodeType = typename Superclass::NodeType;
   using OutputImageType = typename Superclass::OutputImageType;
@@ -141,8 +140,7 @@ private:
 //               FastMarchingUpwindGradientImageFilterBase );
 
 //  /** The dimension of the level set. */
-//  itkStaticConstMacro(ImageDimension, unsigned int,
-//                      Superclass::ImageDimension );
+//  static constexpr unsigned int ImageDimension = //                      Superclass::ImageDimension;
 
 //  using NodeType = typename Superclass::NodeType;
 //  using OutputImageType = typename Superclass::OutputImageType;

@@ -64,10 +64,10 @@ public:
   using Superclass = FixedArray< TComponent, 4 >;
 
   /** Dimension of the vector space. */
-  itkStaticConstMacro(Dimension, unsigned int, 4);
+  static constexpr unsigned int Dimension = 4;
 
   /** Length of the pixel. */
-  itkStaticConstMacro(Length, unsigned int, 4);
+  static constexpr unsigned int Length = 4;
 
   /** Convenience type alias. */
   using BaseArray = FixedArray< TComponent, 4 >;

@@ -103,8 +103,7 @@ public:
   using OutputSizeType = typename OutputImageType::SizeType;
   using OutputSizeValueType = typename OutputSizeType::SizeValueType;
   /** The dimension of the input image. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
+  static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
 
   /** Pointer Type for input image. */
   using InputImagePointer = typename InputImageType::ConstPointer;

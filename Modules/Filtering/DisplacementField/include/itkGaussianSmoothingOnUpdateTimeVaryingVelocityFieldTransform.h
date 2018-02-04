@@ -54,7 +54,7 @@ public:
   itkNewMacro( Self );
 
   /** Dimension of the time varying velocity field. */
-  itkStaticConstMacro( TimeVaryingVelocityFieldDimension, unsigned int, NDimensions+1 );
+  static constexpr unsigned int TimeVaryingVelocityFieldDimension = NDimensions+1;
 
   /** Types from superclass */
   using ScalarType = typename Superclass::ScalarType;

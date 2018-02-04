@@ -66,7 +66,7 @@ struct ImageBoundaryFacesCalculator {
   using IndexType = typename TImage::IndexType;
   using SizeType = typename TImage::SizeType;
   using FaceListType = std::list< RegionType >;
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   FaceListType operator()(const TImage *, RegionType, RadiusType);
 };

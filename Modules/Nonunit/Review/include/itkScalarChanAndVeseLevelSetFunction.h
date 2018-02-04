@@ -90,7 +90,7 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(ScalarChanAndVeseLevelSetFunction, ScalarLevelSetFunction);
 
-  itkStaticConstMacro(ImageDimension, unsigned int, TFeatureImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 
   using InputImageType = TInputImage;
   using InputImageConstPointer = typename Superclass::InputImageConstPointer;

@@ -101,7 +101,7 @@ public:
   using DirectionType = typename TimeVaryingVelocityFieldControlPointLatticeType::DirectionType;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro( TotalDimension, unsigned int, TransformType::Dimension + 1 );
+  static constexpr unsigned int TotalDimension = TransformType::Dimension + 1;
 
   /** Set spline order (usually from transform) */
   itkSetMacro( SplineOrder, SizeValueType );

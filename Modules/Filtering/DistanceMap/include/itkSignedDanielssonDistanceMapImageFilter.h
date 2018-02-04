@@ -126,8 +126,7 @@ public:
   using SizeType = typename RegionType::SizeType;
 
   /** The dimension of the input image. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
+  static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
 
   /** Pointer Type for the vector distance image */
   using VectorImageType = Image< OffsetType,

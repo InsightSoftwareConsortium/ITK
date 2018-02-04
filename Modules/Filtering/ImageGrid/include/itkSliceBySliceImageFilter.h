@@ -124,11 +124,9 @@ public:
   using InternalOutputPixelType = typename InternalOutputImageType::PixelType;
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
-  itkStaticConstMacro(InternalImageDimension, unsigned int,
-                      InternalInputImageType::ImageDimension);
+  static constexpr unsigned int InternalImageDimension = InternalInputImageType::ImageDimension;
 
   itkSetMacro(Dimension, unsigned int);
   itkGetConstMacro(Dimension, unsigned int);

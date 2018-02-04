@@ -62,8 +62,7 @@ public:
   using IndexType = typename InputImageType::IndexType;
 
   /** Dimension of the underlying image. */
-  itkStaticConstMacro(ImageDimension2, unsigned int,
-                      InputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension2 = InputImageType::ImageDimension;
 
   using ContinuousIndexType =
       ContinuousIndex< SpacePrecisionType, itkGetStaticConstMacro(ImageDimension2) >;

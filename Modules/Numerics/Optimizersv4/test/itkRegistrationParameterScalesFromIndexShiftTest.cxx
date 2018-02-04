@@ -84,12 +84,9 @@ public:
   using VirtualRegionType = typename VirtualImageType::RegionType;
 
   /* Image dimension accessors */
-  itkStaticConstMacro(FixedImageDimension, itk::SizeValueType,
-      FixedImageType::ImageDimension);
-  itkStaticConstMacro(MovingImageDimension, itk::SizeValueType,
-      MovingImageType::ImageDimension);
-  itkStaticConstMacro(VirtualImageDimension, itk::SizeValueType,
-      VirtualImageType::ImageDimension);
+  static constexpr itk::SizeValueType FixedImageDimension = FixedImageType::ImageDimension;
+  static constexpr itk::SizeValueType MovingImageDimension = MovingImageType::ImageDimension;
+  static constexpr itk::SizeValueType VirtualImageDimension = VirtualImageType::ImageDimension;
 
 private:
 

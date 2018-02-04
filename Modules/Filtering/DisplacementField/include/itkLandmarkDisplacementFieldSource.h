@@ -67,8 +67,7 @@ public:
   itkTypeMacro(LandmarkDisplacementFieldSource, ImageSource);
 
   /** Number of dimensions. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Transform type alias.
    *

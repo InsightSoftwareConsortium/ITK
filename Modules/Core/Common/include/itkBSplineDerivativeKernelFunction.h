@@ -56,7 +56,7 @@ public:
   itkTypeMacro(BSplineDerivativeKernelFunction, KernelFunctionBase);
 
   /** Enum of for spline order. */
-  itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
+  static constexpr unsigned int SplineOrder = VSplineOrder;
 
   /** Evaluate the function. */
   TRealValueType Evaluate( const TRealValueType & u ) const override

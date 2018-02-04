@@ -255,9 +255,9 @@ public:
   using MetricTraits = TMetricTraits;
 
   /* Image dimension accessors */
-  itkStaticConstMacro(FixedImageDimension, DimensionType, Superclass::FixedDimension);
-  itkStaticConstMacro(MovingImageDimension, DimensionType, Superclass::MovingDimension);
-  itkStaticConstMacro(VirtualImageDimension, DimensionType, Superclass::VirtualDimension);
+  static constexpr DimensionType FixedImageDimension = Superclass::FixedDimension;
+  static constexpr DimensionType MovingImageDimension = Superclass::MovingDimension;
+  static constexpr DimensionType VirtualImageDimension = Superclass::VirtualDimension;
 
   /**  Type for the mask of the fixed image. Only pixels that are "inside"
        this mask will be considered for the computation of the metric */

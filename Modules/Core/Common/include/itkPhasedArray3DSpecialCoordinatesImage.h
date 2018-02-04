@@ -141,7 +141,7 @@ public:
    * templated over image type (as opposed to being templated over pixel type
    * and dimension) when they need compile time access to the dimension of
    * the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, 3);
+  static constexpr unsigned int ImageDimension = 3;
 
   /** Index type alias support An index is used to access pixel values. */
   using IndexType = typename Superclass::IndexType;

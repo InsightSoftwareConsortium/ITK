@@ -40,12 +40,12 @@ class ITK_TEMPLATE_EXPORT Rigid3DPerspectiveTransform :
 {
 public:
   /** Dimension of the domain space. */
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 2);
+  static constexpr unsigned int InputSpaceDimension = 3;
+  static constexpr unsigned int OutputSpaceDimension = 2;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 6);
+  static constexpr unsigned int SpaceDimension = 3;
+  static constexpr unsigned int ParametersDimension = 6;
 
   /** Standard class type aliases. */
   using Self = Rigid3DPerspectiveTransform;

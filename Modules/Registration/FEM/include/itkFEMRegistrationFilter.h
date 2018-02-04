@@ -137,8 +137,7 @@ public:
   using PointType = typename FixedImageType::PointType;
 
   /** Dimensionality of input and output data is assumed to be the same. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      FixedImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   using FloatImageType = Image<float, itkGetStaticConstMacro(ImageDimension)>;
   using LinearSystemSolverType = LinearSystemWrapperItpack;

@@ -58,7 +58,7 @@ public:
   itkTypeMacro(FiniteDifferenceSparseImageFunction, FiniteDifferenceFunction);
 
   /** The image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Typedefs from the superclass. */
   using PixelType = typename Superclass::PixelType;

@@ -83,7 +83,7 @@ public:
   using HeavisideType = typename Superclass::HeavisideType;
   using HeavisideConstPointer = typename Superclass::HeavisideConstPointer;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   using PropagationImageType = TPropagationImage;
   using PropagationImagePointer = typename PropagationImageType::Pointer;

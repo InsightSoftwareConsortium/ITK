@@ -77,8 +77,7 @@ public:
   using PointType = typename Superclass::PointType;
 
   /** Dimension of the underlying image */
-  itkStaticConstMacro(ImageDimension2, unsigned int,
-                      InputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension2 = InputImageType::ImageDimension;
 
   /** Output type */
   using TensorType = SymmetricSecondRankTensor< TOutput,

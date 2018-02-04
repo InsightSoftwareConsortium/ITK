@@ -83,8 +83,7 @@ public:
                MultiResolutionPyramidImageFilter);
 
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Inherit types from the superclass.. */
   using InputImageType = typename Superclass::InputImageType;

@@ -151,7 +151,7 @@ public:
   /** Inherited type alias from the superclass. Needs to be placed before the next macro. */
   using Self = SegmentationLevelSetImageFilter;
 
-  //itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
+  //static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** Output image type type alias */
   using OutputImageType = Image< TOutputPixelType, itkGetStaticConstMacro(InputImageDimension) >;

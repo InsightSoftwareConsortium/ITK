@@ -121,7 +121,7 @@ public:
   /** FixedImage image type. */
   using FixedImageType = typename Superclass::FixedImageType;
   using FixedImagePointer = typename Superclass::FixedImagePointer;
-  itkStaticConstMacro(ImageDimension, unsigned int, FixedImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** MovingImage image type. */
   using MovingImageType = typename Superclass::MovingImageType;
@@ -133,7 +133,7 @@ public:
 
   using DisplacementFieldPixelType = typename TDisplacementField::PixelType;
   using DisplacementFieldComponentType = typename DisplacementFieldPixelType::ValueType;
-  itkStaticConstMacro(DeformationVectorDimension, unsigned int, DisplacementFieldPixelType::Dimension);
+  static constexpr unsigned int DeformationVectorDimension = DisplacementFieldPixelType::Dimension;
 
   #if defined( ITK_USE_FFTWD )
   //Prefer to use double precision

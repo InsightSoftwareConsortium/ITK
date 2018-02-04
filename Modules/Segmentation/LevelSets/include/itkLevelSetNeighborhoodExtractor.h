@@ -81,8 +81,7 @@ public:
   using NodeContainerPointer = typename LevelSetType::NodeContainerPointer;
 
   /** SetDimension enumeration. */
-  itkStaticConstMacro(SetDimension, unsigned int,
-                      LevelSetType::SetDimension);
+  static constexpr unsigned int SetDimension = LevelSetType::SetDimension;
 
   /** Index type alias support */
   using IndexType = Index< itkGetStaticConstMacro(SetDimension) >;

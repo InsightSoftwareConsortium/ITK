@@ -76,7 +76,7 @@ public:
   itkTypeMacro(WatershedRelabeler, ProcessObject);
 
   /** Expose the ImageDimension template parameter at run time */
-  itkStaticConstMacro(ImageDimension, unsigned int, TImageDimension);
+  static constexpr unsigned int ImageDimension = TImageDimension;
 
   /** Some convenient type alias */
   using ScalarType = TScalar;

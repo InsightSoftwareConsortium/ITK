@@ -59,8 +59,8 @@ public:
   itkTypeMacro(TranslationTransform, Transform);
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro(ParametersDimension, unsigned int, NDimensions);
+  static constexpr unsigned int SpaceDimension = NDimensions;
+  static constexpr unsigned int ParametersDimension = NDimensions;
 
   /** Standard scalar type for this class. */
   using ScalarType = typename Superclass::ScalarType;

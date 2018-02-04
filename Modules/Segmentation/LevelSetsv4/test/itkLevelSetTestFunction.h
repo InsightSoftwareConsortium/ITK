@@ -45,7 +45,7 @@ public:
 
   itkNewMacro( Self );
 
-  itkStaticConstMacro(Dimension, unsigned int, 2);
+  static constexpr unsigned int Dimension = 2;
 
   using PixelType = TPixel;
 

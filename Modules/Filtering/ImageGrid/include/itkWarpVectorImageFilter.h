@@ -122,12 +122,10 @@ public:
   using ValueType = typename OutputImageType::PixelType::ValueType;
 
   /** Determine the image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Dimension of the Vector pixel type. */
-  itkStaticConstMacro(PixelDimension, unsigned int,
-                      PixelType::Dimension);
+  static constexpr unsigned int PixelDimension = PixelType::Dimension;
 
   /** Displacement field type alias support */
   using DisplacementFieldType = TDisplacementField;

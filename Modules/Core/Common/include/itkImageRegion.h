@@ -77,12 +77,11 @@ public:
   itkTypeMacro(ImageRegion, Region);
 
   /** Dimension of the image available at compile time. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
 
   /** Dimension one lower than the image unless the image is one dimensional
       in which case the SliceDimension is also one dimensional. */
-  itkStaticConstMacro( SliceDimension, unsigned int,
-                       ( ImageDimension - ( ImageDimension > 1 ) ) );
+  static constexpr unsigned int SliceDimension = ImageDimension - ( ImageDimension > 1 );
 
   /** Dimension of the image available at run time. */
   static unsigned int GetImageDimension()

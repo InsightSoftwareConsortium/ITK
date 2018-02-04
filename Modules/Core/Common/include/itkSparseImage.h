@@ -81,8 +81,7 @@ public:
   itkTypeMacro(SparseImage, Image);
 
   /** Dimension of the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** The actual sparse pixel type. */
   using NodeType = TNode;

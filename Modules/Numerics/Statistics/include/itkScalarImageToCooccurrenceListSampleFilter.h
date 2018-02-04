@@ -93,11 +93,10 @@ public:
   itkNewMacro(Self);
 
   /** the number of components in a measurement vector */
-  itkStaticConstMacro(MeasurementVectorSize, unsigned int, 2);
+  static constexpr unsigned int MeasurementVectorSize = 2;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
 protected:
   ScalarImageToCooccurrenceListSampleFilter();

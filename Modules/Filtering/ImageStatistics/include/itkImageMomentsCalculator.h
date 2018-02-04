@@ -73,8 +73,7 @@ public:
   itkTypeMacro(ImageMomentsCalculator, Object);
 
   /** Extract the dimension of the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Standard scalar type within this class. */
   using ScalarType = double;

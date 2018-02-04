@@ -64,7 +64,7 @@ public:
   using PointType = typename PointsContainer::Element;
 
   /** Hold on to the dimensions specified by the template parameters. */
-  itkStaticConstMacro( PointDimension, unsigned int, PointType::PointDimension );
+  static constexpr unsigned int PointDimension = PointType::PointDimension;
 
   /** Convenient type alias. */
   using PointsContainerConstIterator = typename PointsContainer::ConstIterator;

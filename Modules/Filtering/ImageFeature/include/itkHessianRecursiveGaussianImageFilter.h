@@ -62,12 +62,11 @@ public:
   using RealType = typename NumericTraits< PixelType >::RealType;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Number of smoothing filters. */
-  itkStaticConstMacro(NumberOfSmoothingFilters, unsigned int,
-                      TInputImage::ImageDimension > 2 ? TInputImage::ImageDimension - 2 : 0);
+  static constexpr unsigned int NumberOfSmoothingFilters =
+         ( TInputImage::ImageDimension > 2 ) ? ( TInputImage::ImageDimension - 2 ) : ( 0 );
 
   /** Define the image type for internal computations
       RealType is usually 'double' in NumericTraits.

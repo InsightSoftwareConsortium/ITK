@@ -156,7 +156,7 @@ public:
   static Pointer GetInstance();
 
   /** Length of state vector */
-  itkStaticConstMacro(StateVectorLength, IntegerType, 624);
+  static constexpr IntegerType StateVectorLength = 624;
 
   /** Initialize with a simple IntegerType */
   void Initialize(const IntegerType oneSeed);
@@ -243,7 +243,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Period parameter */
-  itkStaticConstMacro(M, unsigned int, 397);
+  static constexpr unsigned int M = 397;
 
   /** Reload array with N new values. */
   void reload();

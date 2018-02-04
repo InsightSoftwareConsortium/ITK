@@ -66,7 +66,7 @@ public:
                RegularStepGradientDescentBaseOptimizer);
 
   /** This class is specialized for 3D  */
-  itkStaticConstMacro(SpaceDimension, unsigned int, 6);
+  static constexpr unsigned int SpaceDimension = 6;
 
   /**  Versor Type  */
   using VersorType = Versor< double >;

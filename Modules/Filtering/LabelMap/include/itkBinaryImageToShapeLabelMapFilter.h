@@ -84,9 +84,9 @@ public:
   using LabelObjectType = typename OutputImageType::LabelObjectType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(InputImageDimension, unsigned int, TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int, TInputImage::ImageDimension);
-  itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   using LabelizerType = BinaryImageToLabelMapFilter< InputImageType, OutputImageType >;
   using ShapeLabelFilterOutput =

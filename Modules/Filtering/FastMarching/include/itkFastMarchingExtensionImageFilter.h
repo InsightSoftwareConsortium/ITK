@@ -79,10 +79,10 @@ public:
   using LevelSetImageType = typename Superclass::LevelSetImageType;
 
   /** The dimension of the level set. */
-  itkStaticConstMacro(SetDimension, unsigned int, Superclass::SetDimension);
+  static constexpr unsigned int SetDimension = Superclass::SetDimension;
 
   /** Number of auxiliary variables to be extended. */
-  itkStaticConstMacro(AuxDimension, unsigned int, VAuxDimension);
+  static constexpr unsigned int AuxDimension = VAuxDimension;
 
   /** AuxVarType type alias support */
   using AuxVarType = AuxVarTypeDefault< TAuxValue,

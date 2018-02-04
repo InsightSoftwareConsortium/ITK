@@ -62,10 +62,10 @@ public:
   itkTypeMacro(QuaternionRigidTransform, Rigid3DTransform);
 
   /** Dimension of parameters   */
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 7);
+  static constexpr unsigned int InputSpaceDimension = 3;
+  static constexpr unsigned int OutputSpaceDimension = 3;
+  static constexpr unsigned int SpaceDimension = 3;
+  static constexpr unsigned int ParametersDimension = 7;
 
   /** Parameters Type   */
   using ParametersType = typename Superclass::ParametersType;

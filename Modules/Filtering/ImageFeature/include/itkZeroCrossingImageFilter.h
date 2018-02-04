@@ -90,10 +90,8 @@ public:
   itkTypeMacro(ZeroCrossingImageFilter, ImageToImageFilter);
 
   /** ImageDimension enumeration   */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** ZeroCrossingImageFilter needs a larger input requested
    * region than the output requested region (larger by the kernel

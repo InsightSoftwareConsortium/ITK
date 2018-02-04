@@ -109,8 +109,7 @@ public:
   using LabelPointType = typename TLabelImage::PointType;
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TLabelImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TLabelImage::ImageDimension;
 
   /** Type to use for computations. */
   using RealType = typename NumericTraits< PixelType >::RealType;

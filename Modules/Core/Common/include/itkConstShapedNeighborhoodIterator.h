@@ -79,7 +79,7 @@ public:
   using PixelType = typename TImage::PixelType;
 
   /** Save the image dimension. */
-  itkStaticConstMacro(Dimension, unsigned int, TImage::ImageDimension);
+  static constexpr unsigned int Dimension = TImage::ImageDimension;
 
   /** Standard class type aliases. */
   using Self = ConstShapedNeighborhoodIterator;

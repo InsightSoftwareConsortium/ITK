@@ -62,7 +62,7 @@ public:
   using FrameOffsetType = typename VideoIOBase::FrameOffsetType;
   using TemporalRatioType = typename VideoIOBase::TemporalRatioType;
 
-  itkStaticConstMacro(FrameDimension,unsigned int,FrameType::ImageDimension);
+  static constexpr unsigned int FrameDimension = FrameType::ImageDimension;
 
   /** Pixel conversion type alias */
   using ConvertPixelTraits = DefaultConvertPixelTraits<PixelType>;

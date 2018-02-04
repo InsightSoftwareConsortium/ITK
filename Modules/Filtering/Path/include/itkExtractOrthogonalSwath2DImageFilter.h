@@ -74,10 +74,8 @@ public:
   using SizeType = typename  ImageType::SizeType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(PathDimension, unsigned int,
-                      2);
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TImage::ImageDimension);
+  static constexpr unsigned int PathDimension = 2;
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Spacing (size of a pixel) of the output image. The
    * spacing is normally the geometric distance between image samples,

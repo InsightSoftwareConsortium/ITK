@@ -75,8 +75,7 @@ public:
                ImageToImageFilter);
 
   /** Extract the dimensionality of the input and output images. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Get whether the actual X dimension of the image is odd or not in the full
    * representation */

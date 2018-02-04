@@ -73,8 +73,7 @@ public:
   using RealType = double;
 
   /** Dimensionality of the output image */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Typedef for the output image types. */
   using ImageType = TOutputImage;

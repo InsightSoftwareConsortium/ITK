@@ -71,8 +71,7 @@ public:
   using OutputPathOffsetType = typename OutputPathType::OffsetType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** Set/Get the path input of this process object. */
   virtual void SetPathInput(const TInputPath *path);

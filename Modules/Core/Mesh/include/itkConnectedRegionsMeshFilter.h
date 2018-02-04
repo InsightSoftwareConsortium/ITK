@@ -80,8 +80,7 @@ public:
   using InputMeshConstPointer = typename TInputMesh::ConstPointer;
   using OutputMeshPointer = typename TOutputMesh::Pointer;
 
-  itkStaticConstMacro(PointDimension, unsigned int,
-                      TInputMesh::PointDimension);
+  static constexpr unsigned int PointDimension = TInputMesh::PointDimension;
 
   using InputMeshPointType = typename TInputMesh::PointType;
   using InputMeshPointIdentifier = typename TInputMesh::PointIdentifier;

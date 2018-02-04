@@ -44,8 +44,7 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilt
     using Pointer = SmartPointer< Self >;
     using ConstPointer = SmartPointer< const Self >;
 
-    itkStaticConstMacro ( ImageDimension, unsigned int,
-                          TInputImage::ImageDimension );
+    static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
     /** Method for creation through object factory */
     itkNewMacro ( Self );

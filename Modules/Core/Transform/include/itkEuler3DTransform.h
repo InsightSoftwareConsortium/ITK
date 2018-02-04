@@ -61,10 +61,10 @@ public:
   itkTypeMacro(Euler3DTransform, Rigid3DTransform);
 
   /** Dimension of the space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, 3);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 6);
+  static constexpr unsigned int SpaceDimension = 3;
+  static constexpr unsigned int InputSpaceDimension = 3;
+  static constexpr unsigned int OutputSpaceDimension = 3;
+  static constexpr unsigned int ParametersDimension = 6;
 
   using ParametersType = typename Superclass::ParametersType;
   using ParametersValueType = typename Superclass::ParametersValueType;

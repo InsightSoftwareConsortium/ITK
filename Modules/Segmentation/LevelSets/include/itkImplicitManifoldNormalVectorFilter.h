@@ -91,7 +91,7 @@ public:
   itkNewMacro(Self);
 
   /** Standard get dimension macro. */
-  itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Typedefs from the superclass */
   using InputImageType = typename Superclass::InputImageType;

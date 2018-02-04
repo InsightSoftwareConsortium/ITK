@@ -98,12 +98,9 @@ public:
   using DefaultBoundaryConditionType = ConstantBoundaryCondition<InputImageType>;
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(KernelDimension, unsigned int,
-                      TKernel::NeighborhoodDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int KernelDimension = TKernel::NeighborhoodDimension;
 
   /** Neighborhood iterator type. */
   using InputNeighborhoodIteratorType = ConstNeighborhoodIterator<TInputImage>;

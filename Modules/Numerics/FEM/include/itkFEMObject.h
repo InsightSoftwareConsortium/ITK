@@ -87,8 +87,8 @@ public:
   /** Standard part of every itk Object. */
   itkTypeMacro(FEMObject, DataObject);
 
-  itkStaticConstMacro(FEMDimension, unsigned int, VDimension);
-  itkStaticConstMacro(MaxDimensions, unsigned int, 3);
+  static constexpr unsigned int FEMDimension = VDimension;
+  static constexpr unsigned int MaxDimensions = 3;
 
   using ElementIdentifier = unsigned long;
   using NodeIdentifier = unsigned long;

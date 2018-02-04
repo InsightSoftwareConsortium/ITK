@@ -158,10 +158,8 @@ protected:
   using CalculatorType = KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >;
 
   /** Image related type alias. */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(KappaSigmaThresholdImageFilter);

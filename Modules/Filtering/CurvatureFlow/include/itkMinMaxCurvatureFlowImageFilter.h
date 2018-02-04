@@ -99,8 +99,7 @@ public:
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Typedef support for the neighbour radius. */
   using RadiusType = typename FiniteDifferenceFunctionType::RadiusType;

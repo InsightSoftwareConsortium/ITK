@@ -76,8 +76,7 @@ public:
   using InternalScalarRealType = typename NumericTraits< InternalRealType >::ValueType;
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Gradient vector type alias */
   using GradientVectorType = CovariantVector<ScalarRealType, ImageDimension >;

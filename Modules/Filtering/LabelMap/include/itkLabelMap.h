@@ -94,7 +94,7 @@ public:
    * templated over image type (as opposed to being templated over pixel type
    * and dimension) when they need compile time access to the dimension of
    * the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int, LabelObjectType::ImageDimension);
+  static constexpr unsigned int ImageDimension = LabelObjectType::ImageDimension;
 
   /** Label type alias support */
   using LabelType = typename LabelObjectType::LabelType;

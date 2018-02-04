@@ -59,8 +59,7 @@ public:
   using Superclass = VTKImageExportBase;
   using Pointer = SmartPointer< Self >;
   using ConstPointer = SmartPointer< const Self >;
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VTKImageExport, VTKImageExportBase);

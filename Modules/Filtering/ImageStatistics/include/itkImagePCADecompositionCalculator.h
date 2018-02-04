@@ -87,12 +87,10 @@ public:
   /** Basis image pixel type: this is also the type of the optput vector */
   using BasisPixelType = typename TBasisImage::PixelType;
   /** Input Image dimension */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** Basis Image dimension */
-  itkStaticConstMacro(BasisImageDimension, unsigned int,
-                      TBasisImage::ImageDimension);
+  static constexpr unsigned int BasisImageDimension = TBasisImage::ImageDimension;
 
   /** Vector of basis image pointers. */
   using BasisImagePointerVector = std::vector< BasisImagePointer >;

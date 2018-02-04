@@ -52,7 +52,7 @@ public:
   using PixelType = TPixel;
 
   /** Level set dimension. */
-  itkStaticConstMacro(SetDimension, unsigned int, VSetDimension);
+  static constexpr unsigned int SetDimension = VSetDimension;
 
   /** Index type alias. */
   using IndexType = Index< VSetDimension >;

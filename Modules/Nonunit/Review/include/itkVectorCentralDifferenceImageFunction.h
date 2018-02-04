@@ -56,12 +56,10 @@ public:
   using InputPixelType = typename TInputImage::PixelType;
 
   /** Extract the vector dimension from the pixel template parameter. */
-  itkStaticConstMacro(Dimension, unsigned int,
-                      InputPixelType::Dimension);
+  static constexpr unsigned int Dimension = InputPixelType::Dimension;
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard class type aliases. */
   using Self = VectorCentralDifferenceImageFunction;

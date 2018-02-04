@@ -42,7 +42,7 @@ public:
   using ScalarType = double;
   using Self = MeshSpatialObject< TMesh >;
 
-  itkStaticConstMacro(Dimension, unsigned int, TMesh::PointDimension);
+  static constexpr unsigned int Dimension = TMesh::PointDimension;
 
   using Superclass = SpatialObject< itkGetStaticConstMacro(Dimension) >;
   using Pointer = SmartPointer< Self >;

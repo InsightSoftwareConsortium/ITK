@@ -90,8 +90,7 @@ public:
   using OutputImagePixelType = typename OutputImageType::PixelType;
 
   /** ImageDimension constant */
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
   /** Get the output data of this process object.  The output of this
    * function is not valid until an appropriate Update() method has

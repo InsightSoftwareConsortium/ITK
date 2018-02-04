@@ -66,7 +66,7 @@ public:
   using UpdateBufferType = typename GPUSuperclass::UpdateBufferType;
 
   /** Extract information from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int, GPUSuperclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = GPUSuperclass::ImageDimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

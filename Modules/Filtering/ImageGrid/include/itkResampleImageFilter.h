@@ -110,10 +110,8 @@ public:
   itkTypeMacro(ResampleImageFilter, ImageToImageFilter);
 
   /** Number of dimensions. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
   /** base type for images of the current ImageDimension */
   using ImageBaseType = ImageBase< itkGetStaticConstMacro(ImageDimension) >;

@@ -62,7 +62,7 @@ public:
   using JacobianType = typename Superclass::JacobianType;
 
   /** Dimension of the domain space. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, Superclass::SpaceDimension);
+  static constexpr unsigned int SpaceDimension = Superclass::SpaceDimension;
 
   using InputPointType = typename Superclass::InputPointType;
   using OutputPointType = typename Superclass::OutputPointType;

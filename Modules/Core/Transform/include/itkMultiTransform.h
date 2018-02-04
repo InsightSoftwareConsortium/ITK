@@ -132,11 +132,11 @@ public:
   using NumberOfParametersType = typename Superclass::NumberOfParametersType;
 
   /** Dimension of the domain spaces. */
-  itkStaticConstMacro( InputDimension, unsigned int, NDimensions );
-  itkStaticConstMacro( OutputDimension, unsigned int, NDimensions );
+  static constexpr unsigned int InputDimension = NDimensions;
+  static constexpr unsigned int OutputDimension = NDimensions;
 
-  itkStaticConstMacro( SubInputDimension, unsigned int, NSubDimensions );
-  itkStaticConstMacro( SubOutputDimension, unsigned int, NSubDimensions );
+  static constexpr unsigned int SubInputDimension = NSubDimensions;
+  static constexpr unsigned int SubOutputDimension = NSubDimensions;
 
   /** Functionality for sub transforms */
 

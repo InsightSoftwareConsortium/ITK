@@ -57,7 +57,7 @@ public:
 
   using LabelMapType = LabelMap< Self >;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
 
   using IndexType = typename Superclass::IndexType;
 
@@ -76,24 +76,24 @@ public:
   using HistogramType = Statistics::Histogram< double >;
 
   using AttributeType = typename Superclass::AttributeType;
-  itkStaticConstMacro(MINIMUM, AttributeType, 200);
-  itkStaticConstMacro(MAXIMUM, AttributeType, 201);
-  itkStaticConstMacro(MEAN, AttributeType, 202);
-  itkStaticConstMacro(SUM, AttributeType, 203);
-  itkStaticConstMacro(STANDARD_DEVIATION, AttributeType, 204);
-  itkStaticConstMacro(VARIANCE, AttributeType, 205);
-  itkStaticConstMacro(MEDIAN, AttributeType, 206);
-  itkStaticConstMacro(MAXIMUM_INDEX, AttributeType, 207);
-  itkStaticConstMacro(MINIMUM_INDEX, AttributeType, 208);
-  itkStaticConstMacro(CENTER_OF_GRAVITY, AttributeType, 209);
-//  itkStaticConstMacro(CENTRAL_MOMENTS, AttributeType, 210);
-  itkStaticConstMacro(WEIGHTED_PRINCIPAL_MOMENTS, AttributeType, 211);
-  itkStaticConstMacro(WEIGHTED_PRINCIPAL_AXES, AttributeType, 212);
-  itkStaticConstMacro(KURTOSIS, AttributeType, 213);
-  itkStaticConstMacro(SKEWNESS, AttributeType, 214);
-  itkStaticConstMacro(WEIGHTED_ELONGATION, AttributeType, 215);
-  itkStaticConstMacro(HISTOGRAM, AttributeType, 216);
-  itkStaticConstMacro(WEIGHTED_FLATNESS, AttributeType, 217);
+  static constexpr AttributeType MINIMUM = 200;
+  static constexpr AttributeType MAXIMUM = 201;
+  static constexpr AttributeType MEAN = 202;
+  static constexpr AttributeType SUM = 203;
+  static constexpr AttributeType STANDARD_DEVIATION = 204;
+  static constexpr AttributeType VARIANCE = 205;
+  static constexpr AttributeType MEDIAN = 206;
+  static constexpr AttributeType MAXIMUM_INDEX = 207;
+  static constexpr AttributeType MINIMUM_INDEX = 208;
+  static constexpr AttributeType CENTER_OF_GRAVITY = 209;
+//  static constexpr AttributeType CENTRAL_MOMENTS = 210;
+  static constexpr AttributeType WEIGHTED_PRINCIPAL_MOMENTS = 211;
+  static constexpr AttributeType WEIGHTED_PRINCIPAL_AXES = 212;
+  static constexpr AttributeType KURTOSIS = 213;
+  static constexpr AttributeType SKEWNESS = 214;
+  static constexpr AttributeType WEIGHTED_ELONGATION = 215;
+  static constexpr AttributeType HISTOGRAM = 216;
+  static constexpr AttributeType WEIGHTED_FLATNESS = 217;
 
   static AttributeType GetAttributeFromName(const std::string & s)
   {

@@ -48,7 +48,7 @@ public:
   /** Standard type alias */
   using Self = VectorNeighborhoodInnerProduct;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, TImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Extract the pixel type and scalar type from the image template parameter.
     */
@@ -58,8 +58,7 @@ public:
 
   /** Extract the image and vector dimension from the image template parameter.
     */
-  itkStaticConstMacro(VectorDimension, unsigned int,
-                      PixelType::Dimension);
+  static constexpr unsigned int VectorDimension = PixelType::Dimension;
 
   /** Operator type alias */
   using OperatorType = Neighborhood< ScalarValueType,

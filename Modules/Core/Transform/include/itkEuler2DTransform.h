@@ -55,8 +55,8 @@ public:
   itkTypeMacro(Euler2DTransform, Rigid2DTransform);
 
   /** Dimension of parameters. */
-  itkStaticConstMacro(SpaceDimension, unsigned int, 2);
-  itkStaticConstMacro(ParametersDimension, unsigned int, 3);
+  static constexpr unsigned int SpaceDimension = 2;
+  static constexpr unsigned int ParametersDimension = 3;
 
 
   /** Parameters type. */

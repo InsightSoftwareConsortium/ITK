@@ -75,8 +75,7 @@ public:
                ImageToImageFilter);
 
   /** Extract the dimensionality of the input and output images. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Was the original truncated dimension size in the x-dimension odd? */
   itkSetGetDecoratedInputMacro(ActualXDimensionIsOdd, bool);

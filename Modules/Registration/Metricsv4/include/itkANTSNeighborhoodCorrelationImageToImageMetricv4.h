@@ -149,14 +149,11 @@ public:
   using IndexType = typename VirtualImageType::IndexType;
 
   /* Image dimension accessors */
-  itkStaticConstMacro(FixedImageDimension, ImageDimensionType,
-      FixedImageType::ImageDimension);
+  static constexpr ImageDimensionType FixedImageDimension = FixedImageType::ImageDimension;
 
-  itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
-        MovingImageType::ImageDimension);
+  static constexpr ImageDimensionType MovingImageDimension = MovingImageType::ImageDimension;
 
-  itkStaticConstMacro(VirtualImageDimension, ImageDimensionType,
-        VirtualImageType::ImageDimension);
+  static constexpr ImageDimensionType VirtualImageDimension = VirtualImageType::ImageDimension;
 
   // Set the radius of the neighborhood window centered at each pixel.
   // See the note above about using a radius less than 2.

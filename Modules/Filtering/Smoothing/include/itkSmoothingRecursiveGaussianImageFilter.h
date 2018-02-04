@@ -72,8 +72,7 @@ public:
                ImageToImageFilter);
 
   /** Image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Define the type for the sigma array. */
   using SigmaArrayType = FixedArray< ScalarRealType,

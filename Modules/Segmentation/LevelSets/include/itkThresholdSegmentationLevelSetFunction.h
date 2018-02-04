@@ -78,8 +78,7 @@ public:
   using RadiusType = typename Superclass::RadiusType;
 
   /** Extract some parameters from the superclass. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      Superclass::ImageDimension);
+  static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Set/Get threshold values */
   void SetUpperThreshold(FeatureScalarType f)

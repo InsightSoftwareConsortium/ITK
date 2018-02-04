@@ -64,7 +64,7 @@ public:
   using PixelRealType = typename Superclass::PixelRealType;
 
   /** Save image dimension. */
-  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   /** Define the TimeStepType to always be double. */
   using TimeStepType = typename Superclass::TimeStepType;

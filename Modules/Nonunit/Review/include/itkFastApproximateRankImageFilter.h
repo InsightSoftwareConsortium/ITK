@@ -73,8 +73,7 @@ public:
   using FilterType = typename Superclass::FilterType;
 
   /** Image related type alias. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
   /** n-dimensional Kernel radius. */
   using RadiusType = typename TInputImage::SizeType;
 

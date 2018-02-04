@@ -49,7 +49,7 @@ public:
   using InputImageType = TInputImage;
 
   /** Number of dimensions. */
-  itkStaticConstMacro(NDimensions, unsigned int, TInputImage::ImageDimension);
+  static constexpr unsigned int NDimensions = TInputImage::ImageDimension;
 
   /** The type of output image.   */
   using OutputImageType = Image< IdentifierType, itkGetStaticConstMacro(NDimensions) >;

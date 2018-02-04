@@ -64,8 +64,7 @@ public:
   itkTypeMacro(KappaSigmaThresholdImageCalculator, Object);
 
   /** Extract the dimension of the image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Standard image type within this class. */
   using InputImageType = TInputImage;

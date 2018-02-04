@@ -42,7 +42,7 @@ template< unsigned int VImageDimension >
 class ITK_TEMPLATE_EXPORT LabelObjectLine
 {
 public:
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
 
   using IndexType = Index< VImageDimension >;
   using LengthType = SizeValueType;

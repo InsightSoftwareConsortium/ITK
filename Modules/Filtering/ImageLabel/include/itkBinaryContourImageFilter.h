@@ -94,12 +94,10 @@ public:
   using OutputImagePixelType = typename OutputImageType::PixelType;
   using OutputInternalPixelType = typename OutputImageType::InternalPixelType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      OutputImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = OutputImageType::ImageDimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      InputImageType::ImageDimension);
+  static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
 
   // Concept checking -- input and output dimensions must be the same
   itkConceptMacro( SameDimension,

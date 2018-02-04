@@ -76,12 +76,9 @@ public:
   using DefaultBoundaryConditionType = typename Superclass::DefaultBoundaryConditionType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
-  itkStaticConstMacro(KernelDimension, unsigned int,
-                      TKernel::NeighborhoodDimension);
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
+  static constexpr unsigned int KernelDimension = TKernel::NeighborhoodDimension;
 
   /** Type of the pixels in the Kernel. */
   using KernelPixelType = typename TKernel::PixelType;

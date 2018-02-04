@@ -66,8 +66,7 @@ class ITK_TEMPLATE_EXPORT ScalarImageKmeansImageFilter:
 {
 public:
   /** Extract dimension from input and output image. */
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Convenient type alias for simplifying declarations. */
   using InputImageType = TInputImage;

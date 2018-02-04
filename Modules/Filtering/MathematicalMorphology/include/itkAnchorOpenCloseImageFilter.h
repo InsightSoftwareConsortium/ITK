@@ -71,10 +71,8 @@ public:
   using InputImagePixelType = typename InputImageType::PixelType;
 
   /** ImageDimension constants */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TImage::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TImage::ImageDimension);
+  static constexpr unsigned int InputImageDimension = TImage::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TImage::ImageDimension;
 
   /** Standard New method. */
   itkNewMacro(Self);

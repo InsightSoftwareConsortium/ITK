@@ -68,7 +68,7 @@ public:
   itkNewMacro( Self );
 
   /** Dimension underlying input image. */
-  itkStaticConstMacro( Dimension, unsigned int, VDimension );
+  static constexpr unsigned int Dimension = VDimension;
 
   /** OutputType type alias support */
   using OutputType = typename Superclass::OutputType;

@@ -75,8 +75,7 @@ public:
   using ImageConstPointer = typename ImageType::ConstPointer;
   using ImagePixelType = typename ImageType::PixelType;
 
-  itkStaticConstMacro( ImageDimension, unsigned int,
-                       Traits::ImageDimension );
+  static constexpr unsigned int ImageDimension = Traits::ImageDimension;
 
   /** \brief Set one Alive Image.
     \note Only pixels with non null values are considered as

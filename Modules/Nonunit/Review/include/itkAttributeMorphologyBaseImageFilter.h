@@ -87,8 +87,7 @@ public:
   using OffsetType = typename TInputImage::OffsetType;
   using SizeType = typename TInputImage::SizeType;
 
-  itkStaticConstMacro(ImageDimension, unsigned int,
-                      TOutputImage::ImageDimension);
+  static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /**
    * Image type alias support
@@ -171,9 +170,9 @@ private:
   AttributeType m_Lambda;
 
   // some constants used several times in the code
-  itkStaticConstMacro(INACTIVE, OffsetValueType, -1);
-  itkStaticConstMacro(ACTIVE, OffsetValueType, -2);
-  itkStaticConstMacro(ROOT, OffsetValueType, -3);
+  static constexpr OffsetValueType INACTIVE = -1;
+  static constexpr OffsetValueType ACTIVE = -2;
+  static constexpr OffsetValueType ROOT = -3;
 
   // Just used for area/volume openings at the moment
   AttributeType *m_AuxData;

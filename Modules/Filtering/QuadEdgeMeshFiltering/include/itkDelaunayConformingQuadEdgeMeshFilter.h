@@ -58,7 +58,7 @@ public:
   using InputPixelType = typename InputMeshType::PixelType;
   using InputTraits = typename InputMeshType::Traits;
 
-  itkStaticConstMacro(InputVDimension, unsigned int, InputMeshType::PointDimension);
+  static constexpr unsigned int InputVDimension = InputMeshType::PointDimension;
 
   using InputPointsContainer = typename InputMeshType::PointsContainer;
   using InputPointsContainerConstIterator = typename InputMeshType::PointsContainerConstIterator;
@@ -87,7 +87,7 @@ public:
   using OutputCellsContainer = typename OutputMeshType::CellsContainer;
   using OutputCellsContainerIterator = typename OutputMeshType::CellsContainerIterator;
 
-  itkStaticConstMacro(OutputVDimension, unsigned int, OutputMeshType::PointDimension);
+  static constexpr unsigned int OutputVDimension = OutputMeshType::PointDimension;
 
   itkNewMacro(Self);
   itkTypeMacro(DelaunayConformingQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);

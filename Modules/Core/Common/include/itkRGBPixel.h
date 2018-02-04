@@ -66,10 +66,10 @@ public:
   using BaseArray = FixedArray< TComponent, 3 >;
 
   /** Dimension of the vector space. */
-  itkStaticConstMacro(Dimension, unsigned int, 3);
+  static constexpr unsigned int Dimension = 3;
 
   /** Length of the pixel. */
-  itkStaticConstMacro(Length, unsigned int, 3);
+  static constexpr unsigned int Length = 3;
 
   /**  Define the component type. */
   using ComponentType = TComponent;

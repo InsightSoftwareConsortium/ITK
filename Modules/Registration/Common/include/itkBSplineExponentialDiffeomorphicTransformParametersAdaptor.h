@@ -54,7 +54,7 @@ public:
   using ArrayType = typename TransformType::ArrayType;
 
   /** Dimension of parameters. */
-  itkStaticConstMacro( SpaceDimension, unsigned int, TransformType::Dimension );
+  static constexpr unsigned int SpaceDimension = TransformType::Dimension;
 
   /**
    * Set the control point grid size defining the B-spline estimate of the

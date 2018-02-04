@@ -65,7 +65,7 @@ public:
   using InputImageRegionType = typename InputImageType::RegionType;
   using InputPixelRealType = typename NumericTraits<InputImagePixelType>::RealType;
 
-  itkStaticConstMacro ( ImageDimension, unsigned int, InputImageType::ImageDimension );
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   using LevelSetContainerType = typename TermContainerType::LevelSetContainerType;
 
