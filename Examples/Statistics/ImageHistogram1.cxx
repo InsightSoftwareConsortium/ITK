@@ -75,7 +75,7 @@ int main( int argc, char * argv [] )
 
   // Software Guide : BeginCodeSnippet
   using PixelType = unsigned char;
-  const unsigned int          Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
@@ -176,7 +176,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int numberOfComponents = 1;
+  constexpr unsigned int numberOfComponents = 1;
   HistogramType::SizeType size( numberOfComponents );
   size.Fill( 255 );
 

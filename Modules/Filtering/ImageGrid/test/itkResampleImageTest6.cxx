@@ -28,7 +28,7 @@ int itkResampleImageTest6(int argc, char * argv [] )
 {
 
   // Resample a Vector image
-  const unsigned int NDimensions = 2;
+  constexpr unsigned int NDimensions = 2;
 
   using ValueType = unsigned char;
 

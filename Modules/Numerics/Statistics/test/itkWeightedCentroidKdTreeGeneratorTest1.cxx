@@ -40,7 +40,7 @@ int itkWeightedCentroidKdTreeGeneratorTest1(int argc , char * argv [] )
   using MeasurementVectorType = itk::Array< double >;
   using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
 
-  const SampleType::MeasurementVectorSizeType measurementVectorSize = 2;
+  constexpr SampleType::MeasurementVectorSizeType measurementVectorSize  = 2;
 
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize( measurementVectorSize );

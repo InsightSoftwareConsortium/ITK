@@ -60,7 +60,7 @@ public:
 int itkMembershipFunctionBaseTest2(int, char* [] )
 {
 
-  const unsigned int MeasurementVectorSize = 3;
+  constexpr unsigned int MeasurementVectorSize = 3;
 
   using MeasurementVectorType = itk::Array< float>;
 

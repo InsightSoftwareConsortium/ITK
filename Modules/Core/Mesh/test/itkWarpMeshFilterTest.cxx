@@ -22,7 +22,7 @@
 
 int itkWarpMeshFilterTest(int, char* [] )
 {
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   // Declare the type of the input and output mesh
   using MeshTraits = itk::DefaultStaticMeshTraits<

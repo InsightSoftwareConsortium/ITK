@@ -22,8 +22,8 @@
 
 int itkVoronoiSegmentationImageFilterTest( int, char* [] )
 {
-  const int width = 256;
-  const int height = 256;
+  constexpr int width = 256;
+  constexpr int height = 256;
 
   using UShortImage = itk::Image<unsigned short, 2>;
   using PriorImage = itk::Image<unsigned char, 2>;

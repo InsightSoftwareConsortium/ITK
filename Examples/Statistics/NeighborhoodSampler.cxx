@@ -62,7 +62,7 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   using MeasurementType = int;
-  const unsigned int MeasurementVectorLength = 2;
+  constexpr unsigned int MeasurementVectorLength = 2;
   using MeasurementVectorType =
       itk::Vector< MeasurementType , MeasurementVectorLength >;
   using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;

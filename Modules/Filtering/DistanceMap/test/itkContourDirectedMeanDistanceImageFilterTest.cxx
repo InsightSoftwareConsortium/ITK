@@ -25,7 +25,7 @@ int itkContourDirectedMeanDistanceImageFilterTest(int, char* [] )
   using Pixel1Type = unsigned int;
   using Pixel2Type = float;
 
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   using Image1Type = itk::Image<Pixel1Type,ImageDimension>;
   using Image2Type = itk::Image<Pixel2Type,ImageDimension>;

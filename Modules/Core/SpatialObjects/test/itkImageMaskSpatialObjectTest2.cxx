@@ -37,7 +37,7 @@
 
 int itkImageMaskSpatialObjectTest2(int, char* [])
 {
-  const unsigned int NDimensions = 3;
+  constexpr unsigned int NDimensions = 3;
   int retval=EXIT_SUCCESS;
 
   using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<NDimensions>;
@@ -85,8 +85,8 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   image->Allocate(true); // initialize buffer to zero
 
   ImageType::RegionType insideRegion;
-  const unsigned int INSIDE_SIZE = 30;
-  const unsigned int INSIDE_INDEX = 10;
+  constexpr unsigned int INSIDE_SIZE = 30;
+  constexpr unsigned int INSIDE_INDEX = 10;
     {
     const ImageType::SizeType insideSize   = {{ INSIDE_SIZE, INSIDE_SIZE, INSIDE_SIZE }};
     insideRegion.SetSize( insideSize );
@@ -223,8 +223,8 @@ int itkImageMaskSpatialObjectTest2(int, char* [])
   image->Allocate(true); // initialize buffer to zero
 
   ImageType::RegionType insideRegion;
-  const unsigned int INSIDE_SIZE = 30;
-  const unsigned int INSIDE_INDEX = 10;
+  constexpr unsigned int INSIDE_SIZE = 30;
+  constexpr unsigned int INSIDE_INDEX = 10;
     {
     const ImageType::SizeType insideSize   = {{ INSIDE_SIZE, INSIDE_SIZE, INSIDE_SIZE }};
     insideRegion.SetSize( insideSize );

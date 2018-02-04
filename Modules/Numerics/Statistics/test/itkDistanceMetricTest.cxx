@@ -62,7 +62,7 @@ int itkDistanceMetricTest(int, char* [] )
 
   using MeasurementVectorSizeType = unsigned int;
 
-  const MeasurementVectorSizeType MeasurementVectorSize = 17;
+  constexpr MeasurementVectorSizeType MeasurementVectorSize  = 17;
 
   using MeasurementVectorType = itk::FixedArray<
     float, MeasurementVectorSize >;

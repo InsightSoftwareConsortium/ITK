@@ -42,9 +42,9 @@ int itkImagePCADecompositionCalculatorTest(int, char* [] )
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   //Data definitions
-  const unsigned int  IMGWIDTH         =  2;
-  const unsigned int  IMGHEIGHT        =  2;
-  const unsigned int  NDIMENSION       =  2;
+  constexpr unsigned int IMGWIDTH = 2;
+  constexpr unsigned int IMGHEIGHT = 2;
+  constexpr unsigned int NDIMENSION = 2;
 
 
   //------------------------------------------------------

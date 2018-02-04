@@ -83,7 +83,7 @@ int itkBSplineDecompositionImageFilterTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = float;
   using ImageType = itk::Image< PixelType, ImageDimension >;
   using BSplineInterpolatorFunctionType =

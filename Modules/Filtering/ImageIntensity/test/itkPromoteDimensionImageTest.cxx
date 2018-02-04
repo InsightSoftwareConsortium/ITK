@@ -36,8 +36,8 @@ int itkPromoteDimensionImageTest(int argc, char* argv[])
   using CharPixelType = unsigned char;  //IO
   using RealPixelType = double;  //Operations
 
-  const    unsigned int    InDimension = 2;
-  const    unsigned int    OutDimension = 3;
+  constexpr unsigned int InDimension = 2;
+  constexpr unsigned int OutDimension = 3;
 
   using InCharImageType = itk::Image<CharPixelType, InDimension>;
   using OutCharImageType = itk::Image<CharPixelType, OutDimension>;

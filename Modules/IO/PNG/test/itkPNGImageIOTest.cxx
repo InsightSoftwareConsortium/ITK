@@ -39,7 +39,7 @@ int itkPNGImageIOTest( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned long                         Dimension = 2;
+  constexpr unsigned long                         Dimension  = 2;
   using PixelType = unsigned char;
 
   // We are converting read data into RGB pixel image

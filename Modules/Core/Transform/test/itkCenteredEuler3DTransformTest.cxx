@@ -27,7 +27,7 @@ int itkCenteredEuler3DTransformTest(int, char *[] )
   std::cout << "Testing Centered Euler Angles 3D Transform" << std::endl << std::endl;
 
   const double       epsilon = 1e-10;
-  const unsigned int N = 3;
+  constexpr unsigned int N = 3;
   bool               Ok = true;
 
   using EulerTransformType = itk::CenteredEuler3DTransform<double>;
@@ -244,7 +244,7 @@ int itkCenteredEuler3DTransformTest(int, char *[] )
     EulerTransformType::JacobianType approxJacobian = jacobian;
     for( unsigned int k = 0; k < eulerTransform->GetNumberOfParameters(); k++ )
       {
-      const double                       delta = 0.001;
+      constexpr double delta = 0.001;
       EulerTransformType::ParametersType plusParameters;
       EulerTransformType::ParametersType minusParameters;
 

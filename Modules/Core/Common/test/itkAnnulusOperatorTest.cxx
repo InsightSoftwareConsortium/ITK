@@ -26,7 +26,7 @@ int itkAnnulusOperatorTest(int, char* [] )
 // scope.
   itk::StdStreamStateSave coutState(std::cout);
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = float;
   using OperatorType = itk::AnnulusOperator< PixelType, Dimension >;
 

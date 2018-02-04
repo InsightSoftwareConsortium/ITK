@@ -28,7 +28,7 @@ int itkScaleTransformTest(int ,char * [] )
 
 
   const double epsilon = 1e-10;
-  const unsigned int N = 3;
+  constexpr unsigned int N = 3;
 
 
   bool Ok = true;

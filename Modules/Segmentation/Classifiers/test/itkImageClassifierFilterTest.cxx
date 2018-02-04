@@ -35,12 +35,12 @@ int itkImageClassifierFilterTest(int argc, char* argv[] )
               << argv[0] << "\t" << "ClassifiedOutputImage name" << std::endl;
     return EXIT_FAILURE;
     }
-  const unsigned int MeasurementVectorSize = 1;
+  constexpr unsigned int MeasurementVectorSize = 1;
   using MeasurementComponentType = double;
-  const unsigned int numberOfClasses = 2;
+  constexpr unsigned int numberOfClasses = 2;
   using InputPixelType = itk::FixedArray< MeasurementComponentType, MeasurementVectorSize >;
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using InputImageType = itk::Image< InputPixelType, ImageDimension >;
 
   using OutputPixelType = unsigned char;

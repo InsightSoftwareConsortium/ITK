@@ -32,7 +32,7 @@ int itkBoxSpatialObjectTest( int argc, char *argv[] )
                                         << std::endl;
     }
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using SceneType = itk::GroupSpatialObject< Dimension >;
   using BoxType = itk::BoxSpatialObject< Dimension >;
   using OutputImageType = itk::Image< unsigned char, Dimension >;

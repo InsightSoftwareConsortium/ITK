@@ -25,7 +25,7 @@
 
 int itkSpatialFunctionImageEvaluatorFilterTest(int, char* [] )
 {
-  const unsigned int dim = 3;
+  constexpr unsigned int dim = 3;
 
   // Image typedef
   using ImageType = itk::Image< unsigned char, dim >;

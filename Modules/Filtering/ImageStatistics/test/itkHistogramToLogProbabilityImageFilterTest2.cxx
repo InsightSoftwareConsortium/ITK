@@ -34,7 +34,7 @@ int itkHistogramToLogProbabilityImageFilterTest2( int argc, char * argv [] )
     }
 
 
-  const unsigned int                Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelComponentType = unsigned char;
 
   using ScalarImageType = itk::Image< PixelComponentType, Dimension >;
@@ -71,7 +71,7 @@ int itkHistogramToLogProbabilityImageFilterTest2( int argc, char * argv [] )
 
   using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
 
-  const unsigned int NumberOfComponents = 2;
+  constexpr unsigned int NumberOfComponents = 2;
 
   itk::MinimumMaximumImageFilter<ScalarImageType>::Pointer minmaxFilter
     = itk::MinimumMaximumImageFilter<ScalarImageType>::New();

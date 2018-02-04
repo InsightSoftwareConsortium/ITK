@@ -63,7 +63,7 @@ void GenerateImage( typename TImage::Pointer ioImage )
 int itkVTKVisualize3DDenseImageLevelSetTest( int , char* [] )
 {
   using PixelType = unsigned char;
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using ImageType = itk::Image< PixelType, Dimension >;
 
   ImageType::Pointer image = ImageType::New();

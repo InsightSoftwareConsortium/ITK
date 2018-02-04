@@ -55,7 +55,7 @@ int itkCenteredRigid2DTransformTest(int argc, char *argv[] )
   std::cout << "Testing CenteredRigid 2D Transform" << std::endl << std::endl;
 
   const double       epsilon = 1e-10;
-  const unsigned int N = 2;
+  constexpr unsigned int N = 2;
   bool               Ok = true;
 
   using CenteredRigidTransformType = itk::CenteredRigid2DTransform<double>;
@@ -135,7 +135,7 @@ int itkCenteredRigid2DTransformTest(int argc, char *argv[] )
 
     // Populate the transform with some parameters
     CenteredRigidTransformType::Pointer transform2 = CenteredRigidTransformType::New();
-    const double                        a = 0.175;
+    constexpr double a = 0.175;
     transform2->SetAngle( a );
 
     CenteredRigidTransformType::InputPointType c;
@@ -336,7 +336,7 @@ int itkCenteredRigid2DTransformTest(int argc, char *argv[] )
     TransformType::JacobianType approxJacobian = jacobian;
     for( unsigned int k = 0; k < t1->GetNumberOfParameters(); k++ )
       {
-      const double                  delta = 0.001;
+      constexpr double delta = 0.001;
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 

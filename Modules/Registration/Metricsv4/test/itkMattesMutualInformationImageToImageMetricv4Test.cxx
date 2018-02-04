@@ -347,7 +347,7 @@ int TestMattesMetricWithAffineTransform(
   ParametersType parameters1Minus( numberOfParameters );
   ParametersType parameters2Minus( numberOfParameters );
 
-  const double delta = 0.00001;
+  constexpr double delta = 0.00001;
 
   const double tolerance = (useSampling) ? static_cast<double>(0.075) : static_cast<double>(0.014);
   for( unsigned int perturbParamIndex = 0; perturbParamIndex < numberOfParameters; ++perturbParamIndex )
@@ -424,7 +424,7 @@ int TestMattesMetricWithAffineTransform(
 int itkMattesMutualInformationImageToImageMetricv4Test(int, char *[] )
 {
 
-  const size_t imageSize = 100; //NOTE 100 is very small
+  constexpr size_t imageSize  = 100; //NOTE 100 is very small
 
   //using ImageType = itk::Image<unsigned char,2>;
   using ImageType = itk::Image<double,2>;

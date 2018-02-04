@@ -34,7 +34,7 @@
 
 int itkPointSetToPointSetRegistrationTest(int, char* [] )
 {
-  const unsigned int PointSetDimension = 2;
+  constexpr unsigned int PointSetDimension = 2;
 
   using PointSetPointType = float;
 
@@ -42,7 +42,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   using FixedPointSetType = itk::PointSet< PointSetPointType, PointSetDimension >;
   FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
 
-  const unsigned int numberOfPoints = 500;
+  constexpr unsigned int numberOfPoints = 500;
 
   fixedPointSet->SetPointData( FixedPointSetType::PointDataContainer::New() );
 
@@ -187,7 +187,7 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   // Test with the Danielsson distance map.
   //
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using BinaryImageType = itk::Image< unsigned char, ImageDimension >;
   using ImageType = itk::Image< unsigned short, ImageDimension >;

@@ -37,7 +37,7 @@ int itkRobustAutomaticThresholdImageFilterTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using PixelType = unsigned short;
   using ImageType = itk::Image< PixelType, Dimension >;

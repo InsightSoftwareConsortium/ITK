@@ -199,12 +199,12 @@ OrientImageFilter< TInputImage, TOutputImage >
   const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient)
 {
   // 3-dimensional version of code system only. The 3-axis testing is unrolled.
-  const unsigned int NumDims = 3;                  // InputImageDimension is
+  constexpr unsigned int NumDims = 3;                  // InputImageDimension is
                                                    // regarded as 3.
-  const unsigned int CodeField = 15;               // 4 bits wide
-  const unsigned int CodeAxisField = 14;           // 3 bits wide, above the
+  constexpr unsigned int CodeField = 15;               // 4 bits wide
+  constexpr unsigned int CodeAxisField = 14;           // 3 bits wide, above the
                                                    // 0-place bit.
-  const unsigned int CodeAxisIncreasingField = 1;
+  constexpr unsigned int CodeAxisIncreasingField = 1;
   unsigned int       fixed_codes[NumDims];
   unsigned int       moving_codes[NumDims];
 

@@ -89,7 +89,7 @@ int main( int argc, char *argv[] )
   // be instantiated. First, we select the image dimension and the type for
   // representing image pixels.
   //
-  const    unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = float;
 
 
@@ -242,7 +242,7 @@ int main( int argc, char *argv[] )
   OptimizerType::ParametersType simplexDelta( numberOfParameters );
 
   // This parameter is tightly coupled to the translationScale below
-  const double stepInParametricSpace = 0.01;
+  constexpr double stepInParametricSpace = 0.01;
 
   simplexDelta.Fill( stepInParametricSpace );
 

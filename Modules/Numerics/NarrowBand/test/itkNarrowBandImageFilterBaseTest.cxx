@@ -118,7 +118,7 @@ int itkNarrowBandImageFilterBaseTest(int argc, char* argv[])
 
   using PixelType = float;
   using WriterPixelType = unsigned char;
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using ImageType = itk::Image<PixelType,ImageDimension>;
   using WriterImageType = itk::Image<WriterPixelType,ImageDimension>;
   using PointType = itk::Point<double,ImageDimension>;

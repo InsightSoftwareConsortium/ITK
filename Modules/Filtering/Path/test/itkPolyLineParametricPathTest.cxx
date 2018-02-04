@@ -22,7 +22,7 @@
 
 int itkPolyLineParametricPathTest( int, char* [] )
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using PathType = itk::PolyLineParametricPath< Dimension >;
   using InputType = PathType::InputType;

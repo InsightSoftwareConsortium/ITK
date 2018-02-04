@@ -35,7 +35,7 @@ int itkConvertLabelMapFilterTest2(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const unsigned int dim = 2;
+  constexpr unsigned int dim = 2;
 
   using InputPixelType = unsigned char;
   using InputImageType = itk::Image< InputPixelType, dim >;

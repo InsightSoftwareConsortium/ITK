@@ -28,7 +28,7 @@ int itkLabelMapTest2(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const unsigned int dim = 3;
+  constexpr unsigned int dim = 3;
 
   using LabelObjectType = itk::LabelObject< unsigned long, dim >;
   using IndexType = LabelObjectType::IndexType;

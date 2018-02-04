@@ -32,7 +32,7 @@ int itkClosingByReconstructionImageFilterTest(int argc, char* argv [] )
     return EXIT_FAILURE;
   }
 
-  const int Dimension = 2;
+  constexpr int Dimension = 2;
   using PixelType = unsigned char;
   using InputImageType = itk::Image< PixelType, Dimension >;
   using OutputImageType = itk::Image< PixelType, Dimension >;

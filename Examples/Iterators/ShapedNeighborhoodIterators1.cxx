@@ -142,8 +142,8 @@ int main( int argc, char ** argv )
   // Software Guide : BeginCodeSnippet
   IteratorType out;
 
-  const PixelType background_value = 0;
-  const PixelType foreground_value = 255;
+  constexpr PixelType background_value  = 0;
+  constexpr PixelType foreground_value  = 255;
   const float rad = static_cast<float>(element_radius);
   // Software Guide : EndCodeSnippet
 

@@ -81,7 +81,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using MeshType = itk::Mesh< PixelType, Dimension >;
   // Software Guide : EndCodeSnippet
 

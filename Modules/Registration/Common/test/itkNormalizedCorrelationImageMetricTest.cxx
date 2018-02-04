@@ -44,7 +44,7 @@ int itkNormalizedCorrelationImageMetricTest(int, char* [] )
 // Create two simple images
 //------------------------------------------------------------
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using PixelType = double;
 

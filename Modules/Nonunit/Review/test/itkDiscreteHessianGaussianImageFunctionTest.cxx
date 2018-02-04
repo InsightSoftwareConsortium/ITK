@@ -275,7 +275,7 @@ int itkDiscreteHessianGaussianImageFunctionTest( int argc, char* argv[] )
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using PixelType = float;
   using ImageType = itk::Image< PixelType, Dimension >;

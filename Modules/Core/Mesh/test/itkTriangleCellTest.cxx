@@ -84,7 +84,7 @@ int itkTriangleCellTest(int, char* [] )
   MeshType::Pointer mesh = MeshType::New();
   mesh->DebugOn();
 
-  const unsigned int numberOfPoints = 4;
+  constexpr unsigned int numberOfPoints = 4;
   /**
    * Define the 3d geometric positions for 4 points in a square.
    */

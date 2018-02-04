@@ -23,7 +23,7 @@
 
 int itkDivideOrZeroOutImageFilterTest(int, char* [])
 {
-  const unsigned int                                   Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = float;
   using ImageType = itk::Image< PixelType, Dimension >;
   using DivideFilterType = itk::DivideOrZeroOutImageFilter< ImageType >;

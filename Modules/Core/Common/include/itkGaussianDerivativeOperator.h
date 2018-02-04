@@ -126,7 +126,7 @@ public:
    * Gaussian operator size. The value is clamped between 0.00001 and 0.99999. */
   void SetMaximumError(const double maxerror)
   {
-    const double Min = 0.00001;
+    constexpr double Min = 0.00001;
     const double Max = 1.0 - Min;
 
     m_MaximumError = std::max( Min, std::min( Max, maxerror ) );

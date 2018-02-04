@@ -218,8 +218,8 @@ int PerformBSplineImageRegistration( int argc, char *argv[] )
   typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
   compositeTransform->AddTransform( affineSimple->GetModifiableTransform() );
 
-  const unsigned int numberOfLevels = 3;
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int numberOfLevels = 3;
+  constexpr unsigned int SplineOrder = 3;
   using BSplineTransformType = itk::BSplineTransform<RealType, VImageDimension, SplineOrder>;
 
   using BSplineRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, BSplineTransformType>;

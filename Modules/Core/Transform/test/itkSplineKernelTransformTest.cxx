@@ -187,7 +187,7 @@ int itkSplineKernelTransformTest(int , char* [] )
 
   //NOTE: The following should set the default values explicitly
     {
-    const double TestValue = 0.012345;
+    constexpr double TestValue = 0.012345;
     tps2D->SetStiffness(TestValue); //This value should not change the result at all.
 
     if ( itk::Math::NotExactlyEquals(tps2D->GetStiffness(), TestValue) )

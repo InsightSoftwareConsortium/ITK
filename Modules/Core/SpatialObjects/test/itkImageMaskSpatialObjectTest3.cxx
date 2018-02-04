@@ -35,7 +35,7 @@
 
 int itkImageMaskSpatialObjectTest3(int, char* [])
 {
-  const unsigned int NDimensions = 3;
+  constexpr unsigned int NDimensions = 3;
   int retval=EXIT_SUCCESS;
 
   using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<NDimensions>;

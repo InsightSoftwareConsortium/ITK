@@ -104,7 +104,7 @@ int main( int argc, char *argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = unsigned short;
 
   using FixedImageType = itk::Image< PixelType, Dimension >;

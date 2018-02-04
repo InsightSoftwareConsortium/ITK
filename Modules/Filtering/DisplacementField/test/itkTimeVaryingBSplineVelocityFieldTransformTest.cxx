@@ -25,7 +25,7 @@ int itkTimeVaryingBSplineVelocityFieldTransformTest( int, char* [] )
   using TimeVaryingVelocityFieldControlPointLatticeType = itk::Image<VectorType, 4>;
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, 4>;
 
-  const unsigned int splineOrder = 3;
+  constexpr unsigned int splineOrder = 3;
 
   TimeVaryingVelocityFieldControlPointLatticeType::PointType origin;
   origin.Fill( -2.0 );

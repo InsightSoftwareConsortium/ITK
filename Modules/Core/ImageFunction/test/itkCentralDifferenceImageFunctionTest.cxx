@@ -24,7 +24,7 @@ int itkCentralDifferenceImageFunctionTest(int, char* [] )
 {
   int result = EXIT_SUCCESS;
 
-  const unsigned int                            ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType,ImageDimension>;
 

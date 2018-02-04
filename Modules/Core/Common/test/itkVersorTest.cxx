@@ -99,7 +99,7 @@ int RotationMatrixToVersorTest(void)
   centers[4]=itk::Math::pi*1.5;
   centers[5]=itk::Math::pi*2.0;
 
-  const double steps=0;
+  constexpr double steps = 0;
   const double small_degree_steps=onedegree/1000.0; //1/1000 of a degree
   for(int j = 0; j < 6; j++)
     {

@@ -32,7 +32,7 @@ int itkConstrainedValueAdditionImageFilterTest( int argc, char* argv[] )
     }
 
   // Define the dimension of the images
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   // Define the pixel types
   using InputPixelType = float;

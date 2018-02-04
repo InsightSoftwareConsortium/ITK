@@ -19,7 +19,7 @@
 #include <iostream>
 #include "itkChangeInformationImageFilter.h"
 
-const unsigned int ImageDimension = 3;
+constexpr unsigned int ImageDimension = 3;
 using ImageType = itk::Image<float, ImageDimension>;
 using ImagePointer = ImageType::Pointer;
 

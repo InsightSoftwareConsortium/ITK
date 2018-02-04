@@ -20,7 +20,7 @@
 
 int itkDenseLevelSetContainerTest( int , char* [] )
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image< float, Dimension >;
   using LevelSetType = itk::LevelSetDenseImage< ImageType >;

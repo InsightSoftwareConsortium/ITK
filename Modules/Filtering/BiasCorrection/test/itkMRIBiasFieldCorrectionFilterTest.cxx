@@ -27,7 +27,7 @@
 
 int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
 {
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   using InputImagePixelType = float;
 

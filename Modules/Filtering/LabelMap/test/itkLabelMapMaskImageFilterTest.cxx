@@ -33,7 +33,7 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   // Declare the pixel type
   using PixelType = unsigned char;

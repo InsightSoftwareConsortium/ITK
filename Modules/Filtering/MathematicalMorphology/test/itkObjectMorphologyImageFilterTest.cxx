@@ -32,11 +32,11 @@
 int itkObjectMorphologyImageFilterTest(int, char* [] )
 {
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  constexpr unsigned int myDimension = 3;
 
   // Define the values of the input images
-  const unsigned short fgValue = 1;
-  const unsigned short bgValue = 0;
+  constexpr unsigned short fgValue = 1;
+  constexpr unsigned short bgValue = 0;
 
   // Declare the types of the images
   using myImageType = itk::Image<unsigned short, myDimension>;

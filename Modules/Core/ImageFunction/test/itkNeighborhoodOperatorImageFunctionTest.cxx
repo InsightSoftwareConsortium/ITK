@@ -24,7 +24,7 @@
 int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )
 {
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = float;
   using ImageType = itk::Image< PixelType, Dimension >;
   using NeighborhoodOperatorType = itk::GaussianOperator<PixelType,3>;

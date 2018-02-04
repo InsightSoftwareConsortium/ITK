@@ -78,7 +78,7 @@ int main( int argc, char ** argv )
 
   seedPosition[0] = 128;
   seedPosition[1] = 128;
-  const double initialDistance = 1.0;
+  constexpr double initialDistance = 1.0;
 
   NodeType node;
 

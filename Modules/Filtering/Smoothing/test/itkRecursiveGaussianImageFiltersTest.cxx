@@ -33,7 +33,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
   {  // 3D test
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  constexpr unsigned int myDimension = 3;
 
   // Declare the types of the images
   using myImageType = itk::Image<float, myDimension>;
@@ -203,7 +203,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
     filter->SetNormalizeAcrossScale( true );
 
-    const double sigmaA = 2.0;
+    constexpr double sigmaA = 2.0;
     filter->SetSigma( sigmaA );
     filter->Update();
 
@@ -211,7 +211,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
 
     filter->SetNormalizeAcrossScale( false );
-    const double sigmaB = 2.0;
+    constexpr double sigmaB = 2.0;
     filter->SetSigma( sigmaB );
 
     filter->Update();
@@ -243,7 +243,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
 
     // size of image is 21, so a sigma of 2 gives up 5 std-devs and
     // an expected error of >1e-5 due to truncation
-    const double sigmaA = 2.0;
+    constexpr double sigmaA = 2.0;
     filter->SetSigma( sigmaA );
     filter->Update();
 
@@ -298,7 +298,7 @@ int itkRecursiveGaussianImageFiltersTest(int, char* [] )
     // positions and use them as bounds for the value of the first order
     // derivative returned by the filter.
 
-    const double sigmaC = 3.0;
+    constexpr double sigmaC = 3.0;
     filter->SetSigma( sigmaC );
 
     filter->SetZeroOrder();

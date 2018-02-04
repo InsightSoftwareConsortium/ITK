@@ -30,7 +30,7 @@
 int itkGeodesicActiveContourLevelSetImageFilterTest( int, char* [] )
 {
 
-  const   unsigned int    ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = unsigned char;
   using InternalPixelType = float;
 

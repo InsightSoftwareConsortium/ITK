@@ -21,7 +21,7 @@
 
 int itkDisplacementFieldTransformParametersAdaptorTest(int, char * [] )
 {
-  const unsigned int SpaceDimension = 3;
+  constexpr unsigned int SpaceDimension = 3;
   using CoordinateRepType = double;
   using TransformType = itk::DisplacementFieldTransform<CoordinateRepType, SpaceDimension>;
 

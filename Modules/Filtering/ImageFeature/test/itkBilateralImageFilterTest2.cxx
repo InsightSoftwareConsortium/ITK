@@ -31,7 +31,7 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
     }
 
   using PixelType = unsigned char;
-  const unsigned int dimension = 2;
+  constexpr unsigned int dimension = 2;
   using myImage = itk::Image<PixelType, dimension>;
   itk::ImageFileReader<myImage>::Pointer input
     = itk::ImageFileReader<myImage>::New();

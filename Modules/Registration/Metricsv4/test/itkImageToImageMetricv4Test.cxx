@@ -183,7 +183,7 @@ bool ImageToImageMetricv4TestTestArray(
 
 
 //Global types
-const unsigned int ImageToImageMetricv4TestImageDimensionality = 2;
+constexpr unsigned int ImageToImageMetricv4TestImageDimensionality = 2;
 using ImageToImageMetricv4TestImageType = itk::Image< double, ImageToImageMetricv4TestImageDimensionality >;
 using ImageToImageMetricv4TestMetricType = ImageToImageMetricv4TestMetric<
                                         ImageToImageMetricv4TestImageType,
@@ -423,7 +423,7 @@ int itkImageToImageMetricv4Test(int, char ** const)
   itk::Object::SetGlobalWarningDisplay( true );
 
   using DimensionSizeType = unsigned int;
-  const DimensionSizeType imageSize = 4;
+  constexpr DimensionSizeType imageSize  = 4;
 
   ImageToImageMetricv4TestImageType::SizeType       size = {{imageSize, imageSize}};
   ImageToImageMetricv4TestImageType::IndexType      index = {{0,0}};

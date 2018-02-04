@@ -33,7 +33,7 @@ int itkGridForwardWarpImageFilterTest( int argc, char* argv[] )
     }
 
   // Define the dimension of the images
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   using DeformationPixelType = itk::Vector< double, ImageDimension >;
   using OutputPixelType = unsigned char;

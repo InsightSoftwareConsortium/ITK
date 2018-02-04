@@ -96,7 +96,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 {
   unsigned int        counter;
   SizeValueType       position,  stride[ImageDimension], indicator[ImageDimension];
-  const SizeValueType one = 1;
+  constexpr SizeValueType one  = 1;
   const SizeValueType center = it.Size() / 2;
   NormalVectorType    normalvector;
   ValueType           curvature;

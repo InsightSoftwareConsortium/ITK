@@ -50,12 +50,12 @@ public:
 
 int itkSupervisedImageClassifierTest(int, char* [] )
 {
-  const unsigned int IMGWIDTH       =    2;
-  const unsigned int IMGHEIGHT      =    2;
-  const unsigned int NFRAMES        =    4;
-  const unsigned int NUMBANDS       =    2;
-  const unsigned int NDIMENSION     =    3;
-  const unsigned int NUM_CLASSES    =    3;
+  constexpr unsigned int IMGWIDTH = 2;
+  constexpr unsigned int IMGHEIGHT = 2;
+  constexpr unsigned int NFRAMES = 4;
+  constexpr unsigned int NUMBANDS = 2;
+  constexpr unsigned int NDIMENSION = 3;
+  constexpr unsigned int NUM_CLASSES = 3;
 
   //------------------------------------------------------
   //Create a simple test image with width, height, and

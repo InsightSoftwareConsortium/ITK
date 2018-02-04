@@ -312,7 +312,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
       varBetween = varBetween * valleyEmphasisFactor;
       }
 
-    const unsigned int maxUlps = 1;
+    constexpr unsigned int maxUlps = 1;
     if ( varBetween > maxVarBetween &&
          !Math::FloatAlmostEqual( maxVarBetween, varBetween, maxUlps) )
       {

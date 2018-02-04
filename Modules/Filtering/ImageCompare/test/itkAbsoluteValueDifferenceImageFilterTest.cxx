@@ -24,14 +24,14 @@ int itkAbsoluteValueDifferenceImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  constexpr unsigned int myDimension = 3;
 
   // Define the values of the input images
-  const float input1Value = 3.0;
-  const float input2Value = 4.0;
+  constexpr float input1Value = 3.0;
+  constexpr float input2Value = 4.0;
 
   // Define the values of the output images
-  const float outputValue = 1.0;
+  constexpr float outputValue = 1.0;
 
   // Define the precision for output comparison
   const float epsilon = 1e-6;

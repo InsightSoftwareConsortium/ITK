@@ -49,10 +49,10 @@
 
 #include "itkIOTestHelper.h"
 
-const unsigned char RPI=16;        /*Bit pattern 0 0 0  10000*/
-const unsigned char LEFT=128;      /*Bit pattern 1 0 0  00000*/
-const unsigned char ANTERIOR=64;   /*Bit pattern 0 1 0  00000*/
-const unsigned char SUPERIOR=32;   /*Bit pattern 0 0 1  00000*/
+constexpr unsigned char RPI = 16;        /*Bit pattern 0 0 0  10000*/
+constexpr unsigned char LEFT = 128;      /*Bit pattern 1 0 0  00000*/
+constexpr unsigned char ANTERIOR = 64;   /*Bit pattern 0 1 0  00000*/
+constexpr unsigned char SUPERIOR = 32;   /*Bit pattern 0 0 1  00000*/
 
 template<unsigned int TDimension>
 typename itk::ImageBase<TDimension>::DirectionType
@@ -247,7 +247,7 @@ int
 TestImageOfSymMats(const std::string &fname)
 {
 
-  const int dimsize = 2;
+  constexpr int dimsize = 2;
   /** Deformation field pixel type. */
 //  using PixelType = typename itk::DiffusionTenor3D<ScalarType>;
 

@@ -28,7 +28,7 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
   std::cout << "itkRescaleIntensityImageFilterTest Start" << std::endl;
 
   // Define the dimension of the images
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   // Declare the pixel types of the images
   using PixelType = float;
@@ -76,7 +76,7 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
   filter->SetInput( source->GetOutput() );
 
   const double desiredMinimum = -1.0;
-  const double desiredMaximum =  1.0;
+  constexpr double desiredMaximum = 1.0;
 
   filter->SetOutputMinimum( desiredMinimum );
   TEST_SET_GET_VALUE( desiredMinimum, filter->GetOutputMinimum() );

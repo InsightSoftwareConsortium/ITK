@@ -31,7 +31,7 @@ int itkConstrainedValueDifferenceImageFilterTest( int argc, char* argv[] )
     }
 
   // Define the dimension of the images
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   // Define the pixel types
   using InputImage1PixelType = float;
@@ -91,7 +91,7 @@ int itkConstrainedValueDifferenceImageFilterTest( int argc, char* argv[] )
   InputImage1IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const InputImage1Type::PixelType valueA = 125;
+  constexpr InputImage1Type::PixelType valueA  = 125;
   while( !it1.IsAtEnd() )
     {
     it1.Set( valueA );

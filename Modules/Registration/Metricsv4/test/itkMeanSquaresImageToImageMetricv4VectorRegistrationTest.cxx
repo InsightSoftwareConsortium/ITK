@@ -67,7 +67,7 @@ int itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char *arg
     }
   std::cout << " affine iterations "<< numberOfAffineIterations << " displacementIterations " << numberOfDisplacementIterations << std::endl;
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   // RGBPixel type is not supported by GradientRecursiveGaussianFilter at this point.
   //using PixelType = itk::RGBPixel<FloatType>;

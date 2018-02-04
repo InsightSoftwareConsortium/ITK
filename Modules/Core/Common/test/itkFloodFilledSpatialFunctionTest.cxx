@@ -28,7 +28,7 @@ to itkFloodFilledSpatialFunctionConditionalIterator.
 
 int itkFloodFilledSpatialFunctionTest(int, char* [])
 {
-  const unsigned int dim = 2;
+  constexpr unsigned int dim = 2;
 
   // Image type alias
   using ImageType = itk::Image< bool, dim >;

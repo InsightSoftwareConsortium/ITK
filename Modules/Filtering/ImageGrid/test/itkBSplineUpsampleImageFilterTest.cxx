@@ -45,7 +45,7 @@ int itkBSplineUpsampleImageFilterTest( int argc, char * argv [] )
     }
 
   using PixelType = unsigned char;
-  const unsigned int      Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using ImageType = itk::Image< PixelType, Dimension >;
 

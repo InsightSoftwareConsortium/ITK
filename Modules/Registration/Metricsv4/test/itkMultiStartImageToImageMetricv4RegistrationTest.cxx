@@ -65,7 +65,7 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   bool rotateinput=false;
   if( argc > 5 )
   if ( atoi(argv[5]) == 1 ) rotateinput=true;
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = unsigned short; //I assume png is unsigned short
   using InternalPixelType = double;
 

@@ -84,7 +84,7 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
   NeighborhoodSizeValueType positionN,  positionP,
                 stride[TImageType::ImageDimension], indicator[TImageType::ImageDimension];
 
-  const NeighborhoodSizeValueType one = 1;
+  constexpr NeighborhoodSizeValueType one  = 1;
   const NeighborhoodSizeValueType center = neighborhood.Size() / 2;
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();

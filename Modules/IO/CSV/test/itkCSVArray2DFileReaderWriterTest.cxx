@@ -65,8 +65,8 @@ int itkCSVFileReaderWriterTest_Func(int argc, char *argv[], bool headers)
   double nan = std::numeric_limits<double>::quiet_NaN();
 
   using MatrixType = itk::Array2D<double>;
-  const unsigned int ARows = 3;
-  const unsigned int ACols = 6;
+  constexpr unsigned int ARows = 3;
+  constexpr unsigned int ACols = 6;
   MatrixType matrix(ARows,ACols);
   matrix[0][0] = nan;
   matrix[0][1] = 1e+09;

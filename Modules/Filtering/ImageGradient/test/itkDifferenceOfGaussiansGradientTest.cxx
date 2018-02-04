@@ -36,7 +36,7 @@ This file tests:
 
 int itkDifferenceOfGaussiansGradientTest(int, char* [] )
 {
-  const unsigned int dim = 3;
+  constexpr unsigned int dim = 3;
 
   // Image type alias
   using TImageType = itk::Image< unsigned char, dim >;

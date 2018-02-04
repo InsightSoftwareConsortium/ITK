@@ -24,7 +24,7 @@ int itkEdgePotentialImageFilterTest(int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   // Declare the types of the images
   using VectorType = itk::CovariantVector<double,ImageDimension>;

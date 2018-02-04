@@ -26,11 +26,11 @@ int itkGrayscaleFunctionErodeImageFilterTest(int argc, char* argv[] )
   unsigned int i;
 
   // Define the dimension of the images
-  const unsigned int myDimension = 2;
+  constexpr unsigned int myDimension = 2;
 
   // Define the values of the input images
-  const unsigned short fgValue = 1;
-  const unsigned short bgValue = 2;
+  constexpr unsigned short fgValue = 1;
+  constexpr unsigned short bgValue = 2;
 
   // Declare the types of the images
   using myImageType = itk::Image<unsigned short, myDimension>;

@@ -2122,7 +2122,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
           this->ComputeGradientJointEntropy(sampleIt.GetInstanceIdentifier(), inList, sampler,
           threadData);
 
-        const RealValueType stepSizeSmoothing = 0.2;
+        constexpr RealValueType stepSizeSmoothing  = 0.2;
         result = AddUpdate(result,  gradientJointEntropy * (smoothingWeight * stepSizeSmoothing) );
         } // end if smoothingWeight > 0
 
@@ -2146,7 +2146,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
               {
               const RealValueType gradientFidelity = 2.0 *
                 ( this->GetComponent(in,pc) - this->GetComponent(out,pc) );
-              const RealValueType stepSizeFidelity = 0.5;
+              constexpr RealValueType stepSizeFidelity  = 0.5;
               const RealValueType noiseVal = fidelityWeight * ( stepSizeFidelity * gradientFidelity );
               this->SetComponent(result, pc,
                            this->GetComponent(result, pc) + noiseVal);

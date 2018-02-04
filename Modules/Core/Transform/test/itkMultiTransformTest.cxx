@@ -86,7 +86,7 @@ bool testVectorArray( const TVector & v1, const TVector & v2 )
 
 /******/
 
-const unsigned int itkMultiTransformTestNDimensions = 2;
+constexpr unsigned int itkMultiTransformTestNDimensions = 2;
 
 template
 <class TScalar = double, unsigned int NDimensions = itkMultiTransformTestNDimensions>

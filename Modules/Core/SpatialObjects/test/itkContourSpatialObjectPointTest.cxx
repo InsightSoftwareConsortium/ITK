@@ -28,8 +28,8 @@ int itkContourSpatialObjectPointTest( int, char* [] )
 
   ContourSpatialObjectPoint2DType contourSpatialObjectPoint2D;
 
-  const double pickedPointX = 4.35;
-  const double pickedPointY = 7.56;
+  constexpr double pickedPointX = 4.35;
+  constexpr double pickedPointY = 7.56;
   ContourSpatialObjectPoint2DType::PointType pickedPoint2D;
   pickedPoint2D[0] = pickedPointX;
   pickedPoint2D[1] = pickedPointY;
@@ -40,8 +40,8 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   contourSpatialObjectPoint2D.SetPickedPoint( pickedPointX, pickedPointY );
   TEST_SET_GET_VALUE( pickedPoint2D, contourSpatialObjectPoint2D.GetPickedPoint() );
 
-  const double normalX = 1.0;
-  const double normalY = 1.0;
+  constexpr double normalX = 1.0;
+  constexpr double normalY = 1.0;
   ContourSpatialObjectPoint2DType::VectorType normal2D;
   normal2D[0] = normalX;
   normal2D[1] = normalY;
@@ -56,8 +56,8 @@ int itkContourSpatialObjectPointTest( int, char* [] )
 
   ContourSpatialObjectPoint2DType contourSpatialObjectPoint2DAlt;
 
-  const double pickedPointXAlt = 25.89;
-  const double pickedPointYAlt = 57.26;
+  constexpr double pickedPointXAlt = 25.89;
+  constexpr double pickedPointYAlt = 57.26;
   ContourSpatialObjectPoint2DType::PointType pickedPoint2DAlt;
   pickedPoint2DAlt[0] = pickedPointXAlt;
   pickedPoint2DAlt[1] = pickedPointYAlt;
@@ -65,8 +65,8 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   contourSpatialObjectPoint2DAlt.SetPickedPoint( pickedPoint2DAlt );
   TEST_SET_GET_VALUE( pickedPoint2DAlt, contourSpatialObjectPoint2DAlt.GetPickedPoint() );
 
-  const double normalXAlt = 7.28;
-  const double normalYAlt = 14.03;
+  constexpr double normalXAlt = 7.28;
+  constexpr double normalYAlt = 14.03;
   ContourSpatialObjectPoint2DType::VectorType normal2DAlt;
   normal2DAlt[0] = normalXAlt;
   normal2DAlt[1] = normalYAlt;
@@ -87,7 +87,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
 
   ContourSpatialObjectPoint3DType contourSpatialObjectPoint3D;
 
-  const double pickedPointZ = 23.78;
+  constexpr double pickedPointZ = 23.78;
   ContourSpatialObjectPoint3DType::PointType pickedPoint3D;
   pickedPoint3D[0] = pickedPointX;
   pickedPoint3D[1] = pickedPointY;
@@ -99,7 +99,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   contourSpatialObjectPoint3D.SetPickedPoint( pickedPointX, pickedPointY );
   TEST_SET_GET_VALUE( pickedPoint3D, contourSpatialObjectPoint3D.GetPickedPoint() );
 
-  const double normalZ = 1.0;
+  constexpr double normalZ = 1.0;
   ContourSpatialObjectPoint3DType::VectorType normal3D;
   normal3D[0] = normalX;
   normal3D[1] = normalY;
@@ -115,7 +115,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
 
   ContourSpatialObjectPoint3DType contourSpatialObjectPoint3DAlt;
 
-  const double pickedPointZAlt = 19.6;
+  constexpr double pickedPointZAlt = 19.6;
   ContourSpatialObjectPoint3DType::PointType pickedPoint3DAlt;
   pickedPoint3DAlt[0] = pickedPointXAlt;
   pickedPoint3DAlt[1] = pickedPointYAlt;
@@ -124,7 +124,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   contourSpatialObjectPoint3DAlt.SetPickedPoint( pickedPoint3DAlt );
   TEST_SET_GET_VALUE( pickedPoint3DAlt, contourSpatialObjectPoint3DAlt.GetPickedPoint() );
 
-  const double normalZAlt = 1.4;
+  constexpr double normalZAlt = 1.4;
   ContourSpatialObjectPoint3DType::VectorType normal3DAlt;
   normal3DAlt[0] = normalXAlt;
   normal3DAlt[1] = normalYAlt;
@@ -146,7 +146,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
 
   ContourSpatialObjectPoint4DType contourSpatialObjectPoint4D;
 
-  const double pickedPointW = 4.63;
+  constexpr double pickedPointW = 4.63;
   ContourSpatialObjectPoint4DType::PointType pickedPoint4D;
   pickedPoint4D[0] = pickedPointX;
   pickedPoint4D[1] = pickedPointY;
@@ -156,7 +156,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   contourSpatialObjectPoint4D.SetPickedPoint( pickedPoint4D );
   TEST_SET_GET_VALUE( pickedPoint4D, contourSpatialObjectPoint4D.GetPickedPoint() );
 
-  const double normalW = 3.1;
+  constexpr double normalW = 3.1;
   ContourSpatialObjectPoint4DType::VectorType normal4D;
   normal4D[0] = normalX;
   normal4D[1] = normalY;
@@ -170,7 +170,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
 
   ContourSpatialObjectPoint4DType contourSpatialObjectPoint4DAlt;
 
-  const double pickedPointWAlt = 8.71;
+  constexpr double pickedPointWAlt = 8.71;
   ContourSpatialObjectPoint4DType::PointType pickedPoint4DAlt;
   pickedPoint4DAlt[0] = pickedPointXAlt;
   pickedPoint4DAlt[1] = pickedPointYAlt;
@@ -180,7 +180,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   contourSpatialObjectPoint4DAlt.SetPickedPoint( pickedPoint4DAlt );
   TEST_SET_GET_VALUE( pickedPoint4DAlt, contourSpatialObjectPoint4DAlt.GetPickedPoint() );
 
-  const double normalWAlt = 4.23;
+  constexpr double normalWAlt = 4.23;
   ContourSpatialObjectPoint4DType::VectorType normal4DAlt;
   normal4DAlt[0] = normalXAlt;
   normal4DAlt[1] = normalYAlt;

@@ -25,7 +25,7 @@ int itkMeanImageFunctionTest( int, char* [] )
 {
   int testStatus = EXIT_SUCCESS;
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = unsigned char;
 
   using ImageType = itk::Image< PixelType, Dimension >;

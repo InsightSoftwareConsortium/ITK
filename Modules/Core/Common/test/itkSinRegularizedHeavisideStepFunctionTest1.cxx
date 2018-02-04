@@ -31,7 +31,7 @@ int itkSinRegularizedHeavisideStepFunctionTest1( int, char* [] )
   std::cout << "GetNameOfClass() = " << functionBase0->GetNameOfClass() << std::endl;
   functionBase0->Print( std::cout );
 
-  const double epsilon0 = 1.0;
+  constexpr double epsilon0 = 1.0;
   const double epsilon1 = 1e-4;
 
   TEST_SET_GET_VALUE( epsilon0, functionBase0->GetEpsilon() );
@@ -39,13 +39,13 @@ int itkSinRegularizedHeavisideStepFunctionTest1( int, char* [] )
   functionBase0->SetEpsilon( epsilon1 );
   TEST_SET_GET_VALUE( epsilon1, functionBase0->GetEpsilon() );
 
-  const double epsilon2 = 0.5;
+  constexpr double epsilon2 = 0.5;
   functionBase0->SetEpsilon( epsilon2 );
 
   const signed int minValue = -20;
-  const signed int maxValue =  20;
+  constexpr signed int maxValue  = 20;
 
-  const InputType incValue = 0.1;
+  constexpr InputType incValue  = 0.1;
 
   for( signed int x = minValue; x < maxValue; x++ )
     {

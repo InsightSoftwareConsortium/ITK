@@ -75,7 +75,7 @@ int itkFixedArrayTest(int, char* [] )
   if ( !(array4 == array4) ) return EXIT_FAILURE; //should be equal
 
   // Test Get/Set element
-  const unsigned int n = 20;
+  constexpr unsigned int n = 20;
   itk::FixedArray< unsigned int, n > array20;
   for(unsigned int i=0; i<n; i++)
     {

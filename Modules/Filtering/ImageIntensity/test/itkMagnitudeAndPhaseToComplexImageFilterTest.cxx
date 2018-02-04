@@ -46,7 +46,7 @@ int itkMagnitudeAndPhaseToComplexImageFilterTest( int argc, char * argv[] )
   const char * phaseImageFileName = argv[2];
   const char * complexImageFileName = argv[3];
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using InputPixelType = float;
   using OutputPixelType = std::complex< InputPixelType >;

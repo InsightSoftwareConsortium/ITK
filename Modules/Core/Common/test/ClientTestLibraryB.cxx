@@ -30,8 +30,8 @@ dynamic_castDownCast( const char * type, const char * instanceSource, itk::Objec
 {
   using DerivedType = TDerived;
 
-  const static int passed = 0;
-  const static int failed = 1;
+  constexpr static int passed  = 0;
+  constexpr static int failed  = 1;
 
   DerivedType const * derived = dynamic_cast< DerivedType const * >( base );
   if( derived != nullptr )

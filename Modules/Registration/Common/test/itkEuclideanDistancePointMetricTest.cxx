@@ -70,7 +70,7 @@ CompareMeshSources()
 int itkEuclideanDistancePointMetricTest(int, char* [] )
 {
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using ScalarType = double;
   const double Epsilon = 10e-6;
 

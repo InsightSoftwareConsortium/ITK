@@ -401,7 +401,7 @@ template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsingQL(double *d, double *e) const
 {
-  const double c_b10 = 1.0;
+  constexpr double c_b10 = 1.0;
 
   // Local variables
   double       c, f, g, h;
@@ -548,7 +548,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
                                                                                               double *e,
                                                                                               double *z) const
 {
-  const double c_b10 = 1.0;
+  constexpr double c_b10 = 1.0;
 
   // Local variables
   double       c, f, g, h;

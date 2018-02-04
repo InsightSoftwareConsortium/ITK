@@ -560,7 +560,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolv
     if(  DLS == 2 && deltE < 0.0 )
       {
       itkDebugMacro( << " Line search " );
-      const float tol = 1.0; // ((0.01  < LastE) ? 0.01 : LastE/10.);
+      constexpr float tol = 1.0; // ((0.01  < LastE) ? 0.01 : LastE/10.);
       LastE = this->GoldenSection(solver, tol, m_LineSearchMaximumIterations);
       deltE = (m_MinE - LastE);
       itkDebugMacro( << " Line search done " << std::endl );
@@ -1218,8 +1218,8 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FindBracketin
 {
   // See Numerical Recipes
 
-  const Float Gold = 1.618034;
-  const Float Glimit = 100.0;
+  constexpr Float Gold  = 1.618034;
+  constexpr Float Glimit  = 100.0;
   const Float Tiny = 1.e-20;
   Float ax = 0.0;
   Float bx = 1.0;
@@ -1311,7 +1311,7 @@ Element::Float FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::Gol
 
   this->FindBracketingTriplet(solver, &ax, &bx, &cx);
 
-  const Float R = 0.6180339;
+  constexpr Float R  = 0.6180339;
   const Float C = (1.0 - R);
 
   Float x0 = ax;

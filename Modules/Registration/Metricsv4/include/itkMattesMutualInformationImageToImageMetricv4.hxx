@@ -163,7 +163,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
    * window.
    *
    */
-  const int padding = 2;  // this will pad by 2 bins
+  constexpr int padding = 2;  // this will pad by 2 bins
 
   this->m_FixedImageBinSize = ( this->m_FixedImageTrueMax - this->m_FixedImageTrueMin )
     / static_cast<PDFValueType>( this->m_NumberOfHistogramBins - 2 * padding );

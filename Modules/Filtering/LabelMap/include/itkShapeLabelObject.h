@@ -329,7 +329,7 @@ private:
   template <size_t VX>
     struct IntegerPow<VX,0>
   {
-    static const size_t Result = 1;
+    static constexpr size_t Result  = 1;
   };
 
 public:

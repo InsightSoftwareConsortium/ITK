@@ -28,7 +28,7 @@ int itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3(int, char * [
 {
   try
     {
-    const unsigned int ImageDimension = 3;
+    constexpr unsigned int ImageDimension = 3;
     using PixelType = unsigned char;
 
     using ImageType = itk::Image<PixelType, ImageDimension>;

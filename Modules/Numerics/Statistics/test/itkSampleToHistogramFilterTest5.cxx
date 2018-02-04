@@ -24,7 +24,7 @@
 int itkSampleToHistogramFilterTest5(int argc, char *argv[] )
 {
 
-  const unsigned int imageDimension = 2;
+  constexpr unsigned int imageDimension = 2;
 
   if( argc < 2 )
     {
@@ -47,7 +47,7 @@ int itkSampleToHistogramFilterTest5(int argc, char *argv[] )
 
   using PixelType = itk::RGBPixel< VMeasurementType >;
 
-  const unsigned int numberOfComponents = 3;
+  constexpr unsigned int numberOfComponents = 3;
 
   using ImageType = itk::Image< PixelType, imageDimension >;
 

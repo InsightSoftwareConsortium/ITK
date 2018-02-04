@@ -68,7 +68,7 @@ int main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = itk::CovariantVector< float, Dimension >;
   // Software Guide : EndCodeSnippet
 
@@ -102,7 +102,7 @@ int main(int, char *[])
   PointSetType::PointType   point;
 
   unsigned int pointId =  0;
-  const double radius = 300.0;
+  constexpr double radius = 300.0;
 
   for(unsigned int i=0; i<360; i++)
     {

@@ -26,7 +26,7 @@ int itkVTKPolyDataWriterTest01(int argc, char* argv[])
     return EXIT_FAILURE;
     }
 
-  const unsigned int PointDimension = 3;
+  constexpr unsigned int PointDimension = 3;
 
   using PointType = float;
 
@@ -41,8 +41,8 @@ int itkVTKPolyDataWriterTest01(int argc, char* argv[])
 
   MeshType::Pointer mesh = MeshType::New();
 
-  const unsigned int numberOfPoints = 4;
-  const unsigned int numberOfCells  = 9;
+  constexpr unsigned int numberOfPoints = 4;
+  constexpr unsigned int numberOfCells = 9;
 
   float rawPoints[12] = {
     0.0, 0.0, 0.0,

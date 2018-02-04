@@ -33,7 +33,7 @@
 #include "itkCastImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
 
-const unsigned int Dimension = 3;
+constexpr unsigned int Dimension = 3;
 
 //  The following section of code implements a Command observer
 //  that will monitor the evolution of the registration process.

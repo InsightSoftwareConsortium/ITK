@@ -24,11 +24,11 @@
 
 int itkImageToListSampleAdaptorTest2(int, char* [] )
 {
-  const unsigned int MeasurementVectorSize = 8;
+  constexpr unsigned int MeasurementVectorSize = 8;
   using MeasurementComponentType = unsigned long;
   using PixelType = itk::FixedArray< MeasurementComponentType, MeasurementVectorSize >;
 
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using ImageType = itk::Image< PixelType, ImageDimension >;
 
   ImageType::Pointer image = ImageType::New();
@@ -117,7 +117,7 @@ int itkImageToListSampleAdaptorTest2(int, char* [] )
 
   using VariableLengthImageType = itk::Image< VariableLengthPixelType, ImageDimension >;
 
-  const unsigned int vMeasurementVectorSize = 4;
+  constexpr unsigned int vMeasurementVectorSize = 4;
 
   VariableLengthImageType::Pointer vImage = VariableLengthImageType::New();
 

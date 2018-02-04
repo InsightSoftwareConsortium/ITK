@@ -45,7 +45,7 @@ int itkRGBToVectorImageAdaptorTest(int, char* [] )
 
   using RGBPixelType = itk::RGBPixel< ComponentType >;
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using ImageType = itk::Image< RGBPixelType, ImageDimension >;
 

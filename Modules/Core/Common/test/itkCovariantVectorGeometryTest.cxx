@@ -28,7 +28,7 @@
 int itkCovariantVectorGeometryTest(int, char* [] )
 {
   // Dimension & Type
-  const     unsigned int    N = 3;
+  constexpr unsigned int N = 3;
   using ValueType = double;
 
   //  Vector type

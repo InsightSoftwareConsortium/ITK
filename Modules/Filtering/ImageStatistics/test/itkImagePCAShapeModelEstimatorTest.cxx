@@ -39,11 +39,11 @@ public:
 int itkImagePCAShapeModelEstimatorTest(int, char* [] )
 {
   //Data definitions
-  const itk::Size<2u>::SizeValueType IMGWIDTH = 2;
-  const itk::Size<2u>::SizeValueType IMGHEIGHT = 2;
-  const unsigned int NDIMENSION = 2;
-  const unsigned int NUMTRAINIMAGES = 3;
-  const unsigned int NUMLARGESTPC = 2;
+  constexpr itk::Size<2u>::SizeValueType IMGWIDTH  = 2;
+  constexpr itk::Size<2u>::SizeValueType IMGHEIGHT  = 2;
+  constexpr unsigned int NDIMENSION = 2;
+  constexpr unsigned int NUMTRAINIMAGES = 3;
+  constexpr unsigned int NUMLARGESTPC = 2;
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 

@@ -52,7 +52,7 @@ int main( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  const     unsigned int   ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   using PixelType = unsigned char;
   using InputImageType = itk::Image< PixelType, ImageDimension >;

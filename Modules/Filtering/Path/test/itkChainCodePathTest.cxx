@@ -22,7 +22,7 @@
 
 int itkChainCodePathTest( int, char*[] )
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using PathType = itk::ChainCodePath< Dimension >;
   using IndexType = PathType::IndexType;

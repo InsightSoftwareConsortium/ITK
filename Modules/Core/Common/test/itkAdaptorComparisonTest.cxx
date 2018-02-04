@@ -85,7 +85,7 @@ void BypassAdaptorSupportModifyScalars(itk::Image<float, 3> *img)
 void AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 {
   using VectorType = itk::Vector<float, 3>;
-  const unsigned int N = 3;
+  constexpr unsigned int N = 3;
   unsigned int i;
   VectorType temp_vector;
 
@@ -106,7 +106,7 @@ void AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 void NoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 {
   using VectorType = itk::Vector<float, 3>;
-  const unsigned int N = 3;
+  constexpr unsigned int N = 3;
   unsigned int i;
   VectorType temp_vector;
 
@@ -130,7 +130,7 @@ void NoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 void BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 {
   using VectorType = itk::Vector<float, 3>;
-  const unsigned int N = 3;
+  constexpr unsigned int N = 3;
   unsigned int i;
 
   itk::ImageRegionIteratorWithIndex< itk::Image<VectorType, 3> >
@@ -148,7 +148,7 @@ void BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img
 void BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> *img)
 {
   using VectorType = itk::Vector<float, 3>;
-  const unsigned int N = 3;
+  constexpr unsigned int N = 3;
   unsigned int i;
 
   itk::ImageRegionIterator< itk::Image<VectorType, 3> >

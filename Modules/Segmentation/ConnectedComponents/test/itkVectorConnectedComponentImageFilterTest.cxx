@@ -36,7 +36,7 @@ int itkVectorConnectedComponentImageFilterTest(int argc, char* argv[] )
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = itk::Vector<float,Dimension>;
   using OutputPixelType = unsigned long;
   using LabelPixelType = unsigned char;

@@ -43,7 +43,7 @@ int itkImageToHistogramFilterTest4Templated( int argc, char * argv [] )
 
 
   using PixelComponentType = unsigned char;
-  const unsigned int                                      Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using VectorPixelType = itk::Vector< PixelComponentType, 2 >;
 
   using ImageType = itk::Image< unsigned char, Dimension >;

@@ -37,8 +37,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int ParametricDimension = 2;
-  const unsigned int DataDimension = 1;
+  constexpr unsigned int ParametricDimension = 2;
+  constexpr unsigned int DataDimension = 1;
 
   using PixelType = int;
   using InputImageType = itk::Image<PixelType, ParametricDimension>;

@@ -40,7 +40,7 @@ int itkGrayscaleConnectedOpeningImageFilterTest( int argc, char * argv[] )
   //  The following code defines the input and output pixel types and their
   //  associated image types.
   //
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;

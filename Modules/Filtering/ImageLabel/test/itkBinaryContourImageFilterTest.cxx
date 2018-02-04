@@ -34,7 +34,7 @@ int itkBinaryContourImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const unsigned int dim = 3;
+  constexpr unsigned int dim = 3;
 
   using PType = unsigned char;
   using IType = itk::Image< PType, dim >;

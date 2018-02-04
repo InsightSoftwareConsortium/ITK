@@ -25,7 +25,7 @@ int itkSigmoidImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
 
   // Declare the types of the images
   using InputPixelType = float;
@@ -75,7 +75,7 @@ int itkSigmoidImageFilterTest( int, char* [] )
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of the input image
-  const double value = 30;
+  constexpr double value = 30;
   it.GoToBegin();
   while( !it.IsAtEnd() )
   {
@@ -97,8 +97,8 @@ int itkSigmoidImageFilterTest( int, char* [] )
   filter->SetInput( inputImage );
 
   // Set the filter parameters
-  const double alpha = 2.0;
-  const double beta  = 3.0;
+  constexpr double alpha = 2.0;
+  constexpr double beta = 3.0;
 
   filter->SetAlpha( alpha );
   TEST_SET_GET_VALUE( alpha, filter->GetAlpha() );
@@ -106,7 +106,7 @@ int itkSigmoidImageFilterTest( int, char* [] )
   filter->SetBeta( beta );
   TEST_SET_GET_VALUE( beta, filter->GetBeta() );
 
-  const OutputPixelType maximum =  1.0;
+  constexpr OutputPixelType maximum  = 1.0;
   const OutputPixelType minimum = -1.0;
 
   filter->SetOutputMinimum( minimum );

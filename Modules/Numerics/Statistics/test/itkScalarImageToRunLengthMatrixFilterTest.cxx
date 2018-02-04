@@ -27,9 +27,9 @@ int itkScalarImageToRunLengthMatrixFilterTest(int, char* [] )
 {
 
   //Data definitions
-  const unsigned int  IMGWIDTH         =  5;
-  const unsigned int  IMGHEIGHT        =  5;
-  const unsigned int  NDIMENSION       =  2;
+  constexpr unsigned int IMGWIDTH = 5;
+  constexpr unsigned int IMGHEIGHT = 5;
+  constexpr unsigned int NDIMENSION = 2;
 
 
   //------------------------------------------------------

@@ -238,9 +238,9 @@ Element3DC0LinearTriangular
 ::JacobianDeterminant(const VectorType & /*HACK pt*/, const MatrixType * /*HACK pJ*/) const
 {
   // use heron's formula
-  const int na = 0;
-  const int nb = 1;
-  const int nc = 2;
+  constexpr int na = 0;
+  constexpr int nb = 1;
+  constexpr int nc = 2;
 
   const VectorType &A = this->GetNode(na)->GetCoordinates();
   const VectorType &B = this->GetNode(nb)->GetCoordinates();

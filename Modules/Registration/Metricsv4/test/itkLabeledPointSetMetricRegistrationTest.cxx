@@ -187,7 +187,7 @@ int itkLabeledPointSetMetricRegistrationTest( int argc, char *argv[] )
     numberOfIterations = atoi( argv[1] );
     }
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PointSetType = itk::PointSet<unsigned int, Dimension>;
 
   int allSuccess = EXIT_SUCCESS;

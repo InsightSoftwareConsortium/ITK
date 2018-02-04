@@ -65,7 +65,7 @@ int main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int MeasurementVectorLength = 3;
+  constexpr unsigned int MeasurementVectorLength = 3;
   using MeasurementVectorType = itk::Vector< float, MeasurementVectorLength >;
   using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();

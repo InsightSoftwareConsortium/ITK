@@ -320,8 +320,8 @@ int itkGaussianDistributionTest(int, char* [] )
     }
   std::cout << std::endl;
 
-  const double mean1 = 1.0;
-  const double variance1 = 2.5;
+  constexpr double mean1 = 1.0;
+  constexpr double variance1 = 2.5;
 
   DistributionType::ParametersType parameters( distributionFunction->GetNumberOfParameters() );
   parameters[0] = mean1;
@@ -381,8 +381,8 @@ int itkGaussianDistributionTest(int, char* [] )
   distributionFunction->SetVariance( newVariance );
   TEST_SET_GET_VALUE( newVariance, distributionFunction->GetVariance() );
 
-  const double mean2 = 0.0;
-  const double variance2 = 1.0;
+  constexpr double mean2 = 0.0;
+  constexpr double variance2 = 1.0;
 
   parameters[0] = mean2;
   parameters[1] = variance2;

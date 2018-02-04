@@ -95,7 +95,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const    unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = unsigned char;
 
   using FixedImageType = itk::Image< PixelType, Dimension >;
@@ -230,7 +230,7 @@ int main( int argc, char *argv[] )
   OptimizerScalesType optimizerScales( transform->GetNumberOfParameters() );
 
   const double translationScale = 1.0 / 128.0;
-  const double centerScale      = 1000.0; // prevents it from moving
+  constexpr double centerScale = 1000.0; // prevents it from moving
                                           // during the optimization
   optimizerScales[0] = 1.0;
   optimizerScales[1] = centerScale;

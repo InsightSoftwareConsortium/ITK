@@ -23,7 +23,7 @@ int itkFiniteCylinderSpatialFunctionTest(int, char* [] )
   std::cout << "itkFiniteCylinderSpatialFunction test start" << std::endl;
 
   // Test will create a cylinder (3 - dimensional)
-  const unsigned int dimension = 3;
+  constexpr unsigned int dimension = 3;
 
   // Cylinder spatial function type alias.
   using TCylinderFunctionType = itk::FiniteCylinderSpatialFunction<dimension>;

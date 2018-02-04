@@ -47,7 +47,7 @@ int main( int argc, char *argv[] )
   using InternalPixelType = float;
   using RGBPixelType = itk::RGBPixel<unsigned char>;
 
-  const   unsigned int                      Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using InternalImageType = itk::Image< InternalPixelType,  Dimension >;
   using RGBImageType = itk::Image< RGBPixelType,       Dimension >;

@@ -91,7 +91,7 @@ public:
 
 int itkWarpVectorImageFilterTest(int, char* [] )
 {
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using VectorType = itk::Vector<float,ImageDimension>;
   using FieldType = itk::Image<VectorType,ImageDimension>;

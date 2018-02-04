@@ -37,10 +37,10 @@ int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
     }
 
   // Define the dimension of the images
-  const unsigned int iDimension = 3;
+  constexpr unsigned int iDimension = 3;
 
   //Define the dimension of the polyline
-  const unsigned int pDimension = 2;
+  constexpr unsigned int pDimension = 2;
 
   // Declare the types of the images
   using inputImageType = itk::Image<unsigned short, iDimension>;

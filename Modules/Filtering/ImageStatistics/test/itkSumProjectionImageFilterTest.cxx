@@ -31,7 +31,7 @@ int itkSumProjectionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const int dim = 3;
+  constexpr int dim = 3;
 
   using InputPixelType = unsigned char;
   using InputImageType = itk::Image< InputPixelType, dim >;

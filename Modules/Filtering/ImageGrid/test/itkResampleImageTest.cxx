@@ -27,7 +27,7 @@
 int itkResampleImageTest(int, char* [] )
 {
 
-  const unsigned int NDimensions = 2;
+  constexpr unsigned int NDimensions = 2;
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, NDimensions>;

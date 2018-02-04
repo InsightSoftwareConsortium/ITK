@@ -153,7 +153,7 @@ AutomaticTopologyMeshSource< TOutputMesh >
     }
   else
     {
-    const IdentifierType pointIdsEnd = 2;
+    constexpr IdentifierType pointIdsEnd  = 2;
 
     // Construct the cell.
     CellAutoPointer newCell(new LineCell, true);
@@ -204,8 +204,8 @@ AutomaticTopologyMeshSource< TOutputMesh >
     {
     // Create and add a new cell.
 
-    const IdentifierType pointIdsEnd = 3;
-    const IdentifierType lineIdsEnd = 3;
+    constexpr IdentifierType pointIdsEnd  = 3;
+    constexpr IdentifierType lineIdsEnd  = 3;
     IdentifierType       i;
 
     // Construct the cell.
@@ -267,8 +267,8 @@ AutomaticTopologyMeshSource< TOutputMesh >
     {
     // Create and add a new cell.
 
-    const IdentifierType pointIdsEnd = 4;
-    const IdentifierType lineIdsEnd = 4;
+    constexpr IdentifierType pointIdsEnd  = 4;
+    constexpr IdentifierType lineIdsEnd  = 4;
     IdentifierType       i;
 
     // Construct the cell.
@@ -329,9 +329,9 @@ AutomaticTopologyMeshSource< TOutputMesh >
     {
     // Create and add a new cell.
 
-    const IdentifierType pointIdsEnd = 4;
-    const IdentifierType lineIdsEnd = 6;
-    const IdentifierType faceIdsEnd = 4;
+    constexpr IdentifierType pointIdsEnd  = 4;
+    constexpr IdentifierType lineIdsEnd  = 6;
+    constexpr IdentifierType faceIdsEnd  = 4;
     IdentifierType       i;
 
     // Construct the cell.
@@ -407,9 +407,9 @@ AutomaticTopologyMeshSource< TOutputMesh >
     {
     // Create and add a new cell.
 
-    const IdentifierType pointIdsEnd = 8;
-    const IdentifierType lineIdsEnd = 12;
-    const IdentifierType faceIdsEnd = 6;
+    constexpr IdentifierType pointIdsEnd  = 8;
+    constexpr IdentifierType lineIdsEnd  = 12;
+    constexpr IdentifierType faceIdsEnd  = 6;
     IdentifierType       i;
 
     // Construct the cell.

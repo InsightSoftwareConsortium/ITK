@@ -35,7 +35,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     }
 
   // Define the dimension of the images
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using InputPixelType = float;
   using InputImageType = itk::Image<InputPixelType,Dimension>;
@@ -86,7 +86,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
 
   itk::SimpleFilterWatcher watcher(multiScaleEnhancementFilter);
 
-  const double tolerance = 0.01;
+  constexpr double tolerance = 0.01;
 
    if ( argc > 4 )
     {

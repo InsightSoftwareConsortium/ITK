@@ -547,7 +547,7 @@ int main( int, char *[] )
 
     //=========================
     const float f=-1.0f;
-    const double d=1.01;
+    constexpr double d = 1.01;
 
     // Test AlmostEquals()
     if ( itk::Math::AlmostEquals(f,d) == true || itk::Math::AlmostEquals(d,f) == true )
@@ -657,8 +657,8 @@ int main( int, char *[] )
 
     //Test comparison between complex and real number with the same value
     const std::complex< double > z3Double( 0.123, 0 );
-    const float r3Float = 0.123;
-    const double r3Double = 0.123;
+    constexpr float r3Float = 0.123;
+    constexpr double r3Double = 0.123;
 
     std::cout << "Testing COMPLEX vs REAL, DOUBLE vs DOUBLE, SAME values " << std::endl;
     if ( itk::Math::NotAlmostEquals( z3Double, r3Double) )

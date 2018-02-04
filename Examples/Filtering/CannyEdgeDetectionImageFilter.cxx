@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  const   unsigned int  Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using CharPixelType = unsigned char;  //  IO
   using RealPixelType = double;  //  Operations
 

@@ -36,7 +36,7 @@ int itkOrientedImage3DTest( int ac, char * av[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = unsigned char;
 
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -71,7 +71,7 @@ int itkOrientedImage3DTest( int ac, char * av[] )
   ImageType::RegionType region = image->GetLargestPossibleRegion();
   ImageType::SizeType   size   = region.GetSize();
 
-  const int numberOfPointsToTest = 4;
+  constexpr int numberOfPointsToTest = 4;
 
   ImageType::IndexType index[numberOfPointsToTest];
   ImageType::PointType physicalPoint;

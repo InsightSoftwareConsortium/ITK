@@ -195,7 +195,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTestRun(
 ////////////////////////////////////////////////////////////////////////////////
 int itkEuclideanDistancePointSetMetricRegistrationTest( int argc, char *argv[] )
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   int finalResult = EXIT_SUCCESS;
 

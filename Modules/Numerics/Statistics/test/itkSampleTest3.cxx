@@ -121,7 +121,7 @@ private:
 int itkSampleTest3(int, char* [] )
 {
 
-  const unsigned int MeasurementVectorSize = 17;
+  constexpr unsigned int MeasurementVectorSize = 17;
 
   using MeasurementVectorType = itk::VariableLengthVector< float >;
 

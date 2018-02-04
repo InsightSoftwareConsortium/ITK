@@ -25,7 +25,7 @@ int itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  constexpr unsigned int myDimension = 3;
 
   using RGBPixelType = itk::RGBPixel<float>;
 
@@ -43,7 +43,7 @@ int itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char* [] )
   // Declare the type of the Region
   using myRegionType = itk::ImageRegion<myDimension>;
 
-  const unsigned int numberOfComponents = 3;
+  constexpr unsigned int numberOfComponents = 3;
 
   // Create the image
   myImageType::Pointer inputImage  = myImageType::New();

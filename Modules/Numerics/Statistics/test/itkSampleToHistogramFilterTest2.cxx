@@ -23,7 +23,7 @@
 int itkSampleToHistogramFilterTest2( int , char * [] )
 {
 
-  const unsigned int numberOfComponents = 3;
+  constexpr unsigned int numberOfComponents = 3;
   using MeasurementType = float;
 
   using MeasurementVectorType = itk::Array< MeasurementType >;
@@ -132,7 +132,7 @@ int itkSampleToHistogramFilterTest2( int , char * [] )
   HistogramType::ConstIterator histogramItr = histogram->Begin();
   HistogramType::ConstIterator histogramEnd = histogram->End();
 
-  const unsigned int expectedFrequency1 = 1;
+  constexpr unsigned int expectedFrequency1 = 1;
   while( histogramItr != histogramEnd )
     {
     if( histogramItr.GetFrequency() != expectedFrequency1 )
@@ -180,7 +180,7 @@ int itkSampleToHistogramFilterTest2( int , char * [] )
   histogramItr = histogram->Begin();
   histogramEnd = histogram->End();
 
-  const unsigned int expectedFrequency2 = 5;
+  constexpr unsigned int expectedFrequency2 = 5;
   while( histogramItr != histogramEnd )
     {
     if( histogramItr.GetFrequency() != expectedFrequency2 )
@@ -228,7 +228,7 @@ int itkSampleToHistogramFilterTest2( int , char * [] )
   histogramItr = histogram->Begin();
   histogramEnd = histogram->End();
 
-  const unsigned int expectedFrequency3 = 15;
+  constexpr unsigned int expectedFrequency3 = 15;
   while( histogramItr != histogramEnd )
     {
     if( histogramItr.GetFrequency() != expectedFrequency3 )
@@ -276,7 +276,7 @@ int itkSampleToHistogramFilterTest2( int , char * [] )
   histogramItr = histogram->Begin();
   histogramEnd = histogram->End();
 
-  const unsigned int expectedFrequency4 = 105;
+  constexpr unsigned int expectedFrequency4 = 105;
   while( histogramItr != histogramEnd )
     {
     if( histogramItr.GetFrequency() != expectedFrequency4 )

@@ -29,9 +29,9 @@ int itkVectorImageToImageAdaptorTest( int, char* [] )
 {
 
   //image type type alias
-  const unsigned int Dimension    = 3;
-  const unsigned int VectorLength = 4;
-  const unsigned int componentToExtract = 3;
+  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int VectorLength = 4;
+  constexpr unsigned int componentToExtract = 3;
   using PixelType = float;
 
   using VectorImageType = itk::VectorImage< PixelType, Dimension >;

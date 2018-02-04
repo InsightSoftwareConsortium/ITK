@@ -351,7 +351,7 @@ int PerformDisplacementFieldImageRegistration( int itkNotUsed( argc ), char *arg
     {
     return EXIT_FAILURE;
     }
-  const unsigned int local_ConvergenceWindowSize = 10;
+  constexpr unsigned int local_ConvergenceWindowSize = 10;
   displacementFieldRegistration->SetConvergenceWindowSize( local_ConvergenceWindowSize );
   if ( displacementFieldRegistration->GetConvergenceWindowSize() != local_ConvergenceWindowSize )
     {

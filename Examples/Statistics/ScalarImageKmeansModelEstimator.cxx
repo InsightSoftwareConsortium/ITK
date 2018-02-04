@@ -56,7 +56,7 @@ int main( int argc, char * argv [] )
     }
 
   using PixelType = unsigned char;
-  const unsigned int          Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension >;
 
@@ -101,7 +101,7 @@ int main( int argc, char * argv [] )
 
   EstimatorType::Pointer estimator = EstimatorType::New();
 
-  const unsigned int numberOfClasses = 3;
+  constexpr unsigned int numberOfClasses = 3;
 
   EstimatorType::ParametersType initialMeans( numberOfClasses );
   initialMeans[0] = 25.0;

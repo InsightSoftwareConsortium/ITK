@@ -28,7 +28,7 @@
 #include "itkImageRandomNonRepeatingIteratorWithIndex.h"
 int itkImageRandomNonRepeatingIteratorWithIndexTest(int, char* [] )
 {
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using PixelType = itk::Index< ImageDimension >;
   using ImageType = itk::Image< PixelType, ImageDimension >;
   using PriorityPixelType = itk::SizeValueType;

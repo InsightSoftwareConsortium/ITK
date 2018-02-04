@@ -111,7 +111,7 @@ int itkRawImageIOTest4(int argc, char*argv[])
 {
 
   using PixelType = unsigned short;
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using ImageType = itk::Image<PixelType,ImageDimension>;
 

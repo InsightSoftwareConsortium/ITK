@@ -71,7 +71,7 @@ int itkImageToRGBVTKImageFilterTest( int argc, char* argv[] )
   (void) argv;
 
   using PixelType = unsigned char;
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using ImageType = itk::Image< PixelType, Dimension >;
 
   ImageType::Pointer image = ImageType::New();

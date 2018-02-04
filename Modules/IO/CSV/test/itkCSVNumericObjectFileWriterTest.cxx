@@ -29,8 +29,8 @@ int itkCSVNumericObjectFileWriterTest( int argc, char *argv[] )
     }
 
   double nan = std::numeric_limits<double>::quiet_NaN();
-  const unsigned int ARows = 3;
-  const unsigned int ACols = 6;
+  constexpr unsigned int ARows = 3;
+  constexpr unsigned int ACols = 6;
 
   using ArrayType = itk::Array2D<double>;
   ArrayType array(ARows,ACols);
@@ -119,8 +119,8 @@ int itkCSVNumericObjectFileWriterTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int VMRows = 3;
-  const unsigned int VMCols = 4;
+  constexpr unsigned int VMRows = 3;
+  constexpr unsigned int VMCols = 4;
 
   using vnlMatrixType = vnl_matrix<double>;
   vnlMatrixType vnlmatrix(VMRows,VMCols);
@@ -163,8 +163,8 @@ int itkCSVNumericObjectFileWriterTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int NRows = 3;
-  const unsigned int NCols = 3;
+  constexpr unsigned int NRows = 3;
+  constexpr unsigned int NCols = 3;
 
   using fixedMatrixType = itk::Matrix<double,NRows,NCols>;
   fixedMatrixType fixedmatrix;

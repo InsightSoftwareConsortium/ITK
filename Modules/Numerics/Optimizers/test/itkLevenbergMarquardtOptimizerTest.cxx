@@ -23,9 +23,9 @@ using MatrixType = vnl_matrix<double>;
 using VectorType = vnl_vector<double>;
 
 
-const double ra = 11.0;
-const double rb = 17.0;
-const double rc = 29.0;
+constexpr double ra = 11.0;
+constexpr double rb = 17.0;
+constexpr double rc = 29.0;
 
 /**
  *

@@ -114,7 +114,7 @@ int main( int,  char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int measurementVectorLength = 1;
+  constexpr unsigned int measurementVectorLength = 1;
   using MeasurementVectorType = itk::Vector< double, measurementVectorLength >;
   using SampleType = itk::Statistics::ListSample< MeasurementVectorType >;
   SampleType::Pointer sample = SampleType::New();

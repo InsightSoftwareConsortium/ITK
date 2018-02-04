@@ -32,7 +32,7 @@ int itkMatrixIndexSelectionImageFilterTest( int argc, char* argv[] )
     }
 
   // Define the dimension of the images
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   // Declare the pixel types of the images
   using PixelType = itk::Matrix< unsigned short, Dimension, Dimension >;

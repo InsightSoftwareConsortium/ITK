@@ -69,7 +69,7 @@ int main( int argc, char ** argv )
 
   // Software Guide : BeginCodeSnippet
   using ComponentType = float;
-  const   unsigned int          Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using InputPixelType = itk::CovariantVector< ComponentType,
                                     Dimension  >;

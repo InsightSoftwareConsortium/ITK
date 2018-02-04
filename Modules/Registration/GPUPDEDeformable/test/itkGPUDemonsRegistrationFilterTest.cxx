@@ -75,10 +75,10 @@ public:
   typename TRegistration::Pointer m_Process;
 };
 
-const unsigned int numberOfRepeatedTests = 1;
-const float        displacementFieldSmoothingSigma = 1.0;
-const float        updateFieldSmoothingSigma = 1.0;
-const float        maximumRMSError = 0.01;
+constexpr unsigned int numberOfRepeatedTests = 1;
+constexpr float displacementFieldSmoothingSigma = 1.0;
+constexpr float updateFieldSmoothingSigma = 1.0;
+constexpr float maximumRMSError = 0.01;
 const bool         smoothUpdateField = true;
 
 itk::TimeProbe m_GPUTime;

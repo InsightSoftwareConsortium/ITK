@@ -34,7 +34,7 @@ int itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
     exit(1);
     }
 
-  const int dim = 2;
+  constexpr int dim = 2;
 
   using PType = unsigned char;
   using IType = itk::Image< PType, dim >;

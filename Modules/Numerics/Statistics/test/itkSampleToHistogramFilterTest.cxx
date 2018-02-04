@@ -26,7 +26,7 @@
 int itkSampleToHistogramFilterTest( int , char * [] )
 {
 
-  const unsigned int numberOfComponents = 3;
+  constexpr unsigned int numberOfComponents = 3;
   using MeasurementType = float;
 
   using MeasurementVectorType = itk::Array< MeasurementType >;
@@ -252,8 +252,8 @@ int itkSampleToHistogramFilterTest( int , char * [] )
 
 
   // Testing the settings of the MarginalScale.
-  const HistogramMeasurementType marginalScale1 = 237;
-  const HistogramMeasurementType marginalScale2 = 179;
+  constexpr HistogramMeasurementType marginalScale1  = 237;
+  constexpr HistogramMeasurementType marginalScale2  = 179;
 
   filter->SetMarginalScale( marginalScale1 );
 

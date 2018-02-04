@@ -1153,7 +1153,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
   // Controls how often we check for balance of the load among the threads and
   // perform
   // load balancing (if needed) by redistributing the load.
-  const unsigned int LOAD_BALANCE_ITERATION_FREQUENCY = 30;
+  constexpr unsigned int LOAD_BALANCE_ITERATION_FREQUENCY = 30;
 
   unsigned int i;
   ThreadIdType ThreadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
@@ -2244,7 +2244,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 
   // This parameter defines a degree of unbalancedness of the load among
   // threads.
-  const float MAX_PIXEL_DIFFERENCE_PERCENT = 0.025;
+  constexpr float MAX_PIXEL_DIFFERENCE_PERCENT = 0.025;
 
   m_BoundaryChanged = false;
 

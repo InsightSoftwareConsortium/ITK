@@ -35,7 +35,7 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
 
   using InternalPixelType = unsigned short;
   using MaskPixelType = bool;
-  const     unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using InternalImageType = itk::Image< InternalPixelType, Dimension >;
   using MaskImageType = itk::Image< MaskPixelType, Dimension >;

@@ -145,7 +145,7 @@ private:
 
 int itkGradientDescentOptimizerBasev4Test(int , char* [])
 {
-  const int ImageDimension = 2;
+  constexpr int ImageDimension = 2;
   using ImageType = itk::Image<double, ImageDimension>;
 
   using MetricType = GradientDescentOptimizerBasev4TestMetric<ImageType,ImageType>;

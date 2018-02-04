@@ -32,7 +32,7 @@ int itkDenseFrequencyContainer2Test(int, char* [] )
 
   using AbsoluteFrequencyType = DenseFrequencyContainer2Type::AbsoluteFrequencyType;
 
-  const unsigned int numberOfBins = 1250;
+  constexpr unsigned int numberOfBins = 1250;
 
   container->Initialize( numberOfBins );
 

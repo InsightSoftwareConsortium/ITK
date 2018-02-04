@@ -41,7 +41,7 @@ namespace TypedefsAndConstructors
 namespace Dimension2
 {
 
-const unsigned int Dimension = 2;
+constexpr unsigned int Dimension = 2;
 
 using ImageBaseType = itk::ImageBase< Dimension>;
 
@@ -93,7 +93,7 @@ inline static SizeType MakeSize(SizeType::SizeValueType s1,
 namespace Dimension3
 {
 
-const unsigned int Dimension = 3;
+constexpr unsigned int Dimension = 3;
 
 using ImageBaseType = itk::ImageBase< Dimension>;
 

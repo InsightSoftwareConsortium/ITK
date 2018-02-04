@@ -181,7 +181,7 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
   const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance
   const double X_Tolerance      = 1e-8;  // Search space tolerance
   const double Epsilon_Function = 1e-10; // Step
-  const int    Max_Iterations   =   100; // Maximum number of iterations
+  constexpr int Max_Iterations = 100; // Maximum number of iterations
 
   vnlOptimizer->set_f_tolerance( F_Tolerance );
   vnlOptimizer->set_g_tolerance( G_Tolerance );

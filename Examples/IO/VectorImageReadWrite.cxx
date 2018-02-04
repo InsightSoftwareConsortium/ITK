@@ -59,7 +59,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int VectorDimension = 3;
+  constexpr unsigned int VectorDimension = 3;
 
   using PixelType = itk::Vector< float, VectorDimension >;
   // Software Guide : EndCodeSnippet
@@ -73,7 +73,7 @@ int main( int argc, char * argv [] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using ImageType = itk::Image< PixelType, ImageDimension >;
   // Software Guide : EndCodeSnippet

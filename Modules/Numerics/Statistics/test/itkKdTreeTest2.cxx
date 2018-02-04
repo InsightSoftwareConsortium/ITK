@@ -34,7 +34,7 @@ int itkKdTreeTest2( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using MeasurementValueType = float;
 
   using MeasurementVectorType = itk::Vector< MeasurementValueType, Dimension >;

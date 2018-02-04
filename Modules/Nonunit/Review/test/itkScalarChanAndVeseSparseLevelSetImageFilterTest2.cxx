@@ -41,7 +41,7 @@ int itkScalarChanAndVeseSparseLevelSetImageFilterTest2( int argc, char * argv []
   double l1 = 1.;
   double l2 = 3.;
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using ScalarPixelType = float;
 
   using LevelSetImageType = itk::Image< ScalarPixelType, Dimension >;

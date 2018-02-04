@@ -469,7 +469,7 @@ int itkSimilarity3DTransformTest(int, char * [] )
 
     transform->SetTranslation( translation );
 
-    const double scale = 2.5;
+    constexpr double scale = 2.5;
 
     transform->SetScale( scale );
 

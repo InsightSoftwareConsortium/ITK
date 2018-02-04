@@ -101,7 +101,7 @@ int main( int argc, char *argv[] )
   // be instantiated. First, we select the image dimension and the type for
   // representing image pixels.
   //
-  const    unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = float;
 
 

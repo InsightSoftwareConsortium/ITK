@@ -47,7 +47,7 @@ static int ReadWriteTest(const char * const fileName, const bool isRealDisplacem
   using FieldType = typename DisplacementTransformType::DisplacementFieldType;
   typename FieldType::Pointer knownField = FieldType::New(); //This is based on itk::Image
     {
-    const int dimLength = 20;
+    constexpr int dimLength = 20;
     typename FieldType::SizeType size;
     size.Fill( dimLength );
     typename FieldType::IndexType start;

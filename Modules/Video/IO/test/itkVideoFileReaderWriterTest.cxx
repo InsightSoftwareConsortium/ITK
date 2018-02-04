@@ -33,7 +33,7 @@ int itkVideoFileReaderWriterTest( int argc, char *argv[] )
 
   // Instantiate a new reader
   using PixelType = itk::RGBPixel<unsigned char>;
-  const unsigned int NumberOfDimensions =             2;
+  constexpr unsigned int NumberOfDimensions = 2;
   using FrameType = itk::Image< PixelType, NumberOfDimensions >;
   using VideoType = itk::VideoStream< FrameType >;
   using VideoReaderType = itk::VideoFileReader< VideoType >;

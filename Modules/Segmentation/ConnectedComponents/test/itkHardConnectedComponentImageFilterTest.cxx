@@ -30,10 +30,10 @@ int DoIt( int argc, char* argv[], const std::string pixelType )
     }
   const char * outputImageFileName = argv[1];
 
-  const int height = 20;
-  const int width = 20;
+  constexpr int height = 20;
+  constexpr int width = 20;
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using PixelType = TPixel;
   using InputImageType = itk::Image< bool, Dimension >;

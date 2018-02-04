@@ -22,7 +22,7 @@
 int itkWhitakerSparseLevelSetImageTest( int , char* [] )
 {
   using OutputType = double;
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using SparseLevelSetType =
       itk::WhitakerSparseLevelSetImage< OutputType, Dimension >;
 

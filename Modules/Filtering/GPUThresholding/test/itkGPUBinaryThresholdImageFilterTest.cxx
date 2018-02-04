@@ -61,10 +61,10 @@ int runGPUBinaryThresholdImageFilterTest(const std::string& inFile, const std::s
   using GPUThresholdFilterType = itk::GPUBinaryThresholdImageFilter< InputImageType, OutputImageType >;
 
   // threshold parameters
-  const InputPixelType upperThreshold = 255;
-  const InputPixelType lowerThreshold = 175;
-  const OutputPixelType outsideValue = 0;
-  const OutputPixelType insideValue  = 255;
+  constexpr InputPixelType upperThreshold  = 255;
+  constexpr InputPixelType lowerThreshold  = 175;
+  constexpr OutputPixelType outsideValue  = 0;
+  constexpr OutputPixelType insideValue   = 255;
 
   for(int nThreads = 1; nThreads <= 8; nThreads++)
   {

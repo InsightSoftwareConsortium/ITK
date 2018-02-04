@@ -46,7 +46,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
 
 
   // type alias
-  const unsigned int Dimensions = 3;
+  constexpr unsigned int Dimensions = 3;
   using SpatialObjectType = itk::ArrowSpatialObject<Dimensions>;
   using SpatialObjectParentType = itk::GroupSpatialObject<Dimensions>;
   using ConverterType = itk::MetaArrowConverter<Dimensions>;

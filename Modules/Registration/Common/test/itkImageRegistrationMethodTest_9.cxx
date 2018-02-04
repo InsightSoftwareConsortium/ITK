@@ -36,7 +36,7 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
 
   bool pass = true;
 
-  const unsigned int dimension = 2;
+  constexpr unsigned int dimension = 2;
 
   // Fixed Image Type
   using FixedImageType = itk::Image<float,dimension>;
@@ -161,7 +161,7 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
   const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance
   const double X_Tolerance      = 1e-8;  // Search space tolerance
   const double Epsilon_Function = 1e-10; // Step
-  const int    Max_Iterations   =   100; // Maximum number of iterations
+  constexpr int Max_Iterations = 100; // Maximum number of iterations
 
   vnlOptimizer->set_f_tolerance( F_Tolerance );
   vnlOptimizer->set_g_tolerance( G_Tolerance );
@@ -189,7 +189,7 @@ int itkImageRegistrationMethodTest_9(int argc, char* argv[] )
   const unsigned int numbeOfParameters = actualParameters.Size();
 
 
-  const double tolerance = 1.0;  // equivalent to 1 pixel.
+  constexpr double tolerance = 1.0;  // equivalent to 1 pixel.
 
   for(unsigned int i=0; i<numbeOfParameters; i++)
     {

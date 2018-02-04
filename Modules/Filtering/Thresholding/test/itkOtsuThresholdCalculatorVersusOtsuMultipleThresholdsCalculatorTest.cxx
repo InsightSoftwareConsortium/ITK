@@ -41,7 +41,7 @@ int itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int arg
   std::string inputImageName = argv[1];
   int numberOfThresholds = 1;
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using InputImageType = itk::Image<unsigned short, ImageDimension>;
   using ReaderType = itk::ImageFileReader< InputImageType >;
 

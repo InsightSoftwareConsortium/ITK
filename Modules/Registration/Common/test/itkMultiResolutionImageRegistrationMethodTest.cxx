@@ -38,7 +38,7 @@ int itkMultiResolutionImageRegistrationMethodTest(int, char* [] )
 
   bool pass;
 
-  const unsigned int dimension = 3;
+  constexpr unsigned int dimension = 3;
 
   // Fixed Image Type
   using FixedImageType = itk::Image<float,dimension>;

@@ -26,7 +26,7 @@
 
 int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
 {
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = double;
   using ImageType = itk::Image<PixelType,Dimension>;
   using IndexType = itk::Index<Dimension>;
@@ -65,7 +65,7 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
 
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
 
-  const unsigned int numberOfScales = 4;
+  constexpr unsigned int numberOfScales = 4;
   double scales[numberOfScales];
   scales[0] = 1.0;
   scales[1] = 2.0;

@@ -126,7 +126,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const    unsigned int    ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = unsigned char;
 
   using FixedImageType = itk::Image< PixelType, ImageDimension >;
@@ -145,7 +145,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   const unsigned int SpaceDimension = ImageDimension;
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 
   using TransformType = itk::BSplineTransform<

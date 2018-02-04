@@ -378,7 +378,7 @@ VTKTetrahedralMeshReader<TOutputMesh>
           }
 
 
-        const int tetrahedralCellTypeID = 10;
+        constexpr int tetrahedralCellTypeID = 10;
 
         if( cellTypeID != tetrahedralCellTypeID )
           {

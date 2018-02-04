@@ -20,12 +20,12 @@
 namespace itk
 {
 
-/* Explicit definitions for static inline initialized integer members.
- *
- * MSVC gives duplicate symbol definition errors if the explicit
- * definitions are defined. Other compilers (GCC) seem not to care, while
- * still others (Clang) require it.
- */
+/* Add defintion for static constexpr members
+
+Reason: You have to provide the definition of the static member as well as the
+declaration. The declaration and the initializer go inside the class,
+but the member definition has to be in a single separate compilation unit.
+*/
 constexpr bool NumericTraits< bool >:: Zero;
 constexpr bool NumericTraits< bool >:: One;
 

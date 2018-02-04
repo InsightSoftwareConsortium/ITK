@@ -35,7 +35,7 @@ int itkFFTShiftImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const int dim = 3;
+  constexpr int dim = 3;
 
   using PType = itk::RGBPixel< unsigned char >;
   using IType = itk::Image< PType, dim >;

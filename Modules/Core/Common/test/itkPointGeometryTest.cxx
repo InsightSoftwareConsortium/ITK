@@ -35,7 +35,7 @@ int itkPointGeometryTest(int, char* [] )
 {
 
 // Dimension & Type
-  const     unsigned int    N = 3;
+  constexpr unsigned int N = 3;
   using ValueType = double;
 
 //  Vector & Point Classes
@@ -235,10 +235,10 @@ int itkPointGeometryTest(int, char* [] )
   {
     const double tolerance = 1e-10;
     PointType combination;
-    const unsigned int NP = 3;
+    constexpr unsigned int NP = 3;
     PointType A[NP];
     double     w[NP-1];
-    const double K = 12.0;
+    constexpr double K = 12.0;
     PointType::ValueType aInit0[3] = {   K,  0.0, 0.0};
     PointType::ValueType aInit1[3] = { 0.0,    K, 0.0};
     PointType::ValueType aInit2[3] = { 0.0,  0.0,   K};
@@ -265,11 +265,11 @@ int itkPointGeometryTest(int, char* [] )
   {
     const double tolerance = 1e-10;
     PointType combination;
-    const unsigned int NP = 3;
+    constexpr unsigned int NP = 3;
     using VectorOfPoints = itk::VectorContainer<unsigned long,PointType>;
     VectorOfPoints::Pointer points = VectorOfPoints::New();
     points->Reserve(NP);
-    const double K = 12.0;
+    constexpr double K = 12.0;
 
     VectorOfPoints::Iterator point = points->Begin();
     PointType::ValueType vInit0[3] = {   K,  0.0, 0.0};

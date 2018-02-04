@@ -34,7 +34,7 @@ int itkFlipImageFilterTest( int argc, char* argv[] )
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  const unsigned int ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using PixelType = unsigned char;
   using ImageType = itk::Image< PixelType, ImageDimension >;
   using FlipperType = itk::FlipImageFilter< ImageType >;

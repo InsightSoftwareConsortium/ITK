@@ -44,7 +44,7 @@ int main( int argc, char * argv[] )
 
 
   using PixelType = unsigned char;
-  const   unsigned int       Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image< PixelType, Dimension >;
   using PointSetType = itk::PointSet< PixelType, Dimension >;

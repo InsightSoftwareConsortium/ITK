@@ -66,7 +66,7 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   using MeasurementType = int;
-  const unsigned int MeasurementVectorLength = 2;
+  constexpr unsigned int MeasurementVectorLength = 2;
   using MeasurementVectorType =
       itk::Vector< MeasurementType , MeasurementVectorLength >;
 
@@ -97,7 +97,7 @@ int main()
 
   // Software Guide : BeginCodeSnippet
   using HistogramMeasurementType = float;
-  const unsigned int numberOfComponents = 2;
+  constexpr unsigned int numberOfComponents = 2;
   using HistogramType = itk::Statistics::Histogram<HistogramMeasurementType>;
 
   HistogramType::SizeType size( numberOfComponents );

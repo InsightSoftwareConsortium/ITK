@@ -77,7 +77,7 @@ int itkFlatStructuringElementTest2(int argc, char * argv[])
     std::cerr << "Images must be odd in size in all dimensions" << std::endl;
     return EXIT_FAILURE;
     }
-  const static unsigned int Dimension = 2;
+  constexpr static unsigned int Dimension  = 2;
   /**********************************************************/
   /*******Read test image as unsigned char********/
   /**********************************************************/

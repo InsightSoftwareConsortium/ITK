@@ -71,7 +71,7 @@ RobustSolver<VDimension>
 {
   this->SetLinearSystemWrapper(&m_Itpack);
 
-  const FEMIndexType maximumNonZeroMatrixEntriesFactor = 100;
+  constexpr FEMIndexType maximumNonZeroMatrixEntriesFactor  = 100;
 
   const FEMIndexType maxNumberOfNonZeroValues = this->m_NGFN * maximumNonZeroMatrixEntriesFactor;
 

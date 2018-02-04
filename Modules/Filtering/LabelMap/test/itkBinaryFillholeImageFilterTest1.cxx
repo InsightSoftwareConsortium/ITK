@@ -32,7 +32,7 @@ int itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
     exit(1);
     }
 
-  const int dim = 2;
+  constexpr int dim = 2;
 
   using IType = itk::Image< unsigned char, dim >;
 

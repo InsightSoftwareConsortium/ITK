@@ -20,7 +20,7 @@
 
 int itkMahalanobisDistanceMetricTest(int, char* [] )
 {
-  const unsigned int MeasurementVectorSize = 3;
+  constexpr unsigned int MeasurementVectorSize = 3;
 
   using MeasurementVectorType = itk::Array< float  >;
 
@@ -49,7 +49,7 @@ int itkMahalanobisDistanceMetricTest(int, char* [] )
   distance->SetMean( origin );
 
   //double value comparison tolerance
-  const double tolerance = 0.001;
+  constexpr double tolerance = 0.001;
   if( std::fabs(distance->GetMean()[0] - origin[0]) > tolerance ||
       std::fabs(distance->GetMean()[1] - origin[1]) > tolerance ||
       std::fabs(distance->GetMean()[2] - origin[2]) > tolerance )

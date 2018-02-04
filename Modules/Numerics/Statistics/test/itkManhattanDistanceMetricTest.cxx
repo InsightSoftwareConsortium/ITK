@@ -20,7 +20,7 @@
 
 int itkManhattanDistanceMetricTest(int, char* [] )
 {
-  const unsigned int MeasurementVectorSize = 3;
+  constexpr unsigned int MeasurementVectorSize = 3;
 
   using MeasurementVectorType = itk::Array< float  >;
 
@@ -77,7 +77,7 @@ int itkManhattanDistanceMetricTest(int, char* [] )
 
   double trueValue = 5.0;
   double distanceComputed = distance->Evaluate( measurement );
-  const double tolerance = 0.001;
+  constexpr double tolerance = 0.001;
 
   if( std::fabs( distanceComputed - trueValue) > tolerance )
     {

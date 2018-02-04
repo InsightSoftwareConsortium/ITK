@@ -44,7 +44,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
 // Create two simple images
 //------------------------------------------------------------
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using PixelType = double;
 
@@ -270,7 +270,7 @@ int itkMeanSquaresImageMetricTest(int, char* [] )
   // used to verify the correctness of the metric under a particular
   // usage scenario.
   metric->SetNumberOfThreads(8);
-  const int numThreads = 2;
+  constexpr int numThreads = 2;
   itk::MultiThreader::SetGlobalMaximumNumberOfThreads(numThreads);
   metric->Initialize();
 

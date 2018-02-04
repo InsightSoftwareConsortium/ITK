@@ -90,7 +90,7 @@ int itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char *a
     }
   std::cout << " iterations "<< numberOfIterations << " learningRate "<<learningRate << std::endl;
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PixelType = double; //I assume png is unsigned short
 
   using FixedImageType = itk::Image< PixelType, Dimension >;

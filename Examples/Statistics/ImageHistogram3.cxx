@@ -72,7 +72,7 @@ int main( int argc, char * argv [] )
 
   using RGBPixelType = itk::RGBPixel< PixelComponentType >;
 
-  const unsigned int                            Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using RGBImageType = itk::Image< RGBPixelType, Dimension >;
   // Software Guide : EndCodeSnippet

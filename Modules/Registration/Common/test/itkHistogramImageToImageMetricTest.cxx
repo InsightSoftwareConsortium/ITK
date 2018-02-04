@@ -25,7 +25,7 @@
 int itkHistogramImageToImageMetricTest(int , char*[] )
 {
   // Create two simple images.
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = double;
   using CoordinateRepresentationType = double;
 
@@ -125,7 +125,7 @@ int itkHistogramImageToImageMetricTest(int , char*[] )
     scales[k] = 1;
     }
 
-  const double STEP_LENGTH = 0.001;
+  constexpr double STEP_LENGTH = 0.001;
   metric->SetDerivativeStepLength(STEP_LENGTH);
   metric->SetDerivativeStepLengthScales(scales);
 

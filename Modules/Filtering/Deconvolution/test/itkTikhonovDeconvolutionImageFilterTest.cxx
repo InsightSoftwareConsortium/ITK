@@ -33,7 +33,7 @@ int itkTikhonovDeconvolutionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  const int ImageDimension = 2;
+  constexpr int ImageDimension = 2;
 
   using PixelType = float;
   using ImageType = itk::Image<PixelType, ImageDimension>;

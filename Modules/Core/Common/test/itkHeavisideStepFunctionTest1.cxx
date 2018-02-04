@@ -31,9 +31,9 @@ int itkHeavisideStepFunctionTest1( int, char* [] )
   functionBase0->Print( std::cout );
 
   const signed int minValue = -20;
-  const signed int maxValue =  20;
+  constexpr signed int maxValue  = 20;
 
-  const InputType incValue = 0.1;
+  constexpr InputType incValue  = 0.1;
 
   for( signed int x = minValue; x < maxValue; x++ )
     {

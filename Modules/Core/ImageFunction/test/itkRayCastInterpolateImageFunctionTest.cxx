@@ -33,7 +33,7 @@ itkRayCastInterpolateImageFunctionTest(
     std::cout << "Testing RayCastInterpolateImageFunction:\n";
 
     using PixelType = unsigned char;
-    const unsigned int ImageDimension = 3;
+    constexpr unsigned int ImageDimension = 3;
 
     using ImageType = itk::Image< PixelType, ImageDimension >;
 

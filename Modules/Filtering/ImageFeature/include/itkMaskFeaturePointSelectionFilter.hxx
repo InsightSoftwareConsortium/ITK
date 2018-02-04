@@ -313,7 +313,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
       points->InsertElement( numberOfPointsInserted, point );
 
       // mark off connected points
-      const MapPixelType ineligeblePointCode = 0;
+      constexpr MapPixelType ineligeblePointCode  = 0;
       for ( size_t j = 0, n = m_NonConnectivityOffsets.size(); j < n; j++ )
         {
         IndexType idx = rit->second;

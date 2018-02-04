@@ -40,7 +40,7 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using PixelType = unsigned int;
   using RGBPixelType = itk::RGBPixel<unsigned char>;

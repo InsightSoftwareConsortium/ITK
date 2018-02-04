@@ -789,7 +789,7 @@ void
 ImageMetricLoad<TMoving, TFixed>
 ::ApplyLoad(Element::ConstPointer element, Element::VectorType & _Fe)
 {
-  const unsigned int TotalSolutionIndex = 1; /* Need to change if the index
+  constexpr unsigned int TotalSolutionIndex = 1; /* Need to change if the index
                                               * changes in CrankNicolsonSolver
                                               */
 

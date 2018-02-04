@@ -31,7 +31,7 @@ int itkMorphologicalGradientImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const int dim = 2;
+  constexpr int dim = 2;
 
   using PType = unsigned char;
   using IType = itk::Image< PType, dim >;

@@ -36,21 +36,21 @@ namespace VoronoiSegRGBTest
 //
 // global constants
 //
-const unsigned int width = 256;
-const unsigned int height = 256;
-const unsigned char bgMean = 64;
-const unsigned char bgStd = 10;
-const unsigned char fgMean = 128;
-const unsigned char fgStd = 5;
-const unsigned int objAStartX = 30;
-const unsigned int objAEndX = 94;
-const unsigned int objAStartY = 30;
-const unsigned int objAEndY = 94;
-const unsigned int objBStartX = 150;
-const unsigned int objBEndX = 214;
-const unsigned int objBStartY = 150;
-const unsigned int objBEndY = 214;
-const double minCorrectRate = .875;  // .875 is all classified as background
+constexpr unsigned int width = 256;
+constexpr unsigned int height = 256;
+constexpr unsigned char bgMean = 64;
+constexpr unsigned char bgStd = 10;
+constexpr unsigned char fgMean = 128;
+constexpr unsigned char fgStd = 5;
+constexpr unsigned int objAStartX = 30;
+constexpr unsigned int objAEndX = 94;
+constexpr unsigned int objAStartY = 30;
+constexpr unsigned int objAEndY = 94;
+constexpr unsigned int objBStartX = 150;
+constexpr unsigned int objBEndX = 214;
+constexpr unsigned int objBStartY = 150;
+constexpr unsigned int objBEndY = 214;
+constexpr double minCorrectRate = .875;  // .875 is all classified as background
 
 
 //

@@ -34,7 +34,7 @@
 int itkSphereSignedDistanceFunctionTest( int, char *[])
 {
   using CoordRep = double;
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using FunctionType =
       itk::ShapeSignedDistanceFunction<CoordRep,Dimension>;

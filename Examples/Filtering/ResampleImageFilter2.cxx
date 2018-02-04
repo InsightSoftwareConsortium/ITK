@@ -74,7 +74,7 @@ int main( int argc, char * argv[] )
     exampleAction = atoi( argv[3] );
     }
 
-  const     unsigned int   Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;
 

@@ -25,8 +25,8 @@ int itkBSplineControlPointImageFunctionTest( int, char * [] )
   // + 1/6.  This is done using a cubic order spline with controls points
   // (1, 0, 0, 1)
 
-  const unsigned int ParametricDimension = 1;
-  const unsigned int DataDimension = 1;
+  constexpr unsigned int ParametricDimension = 1;
+  constexpr unsigned int DataDimension = 1;
 
   using RealType = float;
   using VectorType = itk::Vector<RealType, DataDimension>;

@@ -25,8 +25,8 @@ int itkTestingExtractSliceImageFilterTest(int, char* [] )
 {
 
   using PixelType = unsigned char;
-  const unsigned int    InputDimension = 3;
-  const unsigned int    OutputDimension = 2;
+  constexpr unsigned int InputDimension = 3;
+  constexpr unsigned int OutputDimension = 2;
 
   using InputImageType = itk::Image< PixelType, InputDimension >;
   using OutputImageType = itk::Image< PixelType, OutputDimension >;

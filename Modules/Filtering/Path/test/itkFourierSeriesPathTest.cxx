@@ -22,7 +22,7 @@
 
 int itkFourierSeriesPathTest( int, char*[] )
 {
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
   using PathType = itk::FourierSeriesPath< Dimension >;
   using InputType = PathType::InputType;
   using OffsetType = PathType::OffsetType;

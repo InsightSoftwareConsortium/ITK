@@ -99,8 +99,8 @@ template< typename TInputImage, typename TOutputImage >
 void FastChamferDistanceImageFilter< TInputImage, TOutputImage >
 ::GenerateDataND()
 {
-  const int SIGN_MASK = 1;
-  const int INNER_MASK = 2;
+  constexpr int SIGN_MASK = 1;
+  constexpr int INNER_MASK = 2;
 
   typename NeighborhoodIterator< TInputImage >::RadiusType r;
   bool in_bounds;

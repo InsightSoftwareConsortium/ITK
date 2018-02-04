@@ -42,7 +42,7 @@ bool testVector( const TVector & v1, const TVector & v2 )
 
 int itkDisplacementFieldTransformCloneTest( int, char *[] )
 {
-  const unsigned int Dimensions = 3;
+  constexpr unsigned int Dimensions = 3;
 
   using ParametersValueType = double;
   using DisplacementTransformType =

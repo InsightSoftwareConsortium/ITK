@@ -28,13 +28,13 @@
 
 int itkImageRandomNonRepeatingIteratorWithIndexTest2(int, char* [])
 {
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = itk::Index< ImageDimension >;
   using ImageType = itk::Image< PixelType, ImageDimension >;
 
   using RandomConstIteratorType = itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType>;
-  const unsigned long N = 10;
-  const int Seed = 42;
+  constexpr unsigned long N  = 10;
+  constexpr int Seed = 42;
   ImageType::SizeType size;
   size.Fill(N);
   ImageType::IndexType start;

@@ -78,7 +78,7 @@ static itk::Image< unsigned short, 3 >::IndexType GetIndexFromMouseClick()
 
 int main(int, char *[])
 {
-  const unsigned int Dimension=3;
+  constexpr unsigned int Dimension = 3;
   using ImageType = itk::Image< unsigned short, Dimension >;
   ImageType::Pointer image = ImageType::New();
 

@@ -187,7 +187,7 @@ int ObjectToObjectMultiMetricv4RegistrationTestRun( typename TMetric::Pointer & 
 //////////////////////////////////////////////////////////////
 int itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char *argv[])
 {
-  const int Dimension = 2;
+  constexpr int Dimension = 2;
   using ImageType = itk::Image< double, Dimension >;
 
   int numberOfIterations = 30;

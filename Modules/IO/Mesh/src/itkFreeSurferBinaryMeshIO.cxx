@@ -107,7 +107,7 @@ FreeSurferBinaryMeshIO
   OpenFile();
 
   // Define required variables
-  const unsigned int fileTypeIdLength = 3;
+  constexpr unsigned int fileTypeIdLength = 3;
   unsigned char      fileTypeId[fileTypeIdLength];
   this->m_FileType = BINARY;
 
@@ -127,7 +127,7 @@ FreeSurferBinaryMeshIO
   // If input file is freesurfer binary surface file
   if ( m_FileTypeIdentifier == ( -2 & 0x00ffffff ) )
     {
-    const unsigned int numberOfCellPoints = 3;
+    constexpr unsigned int numberOfCellPoints = 3;
     // Read input commend
     int byte;
 
@@ -254,7 +254,7 @@ void
 FreeSurferBinaryMeshIO
 ::ReadCells(void *buffer)
 {
-  const unsigned int numberOfCellPoints = 3;
+  constexpr unsigned int numberOfCellPoints = 3;
   itk::uint32_t *    data = new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints];
 
   m_InputFile.read( reinterpret_cast< char * >( data ), this->m_NumberOfCells * numberOfCellPoints * sizeof( itk::uint32_t ) );

@@ -48,7 +48,7 @@ protected:
 
 int itkLevelSetDomainPartitionBaseTest( int, char* [] )
 {
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using ImageType = itk::Image< double, Dimension >;
 

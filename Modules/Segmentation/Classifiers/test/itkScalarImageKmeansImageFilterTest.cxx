@@ -33,7 +33,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
     }
 
   using PixelType = unsigned char;
-  const unsigned int          Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension >;
 
@@ -65,7 +65,7 @@ int itkScalarImageKmeansImageFilterTest(int argc, char* argv [] )
 
   const unsigned int numberOfInitialClasses = atoi( argv[4] );
 
-  const unsigned int numberOfArgumentsBeforeMeans = 5;
+  constexpr unsigned int numberOfArgumentsBeforeMeans = 5;
   if( static_cast<unsigned int>(argc) < numberOfInitialClasses + numberOfArgumentsBeforeMeans )
     {
     std::cerr << "Error: " << std::endl;

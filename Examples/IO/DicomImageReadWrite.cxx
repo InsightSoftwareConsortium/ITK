@@ -63,7 +63,7 @@ int main( int argc, char* argv[] )
 
 // Software Guide : BeginCodeSnippet
   using InputPixelType = signed short;
-  const unsigned int   InputDimension = 2;
+  constexpr unsigned int InputDimension = 2;
 
   using InputImageType = itk::Image< InputPixelType, InputDimension >;
 // Software Guide : EndCodeSnippet

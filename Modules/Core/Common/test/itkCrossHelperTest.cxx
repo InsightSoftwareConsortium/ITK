@@ -26,9 +26,9 @@ int itkCrossHelperTest( int argc, char* argv[] )
   (void) argc;
   (void) argv;
 
-  const unsigned int Dimension2D = 2;
-  const unsigned int Dimension3D = 3;
-  const unsigned int Dimension4D = 4;
+  constexpr unsigned int Dimension2D = 2;
+  constexpr unsigned int Dimension3D = 3;
+  constexpr unsigned int Dimension4D = 4;
 
   using CoordRepType = double;
 

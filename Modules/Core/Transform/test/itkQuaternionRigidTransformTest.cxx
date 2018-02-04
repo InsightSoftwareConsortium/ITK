@@ -27,7 +27,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
   using TransformType = itk::QuaternionRigidTransform<CoordinateType>;
 
   const double       epsilon = 1e-10;
-  const unsigned int N = 3;
+  constexpr unsigned int N = 3;
 
   bool Ok = true;
 
@@ -434,7 +434,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     TransformType::JacobianType approxJacobian = jacobian;
     for( unsigned int k = 0; k < quaternionRigid->GetNumberOfParameters(); k++ )
       {
-      const double                  delta = 0.001;
+      constexpr double delta = 0.001;
       TransformType::ParametersType plusParameters;
       TransformType::ParametersType minusParameters;
 

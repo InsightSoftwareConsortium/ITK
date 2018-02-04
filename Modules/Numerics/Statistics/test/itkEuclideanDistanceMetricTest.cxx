@@ -20,7 +20,7 @@
 
 int itkEuclideanDistanceMetricTest(int, char* [] )
 {
-  const unsigned int MeasurementVectorSize = 3;
+  constexpr unsigned int MeasurementVectorSize = 3;
 
   using MeasurementVectorType = itk::Array< float  >;
 
@@ -76,7 +76,7 @@ int itkEuclideanDistanceMetricTest(int, char* [] )
 
   double trueValue = 3.31662;
   double distanceComputed = distance->Evaluate( measurement );
-  const double tolerance = 0.001;
+  constexpr double tolerance = 0.001;
 
   if( std::fabs( distanceComputed - trueValue) > tolerance )
     {

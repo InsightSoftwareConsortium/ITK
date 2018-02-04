@@ -38,7 +38,7 @@
 
 int itkPointSetToImageRegistrationTest( int, char* [] )
 {
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
 
   using PixelType = double;
 
@@ -70,7 +70,7 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
   using FixedPointSetType = itk::PointSet< float, ImageDimension >;
   FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
 
-  const unsigned int numberOfPoints = 10000;
+  constexpr unsigned int numberOfPoints = 10000;
 
   fixedPointSet->SetPointData( FixedPointSetType::PointDataContainer::New() );
 

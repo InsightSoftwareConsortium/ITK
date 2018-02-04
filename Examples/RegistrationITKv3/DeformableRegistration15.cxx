@@ -123,7 +123,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const    unsigned int    ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using PixelType = signed short;
 
   using FixedImageType = itk::Image< PixelType, ImageDimension >;
@@ -132,7 +132,7 @@ int main( int argc, char *argv[] )
 
   const unsigned int SpaceDimension = ImageDimension;
 
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 
   using RigidTransformType = itk::VersorRigid3DTransform< double >;

@@ -56,7 +56,7 @@ public:
 int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
 {
   // Typedefs of components
-  const unsigned int    ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = unsigned char;
   using InternalPixelType = float;
 

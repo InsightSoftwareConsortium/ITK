@@ -24,11 +24,11 @@ int itkRecursiveGaussianImageFiltersOnVectorImageTest(int, char* [] )
   // and (1,6) set to 'vector1'. We will filter it using
   // RecursiveGaussianImageFilter and compare a few filtered pixels.
   //
-  const unsigned int Dimension = 2;
-  const double       sigma     = 1;
-  const double       tolerance = 0.001;
+  constexpr unsigned int Dimension = 2;
+  constexpr double sigma = 1;
+  constexpr double tolerance = 0.001;
 
-  const unsigned int NumberOfComponents = 4;
+  constexpr unsigned int NumberOfComponents = 4;
   using PixelComponentType = double;
   using ImageType = itk::VectorImage< PixelComponentType, Dimension >;
   using PixelType = ImageType::PixelType;

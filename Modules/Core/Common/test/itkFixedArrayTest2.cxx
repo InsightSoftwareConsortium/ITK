@@ -28,7 +28,7 @@ int itkFixedArrayTest2(int, char* [] )
   const unsigned int nelements = 10000000L;
 
   // Define the number of runs used for timing
-  const unsigned int nrun = 10;
+  constexpr unsigned int nrun = 10;
 
   // Declare a simple timer
   clock_t t;

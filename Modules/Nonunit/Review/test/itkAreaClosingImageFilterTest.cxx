@@ -33,7 +33,7 @@ int itkAreaClosingImageFilterTest(int argc, char * argv[])
     return EXIT_SUCCESS;
     }
 
-  const int dim = 3;
+  constexpr int dim = 3;
 
   using PType = unsigned char;
   using IType = itk::Image< PType, dim >;

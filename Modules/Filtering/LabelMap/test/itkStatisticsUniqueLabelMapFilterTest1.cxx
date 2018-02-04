@@ -48,7 +48,7 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   const bool reverseOrdering = atoi( argv[5] );
   const unsigned int attribute = atoi( argv[6] );
 
-  const unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using PixelType = unsigned char;
 
@@ -65,7 +65,7 @@ int itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
 
 
   // Dilate each label object to form overlapping label objects.
-  const unsigned int radiusValue = 5;
+  constexpr unsigned int radiusValue = 5;
 
   using LabelImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter< ImageType, LabelMapType >;
   LabelImageToLabelMapFilterType::Pointer labelMapConverter = LabelImageToLabelMapFilterType::New();

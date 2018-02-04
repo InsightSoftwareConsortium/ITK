@@ -27,7 +27,7 @@ int itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
 {
 
   // Define the dimension of the images
-  const unsigned int Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   // Declare the types of the output images
   using ImageType = itk::Image<unsigned short,   Dimension>;
@@ -46,8 +46,8 @@ int itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
 
   using MeshSourceType = itk::BinaryMask3DMeshSource< ImageType, MeshType >;
 
-  const PixelType backgroundValue = 0;
-  const PixelType internalValue   = 1;
+  constexpr PixelType backgroundValue  = 0;
+  constexpr PixelType internalValue    = 1;
 
   SizeType size;
   size[0] = 128;

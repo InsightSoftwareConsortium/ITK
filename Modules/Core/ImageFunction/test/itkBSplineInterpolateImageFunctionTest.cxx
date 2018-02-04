@@ -562,12 +562,12 @@ int testInteger3DSpline()
 //produce identical results.
 int testEvaluateValueAndDerivative(void)
 {
-  const unsigned int ImageDimension = 2;
+  constexpr unsigned int ImageDimension = 2;
   using PixelType = float;
   using ImageType = itk::Image<PixelType,ImageDimension>;
   using BSplineInterpolatorFunctionType = itk::BSplineInterpolateImageFunction<ImageType,double, double>;
 
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder = 3;
   BSplineInterpolatorFunctionType::Pointer interpolator = makeRandomImageInterpolator<BSplineInterpolatorFunctionType>(SplineOrder);
 
   /** Test the EvaluateDerivative and EvaluateValueAndDerivative functions **/

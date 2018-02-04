@@ -155,7 +155,7 @@ int itkDeformableSimplexMesh3DFilterTest(int , char * [] )
 
   DeformFilterType::Pointer deformFilter = DeformFilterType::New();
 
-  const unsigned int numberOfCycles = 100;
+  constexpr unsigned int numberOfCycles = 100;
 
   for (unsigned int i = 0; i < numberOfCycles; i++)
     {

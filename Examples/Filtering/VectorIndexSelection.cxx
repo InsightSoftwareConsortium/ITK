@@ -42,7 +42,7 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   using InputPixelType = itk::RGBPixel<unsigned char>;
   using OutputPixelType = unsigned char;
-  const   unsigned int                  Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using InputImageType = itk::Image< InputPixelType,  Dimension >;
   using OutputImageType = itk::Image< OutputPixelType, Dimension >;

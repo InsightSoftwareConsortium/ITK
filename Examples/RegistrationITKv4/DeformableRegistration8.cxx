@@ -114,7 +114,7 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  const    unsigned int    ImageDimension = 3;
+  constexpr unsigned int ImageDimension = 3;
   using PixelType = float;
 
   using FixedImageType = itk::Image< PixelType, ImageDimension >;
@@ -134,7 +134,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   const unsigned int SpaceDimension = ImageDimension;
-  const unsigned int SplineOrder = 3;
+  constexpr unsigned int SplineOrder = 3;
   using CoordinateRepType = double;
 
   using TransformType = itk::BSplineTransform<
@@ -258,7 +258,7 @@ int main( int argc, char *argv[] )
   //  A single level registration process is run using
   //  the shrink factor 1 and smoothing sigma 0.
   //
-  const unsigned int numberOfLevels = 1;
+  constexpr unsigned int numberOfLevels = 1;
 
   RegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
   shrinkFactorsPerLevel.SetSize( numberOfLevels );

@@ -37,7 +37,7 @@ int itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest( int argc, char* argv[]
 
 // ** TYPEDEF **
   using CoordType = double;
-  const unsigned int                          Dimension = 3;
+  constexpr unsigned int Dimension = 3;
 
   using MeshType = itk::QuadEdgeMesh< CoordType, Dimension >;
   using ReaderType = itk::MeshFileReader< MeshType >;

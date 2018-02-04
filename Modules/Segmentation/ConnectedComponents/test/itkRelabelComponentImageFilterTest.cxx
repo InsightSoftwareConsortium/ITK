@@ -39,7 +39,7 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
   using InternalPixelType = unsigned short;
   using LabelPixelType = unsigned long;
   using WritePixelType = unsigned char;
-  const     unsigned int    Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using InternalImageType = itk::Image< InternalPixelType, Dimension >;
   using LabelImageType = itk::Image< LabelPixelType, Dimension>;

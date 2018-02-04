@@ -170,17 +170,17 @@ int itkLBFGSOptimizerv4Test(int, char* [] )
   itkOptimizer->SetMetric( metric.GetPointer() );
 
   const double G_Tolerance      = 1e-4;  // Gradient magnitude tolerance
-  const int    Max_Iterations   = 100;   // Maximum number of iterations
+  constexpr int Max_Iterations = 100;   // Maximum number of iterations
   const bool   Trace            = false; // Tracing
-  const double LineSearch_Tol   = 0.9;   // Line search tolerance
-  const double Step_Length      = 1.0;   // Default step length
+  constexpr double LineSearch_Tol = 0.9;   // Line search tolerance
+  constexpr double Step_Length = 1.0;   // Default step length
 
   std::cout << "Get vnl optimizer." << std::endl;
   vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
 
   vnlOptimizer->set_check_derivatives( 0 );
 
-  const unsigned int SpaceDimension = 2;
+  constexpr unsigned int SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
 
   // We start not so far from  | 2 -2 |

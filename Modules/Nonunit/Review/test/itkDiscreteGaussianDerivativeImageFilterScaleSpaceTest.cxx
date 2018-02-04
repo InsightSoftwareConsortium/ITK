@@ -28,8 +28,8 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
   // frequency, this method verifies that the normalized scale-scale
   // is with in reasonable tolerance of the theoretical value.
 
-  const unsigned int ImageDimension = 1;
-  const unsigned int imageSize = 1024;
+  constexpr unsigned int ImageDimension = 1;
+  constexpr unsigned int imageSize = 1024;
 
   const double tolerance1 = std::pow( .001, 1.0 / order ); // still larger than it should be!
 
@@ -133,7 +133,7 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
     ++oiter;
     }
 
-  const double tolerance2 = 0.01;
+  constexpr double tolerance2 = 0.01;
   if ( !itk::Math::FloatAlmostEqual( maxLx, expectedMax, 10, tolerance2 ) )
     {
     std::cout << "Error at frequency: " << frequencyPerImage << std::endl;

@@ -169,7 +169,7 @@ int itkLargeMetaImageWriteReadTest(int ac, char* argv[])
 
   if ( ac == 3 )
     {
-    const unsigned int Dimension = 2;
+    constexpr unsigned int Dimension = 2;
 
     using PixelType = unsigned short;
     using ImageType = itk::Image< PixelType, Dimension>;
@@ -183,7 +183,7 @@ int itkLargeMetaImageWriteReadTest(int ac, char* argv[])
     }
   else
     {
-    const unsigned int Dimension = 3;
+    constexpr unsigned int Dimension = 3;
 
     using PixelType = unsigned short;
     using ImageType = itk::Image< PixelType, Dimension>;

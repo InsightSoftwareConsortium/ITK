@@ -44,7 +44,7 @@ int itkOptMattesMutualInformationImageToImageMetricThreadsTest1( int argc, char*
 
 
   using PixelType = unsigned char;
-  const unsigned int     Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image< PixelType >;
 
