@@ -86,10 +86,10 @@ CompositeValleyFunction::MeasureType CompositeValleyFunction::Evaluate(MeasureTy
 {
   MeasureType res = 1;
 
-  for ( unsigned int k = 0; k < m_Targets.size(); k++ )
+  for (auto & target : m_Targets)
   {
-    res *= valley( ( x - m_Targets[k].GetMean() )
-                   / m_Targets[k].GetSigma() );
+    res *= valley( ( x - target.GetMean() )
+                   / target.GetSigma() );
   }
 
   return res;

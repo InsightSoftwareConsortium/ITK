@@ -155,13 +155,13 @@ DCMTKSeriesFileNames
     }
   //
   // save the filenames, and delete the headers
-  for(unsigned i = 0; i < allHeaders.size(); ++i)
+  for(auto & allHeader : allHeaders)
     {
     if(saveFileNames)
       {
-      m_InputFileNames.push_back(allHeaders[i]->GetFileName());
+      m_InputFileNames.push_back(allHeader->GetFileName());
       }
-    delete allHeaders[i];
+    delete allHeader;
     }
 }
 

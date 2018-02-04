@@ -47,11 +47,11 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
       strand->SetThickness(1.0);
       //
       // add all points to this strand.
-      for(int i = 0; i < 11; i++)
+      for(auto & strandPoint : strandPoints)
         {
         double pos[3];
-        pos[0] = strandPoints[i][0];
-        pos[1] = strandPoints[i][1];
+        pos[0] = strandPoint[0];
+        pos[1] = strandPoint[1];
         pos[2] = z;
         itk::PolygonSpatialObject<3>::PointType curpoint(pos);
         if(!strand->AddPoint(curpoint))

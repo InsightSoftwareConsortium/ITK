@@ -28,9 +28,9 @@ namespace fem
 {
   ::itk::LightObject::Pointer smartPtr;
   Pointer copyPtr = Self::New();
-  for( unsigned int i = 0; i < this->m_Element.size(); i++ )
+  for(auto i : this->m_Element)
     {
-    copyPtr->AddNextElement( this->m_Element[i] );
+    copyPtr->AddNextElement( i );
     }
   copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
 

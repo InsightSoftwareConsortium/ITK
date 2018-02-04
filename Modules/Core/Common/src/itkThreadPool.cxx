@@ -150,9 +150,9 @@ ThreadPool
 ::DeleteThreads()
 {
   MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
-  for (size_t i = 0; i < m_Threads.size(); i++)
+  for (auto & thread : m_Threads)
     {
-    if (!PlatformClose(m_Threads[i]))
+    if (!PlatformClose(thread))
       {
       m_ExceptionOccurred = true;
       }

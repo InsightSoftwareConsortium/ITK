@@ -36,9 +36,9 @@ void LoadGrav::PrintSelf(std::ostream& os, Indent indent) const
 
   // Copy Load Contents
   copyPtr->m_GravityForce = this->m_GravityForce;
-  for( unsigned int i = 0; i < this->m_Element.size(); i++ )
+  for(auto i : this->m_Element)
     {
-    copyPtr->AddNextElement( this->m_Element[i] );
+    copyPtr->AddNextElement( i );
     }
   copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
 

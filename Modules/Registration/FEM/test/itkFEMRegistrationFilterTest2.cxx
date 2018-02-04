@@ -145,9 +145,9 @@ int itkFEMRegistrationFilterTest2( int argc, char *argv[] )
   InputImagePixelType bgnd = 15;
 
   // Set the circle center
-  for( unsigned int i = 0; i < ImageDimension; ++i )
+  for(double & i : center)
     {
-    center[i] = 16;
+    i = 16;
     }
 
   // Fill fixed image with a circle

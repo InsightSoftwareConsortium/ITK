@@ -44,11 +44,11 @@ int itkImageRegistrationSamplingTest( int, char *[] )
 
   constexpr unsigned NUM_ERRORS  = 3;
   RegistrationType::RealType errorValues[NUM_ERRORS] = { -0.1, 0.0, 1.1 };
-  for( unsigned int i = 0; i<NUM_ERRORS; i++ )
+  for(double errorValue : errorValues)
     {
     try
       {
-      registrationMethod->SetMetricSamplingPercentage( errorValues[i] );
+      registrationMethod->SetMetricSamplingPercentage( errorValue );
       return EXIT_FAILURE;
       }
     catch ( itk::ExceptionObject & )

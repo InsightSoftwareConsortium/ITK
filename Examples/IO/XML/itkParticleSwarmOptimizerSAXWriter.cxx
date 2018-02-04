@@ -82,17 +82,13 @@ int ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs << ">";
     ofs << "\n";
 
-    //
-    ParticleSwarmOptimizer::ParameterBoundsType bounds = this->m_InputObject->GetParameterBounds();
-
     // write the lower bound
-
     ofs << "  <bound id=\"lower\"";
 
     ofs << " value=\"";
-    for ( size_t i = 0; i < bounds.size(); i++ )
+    for (const auto & bound : this->m_InputObject->GetParameterBounds() )
       {
-      ofs << " " << bounds[i].first;
+      ofs << " " << bound.first;
       }
     ofs << "\"";
 
@@ -104,9 +100,9 @@ int ParticleSwarmOptimizerSAXWriter::WriteFile()
     ofs << "  <bound id=\"upper\"";
 
     ofs << " value=\"";
-    for ( size_t i = 0; i < bounds.size(); i++ )
+    for (const auto & bound : this->m_InputObject->GetParameterBounds() )
       {
-      ofs << " " << bounds[i].second;
+      ofs << " " << bound.second;
       }
     ofs << "\"";
 

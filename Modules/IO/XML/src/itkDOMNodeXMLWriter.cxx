@@ -62,9 +62,9 @@ DOMNodeXMLWriter::Update( std::ostream& os, std::string indent )
   using AttributesListType = InputType::AttributesListType;
   AttributesListType attributes;
   input->GetAllAttributes( attributes );
-  for ( AttributesListType::iterator i = attributes.begin(); i != attributes.end(); ++i )
+  for (auto & attribute : attributes)
     {
-    os << " " << i->first << "=\"" << i->second << "\"";
+    os << " " << attribute.first << "=\"" << attribute.second << "\"";
     }
 
   // write the ending of the start tag, and all children if applicable
@@ -76,9 +76,9 @@ DOMNodeXMLWriter::Update( std::ostream& os, std::string indent )
     // write the closing bracket for the start tag
     os << ">" << std::endl;
     // write the children
-    for ( size_t i = 0; i < children.size(); i++ )
+    for (auto & i : children)
       {
-      this->SetInput( children[i] );
+      this->SetInput( i );
       this->Update( os, indent + this->m_IndentStep );
       this->SetInput( input );
       }

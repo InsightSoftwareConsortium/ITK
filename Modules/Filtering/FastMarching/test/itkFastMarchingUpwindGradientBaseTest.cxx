@@ -194,19 +194,17 @@ int itkFastMarchingUpwindGradientBaseTest(int, char* [] )
   // Set up target points.
   // The algorithm will stop when it reaches these points.
   // This point is closest to the AlivePoint:
-  FloatImageType::OffsetType offset2 = {{40,40}};
-  FloatImageType::OffsetType offset1 = {{50,50}};
+  constexpr FloatImageType::OffsetType offset1 = {{50,50}};
+  constexpr FloatImageType::OffsetType offset2 = {{40,40}};
   // This point is farthest from the AlivePoint:
-  FloatImageType::OffsetType offset3 = {{0,0}};
-  std::vector< FloatImageType::OffsetType > targetOffsets;
-  targetOffsets.push_back( offset1 );
-  targetOffsets.push_back( offset2 );
-  targetOffsets.push_back( offset3 );
+  constexpr FloatImageType::OffsetType offset3 = {{0,0}};
+  const std::vector< FloatImageType::OffsetType > targetOffsets{
+        offset1, offset2, offset3 };
 
   std::vector< NodeType > TargetNodes;
-  for( unsigned int i = 0; i < targetOffsets.size(); i++ )
+  for(const auto targetOffset : targetOffsets)
     {
-    TargetNodes.push_back( index + targetOffsets[i] );
+    TargetNodes.push_back( index + targetOffset );
     }
   criterion->SetTargetNodes( TargetNodes );
 

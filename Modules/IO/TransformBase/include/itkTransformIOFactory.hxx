@@ -41,13 +41,10 @@ TransformIOFactoryTemplate<TParametersValueType>
 ::CreateTransformIO(const char *path, TransformIOFactoryFileModeType mode)
 {
   typename std::list< typename TransformIOBaseTemplate<TParametersValueType>::Pointer > possibleTransformIO;
-  std::list< LightObject::Pointer >     allobjects =
-    ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate");
-  for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
-        i != allobjects.end(); ++i )
+  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkTransformIOBaseTemplate") )
     {
     TransformIOBaseTemplate<TParametersValueType> *io =
-                        dynamic_cast< TransformIOBaseTemplate<TParametersValueType> * >( i->GetPointer() );
+                        dynamic_cast< TransformIOBaseTemplate<TParametersValueType> * >( allobject.GetPointer() );
     if ( io )
       {
       possibleTransformIO.push_back(io);

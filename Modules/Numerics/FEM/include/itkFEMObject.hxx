@@ -315,10 +315,10 @@ FEMObject<VDimension>
       fem::LoadGravConst::Pointer o1 = fem::LoadGravConst::New();
 
       o1->SetGlobalNumber(lCopy->GetGlobalNumber() );
-      for( unsigned int i = 0; i < lCopy->GetElementArray().size(); i++ )
+      for(auto & i : lCopy->GetElementArray())
         {
         o1->GetElementArray().push_back
-          (this->GetElementWithGlobalNumber((lCopy->GetElementArray()[i])->GetGlobalNumber() ).GetPointer() );
+          (this->GetElementWithGlobalNumber(i->GetGlobalNumber() ).GetPointer() );
         }
 
       int dim = lCopy->GetForce().size();

@@ -230,9 +230,9 @@ void MINCImageIO::AllocateDimensions(int nDims)
     this->m_MINCPImpl->m_DimensionStep[i]  = 0.0;
     }
 
-  for ( int i = 0; i < 5; i++ )
+  for (auto & dimensionIndex : this->m_MINCPImpl->m_DimensionIndices)
     {
-    this->m_MINCPImpl->m_DimensionIndices[i] = -1;
+    dimensionIndex = -1;
     }
 
 }
@@ -261,9 +261,9 @@ MINCImageIO::MINCImageIO()
   this->m_MINCPImpl->m_MincApparentDims = nullptr;
   this->m_MINCPImpl->m_Volume = nullptr;
 
-  for ( int i = 0; i < 5; i++ )
+  for (auto & dimensionIndex : this->m_MINCPImpl->m_DimensionIndices)
     {
-    this->m_MINCPImpl->m_DimensionIndices[i] = -1;
+    dimensionIndex = -1;
     }
 
   this->AddSupportedWriteExtension(".mnc");

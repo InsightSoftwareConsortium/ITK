@@ -512,10 +512,9 @@ MeshFileReader< TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits >
     else
       {
       msg << "  Tried to create one of the following:" << std::endl;
-      std::list< LightObject::Pointer > allobjects = ObjectFactoryBase::CreateAllInstance("itkMeshIOBase");
-      for ( std::list< LightObject::Pointer >::iterator it = allobjects.begin(); it != allobjects.end(); ++it )
+      for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkMeshIOBase") )
         {
-        MeshIOBase *io = dynamic_cast< MeshIOBase * >( it->GetPointer() );
+        MeshIOBase *io = dynamic_cast< MeshIOBase * >( allobject.GetPointer() );
         msg << "    " << io->GetNameOfClass() << std::endl;
         }
       msg << "  You probably failed to set a file suffix, or" << std::endl;

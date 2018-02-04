@@ -124,19 +124,17 @@ int itkObjectFactoryTest2(int argc, char *argv[])
   std::cout << "----- Registered factories -----" << std::endl;
   if (!factories.empty())
     {
-    for ( std::list<itk::ObjectFactoryBase*>::iterator
-            f = factories.begin();
-          f != factories.end(); ++f )
+    for (auto & factory : factories)
       {
       std::cout << "  Factory version: "
-                << (*f)->GetITKSourceVersion() << std::endl
+                << factory->GetITKSourceVersion() << std::endl
                 << "  Factory description: "
-                << (*f)->GetDescription() << std::endl;
+                << factory->GetDescription() << std::endl;
 
-      std::list<std::string> overrides = (*f)->GetClassOverrideNames();
-      std::list<std::string> names = (*f)->GetClassOverrideWithNames();
-      std::list<std::string> descriptions = (*f)->GetClassOverrideDescriptions();
-      std::list<bool> enableflags = (*f)->GetEnableFlags();
+      std::list<std::string> overrides = factory->GetClassOverrideNames();
+      std::list<std::string> names = factory->GetClassOverrideWithNames();
+      std::list<std::string> descriptions = factory->GetClassOverrideDescriptions();
+      std::list<bool> enableflags = factory->GetEnableFlags();
       std::list<std::string>::const_iterator n = names.begin();
       std::list<std::string>::const_iterator d = descriptions.begin();
       std::list<bool>::const_iterator e = enableflags.begin();

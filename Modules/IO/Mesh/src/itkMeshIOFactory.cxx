@@ -46,13 +46,11 @@ MeshIOFactory
 ::CreateMeshIO(const char *path, FileModeType mode)
 {
   RegisterBuiltInFactories();
-
   std::list< MeshIOBase::Pointer >  possibleMeshIO;
-  std::list< LightObject::Pointer > allobjects = ObjectFactoryBase::CreateAllInstance("itkMeshIOBase");
 
-  for ( std::list< LightObject::Pointer >::iterator it = allobjects.begin(); it != allobjects.end(); ++it )
+  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkMeshIOBase") )
     {
-    MeshIOBase *io = dynamic_cast< MeshIOBase * >( it->GetPointer() );
+    MeshIOBase *io = dynamic_cast< MeshIOBase * >( allobject.GetPointer() );
 
     if ( io )
       {
@@ -61,25 +59,25 @@ MeshIOFactory
     else
       {
       std::cerr << "Error MeshIO factory did not return an MeshIOBase: "
-                << ( *it )->GetNameOfClass()
+                << allobject->GetNameOfClass()
                 << std::endl;
       }
     }
 
-  for ( std::list< MeshIOBase::Pointer >::iterator k = possibleMeshIO.begin(); k != possibleMeshIO.end(); ++k )
+  for (auto & k : possibleMeshIO)
     {
     if ( mode == ReadMode )
       {
-      if ( ( *k )->CanReadFile(path) )
+      if ( k->CanReadFile(path) )
         {
-        return *k;
+        return k;
         }
       }
     else if ( mode == WriteMode )
       {
-      if ( ( *k )->CanWriteFile(path) )
+      if ( k->CanWriteFile(path) )
         {
-        return *k;
+        return k;
         }
       }
     }

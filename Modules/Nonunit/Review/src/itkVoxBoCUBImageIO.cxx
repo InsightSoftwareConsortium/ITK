@@ -710,11 +710,9 @@ VoxBoCUBImageIO
 
   //Add CUB specific parameters to header from MetaDictionary
   MetaDataDictionary & dic = GetMetaDataDictionary();
-  std::vector< std::string > keys = dic.GetKeys();
-  std::string                word;
-  for ( SizeValueType i = 0; i < keys.size(); i++ )
+  for (const auto & key : dic.GetKeys() )
     {
-    const std::string & key = keys[i];
+    std::string word;
     ExposeMetaData< std::string >(dic, key, word);
     if ( !strcmp(key.c_str(), "resample_date") )
       {

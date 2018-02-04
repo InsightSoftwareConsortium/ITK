@@ -68,11 +68,10 @@ ParticleSwarmOptimizerDOMWriter::GenerateData( DOMNodeType* outputdom, const voi
 
   std::vector<double> lbound;
   std::vector<double> ubound;
-  ParticleSwarmOptimizer::ParameterBoundsType bounds = ipobj->GetParameterBounds();
-  for ( size_t i = 0; i < bounds.size(); i++ )
+  for (auto & bound : ipobj->GetParameterBounds() )
     {
-    lbound.push_back( bounds[i].first );
-    ubound.push_back( bounds[i].second );
+    lbound.push_back( bound.first );
+    ubound.push_back( bound.second );
     }
   // generate and insert the DOM node for the lower bound of the parameters
   logger->Info( "writing LowerBound ...\n" );

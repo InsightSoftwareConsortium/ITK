@@ -155,9 +155,9 @@ AttributeMorphologyBaseImageFilter< TInputImage, TOutputImage, TAttribute, TFunc
     if ( fit->IsInside(ThisWhere) )
       {
       // no need for bounds check on neighbours
-      for ( unsigned i = 0; i < TheseDirectOffsets.size(); i++ )
+      for ( const auto theseDirectOffset : TheseDirectOffsets)
         {
-        OffsetValueType           NeighInd = ThisPos + TheseDirectOffsets[i];
+        OffsetValueType NeighInd = ThisPos + theseDirectOffset;
         InputPixelType NeighPix = m_Raw[NeighInd];
         if ( compare(NeighPix, ThisPix) || ( ( ThisPix == NeighPix ) && ( NeighInd < ThisPos ) ) )
           {

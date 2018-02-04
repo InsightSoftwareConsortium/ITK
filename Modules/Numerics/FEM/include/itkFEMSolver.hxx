@@ -543,9 +543,9 @@ Solver<VDimension>
       }
     }
   // Set the fixed DOFs to proper values
-  for( BCTermType::iterator q = bcterm.begin(); q != bcterm.end(); q++ )
+  for(auto & q : bcterm)
     {
-    m_LinearSystem->SetVectorValue(q->first, q->second);
+    m_LinearSystem->SetVectorValue(q.first, q.second);
     }
 }
 
@@ -721,10 +721,10 @@ void Solver<VDimension>
           this->m_LinearSystem->InitializeVector(1);
           }
         // Step over each nonzero matrix element in a row
-        for( LinearSystemWrapper::ColumnArray::iterator cc = cols.begin(); cc != cols.end(); cc++ )
+        for(const auto & col : cols)
           {
           // Get value from the stiffness matrix
-          Float d = this->m_LinearSystem->GetMatrixValue(fdof, *cc, matrix);
+          Float d = this->m_LinearSystem->GetMatrixValue(fdof, col, matrix);
 
           // Store the appropriate value in bc correction vector (-K12*u2)
           //
@@ -732,14 +732,14 @@ void Solver<VDimension>
           // http://titan.colorado.edu/courses.d/IFEM.d/IFEM.Ch04.d/IFEM.Ch04.pdf
           // chapter 4.1.3 (Matrix Forms of DBC Application Methods) for more
           // info.
-          this->m_LinearSystem->AddVectorValue(*cc, -d * fixedvalue, 1);
+          this->m_LinearSystem->AddVectorValue(col, -d * fixedvalue, 1);
           }
         }
       // Clear that row and column in master matrix
-      for( LinearSystemWrapper::ColumnArray::iterator cc = cols.begin(); cc != cols.end(); cc++ )
+      for(const auto & col : cols)
         {
-        this->m_LinearSystem->SetMatrixValue(fdof, *cc, 0.0, matrix);
-        this->m_LinearSystem->SetMatrixValue(*cc, fdof, 0.0, matrix); // this is a
+        this->m_LinearSystem->SetMatrixValue(fdof, col, 0.0, matrix);
+        this->m_LinearSystem->SetMatrixValue(col, fdof, 0.0, matrix); // this is a
                                                             // symetric matrix
         }
       this->m_LinearSystem->SetMatrixValue(fdof, fdof, 1.0, matrix); // Set the diagonal

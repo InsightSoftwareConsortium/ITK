@@ -134,16 +134,16 @@ DOMNode::GetAllAttributes( AttributesListType& output, bool keepOriginalOrder ) 
 {
   if ( keepOriginalOrder )
     {
-    for ( OrderedAttributesContainer::const_iterator i = this->m_OrderedAttributes.begin(); i != this->m_OrderedAttributes.end(); ++i )
+    for (auto orderedAttribute : this->m_OrderedAttributes)
       {
-      output.push_back( *(*i) );
+      output.push_back( *orderedAttribute );
       }
     }
   else
     {
-    for ( AttributesContainer::const_iterator i = this->m_Attributes.begin(); i != this->m_Attributes.end(); ++i )
+    for (const auto & attribute : this->m_Attributes)
       {
-      output.push_back( *i );
+      output.push_back( attribute );
       }
     }
 }

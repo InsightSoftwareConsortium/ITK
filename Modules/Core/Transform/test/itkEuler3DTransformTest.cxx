@@ -235,9 +235,9 @@ int itkEuler3DTransformTest(int, char *[] )
 
   // Testing Jacobian
   std::cout << "Testing Jacobian: ";
-  for( unsigned int i = 0; i < 3; i++ )
+  for(double & i : pInit)
     {
-    pInit[i] = 0;
+    i = 0;
     }
 
   EulerTransformType::JacobianType jacobian;

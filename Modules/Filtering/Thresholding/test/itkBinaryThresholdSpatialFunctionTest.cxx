@@ -123,12 +123,10 @@ int itkBinaryThresholdSpatialFunctionTest( int, char *[])
 
   //
   // get the seeds and display them.
-  const IteratorType::SeedsContainerType &seeds(iterator.GetSeeds());
   std::cout << "Iterator seeds";
-  for(IteratorType::SeedsContainerType::const_iterator it =
-        seeds.begin(); it != seeds.end(); it++)
+  for(auto seed : iterator.GetSeeds() )
     {
-    std::cout << " " << (*it);
+    std::cout << " " << seed;
     }
   std::cout << std::endl;
 

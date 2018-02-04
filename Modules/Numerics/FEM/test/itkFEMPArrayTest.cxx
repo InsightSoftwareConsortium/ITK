@@ -125,9 +125,9 @@ int itkFEMPArrayTest(int, char *[])
   ElementType::VectorType coordinates = node->GetCoordinates();
 
   std::cout << "Coordinates = " << std::endl;
-  for( unsigned int c = 0; c < coordinates.size(); c++ )
+  for(double coordinate : coordinates)
     {
-    std::cout << coordinates[c] << "  " << std::endl;
+    std::cout << coordinate << "  " << std::endl;
     }
 
   std::cout << "Test PASSED!\n";

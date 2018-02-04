@@ -29,11 +29,11 @@ if (redirectOutputParameters.redirect)
   }
 
 // before the image to image compare we first check md5 hashes
-for( size_t li = 0; li < hashTestList.size(); ++li )
+for(auto & li : hashTestList)
   {
-  const char * const testFilename = hashTestList[li].first;
+  const char * const testFilename = li.first;
 
-  const int ret = HashTestImage( testFilename, hashTestList[li].second );
+  const int ret = HashTestImage( testFilename, li.second );
   if ( ret )
     {
     result = EXIT_FAILURE; //Nonzero indicates failure

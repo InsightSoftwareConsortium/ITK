@@ -281,17 +281,15 @@ ImageIORegion
 
   os << indent << "Dimension: " << this->GetImageDimension() << std::endl;
   os << indent << "Index: ";
-  for ( ImageIORegion::IndexType::const_iterator i = this->GetIndex().begin();
-        i != this->GetIndex().end(); ++i )
+  for (const auto i : this->GetIndex())
     {
-    os << *i << " ";
+    os << i << " ";
     }
   os << std::endl;
   os << indent << "Size: ";
-  for ( ImageIORegion::SizeType::const_iterator k = this->GetSize().begin();
-        k != this->GetSize().end(); ++k )
+  for (const auto k : this->GetSize())
     {
-    os << *k << " ";
+    os << k << " ";
     }
   os << std::endl;
 }

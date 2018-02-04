@@ -104,9 +104,8 @@ ArchetypeSeriesFileNames
   // "Clean" the filename by escaping any special characters with backslashes.
   // This allows us to pass in filenames that include these special characters.
   std::string fileName;
-  for ( unsigned int j = 0; j < origFileName.length(); j++ )
+  for (const auto oneChar : origFileName)
     {
-    char oneChar = origFileName[j];
     if ( oneChar == '^'
          || oneChar == '$'
          || oneChar == '.'

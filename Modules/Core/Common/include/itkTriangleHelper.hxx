@@ -201,21 +201,21 @@ TriangleHelper< TPoint >::ComputeConstrainedCircumCenter(const PointType & iP1,
                                                          const PointType & iP2, const PointType & iP3)
 {
   PointType    oPt;
-  CoordRepType a = iP2.SquaredEuclideanDistanceTo (iP3);
-  CoordRepType b = iP1.SquaredEuclideanDistanceTo (iP3);
-  CoordRepType c = iP2.SquaredEuclideanDistanceTo (iP1);
+  const CoordRepType a = iP2.SquaredEuclideanDistanceTo (iP3);
+  const CoordRepType b = iP1.SquaredEuclideanDistanceTo (iP3);
+  const CoordRepType c = iP2.SquaredEuclideanDistanceTo (iP1);
 
-  CoordRepType Weight[3];
+  CoordRepType Weight[3] = {
+    a * ( b + c - a ),
+    b * ( c + a - b ),
+    c * ( a + b - c )
+  };
 
-  Weight[0] = a * ( b + c - a );
-  Weight[1] = b * ( c + a - b );
-  Weight[2] = c * ( a + b - c );
-
-  for ( unsigned int i = 0; i < 3; i++ )
+  for (auto & i : Weight)
     {
-    if ( Weight[i] < 0.0 )
+    if ( i < 0.0 )
       {
-      Weight[i] = 0.;
+      i = 0.;
       }
     }
 

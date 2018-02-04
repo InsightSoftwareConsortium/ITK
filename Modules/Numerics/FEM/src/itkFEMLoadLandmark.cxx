@@ -36,9 +36,9 @@ namespace fem
   copyPtr->m_Source = this->m_Source;
   copyPtr->m_Force = this->m_Force;
   copyPtr->m_Solution = this->m_Solution;
-  for( unsigned int i = 0; i < this->m_Element.size(); i++ )
+  for(auto i : this->m_Element)
     {
-    copyPtr->AddNextElement( this->m_Element[i] );
+    copyPtr->AddNextElement( i );
     }
   copyPtr->SetGlobalNumber( this->GetGlobalNumber() );
 

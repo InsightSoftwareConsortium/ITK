@@ -116,10 +116,10 @@ int itkKdTreeTest3( int argc , char * argv [] )
     tree->Search( queryPoint, numberOfNeighbors, neighbors1 );
     double max_distance = 0.;
 
-    for ( size_t i = 0; i < neighbors1.size(); ++i )
+    for ( const auto i : neighbors1)
       {
       const double distance =
-        distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors1[i] ) );
+        distanceMetric->Evaluate( tree->GetMeasurementVector( i ) );
 
       max_distance = std::max( distance, max_distance );
       }
@@ -174,10 +174,10 @@ int itkKdTreeTest3( int argc , char * argv [] )
 
     tree->Search( queryPoint, numberOfNeighbors, neighbors1 );
 
-    for ( size_t i = 0; i < neighbors1.size(); ++i )
+    for ( const auto i : neighbors1)
       {
       const double distance =
-        distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors1[i] ) );
+        distanceMetric->Evaluate( tree->GetMeasurementVector( i ) );
 
       max_distance = std::max( distance, max_distance );
       }

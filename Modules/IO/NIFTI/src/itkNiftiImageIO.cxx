@@ -1713,18 +1713,18 @@ void Normalize(std::vector< double > & x)
 {
   double sum = 0.0;
 
-  for ( size_t i = 0; i < x.size(); i++ )
+  for (double i : x)
     {
-    sum += ( x[i] * x[i] );
+    sum += ( i * i );
     }
   if ( sum == 0.0 )
     {
     return;
     }
   sum = std::sqrt(sum);
-  for ( size_t i = 0; i < x.size(); i++ )
+  for (double & i : x)
     {
-    x[i] = x[i] / sum;
+    i = i / sum;
     }
 }
 }

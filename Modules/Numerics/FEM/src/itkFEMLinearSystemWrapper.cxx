@@ -199,9 +199,9 @@ LinearSystemWrapper
   for( r = 0; r < this->m_Order; r++ )
     {
     this->GetColumnsOfNonZeroMatrixElementsInRow(r, cols, matrixIndex1);
-    for( LinearSystemWrapper::ColumnArray::iterator c = cols.begin(); c != cols.end(); ++c )
+    for(const auto & col : cols)
       {
-      this->SetMatrixValue(r, *c, this->GetMatrixValue(r, *c, matrixIndex1), matrixIndex2);
+      this->SetMatrixValue(r, col, this->GetMatrixValue(r, col, matrixIndex1), matrixIndex2);
       }
     }
 }
@@ -215,9 +215,9 @@ LinearSystemWrapper
   for( r = 0; r < this->m_Order; r++ )
     {
     this->GetColumnsOfNonZeroMatrixElementsInRow(r, cols, matrixIndex2);
-    for( LinearSystemWrapper::ColumnArray::iterator c = cols.begin(); c != cols.end(); ++c )
+    for(const auto & col : cols)
       {
-      this->AddMatrixValue(r, *c, this->GetMatrixValue(r, *c, matrixIndex2), matrixIndex1);
+      this->AddMatrixValue(r, col, this->GetMatrixValue(r, col, matrixIndex2), matrixIndex1);
       }
     }
 }

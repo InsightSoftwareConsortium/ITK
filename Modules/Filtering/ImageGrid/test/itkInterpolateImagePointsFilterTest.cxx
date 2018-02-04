@@ -206,13 +206,13 @@ int test3DInterpolateImagePointsFilter()
   CoordImageType3DPointer coord[ImageDimension3D]; // = CoordImageType2D::New();
   CoordImageType3D::RegionType region;
   region.SetSize(size);
-  for (int i = 0; i < ImageDimension3D; i++)
+  for (auto & i : coord)
     {
     CoordImageType3DPointer temp = CoordImageType3D::New();
-    coord[i] = temp;
-    (coord[i])->SetLargestPossibleRegion( region );
-    (coord[i])->SetBufferedRegion( region );
-    (coord[i])->Allocate();
+    i = temp;
+    i->SetLargestPossibleRegion( region );
+    i->SetBufferedRegion( region );
+    i->Allocate();
     }
 
   CoordIndexType3D index;

@@ -219,19 +219,17 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
   // Set up target points.
   // The algorithm will stop when it reaches these points.
   // This point is closest to the AlivePoint:
-  FloatImage::OffsetType offset2 = {{40,40}};
-  FloatImage::OffsetType offset1 = {{50,50}};
+  constexpr FloatImage::OffsetType offset2 = {{40,40}};
+  constexpr FloatImage::OffsetType offset1 = {{50,50}};
   // This point is farthest from the AlivePoint:
-  FloatImage::OffsetType offset3 = {{0,0}};
-  std::vector< FloatImage::OffsetType > targetOffsets;
-  targetOffsets.push_back( offset1 );
-  targetOffsets.push_back( offset2 );
-  targetOffsets.push_back( offset3 );
+  constexpr FloatImage::OffsetType offset3 = {{0,0}};
+  const std::vector< FloatImage::OffsetType > targetOffsets{
+      offset1, offset2, offset3 };
 
   index.Fill(0);
   node.SetValue( 0.0 );
   NodeContainer::Pointer targetPoints = NodeContainer::New();
-  for( unsigned int i = 0; i < targetOffsets.size(); i++ )
+  for( unsigned int i = 0, _end=targetOffsets.size(); i < _end; i++ )
     {
     node.SetIndex( index + targetOffsets[i] );
     targetPoints->InsertElement(i, node);
@@ -245,11 +243,11 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
   // Find the smallest reaching time of the TargetPoints.  This is the time of the closest
   // TargetPoint.
   FloatFMType::PixelType smallestReachingTime = itk::NumericTraits< PixelType >::max();
-  for( unsigned int i = 0; i < targetOffsets.size(); i++ )
+  for(const auto & targetOffset : targetOffsets)
     {
-    if( marcher->GetOutput()->GetPixel( index + targetOffsets[i] ) < smallestReachingTime )
+    if( marcher->GetOutput()->GetPixel( index + targetOffset ) < smallestReachingTime )
       {
-      smallestReachingTime = marcher->GetOutput()->GetPixel( index + targetOffsets[i] );
+      smallestReachingTime = marcher->GetOutput()->GetPixel( index + targetOffset );
       }
     }
 
@@ -270,11 +268,11 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
   // Find the largest reaching time of the TargetPoints.  This is the largest time of
   // all of the target points.
   FloatFMType::PixelType largestReachingTime = itk::NumericTraits< PixelType >::NonpositiveMin();
-  for( unsigned int i = 0; i < targetOffsets.size(); i++ )
+  for(const auto & targetOffset : targetOffsets)
     {
-    if( marcher->GetOutput()->GetPixel( index + targetOffsets[i] ) > largestReachingTime )
+    if( marcher->GetOutput()->GetPixel( index + targetOffset ) > largestReachingTime )
       {
-      largestReachingTime = marcher->GetOutput()->GetPixel( index + targetOffsets[i] );
+      largestReachingTime = marcher->GetOutput()->GetPixel( index + targetOffset );
       }
     }
 

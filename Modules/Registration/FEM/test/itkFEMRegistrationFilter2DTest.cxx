@@ -88,9 +88,9 @@ int itkFEMRegistrationFilter2DTest( int argc, char *argv[] )
   // Generate input images and initial deformation field
 
   InputImageType::SizeValueType sizeArray[ImageDimension];
-  for( unsigned int i = 0; i < ImageDimension; ++i )
+  for(auto & i : sizeArray)
     {
-    sizeArray[i] = 32;
+    i = 32;
     }
 
   SizeType size;
@@ -126,9 +126,9 @@ int itkFEMRegistrationFilter2DTest( int argc, char *argv[] )
   InputImagePixelType bgnd = 15;
 
   // Set the circle center
-  for( unsigned int i = 0; i < ImageDimension; ++i )
+  for(double & i : center)
     {
-    center[i] = 16;
+    i = 16;
     }
 
   // Fill fixed image with a circle

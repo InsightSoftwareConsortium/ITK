@@ -58,12 +58,10 @@ int itkConfidenceConnectedImageFilterTest(int ac, char* av[] )
   filter->SetReplaceValue(255);
   filter->SetNumberOfIterations(10);
 
-  const FilterType::SeedsContainerType &seeds = filter->GetSeeds();
   std::cout << "Filter Seeds";
-  for(FilterType::SeedsContainerType::const_iterator it =
-        seeds.begin(); it != seeds.end(); it++)
+  for(const auto & oneSeed : filter->GetSeeds() )
     {
-    std::cout << " " << (*it);
+    std::cout << " " << oneSeed;
     }
   std::cout << std::endl;
 

@@ -119,9 +119,9 @@ PolygonGroupSpatialObjectXMLFileReader::EndElement(const char *name)
     double      pval[3];
     const char *s = m_CurCharacterData.c_str();
     char *      endptr;
-    for ( int i = 0; i < 3; i++ )
+    for (double & i : pval)
       {
-      pval[i] = strtod(s, &endptr);
+      i = strtod(s, &endptr);
       if ( s == endptr )
         {
         RAISE_EXCEPTION("Can't convert number");

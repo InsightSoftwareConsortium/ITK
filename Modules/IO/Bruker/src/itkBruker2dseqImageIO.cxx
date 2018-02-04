@@ -580,17 +580,16 @@ void Bruker2dseqImageIO::Read(void *buffer)
   if (frameDim == 2 && dict.HasKey("VisuFGOrderDesc") )
     {
     size_t sizeToSwap = 1;
-    std::vector<std::vector<std::string> > orderDescription = GetParameter<std::vector<std::vector<std::string> > >(dict, "VisuFGOrderDesc");
-    for (size_t i = 0; i < orderDescription.size(); i++)
+    for (auto & i : GetParameter<std::vector<std::vector<std::string> > >(dict, "VisuFGOrderDesc") )
       {
       // Anything before the SLICE order needs to be re-ordered
-      if (orderDescription[i][1] == "<FG_SLICE>")
+      if (i[1] == "<FG_SLICE>")
         {
         break;
         }
       else
         {
-        sizeToSwap *= atoi(orderDescription[i][0].c_str());
+        sizeToSwap *= atoi(i[0].c_str());
         }
       }
     if (sizeToSwap > 1)
@@ -826,14 +825,13 @@ void Bruker2dseqImageIO::ReadImageInformation()
       if (dict.HasKey("VisuFGOrderDesc"))
         {
         // Find the FG_CYCLE field
-        std::vector<std::vector<std::string> > orderDescription = GetParameter<std::vector<std::vector<std::string> > >(dict, "VisuFGOrderDesc");
         sizeT = 1;
-        for (size_t i = 0; i < orderDescription.size(); i++)
+        for (auto & i : GetParameter<std::vector<std::vector<std::string> > >(dict, "VisuFGOrderDesc") )
           {
           // Anything dimension that isn't a slice needs to be collapsed into the 4th dimension
-          if (orderDescription[i][1] != "<FG_SLICE>")
+          if (i[1] != "<FG_SLICE>")
             {
-            sizeT *= atoi(orderDescription[i][0].c_str());
+            sizeT *= atoi(i[0].c_str());
             }
           }
         }

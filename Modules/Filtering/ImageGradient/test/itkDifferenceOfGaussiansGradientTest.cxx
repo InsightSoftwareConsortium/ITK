@@ -111,17 +111,13 @@ int itkDifferenceOfGaussiansGradientTest(int, char* [] )
     <TImageType, TFunctionType>;
   TItType sfi = TItType(sourceImage, spatialFunc, seedPos);
 
-  // for coverage, recover the seeds
-  const TItType::SeedsContainerType &seeds(sfi.GetSeeds());
   //
   // show seed indices
   std::cout << "Seeds for FloodFilledSpatialFunctionConditionalIterator"
             << std::endl;
-  for(TItType::SeedsContainerType::const_iterator s_it
-        = seeds.begin();
-      s_it != seeds.end(); ++s_it)
+  for(const auto & seed : sfi.GetSeeds() )
     {
-    std::cout << (*s_it) << " ";
+    std::cout << seed << " ";
     }
   std::cout << std::endl;
 

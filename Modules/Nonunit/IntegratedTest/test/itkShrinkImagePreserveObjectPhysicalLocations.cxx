@@ -188,9 +188,9 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
   smoother->SetMaximumError( MyPyramid->GetMaximumError() );
   // compute shrink factors and variances
   double variance[2];
-  for( unsigned int idim = 0; idim < TImageType::ImageDimension; idim++ )
+  for(double & idim : variance)
     {
-    variance[idim] = itk::Math::sqr( 0.5 * static_cast<float>( 4 ) );
+    idim = itk::Math::sqr( 0.5 * static_cast<float>( 4 ) );
     }
   smoother->SetVariance( variance );
   smoother->Update();

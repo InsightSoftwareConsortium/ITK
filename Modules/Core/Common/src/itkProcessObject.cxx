@@ -127,14 +127,14 @@ ProcessObject
   // when the process object is deleted.  However, the data object's source
   // will still point back to the now nonexistent process object if we do not
   // clean things up now.
-  for ( DataObjectPointerMap::iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
+  for (auto & output : m_Outputs)
     {
-    if ( it->second )
+    if ( output.second )
       {
       // let the output know we no longer want to associate with the object
-      it->second->DisconnectSource(this, it->first);
+      output.second->DisconnectSource(this, output.first);
       // let go of our reference to the data object
-      it->second = nullptr;
+      output.second = nullptr;
       }
     }
 }
@@ -675,13 +675,13 @@ ProcessObject
 {
   NameArray res;
   res.reserve(m_Outputs.size());
-  for ( DataObjectPointerMap::const_iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
+  for (const auto & output : m_Outputs)
     {
     // only include the primary if it's required or set
-    if ( it->first != m_IndexedOutputs[0]->first
-         || it->second.IsNotNull() )
+    if ( output.first != m_IndexedOutputs[0]->first
+         || output.second.IsNotNull() )
       {
-      res.push_back( it->first );
+      res.push_back( output.first );
       }
     }
 
@@ -707,13 +707,13 @@ ProcessObject
 {
   DataObjectPointerArray res;
   res.reserve(m_Outputs.size());
-  for ( DataObjectPointerMap::iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
+  for (auto & output : m_Outputs)
     {
     // only include the primary if it's required or set
-    if ( it->first != m_IndexedOutputs[0]->first
-         || it->second.IsNotNull() )
+    if ( output.first != m_IndexedOutputs[0]->first
+         || output.second.IsNotNull() )
       {
-      res.push_back( it->second.GetPointer() );
+      res.push_back( output.second.GetPointer() );
       }
     }
   return res;
@@ -835,14 +835,14 @@ ProcessObject
 {
   NameArray res;
   res.reserve(m_Inputs.size());
-  for ( DataObjectPointerMap::const_iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
+  for (const auto & input : m_Inputs)
     {
     // only include the primary if it's required or set
-    if ( it->first != m_IndexedInputs[0]->first
-         || it->second.IsNotNull()
-         || this->IsRequiredInputName(it->first) )
+    if ( input.first != m_IndexedInputs[0]->first
+         || input.second.IsNotNull()
+         || this->IsRequiredInputName(input.first) )
       {
-      res.push_back( it->first );
+      res.push_back( input.first );
       }
     }
   return res;
@@ -984,9 +984,9 @@ ProcessObject
 ::SetRequiredInputNames( const NameArray & names )
 {
   m_RequiredInputNames.clear();
-  for ( NameArray::const_iterator it = names.begin(); it != names.end(); ++it )
+  for (const auto & name : names)
     {
-    this->AddRequiredInputName( *it );
+    this->AddRequiredInputName( name );
     }
   this->Modified();
 }
@@ -998,9 +998,9 @@ ProcessObject
 {
   NameArray res;
   res.reserve(m_RequiredInputNames.size());
-  for ( NameSet::const_iterator it = m_RequiredInputNames.begin(); it != m_RequiredInputNames.end(); ++it )
+  for (const auto & requiredInputName : m_RequiredInputNames)
     {
-    res.push_back( *it );
+    res.push_back( requiredInputName );
     }
   return res;
 }
@@ -1024,14 +1024,14 @@ ProcessObject
 {
   DataObjectPointerArray res;
   res.reserve(m_Inputs.size());
-  for ( DataObjectPointerMap::iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
+  for (auto & input : m_Inputs)
     {
     // only include the primary if it's required or set
-    if ( it->first != m_IndexedInputs[0]->first
-         || it->second.IsNotNull()
-         || this->IsRequiredInputName(it->first) )
+    if ( input.first != m_IndexedInputs[0]->first
+         || input.second.IsNotNull()
+         || this->IsRequiredInputName(input.first) )
       {
-      res.push_back( it->second.GetPointer() );
+      res.push_back( input.second.GetPointer() );
       }
     }
   return res;
@@ -1190,9 +1190,9 @@ ProcessObject
     {
     return true;
     }
-  for (  DataObjectPointerArraySizeType i = 0; i < m_IndexedInputs.size(); ++i)
+  for (const auto indexedInput : m_IndexedInputs)
     {
-    if ( m_IndexedInputs[i]->first == name )
+    if ( indexedInput->first == name )
       {
       return true;
       }
@@ -1209,9 +1209,9 @@ ProcessObject
     {
     return true;
     }
-  for (  DataObjectPointerArraySizeType i = 0; i < m_IndexedOutputs.size(); ++i)
+  for (const auto indexedOutput : m_IndexedOutputs)
     {
-    if ( m_IndexedOutputs[i]->first == name )
+    if ( indexedOutput->first == name )
       {
       return true;
       }
@@ -1255,11 +1255,11 @@ void
 ProcessObject
 ::SetReleaseDataFlag(bool val)
 {
-  for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
+  for (auto & output : m_Outputs)
     {
-    if ( it->second )
+    if ( output.second )
       {
-      it->second->SetReleaseDataFlag(val);
+      output.second->SetReleaseDataFlag(val);
       }
     }
 }
@@ -1275,14 +1275,14 @@ ProcessObject
   if ( !m_Inputs.empty() )
     {
     os << indent << "Inputs: " << std::endl;
-    for ( DataObjectPointerMap::const_iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
+    for (const auto & input : m_Inputs)
       {
       std::string req = "";
-      if( this->IsRequiredInputName( it->first ) )
+      if( this->IsRequiredInputName( input.first ) )
         {
         req = " *";
         }
-      os << indent2 << it->first<< ": (" << it->second.GetPointer() << ")" << req  << std::endl;
+      os << indent2 << input.first<< ": (" << input.second.GetPointer() << ")" << req  << std::endl;
       }
     }
   else
@@ -1322,9 +1322,9 @@ ProcessObject
   if ( !m_Outputs.empty() )
     {
     os << indent << "Outputs: " << std::endl;
-    for ( DataObjectPointerMap::const_iterator it = m_Outputs.begin(); it != m_Outputs.end(); ++it )
+    for (const auto & output : m_Outputs)
       {
-      os << indent2 << it->first << ": (" << it->second.GetPointer() << ")" << std::endl;
+      os << indent2 << output.first << ": (" << output.second.GetPointer() << ")" << std::endl;
       }
     }
   else
@@ -1400,11 +1400,11 @@ ProcessObject
   //
   // Loop through the inputs
   //
-  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
+  for (auto & input : m_Inputs)
     {
-    if ( it->second )
+    if ( input.second )
       {
-      it->second->PropagateResetPipeline();
+      input.second->PropagateResetPipeline();
       }
     }
 }
@@ -1417,11 +1417,11 @@ ProcessObject
   /**
    * Make sure that all the required named inputs are there and non null
    */
-  for( NameSet::const_iterator it = this->m_RequiredInputNames.begin(); it != this->m_RequiredInputNames.end(); ++it )
+  for(const auto & requiredInputName : this->m_RequiredInputNames)
     {
-    if ( this->GetInput( *it ) == nullptr )
+    if ( this->GetInput( requiredInputName ) == nullptr )
       {
-      itkExceptionMacro(<< "Input " << *it << " is required but not set.");
+      itkExceptionMacro(<< "Input " << requiredInputName << " is required but not set.");
       }
     }
 
@@ -1467,10 +1467,6 @@ void
 ProcessObject
 ::UpdateOutputInformation()
 {
-  ModifiedTimeType               t1, t2;
-  DataObject *                   input;
-  DataObject *                   output;
-
   /**
    * Watch out for loops in the pipeline
    */
@@ -1500,29 +1496,29 @@ ProcessObject
    * PipelineMTime, and all input's MTime.  We begin with the MTime of
    * this ProcessObject.
    */
-  t1 = this->GetMTime();
+  ModifiedTimeType t1 = this->GetMTime();
 
   /**
    * Loop through the inputs
    */
-  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
+  for (auto & input : m_Inputs)
     {
-    if ( it->second )
+    if ( input.second )
       {
-      input = it->second;
+      DataObject * inputDO = input.second;
 
       /**
        * Propagate the UpdateOutputInformation call
        */
       m_Updating = true;
-      input->UpdateOutputInformation();
+      inputDO->UpdateOutputInformation();
       m_Updating = false;
 
       /**
        * What is the PipelineMTime of this input? Compare this against
        * our current computation to find the largest one.
        */
-      t2 = input->GetPipelineMTime();
+      ModifiedTimeType t2 = inputDO->GetPipelineMTime();
 
       if ( t2 > t1 )
         {
@@ -1533,7 +1529,7 @@ ProcessObject
        * Pipeline MTime of the input does not include the MTime of the
        * data object itself. Factor these mtimes into the next PipelineMTime
        */
-      t2 = input->GetMTime();
+      t2 = inputDO->GetMTime();
       if ( t2 > t1 )
         {
         t1 = t2;
@@ -1550,12 +1546,12 @@ ProcessObject
    */
   if ( t1 > m_OutputInformationMTime.GetMTime() )
     {
-    for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
+    for (auto & output : m_Outputs)
       {
-      output = it->second;
-      if ( output )
+      DataObject * outputDO = output.second;
+      if ( outputDO )
         {
-        output->SetPipelineMTime(t1);
+        outputDO->SetPipelineMTime(t1);
         }
       }
 
@@ -1624,11 +1620,11 @@ ProcessObject
    * through all the inputs.
    */
   m_Updating = true;
-  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
+  for (auto & input : m_Inputs)
     {
-    if ( it->second )
+    if ( input.second )
       {
-      it->second->PropagateRequestedRegion();
+      input.second->PropagateRequestedRegion();
       }
     }
   m_Updating = false;
@@ -1644,11 +1640,11 @@ ProcessObject
  * overridden in the subclasses since we can often produce the output with
  * just a portion of the input data.
  */
-  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
+  for (auto & input : m_Inputs)
     {
-    if ( it->second )
+    if ( input.second )
       {
-      it->second->SetRequestedRegionToLargestPossibleRegion();
+      input.second->SetRequestedRegionToLargestPossibleRegion();
       }
     }
 }
@@ -1662,11 +1658,11 @@ ProcessObject
  * By default we set all the output requested regions to be the same.
  */
 
-  for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
+  for (auto & o : m_Outputs)
     {
-    if ( it->second && it->second != output )
+    if ( o.second && o.second != output )
       {
-      it->second->SetRequestedRegion(output);
+      o.second->SetRequestedRegion(output);
       }
     }
 }
@@ -1678,11 +1674,11 @@ ProcessObject
 {
   if ( this->GetReleaseDataBeforeUpdateFlag() )
     {
-    for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
+    for (auto & output : m_Outputs)
       {
-      if ( it->second )
+      if ( output.second )
         {
-        it->second->PrepareForNewData();
+        output.second->PrepareForNewData();
         }
       }
     }
@@ -1693,13 +1689,13 @@ void
 ProcessObject
 ::ReleaseInputs()
 {
-  for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
+  for (auto & input : m_Inputs)
     {
-    if ( it->second )
+    if ( input.second )
       {
-      if ( it->second->ShouldIReleaseData() )
+      if ( input.second->ShouldIReleaseData() )
         {
-        it->second->ReleaseData();
+        input.second->ReleaseData();
         }
       }
     }
@@ -1739,12 +1735,12 @@ ProcessObject
     }
   else
     {
-    for ( DataObjectPointerMap::iterator it=m_Inputs.begin(); it != m_Inputs.end(); ++it )
+    for (auto & input : m_Inputs)
       {
-      if ( it->second )
+      if ( input.second )
         {
-        it->second->PropagateRequestedRegion();
-        it->second->UpdateOutputData();
+        input.second->PropagateRequestedRegion();
+        input.second->UpdateOutputData();
         }
       }
     }
@@ -1807,11 +1803,11 @@ ProcessObject
   /**
    * Now we have to mark the data as up to date.
    */
-  for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
+  for (auto & output : m_Outputs)
     {
-    if ( it->second )
+    if ( output.second )
       {
-      it->second->DataHasBeenGenerated();
+      output.second->DataHasBeenGenerated();
       }
     }
 
@@ -1835,16 +1831,16 @@ ProcessObject
 ::CacheInputReleaseDataFlags()
 {
   m_CachedInputReleaseDataFlags.clear();
-  for ( DataObjectPointerMap::iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
+  for (auto & input : m_Inputs)
     {
-    if ( it->second )
+    if ( input.second )
       {
-      m_CachedInputReleaseDataFlags[it->first] = it->second->GetReleaseDataFlag();
-      it->second->ReleaseDataFlagOff();
+      m_CachedInputReleaseDataFlags[input.first] = input.second->GetReleaseDataFlag();
+      input.second->ReleaseDataFlagOff();
       }
     else
       {
-      m_CachedInputReleaseDataFlags[it->first] = false;
+      m_CachedInputReleaseDataFlags[input.first] = false;
       }
     }
 }
@@ -1854,11 +1850,11 @@ void
 ProcessObject
 ::RestoreInputReleaseDataFlags()
 {
-  for ( DataObjectPointerMap::iterator it = m_Inputs.begin(); it != m_Inputs.end(); ++it )
+  for (auto & input : m_Inputs)
     {
-    if ( it->second )
+    if ( input.second )
       {
-      it->second->SetReleaseDataFlag(m_CachedInputReleaseDataFlags[it->first]);
+      input.second->SetReleaseDataFlag(m_CachedInputReleaseDataFlags[input.first]);
       }
     }
   m_CachedInputReleaseDataFlags.clear();
@@ -1873,15 +1869,15 @@ ProcessObject
  * Default implementation - copy information from first input to all outputs
  */
 
-  DataObject * input = this->GetPrimaryInput();
+  DataObject * primaryInput = this->GetPrimaryInput();
 
-  if ( input )
+  if ( primaryInput )
     {
-    for ( DataObjectPointerMap::iterator it=m_Outputs.begin(); it != m_Outputs.end(); ++it )
+    for (auto & output : m_Outputs)
       {
-      if ( it->second )
+      if ( output.second )
         {
-        it->second->CopyInformation(input);
+        output.second->CopyInformation(primaryInput);
         }
       }
     }

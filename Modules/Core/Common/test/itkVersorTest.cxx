@@ -101,13 +101,13 @@ int RotationMatrixToVersorTest(void)
 
   constexpr double steps = 0;
   const double small_degree_steps=onedegree/1000.0; //1/1000 of a degree
-  for(int j = 0; j < 6; j++)
+  for(double center : centers)
     {
-    for(double alpha=centers[j]-steps*small_degree_steps; alpha <= centers[j]+steps*small_degree_steps; alpha += small_degree_steps)
+    for(double alpha=center-steps*small_degree_steps; alpha <= center+steps*small_degree_steps; alpha += small_degree_steps)
       {
-      for(double beta=centers[j]-steps*small_degree_steps; beta <= centers[j]+steps*small_degree_steps; beta += small_degree_steps)
+      for(double beta=center-steps*small_degree_steps; beta <= center+steps*small_degree_steps; beta += small_degree_steps)
         {
-        for(double gamma=centers[j]-steps*small_degree_steps; gamma <= centers[j]+steps*small_degree_steps; gamma += small_degree_steps)
+        for(double gamma=center-steps*small_degree_steps; gamma <= center+steps*small_degree_steps; gamma += small_degree_steps)
           {
           itk::Matrix<double,3,3> MR=TestCreateRotationMatrixFromAngles(alpha, beta, gamma);
           itk::Versor<double> VR=TestCreateRotationVersorFromAngles(alpha, beta, gamma);

@@ -290,28 +290,25 @@ itkAutomaticTopologyMeshSourceTest(int, char* [] )
 
         mesh->GetCellBoundaryFeatureNeighbors( 0, i, 0, &cellSet );
         std::cout << "Neighbors across vertex 0: ";
-        for( NeighborSet::iterator neighborIter = cellSet.begin();
-             neighborIter != cellSet.end(); ++neighborIter )
+        for(const auto & neighborIter : cellSet)
           {
-          std::cout << *neighborIter << " ";
+          std::cout << neighborIter << " ";
           }
         std::cout << "\n";
 
         mesh->GetCellBoundaryFeatureNeighbors( 0, i, 1, &cellSet );
         std::cout << "Neighbors across vertex 1: ";
-        for( NeighborSet::iterator neighborIter = cellSet.begin();
-             neighborIter != cellSet.end(); ++neighborIter )
+        for(const auto & neighborIter : cellSet)
           {
-          std::cout << *neighborIter << " ";
+          std::cout << neighborIter << " ";
           }
         std::cout << "\n";
 
         mesh->GetCellNeighbors( i, &cellSet );
         std::cout << "Neighbors having edge as boundary: ";
-        for( NeighborSet::iterator neighborIter = cellSet.begin();
-             neighborIter != cellSet.end(); ++neighborIter )
+        for(const auto neighborIter : cellSet)
           {
-          std::cout << *neighborIter << " ";
+          std::cout << neighborIter << " ";
           }
         std::cout << "\n" << std::endl;
 

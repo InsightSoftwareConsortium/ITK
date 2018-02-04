@@ -415,9 +415,9 @@ int itkFEMFiniteDifferenceFunctionLoadTest( int argc, char* argv[] )
 
   double center[ImageDimension];
   double radius;
-  for( unsigned int i = 0; i < ImageDimension; ++i )
+  for(double & i : center)
     {
-    center[i] = ImageWidth / 2.0;
+    i = ImageWidth / 2.0;
     }
 
   InputImagePixelType fgnd = 250;

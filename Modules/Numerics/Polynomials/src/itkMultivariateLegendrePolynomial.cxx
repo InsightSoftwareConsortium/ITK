@@ -76,44 +76,44 @@ void MultivariateLegendrePolynomial
   os << indent << "Dimension: " << m_Dimension << std::endl;
   os << indent << "Degree: " << m_Degree << std::endl;
   os << indent << "DomainSize: ";
-  for ( unsigned int i = 0; i < m_DomainSize.size(); ++i )
+  for (const auto i : m_DomainSize)
     {
-    os << m_DomainSize[i] << " ";
+    os << i << " ";
     }
   os << std::endl;
 
   os << indent << "Cached X coefficients: ";
-  for ( unsigned int i = 0; i < m_CachedXCoef.size(); ++i )
+  for (auto i : m_CachedXCoef)
     {
-    os << m_CachedXCoef[i] << " ";
+    os << i << " ";
     }
   os << std::endl;
 
   os << indent << "Cached Y coefficients: ";
-  for ( unsigned int i = 0; i < m_CachedYCoef.size(); ++i )
+  for (auto i : m_CachedYCoef)
     {
-    os << m_CachedYCoef[i] << " ";
+    os << i << " ";
     }
   os << std::endl;
 
   os << indent << "Cached Z coefficients: ";
-  for ( unsigned int i = 0; i < m_CachedZCoef.size(); ++i )
+  for (auto i : m_CachedZCoef)
     {
-    os << m_CachedZCoef[i] << " ";
+    os << i << " ";
     }
   os << std::endl;
 
   os << indent << "Coefficients: ";
-  for ( unsigned int i = 0; i < m_CoefficientArray.size(); ++i )
+  for (auto i : m_CoefficientArray)
     {
-    os << m_CoefficientArray[i] << " ";
+    os << i << " ";
     }
   os << std::endl;
 
   os << indent << "Normalization factors: ";
-  for ( unsigned int i = 0; i < m_NormFactor.size(); ++i )
+  for (auto i : m_NormFactor)
     {
-    os << m_NormFactor[i] << " ";
+    os << i << " ";
     }
   os << std::endl;
 

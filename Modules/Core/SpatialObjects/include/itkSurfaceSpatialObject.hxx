@@ -304,9 +304,9 @@ SurfaceSpatialObject< TDimension >
 
         // Check that the point is not the same as some previously defined
         bool valid = true;
-        for ( unsigned int j = 0; j < 3; j++ )
+        for (auto & j : identifier)
           {
-          PointType p = m_Points[identifier[j]].GetPosition();
+          PointType p = m_Points[j].GetPosition();
           float     d = ( pos2[0] - p[0] ) * ( pos2[0] - p[0] ) + ( pos2[1] - p[1] )
                         * ( pos2[1] - p[1] ) + ( pos2[2] - p[2] ) * ( pos2[2] - p[2] );
           if ( Math::AlmostEquals( d, 0.0f ) )

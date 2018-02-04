@@ -76,11 +76,9 @@ public:
     ::itk::ObjectFactoryBase::UnRegisterAllFactories();
     if ( m_ObjectFactoryBasePrivate->m_InternalFactories )
       {
-      for ( std::list< itk::ObjectFactoryBase * >::iterator i =
-              m_ObjectFactoryBasePrivate->m_InternalFactories->begin();
-            i != m_ObjectFactoryBasePrivate->m_InternalFactories->end(); ++i )
+      for (auto & internalFactory : *m_ObjectFactoryBasePrivate->m_InternalFactories)
         {
-        (*i)->UnRegister();
+        internalFactory->UnRegister();
         }
       delete m_ObjectFactoryBasePrivate->m_InternalFactories;
       m_ObjectFactoryBasePrivate->m_InternalFactories = nullptr;
@@ -127,17 +125,15 @@ void SynchronizeList(FactoryListType * output,
     {
     return;
     }
-  for ( FactoryListType::iterator factory = input->begin();
-      factory != input->end(); ++factory )
+  for (auto & factory : *input)
     {
     int pos = -1;
     if(output)
       {
       int curr = 0;
-      for ( std::list< ::itk::ObjectFactoryBase * >::iterator i = output->begin();
-          i != output->end(); ++i )
+      for (auto & i : *output)
         {
-        if ((*i)->GetNameOfClass() == (*factory)->GetNameOfClass())
+        if (i->GetNameOfClass() == factory->GetNameOfClass())
           {
           pos = curr;
           break;  // factory already in internal factories.
@@ -149,11 +145,11 @@ void SynchronizeList(FactoryListType * output,
       {
       if (internal == true)
         {
-        ::itk::ObjectFactoryBase::RegisterFactoryInternal(*factory);
+        ::itk::ObjectFactoryBase::RegisterFactoryInternal(factory);
         }
       else
         {
-        ::itk::ObjectFactoryBase::RegisterFactory(*factory);
+        ::itk::ObjectFactoryBase::RegisterFactory(factory);
         }
       }
     }
@@ -239,11 +235,9 @@ ObjectFactoryBase
   ObjectFactoryBase::Initialize();
   ObjectFactoryBasePrivate * factoryBase = GetObjectFactoryBase();
 
-  for ( FactoryListType::iterator
-        i = factoryBase->m_RegisteredFactories->begin();
-        i != factoryBase->m_RegisteredFactories->end(); ++i )
+  for (auto & registeredFactory : *factoryBase->m_RegisteredFactories)
     {
-    LightObject::Pointer newobject = ( *i )->CreateObject(itkclassname);
+    LightObject::Pointer newobject = registeredFactory->CreateObject(itkclassname);
     if ( newobject )
       {
       newobject->Register();
@@ -261,11 +255,9 @@ ObjectFactoryBase
   ObjectFactoryBasePrivate * factoryBase = GetObjectFactoryBase();
 
   std::list< LightObject::Pointer > created;
-  for ( FactoryListType::iterator
-        i = factoryBase->m_RegisteredFactories->begin();
-        i != factoryBase->m_RegisteredFactories->end(); ++i )
+  for (auto & registeredFactory : *factoryBase->m_RegisteredFactories)
     {
-    std::list< LightObject::Pointer > moreObjects = ( *i )->CreateAllObject(itkclassname);
+    std::list< LightObject::Pointer > moreObjects = registeredFactory->CreateAllObject(itkclassname);
     created.splice(created.end(), moreObjects);
     }
   return created;
@@ -634,11 +626,9 @@ ObjectFactoryBase
   else
     {
     // Factories must only be loaded once
-    for ( std::list< ObjectFactoryBase * >::iterator i =
-            factoryBase->m_RegisteredFactories->begin();
-          i != factoryBase->m_RegisteredFactories->end(); ++i )
+    for (auto & registeredFactory : *factoryBase->m_RegisteredFactories)
       {
-      if ((*i)->m_LibraryPath == factory->m_LibraryPath)
+      if (registeredFactory->m_LibraryPath == factory->m_LibraryPath)
         {
         itkGenericOutputMacro(<< factory->m_LibraryPath << " is already loaded");
         return false;
@@ -731,15 +721,14 @@ ObjectFactoryBase
   os << indent << "Factory overides " << num << " classes:" << std::endl;
 
   indent = indent.GetNextIndent();
-  for ( OverRideMap::iterator i = m_OverrideMap->begin();
-        i != m_OverrideMap->end(); ++i )
+  for (auto & i : *m_OverrideMap)
     {
-    os << indent << "Class : " <<  ( *i ).first.c_str() << "\n";
-    os << indent << "Overriden with: " <<  ( *i ).second.m_OverrideWithName.c_str()
+    os << indent << "Class : " <<  i.first.c_str() << "\n";
+    os << indent << "Overriden with: " <<  i.second.m_OverrideWithName.c_str()
        << std::endl;
-    os << indent << "Enable flag: " << ( *i ).second.m_EnabledFlag
+    os << indent << "Enable flag: " << i.second.m_EnabledFlag
        << std::endl;
-    os << indent << "Create object: " << ( *i ).second.m_CreateObject
+    os << indent << "Create object: " << i.second.m_CreateObject
        << std::endl;
     os << std::endl;
     }
@@ -802,28 +791,22 @@ ObjectFactoryBase
     // Collect up all the library handles so they can be closed
     // AFTER the factory has been deleted.
     std::list< void * > libs;
-    for ( std::list< ObjectFactoryBase * >::iterator i =
-            factoryBase->m_RegisteredFactories->begin();
-          i != factoryBase->m_RegisteredFactories->end(); ++i )
+    for (auto & registeredFactory : *factoryBase->m_RegisteredFactories)
       {
-      libs.push_back( static_cast< void * >( ( *i )->m_LibraryHandle ) );
+      libs.push_back( static_cast< void * >( registeredFactory->m_LibraryHandle ) );
       }
     // Unregister each factory
-    for ( std::list< ObjectFactoryBase * >::iterator f =
-            factoryBase->m_RegisteredFactories->begin();
-          f != factoryBase->m_RegisteredFactories->end(); ++f )
+    for (auto & registeredFactory : *factoryBase->m_RegisteredFactories)
       {
-      DeleteNonInternalFactory(*f);
+      DeleteNonInternalFactory(registeredFactory);
       }
 #ifdef ITK_DYNAMIC_LOADING
     // And delete the library handles all at once
-    for ( std::list< void * >::iterator lib = libs.begin();
-          lib != libs.end();
-          ++lib )
+    for (auto & lib : libs)
       {
-      if ( ( *lib ) )
+      if ( lib )
         {
-        DynamicLoader::CloseLibrary( static_cast< LibHandle >( *lib ) );
+        DynamicLoader::CloseLibrary( static_cast< LibHandle >( lib ) );
         }
       }
 #endif
@@ -1005,10 +988,9 @@ ObjectFactoryBase
 ::GetClassOverrideNames()
 {
   std::list< std::string > ret;
-  for ( OverRideMap::iterator i = m_OverrideMap->begin();
-        i != m_OverrideMap->end(); ++i )
+  for (auto & i : *m_OverrideMap)
     {
-    ret.push_back( ( *i ).first );
+    ret.push_back( i.first );
     }
   return ret;
 }
@@ -1021,10 +1003,9 @@ ObjectFactoryBase
 ::GetClassOverrideWithNames()
 {
   std::list< std::string > ret;
-  for ( OverRideMap::iterator i = m_OverrideMap->begin();
-        i != m_OverrideMap->end(); ++i )
+  for (auto & i : *m_OverrideMap)
     {
-    ret.push_back( ( *i ).second.m_OverrideWithName );
+    ret.push_back( i.second.m_OverrideWithName );
     }
   return ret;
 }
@@ -1037,10 +1018,9 @@ ObjectFactoryBase
 ::GetClassOverrideDescriptions()
 {
   std::list< std::string > ret;
-  for ( OverRideMap::iterator i = m_OverrideMap->begin();
-        i != m_OverrideMap->end(); ++i )
+  for (auto & i : *m_OverrideMap)
     {
-    ret.push_back( ( *i ).second.m_Description );
+    ret.push_back( i.second.m_Description );
     }
   return ret;
 }
@@ -1053,10 +1033,9 @@ ObjectFactoryBase
 ::GetEnableFlags()
 {
   std::list< bool > ret;
-  for ( OverRideMap::iterator i = m_OverrideMap->begin();
-        i != m_OverrideMap->end(); ++i )
+  for (auto & i : *m_OverrideMap)
     {
-    ret.push_back( ( *i ).second.m_EnabledFlag );
+    ret.push_back( i.second.m_EnabledFlag );
     }
   return ret;
 }

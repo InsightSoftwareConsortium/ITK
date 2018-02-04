@@ -194,12 +194,12 @@ ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 
   OutputPointType OutputPt;
 
-  for ( InputMapPointIdentifierIterator PtIterator = m_InternalPtMap.begin();
-        PtIterator != m_InternalPtMap.end();
-        ++PtIterator )
+  for ( auto ptIterator = m_InternalPtMap.begin();
+        ptIterator != m_InternalPtMap.end();
+        ++ptIterator )
     {
-    OutputPointIdentifier id = static_cast< OutputPointIdentifier >( PtIterator->first );
-    InputPointIdentifier  InternalId = PtIterator->second;
+    OutputPointIdentifier id = static_cast< OutputPointIdentifier >( ptIterator->first );
+    InputPointIdentifier  InternalId = ptIterator->second;
 
     OutputPt[0] = X[InternalId];
     OutputPt[1] = Y[InternalId];

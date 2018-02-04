@@ -100,14 +100,14 @@ int itkAzimuthElevationToCartesianTransformTest(int, char *[])
   transform->Print(std::cout);
   std::cout << "\n\n--------\n\n";
 
-  for (unsigned int j = 0; j < p.size(); ++j)
+  for (auto & j : p)
     {
     std::cout << "original values of (theta,phi,r) p = " << std::endl;
-    PrintPoint< PointType >(p.at(j));
+    PrintPoint< PointType >(j);
 
     transform->SetForwardAzimuthElevationToCartesian();
 
-    PointType answer = transform->TransformPoint(p.at(j));
+    PointType answer = transform->TransformPoint(j);
     PrintPoint< PointType >(answer);
 
     PointType answerBackwards = transform->BackTransformPoint(answer);
@@ -125,8 +125,8 @@ int itkAzimuthElevationToCartesianTransformTest(int, char *[])
     bool same = true;
     for (unsigned int i = 0; i < PointType::PointDimension && same; ++i)
       {
-      same = ((itk::Math::abs(p.at(j)[i] - answerBackwards[i]) < ACCEPTABLE_ERROR) &&
-          (itk::Math::abs(p.at(j)[i] - reverseDirectionAnswerBackwards[i]) < ACCEPTABLE_ERROR) &&
+      same = ((itk::Math::abs(j[i] - answerBackwards[i]) < ACCEPTABLE_ERROR) &&
+          (itk::Math::abs(j[i] - reverseDirectionAnswerBackwards[i]) < ACCEPTABLE_ERROR) &&
           (itk::Math::abs(answer[i] - reverseDirectionAnswer[i]) < ACCEPTABLE_ERROR));
       }
     if (!same)

@@ -154,9 +154,9 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
       j++;
       }
 
-    for ( unsigned int ii = 0; ii < 4; ii++ )
+    for (auto & sign : signs)
       {
-      signs[ii] = 0;
+      sign = 0;
       }
 
     /* Compute the minimum points of piecewise smoothness */

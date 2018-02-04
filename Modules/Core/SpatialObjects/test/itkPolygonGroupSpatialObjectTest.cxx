@@ -21,7 +21,7 @@
 #include <iostream>
 #include "itkMath.h"
 
-static float testPoints[11][2] =
+constexpr float testPoints[11][2] =
   {
     {1,1},{1,2},{1.25,2},{1.25,1.25},{1.75,1.25},
     {1.75,1.5},{1.5,1.5},{1.5,2},{2,2},{2,1},{1,1}
@@ -49,11 +49,11 @@ buildPolygonGroup(PolygonGroup3DPointer &PolygonGroup)
       strand->SetThickness(1.0);
       //
       // add all points to this strand.
-      for(int i = 0; i < 11; i++)
+      for(auto & testPoint : testPoints)
         {
         double pos[3];
-        pos[0] = testPoints[i][0];
-        pos[1] = testPoints[i][1];
+        pos[0] = testPoint[0];
+        pos[1] = testPoint[1];
         pos[2] = z;
         itk::PolygonSpatialObject<3>::PointType curpoint(pos);
         if(!strand->AddPoint(curpoint))

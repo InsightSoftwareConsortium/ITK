@@ -44,12 +44,12 @@ ScalarRegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
   InputPixelType hVal;
   InputIndexType otherIndex;
 
-  for ( ListPixelIterator it = L.begin(); it != L.end(); ++it )
+  for (const auto & it : L)
     {
-    if ( *it != fId )
+    if ( it != fId )
       {
-      otherIndex = this->m_SharedData->m_LevelSetDataPointerVector[*it]->GetIndex(globalIndex);
-      hVal = this->m_SharedData->m_LevelSetDataPointerVector[*it]->m_HeavisideFunctionOfLevelSetImage->GetPixel(
+      otherIndex = this->m_SharedData->m_LevelSetDataPointerVector[it]->GetIndex(globalIndex);
+      hVal = this->m_SharedData->m_LevelSetDataPointerVector[it]->m_HeavisideFunctionOfLevelSetImage->GetPixel(
         otherIndex);
 
       sum += ( 1 - hVal );

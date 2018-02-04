@@ -61,20 +61,18 @@ int main( int argc, char *argv[] )
   std::cout << "Count: " << numFactories << std::endl;
   if (!factories.empty())
     {
-    for ( std::list<itk::ObjectFactoryBase*>::iterator
-            f = factories.begin();
-          f != factories.end(); ++f )
+    for (auto & factory : factories)
       {
       std::cout << "  Factory version: "
-                << (*f)->GetITKSourceVersion() << std::endl
+                << factory->GetITKSourceVersion() << std::endl
                 << "  Factory description: "
-                << (*f)->GetDescription() << std::endl
-                << "  Library Path: " << (*f)->GetLibraryPath() << std::endl;
+                << factory->GetDescription() << std::endl
+                << "  Library Path: " << factory->GetLibraryPath() << std::endl;
 
-      std::list<std::string> overrides = (*f)->GetClassOverrideNames();
-      std::list<std::string> names = (*f)->GetClassOverrideWithNames();
-      std::list<std::string> descriptions = (*f)->GetClassOverrideDescriptions();
-      std::list<bool> enableflags = (*f)->GetEnableFlags();
+      std::list<std::string> overrides = factory->GetClassOverrideNames();
+      std::list<std::string> names = factory->GetClassOverrideWithNames();
+      std::list<std::string> descriptions = factory->GetClassOverrideDescriptions();
+      std::list<bool> enableflags = factory->GetEnableFlags();
       std::list<std::string>::const_iterator n = names.begin();
       std::list<std::string>::const_iterator d = descriptions.begin();
       std::list<bool>::const_iterator e = enableflags.begin();
@@ -144,23 +142,21 @@ int main( int argc, char *argv[] )
 
   if (!factories.empty())
     {
-    for ( std::list<itk::ObjectFactoryBase*>::iterator
-            f = factories.begin();
-          f != factories.end(); ++f )
+    for (auto & factory : factories)
       {
-      std::cout << "check " << (void *) *f << std::endl;
+      std::cout << "check " << (void *) factory << std::endl;
       std::cout << "  Factory version: "
-                << (*f)->GetITKSourceVersion() << std::endl
+                << factory->GetITKSourceVersion() << std::endl
                 << "  Factory description: "
-                << (*f)->GetDescription() << std::endl;
+                << factory->GetDescription() << std::endl;
 
-      std::list<std::string> overrides = (*f)->GetClassOverrideNames();
+      std::list<std::string> overrides = factory->GetClassOverrideNames();
       std::cout << "ClassOverrideNames size: " << overrides.size() << std::endl;
-      std::list<std::string> names = (*f)->GetClassOverrideWithNames();
+      std::list<std::string> names = factory->GetClassOverrideWithNames();
       std::cout << "ClassOverrideWithNames size: " << names.size() << std::endl;
-      std::list<std::string> descriptions = (*f)->GetClassOverrideDescriptions();
+      std::list<std::string> descriptions = factory->GetClassOverrideDescriptions();
       std::cout << "ClassOverrideDescriptions size: " << descriptions.size() << std::endl;
-      std::list<bool> enableflags = (*f)->GetEnableFlags();
+      std::list<bool> enableflags = factory->GetEnableFlags();
       std::cout << "EnableFlags size: " << enableflags.size() << std::endl;
       std::list<std::string>::const_iterator n = names.begin();
       std::list<std::string>::const_iterator d = descriptions.begin();
