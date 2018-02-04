@@ -145,9 +145,9 @@ std::slice Neighborhood< TPixel, VDimension, TContainer >
   OffsetValueType n = this->Size() / 2;
   n -= t * s / 2;
 
-  return std::slice( static_cast< size_t >( n ),
-                     static_cast< size_t >( s ),
-                     static_cast< size_t >( t ) );
+  return { static_cast< size_t >( n ),
+           static_cast< size_t >( s ),
+           static_cast< size_t >( t ) };
 }
 
 template< typename TPixel, unsigned int VDimension, typename TContainer >

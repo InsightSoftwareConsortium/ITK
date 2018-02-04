@@ -1586,7 +1586,7 @@ public:
   static Self max(Self) { return max(); }
   static Self NonpositiveMin()
   {
-    return Self(NumericTraits< float >::NonpositiveMin(), 0.0f);
+    return {NumericTraits< float >::NonpositiveMin(), 0.0f};
   }
 
   static bool IsPositive(Self val) { return val.real() > 0.0; }
@@ -1649,7 +1649,7 @@ public:
   static Self max(Self) { return max(); }
   static Self NonpositiveMin()
   {
-    return Self(NumericTraits< double >::NonpositiveMin(), 0.0);
+    return {NumericTraits< double >::NonpositiveMin(), 0.0};
   }
 
   static bool IsPositive(Self val) { return val.real() > 0.0; }
@@ -1712,7 +1712,7 @@ public:
   static Self max(Self) { return max(); }
   static Self NonpositiveMin()
   {
-    return Self(NumericTraits< ValueType >::NonpositiveMin(), 0.0);
+    return {NumericTraits< ValueType >::NonpositiveMin(), 0.0};
   }
 
   static bool IsPositive(Self val) { return val.real() > 0.0; }
