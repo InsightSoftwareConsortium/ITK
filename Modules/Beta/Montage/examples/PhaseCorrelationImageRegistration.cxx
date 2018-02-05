@@ -40,7 +40,7 @@ int main( int argc, char *argv[] )
     {
     std::cout << "Usage: " << std::endl;
     std::cout << argv[0] << "  FixedImageFile  MovingImageFile"
-                         << "  OutputImageFile" << std::endl;
+                         << "  OutputTransformFile" << std::endl;
     return EXIT_FAILURE;
     }
   const char * fixedImageFile = argv[1];
