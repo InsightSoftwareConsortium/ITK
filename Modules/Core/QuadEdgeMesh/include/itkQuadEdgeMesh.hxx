@@ -64,8 +64,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     CellsContainerIterator cellIterator = this->GetEdgeCells()->Begin();
     while ( !this->GetEdgeCells()->empty() )
       {
-      EdgeCellType *edgeToDelete =
-        dynamic_cast< EdgeCellType * >( cellIterator.Value() );
+      auto * edgeToDelete = dynamic_cast< EdgeCellType * >( cellIterator.Value() );
       this->LightWeightDeleteEdge(edgeToDelete);
       cellIterator = this->GetEdgeCells()->Begin();
       }
@@ -85,7 +84,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::Graft(const DataObject *data)
 {
   this->Superclass::Graft(data);
-  const Self *mesh = dynamic_cast< const Self * >( data );
+  const auto * mesh = dynamic_cast< const Self * >( data );
 
   if ( !mesh )
     {
@@ -721,7 +720,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   QEPrimal *eDestination  = pDestination.GetEdge();
 
   // Ok, there's room and the points exist
-  EdgeCellType *newEdge = new EdgeCellType();
+  auto * newEdge = new EdgeCellType();
   QEPrimal *    newEdgeGeom = newEdge->GetQEGeom();
 
   newEdgeGeom->SetOrigin (orgPid);
@@ -849,7 +848,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   while ( cit != cend )
     {
-    PolygonCellType *pcell = dynamic_cast< PolygonCellType * >( cit.Value() );
+    auto * pcell = dynamic_cast< PolygonCellType * >( cit.Value() );
     bool             toDelete = false;
     if ( pcell != (PolygonCellType *)nullptr )
       {
@@ -890,7 +889,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   // we checked all the cells i nthe container
   // now delete the elements in the map
-  typename DeleteCellsCont::iterator dit = cellsToDelete.begin();
+  auto dit = cellsToDelete.begin();
   const typename DeleteCellsCont::iterator dend = cellsToDelete.end();
   while ( dit != dend )
     {
@@ -1042,7 +1041,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   CellIdentifier LineIdent = e->GetIdent();
   if ( LineIdent != m_NoPoint )
     {
-    EdgeCellType *edgeCell = dynamic_cast< EdgeCellType * >( this->GetEdgeCells()->GetElement(LineIdent) );
+    auto * edgeCell = dynamic_cast< EdgeCellType * >( this->GetEdgeCells()->GetElement(LineIdent) );
     this->LightWeightDeleteEdge(edgeCell);
     }
   else
@@ -1068,7 +1067,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     return;
     }
 
-  PolygonCellType *cellToDelete = dynamic_cast< PolygonCellType * >( c );
+  auto * cellToDelete = dynamic_cast< PolygonCellType * >( c );
   if ( !cellToDelete )
     {
     itkDebugMacro("This Id does not correspond to a face (should be an edge)");
@@ -1121,7 +1120,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 
   const CellsContainer* edgeCells = this->GetEdgeCells();
   CellsContainerConstIterator cit = edgeCells->Begin();
-  EdgeCellType* e = dynamic_cast< EdgeCellType * >( cit.Value() );
+  auto * e = dynamic_cast< EdgeCellType * >( cit.Value() );
 
   return ( e->GetQEGeom() );
 }
@@ -1141,7 +1140,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
     return ( (QEPrimal *)nullptr );
     }
 
-  EdgeCellType *e = dynamic_cast< EdgeCellType * >( c );
+  auto * e = dynamic_cast< EdgeCellType * >( c );
   return ( e->GetQEGeom() );
 }
 
@@ -1189,7 +1188,7 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::EdgeCellType *
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::FindEdgeCell(const PointIdentifier & pid0, const PointIdentifier & pid1) const
 {
-  EdgeCellType *result = (EdgeCellType *)nullptr;
+  auto * result = (EdgeCellType *)nullptr;
   QEPrimal *    EdgeGeom = FindEdge(pid0, pid1);
 
   if ( EdgeGeom != (QEPrimal *)nullptr )
@@ -1289,7 +1288,7 @@ typename QuadEdgeMesh< TPixel, VDimension, TTraits >::QEPrimal *
 QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::AddFaceWithSecurePointList(const PointIdList & points, bool CheckEdges)
 {
-  const PointIdentifier numberOfPoints = static_cast< PointIdentifier >( points.size() );
+  const auto numberOfPoints = static_cast< PointIdentifier >( points.size() );
 
   using QEList = std::vector< QEPrimal * >;
   QEList FaceQEList( numberOfPoints, nullptr );
@@ -1321,8 +1320,8 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
   QEPrimal *e1;
   QEPrimal *e0 = FaceQEList.back();
 
-  typename QEList::iterator fIt = FaceQEList.begin();
-  typename QEList::iterator fEnd = FaceQEList.end();
+  auto fIt = FaceQEList.begin();
+  auto fEnd = FaceQEList.end();
 
   while( fIt != fEnd )
     {
@@ -1360,7 +1359,7 @@ QuadEdgeMesh< TPixel, VDimension, TTraits >
 ::AddFace(QEPrimal *entry)
 {
   // Create the cell and add it to the container
-  PolygonCellType *faceCell = new PolygonCellType(entry);
+  auto * faceCell = new PolygonCellType(entry);
   CellIdentifier   fid = this->FindFirstUnusedCellIndex();
 
   faceCell->SetIdent(fid);

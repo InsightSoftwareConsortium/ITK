@@ -94,7 +94,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;
@@ -641,8 +641,7 @@ int main( int argc, char *argv[] )
   // Regulating the number of samples in the Metric is equivalent to performing
   // multi-resolution registration because it is indeed a sub-sampling of the
   // image.
-  const unsigned long numberOfSamples =
-     static_cast<unsigned long>(
+  const auto numberOfSamples = static_cast<unsigned long>(
        std::sqrt( static_cast<double>( numberOfBSplineParameters ) *
                  static_cast<double>( numberOfPixels ) ) );
   metric->SetNumberOfSpatialSamples( numberOfSamples );

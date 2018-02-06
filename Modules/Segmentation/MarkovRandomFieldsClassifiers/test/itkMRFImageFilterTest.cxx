@@ -363,14 +363,9 @@ int itkMRFImageFilterTest(int, char* [] )
   // Labelled image neighborhood interator typedef
 
   using OutImageNeighborhoodIterator = itk::NeighborhoodIterator<ClassImageType>;
-
   using OutImageNeighborhoodRadiusType = OutImageNeighborhoodIterator::RadiusType;
-
   using OutImageFacesCalculator = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ClassImageType>;
-
   using OutImageFaceListType = OutImageFacesCalculator::FaceListType;
-
-  using OutImageFaceListIterator = OutImageFaceListType::iterator;
 
   OutImageNeighborhoodRadiusType outImageNeighborhoodRadius;
   outImageNeighborhoodRadius.Fill( 1 );
@@ -387,7 +382,7 @@ int itkMRFImageFilterTest(int, char* [] )
                              outImageNeighborhoodRadius );
 
   //Set up a face list iterator
-  OutImageFaceListIterator outImageFaceListIter
+  auto outImageFaceListIter
     = outImageFaceList.begin();
 
   //Walk through the entire data set (not visiting the boundaries )

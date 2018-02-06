@@ -54,8 +54,7 @@ void
 CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
 ::GenerateBSplineShapeFunctions( const unsigned int order )
 {
-  const unsigned int numberOfPieces =
-    static_cast<unsigned int>( static_cast< TRealValueType >(0.5) * ( order + 1 ) );
+  const auto numberOfPieces = static_cast<unsigned int>( static_cast< TRealValueType >(0.5) * ( order + 1 ) );
 
   this->m_BSplineShapeFunctions.set_size( numberOfPieces, order );
 
@@ -133,7 +132,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
 ::GetShapeFunctionsInZeroToOneInterval()
 {
   const int order = this->m_SplineOrder + 1;
-  const unsigned int numberOfPieces = static_cast<unsigned int>( order );
+  const auto numberOfPieces = static_cast<unsigned int>( order );
   MatrixType shapeFunctions( numberOfPieces, order );
 
   VectorType knots( 2 * order );

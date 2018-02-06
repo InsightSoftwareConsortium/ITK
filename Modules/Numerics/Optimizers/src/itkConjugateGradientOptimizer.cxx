@@ -61,8 +61,7 @@ ConjugateGradientOptimizer
   const unsigned int numberOfParameters =
     costFunction->GetNumberOfParameters();
 
-  CostFunctionAdaptorType *adaptor =
-    new CostFunctionAdaptorType(numberOfParameters);
+  auto * adaptor = new CostFunctionAdaptorType(numberOfParameters);
 
   adaptor->SetCostFunction(costFunction);
 

@@ -31,13 +31,11 @@ void* ThreadFunction(void *ptr)
 {
 
   // Retrieve shared thread data and user data
-  itk::MultiThreader::ThreadInfoStruct* threadInfo =
-    static_cast<itk::MultiThreader::ThreadInfoStruct*>(ptr);
+  auto * threadInfo = static_cast<itk::MultiThreader::ThreadInfoStruct*>(ptr);
 
   itk::ThreadIdType localthreadId    = threadInfo->ThreadID;
 
-  SharedThreadData* localThreadData  =
-    static_cast<SharedThreadData*>(threadInfo->UserData);
+  auto * localThreadData = static_cast<SharedThreadData*>(threadInfo->UserData);
 
   int localnumberOfLoop              = localThreadData->numberOfLoop;
   itk::MutexLock::Pointer localMutex = localThreadData->sharedMutex;

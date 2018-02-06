@@ -552,7 +552,7 @@ GE5ImageIO::ModifyImageInformation()
   // first two files in the study
   if ( m_FilenameList->NumFiles() > 1 )
     {
-    IPLFileNameList::IteratorType it = m_FilenameList->begin();
+    auto it = m_FilenameList->begin();
 
     // The first file
     std::string file1 = ( *it )->GetImageFileName();

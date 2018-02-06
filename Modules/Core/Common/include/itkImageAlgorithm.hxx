@@ -231,12 +231,12 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
     // of the corners' indexes, and the output size to their maximum
     for (unsigned int count=0; count < numberOfCorners; ++count)
       {
-      IndexValueType continuousIndexFloor = Math::Floor<IndexValueType>( corners[count][dim] );
+      auto continuousIndexFloor = Math::Floor<IndexValueType>( corners[count][dim] );
       if (continuousIndexFloor < outputRegion.GetIndex(dim))
         {
         outputRegion.SetIndex(dim, continuousIndexFloor);
         }
-      IndexValueType continuousIndexCeil = Math::Ceil<IndexValueType>( corners[count][dim] );
+      auto continuousIndexCeil = Math::Ceil<IndexValueType>( corners[count][dim] );
       if (continuousIndexCeil > static_cast<IndexValueType>(outputRegion.GetSize(dim)))
         {
         outputRegion.SetSize(dim, continuousIndexCeil);

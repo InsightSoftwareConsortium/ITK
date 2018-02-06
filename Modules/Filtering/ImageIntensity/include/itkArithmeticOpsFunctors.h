@@ -278,7 +278,7 @@ public:
 
   inline TOutput operator()(const TInput & x) const
     {
-      TOutput result = static_cast< TOutput >( x % m_Dividend );
+      auto result = static_cast< TOutput >( x % m_Dividend );
 
       return result;
     }

@@ -140,7 +140,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
     fdm.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
     mdm.Fill(NumericTraits<DerivativeValueType>::ZeroValue());
 
-    const InternalComputationValueType fc = static_cast<InternalComputationValueType>( 2.0 );
+    const auto fc = static_cast<InternalComputationValueType>( 2.0 );
 
     for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
       {

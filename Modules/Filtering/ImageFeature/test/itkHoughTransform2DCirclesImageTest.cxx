@@ -357,8 +357,7 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   houghFilter->SetSweepAngle( sweepAngle );
   TEST_SET_GET_VALUE( sweepAngle, houghFilter->GetSweepAngle() );
 
-  HoughTransformFilterType::CirclesListSizeType numberOfCircles =
-    static_cast< HoughTransformFilterType::CirclesListSizeType >( circles );
+  auto numberOfCircles = static_cast< HoughTransformFilterType::CirclesListSizeType >( circles );
   houghFilter->SetNumberOfCircles( numberOfCircles );
   TEST_SET_GET_VALUE( numberOfCircles, houghFilter->GetNumberOfCircles() );
 

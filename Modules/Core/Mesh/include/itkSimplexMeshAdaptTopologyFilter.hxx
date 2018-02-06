@@ -94,7 +94,7 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
 
   for( PointIdentifier pointId = 0; pointId < numberOfPoints; pointId++ )
     {
-    SimplexMeshGeometry * outputGeometryDataItem = new SimplexMeshGeometry;
+    auto * outputGeometryDataItem = new SimplexMeshGeometry;
     SimplexMeshGeometry * inputGeometryDataItem = inputGeometryItr.Value();
     outputGeometryDataItem->CopyFrom( *inputGeometryDataItem );
     outputGeometryData->InsertElement( pointId, outputGeometryDataItem );
@@ -256,7 +256,7 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
 
       // splitting cell
       PointIdentifier    newPointIndex = NumericTraits< PointIdentifier >::ZeroValue();
-      OutputPolygonType *polygon = new OutputPolygonType;
+      auto * polygon = new OutputPolygonType;
       InputCellAutoPointer newPolygonPointer1;
       newPolygonPointer1.TakeOwnership(polygon);
 
@@ -272,7 +272,7 @@ void SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
       newPolygonPointer1->SetPointId(newPointIndex++, secondNewIndex);
       newPolygonPointer1->SetPointId(newPointIndex++, firstNewIndex);
 
-      OutputPolygonType *polygon2 = new OutputPolygonType;
+      auto * polygon2 = new OutputPolygonType;
       newPointIndex = 0;
 
       while ( pointIds != poly->PointIdsEnd() )
@@ -311,13 +311,13 @@ SimplexMeshAdaptTopologyFilter< TInputMesh, TOutputMesh >
 
   std::set< PointIdentifier >           cells1 =   outputMesh->GetCellLinks()->GetElement(id1);
   std::set< PointIdentifier >           cells2 =   outputMesh->GetCellLinks()->GetElement(id2);
-  typename std::set< PointIdentifier >::iterator cellIt = cells1.begin();
+  auto cellIt = cells1.begin();
 
   std::set< PointIdentifier > result;
 
   while ( cellIt != cells1.end() )
     {
-    typename std::set< PointIdentifier >::iterator found = std::find(cells2.begin(), cells2.end(), *cellIt);
+    auto found = std::find(cells2.begin(), cells2.end(), *cellIt);
     if ( found != cells2.end() )
       {
       result.insert(*cellIt);

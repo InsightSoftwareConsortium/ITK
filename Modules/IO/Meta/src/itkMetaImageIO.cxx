@@ -445,8 +445,8 @@ void MetaImageIO::Read(void *buffer)
 
   if ( largestRegion != m_IORegion )
     {
-    int *indexMin = new int[nDims];
-    int *indexMax = new int[nDims];
+    auto * indexMin = new int[nDims];
+    auto * indexMax = new int[nDims];
     for ( unsigned int i = 0; i < nDims; i++ )
       {
       if ( i < m_IORegion.GetImageDimension() )
@@ -790,9 +790,9 @@ MetaImageIO
       break;
     }
 
-  int *        dSize = new int[numberOfDimensions];
-  double *     eSpacing = new double[numberOfDimensions];
-  double *     eOrigin = new double[numberOfDimensions];
+  auto * dSize = new int[numberOfDimensions];
+  auto * eSpacing = new double[numberOfDimensions];
+  auto * eOrigin = new double[numberOfDimensions];
   for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
     {
     dSize[ii] = this->GetDimensions(ii);
@@ -1055,7 +1055,7 @@ MetaImageIO
       }
     }
   // Propagage direction cosine information.
-  double *transformMatrix = static_cast< double * >( malloc( numberOfDimensions * numberOfDimensions * sizeof( double ) ) );
+  auto * transformMatrix = static_cast< double * >( malloc( numberOfDimensions * numberOfDimensions * sizeof( double ) ) );
   if (transformMatrix)
     {
     for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
@@ -1087,8 +1087,8 @@ MetaImageIO
     }
   else if (  largestRegion != m_IORegion )
     {
-    int *indexMin = new int[numberOfDimensions];
-    int *indexMax = new int[numberOfDimensions];
+    auto * indexMin = new int[numberOfDimensions];
+    auto * indexMax = new int[numberOfDimensions];
     for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
       {
       // the dimensions of m_IORegion should match out requested

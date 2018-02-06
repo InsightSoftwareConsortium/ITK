@@ -137,10 +137,10 @@ int itkSampleClassifierFilterTest3( int, char * [] )
   const FilterType::MembershipFunctionVectorType
             membershipFunctions = membershipFunctionsObject->Get();
 
-  FilterType::MembershipFunctionVectorType::const_iterator
+  auto
                     begin = membershipFunctions.begin();
 
-  FilterType::MembershipFunctionVectorType::const_iterator
+  auto
                     end = membershipFunctions.end();
 
   FilterType::MembershipFunctionVectorType::const_iterator functionIter;
@@ -152,7 +152,7 @@ int itkSampleClassifierFilterTest3( int, char * [] )
   while( functionIter != end )
     {
     FilterType::MembershipFunctionPointer membershipFunction = *functionIter;
-    const EstimatorType::DistanceToCentroidMembershipFunctionType *
+    const auto *
           distanceMemberShpFunction =
         dynamic_cast<const EstimatorType::DistanceToCentroidMembershipFunctionType*>(membershipFunction.GetPointer());
     std::cout << "Centroid of the " << counter << " membership function "

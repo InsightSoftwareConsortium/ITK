@@ -40,7 +40,7 @@ TreeNode< TValue >
     m_Parent->Remove(this);
     }
 
-  const ChildIdentifier numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
+  const auto numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
 
   for ( ChildIdentifier i = numberOfChildren; i > 0; i-- )
     {
@@ -66,7 +66,7 @@ TreeNode< TValue > *
 TreeNode< TValue >
 ::GetChild(ChildIdentifier number) const
 {
-  const ChildIdentifier numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
+  const auto numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
 
   if ( number < numberOfChildren )
     {
@@ -167,7 +167,7 @@ bool
 TreeNode< TValue >
 ::ReplaceChild(Self *oldChild, Self *newChild)
 {
-  const ChildIdentifier numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
+  const auto numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
 
   for ( ChildIdentifier i = 0; i < numberOfChildren; i++ )
     {
@@ -186,7 +186,7 @@ OffsetValueType
 TreeNode< TValue >
 ::ChildPosition(const Self *node) const
 {
-  const ChildIdentifier numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
+  const auto numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
 
   for ( ChildIdentifier i = 0; i < numberOfChildren; i++ )
     {
@@ -204,7 +204,7 @@ typename TreeNode< TValue >::ChildIdentifier
 TreeNode< TValue >
 ::ChildPosition(TValue element) const
 {
-  const ChildIdentifier numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
+  const auto numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
 
   for ( ChildIdentifier i = 0; i < numberOfChildren; i++ )
     {
@@ -234,8 +234,8 @@ void
 TreeNode< TValue >
 ::AddChild(ChildIdentifier number, Self *node)
 {
-  const ChildIdentifier numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
-  ChildIdentifier childId = static_cast<ChildIdentifier>( number );
+  const auto numberOfChildren = static_cast< ChildIdentifier >( m_Children.size() );
+  auto childId = static_cast<ChildIdentifier>( number );
 
   if ( childId > numberOfChildren )
     {
@@ -257,8 +257,8 @@ typename TreeNode< TValue >::ChildIdentifier
 TreeNode< TValue >
 ::GetNumberOfChildren(unsigned int depth, char *name) const
 {
-  typename ChildrenListType::const_iterator it = m_Children.begin();
-  typename ChildrenListType::const_iterator itEnd = m_Children.end();
+  auto it = m_Children.begin();
+  auto itEnd = m_Children.end();
 
   ChildIdentifier cnt = 0;
   while ( it != itEnd )
@@ -291,12 +291,10 @@ typename TreeNode< TValue >::ChildrenListType *
 TreeNode< TValue >
 ::GetChildren(unsigned int depth, char *name) const
 {
-  ChildrenListType *children = new ChildrenListType;
+  auto * children = new ChildrenListType;
 
-  typename ChildrenListType::const_iterator childrenListIt =
-    m_Children.begin();
-  typename ChildrenListType::const_iterator childrenListEnd =
-    m_Children.end();
+  auto childrenListIt = m_Children.begin();
+  auto childrenListEnd = m_Children.end();
 
   while ( childrenListIt != childrenListEnd )
     {

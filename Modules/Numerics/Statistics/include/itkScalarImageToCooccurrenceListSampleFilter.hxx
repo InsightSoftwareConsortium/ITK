@@ -65,8 +65,7 @@ const typename ScalarImageToCooccurrenceListSampleFilter< TImage >::SampleType *
 ScalarImageToCooccurrenceListSampleFilter< TImage >
 ::GetOutput() const
 {
-  const SampleType *output =
-    static_cast< const SampleType * >( this->ProcessObject::GetOutput(0) );
+  const auto * output = static_cast< const SampleType * >( this->ProcessObject::GetOutput(0) );
 
   return output;
 }
@@ -97,14 +96,11 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
 
   using PixelType = typename ImageType::PixelType;
 
-  using OffsetIterator = typename OffsetTable::iterator;
-
   typename SampleType::MeasurementVectorType coords;
 
   const ImageType *input = this->GetInput();
 
-  SampleType *output =
-    static_cast< SampleType * >( this->ProcessObject::GetOutput(0) );
+  auto * output = static_cast< SampleType * >( this->ProcessObject::GetOutput(0) );
 
   // constant for a coocurrence matrix.
   constexpr unsigned int measurementVectorSize = 2;
@@ -124,7 +120,7 @@ ScalarImageToCooccurrenceListSampleFilter< TImage >
     {
     ShapedNeighborhoodIteratorType it(radius, input, *fit);
 
-    OffsetIterator iter = m_OffsetTable.begin();
+    auto iter = m_OffsetTable.begin();
     while ( iter != m_OffsetTable.end() )
       {
       it.ActivateOffset(*iter);

@@ -175,7 +175,7 @@ bool
 MetaDataDictionary
 ::Erase( const std::string& key )
 {
-  MetaDataDictionaryMapType::iterator it = m_Dictionary->find( key );
+  auto it = m_Dictionary->find( key );
   const MetaDataDictionaryMapType::iterator end = m_Dictionary->end();
 
   if( it != end )

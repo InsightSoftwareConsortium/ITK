@@ -365,15 +365,15 @@ public:
 
     IdCellType k = 1;
 
-    using VectorIteratorType = typename std::vector< IdCellType >::iterator;
-
-    VectorIteratorType it = this->m_Lookup.begin();
-
-    while ( it != this->m_Lookup.end() )
       {
-      *it = k;
-      ++it;
-      ++k;
+      auto it = this->m_Lookup.begin();
+      auto _end = this->m_Lookup.end();
+      while ( it != _end )
+        {
+        *it = k;
+        ++it;
+        ++k;
+        }
       }
   }
 

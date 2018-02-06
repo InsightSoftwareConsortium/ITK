@@ -196,7 +196,7 @@ GaussianDerivativeOperator< TPixel, VDimension, TAllocator >
   sum += coeff[0]; // the first is only needed once
 
   // Normalize the coefficients so they sum one
-  for ( typename CoefficientVector::iterator it = coeff.begin(); it != coeff.end(); ++it )
+  for ( auto it = coeff.begin(); it != coeff.end(); ++it )
     {
     *it /= sum.GetSum();
     }

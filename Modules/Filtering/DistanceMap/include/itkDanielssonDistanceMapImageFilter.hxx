@@ -323,12 +323,12 @@ DanielssonDistanceMapImageFilter< TInputImage, TOutputImage, TVoronoiImage >
   double norm2 = 0.0;
   for ( unsigned int i = 0; i < InputImageDimension; i++ )
     {
-    double v1 = static_cast< double >(  offsetValueHere[i]  );
-    double v2 = static_cast< double >(  offsetValueThere[i] );
+    auto v1 = static_cast< double >(  offsetValueHere[i]  );
+    auto v2 = static_cast< double >(  offsetValueThere[i] );
 
     if ( m_UseImageSpacing )
       {
-      double spacingComponent = static_cast< double >( m_InputSpacingCache[i] );
+      auto spacingComponent = static_cast< double >( m_InputSpacingCache[i] );
       v1 *= spacingComponent;
       v2 *= spacingComponent;
       }

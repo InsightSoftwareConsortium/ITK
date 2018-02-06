@@ -62,7 +62,7 @@ SingleValuedVnlCostFunctionAdaptorv4
     }
 
   this->m_ObjectMetric->SetParameters( parameters );
-  InternalMeasureType value = static_cast< InternalMeasureType >( m_ObjectMetric->GetValue() );
+  auto value = static_cast< InternalMeasureType >( m_ObjectMetric->GetValue() );
 
   // Notify observers. This is used for overcoming the limitaion of VNL
   // optimizers of not providing callbacks per iteration.

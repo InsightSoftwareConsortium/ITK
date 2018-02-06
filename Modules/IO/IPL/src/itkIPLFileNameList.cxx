@@ -143,8 +143,8 @@ IPLGetMacroDefinition(IPLFileSortInfo, Data, const void *);
 
 IPLFileNameList::~IPLFileNameList()
 {
-  IteratorType it = begin();
-  IteratorType itend = end();
+  auto it = begin();
+  auto itend = end();
 
   while ( it != itend )
   {

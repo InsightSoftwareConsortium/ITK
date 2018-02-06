@@ -54,8 +54,8 @@ int itkTIFFImageIOTestPalette(int argc, char * argv[])
 
   EXERCISE_BASIC_OBJECT_METHODS( io, TIFFImageIO, ImageIOBase );
 
-  const bool expandRGBPalette = static_cast< bool >( atoi(argv[3]) );
-  const bool isPaletteImage   = static_cast< bool >( atoi(argv[4]) );
+  const auto expandRGBPalette = static_cast< bool >( atoi(argv[3]) );
+  const auto isPaletteImage   = static_cast< bool >( atoi(argv[4]) );
   TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
 
   io->SetFileName( argv[1] );

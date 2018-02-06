@@ -144,7 +144,7 @@ bool runTestByType()
 
   /* Exercise set helper */
   using HelperType = typename itk::OptimizerParameters<TValue>::OptimizerParametersHelperType;
-  HelperType * helper = new HelperType;
+  auto * helper = new HelperType;
   params1.SetHelper( helper );
 
   return passed;

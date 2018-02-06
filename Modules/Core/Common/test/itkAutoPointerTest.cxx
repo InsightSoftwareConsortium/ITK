@@ -35,7 +35,7 @@ class TestObject
 int itkAutoPointerTest(int, char* [] )
 {
 
-  TestObject * obj = new TestObject;
+  auto * obj = new TestObject;
 
   TestObject::AutoPointer ptr1;
   ptr1.TakeOwnership( obj );

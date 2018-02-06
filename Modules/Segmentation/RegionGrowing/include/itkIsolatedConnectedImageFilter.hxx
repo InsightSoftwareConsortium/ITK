@@ -230,14 +230,13 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   // If the upper threshold has not been set, find it.
   if ( m_FindUpperThreshold )
     {
-    AccumulateType lower = static_cast< AccumulateType >( m_Lower );
-    AccumulateType upper = static_cast< AccumulateType >( m_Upper );
+    auto lower = static_cast< AccumulateType >( m_Lower );
+    auto upper = static_cast< AccumulateType >( m_Upper );
     AccumulateType guess = upper;
 
     // do a binary search to find an upper threshold that separates the
     // two sets of seeds.
-    const unsigned int maximumIterationsInBinarySearch =
-      static_cast< unsigned int >(
+    const auto maximumIterationsInBinarySearch = static_cast< unsigned int >(
         std::log( ( static_cast< float >( upper ) - static_cast< float >( lower ) )
                  / static_cast< float >( m_IsolatedValueTolerance ) )  / std::log(2.0) );
 
@@ -270,8 +269,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
       typename SeedsContainerType::const_iterator li = m_Seeds2.end();
       while ( si != li )
         {
-        const InputRealType value =
-          static_cast< InputRealType >( outputImage->GetPixel(*si) );
+        const auto value = static_cast< InputRealType >( outputImage->GetPixel(*si) );
         seedIntensitySum += value;
         si++;
         }
@@ -297,14 +295,13 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
     }
   else
     { // If the lower threshold has not been set, find it.
-    AccumulateType lower = static_cast< AccumulateType >( m_Lower );
-    AccumulateType upper = static_cast< AccumulateType >( m_Upper );
+    auto lower = static_cast< AccumulateType >( m_Lower );
+    auto upper = static_cast< AccumulateType >( m_Upper );
     AccumulateType guess = lower;
 
     // do a binary search to find a lower threshold that separates the
     // two sets of seeds.
-    const unsigned int maximumIterationsInBinarySearch =
-      static_cast< unsigned int >(
+    const auto maximumIterationsInBinarySearch = static_cast< unsigned int >(
         std::log( ( static_cast< float >( upper ) - static_cast< float >( lower ) )
                  / static_cast< float >( m_IsolatedValueTolerance ) )  / std::log(2.0) );
 
@@ -337,8 +334,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
       typename SeedsContainerType::const_iterator li = m_Seeds2.end();
       while ( si != li )
         {
-        const InputRealType value =
-          static_cast< InputRealType >( outputImage->GetPixel(*si) );
+        const auto value = static_cast< InputRealType >( outputImage->GetPixel(*si) );
         seedIntensitySum += value;
         si++;
         }
@@ -397,8 +393,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   typename SeedsContainerType::const_iterator li1 = m_Seeds1.end();
   while ( si1 != li1 )
     {
-    const InputRealType value =
-      static_cast< InputRealType >( outputImage->GetPixel(*si1) );
+    const auto value = static_cast< InputRealType >( outputImage->GetPixel(*si1) );
     seed1IntensitySum += value;
     si1++;
     }
@@ -406,8 +401,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   typename SeedsContainerType::const_iterator li2 = m_Seeds2.end();
   while ( si2 != li2 )
     {
-    const InputRealType value =
-      static_cast< InputRealType >( outputImage->GetPixel(*si2) );
+    const auto value = static_cast< InputRealType >( outputImage->GetPixel(*si2) );
     seed2IntensitySum += value;
     si2++;
     }

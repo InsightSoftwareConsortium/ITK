@@ -57,7 +57,7 @@ void LoggerManager::AddLogger(const NameType & name, Logger *logger)
 Logger *
 LoggerManager::GetLogger(const NameType & name)
 {
-  ContainerType::iterator loggerItr = this->m_LoggerSet.find(name);
+  auto loggerItr = this->m_LoggerSet.find(name);
 
   if ( loggerItr == this->m_LoggerSet.end() )
     {
@@ -68,7 +68,7 @@ LoggerManager::GetLogger(const NameType & name)
 
 void LoggerManager::SetPriorityLevel(PriorityLevelType level)
 {
-  ContainerType::iterator itr = this->m_LoggerSet.begin();
+  auto itr = this->m_LoggerSet.begin();
 
   while ( itr != this->m_LoggerSet.end() )
     {
@@ -79,7 +79,7 @@ void LoggerManager::SetPriorityLevel(PriorityLevelType level)
 
 void LoggerManager::SetLevelForFlushing(PriorityLevelType level)
 {
-  ContainerType::iterator itr = this->m_LoggerSet.begin();
+  auto itr = this->m_LoggerSet.begin();
 
   while ( itr != this->m_LoggerSet.end() )
     {
@@ -90,7 +90,7 @@ void LoggerManager::SetLevelForFlushing(PriorityLevelType level)
 
 void LoggerManager::AddLogOutput(OutputType *output)
 {
-  ContainerType::iterator itr = this->m_LoggerSet.begin();
+  auto itr = this->m_LoggerSet.begin();
 
   while ( itr != this->m_LoggerSet.end() )
     {
@@ -101,7 +101,7 @@ void LoggerManager::AddLogOutput(OutputType *output)
 
 void LoggerManager::Write(PriorityLevelType level, std::string const & content)
 {
-  ContainerType::iterator itr = this->m_LoggerSet.begin();
+  auto itr = this->m_LoggerSet.begin();
 
   while ( itr != this->m_LoggerSet.end() )
     {
@@ -112,7 +112,7 @@ void LoggerManager::Write(PriorityLevelType level, std::string const & content)
 
 void LoggerManager::Flush()
 {
-  ContainerType::iterator itr = this->m_LoggerSet.begin();
+  auto itr = this->m_LoggerSet.begin();
 
   while ( itr != this->m_LoggerSet.end() )
     {

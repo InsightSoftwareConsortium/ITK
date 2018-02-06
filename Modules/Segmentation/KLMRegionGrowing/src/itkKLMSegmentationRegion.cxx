@@ -102,9 +102,9 @@ KLMSegmentationRegion
     itkExceptionMacro(<< "Null pointer to segmentation region border");
     }
 
-  RegionBorderVectorIterator
+  auto
     regionBorderVectorIt    = m_RegionBorderVector.begin();
-  RegionBorderVectorIterator
+  auto
     regionBorderVectorItEnd = m_RegionBorderVector.end();
 
   // Erase the region border that matches the pBorderCandidate
@@ -171,9 +171,9 @@ KLMSegmentationRegion
   else
     {
     // Iterator set to the first element of the region border element
-    RegionBorderVectorIterator
+    auto
       regionBorderVectorIt    = m_RegionBorderVector.begin();
-    RegionBorderVectorIterator
+    auto
       regionBorderVectorItEnd = m_RegionBorderVector.end();
 
     bool insertAtEnd = true;
@@ -230,9 +230,9 @@ KLMSegmentationRegion
 
   // Update the region borders
 
-  RegionBorderVectorIterator
+  auto
     oldRegionBordersIt    = this->GetRegionBorderItBegin();
-  RegionBorderVectorIterator
+  auto
     endOfOldRegionBorders = this->GetRegionBorderItEnd();
 
   // Ensure that all borders associated with the old region
@@ -322,9 +322,9 @@ KLMSegmentationRegion
   RegionBorderVectorConstIterator
     endOfThisRegionBorders = thisRegionBorder.end();
 
-  RegionBorderVectorConstIterator
+  auto
     thatRegionBordersIt    = region->GetRegionBorderConstItBegin();
-  RegionBorderVectorConstIterator
+  auto
     endOfThatRegionBorders = region->GetRegionBorderConstItEnd();
 
   // Merge the two sets of region borders into the newly merged region
@@ -446,9 +446,9 @@ KLMSegmentationRegion
     }
 
   // Set up the iterator to loop through the region border vector
-  RegionBorderVectorIterator
+  auto
     regionBorderVectorIt    = m_RegionBorderVector.begin();
-  RegionBorderVectorIterator
+  auto
     regionBorderVectorItEnd = m_RegionBorderVector.end();
 
   // Loop through the entire border list and update the Lambda values

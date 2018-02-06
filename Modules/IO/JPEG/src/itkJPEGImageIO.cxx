@@ -34,7 +34,7 @@ METHODDEF(void) itk_jpeg_error_exit (j_common_ptr cinfo)
   {
   /* cinfo->err really points to a itk_jpeg_error_mgr struct, so coerce pointer
     */
-  itk_jpeg_error_mgr *myerr = reinterpret_cast<itk_jpeg_error_mgr *>(cinfo->err);
+  auto * myerr = reinterpret_cast<itk_jpeg_error_mgr *>(cinfo->err);
 
   /* Always display the message. */
   /* We could postpone this until after returning, if we chose. */
@@ -142,7 +142,7 @@ bool JPEGImageIO::CanReadFile(const char *file)
 
   // read the first two bytes
   unsigned char magic[2];
-  int           n = static_cast< int >( fread(magic, sizeof( magic ), 1, JPEGfp.m_FilePointer) );
+  auto n = static_cast< int >( fread(magic, sizeof( magic ), 1, JPEGfp.m_FilePointer) );
   if ( n != 1 )
     {
     return false;
@@ -239,9 +239,9 @@ void JPEGImageIO::Read(void *buffer)
   jpeg_start_decompress(&cinfo);
 
   SizeValueType rowbytes = cinfo.output_components * cinfo.output_width;
-  JSAMPLE *     tempImage = static_cast< JSAMPLE * >( buffer );
+  auto * tempImage = static_cast< JSAMPLE * >( buffer );
 
-  JSAMPROW *row_pointers = new JSAMPROW[cinfo.output_height];
+  auto * row_pointers = new JSAMPROW[cinfo.output_height];
   for ( ui = 0; ui < cinfo.output_height; ++ui )
     {
     row_pointers[ui] = tempImage + rowbytes * ui;
@@ -578,7 +578,7 @@ void JPEGImageIO::WriteSlice(std::string & fileName, const void *buffer)
   volatile const JSAMPLE *outPtr = ( (const JSAMPLE *)buffer );
 
   // write the data. in jpeg, the first row is the top row of the image
-  JSAMPROW *row_pointers = new JSAMPROW[height];
+  auto * row_pointers = new JSAMPROW[height];
   const int rowInc = numComp * width;
   for ( unsigned int ui = 0; ui < height; ui++ )
     {

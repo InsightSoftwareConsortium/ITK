@@ -97,8 +97,7 @@ int itkSpatialObjectTreeContainerTest(int, char* [])
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Testing node type of SpatialObject added to tree by iterator (PreOrderTreeIterator): " << std::endl;
-  const itk::SpatialObjectTreeNode<2>* spatialObjectTreeNode =
-    dynamic_cast<const itk::SpatialObjectTreeNode<2>*>(preIt.GetNode());
+  const auto * spatialObjectTreeNode = dynamic_cast<const itk::SpatialObjectTreeNode<2>*>(preIt.GetNode());
   if(spatialObjectTreeNode==nullptr)
     {
     std::cout << "[FAILED]" << std::endl;

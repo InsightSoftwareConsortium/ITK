@@ -100,7 +100,7 @@ ImageSeriesWriter< TInputImage, TOutputImage >
   // Make sure the data is up-to-date.
   // NOTE: this const_cast<> is due to the lack of const-correctness
   // of the ProcessObject.
-  InputImageType *nonConstImage = const_cast< InputImageType * >( inputImage );
+  auto * nonConstImage = const_cast< InputImageType * >( inputImage );
   nonConstImage->Update();
 
   // Notify start event observers

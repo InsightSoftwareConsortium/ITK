@@ -90,10 +90,10 @@ int itkExceptionObjectTest(int, char* [] )
   std::cout << F << std::endl;
   std::cout << "F==G? " << (F==G) << std::endl;
 
-  itk::RangeError *Ep  = new itk::RangeError;
+  auto * Ep = new itk::RangeError;
   Ep->SetLocation("itkExceptionObjectTest(int, char**)");
   Ep->SetDescription("Ep");
-  itk::RangeError *Fp = new itk::RangeError;
+  auto * Fp = new itk::RangeError;
   *Fp = *Ep;
   delete Ep;
   std::cout << *Fp << std::endl;

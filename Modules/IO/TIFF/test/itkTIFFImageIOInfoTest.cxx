@@ -46,8 +46,8 @@ int itkTIFFImageIOInfoTest( int argc, char * argv[] )
   using MetaDataStringType = itk::MetaDataObject< std::string >;
 
   const DictionaryType & dictionary = reader->GetImageIO()->GetMetaDataDictionary();
-  DictionaryType::ConstIterator itr = dictionary.Begin();
-  DictionaryType::ConstIterator end = dictionary.End();
+  auto itr = dictionary.Begin();
+  auto end = dictionary.End();
 
   std::cout << "MetaDataDictionary" << std::endl;
   while( itr != end )

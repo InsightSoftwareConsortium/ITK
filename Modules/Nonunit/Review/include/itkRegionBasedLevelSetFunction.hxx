@@ -157,7 +157,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   TimeStepType dt = 0.0;
 
-  GlobalDataStruct *d = (GlobalDataStruct *)GlobalData;
+  auto * d = (GlobalDataStruct *)GlobalData;
 
   if ( itk::Math::abs(d->m_MaxCurvatureChange) > itk::Math::eps )
     {
@@ -244,10 +244,8 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   for ( i = 0; i < ImageDimension; i++ )
     {
-    const unsigned int positionA =
-      static_cast< unsigned int >( this->m_Center + this->m_xStride[i] );
-    const unsigned int positionB =
-      static_cast< unsigned int >( this->m_Center - this->m_xStride[i] );
+    const auto positionA = static_cast< unsigned int >( this->m_Center + this->m_xStride[i] );
+    const auto positionB = static_cast< unsigned int >( this->m_Center - this->m_xStride[i] );
 
     gd->m_dx[i] = 0.5 * ( this->m_InvSpacing[i] )
                   * ( it.GetPixel(positionA) - it.GetPixel(positionB) );
@@ -263,13 +261,13 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
     for ( j = i + 1; j < ImageDimension; j++ )
       {
-      const unsigned int positionAa = static_cast< unsigned int >(
+      const auto positionAa = static_cast< unsigned int >(
         this->m_Center - this->m_xStride[i] - this->m_xStride[j] );
-      const unsigned int positionBa = static_cast< unsigned int >(
+      const auto positionBa = static_cast< unsigned int >(
         this->m_Center - this->m_xStride[i] + this->m_xStride[j] );
-      const unsigned int positionCa = static_cast< unsigned int >(
+      const auto positionCa = static_cast< unsigned int >(
         this->m_Center + this->m_xStride[i] - this->m_xStride[j] );
-      const unsigned int positionDa = static_cast< unsigned int >(
+      const auto positionDa = static_cast< unsigned int >(
         this->m_Center + this->m_xStride[i] + this->m_xStride[j] );
 
       gd->m_dxy[i][j] = gd->m_dxy[j][i] = 0.25
@@ -300,7 +298,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   ScalarValueType x_energy, advection_term = NumericTraits< ScalarValueType >::ZeroValue();
 
   // Access the global data structure
-  GlobalDataStruct *gd = (GlobalDataStruct *)globalData;
+  auto * gd = (GlobalDataStruct *)globalData;
 
   ComputeHessian(it, gd);
 
@@ -362,8 +360,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   /* Final update value is the local terms of curvature lengths and laplacian
   squared distances - global terms of rms differences of image and piecewise
   constant regions*/
-  PixelType updateVal =
-    static_cast< PixelType >( curvature_term + laplacian_term + globalTerm + advection_term );
+  auto updateVal = static_cast< PixelType >( curvature_term + laplacian_term + globalTerm + advection_term );
 
   /* If MaxGlobalChange recorded is lower than the current globalTerm */
   if ( itk::Math::abs(gd->m_MaxGlobalChange) < itk::Math::abs(globalTerm) )
@@ -420,7 +417,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
   ScalarValueType product = 1;
 
   // Assuming only 1 level set function to be present
-  FeatureIndexType featIndex = static_cast< FeatureIndexType >( inputIndex );
+  auto featIndex = static_cast< FeatureIndexType >( inputIndex );
 
   const FeaturePixelType featureVal =
     this->m_FeatureImage->GetPixel (inputIndex);

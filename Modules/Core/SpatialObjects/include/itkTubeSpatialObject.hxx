@@ -142,8 +142,8 @@ TubeSpatialObject< TDimension, TTubePointType >
   if ( this->GetBoundingBoxChildrenName().empty()
        || strstr( typeid( Self ).name(), this->GetBoundingBoxChildrenName().c_str() ) )
     {
-    typename PointListType::const_iterator it  = m_Points.begin();
-    typename PointListType::const_iterator end = m_Points.end();
+    auto it  = m_Points.begin();
+    auto end = m_Points.end();
 
     if ( it == end )
       {
@@ -177,8 +177,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 
       using PointsContainer = typename BoundingBoxType::PointsContainer;
       const PointsContainer *corners = bb->GetCorners();
-      typename BoundingBoxType::PointsContainer::const_iterator
-      itBB = corners->begin();
+      auto itBB = corners->begin();
       while ( itBB != corners->end() )
         {
         PointType pnt =
@@ -207,9 +206,9 @@ TubeSpatialObject< TDimension, TTubePointType >
 
   double minSquareDist = 999999.0;
   double tempSquareDist;
-  typename PointListType::const_iterator it = m_Points.begin();
-  typename PointListType::const_iterator it2 = m_Points.begin();
-  typename PointListType::const_iterator end = m_Points.end();
+  auto it = m_Points.begin();
+  auto it2 = m_Points.begin();
+  auto end = m_Points.end();
   typename PointListType::const_iterator min;
 
   if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
@@ -544,7 +543,7 @@ TubeSpatialObject< TDimension, TTubePointType >
 ::CopyInformation(const DataObject *data)
 {
   // check if we are the same type
-  const Self *source = dynamic_cast< const Self * >( data );
+  const auto * source = dynamic_cast< const Self * >( data );
 
   if ( source == nullptr )
     {

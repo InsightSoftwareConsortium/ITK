@@ -184,7 +184,7 @@ void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >:
   typename InputImageType::IndexType inputROIStart = inputROI.GetIndex();
 
   // the number of projections needed to cover 180 degrees
-  const unsigned int alpha_size = Math::Floor< unsigned int >(
+  const auto alpha_size = Math::Floor< unsigned int >(
     ( 180 * ( inputROISize[m_AlphaDirection] ) ) / m_AlphaRange);
   const double last_alpha_size = 1 + ( 180.0 * ( inputROISize[m_AlphaDirection] ) ) / m_AlphaRange - alpha_size;
   inputROIStart[m_AlphaDirection] += ( inputROISize[m_AlphaDirection] - alpha_size ) / 2;
@@ -220,7 +220,7 @@ void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >:
   FFT->SetInput(projectionLine);
 
   // Setup FFT Line interpolator stack
-  FFTLineInterpolatorType::Pointer *FFTLineInterpolator = new FFTLineInterpolatorType::Pointer[alpha_size];
+  auto * FFTLineInterpolator = new FFTLineInterpolatorType::Pointer[alpha_size];
   for ( unsigned int alpha = 0; alpha < alpha_size; alpha++ )
     {
     FFTLineInterpolator[alpha] = FFTLineInterpolatorType::New();
@@ -283,8 +283,7 @@ void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >:
         pIdx[0] %= pSize[0];
 
         // Modulate image to shift DC to center of FFT line
-        ProjectionLineType::PixelType val =
-          static_cast< ProjectionLineType::PixelType >( ( pIdx[0] & 1 ) ? -inputIt.Get() : inputIt.Get() );
+        auto val = static_cast< ProjectionLineType::PixelType >( ( pIdx[0] & 1 ) ? -inputIt.Get() : inputIt.Get() );
         projectionLine->SetPixel(pIdx, val);
 
         ++inputIt;
@@ -413,7 +412,7 @@ void DirectFourierReconstructionImageToImageFilter< TInputImage, TOutputImage >:
       wIdx[1] %= FFTSliceSize[1];
 
       // Demodulate the image
-      OutputPixelType val = static_cast< OutputPixelType >( IFFT->GetOutput()->GetPixel(wIdx) );
+      auto val = static_cast< OutputPixelType >( IFFT->GetOutput()->GetPixel(wIdx) );
       outputImage->SetPixel(oIdx, ( ( wIdx[0] + wIdx[1] ) & 1 ) ? -val : val);
       progress.CompletedPixel();
       } // for outputIt

@@ -66,8 +66,7 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField 
   Superclass::InitializeIteration();
 
   // set the gradient selection flag
-  LevelSetMotionFunctionType *drfp =
-    dynamic_cast< LevelSetMotionFunctionType * >
+  auto * drfp = dynamic_cast< LevelSetMotionFunctionType * >
     ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
@@ -114,8 +113,7 @@ double
 LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetMetric() const
 {
-  LevelSetMotionFunctionType *drfp =
-    dynamic_cast< LevelSetMotionFunctionType * >
+  auto * drfp = dynamic_cast< LevelSetMotionFunctionType * >
     ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
@@ -135,9 +133,7 @@ double
 LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetAlpha() const
 {
-  LevelSetMotionFunctionType *drfp =
-    dynamic_cast< LevelSetMotionFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< LevelSetMotionFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -156,9 +152,7 @@ void
 LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetAlpha(double alpha)
 {
-  LevelSetMotionFunctionType *drfp =
-    dynamic_cast< LevelSetMotionFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< LevelSetMotionFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -177,9 +171,7 @@ double
 LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetIntensityDifferenceThreshold() const
 {
-  LevelSetMotionFunctionType *drfp =
-    dynamic_cast< LevelSetMotionFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< LevelSetMotionFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -198,9 +190,7 @@ void
 LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetIntensityDifferenceThreshold(double threshold)
 {
-  LevelSetMotionFunctionType *drfp =
-    dynamic_cast< LevelSetMotionFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< LevelSetMotionFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -219,9 +209,7 @@ double
 LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetGradientMagnitudeThreshold() const
 {
-  LevelSetMotionFunctionType *drfp =
-    dynamic_cast< LevelSetMotionFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< LevelSetMotionFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -240,9 +228,7 @@ void
 LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetGradientMagnitudeThreshold(double threshold)
 {
-  LevelSetMotionFunctionType *drfp =
-    dynamic_cast< LevelSetMotionFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< LevelSetMotionFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -261,9 +247,7 @@ double
 LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::GetGradientSmoothingStandardDeviations() const
 {
-  LevelSetMotionFunctionType *drfp =
-    dynamic_cast< LevelSetMotionFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< LevelSetMotionFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -282,9 +266,7 @@ void
 LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::SetGradientSmoothingStandardDeviations(double sigma)
 {
-  LevelSetMotionFunctionType *drfp =
-    dynamic_cast< LevelSetMotionFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< LevelSetMotionFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -312,9 +294,7 @@ LevelSetMotionRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField 
 
   this->Superclass::ApplyUpdate(dt);
 
-  LevelSetMotionFunctionType *drfp =
-    dynamic_cast< LevelSetMotionFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< LevelSetMotionFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {

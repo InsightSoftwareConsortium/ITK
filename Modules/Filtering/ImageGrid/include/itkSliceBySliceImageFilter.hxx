@@ -77,7 +77,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
   Superclass::GenerateInputRequestedRegion();
 
   InputDataObjectIterator it( this );
-  InputImageType * input  = dynamic_cast< InputImageType * >( it.GetInput() );
+  auto * input = dynamic_cast< InputImageType * >( it.GetInput() );
 
   const RegionType &requestedInputRegion = input->GetRequestedRegion();
 
@@ -111,7 +111,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
                          TInternalOutputImageType >
 ::SetFilter(InputFilterType *filter)
 {
-  OutputFilterType *outputFilter = dynamic_cast< OutputFilterType * >( filter );
+  auto * outputFilter = dynamic_cast< OutputFilterType * >( filter );
 
   if ( outputFilter == nullptr && filter != nullptr )
     {
@@ -229,8 +229,7 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
     internalInputs[i]->SetSpacing(internalInputSpacing);
     }
 
-  const IndexValueType sliceRangeMax =
-    static_cast<IndexValueType>(requestedSize[m_Dimension] + requestedIndex[m_Dimension]);
+  const auto sliceRangeMax = static_cast<IndexValueType>(requestedSize[m_Dimension] + requestedIndex[m_Dimension]);
 
   for ( IndexValueType slice = requestedIndex[m_Dimension]; slice < sliceRangeMax; ++slice )
     {

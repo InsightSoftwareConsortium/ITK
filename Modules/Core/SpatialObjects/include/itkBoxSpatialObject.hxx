@@ -143,8 +143,8 @@ BoxSpatialObject< TDimension >
     typename PointsContainer::Pointer transformedCorners = PointsContainer::New();
     transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>( corners->size() ));
 
-    typename PointsContainer::const_iterator it = corners->begin();
-    typename PointsContainer::iterator itTrans = transformedCorners->begin();
+    auto it = corners->begin();
+    auto itTrans = transformedCorners->begin();
     while ( it != corners->end() )
       {
       PointType pnt = this->GetIndexToWorldTransform()->TransformPoint(*it);

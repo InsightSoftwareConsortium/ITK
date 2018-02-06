@@ -119,7 +119,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
   typename TOutputImage::Pointer output = this->GetOutput();
   typename TMaskImage::ConstPointer mask = this->GetMaskImage();
 
-  const ThreadIdType nbOfThreads = static_cast<const ThreadIdType>( m_NumberOfLabels.size() );
+  const auto nbOfThreads = static_cast<const ThreadIdType>( m_NumberOfLabels.size() );
 
   // create a line iterator
   using InputLineIteratorType = itk::ImageLinearConstIteratorWithIndex< InputImageType >;
@@ -215,13 +215,13 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
     InitUnion(nbOfLabels);
     // insert all the labels into the structure -- an extra loop but
     // saves complicating the ones that come later
-    typename LineMapType::iterator MapBegin = m_LineMap.begin();
-    typename LineMapType::iterator MapEnd = m_LineMap.end();
-    typename LineMapType::iterator LineIt = MapBegin;
+    auto MapBegin = m_LineMap.begin();
+    auto MapEnd = m_LineMap.end();
+    auto LineIt = MapBegin;
     SizeValueType label = 1;
     for ( LineIt = MapBegin; LineIt != MapEnd; ++LineIt )
       {
-      for ( typename lineEncoding::iterator cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt )
+      for ( auto cIt = LineIt->begin(); cIt != LineIt->end(); ++cIt )
         {
         cIt->label = label;
         InsertSet(label);

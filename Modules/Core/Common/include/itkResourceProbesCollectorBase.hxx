@@ -48,7 +48,7 @@ ResourceProbesCollectorBase< TProbe >
 {
   IdType tid = id;
 
-  typename MapType::iterator pos = this->m_Probes.find(tid);
+  auto pos = this->m_Probes.find(tid);
   if ( pos == this->m_Probes.end() )
     {
     itkGenericExceptionMacro(<< "The probe \"" << id << "\" does not exist. It can not be stopped.");
@@ -65,7 +65,7 @@ ResourceProbesCollectorBase< TProbe >
 {
   IdType tid = id;
 
-  typename MapType::const_iterator pos = this->m_Probes.find(tid);
+  auto pos = this->m_Probes.find(tid);
   if ( pos == this->m_Probes.end() )
     {
     itkGenericExceptionMacro(<< "The probe \"" << id << "\" does not exist.");
@@ -79,7 +79,7 @@ void
 ResourceProbesCollectorBase< TProbe >
 ::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
-  typename MapType::iterator probe = this->m_Probes.begin();
+  auto probe = this->m_Probes.begin();
   typename MapType::const_iterator end   = this->m_Probes.end();
 
   if ( probe == end )
@@ -113,7 +113,7 @@ ResourceProbesCollectorBase< TProbe >
 {
   const IdType tid = name;
 
-  typename MapType::iterator pos = this->m_Probes.find(tid);
+  auto pos = this->m_Probes.find(tid);
   if ( pos == this->m_Probes.end() )
     {
     os << "The probe \"" << name << "\" does not exist. It's report is not available" <<std::endl;
@@ -129,7 +129,7 @@ void
 ResourceProbesCollectorBase< TProbe >
 ::ExpandedReport(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
-  typename MapType::iterator probe = this->m_Probes.begin();
+  auto probe = this->m_Probes.begin();
   typename MapType::const_iterator end = this->m_Probes.end();
 
   if ( probe == end )
@@ -163,7 +163,7 @@ ResourceProbesCollectorBase< TProbe >
 {
   const IdType tid = name;
 
-  typename MapType::iterator pos = this->m_Probes.find(tid);
+  auto pos = this->m_Probes.find(tid);
   if ( pos == this->m_Probes.end() )
     {
     os << "The probe \"" << name << "\" does not exist. It's report is not available" <<std::endl;
@@ -179,7 +179,7 @@ void
 ResourceProbesCollectorBase< TProbe >
 ::JSONReport(std::ostream & os, bool printSystemInfo)
 {
-  typename MapType::iterator probe = this->m_Probes.begin();
+  auto probe = this->m_Probes.begin();
   typename MapType::const_iterator end = this->m_Probes.end();
 
   if ( probe == end )
@@ -223,7 +223,7 @@ ResourceProbesCollectorBase< TProbe >
 {
   const IdType tid = name;
 
-  typename MapType::iterator pos = this->m_Probes.find(tid);
+  auto pos = this->m_Probes.find(tid);
   if ( pos == this->m_Probes.end() )
     {
     os << "  { \"ProbeName\": \"" << name << "\", \"Status\": \"Does not exist!\" }" <<std::endl;

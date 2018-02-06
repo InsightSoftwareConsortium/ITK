@@ -67,7 +67,7 @@ SumOfSquaresImageFunction< TInputImage, TCoordRep >
   const unsigned int size = it.Size();
   for ( unsigned int i = 0; i < size; ++i )
     {
-    const RealType value = static_cast< RealType >( it.GetPixel(i) );
+    const auto value = static_cast< RealType >( it.GetPixel(i) );
     sumOfSquares += value * value;
     }
 

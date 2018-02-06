@@ -72,13 +72,11 @@ int itkRobustAutomaticThresholdImageFilterTest( int argc, char *argv[] )
   filter->SetPow( pow );
   TEST_SET_GET_VALUE( pow, filter->GetPow() );
 
-  FilterType::InputPixelType insideValue =
-    static_cast< FilterType::InputPixelType >( atof( argv[4] ) );
+  auto insideValue = static_cast< FilterType::InputPixelType >( atof( argv[4] ) );
   filter->SetInsideValue( insideValue );
   TEST_SET_GET_VALUE( insideValue, filter->GetInsideValue() );
 
-  FilterType::OutputPixelType outsideValue =
-    static_cast< FilterType::InputPixelType >( atof( argv[5] ) );
+  auto outsideValue = static_cast< FilterType::InputPixelType >( atof( argv[5] ) );
   filter->SetOutsideValue( outsideValue );
   TEST_SET_GET_VALUE( outsideValue, filter->GetOutsideValue() );
 
@@ -89,8 +87,7 @@ int itkRobustAutomaticThresholdImageFilterTest( int argc, char *argv[] )
 
 
   // Regression test
-  FilterType::InputPixelType expectedThreshold =
-    static_cast< FilterType::InputPixelType >( atof( argv[6] ) );
+  auto expectedThreshold = static_cast< FilterType::InputPixelType >( atof( argv[6] ) );
   FilterType::InputPixelType computedThreshold = filter->GetThreshold();
   if( itk::Math::NotAlmostEquals( expectedThreshold, computedThreshold ) )
     {

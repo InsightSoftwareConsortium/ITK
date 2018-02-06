@@ -122,7 +122,7 @@ void ImageSeriesReader< TOutputImage >
     itkExceptionMacro(<< "At least one filename is required.");
     }
 
-  const int numberOfFiles = static_cast< int >( m_FileNames.size() );
+  const auto numberOfFiles = static_cast< int >( m_FileNames.size() );
   for ( int i = 0; i < 2 && i < numberOfFiles; ++i )
     {
     const int iFileName = ( m_ReverseOrder ? numberOfFiles - i - 1 : i );
@@ -312,7 +312,7 @@ void ImageSeriesReader< TOutputImage >
 
   typename  TOutputImage::InternalPixelType *outputBuffer = output->GetBufferPointer();
   IndexType                           sliceStartIndex = requestedRegion.GetIndex();
-  const int                           numberOfFiles = static_cast< int >( m_FileNames.size() );
+  const auto numberOfFiles = static_cast< int >( m_FileNames.size() );
 
   for ( int i = 0; i != numberOfFiles; ++i )
     {
@@ -439,7 +439,7 @@ void ImageSeriesReader< TOutputImage >
     // Deep copy the MetaDataDictionary into the array
     if ( reader->GetImageIO() &&  needToUpdateMetaDataDictionaryArray )
       {
-      DictionaryRawPointer newDictionary = new DictionaryType;
+      auto newDictionary = new DictionaryType;
       *newDictionary = reader->GetImageIO()->GetMetaDataDictionary();
       m_MetaDataDictionaryArray.push_back(newDictionary);
       }

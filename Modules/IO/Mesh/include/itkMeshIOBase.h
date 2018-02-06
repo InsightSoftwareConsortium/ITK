@@ -589,7 +589,7 @@ protected:
       }
     else
       {
-      TOutput *data = new TOutput[numberOfComponents];
+      auto * data = new TOutput[numberOfComponents];
       for ( SizeValueType ii = 0; ii < numberOfComponents; ii++ )
         {
         data[ii] = static_cast< TOutput >( buffer[ii] );
@@ -622,7 +622,7 @@ protected:
       for ( SizeValueType ii = 0; ii < m_NumberOfCells; ii++ )
         {
         inputIndex++; // ignore the cell type
-        unsigned int numberOfPoints = static_cast< unsigned int >( input[inputIndex++] );
+        auto numberOfPoints = static_cast< unsigned int >( input[inputIndex++] );
         for ( unsigned int jj = 0; jj < numberOfPoints; jj++ )
           {
           output[outputIndex++] = static_cast< TOutput >( input[inputIndex++] );
@@ -644,8 +644,8 @@ protected:
 
       for ( SizeValueType ii = 0; ii < m_NumberOfCells; ii++ )
         {
-        MeshIOBase::CellGeometryType cellType = static_cast< MeshIOBase::CellGeometryType >( input[inputIndex++] );
-        unsigned int                 nn = static_cast< unsigned int >( input[inputIndex++] );
+        auto cellType = static_cast< MeshIOBase::CellGeometryType >( input[inputIndex++] );
+        auto nn = static_cast< unsigned int >( input[inputIndex++] );
         if ( cellType == type )
           {
           output[outputIndex++] = nn;
@@ -694,7 +694,7 @@ protected:
       SizeValueType outputIndex = NumericTraits< SizeValueType >::ZeroValue();
       for ( SizeValueType ii = 0; ii < numberOfCells; ii++ )
         {
-        unsigned int numberOfPoints = static_cast< unsigned int >( input[inputIndex++] );
+        auto numberOfPoints = static_cast< unsigned int >( input[inputIndex++] );
         output[outputIndex++] = static_cast< TOutput >( cellType );
         output[outputIndex++] = static_cast< TOutput >( numberOfPoints );
         for ( unsigned int jj = 0; jj < numberOfPoints; jj++ )

@@ -44,12 +44,12 @@ void
 AnnulusOperator< TPixel, TDimension, TAllocator >
 ::Fill(const CoefficientVector & coeff)
 {
-  std::slice *temp_slice = new std::slice(0, coeff.size(), 1);
+  auto * temp_slice = new std::slice(0, coeff.size(), 1);
 
   typename Self::SliceIteratorType data(this, *temp_slice);
   delete temp_slice;
 
-  typename Superclass::CoefficientVector::const_iterator it = coeff.begin();
+  auto it = coeff.begin();
 
   // Copy the coefficients into the neighborhood
   for ( data = data.Begin(); data < data.End(); ++data, ++it )
@@ -162,7 +162,7 @@ AnnulusOperator< TPixel, TDimension, TAllocator >
     {
     // Calculate the mean and standard deviation of kernel values NOT
     // the exterior
-    double num = static_cast< double >( countNotExterior );
+    auto num = static_cast< double >( countNotExterior );
     double mean = sumNotExterior / num;
     double var = ( sumNotExteriorSq - ( sumNotExterior * sumNotExterior / num ) )
       / ( num - 1.0 );

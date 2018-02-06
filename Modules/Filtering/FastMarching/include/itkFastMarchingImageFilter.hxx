@@ -459,7 +459,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   std::sort(m_NodesUsed, m_NodesUsed + SetDimension);
 
   // solve quadratic equation
-  double solution = static_cast< double >( m_LargeValue );
+  auto solution = static_cast< double >( m_LargeValue );
 
   double aa( 0.0 );
   double bb( 0.0 );
@@ -478,7 +478,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   for ( unsigned int j = 0; j < SetDimension; j++ )
     {
     node = m_NodesUsed[j];
-    const double value = static_cast< double >( node.GetValue() );
+    const auto value = static_cast< double >( node.GetValue() );
 
     if ( solution >= value )
       {
@@ -510,7 +510,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   if ( solution < m_LargeValue )
     {
     // write solution to m_OutputLevelSet
-    PixelType outputPixel = static_cast< PixelType >( solution );
+    auto outputPixel = static_cast< PixelType >( solution );
     output->SetPixel(index, outputPixel);
 
     // insert point into trial heap

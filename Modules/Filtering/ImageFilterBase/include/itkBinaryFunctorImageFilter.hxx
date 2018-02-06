@@ -81,7 +81,7 @@ const typename BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImag
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::GetConstant1() const
 {
-  const DecoratedInput1ImagePixelType *input = dynamic_cast< const DecoratedInput1ImagePixelType * >(
+  const auto * input = dynamic_cast< const DecoratedInput1ImagePixelType * >(
       this->ProcessObject::GetInput(0) );
   if( input == nullptr )
     {
@@ -136,7 +136,7 @@ const typename BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImag
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::GetConstant2() const
 {
-  const DecoratedInput2ImagePixelType *input = dynamic_cast< const DecoratedInput2ImagePixelType * >(
+  const auto * input = dynamic_cast< const DecoratedInput2ImagePixelType * >(
       this->ProcessObject::GetInput(1) );
   if( input == nullptr )
     {
@@ -192,10 +192,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   // We use dynamic_cast since inputs are stored as DataObjects. The
   // ImageToImageFilter::GetInput(int) always returns a pointer to a
   // TInputImage1 so it cannot be used for the second input.
-  const TInputImage1 *inputPtr1 =
-    dynamic_cast< const TInputImage1 * >( ProcessObject::GetInput(0) );
-  const TInputImage2 *inputPtr2 =
-    dynamic_cast< const TInputImage2 * >( ProcessObject::GetInput(1) );
+  const auto * inputPtr1 = dynamic_cast< const TInputImage1 * >( ProcessObject::GetInput(0) );
+  const auto * inputPtr2 = dynamic_cast< const TInputImage2 * >( ProcessObject::GetInput(1) );
   TOutputImage *outputPtr = this->GetOutput(0);
   const SizeValueType size0 = outputRegionForThread.GetSize(0);
   if( size0 == 0)

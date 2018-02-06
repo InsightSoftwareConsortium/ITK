@@ -157,7 +157,7 @@ CompositeTransformIOHelperTemplate<TParametersValueType>
     {
     return 0;
     }
-  const CompositeType *composite = static_cast<const CompositeType *>(transform);
+  const auto * composite = static_cast<const CompositeType *>(transform);
 
   //
   // push the composite on the list first, as per the convention for
@@ -166,10 +166,9 @@ CompositeTransformIOHelperTemplate<TParametersValueType>
 
   const typename CompositeType::TransformQueueType &transforms =
   composite->GetTransformQueue();
-  for(typename CompositeType::TransformQueueType::const_iterator it =
-      transforms.begin(); it != transforms.end(); ++it)
+  for(auto it = transforms.begin(); it != transforms.end(); ++it)
     {
-    const TransformType *curTransform = static_cast<const TransformType *>((*it).GetPointer());
+    const auto * curTransform = static_cast<const TransformType *>((*it).GetPointer());
     ConstTransformPointer curPtr = curTransform;
     this->m_TransformList.push_back(curPtr);
     }
@@ -196,15 +195,15 @@ CompositeTransformIOHelperTemplate<TParametersValueType>
     // if not, we'll try then next dim down
     return 0;
     }
-  CompositeType *composite = static_cast<CompositeType *>(transform);
+  auto * composite = static_cast<CompositeType *>(transform);
 
   //
   // iterate thru transform list and assign into Composite
-  typename TransformListType::iterator it = transformList.begin();
+  auto it = transformList.begin();
   ++it;                         // skip the composite transform
   for(; it != transformList.end(); ++it)
     {
-    ComponentTransformType *component = static_cast<ComponentTransformType *>((*it).GetPointer());
+    auto * component = static_cast<ComponentTransformType *>((*it).GetPointer());
     composite->AddTransform(component);
     }
   return 1;

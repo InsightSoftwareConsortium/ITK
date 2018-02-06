@@ -50,7 +50,7 @@ int itkMetaDataDictionaryTest(int , char * [])
   itk::EncapsulateMetaData<std::string>(MyDictionary,"srtringfromcharconst*",std::string("Value Never Seen"));
 
   //Other gotchas with the Dictionary
-  char * StrandedMemory=new char[2345];
+  auto * StrandedMemory = new char[2345];
   strcpy(StrandedMemory,"XXXXXXXXXXXXThis is stranded memory that will not be released when the Dictionary is cleaned up");
   //NOTE: Only the pointer is copied, not the data within the pointer!
   itk::EncapsulateMetaData<char *>(MyDictionary,"MemoryChangedOutsideOfDictionary",StrandedMemory);
@@ -77,8 +77,8 @@ int itkMetaDataDictionaryTest(int , char * [])
   std::cout << "Exercise the Iterator access" << std::endl;
   try
     {
-    itk::MetaDataDictionary::Iterator itr = MyDictionary.Begin();
-    itk::MetaDataDictionary::Iterator end = MyDictionary.End();
+    auto itr = MyDictionary.Begin();
+    auto end = MyDictionary.End();
 
     while( itr != end )
       {
@@ -101,8 +101,8 @@ int itkMetaDataDictionaryTest(int , char * [])
   try
     {
     const itk::MetaDataDictionary & MyConstDictionary = MyDictionary;
-    itk::MetaDataDictionary::ConstIterator itr = MyConstDictionary.Begin();
-    itk::MetaDataDictionary::ConstIterator end = MyConstDictionary.End();
+    auto itr = MyConstDictionary.Begin();
+    auto end = MyConstDictionary.End();
 
     while( itr != end )
       {
@@ -123,8 +123,8 @@ int itkMetaDataDictionaryTest(int , char * [])
   std::cout << "Exercise the Getter/Setter test" <<std::endl;
   try
    {
-    itk::MetaDataDictionary::Iterator itr = MyDictionary.Begin();
-    itk::MetaDataDictionary::Iterator end = MyDictionary.End();
+    auto itr = MyDictionary.Begin();
+    auto end = MyDictionary.End();
     while( itr != end )
     {
         std::cout << "Key   = " << itr->first << std::endl;

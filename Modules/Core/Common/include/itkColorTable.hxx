@@ -216,8 +216,8 @@ ColorTable< TPixel >
       {
       r = static_cast< TPixel >(realR);
       }
-    TPixel g(static_cast<TPixel>( shift));
-    TPixel b(static_cast<TPixel>( shift));
+    auto g(static_cast<TPixel>( shift));
+    auto b(static_cast<TPixel>( shift));
     m_Color[i].Set(r,g,b);
     std::ostringstream name;
     name << "Heat" << std::fixed << std::setprecision(2)
@@ -234,8 +234,8 @@ ColorTable< TPixel >
       {
       r = static_cast<TPixel>(rdouble);
       }
-    TPixel g = static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift);
-    TPixel b = static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift);
+    auto g = static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift);
+    auto b = static_cast<TPixel>((( i + 1 ) / ( n / 2.0 + 1 )) * scale + shift);
     m_Color[(size_t)(i + n / 2.0 )].Set(r,g,b);
     std::ostringstream name;
     name << "Heat" << std::fixed << std::setprecision(2)

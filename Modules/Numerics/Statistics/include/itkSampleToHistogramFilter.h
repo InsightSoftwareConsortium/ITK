@@ -158,9 +158,9 @@ private:
   {
     if(NumericTraits<HistogramMeasurementType>::is_integer)
       {
-      MeasurementType fromMax = static_cast<MeasurementType>
+      auto fromMax = static_cast<MeasurementType>
         (NumericTraits<HistogramMeasurementType>::max());
-      MeasurementType fromMin = static_cast<MeasurementType>
+      auto fromMin = static_cast<MeasurementType>
         (NumericTraits<HistogramMeasurementType>::min());
 
       if (from >= fromMax)

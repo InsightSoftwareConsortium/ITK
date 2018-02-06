@@ -119,7 +119,7 @@ RootTreeIterator< TTreeType >::FindNextNode() const
 template< typename TTreeType >
 TreeIteratorBase< TTreeType > *RootTreeIterator< TTreeType >::Clone()
 {
-  RootTreeIterator< TTreeType > *clone = new RootTreeIterator< TTreeType >(const_cast< TTreeType * >( this->m_Tree ),
+  auto * clone = new RootTreeIterator< TTreeType >(const_cast< TTreeType * >( this->m_Tree ),
                                                                            this->m_Position);
   *clone = *this;
   return clone;

@@ -488,7 +488,7 @@ void FileListVideoIO::PrintSelf(std::ostream & os, Indent indent) const
     }
 
   os << indent << "Image filenames:" << std::endl;
-  std::vector<std::string>::const_iterator it = m_FileNames.begin();
+  auto it = m_FileNames.begin();
   while( it != m_FileNames.end() )
     {
     os << indent << *it << std::endl;

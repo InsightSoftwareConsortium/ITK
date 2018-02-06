@@ -116,8 +116,7 @@ int itkComplexToPhaseFilterAndAdaptorTest( int, char* [] )
 
     double phased = std::atan2( input.imag(), input.real() );
 
-    const OutputImageType::PixelType phase =
-       static_cast<OutputImageType::PixelType>( phased );
+    const auto phase = static_cast<OutputImageType::PixelType>( phased );
 
     if( !itk::Math::FloatAlmostEqual( phase, output, 10, epsilon ) )
       {

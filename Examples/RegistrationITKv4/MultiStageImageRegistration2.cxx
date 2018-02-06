@@ -101,7 +101,7 @@ public:
       std::cout << " \"" << object->GetObjectName() << "\"" << std::endl;
       }
 
-    const RegistrationType * registration = static_cast<const RegistrationType *>( object );
+    const auto * registration = static_cast<const RegistrationType *>( object );
     if(registration == nullptr)
       {
       itkExceptionMacro(<< "Dynamic cast failed, object of type " << object->GetNameOfClass());
@@ -146,7 +146,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer =  static_cast< OptimizerPointer >( object );
+    auto optimizer =  static_cast< OptimizerPointer >( object );
     if( optimizer == nullptr)
       {
       return; // in this unlikely context, just do nothing.

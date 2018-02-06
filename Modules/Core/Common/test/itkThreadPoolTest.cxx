@@ -25,10 +25,9 @@ itk::MutexLock::Pointer sharedMutex;
 void* execute(void *ptr)
 {
   // Here - get any args from ptr.
-  itk::MultiThreader::ThreadInfoStruct* threadInfo =
-    static_cast<itk::MultiThreader::ThreadInfoStruct*>(ptr);
+  auto * threadInfo = static_cast<itk::MultiThreader::ThreadInfoStruct*>(ptr);
 
-  int *data = static_cast<int *>(threadInfo->UserData);
+  auto * data = static_cast<int *>(threadInfo->UserData);
 
   sharedMutex->Lock();
   std::cout << "Ptr received  :" << ptr

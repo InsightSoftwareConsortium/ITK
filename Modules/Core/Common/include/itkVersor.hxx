@@ -219,8 +219,7 @@ typename Versor< T >::ValueType
 Versor< T >
 ::GetTensor(void) const
 {
-  const ValueType tensor =
-    static_cast< ValueType >(
+  const auto tensor = static_cast< ValueType >(
       std::sqrt(m_X * m_X + m_Y * m_Y + m_Z * m_Z + m_W * m_W) );
 
   return tensor;
@@ -256,9 +255,9 @@ Versor< T >
 {
   VectorType axis;
 
-  const RealType ax = static_cast< RealType >( m_X );
-  const RealType ay = static_cast< RealType >( m_Y );
-  const RealType az = static_cast< RealType >( m_Z );
+  const auto ax = static_cast< RealType >( m_X );
+  const auto ay = static_cast< RealType >( m_Y );
+  const auto az = static_cast< RealType >( m_Z );
 
   const RealType vectorNorm = std::sqrt(ax * ax  +  ay * ay  +  az * az);
 
@@ -308,9 +307,9 @@ typename Versor< T >::ValueType
 Versor< T >
 ::GetAngle(void) const
 {
-  const RealType ax = static_cast< RealType >( m_X );
-  const RealType ay = static_cast< RealType >( m_Y );
-  const RealType az = static_cast< RealType >( m_Z );
+  const auto ax = static_cast< RealType >( m_X );
+  const auto ay = static_cast< RealType >( m_Y );
+  const auto az = static_cast< RealType >( m_Z );
 
   const RealType vectorNorm = std::sqrt(ax * ax  +  ay * ay  +  az * az);
 

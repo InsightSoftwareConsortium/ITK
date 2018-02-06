@@ -283,7 +283,7 @@ HDF5ImageIO
   bool trueVal(true);
   isBool.write(scalarType,&trueVal);
   isBool.close();
-  int tempVal = static_cast<int>(value);
+  auto tempVal = static_cast<int>(value);
   scalarSet.write(&tempVal,scalarType);
   scalarSet.close();
 }
@@ -316,7 +316,7 @@ HDF5ImageIO
   bool trueVal(true);
   isLong.write(attrType,&trueVal);
   isLong.close();
-  int tempVal = static_cast<int>(value);
+  auto tempVal = static_cast<int>(value);
   scalarSet.write(&tempVal,scalarType);
   scalarSet.close();
 }
@@ -349,7 +349,7 @@ HDF5ImageIO
   bool trueVal(true);
   isUnsignedLong.write(attrType,&trueVal);
   isUnsignedLong.close();
-  int tempVal = static_cast<int>(value);
+  auto tempVal = static_cast<int>(value);
   scalarSet.write(&tempVal,scalarType);
   scalarSet.close();
 }
@@ -507,7 +507,7 @@ HDF5ImageIO
               const std::vector<TScalar> &vec)
 {
   hsize_t dim(vec.size());
-  TScalar *buf(new TScalar[dim]);
+  auto *buf(new TScalar[dim]);
   for(unsigned i = 0; i < dim; i++)
     {
     buf[i] = vec[i];
@@ -540,7 +540,7 @@ HDF5ImageIO
     }
   Space.getSimpleExtentDims(dim,nullptr);
   vec.resize(dim[0]);
-  TScalar *buf = new TScalar[dim[0]];
+  auto * buf = new TScalar[dim[0]];
   H5::PredType vecType =
     GetType<TScalar>();
   vecSet.read(buf,vecType);
@@ -561,7 +561,7 @@ HDF5ImageIO
   hsize_t dim[2];
   dim[1] = dir.size();
   dim[0] = dir[0].size();
-  double *buf(new double[dim[0] * dim[1]]);
+  auto *buf(new double[dim[0] * dim[1]]);
   unsigned k(0);
   for(unsigned i = 0; i < dim[1]; i++)
     {
@@ -603,7 +603,7 @@ HDF5ImageIO
   H5::FloatType dirType = dirSet.getFloatType();
   if(dirType.getSize() == sizeof(double))
     {
-    double *buf = new double[dim[0] * dim[1]];
+    auto * buf = new double[dim[0] * dim[1]];
     dirSet.read(buf,H5::PredType::NATIVE_DOUBLE);
     int k = 0;
     for(unsigned i = 0; i < dim[1]; i++)
@@ -618,7 +618,7 @@ HDF5ImageIO
     }
   else
     {
-    float *buf = new float[dim[0] * dim[1]];
+    auto * buf = new float[dim[0] * dim[1]];
     dirSet.read(buf,H5::PredType::NATIVE_FLOAT);
     int k = 0;
     for(unsigned i = 0; i < dim[1]; i++)
@@ -645,7 +645,7 @@ HDF5ImageIO
 {
   if(numElements == 1)
     {
-    TType val = this->ReadScalar<TType>(HDFPath);
+    auto val = this->ReadScalar<TType>(HDFPath);
     EncapsulateMetaData<TType>(*metaDict,name,val);
     }
   else
@@ -794,7 +794,7 @@ HDF5ImageIO
     std::vector<std::vector<double> > directions =
       this->ReadDirections(DirectionsName);
 
-    int numDims = static_cast<int>( directions.size() );
+    auto numDims = static_cast<int>( directions.size() );
     this->SetNumberOfDimensions(numDims);
 
     //H5::Group instanceGroup(this->m_H5File->openGroup(groupName));
@@ -841,7 +841,7 @@ HDF5ImageIO
     // by comparing the size of the Directions matrix with the
     // reported # of dimensions in the voxel dataset
     hsize_t nDims = imageSpace.getSimpleExtentNdims();
-    hsize_t *Dims = new hsize_t[nDims];
+    auto * Dims = new hsize_t[nDims];
     imageSpace.getSimpleExtentDims(Dims);
     if(nDims > this->GetNumberOfDimensions())
       {
@@ -883,18 +883,18 @@ HDF5ImageIO
           // happen because vnl_vector<bool> isn't
           // instantiated
           bool val;
-          int tmpVal = this->ReadScalar<int>(localMetaDataName);
+          auto tmpVal = this->ReadScalar<int>(localMetaDataName);
           val = tmpVal != 0;
           EncapsulateMetaData<bool>(metaDict,name,val);
           }
         else if(doesAttrExist(metaDataSet,"isLong"))
           {
-          long val = this->ReadScalar<long>(localMetaDataName);
+          auto val = this->ReadScalar<long>(localMetaDataName);
           EncapsulateMetaData<long>(metaDict,name,val);
           }
         else if(doesAttrExist(metaDataSet,"isUnsignedLong"))
           {
-          unsigned long val = this->ReadScalar<unsigned long>(localMetaDataName);
+          auto val = this->ReadScalar<unsigned long>(localMetaDataName);
           EncapsulateMetaData<unsigned long>(metaDict,name,val);
           }
         else
@@ -920,7 +920,7 @@ HDF5ImageIO
           // happen because vnl_vector<bool> isn't
           // instantiated
           bool val;
-          int tmpVal = this->ReadScalar<int>(localMetaDataName);
+          auto tmpVal = this->ReadScalar<int>(localMetaDataName);
           val = tmpVal != 0;
           EncapsulateMetaData<bool>(metaDict,name,val);
           }
@@ -950,7 +950,7 @@ HDF5ImageIO
         {
         if(doesAttrExist(metaDataSet,"isUnsignedLong"))
           {
-          unsigned long val = this->ReadScalar<unsigned long>(localMetaDataName);
+          auto val = this->ReadScalar<unsigned long>(localMetaDataName);
           EncapsulateMetaData<unsigned long>(metaDict,name,val);
           }
         else
@@ -965,7 +965,7 @@ HDF5ImageIO
         {
         if(doesAttrExist(metaDataSet,"isLLong"))
             {
-            long long val = this->ReadScalar<long long>(localMetaDataName);
+            auto val = this->ReadScalar<long long>(localMetaDataName);
             EncapsulateMetaData<long long>(metaDict,name,val);
             }
         else
@@ -980,7 +980,7 @@ HDF5ImageIO
         {
         if(doesAttrExist(metaDataSet,"isULLong"))
             {
-            unsigned long long val = this->ReadScalar<unsigned long long>(localMetaDataName);
+            auto val = this->ReadScalar<unsigned long long>(localMetaDataName);
             EncapsulateMetaData<unsigned long long>(metaDict,name,val);
             }
         else
@@ -1070,8 +1070,8 @@ HDF5ImageIO
   const int HDFDim(this->GetNumberOfDimensions() +
                    (numComponents > 1 ? 1 : 0));
 
-  hsize_t *offset = new hsize_t[HDFDim];
-  hsize_t *HDFSize = new hsize_t[HDFDim];
+  auto * offset = new hsize_t[HDFDim];
+  auto * HDFSize = new hsize_t[HDFDim];
   const int limit = regionToRead.GetImageDimension();
   //
   // fastest moving dimension is intra-voxel
@@ -1124,8 +1124,7 @@ bool
 HDF5ImageIO
 ::WriteMeta(const std::string &name,MetaDataObjectBase *metaObjBase)
 {
-  MetaDataObject<TType> *metaObj =
-    dynamic_cast<MetaDataObject<TType> *>(metaObjBase);
+  auto * metaObj = dynamic_cast<MetaDataObject<TType> *>(metaObjBase);
   if(metaObj == nullptr)
     {
     return false;
@@ -1141,8 +1140,7 @@ HDF5ImageIO
 ::WriteMetaArray(const std::string &name,MetaDataObjectBase *metaObjBase)
 {
   using MetaDataArrayObject = MetaDataObject< Array<TType> >;
-    MetaDataArrayObject *metaObj =
-    dynamic_cast<MetaDataArrayObject  *>(metaObjBase);
+    auto * metaObj = dynamic_cast<MetaDataArrayObject  *>(metaObjBase);
   if(metaObj == nullptr)
     {
     return false;
@@ -1213,7 +1211,7 @@ HDF5ImageIO
     int numDims = this->GetNumberOfDimensions();
     // HDF5 dimensions listed slowest moving first, ITK are fastest
     // moving first.
-    hsize_t *dims = new hsize_t[numDims + (numComponents == 1 ? 0 : 1)];
+    auto * dims = new hsize_t[numDims + (numComponents == 1 ? 0 : 1)];
 
     for(int i(0), j(numDims-1); i < numDims; i++, j--)
       {
@@ -1248,7 +1246,7 @@ HDF5ImageIO
     //
     // MetaData.
     MetaDataDictionary & metaDict = this->GetMetaDataDictionary();
-    MetaDataDictionary::Iterator it = metaDict.Begin(),
+    auto it = metaDict.Begin(),
       end = metaDict.End();
     for(; it != end; it++)
       {
@@ -1353,10 +1351,8 @@ HDF5ImageIO
       //
       // C String Arrays
       {
-      MetaDataObject<char *> *cstringObj =
-        dynamic_cast<MetaDataObject<char *> *>(metaObj);
-      MetaDataObject<const char *> *constCstringObj =
-        dynamic_cast<MetaDataObject<const char *> *>(metaObj);
+      auto * cstringObj = dynamic_cast<MetaDataObject<char *> *>(metaObj);
+      auto * constCstringObj = dynamic_cast<MetaDataObject<const char *> *>(metaObj);
       if(cstringObj != nullptr || constCstringObj != nullptr)
         {
         const char *val;
@@ -1375,8 +1371,7 @@ HDF5ImageIO
       //
       // std::string
       {
-      MetaDataObject<std::string> *stdStringObj =
-        dynamic_cast<MetaDataObject<std::string> *>(metaObj);
+      auto * stdStringObj = dynamic_cast<MetaDataObject<std::string> *>(metaObj);
       if(stdStringObj != nullptr)
         {
         std::string val = stdStringObj->GetMetaDataObjectValue();
@@ -1425,7 +1420,7 @@ HDF5ImageIO
     int numDims = this->GetNumberOfDimensions();
     // HDF5 dimensions listed slowest moving first, ITK are fastest
     // moving first.
-    hsize_t *dims = new hsize_t[numDims + (numComponents == 1 ? 0 : 1)];
+    auto * dims = new hsize_t[numDims + (numComponents == 1 ? 0 : 1)];
 
     for(int i(0), j(numDims-1); i < numDims; i++, j--)
       {

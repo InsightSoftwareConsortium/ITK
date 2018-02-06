@@ -64,7 +64,7 @@ bool
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 ::TestHomogeneity(IndexList & Plist)
 {
-  int    num = static_cast< int >( Plist.size() );
+  auto num = static_cast< int >( Plist.size() );
   int    i;
   double getp;
   double addp = 0;

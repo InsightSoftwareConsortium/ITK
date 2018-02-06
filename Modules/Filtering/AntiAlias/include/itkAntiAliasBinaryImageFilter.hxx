@@ -104,8 +104,8 @@ AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
   m_UpperBinaryValue = minmax->GetMaximum();
   m_LowerBinaryValue = minmax->GetMinimum();
 
-  ValueType min = static_cast< ValueType >( minmax->GetMinimum() );
-  ValueType max = static_cast< ValueType >( minmax->GetMaximum() );
+  auto min = static_cast< ValueType >( minmax->GetMinimum() );
+  auto max = static_cast< ValueType >( minmax->GetMaximum() );
 
   // IsoSurface value is halfway between minimum and maximum.  In a binary
   // image, this places the zero level sets correctly no matter what the binary

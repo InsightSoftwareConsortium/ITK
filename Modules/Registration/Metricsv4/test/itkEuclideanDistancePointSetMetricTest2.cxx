@@ -42,7 +42,7 @@ int itkEuclideanDistancePointSetMetricTest2Run()
   movingPoints->Initialize();
 
   // Create a few points and apply a small offset to make the moving points
-  float pointMax = static_cast<float>(100.0);
+  auto pointMax = static_cast<float>(100.0);
   PointType fixedPoint;
   fixedPoint.Fill( 0.0 );
   fixedPoint[0] = 0.0;

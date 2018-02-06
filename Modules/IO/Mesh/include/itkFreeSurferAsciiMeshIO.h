@@ -118,7 +118,7 @@ protected:
     constexpr unsigned int numberOfCellPoints = 3;
     SizeValueType      index = 0;
 
-    T *data = new T[this->m_NumberOfCells * numberOfCellPoints];
+    auto * data = new T[this->m_NumberOfCells * numberOfCellPoints];
 
     ReadCellsBuffer(buffer, data);
 

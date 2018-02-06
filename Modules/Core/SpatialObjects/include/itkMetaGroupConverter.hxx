@@ -42,7 +42,7 @@ typename MetaGroupConverter< NDimensions >::SpatialObjectPointer
 MetaGroupConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const GroupMetaObjectType *group = dynamic_cast<const GroupMetaObjectType *>(mo);
+  const auto * group = dynamic_cast<const GroupMetaObjectType *>(mo);
   if(group == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaGroup" );
@@ -81,7 +81,7 @@ MetaGroupConverter< NDimensions >
     itkExceptionMacro(<< "Can't downcast SpatialObject to GroupSpatialObject");
     }
 
-  GroupMetaObjectType *group = new GroupMetaObjectType(NDimensions);
+  auto * group = new GroupMetaObjectType(NDimensions);
 
   float color[4];
 

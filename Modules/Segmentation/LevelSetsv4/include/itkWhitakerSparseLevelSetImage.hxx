@@ -46,13 +46,13 @@ WhitakerSparseLevelSetImage< TOutput, VDimension >
 ::Evaluate( const InputType& inputIndex ) const
 {
   InputType mapIndex = inputIndex - this->m_DomainOffset;
-  LayerMapConstIterator layerIt = this->m_Layers.begin();
+  auto layerIt = this->m_Layers.begin();
 
-  OutputType rval = static_cast<OutputType>(ZeroLayer());
+  auto rval = static_cast<OutputType>(ZeroLayer());
 
   while( layerIt != this->m_Layers.end() )
     {
-    LayerConstIterator it = ( layerIt->second ).find( mapIndex );
+    auto it = ( layerIt->second ).find( mapIndex );
     if( it != ( layerIt->second ).end() )
       {
       rval = it->second;

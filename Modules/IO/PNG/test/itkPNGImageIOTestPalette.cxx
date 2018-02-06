@@ -55,14 +55,14 @@ int itkPNGImageIOTestPalette( int argc, char * argv[] )
 
   EXERCISE_BASIC_OBJECT_METHODS( io, PNGImageIO, ImageIOBase );
 
-  const bool expandRGBPalette = static_cast< bool >( atoi(argv[3]) );
-  const bool isPaletteImage   = static_cast< bool >( atoi(argv[4]) );
+  const auto expandRGBPalette = static_cast< bool >( atoi(argv[3]) );
+  const auto isPaletteImage   = static_cast< bool >( atoi(argv[4]) );
   TEST_SET_GET_BOOLEAN( io, ExpandRGBPalette, expandRGBPalette );
 
   // Exercise exception cases
   size_t sizeOfActualIORegion = io->GetIORegion().GetNumberOfPixels() *
     ( io->GetComponentSize() * io->GetNumberOfComponents() );
-  char *loadBuffer = new char[sizeOfActualIORegion];
+  auto * loadBuffer = new char[sizeOfActualIORegion];
 
   TRY_EXPECT_EXCEPTION( io->Read( loadBuffer ) );
 

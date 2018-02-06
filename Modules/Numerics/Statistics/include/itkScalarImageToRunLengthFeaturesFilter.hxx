@@ -158,8 +158,8 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
   // Now get the mean and deviaton of each feature across the offsets.
   this->m_FeatureMeans->clear();
   this->m_FeatureStandardDeviations->clear();
-  double *tempFeatureMeans = new double[numFeatures];
-  double *tempFeatureDevs = new double[numFeatures];
+  auto * tempFeatureMeans = new double[numFeatures];
+  auto * tempFeatureDevs = new double[numFeatures];
 
   /*Compute incremental mean and SD, a la Knuth, "The  Art of Computer
     Programming, Volume 2: Seminumerical Algorithms",  section 4.2.2.
@@ -203,12 +203,12 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
     this->m_FeatureStandardDeviations->push_back( tempFeatureDevs[featureNum] );
     }
 
-  FeatureValueVectorDataObjectType *meanOutputObject =
-    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>( this->ProcessObject::GetOutput( 0 ) );
+  auto * meanOutputObject = itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(
+                                                 this->ProcessObject::GetOutput( 0 ) );
   meanOutputObject->Set( this->m_FeatureMeans );
 
-  FeatureValueVectorDataObjectType *standardDeviationOutputObject =
-    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>( this->ProcessObject::GetOutput( 1 ) );
+  auto * standardDeviationOutputObject = itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(
+                                                 this->ProcessObject::GetOutput( 1 ) );
   standardDeviationOutputObject->Set( this->m_FeatureStandardDeviations );
 
   delete[] tempFeatureMeans;
@@ -248,12 +248,12 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
     this->m_FeatureStandardDeviations->push_back( 0.0 );
     }
 
-  FeatureValueVectorDataObjectType *meanOutputObject =
-    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>( this->ProcessObject::GetOutput( 0 ) );
+  auto * meanOutputObject = itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(
+                                                 this->ProcessObject::GetOutput( 0 ) );
   meanOutputObject->Set( this->m_FeatureMeans );
 
-  FeatureValueVectorDataObjectType *standardDeviationOutputObject =
-    itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>( this->ProcessObject::GetOutput( 1 ) );
+  auto * standardDeviationOutputObject = itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(
+                                                 this->ProcessObject::GetOutput( 1 ) );
   standardDeviationOutputObject->Set( this->m_FeatureStandardDeviations );
 }
 

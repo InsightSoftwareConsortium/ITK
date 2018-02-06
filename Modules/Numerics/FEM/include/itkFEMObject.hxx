@@ -131,8 +131,7 @@ FEMObject<VDimension>
   int                                         numMat = Copy->GetNumberOfMaterials();
   for( int i = 0; i < numMat; i++ )
     {
-    fem::MaterialLinearElasticity *mCopy =
-      dynamic_cast<fem::MaterialLinearElasticity *>( Copy->GetMaterial(i).GetPointer() );
+    auto * mCopy = dynamic_cast<fem::MaterialLinearElasticity *>( Copy->GetMaterial(i).GetPointer() );
     if(mCopy == nullptr)
       {
       itkExceptionMacro(<< "dynamic_cast failed.");
@@ -155,7 +154,7 @@ FEMObject<VDimension>
     // create a new object of the correct class
     a = ObjectFactoryBase::CreateInstance( elCopy->GetNameOfClass() );
     a->UnRegister();
-    fem::Element *o1 = dynamic_cast<fem::Element *>( a.GetPointer() );
+    auto * o1 = dynamic_cast<fem::Element *>( a.GetPointer() );
     if(o1 == nullptr)
       {
       itkExceptionMacro(<< "dynamic_cast failed.");
@@ -183,7 +182,7 @@ FEMObject<VDimension>
     std::string loadname = std::string(load->GetNameOfClass() );
     if( loadname == "LoadNode" )
       {
-      fem::LoadNode *lCopy = dynamic_cast<fem::LoadNode *>( load );
+      auto * lCopy = dynamic_cast<fem::LoadNode *>( load );
       if(lCopy == nullptr)
         {
         itkExceptionMacro(<< "dynamic_cast failed.");
@@ -207,7 +206,7 @@ FEMObject<VDimension>
       }
     else if( loadname == "LoadBC" )
       {
-      fem::LoadBC *lCopy = dynamic_cast<fem::LoadBC *>( load );
+      auto * lCopy = dynamic_cast<fem::LoadBC *>( load );
       if(lCopy == nullptr)
         {
         itkExceptionMacro(<< "dynamic_cast failed.");
@@ -232,7 +231,7 @@ FEMObject<VDimension>
       }
     else if( loadname == "LoadBCMFC" )
       {
-      fem::LoadBCMFC *lCopy = dynamic_cast<fem::LoadBCMFC *>(load);
+      auto * lCopy = dynamic_cast<fem::LoadBCMFC *>(load);
       if(lCopy == nullptr)
         {
         itkExceptionMacro(<< "dynamic_cast failed.");
@@ -270,7 +269,7 @@ FEMObject<VDimension>
       }
     else if( loadname == "LoadEdge" )
       {
-      fem::LoadEdge *lCopy = dynamic_cast<fem::LoadEdge *>( load );
+      auto * lCopy = dynamic_cast<fem::LoadEdge *>( load );
       if(lCopy == nullptr)
         {
         itkExceptionMacro(<< "dynamic_cast failed.");
@@ -306,7 +305,7 @@ FEMObject<VDimension>
       }
     else if( loadname == "LoadGravConst" )
       {
-      fem::LoadGravConst *lCopy = dynamic_cast<fem::LoadGravConst *>( load );
+      auto * lCopy = dynamic_cast<fem::LoadGravConst *>( load );
       if(lCopy == nullptr)
         {
         itkExceptionMacro(<< "dynamic_cast failed.");
@@ -367,7 +366,7 @@ FEMObject<VDimension>
   int numLoads = this->m_LoadContainer->Size();
   for( int l = 0; l < numLoads; l++ )
     {
-    LoadBCMFC *l1 = dynamic_cast<LoadBCMFC *>( this->GetLoad(l).GetPointer() );
+    auto * l1 = dynamic_cast<LoadBCMFC *>( this->GetLoad(l).GetPointer() );
     if( l1 != nullptr )
       {
       // store the index of an LoadBCMFC object for later

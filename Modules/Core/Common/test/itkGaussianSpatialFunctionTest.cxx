@@ -63,7 +63,7 @@ int itkGaussianSpatialFunctionTest( int argc, char* argv[] )
   gaussianSpatialFunction->SetScale( scale );
   TEST_SET_GET_VALUE( scale, gaussianSpatialFunction->GetScale() );
 
-  bool normalized = static_cast< bool >( atoi( argv[2] ) );
+  auto normalized = static_cast< bool >( atoi( argv[2] ) );
   gaussianSpatialFunction->SetNormalized( normalized );
   TEST_SET_GET_VALUE( normalized, gaussianSpatialFunction->GetNormalized() );
 

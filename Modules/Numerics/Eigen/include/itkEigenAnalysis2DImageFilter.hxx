@@ -105,7 +105,7 @@ typename EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVector
 EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 ::GetMaxEigenVector(void)
 {
-  EigenVectorImageType *eigenVector = dynamic_cast< EigenVectorImageType * >(
+  auto * eigenVector = dynamic_cast< EigenVectorImageType * >(
     this->ProcessObject::GetOutput(2) );
 
   if ( eigenVector )
@@ -209,9 +209,9 @@ EigenAnalysis2DImageFilter< TInputImage, TEigenValueImage, TEigenVectorImage >
 
   while ( !inputIt1.IsAtEnd() )
     {
-    const double xx = static_cast< double >( inputIt1.Get() );
-    const double xy = static_cast< double >( inputIt2.Get() );
-    const double yy = static_cast< double >( inputIt3.Get() );
+    const auto xx = static_cast< double >( inputIt1.Get() );
+    const auto xy = static_cast< double >( inputIt2.Get() );
+    const auto yy = static_cast< double >( inputIt3.Get() );
 
     const double dxy = xx - yy;
     const double sxy = xx + yy;

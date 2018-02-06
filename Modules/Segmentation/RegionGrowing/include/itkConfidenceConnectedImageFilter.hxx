@@ -225,8 +225,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
       {
       if ( region.IsInside(*si) )
         {
-        const InputRealType value =
-          static_cast< InputRealType >( inputImage->GetPixel(*si) );
+        const auto value = static_cast< InputRealType >( inputImage->GetPixel(*si) );
 
         sum += value;
         sumOfSquares += value * value;
@@ -257,8 +256,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     {
     if ( region.IsInside(*si) )
       {
-      const InputRealType seedIntensity =
-        static_cast< InputRealType >( inputImage->GetPixel(*si) );
+      const auto seedIntensity = static_cast< InputRealType >( inputImage->GetPixel(*si) );
 
       if ( lowestSeedIntensity > seedIntensity )
         {
@@ -341,7 +339,7 @@ ConfidenceConnectedImageFilter< TInputImage, TOutputImage >
     sit.GoToBegin();
     while ( !sit.IsAtEnd() )
       {
-      const InputRealType value = static_cast< InputRealType >( sit.Get() );
+      const auto value = static_cast< InputRealType >( sit.Get() );
       sum += value;
       sumOfSquares += value * value;
       ++numberOfSamples;

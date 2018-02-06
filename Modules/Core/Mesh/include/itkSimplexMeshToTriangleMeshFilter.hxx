@@ -99,12 +99,12 @@ SimplexMeshToTriangleMeshFilter< TInputMesh, TOutputMesh >
   std::set< CellIdentifier >  cells1 =  this->GetInput(0)->GetCellLinks()->GetElement(id1);
   std::set< CellIdentifier >  cells2 =  this->GetInput(0)->GetCellLinks()->GetElement(id2);
   std::set< CellIdentifier >  cells3 =  this->GetInput(0)->GetCellLinks()->GetElement(id3);
-  typename std::set< CellIdentifier >::iterator cellIt = cells1.begin();
+  auto cellIt = cells1.begin();
 
   while ( cellIt != cells1.end() )
     {
-    typename std::set< CellIdentifier >::iterator found2 = std::find(cells2.begin(), cells2.end(), *cellIt);
-    typename std::set< CellIdentifier >::iterator found3 = std::find(cells3.begin(), cells3.end(), *cellIt);
+    auto found2 = std::find(cells2.begin(), cells2.end(), *cellIt);
+    auto found3 = std::find(cells3.begin(), cells3.end(), *cellIt);
 
     if ( found2 != cells2.end() && found3 != cells3.end() )
       {

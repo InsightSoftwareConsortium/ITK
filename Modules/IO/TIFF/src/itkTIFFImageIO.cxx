@@ -541,7 +541,7 @@ void TIFFImageIO::Write(const void *buffer)
 
 void TIFFImageIO::InternalWrite(const void *buffer)
 {
-  const char *outPtr = (const char *)buffer;
+  const auto * outPtr = (const char *)buffer;
 
   unsigned int page, pages = 1;
 
@@ -553,11 +553,11 @@ void TIFFImageIO::InternalWrite(const void *buffer)
     }
 
   int    scomponents = this->GetNumberOfComponents();
-  float  resolution_x = static_cast< float >( m_Spacing[0] != 0.0 ? 25.4 / m_Spacing[0] : 0.0);
-  float  resolution_y = static_cast< float >( m_Spacing[1] != 0.0 ? 25.4 / m_Spacing[1] : 0.0);
+  auto resolution_x = static_cast< float >( m_Spacing[0] != 0.0 ? 25.4 / m_Spacing[0] : 0.0);
+  auto resolution_y = static_cast< float >( m_Spacing[1] != 0.0 ? 25.4 / m_Spacing[1] : 0.0);
   // rowsperstrip is set to a default value but modified based on the tif scanlinesize before
   // passing it into the TIFFSetField (see below).
-  uint32 rowsperstrip = ( uint32 ) - 1;
+  auto rowsperstrip = ( uint32 ) - 1;
   int    bps;
 
   switch ( this->GetComponentType() )
@@ -654,7 +654,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
       // if number of scalar components is greater than 3, that means we assume
       // there is alpha.
       uint16  extra_samples = scomponents - 3;
-      uint16 *sample_info = new uint16[scomponents - 3];
+      auto * sample_info = new uint16[scomponents - 3];
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
       int cc;
       for ( cc = 1; cc < scomponents - 3; cc++ )
@@ -1201,31 +1201,31 @@ void TIFFImageIO::ReadCurrentPage(void *buffer, size_t pixelOffset)
 
     if ( m_ComponentType == USHORT )
       {
-      unsigned short *volume = reinterpret_cast< unsigned short * >( buffer );
+      auto * volume = reinterpret_cast< unsigned short * >( buffer );
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
       }
     else if ( m_ComponentType == SHORT )
       {
-      short *volume = reinterpret_cast< short * >( buffer );
+      auto * volume = reinterpret_cast< short * >( buffer );
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
       }
     else if ( m_ComponentType == CHAR )
       {
-      char *volume = reinterpret_cast< char * >( buffer );
+      auto * volume = reinterpret_cast< char * >( buffer );
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
       }
     else if ( m_ComponentType == FLOAT )
       {
-      float *volume = reinterpret_cast< float * >( buffer );
+      auto * volume = reinterpret_cast< float * >( buffer );
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
       }
     else
       {
-      unsigned char *volume = reinterpret_cast< unsigned char * >( buffer );
+      auto * volume = reinterpret_cast< unsigned char * >( buffer );
       volume += pixelOffset;
       this->ReadGenericImage(volume, width, height);
       }
@@ -1250,7 +1250,7 @@ void TIFFImageIO::ReadGenericImage(void *_out,
   tdata_t        buf = _TIFFmalloc(isize);
   isize /= sizeof(ComponentType);
 
-  ComponentType *out = static_cast< ComponentType* >( _out );
+  auto * out = static_cast< ComponentType* >( _out );
   ComponentType *image;
 
   if ( m_InternalImage->m_PlanarConfig != PLANARCONFIG_CONTIG )
@@ -1425,9 +1425,9 @@ void TIFFImageIO::PutPaletteRGB( TType *to, TFromType * from,
       {
       const TFromType index = (*from) % m_TotalColors;
 
-      const TType red   = static_cast< TType >( *( m_ColorRed   + index ) );
-      const TType green = static_cast< TType >( *( m_ColorGreen + index ) );
-      const TType blue  = static_cast< TType >( *( m_ColorBlue  + index ) );
+      const auto red = static_cast< TType >( *( m_ColorRed   + index ) );
+      const auto green = static_cast< TType >( *( m_ColorGreen + index ) );
+      const auto blue = static_cast< TType >( *( m_ColorBlue  + index ) );
       *( to )   = red;
       *( to + 1 ) = green;
       *( to + 2 ) = blue;
@@ -1490,16 +1490,16 @@ void  TIFFImageIO::RGBAImageToBuffer( void *out, const uint32_t *tempImage )
   const int width  = m_InternalImage->m_Width;
   const int height = m_InternalImage->m_Height;
 
-  ComponentType *fimage = (ComponentType *)out;
+  auto * fimage = (ComponentType *)out;
 
   for ( int yy = 0; yy < height; ++yy )
     {
     for ( int xx = 0; xx < width; ++xx )
       {
-      const ComponentType red   = static_cast< ComponentType >( TIFFGetR(*tempImage) );
-      const ComponentType green = static_cast< ComponentType >( TIFFGetG(*tempImage) );
-      const ComponentType blue  = static_cast< ComponentType >( TIFFGetB(*tempImage) );
-      const ComponentType alpha = static_cast< ComponentType >( TIFFGetA(*tempImage) );
+      const auto red = static_cast< ComponentType >( TIFFGetR(*tempImage) );
+      const auto green = static_cast< ComponentType >( TIFFGetG(*tempImage) );
+      const auto blue = static_cast< ComponentType >( TIFFGetB(*tempImage) );
+      const auto alpha = static_cast< ComponentType >( TIFFGetA(*tempImage) );
 
       *( fimage  ) = red;
       *( fimage + 1 ) = green;

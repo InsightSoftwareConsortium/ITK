@@ -71,7 +71,7 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints< TInputMesh, TOutputMe
   while ( it != end )
     {
     const OutputPointIdentifier vId1 = it->first;
-    const unsigned int internalId1 = static_cast< unsigned int >( it->second );
+    const auto internalId1 = static_cast< unsigned int >( it->second );
 
     RowType row;
     this->FillMatrixRow(vId1, this->m_Order, NumericTraits< OutputCoordRepType >::OneValue(), row);
@@ -89,7 +89,7 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints< TInputMesh, TOutputMe
       iBy[internalId1] += weight * p[1];
       iBz[internalId1] += weight * p[2];
 
-      const unsigned int internalId2 = static_cast< unsigned int >( this->m_InternalMap[vId2] );
+      const auto internalId2 = static_cast< unsigned int >( this->m_InternalMap[vId2] );
       SolverTraits::FillMatrix(iM, internalId1, internalId2, weight);
 
       ++rIt;
@@ -116,7 +116,7 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints< TInputMesh, TOutputMe
 
     this->ComputeVertexIdMapping();
 
-    const unsigned int N = static_cast< unsigned int >( this->m_InternalMap.size() );
+    const auto N = static_cast< unsigned int >( this->m_InternalMap.size() );
 
     MatrixType M = SolverTraits::InitializeSparseMatrix(N, N);
 
@@ -184,17 +184,17 @@ LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints< TInputMesh, TOutputMe
     while ( it != end )
       {
       const OutputPointIdentifier vId = it->first;
-      const unsigned int internalId = static_cast< unsigned int >( it->second );
+      const auto internalId = static_cast< unsigned int >( it->second );
 
       OutputPointType& p = points->ElementAt(vId);
 
-      OutputCoordRepType x = static_cast< OutputCoordRepType >( X[internalId] );
+      auto x = static_cast< OutputCoordRepType >( X[internalId] );
       p[0] = x;
 
-      OutputCoordRepType y = static_cast< OutputCoordRepType >( Y[internalId] );
+      auto y = static_cast< OutputCoordRepType >( Y[internalId] );
       p[1] = y;
 
-      OutputCoordRepType z = static_cast< OutputCoordRepType >( Z[internalId] );
+      auto z = static_cast< OutputCoordRepType >( Z[internalId] );
       p[2] = z;
 
       ++it;

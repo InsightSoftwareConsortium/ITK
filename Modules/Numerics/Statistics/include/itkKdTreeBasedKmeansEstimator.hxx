@@ -102,7 +102,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
   double closestDistance = NumericTraits< double >::max();
   double tempDistance;
 
-  std::vector< int >::iterator iter = validIndexes.begin();
+  auto iter = validIndexes.begin();
   while ( iter != validIndexes.end() )
     {
     tempDistance =
@@ -204,7 +204,7 @@ KdTreeBasedKmeansEstimator< TKdTree >
     closest =
       this->GetClosestCandidate(centroid, validIndexes);
     closestPosition = m_CandidateVector[closest].Centroid;
-    std::vector< int >::iterator iter = validIndexes.begin();
+    auto iter = validIndexes.begin();
 
     while ( iter != validIndexes.end() )
       {

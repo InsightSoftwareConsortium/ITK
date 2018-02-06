@@ -314,7 +314,7 @@ bool
 ImageIOBase
 ::ReadBufferAsBinary(std::istream & is, void *buffer, ImageIOBase::SizeType num)
 {
-  const std::streamsize numberOfBytesToBeRead = Math::CastWithRangeCheck< std::streamsize >(num);
+  const auto numberOfBytesToBeRead = Math::CastWithRangeCheck< std::streamsize >(num);
 
   is.read(static_cast< char * >( buffer ), numberOfBytesToBeRead);
 
@@ -705,14 +705,14 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     case UCHAR:
       {
       using Type = const unsigned char *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
     case CHAR:
       {
       using Type = const char *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
@@ -720,7 +720,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     case USHORT:
       {
       using Type = const unsigned short *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
@@ -728,7 +728,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     case SHORT:
       {
       using Type = const short *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
@@ -736,7 +736,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     case UINT:
       {
       using Type = const unsigned int *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
@@ -744,7 +744,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     case INT:
       {
       using Type = const int *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
@@ -752,7 +752,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     case ULONG:
       {
       using Type = const unsigned long *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
@@ -760,7 +760,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     case LONG:
       {
       using Type = const long *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
@@ -768,7 +768,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     case ULONGLONG:
       {
       using Type = const unsigned long long *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
@@ -776,7 +776,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     case LONGLONG:
       {
       using Type = const long long *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
@@ -784,7 +784,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     case FLOAT:
       {
       using Type = const float *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
@@ -792,7 +792,7 @@ void ImageIOBase::WriteBufferAsASCII(std::ostream & os, const void *buffer,
     case DOUBLE:
       {
       using Type = const double *;
-      Type buf = reinterpret_cast< Type >( buffer );
+      auto buf = reinterpret_cast< Type >( buffer );
       WriteBuffer(os, buf, numComp);
       }
       break;
@@ -825,83 +825,83 @@ void ImageIOBase::ReadBufferAsASCII(std::istream & is, void *buffer,
     {
     case UCHAR:
       {
-      unsigned char *buf = reinterpret_cast< unsigned char * >( buffer );
+      auto * buf = reinterpret_cast< unsigned char * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
     case CHAR:
       {
-      char *buf = reinterpret_cast< char * >( buffer );
+      auto * buf = reinterpret_cast< char * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
 
     case USHORT:
       {
-      unsigned short *buf = reinterpret_cast< unsigned short * >( buffer );
+      auto * buf = reinterpret_cast< unsigned short * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
 
     case SHORT:
       {
-      short *buf = reinterpret_cast< short * >( buffer );
+      auto * buf = reinterpret_cast< short * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
 
     case UINT:
       {
-      unsigned int *buf = reinterpret_cast< unsigned int * >( buffer );
+      auto * buf = reinterpret_cast< unsigned int * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
 
     case INT:
       {
-      int *buf = reinterpret_cast< int * >( buffer );
+      auto * buf = reinterpret_cast< int * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
 
     case ULONG:
       {
-      unsigned long *buf = reinterpret_cast< unsigned long * >( buffer );
+      auto * buf = reinterpret_cast< unsigned long * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
 
     case LONG:
       {
-      long *buf = reinterpret_cast< long * >( buffer );
+      auto * buf = reinterpret_cast< long * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
 
     case ULONGLONG:
       {
-      unsigned long long *buf = reinterpret_cast< unsigned long long * >( buffer );
+      auto * buf = reinterpret_cast< unsigned long long * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
 
     case LONGLONG:
       {
-      long long *buf = reinterpret_cast< long long * >( buffer );
+      auto * buf = reinterpret_cast< long long * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
 
     case FLOAT:
       {
-      float *buf = reinterpret_cast< float * >( buffer );
+      auto * buf = reinterpret_cast< float * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;
 
     case DOUBLE:
       {
-      double *buf = reinterpret_cast< double * >( buffer );
+      auto * buf = reinterpret_cast< double * >( buffer );
       ReadBuffer(is, buf, numComp);
       }
       break;

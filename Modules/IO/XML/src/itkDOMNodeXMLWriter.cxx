@@ -41,7 +41,7 @@ DOMNodeXMLWriter::Update( std::ostream& os, std::string indent )
     }
 
   // if it is a text node
-  const DOMTextNode* tnode = dynamic_cast<const DOMTextNode*>( input );
+  const auto * tnode = dynamic_cast<const DOMTextNode*>( input );
   if ( tnode )
     {
     os << indent << tnode->GetText() << std::endl;

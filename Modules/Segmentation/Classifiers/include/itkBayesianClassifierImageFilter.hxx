@@ -90,7 +90,7 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
 ::GetPosteriorImage()
 {
-  PosteriorsImageType *ptr = dynamic_cast< PosteriorsImageType * >(
+  auto * ptr = dynamic_cast< PosteriorsImageType * >(
     this->ProcessObject::GetOutput(1) );
 
   return ptr;
@@ -145,16 +145,14 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 
   if ( m_UserProvidedPriors )
     {
-    const PriorsImageType *priorsImage =
-      dynamic_cast< const PriorsImageType * >( this->GetInput(1) );
+    const auto * priorsImage = dynamic_cast< const PriorsImageType * >( this->GetInput(1) );
 
     if ( priorsImage == nullptr )
       {
       itkExceptionMacro("Second input type does not correspond to expected Priors Image Type");
       }
 
-    PosteriorsImageType *posteriorsImage =
-      dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
+    auto * posteriorsImage = dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
 
     if ( posteriorsImage == nullptr )
       {
@@ -190,8 +188,7 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
     }
   else
     {
-    PosteriorsImageType *posteriorsImage =
-      dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
+    auto * posteriorsImage = dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
 
     if ( posteriorsImage == nullptr )
       {
@@ -327,8 +324,7 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
 
   ImageRegionType imageRegion  = labels->GetBufferedRegion();
 
-  PosteriorsImageType *posteriorsImage =
-    dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
+  auto * posteriorsImage = dynamic_cast< PosteriorsImageType * >( this->GetPosteriorImage() );
 
   if ( posteriorsImage == nullptr )
     {

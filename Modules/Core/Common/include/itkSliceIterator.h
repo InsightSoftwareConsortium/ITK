@@ -125,8 +125,8 @@ private:
   /** Returns the value located at position n of the slice. */
   TPixel & Loc(OffsetValueType n) const
   {
-    const OffsetValueType start  = static_cast< OffsetValueType >( m_Slice.start() );
-    const OffsetValueType stride = static_cast< OffsetValueType >( m_Slice.stride() );
+    const auto start  = static_cast< OffsetValueType >( m_Slice.start() );
+    const auto stride = static_cast< OffsetValueType >( m_Slice.stride() );
 
     return ( *m_ContainerPointer )[start + n * stride];
   }

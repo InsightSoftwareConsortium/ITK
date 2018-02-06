@@ -42,13 +42,13 @@ bool PolygonGroupSpatialObject< TDimension >::ReplaceStrand(PolygonSpatialObject
 {
   TreeNodeChildrenListType & children = this->GetModifiableTreeNode()->GetChildrenList();
 
-  typename TreeNodeChildrenListType::iterator it = children.begin();
-  typename TreeNodeChildrenListType::iterator itend = children.end();
+  auto it = children.begin();
+  auto itend = children.end();
   while ( it != itend )
     {
     if ( static_cast< void * >( ( *it ) ) == static_cast< void * >( toReplace ) )
       {
-      typename TreeNodeChildrenListType::iterator after = it;
+      auto after = it;
       after++;
       children.insert( after, 1, replacement->GetModifiableTreeNode() );
       children.erase(it);
@@ -64,12 +64,11 @@ bool PolygonGroupSpatialObject< TDimension >::IsClosed()
 {
   TreeNodeChildrenListType & children = this->GetModifiableTreeNode()->GetChildrenList();
 
-  typename TreeNodeChildrenListType::iterator it = children.begin();
-  typename TreeNodeChildrenListType::iterator itend = children.end();
+  auto it = children.begin();
+  auto itend = children.end();
   while ( it != itend )
     {
-    PolygonSpatialObject< TDimension > *curstrand =
-      dynamic_cast< PolygonSpatialObject< TDimension > * >( ( *it ).GetPointer() );
+    auto * curstrand = dynamic_cast< PolygonSpatialObject< TDimension > * >( ( *it ).GetPointer() );
     if ( curstrand != nullptr )
       {
       if ( !curstrand->IsClosed() )
@@ -94,12 +93,11 @@ double PolygonGroupSpatialObject< TDimension >::Volume()
   double            volume = 0;
   ChildrenListType *children = this->GetChildren();
 
-  typename ChildrenListType::iterator it = children->begin();
-  typename ChildrenListType::iterator itend = children->end();
+  auto it = children->begin();
+  auto itend = children->end();
   while ( it != itend )
     {
-    PolygonSpatialObject< TDimension > *curstrand =
-      dynamic_cast< PolygonSpatialObject< TDimension > * >( ( *it ).GetPointer() );
+    auto * curstrand = dynamic_cast< PolygonSpatialObject< TDimension > * >( ( *it ).GetPointer() );
     volume += curstrand->MeasureVolume();
     it++;
     }

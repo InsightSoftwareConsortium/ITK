@@ -50,7 +50,7 @@ MeshIOFactory
 
   for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkMeshIOBase") )
     {
-    MeshIOBase *io = dynamic_cast< MeshIOBase * >( allobject.GetPointer() );
+    auto * io = dynamic_cast< MeshIOBase * >( allobject.GetPointer() );
 
     if ( io )
       {

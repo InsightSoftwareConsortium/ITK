@@ -1145,7 +1145,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
   // set with value greater than the outermost layer.  Assign background pixels
   // INSIDE the sparse field layers to a new level set with value less than
   // the innermost layer.
-  const ValueType max_layer = static_cast< ValueType >( this->m_NumberOfLayers );
+  const auto max_layer = static_cast< ValueType >( this->m_NumberOfLayers );
 
   this->m_BackgroundValue  = ( max_layer + 1 ) * maxSpacing;
 }
@@ -1391,7 +1391,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
 
     ImageRegionIterator< OutputImageType > outIt (output, region);
 
-    OutputPixelType p = static_cast< OutputPixelType >( this->m_Lookup[fId] );
+    auto p = static_cast< OutputPixelType >( this->m_Lookup[fId] );
 
     inIt.GoToBegin();
     outIt.GoToBegin();

@@ -121,8 +121,7 @@ int itkAddImageFilterTest( int, char* [] )
 
   // Check the content of the result image
   //
-  const OutputImageType::PixelType expectedValue =
-    static_cast< OutputImageType::PixelType >( valueA + valueB );
+  const auto expectedValue = static_cast< OutputImageType::PixelType >( valueA + valueB );
   while( !oIt.IsAtEnd() )
     {
     if( !itk::Math::ExactlyEquals( oIt.Get(), expectedValue ) )

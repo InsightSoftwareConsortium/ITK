@@ -172,7 +172,7 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
 ::ComputeUpdate( const NeighborhoodType & it, void *gd,
                  const FloatOffsetType & itkNotUsed(offset) )
 {
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
   const IndexType   FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
   const IndexType   LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex()
                                 + this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
@@ -182,12 +182,12 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  const double              fixedValue = (double)this->GetFixedImage()->GetPixel(index);
+  const auto fixedValue = (double)this->GetFixedImage()->GetPixel(index);
   const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
   // Get moving image related information
   // use warped moving image to get moving value and gradient fast(er).
-  const double              movingValue = (double)m_MovingImageWarper->GetOutput()->GetPixel(index);
+  const auto movingValue = (double)m_MovingImageWarper->GetOutput()->GetPixel(index);
   const CovariantVectorType movingGradient = m_WarpedMovingImageGradientCalculator->EvaluateAtIndex(index);
 
   // unfortunately (since it's a little redundant) we still need the mapped
@@ -284,7 +284,7 @@ void
 FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const
 {
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
 
   m_MetricCalculationLock.Lock();
   m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;

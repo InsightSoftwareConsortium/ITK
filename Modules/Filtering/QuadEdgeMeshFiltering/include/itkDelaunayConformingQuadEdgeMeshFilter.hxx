@@ -79,12 +79,11 @@ void DelaunayConformingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::Initialize
       }
     }
 
-  OutputEdgeCellListIterator const_edge_it =
-    m_ListOfConstrainedEdges.begin();
+  auto const_edge_it = m_ListOfConstrainedEdges.begin();
 
   while ( const_edge_it != m_ListOfConstrainedEdges.end() )
     {
-    QueueMapIterator queue_it = m_QueueMapper.find(*const_edge_it);
+    auto queue_it = m_QueueMapper.find(*const_edge_it);
 
     if ( queue_it == m_QueueMapper.end() )
       {
@@ -155,7 +154,7 @@ void DelaunayConformingQuadEdgeMeshFilter< TInputMesh, TOutputMesh >::Process()
             {
             edge = output->FindEdgeCell( e_it->GetOrigin(),
                                          e_it->GetDestination() );
-            QueueMapIterator queue_it = m_QueueMapper.find(edge);
+            auto queue_it = m_QueueMapper.find(edge);
             if ( queue_it == m_QueueMapper.end() )
               {
               PriorityQueueItemType *qi =

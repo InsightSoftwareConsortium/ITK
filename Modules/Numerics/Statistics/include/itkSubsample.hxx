@@ -81,7 +81,7 @@ Subsample< TSample >
 ::InitializeWithAllInstances()
 {
   m_IdHolder.resize( m_Sample->Size() );
-  typename InstanceIdentifierHolder::iterator idIter = m_IdHolder.begin();
+  auto idIter = m_IdHolder.begin();
   typename TSample::ConstIterator iter = m_Sample->Begin();
   typename TSample::ConstIterator last = m_Sample->End();
   m_TotalFrequency = NumericTraits< AbsoluteFrequencyType >::ZeroValue();
@@ -229,10 +229,10 @@ Subsample< TSample >
   // Most of what follows is really a deep copy, rather than grafting of
   // output. Wish it were managed by pointers to bulk data. Sigh !
 
-  const Self *thatConst = dynamic_cast< const Self * >( thatObject );
+  const auto * thatConst = dynamic_cast< const Self * >( thatObject );
   if ( thatConst )
     {
-    Self *that = const_cast< Self * >( thatConst );
+    auto * that = const_cast< Self * >( thatConst );
     this->SetSample( that->GetSample() );
     this->m_IdHolder          = that->m_IdHolder;
     this->m_ActiveDimension   = that->m_ActiveDimension;

@@ -78,7 +78,7 @@ LevelSetEquationContainer< TTermContainer >
     itkGenericExceptionMacro( << "m_Container is empty" );
     }
 
-  MapContainerConstIterator it = this->m_Container.find( iId );
+  auto it = this->m_Container.find( iId );
   if( it == this->m_Container.end() )
     {
     itkGenericExceptionMacro( <<"this equation " << iId << " does not exist" );
@@ -119,7 +119,7 @@ void
 LevelSetEquationContainer< TTermContainer >
 ::UpdateInternalEquationTerms()
 {
-  for( MapContainerIterator it = this->m_Container.begin();
+  for( auto it = this->m_Container.begin();
     it != this->m_Container.end();
     ++it )
     {
@@ -146,7 +146,7 @@ void
 LevelSetEquationContainer< TTermContainer >
 ::InitializeParameters()
 {
-  for( MapContainerIterator it = this->m_Container.begin();
+  for( auto it = this->m_Container.begin();
     it != this->m_Container.end();
     ++it )
     {
@@ -161,7 +161,7 @@ LevelSetEquationContainer< TTermContainer >
 {
   LevelSetOutputRealType oValue = NumericTraits< LevelSetOutputRealType >::max();
 
-  for( MapContainerConstIterator it = this->m_Container.begin();
+  for( auto it = this->m_Container.begin();
        it != this->m_Container.end();
        ++it )
     {

@@ -380,7 +380,7 @@ HistogramMatchingImageFilter< TInputImage, TOutputImage, THistogramMeasurement >
 
   while ( !iter.IsAtEnd() )
     {
-    const THistogramMeasurement value = static_cast< THistogramMeasurement >( iter.Get() );
+    const auto value = static_cast< THistogramMeasurement >( iter.Get() );
     sum += static_cast< double >( value );
 
     if ( value < minValue ) { minValue = value; }

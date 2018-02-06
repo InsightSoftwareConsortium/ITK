@@ -70,7 +70,7 @@ public:
       {
       return;
       }
-    const TFilter *optimizer = static_cast< const TFilter * >( object );
+    const auto * optimizer = static_cast< const TFilter * >( object );
 
     std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: " << optimizer->GetValue();
     std::cout << std::endl;

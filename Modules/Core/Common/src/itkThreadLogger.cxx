@@ -178,7 +178,7 @@ ITK_THREAD_RETURN_TYPE
 ThreadLogger
 ::ThreadFunction(void *pInfoStruct)
 {
-  struct MultiThreader:: ThreadInfoStruct *pInfo = (struct MultiThreader::ThreadInfoStruct *)pInfoStruct;
+  auto * pInfo = (struct MultiThreader::ThreadInfoStruct *)pInfoStruct;
 
   if ( pInfo == nullptr )
     {
@@ -190,7 +190,7 @@ ThreadLogger
     return ITK_THREAD_RETURN_VALUE;
     }
 
-  ThreadLogger *pLogger = (ThreadLogger *)pInfo->UserData;
+  auto * pLogger = (ThreadLogger *)pInfo->UserData;
 
   while ( 1 )
     {

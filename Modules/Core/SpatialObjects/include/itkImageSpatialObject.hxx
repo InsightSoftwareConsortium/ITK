@@ -221,7 +221,7 @@ ImageSpatialObject< TDimension,  PixelType >
     using PointsContainerType = typename BoundingBoxType::PointsContainer;
     const PointsContainerType *corners = bb->GetCorners();
 
-    typename PointsContainerType::const_iterator itC = corners->begin();
+    auto itC = corners->begin();
     i = 0;
     while ( itC != corners->end() )
       {

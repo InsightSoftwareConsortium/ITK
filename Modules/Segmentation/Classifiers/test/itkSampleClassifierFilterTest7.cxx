@@ -213,10 +213,10 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   const FilterType::MembershipFunctionVectorType
             membershipFunctions = membershipFunctionsObject->Get();
 
-  FilterType::MembershipFunctionVectorType::const_iterator
+  auto
                     begin = membershipFunctions.begin();
 
-  FilterType::MembershipFunctionVectorType::const_iterator
+  auto
                     end = membershipFunctions.end();
 
   FilterType::MembershipFunctionVectorType::const_iterator functionIter;
@@ -228,7 +228,7 @@ int itkSampleClassifierFilterTest7(int argc, char* argv[] )
   while( functionIter != end )
     {
     FilterType::MembershipFunctionPointer membershipFunction = *functionIter;
-    const EstimatorType::GaussianMembershipFunctionType *
+    const auto *
           gaussianMemberShpFunction =
         dynamic_cast<const EstimatorType::GaussianMembershipFunctionType*>(membershipFunction.GetPointer());
     std::cout << "\tMembership function:\t " << counter << std::endl;

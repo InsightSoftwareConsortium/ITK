@@ -406,7 +406,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
         {
         FEM2DTriangleType::Pointer triangleEle = FEM2DTriangleType::New();
 
-        TriangleType * triangleCell = static_cast<TriangleType *>( cell );
+        auto * triangleCell = static_cast<TriangleType *>( cell );
 
         PointIdIterator pointIdIter = triangleCell->PointIdsBegin();
         PointIdIterator pointIdEnd = triangleCell->PointIdsEnd();
@@ -430,7 +430,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
         {
         FEMTetrahedronType::Pointer tetrahedronEle = FEMTetrahedronType::New();
 
-        TetrahedronType * tetrahedron = static_cast<TetrahedronType *>( cell );
+        auto * tetrahedron = static_cast<TetrahedronType *>( cell );
 
         PointIdIterator pointIdIter = tetrahedron->PointIdsBegin();
         PointIdIterator pointIdEnd = tetrahedron->PointIdsEnd();
@@ -457,7 +457,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
         FEM2DQuadrilateralType::Pointer quadrilateralEle = FEM2DQuadrilateralType::New();
 
         // use Cell and Ele to distinguish itk element and FEM element
-        QuadrilateralType * quadrilateralCell = static_cast<QuadrilateralType *>( cell );
+        auto * quadrilateralCell = static_cast<QuadrilateralType *>( cell );
 
         PointIdIterator pointIdIter = quadrilateralCell->PointIdsBegin();
         PointIdIterator pointIdEnd = quadrilateralCell->PointIdsEnd();
@@ -483,7 +483,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet, TInputMesh, TOutputImage, 
         {
         FEMHexahedronType::Pointer hexahedronEle = FEMHexahedronType::New();
 
-        HexahedronType * hexahedron = static_cast<HexahedronType *>( cell );
+        auto * hexahedron = static_cast<HexahedronType *>( cell );
 
         PointIdIterator pointIdIter = hexahedron->PointIdsBegin();
         PointIdIterator pointIdEnd = hexahedron->PointIdsEnd();

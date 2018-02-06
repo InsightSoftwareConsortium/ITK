@@ -83,7 +83,7 @@ bool isSortedOrderCorrect(std::vector<int> &ref,
                           ::itk::Statistics::Subsample<SampleType>::Pointer subsample)
 {
   bool ret = true;
-  std::vector<int>::iterator viter = ref.begin();
+  auto viter = ref.begin();
   SubsampleType::Iterator siter = subsample->Begin();
   while( siter != subsample->End() )
     {

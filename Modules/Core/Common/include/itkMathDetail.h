@@ -127,7 +127,7 @@ inline TReturn RoundHalfIntegerToEven_base(TInput x)
     x -= static_cast< TInput >( 0.5 );
     }
 
-  const TReturn r = static_cast< TReturn >( x );
+  const auto r = static_cast< TReturn >( x );
   return ( x != static_cast< TInput >( r ) ) ? r : static_cast< TReturn >( 2 * ( r / 2 ) );
 }
 
@@ -135,7 +135,7 @@ template< typename TReturn, typename TInput >
 inline TReturn RoundHalfIntegerUp_base(TInput x)
 {
   x += static_cast< TInput >( 0.5 );
-  const TReturn r = static_cast< TReturn >( x );
+  const auto r = static_cast< TReturn >( x );
   return ( NumericTraits< TInput >::IsNonnegative(x) ) ?
          r :
          ( x == static_cast< TInput >( r ) ? r : r - static_cast< TReturn >( 1 ) );
@@ -144,7 +144,7 @@ inline TReturn RoundHalfIntegerUp_base(TInput x)
 template< typename TReturn, typename TInput >
 inline TReturn Floor_base(TInput x)
 {
-  const TReturn r = static_cast< TReturn >( x );
+  const auto r = static_cast< TReturn >( x );
 
   return ( NumericTraits< TInput >::IsNonnegative(x) ) ?
          r :
@@ -154,7 +154,7 @@ inline TReturn Floor_base(TInput x)
 template< typename TReturn, typename TInput >
 inline TReturn Ceil_base(TInput x)
 {
-  const TReturn r = static_cast< TReturn >( x );
+  const auto r = static_cast< TReturn >( x );
 
   return ( NumericTraits< TInput >::IsNegative(x) ) ?
          r :

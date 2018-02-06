@@ -190,7 +190,7 @@ int itkColorTableTest( int argc, char* argv[] )
 
   EXERCISE_BASIC_OBJECT_METHODS( colors, ColorTable, Object );
 
-  unsigned int numberOfColors = static_cast< unsigned int >( atoi( argv[1] ) );
+  auto numberOfColors = static_cast< unsigned int >( atoi( argv[1] ) );
 
   testStatus |= ColorTableTestHelper< unsigned char >( "unsigned char", numberOfColors );
   testStatus |= ColorTableTestHelper< char >( "char", numberOfColors );

@@ -114,13 +114,13 @@ void
 SampleClassifierFilter< TSample >
 ::GenerateData()
 {
-  const ClassLabelVectorObjectType *classLabelsDecorated =
-    static_cast< const ClassLabelVectorObjectType * >( this->ProcessObject::GetInput(1) );
+  const auto * classLabelsDecorated = static_cast< const ClassLabelVectorObjectType * >(
+                                                 this->ProcessObject::GetInput(1) );
 
-  const MembershipFunctionVectorObjectType *membershipFunctionsDecorated =
-    static_cast< const MembershipFunctionVectorObjectType * >( this->ProcessObject::GetInput(2) );
+  const auto * membershipFunctionsDecorated = static_cast< const MembershipFunctionVectorObjectType * >(
+                                                 this->ProcessObject::GetInput(2) );
 
-  const MembershipFunctionsWeightsArrayObjectType *
+  const auto *
   membershipFunctionsWeightsArrayDecorated =
     static_cast< const MembershipFunctionsWeightsArrayObjectType * >( this->ProcessObject::GetInput(3) );
 
@@ -167,13 +167,12 @@ SampleClassifierFilter< TSample >
                       number of classes "                                                                  );
     }
 
-  const SampleType *sample =
-    static_cast< const SampleType * >( this->ProcessObject::GetInput(0) );
+  const auto * sample = static_cast< const SampleType * >( this->ProcessObject::GetInput(0) );
 
   std::vector< double > discriminantScores;
   discriminantScores.resize(this->m_NumberOfClasses);
 
-  MembershipSampleType *output = dynamic_cast< MembershipSampleType * >(
+  auto * output = dynamic_cast< MembershipSampleType * >(
     this->ProcessObject::GetOutput(0) );
 
   output->SetSample( this->GetInput() );

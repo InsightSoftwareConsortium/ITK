@@ -96,7 +96,7 @@ typename LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 ::GetLocalNeighborhoodValue( const PointType & point, const LabelType & label ) const
 {
-  typename LabelSetType::const_iterator labelIt = std::find( this->m_CommonPointSetLabels.begin(), this->m_CommonPointSetLabels.end(), label );
+  auto labelIt = std::find( this->m_CommonPointSetLabels.begin(), this->m_CommonPointSetLabels.end(), label );
   if( labelIt == this->m_CommonPointSetLabels.end() )
     {
     itkExceptionMacro( "Label not found in common label set" );
@@ -115,7 +115,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
 ::GetLocalNeighborhoodValueAndDerivative( const PointType & point,
   MeasureType &measure, LocalDerivativeType & localDerivative, const LabelType & label ) const
 {
-  typename LabelSetType::const_iterator labelIt = std::find( this->m_CommonPointSetLabels.begin(), this->m_CommonPointSetLabels.end(), label );
+  auto labelIt = std::find( this->m_CommonPointSetLabels.begin(), this->m_CommonPointSetLabels.end(), label );
   if( labelIt == this->m_CommonPointSetLabels.end() )
     {
     itkExceptionMacro( "Label not found in common label set" );

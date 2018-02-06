@@ -136,10 +136,10 @@ ListSample< TMeasurementVector >
 {
   this->Superclass::Graft(thatObject);
 
-  const Self *thatConst = dynamic_cast< const Self * >( thatObject );
+  const auto * thatConst = dynamic_cast< const Self * >( thatObject );
   if ( thatConst )
     {
-    Self *that = const_cast< Self * >( thatConst );
+    auto * that = const_cast< Self * >( thatConst );
     this->m_InternalContainer = that->m_InternalContainer;
     }
 }

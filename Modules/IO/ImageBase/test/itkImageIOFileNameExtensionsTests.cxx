@@ -29,12 +29,12 @@ int itkImageIOFileNameExtensionsTests( int , char * [] )
 
   ArrayOfImageIOType allobjects = itk::ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
 
-  ArrayOfImageIOType::iterator itr = allobjects.begin();
+  auto itr = allobjects.begin();
 
   while( itr != allobjects.end() )
     {
 
-    IOBaseType * io = dynamic_cast< IOBaseType * >( itr->GetPointer() );
+    auto * io = dynamic_cast< IOBaseType * >( itr->GetPointer() );
 
     if( ! io )
       {
@@ -49,8 +49,8 @@ int itkImageIOFileNameExtensionsTests( int , char * [] )
       const ArrayOfExtensionsType & readExtensions  = io->GetSupportedReadExtensions();
       const ArrayOfExtensionsType & writeExtensions = io->GetSupportedWriteExtensions();
 
-      ArrayOfExtensionsType::const_iterator readItr  = readExtensions.begin();
-      ArrayOfExtensionsType::const_iterator writeItr = writeExtensions.begin();
+      auto readItr  = readExtensions.begin();
+      auto writeItr = writeExtensions.begin();
 
       std::cout << "Supported Read Extensions" << std::endl;
       while( readItr != readExtensions.end() )

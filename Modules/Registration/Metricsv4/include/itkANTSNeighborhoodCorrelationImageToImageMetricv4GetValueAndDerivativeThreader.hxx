@@ -357,7 +357,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
 
  LocalRealType count = localZero;
 
- typename SumQueueType::iterator itcount = scanMem.Qcount.begin();
+ auto itcount = scanMem.Qcount.begin();
  while (itcount != scanMem.Qcount.end())
    {
    count += *itcount;
@@ -376,11 +376,11 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< TD
  LocalRealType sumFixed       = localZero;
  LocalRealType sumMoving      = localZero;
  LocalRealType sumFixedMoving = localZero;
- typename SumQueueType::iterator itFixed2      = scanMem.QsumFixed2.begin();
- typename SumQueueType::iterator itMoving2     = scanMem.QsumMoving2.begin();
- typename SumQueueType::iterator itFixed       = scanMem.QsumFixed.begin();
- typename SumQueueType::iterator itMoving      = scanMem.QsumMoving.begin();
- typename SumQueueType::iterator itFixedMoving = scanMem.QsumFixedMoving.begin();
+ auto itFixed2      = scanMem.QsumFixed2.begin();
+ auto itMoving2     = scanMem.QsumMoving2.begin();
+ auto itFixed       = scanMem.QsumFixed.begin();
+ auto itMoving      = scanMem.QsumMoving.begin();
+ auto itFixedMoving = scanMem.QsumFixedMoving.begin();
 
  while (itFixed2 != scanMem.QsumFixed2.end())
    {

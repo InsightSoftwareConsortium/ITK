@@ -201,7 +201,7 @@ LevelOrderTreeIterator< TTreeType >::FindNextNodeHelp() const
 
   for ( int i = 0; i < size; i++ )
     {
-    TreeNodeType *child = dynamic_cast< TreeNodeType * >( currentNode->GetChild(i) );
+    auto * child = dynamic_cast< TreeNodeType * >( currentNode->GetChild(i) );
     if ( child != nullptr )
       {
       m_Queue.push(child);
@@ -220,8 +220,8 @@ LevelOrderTreeIterator< TTreeType >::FindNextNodeHelp() const
 template< typename TTreeType >
 TreeIteratorBase< TTreeType > *LevelOrderTreeIterator< TTreeType >::Clone()
 {
-  LevelOrderTreeIterator< TTreeType > *clone =
-    new LevelOrderTreeIterator< TTreeType >(const_cast< TTreeType * >( this->m_Tree ), m_StartLevel, m_EndLevel);
+  auto * clone = new LevelOrderTreeIterator< TTreeType >(
+                      const_cast< TTreeType * >( this->m_Tree ), m_StartLevel, m_EndLevel);
   *clone = *this;
   return clone;
 }

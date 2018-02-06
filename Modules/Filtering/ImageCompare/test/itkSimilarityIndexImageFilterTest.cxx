@@ -44,7 +44,7 @@ int itkSimilarityIndexImageFilterTest(int, char* [] )
   unsigned long numOfPixels = image1->GetBufferedRegion().GetNumberOfPixels();
   unsigned long lower1 = 0;
   unsigned long upper1 = (unsigned long) ( (double)numOfPixels * 0.75 ) - 1;
-  unsigned long lower2 = (unsigned long) ( (double)numOfPixels * 0.25 );
+  auto lower2 = (unsigned long) ( (double)numOfPixels * 0.25 );
   unsigned long upper2 = numOfPixels - 1;
 
   itk::ImageRegionIterator<Image1Type> it1( image1, image1->GetBufferedRegion() );

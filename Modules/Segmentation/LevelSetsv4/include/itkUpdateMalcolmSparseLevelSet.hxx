@@ -84,10 +84,10 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
     LevelSetLayerType listNeg;
     LevelSetLayerType updateNeg;
 
-    LevelSetLayerIterator nodeIt = listZero.begin();
-    LevelSetLayerIterator nodeEnd = listZero.end();
+    auto nodeIt = listZero.begin();
+    auto nodeEnd = listZero.end();
 
-    LevelSetLayerIterator upIt = this->m_Update.begin();
+    auto upIt = this->m_Update.begin();
 
     while( nodeIt != nodeEnd )
       {
@@ -137,8 +137,8 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 {
   LevelSetLayerType levelZero = this->m_OutputLevelSet->GetLayer( LevelSetType::ZeroLayer() );
 
-  LevelSetLayerIterator nodeIt = levelZero.begin();
-  LevelSetLayerIterator nodeEnd = levelZero.end();
+  auto nodeIt = levelZero.begin();
+  auto nodeEnd = levelZero.end();
 
   TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( this->m_CurrentLevelSetId );
 
@@ -205,10 +205,10 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 
   LevelSetLayerType insertList;
 
-  LevelSetLayerIterator nodeIt = levelZero.begin();
-  LevelSetLayerIterator nodeEnd = levelZero.end();
+  auto nodeIt = levelZero.begin();
+  auto nodeEnd = levelZero.end();
 
-  LevelSetLayerIterator upIt = this->m_Update.begin();
+  auto upIt = this->m_Update.begin();
 
   LevelSetInputType inputIndex;
   while( nodeIt != nodeEnd )
@@ -233,7 +233,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
         newValue = LevelSetType::MinusOneLayer();
         }
 
-      LevelSetLayerIterator tempIt = nodeIt;
+      auto tempIt = nodeIt;
       ++nodeIt;
       ++upIt;
       levelZero.erase( tempIt );
@@ -313,10 +313,10 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
 
   LevelSetLayerType insertList;
 
-  LevelSetLayerIterator nodeIt = ioList.begin();
-  LevelSetLayerIterator nodeEnd = ioList.end();
+  auto nodeIt = ioList.begin();
+  auto nodeEnd = ioList.end();
 
-  LevelSetLayerIterator upIt = ioUpdate.begin();
+  auto upIt = ioUpdate.begin();
 
   LevelSetLayerType outputLayerZero = this->m_OutputLevelSet->GetLayer( LevelSetType::ZeroLayer() );
 
@@ -343,7 +343,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
         newValue = LevelSetType::MinusOneLayer();
         }
 
-      LevelSetLayerIterator tempIt = nodeIt;
+      auto tempIt = nodeIt;
       ++nodeIt;
       ++upIt;
       ioList.erase( tempIt );
@@ -422,8 +422,8 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
     sparse_offset[dim] = 0;
     }
 
-  LevelSetLayerIterator nodeIt   = listZero.begin();
-  LevelSetLayerIterator nodeEnd  = listZero.end();
+  auto nodeIt   = listZero.begin();
+  auto nodeEnd  = listZero.end();
 
   TermContainerPointer termContainer = this->m_EquationContainer->GetEquation( this->m_CurrentLevelSetId );
 
@@ -457,7 +457,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
     if( negativeUpdate && !positiveUpdate )
       {
       const LevelSetOutputRealType newValue = LevelSetType::MinusOneLayer();
-      LevelSetLayerIterator tempIt = nodeIt;
+      auto tempIt = nodeIt;
       ++nodeIt;
       listZero.erase( tempIt );
 
@@ -469,7 +469,7 @@ UpdateMalcolmSparseLevelSet< VDimension, TEquationContainer >
       if( positiveUpdate && !negativeUpdate )
         {
         const LevelSetOutputRealType newValue = LevelSetType::PlusOneLayer();
-        LevelSetLayerIterator tempIt = nodeIt;
+        auto tempIt = nodeIt;
         ++nodeIt;
         listZero.erase( tempIt );
 

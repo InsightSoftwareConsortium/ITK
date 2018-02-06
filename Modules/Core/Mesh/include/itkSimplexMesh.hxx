@@ -300,7 +300,7 @@ SimplexMesh< TPixelType, VDimension, TMeshTraits >
       list = GetNeighbors(neighborArray[1], radius - 1, list);
       list = GetNeighbors(neighborArray[2], radius - 1, list);
       }
-    NeighborListType::iterator it = std::find(list->begin(), list->end(), idx);
+    auto it = std::find(list->begin(), list->end(), idx);
     if ( it != list->end() ) { list->erase(it); }
 
     return list;
@@ -309,10 +309,10 @@ SimplexMesh< TPixelType, VDimension, TMeshTraits >
     {
     IndexArray neighborArray = GetNeighbors(idx);
 
-    NeighborListType::iterator foundIt1 = std::find(list->begin(), list->end(), neighborArray[0]);
-    NeighborListType::iterator foundIt2 = std::find(list->begin(), list->end(), neighborArray[1]);
-    NeighborListType::iterator foundIt3 = std::find(list->begin(), list->end(), neighborArray[2]);
-    NeighborListType::iterator endIt = list->end();
+    auto foundIt1 = std::find(list->begin(), list->end(), neighborArray[0]);
+    auto foundIt2 = std::find(list->begin(), list->end(), neighborArray[1]);
+    auto foundIt3 = std::find(list->begin(), list->end(), neighborArray[2]);
+    auto endIt = list->end();
     bool                       found1 = false, found2 = false, found3 = false;
 
     if ( foundIt1 != endIt ) { found1 = true; }

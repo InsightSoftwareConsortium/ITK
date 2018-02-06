@@ -104,7 +104,7 @@ protected:
 
     os << std::endl << "Energy values: " << std::flush;
 
-    EnergyValueConstIterator it = this->m_EnergyValues.begin();
+    auto it = this->m_EnergyValues.begin();
     while( it != this->m_EnergyValues.end() )
       {
       os << "(" << it - this->m_EnergyValues.begin() << "): " << *it << " ";

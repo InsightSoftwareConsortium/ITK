@@ -127,7 +127,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
         msg << "  Tried to create one of the following:" << std::endl;
         for (auto & allobject : allobjects)
           {
-          ImageIOBase *io = dynamic_cast< ImageIOBase * >( allobject.GetPointer() );
+          auto * io = dynamic_cast< ImageIOBase * >( allobject.GetPointer() );
           msg << "    " << io->GetNameOfClass() << std::endl;
           }
         msg << "  You probably failed to set a file suffix, or" << std::endl;

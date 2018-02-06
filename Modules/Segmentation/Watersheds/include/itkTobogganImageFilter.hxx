@@ -64,7 +64,7 @@ void
 TobogganImageFilter< TInputImage >
 ::GenerateData()
 {
-  InputImageConstPointer inputImage  = static_cast< InputImageConstPointer >( this->GetInput() );
+  auto inputImage  = static_cast< InputImageConstPointer >( this->GetInput() );
   OutputImagePointer     outputImage = this->GetOutput();
 
   OutputImagePixelType z = NumericTraits< OutputImagePixelType >::ZeroValue();

@@ -135,7 +135,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
 
   TransformQueueType transforms = this->GetTransformQueue();
   NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
-  typename TransformQueueType::iterator it = transforms.begin();
+  auto it = transforms.begin();
 
   do
     {
@@ -212,7 +212,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
   /* Why is this done? Seems unnecessary. */
   this->m_FixedParameters = inputParameters;
 
-  typename TransformQueueType::iterator it = transforms.begin();
+  auto it = transforms.begin();
   do
     {
     const size_t fixedParameterSize = (*it)->GetFixedParameters().Size();
@@ -328,8 +328,8 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
      * NOTE: the use of const_cast is used to avoid a deep copy in the underlying vnl_vector
      * by using LetArrayManageMemory=false, and being very careful here we can
      * ensure that casting away consteness does not result in memory corruption. */
-    typename DerivativeType::ValueType * nonConstDataRefForPerformance =
-      const_cast< typename DerivativeType::ValueType * >( &( (update.data_block() )[offset]) );
+    auto * nonConstDataRefForPerformance = const_cast< typename DerivativeType::ValueType * >(
+                                             &( (update.data_block() )[offset]) );
     const DerivativeType subUpdate( nonConstDataRefForPerformance, subtransform->GetNumberOfParameters(), false );
     /* This call will also call SetParameters, so don't need to call it
      * expliclity here. */

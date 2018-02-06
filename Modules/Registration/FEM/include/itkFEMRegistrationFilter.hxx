@@ -463,8 +463,7 @@ void FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(
 
       unsigned int maxnode = numnodesperelt - 1;
 
-      using NodeEltSetType = typename Element::Node::SetOfElements;
-      for( NodeEltSetType::iterator elt = m_FEMObject->GetNode(i)->m_elements.begin();
+      for( auto elt = m_FEMObject->GetNode(i)->m_elements.begin();
            elt != m_FEMObject->GetNode(i)->m_elements.end(); elt++ )
         {
         for( whichnode = 0; whichnode <= maxnode; whichnode++ )

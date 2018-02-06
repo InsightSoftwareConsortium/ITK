@@ -93,8 +93,7 @@ CovarianceImageFunction< TInputImage, TCoordRep >
       }
     }
 
-  const PixelComponentRealType rsize =
-    static_cast< PixelComponentRealType >( size );
+  const auto rsize = static_cast< PixelComponentRealType >( size );
 
   mean /= rsize;
 

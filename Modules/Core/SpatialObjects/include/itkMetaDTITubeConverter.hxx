@@ -43,7 +43,7 @@ typename MetaDTITubeConverter< NDimensions >::SpatialObjectPointer
 MetaDTITubeConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const MetaDTITube *tube = dynamic_cast<const MetaDTITube *>(mo);
+  const auto * tube = dynamic_cast<const MetaDTITube *>(mo);
   if(tube == nullptr)
     {
     itkExceptionMacro(<< "Can't downcast MetaObject to MetaDTITube");
@@ -71,7 +71,7 @@ MetaDTITubeConverter< NDimensions >
 
   using TubePointType = itk::DTITubeSpatialObjectPoint< NDimensions >;
 
-  MetaDTITube::PointListType::const_iterator it2 = tube->GetPoints().begin();
+  auto it2 = tube->GetPoints().begin();
 
   itk::CovariantVector< double, NDimensions > v;
   v.Fill(0.0);
@@ -92,7 +92,7 @@ MetaDTITubeConverter< NDimensions >
 
     // Get the fields from the metaIO
     const DTITubePnt::FieldListType &         metaFields = ( *it2 )->GetExtraFields();
-    DTITubePnt::FieldListType::const_iterator extraIt = metaFields.begin();
+    auto extraIt = metaFields.begin();
     while ( extraIt != metaFields.end() )
       {
       // Do not add the optional fields
@@ -120,7 +120,7 @@ MetaDTITubeConverter< NDimensions >
 
     pnt.SetPosition(point);
 
-    float *tensor = new float[6];
+    auto * tensor = new float[6];
 
     for ( unsigned int ii = 0; ii < 6; ii++ )
       {
@@ -218,7 +218,7 @@ MetaDTITubeConverter< NDimensions >
     itkExceptionMacro(<< "Can't downcast SpatialObject to DTITubeSpatialObject");
     }
 
-  DTITubeMetaObjectType *tube = new MetaDTITube(NDimensions);
+  auto * tube = new MetaDTITube(NDimensions);
 
   // Check what are the fields to be written
   bool writeNormal1 = false;
@@ -278,7 +278,7 @@ MetaDTITubeConverter< NDimensions >
   // fill in the tube information
   for ( it = DTITubeSO->GetPoints().begin(); it != DTITubeSO->GetPoints().end(); ++it )
     {
-    DTITubePnt *pnt = new DTITubePnt(NDimensions);
+    auto * pnt = new DTITubePnt(NDimensions);
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {
@@ -286,7 +286,7 @@ MetaDTITubeConverter< NDimensions >
       }
 
     const DTITubePnt::FieldListType &         metaFields = ( *it ).GetFields();
-    DTITubePnt::FieldListType::const_iterator extraIt = metaFields.begin();
+    auto extraIt = metaFields.begin();
     while ( extraIt != metaFields.end() )
       {
       pnt->AddField( ( *extraIt ).first.c_str(), ( *extraIt ).second );

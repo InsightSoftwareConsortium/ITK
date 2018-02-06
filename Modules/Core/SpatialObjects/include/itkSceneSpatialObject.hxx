@@ -76,8 +76,8 @@ ModifiedTimeType
 SceneSpatialObject< TSpaceDimension >
 ::GetMTime(void) const
 {
-  typename ObjectListType::const_iterator it = m_Objects.begin();
-  typename ObjectListType::const_iterator itEnd = m_Objects.end();
+  auto it = m_Objects.begin();
+  auto itEnd = m_Objects.end();
 
   ModifiedTimeType latestTime = Superclass::GetMTime();
   ModifiedTimeType localTime;
@@ -99,7 +99,7 @@ typename SceneSpatialObject< TSpaceDimension >::ObjectListType *
 SceneSpatialObject< TSpaceDimension >
 ::GetObjects(unsigned int depth, char *name)
 {
-  ObjectListType *newList = new ObjectListType;
+  auto * newList = new ObjectListType;
 
   typename ObjectListType::const_iterator it = m_Objects.begin();
   typename ObjectListType::const_iterator itEnd = m_Objects.end();
@@ -187,8 +187,8 @@ SceneSpatialObject< TSpaceDimension >
      << m_Objects.size() << std::endl;
   os << indent << "List of objects: ";
 
-  typename ObjectListType::const_iterator it = m_Objects.begin();
-  typename ObjectListType::const_iterator itEnd = m_Objects.end();
+  auto it = m_Objects.begin();
+  auto itEnd = m_Objects.end();
 
   while ( it != itEnd )
     {
@@ -207,8 +207,8 @@ SpatialObject< TSpaceDimension > *
 SceneSpatialObject< TSpaceDimension >
 ::GetObjectById(int Id)
 {
-  typename ObjectListType::iterator it = m_Objects.begin();
-  typename ObjectListType::iterator itEnd = m_Objects.end();
+  auto it = m_Objects.begin();
+  auto itEnd = m_Objects.end();
 
   using ChildListType = typename SpatialObjectType::ChildrenListType;
   ChildListType *cList;
@@ -254,9 +254,9 @@ bool
 SceneSpatialObject< TSpaceDimension >
 ::FixHierarchy(void)
 {
-  typename ObjectListType::iterator it = m_Objects.begin();
+  auto it = m_Objects.begin();
   typename ObjectListType::iterator oldIt;
-  typename ObjectListType::iterator itEnd = m_Objects.end();
+  auto itEnd = m_Objects.end();
 
   bool ret = true;
   while ( it != itEnd )
@@ -264,8 +264,7 @@ SceneSpatialObject< TSpaceDimension >
     const int parentId = ( *it )->GetParentId();
     if ( parentId >= 0 )
       {
-      SpatialObject< TSpaceDimension > *parentObject =
-        static_cast< SpatialObject< TSpaceDimension > * >
+      auto * parentObject = static_cast< SpatialObject< TSpaceDimension > * >
         ( this->GetObjectById(parentId) );
       if ( parentObject == nullptr )
         {
@@ -330,14 +329,14 @@ void
 SceneSpatialObject< TSpaceDimension >
 ::FixIdValidity(void)
 {
-  typename ObjectListType::iterator it = m_Objects.begin();
-  typename ObjectListType::iterator itEnd = m_Objects.end();
+  auto it = m_Objects.begin();
+  auto itEnd = m_Objects.end();
 
   while ( it != itEnd )
     {
     // For every object in the scene we check the ID validity
     typename ObjectType::ChildrenListType * children = ( *it )->GetChildren();
-    typename ObjectType::ChildrenListType::iterator itChild = children->begin();
+    auto itChild = children->begin();
 
     while ( itChild != children->end() )
       {
@@ -363,14 +362,13 @@ SceneSpatialObject< TSpaceDimension >
 {
   int Id = 0;
 
-  typename ObjectListType::iterator it = m_Objects.begin();
-  typename ObjectListType::iterator itEnd = m_Objects.end();
+  auto it = m_Objects.begin();
+  auto itEnd = m_Objects.end();
 
   while ( it != itEnd )
     {
     typename ObjectType::ChildrenListType * children = ( *it )->GetChildren();
-    typename ObjectType::ChildrenListType::iterator
-    itChild = children->begin();
+    auto itChild = children->begin();
 
     while ( itChild != children->end() )
       {

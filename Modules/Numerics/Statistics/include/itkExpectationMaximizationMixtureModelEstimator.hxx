@@ -321,7 +321,7 @@ ExpectationMaximizationMixtureModelEstimator< TSample >
 {
   size_t numberOfComponents = m_ComponentVector.size();
   size_t sampleSize = m_Sample->Size();
-  double totalFrequency = static_cast< double >( m_Sample->GetTotalFrequency() );
+  auto totalFrequency = static_cast< double >( m_Sample->GetTotalFrequency() );
   size_t   i, j;
   double tempSum;
   bool   updated = false;

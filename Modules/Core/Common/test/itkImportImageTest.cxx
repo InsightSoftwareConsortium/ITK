@@ -25,7 +25,7 @@
 int itkImportImageTest( int, char* [] )
 {
   // Create a C-array to hold an image
-  short *rawImage = new short[8*12];
+  auto * rawImage = new short[8*12];
   for (unsigned int i = 0; i < 8*12; ++i)
     {
     rawImage[i] = i;

@@ -140,9 +140,9 @@ void PolylineMask2DImageFilter< TInputImage, TPolyline, TOutputImage >
 
   /* define background, foreground pixel values and unlabeled pixel value */
   PixelType zero_val = NumericTraits< PixelType >::ZeroValue();
-  PixelType u_val = static_cast< PixelType >( 0 );
-  PixelType b_val = static_cast< PixelType >( 2 );
-  PixelType f_val = static_cast< PixelType >( 255 );
+  auto u_val = static_cast< PixelType >( 0 );
+  auto b_val = static_cast< PixelType >( 2 );
+  auto f_val = static_cast< PixelType >( 255 );
   outputImagePtr->FillBuffer(u_val);
 
   pstartVertex = piter.Value();

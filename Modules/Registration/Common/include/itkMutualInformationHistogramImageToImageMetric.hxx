@@ -34,13 +34,11 @@ MutualInformationHistogramImageToImageMetric< TFixedImage, TMovingImage >
 
   using HistogramFrequencyRealType = typename NumericTraits< HistogramFrequencyType >::RealType;
 
-  HistogramFrequencyRealType totalFreq =
-    static_cast< HistogramFrequencyRealType >( histogram.GetTotalFrequency() );
+  auto totalFreq = static_cast< HistogramFrequencyRealType >( histogram.GetTotalFrequency() );
 
   for ( unsigned int i = 0; i < this->GetHistogramSize()[0]; i++ )
     {
-    HistogramFrequencyRealType freq =
-      static_cast< HistogramFrequencyRealType >( histogram.GetFrequency(i, 0) );
+    auto freq = static_cast< HistogramFrequencyRealType >( histogram.GetFrequency(i, 0) );
     if ( freq > 0 )
       {
       entropyX += freq * std::log(freq);
@@ -51,8 +49,7 @@ MutualInformationHistogramImageToImageMetric< TFixedImage, TMovingImage >
 
   for ( unsigned int i = 0; i < this->GetHistogramSize()[1]; i++ )
     {
-    HistogramFrequencyRealType freq =
-      static_cast< HistogramFrequencyRealType >( histogram.GetFrequency(i, 1) );
+    auto freq = static_cast< HistogramFrequencyRealType >( histogram.GetFrequency(i, 1) );
     if ( freq > 0 )
       {
       entropyY += freq * std::log(freq);
@@ -65,8 +62,7 @@ MutualInformationHistogramImageToImageMetric< TFixedImage, TMovingImage >
   HistogramIteratorType end = histogram.End();
   while ( it != end )
     {
-    HistogramFrequencyRealType freq =
-      static_cast< HistogramFrequencyRealType >( it.GetFrequency() );
+    auto freq = static_cast< HistogramFrequencyRealType >( it.GetFrequency() );
     if ( freq > 0 )
       {
       jointEntropy += freq * std::log(freq);

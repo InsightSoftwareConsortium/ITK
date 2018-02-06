@@ -201,11 +201,9 @@ BayesianClassifierInitializationImageFilter< TInputImage,
                                             new typename GaussianMembershipFunctionType::MeanVectorType(1) );
     covarianceEstimatorsContainer->
     InsertElement( i, new typename GaussianMembershipFunctionType::CovarianceMatrixType() );
-    typename GaussianMembershipFunctionType::MeanVectorType *       meanEstimators =
-      const_cast< typename GaussianMembershipFunctionType::MeanVectorType * >
+    auto * meanEstimators = const_cast< typename GaussianMembershipFunctionType::MeanVectorType * >
       ( meanEstimatorsContainer->GetElement(i) );
-    typename GaussianMembershipFunctionType::CovarianceMatrixType * covarianceEstimators =
-      const_cast< typename GaussianMembershipFunctionType::CovarianceMatrixType * >
+    auto * covarianceEstimators = const_cast< typename GaussianMembershipFunctionType::CovarianceMatrixType * >
       ( covarianceEstimatorsContainer->GetElement(i) );
     covarianceEstimators->SetSize(1, 1);
 

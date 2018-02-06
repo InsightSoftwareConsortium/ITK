@@ -46,7 +46,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::
     edge = m_PriorityQueue->Peek()->m_Element;
     m_PriorityQueue->Pop();
 
-    QueueMapIterator it = m_QueueMapper.find(edge);
+    auto it = m_QueueMapper.find(edge);
     delete it->second;
     m_QueueMapper.erase(it);
     }
@@ -90,7 +90,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::PushElement(Out
   OutputQEType *temp = ( id_org < id_dest ) ? iEdge : iEdge->GetSym();
   MeasureType   measure = MeasureEdge(temp);
 
-  PriorityQueueItemType *qi = new PriorityQueueItemType( temp,
+  auto * qi = new PriorityQueueItemType( temp,
                                                          PriorityType(false, measure) );
 
   m_QueueMapper[temp] = qi;
@@ -171,7 +171,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::Extract()
     m_Priority = m_PriorityQueue->Peek()->m_Priority;
 
     m_PriorityQueue->Pop();
-    QueueMapIterator it = m_QueueMapper.find(m_Element);
+    auto it = m_QueueMapper.find(m_Element);
     delete it->second;
     m_QueueMapper.erase(it);
     }
@@ -187,7 +187,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::DeleteElement(O
     OutputQEType *temp = ( iEdge->GetOrigin() < iEdge->GetDestination() ) ?
                          iEdge : iEdge->GetSym();
 
-    QueueMapIterator map_it = m_QueueMapper.find(temp);
+    auto map_it = m_QueueMapper.find(temp);
     if ( map_it != m_QueueMapper.end() )
       {
       if ( !map_it->second->m_Priority.first )
@@ -212,7 +212,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::PushOrUpdateEle
     temp = temp->GetSym();
     }
 
-  QueueMapIterator map_it = m_QueueMapper.find(temp);
+  auto map_it = m_QueueMapper.find(temp);
 
   MeasureType measure = MeasureEdge(temp);
   if ( map_it != m_QueueMapper.end() )
@@ -225,7 +225,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::PushOrUpdateEle
     }
   else
     {
-    PriorityQueueItemType *qi = new PriorityQueueItemType( temp,
+    auto * qi = new PriorityQueueItemType( temp,
                                                            PriorityType(false, measure) );
     m_QueueMapper[temp] = qi;
     m_PriorityQueue->Push(qi);
@@ -347,7 +347,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::ProcessWithoutA
     temp = temp->GetOnext();
     }
 
-  typename std::list< OutputQEType * >::iterator
+  auto
   it = list_qe_to_be_deleted.begin();
 
   while ( it != list_qe_to_be_deleted.end() )
@@ -550,7 +550,7 @@ template< typename TInput, typename TOutput, typename TCriterion >
 void
 EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::TagElementOut(OutputQEType *iEdge)
 {
-  QueueMapIterator map_it = m_QueueMapper.find(iEdge);
+  auto map_it = m_QueueMapper.find(iEdge);
 
   if ( map_it != m_QueueMapper.end() )
     {
@@ -560,7 +560,7 @@ EdgeDecimationQuadEdgeMeshFilter< TInput, TOutput, TCriterion >::TagElementOut(O
     }
   else
     {
-    PriorityQueueItemType *qi = new PriorityQueueItemType( iEdge,
+    auto * qi = new PriorityQueueItemType( iEdge,
                                                            PriorityType( true, static_cast< MeasureType >( 0. ) ) );
 
     m_QueueMapper[iEdge] = qi;

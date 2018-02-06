@@ -52,7 +52,7 @@ OtsuMultipleThresholdsCalculator< TInputHistogram >
   typename TInputHistogram::ConstPointer histogram = this->GetInputHistogram();
 
   const SizeValueType numberOfHistogramBins = histogram->Size();
-  const SizeValueType numberOfClasses = static_cast<const SizeValueType>( classMean.size() );
+  const auto numberOfClasses = static_cast<const SizeValueType>( classMean.size() );
 
   unsigned int k;
   int          j;

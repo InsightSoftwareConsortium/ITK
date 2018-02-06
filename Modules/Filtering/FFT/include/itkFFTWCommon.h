@@ -89,7 +89,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[2];
+    auto * sizes = new int[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_c2r(2, sizes, in, out, flags, threads, canDestroyInput);
@@ -106,7 +106,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[3];
+    auto * sizes = new int[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
@@ -149,7 +149,7 @@ public:
           {
           total *= n[i];
           }
-        ComplexType * din = new ComplexType[total];
+        auto * din = new ComplexType[total];
         fftwf_plan_dft_c2r(rank,n,din,out,flags);
         delete[] din;
         // and then create the final plan - this time it shouldn't fail
@@ -180,7 +180,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[2];
+    auto * sizes = new int[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_r2c(2, sizes, in, out, flags, threads, canDestroyInput);
@@ -197,7 +197,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[3];
+    auto * sizes = new int[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
@@ -241,7 +241,7 @@ public:
           {
           total *= n[i];
           }
-        PixelType * din = new PixelType[total];
+        auto * din = new PixelType[total];
         fftwf_plan_dft_r2c(rank,n,din,out,flags);
         delete[] din;
         // and then create the final plan - this time it shouldn't fail
@@ -273,7 +273,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[2];
+    auto * sizes = new int[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft(2, sizes, in, out, sign, flags, threads, canDestroyInput);
@@ -291,7 +291,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[3];
+    auto * sizes = new int[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
@@ -335,7 +335,7 @@ public:
           {
           total *= n[i];
           }
-        ComplexType * din = new ComplexType[total];
+        auto * din = new ComplexType[total];
         fftwf_plan_dft(rank,n,din,out,sign,flags);
         delete[] din;
         // and then create the final plan - this time it shouldn't fail
@@ -393,7 +393,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[2];
+    auto * sizes = new int[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_c2r(2, sizes, in, out, flags, threads, canDestroyInput);
@@ -410,7 +410,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[3];
+    auto * sizes = new int[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
@@ -453,7 +453,7 @@ public:
           {
           total *= n[i];
           }
-        ComplexType * din = new ComplexType[total];
+        auto * din = new ComplexType[total];
         fftw_plan_dft_c2r(rank,n,din,out,flags);
         delete[] din;
         // and then create the final plan - this time it shouldn't fail
@@ -484,7 +484,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[2];
+    auto * sizes = new int[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_r2c(2, sizes, in, out, flags, threads, canDestroyInput);
@@ -501,7 +501,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[3];
+    auto * sizes = new int[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
@@ -544,7 +544,7 @@ public:
           {
           total *= n[i];
           }
-        PixelType * din = new PixelType[total];
+        auto * din = new PixelType[total];
         fftw_plan_dft_r2c(rank,n,din,out,flags);
         delete[] din;
         // and then create the final plan - this time it shouldn't fail
@@ -576,7 +576,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[2];
+    auto * sizes = new int[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft(2, sizes, in, out, sign, flags, threads, canDestroyInput);
@@ -594,7 +594,7 @@ public:
                                   int threads=1,
                                   bool canDestroyInput=false)
   {
-    int * sizes = new int[3];
+    auto * sizes = new int[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
@@ -638,7 +638,7 @@ public:
           {
           total *= n[i];
           }
-        ComplexType * din = new ComplexType[total];
+        auto * din = new ComplexType[total];
         fftw_plan_dft(rank,n,din,out,sign,flags);
         delete[] din;
         // and then create the final plan - this time it shouldn't fail

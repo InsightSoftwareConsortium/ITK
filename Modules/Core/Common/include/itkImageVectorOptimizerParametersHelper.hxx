@@ -49,7 +49,7 @@ ImageVectorOptimizerParametersHelper< TValue, NVectorDimension, VImageDimension 
   // The buffer for Image<Vector> points to Vector type, not TValue, so
   // have to cast.
   using vectorElement = typename ParameterImageType::PixelContainer::Element;
-  vectorElement* vectorPointer = reinterpret_cast<vectorElement *>(pointer);
+  auto * vectorPointer = reinterpret_cast<vectorElement *>(pointer);
   // We're expecting the new memory buffer t be of same size.
   unsigned int sizeInVectors = m_ParameterImage->GetPixelContainer()->Size();
   // After this call, PixelContainer will *not* manage its memory.
@@ -73,8 +73,7 @@ ImageVectorOptimizerParametersHelper< TValue, NVectorDimension, VImageDimension 
     }
   else
     {
-    ParameterImageType* image =
-      dynamic_cast<ParameterImageType *>( object );
+    auto * image = dynamic_cast<ParameterImageType *>( object );
     if( image == nullptr )
       {
       itkGenericExceptionMacro(
@@ -87,7 +86,7 @@ ImageVectorOptimizerParametersHelper< TValue, NVectorDimension, VImageDimension 
     // to determine the number of raw elements of type TValue in the buffer
     // and cast a pointer to it for assignment to the Array data pointer.
     typename CommonContainerType::SizeValueType sz = image->GetPixelContainer()->Size() * NVectorDimension;
-    TValue* valuePointer = reinterpret_cast<TValue *>
+    auto * valuePointer = reinterpret_cast<TValue *>
                               ( image->GetPixelContainer()->GetBufferPointer() );
     //Set the Array's pointer to the image data buffer. By default it will
     // not manage the memory.

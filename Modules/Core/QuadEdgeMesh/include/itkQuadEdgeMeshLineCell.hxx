@@ -31,9 +31,9 @@ QuadEdgeMeshLineCell< TCellInterface >
   m_Identifier = 0;
   m_QuadEdgeGeom = new QEType;
 
-  QEType *e2 = new QEType;
-  QEDual *e1 = new QEDual;
-  QEDual *e3 = new QEDual;
+  auto * e2 = new QEType;
+  auto * e1 = new QEDual;
+  auto * e3 = new QEDual;
   this->m_QuadEdgeGeom->SetRot(e1);
   e1->SetRot(e2);
   e2->SetRot(e3);

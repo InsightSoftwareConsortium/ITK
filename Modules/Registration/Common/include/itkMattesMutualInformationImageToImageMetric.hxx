@@ -381,14 +381,14 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 ::ComputeFixedImageParzenWindowIndices( FixedImageSampleContainer & samples)
 {
   const typename FixedImageSampleContainer::const_iterator end = samples.end();
-  for( typename FixedImageSampleContainer::iterator iter = samples.begin();
+  for( auto iter = samples.begin();
        iter != end; ++iter )
     {
     // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
     const PDFValueType windowTerm = static_cast<PDFValueType>( ( *iter ).value )
       / this->m_FixedImageBinSize
       - this->m_FixedImageNormalizedMin;
-    OffsetValueType pindex = static_cast<OffsetValueType>( windowTerm );
+    auto pindex = static_cast<OffsetValueType>( windowTerm );
 
     // Make sure the extreme values are in valid bins
     if( pindex < 2 )
@@ -451,8 +451,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
     / this->m_MovingImageBinSize
     - this->m_MovingImageNormalizedMin;
   // Same as floor
-  OffsetValueType movingImageParzenWindowIndex =
-    static_cast<OffsetValueType>( movingImageParzenWindowTerm );
+  auto movingImageParzenWindowIndex = static_cast<OffsetValueType>( movingImageParzenWindowTerm );
   if( movingImageParzenWindowIndex < 2 )
     {
     movingImageParzenWindowIndex = 2;
@@ -693,7 +692,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
   PDFValueType movingImageParzenWindowTerm = movingImageValue / this->m_MovingImageBinSize -
     this->m_MovingImageNormalizedMin;
-  OffsetValueType movingImageParzenWindowIndex = static_cast<OffsetValueType>( movingImageParzenWindowTerm );
+  auto movingImageParzenWindowIndex = static_cast<OffsetValueType>( movingImageParzenWindowTerm );
 
   // Make sure the extreme values are in valid bins
   if( movingImageParzenWindowIndex < 2 )

@@ -358,7 +358,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
       {
       if ( i != NonFaceDim )
         {
-        int Pad = Math::Ceil< int >( (float)( NonFaceLen ) * line[i] / std::fabs(line[NonFaceDim]) );
+        auto Pad = Math::Ceil< int >( (float)( NonFaceLen ) * line[i] / std::fabs(line[NonFaceDim]) );
         if ( Pad < 0 )
           {
           // just increase the size - no need to change the start

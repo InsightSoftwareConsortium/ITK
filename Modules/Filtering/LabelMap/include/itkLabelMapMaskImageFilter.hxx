@@ -270,7 +270,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 {
   ProgressReporter progress( this, threadId, 1 );
   OutputImageType * output = this->GetOutput();
-  InputImageType * input = const_cast<InputImageType *>(this->GetInput());
+  auto * input = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * input2 = this->GetFeatureImage();
 
   // Keep the values from the feature image if the same pixel in the label image
@@ -348,7 +348,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )
 {
   OutputImageType * output = this->GetOutput();
-  InputImageType * input = const_cast<InputImageType *>(this->GetInput());
+  auto * input = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * input2 = this->GetFeatureImage();
 
   if( !m_Negated )

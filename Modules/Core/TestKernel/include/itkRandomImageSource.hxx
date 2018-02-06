@@ -256,8 +256,8 @@ RandomImageSource< TOutputImage >
   double       u;
   double       rnd;
 
-  double dMin = static_cast< double >( m_Min );
-  double dMax = static_cast< double >( m_Max );
+  auto dMin = static_cast< double >( m_Min );
+  auto dMax = static_cast< double >( m_Max );
 
   for (; !it.IsAtEnd(); ++it )
     {

@@ -795,7 +795,7 @@ void VTKPolyDataMeshIO::ReadCellsBufferAsASCII(std::ifstream & inputFile, void *
   unsigned int  numPoints; // number of point in each cell
 
   MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
-  unsigned int *       data = static_cast< unsigned int * >( buffer );
+  auto * data = static_cast< unsigned int * >( buffer );
 
   while ( !inputFile.eof() )
     {
@@ -861,10 +861,10 @@ VTKPolyDataMeshIO
     return;
     }
 
-  unsigned int *inputBuffer = new unsigned int[this->m_CellBufferSize - this->m_NumberOfCells];
+  auto * inputBuffer = new unsigned int[this->m_CellBufferSize - this->m_NumberOfCells];
   void *        pv = inputBuffer;
-  char *        startBuffer = static_cast< char * >( pv );
-  unsigned int *outputBuffer = static_cast< unsigned int * >( buffer );
+  auto * startBuffer = static_cast< char * >( pv );
+  auto * outputBuffer = static_cast< unsigned int * >( buffer );
 
   std::string          line;
   MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
@@ -881,7 +881,7 @@ VTKPolyDataMeshIO
       inputFile.read( startBuffer, numberOfVertexIndices * sizeof( unsigned int ) );
 
       pv = startBuffer;
-      unsigned int *data = static_cast< unsigned int * >( pv );
+      auto * data = static_cast< unsigned int * >( pv );
       if ( itk::ByteSwapper< unsigned int >::SystemIsLittleEndian() )
         {
         itk::ByteSwapper< unsigned int >::SwapRangeFromSystemToBigEndian(data, numberOfVertexIndices);
@@ -899,7 +899,7 @@ VTKPolyDataMeshIO
       inputFile.read( startBuffer, numberOfLineIndices * sizeof( unsigned int ) );
 
       pv = startBuffer;
-      unsigned int *data = static_cast< unsigned int * >( pv );
+      auto * data = static_cast< unsigned int * >( pv );
       if ( itk::ByteSwapper< unsigned int >::SystemIsLittleEndian() )
         {
         itk::ByteSwapper< unsigned int >::SwapRangeFromSystemToBigEndian(data, numberOfLineIndices);
@@ -917,7 +917,7 @@ VTKPolyDataMeshIO
       inputFile.read( startBuffer, numberOfPolygonIndices * sizeof( unsigned int ) );
 
       pv = startBuffer;
-      unsigned int *data = static_cast< unsigned int * >( pv );
+      auto * data = static_cast< unsigned int * >( pv );
       if ( itk::ByteSwapper< unsigned int >::SystemIsLittleEndian() )
         {
         itk::ByteSwapper< unsigned int >::SwapRangeFromSystemToBigEndian(data, numberOfPolygonIndices);

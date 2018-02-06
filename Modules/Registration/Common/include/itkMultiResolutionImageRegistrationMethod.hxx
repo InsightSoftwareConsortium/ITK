@@ -110,8 +110,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
   //
   // Connect the transform to the Decorator.
   //
-  TransformOutputType *transformOutput =
-    static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
+  auto * transformOutput = static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 
   transformOutput->Set( m_Transform.GetPointer() );
 }
@@ -270,7 +269,7 @@ MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
     IndexType start;
     for ( unsigned int dim = 0; dim < TFixedImage::ImageDimension; dim++ )
       {
-      const float scaleFactor = static_cast< float >( schedule[level][dim] );
+      const auto scaleFactor = static_cast< float >( schedule[level][dim] );
 
       size[dim] = static_cast< typename SizeType::SizeValueType >(
         std::floor(static_cast< float >( inputSize[dim] ) / scaleFactor) );

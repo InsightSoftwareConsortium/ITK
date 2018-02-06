@@ -76,7 +76,7 @@ public:
       return m_OutputMaximum;
       }
     const RealType value  = static_cast< RealType >( x ) * m_Factor + m_Offset;
-    const TOutput  result = static_cast< TOutput >( value );
+    const auto result = static_cast< TOutput >( value );
     return result;
   }
 

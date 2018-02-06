@@ -122,8 +122,8 @@ private:
   void
   ReorderRGBValues(void *buffer, const void* data, unsigned long count, unsigned int voxel_size)
   {
-    T* output_buffer = static_cast<T*>(buffer);
-    const T** input_buffer = static_cast<const T**>(const_cast<void *>(data));
+    auto * output_buffer = static_cast<T*>(buffer);
+    const auto** input_buffer = static_cast<const T**>(const_cast<void *>(data));
     for (unsigned long pos = 0; pos < count; ++pos)
       {
       for (unsigned int color = 0; color < voxel_size; ++color)

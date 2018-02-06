@@ -124,7 +124,7 @@ protected:
 
     for( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
       {
-      unsigned int numberOfCellPoints = static_cast< unsigned int >( buffer[++index] );
+      auto numberOfCellPoints = static_cast< unsigned int >( buffer[++index] );
       index++;
       for ( unsigned int jj = 0; jj < numberOfCellPoints - 1; jj++ )
         {

@@ -163,7 +163,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
       static_cast< double >( t_star2 ) * 0.25 * omega * beta2 +
       static_cast< double >( t_star3 ) * ( P2[t_star3] + 0.25 * omega * beta3 );
 
-  InstanceIdentifier opt_threshold = static_cast< InstanceIdentifier >( realOptThreshold );
+  auto opt_threshold = static_cast< InstanceIdentifier >( realOptThreshold );
 
   this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( opt_threshold, 0 ) ) );
 }

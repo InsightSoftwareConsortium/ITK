@@ -173,7 +173,7 @@ void LSMImageIO::ReadImageInformation()
   // information
   unsigned int tif_cz_lsminfo_size;
   void *praw = this->TIFFImageIO::ReadRawByteFromTag(TIF_CZ_LSMINFO, tif_cz_lsminfo_size);
-  zeiss_info *zi = reinterpret_cast< zeiss_info * >( praw );
+  auto * zi = reinterpret_cast< zeiss_info * >( praw );
   if ( praw == nullptr
        || tif_cz_lsminfo_size != TIF_CZ_LSMINFO_SIZE )
     {
@@ -222,7 +222,7 @@ bool LSMImageIO::CanWriteFile(const char *name)
 void LSMImageIO::FillZeissStruct(char *cz)
 {
   memset(cz, 0, TIF_CZ_LSMINFO_SIZE); // fill with 0
-  zeiss_info *z = reinterpret_cast< zeiss_info * >( cz );
+  auto * z = reinterpret_cast< zeiss_info * >( cz );
   z->U32MagicNumber = 0x0400494c;
   z->S32StructureSize = TIF_CZ_LSMINFO_SIZE;
   z->S32DimensionX = m_Dimensions[0];
@@ -246,7 +246,7 @@ void LSMImageIO::FillZeissStruct(char *cz)
 
 void LSMImageIO::Write(const void *buffer)
 {
-  const unsigned char *outPtr = (const unsigned char *)buffer;
+  const auto * outPtr = (const unsigned char *)buffer;
 
   unsigned int width, height, page, pages = 1;
   if ( this->GetNumberOfDimensions() < 2 )
@@ -317,7 +317,7 @@ void LSMImageIO::Write(const void *buffer)
       // if number of scalar components is greater than 3, that means we assume
       // there is alpha.
       uint16  extra_samples = scomponents - 3;
-      uint16 *sample_info = new uint16[scomponents - 3];
+      auto * sample_info = new uint16[scomponents - 3];
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
       int cc;
       for ( cc = 1; cc < scomponents - 3; cc++ )

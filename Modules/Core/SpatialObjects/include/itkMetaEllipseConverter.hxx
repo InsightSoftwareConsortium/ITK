@@ -42,7 +42,7 @@ typename MetaEllipseConverter< NDimensions >::SpatialObjectPointer
 MetaEllipseConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const EllipseMetaObjectType *ellipseMO = dynamic_cast<const EllipseMetaObjectType *>(mo);
+  const auto * ellipseMO = dynamic_cast<const EllipseMetaObjectType *>(mo);
   if(ellipseMO == nullptr)
     {
     itkExceptionMacro(<< "Can't downcast MetaObject to EllipseMetaObject");
@@ -86,9 +86,9 @@ MetaEllipseConverter< NDimensions >
     itkExceptionMacro(<< "Can't downcast SpatialObject to EllipseSpatialObject");
     }
 
-  EllipseMetaObjectType *ellipseMO = new EllipseMetaObjectType(NDimensions);
+  auto * ellipseMO = new EllipseMetaObjectType(NDimensions);
 
-  float *radius = new float[NDimensions];
+  auto * radius = new float[NDimensions];
 
   for ( unsigned int i = 0; i < NDimensions; i++ )
     {

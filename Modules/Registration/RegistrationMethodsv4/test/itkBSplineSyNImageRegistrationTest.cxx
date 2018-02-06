@@ -51,8 +51,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    const TFilter * filter =
-      dynamic_cast< const TFilter * >( object );
+    const auto * filter = dynamic_cast< const TFilter * >( object );
     if( typeid( event ) != typeid( itk::IterationEvent ) )
       { return; }
 
@@ -110,7 +109,7 @@ int PerformBSplineSyNImageRegistration( int itkNotUsed( argc ), char *argv[] )
 
   // Set the number of iterations
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
-  GradientDescentOptimizerv4Type * optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineSimple->GetModifiableOptimizer() );
+  auto * optimizer = dynamic_cast<GradientDescentOptimizerv4Type *>( affineSimple->GetModifiableOptimizer() );
   TEST_EXPECT_TRUE( optimizer != nullptr );
 #ifdef NDEBUG
   optimizer->SetNumberOfIterations( 100 );

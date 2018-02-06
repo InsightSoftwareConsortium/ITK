@@ -36,10 +36,10 @@ public:
 
   static PrimalQuadEdgeType * MakeQuadEdges()
     {
-    PrimalQuadEdgeType * e1 = new PrimalQuadEdgeType();
-    DualQuadEdgeType   * e2 = new DualQuadEdgeType();
-    PrimalQuadEdgeType * e3 = new PrimalQuadEdgeType();
-    DualQuadEdgeType   * e4 = new DualQuadEdgeType();
+    auto * e1 = new PrimalQuadEdgeType();
+    auto * e2 = new DualQuadEdgeType();
+    auto * e3 = new PrimalQuadEdgeType();
+    auto * e4 = new DualQuadEdgeType();
 
     e1->SetRot( e2 );
     e2->SetRot( e3 );

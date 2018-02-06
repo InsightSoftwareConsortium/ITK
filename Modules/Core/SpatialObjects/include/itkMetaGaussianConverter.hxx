@@ -42,8 +42,7 @@ typename MetaGaussianConverter< NDimensions >::SpatialObjectPointer
 MetaGaussianConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const GaussianMetaObjectType *metaGaussian =
-    dynamic_cast<const GaussianMetaObjectType *>(mo);
+  const auto * metaGaussian = dynamic_cast<const GaussianMetaObjectType *>(mo);
   if(metaGaussian == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaGaussian" );
@@ -81,7 +80,7 @@ MetaGaussianConverter< NDimensions >
 {
   GaussianSpatialObjectConstPointer gaussianSO =
     dynamic_cast<const GaussianSpatialObjectType *>(so);
-  GaussianMetaObjectType *metaGaussian = new GaussianMetaObjectType;
+  auto * metaGaussian = new GaussianMetaObjectType;
   if(gaussianSO.IsNull())
     {
     itkExceptionMacro(<< "Can't downcast SpatialObject to GaussianSpatialObject");

@@ -47,8 +47,7 @@ typename MetaMeshConverter< NDimensions, PixelType, TMeshTraits >::SpatialObject
 MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const MeshMetaObjectType *_mesh =
-    dynamic_cast<const MeshMetaObjectType *>(mo);
+  const auto * _mesh = dynamic_cast<const MeshMetaObjectType *>(mo);
   if(_mesh == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaMesh");
@@ -78,7 +77,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   // Add Points
   using PointListType = typename MeshMetaObjectType::PointListType;
   const PointListType points = _mesh->GetPoints();
-  typename PointListType::const_iterator it_points = points.begin();
+  auto it_points = points.begin();
 
   while ( it_points != points.end() )
     {
@@ -101,7 +100,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
     {
     using CellListType = typename MetaMesh::CellListType;
     const CellListType cells = _mesh->GetCells( (MET_CellGeometry)celltype );
-    typename CellListType::const_iterator it_cells = cells.begin();
+    auto it_cells = cells.begin();
 
     using CellInterfaceType = typename MeshType::CellType;
     using VertexCellType = itk::VertexCell< CellInterfaceType >;
@@ -164,7 +163,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   // Add cell links
   using CellLinkListType = typename MetaMesh::CellLinkListType;
   const CellLinkListType links = _mesh->GetCellLinks();
-  typename CellLinkListType::const_iterator it_links = links.begin();
+  auto it_links = links.begin();
 
   using CellLinksContainerType = typename MeshType::CellLinksContainer;
   typename CellLinksContainerType::Pointer linkContainer =
@@ -190,8 +189,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   using PointDataContainer = typename MeshType::PointDataContainer;
   typename PointDataContainer::Pointer pointData = PointDataContainer::New();
 
-  using PointDataListType = MetaMesh::PointDataListType;
-  PointDataListType::const_iterator it_pd = _mesh->GetPointData().begin();
+  auto it_pd = _mesh->GetPointData().begin();
 
   while ( it_pd != _mesh->GetPointData().end() )
     {
@@ -205,8 +203,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   using CellDataContainer = typename MeshType::CellDataContainer;
   typename CellDataContainer::Pointer cellData = CellDataContainer::New();
 
-  using CellDataListType = MetaMesh::CellDataListType;
-  CellDataListType::const_iterator it_cd = _mesh->GetCellData().begin();
+  auto it_cd = _mesh->GetCellData().begin();
   while ( it_cd != _mesh->GetCellData().end() )
     {
     using CellPixelType = typename MeshType::CellPixelType;
@@ -235,7 +232,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
     {
     itkExceptionMacro(<< "Can't downcast SpatialObject to MeshSpatialObject");
     }
-  MeshMetaObjectType *metamesh = new MeshMetaObjectType(NDimensions);
+  auto * metamesh = new MeshMetaObjectType(NDimensions);
 
   typename MeshType::ConstPointer mesh = meshSO->GetMesh();
 
@@ -256,7 +253,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
 
   while ( it_points != points->End() )
     {
-    MeshPoint *pnt = new MeshPoint(NDimensions);
+    auto * pnt = new MeshPoint(NDimensions);
     for ( unsigned int i = 0; i < NDimensions; i++ )
       {
       pnt->m_X[i] = ( *it_points )->Value()[i];
@@ -274,7 +271,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
   while ( it_cells != cells->End() )
     {
     unsigned int celldim = ( *it_cells )->Value()->GetNumberOfPoints();
-    MeshCell *   cell = new MeshCell(celldim);
+    auto * cell = new MeshCell(celldim);
 
     typename MeshType::CellTraits::PointIdConstIterator
     itptids = ( *it_cells )->Value()->GetPointIds();
@@ -336,11 +333,10 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
 
     while ( it_celllinks != links->End() )
       {
-      MeshCellLink *link = new MeshCellLink();
+      auto * link = new MeshCellLink();
       link->m_Id = ( *it_celllinks )->Index();
 
-      typename MeshType::PointCellLinksContainer::const_iterator
-      it = ( *it_celllinks )->Value().begin();
+      auto it = ( *it_celllinks )->Value().begin();
       while ( it != ( *it_celllinks )->Value().end() )
         {
         link->m_Links.push_back(*it);
@@ -361,7 +357,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
     typename MeshType::PointDataContainer::ConstIterator it_pd = pd->Begin();
     while ( it_pd != pd->End() )
       {
-      MeshData< PixelType > *data = new MeshData< PixelType >();
+      auto * data = new MeshData< PixelType >();
       data->m_Id = ( *it_pd )->Index();
       data->m_Data = ( *it_pd )->Value();
       metamesh->GetPointData().push_back(data);
@@ -381,7 +377,7 @@ MetaMeshConverter< NDimensions, PixelType, TMeshTraits >
 
     while ( it_cd != cd->End() )
       {
-      MeshData< CellPixelType > *data = new MeshData< CellPixelType >();
+      auto * data = new MeshData< CellPixelType >();
       data->m_Id = ( *it_cd )->Index();
       data->m_Data = ( *it_cd )->Value();
       metamesh->GetCellData().push_back(data);

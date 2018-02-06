@@ -234,8 +234,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
   const double TRACE_EPSILON = 1e-8;
 
   // pick points with highest variance first (inverse iteration)
-  using MapReverseIterator = typename MultiMapType::reverse_iterator;
-  MapReverseIterator rit = pointMap.rbegin();
+  auto rit = pointMap.rbegin();
   while ( rit != pointMap.rend() && numberOfPointsInserted < maxNumberPointsToInserted)
     {
     // if point is not marked off in selection map and there are still points to be picked

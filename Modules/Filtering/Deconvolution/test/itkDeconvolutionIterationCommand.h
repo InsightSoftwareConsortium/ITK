@@ -48,7 +48,7 @@ public:
     std::cout << object->GetNameOfClass() << " iteration "
               << m_NumberOfIterations << std::endl;
 
-    const TFilterType * filter = static_cast< const TFilterType * >( object );
+    const auto * filter = static_cast< const TFilterType * >( object );
     if ( filter->GetCurrentEstimate() == nullptr )
       {
       itkExceptionMacro(<< "CurrentEstimate is nullptr, but should not be.");

@@ -49,7 +49,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
 
   ParametersType norms(numPara);
 
-  const SizeValueType numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
+  const auto numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
 
   norms.Fill( NumericTraits< typename ParametersType::ValueType >::ZeroValue() );
   parameterScales.Fill( NumericTraits< typename ScalesType::ValueType >::OneValue() );
@@ -89,7 +89,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
   ScalesType sampleScales;
   this->ComputeSampleStepScales(step, sampleScales);
 
-  const SizeValueType numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
+  const auto numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
   FloatType scaleSum = NumericTraits< FloatType >::ZeroValue();
 
   // checking each sample point
@@ -124,7 +124,7 @@ RegistrationParameterScalesFromJacobian< TMetric >
   ScalesType sampleScales;
   this->ComputeSampleStepScales(step, sampleScales);
 
-  const SizeValueType numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
+  const auto numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
   const SizeValueType numPara = this->GetNumberOfLocalParameters();
   const SizeValueType numAllPara = this->GetTransform()->GetNumberOfParameters();
   const SizeValueType numLocals = numAllPara / numPara;
@@ -151,7 +151,7 @@ void
 RegistrationParameterScalesFromJacobian< TMetric >
 ::ComputeSampleStepScales(const ParametersType &step, ScalesType &sampleScales)
 {
-  const SizeValueType numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
+  const auto numSamples = static_cast<const SizeValueType>( this->m_SamplePoints.size() );
   const SizeValueType dim = this->GetDimension();
   const SizeValueType numPara = this->GetNumberOfLocalParameters();
 

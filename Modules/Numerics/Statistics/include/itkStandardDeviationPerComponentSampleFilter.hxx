@@ -135,12 +135,10 @@ StandardDeviationPerComponentSampleFilter< TSample >
 
   MeasurementVectorSizeType measurementVectorSize = input->GetMeasurementVectorSize();
 
-  MeasurementVectorRealDecoratedType *decoratedStandardDeviationOutput =
-    itkDynamicCastInDebugMode< MeasurementVectorRealDecoratedType * >(
+  auto * decoratedStandardDeviationOutput = itkDynamicCastInDebugMode< MeasurementVectorRealDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
-  MeasurementVectorRealDecoratedType *decoratedMean =
-    itkDynamicCastInDebugMode< MeasurementVectorRealDecoratedType * >(
+  auto * decoratedMean = itkDynamicCastInDebugMode< MeasurementVectorRealDecoratedType * >(
       this->ProcessObject::GetOutput(1) );
 
   MeasurementVectorRealType sum;

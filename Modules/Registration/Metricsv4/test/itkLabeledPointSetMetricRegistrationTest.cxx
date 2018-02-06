@@ -54,7 +54,7 @@ public:
       {
       return;
       }
-    const TFilter *optimizer = static_cast< const TFilter * >( object );
+    const auto * optimizer = static_cast< const TFilter * >( object );
 
     std::cout << "It: " << optimizer->GetCurrentIteration() << " metric value: "
               << optimizer->GetCurrentMetricValue() << std::endl;
@@ -82,7 +82,7 @@ int itkLabeledPointSetMetricRegistrationTestPerMetric( unsigned int numberOfIter
   unsigned long count = 0;
   for( float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1 )
     {
-    unsigned int label = static_cast<unsigned int>( 1.5 + count / 35 );
+    auto label = static_cast<unsigned int>( 1.5 + count / 35 );
 
     PointType fixedPoint;
     float radius = 100.0;

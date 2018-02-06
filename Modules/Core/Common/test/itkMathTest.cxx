@@ -532,17 +532,17 @@ int main( int, char *[] )
     { // Test various equals operations.
     //=========================
     const signed char sc = -1;
-    const unsigned char uc = static_cast<unsigned char>(-1);
+    const auto uc = static_cast<unsigned char>(-1);
     testPassStatus = ( TestIntegersAreSame(sc,uc) == EXIT_SUCCESS )?testPassStatus:EXIT_FAILURE;
     //=========================
     const int si= -1;
-    const unsigned long ul = static_cast<unsigned long>(-1);
+    const auto ul = static_cast<unsigned long>(-1);
     testPassStatus = ( TestIntegersAreSame(si,ul) == EXIT_SUCCESS )?testPassStatus:EXIT_FAILURE;
     //=========================
-    const unsigned int ui = static_cast<unsigned int>(-1);
+    const auto ui = static_cast<unsigned int>(-1);
     testPassStatus = ( TestIntegersAreSame(si,ui) == EXIT_SUCCESS )?testPassStatus:EXIT_FAILURE;
     //=========================
-    const size_t ust = static_cast<size_t>(-1);
+    const auto ust = static_cast<size_t>(-1);
     testPassStatus = ( TestIntegersAreSame(si,ust) == EXIT_SUCCESS )?testPassStatus:EXIT_FAILURE;
 
     //=========================

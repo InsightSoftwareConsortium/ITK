@@ -123,7 +123,7 @@ static int ReadWriteTest(const char * const fileName)
     return EXIT_FAILURE;
     }
 
-  TransformType* readTransform = static_cast<TransformType*>(list->front().GetPointer());
+  auto * readTransform = static_cast<TransformType*>(list->front().GetPointer());
   sourceit = sourceLandmarks->GetPoints()->Begin();
   targetit = targetLandmarks->GetPoints()->Begin();
   sourceend = sourceLandmarks->GetPoints()->End();

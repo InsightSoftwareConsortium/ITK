@@ -139,7 +139,7 @@ protected:
 
     void Execute(itk::Object *caller, const itk::EventObject & event) override
       {
-      RegistrationFilterType * filter = static_cast<  RegistrationFilterType * >( caller );
+      auto * filter = static_cast<  RegistrationFilterType * >( caller );
 
       if( !(itk::IterationEvent().CheckEvent( &event )) )
        {

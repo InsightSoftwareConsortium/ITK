@@ -61,7 +61,7 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
   ImageRegion<ImageDimension> region;
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
-    const int boundingBoxSize = static_cast<int>(
+    const auto boundingBoxSize = static_cast<int>(
       this->GetBoundingBoxEnd()[d] - this->GetBoundingBoxStart()[d] + 0.5 );
     const int begin = std::max( 0, static_cast<int>( std::floor( cindex[d] -
       this->GetBoundingBoxStart()[d] - this->GetCutOffDistance()[d] ) ) );
@@ -79,7 +79,6 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
   // linear list of labels, but probably not a huge deal compared to
   // having to evaluate the erf function
   using WeightMapType = std::map<OutputType, RealType, TPixelCompare>;
-  using WeightMapIteratorType = typename std::map<OutputType, RealType, TPixelCompare>::iterator;
   WeightMapType weightMap;
 
   ImageRegionConstIteratorWithIndex<InputImageType> It( this->GetInputImage(), region );
@@ -94,7 +93,7 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
       }
 
     const OutputType V = It.Get();
-    WeightMapIteratorType it = weightMap.find( V );
+    auto it = weightMap.find( V );
     RealType wtest = 0.0;
 
     if( it != weightMap.end() )

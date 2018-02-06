@@ -27,7 +27,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 {
   os << indent <<  "ConstShapedNeighborhoodIterator {this = " << this;
   os << " m_ActiveIndexList = [";
-  for ( IndexListConstIterator it = m_ActiveIndexList.begin();
+  for ( auto it = m_ActiveIndexList.begin();
         it != m_ActiveIndexList.end();
         ++it )
     {
@@ -47,7 +47,7 @@ ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
   const OffsetValueType *OffsetTable = this->m_ConstImage->GetOffsetTable();
 
   // Insert so that the list remains ordered.
-  IndexListIterator it = m_ActiveIndexList.begin();
+  auto it = m_ActiveIndexList.begin();
 
   if ( m_ActiveIndexList.empty() )
     {
@@ -96,7 +96,7 @@ void
 ConstShapedNeighborhoodIterator< TImage, TBoundaryCondition >
 ::DeactivateIndex(NeighborIndexType n)
 {
-  IndexListIterator it = m_ActiveIndexList.begin();
+  auto it = m_ActiveIndexList.begin();
 
   if ( m_ActiveIndexList.empty() )
     {

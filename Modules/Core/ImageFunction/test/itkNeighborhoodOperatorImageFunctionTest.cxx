@@ -56,7 +56,7 @@ int itkNeighborhoodOperatorImageFunctionTest(int, char* [] )
   FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage( image );
 
-  NeighborhoodOperatorType* oper= new NeighborhoodOperatorType;
+  auto * oper = new NeighborhoodOperatorType;
   oper->CreateToRadius(3);
 
   function->SetOperator(*oper);

@@ -133,8 +133,8 @@ public:
     this->m_FunctionCount = n;
     this->m_LevelSetDataPointerVector.resize(n, nullptr);
 
-    LevelSetDataPointerVectorIterator it = m_LevelSetDataPointerVector.begin();
-    LevelSetDataPointerVectorIterator end = m_LevelSetDataPointerVector.end();
+    auto it = m_LevelSetDataPointerVector.begin();
+    auto end = m_LevelSetDataPointerVector.end();
     while ( it != end )
       {
       ( *it ) = LevelSetDataType::New();

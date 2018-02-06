@@ -157,7 +157,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
 ::ComputeUpdate( const NeighborhoodType & it, void *gd,
                  const FloatOffsetType & itkNotUsed(offset) )
 {
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
   const IndexType   FirstIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex();
   const IndexType   LastIndex = this->GetFixedImage()->GetLargestPossibleRegion().GetIndex()
                                 + this->GetFixedImage()->GetLargestPossibleRegion().GetSize();
@@ -166,7 +166,7 @@ SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacem
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  const double              fixedValue = (double)this->GetFixedImage()->GetPixel(index);
+  const auto fixedValue = (double)this->GetFixedImage()->GetPixel(index);
   const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
   // Get moving image related information
@@ -307,7 +307,7 @@ void
 SymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const
 {
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
 
   m_MetricCalculationLock.Lock();
   m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;

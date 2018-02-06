@@ -59,7 +59,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-      const itk::ProcessObject * filter = static_cast< const itk::ProcessObject * >( object );
+      const auto * filter = static_cast< const itk::ProcessObject * >( object );
       if( ! itk::ProgressEvent().CheckEvent( &event ) )
         {
         return;

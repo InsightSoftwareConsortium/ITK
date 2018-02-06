@@ -77,17 +77,13 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
   // Write out polygondata
   PolygonGroup3DType::ChildrenListType *children1 =
     p1->GetChildren(0,nullptr);
-  PolygonGroup3DType::ChildrenListType::iterator it1 =
-    children1->begin();
-  PolygonGroup3DType::ChildrenListType::iterator end1 =
-    children1->end();
+  auto it1 = children1->begin();
+  auto end1 = children1->end();
 
   PolygonGroup3DType::ChildrenListType *children2 =
     p2->GetChildren(0,nullptr);
-  PolygonGroup3DType::ChildrenListType::iterator it2 =
-    children2->begin();
-  PolygonGroup3DType::ChildrenListType::iterator end2 =
-    children2->end();
+  auto it2 = children2->begin();
+  auto end2 = children2->end();
 
   while(it1 != end1)
     {
@@ -97,24 +93,22 @@ int testPolygonGroupEquivalence(PolygonGroup3DPointer &p1,
       delete children2;
       return EXIT_FAILURE;
       }
-    Polygon3DType *curstrand1 =
-      dynamic_cast<Polygon3DType *>((*it1).GetPointer());
-    Polygon3DType *curstrand2 =
-      dynamic_cast<Polygon3DType *>((*it2).GetPointer());
+    auto * curstrand1 = dynamic_cast<Polygon3DType *>((*it1).GetPointer());
+    auto * curstrand2 = dynamic_cast<Polygon3DType *>((*it2).GetPointer());
 
     Polygon3DType::PointListType &points1 =
       curstrand1->GetPoints();
     Polygon3DType::PointListType &points2 =
       curstrand2->GetPoints();
 
-    Polygon3DType::PointListType::iterator pointIt1
+    auto pointIt1
       = points1.begin();
-    Polygon3DType::PointListType::iterator pointItEnd1
+    auto pointItEnd1
       = points1.end();
 
-    Polygon3DType::PointListType::iterator pointIt2
+    auto pointIt2
       = points2.begin();
-    Polygon3DType::PointListType::iterator pointItEnd2
+    auto pointItEnd2
       = points2.end();
 
 

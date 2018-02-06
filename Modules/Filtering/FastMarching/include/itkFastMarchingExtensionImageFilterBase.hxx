@@ -236,8 +236,7 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
 
   InternalNodeStructure temp_node;
 
-  OutputPixelType outputPixel =
-      static_cast< OutputPixelType >( this->Solve( oImage, iNode, NodesUsed ) );
+  auto outputPixel = static_cast< OutputPixelType >( this->Solve( oImage, iNode, NodesUsed ) );
 
   if ( outputPixel < this->m_LargeValue )
     {

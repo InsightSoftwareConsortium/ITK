@@ -81,8 +81,7 @@ void
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InternalInitializeTransform(BSplineTransformType *)
 {
-  BSplineTransformType *transform =
-    dynamic_cast<BSplineTransformType *>(this->m_Transform.GetPointer());
+  auto * transform = dynamic_cast<BSplineTransformType *>(this->m_Transform.GetPointer());
   if ( transform == nullptr )
     {
     itkExceptionMacro( << "BSplineTransform Expected but transform is "
@@ -112,7 +111,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
       {
       itkExceptionMacro( << "Size mismatch between number of landmarks pairs and weights" );
       }
-    LandmarkWeightConstIterator weightIt = m_LandmarkWeight.begin();
+    auto weightIt = m_LandmarkWeight.begin();
     for( unsigned int i = 0; weightIt != m_LandmarkWeight.end(); ++i, ++weightIt )
       {
       weights->InsertElement(i, (*weightIt) );
@@ -203,15 +202,14 @@ void
 LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InternalInitializeTransform(AffineTransformType *)
 {
-  AffineTransformType *transform =
-    dynamic_cast<AffineTransformType *>(this->m_Transform.GetPointer());
+  auto * transform = dynamic_cast<AffineTransformType *>(this->m_Transform.GetPointer());
   if ( transform == nullptr )
     {
     itkExceptionMacro( << "AffineTransform Expected but transform is "
                        << this->m_Transform->GetNameOfClass() );
     }
 
-  const unsigned int numberOfLandmarks = static_cast<const unsigned int>( m_MovingLandmarks.size() );
+  const auto numberOfLandmarks = static_cast<const unsigned int>( m_MovingLandmarks.size() );
 
   if( numberOfLandmarks < LandmarkPointContainer::value_type::GetPointDimension()+1 )
     {
@@ -232,7 +230,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
     {
       itkExceptionMacro( << " size mismatch between number of landmars pairs and weights" );
     }
-    LandmarkWeightConstIterator weightIt = m_LandmarkWeight.begin();
+    auto weightIt = m_LandmarkWeight.begin();
     for( unsigned int i = 0; weightIt != m_LandmarkWeight.end(); ++i, ++weightIt )
     {
       vnlWeight(i,i)=(*weightIt);
@@ -358,7 +356,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InternalInitializeTransform(VersorRigid3DTransformType *)
 {
   itkDebugMacro("Internal Initialize VersorRigid3DTransformType");
-  VersorRigid3DTransformType *transform = dynamic_cast< VersorRigid3DTransformType * >(
+  auto * transform = dynamic_cast< VersorRigid3DTransformType * >(
     this->m_Transform.GetPointer() );
   if ( transform == nullptr )
     {
@@ -551,8 +549,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 ::InternalInitializeTransform(Rigid2DTransformType *)
 {
   itkDebugMacro("Internal Initialize VersorRigid3DTransformType");
-  Rigid2DTransformType *transform =
-    dynamic_cast< Rigid2DTransformType * >(this->m_Transform.GetPointer() );
+  auto * transform = dynamic_cast< Rigid2DTransformType * >(this->m_Transform.GetPointer() );
 
   if ( transform == nullptr )
     {
@@ -716,21 +713,21 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
   itkPrintSelfObjectMacro( ReferenceImage );
 
   os << indent << "Fixed Landmarks: " << std::endl;
-  PointsContainerConstIterator fitr = m_FixedLandmarks.begin();
+  auto fitr = m_FixedLandmarks.begin();
   while ( fitr != m_FixedLandmarks.end() )
     {
     os << indent << *fitr << std::endl;
     ++fitr;
     }
   os << indent << "Moving Landmarks: " << std::endl;
-  PointsContainerConstIterator mitr = m_MovingLandmarks.begin();
+  auto mitr = m_MovingLandmarks.begin();
   while ( mitr != m_MovingLandmarks.end() )
     {
     os << indent << *mitr << std::endl;
     ++mitr;
     }
   os << indent << "Landmark Weight: " << std::endl;
-  LandmarkWeightConstIterator witr = m_LandmarkWeight.begin();
+  auto witr = m_LandmarkWeight.begin();
   while ( witr != m_LandmarkWeight.end() )
     {
     os << indent << *witr << std::endl;

@@ -154,8 +154,8 @@ ContourSpatialObject< TDimension >
        || strstr( typeid( Self ).name(),
                   this->GetBoundingBoxChildrenName().c_str() ) )
     {
-    typename ControlPointListType::const_iterator it  = m_ControlPoints.begin();
-    typename ControlPointListType::const_iterator end = m_ControlPoints.end();
+    auto it  = m_ControlPoints.begin();
+    auto end = m_ControlPoints.end();
 
     if ( it == end )
       {
@@ -178,8 +178,7 @@ ContourSpatialObject< TDimension >
         }
 
       // Add the interpolated points (if any)
-      typename InterpolatedPointListType::const_iterator itI =
-        m_InterpolatedPoints.begin();
+      auto itI = m_InterpolatedPoints.begin();
       while ( itI != m_InterpolatedPoints.end() )
         {
         pt = this->GetIndexToWorldTransform()->TransformPoint(

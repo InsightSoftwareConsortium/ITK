@@ -47,7 +47,7 @@ void
 GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetKernel(const KernelType & kernel)
 {
-  const FlatKernelType *flatKernel = dynamic_cast< const FlatKernelType * >( &kernel );
+  const auto * flatKernel = dynamic_cast< const FlatKernelType * >( &kernel );
 
   if ( flatKernel != nullptr && flatKernel->GetDecomposable() )
     {
@@ -93,7 +93,7 @@ void
 GrayscaleMorphologicalOpeningImageFilter< TInputImage, TOutputImage, TKernel >
 ::SetAlgorithm(int algo)
 {
-  const FlatKernelType *flatKernel = dynamic_cast< const FlatKernelType * >( &this->GetKernel() );
+  const auto * flatKernel = dynamic_cast< const FlatKernelType * >( &this->GetKernel() );
 
   if ( m_Algorithm != algo )
     {

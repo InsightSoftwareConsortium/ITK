@@ -29,8 +29,7 @@ PeriodicBoundaryCondition< TInputImage, TOutputImage >
 ::operator()(const OffsetType & point_index, const OffsetType & boundary_offset,
              const NeighborhoodType *data) const
 {
-  const ConstNeighborhoodIterator< TInputImage > *iterator =
-    dynamic_cast< const ConstNeighborhoodIterator< TInputImage > * >( data );
+  const auto * iterator = dynamic_cast< const ConstNeighborhoodIterator< TInputImage > * >( data );
   typename TInputImage::PixelType * ptr;
   int          linear_index = 0;
   unsigned int i;
@@ -84,8 +83,7 @@ PeriodicBoundaryCondition< TInputImage, TOutputImage >
              const NeighborhoodType *data,
              const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const
 {
-  const ConstNeighborhoodIterator< TInputImage > *iterator =
-    dynamic_cast< const ConstNeighborhoodIterator< TInputImage > * >( data );
+  const auto * iterator = dynamic_cast< const ConstNeighborhoodIterator< TInputImage > * >( data );
   typename TInputImage::InternalPixelType * ptr;
   int          linear_index = 0;
   unsigned int i;

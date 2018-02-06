@@ -139,8 +139,7 @@ ChangeLabelLabelMapFilter< TImage >
   // RestoreLabelObjectsAndChangeLabels
 
   // Put the objects back in the map, with the updated label
-  using LabelObjectIterator = typename VectorType::iterator;
-  LabelObjectIterator labelObjectItr = labelObjectsToBeRelabeled.begin();
+  auto labelObjectItr = labelObjectsToBeRelabeled.begin();
 
   while ( labelObjectItr != labelObjectsToBeRelabeled.end() )
     {
@@ -187,7 +186,7 @@ ChangeLabelLabelMapFilter< TImage >
 {
   this->Superclass::PrintSelf(os, indent);
 
-  ChangeMapIterator pairToReplace = m_MapOfLabelToBeReplaced.begin();
+  auto pairToReplace = m_MapOfLabelToBeReplaced.begin();
 
   using LabelPrintType = typename NumericTraits< PixelType >::PrintType;
 

@@ -90,7 +90,7 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
   maskFilter->SetBackgroundValue( backgroundValue );
   TEST_SET_GET_VALUE( backgroundValue, maskFilter->GetBackgroundValue() );
 
-  bool negated = static_cast< bool >(atoi( argv[6] ) );
+  auto negated = static_cast< bool >(atoi( argv[6] ) );
   maskFilter->SetNegated( negated );
   TEST_SET_GET_VALUE( negated, maskFilter->GetNegated() );
   if( negated )
@@ -104,7 +104,7 @@ int itkLabelMapMaskImageFilterTest( int argc, char * argv[] )
     TEST_SET_GET_VALUE( false, maskFilter->GetNegated() );
     }
 
-  bool crop = static_cast< bool >( atoi( argv[7] ) );
+  auto crop = static_cast< bool >( atoi( argv[7] ) );
   maskFilter->SetCrop( crop );
   TEST_SET_GET_VALUE( crop, maskFilter->GetCrop() );
   if( crop )

@@ -92,8 +92,7 @@ WeightedMeanSampleFilter< TSample >
   const MeasurementVectorSizeType measurementVectorSize =
     input->GetMeasurementVectorSize();
 
-  MeasurementVectorDecoratedType *decoratedOutput =
-    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(
+  auto * decoratedOutput = itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
   MeasurementVectorRealType output = decoratedOutput->Get();
@@ -126,8 +125,7 @@ WeightedMeanSampleFilter< TSample >
 
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {
-      const MeasurementRealType component =
-        static_cast< MeasurementRealType >( measurement[dim] );
+      const auto component = static_cast< MeasurementRealType >( measurement[dim] );
 
       sum[dim] += ( component * weight );
       }
@@ -159,8 +157,7 @@ WeightedMeanSampleFilter< TSample >
   const MeasurementVectorSizeType measurementVectorSize =
     input->GetMeasurementVectorSize();
 
-  MeasurementVectorDecoratedType *decoratedOutput =
-    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(
+  auto * decoratedOutput = itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(
       this->ProcessObject::GetOutput(0) );
 
   MeasurementVectorRealType output = decoratedOutput->Get();
@@ -191,8 +188,7 @@ WeightedMeanSampleFilter< TSample >
 
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {
-      const MeasurementRealType component =
-        static_cast< MeasurementRealType >( measurement[dim] );
+      const auto component = static_cast< MeasurementRealType >( measurement[dim] );
 
       sum[dim] += ( component * weight );
       }

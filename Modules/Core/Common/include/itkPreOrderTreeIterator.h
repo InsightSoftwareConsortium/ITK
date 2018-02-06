@@ -119,7 +119,7 @@ PreOrderTreeIterator< TTreeType >::FindNextNode() const
     }
 
   TreeNodeType *child = this->m_Position;
-  TreeNodeType *parent = dynamic_cast< TreeNodeType * >( this->m_Position->GetParent() );
+  auto * parent = dynamic_cast< TreeNodeType * >( this->m_Position->GetParent() );
 
   // Are we a subtree? Then we are done.
   if ( parent && parent->ChildPosition(this->m_Root) >= 0 )
@@ -132,7 +132,7 @@ PreOrderTreeIterator< TTreeType >::FindNextNode() const
 
   while ( childPosition < lastChildPosition )
     {
-    TreeNodeType *help = dynamic_cast< TreeNodeType * >( parent->GetChild(childPosition + 1) );
+    auto * help = dynamic_cast< TreeNodeType * >( parent->GetChild(childPosition + 1) );
 
     if ( help != nullptr )
       {
@@ -157,7 +157,7 @@ PreOrderTreeIterator< TTreeType >::FindNextNode() const
 
     while ( childPosition < lastChildPosition )
       {
-      TreeNodeType *help = dynamic_cast< TreeNodeType * >( parent->GetChild(childPosition + 1) );
+      auto * help = dynamic_cast< TreeNodeType * >( parent->GetChild(childPosition + 1) );
 
       if ( help != nullptr )
         {
@@ -172,7 +172,7 @@ PreOrderTreeIterator< TTreeType >::FindNextNode() const
 template< typename TTreeType >
 TreeIteratorBase< TTreeType > *PreOrderTreeIterator< TTreeType >::Clone()
 {
-  PreOrderTreeIterator< TTreeType > *clone = new PreOrderTreeIterator< TTreeType >(this->m_Tree, this->m_Position);
+  auto * clone = new PreOrderTreeIterator< TTreeType >(this->m_Tree, this->m_Position);
   *clone = *this;
   return clone;
 }

@@ -60,8 +60,7 @@ SampleToHistogramFilter< TSample, THistogram >::SampleType *
 SampleToHistogramFilter< TSample, THistogram >
 ::GetInput() const
 {
-  const SampleType *input =
-    static_cast< const SampleType * >( this->ProcessObject::GetInput(0) );
+  const auto * input = static_cast< const SampleType * >( this->ProcessObject::GetInput(0) );
 
   return input;
 }
@@ -72,8 +71,7 @@ SampleToHistogramFilter< TSample, THistogram >::HistogramType *
 SampleToHistogramFilter< TSample, THistogram >
 ::GetOutput() const
 {
-  const HistogramType *output =
-    static_cast< const HistogramType * >( this->ProcessObject::GetOutput(0) );
+  const auto * output = static_cast< const HistogramType * >( this->ProcessObject::GetOutput(0) );
 
   return output;
 }
@@ -137,8 +135,7 @@ SampleToHistogramFilter< TSample, THistogram >
   const InputHistogramMeasurementObjectType *marginalScaleObject =
     this->GetMarginalScaleInput();
 
-  const InputBooleanObjectType *autoMinimumMaximum =
-    this->GetAutoMinimumMaximumInput();
+  const InputBooleanObjectType * autoMinimumMaximum = this->GetAutoMinimumMaximumInput();
 
   const InputHistogramSizeObjectType *histogramSizeObject =
     this->GetHistogramSizeInput();
@@ -157,8 +154,7 @@ SampleToHistogramFilter< TSample, THistogram >
 
   HistogramMeasurementType marginalScale = marginalScaleObject->Get();
 
-  HistogramType *outputHistogram =
-    static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
+  auto * outputHistogram = static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
 
   const typename SampleType::InstanceIdentifier measurementVectorSize =
     inputSample->GetMeasurementVectorSize();

@@ -33,12 +33,11 @@ ITK_THREAD_RETURN_TYPE modified_function( void *ptr )
 {
   using ThreadInfoType = itk::MultiThreader::ThreadInfoStruct;
 
-  ThreadInfoType * infoStruct = static_cast< ThreadInfoType * >( ptr );
+  auto * infoStruct = static_cast< ThreadInfoType * >( ptr );
 
   const itk::ThreadIdType threadId = infoStruct->ThreadID;
 
-  TimeStampTestHelper * helper =
-    static_cast< TimeStampTestHelper * >( infoStruct->UserData );
+  auto * helper = static_cast< TimeStampTestHelper * >( infoStruct->UserData );
 
   helper->timestamps[threadId].Modified();
   helper->counters[threadId]++;

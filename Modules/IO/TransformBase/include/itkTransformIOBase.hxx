@@ -114,7 +114,7 @@ os << indent << "AppendMode: "
 if ( m_ReadTransformList.size() > 0 )
   {
   os << indent << "ReadTransformList: " << std::endl;
-  typename TransformListType::const_iterator it = m_ReadTransformList.begin();
+  auto it = m_ReadTransformList.begin();
   while ( it != m_ReadTransformList.end() )
     {
     ( *it )->Print( os, indent.GetNextIndent() );
@@ -125,7 +125,7 @@ if ( m_WriteTransformList.size() > 0 )
   {
   os << indent << "WriteTransformList: " << std::endl;
 
-  typename ConstTransformListType::const_iterator it = m_WriteTransformList.begin();
+  auto it = m_WriteTransformList.begin();
   while ( it != m_WriteTransformList.end() )
     {
     ( *it )->Print( os, indent.GetNextIndent() );

@@ -39,7 +39,7 @@ ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 {
   OutputMeshType *output = this->GetOutput();
 
-  for ( InputMapPointIdentifierIterator it = m_BoundaryPtMap.begin();
+  for ( auto it = m_BoundaryPtMap.begin();
         it != m_BoundaryPtMap.end();
         ++it )
     {
@@ -105,7 +105,7 @@ ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 
   ValueType k[2];
 
-  for ( InputMapPointIdentifierIterator
+  for ( auto
         InternalPtIterator = m_InternalPtMap.begin();
         InternalPtIterator != m_InternalPtMap.end();
         ++InternalPtIterator )
@@ -180,7 +180,7 @@ ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 
   this->ComputeListOfInteriorVertices();
 
-  InputPointIdentifier NbOfInteriorPts = static_cast<InputPointIdentifier>( m_InternalPtMap.size() );
+  auto NbOfInteriorPts = static_cast<InputPointIdentifier>( m_InternalPtMap.size() );
 
   MatrixType Matrix = SolverTraits::InitializeSparseMatrix(NbOfInteriorPts);
   VectorType Bx = SolverTraits::InitializeVector(NbOfInteriorPts);
@@ -198,11 +198,11 @@ ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
         ptIterator != m_InternalPtMap.end();
         ++ptIterator )
     {
-    OutputPointIdentifier id = static_cast< OutputPointIdentifier >( ptIterator->first );
-    InputPointIdentifier  InternalId = ptIterator->second;
+    const auto id = static_cast< OutputPointIdentifier >( ptIterator->first );
+    const auto internalId = ptIterator->second;
 
-    OutputPt[0] = X[InternalId];
-    OutputPt[1] = Y[InternalId];
+    OutputPt[0] = X[internalId];
+    OutputPt[1] = Y[internalId];
     OutputPt[2] = 0.;
 
     output->SetPoint(id, OutputPt);

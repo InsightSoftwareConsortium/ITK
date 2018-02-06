@@ -92,7 +92,7 @@ typename LevelSetContainerBase< TIdentifier, TLevelSet >::LevelSetPointer
 LevelSetContainerBase< TIdentifier, TLevelSet >
 ::GetLevelSet( const LevelSetIdentifierType& iId ) const
 {
-  LevelSetContainerConstIteratorType it = m_Container.find( iId );
+  auto it = m_Container.find( iId );
 
   if( it != m_Container.end() )
     {
@@ -126,7 +126,7 @@ bool LevelSetContainerBase< TIdentifier, TLevelSet >
       }
     else
       {
-      LevelSetContainerIteratorType it = m_Container.find( iId );
+      auto it = m_Container.find( iId );
 
       if( it != m_Container.end() )
         {
@@ -147,7 +147,7 @@ bool
 LevelSetContainerBase< TIdentifier, TLevelSet >
 ::RemoveLevelSet( const LevelSetIdentifierType& iId )
 {
-  LevelSetContainerIteratorType it = m_Container.find( iId );
+  auto it = m_Container.find( iId );
 
   if( it != m_Container.end() )
     {

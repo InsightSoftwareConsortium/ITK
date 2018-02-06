@@ -87,7 +87,7 @@ const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
 ::GetInput(unsigned int idx) const
 {
-  const TInputImage *in = dynamic_cast< const TInputImage * >
+  const auto * in = dynamic_cast< const TInputImage * >
     ( this->ProcessObject::GetInput(idx) );
 
   if ( in == nullptr && this->ProcessObject::GetInput(idx) != nullptr )
@@ -109,7 +109,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
     {
     // Check whether the input is an image of the appropriate dimension
     using ImageBaseType = ImageBase< InputImageDimension >;
-    ImageBaseType * input = dynamic_cast< ImageBaseType * >( it.GetInput() );
+    auto * input = dynamic_cast< ImageBaseType * >( it.GetInput() );
     if ( input )
       {
       // Use the function object RegionCopier to copy the output region
@@ -191,8 +191,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 
   for (; !it.IsAtEnd(); ++it )
     {
-    ImageBaseType *inputPtrN =
-      dynamic_cast< ImageBaseType * >( it.GetInput() );
+    auto * inputPtrN = dynamic_cast< ImageBaseType * >( it.GetInput() );
 
     // Physical space computation only matters if we're using two
     // images, and not an image and a constant.

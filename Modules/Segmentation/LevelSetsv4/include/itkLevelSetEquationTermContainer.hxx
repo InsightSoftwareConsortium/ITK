@@ -217,7 +217,7 @@ typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::TermT
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::
 GetTerm( const TermIdType& iId )
 {
-  MapTermContainerIteratorType it = m_Container.find( iId );
+  auto it = m_Container.find( iId );
 
   if( it == m_Container.end() )
     {
@@ -233,8 +233,8 @@ void
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Initialize( const LevelSetInputIndexType& iP )
 {
-  MapTermContainerIteratorType term_it  = m_Container.begin();
-  MapTermContainerIteratorType term_end = m_Container.end();
+  auto term_it  = m_Container.begin();
+  auto term_end = m_Container.end();
 
   while( term_it != term_end )
     {
@@ -251,8 +251,8 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
                const LevelSetOutputRealType & oldValue,
                const LevelSetOutputRealType & newValue )
 {
-  MapTermContainerIteratorType term_it = m_Container.begin();
-  MapTermContainerIteratorType term_end = m_Container.end();
+  auto term_it = m_Container.begin();
+  auto term_end = m_Container.end();
 
   while( term_it != term_end )
     {
@@ -267,8 +267,8 @@ void
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::InitializeParameters()
 {
-  MapTermContainerIteratorType term_it = m_Container.begin();
-  MapTermContainerIteratorType term_end = m_Container.end();
+  auto term_it = m_Container.begin();
+  auto term_end = m_Container.end();
 
   while( term_it != term_end )
     {
@@ -283,10 +283,10 @@ typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::Level
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP )
 {
-  MapTermContainerIteratorType term_it  = m_Container.begin();
-  MapTermContainerIteratorType term_end = m_Container.end();
+  auto term_it  = m_Container.begin();
+  auto term_end = m_Container.end();
 
-  MapCFLContainerIterator cfl_it = m_TermContribution.begin();
+  auto cfl_it = m_TermContribution.begin();
 
   LevelSetOutputRealType oValue = NumericTraits< LevelSetOutputRealType >::ZeroValue();
 
@@ -310,10 +310,10 @@ typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::Level
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP, const LevelSetDataType& iData )
 {
-  MapTermContainerIteratorType term_it  = m_Container.begin();
-  MapTermContainerIteratorType term_end = m_Container.end();
+  auto term_it  = m_Container.begin();
+  auto term_end = m_Container.end();
 
-  MapCFLContainerIterator cfl_it = m_TermContribution.begin();
+  auto cfl_it = m_TermContribution.begin();
 
   LevelSetOutputRealType oValue = NumericTraits< LevelSetOutputRealType >::ZeroValue();
 
@@ -337,10 +337,10 @@ void
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::Update()
 {
-  MapTermContainerIteratorType term_it = m_Container.begin();
-  MapTermContainerIteratorType term_end = m_Container.end();
+  auto term_it = m_Container.begin();
+  auto term_end = m_Container.end();
 
-  MapCFLContainerIterator cfl_it = m_TermContribution.begin();
+  auto cfl_it = m_TermContribution.begin();
 
   while( term_it != term_end )
     {
@@ -357,10 +357,10 @@ typename LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >::Level
 LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
 ::ComputeCFLContribution() const
 {
-  MapTermContainerConstIteratorType term_it = m_Container.begin();
-  MapTermContainerConstIteratorType term_end = m_Container.end();
+  auto term_it = m_Container.begin();
+  auto term_end = m_Container.end();
 
-  MapCFLContainerConstIterator cfl_it = m_TermContribution.begin();
+  auto cfl_it = m_TermContribution.begin();
 
   LevelSetOutputRealType oValue = NumericTraits< LevelSetOutputRealType >::ZeroValue();
 
@@ -390,7 +390,7 @@ LevelSetEquationTermContainer< TInputImage, TLevelSetContainer >
   typename RequiredDataType::const_iterator dIt = m_RequiredData.begin();
   typename RequiredDataType::const_iterator dEnd = m_RequiredData.end();
 
-  MapTermContainerIteratorType tIt = m_Container.begin();
+  auto tIt = m_Container.begin();
 
   LevelSetPointer levelset = ( tIt->second )->GetModifiableCurrentLevelSetPointer();
 

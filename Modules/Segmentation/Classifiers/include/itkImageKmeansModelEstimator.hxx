@@ -452,7 +452,7 @@ ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 
   double  bestdistortion, tempdistortion, diff;
   int     bestcodeword;
-  double *tempVec = (double *)new double[m_VectorDimension];
+  auto * tempVec = (double *)new double[m_VectorDimension];
 
 // unused: double *centroidVecTemp = ( double * ) new double[m_VectorDimension];
 
@@ -579,8 +579,8 @@ void
 ImageKmeansModelEstimator< TInputImage, TMembershipFunction >
 ::SplitCodewords(int currentSize, int numDesired, int scale)
 {
-  double *newCodebookData = (double *)new double[m_VectorDimension];
-  double *inCodebookData  = (double *)new double[m_VectorDimension];
+  auto * newCodebookData = (double *)new double[m_VectorDimension];
+  auto * inCodebookData = (double *)new double[m_VectorDimension];
 
   for ( int i = 0; i < numDesired; i++ )
     {

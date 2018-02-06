@@ -100,12 +100,10 @@ protected:
    */
   RealType RescaleInputValue(ScalarType v) const
     {
-    RealType maxInputValue =
-      static_cast< RealType >( this->m_MaximumInputValue );
-    RealType minInputValue =
-      static_cast< RealType >( this->m_MinimumInputValue );
+    auto maxInputValue = static_cast< RealType >( this->m_MaximumInputValue );
+    auto minInputValue = static_cast< RealType >( this->m_MinimumInputValue );
 
-    RealType d = static_cast< RealType >( maxInputValue - minInputValue );
+    auto d = static_cast< RealType >( maxInputValue - minInputValue );
     RealType value = ( static_cast< RealType >( v ) -
       static_cast< RealType >( minInputValue ) ) / d;
 
@@ -119,7 +117,7 @@ protected:
    */
   RGBComponentType RescaleRGBComponentValue(RealType v) const
     {
-    RealType d = static_cast< RealType >( m_MaximumRGBComponentValue -
+    auto d = static_cast< RealType >( m_MaximumRGBComponentValue -
       m_MinimumRGBComponentValue );
     const RGBComponentType rescaled = static_cast< RGBComponentType >(
       d * v ) + this->m_MinimumRGBComponentValue;

@@ -157,8 +157,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
   this->EstimateShapeModels();
 
   // Allocate memory for each output.
-  unsigned int numberOfOutputs =
-    static_cast< unsigned int >( this->GetNumberOfIndexedOutputs() );
+  auto numberOfOutputs = static_cast< unsigned int >( this->GetNumberOfIndexedOutputs() );
 
   InputImagePointer input = const_cast< TInputImage * >( this->GetInput(0) );
   unsigned int      j;
@@ -252,7 +251,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
     // Modify the required number of outputs ( 1 extra for the mean image )
     this->SetNumberOfRequiredOutputs(m_NumberOfPrincipalComponentsRequired + 1);
 
-    unsigned int numberOfOutputs = static_cast< unsigned int >( this->GetNumberOfIndexedOutputs() );
+    auto numberOfOutputs = static_cast< unsigned int >( this->GetNumberOfIndexedOutputs() );
     unsigned int idx;
 
     if ( numberOfOutputs < m_NumberOfPrincipalComponentsRequired + 1 )

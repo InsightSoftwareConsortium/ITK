@@ -262,7 +262,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  const double fixedValue = (double)this->GetFixedImage()->GetPixel(index);
+  const auto fixedValue = (double)this->GetFixedImage()->GetPixel(index);
 
   // Get moving image related information
   PointType mappedPoint;
@@ -369,7 +369,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
    */
   const double speedValue = fixedValue - movingValue;
   // update the metric
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
   if ( globalData )
     {
     globalData->m_SumOfSquaredDifference += itk::Math::sqr(speedValue);
@@ -418,7 +418,7 @@ LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementFiel
 {
   TimeStepType dt = 1.0;
 
-  GlobalDataStruct *d = (GlobalDataStruct *)GlobalData;
+  auto * d = (GlobalDataStruct *)GlobalData;
 
   if ( d->m_MaxL1Norm > 0.0 )
     {
@@ -441,7 +441,7 @@ void
 LevelSetMotionRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 ::ReleaseGlobalDataPointer(void *gd) const
 {
-  GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
+  auto * globalData = (GlobalDataStruct *)gd;
 
   m_MetricCalculationLock.Lock();
   m_SumOfSquaredDifference += globalData->m_SumOfSquaredDifference;

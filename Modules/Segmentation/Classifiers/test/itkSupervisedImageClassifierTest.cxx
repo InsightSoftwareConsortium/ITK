@@ -339,7 +339,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   while(!labeloutIt.IsAtEnd())
     {
     //Print the classified index
-    int classIndex = (int) labeloutIt.Get();
+    auto classIndex = (int) labeloutIt.Get();
     std::cout << " Pixel No " << i << " Value " << classIndex << std::endl;
     ++i;
     ++labeloutIt;
@@ -352,7 +352,7 @@ int itkSupervisedImageClassifierTest(int, char* [] )
   //Loop through the data set
   while(!labeloutIt.IsAtEnd())
     {
-    int classIndex = (int) labeloutIt.Get();
+    auto classIndex = (int) labeloutIt.Get();
     if (classIndex != 2)
       {
       passTest = false;

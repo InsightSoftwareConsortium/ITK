@@ -42,7 +42,7 @@ typename MetaBlobConverter< NDimensions >::SpatialObjectPointer
 MetaBlobConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const BlobMetaObjectType *Blob = dynamic_cast<const BlobMetaObjectType *>(mo);
+  const auto * Blob = dynamic_cast<const BlobMetaObjectType *>(mo);
   if(Blob == nullptr)
     {
     itkExceptionMacro(<< "Can't downcast MetaObject to BlobMetaObject");
@@ -68,7 +68,7 @@ MetaBlobConverter< NDimensions >
 
   using BlobPointType = itk::SpatialObjectPoint< NDimensions >;
 
-  MetaBlob::PointListType::const_iterator it2 = Blob->GetPoints().begin();
+  auto it2 = Blob->GetPoints().begin();
 
   vnl_vector< double > v(ndims);
 
@@ -110,7 +110,7 @@ MetaBlobConverter< NDimensions >
     itkExceptionMacro(<< "Can't downcast SpatialObject to BlobSpatialObject");
     }
 
-  BlobMetaObjectType *Blob = new MetaBlob(NDimensions);
+  auto * Blob = new MetaBlob(NDimensions);
 
   // fill in the Blob information
   typename BlobSpatialObjectType::PointListType::const_iterator i;
@@ -118,7 +118,7 @@ MetaBlobConverter< NDimensions >
         i != blobSO->GetPoints().end();
         i++ )
     {
-    BlobPnt *pnt = new BlobPnt(NDimensions);
+    auto * pnt = new BlobPnt(NDimensions);
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {

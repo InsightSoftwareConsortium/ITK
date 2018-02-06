@@ -2580,7 +2580,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::SearchThroughLastRow(int index, int start, int end)
 {
   int            mid;
-  IdentifierType lindex = static_cast< IdentifierType >( index );
+  auto lindex = static_cast< IdentifierType >( index );
 
   if ( ( end - start ) > 1 )
     {
@@ -2624,7 +2624,7 @@ BinaryMask3DMeshSource< TInputImage, TOutputMesh >
 ::SearchThroughLastFrame(int index, int start, int end)
 {
   int            mid;
-  IdentifierType lindex = static_cast< IdentifierType >( index );
+  auto lindex = static_cast< IdentifierType >( index );
   IdentifierType result = 0;
 
   if ( ( end - start ) > 1 )

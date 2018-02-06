@@ -146,7 +146,7 @@ protected:
     // instantiate the comparator and sort the vector
     if ( m_NumberOfObjects < output->GetNumberOfLabelObjects() )
       {
-      typename VectorType::iterator end = labelObjects.begin() + m_NumberOfObjects;
+      auto end = labelObjects.begin() + m_NumberOfObjects;
       if ( m_ReverseOrdering )
         {
         Functor::LabelObjectReverseComparator< LabelObjectType, TAttributeAccessor > comparator;

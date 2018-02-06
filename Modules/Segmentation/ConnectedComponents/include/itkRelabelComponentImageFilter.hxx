@@ -91,7 +91,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   while ( !it.IsAtEnd() )
     {
     // Get the input pixel value
-    const LabelType inputValue = static_cast< LabelType >( it.Get() );
+    const auto inputValue = static_cast< LabelType >( it.Get() );
 
     // if the input pixel is not the background
     if ( inputValue != NumericTraits< LabelType >::ZeroValue() )
@@ -204,7 +204,7 @@ RelabelComponentImageFilter< TInputImage, TOutputImage >
   oit.GoToBegin();
   while ( !oit.IsAtEnd() )
     {
-    const LabelType inputValue = static_cast< LabelType >( it.Get() );
+    const auto inputValue = static_cast< LabelType >( it.Get() );
 
     if ( inputValue != NumericTraits< LabelType >::ZeroValue() )
       {

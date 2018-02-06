@@ -173,8 +173,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
         {
         if ( signs[i] == 0 )
           {
-          const LabelType difference =
-            static_cast< LabelType >( itk::Math::abs(m_LowPoint[rgb] - neighbors[i]) );
+          const auto difference = static_cast< LabelType >( itk::Math::abs(m_LowPoint[rgb] - neighbors[i]) );
           if ( difference < m_BoundaryGradient )
             {
             numx++;
@@ -191,8 +190,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
         {
         if ( signs[i] == 1 )
           {
-          const LabelType difference =
-            static_cast< LabelType >( itk::Math::abs(m_LowPoint[rgb] - neighbors[i]) );
+          const auto difference = static_cast< LabelType >( itk::Math::abs(m_LowPoint[rgb] - neighbors[i]) );
           if ( difference > m_BoundaryGradient )
             {
             numx--;
@@ -347,8 +345,8 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
     if ( changeflag )
       {
       difenergy = energy[label] - energy[1 - label];
-      double rand_num = (double)( rand() / 32768.0 );
-      double energy_num = (double)( std::exp( (double)( difenergy * 0.5 * size / ( 2 * size - m_Temp ) ) ) );
+      auto rand_num = (double)( rand() / 32768.0 );
+      auto energy_num = (double)( std::exp( (double)( difenergy * 0.5 * size / ( 2 * size - m_Temp ) ) ) );
       if ( rand_num < energy_num )
         {
         m_LabelledImage->SetPixel(offsetIndex3D, 1 - label);
@@ -534,8 +532,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
 
   while ( !outImageIt.IsAtEnd() )
     {
-    LabelledImagePixelType labelvalue =
-      (LabelledImagePixelType)labelledImageIt.Get();
+    auto labelvalue = (LabelledImagePixelType)labelledImageIt.Get();
     outImageIt.Set(labelvalue);
     ++labelledImageIt;
     ++outImageIt;
@@ -611,7 +608,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   /* Set a variable to store the offset index. */
   LabelledImageIndexType offsetIndex3D; offsetIndex3D.Fill(0);
 
-  double *dist = new double[m_NumberOfClasses];
+  auto * dist = new double[m_NumberOfClasses];
 
   const unsigned int size    = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   const unsigned int frame   = m_ImageWidth * m_ImageHeight;
@@ -681,7 +678,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
   delete[] m_RegionCount;
   m_RegionCount = new unsigned short[size];
 
-  unsigned short *valid_region_counter = new unsigned short[size];
+  auto * valid_region_counter = new unsigned short[size];
 
   LabelledImageRegionIterator
   labelledImageIt( m_LabelledImage, m_LabelledImage->GetBufferedRegion() );

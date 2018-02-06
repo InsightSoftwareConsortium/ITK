@@ -109,7 +109,7 @@ public:
       std::cout << " \"" << object->GetObjectName() << "\"" << std::endl;
       }
 
-    const RegistrationType * registration = static_cast<const RegistrationType *>( object );
+    const auto * registration = static_cast<const RegistrationType *>( object );
 
     unsigned int currentLevel = registration->GetCurrentLevel();
     typename RegistrationType::ShrinkFactorsPerDimensionContainerType shrinkFactors =
@@ -150,7 +150,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
+    auto optimizer = static_cast< OptimizerPointer >( object );
     if( !(itk::IterationEvent().CheckEvent( &event )) )
       {
       return;

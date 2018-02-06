@@ -86,8 +86,7 @@ int itkImageToRGBVTKImageFilterTest( int argc, char* argv[] )
 
   for( int i = 0; i < 50; i++ )
     {
-    PixelType* vtkpixel =
-        static_cast< PixelType* >( VTKImage->GetScalarPointer( i, i, 0 ) );
+    auto * vtkpixel = static_cast< PixelType* >( VTKImage->GetScalarPointer( i, i, 0 ) );
     vtkpixel[0] = 255;
     vtkpixel[1] = 0;
     vtkpixel[2] = 0;

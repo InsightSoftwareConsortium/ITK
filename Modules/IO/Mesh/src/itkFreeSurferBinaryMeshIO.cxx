@@ -244,7 +244,7 @@ FreeSurferBinaryMeshIO
   m_InputFile.seekg(m_FilePosition, std::ios::beg);
 
   // Number of data array
-  float *data = static_cast< float * >( buffer );
+  auto * data = static_cast< float * >( buffer );
 
   m_InputFile.read( static_cast< char * >( buffer ), this->m_NumberOfPoints * this->m_PointDimension * sizeof( float ) );
   itk::ByteSwapper< float >::SwapRangeFromSystemToBigEndian(data, this->m_NumberOfPoints * this->m_PointDimension);
@@ -255,7 +255,7 @@ FreeSurferBinaryMeshIO
 ::ReadCells(void *buffer)
 {
   constexpr unsigned int numberOfCellPoints = 3;
-  itk::uint32_t *    data = new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints];
+  auto * data = new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints];
 
   m_InputFile.read( reinterpret_cast< char * >( data ), this->m_NumberOfCells * numberOfCellPoints * sizeof( itk::uint32_t ) );
   itk::ByteSwapper< itk::uint32_t >::SwapRangeFromSystemToBigEndian(data, this->m_NumberOfCells * numberOfCellPoints);
@@ -273,7 +273,7 @@ FreeSurferBinaryMeshIO
   OpenFile();
   m_InputFile.seekg(m_FilePosition, std::ios::beg);
 
-  float *data = static_cast< float * >( buffer );
+  auto * data = static_cast< float * >( buffer );
 
   m_InputFile.read( reinterpret_cast< char * >( data ), this->m_NumberOfPointPixels * sizeof( float ) );
   itk::ByteSwapper< float >::SwapRangeFromSystemToBigEndian(data, this->m_NumberOfPointPixels);
@@ -318,8 +318,8 @@ FreeSurferBinaryMeshIO
     std::string creator = "Created by ITK  \n\n";
     outputFile.write( const_cast< char * >( creator.c_str() ), creator.size() );
 
-    itk::uint32_t numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPoints);
-    itk::uint32_t numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
+    auto numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPoints);
+    auto numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
     itk::ByteSwapper< itk::uint32_t >::SwapWriteRangeFromSystemToBigEndian(&numberOfPoints, 1, &outputFile);
     itk::ByteSwapper< itk::uint32_t >::SwapWriteRangeFromSystemToBigEndian(&numberOfCells, 1, &outputFile);
     }
@@ -331,8 +331,8 @@ FreeSurferBinaryMeshIO
                              static_cast<char>(255) };
     outputFile.write(buffer, 3);
 
-    itk::uint32_t numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPointPixels);
-    itk::uint32_t numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
+    auto numberOfPoints = static_cast<itk::uint32_t>(this->m_NumberOfPointPixels);
+    auto numberOfCells = static_cast<itk::uint32_t>(this->m_NumberOfCells);
     itk::uint32_t numberOfValuesPerPoint = 1;
     itk::ByteSwapper< itk::uint32_t >::SwapWriteRangeFromSystemToBigEndian(&numberOfPoints, 1, &outputFile);
     itk::ByteSwapper< itk::uint32_t >::SwapWriteRangeFromSystemToBigEndian(&numberOfCells, 1, &outputFile);

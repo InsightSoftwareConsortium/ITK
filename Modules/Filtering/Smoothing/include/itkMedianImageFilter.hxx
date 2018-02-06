@@ -62,8 +62,7 @@ MedianImageFilter< TInputImage, TOutputImage >
   std::vector< InputPixelType >                      pixels;
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for ( typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator
-        fit = faceList.begin(); fit != faceList.end(); ++fit )
+  for ( auto fit = faceList.begin(); fit != faceList.end(); ++fit )
     {
     ImageRegionIterator< OutputImageType > it = ImageRegionIterator< OutputImageType >(output, *fit);
 

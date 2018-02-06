@@ -126,7 +126,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
   rightP = vertlist.back();
 
   double beginy = currP[1];
-  int    intbeginy = (int)std::ceil(beginy);
+  auto intbeginy = (int)std::ceil(beginy);
   idx[1] = intbeginy;
   double leftendy = leftP[1];
   double rightendy = rightP[1];
@@ -170,7 +170,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     rightDx = ( rightP[0] - endx ) / ( rightP[1] - beginy );
     }
 
-  int intendy = (int)std::floor(endy);
+  auto intendy = (int)std::floor(endy);
   if ( intbeginy > intendy )
     { //no scanline
     if ( RorL )
@@ -218,7 +218,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     beginy = endy;
     }
 
-  int vsize = static_cast< int >( vertlist.size() );
+  auto vsize = static_cast< int >( vertlist.size() );
   while ( vsize > 2 )
     {
     vsize--;
@@ -398,8 +398,8 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     // if not homogeneous
     if ( m_Label[i] == 0 )
       {
-      NeighborIdIterator itend = m_WorkingVD->NeighborIdsEnd(i);
-      NeighborIdIterator it = m_WorkingVD->NeighborIdsBegin(i);
+      auto itend = m_WorkingVD->NeighborIdsEnd(i);
+      auto it = m_WorkingVD->NeighborIdsBegin(i);
       bool               bnd = 0;
       // and any adjacent region is homogeneous
       while ( ( it != itend ) && ( !bnd ) )
@@ -423,7 +423,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 ::GenerateAddingSeeds(void)
 {
   EdgeIterator eit;
-  EdgeIterator eitend = m_WorkingVD->EdgeEnd();
+  auto eitend = m_WorkingVD->EdgeEnd();
   PointType    adds;
 
   Point< int, 2 > seeds;
@@ -690,7 +690,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
   rightP = vertlist.back();
 
   double beginy = currP[1];
-  int    intbeginy = (int)std::ceil(beginy);
+  auto intbeginy = (int)std::ceil(beginy);
   idx[1] = intbeginy;
   double leftendy = leftP[1];
   double rightendy = rightP[1];
@@ -732,7 +732,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     {
     rightDx = ( rightP[0] - endx ) / ( rightP[1] - beginy );
     }
-  int intendy = (int)std::floor(endy);
+  auto intendy = (int)std::floor(endy);
   if ( intbeginy > intendy )
     { //no scanline
     if ( RorL )
@@ -780,7 +780,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     beginy = endy;
     }
 
-  int vsize = static_cast< int >( vertlist.size() );
+  auto vsize = static_cast< int >( vertlist.size() );
   while ( vsize > 2 )
     {
     vsize--;
@@ -932,10 +932,10 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 {
   TOutputImage *output = this->GetOutput();
 
-  int x1 = (int)( p1[0] + 0.5 );
-  int x2 = (int)( p2[0] + 0.5 );
-  int y1 = (int)( p1[1] + 0.5 );
-  int y2 = (int)( p2[1] + 0.5 );
+  auto x1 = (int)( p1[0] + 0.5 );
+  auto x2 = (int)( p2[0] + 0.5 );
+  auto y1 = (int)( p1[1] + 0.5 );
+  auto y2 = (int)( p2[1] + 0.5 );
 
   if ( x1 == static_cast< int >( m_Size[0] ) ) { x1--; }
   if ( x2 == static_cast< int >( m_Size[0] ) ) { x2--; }
@@ -1011,7 +1011,7 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
     }
 
   EdgeIterator    eit;
-  EdgeIterator    eitend = m_WorkingVD->EdgeEnd();
+  auto eitend = m_WorkingVD->EdgeEnd();
   PointType       adds;
   Point< int, 2 > seeds;
   for ( eit = m_WorkingVD->EdgeBegin(); eit != eitend; ++eit )
@@ -1038,10 +1038,10 @@ VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage
 ::drawVDline(VDImagePointer result, PointType p1, PointType p2,
              unsigned char color)
 {
-  int x1 = (int)( p1[0] + 0.5 );
-  int x2 = (int)( p2[0] + 0.5 );
-  int y1 = (int)( p1[1] + 0.5 );
-  int y2 = (int)( p2[1] + 0.5 );
+  auto x1 = (int)( p1[0] + 0.5 );
+  auto x2 = (int)( p2[0] + 0.5 );
+  auto y1 = (int)( p1[1] + 0.5 );
+  auto y2 = (int)( p2[1] + 0.5 );
 
   if ( x1 == (int)m_Size[0] )
     {

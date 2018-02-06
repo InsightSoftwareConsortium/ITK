@@ -355,8 +355,8 @@ class CompareLandmarkDisplacementError
 public:
     bool operator()(const Load::Pointer & L1 , const Load::Pointer & L2)
     {
-    LoadNoisyLandmark * l1 = dynamic_cast<LoadNoisyLandmark*>(L1.GetPointer());
-    LoadNoisyLandmark * l2 = dynamic_cast<LoadNoisyLandmark*>(L2.GetPointer());
+    auto * l1 = dynamic_cast<LoadNoisyLandmark*>(L1.GetPointer());
+    auto * l2 = dynamic_cast<LoadNoisyLandmark*>(L2.GetPointer());
 
     return l1->GetErrorNorm() > l2->GetErrorNorm();
     }

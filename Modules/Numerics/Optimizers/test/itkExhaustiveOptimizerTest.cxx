@@ -114,7 +114,7 @@ public:
   void  Execute ( const itk::Object *caller, const itk::EventObject &) override
   {
     using OptimizerType = itk::ExhaustiveOptimizer;
-    const OptimizerType *optimizer = dynamic_cast < const OptimizerType * > ( caller );
+    const auto * optimizer = dynamic_cast < const OptimizerType * > ( caller );
 
     if ( nullptr != optimizer )
     {
@@ -124,7 +124,7 @@ public:
       {
         std::cout << " @ index = " << currentIndex << std::endl;
         // Casting is safe here since the indices are always integer values (but there are stored in doubles):
-        unsigned long idx = static_cast < unsigned long > ( currentIndex [ 0 ] + 21 * currentIndex [ 1 ] );
+        auto idx = static_cast < unsigned long > ( currentIndex [ 0 ] + 21 * currentIndex [ 1 ] );
         m_VisitedIndices.push_back ( idx );
       }
     }

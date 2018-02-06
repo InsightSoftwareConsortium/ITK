@@ -52,8 +52,7 @@ ThreadedIteratorRangePartitioner< TIterator >
   // determine the actual number of pieces that will be generated
   ThreadIdType count = std::distance( completeDomain.Begin(), completeDomain.End() );
 
-  ThreadIdType valuesPerThread =
-    Math::Ceil<ThreadIdType>( static_cast< double >( count ) / static_cast< double >( requestedTotal ));
+  auto valuesPerThread = Math::Ceil<ThreadIdType>( static_cast< double >( count ) / static_cast< double >( requestedTotal ));
   ThreadIdType maxThreadIdUsed =
     Math::Ceil<ThreadIdType>( static_cast< double >( count ) / static_cast< double >( valuesPerThread )) - 1;
 

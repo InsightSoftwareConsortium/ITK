@@ -64,7 +64,7 @@ public:
         }
       else if( typeid( event ) == typeid( itk::ProgressEvent ) )
         {
-        itk::ProcessObject* obj = dynamic_cast<itk::ProcessObject*>(caller);
+        auto * obj = dynamic_cast<itk::ProcessObject*>(caller);
         std::cout << "AnyEvent Progress " << obj->GetProgress() << std::endl;
         eventName = "ProgressEvent";
           }

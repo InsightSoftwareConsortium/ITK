@@ -164,7 +164,7 @@ InOrderTreeIterator< TTreeType >::FindNextNode() const
 template< typename TTreeType >
 TreeIteratorBase< TTreeType > *InOrderTreeIterator< TTreeType >::Clone()
 {
-  InOrderTreeIterator *clone = new InOrderTreeIterator( const_cast< TTreeType * >( this->m_Tree ) );
+  auto * clone = new InOrderTreeIterator( const_cast< TTreeType * >( this->m_Tree ) );
 
   *clone = *this;
   return clone;

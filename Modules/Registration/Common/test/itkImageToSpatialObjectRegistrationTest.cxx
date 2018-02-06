@@ -165,7 +165,7 @@ public:
       double value;
       this->m_Transform->SetParameters(parameters);
 
-      PointListType::const_iterator it = m_PointList.begin();
+      auto it = m_PointList.begin();
 
       Index<2> index;
       value = 0;

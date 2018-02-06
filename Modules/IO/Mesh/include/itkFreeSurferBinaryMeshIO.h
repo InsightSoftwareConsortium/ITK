@@ -103,7 +103,7 @@ protected:
   template< typename T >
   void WritePoints(T *buffer, std::ofstream & outputFile)
   {
-    float *data = new float[this->m_NumberOfPoints * this->m_PointDimension];
+    auto * data = new float[this->m_NumberOfPoints * this->m_PointDimension];
 
     for ( SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++ )
       {
@@ -123,7 +123,7 @@ protected:
   {
     constexpr itk::uint32_t numberOfCellPoints  = 3;
 
-    itk::uint32_t *data = new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints];
+    auto * data = new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints];
 
     ReadCellsBuffer(buffer, data);
     itk::ByteSwapper< itk::uint32_t >::SwapWriteRangeFromSystemToBigEndian(data, this->m_NumberOfCells * numberOfCellPoints, &outputFile);
@@ -153,7 +153,7 @@ protected:
   template< typename T >
   void WritePointData(T *buffer, std::ofstream & outputFile)
   {
-    float *data = new float[this->m_NumberOfPointPixels];
+    auto * data = new float[this->m_NumberOfPointPixels];
 
     for ( SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ii++ )
       {

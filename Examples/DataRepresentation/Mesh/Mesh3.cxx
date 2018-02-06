@@ -177,7 +177,7 @@ int main(int, char *[])
   // Software Guide : BeginCodeSnippet
   for(unsigned int cellId=0; cellId<numberOfCells; ++cellId)
     {
-    PixelType value = static_cast<PixelType>(0.0);
+    auto value = static_cast<PixelType>(0.0);
     mesh->GetCellData( cellId, &value );
     std::cout << "Cell " << cellId << " = " << value << std::endl;
     }

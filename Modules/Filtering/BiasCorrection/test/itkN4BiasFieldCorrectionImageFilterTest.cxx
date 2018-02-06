@@ -43,8 +43,7 @@ public:
 
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
-    const TFilter * filter =
-      dynamic_cast< const TFilter * >( object );
+    const auto * filter = dynamic_cast< const TFilter * >( object );
 
     if( typeid( event ) != typeid( itk::IterationEvent ) )
                                         { return; }
@@ -218,9 +217,8 @@ int N4( int argc, char *argv[] )
     float domain = static_cast<RealType>( inputImage->
       GetLargestPossibleRegion().GetSize()[d] - 1 ) *
       inputImage->GetSpacing()[d];
-    unsigned int numberOfSpans = static_cast<unsigned int>(
-      std::ceil( domain / splineDistance ) );
-    unsigned long extraPadding = static_cast<unsigned long>( ( numberOfSpans *
+    auto numberOfSpans = static_cast<unsigned int>( std::ceil( domain / splineDistance ) );
+    auto extraPadding = static_cast<unsigned long>( ( numberOfSpans *
       splineDistance - domain ) / inputImage->GetSpacing()[d] + 0.5 );
     lowerBound[d] = static_cast<unsigned long>( 0.5 * extraPadding );
     upperBound[d] = extraPadding - lowerBound[d];

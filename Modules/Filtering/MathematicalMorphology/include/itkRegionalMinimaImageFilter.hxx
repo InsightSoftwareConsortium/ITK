@@ -49,7 +49,7 @@ RegionalMinimaImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImageType * input = const_cast< InputImageType * >( this->GetInput() );
+  auto * input = const_cast< InputImageType * >( this->GetInput() );
   if ( !input )
     {
     return;

@@ -113,7 +113,7 @@ LevelSetQuadEdgeMesh< TMesh >::CopyInformation(const DataObject *data)
 {
   Superclass::CopyInformation( data );
 
-  const Self *levelSet = dynamic_cast< const Self * >( data );
+  const auto * levelSet = dynamic_cast< const Self * >( data );
 
   if ( !levelSet )
     {
@@ -129,7 +129,7 @@ void
 LevelSetQuadEdgeMesh< TMesh >::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
-  const Self *levelSet = dynamic_cast< const Self* >( data );
+  const auto * levelSet = dynamic_cast< const Self* >( data );
 
   if ( !levelSet )
     {

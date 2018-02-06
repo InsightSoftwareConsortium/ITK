@@ -87,7 +87,7 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
   parentSpatialObj->AddSpatialObject(GaussianSpatialObj);
 
   // Set up a MetaGaussian object
-  MetaGaussian* metaGaussian = new MetaGaussian(Dimensions);
+  auto * metaGaussian = new MetaGaussian(Dimensions);
   metaGaussian->Maximum(maximum);
   metaGaussian->Radius(radius);
   metaGaussian->Sigma(sigma);
@@ -100,7 +100,7 @@ int itkMetaGaussianConverterTest(int argc, char* argv[])
   //
   // Test GaussianSpatialObject to MetaGaussian
   //
-  MetaGaussian* newMetaGaussian = dynamic_cast<MetaGaussian *>(
+  auto * newMetaGaussian = dynamic_cast<MetaGaussian *>(
     converter->SpatialObjectToMetaObject(GaussianSpatialObj));
   if(newMetaGaussian == nullptr)
     {

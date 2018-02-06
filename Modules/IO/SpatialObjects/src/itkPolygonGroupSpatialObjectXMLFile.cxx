@@ -248,17 +248,16 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
   // Write out polygondata
   PolygonGroupType::ChildrenListType *children =
     m_InputObject->GetChildren(0, nullptr);
-  PolygonGroupType::ChildrenListType::iterator it = children->begin();
-  PolygonGroupType::ChildrenListType::iterator end = children->end();
+  auto it = children->begin();
+  auto end = children->end();
   while ( it != end )
     {
     WriteStartElement("POLYGON", output);
     output << std::endl;
-    PolygonSpatialObjectType *curstrand =
-      dynamic_cast< PolygonSpatialObjectType * >( ( *it ).GetPointer() );
+    auto * curstrand = dynamic_cast< PolygonSpatialObjectType * >( ( *it ).GetPointer() );
     PolygonSpatialObjectType::PointListType &         points = curstrand->GetPoints();
-    PolygonSpatialObjectType::PointListType::iterator pointIt = points.begin();
-    PolygonSpatialObjectType::PointListType::iterator pointItEnd = points.end();
+    auto pointIt = points.begin();
+    auto pointItEnd = points.end();
     while ( pointIt != pointItEnd )
       {
       PolygonSpatialObjectType::PointType curpoint = ( *pointIt ).GetPosition();

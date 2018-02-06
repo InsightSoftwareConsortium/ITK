@@ -112,8 +112,7 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
   double upper = m_UpperValueLimit;
   double guess = upper;
 
-  const unsigned int maximumIterationsInBinarySearch =
-    static_cast< unsigned int >(
+  const auto maximumIterationsInBinarySearch = static_cast< unsigned int >(
       std::log( ( static_cast< float >( upper ) - static_cast< float >( lower ) )
                / static_cast< float >( m_IsolatedValueTolerance ) )  / std::log(2.0) );
 

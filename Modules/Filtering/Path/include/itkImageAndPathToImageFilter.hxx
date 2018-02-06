@@ -61,7 +61,7 @@ typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::Inp
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::GetNonConstImageInput(void)
 {
-  TInputImage * temp_return=dynamic_cast< TInputImage * >( this->ProcessObject::GetInput(0) );
+  auto * temp_return = dynamic_cast< TInputImage * >( this->ProcessObject::GetInput(0) );
   if(temp_return == nullptr)
     {
     itkExceptionMacro("Invalid type conversion in GetNonConstImageInput()")
@@ -93,7 +93,7 @@ typename ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >::Inp
 ImageAndPathToImageFilter< TInputImage, TInputPath, TOutputImage >
 ::GetNonConstPathInput(void)
 {
-  TInputPath * temp_return = dynamic_cast< TInputPath * >( this->ProcessObject::GetInput(1) );
+  auto * temp_return = dynamic_cast< TInputPath * >( this->ProcessObject::GetInput(1) );
   if(temp_return == nullptr)
     {
     itkExceptionMacro("Invalid type conversion in GetNonConstPathInput()")

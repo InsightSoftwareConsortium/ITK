@@ -182,7 +182,7 @@ struct Convertible {
   struct Constraints {
     void constraints()
     {
-      T2 b = static_cast< T2 >( a );
+      auto b = static_cast< T2 >( a );
 
       Detail::IgnoreUnusedVariable(b);
     }

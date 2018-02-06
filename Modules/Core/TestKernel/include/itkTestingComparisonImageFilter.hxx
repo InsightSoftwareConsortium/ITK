@@ -116,7 +116,6 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   using FacesCalculator = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >;
   using RadiusType = typename FacesCalculator::RadiusType;
   using FaceListType = typename FacesCalculator::FaceListType;
-  using FaceListIterator = typename FaceListType::iterator;
 
   // Prepare standard boundary condition.
   ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
@@ -155,7 +154,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   ProgressReporter progress( this, threadId, threadRegion.GetNumberOfPixels() );
 
   // Process the internal face and each of the boundary faces.
-  for ( FaceListIterator face = faceList.begin(); face != faceList.end(); ++face )
+  for ( auto face = faceList.begin(); face != faceList.end(); ++face )
     {
     SmartIterator  test(radius, testImage, *face); // Iterate over test image.
     InputIterator  valid(validImage, *face);       // Iterate over valid image.
@@ -177,7 +176,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
           {
           difference = -difference;
           }
-        OutputPixelType minimumDifference = static_cast< OutputPixelType >( difference );
+        auto minimumDifference = static_cast< OutputPixelType >( difference );
 
         // If center pixel isn't good enough, then test the neighborhood
         if ( minimumDifference > m_DifferenceThreshold )
@@ -194,7 +193,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
               {
               differenceReal = -differenceReal;
               }
-            OutputPixelType d = static_cast< OutputPixelType >( differenceReal );
+            auto d = static_cast< OutputPixelType >( differenceReal );
             if ( d < minimumDifference )
               {
               minimumDifference = d;

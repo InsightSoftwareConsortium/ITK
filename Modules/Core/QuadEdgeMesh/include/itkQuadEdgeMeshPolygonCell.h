@@ -138,7 +138,7 @@ public:
   void MakeCopy(CellAutoPointer & cell) const override
   {
     const PointIdentifier numberOfPoints = this->GetNumberOfPoints();
-    Self *                newPolygonCell = new Self(numberOfPoints);
+    auto * newPolygonCell = new Self(numberOfPoints);
 
     cell.TakeOwnership(newPolygonCell);
     if ( numberOfPoints )

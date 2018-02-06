@@ -159,7 +159,7 @@ ImageFileWriter< TInputImage >
       msg << "  Tried to create one of the following:" << std::endl;
       for (auto & allobject : allobjects)
         {
-        ImageIOBase *io = dynamic_cast< ImageIOBase * >( allobject.GetPointer() );
+        auto * io = dynamic_cast< ImageIOBase * >( allobject.GetPointer() );
         msg << "    " << io->GetNameOfClass() << std::endl;
         }
       msg << "  You probably failed to set a file suffix, or" << std::endl;
@@ -177,7 +177,7 @@ ImageFileWriter< TInputImage >
 
   // NOTE: this const_cast<> is due to the lack of const-correctness
   // of the ProcessObject.
-  InputImageType *nonConstInput = const_cast< InputImageType * >( input );
+  auto * nonConstInput = const_cast< InputImageType * >( input );
 
   // Update the meta data if needed
   if ( !m_UserSpecifiedIORegion )
@@ -384,7 +384,7 @@ ImageFileWriter< TInputImage >
   itkDebugMacro(<< "Writing file: " << m_FileName);
 
   // now extract the data as a raw buffer pointer
-  const void *dataPtr = (const void *)input->GetBufferPointer();
+  const auto * dataPtr = (const void *)input->GetBufferPointer();
 
   // check that the image's buffered region is the same as
   // ImageIO is expecting and we requested

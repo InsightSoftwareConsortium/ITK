@@ -61,13 +61,13 @@ STAPLEImageFilter< TInputImage, TOutputImage >
   // Record the number of input files.
   number_of_input_files = this->GetNumberOfIndexedInputs();
 
-  IteratorType *D_it = new IteratorType[number_of_input_files];
+  auto * D_it = new IteratorType[number_of_input_files];
 
-  double *p = new double[number_of_input_files];  // sensitivity
-  double *q = new double[number_of_input_files];  // specificity
+  auto * p = new double[number_of_input_files];  // sensitivity
+  auto * q = new double[number_of_input_files];  // specificity
 
-  double *last_q = new double[number_of_input_files];
-  double *last_p = new double[number_of_input_files];
+  auto * last_q = new double[number_of_input_files];
+  auto * last_p = new double[number_of_input_files];
 
   for ( i = 0; i < number_of_input_files; ++i )
     {

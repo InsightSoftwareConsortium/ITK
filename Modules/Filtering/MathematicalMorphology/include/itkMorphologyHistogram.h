@@ -60,7 +60,7 @@ public:
   {
     itkAssertInDebugAndIgnoreInReleaseMacro(!m_Map.empty());
     // clean the map
-    typename MapType::iterator mapIt = m_Map.begin();
+    auto mapIt = m_Map.begin();
     while ( mapIt != m_Map.end() )
       {
       if ( mapIt->second == 0 )

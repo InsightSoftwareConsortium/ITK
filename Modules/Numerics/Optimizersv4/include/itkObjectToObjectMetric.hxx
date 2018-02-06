@@ -437,13 +437,13 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   using MovingCompositeTransformType = CompositeTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >;
   const MovingTransformType* transform = this->m_MovingTransform.GetPointer();
   // If it's a CompositeTransform, get the last transform (1st applied).
-  const MovingCompositeTransformType* comptx = dynamic_cast< const MovingCompositeTransformType * > ( transform );
+  const auto * comptx = dynamic_cast< const MovingCompositeTransformType * > ( transform );
   if( comptx != nullptr )
     {
     transform = comptx->GetBackTransform();
     }
   // Cast to a DisplacementField type.
-  const MovingDisplacementFieldTransformType* deftx = dynamic_cast< const MovingDisplacementFieldTransformType * >( transform );
+  const auto * deftx = dynamic_cast< const MovingDisplacementFieldTransformType * >( transform );
   return deftx;
 }
 

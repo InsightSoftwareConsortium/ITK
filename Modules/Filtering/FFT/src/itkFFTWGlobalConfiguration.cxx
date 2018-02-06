@@ -426,7 +426,7 @@ FFTWGlobalConfiguration
       {
       //In the abscence of explicit specification, point to
       //the DefaultFilenameGenerator for creating the name
-      HardwareWisdomFilenameGenerator * DefaultFilenameGenerator = new HardwareWisdomFilenameGenerator;
+      auto * DefaultFilenameGenerator = new HardwareWisdomFilenameGenerator;
       this->m_WisdomFilenameGenerator = DefaultFilenameGenerator;
       }
     }

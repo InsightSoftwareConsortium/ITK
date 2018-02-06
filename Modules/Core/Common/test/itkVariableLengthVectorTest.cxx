@@ -60,7 +60,7 @@ int itkVariableLengthVectorTest(int, char*[])
     }
 
   {
-  double *d = new double[3];
+  auto * d = new double[3];
   d[0] = 0.1; d[1] = 0.2; d[2] = 0.3;
     {
     DoubleVariableLengthVectorType x( d, 3, false );

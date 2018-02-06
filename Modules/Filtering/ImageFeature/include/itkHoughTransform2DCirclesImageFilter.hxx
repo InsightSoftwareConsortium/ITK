@@ -299,7 +299,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPi
 
   os << indent << "CirclesList: " << std::endl;
   unsigned int i = 0;
-  CirclesListType::const_iterator it = m_CirclesList.begin();
+  auto it = m_CirclesList.begin();
   while( it != m_CirclesList.end() )
     {
     os << indent << "[" << i << "]: " << *it << std::endl;

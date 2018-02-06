@@ -233,7 +233,7 @@ ReconstructionImageFilter< TInputImage, TOutputImage, TCompare >
   for ( outNIt.GoToBegin(), mskIt.GoToBegin(); !outNIt.IsAtEnd(); ++outNIt, ++mskIt )
     {
     InputImagePixelType V = outNIt.GetCenterPixel();
-    InputImagePixelType iV = static_cast< OutputImagePixelType >( mskIt.Get() );
+    auto iV = static_cast< OutputImagePixelType >( mskIt.Get() );
 
     // be sure that the pixels in the images follow the preconditions
     if ( compare(V, iV) )

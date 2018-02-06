@@ -45,7 +45,7 @@ struct KernelTransformHelper
     if( transform->GetInputSpaceDimension() == Dimension)
       {
       using KernelTransformType = typename itk::KernelTransform< TParameterType, Dimension >;
-      KernelTransformType* kernelTransform = static_cast<KernelTransformType*>(transform.GetPointer());
+      auto * kernelTransform = static_cast<KernelTransformType*>(transform.GetPointer());
       kernelTransform->ComputeWMatrix();
       return 0;
       }
@@ -180,8 +180,7 @@ void TransformFileReaderTemplate<TParametersValueType>
     }
   else  //Just return the entire list of elements
     {
-    for ( typename TransformListType::iterator it =
-         ioTransformList.begin();
+    for ( auto it = ioTransformList.begin();
          it != ioTransformList.end(); ++it )
       {
       this->m_TransformList.push_back( (*it).GetPointer() );

@@ -100,7 +100,7 @@ protected:
 
   void GenerateData() override
     {
-    const typename Superclass::DecoratedInput2ImagePixelType *input
+    const auto *input
        = dynamic_cast< const typename Superclass::DecoratedInput2ImagePixelType * >(
         this->ProcessObject::GetInput(1) );
     if( input != nullptr && itk::Math::AlmostEquals(input->Get(), itk::NumericTraits< typename TInputImage2::PixelType >::ZeroValue()) )

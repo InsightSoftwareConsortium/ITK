@@ -122,7 +122,7 @@ public:
   /** Returns a pointer to a global data structure for computing time step. */
   void * GetGlobalDataPointer() const override
   {
-    ShapePriorGlobalDataStruct *ans = new ShapePriorGlobalDataStruct();
+    auto * ans = new ShapePriorGlobalDataStruct();
 
     ans->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::ZeroValue();
     ans->m_MaxPropagationChange = NumericTraits< ScalarValueType >::ZeroValue();

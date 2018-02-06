@@ -113,7 +113,7 @@ int itkTriangleCellTest(int, char* [] )
    * different types of cells.
    */
   CellAutoPointer testCell;
-  TriangleHelper * newcell = new TriangleHelper;
+  auto * newcell = new TriangleHelper;
   testCell.TakeOwnership( newcell ); // polymorphism
 
   /**

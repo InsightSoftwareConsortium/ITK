@@ -38,7 +38,7 @@ int itkComplexConjugateImageAdaptorTest(int, char* [])
   itk::ImageRegionIterator< ImageType> iter( image, region );
   for ( iter.GoToBegin(); !iter.IsAtEnd(); ++iter )
     {
-    float randMax = static_cast< float >( RAND_MAX );
+    auto randMax = static_cast< float >( RAND_MAX );
     PixelType pixel( static_cast< float >( rand() ) / randMax,
                      static_cast< float >( rand() ) / randMax );
     iter.Set( pixel );

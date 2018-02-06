@@ -96,18 +96,17 @@ IdentifierType SimplexMeshVolumeCalculator< TInputMesh >
 ::FindCellId(IdentifierType id1, IdentifierType id2, IdentifierType id3)
 {
   using PointSetType = std::set< typename InputMeshType::PointIdentifier >;
-  using PointSetIterator = typename PointSetType::iterator;
 
   PointSetType cells1 =  m_SimplexMesh->GetCellLinks()->GetElement(id1);
   PointSetType cells2 =  m_SimplexMesh->GetCellLinks()->GetElement(id2);
   PointSetType cells3 =  m_SimplexMesh->GetCellLinks()->GetElement(id3);
 
-  PointSetIterator cellIt = cells1.begin();
+  auto cellIt = cells1.begin();
 
   while ( cellIt != cells1.end() )
     {
-    PointSetIterator found2 = std::find(cells2.begin(), cells2.end(), *cellIt);
-    PointSetIterator found3 = std::find(cells3.begin(), cells3.end(), *cellIt);
+    auto found2 = std::find(cells2.begin(), cells2.end(), *cellIt);
+    auto found3 = std::find(cells3.begin(), cells3.end(), *cellIt);
 
     if ( found2 != cells2.end() && found3 != cells3.end() )
       {

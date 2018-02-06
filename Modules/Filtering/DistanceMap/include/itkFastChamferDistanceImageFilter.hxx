@@ -109,7 +109,7 @@ void FastChamferDistanceImageFilter< TInputImage, TOutputImage >
   NeighborhoodIterator< TInputImage > it(r, this->GetOutput(), m_RegionToProcess);
 
   const unsigned int center_voxel  = it.Size() / 2;
-  int *              neighbor_type = new int[it.Size()];
+  auto * neighbor_type = new int[it.Size()];
   int          i;
   unsigned int n;
   float        val[ImageDimension];

@@ -133,7 +133,7 @@ int itkBinaryImageToWhitakerSparseLevelSetAdaptorTest( int argc, char* argv[] )
       lyr <= sparseLevelSet->PlusTwoLayer(); lyr ++ )
     {
     LevelSetType::LayerType layer = sparseLevelSet->GetLayer( lyr );
-    LevelSetType::LayerIterator lIt = layer.begin();
+    auto lIt = layer.begin();
 
     std::cout << "*** " << static_cast< int >( lyr ) << " ***" <<std::endl;
 

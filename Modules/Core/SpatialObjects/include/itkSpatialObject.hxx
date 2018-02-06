@@ -72,8 +72,8 @@ void
 SpatialObject< TDimension >
 ::Clear(void)
 {
-  typename ChildrenListType::iterator pos = m_InternalChildrenList.begin();
-  typename ChildrenListType::iterator it =  m_InternalChildrenList.begin();
+  auto pos = m_InternalChildrenList.begin();
+  auto it =  m_InternalChildrenList.begin();
   while ( it != m_InternalChildrenList.end() )
     {
     pos = it;
@@ -622,7 +622,7 @@ SpatialObject< TDimension >
   typename TreeNodeType::ChildrenListType::const_iterator it =
     children->begin();
 
-  ChildrenListType *childrenSO = new ChildrenListType;
+  auto * childrenSO = new ChildrenListType;
 
   while ( it != children->end() )
     {
@@ -641,8 +641,8 @@ SpatialObject< TDimension >
 ::SetChildren(ChildrenListType & children)
 {
   // Add children
-  typename ChildrenListType::iterator it = children.begin();
-  typename ChildrenListType::iterator itEnd = children.end();
+  auto it = children.begin();
+  auto itEnd = children.end();
 
   while ( it != itEnd )
     {
@@ -864,7 +864,7 @@ void
 SpatialObject< TDimension >
 ::SetRequestedRegion(const DataObject *data)
 {
-  const SpatialObject *imgData = dynamic_cast< const SpatialObject * >( data );
+  const auto * imgData = dynamic_cast< const SpatialObject * >( data );
 
   if ( imgData == nullptr)
     {
@@ -1009,7 +1009,7 @@ void SpatialObject< TDimension >
   m_LargestPossibleRegion = imgData->GetLargestPossibleRegion();
 
   // check if we are the same type
-  const Self *source = dynamic_cast< const Self * >( data );
+  const auto * source = dynamic_cast< const Self * >( data );
   if ( !source )
     {
     std::cout << "CopyInformation: objects are not of the same type"

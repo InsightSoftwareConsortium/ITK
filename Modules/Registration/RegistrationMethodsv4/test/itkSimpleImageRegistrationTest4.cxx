@@ -56,7 +56,7 @@ public:
   void Execute(const itk::Object * object, const itk::EventObject & event) override
     {
 
-    const TOptimizer *optimizer = dynamic_cast< const TOptimizer * > (object);
+    const auto * optimizer = dynamic_cast< const TOptimizer * > (object);
 
     if( typeid( event ) != typeid( itk::IterationEvent ) || !optimizer )
       { return; }

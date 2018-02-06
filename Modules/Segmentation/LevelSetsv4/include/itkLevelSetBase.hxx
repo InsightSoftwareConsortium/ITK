@@ -214,7 +214,7 @@ void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::CopyInformation(const DataObject *data)
 {
-  const LevelSetBase *levelSet = dynamic_cast< const LevelSetBase * >( data );
+  const auto * levelSet = dynamic_cast< const LevelSetBase * >( data );
 
   if ( !levelSet )
     {
@@ -241,7 +241,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
   // Copy Meta Data
   this->CopyInformation(data);
 
-  const Self * levelSet = dynamic_cast< const Self * >( data );
+  const auto * levelSet = dynamic_cast< const Self * >( data );
 
   if ( !levelSet )
     {
@@ -299,7 +299,7 @@ void
 LevelSetBase< TInput, VDimension, TOutput, TDomain >
 ::SetRequestedRegion(const DataObject *data)
 {
-  const Self *levelSet = dynamic_cast< const Self * >( data );
+  const auto * levelSet = dynamic_cast< const Self * >( data );
 
   if ( levelSet )
     {

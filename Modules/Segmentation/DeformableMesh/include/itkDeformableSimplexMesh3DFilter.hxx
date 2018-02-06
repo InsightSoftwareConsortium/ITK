@@ -219,9 +219,9 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
     // store neighborset with a specific radius
     InputNeighbors *       neighborsList = inputMesh->GetNeighbors(pointItr.Index(), m_Rigidity);
-    InputNeighborsIterator neighborIt = neighborsList->begin();
+    auto neighborIt = neighborsList->begin();
 
-    NeighborSetType *neighborSet = new NeighborSetType();
+    auto * neighborSet = new NeighborSetType();
     while ( neighborIt != neighborsList->end() )
       {
       neighborSet->insert(*neighborIt++);
@@ -251,8 +251,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >::GradientImageType *
 DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 ::GetGradient() const
 {
-  const GradientImageType *gradientImage =
-    dynamic_cast< const GradientImageType * >( this->ProcessObject::GetInput(1) );
+  const auto * gradientImage = dynamic_cast< const GradientImageType * >( this->ProcessObject::GetInput(1) );
 
   return gradientImage;
 }
@@ -338,8 +337,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
   // Filters should not modify their input...
   // There is a design flaw here.
-  InputPointsContainer *nonConstPoints =
-    const_cast< InputPointsContainer * >( inputMesh->GetPoints() );
+  auto * nonConstPoints = const_cast< InputPointsContainer * >( inputMesh->GetPoints() );
 
   typename GeometryMapType::Iterator dataIt = this->m_Data->Begin();
   SimplexMeshGeometry *data;
@@ -375,7 +373,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
   const NeighborSetType *const neighborSet = data->neighborSet;
 
-  NeighborSetType::const_iterator neighborIt = neighborSet->begin();
+  auto neighborIt = neighborSet->begin();
 
   double phiRef = 0.0;
   while ( neighborIt != neighborSet->end() )
@@ -525,7 +523,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
   // Filters should not change their input.
   // There is a design flaw here.
-  InputMeshType *nonConstInputMesh = const_cast< InputMeshType * >( inputMesh );
+  auto * nonConstInputMesh = const_cast< InputMeshType * >( inputMesh );
 
   double H;
   double H_N1;

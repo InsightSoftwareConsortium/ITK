@@ -230,7 +230,7 @@ OBJMeshIO
   OpenFile();
 
   // Number of data array
-  float *       data = static_cast< float * >( buffer );
+  auto * data = static_cast< float * >( buffer );
   SizeValueType index = 0;
 
   // Read and analyze the first line in the file
@@ -264,7 +264,7 @@ OBJMeshIO
   OpenFile();
 
   // Read and analyze the first line in the file
-  long *        data = new long[this->m_CellBufferSize - this->m_NumberOfCells];
+  auto * data = new long[this->m_CellBufferSize - this->m_NumberOfCells];
   SizeValueType index = 0;
 
   std::string line;
@@ -321,7 +321,7 @@ OBJMeshIO
   OpenFile();
 
   // Number of data array
-  float *       data = static_cast< float * >( buffer );
+  auto * data = static_cast< float * >( buffer );
   SizeValueType index = 0;
 
   // Read and analyze the first line in the file

@@ -338,8 +338,8 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
         {
         minusIndex[i] = currIndex[i] - 1;
         plusIndex[i] = currIndex[i] + 1;
-        double minusVal = double( this->m_MovingImage->GetPixel(minusIndex) );
-        double plusVal  = double( this->m_MovingImage->GetPixel(plusIndex) );
+        auto minusVal = double( this->m_MovingImage->GetPixel(minusIndex) );
+        auto plusVal  = double( this->m_MovingImage->GetPixel(plusIndex) );
         if( Math::NotAlmostEquals( minusVal, m_ForegroundValue ) &&
             Math::AlmostEquals( plusVal, m_ForegroundValue ) )
           {

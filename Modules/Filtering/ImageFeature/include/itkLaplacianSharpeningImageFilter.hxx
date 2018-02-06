@@ -208,10 +208,8 @@ LaplacianSharpeningImageFilter< TInputImage, TOutputImage >
 
   RealType        inputMinimum = inputCalculator->GetMinimum();
   RealType        inputMaximum = inputCalculator->GetMaximum();
-  OutputPixelType castInputMinimum =
-    static_cast< OutputPixelType >( inputMinimum );
-  OutputPixelType castInputMaximum =
-    static_cast< OutputPixelType >( inputMaximum );
+  auto castInputMinimum = static_cast< OutputPixelType >( inputMinimum );
+  auto castInputMaximum = static_cast< OutputPixelType >( inputMaximum );
 
   ImageRegionIterator< OutputImageType > outIt =
     ImageRegionIterator< OutputImageType >( output,

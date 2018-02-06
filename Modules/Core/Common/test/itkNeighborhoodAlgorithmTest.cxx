@@ -29,7 +29,7 @@ bool ImageBoundaryFaceCalculatorTest(TImage * image, typename TImage::RegionType
   FaceListType faceList;
 
   faceList = faceCalculator(image, region, radius);
-  for(typename FaceListType::iterator fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for(auto fit = faceList.begin(); fit != faceList.end(); ++fit)
     {
     std::cout<<"Number of pixels : "<<fit->GetNumberOfPixels()<<std::endl;
     std::cout<<*fit<<std::endl;
@@ -44,7 +44,7 @@ bool ImageBoundaryFaceCalculatorTest(TImage * image, typename TImage::RegionType
     return true;
 
   image->FillBuffer(0);
-  for(typename FaceListType::iterator fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for(auto fit = faceList.begin(); fit != faceList.end(); ++fit)
     {
       if (fit == faceList.begin())
       {

@@ -50,8 +50,7 @@ WarpMeshFilter< TInputMesh, TOutputMesh, TDisplacementField >
 ::SetDisplacementField(const DisplacementFieldType *field)
 {
   // const cast is needed because the pipeline is not const-correct.
-  DisplacementFieldType *input =
-    const_cast< DisplacementFieldType * >( field );
+  auto * input = const_cast< DisplacementFieldType * >( field );
 
   this->ProcessObject::SetNthInput(1, input);
 }

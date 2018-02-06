@@ -286,8 +286,8 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   const PixelComponentType maxValue =  NumericTraits< PixelComponentType >::max();
 
   using OutputType = typename InterpolatorType::OutputType;
-  const ComponentType minOutputValue = static_cast< ComponentType >( minValue );
-  const ComponentType maxOutputValue = static_cast< ComponentType >( maxValue );
+  const auto minOutputValue = static_cast< ComponentType >( minValue );
+  const auto maxOutputValue = static_cast< ComponentType >( maxValue );
 
   // Walk the output region
   outIt.GoToBegin();
@@ -387,8 +387,8 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   const PixelComponentType maxValue =  NumericTraits< PixelComponentType >::max();
 
   using OutputType = typename InterpolatorType::OutputType;
-  const ComponentType minOutputValue = static_cast< ComponentType >( minValue );
-  const ComponentType maxOutputValue = static_cast< ComponentType >( maxValue );
+  const auto minOutputValue = static_cast< ComponentType >( minValue );
+  const auto maxOutputValue = static_cast< ComponentType >( maxValue );
 
   // Determine the position of the first pixel in the scanline
   index = outIt.GetIndex();

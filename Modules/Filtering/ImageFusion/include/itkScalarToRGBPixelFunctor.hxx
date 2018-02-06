@@ -32,7 +32,7 @@ ScalarToRGBPixelFunctor< TScalar >
   m_ColorIndex[0] = 0;
   m_ColorIndex[1] = 0;
   m_ColorIndex[2] = 0;
-  const unsigned int scalarSize = static_cast< unsigned int >( sizeof( ScalarType ) );
+  const auto scalarSize = static_cast< unsigned int >( sizeof( ScalarType ) );
   for ( unsigned int i = 0; i < scalarSize && i < 3; ++i )
     {
     m_ColorIndex[i] = i;
@@ -51,7 +51,7 @@ ScalarToRGBPixelFunctor< TScalar >
 ::operator()(const TScalar & v) const
 {
   TScalar        buf = v;
-  const unsigned char *bytes = reinterpret_cast<const unsigned char *>( &buf );
+  const auto * bytes = reinterpret_cast<const unsigned char *>( &buf );
 
   if ( this->m_UseMSBForHashing == true )
     {   // swap bytes

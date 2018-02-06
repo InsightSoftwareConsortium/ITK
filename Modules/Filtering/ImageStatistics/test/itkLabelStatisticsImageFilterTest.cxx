@@ -72,7 +72,6 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
   using BoundingBoxType = FilterType::BoundingBoxType;
   using RegionType = FilterType::RegionType;
   using LabelPixelType = FilterType::LabelPixelType;
-  using ValidLabelValuesType = FilterType::ValidLabelValuesContainerType;
 
   LabelPixelType labelValue;
 
@@ -82,7 +81,7 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
   unsigned int labelCount=0;
   // Try to validate that the numberOfLabels in the ValidLabelList is
   // equal to the number of labels reported
-  for(ValidLabelValuesType::const_iterator vIt=filter->GetValidLabelValues().begin();
+  for(auto vIt=filter->GetValidLabelValues().begin();
       vIt != filter->GetValidLabelValues().end();
       ++vIt)
     {
@@ -147,7 +146,7 @@ int itkLabelStatisticsImageFilterTest(int argc, char* argv [] )
     std::cout << "Sum       = " << sum      << std::endl;
     std::cout << "Region    = " << region   << std::endl;
 
-    BoundingBoxType::const_iterator itr = box.begin();
+    auto itr = box.begin();
     while( itr != box.end() )
       {
       std::cout << "Index = " << *itr << std::endl;

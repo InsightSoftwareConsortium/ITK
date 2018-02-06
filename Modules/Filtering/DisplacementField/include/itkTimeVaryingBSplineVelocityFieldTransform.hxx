@@ -144,10 +144,10 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>
   DerivativeType scaledUpdate = update;
   scaledUpdate *= factor;
 
-  const SizeValueType numberOfPixels = static_cast<SizeValueType>( scaledUpdate.Size() / NDimensions );
+  const auto numberOfPixels = static_cast<SizeValueType>( scaledUpdate.Size() / NDimensions );
   const bool importFilterWillReleaseMemory = false;
 
-  DisplacementVectorType *updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( scaledUpdate.data_block() );
+  auto * updateFieldPointer = reinterpret_cast<DisplacementVectorType *>( scaledUpdate.data_block() );
 
   using ImporterType = ImportImageFilter<DisplacementVectorType, NDimensions+1>;
   typename ImporterType::Pointer importer = ImporterType::New();

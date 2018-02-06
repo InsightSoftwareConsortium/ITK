@@ -49,7 +49,7 @@ for ( int ii = 0;
   char * testFilename =     regressionTestParameters.compareList[ii].second;
   std::map< std::string, int > baselines =
     RegressionTestBaselines(baselineFilename);
-  std::map< std::string, int >::iterator baseline = baselines.begin();
+  auto baseline = baselines.begin();
   std::string bestBaseline = baseline->first;
   int  bestBaselineStatus = itk::NumericTraits< int >::max();
   bool oneReferenceImageWasReadable=false;

@@ -41,8 +41,7 @@ NeighborhoodSampler< TSample >
 {
   const SampleType *inputSample = this->GetInput();
 
-  SubsampleType *outputSubSample =
-    static_cast< SubsampleType * >( this->ProcessObject::GetOutput(0) );
+  auto * outputSubSample = static_cast< SubsampleType * >( this->ProcessObject::GetOutput(0) );
 
   outputSubSample->SetSample(inputSample);
   outputSubSample->Clear();

@@ -533,7 +533,7 @@ ConformalFlatteningMeshFilter< TInputMesh, TOutputMesh >
       // same number of vertics.
 
       std::vector< double >           v_r2(numberOfPoints);
-      std::vector< double >::iterator itv_r2 = v_r2.begin();
+      auto itv_r2 = v_r2.begin();
 
       for ( i = 0; i < numberOfPoints; ++i, ++itv_r2 )
         {

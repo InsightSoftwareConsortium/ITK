@@ -128,7 +128,7 @@ typename ImageToRectilinearFEMObjectFilter<TInputImage>::FEMObjectType *
 ImageToRectilinearFEMObjectFilter<TInputImage>
 ::GetOutput(unsigned int idx)
 {
-  FEMObjectType* out = dynamic_cast<FEMObjectType *>
+  auto * out = dynamic_cast<FEMObjectType *>
     (this->ProcessObject::GetOutput(idx) );
 
   if( out == nullptr )

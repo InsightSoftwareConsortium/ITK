@@ -88,7 +88,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::ThreadedGenerateData( const OutputImageRegionType& outputRegionForThread, ThreadIdType threadId )
 {
   OutputImageType * output = this->GetOutput();
-  LabelMapType * input = const_cast<LabelMapType *>(this->GetInput());
+  auto * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
   FunctorType function( m_Functor );
@@ -124,7 +124,7 @@ LabelMapOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )
 {
   OutputImageType * output = this->GetOutput();
-  LabelMapType * input = const_cast<LabelMapType *>(this->GetInput());
+  auto * input = const_cast<LabelMapType *>(this->GetInput());
   const FeatureImageType * input2 = this->GetFeatureImage();
 
   FunctorType function( m_Functor );

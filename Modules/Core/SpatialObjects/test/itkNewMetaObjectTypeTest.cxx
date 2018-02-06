@@ -35,7 +35,7 @@ protected:
   void M_SetupReadFields(void) override
     {
       MetaObject::M_SetupReadFields();
-      MET_FieldRecordType *mf = new MET_FieldRecordType;
+      auto * mf = new MET_FieldRecordType;
       MET_InitReadField(mf,"Value", MET_FLOAT, true);
       mf->terminateRead = false;
       m_Fields.push_back(mf);
@@ -45,7 +45,7 @@ protected:
       strcpy(m_ObjectTypeName,"Dummy");
       MetaObject::M_SetupWriteFields();
 
-      MET_FieldRecordType *mf = new MET_FieldRecordType;
+      auto * mf = new MET_FieldRecordType;
       MET_InitWriteField(mf, "Value", MET_FLOAT, m_Value);
       m_Fields.push_back(mf);
     }
@@ -145,7 +145,7 @@ public:
   /** Convert the MetaObject to Spatial Object */
   SpatialObjectPointer MetaObjectToSpatialObject(const MetaObjectType *mo) override
   {
-    const DummyMetaObjectType *dummyMO = dynamic_cast<const MetaDummy *>(mo);
+    const auto * dummyMO = dynamic_cast<const MetaDummy *>(mo);
     if(dummyMO == nullptr)
       {
       itkExceptionMacro(<< "Can't convert MetaObject to MetaDummy");
@@ -173,7 +173,7 @@ public:
       {
       itkExceptionMacro(<< "Can't downcast SpatialObject to DummySpatialObject");
       }
-    DummyMetaObjectType *dummyMO = new MetaDummy;
+    auto * dummyMO = new MetaDummy;
     dummyMO->SetValue(dummySO->GetValue());
 
     dummyMO->ID( dummySO->GetId() );

@@ -141,7 +141,7 @@ VectorImage< TPixel, VImageDimension >
     return;
     }
   // Attempt to cast data to an Image
-  const Self *imgData = dynamic_cast< const Self * >( data );
+  const auto * imgData = dynamic_cast< const Self * >( data );
 
   if( imgData == nullptr )
     {

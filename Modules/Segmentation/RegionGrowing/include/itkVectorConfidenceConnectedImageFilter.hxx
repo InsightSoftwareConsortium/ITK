@@ -294,12 +294,12 @@ VectorConfidenceConnectedImageFilter< TInputImage, TOutputImage >
       const InputPixelType pixelValue = sit.Get();
       for ( unsigned int i = 0; i < dimension; i++ )
         {
-        const ComponentRealType pixelValueI = static_cast< ComponentRealType >( pixelValue[i] );
+        const auto pixelValueI = static_cast< ComponentRealType >( pixelValue[i] );
         covariance[i][i] += pixelValueI * pixelValueI;
         mean[i] += pixelValueI;
         for ( unsigned int j = i + 1; j < dimension; j++ )
           {
-          const ComponentRealType pixelValueJ = static_cast< ComponentRealType >( pixelValue[j] );
+          const auto pixelValueJ = static_cast< ComponentRealType >( pixelValue[j] );
           const ComponentRealType product = pixelValueI * pixelValueJ;
           covariance[i][j] += product;
           covariance[j][i] += product;

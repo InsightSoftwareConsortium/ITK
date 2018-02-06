@@ -144,7 +144,7 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
   else
     {
 
-    OutputPolygonType *poly = dynamic_cast< OutputPolygonType * >(
+    auto * poly = dynamic_cast< OutputPolygonType * >(
       outputMesh->GetCells()->GetElement(iCId) );
     if ( poly != nullptr ) // this test should be removed...
       {

@@ -280,8 +280,7 @@ VTKPolyDataReader< TOutputMesh >
                            "ids=" << ids[0] << " " << ids[1] << " " << ids[2]);
       }
 
-    const OffsetValueType signedNumberOfPoints
-      = itk::Math::CastWithRangeCheck<OffsetValueType>( numberOfPoints );
+    const auto signedNumberOfPoints = itk::Math::CastWithRangeCheck<OffsetValueType>( numberOfPoints );
     if ( ids[0] >= signedNumberOfPoints ||
          ids[1] >= signedNumberOfPoints ||
          ids[2] >= signedNumberOfPoints )
@@ -293,7 +292,7 @@ VTKPolyDataReader< TOutputMesh >
       }
 
     CellAutoPointer   cell;
-    TriangleCellType *triangleCell = new TriangleCellType;
+    auto * triangleCell = new TriangleCellType;
     for ( PointIdentifier k = 0; k < 3; ++k )
       {
       triangleCell->SetPointId(k, ids[k]);

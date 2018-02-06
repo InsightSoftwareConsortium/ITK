@@ -77,8 +77,8 @@ FFTWComplexToComplexFFTImageFilter< TImage >
     }
 
   typename FFTWProxyType::PlanType plan;
-  typename FFTWProxyType::ComplexType * in = (typename FFTWProxyType::ComplexType*) input->GetBufferPointer();
-  typename FFTWProxyType::ComplexType * out = (typename FFTWProxyType::ComplexType*) output->GetBufferPointer();
+  auto * in = (typename FFTWProxyType::ComplexType*) input->GetBufferPointer();
+  auto * out = (typename FFTWProxyType::ComplexType*) output->GetBufferPointer();
   int flags = m_PlanRigor;
   if( !m_CanUseDestructiveAlgorithm )
     {

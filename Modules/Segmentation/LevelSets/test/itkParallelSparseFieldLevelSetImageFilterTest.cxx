@@ -178,7 +178,7 @@ public:
 
   void SetDistanceTransform(::itk::Image<float, 3> *im)
   {
-  MorphFunction *func = dynamic_cast<MorphFunction *>( this->GetDifferenceFunction().GetPointer());
+  auto * func = dynamic_cast<MorphFunction *>( this->GetDifferenceFunction().GetPointer());
   if( func == nullptr )
     {
     itkGenericExceptionMacro("MorphFunction cast failed");

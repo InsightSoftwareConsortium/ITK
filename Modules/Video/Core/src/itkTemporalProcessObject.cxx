@@ -54,7 +54,7 @@ void
 TemporalProcessObject::EnlargeOutputRequestedRegion(DataObject* output)
 {
   // Check that output is a TemporalDataObject
-  TemporalDataObject* tOutput = dynamic_cast<TemporalDataObject*>(output);
+  auto * tOutput = dynamic_cast<TemporalDataObject*>(output);
 
   if (tOutput != nullptr)
     {
@@ -110,7 +110,7 @@ void
 TemporalProcessObject::GenerateOutputRequestedRegion(DataObject* output)
 {
   // Check that output is a TemporalDataObject
-  TemporalDataObject* tOutput = dynamic_cast<TemporalDataObject*>(output);
+  auto * tOutput = dynamic_cast<TemporalDataObject*>(output);
 
   if (tOutput != nullptr)
     {
@@ -173,8 +173,8 @@ TemporalProcessObject::GenerateInputRequestedRegion()
     }
 
   // Check that output and input are a TemporalDataObjects
-  TemporalDataObject* tOutput = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
-  TemporalDataObject* tInput = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
+  auto * tOutput = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
+  auto * tInput = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
 
   if (tOutput == nullptr)
     {
@@ -203,8 +203,8 @@ TemporalProcessObject::GenerateInputRequestedTemporalRegion()
 {
   // This should only get called after verifying that input(0) and output(0)
   // can validly be cast to TemporalDataObjects, so don't check cast here
-  TemporalDataObject* input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
-  TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
+  auto * input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
+  auto * output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
   if (output == nullptr)
     {
     itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateInputRequestedTemporalRegion() "
@@ -222,8 +222,7 @@ TemporalProcessObject::GenerateInputRequestedTemporalRegion()
 
   // This should always be a whole number because of EnlargeOutputRequestedTemporalRegion
   // but do it safely in case the subclass overrides it
-  SizeValueType numInputRequests =
-    Math::Ceil<SizeValueType>((double)outReqTempRegion.GetFrameDuration() /
+  auto numInputRequests = Math::Ceil<SizeValueType>((double)outReqTempRegion.GetFrameDuration() /
                               (double)m_UnitOutputNumberOfFrames);
 
   // The number of input requests indicates the number of times the process
@@ -277,8 +276,8 @@ TemporalProcessObject::UpdateOutputInformation()
   // Update using inherited system
   Superclass::UpdateOutputInformation();
 
-  TemporalDataObject* input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
-  TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
+  auto * input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
+  auto * output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
   if (output == nullptr)
     {
     itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateOutputRequestedTemporalRegion() "
@@ -418,7 +417,7 @@ TemporalProcessObject::GenerateData()
   // Split up the requested output temporal region
 
   // Get the first output frame location
-  TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
+  auto * output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
   if (output == nullptr)
     {
     itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateData() "
@@ -437,7 +436,7 @@ TemporalProcessObject::GenerateData()
     if (this->GetNumberOfInputs())
       {
       // Set Input's requested region to the new request at i
-      TemporalDataObject* input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
+      auto * input = dynamic_cast<TemporalDataObject*>(this->GetInput(0));
       if (input == nullptr)
         {
         itkExceptionMacro(<< "itk::TemporalProcessObject::GenerateData() "
@@ -522,7 +521,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
 {
 
   // Get the current output TemporalDataObject
-  TemporalDataObject* outputObject = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
+  auto * outputObject = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
   if (outputObject == nullptr)
     {
     itkExceptionMacro(<< "itk::TemporalProcessObject::SplitRequestedTemporalRegion() "
@@ -537,7 +536,7 @@ TemporalProcessObject::SplitRequestedTemporalRegion()
   TemporalRegion unbufferedRegion = outputObject->GetUnbufferedRequestedTemporalRegion();
 
   // Calculate the number of input requests that will be needed
-  SizeValueType numRequests = Math::Ceil<SizeValueType>(
+  auto numRequests = Math::Ceil<SizeValueType>(
     (double)(unbufferedRegion.GetFrameDuration() /(double)(m_UnitOutputNumberOfFrames))
     );
 

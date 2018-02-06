@@ -125,7 +125,7 @@ bool
 MapContainer< TElementIdentifier, TElement >
 ::GetElementIfIndexExists(ElementIdentifier id, Element *element) const
 {
-  MapConstIterator it = this->MapType::find(id);
+  auto it = this->MapType::find(id);
   if( it != this->MapType::end() )
     {
     if( element )

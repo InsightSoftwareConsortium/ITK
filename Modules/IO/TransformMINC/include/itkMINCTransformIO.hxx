@@ -157,7 +157,7 @@ MINCTransformIOTemplate<TParametersValueType>
         transformTypeName += typeNameString;
         transformTypeName += "_3_3";
         this->CreateTransform(transform, transformTypeName);
-        DisplacementFieldTransformType * gridTransform = static_cast< DisplacementFieldTransformType* >( transform.GetPointer());
+        auto * gridTransform = static_cast< DisplacementFieldTransformType* >( transform.GetPointer());
         if( xfm->inverse_flag ) //TODO: invert grid transform?
           {
           gridTransform->SetInverseDisplacementField( grid );
@@ -208,8 +208,7 @@ MINCTransformIOTemplate<TParametersValueType>
 {
   const std::string transformType = curTransform->GetTransformTypeAsString();
 
-  const MatrixOffsetTransformBaseType * matrixOffsetTransform =
-        dynamic_cast<const MatrixOffsetTransformBaseType *>( curTransform );
+  const auto * matrixOffsetTransform = dynamic_cast<const MatrixOffsetTransformBaseType *>( curTransform );
 
   //
   // write out transform type.
@@ -255,7 +254,7 @@ MINCTransformIOTemplate<TParametersValueType>
       using DisplacementFieldTransformType = DisplacementFieldTransform<TParametersValueType, 3>;
       using GridImageType = typename DisplacementFieldTransformType::DisplacementFieldType;
       using MincWriterType = ImageFileWriter< GridImageType >;
-      DisplacementFieldTransformType* _grid_transform = static_cast< DisplacementFieldTransformType* >( const_cast< TransformType* >( curTransform ));
+      auto * _grid_transform = static_cast< DisplacementFieldTransformType* >( const_cast< TransformType* >( curTransform ));
       char tmp[1024];
       sprintf(tmp,"%s_grid_%d.mnc",xfm_file_base,serial);
       ++serial;

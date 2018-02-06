@@ -158,7 +158,7 @@ int main(int argc, char * argv[] )
 // Software Guide : EndLatex
 
 // Software Guide : BeginCodeSnippet
-  const PixelType objectValue = static_cast<PixelType>( atof( argv[2] ) );
+  const auto objectValue = static_cast<PixelType>( atof( argv[2] ) );
 
   meshSource->SetObjectValue( objectValue );
 // Software Guide : EndCodeSnippet

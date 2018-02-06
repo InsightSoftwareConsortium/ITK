@@ -116,8 +116,8 @@ GenerateData( void )
     IndexType index =
       inputHistogram->GetIndex( hit.GetInstanceIdentifier() );
 
-    double i2 = static_cast<double>( ( index[0] + 1 ) * ( index[0] + 1 ) );
-    double j2 = static_cast<double>( ( index[1] + 1 ) * ( index[1] + 1 ) );
+    auto i2 = static_cast<double>( ( index[0] + 1 ) * ( index[0] + 1 ) );
+    auto j2 = static_cast<double>( ( index[1] + 1 ) * ( index[1] + 1 ) );
 
     // Traditional measures
     shortRunEmphasis += ( frequency / j2 );
@@ -166,45 +166,45 @@ GenerateData( void )
   longRunHighGreyLevelEmphasis /=
     static_cast<double>( this->m_TotalNumberOfRuns );
 
-  MeasurementObjectType* shortRunEmphasisOutputObject =
-    static_cast<MeasurementObjectType*>( this->ProcessObject::GetOutput( 0 ) );
+  auto * shortRunEmphasisOutputObject = static_cast<MeasurementObjectType*>(
+                                          this->ProcessObject::GetOutput( 0 ) );
   shortRunEmphasisOutputObject->Set( shortRunEmphasis );
 
-  MeasurementObjectType* longRunEmphasisOutputObject =
-    static_cast<MeasurementObjectType*>( this->ProcessObject::GetOutput( 1 ) );
+  auto * longRunEmphasisOutputObject = static_cast<MeasurementObjectType*>(
+                                         this->ProcessObject::GetOutput( 1 ) );
   longRunEmphasisOutputObject->Set( longRunEmphasis );
 
-  MeasurementObjectType* greyLevelNonuniformityOutputObject =
-    static_cast<MeasurementObjectType*>( this->ProcessObject::GetOutput( 2 ) );
+  auto * greyLevelNonuniformityOutputObject = static_cast<MeasurementObjectType*>(
+                                                this->ProcessObject::GetOutput( 2 ) );
   greyLevelNonuniformityOutputObject->Set( greyLevelNonuniformity );
 
-  MeasurementObjectType* runLengthNonuniformityOutputObject =
-    static_cast<MeasurementObjectType*>( this->ProcessObject::GetOutput( 3 ) );
+  auto * runLengthNonuniformityOutputObject = static_cast<MeasurementObjectType*>(
+                                                this->ProcessObject::GetOutput( 3 ) );
   runLengthNonuniformityOutputObject->Set( runLengthNonuniformity );
 
-  MeasurementObjectType* lowGreyLevelRunEmphasisOutputObject =
-    static_cast<MeasurementObjectType*>( this->ProcessObject::GetOutput( 4 ) );
+  auto * lowGreyLevelRunEmphasisOutputObject = static_cast<MeasurementObjectType*>(
+                                                 this->ProcessObject::GetOutput( 4 ) );
   lowGreyLevelRunEmphasisOutputObject->Set( lowGreyLevelRunEmphasis );
 
-  MeasurementObjectType* highGreyLevelRunEmphasisOutputObject =
-    static_cast<MeasurementObjectType*>( this->ProcessObject::GetOutput( 5 ) );
+  auto * highGreyLevelRunEmphasisOutputObject = static_cast<MeasurementObjectType*>(
+                                                 this->ProcessObject::GetOutput( 5 ) );
   highGreyLevelRunEmphasisOutputObject->Set( highGreyLevelRunEmphasis );
 
-  MeasurementObjectType* shortRunLowGreyLevelEmphasisOutputObject =
-    static_cast<MeasurementObjectType*>( this->ProcessObject::GetOutput( 6 ) );
+  auto * shortRunLowGreyLevelEmphasisOutputObject = static_cast<MeasurementObjectType*>(
+                                                 this->ProcessObject::GetOutput( 6 ) );
   shortRunLowGreyLevelEmphasisOutputObject->Set( shortRunLowGreyLevelEmphasis );
 
-  MeasurementObjectType* shortRunHighGreyLevelEmphasisOutputObject =
-    static_cast<MeasurementObjectType*>( this->ProcessObject::GetOutput( 7 ) );
+  auto * shortRunHighGreyLevelEmphasisOutputObject = static_cast<MeasurementObjectType*>(
+                                                 this->ProcessObject::GetOutput( 7 ) );
   shortRunHighGreyLevelEmphasisOutputObject->Set(
     shortRunHighGreyLevelEmphasis );
 
-  MeasurementObjectType* longRunLowGreyLevelEmphasisOutputObject =
-    static_cast<MeasurementObjectType*>( this->ProcessObject::GetOutput( 8 ) );
+  auto * longRunLowGreyLevelEmphasisOutputObject = static_cast<MeasurementObjectType*>(
+                                                 this->ProcessObject::GetOutput( 8 ) );
   longRunLowGreyLevelEmphasisOutputObject->Set( longRunLowGreyLevelEmphasis );
 
-  MeasurementObjectType* longRunHighGreyLevelEmphasisOutputObject =
-    static_cast<MeasurementObjectType*>( this->ProcessObject::GetOutput( 9 ) );
+  auto * longRunHighGreyLevelEmphasisOutputObject = static_cast<MeasurementObjectType*>(
+                                                 this->ProcessObject::GetOutput( 9 ) );
   longRunHighGreyLevelEmphasisOutputObject->Set( longRunHighGreyLevelEmphasis );
 }
 

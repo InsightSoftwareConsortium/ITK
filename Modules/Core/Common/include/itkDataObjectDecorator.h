@@ -115,7 +115,7 @@ public:
   template <typename TOther>
   void Graft( const DataObjectDecorator<TOther> * decorator )
     {
-      ComponentType *component = const_cast< ComponentType * >( dynamic_cast< const ComponentType * >( decorator->Get() ) );
+      auto * component = const_cast< ComponentType * >( dynamic_cast< const ComponentType * >( decorator->Get() ) );
       if ( !component  )
         {
         return;

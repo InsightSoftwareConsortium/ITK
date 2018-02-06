@@ -63,8 +63,8 @@ VoronoiDiagram2DGenerator< TCoordRepType >::SetRandomSeeds(int num)
   PointType curr;
 
   m_Seeds.clear();
-  double ymax = (double)( m_VorBoundary[1] );
-  double xmax = (double)( m_VorBoundary[0] );
+  auto ymax = (double)( m_VorBoundary[1] );
+  auto xmax = (double)( m_VorBoundary[0] );
   for ( int i = 0; i < num; ++i )
     {
     curr[0] = (CoordRepType)( vnl_sample_uniform(0, xmax) );
@@ -144,7 +144,7 @@ template< typename TCoordRepType >
 void
 VoronoiDiagram2DGenerator< TCoordRepType >::AddSeeds(int num, SeedsIterator begin)
 {
-  SeedsIterator ii(begin);
+  auto ii(begin);
 
   for ( int i = 0; i < num; ++i )
     {
@@ -243,7 +243,7 @@ template< typename TCoordRepType >
 void
 VoronoiDiagram2DGenerator< TCoordRepType >::ConstructDiagram(void)
 {
-  EdgeInfoDQ *rawEdges = new EdgeInfoDQ[m_NumberOfSeeds];
+  auto * rawEdges = new EdgeInfoDQ[m_NumberOfSeeds];
 
   m_OutputVD->Reset();
 
@@ -301,7 +301,7 @@ VoronoiDiagram2DGenerator< TCoordRepType >::ConstructDiagram(void)
     buildEdges.push_back(curr);
     EdgeInfo front = curr;
     EdgeInfo back = curr;
-    int      maxStop = static_cast< int >( rawEdges[i].size() );
+    auto maxStop = static_cast< int >( rawEdges[i].size() );
     while ( !( rawEdges[i].empty() ) )
       {
       maxStop--;
@@ -623,7 +623,7 @@ typename VoronoiDiagram2DGenerator< TCoordRepType >::FortuneHalfEdge *
 VoronoiDiagram2DGenerator< TCoordRepType >::findLeftHE(PointType *p)
 {
   int i;
-  int bucket = (int)( ( ( ( *p )[0] ) - m_Pxmin ) / m_Deltax * m_ELhashsize );
+  auto bucket = (int)( ( ( ( *p )[0] ) - m_Pxmin ) / m_Deltax * m_ELhashsize );
 
   if ( bucket < 0 )
     {

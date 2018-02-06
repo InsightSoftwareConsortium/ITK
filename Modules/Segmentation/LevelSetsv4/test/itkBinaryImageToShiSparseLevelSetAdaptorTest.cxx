@@ -102,7 +102,7 @@ int itkBinaryImageToShiSparseLevelSetAdaptorTest( int argc, char* argv[] )
       lyr <= sparseLevelSet->PlusOneLayer(); lyr += 2 )
     {
     LevelSetType::LayerType layer = sparseLevelSet->GetLayer( lyr );
-    LevelSetType::LayerIterator lIt = layer.begin();
+    auto lIt = layer.begin();
 
     std::cout << "*** " << static_cast< int >( lyr ) << " ***" <<std::endl;
 

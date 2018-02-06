@@ -42,7 +42,7 @@ NormalizeToConstantImageFilter< TInputImage, TOutputImage >
   // Call the superclass' implementation of this method.
   Superclass::GenerateInputRequestedRegion();
 
-  InputImageType * input0 = const_cast<InputImageType *>( this->GetInput(0) );
+  auto * input0 = const_cast<InputImageType *>( this->GetInput(0) );
   if ( !input0 )
     {
     return;

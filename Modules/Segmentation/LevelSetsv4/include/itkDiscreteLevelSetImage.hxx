@@ -62,8 +62,8 @@ DiscreteLevelSetImage< TOutput, VDimension >::EvaluateGradient( const InputType&
       inputIndexB[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
+    const auto valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const auto valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
     // division by 0 only if image is a single pixel
     const OutputRealType scale = this->m_NeighborhoodScales[dim] / (inputIndexA[dim] - inputIndexB[dim]);
@@ -83,7 +83,7 @@ typename DiscreteLevelSetImage< TOutput, VDimension >::GradientType
 DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateForwardGradient( const InputType& inputIndex ) const
 {
-  const OutputRealType centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
+  const auto centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
 
   InputType inputIndexA = inputIndex;
 
@@ -98,7 +98,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
       inputIndexA[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const auto valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
     dx[dim] = ( valueA - centerValue ) * scale;
@@ -115,7 +115,7 @@ typename DiscreteLevelSetImage< TOutput, VDimension >::GradientType
 DiscreteLevelSetImage< TOutput, VDimension >
 ::EvaluateBackwardGradient( const InputType& inputIndex ) const
 {
-  const OutputRealType centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
+  const auto centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
 
   InputType inputIndexA = inputIndex;
 
@@ -130,7 +130,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
       inputIndexA[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const auto valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
     dx[dim] = ( centerValue - valueA ) * scale;
@@ -148,7 +148,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
 {
   HessianType oHessian;
 
-  const OutputRealType centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
+  const auto centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
 
   InputType inputIndexA = inputIndex;
   InputType inputIndexB = inputIndex;
@@ -173,8 +173,8 @@ DiscreteLevelSetImage< TOutput, VDimension >
       inputIndexB[dim1] = inputIndex[dim1];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
+    const auto valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const auto valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
     oHessian[dim1][dim1] = ( valueA + valueB - 2.0 * centerValue )
         * itk::Math::sqr( this->m_NeighborhoodScales[dim1] );
@@ -213,10 +213,10 @@ DiscreteLevelSetImage< TOutput, VDimension >
         inputIndexDa[dim2] = inputIndexA[dim2];
         }
 
-      const OutputRealType valueAa = static_cast< OutputRealType >( this->Evaluate( inputIndexAa ) );
-      const OutputRealType valueBa = static_cast< OutputRealType >( this->Evaluate( inputIndexBa ) );
-      const OutputRealType valueCa = static_cast< OutputRealType >( this->Evaluate( inputIndexCa ) );
-      const OutputRealType valueDa = static_cast< OutputRealType >( this->Evaluate( inputIndexDa ) );
+      const auto valueAa = static_cast< OutputRealType >( this->Evaluate( inputIndexAa ) );
+      const auto valueBa = static_cast< OutputRealType >( this->Evaluate( inputIndexBa ) );
+      const auto valueCa = static_cast< OutputRealType >( this->Evaluate( inputIndexCa ) );
+      const auto valueDa = static_cast< OutputRealType >( this->Evaluate( inputIndexDa ) );
 
       oHessian[dim1][dim2] = oHessian[dim2][dim1] =
           0.25 * ( valueAa - valueBa - valueCa + valueDa )
@@ -244,7 +244,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
 {
   OutputRealType oLaplacian = NumericTraits< OutputRealType >::ZeroValue();
 
-  const OutputRealType centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
+  const auto centerValue = static_cast< OutputRealType >( this->Evaluate( inputIndex ) );
 
   InputType inputIndexA = inputIndex;
   InputType inputIndexB = inputIndex;
@@ -264,8 +264,8 @@ DiscreteLevelSetImage< TOutput, VDimension >
       inputIndexB[dim1] = inputIndex[dim1];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
+    const auto valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const auto valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
     oLaplacian += ( valueA + valueB - 2.0 * centerValue )
         * itk::Math::sqr(this->m_NeighborhoodScales[dim1]);
@@ -326,8 +326,8 @@ DiscreteLevelSetImage< TOutput, VDimension >
       inputIndexB[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
+    const auto valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const auto valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
     const OutputRealType scale = this->m_NeighborhoodScales[dim] / (inputIndexA[dim] - inputIndexB[dim]);
 
     data.Gradient.m_Value[dim] = ( valueA - valueB ) * scale;
@@ -356,7 +356,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
     }
 
   // compute the hessian
-  OutputRealType centerValue = static_cast< OutputRealType >( data.Value.m_Value );
+  auto centerValue = static_cast< OutputRealType >( data.Value.m_Value );
 
   InputType inputIndexA = inputIndex;
   InputType inputIndexB = inputIndex;
@@ -384,8 +384,8 @@ DiscreteLevelSetImage< TOutput, VDimension >
       inputIndexB[dim1] = inputIndex[dim1];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
+    const auto valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const auto valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
     data.Hessian.m_Value[dim1][dim1] =
         ( valueA + valueB - 2.0 * centerValue ) * itk::Math::sqr( this->m_NeighborhoodScales[dim1] );
@@ -438,10 +438,10 @@ DiscreteLevelSetImage< TOutput, VDimension >
         inputIndexDa[dim2] = inputIndexA[dim2];
         }
 
-      const OutputRealType valueAa = static_cast< OutputRealType >( this->Evaluate( inputIndexAa ) );
-      const OutputRealType valueBa = static_cast< OutputRealType >( this->Evaluate( inputIndexBa ) );
-      const OutputRealType valueCa = static_cast< OutputRealType >( this->Evaluate( inputIndexCa ) );
-      const OutputRealType valueDa = static_cast< OutputRealType >( this->Evaluate( inputIndexDa ) );
+      const auto valueAa = static_cast< OutputRealType >( this->Evaluate( inputIndexAa ) );
+      const auto valueBa = static_cast< OutputRealType >( this->Evaluate( inputIndexBa ) );
+      const auto valueCa = static_cast< OutputRealType >( this->Evaluate( inputIndexCa ) );
+      const auto valueDa = static_cast< OutputRealType >( this->Evaluate( inputIndexDa ) );
 
       data.Hessian.m_Value[dim1][dim2] =
           data.Hessian.m_Value[dim2][dim1] =
@@ -516,7 +516,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
     data.Value.m_Computed = true;
     }
 
-  const OutputRealType centerValue = static_cast< OutputRealType >( data.Value.m_Value );
+  const auto centerValue = static_cast< OutputRealType >( data.Value.m_Value );
 
   InputType inputIndexA =inputIndex;
   InputType inputIndexB = inputIndex;
@@ -536,8 +536,8 @@ DiscreteLevelSetImage< TOutput, VDimension >
       inputIndexB[dim1] = inputIndex[dim1];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
-    const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
+    const auto valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const auto valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
     data.Laplacian.m_Value +=
         ( valueA + valueB - 2.0 * centerValue ) * itk::Math::sqr( this->m_NeighborhoodScales[dim1] );
@@ -620,7 +620,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
     data.Value.m_Value = this->Evaluate( inputIndex );
     }
 
-  const OutputRealType centerValue = static_cast< OutputRealType >( data.Value.m_Value );
+  const auto centerValue = static_cast< OutputRealType >( data.Value.m_Value );
 
   InputType inputIndexA = inputIndex;
 
@@ -635,7 +635,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
       inputIndexA[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const auto valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
     dx[dim] = ( valueA - centerValue ) * scale;
@@ -665,8 +665,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
     data.Value.m_Computed = true;
     }
 
-  const OutputRealType centerValue =
-    static_cast< OutputRealType >( data.Value.m_Value );
+  const auto centerValue = static_cast< OutputRealType >( data.Value.m_Value );
 
   InputType inputIndexA = inputIndex;
 
@@ -681,7 +680,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
       inputIndexA[dim] = inputIndex[dim];
       }
 
-    const OutputRealType valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
+    const auto valueA = static_cast< OutputRealType >( this->Evaluate( inputIndexA ) );
     const OutputRealType scale = this->m_NeighborhoodScales[dim];
 
     dx[dim] = ( centerValue - valueA ) * scale;
@@ -710,7 +709,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
 {
   Superclass::CopyInformation( data );
 
-  const Self *LevelSet = dynamic_cast< const Self * >( data );
+  const auto * LevelSet = dynamic_cast< const Self * >( data );
   if ( !LevelSet )
     {
     // pointer could not be cast back down
@@ -727,7 +726,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
 ::Graft( const DataObject* data )
 {
   Superclass::Graft( data );
-  const Self *LevelSet = dynamic_cast< const Self* >( data );
+  const auto * LevelSet = dynamic_cast< const Self* >( data );
 
   if ( !LevelSet )
     {

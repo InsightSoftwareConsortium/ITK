@@ -371,9 +371,9 @@ void PolylineMaskImageFilter< TInputImage, TPolyline, TVector, TOutputImage >
   bool pflag;
 
   // Define background, foreground, and unlabeled pixel values
-  PixelType u_val = static_cast< ProjectionImagePixelType >( 0 );
-  PixelType b_val = static_cast< ProjectionImagePixelType >( 2 );
-  PixelType f_val = static_cast< ProjectionImagePixelType >( 255 );
+  auto u_val = static_cast< ProjectionImagePixelType >( 0 );
+  auto b_val = static_cast< ProjectionImagePixelType >( 2 );
+  auto f_val = static_cast< ProjectionImagePixelType >( 255 );
 
   projectionImagePtr->FillBuffer(u_val);
 

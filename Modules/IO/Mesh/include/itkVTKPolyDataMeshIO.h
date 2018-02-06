@@ -125,8 +125,8 @@ protected:
 
     for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
       {
-      MeshIOBase::CellGeometryType cellType = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
-      unsigned int                 nn = static_cast< unsigned int >( buffer[index++] );
+      auto cellType = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
+      auto nn = static_cast< unsigned int >( buffer[index++] );
       switch ( cellType )
         {
         case VERTEX_CELL:
@@ -452,8 +452,8 @@ protected:
       outputFile << "VERTICES " << numberOfVertices << " " << numberOfVertexIndices << '\n';
       for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
         {
-        MeshIOBase::CellGeometryType cellType = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
-        unsigned int                 nn = static_cast< unsigned int >( buffer[index++] );
+        auto cellType = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
+        auto nn = static_cast< unsigned int >( buffer[index++] );
         if ( cellType == VERTEX_CELL )
           {
           outputFile << nn;
@@ -481,8 +481,8 @@ protected:
       PointIdVector             pointIds;
       for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
         {
-        MeshIOBase::CellGeometryType cellType = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
-        unsigned int                 nn = static_cast< unsigned int >( buffer[index++] );
+        auto cellType = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
+        auto nn = static_cast< unsigned int >( buffer[index++] );
         if ( cellType == LINE_CELL )
           {
           if ( pointIds.size() >= nn )
@@ -530,7 +530,7 @@ protected:
       outputFile << "LINES " << numberOfLines << " " << numberOfLineIndices << '\n';
       for ( SizeValueType ii = 0; ii < polylines->Size(); ++ii )
         {
-        unsigned int nn = static_cast<unsigned int>( polylines->ElementAt(ii).size() );
+        auto nn = static_cast<unsigned int>( polylines->ElementAt(ii).size() );
         outputFile << nn;
         for ( unsigned int jj = 0; jj < nn; ++jj )
           {
@@ -549,8 +549,8 @@ protected:
       outputFile << "POLYGONS " << numberOfPolygons << " " << numberOfPolygonIndices << '\n';
       for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
         {
-        MeshIOBase::CellGeometryType cellType = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
-        unsigned int                 nn = static_cast< unsigned int >( buffer[index++] );
+        auto cellType = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
+        auto nn = static_cast< unsigned int >( buffer[index++] );
         if ( cellType == POLYGON_CELL ||
              cellType == TRIANGLE_CELL ||
              cellType == QUADRILATERAL_CELL )
@@ -589,7 +589,7 @@ protected:
       {
       ExposeMetaData< unsigned int >(metaDic, "numberOfVertexIndices", numberOfVertexIndices);
       outputFile << "VERTICES " << numberOfVertices << " " << numberOfVertexIndices << '\n';
-      unsigned int *data  = new unsigned int[numberOfVertexIndices];
+      auto * data = new unsigned int[numberOfVertexIndices];
       ReadCellsBuffer(buffer, data);
       itk::ByteSwapper< unsigned int >::SwapWriteRangeFromSystemToBigEndian(data, numberOfVertexIndices, &outputFile);
       outputFile << "\n";
@@ -607,8 +607,8 @@ protected:
       PointIdVector             pointIds;
       for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
         {
-        MeshIOBase::CellGeometryType cellType = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
-        unsigned int                 nn = static_cast< unsigned int >( buffer[index++] );
+        auto cellType = static_cast< MeshIOBase::CellGeometryType >( static_cast< int >( buffer[index++] ) );
+        auto nn = static_cast< unsigned int >( buffer[index++] );
         if ( cellType == LINE_CELL )
           {
           if ( pointIds.size() >= nn )
@@ -655,11 +655,11 @@ protected:
       EncapsulateMetaData< unsigned int >(metaDic, "numberOfLineIndices", numberOfLineIndices);
 
       outputFile << "LINES " << numberOfLines << " " << numberOfLineIndices << '\n';
-      unsigned int *data  = new unsigned int[numberOfLineIndices];
+      auto * data = new unsigned int[numberOfLineIndices];
       unsigned long outputIndex = 0;
       for ( SizeValueType ii = 0; ii < polylines->Size(); ++ii )
         {
-        unsigned int nn = static_cast<unsigned int>( polylines->ElementAt(ii).size() );
+        auto nn = static_cast<unsigned int>( polylines->ElementAt(ii).size() );
         data[outputIndex++] = nn;
         for ( unsigned int jj = 0; jj < nn; ++jj )
           {
@@ -679,7 +679,7 @@ protected:
       {
       ExposeMetaData< unsigned int >(metaDic, "numberOfPolygonIndices", numberOfPolygonIndices);
       outputFile << "POLYGONS " << numberOfPolygons << " " << numberOfPolygonIndices << '\n';
-      unsigned int *data  = new unsigned int[numberOfPolygonIndices];
+      auto * data = new unsigned int[numberOfPolygonIndices];
       ReadCellsBuffer(buffer, data);
       itk::ByteSwapper< unsigned int >::SwapWriteRangeFromSystemToBigEndian(data, numberOfPolygonIndices, &outputFile);
       outputFile << "\n";
@@ -1107,7 +1107,7 @@ protected:
   {
     outputFile << numberOfPixelComponents << "\n";
     SizeValueType  numberOfElements = numberOfPixelComponents * numberOfPixels;
-    unsigned char *data = new unsigned char[numberOfElements];
+    auto * data = new unsigned char[numberOfElements];
     for ( SizeValueType ii = 0; ii < numberOfElements; ++ii )
       {
       data[ii] = static_cast< unsigned char >( buffer[ii] );
@@ -1133,7 +1133,7 @@ protected:
       for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
         {
         inputIndex++;
-        unsigned int nn = static_cast< unsigned int >( input[inputIndex++] );
+        auto nn = static_cast< unsigned int >( input[inputIndex++] );
         output[outputIndex++] = nn;
         for ( unsigned int jj = 0; jj < nn; jj++ )
           {

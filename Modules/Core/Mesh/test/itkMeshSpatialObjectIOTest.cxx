@@ -246,7 +246,7 @@ int itkMeshSpatialObjectIOTest(int argc, char* argv[])
       }
 
     i =0;
-    MeshType::PointCellLinksContainer::const_iterator it = (*it_celllinks)->Value().begin();
+    auto it = (*it_celllinks)->Value().begin();
     while(it != (*it_celllinks)->Value().end())
       {
       if( (*it) != i)

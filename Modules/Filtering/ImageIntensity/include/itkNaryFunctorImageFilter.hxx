@@ -51,8 +51,7 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
     {
     return;
     }
-  const unsigned int numberOfInputImages =
-    static_cast< unsigned int >( this->GetNumberOfIndexedInputs() );
+  const auto numberOfInputImages = static_cast< unsigned int >( this->GetNumberOfIndexedInputs() );
 
   using ImageScanlineConstIteratorType = ImageScanlineConstIterator< TInputImage >;
   std::vector< ImageScanlineConstIteratorType * >   inputItrVector;
@@ -74,7 +73,7 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
   const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
   ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
 
-  const unsigned int numberOfValidInputImages = static_cast<const unsigned int>( inputItrVector.size() );
+  const auto numberOfValidInputImages = static_cast<const unsigned int>( inputItrVector.size() );
 
   if ( numberOfValidInputImages == 0 )
     {

@@ -193,8 +193,7 @@ public:
         }
       else
         {
-        typename std::map< int, typename VisitorType::Pointer >::iterator
-        pos = m_UserDefined.find(id);
+        auto pos = m_UserDefined.find(id);
         if ( pos != m_UserDefined.end() )
           {
           return ( *pos ).second;

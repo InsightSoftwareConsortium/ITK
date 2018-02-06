@@ -283,7 +283,7 @@ void BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
     // of the file in this case, since byte_format = 1 seems to be the default
     file.seekg(0, std::ios::end);
     const SizeValueType gcount = static_cast< SizeValueType >( file.tellg() ) - BIORAD_HEADER_LENGTH;
-    const SizeValueType hsize = static_cast< SizeValueType >( h.nx * h.ny * h.npic );
+    const auto hsize = static_cast< SizeValueType >( h.nx * h.ny * h.npic );
     if ( gcount == hsize )
       {
       itkWarningMacro(
@@ -507,10 +507,10 @@ void BioRadImageIO::Write(const void *buffer)
   file.write( (char *)p, BIORAD_HEADER_LENGTH );
 
   //preparation for writing buffer:
-  const SizeValueType numberOfBytes      = static_cast< SizeValueType >( this->GetImageSizeInBytes() );
-  const SizeValueType numberOfComponents = static_cast< SizeValueType >( this->GetImageSizeInComponents() );
+  const auto numberOfBytes      = static_cast< SizeValueType >( this->GetImageSizeInBytes() );
+  const auto numberOfComponents = static_cast< SizeValueType >( this->GetImageSizeInComponents() );
 
-  char *tempmemory = new char[numberOfBytes];
+  auto * tempmemory = new char[numberOfBytes];
   memcpy(tempmemory, buffer, numberOfBytes);
   if ( this->GetComponentType() == USHORT )
     {

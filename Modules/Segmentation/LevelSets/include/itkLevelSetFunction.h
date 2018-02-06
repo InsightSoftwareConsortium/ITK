@@ -199,7 +199,7 @@ public:
    * should receive its own global data struct. */
   void * GetGlobalDataPointer() const override
   {
-    GlobalDataStruct *ans = new GlobalDataStruct();
+    auto * ans = new GlobalDataStruct();
 
     ans->m_MaxAdvectionChange   = NumericTraits< ScalarValueType >::ZeroValue();
     ans->m_MaxPropagationChange = NumericTraits< ScalarValueType >::ZeroValue();

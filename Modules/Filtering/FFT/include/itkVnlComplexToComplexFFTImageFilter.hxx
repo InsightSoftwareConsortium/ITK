@@ -61,7 +61,7 @@ VnlComplexToComplexFFTImageFilter< TImage >
   ImageAlgorithm::Copy< ImageType, ImageType >( input, output, bufferedRegion, bufferedRegion );
 
   using VclPixelType = std::complex< typename PixelType::value_type >;
-  VclPixelType * outputBuffer = static_cast< VclPixelType * >( output->GetBufferPointer() );
+  auto * outputBuffer = static_cast< VclPixelType * >( output->GetBufferPointer() );
 
   // call the proper transform, based on compile type template parameter
   VnlFFTCommon::VnlFFTTransform< Image< typename PixelType::value_type , ImageDimension > > vnlfft( imageSize );

@@ -60,8 +60,8 @@ void ThresholdSegmentationLevelSetFunction< TImageType, TFeatureImageType >
   this->GetSpeedImage()->CopyInformation( this->GetFeatureImage() );
 
   // Calculate the speed image
-  ScalarValueType upper_threshold = static_cast< ScalarValueType >( m_UpperThreshold );
-  ScalarValueType lower_threshold = static_cast< ScalarValueType >( m_LowerThreshold );
+  auto upper_threshold = static_cast< ScalarValueType >( m_UpperThreshold );
+  auto lower_threshold = static_cast< ScalarValueType >( m_LowerThreshold );
   ScalarValueType mid = ( ( upper_threshold - lower_threshold ) / 2.0 ) + lower_threshold;
   ScalarValueType threshold;
   for ( fit.GoToBegin(), sit.GoToBegin(); !fit.IsAtEnd(); ++sit, ++fit )

@@ -125,7 +125,7 @@ MeshFileWriter< TInputMesh >
       {
       for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkMeshIOBase") )
         {
-        MeshIOBase *io = dynamic_cast< MeshIOBase * >( allobject.GetPointer() );
+        auto * io = dynamic_cast< MeshIOBase * >( allobject.GetPointer() );
         msg << "    " << io->GetNameOfClass() << std::endl;
         }
       }
@@ -139,7 +139,7 @@ MeshFileWriter< TInputMesh >
 
   // NOTE: this const_cast<> is due to the lack of const-correctness
   // of the ProcessObject.
-  InputMeshType *nonConstInput = const_cast< InputMeshType * >( input );
+  auto * nonConstInput = const_cast< InputMeshType * >( input );
 
   // Update the input.
   // Streaming is not supported at this time.
@@ -258,7 +258,7 @@ MeshFileWriter< TInputMesh >
 
   itkDebugMacro(<< "Writing points: " << m_FileName);
   SizeValueType pointsBufferSize = input->GetNumberOfPoints() * TInputMesh::PointDimension;
-  typename TInputMesh::PointType::ValueType * buffer = new typename TInputMesh::PointType::ValueType[pointsBufferSize];
+  auto * buffer = new typename TInputMesh::PointType::ValueType[pointsBufferSize];
   CopyPointsToBuffer(buffer);
   m_MeshIO->WritePoints(buffer);
   delete[] buffer;
@@ -272,7 +272,7 @@ MeshFileWriter< TInputMesh >
   itkDebugMacro(<< "Writing cells: " << m_FileName);
 
   SizeValueType cellsBufferSize = m_MeshIO->GetCellBufferSize();
-  typename TInputMesh::PointIdentifier * buffer = new typename TInputMesh::PointIdentifier[cellsBufferSize];
+  auto * buffer = new typename TInputMesh::PointIdentifier[cellsBufferSize];
   CopyCellsToBuffer(buffer);
   m_MeshIO->WriteCells(buffer);
   delete[] buffer;
@@ -294,7 +294,7 @@ MeshFileWriter< TInputMesh >
       input->GetPointData()->ElementAt(0) );
 
     using ValueType = typename itk::NumericTraits< typename TInputMesh::PixelType >::ValueType;
-    ValueType * buffer = new ValueType[numberOfComponents];
+    auto * buffer = new ValueType[numberOfComponents];
     CopyPointDataToBuffer(buffer);
     m_MeshIO->WritePointData(buffer);
     delete[] buffer;
@@ -317,7 +317,7 @@ MeshFileWriter< TInputMesh >
       input->GetCellData()->ElementAt(0) );
 
     using ValueType = typename itk::NumericTraits< typename TInputMesh::CellPixelType >::ValueType;
-    ValueType * buffer = new ValueType[numberOfComponents];
+    auto * buffer = new ValueType[numberOfComponents];
     CopyCellDataToBuffer(buffer);
     m_MeshIO->WriteCellData(buffer);
     delete[] buffer;

@@ -39,7 +39,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
   // constant for a coocurrence matrix.
   constexpr unsigned int measurementVectorSize = 2;
 
-  HistogramType *output = const_cast< HistogramType * >( this->GetOutput() );
+  auto * output = const_cast< HistogramType * >( this->GetOutput() );
 
   output->SetMeasurementVectorSize(measurementVectorSize);
 
@@ -119,8 +119,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
                                        THistogramFrequencyContainer >
 ::GetOutput() const
 {
-  const HistogramType *output =
-    static_cast< const HistogramType * >( this->ProcessObject::GetOutput(0) );
+  const auto * output = static_cast< const HistogramType * >( this->ProcessObject::GetOutput(0) );
 
   return output;
 }
@@ -140,8 +139,7 @@ void
 ScalarImageToCooccurrenceMatrixFilter< TImageType,
                                        THistogramFrequencyContainer >::GenerateData(void)
 {
-  HistogramType *output =
-    static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
+  auto * output = static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
 
   const ImageType *input = this->GetInput();
 
@@ -210,8 +208,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
 
   const ImageType *input = this->GetInput();
 
-  HistogramType *output =
-    static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
+  auto * output = static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
 
   using NeighborhoodIteratorType = ConstNeighborhoodIterator< ImageType >;
   NeighborhoodIteratorType neighborIt;
@@ -277,8 +274,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
 
   const ImageType *input = this->GetInput();
 
-  HistogramType *output =
-    static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
+  auto * output = static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
 
   // Iterate over all of those pixels and offsets, adding each
   // co-occurrence pair to the histogram
@@ -352,8 +348,7 @@ void
 ScalarImageToCooccurrenceMatrixFilter< TImageType,
                                        THistogramFrequencyContainer >::NormalizeHistogram(void)
 {
-  HistogramType *output =
-    static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
+  auto * output = static_cast< HistogramType * >( this->ProcessObject::GetOutput(0) );
 
   typename HistogramType::AbsoluteFrequencyType totalFrequency =
     output->GetTotalFrequency();

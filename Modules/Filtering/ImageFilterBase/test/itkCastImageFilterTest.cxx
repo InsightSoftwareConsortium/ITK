@@ -88,7 +88,7 @@ bool TestCastFromTo()
     {
     TInputPixelType  inValue  = it.Value();
     TOutputPixelType outValue = ot.Value();
-    TOutputPixelType expectedValue = static_cast< TOutputPixelType >( inValue );
+    auto expectedValue = static_cast< TOutputPixelType >( inValue );
 
     /** Warning:
      * expectedValue == static_cast< TOutputPixelType( inValue ) is

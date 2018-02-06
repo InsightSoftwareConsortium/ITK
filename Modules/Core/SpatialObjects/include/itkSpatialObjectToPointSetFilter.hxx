@@ -84,8 +84,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 
   using PointIdentifier = typename OutputPointSetType::PointIdentifier;
 
-  const PointBasedSpatialObjectType * inputPointSO =
-    dynamic_cast< const PointBasedSpatialObjectType * >( inputObject );
+  const auto * inputPointSO = dynamic_cast< const PointBasedSpatialObjectType * >( inputObject );
 
   // Look for the number of points to allocate
   PointIdentifier numberOfPoints = 0;
@@ -99,8 +98,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 
   for (; it != children->end(); it++ )
     {
-    const PointBasedSpatialObjectType * pointSO =
-      dynamic_cast< const PointBasedSpatialObjectType * >( it->GetPointer() );
+    const auto * pointSO = dynamic_cast< const PointBasedSpatialObjectType * >( it->GetPointer() );
     if ( pointSO )
       {
       numberOfPoints += pointSO->GetNumberOfPoints() / m_SamplingFactor;
@@ -140,8 +138,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 
   for (; it != children->end(); it++ )
     {
-    const PointBasedSpatialObjectType * pointSO =
-      dynamic_cast< const PointBasedSpatialObjectType * >( it->GetPointer() );
+    const auto * pointSO = dynamic_cast< const PointBasedSpatialObjectType * >( it->GetPointer() );
     if ( pointSO )
       {
       n = pointSO->GetNumberOfPoints();

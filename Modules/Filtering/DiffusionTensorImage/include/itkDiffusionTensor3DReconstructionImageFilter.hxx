@@ -117,8 +117,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
 
   if( m_GradientImageTypeEnumeration == GradientIsInManyImages )
     {
-    ReferenceImageType *refImage =
-      static_cast<ReferenceImageType *>(this->ProcessObject::GetInput(0));
+    auto * refImage = static_cast<ReferenceImageType *>(this->ProcessObject::GetInput(0));
     refSize =
       refImage->GetLargestPossibleRegion().GetSize();
     refOrigin = refImage->GetOrigin();
@@ -127,8 +126,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
     }
   else if( m_GradientImageTypeEnumeration == GradientIsInASingleImage )
     {
-    GradientImagesType *gradientImage =
-      static_cast< GradientImagesType * >(this->ProcessObject::GetInput(0) );
+    auto * gradientImage = static_cast< GradientImagesType * >(this->ProcessObject::GetInput(0) );
     refSize =
       gradientImage->GetLargestPossibleRegion().GetSize();
     refOrigin = gradientImage->GetOrigin();
@@ -225,7 +223,7 @@ void DiffusionTensor3DReconstructionImageFilter< TReferenceImagePixelType,
         itkExceptionMacro(<< "Invalid dynamic_cast");
         }
 
-      GradientIteratorType *git = new GradientIteratorType(
+      auto * git = new GradientIteratorType(
         gradientImagePointer, outputRegionForThread);
       git->GoToBegin();
       gradientItContainer.push_back(git);

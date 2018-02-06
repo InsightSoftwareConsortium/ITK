@@ -150,13 +150,13 @@ inline void AddToTransformList(typename TInputTransformType::ConstPointer &trans
     compositeTransformList.push_back( outputComposite.GetPointer() );
 
     // Now we iterate through input list and convert each sub transform to a new transform with requested precision type.
-    typename InputConstTransformListType::iterator it = inputTransformList.begin();
+    auto it = inputTransformList.begin();
     // composite transform is the first transform of the input transform list
     ++it; // skip the composite transform
     for(; it != inputTransformList.end(); ++it)
        {
        // get the input sub transform
-       const InputTransformType *inSub = dynamic_cast< const InputTransformType *>( (*it).GetPointer() );
+       const auto * inSub = dynamic_cast< const InputTransformType *>( (*it).GetPointer() );
        // convert each sub transform and push them to the output transform list
        std::string inSubName = inSub->GetTransformTypeAsString();
        OutputTransformPointer convertedSub = IOhelper::CreateNewTypeTransform( inSubName );

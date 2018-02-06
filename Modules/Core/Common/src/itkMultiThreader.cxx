@@ -425,9 +425,7 @@ MultiThreader
 ::SingleMethodProxy(void *arg)
 {
   // grab the ThreadInfoStruct originally prescribed
-  MultiThreader::ThreadInfoStruct
-  * threadInfoStruct =
-    reinterpret_cast<MultiThreader::ThreadInfoStruct *>( arg );
+  auto * threadInfoStruct = reinterpret_cast<MultiThreader::ThreadInfoStruct *>( arg );
 
   // execute the user specified threader callback, catching any exceptions
   try

@@ -231,7 +231,7 @@ SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
   typename NormalVectorFilterType::Pointer NormalVectorFilter;
   typename NormalVectorFunctionType::Pointer NormalVectorFunction;
 
-  ValueType temp = static_cast< ValueType >( ImageDimension );
+  auto temp = static_cast< ValueType >( ImageDimension );
 
   NormalVectorFilter    = NormalVectorFilterType::New();
   NormalVectorFunction = NormalVectorFunctionType::New();

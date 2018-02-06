@@ -97,7 +97,7 @@ int itkMathRoundProfileTest1( int, char *[] )
     //
     //
     IntArrayType::const_iterator  outItr1src = output1.begin();
-    IntArrayType::iterator        outItr2dst = output2.begin();
+    auto outItr2dst = output2.begin();
 
     IntArrayType::const_iterator  outEnd1 = output1.end();
 
@@ -113,7 +113,7 @@ int itkMathRoundProfileTest1( int, char *[] )
     ArrayType::const_iterator  inpItr   = input.begin();
     ArrayType::const_iterator  inputEnd = input.end();
 
-    IntArrayType::iterator        outItr1nc = output1.begin();
+    auto outItr1nc = output1.begin();
 
     //
     //  Count the time of rounding plus storing in container
@@ -131,7 +131,7 @@ int itkMathRoundProfileTest1( int, char *[] )
     inpItr   = input.begin();
     inputEnd = input.end();
 
-    IntArrayType::iterator        outItr3nc = output3.begin();
+    auto outItr3nc = output3.begin();
 
     //
     //  Count the time of rounding plus storing in container
@@ -149,7 +149,7 @@ int itkMathRoundProfileTest1( int, char *[] )
     inpItr   = input.begin();
     inputEnd = input.end();
 
-    IntArrayType::iterator        outItr4nc = output4.begin();
+    auto outItr4nc = output4.begin();
 
     //
     //  Count the time of rounding plus storing in container
@@ -169,7 +169,7 @@ int itkMathRoundProfileTest1( int, char *[] )
     inpItr   = input.begin();
     inputEnd = input.end();
 
-    IntArrayType::iterator        outItr = output2.begin();
+    auto outItr = output2.begin();
 
     //
     //  Count the time of rounding plus storing in container

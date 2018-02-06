@@ -225,7 +225,7 @@ public:
         return false;
         }
       // bound is the last valid pixel location
-      const TCoordRepType bound = static_cast< TCoordRepType >(
+      const auto bound = static_cast< TCoordRepType >(
         m_Index[i] + m_Size[i] - 0.5 );
 
       /* Note for NaN: test using negation of a positive test in order

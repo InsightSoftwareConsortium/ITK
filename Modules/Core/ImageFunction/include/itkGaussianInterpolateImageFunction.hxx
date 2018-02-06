@@ -107,7 +107,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   ImageRegion<ImageDimension> region;
   for( unsigned int d = 0; d < ImageDimension; d++ )
     {
-    int boundingBoxSize = static_cast<int>(
+    auto boundingBoxSize = static_cast<int>(
       this->m_BoundingBoxEnd[d] - this->m_BoundingBoxStart[d] + 0.5 );
     int begin = std::max( 0, static_cast<int>( std::floor( cindex[d] -
       this->m_BoundingBoxStart[d] - this->m_CutOffDistance[d] ) ) );
@@ -184,7 +184,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   bool evaluateGradient ) const
 {
   // Determine the range of voxels along the line where to evaluate erf
-  int boundingBoxSize = static_cast<int>(
+  auto boundingBoxSize = static_cast<int>(
     this->m_BoundingBoxEnd[dimension] - this->m_BoundingBoxStart[dimension] +
     0.5 );
   int begin = std::max( 0, static_cast<int>( std::floor( cindex -

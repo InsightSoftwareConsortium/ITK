@@ -59,7 +59,7 @@ LevelSetEvolutionComputeIterationThreader< LevelSetDenseImage< TImage >, Threade
     const size_t numberOfLevelSets = idList->size();
     std::vector< LevelSetImageType * > levelSetUpdateImages( numberOfLevelSets );
     std::vector< TermContainerType * > termContainers( numberOfLevelSets );
-    IdListConstIterator idListIt = idList->begin();
+    auto idListIt = idList->begin();
     unsigned int idListIdx = 0;
     while( idListIt != idList->end() )
       {
@@ -142,7 +142,7 @@ LevelSetEvolutionComputeIterationThreader<
 
       //itkAssertInDebugOrThrowInReleaseMacro( !idList.empty() );
 
-      for( IdListConstIterator idListIt = idList.begin(); idListIt != idList.end(); ++idListIt )
+      for( auto idListIt = idList.begin(); idListIt != idList.end(); ++idListIt )
         {
         typename LevelSetType::Pointer levelSetUpdate = this->m_Associate->m_UpdateBuffer->GetLevelSet( *idListIt - 1 );
 
@@ -217,8 +217,7 @@ LevelSetEvolutionComputeIterationThreader<
 
     termContainer->ComputeRequiredData( inputIndex, characteristics );
 
-    const LevelSetOutputType temp_update =
-        static_cast< LevelSetOutputType >( termContainer->Evaluate( inputIndex, characteristics ) );
+    const auto temp_update = static_cast< LevelSetOutputType >( termContainer->Evaluate( inputIndex, characteristics ) );
 
     this->m_NodePairsPerThread[threadId].push_back( NodePairType( levelsetIndex, temp_update ) );
 

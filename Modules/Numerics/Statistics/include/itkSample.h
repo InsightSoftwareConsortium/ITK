@@ -161,7 +161,7 @@ public:
   {
     this->Superclass::Graft(thatObject);
 
-    const Self *thatConst = dynamic_cast< const Self * >( thatObject );
+    const auto * thatConst = dynamic_cast< const Self * >( thatObject );
     if ( thatConst )
       {
       this->SetMeasurementVectorSize( thatConst->GetMeasurementVectorSize() );

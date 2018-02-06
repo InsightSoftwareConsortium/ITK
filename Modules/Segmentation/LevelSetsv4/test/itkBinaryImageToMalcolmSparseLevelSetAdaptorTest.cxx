@@ -97,7 +97,7 @@ int itkBinaryImageToMalcolmSparseLevelSetAdaptorTest( int argc, char* argv[] )
     }
 
   LevelSetType::LayerType layer = sparseLevelSet->GetLayer( LevelSetType::ZeroLayer() );
-  LevelSetType::LayerIterator lIt = layer.begin();
+  auto lIt = layer.begin();
 
   while( lIt != layer.end() )
     {

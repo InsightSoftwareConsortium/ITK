@@ -111,9 +111,9 @@ CumulativeGaussianOptimizer
 
   int          sampledGaussianArraySize = sampledGaussianArray->GetNumberOfElements();
   int          extendedArraySize = 3 * sampledGaussianArraySize;
-  MeasureType *extendedArray = new MeasureType();
+  auto * extendedArray = new MeasureType();
   extendedArray->SetSize(extendedArraySize);
-  MeasureType *extendedArrayCopy = new MeasureType();
+  auto * extendedArrayCopy = new MeasureType();
   extendedArrayCopy->SetSize(extendedArraySize);
 
   double averageSumOfSquaredDifferences = m_DifferenceTolerance;
@@ -270,10 +270,10 @@ CumulativeGaussianOptimizer
   int sampledGaussianArraySize = cumGaussianArraySize;
   //  int cumGaussianArrayCopySize = cumGaussianArraySize;
 
-  MeasureType *sampledGaussianArray = new MeasureType();
+  auto * sampledGaussianArray = new MeasureType();
   sampledGaussianArray->SetSize(sampledGaussianArraySize);
 
-  MeasureType *cumGaussianArrayCopy = new MeasureType();
+  auto * cumGaussianArrayCopy = new MeasureType();
   cumGaussianArrayCopy->SetSize(cumGaussianArraySize);
 
   // Make a copy of the Cumulative Gaussian sampled data array.
@@ -282,7 +282,7 @@ CumulativeGaussianOptimizer
     cumGaussianArrayCopy->put( j, m_CumulativeGaussianArray->get(j) );
     }
   // Take the derivative of the data array resulting in a Gaussian array.
-  MeasureType *derivative = new MeasureType();
+  auto * derivative = new MeasureType();
   derivative->SetSize(cumGaussianArraySize - 1);
 
   for ( int i = 1; i < (int)( derivative->GetNumberOfElements() + 1 ); i++ )
@@ -321,7 +321,7 @@ CumulativeGaussianOptimizer
     }
   // Calculate the mean, standard deviation, lower and upper asymptotes of the
   // sampled Cumulative Gaussian.
-  int    floorOfMean = (int)( m_ComputedMean );
+  auto floorOfMean = (int)( m_ComputedMean );
   double yFloorOfMean = sampledGaussianArray->get(floorOfMean);
   double yCeilingOfMean = sampledGaussianArray->get(floorOfMean + 1);
   double y = ( m_ComputedMean - floorOfMean ) * ( yCeilingOfMean - yFloorOfMean ) + yFloorOfMean;

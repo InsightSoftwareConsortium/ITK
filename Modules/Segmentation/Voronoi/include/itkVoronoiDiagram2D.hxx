@@ -58,7 +58,7 @@ VoronoiDiagram2D< TCoordRepType >
 ::SetSeeds(int num,  SeedsIterator begin)
 {
   m_Seeds.clear();
-  SeedsIterator ii(begin);
+  auto ii(begin);
   for ( int i = 0; i < num; ++i )
     {
     m_Seeds.push_back(*ii++);

@@ -236,7 +236,7 @@ static int oneTest(const char *const goodname,const char *const badname)
   try
     {
     const typename itk::TransformFileReaderTemplate<TParametersValueType>::TransformListType * list = reader->GetTransformList();
-    typename itk::TransformFileReaderTemplate<TParametersValueType>::TransformListType::const_iterator lit = list->begin();
+    auto lit = list->begin();
     while ( lit != list->end() )
       {
       (*lit)->Print ( std::cout );

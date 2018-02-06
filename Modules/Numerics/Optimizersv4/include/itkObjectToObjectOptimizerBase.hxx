@@ -152,7 +152,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
        * within a tolerance, to allow for automatically estimated scales
        * that may not be exactly 1.0 when in priciniple they should be. */
       SValueType difference = std::fabs( NumericTraits<SValueType>::OneValue() - this->m_Scales[i] );
-      SValueType tolerance = static_cast<SValueType>( 0.01 );
+      auto tolerance = static_cast<SValueType>( 0.01 );
       if( difference > tolerance  )
         {
         this->m_ScalesAreIdentity = false;
@@ -183,7 +183,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
     for( SizeType i=0; i < this->m_Weights.Size(); i++ )
       {
       SValueType difference = std::fabs( NumericTraits<SValueType>::OneValue() - this->m_Weights[i] );
-      SValueType tolerance = static_cast<SValueType>( 1e-4 );
+      auto tolerance = static_cast<SValueType>( 1e-4 );
       if( difference > tolerance  )
         {
         this->m_WeightsAreIdentity = false;

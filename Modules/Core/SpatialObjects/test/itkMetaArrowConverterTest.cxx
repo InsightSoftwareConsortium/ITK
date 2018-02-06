@@ -103,7 +103,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   itkParent->AddSpatialObject(itkArrow);
 
   // set up metaArrow
-  MetaArrow* metaArrow = new MetaArrow(Dimensions);
+  auto * metaArrow = new MetaArrow(Dimensions);
   metaArrow->Length((float)length);
   metaArrow->Position((const double*)mPosition);
   metaArrow->Direction((const double*)mDirection);
@@ -117,7 +117,7 @@ int itkMetaArrowConverterTest(int ac, char* av[])
   //
   // test itk to metaArrow
   //
-  MetaArrow* newMetaArrow = dynamic_cast<MetaArrow *>(converter->SpatialObjectToMetaObject(itkArrow));
+  auto * newMetaArrow = dynamic_cast<MetaArrow *>(converter->SpatialObjectToMetaObject(itkArrow));
   if(newMetaArrow == nullptr)
     {
     itkGenericExceptionMacro(<< "Failed to downcast from MetaObject to MetaArrow");

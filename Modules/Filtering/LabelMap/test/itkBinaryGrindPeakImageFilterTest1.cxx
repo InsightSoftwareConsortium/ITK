@@ -68,13 +68,11 @@ int itkBinaryGrindPeakImageFilterTest1( int argc, char * argv[] )
     TEST_SET_GET_VALUE( false, binaryGrindPeakImageFilter->GetFullyConnected() );
     }
 
-  BinaryGrindPeakImageFilterType::InputImagePixelType foregroundValue =
-    static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( atof( argv[4] ) );
+  auto foregroundValue = static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( atof( argv[4] ) );
   binaryGrindPeakImageFilter->SetForegroundValue( foregroundValue );
   TEST_SET_GET_VALUE( foregroundValue, binaryGrindPeakImageFilter->GetForegroundValue() );
 
-  BinaryGrindPeakImageFilterType::InputImagePixelType backgroundValue =
-    static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( atoi( argv[5] ) );
+  auto backgroundValue = static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( atoi( argv[5] ) );
   binaryGrindPeakImageFilter->SetBackgroundValue( backgroundValue );
   TEST_SET_GET_VALUE( backgroundValue, binaryGrindPeakImageFilter->GetBackgroundValue() );
 

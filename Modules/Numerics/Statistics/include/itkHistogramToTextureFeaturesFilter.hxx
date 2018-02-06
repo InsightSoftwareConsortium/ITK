@@ -78,8 +78,7 @@ HistogramToTextureFeaturesFilter< THistogram >::GenerateData(void)
 
   //Normalize the absolute frequencies and populate the relative frequency
   //container
-  TotalRelativeFrequencyType totalFrequency =
-    static_cast< TotalRelativeFrequencyType >( inputHistogram->GetTotalFrequency() );
+  auto totalFrequency = static_cast< TotalRelativeFrequencyType >( inputHistogram->GetTotalFrequency() );
 
   m_RelativeFrequencyContainer.clear();
 
@@ -157,36 +156,28 @@ HistogramToTextureFeaturesFilter< THistogram >::GenerateData(void)
   haralickCorrelation = ( haralickCorrelation - marginalMean * marginalMean )
                         / marginalDevSquared;
 
-  MeasurementObjectType *energyOutputObject =
-    static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(0) );
+  auto * energyOutputObject = static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(0) );
   energyOutputObject->Set(energy);
 
-  MeasurementObjectType *entropyOutputObject =
-    static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(1) );
+  auto * entropyOutputObject = static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(1) );
   entropyOutputObject->Set(entropy);
 
-  MeasurementObjectType *correlationOutputObject =
-    static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(2) );
+  auto * correlationOutputObject = static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(2) );
   correlationOutputObject->Set(correlation);
 
-  MeasurementObjectType *inverseDifferenceMomentOutputObject =
-    static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(3) );
+  auto * inverseDifferenceMomentOutputObject = static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(3) );
   inverseDifferenceMomentOutputObject->Set(inverseDifferenceMoment);
 
-  MeasurementObjectType *inertiaOutputObject =
-    static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(4) );
+  auto * inertiaOutputObject = static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(4) );
   inertiaOutputObject->Set(inertia);
 
-  MeasurementObjectType *clusterShadeOutputObject =
-    static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(5) );
+  auto * clusterShadeOutputObject = static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(5) );
   clusterShadeOutputObject->Set(clusterShade);
 
-  MeasurementObjectType *clusterProminenceOutputObject =
-    static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(6) );
+  auto * clusterProminenceOutputObject = static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(6) );
   clusterProminenceOutputObject->Set(clusterProminence);
 
-  MeasurementObjectType *haralickCorrelationOutputObject =
-    static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(7) );
+  auto * haralickCorrelationOutputObject = static_cast< MeasurementObjectType * >( this->ProcessObject::GetOutput(7) );
   haralickCorrelationOutputObject->Set(haralickCorrelation);
 }
 
@@ -207,7 +198,7 @@ HistogramToTextureFeaturesFilter< THistogram >::ComputeMeansAndVariances(double 
 
   // Initialize everything
   typename HistogramType::SizeValueType binsPerAxis = inputHistogram->GetSize(0);
-  double *marginalSums = new double[binsPerAxis];
+  auto * marginalSums = new double[binsPerAxis];
   for ( double *ms_It = marginalSums;
         ms_It < marginalSums + binsPerAxis; ms_It++ )
     {

@@ -44,7 +44,7 @@ int itkDirectoryTest(int argc, char *argv[])
     }
 
   // This should fail
-  unsigned int fileOutOfRange = static_cast<unsigned int>( directory->GetNumberOfFiles());
+  auto fileOutOfRange = static_cast<unsigned int>( directory->GetNumberOfFiles());
   if (directory->GetFile( fileOutOfRange) )
     {
     std::cerr << "directory->GetFile(directory->GetNumberOfFiles())"

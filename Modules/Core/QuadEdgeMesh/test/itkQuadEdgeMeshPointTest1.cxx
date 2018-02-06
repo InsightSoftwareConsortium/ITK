@@ -154,7 +154,7 @@ int itkQuadEdgeMeshPointTest1( int , char* [] )
     return EXIT_FAILURE;
     }
 
-  QuadEdgeType * edge1 = new QuadEdgeType;
+  auto * edge1 = new QuadEdgeType;
 
   p6.SetEdge( edge1 );
 
@@ -165,7 +165,7 @@ int itkQuadEdgeMeshPointTest1( int , char* [] )
     return EXIT_FAILURE;
     }
 
-  QuadEdgeType * edge2 = new QuadEdgeType;
+  auto * edge2 = new QuadEdgeType;
 
   p6.SetEdge( edge2 );
 

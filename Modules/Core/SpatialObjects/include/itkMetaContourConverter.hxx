@@ -43,7 +43,7 @@ typename MetaContourConverter< NDimensions >::SpatialObjectPointer
 MetaContourConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const ContourMetaObjectType *contourMO = dynamic_cast<const MetaContour *>(mo);
+  const auto * contourMO = dynamic_cast<const MetaContour *>(mo);
   if(contourMO == nullptr)
     {
     itkExceptionMacro(<< "Can't downcast MetaObject to MetaContour");
@@ -74,8 +74,7 @@ MetaContourConverter< NDimensions >
   // First the control points
   using ControlPointType = typename ContourSpatialObjectType::ControlPointType;
 
-  typename ContourMetaObjectType::ControlPointListType::const_iterator itCP =
-    contourMO->GetControlPoints().begin();
+  auto itCP = contourMO->GetControlPoints().begin();
 
   for ( unsigned int identifier = 0; identifier < contourMO->GetControlPoints().size(); identifier++ )
     {
@@ -119,8 +118,7 @@ MetaContourConverter< NDimensions >
 
   // Then the interpolated points
   using InterpolatedPointType = typename ContourSpatialObjectType::InterpolatedPointType;
-  typename ContourMetaObjectType::InterpolatedPointListType::const_iterator
-    itI = contourMO->GetInterpolatedPoints().begin();
+  auto itI = contourMO->GetInterpolatedPoints().begin();
 
   for ( unsigned int identifier = 0; identifier < contourMO->GetInterpolatedPoints().size(); identifier++ )
     {
@@ -163,7 +161,7 @@ MetaContourConverter< NDimensions >
     {
     itkExceptionMacro(<< "Can't downcast SpatialObject to ContourSpatialObject");
     }
-  MetaContour *contourMO = new MetaContour(NDimensions);
+  auto * contourMO = new MetaContour(NDimensions);
 
 
   // fill in the control points information
@@ -173,7 +171,7 @@ MetaContourConverter< NDimensions >
         itCP != contourSO->GetControlPoints().end();
         itCP++ )
     {
-    ContourControlPnt *pnt = new ContourControlPnt(NDimensions);
+    auto * pnt = new ContourControlPnt(NDimensions);
 
     pnt->m_Id = ( *itCP ).GetID();
 
@@ -215,7 +213,7 @@ MetaContourConverter< NDimensions >
         itI != contourSO->GetInterpolatedPoints().end();
         itI++ )
     {
-    ContourInterpolatedPnt *pnt = new ContourInterpolatedPnt(NDimensions);
+    auto * pnt = new ContourInterpolatedPnt(NDimensions);
 
     pnt->m_Id = ( *itI ).GetID();
     for ( unsigned int d = 0; d < NDimensions; d++ )

@@ -79,8 +79,8 @@ LevelSetEvolution< TEquationContainer, LevelSetDenseImage< TImage > >
     typename DomainMapImageFilterType::ConstPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
     using DomainMapType = typename DomainMapImageFilterType::DomainMapType;
     const DomainMapType domainMap = domainMapFilter->GetDomainMap();
-    typename DomainMapType::const_iterator mapIt   = domainMap.begin();
-    typename DomainMapType::const_iterator mapEnd  = domainMap.end();
+    auto mapIt   = domainMap.begin();
+    auto mapEnd  = domainMap.end();
 
     const ThreadIdType maximumNumberOfThreads = this->m_SplitDomainMapComputeIterationThreader->GetMaximumNumberOfThreads();
     using DomainMapDomainType = typename SplitDomainMapComputeIterationThreaderType::DomainType;
@@ -290,8 +290,8 @@ LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDi
     {
     typename LevelSetType::ConstPointer levelSet = this->m_LevelSetContainerIteratorToProcessWhenThreading->GetLevelSet();
     const LevelSetLayerType zeroLayer = levelSet->GetLayer( 0 );
-    typename LevelSetType::LayerConstIterator layerBegin = zeroLayer.begin();
-    typename LevelSetType::LayerConstIterator layerEnd = zeroLayer.end();
+    auto layerBegin = zeroLayer.begin();
+    auto layerEnd = zeroLayer.end();
     typename SplitLevelSetPartitionerType::DomainType completeDomain( layerBegin, layerEnd );
     this->m_SplitLevelSetComputeIterationThreader->Execute( this, completeDomain );
 

@@ -180,7 +180,7 @@ int itkFastMarchingUpwindGradientTest(int, char* [] )
 
     outputPixel = iterator.Get();
 
-    double outputPixelNorm = (double) outputPixel.GetNorm();
+    auto outputPixelNorm = (double) outputPixel.GetNorm();
 
     if (distance == 0.0)
       {

@@ -151,7 +151,7 @@ int testMetaImage(int , char * [])
   std::cout << "SubQuantity(0) = " << tIm2.SubQuantity(im2Zero) << std::endl;
   std::cout << "SequenceID = " << tIm2.SequenceID() << std::endl;
   std::cout << "SequenceID[0] = " << tIm2.SequenceID(im2Zero) << std::endl;
-  float* sequID = new float[2];
+  auto * sequID = new float[2];
   sequID[0]=1;
   sequID[1]=1;
   tIm2.SequenceID(sequID);
@@ -164,7 +164,7 @@ int testMetaImage(int , char * [])
   std::cout << "ElementSize(0) = " << tIm2.ElementSize(im2Zero) << std::endl;
 
   tIm2.ElementSize(0,1.0f);
-  float* elmtSize = new float[2];
+  auto * elmtSize = new float[2];
   elmtSize[0]=1;
   elmtSize[1]=2;
   tIm2.ElementSize(elmtSize);
@@ -221,7 +221,7 @@ int testMetaImage(int , char * [])
 
 
   // testing metaImageUtils
-  char* modality = new char[255];
+  auto * modality = new char[255];
   if(!MET_ImageModalityToString(MET_MOD_CT,modality))
     {
       std::cout << "MET_ImageModalityToString: FAIL" << std::endl;

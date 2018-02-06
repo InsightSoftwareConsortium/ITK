@@ -130,15 +130,15 @@ CovarianceSampleFilter< TSample >
 
   MeasurementVectorSizeType measurementVectorSize = input->GetMeasurementVectorSize();
 
-  MatrixDecoratedType *decoratedOutput =
-    itkDynamicCastInDebugMode< MatrixDecoratedType * >( this->ProcessObject::GetOutput(0) );
+  auto * decoratedOutput = itkDynamicCastInDebugMode< MatrixDecoratedType * >(
+                             this->ProcessObject::GetOutput(0) );
 
   MatrixType output = decoratedOutput->Get();
   output.SetSize( measurementVectorSize, measurementVectorSize );
   output.Fill( NumericTraits< typename MatrixType::ValueType >::ZeroValue() );
 
-  MeasurementVectorDecoratedType *decoratedMeanOutput =
-    itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >( this->ProcessObject::GetOutput(1) );
+  auto * decoratedMeanOutput = itkDynamicCastInDebugMode< MeasurementVectorDecoratedType * >(
+                                 this->ProcessObject::GetOutput(1) );
 
   // calculate mean
   using MeanFilterType = MeanSampleFilter< SampleType >;
@@ -170,8 +170,7 @@ CovarianceSampleFilter< TSample >
 
     for ( unsigned int dim = 0; dim < measurementVectorSize; ++dim )
       {
-      const MeasurementRealType component =
-        static_cast< MeasurementRealType >( measurement[dim] );
+      const auto component = static_cast< MeasurementRealType >( measurement[dim] );
 
       diff[dim] = ( component - mean[dim] );
       }

@@ -50,17 +50,17 @@ ShiftScaleLabelMapFilter< TImage >
   // change the background, if requested
   if ( m_ChangeBackgroundValue )
     {
-    PixelType label = static_cast< PixelType >( m_Scale * output->GetBackgroundValue() + m_Shift );
+    auto label = static_cast< PixelType >( m_Scale * output->GetBackgroundValue() + m_Shift );
     output->SetBackgroundValue(label);
     }
 
   // and put back the objects in the map
   output->ClearLabels();
-  typename ImageType::LabelObjectVectorType::iterator it = labelObjects.begin();
+  auto it = labelObjects.begin();
   while ( it != labelObjects.end() )
     {
     LabelObjectType *lo = *it;
-    PixelType        label = static_cast< PixelType >( m_Scale * lo->GetLabel() + m_Shift );
+    auto label = static_cast< PixelType >( m_Scale * lo->GetLabel() + m_Shift );
     lo->SetLabel(label);
     output->AddLabelObject(lo);
 

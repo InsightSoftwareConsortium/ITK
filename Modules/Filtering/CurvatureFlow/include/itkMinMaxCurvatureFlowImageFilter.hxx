@@ -61,9 +61,7 @@ MinMaxCurvatureFlowImageFilter< TInputImage, TOutputImage >
 ::InitializeIteration()
 {
   // update variables in the equation object
-  MinMaxCurvatureFlowFunctionType *f =
-    dynamic_cast< MinMaxCurvatureFlowFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * f = dynamic_cast< MinMaxCurvatureFlowFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !f )
     {

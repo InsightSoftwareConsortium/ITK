@@ -59,8 +59,7 @@ CSVArray2DDataObject<TData>
     itkExceptionMacro( << "The dataset does not contain any row headers!");
     }
 
-  const typename StringVectorType::const_iterator it =
-    std::find(this->m_RowHeaders.begin(),this->m_RowHeaders.end(),row_name);
+  const auto it = std::find(this->m_RowHeaders.begin(),this->m_RowHeaders.end(),row_name);
   const unsigned int index = distance(this->m_RowHeaders.begin(), it);
 
   if ( it == this->m_RowHeaders.end() )
@@ -80,8 +79,7 @@ CSVArray2DDataObject<TData>
     itkExceptionMacro( << "The dataset does not contain any column headers!");
     }
 
-  const typename StringVectorType::const_iterator it =
-    std::find(this->m_ColumnHeaders.begin(),this->m_ColumnHeaders.end(),column_name);
+  const auto it = std::find(this->m_ColumnHeaders.begin(),this->m_ColumnHeaders.end(),column_name);
   const unsigned int index = distance(this->m_ColumnHeaders.begin(), it);
 
   if ( it == this->m_ColumnHeaders.end() )

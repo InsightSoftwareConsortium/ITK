@@ -90,9 +90,7 @@ void
 CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::Initialize()
 {
-  RegistrationFunctionType *drfp =
-    dynamic_cast< RegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< RegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {
@@ -195,9 +193,7 @@ double
 CurvatureRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField, TImageForceFunction >
 ::GetMetric() const
 {
-  RegistrationFunctionType *drfp =
-    dynamic_cast< RegistrationFunctionType * >
-    ( this->GetDifferenceFunction().GetPointer() );
+  auto * drfp = dynamic_cast< RegistrationFunctionType * > ( this->GetDifferenceFunction().GetPointer() );
 
   if ( !drfp )
     {

@@ -187,7 +187,7 @@ Octree< TPixel, ColorTableSize, MappingFunctionType >::maskToOctree(const TPixel
     }
   else
     {
-    OctreeNodeBranch *q = new OctreeNodeBranch(this);
+    auto * q = new OctreeNodeBranch(this);
     OctreeNode *      newbranch;
 
     newbranch = q->GetLeaf(ZERO);
@@ -241,7 +241,7 @@ Octree< TPixel, ColorTableSize, MappingFunctionType >::BuildFromBuffer(const voi
   m_TrueDims[0] = xsize;
   m_TrueDims[1] = ysize;
   m_TrueDims[2] = zsize;
-  const TPixel *    bufcast = static_cast< const TPixel * >( frombuffer );
+  const auto * bufcast = static_cast< const TPixel * >( frombuffer );
   OctreeNodeBranch *branch =
     this->maskToOctree(bufcast, width, 0, 0, 0,
                        xsize, ysize, zsize);

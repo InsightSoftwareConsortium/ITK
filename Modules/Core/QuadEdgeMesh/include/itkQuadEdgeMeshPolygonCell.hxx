@@ -32,7 +32,7 @@ QuadEdgeMeshPolygonCell< TCellInterface >
   this->m_Ident = 0;
 
   // Create entry point
-  EdgeCellType *edge = new EdgeCellType;
+  auto * edge = new EdgeCellType;
   m_EdgeCellList.push_back(edge);
   m_EdgeRingEntry = edge->GetQEGeom();
 
@@ -343,7 +343,7 @@ typename QuadEdgeMeshPolygonCell< TCellInterface >::PointIdInternalConstIterator
 QuadEdgeMeshPolygonCell< TCellInterface >
 ::InternalPointIdsEnd() const
 {
-  const QuadEdgeType *         edge = const_cast< const QuadEdgeType * >( m_EdgeRingEntry );
+  const auto * edge = const_cast< const QuadEdgeType * >( m_EdgeRingEntry );
   PointIdInternalConstIterator iterator = edge->EndGeomLnext();
 
   return iterator;

@@ -220,8 +220,7 @@ VideoStream<TFrameType>
   // We reinterpret the buffer to match TemporalDataObject's buffer type. We
   // assume that any tampering with the internal buffer will use our BufferType
   // so this will be safe.
-  TemporalDataObject::BufferType* castBuffer =
-    reinterpret_cast<TemporalDataObject::BufferType*>(buffer);
+  auto * castBuffer = reinterpret_cast<TemporalDataObject::BufferType*>(buffer);
 
   if (m_DataObjectBuffer != castBuffer)
     {
@@ -334,8 +333,7 @@ void
 VideoStream<TFrameType>
 ::SetFrame(SizeValueType frameNumber, FramePointer frame)
 {
-  typename BufferType::ElementType* dataObjectRawPointer =
-    dynamic_cast<typename BufferType::ElementType*>(frame.GetPointer());
+  auto * dataObjectRawPointer = dynamic_cast<typename BufferType::ElementType*>(frame.GetPointer());
   typename BufferType::ElementPointer dataObject = dataObjectRawPointer;
   m_DataObjectBuffer->SetBufferContents(frameNumber,dataObject);
 
@@ -386,7 +384,7 @@ VideoStream<TFrameType>
   if (data)
     {
     // Attempt to cast to a VideoStream
-    const Self* videoData = dynamic_cast< const Self* >(data);
+    const auto * videoData = dynamic_cast< const Self* >(data);
     if (!videoData)
       {
       itkExceptionMacro( << "itk::VideoStream::Graft() cannot cast "

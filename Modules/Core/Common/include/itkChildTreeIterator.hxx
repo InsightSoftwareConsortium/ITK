@@ -118,7 +118,7 @@ ChildTreeIterator< TTreeType >::Next()
 template< typename TTreeType >
 TreeIteratorBase< TTreeType > *ChildTreeIterator< TTreeType >::Clone()
 {
-  ChildTreeIterator< TTreeType > *clone = new ChildTreeIterator< TTreeType >(
+  auto * clone = new ChildTreeIterator< TTreeType >(
     const_cast< TTreeType * >( this->m_Tree ), this->m_Position);
   *clone = *this;
   return clone;

@@ -630,8 +630,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
     }
 
 
-  InputBooleanObjectType::Pointer autoMinimumMaximumObject1 =
-    InputBooleanObjectType::New();
+  InputBooleanObjectType::Pointer autoMinimumMaximumObject1 = InputBooleanObjectType::New();
 
   autoMinimumMaximumObject1->Set( autoMinimumMaximum1 );
 
@@ -651,8 +650,7 @@ int itkSampleToHistogramFilterTest( int , char * [] )
     return EXIT_FAILURE;
     }
 
-  InputBooleanObjectType::Pointer autoMinimumMaximumObject2 =
-    InputBooleanObjectType::New();
+  InputBooleanObjectType::Pointer autoMinimumMaximumObject2 = InputBooleanObjectType::New();
 
   autoMinimumMaximumObject2->Set( autoMinimumMaximum2 );
 

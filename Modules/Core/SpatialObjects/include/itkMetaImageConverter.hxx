@@ -93,8 +93,7 @@ typename MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >::Spati
 MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const ImageMetaObjectType *imageMO =
-    dynamic_cast<const ImageMetaObjectType *>(mo);
+  const auto * imageMO = dynamic_cast<const ImageMetaObjectType *>(mo);
 
   if(imageMO == nullptr)
     {
@@ -149,8 +148,7 @@ MetaImageConverter< NDimensions, PixelType, TSpatialObjectType >
     spacing[i] = SOImage->GetSpacing()[i];
     }
 
-  ImageMetaObjectType *imageMO =
-    new MetaImage( NDimensions, size,
+  auto * imageMO = new MetaImage( NDimensions, size,
                    spacing, MET_GetPixelType( typeid( PixelType ) ) );
 
   itk::ImageRegionConstIterator< ImageType > it( SOImage,

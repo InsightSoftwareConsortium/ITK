@@ -42,8 +42,7 @@ typename MetaLineConverter< NDimensions >::SpatialObjectPointer
 MetaLineConverter< NDimensions >
 ::MetaObjectToSpatialObject(const MetaObjectType *mo)
 {
-  const LineMetaObjectType *lineMO =
-    dynamic_cast<const LineMetaObjectType *>(mo);
+  const auto * lineMO = dynamic_cast<const LineMetaObjectType *>(mo);
   if(lineMO == nullptr)
     {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaLine" );
@@ -69,8 +68,7 @@ MetaLineConverter< NDimensions >
 
   using LinePointType = itk::LineSpatialObjectPoint< NDimensions >;
 
-  using ListType = MetaLine::PointListType;
-  ListType::const_iterator it2 = lineMO->GetPoints().begin();
+  auto it2 = lineMO->GetPoints().begin();
 
   for ( unsigned int identifier = 0; identifier < lineMO->GetPoints().size(); identifier++ )
     {
@@ -121,7 +119,7 @@ MetaLineConverter< NDimensions >
     itkExceptionMacro(<< "Can't downcast SpatialObject to LineSpatialObject");
     }
 
-  MetaLine *lineMO = new MetaLine(NDimensions);
+  auto * lineMO = new MetaLine(NDimensions);
 
   // due to a Visual Studio stupidity, can't seem to define
   // a const method to return the points list.
@@ -134,7 +132,7 @@ MetaLineConverter< NDimensions >
         it != linePoints.end();
         ++it )
     {
-    LinePnt *pnt = new LinePnt(NDimensions);
+    auto * pnt = new LinePnt(NDimensions);
 
     for ( unsigned int d = 0; d < NDimensions; d++ )
       {

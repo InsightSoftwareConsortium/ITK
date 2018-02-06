@@ -119,7 +119,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )
 {
   itkDebugMacro("StartOptimization");
-  SizeValueType maxOpt=static_cast<SizeValueType>( this->m_OptimizersList.size() );
+  auto maxOpt=static_cast<SizeValueType>( this->m_OptimizersList.size() );
   if ( maxOpt == NumericTraits<SizeValueType>::ZeroValue() )
     {
     itkExceptionMacro(" No optimizers are set.");
@@ -174,7 +174,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>
     {
     /* Compute metric value/derivative. */
 
-    SizeValueType maxOpt = static_cast<SizeValueType>( this->m_OptimizersList.size() );
+    auto maxOpt = static_cast<SizeValueType>( this->m_OptimizersList.size() );
     /** we rely on learning rate or parameter scale estimator to do the weighting */
     TInternalComputationValueType combinefunction = NumericTraits<TInternalComputationValueType>::OneValue() / static_cast<TInternalComputationValueType>(maxOpt);
     itkDebugMacro(" nopt " << maxOpt);

@@ -208,8 +208,7 @@ int itkLevelSetMotionRegistrationFilterTest(int argc, char * argv [] )
 
   using FunctionType = RegistrationType::LevelSetMotionFunctionType;
 
-  FunctionType * fptr =
-    dynamic_cast<FunctionType *>( registrator->GetDifferenceFunction().GetPointer() );
+  auto * fptr = dynamic_cast<FunctionType *>( registrator->GetDifferenceFunction().GetPointer() );
   if(fptr != nullptr)
     {
     fptr->Print( std::cout );

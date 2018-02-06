@@ -180,7 +180,7 @@ public:
   /** Set fixed point set*/
   void SetFixedObject( const ObjectType *object ) override
     {
-    FixedPointSetType *pointSet = dynamic_cast<FixedPointSetType *>( const_cast<ObjectType *>( object ) );
+    auto * pointSet = dynamic_cast<FixedPointSetType *>( const_cast<ObjectType *>( object ) );
     if( pointSet != nullptr )
       {
       this->SetFixedPointSet( pointSet );
@@ -194,7 +194,7 @@ public:
   /** Set moving point set*/
   void SetMovingObject( const ObjectType *object ) override
     {
-    MovingPointSetType *pointSet = dynamic_cast<MovingPointSetType *>( const_cast<ObjectType *>( object ) );
+    auto * pointSet = dynamic_cast<MovingPointSetType *>( const_cast<ObjectType *>( object ) );
     if( pointSet != nullptr )
       {
       this->SetMovingPointSet( pointSet );

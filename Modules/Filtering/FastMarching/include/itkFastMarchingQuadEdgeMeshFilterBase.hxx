@@ -75,7 +75,7 @@ unsigned char
 FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 ::GetLabelValueForGivenNode( const NodeType& iNode ) const
 {
-  NodeLabelMapConstIterator it = m_Label.find( iNode );
+  auto it = m_Label.find( iNode );
 
   if( it != m_Label.end() )
     {
@@ -177,10 +177,8 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
           OutputPointIdentifierType id1 = qe_it->GetDestination();
           OutputPointIdentifierType id2 = qe_it2->GetDestination();
 
-          const LabelType label1 =
-              static_cast< LabelType >( this->GetLabelValueForGivenNode( id1 ) );
-          const LabelType label2 =
-              static_cast< LabelType >( this->GetLabelValueForGivenNode( id2 ) );
+          const auto label1 = static_cast< LabelType >( this->GetLabelValueForGivenNode( id1 ) );
+          const auto label2 = static_cast< LabelType >( this->GetLabelValueForGivenNode( id2 ) );
 
           bool IsFar1 = ( label1 != Traits::Far );
           bool IsFar2 = ( label2 != Traits::Far );
@@ -190,13 +188,8 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
             OutputPointType q1 = oMesh->GetPoint( id1 );
             OutputPointType q2 = oMesh->GetPoint( id2 );
 
-            OutputVectorRealType val1 =
-                static_cast< OutputVectorRealType >(
-                  this->GetOutputValue( oMesh, id1 ) );
-
-            OutputVectorRealType val2 =
-                static_cast< OutputVectorRealType >(
-                  this->GetOutputValue( oMesh, id2 ) );
+            auto val1 = static_cast< OutputVectorRealType >( this->GetOutputValue( oMesh, id1 ) );
+            auto val2 = static_cast< OutputVectorRealType >( this->GetOutputValue( oMesh, id2 ) );
 
             if( val1 > val2 )
               {
@@ -300,8 +293,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 
   if( iIsFar1 && iIsFar2 )
     {
-    OutputVectorRealType dot =
-        static_cast< OutputVectorRealType >( Edge1 * Edge2 );
+    auto dot = static_cast< OutputVectorRealType >( Edge1 * Edge2 );
 
     if( dot >= 0. )
       {
@@ -322,8 +314,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
         {
         OutputVectorRealType t_sq_norm3 = norm3 * norm3;
 
-        OutputVectorRealType val3 =
-            static_cast< OutputVectorRealType >(
+        auto val3 = static_cast< OutputVectorRealType >(
               this->GetOutputValue( oMesh, new_id ) );
         OutputVectorRealType t1 = ComputeUpdate( iVal1, val3, norm3, t_sq_norm3,
                                                 norm1, sq_norm1, dot1, iF );
@@ -358,8 +349,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
   const OutputVectorRealType& iDot, const OutputVectorRealType& iF )
   const
 {
-  OutputVectorRealType large_value =
-      static_cast< OutputVectorRealType >( this->m_LargeValue );
+  auto large_value = static_cast< OutputVectorRealType >( this->m_LargeValue );
 
   OutputVectorRealType t = large_value;
 
@@ -456,8 +446,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
     Edge2 *= inv_Norm;
     }
 
-  OutputVectorRealType dot =
-      static_cast< OutputVectorRealType >( Edge1 * Edge2 );
+  auto dot = static_cast< OutputVectorRealType >( Edge1 * Edge2 );
 
   // the equation of the lines defining the unfolding region
   // [e.g. line 1 : {x ; <x,eq1>=0} ]

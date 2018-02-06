@@ -146,7 +146,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
   RegionType inputRegion = inputImage->GetRequestedRegion();
 
   // initialize the histogram
-  for ( typename OffsetListType::iterator listIt = this->m_KernelOffsets.begin();
+  for ( auto listIt = this->m_KernelOffsets.begin();
         listIt != this->m_KernelOffsets.end(); listIt++ )
     {
     IndexType idx = outputRegionForThread.GetIndex() + ( *listIt );
@@ -203,7 +203,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
 
   // Steps is used to keep track of the order in which the line
   // iterator passes over the various dimensions.
-  int *Steps = new int[ImageDimension];
+  auto * Steps = new int[ImageDimension];
 
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
@@ -303,7 +303,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
   if ( inputRegion.IsInside(kernRegion) )
     {
     // update the histogram
-    for ( typename OffsetListType::const_iterator addedIt = addedList->begin();
+    for ( auto addedIt = addedList->begin();
           addedIt != addedList->end(); addedIt++ )
       {
       typename InputImageType::IndexType idx = currentIdx + ( *addedIt );
@@ -316,7 +316,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
         histogram.AddBoundary();
         }
       }
-    for ( typename OffsetListType::const_iterator removedIt = removedList->begin();
+    for ( auto removedIt = removedList->begin();
           removedIt != removedList->end(); removedIt++ )
       {
       typename InputImageType::IndexType idx = currentIdx + ( *removedIt );
@@ -333,7 +333,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
   else
     {
     // update the histogram
-    for ( typename OffsetListType::const_iterator addedIt = addedList->begin();
+    for ( auto addedIt = addedList->begin();
           addedIt != addedList->end(); addedIt++ )
       {
       IndexType idx = currentIdx + ( *addedIt );
@@ -346,7 +346,7 @@ MaskedMovingHistogramImageFilter< TInputImage, TMaskImage, TOutputImage, TKernel
         histogram.AddBoundary();
         }
       }
-    for ( typename OffsetListType::const_iterator removedIt = removedList->begin();
+    for ( auto removedIt = removedList->begin();
           removedIt != removedList->end(); removedIt++ )
       {
       IndexType idx = currentIdx + ( *removedIt );

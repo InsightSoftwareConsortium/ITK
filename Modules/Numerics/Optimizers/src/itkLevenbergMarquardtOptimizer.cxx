@@ -55,8 +55,7 @@ LevenbergMarquardtOptimizer
   const unsigned int numberOfParameters = costFunction->GetNumberOfParameters();
   const unsigned int numberOfValues = costFunction->GetNumberOfValues();
 
-  CostFunctionAdaptorType *adaptor =
-    new CostFunctionAdaptorType(numberOfParameters, numberOfValues);
+  auto * adaptor = new CostFunctionAdaptorType(numberOfParameters, numberOfValues);
 
   adaptor->SetCostFunction(costFunction);
 

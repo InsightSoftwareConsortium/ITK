@@ -88,7 +88,7 @@ int itkTimeProbesTest(int, char* [] )
     {
     for(unsigned int i=0; i<N; i++)
       {
-      unsigned int * dummy = new unsigned int [ M ];
+      auto * dummy = new unsigned int [ M ];
       for(unsigned int j=0; j<M; j++)
         {
         dummy[j] = j;
@@ -104,7 +104,7 @@ int itkTimeProbesTest(int, char* [] )
     {
     for(unsigned int i=0; i<M; i++)
       {
-      unsigned int * dummy = new unsigned int [ N ];
+      auto * dummy = new unsigned int [ N ];
       for(unsigned int j=0; j<N; j++)
         {
         dummy[j] = j;

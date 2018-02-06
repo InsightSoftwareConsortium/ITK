@@ -184,10 +184,10 @@ FiniteDifferenceImageFilter< TInputImage, TOutputImage >
   bool         flag = false;
 
   // grab first valid value
-  typename std::vector< TimeStepType >::const_iterator t_it = timeStepList.begin();
-  typename std::vector< TimeStepType >::const_iterator t_end = timeStepList.end();
+  auto t_it = timeStepList.begin();
+  auto t_end = timeStepList.end();
 
-  typename std::vector< bool >::const_iterator v_it = valid.begin();
+  auto v_it = valid.begin();
 
   while( t_it != t_end )
     {

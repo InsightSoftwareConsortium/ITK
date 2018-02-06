@@ -79,7 +79,8 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
   const typename TimeVaryingVelocityFieldControlPointLatticeType::SizeType latticeSize = latticeRegion.GetSize();
 
   SizeValueType numberOfTimeControlPoints = latticeSize[ImageDimension];
-  SizeValueType numberOfControlPointsPerTimePoint = static_cast<SizeValueType>( latticeRegion.GetNumberOfPixels() / numberOfTimeControlPoints );
+  auto numberOfControlPointsPerTimePoint = static_cast<SizeValueType>(
+    latticeRegion.GetNumberOfPixels() / numberOfTimeControlPoints );
 
   // Warp the moving image based on the composite transform (not including the current
   // time varying velocity field transform to be optimized).
@@ -270,8 +271,8 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
     // Instantiate the update derivative for all vectors of the velocity field
 
-    typename OutputTransformType::ScalarType * valuePointer =
-      reinterpret_cast<typename OutputTransformType::ScalarType *>( updateControlPointLattice->GetBufferPointer() );
+    auto * valuePointer = reinterpret_cast<typename OutputTransformType::ScalarType *>(
+      updateControlPointLattice->GetBufferPointer() );
     DerivativeType updateControlPointDerivative( valuePointer, numberOfControlPointsPerTimePoint * numberOfTimeControlPoints * ImageDimension );
 
     this->m_OutputTransform->UpdateTransformParameters( updateControlPointDerivative, this->m_LearningRate );
@@ -397,7 +398,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage, TMovingImage
 
     // Set up the fixed composite transform for the current time point
 
-    InitialTransformType* fixedInitialTransform = const_cast<InitialTransformType*>( this->GetFixedInitialTransform() );
+    auto * fixedInitialTransform = const_cast<InitialTransformType*>( this->GetFixedInitialTransform() );
 
     typename CompositeTransformType::Pointer fixedComposite = CompositeTransformType::New();
     if( fixedInitialTransform != nullptr )

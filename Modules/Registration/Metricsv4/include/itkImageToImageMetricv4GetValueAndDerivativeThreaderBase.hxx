@@ -286,7 +286,9 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase< TDomainPartitioner, TImag
       DerivativeValueType correctionResolution = this->m_Associate->GetFloatingPointCorrectionResolution();
       for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; p++ )
         {
-        intmax_t test = static_cast< intmax_t >( this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives[p] * correctionResolution );
+        auto test = static_cast< intmax_t >(
+          this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives[p] * correctionResolution
+        );
         this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives[p] = static_cast<DerivativeValueType>( test / correctionResolution );
         }
       }

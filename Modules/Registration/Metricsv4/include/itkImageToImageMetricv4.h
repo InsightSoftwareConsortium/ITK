@@ -354,7 +354,7 @@ public:
   /** Set fixed image*/
   void SetFixedObject( const ObjectType *object ) override
     {
-    FixedImageType *image = dynamic_cast<FixedImageType *>( const_cast<ObjectType *>( object ) );
+    auto * image = dynamic_cast<FixedImageType *>( const_cast<ObjectType *>( object ) );
     if( image != nullptr )
       {
       this->SetFixedImage( image );
@@ -368,7 +368,7 @@ public:
   /** Set moving image*/
   void SetMovingObject( const ObjectType *object ) override
     {
-    MovingImageType *image = dynamic_cast<MovingImageType *>( const_cast<ObjectType *>( object ) );
+    auto * image = dynamic_cast<MovingImageType *>( const_cast<ObjectType *>( object ) );
     if( image != nullptr )
       {
       this->SetMovingImage( image );

@@ -55,8 +55,7 @@ SampleToSubsampleFilter< TSample >::SampleType *
 SampleToSubsampleFilter< TSample >
 ::GetInput() const
 {
-  const SampleType *input =
-    static_cast< const SampleType * >( this->ProcessObject::GetInput(0) );
+  const auto * input = static_cast< const SampleType * >( this->ProcessObject::GetInput(0) );
 
   return input;
 }
@@ -74,8 +73,7 @@ const typename SampleToSubsampleFilter< TSample >::OutputType *
 SampleToSubsampleFilter< TSample >
 ::GetOutput() const
 {
-  const SubsampleType *output =
-    static_cast< const SubsampleType * >( this->ProcessObject::GetOutput(0) );
+  const auto * output = static_cast< const SubsampleType * >( this->ProcessObject::GetOutput(0) );
 
   return output;
 }

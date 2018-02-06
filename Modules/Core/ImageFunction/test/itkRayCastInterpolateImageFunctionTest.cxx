@@ -79,7 +79,7 @@ itkRayCastInterpolateImageFunctionTest(
         for (unsigned int col = 0; col < size[0]; col++)
           {
           index[0] = col;
-          PixelType value = (PixelType)(slice+row+col);
+          auto value = (PixelType)(slice+row+col);
           image->SetPixel(index,value);
           }
         }

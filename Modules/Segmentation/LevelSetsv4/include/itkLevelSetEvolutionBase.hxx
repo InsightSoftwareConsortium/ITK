@@ -156,8 +156,8 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
     typename DomainMapImageFilterType::ConstPointer domainMapFilter = this->m_LevelSetContainer->GetDomainMapFilter();
     using DomainMapType = typename DomainMapImageFilterType::DomainMapType;
     const DomainMapType domainMap = domainMapFilter->GetDomainMap();
-    typename DomainMapType::const_iterator mapIt   = domainMap.begin();
-    typename DomainMapType::const_iterator mapEnd  = domainMap.end();
+    auto mapIt   = domainMap.begin();
+    auto mapEnd  = domainMap.end();
 
     while( mapIt != mapEnd )
       {
@@ -176,7 +176,7 @@ LevelSetEvolutionBase< TEquationContainer, TLevelSet >
           itkGenericExceptionMacro( <<"No level set exists at voxel" );
           }
 
-        IdListConstIterator idListIt = idList->begin();
+        auto idListIt = idList->begin();
         while( idListIt != idList->end() )
           {
           //! \todo Fix me for string identifiers

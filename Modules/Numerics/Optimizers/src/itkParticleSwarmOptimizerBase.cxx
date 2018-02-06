@@ -72,7 +72,7 @@ ParticleSwarmOptimizerBase
     const SwarmType::const_iterator initialSwarm_END = initialSwarm.end();
     const unsigned int n = initialSwarm[0].m_CurrentParameters.GetSize();
     //check that the dimensions of the swarm data are consistent
-    for( SwarmType::const_iterator it = initialSwarm.begin();
+    for( auto it = initialSwarm.begin();
       it != initialSwarm_END; ++it )
       {
       if( (*it).m_CurrentParameters.GetSize() != n ||
@@ -237,8 +237,7 @@ ParticleSwarmOptimizerBase
   bool converged = false;
   unsigned int bestValueMemorySize =
     this->m_NumberOfGenerationsWithMinimalImprovement+1;
-  unsigned int percentileIndex =
-    static_cast<unsigned int>( this->m_PercentageParticlesConverged*
+  auto percentileIndex = static_cast<unsigned int>( this->m_PercentageParticlesConverged*
                                (this->m_NumberOfParticles-1) + 0.5 );
 
   ValidateSettings();

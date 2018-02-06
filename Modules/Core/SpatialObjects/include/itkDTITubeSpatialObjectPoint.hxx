@@ -91,7 +91,7 @@ void
 DTITubeSpatialObjectPoint< TPointDimension >
 ::SetField(const char *name, float value)
 {
-  FieldListType::iterator it = m_Fields.begin();
+  auto it = m_Fields.begin();
 
   while ( it != m_Fields.end() )
     {
@@ -149,7 +149,7 @@ float
 DTITubeSpatialObjectPoint< TPointDimension >
 ::GetField(const char *name) const
 {
-  FieldListType::const_iterator it = m_Fields.begin();
+  auto it = m_Fields.begin();
 
   while ( it != m_Fields.end() )
     {
@@ -189,7 +189,7 @@ DTITubeSpatialObjectPoint< TPointDimension >
     // Copy the extra fields
     m_Fields.clear();
     const FieldListType &         fields = rhs.GetFields();
-    FieldListType::const_iterator it = fields.begin();
+    auto it = fields.begin();
     while ( it != fields.end() )
       {
       this->AddField( ( *it ).first.c_str(), ( *it ).second );

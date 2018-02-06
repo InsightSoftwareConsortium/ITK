@@ -161,8 +161,8 @@ public:
 
   IPLFileSortInfo * operator[](unsigned int __n)
   {
-    IteratorType it = begin();
-    IteratorType itend = end();
+    auto it = begin();
+    auto itend = end();
 
     for ( unsigned int i = 0; it != itend && i != __n; it++, i++ )
         {}
@@ -211,8 +211,8 @@ public:
       {
       return true;
       }
-    IteratorType it = begin();
-    IteratorType itend = end();
+    auto it = begin();
+    auto itend = end();
     while ( it != itend )
       {
       if ( std::string(filename) == ( *it )->GetImageFileName() )
@@ -231,8 +231,8 @@ public:
 
   void RemoveElementFromList(const int ElementToRemove)
   {
-    IteratorType it = m_List.begin();
-    IteratorType itend = m_List.end();
+    auto it = m_List.begin();
+    auto itend = m_List.end();
     int          i = 0;
 
     for ( i = 0; it != itend; i++, it++ )

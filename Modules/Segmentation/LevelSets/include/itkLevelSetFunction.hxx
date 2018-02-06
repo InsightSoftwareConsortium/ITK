@@ -226,7 +226,7 @@ LevelSetFunction< TImageType >
 {
   TimeStepType dt;
 
-  GlobalDataStruct *d = (GlobalDataStruct *)GlobalData;
+  auto * d = (GlobalDataStruct *)GlobalData;
 
   d->m_MaxAdvectionChange += d->m_MaxPropagationChange;
 
@@ -307,17 +307,15 @@ LevelSetFunction< TImageType >
   VectorType advection_field;
 
   // Global data structure
-  GlobalDataStruct *gd = (GlobalDataStruct *)globalData;
+  auto * gd = (GlobalDataStruct *)globalData;
 
   // Compute the Hessian matrix and various other derivatives.  Some of these
   // derivatives may be used by overloaded virtual functions.
   gd->m_GradMagSqr = 1.0e-6;
   for ( i = 0; i < ImageDimension; i++ )
     {
-    const unsigned int positionA =
-      static_cast< unsigned int >( m_Center + m_xStride[i] );
-    const unsigned int positionB =
-      static_cast< unsigned int >( m_Center - m_xStride[i] );
+    const auto positionA = static_cast< unsigned int >( m_Center + m_xStride[i] );
+    const auto positionB = static_cast< unsigned int >( m_Center - m_xStride[i] );
 
     gd->m_dx[i] = 0.5 * ( it.GetPixel(positionA)
                           - it.GetPixel(positionB) ) * neighborhoodScales[i];
@@ -333,13 +331,13 @@ LevelSetFunction< TImageType >
 
     for ( j = i + 1; j < ImageDimension; j++ )
       {
-      const unsigned int positionAa = static_cast< unsigned int >(
+      const auto positionAa = static_cast< unsigned int >(
         m_Center - m_xStride[i] - m_xStride[j] );
-      const unsigned int positionBa = static_cast< unsigned int >(
+      const auto positionBa = static_cast< unsigned int >(
         m_Center - m_xStride[i] + m_xStride[j] );
-      const unsigned int positionCa = static_cast< unsigned int >(
+      const auto positionCa = static_cast< unsigned int >(
         m_Center + m_xStride[i] - m_xStride[j] );
-      const unsigned int positionDa = static_cast< unsigned int >(
+      const auto positionDa = static_cast< unsigned int >(
         m_Center + m_xStride[i] + m_xStride[j] );
 
       gd->m_dxy[i][j] = gd->m_dxy[j][i] = 0.25 * ( it.GetPixel(positionAa)

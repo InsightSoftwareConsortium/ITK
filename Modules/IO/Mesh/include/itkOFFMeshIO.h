@@ -129,7 +129,7 @@ protected:
       for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
         {
         indInput++; // ignore the cell type
-        unsigned int numberOfPoints = static_cast< unsigned int >( input[indInput++] );
+        auto numberOfPoints = static_cast< unsigned int >( input[indInput++] );
         output[indOutput++] = static_cast< TOutput >( numberOfPoints );
         for ( unsigned int jj = 0; jj < numberOfPoints; jj++ )
           {
@@ -147,7 +147,7 @@ protected:
     for ( SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++ )
       {
       index++;
-      unsigned int numberOfCellPoints = static_cast< unsigned int >( buffer[index++] );
+      auto numberOfCellPoints = static_cast< unsigned int >( buffer[index++] );
       outputFile << numberOfCellPoints << "  ";
 
       for ( unsigned int jj = 0; jj < numberOfCellPoints; jj++ )
@@ -162,7 +162,7 @@ protected:
   template< typename TOutput, typename TInput >
   void WriteCellsAsBinary(TInput *buffer, std::ofstream & outputFile)
     {
-    TOutput *data = new TOutput[m_CellBufferSize - this->m_NumberOfCells];
+    auto * data = new TOutput[m_CellBufferSize - this->m_NumberOfCells];
 
     ReadCellsBuffer(buffer, data);
     WriteBufferAsBinary< TOutput >(data, outputFile, m_CellBufferSize - this->m_NumberOfCells);

@@ -146,7 +146,7 @@ TxtTransformIOTemplate<TParametersValueType>
   pbuf->pubseekpos (0, std::ios::in);
 
   // allocate memory to contain file data
-  char *buffer = new char[size + 1];
+  auto * buffer = new char[size + 1];
 
   // get file data
   pbuf->sgetn (buffer, size);

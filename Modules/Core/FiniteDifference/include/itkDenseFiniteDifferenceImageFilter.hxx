@@ -111,8 +111,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   ThreadIdType threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
   ThreadIdType threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
-  DenseFDThreadStruct* str = (DenseFDThreadStruct *)
-      ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+  auto * str = (DenseFDThreadStruct *) ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -180,8 +179,7 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   ThreadIdType threadId = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->ThreadID;
   ThreadIdType threadCount = ( (MultiThreader::ThreadInfoStruct *)( arg ) )->NumberOfThreads;
 
-  DenseFDThreadStruct * str = (DenseFDThreadStruct *)
-      ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
+  auto * str = (DenseFDThreadStruct *) ( ( (MultiThreader::ThreadInfoStruct *)( arg ) )->UserData );
 
   // Execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
@@ -260,8 +258,8 @@ DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
   FaceCalculatorType faceCalculator;
 
   FaceListType faceList = faceCalculator(output, regionToProcess, radius);
-  typename FaceListType::iterator fIt = faceList.begin();
-  typename FaceListType::iterator fEnd = faceList.end();
+  auto fIt = faceList.begin();
+  auto fEnd = faceList.end();
 
   // Process the non-boundary region.
   NeighborhoodIteratorType nD(radius, output, *fIt);

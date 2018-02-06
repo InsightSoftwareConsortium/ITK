@@ -371,9 +371,9 @@ int itkMetricImageGradientTest( int argc, char *argv[] )
   DimensionSizeType imageSize = 60;
   unsigned int dimensionality = 3;
   double minimumAverage = itk::NumericTraits<double>::max();
-  double rotationDegrees = static_cast<double>( 0.0 ); // (3.0);
-  double maxDegrees = static_cast<double>( 359.0 );
-  double degreeStep = static_cast<double>( 15.0 ); //(3.0);
+  auto rotationDegrees = static_cast<double>( 0.0 ); // (3.0);
+  auto maxDegrees = static_cast<double>( 359.0 );
+  auto degreeStep = static_cast<double>( 15.0 ); //(3.0);
 
   std::string outputPath( "" );
   if ( argc >= 2 )
@@ -459,7 +459,7 @@ int itkMetricImageGradientTest( int argc, char *argv[] )
       }
 
     std::cout << "minimumAverage: " << minimumAverage << std::endl;
-    double threshold = static_cast<double>( 0.96 );
+    auto threshold = static_cast<double>( 0.96 );
     if ( minimumAverage < threshold )
       {
       std::cerr << "Minimum average of all runs is below threshold of " << threshold << std::endl;

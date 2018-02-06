@@ -319,7 +319,7 @@ ImageBase< VImageDimension >
   if ( data )
     {
     // Attempt to cast data to an ImageBase
-    const ImageBase< VImageDimension > * const imgData = dynamic_cast< const ImageBase< VImageDimension > * >( data );
+    const auto * const imgData = dynamic_cast< const ImageBase< VImageDimension > * >( data );
 
     if ( imgData != nullptr )
       {
@@ -369,7 +369,7 @@ ImageBase< VImageDimension >
 {
   using ImageBaseType = ImageBase< VImageDimension >;
 
-  const ImageBaseType *image = dynamic_cast< const ImageBaseType * >( data );
+  const auto * image = dynamic_cast< const ImageBaseType * >( data );
 
   if ( !image )
     {
@@ -487,7 +487,7 @@ void
 ImageBase< VImageDimension >
 ::SetRequestedRegion( const DataObject *data )
 {
-  const ImageBase * const imgData = dynamic_cast< const ImageBase * >( data );
+  const auto * const imgData = dynamic_cast< const ImageBase * >( data );
 
   if ( imgData != nullptr )
     {

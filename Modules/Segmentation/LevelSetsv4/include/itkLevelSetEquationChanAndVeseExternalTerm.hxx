@@ -67,7 +67,7 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
 
     using DomainMapType = typename DomainMapImageFilterType::DomainMapType;
     const DomainMapType domainMap = this->m_DomainMapImageFilter->GetDomainMap();
-    typename DomainMapType::const_iterator levelSetMapItr = domainMap.find(id);
+    auto levelSetMapItr = domainMap.find(id);
 
     if( levelSetMapItr != domainMap.end() )
       {
@@ -77,7 +77,7 @@ void LevelSetEquationChanAndVeseExternalTerm< TInput, TLevelSetContainer >
       LevelSetPointer levelSet;
       LevelSetOutputRealType value;
 
-      IdListConstIterator idListIt = idList->begin();
+      auto idListIt = idList->begin();
       while( idListIt != idList->end() )
         {
         //! \todo Fix me for string identifiers

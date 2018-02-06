@@ -152,7 +152,7 @@ BinaryImageToLevelSetImageAdaptor<
   const LevelSetLayerType layerPlus1 = this->m_LevelSet->GetLayer( layerToBeScanned );
 
   LevelSetLayerType & layerPlus2 = this->m_LevelSet->GetLayer( outputLayer );
-  const LevelSetOutputType plus2 = static_cast< LevelSetOutputType >( outputLayer );
+  const auto plus2 = static_cast< LevelSetOutputType >( outputLayer );
 
   typename NeighborhoodIteratorType::RadiusType radius;
   radius.Fill( 1 );
@@ -179,8 +179,8 @@ BinaryImageToLevelSetImageAdaptor<
 
 
   // iterate on the layer to be scanned
-  LevelSetLayerConstIterator nodeIt = layerPlus1.begin();
-  LevelSetLayerConstIterator nodeEnd = layerPlus1.end();
+  auto nodeIt = layerPlus1.begin();
+  auto nodeEnd = layerPlus1.end();
 
   while( nodeIt != nodeEnd )
     {
@@ -339,8 +339,8 @@ BinaryImageToLevelSetImageAdaptor<
     neighOffset[dim] = 0;
     }
 
-  LevelSetLayerConstIterator nodeIt   = layer0.begin();
-  LevelSetLayerConstIterator nodeEnd  = layer0.end();
+  auto nodeIt   = layer0.begin();
+  auto nodeEnd  = layer0.end();
 
   while( nodeIt != nodeEnd )
     {
@@ -688,8 +688,8 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
   LevelSetLabelObjectPointer ObjectZero = LevelSetLabelObjectType::New();
   ObjectZero->SetLabel( LevelSetType::ZeroLayer() );
 
-  LevelSetLayerIterator nodeIt = layer.begin();
-  LevelSetLayerIterator nodeEnd = layer.end();
+  auto nodeIt = layer.begin();
+  auto nodeEnd = layer.end();
 
   while( nodeIt != nodeEnd )
     {
@@ -731,8 +731,8 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
     sparse_offset[dim] = 0;
     }
 
-  LevelSetLayerIterator nodeIt   = list_0.begin();
-  LevelSetLayerIterator nodeEnd  = list_0.end();
+  auto nodeIt   = list_0.begin();
+  auto nodeEnd  = list_0.end();
 
   while( nodeIt != nodeEnd )
     {
@@ -771,7 +771,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
 
     if( hasNegativeLayerNeighbor && !hasPositiveLayerNeighbor )
       {
-      LevelSetLayerIterator tempIt = nodeIt;
+      auto tempIt = nodeIt;
       ++nodeIt;
       list_0.erase( tempIt );
 
@@ -782,7 +782,7 @@ void BinaryImageToLevelSetImageAdaptor< TInput,MalcolmSparseLevelSetImage< TInpu
       {
       if( hasPositiveLayerNeighbor && !hasNegativeLayerNeighbor )
         {
-        LevelSetLayerIterator tempIt = nodeIt;
+        auto tempIt = nodeIt;
         ++nodeIt;
         list_0.erase( tempIt );
 

@@ -227,7 +227,7 @@ ImageMaskSpatialObject< TDimension >
             index[i] = tmpIndex[i];
             }
 
-          const SizeValueType tmpSize = static_cast< SizeValueType >( tmpIndex[i] );
+          const auto tmpSize = static_cast< SizeValueType >( tmpIndex[i] );
 
           if ( size[i]  < tmpSize )
             {
@@ -291,7 +291,7 @@ ImageMaskSpatialObject< TDimension >
     transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>( cornerInds->size() ) );
 
     typename IndexContainerType::const_iterator it = cornerInds->begin();
-    typename PointsContainer::iterator itTrans = transformedCorners->begin();
+    auto itTrans = transformedCorners->begin();
     while ( it != cornerInds->end() )
       {
       PointType origPnt;

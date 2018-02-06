@@ -144,7 +144,7 @@ public:
       throw exception;
       }
 
-    unsigned int numberOfBytesToRead = Math::CastWithRangeCheck< unsigned int, SizeType >(bytes);
+    auto numberOfBytesToRead = Math::CastWithRangeCheck< unsigned int, SizeType >(bytes);
     SizeType     bread = gzread(m_GzFile, data, numberOfBytesToRead);
     if ( bread != bytes )
       {
@@ -168,7 +168,7 @@ public:
       throw exception;
       }
 
-    unsigned int numberOfBytesToWrite = Math::CastWithRangeCheck< unsigned int, SizeType >(bytes);
+    auto numberOfBytesToWrite = Math::CastWithRangeCheck< unsigned int, SizeType >(bytes);
     SizeType     bwritten = gzwrite(m_GzFile, const_cast< void * >( data ), numberOfBytesToWrite);
     if ( bwritten != bytes )
       {
@@ -233,7 +233,7 @@ public:
       throw exception;
       }
 
-    const SizeValueType numberOfBytesToRead =  Math::CastWithRangeCheck< SizeValueType, SizeType >(bytes);
+    const auto numberOfBytesToRead = Math::CastWithRangeCheck< SizeValueType, SizeType >(bytes);
     SizeType     bread = fread(data, NumericTraits< SizeValueType >::OneValue(), numberOfBytesToRead, m_File);
     if ( bread != bytes )
       {
@@ -257,7 +257,7 @@ public:
       throw exception;
       }
 
-    const SizeValueType numberOfBytesToWrite =  Math::CastWithRangeCheck< SizeValueType, SizeType >(bytes);
+    const auto numberOfBytesToWrite = Math::CastWithRangeCheck< SizeValueType, SizeType >(bytes);
     SizeType     bwritten = fwrite(data, NumericTraits< SizeValueType >::OneValue(), numberOfBytesToWrite, m_File);
     if ( bwritten != bytes )
       {
@@ -449,8 +449,7 @@ void VoxBoCUBImageIO::Read(void *buffer)
     throw exception;
     }
 
-  BufferSizeType numberOfBytesToRead =
-    Math::CastWithRangeCheck< BufferSizeType, SizeType >( this->GetImageSizeInBytes() );
+  auto numberOfBytesToRead = Math::CastWithRangeCheck< BufferSizeType, SizeType >( this->GetImageSizeInBytes() );
   m_Reader->ReadData(buffer, numberOfBytesToRead);
   this->SwapBytesIfNecessary(buffer, numberOfBytesToRead);
 }

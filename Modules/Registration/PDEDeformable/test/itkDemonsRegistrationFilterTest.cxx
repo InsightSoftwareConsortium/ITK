@@ -186,8 +186,7 @@ int itkDemonsRegistrationFilterTest(int, char* [] )
   registrator->UseMovingImageGradientOff();
 
   using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
-  FunctionType * fptr =
-    dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer() );
+  auto * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer() );
   if(fptr != nullptr)
     {
     fptr->Print( std::cout );

@@ -191,8 +191,8 @@ int main( int argc, char* argv[] )
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  DictionaryType::ConstIterator itr = dictionary.Begin();
-  DictionaryType::ConstIterator end = dictionary.End();
+  auto itr = dictionary.Begin();
+  auto end = dictionary.End();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -238,7 +238,7 @@ int main( int argc, char* argv[] )
   // Software Guide : BeginCodeSnippet
   std::string entryId = "0010|0010";
 
-  DictionaryType::ConstIterator tagItr = dictionary.Find( entryId );
+  auto tagItr = dictionary.Find( entryId );
 
   if( tagItr == end )
     {

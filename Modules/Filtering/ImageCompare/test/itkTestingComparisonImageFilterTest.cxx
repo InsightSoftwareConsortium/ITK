@@ -98,7 +98,7 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
   TRY_EXPECT_EXCEPTION( filter->Update() );
 
   // Expect success
-  double coordinateTolerance = static_cast<double>( spacing[0] );
+  auto coordinateTolerance = static_cast<double>( spacing[0] );
   filter->SetCoordinateTolerance(coordinateTolerance);
   TEST_SET_GET_VALUE( coordinateTolerance, filter->GetCoordinateTolerance() );
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
