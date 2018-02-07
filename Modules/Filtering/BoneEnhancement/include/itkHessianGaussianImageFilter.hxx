@@ -43,7 +43,7 @@ HessianGaussianImageFilter<TInputImage, TOutputImage>::HessianGaussianImageFilte
   m_ImageAdaptor = OutputImageAdaptorType::New();
 
   // Setup defaults
-  this->SetNormalizeAcrossScale(true);
+  this->SetNormalizeAcrossScale(false);
   this->SetSigma(1.0);
 }
 
