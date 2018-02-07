@@ -52,23 +52,23 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool
-  CanReadFile(const char *);
+  bool
+  CanReadFile(const char *) override;
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool
-  CanWriteFile(const char *);
+  bool
+  CanWriteFile(const char *) override;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void
-  Read();
+  void
+  Read() override;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. The buffer is cast to a
    * pointer to the beginning of the image data. */
-  virtual void
-  Write();
+  void
+  Write() override;
 
   /** Set/Get the desired Frame of Reference UID, tag 0020|0052, for the
    * transform to be extracted. */
