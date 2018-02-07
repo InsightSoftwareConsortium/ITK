@@ -3,15 +3,6 @@ itk_module_test()
 set(BoneEnhancementTests
   itkMaximumAbsoluteValueImageFilterTest.cxx
   itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest.cxx
-  itkKrcahEigenToScalarParameterEstimationImageFilterTest.cxx
-  itkKrcahEigenToScalarFunctorTest.cxx
-  itkKrcahEigenToScalarFunctorImageFilterTest.cxx
-  itkKrcahEigenToScalarImageFilterTest.cxx
-  itkKrcahEigenToScalarPreprocessingImageToImageFilterTest.cxx
-  itkDescoteauxEigenToScalarParameterEstimationImageFilterTest.cxx
-  itkDescoteauxEigenToScalarFunctorTest.cxx
-  itkDescoteauxEigenToScalarFunctorImageTest.cxx
-  itkDescoteauxEigenToScalarImageFilterTest.cxx
   itkHessianGaussianImageFilterTest.cxx
   )
 
@@ -24,43 +15,17 @@ itk_add_test(NAME itkMaximumAbsoluteValueImageFilterTest
 itk_add_test(NAME itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest
   COMMAND BoneEnhancementTestDriver itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest 
   )
-  
-itk_add_test(NAME itkKrcahEigenToScalarParameterEstimationImageFilterTest
-  COMMAND BoneEnhancementTestDriver itkKrcahEigenToScalarParameterEstimationImageFilterTest 
-  )
-
-itk_add_test(NAME itkKrcahEigenToScalarFunctorTest
-  COMMAND BoneEnhancementTestDriver itkKrcahEigenToScalarFunctorTest 
-  )
-
-itk_add_test(NAME itkKrcahEigenToScalarFunctorImageFilterTest
-  COMMAND BoneEnhancementTestDriver itkKrcahEigenToScalarFunctorImageFilterTest 
-  )
-
-itk_add_test(NAME itkKrcahEigenToScalarImageFilterTest
-  COMMAND BoneEnhancementTestDriver itkKrcahEigenToScalarImageFilterTest 
-  )
-
-itk_add_test(NAME itkKrcahEigenToScalarPreprocessingImageToImageFilterTest
-  COMMAND BoneEnhancementTestDriver itkKrcahEigenToScalarPreprocessingImageToImageFilterTest 
-  )
-
-itk_add_test(NAME itkDescoteauxEigenToScalarParameterEstimationImageFilterTest
-  COMMAND BoneEnhancementTestDriver itkDescoteauxEigenToScalarParameterEstimationImageFilterTest 
-  )
-
-itk_add_test(NAME itkDescoteauxEigenToScalarFunctorTest
-  COMMAND BoneEnhancementTestDriver itkDescoteauxEigenToScalarFunctorTest 
-  )
-  
-itk_add_test(NAME itkDescoteauxEigenToScalarFunctorImageTest
-  COMMAND BoneEnhancementTestDriver itkDescoteauxEigenToScalarFunctorImageTest 
-  )
-  
-itk_add_test(NAME itkDescoteauxEigenToScalarImageFilterTest
-  COMMAND BoneEnhancementTestDriver itkDescoteauxEigenToScalarImageFilterTest 
-  )
 
 itk_add_test(NAME itkHessianGaussianImageFilterTest
   COMMAND BoneEnhancementTestDriver itkHessianGaussianImageFilterTest 
   )
+
+
+set(BoneEnhancementUnitTests
+  itkDescoteauxEigenToMeasureParameterFunctorUnitTest.cxx
+  itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest.cxx
+  itkDescoteauxEigenToMeasureFunctorUnitTest.cxx
+  itkDescoteauxEigenToMeasureImageFilterUnitTest.cxx
+  )
+
+CreateGoogleTestDriver(BoneEnhancementUnitTests "${BoneEnhancement-Test_LIBRARIES}" "${BoneEnhancementUnitTests}")
