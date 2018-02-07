@@ -85,7 +85,7 @@ Global::Global()
     assert( Internals->GlobalDefs.IsEmpty() );
     // Same goes for GlobalDefs:
     //Internals->GlobalDefs.LoadDefaults();
-    Internals->LoadDefaultPaths();
+    //Internals->LoadDefaultPaths();
     }
 }
 
