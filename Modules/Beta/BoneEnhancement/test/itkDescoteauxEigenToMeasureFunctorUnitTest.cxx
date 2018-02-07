@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkGTest.h"
-#include "itkDescoteauxEigenToMeasureParameterEstimationFilter.h"
+#include "itkDescoteauxEigenToMeasureImageFilter.h"
 
 namespace
 {
@@ -28,11 +28,13 @@ class itkDescoteauxEigenToMeasureFunctorUnitTest
 public:
   /* Useful typedefs */
   static const unsigned int DIMENSION = 3;
-  typedef T                                         PixelType;
-  typedef  itk::FixedArray< PixelType, DIMENSION >  EigenValueArrayType;
-  typedef typename itk::Functor::DescoteauxEigenParameterFunctor< EigenValueArrayType >
-                                                    FunctorType;
-  typedef typename FunctorType::ParameterType       ParameterType;
+  typedef T                                             PixelType;
+  typedef itk::FixedArray< float, DIMENSION >           EigenValueArrayType;
+  typedef itk::Image< EigenValueArrayType, DIMENSION >  EigenImageType;
+  typedef itk::Image< PixelType, DIMENSION >            ImageType;
+  typedef typename itk::Functor::DescoteauxEigenToMeasureFunctor< EigenValueArrayType, PixelType >
+                                                        FunctorType;
+  typedef typename FunctorType::ParameterType           ParameterType;
 
   itkDescoteauxEigenToMeasureFunctorUnitTest() {
     m_Functor = FunctorType();
@@ -51,80 +53,206 @@ protected:
 }
 
 // Define the templates we would like to test
-typedef ::testing::Types<char, int, float> TestingLabelTypes;
+typedef ::testing::Types<double, float> TestingLabelTypes;
 TYPED_TEST_CASE(itkDescoteauxEigenToMeasureFunctorUnitTest, TestingLabelTypes);
 
 TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, InitialParameters) {
-  EXPECT_DOUBLE_EQ(0.5, this->m_Functor.GetFrobeniusNormWeight());
+  EXPECT_DOUBLE_EQ(-1.0, this->m_Functor.GetEnhanceType());
 
-  this->m_Parameters = this->m_Functor.GetComputedParameters();
-  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[0]);
-  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[1]);
+  this->m_Parameters = this->m_Functor.GetParameters();
+  EXPECT_DOUBLE_EQ(0.0, this->m_Parameters[0]);
+  EXPECT_DOUBLE_EQ(0.0, this->m_Parameters[1]);
   EXPECT_DOUBLE_EQ(0.0, this->m_Parameters[2]);
 }
 
-TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, SetGetFrobeniusNormWeight) {
-  EXPECT_DOUBLE_EQ(0.5, this->m_Functor.GetFrobeniusNormWeight());
-  this->m_Functor.SetFrobeniusNormWeight(0.1);
-  EXPECT_DOUBLE_EQ(0.1, this->m_Functor.GetFrobeniusNormWeight());
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, SetGetEnhanceType) {
+  EXPECT_DOUBLE_EQ(-1.0, this->m_Functor.GetEnhanceType());
+  this->m_Functor.SetEnhanceDarkObjects();
+  EXPECT_DOUBLE_EQ(1.0, this->m_Functor.GetEnhanceType());
+  this->m_Functor.SetEnhanceBrightObjects();
+  EXPECT_DOUBLE_EQ(-1.0, this->m_Functor.GetEnhanceType());
 }
 
-TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, TestPixelOfZero) {
-  this->m_EigenPixel[0] = 0;
-  this->m_EigenPixel[1] = 0;
-  this->m_EigenPixel[2] = 0;
-  this->m_Functor.Initialize(1);
-  this->m_Functor.ProcessPixel(this->m_EigenPixel, 0);
-
-  this->m_Parameters = this->m_Functor.GetComputedParameters();
-  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[0]);
-  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[1]);
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, SetGetParameters) {
+  this->m_Parameters = this->m_Functor.GetParameters();
+  EXPECT_DOUBLE_EQ(0.0, this->m_Parameters[0]);
+  EXPECT_DOUBLE_EQ(0.0, this->m_Parameters[1]);
   EXPECT_DOUBLE_EQ(0.0, this->m_Parameters[2]);
+
+  this->m_Parameters[0] = 100;
+  this->m_Parameters[1] = 200;
+  this->m_Parameters[2] = 300;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Parameters = this->m_Functor.GetParameters();
+  EXPECT_DOUBLE_EQ(100.0, this->m_Parameters[0]);
+  EXPECT_DOUBLE_EQ(200.0, this->m_Parameters[1]);
+  EXPECT_DOUBLE_EQ(300.0, this->m_Parameters[2]);
 }
 
-TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, TestPixelOfOne) {
-  this->m_EigenPixel[0] = 1;
-  this->m_EigenPixel[1] = 1;
-  this->m_EigenPixel[2] = 1;
-  this->m_Functor.Initialize(1);
-  this->m_Functor.ProcessPixel(this->m_EigenPixel, 0);
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, BrightFirstParameterSet) {
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceBrightObjects();
 
-  this->m_Parameters = this->m_Functor.GetComputedParameters();
-  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[0]);
-  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[1]);
-  EXPECT_NEAR(0.86602540378, this->m_Parameters[2], 1e-6); // sqrt(3) * 0.5
-}
-
-TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, TestPixelOfOneWithDifferentWeight) {
-  this->m_EigenPixel[0] = 1;
-  this->m_EigenPixel[1] = 1;
-  this->m_EigenPixel[2] = 1;
-  this->m_Functor.Initialize(1);
-  this->m_Functor.ProcessPixel(this->m_EigenPixel, 0);
-  this->m_Functor.SetFrobeniusNormWeight(0.1);
-
-  this->m_Parameters = this->m_Functor.GetComputedParameters();
-  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[0]);
-  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[1]);
-  EXPECT_NEAR(0.17320508075, this->m_Parameters[2], 1e-6); // sqrt(3) * 0.1
-}
-
-TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, TestMultiplePixels) {
-  unsigned int num = 10;
+  /* All zeros returns zero */
   this->m_EigenPixel[0] = 0;
   this->m_EigenPixel[1] = 0;
   this->m_EigenPixel[2] = 0;
-  this->m_Functor.Initialize(num);
-  for (unsigned int i = 0; i < num; ++i) {
-    for (unsigned int j = 0; j < this->m_EigenPixel.Length; ++j){
-      this->m_EigenPixel[j] = this->m_EigenPixel[j] + 2;
-    }
+  EXPECT_NEAR(0.0, this->m_Functor(this->m_EigenPixel), 1e-6);
+}
 
-    this->m_Functor.ProcessPixel(this->m_EigenPixel, i);
-  }
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, DarkFirstParameterSet) {
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceDarkObjects();
 
-  this->m_Parameters = this->m_Functor.GetComputedParameters();
-  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[0]);
-  EXPECT_DOUBLE_EQ(0.5, this->m_Parameters[1]);
-  EXPECT_NEAR(17.3205080757, this->m_Parameters[2], 1e-6); // sqrt(3*20^2) * 0.5
+  /* All zeros returns zero */
+  this->m_EigenPixel[0] = 0;
+  this->m_EigenPixel[1] = 0;
+  this->m_EigenPixel[2] = 0;
+  EXPECT_NEAR(0.0, this->m_Functor(this->m_EigenPixel), 1e-6);
+}
+
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, BrightSecondParameterSet) {
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceBrightObjects();
+
+  /* All zeros returns zero */
+  this->m_EigenPixel[0] = 0;
+  this->m_EigenPixel[1] = 0;
+  this->m_EigenPixel[2] = 1;
+  EXPECT_NEAR((TypeParam)0.0, this->m_Functor(this->m_EigenPixel), 1e-6);
+}
+
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, DarkSecondParameterSet) {
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceBrightObjects();
+
+  /* All zeros returns zero */
+  this->m_EigenPixel[0] = 0;
+  this->m_EigenPixel[1] = 0;
+  this->m_EigenPixel[2] = 1;
+  EXPECT_NEAR((TypeParam)0.0, this->m_Functor(this->m_EigenPixel), 1e-6);
+}
+
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, BrightThirdParameterSet) {
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceBrightObjects();
+
+  /* All zeros returns zero */
+  this->m_EigenPixel[0] = 0;
+  this->m_EigenPixel[1] = 0;
+  this->m_EigenPixel[2] = -1;
+  EXPECT_NEAR((TypeParam)0.999329187279, this->m_Functor(this->m_EigenPixel), 1e-6);
+}
+
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, DarkThirdParameterSet) {
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceDarkObjects();
+
+  /* All zeros returns zero */
+  this->m_EigenPixel[0] = 0;
+  this->m_EigenPixel[1] = 0;
+  this->m_EigenPixel[2] = -1;
+  EXPECT_NEAR((TypeParam)0.0, this->m_Functor(this->m_EigenPixel), 1e-6);
+}
+
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, BrightFourthParameterSet) {
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceBrightObjects();
+
+  /* All zeros returns zero */
+  this->m_EigenPixel[0] = 0;
+  this->m_EigenPixel[1] = 0;
+  this->m_EigenPixel[2] = 1;
+  EXPECT_NEAR((TypeParam)0.0, this->m_Functor(this->m_EigenPixel), 1e-6);
+}
+
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, DarkFourthParameterSet) {
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceDarkObjects();
+
+  /* All zeros returns zero */
+  this->m_EigenPixel[0] = 0;
+  this->m_EigenPixel[1] = 0;
+  this->m_EigenPixel[2] = 1;
+  EXPECT_NEAR((TypeParam)0.999329187279, this->m_Functor(this->m_EigenPixel), 1e-6);
+}
+
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, BrightFifthParameterSet) {
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceBrightObjects();
+
+  /* All zeros returns zero */
+  this->m_EigenPixel[0] = 0.25;
+  this->m_EigenPixel[1] = 1;
+  this->m_EigenPixel[2] = -1;
+  EXPECT_NEAR((TypeParam)0.0913983433747, this->m_Functor(this->m_EigenPixel), 1e-6);
+}
+
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, DarkFifthParameterSet) {
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceDarkObjects();
+
+  /* All zeros returns zero */
+  this->m_EigenPixel[0] = 0.25;
+  this->m_EigenPixel[1] = 1;
+  this->m_EigenPixel[2] = 1;
+  EXPECT_NEAR((TypeParam)0.0913983433747, this->m_Functor(this->m_EigenPixel), 1e-6);
+}
+
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, BrightSixthParameterSet) {
+  this->m_Parameters[0] = 0.25;
+  this->m_Parameters[1] = 0.25;
+  this->m_Parameters[2] = 0.5;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceBrightObjects();
+
+  /* All zeros returns zero */
+  this->m_EigenPixel[0] = 0.25;
+  this->m_EigenPixel[1] = 1;
+  this->m_EigenPixel[2] = -1;
+  EXPECT_NEAR((TypeParam)0.000326373962098, this->m_Functor(this->m_EigenPixel), 1e-6);
+}
+
+TYPED_TEST(itkDescoteauxEigenToMeasureFunctorUnitTest, DarkSixthParameterSet) {
+  this->m_Parameters[0] = 0.25;
+  this->m_Parameters[1] = 0.25;
+  this->m_Parameters[2] = 0.5;
+  this->m_Functor.SetParameters(this->m_Parameters);
+  this->m_Functor.SetEnhanceDarkObjects();
+
+  /* All zeros returns zero */
+  this->m_EigenPixel[0] = 0.25;
+  this->m_EigenPixel[1] = 1;
+  this->m_EigenPixel[2] = 1;
+  EXPECT_NEAR((TypeParam)0.000326373962098, this->m_Functor(this->m_EigenPixel), 1e-6);
 }

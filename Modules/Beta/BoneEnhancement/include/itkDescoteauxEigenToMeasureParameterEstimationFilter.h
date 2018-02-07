@@ -25,7 +25,7 @@
 
 namespace itk {
 namespace Functor {
-/** \class DescoteauxEigenParameterFunctor
+/** \class DescoteauxEigenToMeasureParameterFunctor
  * \brief Automatic parameter estimation as defined by Descoteaux et al.
  * 
  * The default parameters are:
@@ -47,7 +47,7 @@ namespace Functor {
  * \ingroup BoneEnhancement
  */
 template<class TInputPixel>
-class DescoteauxEigenParameterFunctor {
+class DescoteauxEigenToMeasureParameterFunctor {
 public:
   /* Basic type definitions */
   itkStaticConstMacro(NumberOfParameters, unsigned int, 3);
@@ -55,7 +55,7 @@ public:
   typedef typename NumericTraits< PixelValueType >::RealType  RealType;
   typedef FixedArray< RealType, NumberOfParameters >          ParameterType;
 
-  DescoteauxEigenParameterFunctor() :
+  DescoteauxEigenToMeasureParameterFunctor() :
     m_FrobeniusNormWeight(0.5)
   {
     m_MaxFrobeniusNormArray.SetSize(0);
@@ -155,12 +155,12 @@ private:
 template<typename TInputImage, typename TInputSpatialObject >
 class DescoteauxEigenToMeasureParameterEstimationFilter :
         public EigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject,
-                Functor::DescoteauxEigenParameterFunctor<typename TInputImage::PixelType > > {
+                Functor::DescoteauxEigenToMeasureParameterFunctor<typename TInputImage::PixelType > > {
 public:
   /** Standard Self typedef */
   typedef DescoteauxEigenToMeasureParameterEstimationFilter Self;
   typedef EigenToMeasureParameterEstimationFilter<TInputImage, TInputSpatialObject,
-          Functor::DescoteauxEigenParameterFunctor<typename TInputImage::PixelType > >
+          Functor::DescoteauxEigenToMeasureParameterFunctor<typename TInputImage::PixelType > >
                                                             Superclass;
   typedef SmartPointer<Self>                                Pointer;
   typedef SmartPointer<const Self>                          ConstPointer;
@@ -183,6 +183,7 @@ public:
   void SetFrobeniusNormWeight(RealType weight)
   {
     this->GetFunctor().SetFrobeniusNormWeight(weight);
+    this->Modified();
   }
   RealType GetFrobeniusNormWeight() const
   {
