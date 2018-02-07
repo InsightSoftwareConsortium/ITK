@@ -100,6 +100,17 @@ GDCMImageIO::GDCMImageIO()
   // By default use JPEG2000. For legacy system, one should prefer JPEG since
   // JPEG2000 was only recently added to the DICOM standard
   m_CompressionType = JPEG2000;
+
+  this->AddSupportedReadExtension(".dcm");
+  this->AddSupportedReadExtension(".DCM");
+  this->AddSupportedReadExtension(".dicom");
+  this->AddSupportedReadExtension(".DICOM");
+
+  this->AddSupportedWriteExtension(".dcm");
+  this->AddSupportedWriteExtension(".DCM");
+  this->AddSupportedWriteExtension(".dicom");
+  this->AddSupportedWriteExtension(".DICOM");
+
 }
 
 GDCMImageIO::~GDCMImageIO()
