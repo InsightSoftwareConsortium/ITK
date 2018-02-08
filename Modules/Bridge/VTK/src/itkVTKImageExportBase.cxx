@@ -63,15 +63,15 @@ VTKImageExportBase::GetWholeExtentCallback() const
 VTKImageExportBase::CallbackTypeProxy
 VTKImageExportBase::GetOriginCallback() const
 {
-  return CallbackTypeProxy(&VTKImageExportBase::OriginCallbackFunction,
-                           &VTKImageExportBase::FloatOriginCallbackFunction);
+  return {&VTKImageExportBase::OriginCallbackFunction,
+          &VTKImageExportBase::FloatOriginCallbackFunction};
 }
 
 VTKImageExportBase::CallbackTypeProxy
 VTKImageExportBase::GetSpacingCallback() const
 {
-  return CallbackTypeProxy(&VTKImageExportBase::SpacingCallbackFunction,
-                           &VTKImageExportBase::FloatSpacingCallbackFunction);
+  return {&VTKImageExportBase::SpacingCallbackFunction,
+          &VTKImageExportBase::FloatSpacingCallbackFunction};
 }
 
 VTKImageExportBase::ScalarTypeCallbackType
