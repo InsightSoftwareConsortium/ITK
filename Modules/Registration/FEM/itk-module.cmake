@@ -15,4 +15,5 @@ itk_module(ITKFEMRegistration
     ITKImageSources
   DESCRIPTION
     "${DOCUMENTATION}"
+  EXCLUDE_FROM_DEFAULT
 )
