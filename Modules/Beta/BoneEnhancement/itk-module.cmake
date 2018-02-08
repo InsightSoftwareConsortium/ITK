@@ -17,6 +17,8 @@ itk_module(BoneEnhancement
     ITKStatistics
     ITKImageFilterBase
     ITKImageFeature
+    ITKReview
+    ITKSpatialObjects
   COMPILE_DEPENDS
     ITKImageSources
   TEST_DEPENDS
