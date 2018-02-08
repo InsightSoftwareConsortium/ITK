@@ -19,6 +19,8 @@
 #ifndef itkLevelSetBase_h
 #define itkLevelSetBase_h
 
+#include <utility>
+
 #include "itkIntTypes.h"
 #include "itkCovariantVector.h"
 #include "itkMatrix.h"
@@ -85,8 +87,8 @@ public:
   class ITK_TEMPLATE_EXPORT DataType
     {
     public:
-      DataType( const std::string& iName ) :
-        m_Name( iName ), m_Computed( false )
+      DataType( std::string  iName ) :
+        m_Name(std::move( iName )), m_Computed( false )
         {}
       DataType( const DataType& iData ) : m_Name( iData.m_Name ),
         m_Value( iData.m_Value ), m_Computed( iData.m_Computed )

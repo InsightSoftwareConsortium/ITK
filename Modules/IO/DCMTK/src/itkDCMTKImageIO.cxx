@@ -421,9 +421,9 @@ void DCMTKImageIO::ReadImageInformation()
     }
 
   this->m_Spacing.clear();
-  for(unsigned i = 0; i < 3; i++)
+  for(double i : spacing)
     {
-    this->m_Spacing.push_back(spacing[i]);
+    this->m_Spacing.push_back(i);
     }
   if(numDim == 4)
     {

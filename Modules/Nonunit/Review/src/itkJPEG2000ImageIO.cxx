@@ -937,7 +937,7 @@ JPEG2000ImageIO
   parameters.numresolution = numberOfResolutions;
 
   OPJ_COLOR_SPACE      color_space = CLRSPC_GRAY;
-  opj_image_cmptparm_t cmptparm[3];
+  opj_image_cmptparm_t cmptparms[3];
 
   if ( this->GetNumberOfComponents() == 3 )
     {
@@ -945,16 +945,16 @@ JPEG2000ImageIO
     color_space = ( this->GetPixelType() == RGB ) ? CLRSPC_SRGB : CLRSPC_UNSPECIFIED;
 
     /* initialize image components */
-    memset( &cmptparm[0], 0, 3 * sizeof( opj_image_cmptparm_t ) );
-    for ( unsigned int i = 0; i < 3; i++ )
+    memset( &cmptparms[0], 0, 3 * sizeof( opj_image_cmptparm_t ) );
+    for (auto & cmptparm : cmptparms)
       {
-      cmptparm[i].prec = 8;
-      cmptparm[i].bpp = 8;
-      cmptparm[i].sgnd = 0;
-      cmptparm[i].dx = 1;
-      cmptparm[i].dy = 1; //this->GetSpacing( 1 )
-      cmptparm[i].w =  w;
-      cmptparm[i].h = h;
+      cmptparm.prec = 8;
+      cmptparm.bpp = 8;
+      cmptparm.sgnd = 0;
+      cmptparm.dx = 1;
+      cmptparm.dy = 1; //this->GetSpacing( 1 )
+      cmptparm.w =  w;
+      cmptparm.h = h;
       }
     }
 
@@ -963,28 +963,28 @@ JPEG2000ImageIO
     color_space = CLRSPC_GRAY;
 
     /* initialize image components */
-    memset( &cmptparm[0], 0, sizeof( opj_image_cmptparm_t ) );
+    memset( &cmptparms[0], 0, sizeof( opj_image_cmptparm_t ) );
 
     if ( this->GetComponentType() == UCHAR )
       {
-      cmptparm[0].prec = 8;
-      cmptparm[0].bpp = 8;
+      cmptparms[0].prec = 8;
+      cmptparms[0].bpp = 8;
       }
 
     if ( this->GetComponentType() == USHORT )
       {
-      cmptparm[0].prec = 16;
-      cmptparm[0].bpp = 16;
+      cmptparms[0].prec = 16;
+      cmptparms[0].bpp = 16;
       }
 
-    cmptparm[0].sgnd = 0;
-    cmptparm[0].dx = 1;
-    cmptparm[0].dy = 1; //this->GetSpacing( 1 )
-    cmptparm[0].w =  w;
-    cmptparm[0].h = h;
+    cmptparms[0].sgnd = 0;
+    cmptparms[0].dx = 1;
+    cmptparms[0].dy = 1; //this->GetSpacing( 1 )
+    cmptparms[0].w =  w;
+    cmptparms[0].h = h;
     }
 
-  opj_image_t *l_image = opj_image_create(this->GetNumberOfComponents(), &cmptparm[0], color_space);
+  opj_image_t *l_image = opj_image_create(this->GetNumberOfComponents(), &cmptparms[0], color_space);
 
   if ( !l_image )
     {

@@ -96,9 +96,9 @@ int itkLabelImageGaussianInterpolateImageFunctionTest( int , char*[] )
  interpolator->SetInputImage( small_image );
    {
    double sigma[Dimension];
-   for( unsigned int d = 0; d < Dimension; d++ )
+   for(double & d : sigma)
      {
-     sigma[d] = 1.0;
+     d = 1.0;
      }
    constexpr double alpha = 1.0;
    interpolator->SetParameters( sigma, alpha );

@@ -161,7 +161,7 @@ int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
   colormap.resize( numObjects+1 );
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen = itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
   rvgen->SetSeed(1031571);
-  for (unsigned short i=0; i < colormap.size(); ++i)
+  for (auto & i : colormap)
     {
     px.SetRed(
       static_cast<unsigned char>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
@@ -170,7 +170,7 @@ int itkMaskConnectedComponentImageFilterTest(int argc, char* argv[] )
     px.SetBlue(
       static_cast<unsigned char>(255*rvgen->GetUniformVariate( 0.3333, 1.0 ) ));
 
-    colormap[i] = px;
+    i = px;
     }
 
   itk::ImageRegionIterator<OutputImageType>

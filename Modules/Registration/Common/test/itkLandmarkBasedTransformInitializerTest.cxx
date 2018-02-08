@@ -673,9 +673,9 @@ int itkLandmarkBasedTransformInitializerTest( int, char * [] )
   double weights[numLandmarks] = { 1, 3, 0.01, 0.5 };
 
   TransformInitializerType::LandmarkWeightType landmarkWeights;
-  for(unsigned i = 0; i < numLandmarks; i++)
+  for(double weight : weights)
     {
-    landmarkWeights.push_back(weights[i]);
+    landmarkWeights.push_back(weight);
     }
 
   initializer->SetFixedLandmarks(fixedLandmarks);

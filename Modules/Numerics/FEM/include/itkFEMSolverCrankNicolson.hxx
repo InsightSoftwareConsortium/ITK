@@ -247,11 +247,11 @@ SolverCrankNicolson<VDimension>
       }
     } // end for LoadArray::iterator l
   // Now set the solution t_minus1 vector to fit the BCs
-  for( BCTermType::iterator q = bcterm.begin(); q != bcterm.end(); q++ )
+  for(auto & q : bcterm)
     {
-    this->m_LinearSystem->SetVectorValue(q->first, 0.0, m_SolutionVectorTMinus1Index); // FIXME?
-    this->m_LinearSystem->SetSolutionValue(q->first, 0.0, m_SolutionTMinus1Index);     // FIXME?
-    this->m_LinearSystem->SetSolutionValue(q->first, 0.0, m_TotalSolutionIndex);
+    this->m_LinearSystem->SetVectorValue(q.first, 0.0, m_SolutionVectorTMinus1Index); // FIXME?
+    this->m_LinearSystem->SetSolutionValue(q.first, 0.0, m_SolutionTMinus1Index);     // FIXME?
+    this->m_LinearSystem->SetSolutionValue(q.first, 0.0, m_TotalSolutionIndex);
     }
 
   this->m_LinearSystem->MultiplyMatrixVector(m_DiffMatrixBySolutionTMinus1Index,
@@ -261,9 +261,9 @@ SolverCrankNicolson<VDimension>
     RecomputeForceVector(index);
     }
   // Now set the solution and force vector to fit the BCs
-  for( BCTermType::iterator q = bcterm.begin(); q != bcterm.end(); q++ )
+  for(auto & q : bcterm)
     {
-    this->m_LinearSystem->SetVectorValue(q->first, q->second, m_ForceTIndex);
+    this->m_LinearSystem->SetVectorValue(q.first, q.second, m_ForceTIndex);
     }
 }
 

@@ -173,9 +173,9 @@ int itkRelabelComponentImageFilterTest(int argc, char* argv[] )
         statistics->GetBoundingBox(ii);
 
       std::cout << "\tBounding box = ";
-      for ( unsigned int jj = 0; jj <  bbox.size(); jj++)
+      for ( auto jj : bbox)
         {
-        std::cout << bbox[jj] << " ";
+        std::cout << jj << " ";
         }
       std::cout << std::endl;
       if (statistics->HasLabel(ii))

@@ -61,9 +61,9 @@ void TransformIOBaseTemplate<TParametersValueType>
     << "The usual cause of this error is not registering the "
     << "transform with TransformFactory" << std::endl;
     msg << "Currently registered Transforms: " << std::endl;    std::list< std::string > names = theFactory->GetClassOverrideWithNames();
-    for ( std::list< std::string >::iterator it = names.begin(); it != names.end(); ++it )
+    for (auto & name : names)
       {
-      msg << "\t\"" << *it << "\"" << std::endl;
+      msg << "\t\"" << name << "\"" << std::endl;
       }
     itkExceptionMacro ( << msg.str() );
     }

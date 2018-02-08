@@ -1060,9 +1060,9 @@ ImageIOBase
   axis.resize( this->GetNumberOfDimensions() );
 
   // Fill up with the equivalent of a line from an Identity matrix
-  for ( unsigned int r = 0; r < axis.size(); r++ )
+  for (double & axi : axis)
     {
-    axis[r] = 0.0;
+    axi = 0.0;
     }
 
   axis[k] = 1.0;

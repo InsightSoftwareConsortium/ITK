@@ -886,13 +886,13 @@ IsChangeWellComposed3D( const NodeType& idx ) const
   It.SetLocation( idx );
 
   // Check for C1 critical configurations
-  for ( unsigned int i = 0; i < 12; i++ )
+  for (auto & c1Index : m_C1Indices)
     {
     for ( unsigned int j = 0; j < 4; j++ )
       {
       neighborhoodPixels[j]
-        = ( It.GetPixel( m_C1Indices[i][j] ) == Traits::Alive );
-      if( m_C1Indices[i][j] == 13 )
+        = ( It.GetPixel( c1Index[j] ) == Traits::Alive );
+      if( c1Index[j] == 13 )
         {
         neighborhoodPixels[j] = !neighborhoodPixels[j];
         }
@@ -904,13 +904,13 @@ IsChangeWellComposed3D( const NodeType& idx ) const
     }
 
   // Check for C2 critical configurations
-  for ( unsigned int i = 0; i < 8; i++ )
+  for (auto & c2Index : m_C2Indices)
     {
     for ( unsigned int j = 0; j < 8; j++ )
       {
       neighborhoodPixels[j]
-        = ( It.GetPixel( m_C2Indices[i][j] ) == Traits::Alive );
-      if( m_C2Indices[i][j] == 13 )
+        = ( It.GetPixel( c2Index[j] ) == Traits::Alive );
+      if( c2Index[j] == 13 )
         {
         neighborhoodPixels[j] = !neighborhoodPixels[j];
         }

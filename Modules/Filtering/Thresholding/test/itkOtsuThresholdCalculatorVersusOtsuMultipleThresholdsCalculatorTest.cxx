@@ -67,15 +67,15 @@ int itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int arg
 
   static constexpr int binsArray[] = {4,8,16,32,64,128,256,512,1024};
   std::vector<int> binsVector (binsArray, binsArray + sizeof(binsArray) / sizeof(binsArray[0]) );
-  for( std::vector<int>::iterator binsIterator = binsVector.begin(); binsIterator != binsVector.end(); binsIterator++ )
+  for(const auto & binsIterator : binsVector)
   {
-    histogramGenerator->SetNumberOfBins( *binsIterator );
+    histogramGenerator->SetNumberOfBins( binsIterator );
     histogramGenerator->Compute();
 
     otsuCalculator->Compute();
     otsuMultipleCalculator->Compute();
-    std::cout << "Computed Otsu threshold using " << *binsIterator << " bins: " << otsuCalculator->GetThreshold() << std::endl;
-    std::cout << "Computed Otsu multiple threshold using " << *binsIterator << " bins: " << otsuMultipleCalculator->GetOutput()[0] << std::endl;
+    std::cout << "Computed Otsu threshold using " << binsIterator << " bins: " << otsuCalculator->GetThreshold() << std::endl;
+    std::cout << "Computed Otsu multiple threshold using " << binsIterator << " bins: " << otsuMultipleCalculator->GetOutput()[0] << std::endl;
 
     if( itk::Math::NotAlmostEquals( otsuCalculator->GetThreshold(), otsuMultipleCalculator->GetOutput()[0] ) )
     {

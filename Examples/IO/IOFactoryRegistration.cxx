@@ -23,7 +23,7 @@
 // corresponding IO factory will be automatically registered.
 int main()
 {
-  std::list<itk::ObjectFactoryBase *> factories =
+  const std::list<itk::ObjectFactoryBase *> & factories =
     itk::ObjectFactoryBase::GetRegisteredFactories();
   const std::size_t numFactories = factories.size();
 
@@ -31,11 +31,9 @@ int main()
 
   if (!factories.empty() )
     {
-    for ( std::list<itk::ObjectFactoryBase*>::iterator
-          f = factories.begin();
-          f != factories.end(); ++f )
+    for (const auto & factory : factories)
       {
-      std::istringstream iss( (*f)->GetDescription() );
+      std::istringstream iss( factory->GetDescription() );
       std::string        IOType;
       iss >> IOType; // the first word of the description
       std::cout << IOType << " ";

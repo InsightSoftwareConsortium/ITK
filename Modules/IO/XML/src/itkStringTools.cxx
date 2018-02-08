@@ -153,11 +153,11 @@ StringTools::Split( const std::string& s, std::map<std::string,std::string>& res
   std::vector<std::string> items;
   Split( s, items, delims );
 
-  for ( size_t i = 0; i < items.size(); i++ )
+  for (const auto & item : items)
     {
     std::string value;
     std::string key;
-    StringTools::Split( items[i], key, value );
+    StringTools::Split( item, key, value );
     result[key] = value;
     }
 }

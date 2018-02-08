@@ -125,10 +125,9 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
       if (allobjects.size() > 0)
         {
         msg << "  Tried to create one of the following:" << std::endl;
-        for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
-              i != allobjects.end(); ++i )
+        for (auto & allobject : allobjects)
           {
-          ImageIOBase *io = dynamic_cast< ImageIOBase * >( i->GetPointer() );
+          ImageIOBase *io = dynamic_cast< ImageIOBase * >( allobject.GetPointer() );
           msg << "    " << io->GetNameOfClass() << std::endl;
           }
         msg << "  You probably failed to set a file suffix, or" << std::endl;

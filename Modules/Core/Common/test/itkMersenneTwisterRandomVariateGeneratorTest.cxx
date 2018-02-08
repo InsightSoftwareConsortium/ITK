@@ -66,12 +66,12 @@ int itkMersenneTwisterRandomVariateGeneratorTest( int, char* [] )
                                              Twister::IntegerType(3422518480u) };
 
   bool sameSequence = true;
-  for ( int i = 0; i < 5; i++ )
+  for ( const auto i : expected)
     {
     Twister::IntegerType actual = twister->GetIntegerVariate();
-    if ( actual != expected[i] )
+    if ( actual != i )
       {
-      std::cout << "GetIntegerVariate: expected " << expected[i] << " got " << actual << std::endl;
+      std::cout << "GetIntegerVariate: expected " << i << " got " << actual << std::endl;
       sameSequence = false;
       }
     }

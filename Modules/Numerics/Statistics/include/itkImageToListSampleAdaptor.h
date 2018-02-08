@@ -19,6 +19,7 @@
 #define itkImageToListSampleAdaptor_h
 
 #include <typeinfo>
+#include <utility>
 
 #include "itkImage.h"
 #include "itkPixelTraits.h"
@@ -193,8 +194,8 @@ public:
 
   protected:
     // This method should only be available to the ListSample class
-    ConstIterator(const ImageConstIteratorType & iter, InstanceIdentifier iid) :
-      m_Iter(iter),
+    ConstIterator(ImageConstIteratorType  iter, InstanceIdentifier iid) :
+      m_Iter(std::move(iter)),
       m_InstanceIdentifier(iid)
     {}
 

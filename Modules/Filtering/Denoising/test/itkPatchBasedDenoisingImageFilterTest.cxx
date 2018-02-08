@@ -367,11 +367,7 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
     kernelBandwidthMultFactor = atof( argv[10] );
     }
 
-  std::vector< std::string > modelChoices;
-  modelChoices.push_back( "GAUSSIAN" );
-  modelChoices.push_back( "RICIAN" );
-  modelChoices.push_back( "POISSON" );
-  modelChoices.push_back( "NOMODEL" );
+  const std::vector< std::string > modelChoices{ "GAUSSIAN", "RICIAN" , "POISSON" , "NOMODEL" };
   std::string noiseModel = modelChoices[0];
 
   double noiseModelFidelityWeight = 0.0;
@@ -379,9 +375,9 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
   {
     noiseModel = argv[11];
     bool validChoice = false;
-    for( unsigned int ii = 0; ii < modelChoices.size(); ++ii )
+    for(const auto & modelChoice : modelChoices)
       {
-      if( noiseModel == modelChoices[ii] )
+      if( noiseModel == modelChoice )
         {
         validChoice = true;
         }
@@ -390,9 +386,9 @@ int itkPatchBasedDenoisingImageFilterTest( int argc, char * argv [] )
       {
       std::cerr << "Test failed!" << std::endl;
       std::cerr << noiseModel << " is not a valid noise model choice. Please choose one of: ";
-      for( unsigned int ii = 0; ii < modelChoices.size(); ++ii )
+      for(const auto & modelChoice : modelChoices)
         {
-        std::cerr << modelChoices[ii] << " " << std::endl;
+        std::cerr << modelChoice << " " << std::endl;
         }
       return EXIT_FAILURE;
       }

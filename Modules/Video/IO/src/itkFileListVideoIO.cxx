@@ -301,9 +301,9 @@ void FileListVideoIO::SetWriterParameters(
   m_Dimensions.clear();
   m_Origin.clear();
   m_NumberOfComponents = nChannels;
-  for (size_t i = 0; i < dim.size(); ++i)
+  for (const auto & i : dim)
     {
-    m_Dimensions.push_back(dim[i]);
+    m_Dimensions.push_back(i);
     m_Origin.push_back(0);
     }
 

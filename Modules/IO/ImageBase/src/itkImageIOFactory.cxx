@@ -34,15 +34,12 @@ ImageIOBase::Pointer
 ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
 {
   std::list< ImageIOBase::Pointer > possibleImageIO;
-  std::list< LightObject::Pointer > allobjects =
-    ObjectFactoryBase::CreateAllInstance("itkImageIOBase");
 
   MutexLockHolder<SimpleFastMutexLock> mutexHolder(createImageIOLock);
 
-  for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
-        i != allobjects.end(); ++i )
+  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkImageIOBase"))
     {
-    ImageIOBase *io = dynamic_cast< ImageIOBase * >( i->GetPointer() );
+    ImageIOBase *io = dynamic_cast< ImageIOBase * >( allobject.GetPointer() );
     if ( io )
       {
       possibleImageIO.push_back(io);
@@ -50,25 +47,24 @@ ImageIOFactory::CreateImageIO(const char *path, FileModeType mode)
     else
       {
       std::cerr << "Error ImageIO factory did not return an ImageIOBase: "
-                << ( *i )->GetNameOfClass()
+                << allobject->GetNameOfClass()
                 << std::endl;
       }
     }
-  for ( std::list< ImageIOBase::Pointer >::iterator k = possibleImageIO.begin();
-        k != possibleImageIO.end(); ++k )
+  for (auto & k : possibleImageIO)
     {
     if ( mode == ReadMode )
       {
-      if ( ( *k )->CanReadFile(path) )
+      if ( k->CanReadFile(path) )
         {
-        return *k;
+        return k;
         }
       }
     else if ( mode == WriteMode )
       {
-      if ( ( *k )->CanWriteFile(path) )
+      if ( k->CanWriteFile(path) )
         {
-        return *k;
+        return k;
         }
       }
     }

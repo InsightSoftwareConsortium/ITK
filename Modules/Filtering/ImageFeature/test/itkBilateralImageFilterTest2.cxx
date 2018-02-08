@@ -53,9 +53,9 @@ int itkBilateralImageFilterTest2(int ac, char* av[] )
 
   // Test itkSetVectorMacro
   double domainSigma[dimension];
-  for (unsigned int i = 0; i < dimension; i++)
+  for (double & i : domainSigma)
     {
-      domainSigma[i] = 4.0;
+      i = 4.0;
     }
   filter->SetDomainSigma(domainSigma);
 

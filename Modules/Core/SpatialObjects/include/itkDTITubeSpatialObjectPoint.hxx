@@ -29,9 +29,9 @@ DTITubeSpatialObjectPoint< TPointDimension >
 ::DTITubeSpatialObjectPoint(void)
 {
   // Initialize the tensor matrix to identity
-  for ( unsigned int i = 0; i < 6; i++ )
+  for (auto & i : m_TensorMatrix)
     {
-    m_TensorMatrix[i] = 0;
+    i = 0;
     }
   m_TensorMatrix[0] = 1;
   m_TensorMatrix[3] = 1;

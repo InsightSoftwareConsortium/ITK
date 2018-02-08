@@ -57,9 +57,9 @@ namespace
         {
         this->m_DomainInThreadedExecution.resize( this->GetNumberOfThreadsUsed() );
         BorderValuesType unsetBorderValues( 2, -1 );
-        for( itk::ThreadIdType i = 0; i < m_DomainInThreadedExecution.size(); ++i )
+        for(auto & i : m_DomainInThreadedExecution)
           {
-          m_DomainInThreadedExecution[i] = unsetBorderValues;
+          i = unsetBorderValues;
           }
         }
 

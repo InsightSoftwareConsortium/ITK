@@ -50,9 +50,9 @@ public:
       this->m_DomainInThreadedExecution.resize( this->GetNumberOfThreadsUsed() );
       DomainType unsetDomain;
       unsetDomain.Fill( -1 );
-      for( itk::ThreadIdType i = 0; i < m_DomainInThreadedExecution.size(); ++i )
+      for(auto & i : m_DomainInThreadedExecution)
         {
-        m_DomainInThreadedExecution[i] = unsetDomain;
+        i = unsetDomain;
         }
       }
 

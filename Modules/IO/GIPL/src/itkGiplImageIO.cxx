@@ -865,35 +865,35 @@ GiplImageIO
 
   char line1[80];            /*   26   80  Patient / Text field        */
 
-  for (unsigned int i = 0; i < 80; i++ )
+  for (char & i : line1)
     {
-    line1[i] = 0; //initialize
+    i = 0; //initialize
     }
 
   sprintf(line1, "No Patient Information");
-  for ( unsigned int i = 0; i < 80; i++ )
+  for (char & i : line1)
     {
     if ( m_IsCompressed )
       {
-      gzwrite( m_Internal->m_GzFile, (char *)&line1[i], static_cast< unsigned int >( sizeof( char ) ) );
+      gzwrite( m_Internal->m_GzFile, (char *)&i, static_cast< unsigned int >( sizeof( char ) ) );
       }
     else
       {
-      m_Ofstream.write( (char *)&line1[i], sizeof( char ) );
+      m_Ofstream.write( (char *)&i, sizeof( char ) );
       }
     }
 
   float matrix[20];          /*  106   80                              */
-  for ( unsigned int i = 0; i < 20; i++ )
+  for (float & i : matrix)
     {
-    matrix[i] = 0; //write zeros
+    i = 0; //write zeros
     if ( m_IsCompressed )
       {
-      gzwrite( m_Internal->m_GzFile, (char *)&matrix[i], static_cast< unsigned int >( sizeof( float ) ) );
+      gzwrite( m_Internal->m_GzFile, (char *)&i, static_cast< unsigned int >( sizeof( float ) ) );
       }
     else
       {
-      m_Ofstream.write( (char *)&matrix[i], sizeof( float ) );
+      m_Ofstream.write( (char *)&i, sizeof( float ) );
       }
     }
 

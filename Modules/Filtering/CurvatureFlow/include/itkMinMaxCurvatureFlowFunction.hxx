@@ -269,9 +269,9 @@ MinMaxCurvatureFlowFunction< TImage >
   gradMagnitude = std::sqrt( (double)gradMagnitude )
                   / static_cast< PixelType >( m_StencilRadius );
 
-  for ( unsigned int j = 0; j < imageDimension; j++ )
+  for (double & j : gradient)
     {
-    gradient[j] /= gradMagnitude;
+    j /= gradMagnitude;
     }
 
   // Compute first perpendicular point
@@ -340,9 +340,9 @@ MinMaxCurvatureFlowFunction< TImage >
   gradMagnitude = std::sqrt( gradMagnitude )
                   / static_cast< PixelType >( m_StencilRadius );
 
-  for ( unsigned int j = 0; j < imageDimension; ++j )
+  for (double & j : gradient)
     {
-    gradient[j] /= gradMagnitude;
+    j /= gradMagnitude;
     }
 
   double theta;

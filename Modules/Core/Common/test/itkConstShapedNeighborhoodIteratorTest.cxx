@@ -379,9 +379,9 @@ int itkConstShapedNeighborhoodIteratorTest(int, char* [] )
     ShapedNeighborhoodIteratorType shapedNeighborhoodIterator(neighborhoodRadius, image, region1);
 
     // Activate all of the offsets
-    for(size_t i = 0; i < offsets.size(); ++i)
+    for(const auto &offset_item : offsets)
     {
-      shapedNeighborhoodIterator.ActivateOffset(offsets[i]);
+      shapedNeighborhoodIterator.ActivateOffset(offset_item);
     }
 
     std::vector<int> expectedValuesRegion1(2);

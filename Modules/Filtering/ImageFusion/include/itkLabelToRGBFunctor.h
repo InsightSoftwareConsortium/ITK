@@ -69,7 +69,7 @@ public:
     // They are a good selection of distinct colors for plotting and
     // overlays.
     constexpr size_t numColors  = 30;
-    const unsigned char colors[numColors][3] = {
+    constexpr unsigned char colors[numColors][3] = {
       {255, 0, 0}, {0, 205, 0}, {0, 0, 255}, {0, 255, 255},
       {255, 0, 255}, {255, 127, 0}, {0, 100, 0}, {138, 43, 226},
       {139, 35, 35}, {0, 0, 128}, {139, 139, 0}, {255, 62, 150},
@@ -80,9 +80,9 @@ public:
       {238, 130, 238}, {139, 0, 0}
     };
 
-    for (size_t i=0; i < numColors; ++i)
+    for (auto & color : colors)
       {
-      AddColor(colors[i][0], colors[i][1], colors[i][2]);
+      AddColor(color[0], color[1], color[2]);
       }
 
     // provide some default value for external use (outside

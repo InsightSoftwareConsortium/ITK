@@ -80,9 +80,9 @@ int itkPathToImageFilterTest( int, char* [] )
   // Test spacing
   //
   double pathImageSpacing[2];
-  for( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
+  for(double & i : pathImageSpacing)
   {
-    pathImageSpacing[i] = 1.0;
+    i = 1.0;
   }
   pathToImageFilter->SetSpacing( pathImageSpacing );
   const double* spacing_result = pathToImageFilter->GetSpacing();
@@ -99,9 +99,9 @@ int itkPathToImageFilterTest( int, char* [] )
   // Test origin
   //
   double origin_double[2];
-  for( unsigned int i = 0; i < 2; ++i )
+  for(double & i : origin_double)
   {
-    origin_double[i] = 0.0;
+    i = 0.0;
   }
   pathToImageFilter->SetOrigin(origin_double);
   const double* origin_result = pathToImageFilter->GetOrigin();

@@ -322,12 +322,12 @@ int main()
             << "query point = [" << queryPoint << "]" << std::endl
             << "search radius = " << radius << std::endl;
   std::cout << "measurement vector : distance" << std::endl;
-  for ( unsigned int i = 0; i < neighbors.size(); ++i )
+  for ( auto neighbor : neighbors)
     {
-    std::cout << "[" << tree->GetMeasurementVector( neighbors[i] )
+    std::cout << "[" << tree->GetMeasurementVector( neighbor )
               << "] : "
               << distanceMetric->Evaluate(
-                  tree->GetMeasurementVector( neighbors[i]))
+                  tree->GetMeasurementVector( neighbor))
               << std::endl;
     }
   // Software Guide : EndCodeSnippet
@@ -347,12 +347,12 @@ int main()
             << "query point = [" << queryPoint << "]" << std::endl
             << "search radius = " << radius << std::endl;
   std::cout << "measurement vector : distance" << std::endl;
-  for ( unsigned int i = 0; i < neighbors.size(); ++i )
+  for ( auto neighbor : neighbors)
     {
-    std::cout << "[" << centroidTree->GetMeasurementVector( neighbors[i] )
+    std::cout << "[" << centroidTree->GetMeasurementVector( neighbor )
               << "] : "
               << distanceMetric->Evaluate(
-                  centroidTree->GetMeasurementVector( neighbors[i]))
+                  centroidTree->GetMeasurementVector( neighbor))
               << std::endl;
     }
   // Software Guide : EndCodeSnippet

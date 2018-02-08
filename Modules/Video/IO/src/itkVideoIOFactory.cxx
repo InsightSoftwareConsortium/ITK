@@ -26,16 +26,11 @@ namespace itk
 {
 VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char* arg )
 {
-
   std::list< VideoIOBase::Pointer > possibleVideoIO;
-  std::list< LightObject::Pointer > allobjects =
-    ObjectFactoryBase::CreateAllInstance("itkVideoIOBase");
-
-  for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
-        i != allobjects.end(); ++i )
+  for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkVideoIOBase") )
     {
 
-    VideoIOBase* io = dynamic_cast< VideoIOBase* >( i->GetPointer() );
+    VideoIOBase* io = dynamic_cast< VideoIOBase* >( allobject.GetPointer() );
     if (io)
       {
       possibleVideoIO.push_back(io);
@@ -48,16 +43,15 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
       }
     }
 
-  for ( std::list< VideoIOBase::Pointer >::iterator j = possibleVideoIO.begin();
-        j != possibleVideoIO.end(); ++j )
+  for (auto & j : possibleVideoIO)
     {
 
     // Check file readability if reading from file
     if (mode == ReadFileMode)
       {
-      if ((*j)->CanReadFile(arg))
+      if (j->CanReadFile(arg))
         {
-        return *j;
+        return j;
         }
       }
 
@@ -65,18 +59,18 @@ VideoIOBase::Pointer VideoIOFactory::CreateVideoIO( IOModeType mode, const char*
     else if (mode == ReadCameraMode)
       {
       int cameraIndex = atoi(arg);
-      if ((*j)->CanReadCamera(cameraIndex))
+      if (j->CanReadCamera(cameraIndex))
         {
-        return *j;
+        return j;
         }
       }
 
     // Check file writability if writing
     else if (mode == WriteMode)
       {
-      if ((*j)->CanWriteFile(arg))
+      if (j->CanWriteFile(arg))
         {
-        return *j;
+        return j;
         }
       }
 

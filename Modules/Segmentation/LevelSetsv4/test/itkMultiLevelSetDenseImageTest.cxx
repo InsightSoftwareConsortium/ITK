@@ -156,9 +156,9 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
           }
         else
           {
-          for( IdListType::const_iterator lIt = lout->begin(); lIt != lout->end(); ++lIt )
+          for(const auto & lIt : *lout)
             {
-            std::cout << *lIt <<" " << level_set[*lIt]->Evaluate( out_index )
+            std::cout << lIt <<" " << level_set[lIt]->Evaluate( out_index )
                       << std::endl;
             }
           std::cout << std::endl;
@@ -199,9 +199,9 @@ int itkMultiLevelSetDenseImageTest( int , char* [] )
         }
 
       // Iterate through all the levelsets at a given pixel location
-      for( IdListType::const_iterator lIt = lout->begin(); lIt != lout->end(); ++lIt )
+      for(const auto & lIt : *lout)
         {
-        std::cout << *lIt <<" " << level_set[*lIt]->Evaluate( temp_it.GetIndex() )
+        std::cout << lIt <<" " << level_set[lIt]->Evaluate( temp_it.GetIndex() )
                   << std::endl;
         }
       std::cout << std::endl;

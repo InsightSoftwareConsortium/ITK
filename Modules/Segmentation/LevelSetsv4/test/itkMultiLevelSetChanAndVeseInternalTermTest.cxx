@@ -203,15 +203,15 @@ int itkMultiLevelSetChanAndVeseInternalTermTest( int , char* [] )
         return EXIT_FAILURE;
         }
 
-      for( IdListType::const_iterator lIt = lout->begin(); lIt != lout->end(); ++lIt )
+      for(const auto & lIt : *lout)
         {
-        std::cout << *lIt << " ";
-        levelSet = lscontainer->GetLevelSet( *lIt - 1);
+        std::cout << lIt << " ";
+        levelSet = lscontainer->GetLevelSet( lIt - 1);
         std::cout << levelSet->Evaluate( temp_it.GetIndex() ) << std::endl;
 
-        if ( *lIt - 1 == 0 )
+        if ( lIt - 1 == 0 )
           {
-          eqTerm =  dynamic_cast< ChanAndVeseTermType* >( termContainer->GetTerm( *lIt - 1 ) );
+          eqTerm =  dynamic_cast< ChanAndVeseTermType* >( termContainer->GetTerm( lIt - 1 ) );
           std::cout << eqTerm->Evaluate( temp_it.GetIndex() ) << std::endl;
           }
         }

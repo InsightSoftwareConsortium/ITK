@@ -377,10 +377,9 @@ int main( int argc, char * argv [] )
     {
     totalWeight += *wcIt;
     }
-  for(std::vector< double >::iterator wIt = weights.begin();
-      wIt != weights.end(); ++wIt )
+  for(double & weight : weights)
     {
-    *wIt = static_cast< double > ( (*wIt) * meanDistance / (2 * totalWeight));
+    weight = static_cast< double > ( weight * meanDistance / (2 * totalWeight));
     }
 
   mrfFilter->SetMRFNeighborhoodWeight( weights );

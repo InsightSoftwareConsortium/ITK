@@ -150,9 +150,9 @@ DCMTKSequence
                    << element << std::dec);
     }
   target = "";
-  for(unsigned j = 0; j < ofString.length(); ++j)
+  for(auto j : ofString)
     {
-    target += ofString[j];
+    target += j;
     }
   return EXIT_SUCCESS;
 }
@@ -281,9 +281,9 @@ DCMTKSequence
                    << element << std::dec);
     }
   target = "";
-  for(unsigned j = 0; j < ofString.length(); ++j)
+  for(auto j : ofString)
     {
-    target += ofString[j];
+    target += j;
     }
   return EXIT_SUCCESS;
 }
@@ -478,9 +478,9 @@ DCMTKFileReader
                    << element << std::dec);
     }
   target = "";
-  for(unsigned i = 0; i < ofString.size(); i++)
+  for(char i : ofString)
     {
-    target += ofString[i];
+    target += i;
     }
   return EXIT_SUCCESS;
 }
@@ -512,9 +512,9 @@ DCMTKFileReader
   for(unsigned long i = 0; loItem->getOFString(ofString,i) == EC_Normal; ++i)
     {
     std::string targetStr = "";
-    for(unsigned j = 0; j < ofString.size(); j++)
+    for(char j : ofString)
       {
-      targetStr += ofString[j];
+      targetStr += j;
       }
     target.push_back(targetStr);
     }
@@ -553,9 +553,9 @@ DCMTKFileReader
                    << element << std::dec);
     }
   target = "";
-  for(unsigned j = 0; j < ofString.length(); ++j)
+  for(char j : ofString)
     {
-    target += ofString[j];
+    target += j;
     }
   return EXIT_SUCCESS;
 }
@@ -777,9 +777,9 @@ DCMTKFileReader
                    << element << std::dec);
     }
   target = "";
-  for(unsigned j = 0; j < ofString.length(); ++j)
+  for(char j : ofString)
     {
-    target += ofString[j];
+    target += j;
     }
   return EXIT_SUCCESS;
 }
@@ -832,9 +832,9 @@ DCMTKFileReader
                    << element << std::dec);
     }
   target = "";
-  for(unsigned j = 0; j < ofString.length(); ++j)
+  for(char j : ofString)
     {
-    target += ofString[j];
+    target += j;
     }
   return EXIT_SUCCESS;
 }
@@ -1030,9 +1030,9 @@ DCMTKFileReader
                    << entry << std::dec);
     }
   target = "";
-  for(unsigned int j = 0; j < ofString.length(); ++j)
+  for(char j : ofString)
     {
-    target.push_back(ofString[j]);
+    target.push_back(j);
     }
   return EXIT_SUCCESS;
 }
@@ -1122,9 +1122,9 @@ DCMTKFileReader
       0x9229, // check for Shared Functional Group Sequence first
       0x9230, // check the Per-frame Functional Groups Sequence
     };
-  for(unsigned i = 0; i < 2; ++i)
+  for(unsigned short candidateSequence : candidateSequences)
     {
-    rval = this->GetElementSQ(0x5200,candidateSequences[i],planeSeq,false);
+    rval = this->GetElementSQ(0x5200,candidateSequence,planeSeq,false);
     if(rval == EXIT_SUCCESS)
       {
       DCMTKItem item;
@@ -1345,10 +1345,10 @@ DCMTKFileReader
       0x9229, // check for Shared Functional Group Sequence first
       0x9230, // check the Per-frame Functional Groups Sequence
     };
-  for(unsigned i = 0; i < 2; ++i)
+  for(unsigned short candidateSequence : candidateSequences)
     {
     DCMTKSequence spacingSequence;
-    rval = this->GetElementSQ(0x5200,candidateSequences[i],spacingSequence,false);
+    rval = this->GetElementSQ(0x5200,candidateSequence,spacingSequence,false);
     if(rval == EXIT_SUCCESS)
       {
       DCMTKItem item;
@@ -1399,9 +1399,9 @@ DCMTKFileReader
         0x9229, // check for Shared Functional Group Sequence first
         0x9230, // check the Per-frame Functional Groups Sequence
       };
-    for(unsigned i = 0; i < 2; ++i)
+    for(unsigned short candidateSequence : candidateSequences)
       {
-      rval = this->GetElementSQ(0x5200,candidateSequences[i],originSequence,false);
+      rval = this->GetElementSQ(0x5200,candidateSequence,originSequence,false);
       if(rval != EXIT_SUCCESS)
         {
         continue;

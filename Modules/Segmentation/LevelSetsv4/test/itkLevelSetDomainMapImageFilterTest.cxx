@@ -23,7 +23,6 @@ int itkLevelSetDomainMapImageFilterTest( int, char* [] )
   constexpr unsigned int Dimension = 2;
 
   using ListPixelType = std::list<int>;
-  using ListIteratorType = std::list<int>::const_iterator;
 
   using InputImageType = itk::Image< ListPixelType, Dimension >;
   using OutputImageType = itk::Image< unsigned short, Dimension >;
@@ -100,9 +99,9 @@ int itkLevelSetDomainMapImageFilterTest( int, char* [] )
           }
         else
           {
-          for( ListIteratorType lIt = lout->begin(); lIt != lout->end(); ++lIt )
+          for(const auto & lIt : *lout)
             {
-            std::cout << *lIt << " ";
+            std::cout << lIt << " ";
             }
           std::cout << std::endl;
           }

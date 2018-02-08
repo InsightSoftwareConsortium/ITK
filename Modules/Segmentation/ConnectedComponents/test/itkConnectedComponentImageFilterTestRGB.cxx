@@ -109,7 +109,7 @@ int itkConnectedComponentImageFilterTestRGB(int argc, char* argv[] )
   RGBPixelType px;
   colormap.resize( numObjects+1 );
   vnl_sample_reseed( 1031571 );
-  for (unsigned short i=0; i < colormap.size(); ++i)
+  for (auto & i : colormap)
     {
     px.SetRed(
       static_cast<unsigned char>(255*vnl_sample_uniform( 0.3333, 1.0 ) ));
@@ -118,7 +118,7 @@ int itkConnectedComponentImageFilterTestRGB(int argc, char* argv[] )
     px.SetBlue(
       static_cast<unsigned char>(255*vnl_sample_uniform( 0.3333, 1.0 ) ));
 
-    colormap[i] = px;
+    i = px;
     }
 
   itk::ImageRegionIterator<OutputImageType>

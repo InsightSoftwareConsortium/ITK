@@ -141,9 +141,9 @@ int itkExtractOrthogonalSwath2DImageFilterTest( int argc, char* argv[] )
   // Test spacing
   double pathImageSpacing[ImageType::ImageDimension];
 
-  for( unsigned int i = 0; i < Dimension; ++i )
+  for(double & i : pathImageSpacing)
     {
-    pathImageSpacing[i] = 1.0;
+    i = 1.0;
     }
   extractOrthogonalSwath2DImageFilter->SetSpacing( pathImageSpacing );
   const double* spacing_result = extractOrthogonalSwath2DImageFilter->GetSpacing();
@@ -160,9 +160,9 @@ int itkExtractOrthogonalSwath2DImageFilterTest( int argc, char* argv[] )
   // Test origin
   double pathImageOrigin[ImageType::ImageDimension];
 
-  for( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
+  for(double & i : pathImageOrigin)
     {
-    pathImageOrigin[i] = 0.0;
+    i = 0.0;
     }
   extractOrthogonalSwath2DImageFilter->SetOrigin( pathImageOrigin );
   const double* origin_result = extractOrthogonalSwath2DImageFilter->GetOrigin();

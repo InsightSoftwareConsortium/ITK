@@ -55,17 +55,17 @@ int itkQuadEdgeMeshBasicLayerTest( int , char* [] )
 
   //////////////////////////////////////////////////////////
   std::cout << "Creating edges" << std::endl;
-  for(int i=0; i < 5; i++)
+  for(auto & i : e)
     {
-    e[i] = new PrimalType;
+    i = new PrimalType;
     }
   std::cout << "Passed" << std::endl;
 
   //////////////////////////////////////////////////////////
   std::cout << "Testing MakeEdge" << std::endl;
-  for( int i=0; i < 5; i++ )
+  for(auto & i : e)
     {
-    e[i] = itkQuadEdgeMeshBasicLayerTestHelper::MakeQuadEdges();
+    i = itkQuadEdgeMeshBasicLayerTestHelper::MakeQuadEdges();
     }
   std::cout << "Passed" << std::endl;
 

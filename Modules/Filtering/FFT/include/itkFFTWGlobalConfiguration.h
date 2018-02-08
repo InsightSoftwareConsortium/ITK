@@ -80,7 +80,7 @@ class ITKFFT_EXPORT ManualWisdomFilenameGenerator:
   public WisdomFilenameGeneratorBase
 {
   public:
-    ManualWisdomFilenameGenerator(const std::string &wfn);
+    ManualWisdomFilenameGenerator(std::string wfn);
     void SetWisdomFilename(const std::string &wfn);
     std::string GenerateWisdomFilename(const std::string &baseCacheDirectory ) const override;
   private:

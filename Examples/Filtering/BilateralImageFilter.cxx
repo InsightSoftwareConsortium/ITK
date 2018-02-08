@@ -181,9 +181,9 @@ int main( int argc, char * argv[] )
   // Software Guide : BeginCodeSnippet
   const unsigned int Dimension = InputImageType::ImageDimension;
   double domainSigmas[ Dimension ];
-  for(unsigned int i=0; i<Dimension; i++)
+  for(double & domainSigma : domainSigmas)
     {
-    domainSigmas[i] = atof( argv[3] );
+    domainSigma = atof( argv[3] );
     }
   const double rangeSigma = atof( argv[4] );
   // Software Guide : EndCodeSnippet

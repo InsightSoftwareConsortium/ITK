@@ -123,10 +123,9 @@ MeshFileWriter< TInputMesh >
     msg << " Could not create IO object for file " << m_FileName.c_str() << std::endl;
     msg << "  Tried to create one of the following:" << std::endl;
       {
-      std::list< LightObject::Pointer > allobjects = ObjectFactoryBase::CreateAllInstance("itkMeshIOBase");
-      for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin(); i != allobjects.end(); ++i )
+      for (auto & allobject : ObjectFactoryBase::CreateAllInstance("itkMeshIOBase") )
         {
-        MeshIOBase *io = dynamic_cast< MeshIOBase * >( i->GetPointer() );
+        MeshIOBase *io = dynamic_cast< MeshIOBase * >( allobject.GetPointer() );
         msg << "    " << io->GetNameOfClass() << std::endl;
         }
       }

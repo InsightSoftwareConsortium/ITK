@@ -149,10 +149,9 @@ void TransformFileWriterTemplate<TParametersValueType>
       if (allobjects.size() > 0)
         {
         msg << "  Tried to create one of the following:" << std::endl;
-        for ( std::list< LightObject::Pointer >::iterator i = allobjects.begin();
-              i != allobjects.end(); ++i )
+        for (auto & allobject : allobjects)
           {
-          const Object *obj = dynamic_cast<Object*>(i->GetPointer());
+          const Object *obj = dynamic_cast<Object*>(allobject.GetPointer());
           msg << "    " << obj->GetNameOfClass() << std::endl;
           }
         msg << "  You probably failed to set a file suffix, or" << std::endl;

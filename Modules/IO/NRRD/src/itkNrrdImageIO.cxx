@@ -414,9 +414,9 @@ void NrrdImageIO::ReadImageInformation()
     int                   spacingStatus;
 
     int iFlipFactors[3];  // used to flip the measurement frame later on
-    for ( unsigned int iI = 0; iI < 3; iI++ )
+    for (int & iFlipFactor : iFlipFactors)
       {
-      iFlipFactors[iI] = 1;
+      iFlipFactor = 1;
       }
 
     for ( unsigned int axii = 0; axii < domainAxisNum; axii++ )

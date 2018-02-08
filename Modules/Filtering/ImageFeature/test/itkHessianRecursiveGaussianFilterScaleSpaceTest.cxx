@@ -74,13 +74,11 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
 
   // changing the size of the object with the the size of the
   // gaussian should produce the same results
-  for (unsigned int i=0; i<numberOfScales; i++)
+  for (double objectSize : scales)
     {
     IteratorType it(inputImage, inputImage->GetRequestedRegion());
 
     PointType point;
-    double objectSize = scales[i];
-
     // Fill the image with a 1D Gaussian along X with sigma equal to the current scale
     // The Gaussian is not normalized, since it should have the same peak value across
     // scales, only sigma should change
@@ -126,14 +124,14 @@ int itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char* [] )
 
   // maintaining the size of the object and gaussian, in physical
   // size, should maintain the value, while the size of the image changes.
- for (unsigned int i=0; i<numberOfScales; i++)
+ for (double scale : scales)
     {
     IteratorType it(inputImage, inputImage->GetRequestedRegion());
 
     PointType point;
     double objectSize = 5.0;
 
-    spacing.Fill(scales[i]/5.0);
+    spacing.Fill(scale/5.0);
 
     inputImage->SetSpacing(spacing);
 

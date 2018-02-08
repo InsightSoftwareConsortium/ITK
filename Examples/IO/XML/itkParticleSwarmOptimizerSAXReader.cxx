@@ -274,9 +274,9 @@ const char* ParticleSwarmOptimizerSAXReader::GetAttribute( const char** atts, co
 bool ParticleSwarmOptimizerSAXReader::ContextIs( const char* test ) const
 {
   std::string s = "";
-  for ( size_t i = 0; i < this->m_CurrentTags.size(); i++ )
+  for (const auto currentTag : this->m_CurrentTags)
     {
-    s += "/" + std::string(this->m_CurrentTags[i]);
+    s += "/" + std::string(currentTag);
     }
   if ( s.size() == 0 )
     {

@@ -158,7 +158,7 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
                 << std::endl;
       }
 
-    double  expectedResult[3][3] =
+    constexpr double  expectedResult[3][3] =
       {
         {4.60517, -2.6698, -8.4079},
         {-2.6698, 1.56783, 0.900034},
@@ -187,12 +187,12 @@ int itkDiffusionTensor3DReconstructionImageFilterTest(int, char*[])
       std::cout << "[FAILED]" << std::endl;
 
       std::cout << "Expected tensor : " << std::endl;
-      for( unsigned int i = 0; i<3; i++ )
+      for(const auto & i : expectedResult)
         {
         std::cout << "\t";
         for( unsigned int j = 0; j<3; j++ )
           {
-          std::cout << expectedResult[i][j] << " ";
+          std::cout << i[j] << " ";
           }
         std::cout << std::endl;
         }

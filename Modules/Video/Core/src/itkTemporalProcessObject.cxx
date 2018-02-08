@@ -416,7 +416,6 @@ TemporalProcessObject::GenerateData()
   this->BeforeTemporalStreamingGenerateData();
 
   // Split up the requested output temporal region
-  std::vector<TemporalRegion> inputTemporalRegionRequests = this->SplitRequestedTemporalRegion();
 
   // Get the first output frame location
   TemporalDataObject* output = dynamic_cast<TemporalDataObject*>(this->GetOutput(0));
@@ -432,7 +431,7 @@ TemporalProcessObject::GenerateData()
   TemporalRegion fullOutputRequest = output->GetRequestedTemporalRegion();
 
   // Process each of the temporal sub-regions in sequence
-  for (SizeValueType i = 0; i < inputTemporalRegionRequests.size(); ++i)
+  for (const auto & inputTemporalRegionRequest : this->SplitRequestedTemporalRegion() )
     {
     // If we have an input, set the requested region and make sure its data is ready
     if (this->GetNumberOfInputs())
@@ -445,7 +444,7 @@ TemporalProcessObject::GenerateData()
                           << "cannot cast " << typeid(input).name() << " to "
                           << typeid(TemporalDataObject*).name() );
         }
-      input->SetRequestedTemporalRegion(inputTemporalRegionRequests[i]);
+      input->SetRequestedTemporalRegion(inputTemporalRegionRequest);
 
       // Call Input's UpdateOutputData()
       input->UpdateOutputData();

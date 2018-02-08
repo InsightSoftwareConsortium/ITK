@@ -45,33 +45,18 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   // translations are correct
   int status = EXIT_SUCCESS;
 
-  std::vector<std::string> attributes;
-  attributes.push_back("Label");
-  attributes.push_back("NumberOfPixels");
-  attributes.push_back("PhysicalSize");
-  attributes.push_back("Centroid");
-  attributes.push_back("BoundingBox");
-  attributes.push_back("NumberOfPixelsOnBorder");
-  attributes.push_back("PerimeterOnBorder");
-  attributes.push_back("FeretDiameter");
-  attributes.push_back("PrincipalMoments");
-  attributes.push_back("PrincipalAxes");
-  attributes.push_back("Elongation");
-  attributes.push_back("Perimeter");
-  attributes.push_back("Roundness");
-  attributes.push_back("EquivalentSphericalRadius");
-  attributes.push_back("EquivalentSphericalPerimeter");
-  attributes.push_back("EquivalentEllipsoidDiameter");
-  attributes.push_back("Flatness");
-  attributes.push_back("PerimeterOnBorderRatio");
-  attributes.push_back("OrientedBoundingBoxSize");
-  attributes.push_back("OrientedBoundingBoxOrigin");
-  for (size_t a = 0; a < attributes.size(); a++)
+  const std::vector<std::string> attributes{
+  "Label", "NumberOfPixels", "PhysicalSize", "Centroid", "BoundingBox", "NumberOfPixelsOnBorder", "PerimeterOnBorder",
+  "FeretDiameter", "PrincipalMoments", "PrincipalAxes", "Elongation", "Perimeter", "Roundness", "EquivalentSphericalRadius",
+  "EquivalentSphericalPerimeter", "EquivalentEllipsoidDiameter", "Flatness", "PerimeterOnBorderRatio", "OrientedBoundingBoxSize",
+  "OrientedBoundingBoxOrigin" };
+
+  for (const auto & attribute : attributes)
     {
-    if (ShapeLabelObjectType::GetNameFromAttribute(ShapeLabelObjectType::GetAttributeFromName(attributes[a])) != attributes[a])
+    if (ShapeLabelObjectType::GetNameFromAttribute(ShapeLabelObjectType::GetAttributeFromName(attribute)) != attribute)
       {
-      std::cout << "Attribute translation for " << attributes[a] << " failed." << std::endl;
-      std::cout << "   Received " << ShapeLabelObjectType::GetNameFromAttribute(ShapeLabelObjectType::GetAttributeFromName(attributes[a])) << " but expected " << attributes[a] << std::endl;
+      std::cout << "Attribute translation for " << attribute << " failed." << std::endl;
+      std::cout << "   Received " << ShapeLabelObjectType::GetNameFromAttribute(ShapeLabelObjectType::GetAttributeFromName(attribute)) << " but expected " << attribute << std::endl;
       status = EXIT_FAILURE;
       }
     }

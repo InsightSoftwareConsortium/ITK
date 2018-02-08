@@ -49,15 +49,15 @@ int itkRealTimeClockTest( int, char * [] )
       std::cout << clock->GetRealTimeStamp() << std::endl;
       }
 
-    for( unsigned int i = 0; i < 5; ++i )
+    for(auto & timestamp : timestamps)
       {
-      timestamps[i] = clock->GetRealTimeStamp();
+      timestamp = clock->GetRealTimeStamp();
       }
 
     std::cout << "Printing timestamps buffered" << std::endl;
-    for( unsigned int i = 0; i < 5; ++i )
+    for(const auto & timestamp : timestamps)
       {
-      std::cout << timestamps[i] << std::endl;
+      std::cout << timestamp << std::endl;
       }
 
     // Print out several time stamps

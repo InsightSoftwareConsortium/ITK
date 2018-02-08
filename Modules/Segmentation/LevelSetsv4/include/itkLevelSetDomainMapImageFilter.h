@@ -23,6 +23,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include <list>
+#include <utility>
 #include <vector>
 
 namespace itk
@@ -82,8 +83,8 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilt
         LevelSetDomain() {}
 
         LevelSetDomain( const InputImageRegionType& reg,
-                        const InputImagePixelType& iList ) :
-          m_Region( reg ), m_IdList( iList ) {}
+                        InputImagePixelType  iList ) :
+          m_Region( reg ), m_IdList(std::move( iList )) {}
 
         const InputImageRegionType * GetRegion() const
           {

@@ -18,6 +18,8 @@
 #ifndef itkFEMLoadBCMFC_h
 #define itkFEMLoadBCMFC_h
 
+#include <utility>
+
 #include "itkFEMLoadBase.h"
 #include "ITKFEMExport.h"
 
@@ -99,7 +101,7 @@ public:
      * Constructor for easy object creation.
      */
     MFCTerm(Element::ConstPointer element_, int dof_,
-            Element::Float value_) : m_element(element_), dof(dof_), value(value_)
+            Element::Float value_) : m_element(std::move(element_)), dof(dof_), value(value_)
     {
     }
   };

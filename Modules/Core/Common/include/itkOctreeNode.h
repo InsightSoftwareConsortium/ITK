@@ -126,10 +126,10 @@ public:
   OctreeNodeBranch() {}
   OctreeNodeBranch(OctreeBase *parent)
   {
-    for ( int i = 0; i < 8; i++ )
-      {
-      m_Leaves[i].SetParentOctree(parent);
-      }
+    for (auto & leaf : m_Leaves)
+    {
+      leaf.SetParentOctree(parent);
+    }
   }
 
   inline OctreeNode * GetLeaf(enum LeafIdentifier LeafID)

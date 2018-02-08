@@ -113,10 +113,9 @@ private:
 SubjectImplementation::
 ~SubjectImplementation()
 {
-  for ( std::list< Observer * >::iterator i = m_Observers.begin();
-        i != m_Observers.end(); ++i )
+  for (auto & observer : m_Observers)
     {
-    delete ( *i );
+    delete observer;
     }
 }
 
@@ -162,10 +161,9 @@ SubjectImplementation::RemoveObserver(unsigned long tag)
 void
 SubjectImplementation::RemoveAllObservers()
 {
-  for ( std::list< Observer * >::iterator i = m_Observers.begin();
-        i != m_Observers.end(); ++i )
+  for (auto & observer : m_Observers)
     {
-    delete ( *i );
+    delete observer;
     }
   m_Observers.clear();
   m_ListModified = true;
@@ -240,12 +238,11 @@ SubjectImplementation::InvokeEventRecursion( const EventObject & event,
 Command *
 SubjectImplementation::GetCommand(unsigned long tag)
 {
-  for ( std::list< Observer * >::iterator i = m_Observers.begin();
-        i != m_Observers.end(); ++i )
+  for (auto & observer : m_Observers)
     {
-    if ( ( *i )->m_Tag == tag )
+    if ( observer->m_Tag == tag )
       {
-      return ( *i )->m_Command;
+      return observer->m_Command;
       }
     }
   return nullptr;
@@ -254,10 +251,9 @@ SubjectImplementation::GetCommand(unsigned long tag)
 bool
 SubjectImplementation::HasObserver(const EventObject & event) const
 {
-  for ( std::list< Observer * >::const_iterator i = m_Observers.begin();
-        i != m_Observers.end(); ++i )
+  for (auto observer : m_Observers)
     {
-    const EventObject *e =  ( *i )->m_Event;
+    const EventObject *e =  observer->m_Event;
     if ( e->CheckEvent(&event) )
       {
       return true;
@@ -274,11 +270,10 @@ SubjectImplementation::PrintObservers(std::ostream & os, Indent indent) const
     return false;
     }
 
-  for ( std::list< Observer * >::const_iterator i = m_Observers.begin();
-        i != m_Observers.end(); ++i )
+  for (auto observer : m_Observers)
     {
-    const EventObject *e =  ( *i )->m_Event;
-    const Command *    c = ( *i )->m_Command;
+    const EventObject *e = observer->m_Event;
+    const Command *    c = observer->m_Command;
     os << indent << e->GetEventName() << "(" << c->GetNameOfClass();
     if (!c->GetObjectName().empty())
       {
