@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkFloatingPointExceptions.h"
 #include "itkTimeProbe.h"
 #include "itkImageAlgorithm.h"
 
@@ -99,10 +100,19 @@ static void AverageTestCopy( typename TImage::SizeType &size )
   const double memCopyTime = t2.GetMean();
   const double imageCopyTime = t3.GetMean();
 
+  if (itk::FloatingPointExceptions::HasFloatingPointExceptionsSupport())
+    {
+    itk::FloatingPointExceptions::Disable();
+    }
 
   std::cout << "== SUMMARY SPEEDUP RESULTS == " << std::endl;
   std::cout << "memcpy is " << referenceTime/memCopyTime << " times faster" << std::endl;
   std::cout << "ImageCopy is " << referenceTime/imageCopyTime << " times faster" << std::endl;
+
+  if (itk::FloatingPointExceptions::HasFloatingPointExceptionsSupport())
+    {
+    itk::FloatingPointExceptions::Enable();
+    }
 }
 
 int itkImageAlgorithmCopyTest( int, char *[] )

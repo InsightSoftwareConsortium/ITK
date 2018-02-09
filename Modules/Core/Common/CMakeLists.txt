@@ -86,6 +86,34 @@ try_compile(ITK_HAS_FEENABLEEXCEPT
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFeenableexcept.cxx
   )
 
+try_compile(ITK_HAS_FEGETENV
+  ${ITK_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFegetenv.cxx
+  )
+
+try_compile(ITK_HAS_FESETENV
+  ${ITK_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFesetenv.cxx
+  )
+
+try_compile(ITK_HAS_STRUCT_FENV_T_CONTROL
+  ${ITK_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFenvtStructMember.cxx
+  COMPILE_DEFINITIONS -DITK_CHECK_FENV_T_CONTROL
+  )
+
+try_compile(ITK_HAS_STRUCT_FENV_T_CONTROL_WORD
+  ${ITK_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFenvtStructMember.cxx
+  COMPILE_DEFINITIONS -DITK_CHECK_FENV_T_CONTROL_WORD
+  )
+
+try_compile(ITK_HAS_STRUCT_FENV_T_CW
+  ${ITK_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFenvtStructMember.cxx
+  COMPILE_DEFINITIONS -DITK_CHECK_FENV_T_CW
+  )
+
 #-----------------------------------------------------------------------------
 # Make default visibility as an option for generated export header
 
@@ -116,6 +144,7 @@ set(ITK_USE_TBB ${Module_ITKTBB})
 
 
 configure_file(src/itkConfigure.h.in itkConfigure.h)
+configure_file(src/itkConfigurePrivate.h.in itkConfigurePrivate.h)
 
 
 set(ITKCommon_INCLUDE_DIRS
