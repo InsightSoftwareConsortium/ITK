@@ -29,6 +29,7 @@
 #define itkFEMFactoryBase_h
 
 #include "itkObjectFactoryBase.h"
+#include "itkSimpleFastMutexLock.h"
 #include "ITKFEMExport.h"
 
 namespace itk
